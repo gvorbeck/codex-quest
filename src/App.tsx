@@ -10,7 +10,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase.js"; // import Firestore instance
 import { Layout } from "antd";
 import HeaderContent from "./components/HeaderContent";
-import CharacterList from "./components/CharacterList.js";
+import CharacterList from "./components/CharacterList";
 
 const { Header, Footer, Content } = Layout;
 
