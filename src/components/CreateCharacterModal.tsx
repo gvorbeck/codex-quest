@@ -56,14 +56,15 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     description: item.description,
   }));
 
-  // const handleOk = () => {
-  //   props.setIsModalOpen(false);
-  // };
+  const handleCancel = () => {
+    props.setIsModalOpen(false);
+  };
 
   return (
     <Modal
       title="Basic Modal"
       open={props.isModalOpen}
+      onCancel={handleCancel}
       width={1200}
       footer={null}
     >
