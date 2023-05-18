@@ -1,4 +1,7 @@
+import { Button, Space, Typography } from "antd";
 import { Auth, User } from "firebase/auth";
+
+const { Paragraph } = Typography;
 
 type HeaderProps = {
   user: User | null;
@@ -10,12 +13,19 @@ export default function Header(props: HeaderProps) {
   return (
     <header>
       {props.user ? (
-        <div>
-          <p>{props.user.displayName}</p>
-          <button onClick={() => props.auth.signOut()}>Log out</button>
-        </div>
+        <Space align="center">
+          <Button type="primary" onClick={() => console.log("foop")}>
+            Create
+          </Button>
+          <Paragraph>{props.user.displayName}</Paragraph>
+          <Button type="link" onClick={() => props.auth.signOut()}>
+            Log out
+          </Button>
+        </Space>
       ) : (
-        <button onClick={props.handleLogin}>Log in with Google</button>
+        <Button type="primary" onClick={props.handleLogin}>
+          Log in with Google
+        </Button>
       )}
     </header>
   );
