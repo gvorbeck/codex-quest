@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -6,10 +7,12 @@ import {
   User,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebase.js"; // import your Firestore instance
+import { db } from "./firebase.js"; // import Firestore instance
 import { Layout } from "antd";
-import Header from "./components/Header";
-import { useEffect, useState } from "react";
+import HeaderContent from "./components/HeaderContent";
+import CharacterList from "./components/CharacterList.js";
+
+const { Header, Footer, Content } = Layout;
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -50,7 +53,13 @@ function App() {
 
   return (
     <Layout>
-      <Header user={user} handleLogin={handleLogin} auth={auth} />
+      <Header>
+        <HeaderContent user={user} handleLogin={handleLogin} auth={auth} />
+      </Header>
+      <Content>
+        <CharacterList />
+      </Content>
+      <Footer></Footer>
     </Layout>
   );
 }
