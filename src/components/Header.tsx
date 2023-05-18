@@ -1,5 +1,7 @@
 import { Button, Space, Typography } from "antd";
 import { Auth, User } from "firebase/auth";
+import CreateCharacterModal from "./CreateCharacterModal";
+import { useState } from "react";
 
 const { Paragraph } = Typography;
 
@@ -10,11 +12,15 @@ type HeaderProps = {
 };
 
 export default function Header(props: HeaderProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
   return (
     <header>
       {props.user ? (
         <Space align="center">
-          <Button type="primary" onClick={() => console.log("foop")}>
+          <Button type="primary" onClick={showModal}>
             Create
           </Button>
           <Paragraph>{props.user.displayName}</Paragraph>
@@ -27,6 +33,10 @@ export default function Header(props: HeaderProps) {
           Log in with Google
         </Button>
       )}
+      <CreateCharacterModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </header>
   );
 }
