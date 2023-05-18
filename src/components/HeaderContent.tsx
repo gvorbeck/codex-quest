@@ -5,13 +5,13 @@ import { useState } from "react";
 
 const { Paragraph } = Typography;
 
-type HeaderProps = {
+type HeaderContentProps = {
   user: User | null;
   handleLogin: () => Promise<void>;
   auth: Auth;
 };
 
-export default function Header(props: HeaderProps) {
+export default function HeaderContent(props: HeaderContentProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
