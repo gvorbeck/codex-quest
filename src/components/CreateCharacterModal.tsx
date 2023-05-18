@@ -4,13 +4,33 @@ import { useState } from "react";
 const steps = [
   {
     title: "Roll for Ability Score",
-    description: "Start by discovering your character's abilities",
+    description: "Roll for your character's Abilities",
     content: "foo",
   },
   {
     title: "Choose a Race",
     description: "Select an available Race",
     content: "bar",
+  },
+  {
+    title: "Choose a Class",
+    description: "Select an available Class",
+    content: "goo",
+  },
+  {
+    title: "Roll for Hit Points",
+    description: "Roll for your character's Hit Points",
+    content: "car",
+  },
+  {
+    title: "Buy Equipment",
+    description: "Equip your character",
+    content: "hoo",
+  },
+  {
+    title: "Name your character",
+    description: "Give your character a name",
+    content: "dar",
   },
 ];
 
@@ -36,20 +56,16 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     description: item.description,
   }));
 
-  const handleOk = () => {
-    props.setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    props.setIsModalOpen(false);
-  };
+  // const handleOk = () => {
+  //   props.setIsModalOpen(false);
+  // };
 
   return (
     <Modal
       title="Basic Modal"
       open={props.isModalOpen}
-      onOk={handleOk}
-      onCancel={handleCancel}
+      width={1200}
+      footer={null}
     >
       <Steps current={current} items={items} />
       <div>{steps[current].content}</div>
