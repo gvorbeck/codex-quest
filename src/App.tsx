@@ -1,31 +1,47 @@
-import { useEffect, useState } from "react";
-import { auth } from "./firebase.js";
 import {
-  User,
+  getAuth,
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "./firebase.js"; // import your Firestore instance
 import { Layout } from "antd";
 import Header from "./components/Header";
+import { useEffect, useState } from "react";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth();
 
   useEffect(() => {
-    // This observer is triggered when the user logs in or out
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
 
-    // Clean up the observer when the component is unmounted
     return () => unsubscribe();
   }, []);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
+
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Create a document for the user in the 'users' collection
+      const userDocRef = doc(db, "users", user.uid);
+
+      setDoc(
+        userDocRef,
+        {
+          name: user.displayName,
+          email: user.email,
+          // add any additional fields here
+        },
+        { merge: true }
+      ); // Merge the data if document already exists
     } catch (error) {
       console.error(error);
     }
