@@ -1,34 +1,43 @@
-import { Button, Modal, Steps } from "antd";
 import { useState } from "react";
+import { Button, Modal, Steps, Typography } from "antd";
+import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
+
+const { Title } = Typography;
 
 const steps = [
   {
-    title: "Roll for Ability Score",
+    title: "Ability Scores",
+    fullTitle: "Roll for Ability Scores",
     description: "Roll for your character's Abilities",
-    content: "foo",
+    content: <CharAbilityScoreStep />,
   },
   {
-    title: "Choose a Race",
+    title: "Race",
+    fullTitle: "Choose a Race",
     description: "Select an available Race",
     content: "bar",
   },
   {
-    title: "Choose a Class",
+    title: "Class",
+    fullTitle: "Choose a Class",
     description: "Select an available Class",
     content: "goo",
   },
   {
-    title: "Roll for Hit Points",
+    title: "Hit Points",
+    fullTitle: "Roll for Hit Points",
     description: "Roll for your character's Hit Points",
     content: "car",
   },
   {
-    title: "Buy Equipment",
+    title: "Equipment",
+    fullTitle: "Buy Equipment",
     description: "Equip your character",
     content: "hoo",
   },
   {
-    title: "Name your character",
+    title: "Name",
+    fullTitle: "Name your character",
     description: "Give your character a name",
     content: "dar",
   },
@@ -53,7 +62,6 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const items = steps.map((item) => ({
     key: item.title,
     title: item.title,
-    description: item.description,
   }));
 
   const handleCancel = () => {
@@ -69,7 +77,11 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       footer={null}
     >
       <Steps current={current} items={items} />
-      <div>{steps[current].content}</div>
+      <section>
+        <Title level={1}>{steps[current].fullTitle}</Title>
+        <Title level={2}>{steps[current].description}</Title>
+        {steps[current].content}
+      </section>
       <div>
         {current < steps.length - 1 && (
           <Button type="primary" onClick={() => next()}>
