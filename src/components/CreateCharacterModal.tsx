@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
+import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 
 const characterData = {
   abilities: {
@@ -19,12 +20,15 @@ const characterData = {
     constitution: "-",
     charisma: "-",
   },
+  race: "",
 };
 
 const { Title, Paragraph } = Typography;
 
 const abilityDescription =
   "Roll for your character's Abilities. You can click the Roll button or use your own dice and record your scores below. Each character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus or penalty Modifier is associated with each score as well. Each Class has a Prime Requisite Ability score, which must be at least 9 in order for the character to become a member of that Class; also, there are required minimum and maximum scores for each character Race other than Humans.";
+
+const raceDescription = "foo";
 
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
@@ -37,6 +41,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [abilityModifiers, setAbilityModifiers] = useState(
     characterData.abilityModifiers
   );
+  const [race, setRace] = useState(characterData.race);
 
   useEffect(() => {
     console.log(abilities);
@@ -60,8 +65,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     {
       title: "Race",
       fullTitle: "Choose a Race",
-      description: "Select an available Race",
-      content: "bar",
+      description: raceDescription,
+      content: (
+        <CharRaceStep abilities={abilities} race={race} setRace={setRace} />
+      ),
     },
     {
       title: "Class",
