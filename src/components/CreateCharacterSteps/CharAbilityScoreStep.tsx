@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, Space, Table } from "antd";
+import { Button, InputNumber, Space, Table } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 type AbilityRecord = {
@@ -137,19 +137,21 @@ export default function CharAbilityScoreStep({
         if (isAbilityKey(abilityKey)) {
           abilityValue = abilities[abilityKey];
         }
+        const onChange = (value: number | null) => {
+          if (value === null) return;
+          if (value < 3) value = 3;
+          if (value > 18) value = 18;
+          updateAbilityScore(value, record.ability.toLowerCase());
+        };
 
         return (
           <Space.Compact>
-            <Input
+            <InputNumber
               id={record.ability.toLowerCase()}
               max={18}
               min={3}
-              onChange={(event) => {
-                let value = +event.target.value;
-                if (value < 3) value = 3;
-                if (value > 18) value = 18;
-                updateAbilityScore(value, record.ability.toLowerCase());
-              }}
+              defaultValue={0}
+              onChange={onChange}
               onFocus={handleFocus}
               type="number"
               value={abilityValue}
