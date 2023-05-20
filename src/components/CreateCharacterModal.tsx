@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
 import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
+import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 
 const characterData = {
   abilities: {
@@ -21,14 +22,16 @@ const characterData = {
     charisma: "-",
   },
   race: "",
+  class: "",
 };
 
 const { Title, Paragraph } = Typography;
 
 const abilityDescription =
-  "Roll for your character's Abilities. You can click the Roll button or use your own dice and record your scores below. Each character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus or penalty Modifier is associated with each score as well. Each Class has a Prime Requisite Ability score, which must be at least 9 in order for the character to become a member of that Class; also, there are required minimum and maximum scores for each character Race other than Humans.";
+  "Roll for your character's Abilities. You can click the Roll button or use your own dice and record your scores below. Each character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus or penalty Modifier is associated with each score as well. Each Class has a Prime Requisite Ability Score, which must be at least 9 in order for the character to become a member of that Class; also, there are required minimum and maximum scores for each character Race other than Humans.";
 
-const raceDescription = "foo";
+const raceDescription =
+  "Choose your character's Race. Some options may be unavailable due to your character's Ability Scores. Each Race except Humans has minimum and maximum values for certain Abilities that your character's Ability Scores may not match. A full description of these Race-specific requirements can be found in your copy of the BFRPG rules. Additionally, each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.";
 
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
@@ -42,11 +45,13 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     characterData.abilityModifiers
   );
   const [race, setRace] = useState(characterData.race);
+  const [comboClass, setComboClass] = useState(false);
+  const [playerClass, setPlayerClass] = useState(characterData.class);
+  const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log(abilities);
-    console.log(abilityModifiers);
-  }, [abilities, abilityModifiers]);
+    console.log({ abilities, abilityModifiers, race, playerClass });
+  }, [abilities, abilityModifiers, race, playerClass]);
 
   const steps = [
     {
@@ -74,7 +79,18 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       title: "Class",
       fullTitle: "Choose a Class",
       description: "Select an available Class",
-      content: "goo",
+      content: (
+        <CharClassStep
+          abilities={abilities}
+          race={race}
+          playerClass={playerClass}
+          setPlayerClass={setPlayerClass}
+          comboClass={comboClass}
+          setComboClass={setComboClass}
+          checkedClasses={checkedClasses}
+          setCheckedClasses={setCheckedClasses}
+        />
+      ),
     },
     {
       title: "Hit Points",
@@ -129,6 +145,19 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     return true;
   }
 
+  function isNextButtonEnabled(currentStep: number) {
+    switch (currentStep) {
+      case 0:
+        return areAllAbilitiesSet(abilities);
+      case 1:
+        return race !== "";
+      case 2:
+        return playerClass !== "";
+      default:
+        return true;
+    }
+  }
+
   return (
     <Modal
       title="Basic Modal"
@@ -148,7 +177,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           <Button
             type="primary"
             onClick={() => next()}
-            disabled={!areAllAbilitiesSet(abilities)}
+            disabled={!isNextButtonEnabled(current)}
           >
             Next
           </Button>
