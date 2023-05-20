@@ -33,6 +33,9 @@ const abilityDescription =
 const raceDescription =
   "Choose your character's Race. Some options may be unavailable due to your character's Ability Scores. Each Race except Humans has minimum and maximum values for certain Abilities that your character's Ability Scores may not match. A full description of these Race-specific requirements can be found in your copy of the BFRPG rules. Additionally, each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.";
 
+const classDescription =
+  "Choose your character's Class. Your character's Race and Ability Scores will determine their Class options. Dwarves and Halflings cannot be Magic-Users. Elves may choose to have a combination Class. Your Class choice will determine your character's background and how they will progress through the game as they level up. Each Class's Prime Requisite Ability Score will also determine which Class options are available to you.";
+
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
@@ -85,7 +88,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     {
       title: "Class",
       fullTitle: "Choose a Class",
-      description: "Select an available Class",
+      description: classDescription,
       content: (
         <CharClassStep
           abilities={abilities}
