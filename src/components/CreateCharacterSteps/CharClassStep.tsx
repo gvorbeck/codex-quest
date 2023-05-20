@@ -96,7 +96,14 @@ export default function CharClassStep({
         <Radio.Group value={playerClass} onChange={onRadioChange}>
           <Space direction="vertical">
             {classChoices.map((choice) => (
-              <Radio key={choice} value={choice}>
+              <Radio
+                key={choice}
+                value={choice}
+                disabled={
+                  (race === "Dwarf" && choice === "Magic-User") ||
+                  (race === "Halfling" && choice === "Magic-User")
+                }
+              >
                 {choice}
               </Radio>
             ))}
