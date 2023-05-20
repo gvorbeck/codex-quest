@@ -41,6 +41,10 @@ type CharAbilityScoreStepProps = {
     constitution: string;
     charisma: string;
   }) => void;
+  setPlayerClass: (playerClass: string) => void;
+  setComboClass: (comboClass: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+  setRace: (race: string) => void;
 };
 
 export default function CharAbilityScoreStep({
@@ -48,6 +52,10 @@ export default function CharAbilityScoreStep({
   setAbilities,
   abilityModifiers,
   setAbilityModifiers,
+  setPlayerClass,
+  setComboClass,
+  setCheckedClasses,
+  setRace,
 }: CharAbilityScoreStepProps) {
   const roller = new DiceRoller();
 
@@ -73,6 +81,11 @@ export default function CharAbilityScoreStep({
     else if (score === 18) modifier = "+3";
 
     setAbilityModifiers({ ...abilityModifiers, [ability]: modifier });
+    // Going back and changing ability score wipes out choices made before.
+    setPlayerClass("");
+    setComboClass(false);
+    setCheckedClasses([]);
+    setRace("");
   };
 
   const isAbilityKey = (key: string): key is keyof typeof abilities => {

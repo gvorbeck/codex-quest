@@ -67,6 +67,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setAbilities={setAbilities}
           abilityModifiers={abilityModifiers}
           setAbilityModifiers={setAbilityModifiers}
+          setComboClass={setComboClass}
+          setPlayerClass={setPlayerClass}
+          setCheckedClasses={setCheckedClasses}
+          setRace={setRace}
         />
       ),
     },
