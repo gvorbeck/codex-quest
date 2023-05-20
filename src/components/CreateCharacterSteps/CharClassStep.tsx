@@ -101,7 +101,11 @@ export default function CharClassStep({
                 value={choice}
                 disabled={
                   (race === "Dwarf" && choice === "Magic-User") ||
-                  (race === "Halfling" && choice === "Magic-User")
+                  (race === "Halfling" && choice === "Magic-User") ||
+                  (choice === "Cleric" && abilities.wisdom < 9) ||
+                  (choice === "Fighter" && abilities.strength < 9) ||
+                  (choice === "Magic-User" && abilities.intelligence < 9) ||
+                  (choice === "Thief" && abilities.dexterity < 9)
                 }
               >
                 {choice}
