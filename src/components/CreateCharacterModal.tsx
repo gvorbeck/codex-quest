@@ -72,7 +72,14 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       fullTitle: "Choose a Race",
       description: raceDescription,
       content: (
-        <CharRaceStep abilities={abilities} race={race} setRace={setRace} />
+        <CharRaceStep
+          abilities={abilities}
+          race={race}
+          setRace={setRace}
+          setComboClass={setComboClass}
+          setPlayerClass={setPlayerClass}
+          setCheckedClasses={setCheckedClasses}
+        />
       ),
     },
     {
