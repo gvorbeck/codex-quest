@@ -85,7 +85,10 @@ export default function CharClassStep({
               disabled={
                 choice === "Cleric" ||
                 (choice === "Fighter" && checkedClasses.includes("Thief")) ||
-                (choice === "Thief" && checkedClasses.includes("Fighter"))
+                (choice === "Thief" && checkedClasses.includes("Fighter")) ||
+                (choice === "Fighter" && abilities.strength < 9) ||
+                (choice === "Magic-User" && abilities.intelligence < 9) ||
+                (choice === "Thief" && abilities.dexterity < 9)
               }
             >
               {choice}
