@@ -3,6 +3,7 @@ import { Button, Modal, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
 import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 import CharClassStep from "./CreateCharacterSteps/CharClassStep";
+import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
 
 const characterData = {
   abilities: {
@@ -23,6 +24,8 @@ const characterData = {
   },
   race: "",
   class: "",
+  hitPoints: 0,
+  hitDice: "",
 };
 
 const { Title, Paragraph } = Typography;
@@ -35,6 +38,8 @@ const raceDescription =
 
 const classDescription =
   "Choose your character's Class. Your character's Race and Ability Scores will determine their Class options. Dwarves and Halflings cannot be Magic-Users. Elves may choose to have a combination Class. Your Class choice will determine your character's background and how they will progress through the game as they level up. Each Class's Prime Requisite Ability Score will also determine which Class options are available to you.";
+
+const hitPointsDescription = "Roll for your character's Hit Points";
 
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
@@ -51,10 +56,14 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [comboClass, setComboClass] = useState(false);
   const [playerClass, setPlayerClass] = useState(characterData.class);
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
+  const [hitPoints, setHitPoints] = useState(0);
+  const [hitDice, setHitDice] = useState("");
 
   useEffect(() => {
     console.log({ abilities, abilityModifiers, race, playerClass });
   }, [abilities, abilityModifiers, race, playerClass]);
+
+  // TODO: ERASE HIT POINTS AND HIT DICE AFTER ANY PREVIOUS STEP CHANGE AS IT IS DEPENDANT ON PREVIOUS CHOICES.
 
   const steps = [
     {
@@ -71,6 +80,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setPlayerClass={setPlayerClass}
           setCheckedClasses={setCheckedClasses}
           setRace={setRace}
+          // setHitPoints={setHitPoints}
+          // setHitDice={setHitDice}
         />
       ),
     },
@@ -86,6 +97,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setComboClass={setComboClass}
           setPlayerClass={setPlayerClass}
           setCheckedClasses={setCheckedClasses}
+          // setHitPoints={setHitPoints}
+          // setHitDice={setHitDice}
         />
       ),
     },
@@ -103,14 +116,26 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setComboClass={setComboClass}
           checkedClasses={checkedClasses}
           setCheckedClasses={setCheckedClasses}
+          // setHitPoints={setHitPoints}
+          // setHitDice={setHitDice}
         />
       ),
     },
     {
       title: "Hit Points",
       fullTitle: "Roll for Hit Points",
-      description: "Roll for your character's Hit Points",
-      content: "car",
+      description: hitPointsDescription,
+      content: (
+        <CharHitPointsStep
+          hitPoints={hitPoints}
+          setHitPoints={setHitPoints}
+          race={race}
+          playerClass={playerClass}
+          constitutionModifier={abilityModifiers.constitution}
+          hitDice={hitDice}
+          setHitDice={setHitDice}
+        />
+      ),
     },
     {
       title: "Equipment",
@@ -167,6 +192,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         return race !== "";
       case 2:
         return playerClass !== "";
+      case 3:
+        return hitPoints !== 0;
       default:
         return true;
     }
