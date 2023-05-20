@@ -21,11 +21,10 @@ export default function CharRaceStep({
   race,
   setRace,
 }: CharRaceStepProps) {
-  // const [value, setValue] = useState(1);
   const onChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
     setRace(e.target.value);
   };
+
   return (
     <Radio.Group onChange={onChange} value={race}>
       <Space direction="vertical">
