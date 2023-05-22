@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.2.4",
     "antd": "^5.5.0",
     "firebase": "^9.22.0",
+    "firebase-admin": "^11.8.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
