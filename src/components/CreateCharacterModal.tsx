@@ -4,6 +4,7 @@ import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
 import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
+import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
 
 const characterData = {
   abilities: {
@@ -26,6 +27,8 @@ const characterData = {
   class: "",
   hitPoints: 0,
   hitDice: "",
+  gold: 0,
+  equipment: {},
 };
 
 const { Title, Paragraph } = Typography;
@@ -59,12 +62,12 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
   const [hitPoints, setHitPoints] = useState(0);
   const [hitDice, setHitDice] = useState("");
+  const [gold, setGold] = useState(characterData.gold);
+  const [equipment, setEquipment] = useState(characterData.equipment);
 
   useEffect(() => {
     console.log({ abilities, abilityModifiers, race, playerClass });
   }, [abilities, abilityModifiers, race, playerClass]);
-
-  // TODO: ERASE HIT POINTS AND HIT DICE AFTER ANY PREVIOUS STEP CHANGE AS IT IS DEPENDANT ON PREVIOUS CHOICES.
 
   const steps = [
     {
@@ -143,7 +146,14 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       title: "Equipment",
       fullTitle: "Buy Equipment",
       description: "Equip your character",
-      content: "hoo",
+      content: (
+        <CharEquipmentStep
+          gold={gold}
+          setGold={setGold}
+          equipment={equipment}
+          setEquipment={setEquipment}
+        />
+      ),
     },
     {
       title: "Name",
