@@ -39,7 +39,8 @@ const raceDescription =
 const classDescription =
   "Choose your character's Class. Your character's Race and Ability Scores will determine their Class options. Dwarves and Halflings cannot be Magic-Users. Elves may choose to have a combination Class. Your Class choice will determine your character's background and how they will progress through the game as they level up. Each Class's Prime Requisite Ability Score will also determine which Class options are available to you.";
 
-const hitPointsDescription = "Roll for your character's Hit Points";
+const hitPointsDescription =
+  "Roll for your character's Hit Points. Your character's Race may place restrictions on the Hit Dice available to them, but generally this is determined by their chosen Class. Additionally your character's Constitution modifier is added/subtracted from this value with a minimum value of 1. The end result is the amount of Hit Points your character will start with and determines how much damage your character can take in battle.";
 
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
