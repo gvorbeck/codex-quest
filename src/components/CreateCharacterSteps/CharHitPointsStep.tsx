@@ -12,15 +12,6 @@ type CharHitPointsStepProps = {
   setHitDice: (hitDice: string) => void;
 };
 
-// Halflings and Elves can only roll d6 for hit dice.
-// Other races don't affect this.
-// Cleric: d6
-// Fighter: d8
-// Magic-User: d4
-// Thief: d4
-// Constitution modifier add/subtracted from hit dice roll total
-// Minimum is 1
-
 export default function CharHitPointsStep({
   hitPoints,
   setHitPoints,
