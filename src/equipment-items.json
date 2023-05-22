@@ -1,0 +1,278 @@
+[
+  {
+    "name": "Backpack (Standard or Halfling)",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Belt Pouch",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Bit and bridle",
+    "costValue": 15,
+    "costCurrency": "sp",
+    "weight": "3"
+  },
+  {
+    "name": "Candles, 12",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Chalk, small bag of pieces",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Cloak",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Clothing, common outfit",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Glass bottle or vial",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Grappling Hook",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "weight": "4"
+  },
+  {
+    "name": "Holy Symbol",
+    "costValue": 25,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Holy Water, per vial",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Horseshoes & shoeing",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "10"
+  },
+  {
+    "name": "Ink, per jar",
+    "costValue": 8,
+    "costCurrency": "gp",
+    "weight": "0.5"
+  },
+  {
+    "name": "Iron Spikes, 12",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Ladder, 10 ft.",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "20"
+  },
+  {
+    "name": "Lantern",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": "2"
+  },
+  {
+    "name": "Lantern, Bullseye",
+    "costValue": 14,
+    "costCurrency": "gp",
+    "weight": "3"
+  },
+  {
+    "name": "Lantern, Hooded",
+    "costValue": 8,
+    "costCurrency": "gp",
+    "weight": "2"
+  },
+  {
+    "name": "Manacles (without padlock)",
+    "costValue": 6,
+    "costCurrency": "gp",
+    "weight": "4"
+  },
+  {
+    "name": "Map or scroll case",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0.5"
+  },
+  {
+    "name": "Mirror, small metal",
+    "costValue": 7,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Oil (per flask)",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Padlock (with 2 keys)",
+    "costValue": 12,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Paper (per sheet)",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0"
+  },
+  {
+    "name": "Pole, 10' wooden",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "10"
+  },
+  {
+    "name": "Quill",
+    "costValue": 1,
+    "costCurrency": "sp",
+    "weight": "0"
+  },
+  {
+    "name": "Quill Knife",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Quiver or Bolt case",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Rations, Dry, one week",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "weight": "14"
+  },
+  {
+    "name": "Rope, Hemp (per 50 ft.)",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "5"
+  },
+  {
+    "name": "Rope, Silk (per 50 ft.)",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "weight": "2"
+  },
+  {
+    "name": "Sack, Large",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Sack, Small",
+    "costValue": 5,
+    "costCurrency": "sp",
+    "weight": "0.1"
+  },
+  {
+    "name": "Saddle, Pack",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": "15"
+  },
+  {
+    "name": "Saddle, Riding",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "weight": "35"
+  },
+  {
+    "name": "Saddlebags, pair",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": "7"
+  },
+  {
+    "name": "Spellbook (128 pages)",
+    "costValue": 25,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Tent, Large (ten men)",
+    "costValue": 25,
+    "costCurrency": "gp",
+    "weight": "20"
+  },
+  {
+    "name": "Tent, Small (one man)",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": "10"
+  },
+  {
+    "name": "Thieves' picks and tools",
+    "costValue": 25,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Tinderbox, flint and steel",
+    "costValue": 3,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Torches, 6",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Whetstone",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "1"
+  },
+  {
+    "name": "Whistle",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "0"
+  },
+  {
+    "name": "Wineskin/Waterskin",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "2"
+  },
+  {
+    "name": "Winter blanket",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": "3"
+  }
+]
