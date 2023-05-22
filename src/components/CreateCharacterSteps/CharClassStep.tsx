@@ -21,6 +21,8 @@ type CharClassStepProps = {
   setComboClass: (comboClass: boolean) => void;
   checkedClasses: string[];
   setCheckedClasses: (checkedClasses: string[]) => void;
+  setHitDice: (hitDice: string) => void;
+  setHitPoints: (hitPoints: number) => void;
 };
 
 export default function CharClassStep({
@@ -32,6 +34,8 @@ export default function CharClassStep({
   setComboClass,
   checkedClasses,
   setCheckedClasses,
+  setHitDice,
+  setHitPoints,
 }: CharClassStepProps) {
   useEffect(() => {
     if (comboClass) {
@@ -48,16 +52,24 @@ export default function CharClassStep({
         checkedClasses.filter((item) => item !== e.target.value)
       );
     }
+    setHitDice("");
+    setHitPoints(0);
   };
 
-  const onRadioChange = (e: RadioChangeEvent) => setPlayerClass(e.target.value);
+  const onRadioChange = (e: RadioChangeEvent) => {
+    setPlayerClass(e.target.value);
+    setHitDice("");
+    setHitPoints(0);
+  };
 
   const onSwitchChange = (checked: boolean) => {
     if (checked !== comboClass) {
       // Only update the playerClass if the switch has actually been toggled
       setPlayerClass("");
-      // Clear checkedClasses whenever the switch is clicked
+      // Clear whenever the switch is clicked
       setCheckedClasses([]);
+      setHitDice("");
+      setHitPoints(0);
     }
     setComboClass(checked);
   };

@@ -81,8 +81,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setPlayerClass={setPlayerClass}
           setCheckedClasses={setCheckedClasses}
           setRace={setRace}
-          // setHitPoints={setHitPoints}
-          // setHitDice={setHitDice}
+          setHitPoints={setHitPoints}
+          setHitDice={setHitDice}
         />
       ),
     },
@@ -98,8 +98,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setComboClass={setComboClass}
           setPlayerClass={setPlayerClass}
           setCheckedClasses={setCheckedClasses}
-          // setHitPoints={setHitPoints}
-          // setHitDice={setHitDice}
+          setHitPoints={setHitPoints}
+          setHitDice={setHitDice}
         />
       ),
     },
@@ -117,8 +117,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setComboClass={setComboClass}
           checkedClasses={checkedClasses}
           setCheckedClasses={setCheckedClasses}
-          // setHitPoints={setHitPoints}
-          // setHitDice={setHitDice}
+          setHitPoints={setHitPoints}
+          setHitDice={setHitDice}
         />
       ),
     },

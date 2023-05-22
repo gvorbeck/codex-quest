@@ -17,6 +17,8 @@ type CharRaceStepProps = {
   setPlayerClass: (playerClass: string) => void;
   setComboClass: (comboClass: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;
+  setHitDice: (hitDice: string) => void;
+  setHitPoints: (hitPoints: number) => void;
 };
 
 export default function CharRaceStep({
@@ -26,12 +28,16 @@ export default function CharRaceStep({
   setPlayerClass,
   setComboClass,
   setCheckedClasses,
+  setHitDice,
+  setHitPoints,
 }: CharRaceStepProps) {
   const onChange = (e: RadioChangeEvent) => {
     setRace(e.target.value);
     setPlayerClass("");
     setComboClass(false);
     setCheckedClasses([]);
+    setHitDice("");
+    setHitPoints(0);
   };
 
   return (
