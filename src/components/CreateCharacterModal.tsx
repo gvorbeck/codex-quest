@@ -135,6 +135,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           constitutionModifier={abilityModifiers.constitution}
           hitDice={hitDice}
           setHitDice={setHitDice}
+          comboClass={comboClass}
         />
       ),
     },
