@@ -157,79 +157,48 @@ export default function CharEquipmentStep({
     event.target.select();
   };
 
+  const fetchData = async (
+    collectionsMap: Record<string, (data: any[]) => void>,
+    dataRef: React.MutableRefObject<Record<string, any[]>>
+  ) => {
+    return Promise.all(
+      Object.entries(collectionsMap).map(
+        async ([collectionName, setStateFunc]) => {
+          const coll = collection(db, collectionName);
+          const snapshot = await getDocs(coll);
+          const dataArray = snapshot.docs.map((doc) => doc.data());
+          setStateFunc(dataArray);
+          dataRef.current[collectionName] = dataArray;
+        }
+      )
+    );
+  };
+
   useEffect(() => {
-    const fetchItems = Object.entries(itemsCollectionMap).map(
-      async ([collectionName, setStateFunc]) => {
-        const coll = collection(db, collectionName);
-        const snapshot = await getDocs(coll);
-        const dataArray = snapshot.docs.map((doc) => doc.data() as Item);
-        setStateFunc(dataArray);
-        itemsRef.current[collectionName] = dataArray;
+    const fetchAllData = async () => {
+      try {
+        await Promise.all([
+          fetchData(itemsCollectionMap, itemsRef),
+          fetchData(weaponsCollectionMap, weaponsRef),
+          fetchData(armorShieldsCollectionMap, armorShieldsRef),
+          fetchData(beastsCollectionMap, beastsRef),
+          fetchData(ammunitionCollectionMap, ammunitionRef),
+        ]);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data from collections", error);
       }
-    );
 
-    const fetchWeapons = Object.entries(weaponsCollectionMap).map(
-      async ([collectionName, setStateFunc]) => {
-        const coll = collection(db, collectionName);
-        const snapshot = await getDocs(coll);
-        const dataArray = snapshot.docs.map((doc) => doc.data() as Weapon);
-        setStateFunc(dataArray);
-        weaponsRef.current[collectionName] = dataArray;
-      }
-    );
-
-    const fetchArmorShields = Object.entries(armorShieldsCollectionMap).map(
-      async ([collectionName, setStateFunc]) => {
-        const coll = collection(db, collectionName);
-        const snapshot = await getDocs(coll);
-        const dataArray = snapshot.docs.map(
-          (doc) => doc.data() as ArmorShields
-        );
-        setStateFunc(dataArray);
-        armorShieldsRef.current[collectionName] = dataArray;
-      }
-    );
-
-    const fetchBeasts = Object.entries(beastsCollectionMap).map(
-      async ([collectionName, setStateFunc]) => {
-        const coll = collection(db, collectionName);
-        const snapshot = await getDocs(coll);
-        const dataArray = snapshot.docs.map((doc) => doc.data() as Beast);
-        setStateFunc(dataArray);
-        beastsRef.current[collectionName] = dataArray;
-      }
-    );
-
-    const fetchAmmunition = Object.entries(ammunitionCollectionMap).map(
-      async ([collectionName, setStateFunc]) => {
-        const coll = collection(db, collectionName);
-        const snapshot = await getDocs(coll);
-        const dataArray = snapshot.docs.map((doc) => doc.data() as Weapon);
-        setStateFunc(dataArray);
-        ammunitionRef.current[collectionName] = dataArray;
-      }
-    );
-
-    Promise.all([
-      ...fetchWeapons,
-      ...fetchItems,
-      ...fetchArmorShields,
-      ...fetchBeasts,
-      ...fetchAmmunition,
-    ])
-      .then(() => setIsLoading(false))
-      .catch((error) =>
-        console.error("Error fetching data from collections", error)
+      console.log(
+        weaponsRef.current,
+        itemsRef.current,
+        armorShieldsRef.current,
+        beastsRef.current,
+        ammunitionRef.current
       );
+    };
 
-    console.log(
-      weaponsRef.current,
-      itemsRef.current,
-      armorShieldsRef.current,
-      beastsRef.current,
-      ammunitionRef.current
-    );
-
+    fetchAllData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
