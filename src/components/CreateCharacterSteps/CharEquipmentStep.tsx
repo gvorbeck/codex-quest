@@ -27,10 +27,10 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   <>
     <Title level={2}>{title}</Title>
     <Collapse accordion>
-      {Object.entries(dataRef.current).map(([key, value]) => (
-        <Panel header={key.charAt(0).toUpperCase() + key.slice(1)} key={key}>
-          {value.map((item: any) => (
-            <EquipmentItemSelector item={item} />
+      {Object.entries(dataRef.current).map(([key, value], index) => (
+        <Panel header={key.charAt(0).toUpperCase() + key.slice(1)} key={index}>
+          {value.map((item: any, index) => (
+            <EquipmentItemSelector item={item} key={index} />
           ))}
         </Panel>
       ))}
@@ -136,11 +136,13 @@ export default function CharEquipmentStep({
   };
   const armorShieldsCollectionMap = { "armor-and-shields": setArmorShields };
   const beastsCollectionMap = { "beasts-of-burden": setBeasts };
+  const ammunitionCollectionMap = { ammunition: setAmmunition };
 
   const itemsRef = useRef<Record<string, Item[]>>({});
   const weaponsRef = useRef<Record<string, Weapon[]>>({});
   const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
   const beastsRef = useRef<Record<string, Beast[]>>({});
+  const ammunitionRef = useRef<Record<string, Weapon[]>>({});
 
   const roller = new DiceRoller();
   const rollStartingGold = () => {
@@ -198,11 +200,22 @@ export default function CharEquipmentStep({
       }
     );
 
+    const fetchAmmunition = Object.entries(ammunitionCollectionMap).map(
+      async ([collectionName, setStateFunc]) => {
+        const coll = collection(db, collectionName);
+        const snapshot = await getDocs(coll);
+        const dataArray = snapshot.docs.map((doc) => doc.data() as Weapon);
+        setStateFunc(dataArray);
+        ammunitionRef.current[collectionName] = dataArray;
+      }
+    );
+
     Promise.all([
       ...fetchWeapons,
       ...fetchItems,
       ...fetchArmorShields,
       ...fetchBeasts,
+      ...fetchAmmunition,
     ])
       .then(() => setIsLoading(false))
       .catch((error) =>
@@ -213,7 +226,8 @@ export default function CharEquipmentStep({
       weaponsRef.current,
       itemsRef.current,
       armorShieldsRef.current,
-      beastsRef.current
+      beastsRef.current,
+      ammunitionRef.current
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -246,6 +260,7 @@ export default function CharEquipmentStep({
         <CategoryCollapse title="Weapons" dataRef={weaponsRef} />
         <CategoryCollapse title="Armor and Shields" dataRef={armorShieldsRef} />
         <CategoryCollapse title="Beasts of Burden" dataRef={beastsRef} />
+        <CategoryCollapse title="Ammunition" dataRef={ammunitionRef} />
       </div>
     </>
   );
