@@ -21,7 +21,7 @@ export default function HeaderContent(props: HeaderContentProps) {
       {props.user ? (
         <Space align="center">
           <Button type="primary" onClick={showModal}>
-            Create
+            Create BFRPG Character
           </Button>
           <Paragraph>{props.user.displayName}</Paragraph>
           <Button type="link" onClick={() => props.auth.signOut()}>
