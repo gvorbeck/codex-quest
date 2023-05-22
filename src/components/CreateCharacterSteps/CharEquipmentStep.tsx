@@ -15,6 +15,29 @@ import {
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
+interface CategoryCollapseProps {
+  title: string;
+  dataRef: React.MutableRefObject<Record<string, any[]>>;
+}
+
+const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
+  title,
+  dataRef,
+}) => (
+  <>
+    <Title level={2}>{title}</Title>
+    <Collapse accordion>
+      {Object.entries(dataRef.current).map(([key, value]) => (
+        <Panel header={key.charAt(0).toUpperCase() + key.slice(1)} key={key}>
+          {value.map((item: any) => (
+            <EquipmentItemSelector item={item} />
+          ))}
+        </Panel>
+      ))}
+    </Collapse>
+  </>
+);
+
 interface EquipmentItemSelectorProps {
   item: Item | Beast | Weapon | ArmorShields;
 }
@@ -219,58 +242,10 @@ export default function CharEquipmentStep({
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
       <div>
-        <Title level={2}>Items</Title>
-        <Collapse accordion defaultActiveKey={["1"]}>
-          {Object.entries(itemsRef.current).map(([key, value]) => (
-            <Panel
-              header={key.charAt(0).toUpperCase() + key.slice(1)}
-              key={key}
-            >
-              {value.map((item: Item) => (
-                <EquipmentItemSelector item={item} />
-              ))}
-            </Panel>
-          ))}
-        </Collapse>
-        <Title level={2}>Weapons</Title>
-        <Collapse accordion>
-          {Object.entries(weaponsRef.current).map(([key, value]) => (
-            <Panel
-              header={key.charAt(0).toUpperCase() + key.slice(1)}
-              key={key}
-            >
-              {value.map((item: Weapon) => (
-                <EquipmentItemSelector item={item} />
-              ))}
-            </Panel>
-          ))}
-        </Collapse>
-        <Title level={2}>Armor and Shields</Title>
-        <Collapse accordion>
-          {Object.entries(armorShieldsRef.current).map(([key, value]) => (
-            <Panel
-              header={key.charAt(0).toUpperCase() + key.slice(1)}
-              key={key}
-            >
-              {value.map((item: ArmorShields) => (
-                <EquipmentItemSelector item={item} />
-              ))}
-            </Panel>
-          ))}
-        </Collapse>
-        <Title level={2}>Beasts of Burden</Title>
-        <Collapse accordion>
-          {Object.entries(beastsRef.current).map(([key, value]) => (
-            <Panel
-              header={key.charAt(0).toUpperCase() + key.slice(1)}
-              key={key}
-            >
-              {value.map((item: Beast) => (
-                <EquipmentItemSelector item={item} />
-              ))}
-            </Panel>
-          ))}
-        </Collapse>
+        <CategoryCollapse title="Items" dataRef={itemsRef} />
+        <CategoryCollapse title="Weapons" dataRef={weaponsRef} />
+        <CategoryCollapse title="Armor and Shields" dataRef={armorShieldsRef} />
+        <CategoryCollapse title="Beasts of Burden" dataRef={beastsRef} />
       </div>
     </>
   );
