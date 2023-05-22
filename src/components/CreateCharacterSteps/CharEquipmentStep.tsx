@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import {
@@ -12,7 +12,47 @@ import {
   Spin,
   Typography,
 } from "antd";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+
+interface EquipmentItemSelectorProps {
+  item: Item | Beast | Weapon | ArmorShields;
+}
+
+const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
+  item,
+}) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+    setIsChecked(e.target.checked);
+  };
+
+  let weight;
+  let weightElement = null;
+
+  if ("weight" in item) {
+    if (item.weight === 0) weight = "**";
+    else if (item.weight === 0.1) weight = "*";
+    else weight = item.weight;
+    weightElement = <Text type="secondary">{`Weight: ${weight}`}</Text>;
+  }
+
+  return (
+    <Paragraph>
+      <Space direction="vertical">
+        <Checkbox onChange={handleCheckboxChange}>
+          <Space direction="vertical">
+            <Text strong>{item.name}</Text>
+            <Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency}`}</Text>
+            {weightElement}
+          </Space>
+        </Checkbox>
+        {isChecked && <InputNumber min={1} defaultValue={1} />}
+      </Space>
+    </Paragraph>
+  );
+};
 
 interface Beast {
   costCurrency: string;
@@ -186,24 +226,9 @@ export default function CharEquipmentStep({
               header={key.charAt(0).toUpperCase() + key.slice(1)}
               key={key}
             >
-              {value.map((item: Item) => {
-                let weight;
-                item.weight === 0
-                  ? (weight = "**")
-                  : item.weight === 0.1
-                  ? (weight = "*")
-                  : (weight = item.weight);
-                return (
-                  <Paragraph>
-                    <Checkbox>
-                      <Space direction="vertical">
-                        <Text strong>{item.name}</Text>
-                        <Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency} / Weight: ${weight}`}</Text>
-                      </Space>
-                    </Checkbox>
-                  </Paragraph>
-                );
-              })}
+              {value.map((item: Item) => (
+                <EquipmentItemSelector item={item} />
+              ))}
             </Panel>
           ))}
         </Collapse>
@@ -214,9 +239,9 @@ export default function CharEquipmentStep({
               header={key.charAt(0).toUpperCase() + key.slice(1)}
               key={key}
             >
-              <Paragraph>
-                {value.map((item: Weapon) => `${item.name}, `)}
-              </Paragraph>
+              {value.map((item: Weapon) => (
+                <EquipmentItemSelector item={item} />
+              ))}
             </Panel>
           ))}
         </Collapse>
@@ -227,9 +252,9 @@ export default function CharEquipmentStep({
               header={key.charAt(0).toUpperCase() + key.slice(1)}
               key={key}
             >
-              <Paragraph>
-                {value.map((item: ArmorShields) => `${item.name}, `)}
-              </Paragraph>
+              {value.map((item: ArmorShields) => (
+                <EquipmentItemSelector item={item} />
+              ))}
             </Panel>
           ))}
         </Collapse>
@@ -240,9 +265,9 @@ export default function CharEquipmentStep({
               header={key.charAt(0).toUpperCase() + key.slice(1)}
               key={key}
             >
-              <Paragraph>
-                {value.map((item: Beast) => `${item.name}, `)}
-              </Paragraph>
+              {value.map((item: Beast) => (
+                <EquipmentItemSelector item={item} />
+              ))}
             </Panel>
           ))}
         </Collapse>
