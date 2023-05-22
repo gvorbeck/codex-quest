@@ -10,9 +10,8 @@ type CharHitPointsStepProps = {
   constitutionModifier: string;
   hitDice: string;
   setHitDice: (hitDice: string) => void;
+  comboClass: boolean;
 };
-
-// TODO: HIT POINTS FOR COMBINATION CLASS!!!!!!
 
 export default function CharHitPointsStep({
   hitPoints,
@@ -22,24 +21,33 @@ export default function CharHitPointsStep({
   constitutionModifier,
   hitDice,
   setHitDice,
+  comboClass,
 }: CharHitPointsStepProps) {
   const roller = new DiceRoller();
 
   useEffect(() => {
     let dice: string;
 
-    if (playerClass === "Cleric") {
-      dice = "d6";
-    } else if (playerClass === "Fighter") {
-      dice = "d8";
-      if (race === "Elf" || race === "Halfling") {
+    if (comboClass) {
+      if (playerClass.includes("Thief")) {
+        dice = "d4";
+      } else {
         dice = "d6";
       }
-    } else if (playerClass === "Magic-User") {
-      dice = "d4";
     } else {
-      // Thief
-      dice = "d4";
+      if (playerClass === "Cleric") {
+        dice = "d6";
+      } else if (playerClass === "Fighter") {
+        dice = "d8";
+        if (race === "Elf" || race === "Halfling") {
+          dice = "d6";
+        }
+      } else if (playerClass === "Magic-User") {
+        dice = "d4";
+      } else {
+        // Thief
+        dice = "d4";
+      }
     }
 
     setHitDice(dice);
