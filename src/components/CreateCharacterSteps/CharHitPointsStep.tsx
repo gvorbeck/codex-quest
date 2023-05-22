@@ -12,6 +12,8 @@ type CharHitPointsStepProps = {
   setHitDice: (hitDice: string) => void;
 };
 
+// TODO: HIT POINTS FOR COMBINATION CLASS!!!!!!
+
 export default function CharHitPointsStep({
   hitPoints,
   setHitPoints,
