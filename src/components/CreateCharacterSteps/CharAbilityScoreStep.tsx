@@ -45,6 +45,8 @@ type CharAbilityScoreStepProps = {
   setComboClass: (comboClass: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;
   setRace: (race: string) => void;
+  setHitDice: (hitDice: string) => void;
+  setHitPoints: (hitPoints: number) => void;
 };
 
 export default function CharAbilityScoreStep({
@@ -56,6 +58,8 @@ export default function CharAbilityScoreStep({
   setComboClass,
   setCheckedClasses,
   setRace,
+  setHitDice,
+  setHitPoints,
 }: CharAbilityScoreStepProps) {
   const roller = new DiceRoller();
 
@@ -86,6 +90,8 @@ export default function CharAbilityScoreStep({
     setComboClass(false);
     setCheckedClasses([]);
     setRace("");
+    setHitDice("");
+    setHitPoints(0);
   };
 
   const isAbilityKey = (key: string): key is keyof typeof abilities => {
