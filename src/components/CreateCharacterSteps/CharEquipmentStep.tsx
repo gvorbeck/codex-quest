@@ -1,19 +1,36 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { Button, Collapse, InputNumber, Space, Spin, Typography } from "antd";
+import {
+  Button,
+  Checkbox,
+  Collapse,
+  Divider,
+  InputNumber,
+  Space,
+  Spin,
+  Typography,
+} from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
-interface Item {
+interface Beast {
   costCurrency: string;
   costValue: number;
   name: string;
+}
+
+interface Item extends Beast {
   weight: number;
 }
 
 interface Weapon extends Item {
   size?: string;
   damage?: string;
+}
+
+interface ArmorShields extends Item {
+  AC: number | string;
 }
 
 type CharEquipmentStepProps = {
@@ -24,7 +41,7 @@ type CharEquipmentStepProps = {
 };
 
 const { Panel } = Collapse;
-const { Paragraph, Title } = Typography;
+const { Paragraph, Text, Title } = Typography;
 
 export default function CharEquipmentStep({
   gold,
@@ -32,6 +49,7 @@ export default function CharEquipmentStep({
   setGold,
   setEquipment,
 }: CharEquipmentStepProps) {
+  const [items, setItems] = useState<Item[]>([]);
   const [axes, setAxes] = useState<Weapon[]>([]);
   const [bows, setBows] = useState<Weapon[]>([]);
   const [daggers, setDaggers] = useState<Weapon[]>([]);
@@ -39,19 +57,27 @@ export default function CharEquipmentStep({
   const [hammersMaces, setHammersMaces] = useState<Weapon[]>([]);
   const [otherWeapons, setOtherWeapons] = useState<Weapon[]>([]);
   const [ammunition, setAmmunition] = useState<Weapon[]>([]);
+  const [armorShields, setArmorShields] = useState<ArmorShields[]>([]);
+  const [beasts, setBeasts] = useState<Beast[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const itemsCollectionMap = { items: setItems };
   const weaponsCollectionMap = {
     axes: setAxes,
     bows: setBows,
     daggers: setDaggers,
     swords: setSwords,
-    hammersMaces: setHammersMaces,
-    otherWeapons: setOtherWeapons,
+    "hammers-maces": setHammersMaces,
+    "other-weapons": setOtherWeapons,
     ammunition: setAmmunition,
   };
+  const armorShieldsCollectionMap = { "armor-and-shields": setArmorShields };
+  const beastsCollectionMap = { "beasts-of-burden": setBeasts };
 
+  const itemsRef = useRef<Record<string, Item[]>>({});
   const weaponsRef = useRef<Record<string, Weapon[]>>({});
+  const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
+  const beastsRef = useRef<Record<string, Beast[]>>({});
 
   const roller = new DiceRoller();
   const rollStartingGold = () => {
@@ -67,23 +93,65 @@ export default function CharEquipmentStep({
   };
 
   useEffect(() => {
-    const fetchCollections = Object.entries(weaponsCollectionMap).map(
+    const fetchItems = Object.entries(itemsCollectionMap).map(
+      async ([collectionName, setStateFunc]) => {
+        const coll = collection(db, collectionName);
+        const snapshot = await getDocs(coll);
+        const dataArray = snapshot.docs.map((doc) => doc.data() as Item);
+        setStateFunc(dataArray);
+        itemsRef.current[collectionName] = dataArray;
+      }
+    );
+
+    const fetchWeapons = Object.entries(weaponsCollectionMap).map(
       async ([collectionName, setStateFunc]) => {
         const coll = collection(db, collectionName);
         const snapshot = await getDocs(coll);
         const dataArray = snapshot.docs.map((doc) => doc.data() as Weapon);
         setStateFunc(dataArray);
-        weaponsRef.current[collectionName] = dataArray; // Adding data to weapons object
+        weaponsRef.current[collectionName] = dataArray;
       }
     );
 
-    Promise.all(fetchCollections)
+    const fetchArmorShields = Object.entries(armorShieldsCollectionMap).map(
+      async ([collectionName, setStateFunc]) => {
+        const coll = collection(db, collectionName);
+        const snapshot = await getDocs(coll);
+        const dataArray = snapshot.docs.map(
+          (doc) => doc.data() as ArmorShields
+        );
+        setStateFunc(dataArray);
+        armorShieldsRef.current[collectionName] = dataArray;
+      }
+    );
+
+    const fetchBeasts = Object.entries(beastsCollectionMap).map(
+      async ([collectionName, setStateFunc]) => {
+        const coll = collection(db, collectionName);
+        const snapshot = await getDocs(coll);
+        const dataArray = snapshot.docs.map((doc) => doc.data() as Beast);
+        setStateFunc(dataArray);
+        beastsRef.current[collectionName] = dataArray;
+      }
+    );
+
+    Promise.all([
+      ...fetchWeapons,
+      ...fetchItems,
+      ...fetchArmorShields,
+      ...fetchBeasts,
+    ])
       .then(() => setIsLoading(false))
       .catch((error) =>
         console.error("Error fetching data from collections", error)
       );
 
-    console.log(weaponsRef.current);
+    console.log(
+      weaponsRef.current,
+      itemsRef.current,
+      armorShieldsRef.current,
+      beastsRef.current
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,14 +177,76 @@ export default function CharEquipmentStep({
           onClick={rollStartingGold}
         >{`Roll 3d6x10`}</Button>
       </Space.Compact>
-      <Title level={2}>Weapons</Title>
-      <Collapse accordion>
-        {Object.entries(weaponsRef.current).map(([key, value]) => (
-          <Panel header={key.charAt(0).toUpperCase() + key.slice(1)} key={key}>
-            <Paragraph>bar</Paragraph>
-          </Panel>
-        ))}
-      </Collapse>
+      <Divider orientation="left">Equipment Lists</Divider>
+      <div>
+        <Title level={2}>Items</Title>
+        <Collapse accordion defaultActiveKey={["1"]}>
+          {Object.entries(itemsRef.current).map(([key, value]) => (
+            <Panel
+              header={key.charAt(0).toUpperCase() + key.slice(1)}
+              key={key}
+            >
+              {value.map((item: Item) => {
+                let weight;
+                item.weight === 0
+                  ? (weight = "**")
+                  : item.weight === 0.1
+                  ? (weight = "*")
+                  : (weight = item.weight);
+                return (
+                  <Paragraph>
+                    <Checkbox>
+                      <Space direction="vertical">
+                        <Text strong>{item.name}</Text>
+                        <Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency} / Weight: ${weight}`}</Text>
+                      </Space>
+                    </Checkbox>
+                  </Paragraph>
+                );
+              })}
+            </Panel>
+          ))}
+        </Collapse>
+        <Title level={2}>Weapons</Title>
+        <Collapse accordion>
+          {Object.entries(weaponsRef.current).map(([key, value]) => (
+            <Panel
+              header={key.charAt(0).toUpperCase() + key.slice(1)}
+              key={key}
+            >
+              <Paragraph>
+                {value.map((item: Weapon) => `${item.name}, `)}
+              </Paragraph>
+            </Panel>
+          ))}
+        </Collapse>
+        <Title level={2}>Armor and Shields</Title>
+        <Collapse accordion>
+          {Object.entries(armorShieldsRef.current).map(([key, value]) => (
+            <Panel
+              header={key.charAt(0).toUpperCase() + key.slice(1)}
+              key={key}
+            >
+              <Paragraph>
+                {value.map((item: ArmorShields) => `${item.name}, `)}
+              </Paragraph>
+            </Panel>
+          ))}
+        </Collapse>
+        <Title level={2}>Beasts of Burden</Title>
+        <Collapse accordion>
+          {Object.entries(beastsRef.current).map(([key, value]) => (
+            <Panel
+              header={key.charAt(0).toUpperCase() + key.slice(1)}
+              key={key}
+            >
+              <Paragraph>
+                {value.map((item: Beast) => `${item.name}, `)}
+              </Paragraph>
+            </Panel>
+          ))}
+        </Collapse>
+      </div>
     </>
   );
 }
