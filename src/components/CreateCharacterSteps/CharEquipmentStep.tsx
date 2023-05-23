@@ -274,6 +274,7 @@ export default function CharEquipmentStep({
             dataRef={cat.ref}
             gold={gold}
             setGold={setGold}
+            key={cat.title}
           />
         ))}
       </div>
