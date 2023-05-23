@@ -23,6 +23,23 @@ import {
   Weapon,
 } from "../types";
 
+const calculateCarryingCapacity = (
+  strength: number,
+  race: string
+): { light: number; heavy: number } => {
+  const baseCapacity =
+    race === "Halfling" ? { light: 50, heavy: 100 } : { light: 60, heavy: 150 };
+  const strengthModifier =
+    strength > 12 ? (strength - 12) * 0.1 : (strength - 12) * 0.2;
+  const lightCapacity = Math.abs(
+    Math.round(baseCapacity.light * (1 + strengthModifier))
+  );
+  const heavyCapacity = Math.abs(
+    Math.round(baseCapacity.heavy * (1 + strengthModifier))
+  );
+  return { light: lightCapacity, heavy: heavyCapacity };
+};
+
 const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   title,
   dataRef,
@@ -31,6 +48,9 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   equipment,
   setEquipment,
   race,
+  weight,
+  setWeight,
+  strength,
 }) => {
   const items = Object.entries(dataRef.current);
 
@@ -51,6 +71,9 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
               equipment={equipment}
               setEquipment={setEquipment}
               race={race}
+              weight={weight}
+              setWeight={setWeight}
+              strength={strength}
             />
           ))}
         </React.Fragment>
@@ -66,6 +89,9 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   equipment,
   setEquipment,
   race,
+  weight,
+  setWeight,
+  strength,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -74,7 +100,16 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   const canAffordItem = totalCost <= gold;
   const isLargeWeapon = "size" in item && item.size === "large";
   const isHalflingOrDwarf = race === "Halfling" || race === "Dwarf";
-  const isDisabled = isLargeWeapon && isHalflingOrDwarf;
+  const isOverburdened =
+    weight > calculateCarryingCapacity(strength, race).heavy;
+  const isDisabled = (isLargeWeapon && isHalflingOrDwarf) || isOverburdened;
+
+  console.log(
+    isDisabled,
+    isOverburdened,
+    weight,
+    calculateCarryingCapacity(strength, race)
+  );
 
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
@@ -88,6 +123,15 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
     } else {
       const updatedEquipment = equipment.filter((eq) => eq.name !== item.name);
       setEquipment(updatedEquipment);
+    }
+
+    if ("weight" in item) {
+      if (race === "Halfling" && item.name.includes("Armor")) {
+        item.weight = item.weight * 0.25;
+      }
+      setWeight(
+        weight + (checked ? item.weight * quantity : -item.weight * quantity)
+      );
     }
   };
 
@@ -112,6 +156,9 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
     } else {
       setQuantity(0);
     }
+
+    if ("weight" in item && value !== null)
+      setWeight(weight + (value - quantity) * item.weight);
   };
 
   let weightElement = null;
@@ -146,6 +193,15 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
         {isChecked && (
           <InputNumber
             min={1}
+            max={
+              "weight" in item
+                ? Math.floor(
+                    (calculateCarryingCapacity(strength, race).heavy - weight) /
+                      item.weight
+                  )
+                : Infinity
+            }
+            precision={0}
             defaultValue={1}
             value={quantity}
             onChange={handleQuantityChange}
@@ -162,6 +218,9 @@ export default function CharEquipmentStep({
   equipment,
   setEquipment,
   race,
+  weight,
+  setWeight,
+  strength,
 }: CharEquipmentStepProps) {
   const [items, setItems] = useState<Item[]>([]);
   const [axes, setAxes] = useState<Weapon[]>([]);
@@ -232,8 +291,8 @@ export default function CharEquipmentStep({
   }, []);
 
   useEffect(() => {
-    console.log(equipment);
-  }, [equipment]);
+    console.log(equipment, weight);
+  }, [equipment, weight]);
 
   if (isLoading) {
     return <Spin />;
@@ -277,6 +336,9 @@ export default function CharEquipmentStep({
               equipment={equipment}
               setEquipment={setEquipment}
               race={race}
+              weight={weight}
+              setWeight={setWeight}
+              strength={strength}
             />
           </Collapse.Panel>
         ))}
