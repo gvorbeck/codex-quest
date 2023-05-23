@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import {
@@ -26,28 +26,30 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   dataRef,
   gold,
   setGold,
-}) => (
-  <>
-    <Typography.Title level={2}>{title}</Typography.Title>
-    <Collapse accordion>
-      {Object.entries(dataRef.current).map(([key, value], index) => (
-        <Collapse.Panel
-          header={key.charAt(0).toUpperCase() + key.slice(1)}
-          key={index}
-        >
-          {value.map((item: any, index) => (
+}) => {
+  const items = Object.entries(dataRef.current);
+
+  return (
+    <>
+      <Typography.Title level={2}>{title}</Typography.Title>
+      {items.map(([key, value], index) => (
+        <React.Fragment key={index}>
+          <Typography.Paragraph>
+            <Typography.Text strong>{key}</Typography.Text>
+          </Typography.Paragraph>
+          {value.map((item: any, itemIndex: number) => (
             <EquipmentItemSelector
               item={item}
-              key={index}
+              key={itemIndex}
               gold={gold}
               setGold={setGold}
             />
           ))}
-        </Collapse.Panel>
+        </React.Fragment>
       ))}
-    </Collapse>
-  </>
-);
+    </>
+  );
+};
 
 interface EquipmentItemSelectorProps {
   item: Item | Beast | Weapon | ArmorShields;
@@ -68,7 +70,9 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
 
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
-    setGold(gold + (checked ? -totalCost : totalCost));
+    const costInGold =
+      item.costCurrency === "gp" ? item.costValue : item.costValue / 10;
+    setGold(gold + (checked ? -costInGold * quantity : costInGold * quantity));
     setIsChecked(checked);
   };
 
@@ -78,7 +82,9 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
       setQuantity(value);
 
       if (gold - difference >= 0) {
-        setGold(gold + (isChecked ? -totalCost : totalCost));
+        const costInGold =
+          item.costCurrency === "gp" ? item.costValue : item.costValue / 10;
+        setGold(gold + (isChecked ? -difference : difference));
       } else {
         setQuantity(quantity);
       }
@@ -167,9 +173,14 @@ export default function CharEquipmentStep({
   const [isLoading, setIsLoading] = useState(true);
 
   const itemsRef = useRef<Record<string, Item[]>>({});
-  const weaponsRef = useRef<Record<string, Weapon[]>>({});
-  const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
+  const axesRef = useRef<Record<string, Weapon[]>>({});
+  const bowsRef = useRef<Record<string, Weapon[]>>({});
+  const daggersRef = useRef<Record<string, Weapon[]>>({});
+  const swordsRef = useRef<Record<string, Weapon[]>>({});
+  const hammersMacesRef = useRef<Record<string, Weapon[]>>({});
+  const otherWeaponsRef = useRef<Record<string, Weapon[]>>({});
   const ammunitionRef = useRef<Record<string, Weapon[]>>({});
+  const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
 
   const roller = new DiceRoller();
   const rollStartingGold = () => {
@@ -201,12 +212,12 @@ export default function CharEquipmentStep({
       try {
         await Promise.all([
           fetchData("items", setItems, itemsRef),
-          fetchData("axes", setAxes, weaponsRef),
-          fetchData("bows", setBows, weaponsRef),
-          fetchData("daggers", setDaggers, weaponsRef),
-          fetchData("swords", setSwords, weaponsRef),
-          fetchData("hammers-maces", setHammersMaces, weaponsRef),
-          fetchData("other-weapons", setOtherWeapons, weaponsRef),
+          fetchData("axes", setAxes, axesRef),
+          fetchData("bows", setBows, bowsRef),
+          fetchData("daggers", setDaggers, daggersRef),
+          fetchData("swords", setSwords, swordsRef),
+          fetchData("hammers-maces", setHammersMaces, hammersMacesRef),
+          fetchData("other-weapons", setOtherWeapons, otherWeaponsRef),
           fetchData("ammunition", setAmmunition, ammunitionRef),
           fetchData("armor-and-shields", setArmorShields, armorShieldsRef),
         ]);
@@ -239,27 +250,28 @@ export default function CharEquipmentStep({
         </Button>
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
-      <div>
+      <Collapse>
         {[
           { title: "Items", ref: itemsRef },
-          { title: "Axes", ref: weaponsRef },
-          { title: "Bows", ref: weaponsRef },
-          { title: "Daggers", ref: weaponsRef },
-          { title: "Swords", ref: weaponsRef },
-          { title: "Hammers-Maces", ref: weaponsRef },
-          { title: "Other Weapons", ref: weaponsRef },
+          { title: "Axes", ref: axesRef },
+          { title: "Bows", ref: bowsRef },
+          { title: "Daggers", ref: daggersRef },
+          { title: "Swords", ref: swordsRef },
+          { title: "Hammers-Maces", ref: hammersMacesRef },
+          { title: "Other Weapons", ref: otherWeaponsRef },
           { title: "Ammunition", ref: ammunitionRef },
           { title: "Armor and Shields", ref: armorShieldsRef },
         ].map((cat) => (
-          <CategoryCollapse
-            title={cat.title}
-            dataRef={cat.ref}
-            gold={gold}
-            setGold={setGold}
-            key={cat.title}
-          />
+          <Collapse.Panel header={cat.title} key={cat.title}>
+            <CategoryCollapse
+              title={cat.title}
+              dataRef={cat.ref}
+              gold={gold}
+              setGold={setGold}
+            />
+          </Collapse.Panel>
         ))}
-      </div>
+      </Collapse>
     </>
   );
 }
