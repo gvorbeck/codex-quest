@@ -233,17 +233,9 @@ export default function CharEquipmentStep({
       } catch (error) {
         console.error("Error fetching data from collections", error);
       }
-
-      console.log(
-        weaponsRef.current,
-        itemsRef.current,
-        armorShieldsRef.current,
-        beastsRef.current,
-        ammunitionRef.current
-      );
     };
-
     fetchAllData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -270,36 +262,20 @@ export default function CharEquipmentStep({
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
       <div>
-        <CategoryCollapse
-          title="Items"
-          dataRef={itemsRef}
-          gold={gold}
-          setGold={setGold}
-        />
-        <CategoryCollapse
-          title="Weapons"
-          dataRef={weaponsRef}
-          gold={gold}
-          setGold={setGold}
-        />
-        <CategoryCollapse
-          title="Armor and Shields"
-          dataRef={armorShieldsRef}
-          gold={gold}
-          setGold={setGold}
-        />
-        <CategoryCollapse
-          title="Beasts of Burden"
-          dataRef={beastsRef}
-          gold={gold}
-          setGold={setGold}
-        />
-        <CategoryCollapse
-          title="Ammunition"
-          dataRef={ammunitionRef}
-          gold={gold}
-          setGold={setGold}
-        />
+        {[
+          { title: "Items", ref: itemsRef },
+          { title: "Weapons", ref: weaponsRef },
+          { title: "Armor and Shields", ref: armorShieldsRef },
+          { title: "Beasts of Burden", ref: beastsRef },
+          { title: "Ammunition", ref: ammunitionRef },
+        ].map((cat) => (
+          <CategoryCollapse
+            title={cat.title}
+            dataRef={cat.ref}
+            gold={gold}
+            setGold={setGold}
+          />
+        ))}
       </div>
     </>
   );
