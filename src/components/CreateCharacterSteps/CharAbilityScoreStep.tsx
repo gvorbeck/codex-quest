@@ -1,53 +1,7 @@
 import React from "react";
 import { Button, InputNumber, Space, Table } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-
-type AbilityRecord = {
-  key: string;
-  ability: string;
-  score: number;
-};
-
-type CharAbilityScoreStepProps = {
-  abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  };
-  setAbilities: (abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  }) => void;
-  abilityModifiers: {
-    strength: string;
-    intelligence: string;
-    wisdom: string;
-    dexterity: string;
-    constitution: string;
-    charisma: string;
-  };
-  setAbilityModifiers: (abilityModifiers: {
-    strength: string;
-    intelligence: string;
-    wisdom: string;
-    dexterity: string;
-    constitution: string;
-    charisma: string;
-  }) => void;
-  setPlayerClass: (playerClass: string) => void;
-  setComboClass: (comboClass: boolean) => void;
-  setCheckedClasses: (checkedClasses: string[]) => void;
-  setRace: (race: string) => void;
-  setHitDice: (hitDice: string) => void;
-  setHitPoints: (hitPoints: number) => void;
-};
+import { AbilityRecord, CharAbilityScoreStepProps } from "../types";
 
 export default function CharAbilityScoreStep({
   abilities,
