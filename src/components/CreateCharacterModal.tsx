@@ -71,6 +71,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [hitDice, setHitDice] = useState("");
   const [gold, setGold] = useState(characterData.gold);
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+  const [weight, setWeight] = useState(0);
 
   useEffect(() => {
     console.log({ abilities, abilityModifiers, race, playerClass });
@@ -160,6 +161,9 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           equipment={equipment}
           setEquipment={setEquipment}
           race={race}
+          weight={weight}
+          setWeight={setWeight}
+          strength={abilities.strength}
         />
       ),
     },

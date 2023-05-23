@@ -52,6 +52,9 @@ export interface EquipmentItemSelectorProps {
   equipment: EquipmentType[];
   setEquipment: (equipment: EquipmentType[]) => void;
   race: string;
+  weight: number;
+  setWeight: (weight: number) => void;
+  strength: number;
 }
 
 export interface Beast {
@@ -79,6 +82,9 @@ export type CharEquipmentStepProps = {
   equipment: EquipmentType[];
   setEquipment: (equipment: EquipmentType[]) => void;
   race: string;
+  weight: number;
+  setWeight: (weight: number) => void;
+  strength: number;
 };
 
 export type EquipmentType = (Item | Beast | Weapon | ArmorShields) & {
@@ -93,4 +99,7 @@ export interface CategoryCollapseProps {
   equipment: EquipmentType[];
   setEquipment: (equipment: EquipmentType[]) => void;
   race: string;
+  weight: number;
+  setWeight: (weight: number) => void;
+  strength: number;
 }
