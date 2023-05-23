@@ -30,7 +30,6 @@ const characterData = {
   hitDice: "",
   gold: 0,
   equipment: [],
-  weight: 0,
 };
 
 const { Title, Paragraph } = Typography;
