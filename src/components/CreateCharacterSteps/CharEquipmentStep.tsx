@@ -28,10 +28,13 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   setGold,
 }) => (
   <>
-    <Title level={2}>{title}</Title>
+    <Typography.Title level={2}>{title}</Typography.Title>
     <Collapse accordion>
       {Object.entries(dataRef.current).map(([key, value], index) => (
-        <Panel header={key.charAt(0).toUpperCase() + key.slice(1)} key={index}>
+        <Collapse.Panel
+          header={key.charAt(0).toUpperCase() + key.slice(1)}
+          key={index}
+        >
           {value.map((item: any, index) => (
             <EquipmentItemSelector
               item={item}
@@ -40,7 +43,7 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
               setGold={setGold}
             />
           ))}
-        </Panel>
+        </Collapse.Panel>
       ))}
     </Collapse>
   </>
@@ -65,21 +68,17 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
 
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
-    if (checked) {
-      setGold(gold - totalCost);
-    } else {
-      setGold(gold + totalCost);
-    }
+    setGold(gold + (checked ? -totalCost : totalCost));
     setIsChecked(checked);
   };
 
   const handleQuantityChange = (value: number | null) => {
-    if (value !== null) {
+    if (value !== null && value >= 1) {
       const difference = (value - quantity) * item.costValue;
       setQuantity(value);
 
       if (gold - difference >= 0) {
-        setGold(gold - difference);
+        setGold(gold + (isChecked ? -totalCost : totalCost));
       } else {
         setQuantity(quantity);
       }
@@ -88,23 +87,24 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
     }
   };
 
-  let weight;
   let weightElement = null;
 
   if ("weight" in item) {
-    if (item.weight === 0) weight = "**";
-    else if (item.weight === 0.1) weight = "*";
-    else weight = item.weight;
-    weightElement = <Text type="secondary">{`Weight: ${weight}`}</Text>;
+    let weight: string | number = item.weight;
+    if (weight === 0) weight = "**";
+    else if (weight === 0.1) weight = "*";
+    weightElement = (
+      <Typography.Text type="secondary">{`Weight: ${weight}`}</Typography.Text>
+    );
   }
 
   return (
-    <Paragraph>
+    <Typography.Paragraph>
       <Space direction="vertical">
         <Checkbox disabled={!canAffordItem} onChange={handleCheckboxChange}>
           <Space direction="vertical">
-            <Text strong>{item.name}</Text>
-            <Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency}`}</Text>
+            <Typography.Text strong>{item.name}</Typography.Text>
+            <Typography.Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency}`}</Typography.Text>
             {weightElement}
           </Space>
         </Checkbox>
@@ -117,7 +117,7 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
           />
         )}
       </Space>
-    </Paragraph>
+    </Typography.Paragraph>
   );
 };
 
@@ -142,18 +142,17 @@ interface ArmorShields extends Item {
 
 type CharEquipmentStepProps = {
   gold: number;
-  equipment: {};
   setGold: (gold: number) => void;
+  equipment: {};
   setEquipment: (equipment: {}) => void;
 };
 
-const { Panel } = Collapse;
-const { Paragraph, Text, Title } = Typography;
+const { Title } = Typography;
 
 export default function CharEquipmentStep({
   gold,
-  equipment,
   setGold,
+  equipment,
   setEquipment,
 }: CharEquipmentStepProps) {
   const [items, setItems] = useState<Item[]>([]);
@@ -165,27 +164,11 @@ export default function CharEquipmentStep({
   const [otherWeapons, setOtherWeapons] = useState<Weapon[]>([]);
   const [ammunition, setAmmunition] = useState<Weapon[]>([]);
   const [armorShields, setArmorShields] = useState<ArmorShields[]>([]);
-  const [beasts, setBeasts] = useState<Beast[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const itemsCollectionMap = { items: setItems };
-  const weaponsCollectionMap = {
-    axes: setAxes,
-    bows: setBows,
-    daggers: setDaggers,
-    swords: setSwords,
-    "hammers-maces": setHammersMaces,
-    "other-weapons": setOtherWeapons,
-    ammunition: setAmmunition,
-  };
-  const armorShieldsCollectionMap = { "armor-and-shields": setArmorShields };
-  const beastsCollectionMap = { "beasts-of-burden": setBeasts };
-  const ammunitionCollectionMap = { ammunition: setAmmunition };
 
   const itemsRef = useRef<Record<string, Item[]>>({});
   const weaponsRef = useRef<Record<string, Weapon[]>>({});
   const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
-  const beastsRef = useRef<Record<string, Beast[]>>({});
   const ammunitionRef = useRef<Record<string, Weapon[]>>({});
 
   const roller = new DiceRoller();
@@ -202,31 +185,30 @@ export default function CharEquipmentStep({
   };
 
   const fetchData = async (
-    collectionsMap: Record<string, (data: any[]) => void>,
+    collectionName: string,
+    setStateFunc: (data: any[]) => void,
     dataRef: React.MutableRefObject<Record<string, any[]>>
   ) => {
-    return Promise.all(
-      Object.entries(collectionsMap).map(
-        async ([collectionName, setStateFunc]) => {
-          const coll = collection(db, collectionName);
-          const snapshot = await getDocs(coll);
-          const dataArray = snapshot.docs.map((doc) => doc.data());
-          setStateFunc(dataArray);
-          dataRef.current[collectionName] = dataArray;
-        }
-      )
-    );
+    const coll = collection(db, collectionName);
+    const snapshot = await getDocs(coll);
+    const dataArray = snapshot.docs.map((doc) => doc.data());
+    setStateFunc(dataArray);
+    dataRef.current[collectionName] = dataArray;
   };
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         await Promise.all([
-          fetchData(itemsCollectionMap, itemsRef),
-          fetchData(weaponsCollectionMap, weaponsRef),
-          fetchData(armorShieldsCollectionMap, armorShieldsRef),
-          fetchData(beastsCollectionMap, beastsRef),
-          fetchData(ammunitionCollectionMap, ammunitionRef),
+          fetchData("items", setItems, itemsRef),
+          fetchData("axes", setAxes, weaponsRef),
+          fetchData("bows", setBows, weaponsRef),
+          fetchData("daggers", setDaggers, weaponsRef),
+          fetchData("swords", setSwords, weaponsRef),
+          fetchData("hammers-maces", setHammersMaces, weaponsRef),
+          fetchData("other-weapons", setOtherWeapons, weaponsRef),
+          fetchData("ammunition", setAmmunition, ammunitionRef),
+          fetchData("armor-and-shields", setArmorShields, armorShieldsRef),
         ]);
         setIsLoading(false);
       } catch (error) {
@@ -234,8 +216,6 @@ export default function CharEquipmentStep({
       }
     };
     fetchAllData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
@@ -249,24 +229,27 @@ export default function CharEquipmentStep({
           max={180}
           min={30}
           defaultValue={0}
-          onChange={updateStartingGold}
+          onChange={(value: number | null) => setGold(value || 0)}
           onFocus={handleFocus}
           type="number"
           value={gold}
         />
-        <Button
-          type="primary"
-          onClick={rollStartingGold}
-        >{`Roll 3d6x10`}</Button>
+        <Button type="primary" onClick={rollStartingGold}>
+          Roll 3d6x10
+        </Button>
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
       <div>
         {[
           { title: "Items", ref: itemsRef },
-          { title: "Weapons", ref: weaponsRef },
-          { title: "Armor and Shields", ref: armorShieldsRef },
-          { title: "Beasts of Burden", ref: beastsRef },
+          { title: "Axes", ref: weaponsRef },
+          { title: "Bows", ref: weaponsRef },
+          { title: "Daggers", ref: weaponsRef },
+          { title: "Swords", ref: weaponsRef },
+          { title: "Hammers-Maces", ref: weaponsRef },
+          { title: "Other Weapons", ref: weaponsRef },
           { title: "Ammunition", ref: ammunitionRef },
+          { title: "Armor and Shields", ref: armorShieldsRef },
         ].map((cat) => (
           <CategoryCollapse
             title={cat.title}
