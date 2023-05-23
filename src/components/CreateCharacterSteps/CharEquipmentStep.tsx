@@ -30,6 +30,7 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   setGold,
   equipment,
   setEquipment,
+  race,
 }) => {
   const items = Object.entries(dataRef.current);
 
@@ -49,6 +50,7 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
               setGold={setGold}
               equipment={equipment}
               setEquipment={setEquipment}
+              race={race}
             />
           ))}
         </React.Fragment>
@@ -63,12 +65,16 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   setGold,
   equipment,
   setEquipment,
+  race,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const totalCost = item.costValue * quantity;
   const canAffordItem = totalCost <= gold;
+  const isLargeWeapon = "size" in item && item.size === "large";
+  const isHalflingOrDwarf = race === "Halfling" || race === "Dwarf";
+  const isDisabled = isLargeWeapon && isHalflingOrDwarf;
 
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
@@ -109,26 +115,32 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   };
 
   let weightElement = null;
+  let sizeElement;
 
   if ("weight" in item) {
     let weight: string | number = item.weight;
     if (weight === 0) weight = "**";
     else if (weight === 0.1) weight = "*";
-    weightElement = (
-      <Typography.Text type="secondary">{`Weight: ${weight}`}</Typography.Text>
-    );
+    weightElement = `, Weight: ${weight}`;
   }
+
+  if ("size" in item)
+    sizeElement = `, Size: ${item.size?.slice(0, 1).toUpperCase()}`;
 
   return (
     <Typography.Paragraph>
       <Space direction="vertical">
         <Checkbox
-          disabled={!canAffordItem && !isChecked}
+          disabled={(!canAffordItem && !isChecked) || isDisabled}
           onChange={handleCheckboxChange}
         >
           <Space direction="vertical">
             <Typography.Text strong>{item.name}</Typography.Text>
-            <Typography.Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency}`}</Typography.Text>
+            <Typography.Text type="secondary">
+              {`Cost: ${item.costValue} ${item.costCurrency}` +
+                weightElement +
+                sizeElement}
+            </Typography.Text>
             {weightElement}
           </Space>
         </Checkbox>
@@ -150,6 +162,7 @@ export default function CharEquipmentStep({
   setGold,
   equipment,
   setEquipment,
+  race,
 }: CharEquipmentStepProps) {
   const [items, setItems] = useState<Item[]>([]);
   const [axes, setAxes] = useState<Weapon[]>([]);
@@ -264,6 +277,7 @@ export default function CharEquipmentStep({
               setGold={setGold}
               equipment={equipment}
               setEquipment={setEquipment}
+              race={race}
             />
           </Collapse.Panel>
         ))}

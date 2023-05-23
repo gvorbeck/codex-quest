@@ -1,9 +1,57 @@
+export type AbilityRecord = {
+  key: string;
+  ability: string;
+  score: number;
+};
+
+export type CharAbilityScoreStepProps = {
+  abilities: {
+    strength: number;
+    intelligence: number;
+    wisdom: number;
+    dexterity: number;
+    constitution: number;
+    charisma: number;
+  };
+  setAbilities: (abilities: {
+    strength: number;
+    intelligence: number;
+    wisdom: number;
+    dexterity: number;
+    constitution: number;
+    charisma: number;
+  }) => void;
+  abilityModifiers: {
+    strength: string;
+    intelligence: string;
+    wisdom: string;
+    dexterity: string;
+    constitution: string;
+    charisma: string;
+  };
+  setAbilityModifiers: (abilityModifiers: {
+    strength: string;
+    intelligence: string;
+    wisdom: string;
+    dexterity: string;
+    constitution: string;
+    charisma: string;
+  }) => void;
+  setPlayerClass: (playerClass: string) => void;
+  setComboClass: (comboClass: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+  setRace: (race: string) => void;
+  setHitDice: (hitDice: string) => void;
+  setHitPoints: (hitPoints: number) => void;
+};
+
 export interface EquipmentItemSelectorProps {
   item: Item | Beast | Weapon | ArmorShields;
   gold: number;
   setGold: (value: number) => void;
   equipment: EquipmentType[];
   setEquipment: (equipment: EquipmentType[]) => void;
+  race: string;
 }
 
 export interface Beast {
@@ -30,6 +78,7 @@ export type CharEquipmentStepProps = {
   setGold: (gold: number) => void;
   equipment: EquipmentType[];
   setEquipment: (equipment: EquipmentType[]) => void;
+  race: string;
 };
 
 export type EquipmentType = (Item | Beast | Weapon | ArmorShields) & {
@@ -43,4 +92,5 @@ export interface CategoryCollapseProps {
   setGold: (gold: number) => void;
   equipment: EquipmentType[];
   setEquipment: (equipment: EquipmentType[]) => void;
+  race: string;
 }
