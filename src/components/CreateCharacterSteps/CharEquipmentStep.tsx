@@ -14,19 +14,22 @@ import {
 } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-
-interface CategoryCollapseProps {
-  title: string;
-  dataRef: React.MutableRefObject<Record<string, any[]>>;
-  gold: number;
-  setGold: (gold: number) => void;
-}
+import {
+  ArmorShields,
+  CategoryCollapseProps,
+  CharEquipmentStepProps,
+  EquipmentItemSelectorProps,
+  Item,
+  Weapon,
+} from "../types";
 
 const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   title,
   dataRef,
   gold,
   setGold,
+  equipment,
+  setEquipment,
 }) => {
   const items = Object.entries(dataRef.current);
 
@@ -44,6 +47,8 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
               key={itemIndex}
               gold={gold}
               setGold={setGold}
+              equipment={equipment}
+              setEquipment={setEquipment}
             />
           ))}
         </React.Fragment>
@@ -52,16 +57,12 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   );
 };
 
-interface EquipmentItemSelectorProps {
-  item: Item | Beast | Weapon | ArmorShields;
-  gold: number;
-  setGold: (value: number) => void;
-}
-
 const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   item,
   gold,
   setGold,
+  equipment,
+  setEquipment,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -75,6 +76,13 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
       item.costCurrency === "gp" ? item.costValue : item.costValue / 10;
     setGold(gold + (checked ? -costInGold * quantity : costInGold * quantity));
     setIsChecked(checked);
+
+    if (checked) {
+      setEquipment([...equipment, { ...item, quantity }]);
+    } else {
+      const updatedEquipment = equipment.filter((eq) => eq.name !== item.name);
+      setEquipment(updatedEquipment);
+    }
   };
 
   const handleQuantityChange = (value: number | null) => {
@@ -87,6 +95,14 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
       } else {
         setQuantity(quantity);
       }
+
+      const updatedEquipment = equipment.map((eq) => {
+        if (eq.name === item.name) {
+          return { ...eq, quantity: value };
+        }
+        return eq;
+      });
+      setEquipment(updatedEquipment);
     } else {
       setQuantity(0);
     }
@@ -106,7 +122,10 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   return (
     <Typography.Paragraph>
       <Space direction="vertical">
-        <Checkbox disabled={!canAffordItem} onChange={handleCheckboxChange}>
+        <Checkbox
+          disabled={!canAffordItem && !isChecked}
+          onChange={handleCheckboxChange}
+        >
           <Space direction="vertical">
             <Typography.Text strong>{item.name}</Typography.Text>
             <Typography.Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency}`}</Typography.Text>
@@ -124,32 +143,6 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
       </Space>
     </Typography.Paragraph>
   );
-};
-
-interface Beast {
-  costCurrency: string;
-  costValue: number;
-  name: string;
-}
-
-interface Item extends Beast {
-  weight: number;
-}
-
-interface Weapon extends Item {
-  size?: string;
-  damage?: string;
-}
-
-interface ArmorShields extends Item {
-  AC: number | string;
-}
-
-type CharEquipmentStepProps = {
-  gold: number;
-  setGold: (gold: number) => void;
-  equipment: {};
-  setEquipment: (equipment: {}) => void;
 };
 
 export default function CharEquipmentStep({
@@ -226,6 +219,10 @@ export default function CharEquipmentStep({
     fetchAllData();
   }, []);
 
+  useEffect(() => {
+    console.log(equipment);
+  }, [equipment]);
+
   if (isLoading) {
     return <Spin />;
   }
@@ -265,6 +262,8 @@ export default function CharEquipmentStep({
               dataRef={cat.ref}
               gold={gold}
               setGold={setGold}
+              equipment={equipment}
+              setEquipment={setEquipment}
             />
           </Collapse.Panel>
         ))}
