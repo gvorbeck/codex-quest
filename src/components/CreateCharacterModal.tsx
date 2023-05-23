@@ -159,6 +159,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           setGold={setGold}
           equipment={equipment}
           setEquipment={setEquipment}
+          race={race}
         />
       ),
     },
