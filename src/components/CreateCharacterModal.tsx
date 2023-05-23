@@ -46,6 +46,12 @@ const classDescription =
 const hitPointsDescription =
   "Roll for your character's Hit Points. Your character's Race may place restrictions on the Hit Dice available to them, but generally this is determined by their chosen Class. Additionally your character's Constitution modifier is added/subtracted from this value with a minimum value of 1. The end result is the amount of Hit Points your character will start with and determines how much damage your character can take in battle.";
 
+const equipmentDescription =
+  "Roll for your character's starting gold. You can click the Roll button or use your own dice and record your amount below. Next, it's time to purchase your character's starting equipment. Keep in mind that your character's Race may limit types and amounts of equipment they can carry due to size and carrying capacity restrictions.";
+
+const nameDescription =
+  "You're almost done. Personalize your newly minted character by giving them a name. Also, upload a portrait image if you'd like. IMAGE REQUIREMENTS!!!";
+
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
@@ -146,7 +152,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     {
       title: "Equipment",
       fullTitle: "Buy Equipment",
-      description: "Equip your character",
+      description: equipmentDescription,
       content: (
         <CharEquipmentStep
           gold={gold}
@@ -159,7 +165,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     {
       title: "Name",
       fullTitle: "Name your character",
-      description: "Give your character a name",
+      description: nameDescription,
       content: "dar",
     },
   ];
