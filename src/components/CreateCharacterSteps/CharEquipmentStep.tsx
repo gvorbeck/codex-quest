@@ -18,11 +18,15 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 interface CategoryCollapseProps {
   title: string;
   dataRef: React.MutableRefObject<Record<string, any[]>>;
+  gold: number;
+  setGold: (gold: number) => void;
 }
 
 const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
   title,
   dataRef,
+  gold,
+  setGold,
 }) => (
   <>
     <Title level={2}>{title}</Title>
@@ -30,7 +34,12 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
       {Object.entries(dataRef.current).map(([key, value], index) => (
         <Panel header={key.charAt(0).toUpperCase() + key.slice(1)} key={index}>
           {value.map((item: any, index) => (
-            <EquipmentItemSelector item={item} key={index} />
+            <EquipmentItemSelector
+              item={item}
+              key={index}
+              gold={gold}
+              setGold={setGold}
+            />
           ))}
         </Panel>
       ))}
@@ -40,15 +49,44 @@ const CategoryCollapse: React.FC<CategoryCollapseProps> = ({
 
 interface EquipmentItemSelectorProps {
   item: Item | Beast | Weapon | ArmorShields;
+  gold: number;
+  setGold: (value: number) => void;
 }
 
 const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   item,
+  gold,
+  setGold,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
+  const totalCost = item.costValue * quantity;
+  const canAffordItem = totalCost <= gold;
 
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
-    setIsChecked(e.target.checked);
+    const checked = e.target.checked;
+    if (checked) {
+      setGold(gold - totalCost);
+    } else {
+      setGold(gold + totalCost);
+    }
+    setIsChecked(checked);
+  };
+
+  const handleQuantityChange = (value: number | null) => {
+    if (value !== null) {
+      const difference = (value - quantity) * item.costValue;
+      setQuantity(value);
+
+      if (gold - difference >= 0) {
+        setGold(gold - difference);
+      } else {
+        setQuantity(quantity);
+      }
+    } else {
+      setQuantity(0);
+    }
   };
 
   let weight;
@@ -64,14 +102,21 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   return (
     <Paragraph>
       <Space direction="vertical">
-        <Checkbox onChange={handleCheckboxChange}>
+        <Checkbox disabled={!canAffordItem} onChange={handleCheckboxChange}>
           <Space direction="vertical">
             <Text strong>{item.name}</Text>
             <Text type="secondary">{`Cost: ${item.costValue} ${item.costCurrency}`}</Text>
             {weightElement}
           </Space>
         </Checkbox>
-        {isChecked && <InputNumber min={1} defaultValue={1} />}
+        {isChecked && (
+          <InputNumber
+            min={1}
+            defaultValue={1}
+            value={quantity}
+            onChange={handleQuantityChange}
+          />
+        )}
       </Space>
     </Paragraph>
   );
@@ -225,11 +270,36 @@ export default function CharEquipmentStep({
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
       <div>
-        <CategoryCollapse title="Items" dataRef={itemsRef} />
-        <CategoryCollapse title="Weapons" dataRef={weaponsRef} />
-        <CategoryCollapse title="Armor and Shields" dataRef={armorShieldsRef} />
-        <CategoryCollapse title="Beasts of Burden" dataRef={beastsRef} />
-        <CategoryCollapse title="Ammunition" dataRef={ammunitionRef} />
+        <CategoryCollapse
+          title="Items"
+          dataRef={itemsRef}
+          gold={gold}
+          setGold={setGold}
+        />
+        <CategoryCollapse
+          title="Weapons"
+          dataRef={weaponsRef}
+          gold={gold}
+          setGold={setGold}
+        />
+        <CategoryCollapse
+          title="Armor and Shields"
+          dataRef={armorShieldsRef}
+          gold={gold}
+          setGold={setGold}
+        />
+        <CategoryCollapse
+          title="Beasts of Burden"
+          dataRef={beastsRef}
+          gold={gold}
+          setGold={setGold}
+        />
+        <CategoryCollapse
+          title="Ammunition"
+          dataRef={ammunitionRef}
+          gold={gold}
+          setGold={setGold}
+        />
       </div>
     </>
   );
