@@ -115,7 +115,7 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
   };
 
   let weightElement = null;
-  let sizeElement;
+  let sizeElement = "";
 
   if ("weight" in item) {
     let weight: string | number = item.weight;
@@ -141,7 +141,6 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
                 weightElement +
                 sizeElement}
             </Typography.Text>
-            {weightElement}
           </Space>
         </Checkbox>
         {isChecked && (
