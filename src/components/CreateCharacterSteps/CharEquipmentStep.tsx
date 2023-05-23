@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -82,8 +83,6 @@ const EquipmentItemSelector: React.FC<EquipmentItemSelectorProps> = ({
       setQuantity(value);
 
       if (gold - difference >= 0) {
-        const costInGold =
-          item.costCurrency === "gp" ? item.costValue : item.costValue / 10;
         setGold(gold + (isChecked ? -difference : difference));
       } else {
         setQuantity(quantity);
@@ -152,8 +151,6 @@ type CharEquipmentStepProps = {
   equipment: {};
   setEquipment: (equipment: {}) => void;
 };
-
-const { Title } = Typography;
 
 export default function CharEquipmentStep({
   gold,
