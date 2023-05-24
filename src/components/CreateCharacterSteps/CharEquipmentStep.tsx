@@ -158,7 +158,7 @@ export default function CharEquipmentStep({
                 weight={weight}
                 setWeight={setWeight}
                 strength={strength}
-                radioGroup
+                radioGroup={"armor-and-shields" in cat.ref.current}
               />
             </Collapse.Panel>
           );
