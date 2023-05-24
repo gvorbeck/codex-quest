@@ -162,9 +162,6 @@ export default function CharEquipmentStep({
           <Typography.Title level={2}>Weight: {weight}</Typography.Title>
         </Space>
         <Typography.Title level={3}>Purchased Equipment</Typography.Title>
-        {/* {equipment.map((item) => (
-          <p>hello</p>
-        ))} */}
         {Object.keys(equipmentByCategory).map((category) => {
           return (
             <div key={category}>
