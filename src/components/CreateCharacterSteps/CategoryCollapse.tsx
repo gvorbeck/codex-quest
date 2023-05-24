@@ -15,12 +15,10 @@ export default function CategoryCollapse({
   setWeight,
   strength,
 }: CategoryCollapseProps) {
-  const items = Object.entries(dataRef.current);
-
   return (
     <>
       <Typography.Title level={2}>{title}</Typography.Title>
-      {items.map(([key, value], index) => (
+      {Object.entries(dataRef.current).map(([key, value], index) => (
         <React.Fragment key={index}>
           <Typography.Paragraph>
             <Typography.Text strong>{key}</Typography.Text>
