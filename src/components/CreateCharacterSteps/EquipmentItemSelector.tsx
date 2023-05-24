@@ -2,7 +2,7 @@ import { useState } from "react";
 import { EquipmentItemSelectorProps } from "../types";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
-import { InputNumber, Space, Typography } from "antd";
+import { InputNumber, Radio, Space, Typography } from "antd";
 
 export default function EquipmentItemSelector({
   item,
@@ -98,8 +98,8 @@ export default function EquipmentItemSelector({
   if ("size" in item)
     sizeElement = `, Size: ${item.size?.slice(0, 1).toUpperCase()}`;
 
-  return (
-    <Typography.Paragraph>
+  return !item.name.includes("Armor") ? (
+    <div>
       <Space direction="vertical">
         <Checkbox
           disabled={(!canAffordItem && !isChecked) || isDisabled}
@@ -132,6 +132,10 @@ export default function EquipmentItemSelector({
           />
         )}
       </Space>
-    </Typography.Paragraph>
+    </div>
+  ) : (
+    <Radio.Group>
+      <Radio>Need a way to add an armor thru radio</Radio>
+    </Radio.Group>
   );
 }
