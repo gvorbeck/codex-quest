@@ -114,7 +114,7 @@ export default function EquipmentItemSelector({
             </Typography.Text>
           </Space>
         </Checkbox>
-        {isChecked && (
+        {isChecked && !item.name.includes("Armor") && (
           <InputNumber
             min={1}
             max={
