@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Radio, Space, Typography } from "antd";
 import { CategoryCollapseProps } from "../types";
 import React from "react";
 import EquipmentItemSelector from "./EquipmentItemSelector";
@@ -19,27 +19,55 @@ export default function CategoryCollapse({
   return (
     <>
       <Typography.Title level={2}>{title}</Typography.Title>
-      {Object.entries(dataRef.current).map(([key, value], index) => (
-        <React.Fragment key={index}>
-          <Typography.Paragraph>
-            <Typography.Text strong>{key}</Typography.Text>
-          </Typography.Paragraph>
-          {value.map((item: any, itemIndex: number) => (
-            <EquipmentItemSelector
-              item={item}
-              key={itemIndex}
-              gold={gold}
-              setGold={setGold}
-              equipment={equipment}
-              setEquipment={setEquipment}
-              race={race}
-              weight={weight}
-              setWeight={setWeight}
-              strength={strength}
-            />
-          ))}
-        </React.Fragment>
-      ))}
+      {"armor-and-shields" in dataRef.current ? (
+        <Radio.Group>
+          <Space direction="vertical">
+            {Object.entries(dataRef.current).map(([key, value], index) => (
+              <React.Fragment key={index}>
+                <Typography.Paragraph>
+                  <Typography.Text strong>{key}</Typography.Text>
+                </Typography.Paragraph>
+                {value.map((item: any, itemIndex: number) => (
+                  <EquipmentItemSelector
+                    item={item}
+                    key={itemIndex}
+                    gold={gold}
+                    setGold={setGold}
+                    equipment={equipment}
+                    setEquipment={setEquipment}
+                    race={race}
+                    weight={weight}
+                    setWeight={setWeight}
+                    strength={strength}
+                  />
+                ))}
+              </React.Fragment>
+            ))}
+          </Space>
+        </Radio.Group>
+      ) : (
+        Object.entries(dataRef.current).map(([key, value], index) => (
+          <React.Fragment key={index}>
+            <Typography.Paragraph>
+              <Typography.Text strong>{key}</Typography.Text>
+            </Typography.Paragraph>
+            {value.map((item: any, itemIndex: number) => (
+              <EquipmentItemSelector
+                item={item}
+                key={itemIndex}
+                gold={gold}
+                setGold={setGold}
+                equipment={equipment}
+                setEquipment={setEquipment}
+                race={race}
+                weight={weight}
+                setWeight={setWeight}
+                strength={strength}
+              />
+            ))}
+          </React.Fragment>
+        ))
+      )}
     </>
   );
 }
