@@ -129,6 +129,5 @@ export default function EquipmentItemSelector({
     <Radio value={item} checked={item.name === selectedArmor?.name}>
       {item.name}
     </Radio>
-    // When selecting a radio button, the original armor is not being removed and instead I'm seeing multiple armors in `equipment`. When a radio is selected, the armor in `equipment` should be removed and the newly selected radio button should supply a new armor in `equipment`
   );
 }

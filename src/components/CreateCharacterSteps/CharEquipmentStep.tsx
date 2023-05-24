@@ -73,8 +73,7 @@ export default function CharEquipmentStep({
     const newArmor = e.target.value;
     // Remove previous armor from equipment
     const filteredEquipment = equipment.filter(
-      // (item) => item.category !== "armor-and-shields"
-      (item) => !("armor-and-chields" in item)
+      (item) => item.category !== "armor-and-shields"
     );
     // Add new armor to equipment
     setEquipment([...filteredEquipment, newArmor]);

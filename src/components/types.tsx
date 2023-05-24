@@ -92,6 +92,7 @@ export type CharEquipmentStepProps = {
 
 export type EquipmentType = (Item | Beast | Weapon | ArmorShields) & {
   quantity: number;
+  category?: string;
 };
 
 export interface CategoryCollapseProps {
