@@ -91,7 +91,7 @@ export type CharEquipmentStepProps = {
 };
 
 export type EquipmentType = (Item | Beast | Weapon | ArmorShields) & {
-  quantity: number;
+  quantity?: number;
   category?: string;
 };
 
