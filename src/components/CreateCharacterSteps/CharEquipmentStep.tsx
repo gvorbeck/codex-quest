@@ -95,6 +95,11 @@ export default function CharEquipmentStep({
       } catch (error) {
         console.error("Error fetching data from collections", error);
       }
+
+      const noArmor = armorShieldsRef.current["armor-and-shields"].find(
+        (item: ArmorShields) => item.name === "No Armor"
+      );
+      if (noArmor) setEquipment([...equipment, { ...noArmor, quantity: 1 }]);
     };
     fetchAllData();
   }, []);
@@ -139,22 +144,25 @@ export default function CharEquipmentStep({
           { title: "Other Weapons", ref: otherWeaponsRef },
           { title: "Ammunition", ref: ammunitionRef },
           { title: "Armor and Shields", ref: armorShieldsRef },
-        ].map((cat) => (
-          <Collapse.Panel header={cat.title} key={cat.title}>
-            <CategoryCollapse
-              title={cat.title}
-              dataRef={cat.ref}
-              gold={gold}
-              setGold={setGold}
-              equipment={equipment}
-              setEquipment={setEquipment}
-              race={race}
-              weight={weight}
-              setWeight={setWeight}
-              strength={strength}
-            />
-          </Collapse.Panel>
-        ))}
+        ].map((cat) => {
+          return (
+            <Collapse.Panel header={cat.title} key={cat.title}>
+              <CategoryCollapse
+                title={cat.title}
+                dataRef={cat.ref}
+                gold={gold}
+                setGold={setGold}
+                equipment={equipment}
+                setEquipment={setEquipment}
+                race={race}
+                weight={weight}
+                setWeight={setWeight}
+                strength={strength}
+                radioGroup
+              />
+            </Collapse.Panel>
+          );
+        })}
       </Collapse>
       <div>
         <Space>
@@ -175,7 +183,7 @@ export default function CharEquipmentStep({
               {toTitleCase(category)}
             </Typography.Title>
             {equipmentByCategory[category].map((item: any) => (
-              <Typography.Paragraph>
+              <Typography.Paragraph key={item.name}>
                 {item.name} x {item.quantity}
               </Typography.Paragraph>
             ))}

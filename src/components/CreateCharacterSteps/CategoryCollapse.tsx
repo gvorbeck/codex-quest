@@ -14,6 +14,7 @@ export default function CategoryCollapse({
   weight,
   setWeight,
   strength,
+  radioGroup,
 }: CategoryCollapseProps) {
   return (
     <>
