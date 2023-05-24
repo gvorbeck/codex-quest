@@ -13,6 +13,8 @@ import {
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { ArmorShields, CharEquipmentStepProps, Item, Weapon } from "../types";
 import CategoryCollapse from "./CategoryCollapse";
+import calculateCarryingCapacity from "../calculateCarryingCapacity";
+import { toTitleCase } from "../formatters";
 
 export default function CharEquipmentStep({
   gold,
@@ -44,6 +46,8 @@ export default function CharEquipmentStep({
   const otherWeaponsRef = useRef<Record<string, Weapon[]>>({});
   const ammunitionRef = useRef<Record<string, Weapon[]>>({});
   const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
+
+  const weightLevel = calculateCarryingCapacity(strength, race);
 
   const roller = new DiceRoller();
   const rollStartingGold = () => {
@@ -103,10 +107,6 @@ export default function CharEquipmentStep({
   };
   const equipmentByCategory = groupByCategory(equipment);
 
-  useEffect(() => {
-    console.log(equipment, weight);
-  }, [equipment, weight]);
-
   if (isLoading) {
     return <Spin />;
   }
@@ -160,20 +160,27 @@ export default function CharEquipmentStep({
         <Space>
           <Typography.Title level={2}>Gold: {gold}</Typography.Title>
           <Typography.Title level={2}>Weight: {weight}</Typography.Title>
+          {weight < weightLevel.light ? (
+            <Typography.Text type="success">Lightly Loaded</Typography.Text>
+          ) : weight < weightLevel.heavy ? (
+            <Typography.Text type="warning">Heavily Loaded</Typography.Text>
+          ) : (
+            <Typography.Text type="danger">At Capacity!</Typography.Text>
+          )}
         </Space>
         <Typography.Title level={3}>Purchased Equipment</Typography.Title>
-        {Object.keys(equipmentByCategory).map((category) => {
-          return (
-            <div key={category}>
-              <h3>{category}</h3>
-              {equipmentByCategory[category].map((item: any) => (
-                <p>
-                  {item.name} x {item.quantity}
-                </p>
-              ))}
-            </div>
-          );
-        })}
+        {Object.keys(equipmentByCategory).map((category) => (
+          <div key={category}>
+            <Typography.Title level={4}>
+              {toTitleCase(category)}
+            </Typography.Title>
+            {equipmentByCategory[category].map((item: any) => (
+              <Typography.Paragraph>
+                {item.name} x {item.quantity}
+              </Typography.Paragraph>
+            ))}
+          </div>
+        ))}
       </div>
     </>
   );
