@@ -6,6 +6,7 @@ import {
   Collapse,
   Divider,
   InputNumber,
+  RadioChangeEvent,
   Space,
   Spin,
   Typography,
@@ -47,6 +48,10 @@ export default function CharEquipmentStep({
   const ammunitionRef = useRef<Record<string, Weapon[]>>({});
   const armorShieldsRef = useRef<Record<string, ArmorShields[]>>({});
 
+  useEffect(() => {
+    console.log(equipment);
+  }, [equipment]);
+
   const weightLevel = calculateCarryingCapacity(strength, race);
 
   const roller = new DiceRoller();
@@ -60,6 +65,21 @@ export default function CharEquipmentStep({
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     event.target.select();
+  };
+
+  // Function to handle armor change
+  const handleArmorChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
+    const newArmor = e.target.value;
+    // Remove previous armor from equipment
+    const filteredEquipment = equipment.filter(
+      // (item) => item.category !== "armor-and-shields"
+      (item) => !("armor-and-chields" in item)
+    );
+    // Add new armor to equipment
+    setEquipment([...filteredEquipment, newArmor]);
+    // Update armorShields
+    setArmorShields([newArmor]);
   };
 
   const fetchData = async (
@@ -102,6 +122,7 @@ export default function CharEquipmentStep({
       if (noArmor) setEquipment([...equipment, { ...noArmor, quantity: 1 }]);
     };
     fetchAllData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const groupByCategory = (array: any[]) => {
@@ -159,6 +180,8 @@ export default function CharEquipmentStep({
                 setWeight={setWeight}
                 strength={strength}
                 radioGroup={"armor-and-shields" in cat.ref.current}
+                selectedArmor={armorShields[0]}
+                handleArmorChange={handleArmorChange}
               />
             </Collapse.Panel>
           );
@@ -182,8 +205,8 @@ export default function CharEquipmentStep({
             <Typography.Title level={4}>
               {toTitleCase(category)}
             </Typography.Title>
-            {equipmentByCategory[category].map((item: any) => (
-              <Typography.Paragraph key={item.name}>
+            {equipmentByCategory[category].map((item: any, index: number) => (
+              <Typography.Paragraph key={`${item.name}-${index}`}>
                 {item.name} x {item.quantity}
               </Typography.Paragraph>
             ))}

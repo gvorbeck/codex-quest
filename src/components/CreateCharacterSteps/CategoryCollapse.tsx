@@ -1,4 +1,4 @@
-import { Radio, Space, Typography } from "antd";
+import { Radio, RadioChangeEvent, Space, Typography } from "antd";
 import { CategoryCollapseProps } from "../types";
 import React from "react";
 import EquipmentItemSelector from "./EquipmentItemSelector";
@@ -15,12 +15,17 @@ export default function CategoryCollapse({
   setWeight,
   strength,
   radioGroup,
+  selectedArmor,
+  handleArmorChange,
 }: CategoryCollapseProps) {
   return (
     <>
       <Typography.Title level={2}>{title}</Typography.Title>
-      {"armor-and-shields" in dataRef.current ? (
-        <Radio.Group>
+      {radioGroup ? (
+        <Radio.Group
+          value={selectedArmor}
+          onChange={(e: RadioChangeEvent) => handleArmorChange(e)}
+        >
           <Space direction="vertical">
             {Object.entries(dataRef.current).map(([key, value], index) => (
               <React.Fragment key={index}>

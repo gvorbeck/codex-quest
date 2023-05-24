@@ -1,3 +1,5 @@
+import { RadioChangeEvent } from "antd";
+
 export type AbilityRecord = {
   key: string;
   ability: string;
@@ -103,6 +105,8 @@ export interface CategoryCollapseProps {
   setWeight: (weight: number) => void;
   strength: number;
   radioGroup?: boolean;
+  selectedArmor: ArmorShields;
+  handleArmorChange: (e: RadioChangeEvent) => void;
 }
 
 export type Capacity = { light: number; heavy: number };
