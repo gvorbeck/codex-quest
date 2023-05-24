@@ -118,7 +118,13 @@ export default function CharEquipmentStep({
       const noArmor = armorShieldsRef.current["armor-and-shields"].find(
         (item: ArmorShields) => item.name === "No Armor"
       );
-      if (noArmor) setEquipment([...equipment, { ...noArmor, quantity: 1 }]);
+      if (
+        noArmor &&
+        equipment.filter((equipmentItem) =>
+          equipmentItem.name.includes("Armor")
+        ).length === 0
+      )
+        setEquipment([...equipment, { ...noArmor }]);
     };
     fetchAllData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -189,7 +195,9 @@ export default function CharEquipmentStep({
       <div>
         <Space>
           <Typography.Title level={2}>Gold: {gold}</Typography.Title>
-          <Typography.Title level={2}>Weight: {weight}</Typography.Title>
+          <Typography.Title level={2}>
+            Weight: {Math.trunc(weight)}
+          </Typography.Title>
           {weight < weightLevel.light ? (
             <Typography.Text type="success">Lightly Loaded</Typography.Text>
           ) : weight < weightLevel.heavy ? (

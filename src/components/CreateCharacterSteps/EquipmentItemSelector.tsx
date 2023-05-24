@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArmorShields, EquipmentItemSelectorProps } from "../types";
+import { EquipmentItemSelectorProps } from "../types";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
 import { InputNumber, Radio, Space, Typography } from "antd";
