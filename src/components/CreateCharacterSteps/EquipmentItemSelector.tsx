@@ -126,5 +126,10 @@ export default function EquipmentItemSelector({
     </div>
   ) : (
     <Radio value={item}>{item.name}</Radio>
+    //     Okay. We're almost there. Two bugs I'm seeing:
+
+    // 1)  When CharEquipmentStep component loads, no armor radio buttons are selected. However in CharEquipmentStep I'm specifying a default option.
+
+    // 2) When selecting a radio button, the original armor is not being removed and instead I'm seeing multiple armors in `equipment`. When a radio is selected, the armor in `equipment` should be removed and the newly selected radio button should supply a new armor in `equipment`
   );
 }
