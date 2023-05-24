@@ -26,15 +26,6 @@ export default function EquipmentItemSelector({
     weight > calculateCarryingCapacity(strength, race).heavy;
   const isDisabled = (isLargeWeapon && isHalflingOrDwarf) || isOverburdened;
 
-  console.log(
-    isDisabled,
-    isOverburdened,
-    weight,
-    race,
-    strength,
-    calculateCarryingCapacity(strength, race)
-  );
-
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
     const costInGold =
@@ -134,8 +125,10 @@ export default function EquipmentItemSelector({
       </Space>
     </div>
   ) : (
-    <Radio.Group>
-      <Radio>Need a way to add an armor thru radio</Radio>
-    </Radio.Group>
+    // <Radio.Group>
+    //   <Space direction="vertical">
+    <Radio>{item.name}</Radio>
+    //   </Space>
+    // </Radio.Group>
   );
 }

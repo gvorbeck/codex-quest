@@ -73,9 +73,9 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [equipment, setEquipment] = useState<EquipmentType[]>([]);
   const [weight, setWeight] = useState(0);
 
-  useEffect(() => {
-    console.log({ abilities, abilityModifiers, race, playerClass });
-  }, [abilities, abilityModifiers, race, playerClass]);
+  // useEffect(() => {
+  //   console.log({ abilities, abilityModifiers, race, playerClass });
+  // }, [abilities, abilityModifiers, race, playerClass]);
 
   const steps = [
     {
