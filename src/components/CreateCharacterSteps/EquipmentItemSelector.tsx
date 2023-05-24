@@ -125,10 +125,6 @@ export default function EquipmentItemSelector({
       </Space>
     </div>
   ) : (
-    // <Radio.Group>
-    //   <Space direction="vertical">
     <Radio>{item.name}</Radio>
-    //   </Space>
-    // </Radio.Group>
   );
 }
