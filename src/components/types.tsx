@@ -57,6 +57,7 @@ export interface EquipmentItemSelectorProps {
   weight: number;
   setWeight: (weight: number) => void;
   strength: number;
+  selectedArmor?: ArmorShields;
 }
 
 export interface Beast {

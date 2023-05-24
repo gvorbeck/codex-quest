@@ -68,6 +68,7 @@ export default function CategoryCollapse({
                 weight={weight}
                 setWeight={setWeight}
                 strength={strength}
+                selectedArmor={selectedArmor}
               />
             ))}
           </React.Fragment>

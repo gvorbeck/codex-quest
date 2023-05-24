@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EquipmentItemSelectorProps } from "../types";
+import { ArmorShields, EquipmentItemSelectorProps } from "../types";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
 import { InputNumber, Radio, Space, Typography } from "antd";
@@ -14,6 +14,7 @@ export default function EquipmentItemSelector({
   weight,
   setWeight,
   strength,
+  selectedArmor,
 }: EquipmentItemSelectorProps) {
   const [isChecked, setIsChecked] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -125,11 +126,9 @@ export default function EquipmentItemSelector({
       </Space>
     </div>
   ) : (
-    <Radio value={item}>{item.name}</Radio>
-    //     Okay. We're almost there. Two bugs I'm seeing:
-
-    // 1)  When CharEquipmentStep component loads, no armor radio buttons are selected. However in CharEquipmentStep I'm specifying a default option.
-
-    // 2) When selecting a radio button, the original armor is not being removed and instead I'm seeing multiple armors in `equipment`. When a radio is selected, the armor in `equipment` should be removed and the newly selected radio button should supply a new armor in `equipment`
+    <Radio value={item} checked={item.name === selectedArmor?.name}>
+      {item.name}
+    </Radio>
+    // When selecting a radio button, the original armor is not being removed and instead I'm seeing multiple armors in `equipment`. When a radio is selected, the armor in `equipment` should be removed and the newly selected radio button should supply a new armor in `equipment`
   );
 }
