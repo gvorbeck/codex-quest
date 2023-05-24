@@ -117,42 +117,44 @@ export default function CharEquipmentStep({
         </Button>
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
-      <Space>
-        <Collapse>
-          {[
-            { title: "Items", ref: itemsRef },
-            { title: "Axes", ref: axesRef },
-            { title: "Bows", ref: bowsRef },
-            { title: "Daggers", ref: daggersRef },
-            { title: "Swords", ref: swordsRef },
-            { title: "Hammers-Maces", ref: hammersMacesRef },
-            { title: "Other Weapons", ref: otherWeaponsRef },
-            { title: "Ammunition", ref: ammunitionRef },
-            { title: "Armor and Shields", ref: armorShieldsRef },
-          ].map((cat) => (
-            <Collapse.Panel header={cat.title} key={cat.title}>
-              <CategoryCollapse
-                title={cat.title}
-                dataRef={cat.ref}
-                gold={gold}
-                setGold={setGold}
-                equipment={equipment}
-                setEquipment={setEquipment}
-                race={race}
-                weight={weight}
-                setWeight={setWeight}
-                strength={strength}
-              />
-            </Collapse.Panel>
-          ))}
-        </Collapse>
-        <div>
-          <div>
-            <Typography.Title level={2}>Gold: {gold}</Typography.Title>
-            <Typography.Title level={2}>Weight: {weight}</Typography.Title>
-          </div>
-        </div>
-      </Space>
+      <Collapse>
+        {[
+          { title: "Items", ref: itemsRef },
+          { title: "Axes", ref: axesRef },
+          { title: "Bows", ref: bowsRef },
+          { title: "Daggers", ref: daggersRef },
+          { title: "Swords", ref: swordsRef },
+          { title: "Hammers-Maces", ref: hammersMacesRef },
+          { title: "Other Weapons", ref: otherWeaponsRef },
+          { title: "Ammunition", ref: ammunitionRef },
+          { title: "Armor and Shields", ref: armorShieldsRef },
+        ].map((cat) => (
+          <Collapse.Panel header={cat.title} key={cat.title}>
+            <CategoryCollapse
+              title={cat.title}
+              dataRef={cat.ref}
+              gold={gold}
+              setGold={setGold}
+              equipment={equipment}
+              setEquipment={setEquipment}
+              race={race}
+              weight={weight}
+              setWeight={setWeight}
+              strength={strength}
+            />
+          </Collapse.Panel>
+        ))}
+      </Collapse>
+      <div>
+        <Space>
+          <Typography.Title level={2}>Gold: {gold}</Typography.Title>
+          <Typography.Title level={2}>Weight: {weight}</Typography.Title>
+        </Space>
+        <Typography.Title level={3}>Purchased Equipment</Typography.Title>
+        {equipment.map((item) => (
+          <p>hello</p>
+        ))}
+      </div>
     </>
   );
 }
