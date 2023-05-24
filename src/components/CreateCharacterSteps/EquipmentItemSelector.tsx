@@ -125,6 +125,6 @@ export default function EquipmentItemSelector({
       </Space>
     </div>
   ) : (
-    <Radio>{item.name}</Radio>
+    <Radio value={item}>{item.name}</Radio>
   );
 }
