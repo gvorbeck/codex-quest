@@ -103,3 +103,6 @@ export interface CategoryCollapseProps {
   setWeight: (weight: number) => void;
   strength: number;
 }
+
+export type Capacity = { light: number; heavy: number };
+export type CapacityMap = Record<string, Capacity>;
