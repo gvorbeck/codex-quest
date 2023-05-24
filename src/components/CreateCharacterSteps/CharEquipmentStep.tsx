@@ -65,7 +65,10 @@ export default function CharEquipmentStep({
   ) => {
     const coll = collection(db, collectionName);
     const snapshot = await getDocs(coll);
-    const dataArray = snapshot.docs.map((doc) => doc.data());
+    const dataArray = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      category: collectionName,
+    }));
     setStateFunc(dataArray);
     dataRef.current[collectionName] = dataArray;
   };
@@ -91,6 +94,14 @@ export default function CharEquipmentStep({
     };
     fetchAllData();
   }, []);
+
+  const groupByCategory = (array: any[]) => {
+    return array.reduce((result: any, item: any) => {
+      (result[item.category] = result[item.category] || []).push(item);
+      return result;
+    }, {});
+  };
+  const equipmentByCategory = groupByCategory(equipment);
 
   useEffect(() => {
     console.log(equipment, weight);
@@ -151,9 +162,21 @@ export default function CharEquipmentStep({
           <Typography.Title level={2}>Weight: {weight}</Typography.Title>
         </Space>
         <Typography.Title level={3}>Purchased Equipment</Typography.Title>
-        {equipment.map((item) => (
+        {/* {equipment.map((item) => (
           <p>hello</p>
-        ))}
+        ))} */}
+        {Object.keys(equipmentByCategory).map((category) => {
+          return (
+            <div key={category}>
+              <h3>{category}</h3>
+              {equipmentByCategory[category].map((item: any) => (
+                <p>
+                  {item.name} x {item.quantity}
+                </p>
+              ))}
+            </div>
+          );
+        })}
       </div>
     </>
   );
