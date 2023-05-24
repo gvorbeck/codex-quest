@@ -102,6 +102,7 @@ export interface CategoryCollapseProps {
   weight: number;
   setWeight: (weight: number) => void;
   strength: number;
+  radioGroup?: boolean;
 }
 
 export type Capacity = { light: number; heavy: number };
