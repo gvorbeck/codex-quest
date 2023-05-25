@@ -102,7 +102,7 @@ export default function CharEquipmentStep({
         </Button>
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
-      <Collapse>
+      <Collapse accordion>
         {equipmentCategories
           .sort((a, b) => a.localeCompare(b))
           .map((cat) => (
