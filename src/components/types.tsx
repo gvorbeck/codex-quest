@@ -97,6 +97,10 @@ export type CharEquipmentStepProps = {
   strength: number;
 };
 
+export type EquipmentCheckboxProps = {
+  itemName: string;
+};
+
 // export type EquipmentType = (Item | Beast | Weapon | ArmorShields) & {
 //   quantity: number;
 // };
