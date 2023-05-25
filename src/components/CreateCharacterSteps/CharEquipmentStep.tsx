@@ -3,7 +3,16 @@ import { CharEquipmentStepProps, EquipmentItem } from "../types";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { Button, Collapse, Divider, InputNumber, Space, Spin } from "antd";
+import {
+  Button,
+  Checkbox,
+  Collapse,
+  Divider,
+  InputNumber,
+  Radio,
+  Space,
+  Spin,
+} from "antd";
 import { toTitleCase } from "../formatters";
 
 const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -12,8 +21,12 @@ const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
 
 const roller = new DiceRoller();
 
+function RadioItem(item: EquipmentItem) {
+  return <Radio>{item.name}</Radio>;
+}
+
 function Item(item: EquipmentItem) {
-  return <div>hello world</div>;
+  return <Checkbox>{item.name}</Checkbox>;
 }
 
 export default function CharEquipmentStep({
@@ -97,17 +110,37 @@ export default function CharEquipmentStep({
               header={toTitleCase(cat.replaceAll("-", " "))}
               key={cat}
             >
-              {equipmentItems
-                .filter((catItem) => catItem.category === cat)
-                .map((item) => (
-                  <Item
-                    key={item.name}
-                    name={item.name}
-                    costValue={item.costValue}
-                    costCurrency={item.costCurrency}
-                    category={item.category}
-                  />
-                ))}
+              {cat !== "armor-and-shields" ? (
+                <Space direction="vertical">
+                  {equipmentItems
+                    .filter((catItem) => catItem.category === cat)
+                    .map((item) => (
+                      <Item
+                        key={item.name}
+                        name={item.name}
+                        costValue={item.costValue}
+                        costCurrency={item.costCurrency}
+                        category={item.category}
+                      />
+                    ))}
+                </Space>
+              ) : (
+                <Radio.Group>
+                  <Space direction="vertical">
+                    {equipmentItems
+                      .filter((catItem) => catItem.category === cat)
+                      .map((item) => (
+                        <RadioItem
+                          key={item.name}
+                          name={item.name}
+                          costValue={item.costValue}
+                          costCurrency={item.costCurrency}
+                          category={item.category}
+                        />
+                      ))}
+                  </Space>
+                </Radio.Group>
+              )}
             </Collapse.Panel>
           ))}
       </Collapse>
