@@ -1,5 +1,3 @@
-import { RadioChangeEvent } from "antd";
-
 export type AbilityRecord = {
   key: string;
   ability: string;
