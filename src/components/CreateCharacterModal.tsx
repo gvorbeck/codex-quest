@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Modal, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
 import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
 import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
-import { EquipmentType } from "./types";
+import { EquipmentItem } from "./types";
 
 const characterData = {
   abilities: {
@@ -70,7 +70,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [hitPoints, setHitPoints] = useState(0);
   const [hitDice, setHitDice] = useState("");
   const [gold, setGold] = useState(characterData.gold);
-  const [equipment, setEquipment] = useState<EquipmentType[]>([]);
+  const [equipment, setEquipment] = useState<EquipmentItem[]>([]);
   const [weight, setWeight] = useState(0);
 
   // useEffect(() => {
