@@ -120,5 +120,5 @@ export type EquipmentCheckboxProps = {
 //   radioGroup?: boolean;
 // }
 
-// export type Capacity = { light: number; heavy: number };
-// export type CapacityMap = Record<string, Capacity>;
+export type Capacity = { light: number; heavy: number };
+export type CapacityMap = Record<string, Capacity>;
