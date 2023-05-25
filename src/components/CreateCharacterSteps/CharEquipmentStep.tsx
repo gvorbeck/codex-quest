@@ -111,6 +111,7 @@ export default function CharEquipmentStep({
     fetchEquipment();
 
     console.log(race, strength, weightRestrictions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
