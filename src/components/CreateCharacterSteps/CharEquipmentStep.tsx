@@ -22,8 +22,8 @@ const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
 
 const roller = new DiceRoller();
 
-function RadioItem(item: EquipmentItem) {
-  return <Radio>{item.name}</Radio>;
+function RadioItem({ item }: { item: EquipmentItem }) {
+  return <Radio value={item.name}>{item.name}</Radio>;
 }
 
 function Item(item: EquipmentItem) {
@@ -44,6 +44,9 @@ export default function CharEquipmentStep({
   const [equipmentCategories, setEquipmentCategories] = useState<
     string[] | null
   >(null);
+  const [armorSelection, setArmorSelection] = useState<EquipmentItem | null>(
+    null
+  );
 
   const rollStartingGold = () => {
     const result = roller.roll("3d6*10");
@@ -61,6 +64,17 @@ export default function CharEquipmentStep({
 
   const updateStartingGold = (startingGold: number | null) =>
     startingGold !== null && setGold(startingGold);
+
+  const updateArmorSelection = (itemName: string) => {
+    const item = equipmentItems.find((item) => item.name === itemName);
+    if (item) {
+      const updatedEquipment = equipment.filter(
+        (notArmor: EquipmentItem) => notArmor.category !== "armor-and-shields"
+      );
+      setEquipment([...updatedEquipment, item]);
+      setArmorSelection(item);
+    }
+  };
 
   useEffect(() => {
     const fetchEquipment = async () => {
@@ -81,8 +95,25 @@ export default function CharEquipmentStep({
 
   useEffect(() => {
     setEquipmentCategories(getCategories());
+    const noArmorItem = equipmentItems.find(
+      (noArmor: EquipmentItem) => noArmor.name === "No Armor"
+    );
+
+    if (noArmorItem) {
+      setArmorSelection(noArmorItem);
+
+      // Add the no armor item to the equipment array if it doesn't exist yet
+      if (!equipment.find((item) => item.name === noArmorItem.name)) {
+        setEquipment([...equipment, noArmorItem]);
+      }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [equipmentItems]);
+
+  useEffect(() => {
+    console.log(equipment);
+  }, [equipment]);
 
   if (!equipmentCategories) return <Spin />;
 
@@ -126,18 +157,15 @@ export default function CharEquipmentStep({
                     ))}
                 </Space>
               ) : (
-                <Radio.Group>
+                <Radio.Group
+                  value={armorSelection ? armorSelection.name : null}
+                  onChange={(e) => updateArmorSelection(e.target.value)}
+                >
                   <Space direction="vertical">
                     {equipmentItems
                       .filter((catItem) => catItem.category === cat)
                       .map((item) => (
-                        <RadioItem
-                          key={item.name}
-                          name={item.name}
-                          costValue={item.costValue}
-                          costCurrency={item.costCurrency}
-                          category={item.category}
-                        />
+                        <RadioItem key={item.name} item={item} />
                       ))}
                   </Space>
                 </Radio.Group>
