@@ -84,6 +84,7 @@ export interface EquipmentItem {
   size?: string;
   damage?: string;
   AC?: string | number;
+  amount: number;
 }
 
 export type CharEquipmentStepProps = {
