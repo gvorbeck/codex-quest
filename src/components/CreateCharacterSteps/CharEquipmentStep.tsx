@@ -34,6 +34,7 @@ function EquipmentRadio({ item }: { item: EquipmentItem }) {
         <Typography.Text strong>{item.name}</Typography.Text>
         <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
         <Typography.Text>{`AC: ${item.AC}`}</Typography.Text>
+        <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
       </Space>
     </Radio>
   );
@@ -85,6 +86,11 @@ export default function CharEquipmentStep({
     }
   };
 
+  /**
+   * Side-effect for when component mounts
+   * Fetches "equipment" collection from Firestore and adds "amount" property to each element
+   * Sets the equipmentItems state array
+   */
   useEffect(() => {
     const fetchEquipment = async () => {
       try {
@@ -92,6 +98,7 @@ export default function CharEquipmentStep({
         const snapshot = await getDocs(coll);
         const dataArray = snapshot.docs.map((doc) => ({
           ...(doc.data() as EquipmentItem),
+          amount: 1,
         }));
         setEquipmentItems(dataArray);
       } catch (error) {
@@ -102,6 +109,12 @@ export default function CharEquipmentStep({
     fetchEquipment();
   }, []);
 
+  /**
+   * Side-effect for when equipmentItems are retrieved from Firestore.
+   * Sets equipmentCategories state array
+   * Sets armorSelection state object
+   * Adds "No Armor" object to equipment state array
+   */
   useEffect(() => {
     setEquipmentCategories(getCategories());
     const noArmorItem = equipmentItems.find(
@@ -111,7 +124,7 @@ export default function CharEquipmentStep({
     if (noArmorItem) {
       setArmorSelection(noArmorItem);
 
-      // Add the no armor item to the equipment array if it doesn't exist yet
+      // Add the "No Armor" item to the equipment array if it doesn't exist yet
       if (!equipment.find((item) => item.name === noArmorItem.name)) {
         setEquipment([...equipment, noArmorItem]);
       }
@@ -128,17 +141,76 @@ export default function CharEquipmentStep({
     itemName,
   }) => {
     const item = equipmentItems.find((item) => item.name === itemName);
+
     if (!item) return null;
+
+    const realCost =
+      item.costCurrency === "gp"
+        ? item.costValue
+        : item.costCurrency === "sp"
+        ? item.costValue / 10
+        : item.costValue / 100;
 
     const updatedEquipmentSelections =
       (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
-        // Handle checbox change event here
-        // You can use item and event here
+        if (event.target.checked) {
+          setEquipment([...equipment, item]);
+          setGold(gold - realCost * item.amount);
+        } else {
+          setEquipment(
+            [...equipment].filter(
+              (equipmentItem) => equipmentItem.name !== item.name
+            )
+          );
+          setGold(gold + realCost * item.amount);
+          item.amount = 1;
+        }
       };
+
+    const handleAmountChange = (value: number | null) => {
+      if (value !== null) {
+        const prevAmount = item.amount;
+        const delta = value - prevAmount; // calculate the change in amount
+        setGold(gold - realCost * delta); // update the gold
+        item.amount = value; // update the item amount
+      }
+    };
+
+    const isChecked = equipment.some(
+      (equipmentItem) => equipmentItem.name === item.name
+    );
+
     return (
-      <Checkbox onChange={updatedEquipmentSelections(item)}>
-        {item.name}
-      </Checkbox>
+      <Space direction="vertical">
+        <Checkbox
+          onChange={updatedEquipmentSelections(item)}
+          checked={isChecked}
+          disabled={!isChecked && gold <= 0 && realCost >= gold}
+        >
+          <Space direction="vertical">
+            <Typography.Text strong>{item.name}</Typography.Text>
+            <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
+            {item.weight && (
+              <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
+            )}
+            {item.damage && (
+              <Typography.Text>{`Damage: ${item.damage}`}</Typography.Text>
+            )}
+            {item.size && (
+              <Typography.Text>{`Size: ${item.size}`}</Typography.Text>
+            )}
+          </Space>
+        </Checkbox>
+        {isChecked && (
+          <InputNumber
+            min={1}
+            defaultValue={1}
+            max={Math.floor(gold / realCost)}
+            onChange={handleAmountChange}
+            value={item.amount}
+          />
+        )}
+      </Space>
     );
   };
 
@@ -154,7 +226,7 @@ export default function CharEquipmentStep({
           onChange={(value: number | null) => setGold(value || 0)}
           onFocus={handleFocus}
           type="number"
-          value={gold}
+          value={+gold.toFixed(2)}
         />
         <Button type="primary" onClick={rollStartingGold}>
           Roll 3d6x10
@@ -186,7 +258,10 @@ export default function CharEquipmentStep({
                     {equipmentItems
                       .filter((catItem) => catItem.category === cat)
                       .map((item) => (
-                        <EquipmentRadio key={item.name} item={item} />
+                        <React.Fragment key={item.name}>
+                          <EquipmentRadio item={item} />
+                          <Divider />
+                        </React.Fragment>
                       ))}
                   </Space>
                 </Radio.Group>
