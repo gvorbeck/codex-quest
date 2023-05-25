@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
-import { CharEquipmentStepProps, EquipmentItem } from "../types";
+import React, { useEffect, useState } from "react";
+import {
+  CharEquipmentStepProps,
+  EquipmentItem,
+  EquipmentCheckboxProps,
+} from "../types";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
@@ -12,9 +16,10 @@ import {
   Radio,
   Space,
   Spin,
+  Typography,
 } from "antd";
 import { toTitleCase } from "../formatters";
-import React from "react";
+import { CheckboxChangeEvent } from "antd/es/checkbox";
 
 const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
   event.target.select();
@@ -22,12 +27,16 @@ const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
 
 const roller = new DiceRoller();
 
-function RadioItem({ item }: { item: EquipmentItem }) {
-  return <Radio value={item.name}>{item.name}</Radio>;
-}
-
-function Item(item: EquipmentItem) {
-  return <Checkbox>{item.name}</Checkbox>;
+function EquipmentRadio({ item }: { item: EquipmentItem }) {
+  return (
+    <Radio value={item.name}>
+      <Space direction="vertical">
+        <Typography.Text strong>{item.name}</Typography.Text>
+        <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
+        <Typography.Text>{`AC: ${item.AC}`}</Typography.Text>
+      </Space>
+    </Radio>
+  );
 }
 
 export default function CharEquipmentStep({
@@ -115,6 +124,24 @@ export default function CharEquipmentStep({
     console.log(equipment);
   }, [equipment]);
 
+  const EquipmentCheckbox: React.FC<EquipmentCheckboxProps> = ({
+    itemName,
+  }) => {
+    const item = equipmentItems.find((item) => item.name === itemName);
+    if (!item) return null;
+
+    const updatedEquipmentSelections =
+      (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
+        // Handle checbox change event here
+        // You can use item and event here
+      };
+    return (
+      <Checkbox onChange={updatedEquipmentSelections(item)}>
+        {item.name}
+      </Checkbox>
+    );
+  };
+
   if (!equipmentCategories) return <Spin />;
 
   return (
@@ -147,13 +174,7 @@ export default function CharEquipmentStep({
                   {equipmentItems
                     .filter((catItem) => catItem.category === cat)
                     .map((item) => (
-                      <Item
-                        key={item.name}
-                        name={item.name}
-                        costValue={item.costValue}
-                        costCurrency={item.costCurrency}
-                        category={item.category}
-                      />
+                      <EquipmentCheckbox key={item.name} itemName={item.name} />
                     ))}
                 </Space>
               ) : (
@@ -165,7 +186,7 @@ export default function CharEquipmentStep({
                     {equipmentItems
                       .filter((catItem) => catItem.category === cat)
                       .map((item) => (
-                        <RadioItem key={item.name} item={item} />
+                        <EquipmentRadio key={item.name} item={item} />
                       ))}
                   </Space>
                 </Radio.Group>
