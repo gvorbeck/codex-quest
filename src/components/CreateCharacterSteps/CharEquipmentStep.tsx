@@ -20,6 +20,7 @@ import {
 } from "antd";
 import { toTitleCase } from "../formatters";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
+import calculateCarryingCapacity from "../calculateCarryingCapacity";
 
 const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
   event.target.select();
@@ -57,6 +58,8 @@ export default function CharEquipmentStep({
   const [armorSelection, setArmorSelection] = useState<EquipmentItem | null>(
     null
   );
+
+  const weightRestrictions = calculateCarryingCapacity(strength, race);
 
   const rollStartingGold = () => {
     const result = roller.roll("3d6*10");
@@ -105,8 +108,9 @@ export default function CharEquipmentStep({
         console.error("Error fetching equipment: ", error);
       }
     };
-
     fetchEquipment();
+
+    console.log(race, strength, weightRestrictions);
   }, []);
 
   /**
