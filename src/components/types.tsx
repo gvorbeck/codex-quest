@@ -112,6 +112,26 @@ export type PurchasedEquipmentProps = {
   equipment: EquipmentItem[];
 };
 
+export type EquipmentSelectorProps = {
+  armorSelection: EquipmentItem | null;
+  equipment: EquipmentItem[];
+  equipmentCategories: string[];
+  equipmentItems: EquipmentItem[];
+  gold: number;
+  handleWeightChange: () => void;
+  race: string;
+  setEquipment: (equipment: EquipmentItem[]) => void;
+  setGold: (gold: number) => void;
+  updateArmorSelection: any;
+  weight: number;
+  weightRestrictions: any;
+};
+
+export type CharNameStepProps = {
+  name: string;
+  setName: (name: string) => void;
+};
+
 export type SpellItem = {
   name: string;
 };
