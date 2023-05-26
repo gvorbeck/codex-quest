@@ -21,6 +21,7 @@ import {
 import { toTitleCase } from "../formatters";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
+import PurchasedEquipment from "./PurchasedEquipment";
 
 const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
   event.target.select();
@@ -270,54 +271,57 @@ export default function CharEquipmentStep({
         </Button>
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
-      <Collapse accordion>
-        {equipmentCategories
-          .sort((a, b) => a.localeCompare(b))
-          .map((cat) => (
-            <Collapse.Panel
-              header={toTitleCase(cat.replaceAll("-", " "))}
-              key={cat}
-            >
-              {cat !== "armor-and-shields" ? (
-                <Space direction="vertical">
-                  {equipmentItems
-                    .filter((catItem) => catItem.category === cat)
-                    .map((item) => (
-                      <EquipmentCheckbox
-                        key={item.name}
-                        itemName={item.name}
-                        equipmentItems={equipmentItems}
-                        equipment={equipment}
-                        setEquipment={setEquipment}
-                        setGold={setGold}
-                        gold={gold}
-                        handleWeightChange={handleWeightChange}
-                        weight={weight}
-                        weightRestrictions={weightRestrictions}
-                        race={race}
-                      />
-                    ))}
-                </Space>
-              ) : (
-                <Radio.Group
-                  value={armorSelection ? armorSelection.name : null}
-                  onChange={(e) => updateArmorSelection(e.target.value)}
-                >
+      <Space>
+        <Collapse accordion>
+          {equipmentCategories
+            .sort((a, b) => a.localeCompare(b))
+            .map((cat) => (
+              <Collapse.Panel
+                header={toTitleCase(cat.replaceAll("-", " "))}
+                key={cat}
+              >
+                {cat !== "armor-and-shields" ? (
                   <Space direction="vertical">
                     {equipmentItems
                       .filter((catItem) => catItem.category === cat)
                       .map((item) => (
-                        <React.Fragment key={item.name}>
-                          <EquipmentRadio item={item} />
-                          <Divider />
-                        </React.Fragment>
+                        <EquipmentCheckbox
+                          key={item.name}
+                          itemName={item.name}
+                          equipmentItems={equipmentItems}
+                          equipment={equipment}
+                          setEquipment={setEquipment}
+                          setGold={setGold}
+                          gold={gold}
+                          handleWeightChange={handleWeightChange}
+                          weight={weight}
+                          weightRestrictions={weightRestrictions}
+                          race={race}
+                        />
                       ))}
                   </Space>
-                </Radio.Group>
-              )}
-            </Collapse.Panel>
-          ))}
-      </Collapse>
+                ) : (
+                  <Radio.Group
+                    value={armorSelection ? armorSelection.name : null}
+                    onChange={(e) => updateArmorSelection(e.target.value)}
+                  >
+                    <Space direction="vertical">
+                      {equipmentItems
+                        .filter((catItem) => catItem.category === cat)
+                        .map((item) => (
+                          <React.Fragment key={item.name}>
+                            <EquipmentRadio item={item} />
+                            <Divider />
+                          </React.Fragment>
+                        ))}
+                    </Space>
+                  </Radio.Group>
+                )}
+              </Collapse.Panel>
+            ))}
+        </Collapse>
+        <PurchasedEquipment gold={gold} weight={weight} equipment={equipment} />
+      </Space>
     </>
   );
 }
