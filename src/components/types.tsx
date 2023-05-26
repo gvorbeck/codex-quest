@@ -104,3 +104,8 @@ export type EquipmentSelectorProps = {
   weight: number;
   weightRestrictions: any;
 };
+
+export type CharNameStepProps = {
+  name: string;
+  setName: (name: string) => void;
+};

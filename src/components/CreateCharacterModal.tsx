@@ -6,6 +6,7 @@ import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
 import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
 import { EquipmentItem } from "./types";
+import CharNameStep from "./CreateCharacterSteps/CharNameStep";
 
 const characterData = {
   abilities: {
@@ -72,6 +73,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [gold, setGold] = useState(characterData.gold);
   const [equipment, setEquipment] = useState<EquipmentItem[]>([]);
   const [weight, setWeight] = useState(0);
+  const [name, setName] = useState("");
 
   // useEffect(() => {
   //   console.log({ abilities, abilityModifiers, race, playerClass });
@@ -171,7 +173,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       title: "Name",
       fullTitle: "Name your character",
       description: nameDescription,
-      content: "dar",
+      content: <CharNameStep name={name} setName={setName} />,
     },
   ];
 
