@@ -28,6 +28,101 @@ const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
 
 const roller = new DiceRoller();
 
+const EquipmentCheckbox = ({
+  itemName,
+  equipmentItems,
+  equipment,
+  setEquipment,
+  setGold,
+  gold,
+  handleWeightChange,
+  weight,
+  weightRestrictions,
+  race,
+}: EquipmentCheckboxProps) => {
+  const item = equipmentItems.find((item) => item.name === itemName);
+  const isHalflingOrDwarf = race === "Halfling" || race === "Dwarf";
+
+  if (!item) return null;
+
+  const realCost =
+    item.costCurrency === "gp"
+      ? item.costValue
+      : item.costCurrency === "sp"
+      ? item.costValue / 10
+      : item.costValue / 100;
+
+  const updatedEquipmentSelections =
+    (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
+      if (event.target.checked) {
+        setEquipment([...equipment, item]);
+        setGold(gold - realCost * item.amount);
+      } else {
+        setEquipment(
+          [...equipment].filter(
+            (equipmentItem) => equipmentItem.name !== item.name
+          )
+        );
+        setGold(gold + realCost * item.amount);
+        item.amount = 1;
+      }
+    };
+
+  const handleAmountChange = (value: number | null) => {
+    if (value !== null) {
+      const prevAmount = item.amount;
+      const delta = value - prevAmount; // calculate the change in amount
+      setGold(gold - realCost * delta); // update the gold
+      item.amount = value; // update the item amount
+      handleWeightChange();
+    }
+  };
+
+  const isChecked = equipment.some(
+    (equipmentItem) => equipmentItem.name === item.name
+  );
+
+  return (
+    <Space direction="vertical">
+      <Checkbox
+        onChange={updatedEquipmentSelections(item)}
+        checked={isChecked}
+        disabled={
+          (!isChecked && gold <= 0) ||
+          (!isChecked && realCost > gold) ||
+          (!isChecked && weight >= weightRestrictions.heavy) ||
+          (isHalflingOrDwarf && item.size === "L")
+        }
+      >
+        <Space direction="vertical">
+          <Typography.Text strong>{item.name}</Typography.Text>
+          <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
+          {item.weight && (
+            <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
+          )}
+          {item.damage && (
+            <Typography.Text>{`Damage: ${item.damage}`}</Typography.Text>
+          )}
+          {item.size && (
+            <Typography.Text>{`Size: ${item.size}`}</Typography.Text>
+          )}
+        </Space>
+      </Checkbox>
+      {isChecked && (
+        <InputNumber
+          min={1}
+          defaultValue={1}
+          disabled={
+            gold <= 0 || realCost > gold || weight >= weightRestrictions.heavy
+          }
+          onChange={handleAmountChange}
+          value={item.amount}
+        />
+      )}
+    </Space>
+  );
+};
+
 function EquipmentRadio({ item }: { item: EquipmentItem }) {
   return (
     <Radio value={item.name}>
@@ -89,6 +184,14 @@ export default function CharEquipmentStep({
     }
   };
 
+  const handleWeightChange = () => {
+    let newWeight = 0;
+    equipment.forEach(
+      (item) => item.weight && (newWeight += item.weight * item.amount)
+    );
+    setWeight(newWeight);
+  };
+
   /**
    * Side-effect for when component mounts
    * Fetches "equipment" collection from Firestore and adds "amount" property to each element
@@ -140,84 +243,13 @@ export default function CharEquipmentStep({
 
   useEffect(() => {
     console.log(equipment);
+    handleWeightChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [equipment]);
 
-  const EquipmentCheckbox: React.FC<EquipmentCheckboxProps> = ({
-    itemName,
-  }) => {
-    const item = equipmentItems.find((item) => item.name === itemName);
-
-    if (!item) return null;
-
-    const realCost =
-      item.costCurrency === "gp"
-        ? item.costValue
-        : item.costCurrency === "sp"
-        ? item.costValue / 10
-        : item.costValue / 100;
-
-    const updatedEquipmentSelections =
-      (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
-        if (event.target.checked) {
-          setEquipment([...equipment, item]);
-          setGold(gold - realCost * item.amount);
-        } else {
-          setEquipment(
-            [...equipment].filter(
-              (equipmentItem) => equipmentItem.name !== item.name
-            )
-          );
-          setGold(gold + realCost * item.amount);
-          item.amount = 1;
-        }
-      };
-
-    const handleAmountChange = (value: number | null) => {
-      if (value !== null) {
-        const prevAmount = item.amount;
-        const delta = value - prevAmount; // calculate the change in amount
-        setGold(gold - realCost * delta); // update the gold
-        item.amount = value; // update the item amount
-      }
-    };
-
-    const isChecked = equipment.some(
-      (equipmentItem) => equipmentItem.name === item.name
-    );
-
-    return (
-      <Space direction="vertical">
-        <Checkbox
-          onChange={updatedEquipmentSelections(item)}
-          checked={isChecked}
-          disabled={!isChecked && gold <= 0 && realCost >= gold}
-        >
-          <Space direction="vertical">
-            <Typography.Text strong>{item.name}</Typography.Text>
-            <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
-            {item.weight && (
-              <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
-            )}
-            {item.damage && (
-              <Typography.Text>{`Damage: ${item.damage}`}</Typography.Text>
-            )}
-            {item.size && (
-              <Typography.Text>{`Size: ${item.size}`}</Typography.Text>
-            )}
-          </Space>
-        </Checkbox>
-        {isChecked && (
-          <InputNumber
-            min={1}
-            defaultValue={1}
-            max={Math.floor(gold / realCost)}
-            onChange={handleAmountChange}
-            value={item.amount}
-          />
-        )}
-      </Space>
-    );
-  };
+  useEffect(() => {
+    console.log(weight);
+  }, [weight]);
 
   if (!equipmentCategories) return <Spin />;
 
@@ -251,7 +283,19 @@ export default function CharEquipmentStep({
                   {equipmentItems
                     .filter((catItem) => catItem.category === cat)
                     .map((item) => (
-                      <EquipmentCheckbox key={item.name} itemName={item.name} />
+                      <EquipmentCheckbox
+                        key={item.name}
+                        itemName={item.name}
+                        equipmentItems={equipmentItems}
+                        equipment={equipment}
+                        setEquipment={setEquipment}
+                        setGold={setGold}
+                        gold={gold}
+                        handleWeightChange={handleWeightChange}
+                        weight={weight}
+                        weightRestrictions={weightRestrictions}
+                        race={race}
+                      />
                     ))}
                 </Space>
               ) : (
