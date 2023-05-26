@@ -45,6 +45,28 @@ export type CharAbilityScoreStepProps = {
   setHitPoints: (hitPoints: number) => void;
 };
 
+export type CharClassStepProps = {
+  abilities: {
+    strength: number;
+    intelligence: number;
+    wisdom: number;
+    dexterity: number;
+    constitution: number;
+    charisma: number;
+  };
+  race: string;
+  playerClass: string;
+  setPlayerClass: (playerClass: string) => void;
+  comboClass: boolean;
+  setComboClass: (comboClass: boolean) => void;
+  checkedClasses: string[];
+  setCheckedClasses: (checkedClasses: string[]) => void;
+  setHitDice: (hitDice: string) => void;
+  setHitPoints: (hitPoints: number) => void;
+  spells: SpellItem[];
+  setSpells: (spells: SpellItem[]) => void;
+};
+
 export interface EquipmentItem {
   name: string;
   costValue: number;
@@ -88,4 +110,8 @@ export type PurchasedEquipmentProps = {
   gold: number;
   weight: number;
   equipment: EquipmentItem[];
+};
+
+export type SpellItem = {
+  name: string;
 };
