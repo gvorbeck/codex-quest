@@ -1,141 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  CharEquipmentStepProps,
-  EquipmentItem,
-  EquipmentCheckboxProps,
-} from "../types";
+import { CharEquipmentStepProps, EquipmentItem } from "../types";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import {
-  Button,
-  Checkbox,
-  Collapse,
-  Divider,
-  InputNumber,
-  Radio,
-  Space,
-  Spin,
-  Typography,
-} from "antd";
-import { toTitleCase } from "../formatters";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Button, Divider, InputNumber, Space, Spin } from "antd";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import PurchasedEquipment from "./PurchasedEquipment";
+import EquipmentSelector from "./EquipmentSelector";
 
 const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
   event.target.select();
 };
 
 const roller = new DiceRoller();
-
-const EquipmentCheckbox = ({
-  itemName,
-  equipmentItems,
-  equipment,
-  setEquipment,
-  setGold,
-  gold,
-  handleWeightChange,
-  weight,
-  weightRestrictions,
-  race,
-}: EquipmentCheckboxProps) => {
-  const item = equipmentItems.find((item) => item.name === itemName);
-  const isHalflingOrDwarf = race === "Halfling" || race === "Dwarf";
-
-  if (!item) return null;
-
-  const realCost =
-    item.costCurrency === "gp"
-      ? item.costValue
-      : item.costCurrency === "sp"
-      ? item.costValue / 10
-      : item.costValue / 100;
-
-  const updatedEquipmentSelections =
-    (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
-      if (event.target.checked) {
-        setEquipment([...equipment, item]);
-        setGold(gold - realCost * item.amount);
-      } else {
-        setEquipment(
-          [...equipment].filter(
-            (equipmentItem) => equipmentItem.name !== item.name
-          )
-        );
-        setGold(gold + realCost * item.amount);
-        item.amount = 1;
-      }
-    };
-
-  const handleAmountChange = (value: number | null) => {
-    if (value !== null) {
-      const prevAmount = item.amount;
-      const delta = value - prevAmount; // calculate the change in amount
-      setGold(gold - realCost * delta); // update the gold
-      item.amount = value; // update the item amount
-      handleWeightChange();
-    }
-  };
-
-  const isChecked = equipment.some(
-    (equipmentItem) => equipmentItem.name === item.name
-  );
-
-  return (
-    <Space direction="vertical">
-      <Checkbox
-        onChange={updatedEquipmentSelections(item)}
-        checked={isChecked}
-        disabled={
-          (!isChecked && gold <= 0) ||
-          (!isChecked && realCost > gold) ||
-          (!isChecked && weight >= weightRestrictions.heavy) ||
-          (isHalflingOrDwarf && item.size === "L")
-        }
-      >
-        <Space direction="vertical">
-          <Typography.Text strong>{item.name}</Typography.Text>
-          <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
-          {item.weight && (
-            <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
-          )}
-          {item.damage && (
-            <Typography.Text>{`Damage: ${item.damage}`}</Typography.Text>
-          )}
-          {item.size && (
-            <Typography.Text>{`Size: ${item.size}`}</Typography.Text>
-          )}
-        </Space>
-      </Checkbox>
-      {isChecked && (
-        <InputNumber
-          min={1}
-          defaultValue={1}
-          disabled={
-            gold <= 0 || realCost > gold || weight >= weightRestrictions.heavy
-          }
-          onChange={handleAmountChange}
-          value={item.amount}
-        />
-      )}
-    </Space>
-  );
-};
-
-function EquipmentRadio({ item }: { item: EquipmentItem }) {
-  return (
-    <Radio value={item.name}>
-      <Space direction="vertical">
-        <Typography.Text strong>{item.name}</Typography.Text>
-        <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
-        <Typography.Text>{`AC: ${item.AC}`}</Typography.Text>
-        <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
-      </Space>
-    </Radio>
-  );
-}
 
 export default function CharEquipmentStep({
   gold,
@@ -214,7 +91,6 @@ export default function CharEquipmentStep({
     };
     fetchEquipment();
 
-    console.log(race, strength, weightRestrictions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -243,14 +119,9 @@ export default function CharEquipmentStep({
   }, [equipmentItems]);
 
   useEffect(() => {
-    console.log(equipment);
     handleWeightChange();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [equipment]);
-
-  useEffect(() => {
-    console.log(weight);
-  }, [weight]);
 
   if (!equipmentCategories) return <Spin />;
 
@@ -272,54 +143,20 @@ export default function CharEquipmentStep({
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
       <Space>
-        <Collapse accordion>
-          {equipmentCategories
-            .sort((a, b) => a.localeCompare(b))
-            .map((cat) => (
-              <Collapse.Panel
-                header={toTitleCase(cat.replaceAll("-", " "))}
-                key={cat}
-              >
-                {cat !== "armor-and-shields" ? (
-                  <Space direction="vertical">
-                    {equipmentItems
-                      .filter((catItem) => catItem.category === cat)
-                      .map((item) => (
-                        <EquipmentCheckbox
-                          key={item.name}
-                          itemName={item.name}
-                          equipmentItems={equipmentItems}
-                          equipment={equipment}
-                          setEquipment={setEquipment}
-                          setGold={setGold}
-                          gold={gold}
-                          handleWeightChange={handleWeightChange}
-                          weight={weight}
-                          weightRestrictions={weightRestrictions}
-                          race={race}
-                        />
-                      ))}
-                  </Space>
-                ) : (
-                  <Radio.Group
-                    value={armorSelection ? armorSelection.name : null}
-                    onChange={(e) => updateArmorSelection(e.target.value)}
-                  >
-                    <Space direction="vertical">
-                      {equipmentItems
-                        .filter((catItem) => catItem.category === cat)
-                        .map((item) => (
-                          <React.Fragment key={item.name}>
-                            <EquipmentRadio item={item} />
-                            <Divider />
-                          </React.Fragment>
-                        ))}
-                    </Space>
-                  </Radio.Group>
-                )}
-              </Collapse.Panel>
-            ))}
-        </Collapse>
+        <EquipmentSelector
+          armorSelection={armorSelection}
+          equipment={equipment}
+          equipmentCategories={equipmentCategories}
+          equipmentItems={equipmentItems}
+          gold={gold}
+          handleWeightChange={handleWeightChange}
+          race={race}
+          setEquipment={setEquipment}
+          setGold={setGold}
+          updateArmorSelection={updateArmorSelection}
+          weight={weight}
+          weightRestrictions={weightRestrictions}
+        />
         <PurchasedEquipment gold={gold} weight={weight} equipment={equipment} />
       </Space>
     </>
