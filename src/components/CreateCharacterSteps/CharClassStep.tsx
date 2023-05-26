@@ -2,28 +2,9 @@ import { Checkbox, Radio, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect } from "react";
+import { CharClassStepProps } from "../types";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
-
-type CharClassStepProps = {
-  abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  };
-  race: string;
-  playerClass: string;
-  setPlayerClass: (playerClass: string) => void;
-  comboClass: boolean;
-  setComboClass: (comboClass: boolean) => void;
-  checkedClasses: string[];
-  setCheckedClasses: (checkedClasses: string[]) => void;
-  setHitDice: (hitDice: string) => void;
-  setHitPoints: (hitPoints: number) => void;
-};
 
 export default function CharClassStep({
   abilities,
