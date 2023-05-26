@@ -4,8 +4,8 @@ import { Input, Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
 import { CharNameStepProps } from "../types";
-// import { storage } from "../../firebase";
-// import { UploadTaskSnapshot } from "firebase/storage";
+import { storage, ref, uploadBytes } from "../../firebase";
+import { getDownloadURL } from "firebase/storage";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -40,8 +40,55 @@ export default function CharNameStep({ name, setName }: CharNameStepProps) {
     );
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChange: UploadProps["onChange"] = async ({
+    fileList: newFileList,
+  }) => {
+    // Validate file type, size, or dimensions here
+    const allowedTypes = ["image/jpeg", "image/png"]; // Allowed file types
+    const maxSize = 5 * 1024 * 1024; // Maximum file size in bytes (5MB)
+
+    const filteredList = newFileList.filter((file) => {
+      const isAllowedType = file.type
+        ? allowedTypes.includes(file.type)
+        : false;
+      const isBelowMaxSize = file.size ? file.size <= maxSize : false;
+      // You can also add validation for dimensions here if needed
+
+      if (!isAllowedType) {
+        console.log(`${file.name} is not an allowed file type.`);
+      }
+      if (!isBelowMaxSize) {
+        console.log(`${file.name} exceeds the maximum file size.`);
+      }
+
+      return isAllowedType && isBelowMaxSize;
+    });
+
+    setFileList(filteredList);
+
+    // Upload the file to Firebase Storage
+    for (const file of filteredList) {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj as RcFile);
+      }
+
+      const directory = "avatars";
+      const fileName = `${directory}/${file.name}`;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytes(storageRef, file.originFileObj as Blob);
+
+      uploadTask
+        .then(() => {
+          // Upload completed successfully
+          getDownloadURL(storageRef).then((downloadURL) => {
+            console.log("Download URL:", downloadURL);
+          });
+        })
+        .catch((error: Error) => {
+          console.log("Upload error:", error);
+        });
+    }
+  };
 
   const uploadButton = (
     <div>
@@ -53,7 +100,6 @@ export default function CharNameStep({ name, setName }: CharNameStepProps) {
   return (
     <>
       <Upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
