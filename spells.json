@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Animate Dead",
+    "range": "30'",
+    "class": "Cleric, Magic-User",
+    "level": {
+      "cleric": 4,
+      "magic-user": 5
+    },
+    "duration": "special",
+    "description": "The casting of this spell causes the mortal remains of one or more deceased creatures to arise as animated skeletons or zombies. Such undead monsters persist until slain and obey the verbal commands of the caster.\n\nA single casting of this spell may animate a number of hit dice of undead equal to twice the caster's level of ability, and no more. Animated skeletons have hit dice equal to the number the creature had in life; for skeletons of members of player character races, this means one hit die, regardless of the character level of the deceased. Zombies have one more hit die than the creature had in life.\n\nThe sort of monsters created depends on the condition of the remains. A reasonably intact corpse may only arise as a zombie, while similarly intact skeletal remains may only be animated as a skeleton. The caster chooses which remains are animated when casting the spell, in any case where there are more bodies than the caster can animate.\n\nNo character may normally control more hit dice of undead than 4 times their level, regardless of how many times this spell is cast."
+  },
+  {
+    "name": "Animate Objects",
+    "range": "100'+10'/level",
+    "class": "Cleric",
+    "level": {
+      "cleric": 6,
+      "magic-user": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell allows the caster to animate objects that are normally inanimate, such that they may move and even appear to be alive. Objects to be animated may not be in the possession (worn or carried) of any creature, and must be non-magical in nature. The caster can animate one object per level, up to a maximum of 25 lbs. per caster level (i.e. 300 lbs. at 12th level, 325 lbs. at 13th level, and so on).\n\nSuch objects are normally used to attack the enemies of the caster, and the GM must rule on their effectiveness in combat. In general, animated objects attack using the same attack bonus as the caster. Small or lightweight objects do no more than 1d4 damage per hit, while larger and/or heavier objects do 1d6 or 1d8 (at the GM's discretion). As a special case, weapons which are animated do damage using the normal die roll for the type, but only up to a maximum 1d8. Animated objects have a movement rate of 10', and generally must move in contact with the ground (walking, hopping, slithering, or bouncing, however seems most appropriate to the GM)."
+  },
+  {
+    "name": "Anti-Magic Shell",
+    "range": "10' radius",
+    "class": "Magic-User",
+    "level": {
+      "cleric": null,
+      "magic-user": 6
+    },
+    "duration": "1 turn/level",
+    "description": "This spell creates a barrier of flying, spinning, flashing blades. The caster may choose a barrier up to 20' high which extends up to 20' long per level of caster, or a ring-shaped barrier up to 20' high with a radius of up to 5' per each two full caster levels (so 30' at level 12 or 13, 35' at level 14 or 15, and so on).\n\nShould any creature pass through the wall, it suffers 1d6 points of damage per caster level, with a maximum damage of 15d6. A successful save vs. Death Ray reduces damage by half.\n\nThe caster may choose to conjure the wall in an area where creatures are already located; if this is done, all such creatures are harmed as if they passed through the wall, but a successful save vs. Death Ray in this case indicates that the creature has avoided all damage by jumping to one side or the other of the wall as chosen by the creature.\n\nAny ranged attacks passing through a blade barrier suffer a penalty of -4 on the attack roll."
+  },
+  {
+    "name": "Bless",
+    "range": "50' radius",
+    "class": "Cleric",
+    "level": {
+      "cleric": 2,
+      "magic-user": null
+    },
+    "duration": "1 minute/level",
+    "description": "Within a 10' radius around the caster, all magic is negated for the full duration of the spell. Magical attacks will not affect the caster, magic items and spells within the radius are suppressed, and the caster cannot perform further magic until the spell has expired."
+  },
+  {
+    "name": "Blade Barrier",
+    "range": "90'",
+    "class": "Cleric",
+    "level": {
+      "cleric": 6,
+      "magic-user": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell gives the caster and their allies within a 50' radius a bonus of +1 on all attack rolls, morale checks (for monsters or NPCs allied with the caster), and saving throws vs. any kind of magical fear. Casters of the 7th or higher level grant a bonus of +2 to attacks and saves vs. fear, but the morale bonus remains +1.\n\nThe reverse of bless is called bane. The caster's enemies within a 50' radius become fearful and uncertain, causing them to suffer a penalty of -1 on attack rolls, morale checks, and saving throws vs. any kind of magical fear. Casters of the 7th or higher level apply a penalty of -2 to attacks and saves vs. fear, but the morale penalty remains -1."
+  }
+]
