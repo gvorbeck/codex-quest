@@ -100,6 +100,15 @@ export type CharEquipmentStepProps = {
 
 export type EquipmentCheckboxProps = {
   itemName: string;
+  equipmentItems: EquipmentItem[];
+  equipment: EquipmentItem[];
+  setEquipment: (equipment: EquipmentItem[]) => void;
+  setGold: (gold: number) => void;
+  gold: number;
+  handleWeightChange: () => void;
+  weight: number;
+  weightRestrictions: any;
+  race: string;
 };
 
 // export type EquipmentType = (Item | Beast | Weapon | ArmorShields) & {
