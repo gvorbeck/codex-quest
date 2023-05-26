@@ -17,6 +17,8 @@ export default function CharClassStep({
   setCheckedClasses,
   setHitDice,
   setHitPoints,
+  spells,
+  setSpells,
 }: CharClassStepProps) {
   useEffect(() => {
     if (comboClass) {
@@ -110,6 +112,7 @@ export default function CharClassStep({
           </Space>
         </Radio.Group>
       )}
+      {playerClass.includes("Magic-User") && <div>MAGIC-USER!!!!</div>}
     </>
   );
 }
