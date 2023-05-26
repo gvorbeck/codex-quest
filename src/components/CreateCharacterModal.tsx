@@ -218,6 +218,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         return playerClass !== "";
       case 3:
         return hitPoints !== 0;
+      case 4:
+        return gold !== 0;
       default:
         return true;
     }
