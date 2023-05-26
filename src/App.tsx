@@ -11,6 +11,7 @@ import { db } from "./firebase.js"; // import Firestore instance
 import { Layout } from "antd";
 import HeaderContent from "./components/HeaderContent";
 import CharacterList from "./components/CharacterList";
+import FooterContent from "./components/FooterContent";
 
 const { Header, Footer, Content } = Layout;
 
@@ -59,7 +60,9 @@ function App() {
       <Content>
         <CharacterList />
       </Content>
-      <Footer></Footer>
+      <Footer>
+        <FooterContent />
+      </Footer>
     </Layout>
   );
 }
