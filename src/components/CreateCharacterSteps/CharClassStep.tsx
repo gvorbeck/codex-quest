@@ -1,11 +1,12 @@
-import { Checkbox, List, Radio, Space, Switch } from "antd";
+import { Checkbox, Radio, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { useEffect } from "react";
-import { CharClassStepProps } from "../types";
+import { useEffect, useState } from "react";
+import { CharClassStepProps, SpellType } from "../types";
 import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
+const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
 export default function CharClassStep({
   abilities,
@@ -21,6 +22,8 @@ export default function CharClassStep({
   spells,
   setSpells,
 }: CharClassStepProps) {
+  const [firstSpell, setFirstSpell] = useState<SpellType | null>(null);
+
   useEffect(() => {
     if (comboClass) {
       setPlayerClass(checkedClasses.join(" "));
@@ -40,10 +43,21 @@ export default function CharClassStep({
     setHitPoints(0);
   };
 
-  const onRadioChange = (e: RadioChangeEvent) => {
+  const onClassRadioChange = (e: RadioChangeEvent) => {
     setPlayerClass(e.target.value);
     setHitDice("");
     setHitPoints(0);
+    if (e.target.value === "Magic-User") setSpells(readMagic);
+  };
+
+  const onSpellRadioChange = (e: RadioChangeEvent) => {
+    const foundSpell = spellsData.find(
+      (spell) => spell.name === e.target.value
+    );
+    if (foundSpell) {
+      setFirstSpell(foundSpell);
+      setSpells([...readMagic, foundSpell]);
+    }
   };
 
   const onSwitchChange = (checked: boolean) => {
@@ -92,7 +106,7 @@ export default function CharClassStep({
           ))}
         </Space>
       ) : (
-        <Radio.Group value={playerClass} onChange={onRadioChange}>
+        <Radio.Group value={playerClass} onChange={onClassRadioChange}>
           <Space direction="vertical">
             {classChoices.map((choice) => (
               <Radio
@@ -114,7 +128,10 @@ export default function CharClassStep({
         </Radio.Group>
       )}
       {playerClass.includes("Magic-User") && (
-        <Radio.Group onChange={() => console.log("foo")} value={spells}>
+        <Radio.Group
+          onChange={onSpellRadioChange}
+          value={firstSpell ? firstSpell.name : null}
+        >
           <Space direction="vertical">
             {spellsData
               .filter(
@@ -122,7 +139,9 @@ export default function CharClassStep({
                   spell.level["magic-user"] === 1 && spell.name !== "Read Magic"
               )
               .map((spell) => (
-                <Radio>{spell.name}</Radio>
+                <Radio key={spell.name} value={spell.name}>
+                  {spell.name}
+                </Radio>
               ))}
           </Space>
         </Radio.Group>
