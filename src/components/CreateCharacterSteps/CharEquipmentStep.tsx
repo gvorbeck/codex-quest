@@ -23,8 +23,9 @@ export default function CharEquipmentStep({
   weight,
   setWeight,
   strength,
+  equipmentItems,
+  setEquipmentItems,
 }: CharEquipmentStepProps) {
-  const [equipmentItems, setEquipmentItems] = useState<EquipmentItem[]>([]);
   const [equipmentCategories, setEquipmentCategories] = useState<
     string[] | null
   >(null);
@@ -76,21 +77,22 @@ export default function CharEquipmentStep({
    * Sets the equipmentItems state array
    */
   useEffect(() => {
-    const fetchEquipment = async () => {
-      try {
-        const coll = collection(db, "equipment");
-        const snapshot = await getDocs(coll);
-        const dataArray = snapshot.docs.map((doc) => ({
-          ...(doc.data() as EquipmentItem),
-          amount: 1,
-        }));
-        setEquipmentItems(dataArray);
-      } catch (error) {
-        console.error("Error fetching equipment: ", error);
-      }
-    };
-    fetchEquipment();
-
+    if (equipmentItems.length === 0) {
+      const fetchEquipment = async () => {
+        try {
+          const coll = collection(db, "equipment");
+          const snapshot = await getDocs(coll);
+          const dataArray = snapshot.docs.map((doc) => ({
+            ...(doc.data() as EquipmentItem),
+            amount: 1,
+          }));
+          setEquipmentItems(dataArray);
+        } catch (error) {
+          console.error("Error fetching equipment: ", error);
+        }
+      };
+      fetchEquipment();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

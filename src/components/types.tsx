@@ -88,6 +88,8 @@ export type CharEquipmentStepProps = {
   weight: number;
   setWeight: (weight: number) => void;
   strength: number;
+  equipmentItems: EquipmentItem[];
+  setEquipmentItems: (equipmentItem: EquipmentItem[]) => void;
 };
 
 export type EquipmentCheckboxProps = {
@@ -135,3 +137,14 @@ export type CharNameStepProps = {
 export type SpellItem = {
   name: string;
 };
+
+export interface SpellType {
+  name: string;
+  range: string;
+  level: {
+    cleric: number | null;
+    "magic-user": number | null;
+  };
+  duration: string;
+  description: string;
+}
