@@ -13,6 +13,27 @@ import HeaderContent from "./components/HeaderContent";
 import CharacterList from "./components/CharacterList";
 import FooterContent from "./components/FooterContent";
 
+// TODOS
+// GRAND SCHEME:
+// MAYBE ONE STATE OBJECT CALLED "CHARACTER" INSTEAD OF 1298239873493587????
+// MOVE EQUIPMENT OUT OF FIRESTORE AND INTO JSON
+
+// BUILDER:
+// - ARMOR NOT COSTING GOLD
+// - WEIGHT MAXES AND LABELS
+// - "DONE" FUNCTION
+// - TEST IMG UPLOAD ON PROD
+
+// NPM RUN BUILD HAD LARGE BUNDLE WARNING:
+// - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
+// - ANALYZE BUNDLE SIZE: https://create-react-app.dev/docs/analyzing-the-bundle-size/
+
+// LIST CHARS
+// - CARDS FOR CREATED CHARACTERS
+
+// INTERACTIVE CHARACTER SHEET
+console.log("THERE ARE STILL TODOS!!!!");
+
 const { Header, Footer, Content } = Layout;
 
 function App() {
