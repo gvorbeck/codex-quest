@@ -1,8 +1,9 @@
-import { Checkbox, Radio, Space, Switch } from "antd";
+import { Checkbox, List, Radio, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect } from "react";
 import { CharClassStepProps } from "../types";
+import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
 
@@ -112,7 +113,20 @@ export default function CharClassStep({
           </Space>
         </Radio.Group>
       )}
-      {playerClass.includes("Magic-User") && <div>MAGIC-USER!!!!</div>}
+      {playerClass.includes("Magic-User") && (
+        <Radio.Group onChange={() => console.log("foo")} value={spells}>
+          <Space direction="vertical">
+            {spellsData
+              .filter(
+                (spell) =>
+                  spell.level["magic-user"] === 1 && spell.name !== "Read Magic"
+              )
+              .map((spell) => (
+                <Radio>{spell.name}</Radio>
+              ))}
+          </Space>
+        </Radio.Group>
+      )}
     </>
   );
 }
