@@ -72,6 +72,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [hitDice, setHitDice] = useState("");
   const [gold, setGold] = useState(characterData.gold);
   const [equipment, setEquipment] = useState<EquipmentItem[]>([]);
+  const [equipmentItems, setEquipmentItems] = useState<EquipmentItem[]>([]);
   const [weight, setWeight] = useState(0);
   const [name, setName] = useState("");
   const [spells, setSpells] = useState<SpellItem[]>([]);
@@ -165,6 +166,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           weight={weight}
           setWeight={setWeight}
           strength={abilities.strength}
+          equipmentItems={equipmentItems}
+          setEquipmentItems={setEquipmentItems}
         />
       ),
     },
@@ -221,6 +224,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         return hitPoints !== 0;
       case 4:
         return gold !== 0;
+      case 5:
+        return name;
       default:
         return true;
     }
@@ -251,7 +256,11 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button type="primary" onClick={() => console.log("foo")}>
+          <Button
+            type="primary"
+            onClick={() => console.log("foo")}
+            disabled={!isNextButtonEnabled(current)}
+          >
             Done
           </Button>
         )}
