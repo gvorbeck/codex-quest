@@ -51,7 +51,7 @@ const equipmentDescription =
   "Roll for your character's starting gold. You can click the Roll button or use your own dice and record your amount below. Next, it's time to purchase your character's starting equipment. Keep in mind that your character's Race may limit types and amounts of equipment they can carry due to size and carrying capacity restrictions.";
 
 const nameDescription =
-  "You're almost done. Personalize your newly minted character by giving them a name. Also, upload a portrait image if you'd like. IMAGE REQUIREMENTS!!!";
+  "You're almost done! Personalize your newly minted character by giving them a name. Optionally, upload a portrait image if you'd like. IMAGE REQUIREMENTS!!!";
 
 type CreateCharacterModalProps = {
   isModalOpen: boolean;
