@@ -1,49 +1,48 @@
-export type AbilityRecord = {
+export interface CharacterData {
+  abilities: {
+    scores: {
+      strength: number;
+      intelligence: number;
+      wisdom: number;
+      dexterity: number;
+      constitution: number;
+      charisma: number;
+    };
+    modifiers: {
+      strength: number;
+      intelligence: number;
+      wisdom: number;
+      dexterity: number;
+      constitution: number;
+      charisma: number;
+    };
+  };
+  class: string;
+  race: string;
+  hp: {
+    dice: string;
+    points: number;
+  };
+}
+
+interface CharSteps {
+  characterData: CharacterData;
+  setCharacterData: (characterData: CharacterData) => void;
+}
+export interface CharAbilityScoreStepProps extends CharSteps {
+  setComboClass: (comboClass: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+}
+export interface CharRaceStepProps extends CharSteps {
+  setComboClass: (comboxClass: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+}
+
+export interface AbilityRecord {
   key: string;
   ability: string;
   score: number;
-};
-
-export type CharAbilityScoreStepProps = {
-  abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  };
-  setAbilities: (abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  }) => void;
-  abilityModifiers: {
-    strength: string;
-    intelligence: string;
-    wisdom: string;
-    dexterity: string;
-    constitution: string;
-    charisma: string;
-  };
-  setAbilityModifiers: (abilityModifiers: {
-    strength: string;
-    intelligence: string;
-    wisdom: string;
-    dexterity: string;
-    constitution: string;
-    charisma: string;
-  }) => void;
-  setPlayerClass: (playerClass: string) => void;
-  setComboClass: (comboClass: boolean) => void;
-  setCheckedClasses: (checkedClasses: string[]) => void;
-  setRace: (race: string) => void;
-  setHitDice: (hitDice: string) => void;
-  setHitPoints: (hitPoints: number) => void;
-};
+}
 
 export type CharClassStepProps = {
   abilities: {
