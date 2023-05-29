@@ -77,6 +77,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       dice: "",
       points: 0,
     },
+    spells: [],
   });
 
   const steps = [
@@ -106,27 +107,21 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         />
       ),
     },
-    // {
-    //   title: "Class",
-    //   fullTitle: "Choose a Class",
-    //   description: classDescription,
-    //   content: (
-    //     <CharClassStep
-    //       abilities={abilities}
-    //       race={race}
-    //       playerClass={playerClass}
-    //       setPlayerClass={setPlayerClass}
-    //       comboClass={comboClass}
-    //       setComboClass={setComboClass}
-    //       checkedClasses={checkedClasses}
-    //       setCheckedClasses={setCheckedClasses}
-    //       setHitPoints={setHitPoints}
-    //       setHitDice={setHitDice}
-    //       spells={spells}
-    //       setSpells={setSpells}
-    //     />
-    //   ),
-    // },
+    {
+      title: "Class",
+      fullTitle: "Choose a Class",
+      description: classDescription,
+      content: (
+        <CharClassStep
+          comboClass={comboClass}
+          setComboClass={setComboClass}
+          checkedClasses={checkedClasses}
+          setCheckedClasses={setCheckedClasses}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+        />
+      ),
+    },
     // {
     //   title: "Hit Points",
     //   fullTitle: "Roll for Hit Points",

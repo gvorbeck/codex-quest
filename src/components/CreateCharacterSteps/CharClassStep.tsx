@@ -2,31 +2,26 @@ import { Checkbox, Radio, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useState } from "react";
-import { CharClassStepProps, SpellType } from "../types";
+import { CharClassStepProps, SpellType, Spell } from "../types";
 import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
+console.log(readMagic);
 
 export default function CharClassStep({
-  abilities,
-  race,
-  playerClass,
-  setPlayerClass,
+  characterData,
+  setCharacterData,
   comboClass,
   setComboClass,
   checkedClasses,
   setCheckedClasses,
-  setHitDice,
-  setHitPoints,
-  spells,
-  setSpells,
 }: CharClassStepProps) {
   const [firstSpell, setFirstSpell] = useState<SpellType | null>(null);
 
   useEffect(() => {
     if (comboClass) {
-      setPlayerClass(checkedClasses.join(" "));
+      setCharacterData({ ...characterData, class: checkedClasses.join(" ") });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedClasses, comboClass]);
@@ -39,15 +34,19 @@ export default function CharClassStep({
         checkedClasses.filter((item) => item !== e.target.value)
       );
     }
-    setHitDice("");
-    setHitPoints(0);
+    setCharacterData({ ...characterData, hp: { dice: "", points: 0 } });
   };
 
   const onClassRadioChange = (e: RadioChangeEvent) => {
-    setPlayerClass(e.target.value);
-    setHitDice("");
-    setHitPoints(0);
-    if (e.target.value === "Magic-User") setSpells(readMagic);
+    const classValue = e.target.value;
+    const spells = classValue === "Magic-User" ? readMagic : [];
+
+    setCharacterData({
+      ...characterData,
+      class: classValue,
+      hp: { dice: "", points: 0 },
+      spells,
+    });
   };
 
   const onSpellRadioChange = (e: RadioChangeEvent) => {
@@ -56,25 +55,33 @@ export default function CharClassStep({
     );
     if (foundSpell) {
       setFirstSpell(foundSpell);
-      setSpells([...readMagic, foundSpell]);
+      setCharacterData({
+        ...characterData,
+        spells: [...readMagic, foundSpell],
+      });
     }
   };
 
   const onSwitchChange = (checked: boolean) => {
     if (checked !== comboClass) {
       // Only update the playerClass if the switch has actually been toggled
-      setPlayerClass("");
+      // setPlayerClass("");
       // Clear whenever the switch is clicked
       setCheckedClasses([]);
-      setHitDice("");
-      setHitPoints(0);
+      // setHitDice("");
+      // setHitPoints(0);
+      setCharacterData({
+        ...characterData,
+        class: "",
+        hp: { dice: "", points: 0 },
+      });
     }
     setComboClass(checked);
   };
 
   return (
     <>
-      {race === "Elf" && (
+      {characterData.race === "Elf" && (
         <div>
           <Switch
             checked={comboClass}
@@ -96,9 +103,12 @@ export default function CharClassStep({
                 choice === "Cleric" ||
                 (choice === "Fighter" && checkedClasses.includes("Thief")) ||
                 (choice === "Thief" && checkedClasses.includes("Fighter")) ||
-                (choice === "Fighter" && abilities.strength < 9) ||
-                (choice === "Magic-User" && abilities.intelligence < 9) ||
-                (choice === "Thief" && abilities.dexterity < 9)
+                (choice === "Fighter" &&
+                  characterData.abilities.scores.strength < 9) ||
+                (choice === "Magic-User" &&
+                  characterData.abilities.scores.intelligence < 9) ||
+                (choice === "Thief" &&
+                  characterData.abilities.scores.dexterity < 9)
               }
             >
               {choice}
@@ -106,19 +116,24 @@ export default function CharClassStep({
           ))}
         </Space>
       ) : (
-        <Radio.Group value={playerClass} onChange={onClassRadioChange}>
+        <Radio.Group value={characterData.class} onChange={onClassRadioChange}>
           <Space direction="vertical">
             {classChoices.map((choice) => (
               <Radio
                 key={choice}
                 value={choice}
                 disabled={
-                  (race === "Dwarf" && choice === "Magic-User") ||
-                  (race === "Halfling" && choice === "Magic-User") ||
-                  (choice === "Cleric" && abilities.wisdom < 9) ||
-                  (choice === "Fighter" && abilities.strength < 9) ||
-                  (choice === "Magic-User" && abilities.intelligence < 9) ||
-                  (choice === "Thief" && abilities.dexterity < 9)
+                  (characterData.race === "Dwarf" && choice === "Magic-User") ||
+                  (characterData.race === "Halfling" &&
+                    choice === "Magic-User") ||
+                  (choice === "Cleric" &&
+                    characterData.abilities.scores.wisdom < 9) ||
+                  (choice === "Fighter" &&
+                    characterData.abilities.scores.strength < 9) ||
+                  (choice === "Magic-User" &&
+                    characterData.abilities.scores.intelligence < 9) ||
+                  (choice === "Thief" &&
+                    characterData.abilities.scores.dexterity < 9)
                 }
               >
                 {choice}
@@ -127,7 +142,7 @@ export default function CharClassStep({
           </Space>
         </Radio.Group>
       )}
-      {playerClass.includes("Magic-User") && (
+      {characterData.class.includes("Magic-User") && (
         <Radio.Group
           onChange={onSpellRadioChange}
           value={firstSpell ? firstSpell.name : null}
