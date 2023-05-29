@@ -1,28 +1,36 @@
+interface AbilityTypes {
+  strength: number;
+  intelligence: number;
+  wisdom: number;
+  dexterity: number;
+  constitution: number;
+  charisma: number;
+}
+interface Abilities {
+  scores: AbilityTypes;
+  modifiers: AbilityTypes;
+}
+interface HP {
+  dice: string;
+  points: number;
+}
+interface SpellLevels {
+  cleric: number | null;
+  "magic-user": number | null;
+}
+export interface Spell {
+  name: string;
+  range: string;
+  level: SpellLevels;
+  duration: string;
+  description: string;
+}
 export interface CharacterData {
-  abilities: {
-    scores: {
-      strength: number;
-      intelligence: number;
-      wisdom: number;
-      dexterity: number;
-      constitution: number;
-      charisma: number;
-    };
-    modifiers: {
-      strength: number;
-      intelligence: number;
-      wisdom: number;
-      dexterity: number;
-      constitution: number;
-      charisma: number;
-    };
-  };
+  abilities: Abilities;
   class: string;
   race: string;
-  hp: {
-    dice: string;
-    points: number;
-  };
+  hp: HP;
+  spells: Spell[];
 }
 
 interface CharSteps {
@@ -37,34 +45,18 @@ export interface CharRaceStepProps extends CharSteps {
   setComboClass: (comboxClass: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;
 }
+export interface CharClassStepProps extends CharSteps {
+  comboClass: boolean;
+  setComboClass: (comboClass: boolean) => void;
+  checkedClasses: string[];
+  setCheckedClasses: (checkedClasses: string[]) => void;
+}
 
 export interface AbilityRecord {
   key: string;
   ability: string;
   score: number;
 }
-
-export type CharClassStepProps = {
-  abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  };
-  race: string;
-  playerClass: string;
-  setPlayerClass: (playerClass: string) => void;
-  comboClass: boolean;
-  setComboClass: (comboClass: boolean) => void;
-  checkedClasses: string[];
-  setCheckedClasses: (checkedClasses: string[]) => void;
-  setHitDice: (hitDice: string) => void;
-  setHitPoints: (hitPoints: number) => void;
-  spells: SpellItem[];
-  setSpells: (spells: SpellItem[]) => void;
-};
 
 export interface EquipmentItem {
   name: string;
