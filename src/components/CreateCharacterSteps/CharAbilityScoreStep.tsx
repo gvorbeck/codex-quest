@@ -4,16 +4,10 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { AbilityRecord, CharAbilityScoreStepProps } from "../types";
 
 export default function CharAbilityScoreStep({
-  abilities,
-  setAbilities,
-  abilityModifiers,
-  setAbilityModifiers,
-  setPlayerClass,
+  characterData,
+  setCharacterData,
   setComboClass,
   setCheckedClasses,
-  setRace,
-  setHitDice,
-  setHitPoints,
 }: CharAbilityScoreStepProps) {
   const roller = new DiceRoller();
 
@@ -28,7 +22,7 @@ export default function CharAbilityScoreStep({
     if (score < 3) score = 3;
     if (score > 18) score = 18;
 
-    setAbilities({ ...abilities, [ability]: score });
+    // setAbilities({ ...abilities, [ability]: score });
 
     if (score === 3) modifier = "-3";
     else if (score <= 5) modifier = "-2";
@@ -38,56 +32,74 @@ export default function CharAbilityScoreStep({
     else if (score <= 17) modifier = "+2";
     else if (score === 18) modifier = "+3";
 
-    setAbilityModifiers({ ...abilityModifiers, [ability]: modifier });
+    // setAbilityModifiers({ ...abilityModifiers, [ability]: modifier });
+    setCharacterData({
+      ...characterData,
+      abilities: {
+        scores: { ...characterData.abilities.scores, [ability]: score },
+        modifiers: {
+          ...characterData.abilities.modifiers,
+          [ability]: modifier,
+        },
+      },
+      class: "",
+      race: "",
+      hp: {
+        dice: "",
+        points: 0,
+      },
+    });
     // Going back and changing ability score wipes out choices made before.
-    setPlayerClass("");
+    // setPlayerClass("");
     setComboClass(false);
     setCheckedClasses([]);
-    setRace("");
-    setHitDice("");
-    setHitPoints(0);
+    // setRace("");
+    // setHitDice("");
+    // setHitPoints(0);
   };
 
-  const isAbilityKey = (key: string): key is keyof typeof abilities => {
-    return key in abilities;
+  const isAbilityKey = (
+    key: string
+  ): key is keyof typeof characterData.abilities.scores => {
+    return key in characterData.abilities.scores;
   };
 
   const dataSource = [
     {
       key: "1",
       ability: "Strength",
-      score: abilities.strength,
-      modifier: abilityModifiers.strength,
+      score: characterData.abilities.scores.strength,
+      modifier: characterData.abilities.modifiers.strength,
     },
     {
       key: "2",
       ability: "Intelligence",
-      score: abilities.intelligence,
-      modifier: abilityModifiers.intelligence,
+      score: characterData.abilities.scores.intelligence,
+      modifier: characterData.abilities.modifiers.intelligence,
     },
     {
       key: "3",
       ability: "Wisdom",
-      score: abilities.wisdom,
-      modifier: abilityModifiers.wisdom,
+      score: characterData.abilities.scores.wisdom,
+      modifier: characterData.abilities.modifiers.wisdom,
     },
     {
       key: "4",
       ability: "Dexterity",
-      score: abilities.dexterity,
-      modifier: abilityModifiers.dexterity,
+      score: characterData.abilities.scores.dexterity,
+      modifier: characterData.abilities.modifiers.dexterity,
     },
     {
       key: "5",
       ability: "Constitution",
-      score: abilities.constitution,
-      modifier: abilityModifiers.constitution,
+      score: characterData.abilities.scores.constitution,
+      modifier: characterData.abilities.modifiers.constitution,
     },
     {
       key: "6",
       ability: "Charisma",
-      score: abilities.charisma,
-      modifier: abilityModifiers.charisma,
+      score: characterData.abilities.scores.charisma,
+      modifier: characterData.abilities.modifiers.charisma,
     },
   ];
 
@@ -108,8 +120,12 @@ export default function CharAbilityScoreStep({
         const abilityKey = record.ability.toLowerCase();
         let abilityValue = 0;
         if (isAbilityKey(abilityKey)) {
-          abilityValue = abilities[abilityKey];
+          abilityValue =
+            characterData.abilities.scores[
+              abilityKey as keyof typeof characterData.abilities.scores
+            ];
         }
+
         const onChange = (value: number | null) => {
           if (value === null) return;
           if (value < 3) value = 3;
