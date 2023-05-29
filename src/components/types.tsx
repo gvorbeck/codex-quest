@@ -51,6 +51,9 @@ export interface CharClassStepProps extends CharSteps {
   checkedClasses: string[];
   setCheckedClasses: (checkedClasses: string[]) => void;
 }
+export interface CharHitPointsStepProps extends CharSteps {
+  comboClass: boolean;
+}
 
 export interface AbilityRecord {
   key: string;

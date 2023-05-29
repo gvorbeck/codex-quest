@@ -122,23 +122,18 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         />
       ),
     },
-    // {
-    //   title: "Hit Points",
-    //   fullTitle: "Roll for Hit Points",
-    //   description: hitPointsDescription,
-    //   content: (
-    //     <CharHitPointsStep
-    //       hitPoints={hitPoints}
-    //       setHitPoints={setHitPoints}
-    //       race={race}
-    //       playerClass={playerClass}
-    //       constitutionModifier={abilityModifiers.constitution}
-    //       hitDice={hitDice}
-    //       setHitDice={setHitDice}
-    //       comboClass={comboClass}
-    //     />
-    //   ),
-    // },
+    {
+      title: "Hit Points",
+      fullTitle: "Roll for Hit Points",
+      description: hitPointsDescription,
+      content: (
+        <CharHitPointsStep
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          comboClass={comboClass}
+        />
+      ),
+    },
     // {
     //   title: "Equipment",
     //   fullTitle: "Buy Equipment",
@@ -205,10 +200,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         return areAllAbilitiesSet(characterData.abilities.scores);
       case 1:
         return characterData.race !== "";
-      // case 2:
-      //   return playerClass !== "";
-      // case 3:
-      //   return hitPoints !== 0;
+      case 2:
+        return characterData.class !== "";
+      case 3:
+        return characterData.hp.points !== 0;
       // case 4:
       //   return gold !== 0;
       // case 5:
