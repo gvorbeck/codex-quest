@@ -4,30 +4,46 @@ export default function FooterContent() {
   return (
     <div>
       <Typography.Paragraph>
-        Codex Quest is created by J. Garrett Vorbeck
+        © 2023 J. Garrett Vorbeck. All rights reserved.
       </Typography.Paragraph>
       <Typography.Paragraph>
-        © 2023 [Your Name]. All rights reserved.
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        Credits:{" "}
-        <a href="[BFRPG URL]">
+        Credits: This site is based on the&nbsp;
+        <a
+          href="https://basicfantasy.org"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
           Basic Fantasy Role-Playing Game created by Chris Gonnerman
+        </a>{" "}
+        and is current to release 130.
+      </Typography.Paragraph>
+      <Typography.Paragraph>
+        License:{" "}
+        <a
+          href="https://github.com/gvorbeck/codex-quest/blob/main/LICENSE"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          MIT License
         </a>
       </Typography.Paragraph>
       <Typography.Paragraph>
-        License: <a href="[Link to MIT License]">MIT License</a>
+        Contact: <a href="mailto:me@iamgarrett.com">me@iamgarrett.com</a>
       </Typography.Paragraph>
       <Typography.Paragraph>
-        Contact:{" "}
-        <a href="mailto:your-email@example.com">your-email@example.com</a>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        Github: <a href="[BFRPG URL]">Codex Quest Repository</a>
+        Github:{" "}
+        <a
+          href="https://github.com/gvorbeck/codex-quest"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Codex Quest Repository
+        </a>
       </Typography.Paragraph>
       <Typography.Paragraph>
         <a href="[Link to Privacy Policy]">Privacy Policy</a> |{" "}
-        <a href="[Link to Terms of Use]">Terms of Use</a>
+        <a href="[Link to Terms of Use]">Terms of Use</a> |{" "}
+        <a href="[Link to Cookie Policy]">Cookie Policy</a>
       </Typography.Paragraph>
     </div>
   );
