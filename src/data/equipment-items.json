@@ -4,322 +4,368 @@
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Belt Pouch",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Bit and bridle",
     "costValue": 15,
     "costCurrency": "sp",
     "weight": 3,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Candles, 12",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Chalk, small bag of pieces",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Cloak",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Clothing, common outfit",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Glass bottle or vial",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Grappling Hook",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 4,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Holy Symbol",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Holy Water, per vial",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Horseshoes & shoeing",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 10,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Ink, per jar",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 0.5,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Iron Spikes, 12",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Ladder, 10 ft.",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 20,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Lantern",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 2,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Lantern, Bullseye",
     "costValue": 14,
     "costCurrency": "gp",
     "weight": 3,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Lantern, Hooded",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 2,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Manacles (without padlock)",
     "costValue": 6,
     "costCurrency": "gp",
     "weight": 4,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Map or scroll case",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.5,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Mirror, small metal",
     "costValue": 7,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Oil (per flask)",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Padlock (with 2 keys)",
     "costValue": 12,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Paper (per sheet)",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Pole, 10' wooden",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 10,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Quill",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Quill Knife",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Quiver or Bolt case",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Rations, Dry, one week",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 14,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Rope, Hemp (per 50 ft.)",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 5,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Rope, Silk (per 50 ft.)",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 2,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Sack, Large",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Sack, Small",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 0.1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Saddle, Pack",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 15,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Saddle, Riding",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 35,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Saddlebags, pair",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 7,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Spellbook (128 pages)",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Tent, Large (ten men)",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 20,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Tent, Small (one man)",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 10,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Thieves' picks and tools",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Tinderbox, flint and steel",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Torches, 6",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Whetstone",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Whistle",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Wineskin/Waterskin",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 2,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Winter blanket",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 3,
-    "category": "items"
+    "category": "items",
+    "amount": 1
   },
   {
     "name": "Hand Axe",
@@ -328,7 +374,8 @@
     "size": "S",
     "weight": 5,
     "damage": "1d6",
-    "category": "axes"
+    "category": "axes",
+    "amount": 1
   },
   {
     "name": "Battle Axe",
@@ -337,7 +384,8 @@
     "size": "M",
     "weight": 7,
     "damage": "1d8",
-    "category": "axes"
+    "category": "axes",
+    "amount": 1
   },
   {
     "name": "Great Axe",
@@ -346,7 +394,8 @@
     "size": "L",
     "weight": 15,
     "damage": "1d10",
-    "category": "axes"
+    "category": "axes",
+    "amount": 1
   },
   {
     "name": "Shortbow",
@@ -354,7 +403,8 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 2,
-    "category": "bows"
+    "category": "bows",
+    "amount": 1
   },
   {
     "name": "Longbow",
@@ -362,7 +412,8 @@
     "costCurrency": "gp",
     "size": "L",
     "weight": 3,
-    "category": "bows"
+    "category": "bows",
+    "amount": 1
   },
   {
     "name": "Light Crossbow",
@@ -370,7 +421,8 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 7,
-    "category": "bows"
+    "category": "bows",
+    "amount": 1
   },
   {
     "name": "Heavy Crossbow",
@@ -378,7 +430,8 @@
     "costCurrency": "gp",
     "size": "L",
     "weight": 14,
-    "category": "bows"
+    "category": "bows",
+    "amount": 1
   },
   {
     "name": "Dagger",
@@ -387,7 +440,8 @@
     "size": "S",
     "weight": 1,
     "damage": "1d4",
-    "category": "daggers"
+    "category": "daggers",
+    "amount": 1
   },
   {
     "name": "Silver† Dagger",
@@ -396,7 +450,8 @@
     "size": "S",
     "weight": 1,
     "damage": "1d4",
-    "category": "daggers"
+    "category": "daggers",
+    "amount": 1
   },
   {
     "name": "Shortsword",
@@ -405,7 +460,8 @@
     "size": "S",
     "weight": 3,
     "damage": "1d6",
-    "category": "swords"
+    "category": "swords",
+    "amount": 1
   },
   {
     "name": "Longsword/Scimitar",
@@ -414,7 +470,8 @@
     "size": "M",
     "weight": 4,
     "damage": "1d8",
-    "category": "swords"
+    "category": "swords",
+    "amount": 1
   },
   {
     "name": "Two-Handed Sword",
@@ -423,7 +480,8 @@
     "size": "L",
     "weight": 10,
     "damage": "1d10",
-    "category": "swords"
+    "category": "swords",
+    "amount": 1
   },
   {
     "name": "Warhammer",
@@ -432,7 +490,8 @@
     "size": "S",
     "weight": 6,
     "damage": "1d6",
-    "category": "hammers-and-maces"
+    "category": "hammers-and-maces",
+    "amount": 1
   },
   {
     "name": "Mace",
@@ -441,7 +500,8 @@
     "size": "M",
     "weight": 10,
     "damage": "1d8",
-    "category": "hammers-and-maces"
+    "category": "hammers-and-maces",
+    "amount": 1
   },
   {
     "name": "Maul",
@@ -450,7 +510,8 @@
     "size": "L",
     "weight": 16,
     "damage": "1d10",
-    "category": "hammers-and-maces"
+    "category": "hammers-and-maces",
+    "amount": 1
   },
   {
     "name": "Club/Cudgel/Walking Staff",
@@ -459,7 +520,8 @@
     "size": "M",
     "weight": 1,
     "damage": "1d4",
-    "category": "other-weapons"
+    "category": "other-weapons",
+    "amount": 1
   },
   {
     "name": "Quarterstaff",
@@ -468,7 +530,8 @@
     "size": "L",
     "weight": 4,
     "damage": "1d6",
-    "category": "other-weapons"
+    "category": "other-weapons",
+    "amount": 1
   },
   {
     "name": "Pole Arm",
@@ -477,7 +540,8 @@
     "size": "L",
     "weight": 15,
     "damage": "1d10",
-    "category": "other-weapons"
+    "category": "other-weapons",
+    "amount": 1
   },
   {
     "name": "Sling",
@@ -485,7 +549,8 @@
     "costCurrency": "gp",
     "size": "S",
     "weight": 0.1,
-    "category": "other-weapons"
+    "category": "other-weapons",
+    "amount": 1
   },
   {
     "name": "Spear",
@@ -493,7 +558,8 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 5,
-    "category": "other-weapons"
+    "category": "other-weapons",
+    "amount": 1
   },
   {
     "name": "Shortbow Arrow",
@@ -501,7 +567,8 @@
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Silver† Shortbow Arrow",
@@ -509,7 +576,8 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Longbow Arrow",
@@ -517,7 +585,8 @@
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Silver† Longbow Arrow",
@@ -525,7 +594,8 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Light Quarrel",
@@ -533,7 +603,8 @@
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Silver† Light Quarrel",
@@ -541,7 +612,8 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Heavy Quarrel",
@@ -549,7 +621,8 @@
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Silver† Heavy Quarrel",
@@ -557,7 +630,8 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Bullet",
@@ -565,7 +639,8 @@
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d4",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "Stone",
@@ -573,7 +648,8 @@
     "costCurrency": "",
     "weight": 0.1,
     "damage": "1d3",
-    "category": "ammunition"
+    "category": "ammunition",
+    "amount": 1
   },
   {
     "name": "No Armor",
@@ -581,7 +657,8 @@
     "costCurrency": "gp",
     "weight": 0,
     "AC": 11,
-    "category": "armor-and-shields"
+    "category": "armor-and-shields",
+    "amount": 1
   },
   {
     "name": "Leather Armor",
@@ -589,7 +666,8 @@
     "costCurrency": "gp",
     "weight": 15,
     "AC": 13,
-    "category": "armor-and-shields"
+    "category": "armor-and-shields",
+    "amount": 1
   },
   {
     "name": "Chain Mail",
@@ -597,7 +675,8 @@
     "costCurrency": "gp",
     "weight": 40,
     "AC": 15,
-    "category": "armor-and-shields"
+    "category": "armor-and-shields",
+    "amount": 1
   },
   {
     "name": "Plate Mail",
@@ -605,7 +684,8 @@
     "costCurrency": "gp",
     "weight": 50,
     "AC": 17,
-    "category": "armor-and-shields"
+    "category": "armor-and-shields",
+    "amount": 1
   },
   {
     "name": "Shield",
@@ -613,36 +693,42 @@
     "costCurrency": "gp",
     "weight": 5,
     "AC": "+1",
-    "category": "armor-and-shields"
+    "category": "armor-and-shields",
+    "amount": 1
   },
   {
     "name": "Horse, Draft",
     "costValue": 120,
     "costCurrency": "gp",
-    "category": "beasts-of-burden"
+    "category": "beasts-of-burden",
+    "amount": 1
   },
   {
     "name": "Horse, War",
     "costValue": 200,
     "costCurrency": "gp",
-    "category": "beasts-of-burden"
+    "category": "beasts-of-burden",
+    "amount": 1
   },
   {
     "name": "Horse, Riding",
     "costValue": 75,
     "costCurrency": "gp",
-    "category": "beasts-of-burden"
+    "category": "beasts-of-burden",
+    "amount": 1
   },
   {
     "name": "Pony*",
     "costValue": 40,
     "costCurrency": "gp",
-    "category": "beasts-of-burden"
+    "category": "beasts-of-burden",
+    "amount": 1
   },
   {
     "name": "Pony, War*",
     "costValue": 80,
     "costCurrency": "gp",
-    "category": "beasts-of-burden"
+    "category": "beasts-of-burden",
+    "amount": 1
   }
 ]

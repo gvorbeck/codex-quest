@@ -1,10 +1,10 @@
-interface AbilityTypes {
-  strength: number;
-  intelligence: number;
-  wisdom: number;
-  dexterity: number;
-  constitution: number;
-  charisma: number;
+export interface AbilityTypes {
+  strength: number | string;
+  intelligence: number | string;
+  wisdom: number | string;
+  dexterity: number | string;
+  constitution: number | string;
+  charisma: number | string;
 }
 interface Abilities {
   scores: AbilityTypes;
@@ -31,6 +31,9 @@ export interface CharacterData {
   race: string;
   hp: HP;
   spells: Spell[];
+  gold: number;
+  equipment: EquipmentItem[];
+  weight: number;
 }
 
 interface CharSteps {
@@ -54,11 +57,23 @@ export interface CharClassStepProps extends CharSteps {
 export interface CharHitPointsStepProps extends CharSteps {
   comboClass: boolean;
 }
-
-export interface AbilityRecord {
-  key: string;
-  ability: string;
-  score: number;
+export interface CharEquipmentStepProps extends CharSteps {
+  equipmentItems: EquipmentItem[];
+}
+export interface EquipmentSelectorProps extends CharSteps {
+  armorSelection: EquipmentItem | null;
+  equipmentCategories: string[];
+  equipmentItems: EquipmentItem[];
+  handleWeightChange: () => void;
+  updateArmorSelection: any;
+  weightRestrictions: any;
+}
+export interface PurchasedEquipmentProps extends CharSteps {}
+export interface EquipmentCheckboxProps extends CharSteps {
+  itemName: string;
+  equipmentItems: EquipmentItem[];
+  handleWeightChange: () => void;
+  weightRestrictions: any;
 }
 
 export interface EquipmentItem {
@@ -73,55 +88,14 @@ export interface EquipmentItem {
   amount: number;
 }
 
-export type CharEquipmentStepProps = {
-  gold: number;
-  setGold: (gold: number) => void;
-  equipment: EquipmentItem[];
-  setEquipment: (equipment: EquipmentItem[]) => void;
-  race: string;
-  weight: number;
-  setWeight: (weight: number) => void;
-  strength: number;
-  equipmentItems: EquipmentItem[];
-  setEquipmentItems: (equipmentItem: EquipmentItem[]) => void;
-};
-
-export type EquipmentCheckboxProps = {
-  itemName: string;
-  equipmentItems: EquipmentItem[];
-  equipment: EquipmentItem[];
-  setEquipment: (equipment: EquipmentItem[]) => void;
-  setGold: (gold: number) => void;
-  gold: number;
-  handleWeightChange: () => void;
-  weight: number;
-  weightRestrictions: any;
-  race: string;
-};
+export interface AbilityRecord {
+  key: string;
+  ability: string;
+  score: number;
+}
 
 export type Capacity = { light: number; heavy: number };
 export type CapacityMap = Record<string, Capacity>;
-
-export type PurchasedEquipmentProps = {
-  gold: number;
-  weight: number;
-  equipment: EquipmentItem[];
-};
-
-export type EquipmentSelectorProps = {
-  armorSelection: EquipmentItem | null;
-  equipment: EquipmentItem[];
-  equipmentCategories: string[];
-  equipmentItems: EquipmentItem[];
-  gold: number;
-  handleWeightChange: () => void;
-  race: string;
-  setEquipment: (equipment: EquipmentItem[]) => void;
-  setGold: (gold: number) => void;
-  updateArmorSelection: any;
-  weight: number;
-  weightRestrictions: any;
-};
 
 export type CharNameStepProps = {
   name: string;

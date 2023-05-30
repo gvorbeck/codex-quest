@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Modal, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
 import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
 import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
-import { CharacterData } from "./types";
+import { AbilityTypes, CharacterData } from "./types";
 import CharNameStep from "./CreateCharacterSteps/CharNameStep";
+import equipmentItems from "../data/equipment-items.json";
 
 const { Title, Paragraph } = Typography;
 
@@ -63,12 +64,12 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         charisma: 0,
       },
       modifiers: {
-        strength: 0,
-        intelligence: 0,
-        wisdom: 0,
-        constitution: 0,
-        dexterity: 0,
-        charisma: 0,
+        strength: "",
+        intelligence: "",
+        wisdom: "",
+        constitution: "",
+        dexterity: "",
+        charisma: "",
       },
     },
     class: "",
@@ -78,6 +79,9 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       points: 0,
     },
     spells: [],
+    gold: 0,
+    equipment: [],
+    weight: 0,
   });
 
   const steps = [
@@ -134,25 +138,18 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         />
       ),
     },
-    // {
-    //   title: "Equipment",
-    //   fullTitle: "Buy Equipment",
-    //   description: equipmentDescription,
-    //   content: (
-    //     <CharEquipmentStep
-    //       gold={gold}
-    //       setGold={setGold}
-    //       equipment={equipment}
-    //       setEquipment={setEquipment}
-    //       race={race}
-    //       weight={weight}
-    //       setWeight={setWeight}
-    //       strength={abilities.strength}
-    //       equipmentItems={equipmentItems}
-    //       setEquipmentItems={setEquipmentItems}
-    //     />
-    //   ),
-    // },
+    {
+      title: "Equipment",
+      fullTitle: "Buy Equipment",
+      description: equipmentDescription,
+      content: (
+        <CharEquipmentStep
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          equipmentItems={equipmentItems}
+        />
+      ),
+    },
     // {
     //   title: "Name",
     //   fullTitle: "Name your character",
@@ -178,16 +175,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     props.setIsModalOpen(false);
   };
 
-  function areAllAbilitiesSet(abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  }) {
+  function areAllAbilitiesSet(abilities: AbilityTypes) {
     for (let key in abilities) {
-      if (abilities[key as keyof typeof abilities] <= 0) {
+      const value = +abilities[key as keyof typeof abilities];
+      if (value <= 0 || isNaN(value)) {
         return false;
       }
     }
@@ -204,14 +195,18 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         return characterData.class !== "";
       case 3:
         return characterData.hp.points !== 0;
-      // case 4:
-      //   return gold !== 0;
+      case 4:
+        return characterData.gold !== 0;
       // case 5:
       //   return name;
       default:
         return true;
     }
   }
+
+  useEffect(() => {
+    console.log(characterData);
+  }, [characterData]);
 
   return (
     <Modal
