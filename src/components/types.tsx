@@ -38,6 +38,7 @@ export interface CharacterData {
   weight: number;
   name: string;
   avatar: string;
+  id?: string;
 }
 
 interface CharSteps {

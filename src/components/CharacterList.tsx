@@ -21,9 +21,11 @@ export default function CharacterList({
         );
         const characterSnapshot = await getDocs(charactersCollectionRef);
 
-        const characters = characterSnapshot.docs.map(
-          (doc) => doc.data() as CharacterData
-        );
+        const characters = characterSnapshot.docs.map((doc) => {
+          const data = doc.data() as CharacterData;
+          data.id = doc.id;
+          return data;
+        });
         setCharacters(characters);
       }
       //  else {
@@ -43,7 +45,7 @@ export default function CharacterList({
               <Card hoverable>
                 <Card.Meta
                   title={character.name}
-                  description={`${character.race} - ${character.class}`}
+                  description={`${character.race} - ${character.class} - ${character.id}`}
                 />
               </Card>
             </Col>
