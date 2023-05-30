@@ -8,6 +8,8 @@ import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
 import { AbilityTypes, CharacterData } from "./types";
 import CharNameStep from "./CreateCharacterSteps/CharNameStep";
 import equipmentItems from "../data/equipment-items.json";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const { Title, Paragraph } = Typography;
 
@@ -196,6 +198,27 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     }
   }
 
+  async function addCharacterData(characterData: CharacterData) {
+    // Check if a user is currently logged in
+    if (auth.currentUser) {
+      // Get the current user's UID
+      const uid = auth.currentUser.uid;
+
+      // Get a reference to the Firestore document
+      const docRef = doc(collection(db, `users/${uid}/characters`));
+
+      // Set the character data for the current user
+      try {
+        await setDoc(docRef, characterData);
+        console.log(`${characterData.name} successfully saved!`);
+      } catch (error) {
+        console.error("Error writing document: ", error);
+      }
+    } else {
+      console.error("No user is currently logged in.");
+    }
+  }
+
   useEffect(() => {
     console.log(characterData);
   }, [characterData]);
@@ -227,7 +250,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         {current === steps.length - 1 && (
           <Button
             type="primary"
-            onClick={() => console.log("foo")}
+            onClick={() => addCharacterData(characterData)}
             disabled={!isNextButtonEnabled(current)}
           >
             Done
