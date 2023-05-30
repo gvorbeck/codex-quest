@@ -68,38 +68,38 @@ export default function CharAbilityScoreStep({
     {
       key: "1",
       ability: "Strength",
-      score: characterData.abilities.scores.strength,
-      modifier: characterData.abilities.modifiers.strength,
+      score: Number(characterData.abilities.scores.strength),
+      modifier: String(characterData.abilities.modifiers.strength),
     },
     {
       key: "2",
       ability: "Intelligence",
-      score: characterData.abilities.scores.intelligence,
-      modifier: characterData.abilities.modifiers.intelligence,
+      score: Number(characterData.abilities.scores.intelligence),
+      modifier: String(characterData.abilities.modifiers.intelligence),
     },
     {
       key: "3",
       ability: "Wisdom",
-      score: characterData.abilities.scores.wisdom,
-      modifier: characterData.abilities.modifiers.wisdom,
+      score: Number(characterData.abilities.scores.wisdom),
+      modifier: String(characterData.abilities.modifiers.wisdom),
     },
     {
       key: "4",
       ability: "Dexterity",
-      score: characterData.abilities.scores.dexterity,
-      modifier: characterData.abilities.modifiers.dexterity,
+      score: Number(characterData.abilities.scores.dexterity),
+      modifier: String(characterData.abilities.modifiers.dexterity),
     },
     {
       key: "5",
       ability: "Constitution",
-      score: characterData.abilities.scores.constitution,
-      modifier: characterData.abilities.modifiers.constitution,
+      score: Number(characterData.abilities.scores.constitution),
+      modifier: String(characterData.abilities.modifiers.constitution),
     },
     {
       key: "6",
       ability: "Charisma",
-      score: characterData.abilities.scores.charisma,
-      modifier: characterData.abilities.modifiers.charisma,
+      score: Number(characterData.abilities.scores.charisma),
+      modifier: String(characterData.abilities.modifiers.charisma),
     },
   ];
 
@@ -121,7 +121,7 @@ export default function CharAbilityScoreStep({
         let abilityValue = 0;
         if (isAbilityKey(abilityKey)) {
           abilityValue =
-            characterData.abilities.scores[
+            +characterData.abilities.scores[
               abilityKey as keyof typeof characterData.abilities.scores
             ];
         }

@@ -2,7 +2,7 @@ import { Checkbox, Radio, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useState } from "react";
-import { CharClassStepProps, SpellType, Spell } from "../types";
+import { CharClassStepProps, SpellType } from "../types";
 import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
@@ -104,11 +104,11 @@ export default function CharClassStep({
                 (choice === "Fighter" && checkedClasses.includes("Thief")) ||
                 (choice === "Thief" && checkedClasses.includes("Fighter")) ||
                 (choice === "Fighter" &&
-                  characterData.abilities.scores.strength < 9) ||
+                  +characterData.abilities.scores.strength < 9) ||
                 (choice === "Magic-User" &&
-                  characterData.abilities.scores.intelligence < 9) ||
+                  +characterData.abilities.scores.intelligence < 9) ||
                 (choice === "Thief" &&
-                  characterData.abilities.scores.dexterity < 9)
+                  +characterData.abilities.scores.dexterity < 9)
               }
             >
               {choice}
@@ -127,13 +127,13 @@ export default function CharClassStep({
                   (characterData.race === "Halfling" &&
                     choice === "Magic-User") ||
                   (choice === "Cleric" &&
-                    characterData.abilities.scores.wisdom < 9) ||
+                    +characterData.abilities.scores.wisdom < 9) ||
                   (choice === "Fighter" &&
-                    characterData.abilities.scores.strength < 9) ||
+                    +characterData.abilities.scores.strength < 9) ||
                   (choice === "Magic-User" &&
-                    characterData.abilities.scores.intelligence < 9) ||
+                    +characterData.abilities.scores.intelligence < 9) ||
                   (choice === "Thief" &&
-                    characterData.abilities.scores.dexterity < 9)
+                    +characterData.abilities.scores.dexterity < 9)
                 }
               >
                 {choice}
