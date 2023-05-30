@@ -44,7 +44,6 @@ export default function CharEquipmentStep({
   };
 
   const updateStartingGold = (startingGold: number | null) => {
-    // startingGold !== null && setGold(startingGold);
     console.log("blarbs");
     startingGold !== null &&
       setCharacterData({ ...characterData, gold: startingGold });
@@ -56,7 +55,6 @@ export default function CharEquipmentStep({
       const updatedEquipment = characterData.equipment.filter(
         (notArmor: EquipmentItem) => notArmor.category !== "armor-and-shields"
       );
-      // setEquipment([...updatedEquipment, item]);
       setCharacterData({
         ...characterData,
         equipment: [...updatedEquipment, item],
@@ -70,7 +68,6 @@ export default function CharEquipmentStep({
     characterData.equipment.forEach(
       (item) => item.weight && (newWeight += item.weight * item.amount)
     );
-    // setWeight(newWeight);
     setCharacterData({ ...characterData, weight: newWeight });
   };
 
@@ -93,7 +90,6 @@ export default function CharEquipmentStep({
       if (
         !characterData.equipment.find((item) => item.name === noArmorItem.name)
       ) {
-        // setEquipment([...equipment, noArmorItem]);
         setCharacterData({
           ...characterData,
           equipment: [...characterData.equipment, noArmorItem],

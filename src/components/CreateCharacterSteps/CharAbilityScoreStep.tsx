@@ -22,8 +22,6 @@ export default function CharAbilityScoreStep({
     if (score < 3) score = 3;
     if (score > 18) score = 18;
 
-    // setAbilities({ ...abilities, [ability]: score });
-
     if (score === 3) modifier = "-3";
     else if (score <= 5) modifier = "-2";
     else if (score <= 8) modifier = "-1";
@@ -32,7 +30,6 @@ export default function CharAbilityScoreStep({
     else if (score <= 17) modifier = "+2";
     else if (score === 18) modifier = "+3";
 
-    // setAbilityModifiers({ ...abilityModifiers, [ability]: modifier });
     setCharacterData({
       ...characterData,
       abilities: {
@@ -50,12 +47,8 @@ export default function CharAbilityScoreStep({
       },
     });
     // Going back and changing ability score wipes out choices made before.
-    // setPlayerClass("");
     setComboClass(false);
     setCheckedClasses([]);
-    // setRace("");
-    // setHitDice("");
-    // setHitPoints(0);
   };
 
   const isAbilityKey = (

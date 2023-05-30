@@ -36,23 +36,8 @@ type CreateCharacterModalProps = {
 
 export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [current, setCurrent] = useState(0);
-  // const [abilities, setAbilities] = useState(characterData.abilities);
-  // const [abilityModifiers, setAbilityModifiers] = useState(
-  //   characterData.abilityModifiers
-  // );
-  // const [race, setRace] = useState(characterData.race);
   const [comboClass, setComboClass] = useState(false);
-  // const [playerClass, setPlayerClass] = useState(characterData.class);
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
-  // const [hitPoints, setHitPoints] = useState(0);
-  // const [hitDice, setHitDice] = useState("");
-  // const [gold, setGold] = useState(characterData.gold);
-  // const [equipment, setEquipment] = useState<EquipmentItem[]>([]);
-  // const [equipmentItems, setEquipmentItems] = useState<EquipmentItem[]>([]);
-  // const [weight, setWeight] = useState(0);
-  // const [name, setName] = useState("");
-  // const [spells, setSpells] = useState<SpellItem[]>([]);
-
   const [characterData, setCharacterData] = useState<CharacterData>({
     abilities: {
       scores: {
@@ -82,6 +67,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     gold: 0,
     equipment: [],
     weight: 0,
+    name: "",
+    avatar: "",
   });
 
   const steps = [
@@ -150,12 +137,17 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         />
       ),
     },
-    // {
-    //   title: "Name",
-    //   fullTitle: "Name your character",
-    //   description: nameDescription,
-    //   content: <CharNameStep name={name} setName={setName} />,
-    // },
+    {
+      title: "Name",
+      fullTitle: "Name your character",
+      description: nameDescription,
+      content: (
+        <CharNameStep
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+        />
+      ),
+    },
   ];
 
   const next = () => {

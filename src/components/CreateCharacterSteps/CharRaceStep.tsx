@@ -11,12 +11,8 @@ export default function CharRaceStep({
   setCheckedClasses,
 }: CharRaceStepProps) {
   const onChange = (e: RadioChangeEvent) => {
-    // setRace(e.target.value);
-    // setPlayerClass("");
     setComboClass(false);
     setCheckedClasses([]);
-    // setHitDice("");
-    // setHitPoints(0);
     setCharacterData({
       ...characterData,
       race: e.target.value,
@@ -34,14 +30,14 @@ export default function CharRaceStep({
             value={race}
             disabled={
               (race === "Dwarf" &&
-                (characterData.abilities.scores.constitution < 9 ||
-                  characterData.abilities.scores.charisma > 17)) ||
+                (+characterData.abilities.scores.constitution < 9 ||
+                  +characterData.abilities.scores.charisma > 17)) ||
               (race === "Elf" &&
-                (characterData.abilities.scores.intelligence < 9 ||
-                  characterData.abilities.scores.constitution > 17)) ||
+                (+characterData.abilities.scores.intelligence < 9 ||
+                  +characterData.abilities.scores.constitution > 17)) ||
               (race === "Halfling" &&
-                (characterData.abilities.scores.dexterity < 9 ||
-                  characterData.abilities.scores.strength > 17))
+                (+characterData.abilities.scores.dexterity < 9 ||
+                  +characterData.abilities.scores.strength > 17))
             }
           >
             {race}

@@ -65,11 +65,8 @@ export default function CharClassStep({
   const onSwitchChange = (checked: boolean) => {
     if (checked !== comboClass) {
       // Only update the playerClass if the switch has actually been toggled
-      // setPlayerClass("");
       // Clear whenever the switch is clicked
       setCheckedClasses([]);
-      // setHitDice("");
-      // setHitPoints(0);
       setCharacterData({
         ...characterData,
         class: "",

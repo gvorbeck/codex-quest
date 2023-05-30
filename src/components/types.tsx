@@ -34,6 +34,8 @@ export interface CharacterData {
   gold: number;
   equipment: EquipmentItem[];
   weight: number;
+  name: string;
+  avatar: string;
 }
 
 interface CharSteps {
@@ -75,6 +77,7 @@ export interface EquipmentCheckboxProps extends CharSteps {
   handleWeightChange: () => void;
   weightRestrictions: any;
 }
+export interface CharNameStepProps extends CharSteps {}
 
 export interface EquipmentItem {
   name: string;
@@ -96,11 +99,6 @@ export interface AbilityRecord {
 
 export type Capacity = { light: number; heavy: number };
 export type CapacityMap = Record<string, Capacity>;
-
-export type CharNameStepProps = {
-  name: string;
-  setName: (name: string) => void;
-};
 
 export type SpellItem = {
   name: string;
