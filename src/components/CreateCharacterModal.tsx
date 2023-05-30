@@ -1,37 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Modal, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
 import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
 import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
-import { EquipmentItem, SpellItem } from "./types";
+import { AbilityTypes, CharacterData } from "./types";
 import CharNameStep from "./CreateCharacterSteps/CharNameStep";
-
-const characterData = {
-  abilities: {
-    strength: 0,
-    intelligence: 0,
-    wisdom: 0,
-    dexterity: 0,
-    constitution: 0,
-    charisma: 0,
-  },
-  abilityModifiers: {
-    strength: "-",
-    intelligence: "-",
-    wisdom: "-",
-    dexterity: "-",
-    constitution: "-",
-    charisma: "-",
-  },
-  race: "",
-  class: "",
-  hitPoints: 0,
-  hitDice: "",
-  gold: 0,
-  equipment: [],
-};
+import equipmentItems from "../data/equipment-items.json";
 
 const { Title, Paragraph } = Typography;
 
@@ -60,22 +36,40 @@ type CreateCharacterModalProps = {
 
 export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   const [current, setCurrent] = useState(0);
-  const [abilities, setAbilities] = useState(characterData.abilities);
-  const [abilityModifiers, setAbilityModifiers] = useState(
-    characterData.abilityModifiers
-  );
-  const [race, setRace] = useState(characterData.race);
   const [comboClass, setComboClass] = useState(false);
-  const [playerClass, setPlayerClass] = useState(characterData.class);
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
-  const [hitPoints, setHitPoints] = useState(0);
-  const [hitDice, setHitDice] = useState("");
-  const [gold, setGold] = useState(characterData.gold);
-  const [equipment, setEquipment] = useState<EquipmentItem[]>([]);
-  const [equipmentItems, setEquipmentItems] = useState<EquipmentItem[]>([]);
-  const [weight, setWeight] = useState(0);
-  const [name, setName] = useState("");
-  const [spells, setSpells] = useState<SpellItem[]>([]);
+  const [characterData, setCharacterData] = useState<CharacterData>({
+    abilities: {
+      scores: {
+        strength: 0,
+        intelligence: 0,
+        wisdom: 0,
+        constitution: 0,
+        dexterity: 0,
+        charisma: 0,
+      },
+      modifiers: {
+        strength: "",
+        intelligence: "",
+        wisdom: "",
+        constitution: "",
+        dexterity: "",
+        charisma: "",
+      },
+    },
+    class: "",
+    race: "",
+    hp: {
+      dice: "",
+      points: 0,
+    },
+    spells: [],
+    gold: 0,
+    equipment: [],
+    weight: 0,
+    name: "",
+    avatar: "",
+  });
 
   const steps = [
     {
@@ -84,16 +78,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       description: abilityDescription,
       content: (
         <CharAbilityScoreStep
-          abilities={abilities}
-          setAbilities={setAbilities}
-          abilityModifiers={abilityModifiers}
-          setAbilityModifiers={setAbilityModifiers}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
           setComboClass={setComboClass}
-          setPlayerClass={setPlayerClass}
           setCheckedClasses={setCheckedClasses}
-          setRace={setRace}
-          setHitPoints={setHitPoints}
-          setHitDice={setHitDice}
         />
       ),
     },
@@ -103,14 +91,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       description: raceDescription,
       content: (
         <CharRaceStep
-          abilities={abilities}
-          race={race}
-          setRace={setRace}
           setComboClass={setComboClass}
-          setPlayerClass={setPlayerClass}
           setCheckedClasses={setCheckedClasses}
-          setHitPoints={setHitPoints}
-          setHitDice={setHitDice}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
         />
       ),
     },
@@ -120,18 +104,12 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       description: classDescription,
       content: (
         <CharClassStep
-          abilities={abilities}
-          race={race}
-          playerClass={playerClass}
-          setPlayerClass={setPlayerClass}
           comboClass={comboClass}
           setComboClass={setComboClass}
           checkedClasses={checkedClasses}
           setCheckedClasses={setCheckedClasses}
-          setHitPoints={setHitPoints}
-          setHitDice={setHitDice}
-          spells={spells}
-          setSpells={setSpells}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
         />
       ),
     },
@@ -141,13 +119,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       description: hitPointsDescription,
       content: (
         <CharHitPointsStep
-          hitPoints={hitPoints}
-          setHitPoints={setHitPoints}
-          race={race}
-          playerClass={playerClass}
-          constitutionModifier={abilityModifiers.constitution}
-          hitDice={hitDice}
-          setHitDice={setHitDice}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
           comboClass={comboClass}
         />
       ),
@@ -158,16 +131,9 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       description: equipmentDescription,
       content: (
         <CharEquipmentStep
-          gold={gold}
-          setGold={setGold}
-          equipment={equipment}
-          setEquipment={setEquipment}
-          race={race}
-          weight={weight}
-          setWeight={setWeight}
-          strength={abilities.strength}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
           equipmentItems={equipmentItems}
-          setEquipmentItems={setEquipmentItems}
         />
       ),
     },
@@ -175,7 +141,12 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       title: "Name",
       fullTitle: "Name your character",
       description: nameDescription,
-      content: <CharNameStep name={name} setName={setName} />,
+      content: (
+        <CharNameStep
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+        />
+      ),
     },
   ];
 
@@ -196,16 +167,10 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
     props.setIsModalOpen(false);
   };
 
-  function areAllAbilitiesSet(abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  }) {
+  function areAllAbilitiesSet(abilities: AbilityTypes) {
     for (let key in abilities) {
-      if (abilities[key as keyof typeof abilities] <= 0) {
+      const value = +abilities[key as keyof typeof abilities];
+      if (value <= 0 || isNaN(value)) {
         return false;
       }
     }
@@ -215,21 +180,25 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   function isNextButtonEnabled(currentStep: number) {
     switch (currentStep) {
       case 0:
-        return areAllAbilitiesSet(abilities);
+        return areAllAbilitiesSet(characterData.abilities.scores);
       case 1:
-        return race !== "";
+        return characterData.race !== "";
       case 2:
-        return playerClass !== "";
+        return characterData.class !== "";
       case 3:
-        return hitPoints !== 0;
+        return characterData.hp.points !== 0;
       case 4:
-        return gold !== 0;
-      case 5:
-        return name;
+        return characterData.gold !== 0;
+      // case 5:
+      //   return name;
       default:
         return true;
     }
   }
+
+  useEffect(() => {
+    console.log(characterData);
+  }, [characterData]);
 
   return (
     <Modal

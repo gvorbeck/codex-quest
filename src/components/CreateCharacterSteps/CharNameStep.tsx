@@ -15,7 +15,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export default function CharNameStep({ name, setName }: CharNameStepProps) {
+export default function CharNameStep({
+  characterData,
+  setCharacterData,
+}: CharNameStepProps) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -23,7 +26,8 @@ export default function CharNameStep({ name, setName }: CharNameStepProps) {
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
-    setName(newName);
+    setCharacterData({ ...characterData, name: newName });
+    // setName(newName);
   };
 
   const handleCancel = () => setPreviewOpen(false);
@@ -115,7 +119,7 @@ export default function CharNameStep({ name, setName }: CharNameStepProps) {
       >
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
-      <Input value={name} onChange={handleNameChange} />
+      <Input value={characterData.name} onChange={handleNameChange} />
     </>
   );
 }

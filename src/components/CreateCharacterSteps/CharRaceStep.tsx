@@ -1,47 +1,28 @@
 import { Radio, Space } from "antd";
 import type { RadioChangeEvent } from "antd";
+import { CharRaceStepProps } from "../types";
 
 const raceChoices = ["Dwarf", "Elf", "Halfling", "Human"];
 
-type CharRaceStepProps = {
-  abilities: {
-    strength: number;
-    intelligence: number;
-    wisdom: number;
-    dexterity: number;
-    constitution: number;
-    charisma: number;
-  };
-  race: string;
-  setRace: (race: string) => void;
-  setPlayerClass: (playerClass: string) => void;
-  setComboClass: (comboClass: boolean) => void;
-  setCheckedClasses: (checkedClasses: string[]) => void;
-  setHitDice: (hitDice: string) => void;
-  setHitPoints: (hitPoints: number) => void;
-};
-
 export default function CharRaceStep({
-  abilities,
-  race,
-  setRace,
-  setPlayerClass,
+  characterData,
+  setCharacterData,
   setComboClass,
   setCheckedClasses,
-  setHitDice,
-  setHitPoints,
 }: CharRaceStepProps) {
   const onChange = (e: RadioChangeEvent) => {
-    setRace(e.target.value);
-    setPlayerClass("");
     setComboClass(false);
     setCheckedClasses([]);
-    setHitDice("");
-    setHitPoints(0);
+    setCharacterData({
+      ...characterData,
+      race: e.target.value,
+      class: "",
+      hp: { dice: "", points: 0 },
+    });
   };
 
   return (
-    <Radio.Group onChange={onChange} value={race}>
+    <Radio.Group onChange={onChange} value={characterData.race}>
       <Space direction="vertical">
         {raceChoices.map((race) => (
           <Radio
@@ -49,11 +30,14 @@ export default function CharRaceStep({
             value={race}
             disabled={
               (race === "Dwarf" &&
-                (abilities.constitution < 9 || abilities.charisma > 17)) ||
+                (+characterData.abilities.scores.constitution < 9 ||
+                  +characterData.abilities.scores.charisma > 17)) ||
               (race === "Elf" &&
-                (abilities.intelligence < 9 || abilities.constitution > 17)) ||
+                (+characterData.abilities.scores.intelligence < 9 ||
+                  +characterData.abilities.scores.constitution > 17)) ||
               (race === "Halfling" &&
-                (abilities.dexterity < 9 || abilities.strength > 17))
+                (+characterData.abilities.scores.dexterity < 9 ||
+                  +characterData.abilities.scores.strength > 17))
             }
           >
             {race}

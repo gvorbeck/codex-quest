@@ -4,25 +4,23 @@ import { PurchasedEquipmentProps, EquipmentItem } from "../types";
 import { toTitleCase } from "../formatters";
 
 export default function PurchasedEquipment({
-  gold,
-  weight,
-  equipment,
+  characterData,
 }: PurchasedEquipmentProps) {
   const groupedEquipment = useMemo(() => {
-    return equipment.reduce(
+    return characterData.equipment.reduce(
       (grouped: Record<string, EquipmentItem[]>, item: EquipmentItem) => {
         (grouped[item.category] = grouped[item.category] || []).push(item);
         return grouped;
       },
       {}
     );
-  }, [equipment]);
+  }, [characterData.equipment]);
 
   return (
     <section>
       <header>
         <Typography.Title level={2}>
-          Gold: {gold} | Weight: {weight}
+          Gold: {characterData.gold} | Weight: {characterData.weight}
         </Typography.Title>
       </header>
       <div>

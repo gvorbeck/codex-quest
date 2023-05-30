@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { CharEquipmentStepProps, EquipmentItem } from "../types";
-import { db } from "../../firebase";
-import { collection, getDocs } from "firebase/firestore";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { Button, Divider, InputNumber, Space, Spin } from "antd";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
@@ -15,16 +13,9 @@ const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
 const roller = new DiceRoller();
 
 export default function CharEquipmentStep({
-  gold,
-  setGold,
-  equipment,
-  setEquipment,
-  race,
-  weight,
-  setWeight,
-  strength,
+  characterData,
+  setCharacterData,
   equipmentItems,
-  setEquipmentItems,
 }: CharEquipmentStepProps) {
   const [equipmentCategories, setEquipmentCategories] = useState<
     string[] | null
@@ -33,7 +24,10 @@ export default function CharEquipmentStep({
     null
   );
 
-  const weightRestrictions = calculateCarryingCapacity(strength, race);
+  const weightRestrictions = calculateCarryingCapacity(
+    +characterData.abilities.scores.strength,
+    characterData.race
+  );
 
   const rollStartingGold = () => {
     const result = roller.roll("3d6*10");
@@ -49,52 +43,33 @@ export default function CharEquipmentStep({
     return [...categoriesSet];
   };
 
-  const updateStartingGold = (startingGold: number | null) =>
-    startingGold !== null && setGold(startingGold);
+  const updateStartingGold = (startingGold: number | null) => {
+    console.log("blarbs");
+    startingGold !== null &&
+      setCharacterData({ ...characterData, gold: startingGold });
+  };
 
   const updateArmorSelection = (itemName: string) => {
     const item = equipmentItems.find((item) => item.name === itemName);
     if (item) {
-      const updatedEquipment = equipment.filter(
+      const updatedEquipment = characterData.equipment.filter(
         (notArmor: EquipmentItem) => notArmor.category !== "armor-and-shields"
       );
-      setEquipment([...updatedEquipment, item]);
+      setCharacterData({
+        ...characterData,
+        equipment: [...updatedEquipment, item],
+      });
       setArmorSelection(item);
     }
   };
 
   const handleWeightChange = () => {
     let newWeight = 0;
-    equipment.forEach(
+    characterData.equipment.forEach(
       (item) => item.weight && (newWeight += item.weight * item.amount)
     );
-    setWeight(newWeight);
+    setCharacterData({ ...characterData, weight: newWeight });
   };
-
-  /**
-   * Side-effect for when component mounts
-   * Fetches "equipment" collection from Firestore and adds "amount" property to each element
-   * Sets the equipmentItems state array
-   */
-  useEffect(() => {
-    if (equipmentItems.length === 0) {
-      const fetchEquipment = async () => {
-        try {
-          const coll = collection(db, "equipment");
-          const snapshot = await getDocs(coll);
-          const dataArray = snapshot.docs.map((doc) => ({
-            ...(doc.data() as EquipmentItem),
-            amount: 1,
-          }));
-          setEquipmentItems(dataArray);
-        } catch (error) {
-          console.error("Error fetching equipment: ", error);
-        }
-      };
-      fetchEquipment();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   /**
    * Side-effect for when equipmentItems are retrieved from Firestore.
@@ -112,8 +87,13 @@ export default function CharEquipmentStep({
       setArmorSelection(noArmorItem);
 
       // Add the "No Armor" item to the equipment array if it doesn't exist yet
-      if (!equipment.find((item) => item.name === noArmorItem.name)) {
-        setEquipment([...equipment, noArmorItem]);
+      if (
+        !characterData.equipment.find((item) => item.name === noArmorItem.name)
+      ) {
+        setCharacterData({
+          ...characterData,
+          equipment: [...characterData.equipment, noArmorItem],
+        });
       }
     }
 
@@ -123,7 +103,7 @@ export default function CharEquipmentStep({
   useEffect(() => {
     handleWeightChange();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [equipment]);
+  }, [characterData.equipment]);
 
   if (!equipmentCategories) return <Spin />;
 
@@ -134,10 +114,12 @@ export default function CharEquipmentStep({
           max={180}
           min={30}
           defaultValue={0}
-          onChange={(value: number | null) => setGold(value || 0)}
+          onChange={(value: number | null) => {
+            setCharacterData({ ...characterData, gold: Number(value) });
+          }}
           onFocus={handleFocus}
           type="number"
-          value={+gold.toFixed(2)}
+          value={Number(characterData.gold.toFixed(2))}
         />
         <Button type="primary" onClick={rollStartingGold}>
           Roll 3d6x10
@@ -147,19 +129,18 @@ export default function CharEquipmentStep({
       <Space>
         <EquipmentSelector
           armorSelection={armorSelection}
-          equipment={equipment}
           equipmentCategories={equipmentCategories}
           equipmentItems={equipmentItems}
-          gold={gold}
           handleWeightChange={handleWeightChange}
-          race={race}
-          setEquipment={setEquipment}
-          setGold={setGold}
           updateArmorSelection={updateArmorSelection}
-          weight={weight}
           weightRestrictions={weightRestrictions}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
         />
-        <PurchasedEquipment gold={gold} weight={weight} equipment={equipment} />
+        <PurchasedEquipment
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+        />
       </Space>
     </>
   );

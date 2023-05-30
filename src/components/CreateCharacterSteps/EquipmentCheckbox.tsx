@@ -5,17 +5,14 @@ import { InputNumber, Space, Typography } from "antd";
 export default function EquipmentCheckbox({
   itemName,
   equipmentItems,
-  equipment,
-  setEquipment,
-  setGold,
-  gold,
   handleWeightChange,
-  weight,
   weightRestrictions,
-  race,
+  characterData,
+  setCharacterData,
 }: EquipmentCheckboxProps) {
   const item = equipmentItems.find((item) => item.name === itemName);
-  const isHalflingOrDwarf = race === "Halfling" || race === "Dwarf";
+  const isHalflingOrDwarf =
+    characterData.race === "Halfling" || characterData.race === "Dwarf";
 
   if (!item) return null;
 
@@ -28,16 +25,21 @@ export default function EquipmentCheckbox({
 
   const updatedEquipmentSelections =
     (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
+      console.log("boo");
       if (event.target.checked) {
-        setEquipment([...equipment, item]);
-        setGold(gold - realCost * item.amount);
+        setCharacterData({
+          ...characterData,
+          equipment: [...characterData.equipment, item],
+          gold: characterData.gold - realCost * item.amount,
+        });
       } else {
-        setEquipment(
-          [...equipment].filter(
+        setCharacterData({
+          ...characterData,
+          equipment: [...characterData.equipment].filter(
             (equipmentItem) => equipmentItem.name !== item.name
-          )
-        );
-        setGold(gold + realCost * item.amount);
+          ),
+          gold: characterData.gold + realCost * item.amount,
+        });
         item.amount = 1;
       }
     };
@@ -46,13 +48,13 @@ export default function EquipmentCheckbox({
     if (value !== null) {
       const prevAmount = item.amount;
       const delta = value - prevAmount; // calculate the change in amount
-      setGold(gold - realCost * delta); // update the gold
+      characterData.gold = characterData.gold - realCost * delta;
       item.amount = value; // update the item amount
       handleWeightChange();
     }
   };
 
-  const isChecked = equipment.some(
+  const isChecked = characterData.equipment.some(
     (equipmentItem) => equipmentItem.name === item.name
   );
 
@@ -62,9 +64,9 @@ export default function EquipmentCheckbox({
         onChange={updatedEquipmentSelections(item)}
         checked={isChecked}
         disabled={
-          (!isChecked && gold <= 0) ||
-          (!isChecked && realCost > gold) ||
-          (!isChecked && weight >= weightRestrictions.heavy) ||
+          (!isChecked && characterData.gold <= 0) ||
+          (!isChecked && realCost > characterData.gold) ||
+          (!isChecked && characterData.weight >= weightRestrictions.heavy) ||
           (isHalflingOrDwarf && item.size === "L")
         }
       >
@@ -87,7 +89,9 @@ export default function EquipmentCheckbox({
           min={1}
           defaultValue={1}
           disabled={
-            gold <= 0 || realCost > gold || weight >= weightRestrictions.heavy
+            characterData.gold <= 0 ||
+            realCost > characterData.gold ||
+            characterData.weight >= weightRestrictions.heavy
           }
           onChange={handleAmountChange}
           value={item.amount}

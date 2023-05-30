@@ -7,17 +7,13 @@ import EquipmentRadio from "./EquipmentRadio";
 
 export default function EquipmentSelector({
   armorSelection,
-  equipment,
   equipmentCategories,
   equipmentItems,
-  gold,
   handleWeightChange,
-  race,
-  setEquipment,
-  setGold,
   updateArmorSelection,
-  weight,
   weightRestrictions,
+  characterData,
+  setCharacterData,
 }: EquipmentSelectorProps) {
   return (
     <Collapse accordion>
@@ -37,14 +33,10 @@ export default function EquipmentSelector({
                       key={item.name}
                       itemName={item.name}
                       equipmentItems={equipmentItems}
-                      equipment={equipment}
-                      setEquipment={setEquipment}
-                      setGold={setGold}
-                      gold={gold}
                       handleWeightChange={handleWeightChange}
-                      weight={weight}
                       weightRestrictions={weightRestrictions}
-                      race={race}
+                      characterData={characterData}
+                      setCharacterData={setCharacterData}
                     />
                   ))}
               </Space>
