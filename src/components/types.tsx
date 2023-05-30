@@ -1,3 +1,5 @@
+import { Auth, User } from "firebase/auth";
+
 export interface AbilityTypes {
   strength: number | string;
   intelligence: number | string;
@@ -113,4 +115,22 @@ export interface SpellType {
   };
   duration: string;
   description: string;
+}
+
+export interface CreateCharacterModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
+  onCharacterAdded: () => void;
+}
+
+export interface HeaderContentProps {
+  user: User | null;
+  handleLogin: () => Promise<void>;
+  auth: Auth;
+  onCharacterAdded: () => void;
+}
+
+export interface CharacterListProps {
+  user: User | null;
+  refreshCharacters: boolean;
 }

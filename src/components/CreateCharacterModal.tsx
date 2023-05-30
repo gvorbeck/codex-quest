@@ -5,7 +5,11 @@ import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
 import CharClassStep from "./CreateCharacterSteps/CharClassStep";
 import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
 import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
-import { AbilityTypes, CharacterData } from "./types";
+import {
+  AbilityTypes,
+  CharacterData,
+  CreateCharacterModalProps,
+} from "./types";
 import CharNameStep from "./CreateCharacterSteps/CharNameStep";
 import equipmentItems from "../data/equipment-items.json";
 import { collection, doc, setDoc } from "firebase/firestore";
@@ -31,47 +35,49 @@ const equipmentDescription =
 const nameDescription =
   "You're almost done! Personalize your newly minted character by giving them a name. Optionally, upload a portrait image if you'd like. IMAGE REQUIREMENTS!!!";
 
-type CreateCharacterModalProps = {
-  isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
+const emptyCharacter = {
+  abilities: {
+    scores: {
+      strength: 0,
+      intelligence: 0,
+      wisdom: 0,
+      constitution: 0,
+      dexterity: 0,
+      charisma: 0,
+    },
+    modifiers: {
+      strength: "",
+      intelligence: "",
+      wisdom: "",
+      constitution: "",
+      dexterity: "",
+      charisma: "",
+    },
+  },
+  class: "",
+  race: "",
+  hp: {
+    dice: "",
+    points: 0,
+  },
+  spells: [],
+  gold: 0,
+  equipment: [],
+  weight: 0,
+  name: "",
+  avatar: "",
 };
 
-export default function CreateCharacterModal(props: CreateCharacterModalProps) {
+export default function CreateCharacterModal({
+  isModalOpen,
+  setIsModalOpen,
+  onCharacterAdded,
+}: CreateCharacterModalProps) {
   const [current, setCurrent] = useState(0);
   const [comboClass, setComboClass] = useState(false);
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
-  const [characterData, setCharacterData] = useState<CharacterData>({
-    abilities: {
-      scores: {
-        strength: 0,
-        intelligence: 0,
-        wisdom: 0,
-        constitution: 0,
-        dexterity: 0,
-        charisma: 0,
-      },
-      modifiers: {
-        strength: "",
-        intelligence: "",
-        wisdom: "",
-        constitution: "",
-        dexterity: "",
-        charisma: "",
-      },
-    },
-    class: "",
-    race: "",
-    hp: {
-      dice: "",
-      points: 0,
-    },
-    spells: [],
-    gold: 0,
-    equipment: [],
-    weight: 0,
-    name: "",
-    avatar: "",
-  });
+  const [characterData, setCharacterData] =
+    useState<CharacterData>(emptyCharacter);
 
   const steps = [
     {
@@ -166,7 +172,9 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   }));
 
   const handleCancel = () => {
-    props.setIsModalOpen(false);
+    setIsModalOpen(false);
+    setCharacterData(emptyCharacter);
+    setCurrent(0);
   };
 
   function areAllAbilitiesSet(abilities: AbilityTypes) {
@@ -211,6 +219,13 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
       try {
         await setDoc(docRef, characterData);
         console.log(`${characterData.name} successfully saved!`);
+        setIsModalOpen(false);
+        // Refresh Character List
+        onCharacterAdded();
+        // Reset characterData
+        setCharacterData(emptyCharacter);
+        // Reset modal step
+        setCurrent(0);
       } catch (error) {
         console.error("Error writing document: ", error);
       }
@@ -226,7 +241,7 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
   return (
     <Modal
       title="Basic Modal"
-      open={props.isModalOpen}
+      open={isModalOpen}
       onCancel={handleCancel}
       width={1200}
       footer={null}

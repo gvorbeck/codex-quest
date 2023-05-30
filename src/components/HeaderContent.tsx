@@ -1,41 +1,41 @@
 import { Button, Space, Typography } from "antd";
-import { Auth, User } from "firebase/auth";
 import CreateCharacterModal from "./CreateCharacterModal";
 import { useState } from "react";
+import { HeaderContentProps } from "./types";
 
 const { Paragraph } = Typography;
 
-type HeaderContentProps = {
-  user: User | null;
-  handleLogin: () => Promise<void>;
-  auth: Auth;
-};
-
-export default function HeaderContent(props: HeaderContentProps) {
+export default function HeaderContent({
+  auth,
+  handleLogin,
+  user,
+  onCharacterAdded,
+}: HeaderContentProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
   return (
     <header>
-      {props.user ? (
+      {user ? (
         <Space align="center">
           <Button type="primary" onClick={showModal}>
             Create BFRPG Character
           </Button>
-          <Paragraph>{props.user.displayName}</Paragraph>
-          <Button type="link" onClick={() => props.auth.signOut()}>
+          <Paragraph>{user.displayName}</Paragraph>
+          <Button type="link" onClick={() => auth.signOut()}>
             Log out
           </Button>
         </Space>
       ) : (
-        <Button type="primary" onClick={props.handleLogin}>
+        <Button type="primary" onClick={handleLogin}>
           Log in with Google
         </Button>
       )}
       <CreateCharacterModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+        onCharacterAdded={onCharacterAdded}
       />
     </header>
   );

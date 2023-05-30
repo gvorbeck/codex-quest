@@ -15,8 +15,8 @@ import FooterContent from "./components/FooterContent";
 
 // TODOS
 // GRAND SCHEME:
-// MAYBE ONE STATE OBJECT CALLED "CHARACTER" INSTEAD OF 1298239873493587????
-// MOVE EQUIPMENT OUT OF FIRESTORE AND INTO JSON
+// done -- MAYBE ONE STATE OBJECT CALLED "CHARACTER" INSTEAD OF 1298239873493587????
+// done -- MOVE EQUIPMENT OUT OF FIRESTORE AND INTO JSON
 
 // BUILDER:
 // - ARMOR NOT COSTING GOLD
@@ -38,6 +38,8 @@ const { Header, Footer, Content } = Layout;
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [refreshCharacters, setRefreshCharacters] = useState(false);
+
   const auth = getAuth();
 
   useEffect(() => {
@@ -73,13 +75,23 @@ function App() {
     }
   };
 
+  // Handle character added
+  const handleCharacterAdded = () => {
+    setRefreshCharacters(!refreshCharacters);
+  };
+
   return (
     <Layout>
       <Header>
-        <HeaderContent user={user} handleLogin={handleLogin} auth={auth} />
+        <HeaderContent
+          user={user}
+          handleLogin={handleLogin}
+          auth={auth}
+          onCharacterAdded={handleCharacterAdded}
+        />
       </Header>
       <Content>
-        <CharacterList />
+        <CharacterList user={user} refreshCharacters={refreshCharacters} />
       </Content>
       <Footer>
         <FooterContent />
