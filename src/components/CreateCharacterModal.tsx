@@ -189,8 +189,8 @@ export default function CreateCharacterModal(props: CreateCharacterModalProps) {
         return characterData.hp.points !== 0;
       case 4:
         return characterData.gold !== 0;
-      // case 5:
-      //   return name;
+      case 5:
+        return characterData.name;
       default:
         return true;
     }
