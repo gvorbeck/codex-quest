@@ -1,5 +1,5 @@
 import { Button, Space, Typography } from "antd";
-import CreateCharacterModal from "./CreateCharacterModal";
+import CreateCharacterModal from "./CreateCharacterModal/CreateCharacterModal";
 import { useState } from "react";
 import { HeaderContentProps } from "./types";
 

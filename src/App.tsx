@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
-import CharacterSheet from "./components/CharacterSheet";
+import CharacterSheet from "./components/CharacterSheet/CharacterSheet";
 import { CharacterData } from "./components/types";
 
 // TODOS
@@ -125,7 +125,7 @@ function App() {
           index
           element={<CharacterList user={user} characters={characters} />}
         />
-        <Route path="/character/:id" element={<CharacterSheet />} />
+        <Route path="users/:uid/character/:id" element={<CharacterSheet />} />
       </Route>
     </Routes>
   );

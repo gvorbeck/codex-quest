@@ -42,7 +42,7 @@ export default function CharacterList({
         <Row justify={"space-evenly"}>
           {characters.map((character) => (
             <Col span={4} key={character.id}>
-              <Link to={`/character/${character.id}`}>
+              <Link to={`/users/${user?.uid}/character/${character.id}`}>
                 <Card hoverable>
                   <Card.Meta
                     title={character.name}

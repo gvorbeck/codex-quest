@@ -39,6 +39,7 @@ export interface CharacterData {
   name: string;
   avatar: string;
   id?: string;
+  level: number;
 }
 
 interface CharSteps {

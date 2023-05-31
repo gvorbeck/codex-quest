@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Button, Modal, Steps, Typography } from "antd";
-import CharAbilityScoreStep from "./CreateCharacterSteps/CharAbilityScoreStep";
-import CharRaceStep from "./CreateCharacterSteps/CharRaceStep";
-import CharClassStep from "./CreateCharacterSteps/CharClassStep";
-import CharHitPointsStep from "./CreateCharacterSteps/CharHitPointsStep";
-import CharEquipmentStep from "./CreateCharacterSteps/CharEquipmentStep";
+import CharAbilityScoreStep from "./CharAbilityScoreStep";
+import CharRaceStep from "./CharRaceStep";
+import CharClassStep from "./CharClassStep";
+import CharHitPointsStep from "./CharHitPointsStep";
+import CharEquipmentStep from "./CharEquipmentStep";
 import {
   AbilityTypes,
   CharacterData,
   CreateCharacterModalProps,
-} from "./types";
-import CharNameStep from "./CreateCharacterSteps/CharNameStep";
-import equipmentItems from "../data/equipment-items.json";
+} from "../types";
+import CharNameStep from "./CharNameStep";
+import equipmentItems from "../../data/equipment-items.json";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 
 const { Title, Paragraph } = Typography;
 
@@ -66,6 +66,7 @@ const emptyCharacter = {
   weight: 0,
   name: "",
   avatar: "",
+  level: 1,
 };
 
 export default function CreateCharacterModal({
