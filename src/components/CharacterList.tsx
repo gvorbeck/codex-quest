@@ -1,40 +1,40 @@
-import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+// import { useEffect, useState } from "react";
+// import { collection, getDocs } from "firebase/firestore";
+// import { db } from "../firebase";
 import { Card, Col, Empty, Row } from "antd";
-import { CharacterData, CharacterListProps } from "./types";
+import { CharacterListProps } from "./types";
 import { Link } from "react-router-dom";
 
 export default function CharacterList({
   user,
-  refreshCharacters,
+  characters,
 }: CharacterListProps) {
-  const [characters, setCharacters] = useState<CharacterData[]>([]);
+  // const [characters, setCharacters] = useState<CharacterData[]>([]);
 
-  useEffect(() => {
-    async function fetchCharacters() {
-      if (user) {
-        const uid = user.uid;
-        const charactersCollectionRef = collection(
-          db,
-          `users/${uid}/characters`
-        );
-        const characterSnapshot = await getDocs(charactersCollectionRef);
+  // useEffect(() => {
+  //   async function fetchCharacters() {
+  //     if (user) {
+  //       const uid = user.uid;
+  //       const charactersCollectionRef = collection(
+  //         db,
+  //         `users/${uid}/characters`
+  //       );
+  //       const characterSnapshot = await getDocs(charactersCollectionRef);
 
-        const characters = characterSnapshot.docs.map((doc) => {
-          const data = doc.data() as CharacterData;
-          data.id = doc.id;
-          return data;
-        });
-        setCharacters(characters);
-      }
-      //  else {
-      //   console.error("No user is currently logged in.");
-      // }
-    }
+  //       const characters = characterSnapshot.docs.map((doc) => {
+  //         const data = doc.data() as CharacterData;
+  //         data.id = doc.id;
+  //         return data;
+  //       });
+  //       setCharacters(characters);
+  //     }
+  //     //  else {
+  //     //   console.error("No user is currently logged in.");
+  //     // }
+  //   }
 
-    fetchCharacters();
-  }, [user, refreshCharacters]);
+  //   fetchCharacters();
+  // }, [user, refreshCharacters]);
 
   return (
     <div>

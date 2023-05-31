@@ -134,5 +134,5 @@ export interface HeaderContentProps extends PageLayoutProps {}
 
 export interface CharacterListProps {
   user: User | null;
-  refreshCharacters: boolean;
+  characters: CharacterData[];
 }

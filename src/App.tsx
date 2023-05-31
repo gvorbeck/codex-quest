@@ -9,9 +9,10 @@ import {
   User,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
 import CharacterSheet from "./components/CharacterSheet";
+import { CharacterData } from "./components/types";
 
 // TODOS
 // GRAND SCHEME:
@@ -40,8 +41,23 @@ console.log("THERE ARE STILL TODOS!!!!");
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [refreshCharacters, setRefreshCharacters] = useState(false);
-
+  const [characters, setCharacters] = useState<CharacterData[]>([]);
   const auth = getAuth();
+
+  const fetchCharacters = async () => {
+    if (user) {
+      const uid = user.uid;
+      const charactersCollectionRef = collection(db, `users/${uid}/characters`);
+      const characterSnapshot = await getDocs(charactersCollectionRef);
+
+      const characters = characterSnapshot.docs.map((doc) => {
+        const data = doc.data() as CharacterData;
+        data.id = doc.id;
+        return data;
+      });
+      setCharacters(characters);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -51,6 +67,18 @@ function App() {
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchCharacters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (refreshCharacters) {
+      fetchCharacters();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshCharacters]);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -95,9 +123,7 @@ function App() {
       >
         <Route
           index
-          element={
-            <CharacterList user={user} refreshCharacters={refreshCharacters} />
-          }
+          element={<CharacterList user={user} characters={characters} />}
         />
         <Route path="/character/:id" element={<CharacterSheet />} />
       </Route>
