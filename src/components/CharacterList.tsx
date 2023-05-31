@@ -41,7 +41,7 @@ export default function CharacterList({
       {characters.length ? (
         <Row justify={"space-evenly"}>
           {characters.map((character) => (
-            <Col span={4}>
+            <Col span={4} key={character.id}>
               <Card hoverable>
                 <Card.Meta
                   title={character.name}

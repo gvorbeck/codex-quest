@@ -25,7 +25,6 @@ export default function EquipmentCheckbox({
 
   const updatedEquipmentSelections =
     (item: EquipmentItem) => (event: CheckboxChangeEvent) => {
-      console.log("boo");
       if (event.target.checked) {
         setCharacterData({
           ...characterData,

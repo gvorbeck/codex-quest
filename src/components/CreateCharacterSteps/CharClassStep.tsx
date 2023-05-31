@@ -7,7 +7,6 @@ import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
-console.log(readMagic);
 
 export default function CharClassStep({
   characterData,

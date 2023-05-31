@@ -44,7 +44,6 @@ export default function CharEquipmentStep({
   };
 
   const updateStartingGold = (startingGold: number | null) => {
-    console.log("blarbs");
     startingGold !== null &&
       setCharacterData({ ...characterData, gold: startingGold });
   };
