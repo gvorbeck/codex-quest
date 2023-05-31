@@ -1,8 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { CharacterData } from "../types";
+import BaseStats from "./BaseStats";
+import { Breadcrumb } from "antd";
 
 export default function CharacterSheet() {
   const { uid, id } = useParams();
@@ -31,10 +33,15 @@ export default function CharacterSheet() {
 
   return (
     <div>
+      <Breadcrumb
+        items={[
+          { title: <Link to="/">Home</Link> },
+          { title: character?.name || "" },
+        ]}
+      />
       {character ? (
         <div>
-          <h2>{character.name}</h2>
-          {/* Render the rest of the character details */}
+          <BaseStats character={character} setCharacter={setCharacter} />
         </div>
       ) : (
         <div>Loading character...</div>
