@@ -124,12 +124,13 @@ export interface CreateCharacterModalProps {
   onCharacterAdded: () => void;
 }
 
-export interface HeaderContentProps {
+export interface PageLayoutProps {
   user: User | null;
   handleLogin: () => Promise<void>;
   auth: Auth;
   onCharacterAdded: () => void;
 }
+export interface HeaderContentProps extends PageLayoutProps {}
 
 export interface CharacterListProps {
   user: User | null;

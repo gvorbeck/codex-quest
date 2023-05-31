@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import PageLayout from "./components/PageLayout";
+import CharacterList from "./components/CharacterList";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -6,12 +8,10 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebase.js"; // import Firestore instance
-import { Layout } from "antd";
-import HeaderContent from "./components/HeaderContent";
-import CharacterList from "./components/CharacterList";
-import FooterContent from "./components/FooterContent";
+import { db } from "./firebase.js";
+import CharacterSheet from "./components/CharacterSheet";
 
 // TODOS
 // GRAND SCHEME:
@@ -36,8 +36,6 @@ import FooterContent from "./components/FooterContent";
 
 // INTERACTIVE CHARACTER SHEET
 console.log("THERE ARE STILL TODOS!!!!");
-
-const { Header, Footer, Content } = Layout;
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -82,24 +80,28 @@ function App() {
   const handleCharacterAdded = () => {
     setRefreshCharacters(!refreshCharacters);
   };
-
   return (
-    <Layout>
-      <Header>
-        <HeaderContent
-          user={user}
-          handleLogin={handleLogin}
-          auth={auth}
-          onCharacterAdded={handleCharacterAdded}
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PageLayout
+            user={user}
+            handleLogin={handleLogin}
+            auth={auth}
+            onCharacterAdded={handleCharacterAdded}
+          />
+        }
+      >
+        <Route
+          index
+          element={
+            <CharacterList user={user} refreshCharacters={refreshCharacters} />
+          }
         />
-      </Header>
-      <Content>
-        <CharacterList user={user} refreshCharacters={refreshCharacters} />
-      </Content>
-      <Footer>
-        <FooterContent />
-      </Footer>
-    </Layout>
+        <Route path="/character/:id" element={<CharacterSheet />} />
+      </Route>
+    </Routes>
   );
 }
 

@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { Card, Col, Empty, Row } from "antd";
 import { CharacterData, CharacterListProps } from "./types";
-// import { User } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 export default function CharacterList({
   user,
@@ -42,12 +42,14 @@ export default function CharacterList({
         <Row justify={"space-evenly"}>
           {characters.map((character) => (
             <Col span={4} key={character.id}>
-              <Card hoverable>
-                <Card.Meta
-                  title={character.name}
-                  description={`${character.race} - ${character.class} - ${character.id}`}
-                />
-              </Card>
+              <Link to={`/character/${character.id}`}>
+                <Card hoverable>
+                  <Card.Meta
+                    title={character.name}
+                    description={`${character.race} - ${character.class} - ${character.id}`}
+                  />
+                </Card>
+              </Link>
             </Col>
           ))}
         </Row>
