@@ -139,6 +139,9 @@ export interface CharacterListProps {
 }
 
 export interface CharacterSheetProps {
+  user: User | null;
+}
+export interface CharacterDetails {
   character: CharacterData;
   setCharacter: (character: CharacterData) => void;
 }

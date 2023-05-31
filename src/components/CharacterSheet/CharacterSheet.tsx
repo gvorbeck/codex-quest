@@ -2,11 +2,11 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { CharacterData } from "../types";
+import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
 import { Breadcrumb } from "antd";
 
-export default function CharacterSheet() {
+export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
 

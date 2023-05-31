@@ -125,7 +125,10 @@ function App() {
           index
           element={<CharacterList user={user} characters={characters} />}
         />
-        <Route path="users/:uid/character/:id" element={<CharacterSheet />} />
+        <Route
+          path="users/:uid/character/:id"
+          element={<CharacterSheet user={user} />}
+        />
       </Route>
     </Routes>
   );
