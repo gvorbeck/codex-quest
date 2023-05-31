@@ -137,3 +137,8 @@ export interface CharacterListProps {
   user: User | null;
   characters: CharacterData[];
 }
+
+export interface CharacterSheetProps {
+  character: CharacterData;
+  setCharacter: (character: CharacterData) => void;
+}
