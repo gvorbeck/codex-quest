@@ -5,6 +5,8 @@ import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
 import { Breadcrumb } from "antd";
+import SecondaryStats from "./SecondaryStats";
+import Abilities from "./Abilities";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -42,6 +44,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {character ? (
         <div>
           <BaseStats character={character} setCharacter={setCharacter} />
+          <SecondaryStats character={character} setCharacter={setCharacter} />
+          <Abilities character={character} setCharacter={setCharacter} />
         </div>
       ) : (
         <div>Loading character...</div>
