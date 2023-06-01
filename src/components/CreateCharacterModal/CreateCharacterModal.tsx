@@ -15,8 +15,6 @@ import equipmentItems from "../../data/equipment-items.json";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
-const { Title, Paragraph } = Typography;
-
 const abilityDescription =
   "Roll for your character's Abilities. You can click the Roll button or use your own dice and record your scores below. Each character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus or penalty Modifier is associated with each score as well. Each Class has a Prime Requisite Ability Score, which must be at least 9 in order for the character to become a member of that Class; also, there are required minimum and maximum scores for each character Race other than Humans.";
 
@@ -59,6 +57,7 @@ const emptyCharacter = {
   hp: {
     dice: "",
     points: 0,
+    max: 0,
   },
   spells: [],
   gold: 0,
@@ -245,8 +244,12 @@ export default function CreateCharacterModal({
     >
       <Steps current={current} items={items} />
       <section>
-        <Title level={1}>{steps[current].fullTitle}</Title>
-        <Paragraph>{steps[current].description}</Paragraph>
+        <Typography.Title level={1}>
+          {steps[current].fullTitle}
+        </Typography.Title>
+        <Typography.Paragraph>
+          {steps[current].description}
+        </Typography.Paragraph>
         {steps[current].content}
       </section>
       <div>

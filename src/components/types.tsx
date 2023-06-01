@@ -15,6 +15,7 @@ interface Abilities {
 interface HP {
   dice: string;
   points: number;
+  max: number;
 }
 interface SpellLevels {
   cleric: number | null;

@@ -7,6 +7,9 @@ import BaseStats from "./BaseStats";
 import { Breadcrumb } from "antd";
 import SecondaryStats from "./SecondaryStats";
 import Abilities from "./Abilities";
+import AttackBonus from "./AttackBonus";
+import Movement from "./Movement";
+import ArmorClass from "./ArmorClass";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -46,6 +49,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <BaseStats character={character} setCharacter={setCharacter} />
           <SecondaryStats character={character} setCharacter={setCharacter} />
           <Abilities character={character} setCharacter={setCharacter} />
+          <AttackBonus character={character} setCharacter={setCharacter} />
+          <Movement character={character} setCharacter={setCharacter} />
+          <ArmorClass character={character} setCharacter={setCharacter} />
         </div>
       ) : (
         <div>Loading character...</div>

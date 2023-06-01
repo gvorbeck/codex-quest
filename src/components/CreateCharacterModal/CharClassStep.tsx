@@ -33,7 +33,7 @@ export default function CharClassStep({
         checkedClasses.filter((item) => item !== e.target.value)
       );
     }
-    setCharacterData({ ...characterData, hp: { dice: "", points: 0 } });
+    setCharacterData({ ...characterData, hp: { dice: "", points: 0, max: 0 } });
   };
 
   const onClassRadioChange = (e: RadioChangeEvent) => {
@@ -43,7 +43,7 @@ export default function CharClassStep({
     setCharacterData({
       ...characterData,
       class: classValue,
-      hp: { dice: "", points: 0 },
+      hp: { dice: "", points: 0, max: 0 },
       spells,
     });
   };
@@ -69,7 +69,7 @@ export default function CharClassStep({
       setCharacterData({
         ...characterData,
         class: "",
-        hp: { dice: "", points: 0 },
+        hp: { dice: "", points: 0, max: 0 },
       });
     }
     setComboClass(checked);

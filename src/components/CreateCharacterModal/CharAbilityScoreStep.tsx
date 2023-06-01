@@ -44,6 +44,7 @@ export default function CharAbilityScoreStep({
       hp: {
         dice: "",
         points: 0,
+        max: 0,
       },
     });
     // Going back and changing ability score wipes out choices made before.

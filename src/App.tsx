@@ -27,6 +27,7 @@ import { CharacterData } from "./components/types";
 // - WEIGHT MAXES AND LABELS
 // - "DONE" FUNCTION
 // - TEST IMG UPLOAD ON PROD
+// - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/

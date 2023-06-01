@@ -38,7 +38,11 @@ export default function CharHitPointsStep({
     // setHitDice(dice);
     setCharacterData({
       ...characterData,
-      hp: { dice, points: characterData.hp.points },
+      hp: {
+        dice,
+        points: characterData.hp.points,
+        max: characterData.hp.points,
+      },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -54,7 +58,7 @@ export default function CharHitPointsStep({
     if (value < 1) value = 1;
     setCharacterData({
       ...characterData,
-      hp: { points: value, dice: characterData.hp.dice },
+      hp: { points: value, dice: characterData.hp.dice, max: value },
     });
   };
 

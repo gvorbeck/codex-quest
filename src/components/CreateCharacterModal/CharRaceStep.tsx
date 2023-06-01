@@ -17,7 +17,7 @@ export default function CharRaceStep({
       ...characterData,
       race: e.target.value,
       class: "",
-      hp: { dice: "", points: 0 },
+      hp: { dice: "", points: 0, max: 0 },
     });
   };
 
