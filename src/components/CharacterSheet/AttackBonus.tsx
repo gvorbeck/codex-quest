@@ -5,6 +5,8 @@ export default function AttackBonus({
   character,
   setCharacter,
 }: CharacterDetails) {
+  const rangedRaceBonus = character.race === "Halfling" ? 1 : 0;
+
   function getAttackBonus() {
     const attackBonusTable: Record<string, number[]> = {
       Fighter: [
@@ -31,6 +33,7 @@ export default function AttackBonus({
 
     return maxAttackBonus;
   }
+
   const dataSource = [
     { key: 1, label: "Attack Bonus", bonus: getAttackBonus() },
     {
@@ -41,13 +44,18 @@ export default function AttackBonus({
     {
       key: 3,
       label: "Ranged Attack Bonus",
-      bonus: getAttackBonus() + +character.abilities.modifiers.dexterity,
+      bonus:
+        getAttackBonus() +
+        +character.abilities.modifiers.dexterity +
+        rangedRaceBonus,
     },
   ];
+
   const columns = [
     { title: "Bonus", dataIndex: "label", key: "label" },
     { title: "Value", dataIndex: "bonus", key: "bonus" },
   ];
+
   return (
     <Table
       dataSource={dataSource}
