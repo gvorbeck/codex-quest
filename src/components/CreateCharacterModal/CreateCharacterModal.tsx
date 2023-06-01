@@ -66,6 +66,8 @@ const emptyCharacter = {
   name: "",
   avatar: "",
   level: 1,
+  specials: { race: [], class: [] },
+  restrictions: { race: [], class: [] },
 };
 
 export default function CreateCharacterModal({

@@ -7,6 +7,38 @@ import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
+const classDetails = {
+  cleric: {
+    specials: [
+      "Clerics can cast spells of divine nature starting at 2nd level",
+      "Clerics have the power to Turn the Undead",
+    ],
+    restrictions: [
+      "Clerics may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling)",
+    ],
+  },
+  fighter: {
+    specials: [
+      "Although they are not skilled in the ways of magic, Fighters can nonetheless use many magic items, including but not limited to magical weapons and armor",
+    ],
+    restrictions: [],
+  },
+  "magic-user": {
+    specials: [
+      "Magic-User begins play knowing read magic and one other spell of first level",
+    ],
+    restrictions: [
+      "The only weapons they become proficient with are the dagger and the walking staff (or cudgel)",
+      "Magic-Users may not wear armor of any sort nor use a shield as such things interfere with spellcasting",
+    ],
+  },
+  thief: {
+    specials: ["Thieves have a number of special abilities (see table)"],
+    restrictions: [
+      "Thieves may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
+    ],
+  },
+};
 
 export default function CharClassStep({
   characterData,
@@ -20,7 +52,35 @@ export default function CharClassStep({
 
   useEffect(() => {
     if (comboClass) {
-      setCharacterData({ ...characterData, class: checkedClasses.join(" ") });
+      const firstClass =
+        checkedClasses[0]?.toLowerCase() as keyof typeof classDetails;
+      const secondClass =
+        checkedClasses[1]?.toLowerCase() as keyof typeof classDetails;
+      const firstClassRestrictions = firstClass
+        ? classDetails[firstClass].restrictions
+        : [];
+      const firstClassSpecials = firstClass
+        ? classDetails[firstClass].specials
+        : [];
+      const secondClassRestrictions = secondClass
+        ? classDetails[secondClass].restrictions
+        : [];
+      const secondClassSpecials = secondClass
+        ? classDetails[secondClass].specials
+        : [];
+
+      setCharacterData({
+        ...characterData,
+        class: checkedClasses.join(" "),
+        restrictions: {
+          race: characterData.restrictions.race,
+          class: [...firstClassRestrictions, ...secondClassRestrictions],
+        },
+        specials: {
+          race: characterData.specials.race,
+          class: [...firstClassSpecials, ...secondClassSpecials],
+        },
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedClasses, comboClass]);
@@ -39,12 +99,23 @@ export default function CharClassStep({
   const onClassRadioChange = (e: RadioChangeEvent) => {
     const classValue = e.target.value;
     const spells = classValue === "Magic-User" ? readMagic : [];
+    const thisClass = e.target.value
+      .toString()
+      .toLowerCase() as keyof typeof classDetails;
 
     setCharacterData({
       ...characterData,
       class: classValue,
       hp: { dice: "", points: 0, max: 0 },
       spells,
+      restrictions: {
+        race: characterData.restrictions.race,
+        class: [...classDetails[thisClass].restrictions],
+      },
+      specials: {
+        race: characterData.specials.race,
+        class: [...classDetails[thisClass].specials],
+      },
     });
   };
 

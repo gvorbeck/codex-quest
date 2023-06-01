@@ -41,6 +41,8 @@ export interface CharacterData {
   avatar: string;
   id?: string;
   level: number;
+  specials: { race: string[]; class: string[] };
+  restrictions: { race: string[]; class: string[] };
 }
 
 interface CharSteps {
