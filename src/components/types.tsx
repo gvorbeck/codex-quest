@@ -28,6 +28,17 @@ export interface Spell {
   duration: string;
   description: string;
 }
+interface SpecialRestriction {
+  race: string[];
+  class: string[];
+}
+interface SavingThrows {
+  deathRayOrPoison: number;
+  magicWands: number;
+  paralysisOrPetrify: number;
+  dragonBreath: number;
+  spells: number;
+}
 export interface CharacterData {
   abilities: Abilities;
   class: string;
@@ -41,8 +52,9 @@ export interface CharacterData {
   avatar: string;
   id?: string;
   level: number;
-  specials: { race: string[]; class: string[] };
-  restrictions: { race: string[]; class: string[] };
+  specials: SpecialRestriction;
+  restrictions: SpecialRestriction;
+  savingThrows: SavingThrows;
 }
 
 interface CharSteps {
@@ -147,4 +159,10 @@ export interface CharacterSheetProps {
 export interface CharacterDetails {
   character: CharacterData;
   setCharacter: (character: CharacterData) => void;
+}
+
+export interface SavingThrowsTables {
+  [characterClass: string]: {
+    [levelRange: string]: SavingThrows;
+  };
 }

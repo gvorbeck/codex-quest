@@ -68,6 +68,13 @@ const emptyCharacter = {
   level: 1,
   specials: { race: [], class: [] },
   restrictions: { race: [], class: [] },
+  savingThrows: {
+    deathRayOrPoison: 0,
+    magicWands: 0,
+    paralysisOrPetrify: 0,
+    dragonBreath: 0,
+    spells: 0,
+  },
 };
 
 export default function CreateCharacterModal({

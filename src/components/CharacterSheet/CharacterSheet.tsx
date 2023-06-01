@@ -12,6 +12,7 @@ import Movement from "./Movement";
 import ArmorClass from "./ArmorClass";
 import HitPoints from "./HitPoints";
 import SpecialsRestrictions from "./SpecialsRestrictions";
+import SavingThrows from "./SavingThrows";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -62,7 +63,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* XP: CURRENT AND NEXT LEVEL */}
           {/* CARRYING CAPACITY */}
           {/* MONEY */}
-          {/* SAVING THROWS */}
+
+          {/* SAVING THROWS - Poison saving throws are adjusted by the character's Constitution modifier. */}
+          <SavingThrows character={character} setCharacter={setCharacter} />
+
           {/* Equipment */}
           {/* SPELLS */}
           {/* Languages */}
