@@ -10,6 +10,7 @@ import Abilities from "./Abilities";
 import AttackBonus from "./AttackBonus";
 import Movement from "./Movement";
 import ArmorClass from "./ArmorClass";
+import HitPoints from "./HitPoints";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -52,6 +53,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <AttackBonus character={character} setCharacter={setCharacter} />
           <Movement character={character} setCharacter={setCharacter} />
           <ArmorClass character={character} setCharacter={setCharacter} />
+          <HitPoints character={character} setCharacter={setCharacter} />
+          {/* XP: CURRENT AND NEXT LEVEL */}
+          {/* CARRYING CAPACITY */}
+          {/* MONEY */}
+          {/* SAVING THROWS */}
+          {/* Equipment */}
+          {/* Special ABilities */}
+          {/* SPELLS */}
+          {/* Languages */}
+          {/* Notes */}
         </div>
       ) : (
         <div>Loading character...</div>
