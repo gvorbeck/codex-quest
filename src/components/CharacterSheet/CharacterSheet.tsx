@@ -18,6 +18,7 @@ import Weight from "./Weight";
 import Money from "./Money";
 import Items from "./Items";
 import Weapons from "./Weapons";
+import Animals from "./Animals";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -71,7 +72,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <Money character={character} setCharacter={setCharacter} />
           <Items character={character} setCharacter={setCharacter} />
           <Weapons character={character} setCharacter={setCharacter} />
-          {/* weapons */}
+          {character.equipment.filter(
+            (items) => items.category === "beasts-of-burden"
+          ).length > 0 && (
+            <Animals character={character} setCharacter={setCharacter} />
+          )}
           {/* animals */}
           {/* SPELLS */}
           {/* Languages */}
