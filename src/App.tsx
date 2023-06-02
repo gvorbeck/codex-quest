@@ -36,6 +36,9 @@ console.log(theme);
 // - limit gold decimal space to 2
 // - Class restrictions to weapon choices!
 
+// Character Sheet
+// - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
+
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
 // - ANALYZE BUNDLE SIZE: https://create-react-app.dev/docs/analyzing-the-bundle-size/
