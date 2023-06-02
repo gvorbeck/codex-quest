@@ -100,8 +100,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Spells character={character} setCharacter={setCharacter} />
           )}
           <HitDice character={character} />
-          {/* CLASS TABLE */}
-          {/* Hit Dice */}
         </div>
       ) : (
         <div>Loading character...</div>
