@@ -1,4 +1,4 @@
-import { Button, Input, InputNumber, Space } from "antd";
+import { Button, Input, Space } from "antd";
 import { CharacterDetails } from "../types";
 import { useState } from "react";
 
@@ -67,6 +67,16 @@ export default function ExperiencePoints({
     }
   };
 
+  const classes = character.class.split(" ");
+  const totalLevelRequirement = classes
+    .map(
+      (className) =>
+        levelRequirements[className as keyof typeof levelRequirements][
+          character.level
+        ]
+    )
+    .reduce((a, b) => a + b, 0);
+
   return (
     <Space.Compact>
       <Input
@@ -74,20 +84,11 @@ export default function ExperiencePoints({
         onFocus={(event) => event.target.select()}
         onChange={handleInputChange}
         onBlur={handleInputBlur}
-        suffix={`/ ${
-          levelRequirements[character.class as keyof typeof levelRequirements][
-            character.level
-          ]
-        } XP`}
+        suffix={`/ ${totalLevelRequirement} XP`}
         addonBefore={`Level ${character.level}`}
       />
       <Button
-        disabled={
-          character.xp <
-          levelRequirements[character.class as keyof typeof levelRequirements][
-            character.level
-          ]
-        }
+        disabled={character.xp < totalLevelRequirement}
         type="primary"
       >{`Level ${character.level + 1}`}</Button>
     </Space.Compact>
