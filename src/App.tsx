@@ -21,6 +21,7 @@ import { CharacterData } from "./components/types";
 // TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
 // GOOGLE ANALYTICS
 // REACT ROUTER DOM
+// message or toast like component for when character is saved.
 
 // BUILDER:
 // - ARMOR NOT COSTING GOLD

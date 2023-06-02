@@ -24,7 +24,6 @@ export default function Movement({
   } else if (character.equipment.find((item) => item.name === "Metal Armor")) {
     movement = character.weight >= carryingCapacity.light ? 20 : 10;
   }
-  console.log(carryingCapacity, movement);
   return (
     <div>
       <Typography.Text>Movement</Typography.Text>

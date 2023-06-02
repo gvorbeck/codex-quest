@@ -13,6 +13,7 @@ import ArmorClass from "./ArmorClass";
 import HitPoints from "./HitPoints";
 import SpecialsRestrictions from "./SpecialsRestrictions";
 import SavingThrows from "./SavingThrows";
+import ExperiencePoints from "./ExperiencePoints";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -61,7 +62,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             setCharacter={setCharacter}
           />
           <SavingThrows character={character} setCharacter={setCharacter} />
-          {/* XP: CURRENT AND NEXT LEVEL */}
+          <ExperiencePoints character={character} setCharacter={setCharacter} />
           {/* CARRYING CAPACITY */}
           {/* MONEY */}
 
@@ -71,6 +72,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* Notes */}
           {/* initiative RACE/ClASS BONUSES */}
           {/* CLASS TABLE */}
+          {/* Hit Dice */}
         </div>
       ) : (
         <div>Loading character...</div>

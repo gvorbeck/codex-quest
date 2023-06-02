@@ -75,6 +75,7 @@ const emptyCharacter = {
     dragonBreath: 0,
     spells: 0,
   },
+  xp: 0,
 };
 
 export default function CreateCharacterModal({

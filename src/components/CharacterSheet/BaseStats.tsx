@@ -6,7 +6,6 @@ export default function BaseStats({
   character,
   setCharacter,
 }: CharacterDetails) {
-  console.log(character);
   return (
     <section>
       <Typography.Title level={1}>{character.name}</Typography.Title>
