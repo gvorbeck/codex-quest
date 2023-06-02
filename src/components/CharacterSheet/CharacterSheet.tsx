@@ -19,6 +19,7 @@ import Money from "./Money";
 import EquipmentList from "./EquipmentList";
 import Spells from "./Spells";
 import InitiativeRoller from "./InitiativeRoller";
+import HitDice from "./HitDice";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -98,7 +99,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {character.class.includes("Magic-User") && (
             <Spells character={character} setCharacter={setCharacter} />
           )}
-          {/* initiative w/ RACE/ClASS BONUSES */}
+          <HitDice character={character} />
           {/* CLASS TABLE */}
           {/* Hit Dice */}
         </div>
