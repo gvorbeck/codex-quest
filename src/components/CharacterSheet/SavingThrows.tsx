@@ -1,4 +1,6 @@
+import { Table } from "antd";
 import { CharacterData, CharacterDetails, SavingThrowsTables } from "../types";
+import { camelCaseToTitleCase } from "../formatters";
 
 export default function SavingThrows({
   character,
@@ -324,26 +326,71 @@ export default function SavingThrows({
   };
 
   function getSavingThrows(character: CharacterData) {
-    const characterClass = character.class;
+    const characterClasses = character.class.split(" ");
     const characterLevel = character.level;
 
-    const levelRange = Object.keys(savingThrowsTables[characterClass]).find(
-      (range) => {
-        const [min, max] = range.split("-").map(Number);
-        return characterLevel >= min && (!max || characterLevel <= max);
-      }
-    );
+    const savingThrows = characterClasses.map((characterClass) => {
+      const levelRange = Object.keys(savingThrowsTables[characterClass]).find(
+        (range) => {
+          const [min, max] = range.split("-").map(Number);
+          return characterLevel >= min && (!max || characterLevel <= max);
+        }
+      );
 
-    if (levelRange) {
-      return savingThrowsTables[characterClass][levelRange];
-    } else {
-      // Return a default value or throw an error
-      throw new Error("Invalid level range");
+      if (levelRange) {
+        return savingThrowsTables[characterClass][levelRange];
+      } else {
+        // Return a default value or throw an error
+        throw new Error("Invalid level range");
+      }
+    });
+
+    const bestSavingThrows = {
+      deathRayOrPoison: Math.min(
+        ...savingThrows.map((st) => st.deathRayOrPoison)
+      ),
+      magicWands: Math.min(...savingThrows.map((st) => st.magicWands)),
+      paralysisOrPetrify: Math.min(
+        ...savingThrows.map((st) => st.paralysisOrPetrify)
+      ),
+      dragonBreath: Math.min(...savingThrows.map((st) => st.dragonBreath)),
+      spells: Math.min(...savingThrows.map((st) => st.spells)),
+    };
+
+    if (character.race === "Dwarf" || character.race === "Halfling") {
+      bestSavingThrows.deathRayOrPoison -= 4;
+      bestSavingThrows.magicWands -= 4;
+      bestSavingThrows.paralysisOrPetrify -= 4;
+      bestSavingThrows.spells -= 4;
+      bestSavingThrows.dragonBreath -= 3;
     }
+    if (character.race === "Elf") {
+      bestSavingThrows.paralysisOrPetrify -= 1;
+      bestSavingThrows.magicWands -= 2;
+      bestSavingThrows.spells -= 2;
+    }
+
+    return bestSavingThrows;
   }
 
-  // const character = { class: "Cleric", level: 2 };
-  console.log(getSavingThrows(character)); // { deathRayOrPoison: 10, magicWands: 11, paralysisOrPetrify: 13, dragonBreath: 15, spells: 14 }
-
-  return <div></div>;
+  const dataSource: {}[] = [];
+  Object.entries(getSavingThrows(character)).forEach(([key, value], index) => {
+    dataSource.push({
+      key: index + 1,
+      throw: camelCaseToTitleCase(key),
+      score: value,
+    });
+  });
+  const columns = [
+    { title: "Saving Throw", dataIndex: "throw", key: "throw" },
+    { title: "Value", dataIndex: "score", key: "score" },
+  ];
+  return (
+    <Table
+      dataSource={dataSource}
+      pagination={false}
+      showHeader={false}
+      columns={columns}
+    />
+  );
 }

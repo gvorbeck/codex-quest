@@ -60,12 +60,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             character={character}
             setCharacter={setCharacter}
           />
+          <SavingThrows character={character} setCharacter={setCharacter} />
           {/* XP: CURRENT AND NEXT LEVEL */}
           {/* CARRYING CAPACITY */}
           {/* MONEY */}
-
-          {/* SAVING THROWS - Poison saving throws are adjusted by the character's Constitution modifier. */}
-          <SavingThrows character={character} setCharacter={setCharacter} />
 
           {/* Equipment */}
           {/* SPELLS */}
