@@ -56,6 +56,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {character ? (
         <div>
           <BaseStats character={character} setCharacter={setCharacter} />
+          <ExperiencePoints character={character} setCharacter={setCharacter} />
           <SecondaryStats character={character} setCharacter={setCharacter} />
           <Abilities character={character} setCharacter={setCharacter} />
           <AttackBonus character={character} setCharacter={setCharacter} />
@@ -67,20 +68,17 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             setCharacter={setCharacter}
           />
           <SavingThrows character={character} setCharacter={setCharacter} />
-          <ExperiencePoints character={character} setCharacter={setCharacter} />
           <Weight character={character} setCharacter={setCharacter} />
           <Money character={character} setCharacter={setCharacter} />
+          {/* Items, Weapons, Animals, Spells can all reuse the same component */}
           <Items character={character} setCharacter={setCharacter} />
           <Weapons character={character} setCharacter={setCharacter} />
           {character.equipment.filter(
             (items) => items.category === "beasts-of-burden"
           ).length > 0 && (
             <Animals character={character} setCharacter={setCharacter} />
+            // SPELLS
           )}
-          {/* animals */}
-          {/* SPELLS */}
-          {/* Languages */}
-          {/* Notes */}
           {/* initiative w/ RACE/ClASS BONUSES */}
           {/* CLASS TABLE */}
           {/* Hit Dice */}
