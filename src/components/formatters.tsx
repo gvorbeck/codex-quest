@@ -31,3 +31,7 @@ export function toTitleCase(input: string): string {
   });
   return titleCaseWords.join(" ");
 }
+
+export function camelCaseToTitleCase(input: string) {
+  return toTitleCase(input.replace(/([A-Z])/g, " $1").toLowerCase());
+}
