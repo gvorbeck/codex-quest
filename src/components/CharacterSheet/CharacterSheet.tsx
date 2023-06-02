@@ -15,6 +15,7 @@ import SpecialsRestrictions from "./SpecialsRestrictions";
 import SavingThrows from "./SavingThrows";
 import ExperiencePoints from "./ExperiencePoints";
 import Weight from "./Weight";
+import Money from "./Money";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -65,8 +66,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <SavingThrows character={character} setCharacter={setCharacter} />
           <ExperiencePoints character={character} setCharacter={setCharacter} />
           <Weight character={character} setCharacter={setCharacter} />
-          {/* CARRYING CAPACITY */}
-          {/* MONEY */}
+          <Money character={character} setCharacter={setCharacter} />
 
           {/* Equipment */}
           {/* SPELLS */}
