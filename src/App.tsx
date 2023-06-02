@@ -13,7 +13,9 @@ import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
 import CharacterSheet from "./components/CharacterSheet/CharacterSheet";
 import { CharacterData } from "./components/types";
+import { ConfigProvider, theme } from "antd";
 
+console.log(theme);
 // TODOS
 // GRAND SCHEME:
 // done -- MAYBE ONE STATE OBJECT CALLED "CHARACTER" INSTEAD OF 1298239873493587????
@@ -115,28 +117,36 @@ function App() {
     setRefreshCharacters(!refreshCharacters);
   };
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <PageLayout
-            user={user}
-            handleLogin={handleLogin}
-            auth={auth}
-            onCharacterAdded={handleCharacterAdded}
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#F9B32A",
+        },
+      }}
+    >
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PageLayout
+              user={user}
+              handleLogin={handleLogin}
+              auth={auth}
+              onCharacterAdded={handleCharacterAdded}
+            />
+          }
+        >
+          <Route
+            index
+            element={<CharacterList user={user} characters={characters} />}
           />
-        }
-      >
-        <Route
-          index
-          element={<CharacterList user={user} characters={characters} />}
-        />
-        <Route
-          path="users/:uid/character/:id"
-          element={<CharacterSheet user={user} />}
-        />
-      </Route>
-    </Routes>
+          <Route
+            path="users/:uid/character/:id"
+            element={<CharacterSheet user={user} />}
+          />
+        </Route>
+      </Routes>
+    </ConfigProvider>
   );
 }
 

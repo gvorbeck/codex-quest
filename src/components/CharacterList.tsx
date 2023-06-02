@@ -13,7 +13,7 @@ export default function CharacterList({
           {characters.map((character) => (
             <Col span={4} key={character.id}>
               <Link to={`/users/${user?.uid}/character/${character.id}`}>
-                <Card hoverable>
+                <Card hoverable className="bg-seaBuckthorn">
                   <Card.Meta
                     title={character.name}
                     description={`${character.race} - ${character.class} - ${character.id}`}
