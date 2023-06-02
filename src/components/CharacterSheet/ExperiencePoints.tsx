@@ -39,29 +39,35 @@ export default function ExperiencePoints({
       const increment = parseInt(newValue.slice(1));
       if (!isNaN(increment)) {
         const updatedXP = character.xp + increment;
-        setCharacter({
-          ...character,
-          xp: updatedXP,
-        });
+        if (setCharacter) {
+          setCharacter({
+            ...character,
+            xp: updatedXP,
+          });
+        }
         setInputValue(updatedXP.toString());
       }
     } else if (newValue.startsWith("-")) {
       const decrement = parseInt(newValue.slice(1));
       if (!isNaN(decrement)) {
         const updatedXP = character.xp - decrement;
-        setCharacter({
-          ...character,
-          xp: updatedXP,
-        });
+        if (setCharacter) {
+          setCharacter({
+            ...character,
+            xp: updatedXP,
+          });
+        }
         setInputValue(updatedXP.toString());
       }
     } else {
       const value = parseInt(newValue);
       if (!isNaN(value)) {
-        setCharacter({
-          ...character,
-          xp: value,
-        });
+        if (setCharacter) {
+          setCharacter({
+            ...character,
+            xp: value,
+          });
+        }
         setInputValue(value.toString());
       }
     }

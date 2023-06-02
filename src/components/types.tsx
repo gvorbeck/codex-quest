@@ -159,7 +159,11 @@ export interface CharacterSheetProps {
 }
 export interface CharacterDetails {
   character: CharacterData;
-  setCharacter: (character: CharacterData) => void;
+  setCharacter?: (character: CharacterData) => void;
+}
+export interface EquipmentListProps extends CharacterDetails {
+  categories: string[] | string;
+  header: any;
 }
 
 export interface SavingThrowsTables {
