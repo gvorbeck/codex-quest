@@ -6,11 +6,12 @@ export default function InitiativeRoller({ character }: CharacterDetails) {
   const roller = new DiceRoller();
 
   const rollInitiative = () => {
-    const result = roller.roll(
+    let result = roller.roll(
       `1d6+${+character.abilities.modifiers.dexterity}`
-    );
-    if (!(result instanceof Array) && result.total > 0) return result.total;
-    else return 1;
+    ).total;
+    if (character.race === "Halfling") result += 1;
+    if (result.total > 0) result = 1;
+    return result;
   };
   return (
     <Button onClick={() => console.log(rollInitiative())}>
