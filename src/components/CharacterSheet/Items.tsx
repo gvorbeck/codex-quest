@@ -7,7 +7,9 @@ export default function Items({ character, setCharacter }: CharacterDetails) {
     .sort((a, b) => a.name.localeCompare(b.name));
   return (
     <List
-      header={"Equipment Items"}
+      header={
+        "Equipment Items (maybe a button to ADD an item) (Maybe combine these components for reuse)"
+      }
       bordered
       dataSource={miscItems}
       renderItem={(thisItem) => (

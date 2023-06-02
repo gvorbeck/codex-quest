@@ -22,6 +22,7 @@ import { CharacterData } from "./components/types";
 // GOOGLE ANALYTICS
 // REACT ROUTER DOM
 // message or toast like component for when character is saved.
+// buying enough equipment to get to 0 gold disables next button.
 
 // BUILDER:
 // - ARMOR NOT COSTING GOLD
