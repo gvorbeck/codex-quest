@@ -16,9 +16,9 @@ import SavingThrows from "./SavingThrows";
 import ExperiencePoints from "./ExperiencePoints";
 import Weight from "./Weight";
 import Money from "./Money";
-import Items from "./Items";
-import Weapons from "./Weapons";
-import Animals from "./Animals";
+import EquipmentList from "./EquipmentList";
+import Spells from "./Spells";
+import InitiativeRoller from "./InitiativeRoller";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -56,6 +56,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {character ? (
         <div>
           <BaseStats character={character} setCharacter={setCharacter} />
+          <InitiativeRoller character={character} />
           <ExperiencePoints character={character} setCharacter={setCharacter} />
           <SecondaryStats character={character} setCharacter={setCharacter} />
           <Abilities character={character} setCharacter={setCharacter} />
@@ -70,14 +71,32 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <SavingThrows character={character} setCharacter={setCharacter} />
           <Weight character={character} setCharacter={setCharacter} />
           <Money character={character} setCharacter={setCharacter} />
-          {/* Items, Weapons, Animals, Spells can all reuse the same component */}
-          <Items character={character} setCharacter={setCharacter} />
-          <Weapons character={character} setCharacter={setCharacter} />
-          {character.equipment.filter(
-            (items) => items.category === "beasts-of-burden"
-          ).length > 0 && (
-            <Animals character={character} setCharacter={setCharacter} />
-            // SPELLS
+          <EquipmentList
+            character={character}
+            setCharacter={setCharacter}
+            header={"Weapons"}
+            categories={[
+              "axes",
+              "bows",
+              "daggers",
+              "swords",
+              "hammers-and-maces",
+            ]}
+          />
+          <EquipmentList
+            character={character}
+            setCharacter={setCharacter}
+            header={"Misc Items"}
+            categories={"items"}
+          />
+          <EquipmentList
+            character={character}
+            setCharacter={setCharacter}
+            header={"Beasts of Burden"}
+            categories={"beasts-of-burden"}
+          />
+          {character.class.includes("Magic-User") && (
+            <Spells character={character} setCharacter={setCharacter} />
           )}
           {/* initiative w/ RACE/ClASS BONUSES */}
           {/* CLASS TABLE */}
