@@ -19,6 +19,8 @@ export default function ArmorClass({
   }
 
   if (character.equipment.find((item) => item.name === "Shield")) armorClass++;
+
+  armorClass += +character.abilities.modifiers.dexterity;
   return (
     <div>
       <Typography.Text>Armor Class</Typography.Text>
