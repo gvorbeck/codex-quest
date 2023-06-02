@@ -16,6 +16,8 @@ import SavingThrows from "./SavingThrows";
 import ExperiencePoints from "./ExperiencePoints";
 import Weight from "./Weight";
 import Money from "./Money";
+import Items from "./Items";
+import Weapons from "./Weapons";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -67,12 +69,14 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <ExperiencePoints character={character} setCharacter={setCharacter} />
           <Weight character={character} setCharacter={setCharacter} />
           <Money character={character} setCharacter={setCharacter} />
-
-          {/* Equipment */}
+          <Items character={character} setCharacter={setCharacter} />
+          <Weapons character={character} setCharacter={setCharacter} />
+          {/* weapons */}
+          {/* animals */}
           {/* SPELLS */}
           {/* Languages */}
           {/* Notes */}
-          {/* initiative RACE/ClASS BONUSES */}
+          {/* initiative w/ RACE/ClASS BONUSES */}
           {/* CLASS TABLE */}
           {/* Hit Dice */}
         </div>
