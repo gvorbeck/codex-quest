@@ -1,9 +1,7 @@
-import { Button, Space, Typography } from "antd";
+import { Button, Col, Row, Space, Typography } from "antd";
 import CreateCharacterModal from "./CreateCharacterModal/CreateCharacterModal";
 import { useState } from "react";
 import { HeaderContentProps } from "./types";
-
-const { Paragraph } = Typography;
 
 export default function HeaderContent({
   auth,
@@ -16,17 +14,23 @@ export default function HeaderContent({
     setIsModalOpen(true);
   };
   return (
-    <header>
+    <>
       {user ? (
-        <Space align="center">
-          <Button type="primary" onClick={showModal}>
-            Create BFRPG Character
-          </Button>
-          <Paragraph>{user.displayName}</Paragraph>
-          <Button type="link" onClick={() => auth.signOut()}>
-            Log out
-          </Button>
-        </Space>
+        <Row>
+          <Col flex={4}>
+            <Button type="primary" onClick={showModal}>
+              Create BFRPG Character
+            </Button>
+          </Col>
+          <Col flex={1} className="flex justify-end">
+            <Space>
+              <Typography.Text>{user.displayName}</Typography.Text>
+              <Button type="primary" onClick={() => auth.signOut()}>
+                Log out
+              </Button>
+            </Space>
+          </Col>
+        </Row>
       ) : (
         <Button type="primary" onClick={handleLogin}>
           Log in with Google
@@ -37,6 +41,6 @@ export default function HeaderContent({
         setIsModalOpen={setIsModalOpen}
         onCharacterAdded={onCharacterAdded}
       />
-    </header>
+    </>
   );
 }

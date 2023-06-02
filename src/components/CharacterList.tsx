@@ -9,17 +9,22 @@ export default function CharacterList({
   return (
     <div>
       {characters.length ? (
-        <Row justify={"space-evenly"}>
+        <Row justify={"space-evenly"} className="gap-8">
           {characters.map((character) => (
-            <Col span={4} key={character.id}>
-              <Link to={`/users/${user?.uid}/character/${character.id}`}>
-                <Card hoverable className="bg-seaBuckthorn">
-                  <Card.Meta
-                    title={character.name}
-                    description={`${character.race} - ${character.class} - ${character.id}`}
-                  />
-                </Card>
-              </Link>
+            <Col span={5} key={character.id}>
+              <Card
+                className="bg-seaBuckthorn"
+                extra={
+                  <Link to={`/users/${user?.uid}/character/${character.id}`}>
+                    Open
+                  </Link>
+                }
+                title={character.name}
+              >
+                <Card.Meta
+                  description={`${character.race} - ${character.class} - ${character.id}`}
+                />
+              </Card>
             </Col>
           ))}
         </Row>
