@@ -1,10 +1,7 @@
 import { Typography } from "antd";
 import { CharacterDetails } from "../types";
 
-export default function ArmorClass({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+export default function ArmorClass({ character }: CharacterDetails) {
   let armorClass = 11;
   if (character.equipment.find((item) => item.name === "Leather Armor")) {
     armorClass = 13;
@@ -22,9 +19,13 @@ export default function ArmorClass({
 
   armorClass += +character.abilities.modifiers.dexterity;
   return (
-    <div>
-      <Typography.Title level={3}>Armor Class</Typography.Title>
-      <Typography.Text>{armorClass}</Typography.Text>
+    <div className="text-center">
+      <Typography.Title level={3} className="mt-0 text-shipGray">
+        Armor Class
+      </Typography.Title>
+      <Typography.Text className="text-6xl font-bold text-shipGray">
+        {armorClass}
+      </Typography.Text>
     </div>
   );
 }

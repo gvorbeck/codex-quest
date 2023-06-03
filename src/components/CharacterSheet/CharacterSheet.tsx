@@ -75,13 +75,25 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               <Abilities character={character} />
             </Col>
             <Col span={16}>
-              <AttackBonus character={character} />
-              <Movement character={character} />
-              <ArmorClass character={character} setCharacter={setCharacter} />
+              <Row gutter={16}>
+                <Col span={8}>
+                  <AttackBonus character={character} />
+                </Col>
+                <Col span={8}>
+                  <Movement character={character} />
+                </Col>
+                <Col span={8}>
+                  <ArmorClass character={character} />
+                </Col>
+              </Row>
+              <HitPoints
+                character={character}
+                setCharacter={setCharacter}
+                className="mt-4"
+              />
             </Col>
           </Row>
           <SecondaryStats character={character} setCharacter={setCharacter} />
-          <HitPoints character={character} setCharacter={setCharacter} />
           <SpecialsRestrictions
             character={character}
             setCharacter={setCharacter}

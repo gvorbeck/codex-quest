@@ -160,6 +160,7 @@ export interface CharacterSheetProps {
 export interface CharacterDetails {
   character: CharacterData;
   setCharacter?: (character: CharacterData) => void;
+  className?: string;
 }
 export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;

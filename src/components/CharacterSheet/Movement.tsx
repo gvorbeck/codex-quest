@@ -22,9 +22,13 @@ export default function Movement({ character }: CharacterDetails) {
     movement = character.weight >= carryingCapacity.light ? 20 : 10;
   }
   return (
-    <div>
-      <Typography.Title level={3}>Movement</Typography.Title>
-      <Typography.Text>{movement}'</Typography.Text>
+    <div className="text-center">
+      <Typography.Title level={3} className="mt-0 text-shipGray">
+        Movement
+      </Typography.Title>
+      <Typography.Text className="text-6xl font-bold text-shipGray">
+        {movement}'
+      </Typography.Text>
     </div>
   );
 }

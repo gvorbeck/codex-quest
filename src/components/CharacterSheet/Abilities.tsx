@@ -1,6 +1,6 @@
 import { toTitleCase } from "../formatters";
 import { CharacterDetails } from "../types";
-import { Table } from "antd";
+import { Table, Typography } from "antd";
 
 export default function Abilities({ character }: CharacterDetails) {
   const dataSource: {
@@ -29,11 +29,16 @@ export default function Abilities({ character }: CharacterDetails) {
   });
 
   return (
-    <Table
-      dataSource={dataSource}
-      columns={columns}
-      showHeader={false}
-      pagination={false}
-    />
+    <div>
+      <Typography.Title level={3} className="mt-0 text-shipGray">
+        Abilities
+      </Typography.Title>
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        showHeader={false}
+        pagination={false}
+      />
+    </div>
   );
 }

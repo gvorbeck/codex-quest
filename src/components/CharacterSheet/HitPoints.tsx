@@ -4,20 +4,17 @@ import { CharacterDetails } from "../types";
 export default function HitPoints({
   character,
   setCharacter,
+  className,
 }: CharacterDetails) {
   return (
-    <div>
+    <div className={className}>
       <InputNumber
         value={character.hp.points}
         min={0}
         max={character.hp.max}
         addonAfter={`Max: ${character.hp.max}`}
       />
-      <Input.TextArea
-        rows={4}
-        placeholder="Wounds and Conditions"
-        maxLength={6}
-      />
+      <Input.TextArea rows={4} placeholder="Wounds and Conditions" />
     </div>
   );
 }
