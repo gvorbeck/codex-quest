@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Tooltip } from "antd";
 import { CheckCircleTwoTone, EditTwoTone } from "@ant-design/icons";
 
-export default function SecondaryStats({
+export default function Description({
   character,
   setCharacter,
 }: CharacterDetails) {

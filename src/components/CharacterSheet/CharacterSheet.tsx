@@ -5,7 +5,7 @@ import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
 import { Breadcrumb, Col, Row } from "antd";
-import SecondaryStats from "./SecondaryStats";
+import Description from "./Description";
 import Abilities from "./Abilities";
 import AttackBonus from "./AttackBonus";
 import Movement from "./Movement";
@@ -74,26 +74,21 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Col span={8}>
               <Abilities character={character} />
             </Col>
-            <Col span={16}>
-              <Row gutter={16}>
-                <Col span={8}>
-                  <AttackBonus character={character} />
-                </Col>
-                <Col span={8}>
-                  <Movement character={character} />
-                </Col>
-                <Col span={8}>
-                  <ArmorClass character={character} />
-                </Col>
-              </Row>
+            <Col span={8}>
+              <AttackBonus character={character} />
               <HitPoints
                 character={character}
                 setCharacter={setCharacter}
                 className="mt-4"
               />
             </Col>
+            <Col span={8}>
+              {/* THESE CAN BE THE SAME COMPONENT */}
+              <Movement character={character} />
+              <ArmorClass character={character} />
+              <HitDice character={character} />
+            </Col>
           </Row>
-          <SecondaryStats character={character} setCharacter={setCharacter} />
           <SpecialsRestrictions
             character={character}
             setCharacter={setCharacter}
@@ -128,7 +123,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {character.class.includes("Magic-User") && (
             <Spells character={character} setCharacter={setCharacter} />
           )}
-          <HitDice character={character} />
+          <Description character={character} setCharacter={setCharacter} />
         </div>
       ) : (
         <div>Loading character...</div>
