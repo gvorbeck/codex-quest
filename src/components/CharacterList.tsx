@@ -1,7 +1,7 @@
-import { Avatar, Card, Col, Empty, Row } from "antd";
+import { Avatar, Button, Card, Col, Empty, Row } from "antd";
 import { CharacterListProps } from "./types";
 import { Link } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, SolutionOutlined } from "@ant-design/icons";
 
 export default function CharacterList({
   user,
@@ -10,14 +10,18 @@ export default function CharacterList({
   return (
     <div>
       {characters.length ? (
-        <Row justify={"space-between"} className="gap-y-8">
+        <Row justify={"start"} className="gap-8">
           {characters.map((character) => (
             <Col span={5} key={character.id}>
               <Card
                 className="bg-seaBuckthorn"
                 extra={
                   <Link to={`/users/${user?.uid}/character/${character.id}`}>
-                    Open
+                    <Button
+                      className="bg-zorba bg-opacity-25 !border-transparent hover:border-transparent hover:bg-opacity-40"
+                      icon={<SolutionOutlined />}
+                      aria-label="Open character sheet"
+                    />
                   </Link>
                 }
                 title={character.name}
@@ -28,7 +32,10 @@ export default function CharacterList({
                     character.avatar ? (
                       <Avatar src={character.avatar} />
                     ) : (
-                      <Avatar icon={<UserOutlined />} />
+                      <Avatar
+                        className="text-seaBuckthorn"
+                        icon={<UserOutlined />}
+                      />
                     )
                   }
                 />
