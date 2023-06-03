@@ -14,3 +14,7 @@ footer .ant-typography,
 header .ant-typography {
   color: theme("colors.springWood");
 }
+
+footer a {
+  color: theme("colors.seaBuckthorn") !important;
+}
