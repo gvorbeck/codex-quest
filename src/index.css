@@ -18,3 +18,12 @@ header .ant-typography {
 footer a {
   color: theme("colors.seaBuckthorn") !important;
 }
+
+.ant-table {
+  background-color: theme("colors.shipGray") !important;
+  color: theme("colors.springWood") !important;
+}
+
+.ant-table-row:hover td {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+}

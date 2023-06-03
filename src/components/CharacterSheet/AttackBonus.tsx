@@ -1,10 +1,7 @@
 import { Table } from "antd";
 import { CharacterDetails } from "../types";
 
-export default function AttackBonus({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+export default function AttackBonus({ character }: CharacterDetails) {
   const rangedRaceBonus = character.race === "Halfling" ? 1 : 0;
 
   function getAttackBonus() {

@@ -16,7 +16,7 @@ export default function CharacterList({
               <Card
                 className="bg-seaBuckthorn"
                 extra={
-                  <Link to={`/users/${user?.uid}/character/${character.id}`}>
+                  <Link to={`/u/${user?.uid}/c/${character.id}`}>
                     <Button
                       className="bg-zorba bg-opacity-25 !border-transparent hover:border-transparent hover:bg-opacity-40"
                       icon={<SolutionOutlined />}

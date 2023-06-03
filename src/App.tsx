@@ -143,10 +143,7 @@ function App() {
             index
             element={<CharacterList user={user} characters={characters} />}
           />
-          <Route
-            path="users/:uid/character/:id"
-            element={<CharacterSheet user={user} />}
-          />
+          <Route path="u/:uid/c/:id" element={<CharacterSheet user={user} />} />
         </Route>
       </Routes>
     </ConfigProvider>

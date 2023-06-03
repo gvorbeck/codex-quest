@@ -2,10 +2,7 @@ import { Typography } from "antd";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import { CharacterDetails } from "../types";
 
-export default function Movement({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+export default function Movement({ character }: CharacterDetails) {
   const carryingCapacity = calculateCarryingCapacity(
     +character.abilities.scores.strength,
     character.race
