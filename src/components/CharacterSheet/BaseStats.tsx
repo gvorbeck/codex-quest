@@ -1,33 +1,26 @@
 import { CharacterDetails } from "../types";
-import { Button, Tooltip, Typography } from "antd";
-import { EditTwoTone } from "@ant-design/icons";
+import { Typography } from "antd";
 
-export default function BaseStats({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+export default function BaseStats({ character }: CharacterDetails) {
   return (
-    <section>
-      <Typography.Title level={1}>{character.name}</Typography.Title>
-      <dl>
-        <div>
-          <dt>Level</dt>
-          <dd>
-            {character.level}
-            <Tooltip title="edit">
-              <Button type="ghost" shape="circle" icon={<EditTwoTone />} />
-            </Tooltip>
-          </dd>
+    <div>
+      <Typography.Title level={1} className="!mb-2 !mt-6 !text-shipGray">
+        {character.name}
+      </Typography.Title>
+      <dl className="flex m-0">
+        <div className="flex">
+          <dt className="font-bold">Level</dt>
+          <dd className="ml-2">{character.level}</dd>
         </div>
-        <div>
-          <dt>Race</dt>
-          <dd>{character.race}</dd>
+        <div className="flex ml-4">
+          <dt className="font-bold">Race</dt>
+          <dd className="ml-2">{character.race}</dd>
         </div>
-        <div>
-          <dt>Class</dt>
-          <dd>{character.class}</dd>
+        <div className="flex ml-4">
+          <dt className="font-bold">Class</dt>
+          <dd className="ml-2">{character.class} </dd>
         </div>
       </dl>
-    </section>
+    </div>
   );
 }

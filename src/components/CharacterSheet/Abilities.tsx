@@ -2,10 +2,7 @@ import { toTitleCase } from "../formatters";
 import { CharacterDetails } from "../types";
 import { Table } from "antd";
 
-export default function Abilities({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+export default function Abilities({ character }: CharacterDetails) {
   const dataSource: {
     key: number;
     ability: string;

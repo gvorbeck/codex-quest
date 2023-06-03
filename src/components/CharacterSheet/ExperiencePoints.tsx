@@ -90,8 +90,12 @@ export default function ExperiencePoints({
         onFocus={(event) => event.target.select()}
         onChange={handleInputChange}
         onBlur={handleInputBlur}
+        onKeyPress={(event) => {
+          if (event.key === "Enter") {
+            handleInputBlur();
+          }
+        }}
         suffix={`/ ${totalLevelRequirement} XP`}
-        addonBefore={`Level ${character.level}`}
       />
       <Button
         disabled={character.xp < totalLevelRequirement}

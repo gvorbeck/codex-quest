@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Col, Row } from "antd";
 import SecondaryStats from "./SecondaryStats";
 import Abilities from "./Abilities";
 import AttackBonus from "./AttackBonus";
@@ -61,13 +61,24 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         ]}
       />
       {character ? (
-        <div>
-          <BaseStats character={character} setCharacter={setCharacter} />
-          <InitiativeRoller character={character} />
-          <ExperiencePoints character={character} setCharacter={setCharacter} />
+        <div className="!text-shipGray [&>*]:mt-8 [&>div:first-child]:mt-0">
+          <BaseStats character={character} />
+          <div className="flex justify-between">
+            <ExperiencePoints
+              character={character}
+              setCharacter={setCharacter}
+            />
+            <InitiativeRoller character={character} />
+          </div>
+          <Row gutter={32}>
+            <Col span={8}>
+              <Abilities character={character} />
+            </Col>
+            <Col span={16}>
+              <AttackBonus character={character} setCharacter={setCharacter} />
+            </Col>
+          </Row>
           <SecondaryStats character={character} setCharacter={setCharacter} />
-          <Abilities character={character} setCharacter={setCharacter} />
-          <AttackBonus character={character} setCharacter={setCharacter} />
           <Movement character={character} setCharacter={setCharacter} />
           <ArmorClass character={character} setCharacter={setCharacter} />
           <HitPoints character={character} setCharacter={setCharacter} />
