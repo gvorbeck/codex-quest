@@ -1,6 +1,7 @@
-import { Card, Col, Empty, Row } from "antd";
+import { Avatar, Card, Col, Empty, Row } from "antd";
 import { CharacterListProps } from "./types";
 import { Link } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 
 export default function CharacterList({
   user,
@@ -23,6 +24,13 @@ export default function CharacterList({
               >
                 <Card.Meta
                   description={`${character.race} - ${character.class} - ${character.id}`}
+                  avatar={
+                    character.avatar ? (
+                      <Avatar src={character.avatar} />
+                    ) : (
+                      <Avatar icon={<UserOutlined />} />
+                    )
+                  }
                 />
               </Card>
             </Col>
