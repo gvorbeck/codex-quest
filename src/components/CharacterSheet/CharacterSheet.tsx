@@ -50,7 +50,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     <div>
       <Breadcrumb
         items={[
-          { title: <Link to="/">Home</Link> },
+          {
+            title: (
+              <Link aria-label="Go back Home" to="/">
+                Home
+              </Link>
+            ),
+          },
           { title: character?.name || "" },
         ]}
       />
