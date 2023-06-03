@@ -9,7 +9,7 @@ export default function CharacterList({
   return (
     <div>
       {characters.length ? (
-        <Row justify={"space-evenly"} className="gap-8">
+        <Row justify={"space-between"} className="gap-y-8">
           {characters.map((character) => (
             <Col span={5} key={character.id}>
               <Card

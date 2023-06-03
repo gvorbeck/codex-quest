@@ -13,7 +13,7 @@ export default function PageLayout({
 }: PageLayoutProps) {
   return (
     <Layout>
-      <Layout.Header className="bg-shipGray">
+      <Layout.Header className="bg-shipGray px-8">
         <HeaderContent
           user={user}
           handleLogin={handleLogin}
@@ -21,11 +21,10 @@ export default function PageLayout({
           onCharacterAdded={onCharacterAdded}
         />
       </Layout.Header>
-      <Layout.Content className="bg-springWood p-4">
-        <Typography.Title level={1}>CODEX.QUEST</Typography.Title>
+      <Layout.Content className="bg-springWood p-8">
         <Outlet />
       </Layout.Content>
-      <Layout.Footer className="bg-shipGray">
+      <Layout.Footer className="bg-shipGray p-8">
         <FooterContent />
       </Layout.Footer>
     </Layout>
