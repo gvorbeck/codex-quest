@@ -85,11 +85,11 @@ export default function CharNameStep({
         .then(() => {
           // Upload completed successfully
           getDownloadURL(storageRef).then((downloadURL) => {
-            console.log("Download URL:", downloadURL);
+            setCharacterData({ ...characterData, avatar: downloadURL });
           });
         })
         .catch((error: Error) => {
-          console.log("Upload error:", error);
+          console.error("Upload error:", error);
         });
     }
   };
