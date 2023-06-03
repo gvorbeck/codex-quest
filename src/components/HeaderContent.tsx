@@ -17,7 +17,13 @@ export default function HeaderContent({
     <>
       {user ? (
         <Row>
-          <Col flex={4}>
+          <Col flex={4} className="flex items-center">
+            <Typography.Title
+              level={1}
+              className="!mb-0 mt-0 leading-none mr-4"
+            >
+              CODEX.QUEST
+            </Typography.Title>
             <Button type="primary" onClick={showModal}>
               Create BFRPG Character
             </Button>
