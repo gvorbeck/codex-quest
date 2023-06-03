@@ -31,8 +31,23 @@ export default function CharEquipmentStep({
 
   const rollStartingGold = () => {
     const result = roller.roll("3d6*10");
-    if (!(result instanceof Array) && result.total !== null)
-      updateStartingGold(result.total);
+
+    const noArmorItem = equipmentItems.find(
+      (noArmor: EquipmentItem) => noArmor.name === "No Armor"
+    );
+    if (!(result instanceof Array) && result.total !== null) {
+      let equipment;
+      if (!armorSelection && noArmorItem) {
+        equipment = [...characterData.equipment, noArmorItem];
+      } else {
+        equipment = [...characterData.equipment];
+      }
+      setCharacterData({
+        ...characterData,
+        gold: result.total,
+        equipment,
+      });
+    }
   };
 
   const getCategories = () => {
@@ -43,10 +58,10 @@ export default function CharEquipmentStep({
     return [...categoriesSet];
   };
 
-  const updateStartingGold = (startingGold: number | null) => {
-    startingGold !== null &&
-      setCharacterData({ ...characterData, gold: startingGold });
-  };
+  // const updateStartingGold = (startingGold: number | null) => {
+  //   startingGold !== null &&
+  //     setCharacterData({ ...characterData, gold: startingGold });
+  // };
 
   const updateArmorSelection = (itemName: string) => {
     const item = equipmentItems.find((item) => item.name === itemName);
@@ -78,29 +93,34 @@ export default function CharEquipmentStep({
    */
   useEffect(() => {
     setEquipmentCategories(getCategories());
-    const noArmorItem = equipmentItems.find(
-      (noArmor: EquipmentItem) => noArmor.name === "No Armor"
-    );
+    // const noArmorItem = equipmentItems.find(
+    //   (noArmor: EquipmentItem) => noArmor.name === "No Armor"
+    // );
 
-    if (noArmorItem) {
-      setArmorSelection(noArmorItem);
+    // if (noArmorItem) {
+    //   setArmorSelection(noArmorItem);
 
-      // Add the "No Armor" item to the equipment array if it doesn't exist yet
-      if (
-        !characterData.equipment.find((item) => item.name === noArmorItem.name)
-      ) {
-        setCharacterData({
-          ...characterData,
-          equipment: [...characterData.equipment, noArmorItem],
-        });
-      }
-    }
+    //   // Check if the "No Armor" item already exists in the equipment array
+    //   const noArmorExists = characterData.equipment.find(
+    //     (item) => item.name === noArmorItem.name
+    //   );
+
+    //   // If it doesn't exist, add it
+    //   if (!noArmorExists) {
+    //     const newEquipment = [...characterData.equipment, noArmorItem];
+    //     setCharacterData({
+    //       ...characterData,
+    //       equipment: newEquipment,
+    //     });
+    //   }
+    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [equipmentItems]);
+  }, []);
 
   useEffect(() => {
     handleWeightChange();
+    console.log(characterData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characterData.equipment]);
 
@@ -120,7 +140,11 @@ export default function CharEquipmentStep({
           type="number"
           value={Number(characterData.gold.toFixed(2))}
         />
-        <Button type="primary" onClick={rollStartingGold}>
+        <Button
+          aria-label="Roll for starting gold"
+          type="primary"
+          onClick={rollStartingGold}
+        >
           Roll 3d6x10
         </Button>
       </Space.Compact>

@@ -23,7 +23,7 @@ export default function ArmorClass({
   armorClass += +character.abilities.modifiers.dexterity;
   return (
     <div>
-      <Typography.Text>Armor Class</Typography.Text>
+      <Typography.Title level={3}>Armor Class</Typography.Title>
       <Typography.Text>{armorClass}</Typography.Text>
     </div>
   );

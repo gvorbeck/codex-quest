@@ -23,8 +23,8 @@ export default function Movement({ character }: CharacterDetails) {
   }
   return (
     <div>
-      <Typography.Text>Movement</Typography.Text>
-      <Typography.Text>{movement}</Typography.Text>
+      <Typography.Title level={3}>Movement</Typography.Title>
+      <Typography.Text>{movement}'</Typography.Text>
     </div>
   );
 }

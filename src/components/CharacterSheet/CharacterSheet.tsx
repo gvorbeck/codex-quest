@@ -77,10 +77,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Col span={16}>
               <AttackBonus character={character} />
               <Movement character={character} />
+              <ArmorClass character={character} setCharacter={setCharacter} />
             </Col>
           </Row>
           <SecondaryStats character={character} setCharacter={setCharacter} />
-          <ArmorClass character={character} setCharacter={setCharacter} />
           <HitPoints character={character} setCharacter={setCharacter} />
           <SpecialsRestrictions
             character={character}

@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Typography } from "antd";
 import { CharacterDetails } from "../types";
 
 export default function AttackBonus({ character }: CharacterDetails) {
@@ -54,11 +54,14 @@ export default function AttackBonus({ character }: CharacterDetails) {
   ];
 
   return (
-    <Table
-      dataSource={dataSource}
-      columns={columns}
-      showHeader={false}
-      pagination={false}
-    />
+    <div>
+      <Typography.Title level={3}>Attack Bonuses</Typography.Title>
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        showHeader={false}
+        pagination={false}
+      />
+    </div>
   );
 }
