@@ -4,12 +4,10 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
-import { Breadcrumb, Col, Row } from "antd";
+import { Breadcrumb, Col, Divider, Row } from "antd";
 import Description from "./Description";
 import Abilities from "./Abilities";
 import AttackBonus from "./AttackBonus";
-import Movement from "./Movement";
-import ArmorClass from "./ArmorClass";
 import HitPoints from "./HitPoints";
 import SpecialsRestrictions from "./SpecialsRestrictions";
 import SavingThrows from "./SavingThrows";
@@ -19,11 +17,120 @@ import Money from "./Money";
 import EquipmentList from "./EquipmentList";
 import Spells from "./Spells";
 import InitiativeRoller from "./InitiativeRoller";
-import HitDice from "./HitDice";
+import calculateCarryingCapacity from "../calculateCarryingCapacity";
+import SimpleNumberStat from "./SimpleNumberStat";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
+
+  // MOVEMENT
+  let movement;
+  if (character) {
+    const carryingCapacity = calculateCarryingCapacity(
+      +character.abilities.scores.strength,
+      character.race
+    );
+    if (
+      character.equipment.find((item) => item.name === "No Armor") ||
+      character.equipment.find((item) => item.name === "Magic Leather Armor")
+    ) {
+      movement = character.weight >= carryingCapacity.light ? 40 : 30;
+    } else if (
+      character.equipment.find((item) => item.name === "Leather Armor") ||
+      character.equipment.find((item) => item.name === "Magic Metal Armor")
+    ) {
+      movement = character.weight >= carryingCapacity.light ? 30 : 20;
+    } else if (
+      character.equipment.find((item) => item.name === "Metal Armor")
+    ) {
+      movement = character.weight >= carryingCapacity.light ? 20 : 10;
+    }
+  }
+
+  // ARMOR CLASS
+  let armorClass = 11;
+  if (character) {
+    if (character.equipment.find((item) => item.name === "Leather Armor")) {
+      armorClass = 13;
+    } else if (
+      character.equipment.find((item) => item.name === "Chain Mail Armor")
+    ) {
+      armorClass = 15;
+    } else if (
+      character.equipment.find((item) => item.name === "Plate Mail Armor")
+    ) {
+      armorClass = 17;
+    }
+    if (character.equipment.find((item) => item.name === "Shield"))
+      armorClass++;
+    armorClass += +character.abilities.modifiers.dexterity;
+  }
+
+  // HIT DICE
+  const hitDiceModifiers = {
+    single: [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+    ],
+    double: [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+    ],
+  };
+  let hitDice = "";
+  if (character) {
+    hitDice = character.hp.dice;
+    let modifier = 0;
+    if (!character.class.includes(" ")) {
+      modifier =
+        character.class === "Cleric" || character.class === "Magic-User"
+          ? hitDiceModifiers.single[character.level - 1] || 0
+          : hitDiceModifiers.double[character.level - 1] || 0;
+    }
+    if (character.level < 10) {
+      hitDice =
+        character.level + hitDice + (modifier !== 0 ? "+" + modifier : "");
+    } else {
+      hitDice = 9 + hitDice + "+" + modifier;
+    }
+  }
 
   useEffect(() => {
     async function fetchCharacter() {
@@ -82,18 +189,27 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 className="mt-4"
               />
             </Col>
-            <Col span={8}>
-              {/* THESE CAN BE THE SAME COMPONENT */}
-              <Movement character={character} />
-              <ArmorClass character={character} />
-              <HitDice character={character} />
+            <Col
+              span={8}
+              className="flex items-center justify-between flex-col"
+            >
+              <SimpleNumberStat title="Armor Class" value={armorClass} />
+              <SimpleNumberStat title="Movement" value={`${movement}'`} />
+              <SimpleNumberStat title="Hit Dice" value={hitDice} />
             </Col>
           </Row>
-          <SpecialsRestrictions
-            character={character}
-            setCharacter={setCharacter}
-          />
-          <SavingThrows character={character} setCharacter={setCharacter} />
+          <Divider />
+          <Row gutter={32}>
+            <Col span={12}>
+              <SpecialsRestrictions
+                character={character}
+                setCharacter={setCharacter}
+              />
+            </Col>
+            <Col span={12}>
+              <SavingThrows character={character} setCharacter={setCharacter} />
+            </Col>
+          </Row>
           <Weight character={character} setCharacter={setCharacter} />
           <Money character={character} setCharacter={setCharacter} />
           <EquipmentList

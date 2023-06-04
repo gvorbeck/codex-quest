@@ -172,3 +172,8 @@ export interface SavingThrowsTables {
     [levelRange: string]: SavingThrows;
   };
 }
+
+export interface SimpleNumberStatProps {
+  title: string;
+  value: string | number;
+}
