@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Typography } from "antd";
 import { CharacterData, CharacterDetails, SavingThrowsTables } from "../types";
 import { camelCaseToTitleCase } from "../formatters";
 
@@ -386,11 +386,16 @@ export default function SavingThrows({
     { title: "Value", dataIndex: "score", key: "score" },
   ];
   return (
-    <Table
-      dataSource={dataSource}
-      pagination={false}
-      showHeader={false}
-      columns={columns}
-    />
+    <div>
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
+        Saving Throws
+      </Typography.Title>
+      <Table
+        dataSource={dataSource}
+        pagination={false}
+        showHeader={false}
+        columns={columns}
+      />
+    </div>
   );
 }

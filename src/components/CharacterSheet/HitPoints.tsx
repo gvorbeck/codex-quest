@@ -8,7 +8,7 @@ export default function HitPoints({
 }: CharacterDetails) {
   return (
     <div className={className}>
-      <Typography.Title level={3} className="mt-0 text-shipGray">
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
         Hit Points
       </Typography.Title>
       <InputNumber

@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
-import { Breadcrumb, Col, Divider, Row } from "antd";
+import { Breadcrumb, Col, Collapse, Divider, Row, Typography } from "antd";
 import Description from "./Description";
 import Abilities from "./Abilities";
 import AttackBonus from "./AttackBonus";
@@ -181,13 +181,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Col span={8}>
               <Abilities character={character} />
             </Col>
-            <Col span={8}>
+            <Col span={8} className="flex flex-col justify-between">
               <AttackBonus character={character} />
-              <HitPoints
-                character={character}
-                setCharacter={setCharacter}
-                className="mt-4"
-              />
+              <HitPoints character={character} setCharacter={setCharacter} />
             </Col>
             <Col
               span={8}
@@ -201,44 +197,52 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <Divider />
           <Row gutter={32}>
             <Col span={12}>
-              <SpecialsRestrictions
-                character={character}
-                setCharacter={setCharacter}
-              />
+              <SpecialsRestrictions character={character} />
             </Col>
             <Col span={12}>
               <SavingThrows character={character} setCharacter={setCharacter} />
             </Col>
           </Row>
-          <Weight character={character} setCharacter={setCharacter} />
-          <Money character={character} setCharacter={setCharacter} />
-          <EquipmentList
-            character={character}
-            setCharacter={setCharacter}
-            header={"Weapons"}
-            categories={[
-              "axes",
-              "bows",
-              "daggers",
-              "swords",
-              "hammers-and-maces",
-            ]}
-          />
-          <EquipmentList
-            character={character}
-            setCharacter={setCharacter}
-            header={"Misc Items"}
-            categories={"items"}
-          />
-          <EquipmentList
-            character={character}
-            setCharacter={setCharacter}
-            header={"Beasts of Burden"}
-            categories={"beasts-of-burden"}
-          />
-          {character.class.includes("Magic-User") && (
-            <Spells character={character} setCharacter={setCharacter} />
-          )}
+          <Divider />
+          <Row gutter={32}>
+            <Col span={12}>
+              <Weight character={character} setCharacter={setCharacter} />
+              <Money character={character} setCharacter={setCharacter} />
+            </Col>
+            <Col span={12}>
+              <Typography.Title level={3} className="mt-0 !text-shipGray">
+                Equipment
+              </Typography.Title>
+              <Collapse>
+                {character.class.includes("Magic-User") && (
+                  <Collapse.Panel header="Spells" key="1">
+                    <Spells character={character} setCharacter={setCharacter} />
+                  </Collapse.Panel>
+                )}
+                <Collapse.Panel header="Weapons" key="2">
+                  <EquipmentList
+                    character={character}
+                    categories={[
+                      "axes",
+                      "bows",
+                      "daggers",
+                      "swords",
+                      "hammers-and-maces",
+                    ]}
+                  />
+                </Collapse.Panel>
+                <Collapse.Panel header="Miscellaneous Items" key="3">
+                  <EquipmentList character={character} categories={"items"} />
+                </Collapse.Panel>
+                <Collapse.Panel header="Beasts of Burden" key="4">
+                  <EquipmentList
+                    character={character}
+                    categories={"beasts-of-burden"}
+                  />
+                </Collapse.Panel>
+              </Collapse>
+            </Col>
+          </Row>
           <Description character={character} setCharacter={setCharacter} />
         </div>
       ) : (

@@ -55,7 +55,7 @@ export default function AttackBonus({ character }: CharacterDetails) {
 
   return (
     <div>
-      <Typography.Title level={3} className="mt-0 text-shipGray">
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
         Attack Bonuses
       </Typography.Title>
       <Table

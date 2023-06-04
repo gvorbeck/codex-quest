@@ -17,36 +17,28 @@ import { ConfigProvider, theme } from "antd";
 
 console.log(theme);
 // TODOS
-// GRAND SCHEME:
-// done -- MAYBE ONE STATE OBJECT CALLED "CHARACTER" INSTEAD OF 1298239873493587????
-// done -- MOVE EQUIPMENT OUT OF FIRESTORE AND INTO JSON
-// TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
-// GOOGLE ANALYTICS
-// REACT ROUTER DOM
-// message or toast like component for when character is saved.
-// buying enough equipment to get to 0 gold disables next button.
+// GENERAL:
+// - TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
+// - GOOGLE ANALYTICS
+// - message or toast like component for when character is saved.
+// - buying enough equipment to get to 0 gold disables next button.
 
 // BUILDER:
 // - ARMOR NOT COSTING GOLD
 // - WEIGHT MAXES AND LABELS
-// - "DONE" FUNCTION
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
-// - "NO ARMOR" NOT BEING AUTOADDED!
 // - limit gold decimal space to 2
 // - Class restrictions to weapon choices!
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
+// - Armor collapse
+// - buy new equipment option
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
 // - ANALYZE BUNDLE SIZE: https://create-react-app.dev/docs/analyzing-the-bundle-size/
-
-// LIST CHARS
-// - CARDS FOR CREATED CHARACTERS
-
-// INTERACTIVE CHARACTER SHEET
 console.log("THERE ARE STILL TODOS!!!!");
 
 function App() {

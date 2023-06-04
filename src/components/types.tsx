@@ -164,7 +164,6 @@ export interface CharacterDetails {
 }
 export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;
-  header: any;
 }
 
 export interface SavingThrowsTables {

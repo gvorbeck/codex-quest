@@ -7,7 +7,7 @@ export default function SimpleNumberStat({
 }: SimpleNumberStatProps) {
   return (
     <div className="text-center">
-      <Typography.Title level={3} className="mt-0 text-shipGray">
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
         {title}
       </Typography.Title>
       <Typography.Text className="text-6xl font-bold text-shipGray">

@@ -5,7 +5,6 @@ export default function EquipmentList({
   character,
   setCharacter,
   categories,
-  header,
 }: EquipmentListProps) {
   let equipmentItems;
   if (typeof categories === "string") {
@@ -19,8 +18,6 @@ export default function EquipmentList({
   }
   return (
     <List
-      header={header}
-      bordered
       dataSource={equipmentItems}
       renderItem={(item) => <List.Item>{item.name}</List.Item>}
     />
