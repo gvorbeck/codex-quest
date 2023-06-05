@@ -205,23 +205,34 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           </Row>
           <Divider />
           <Row gutter={32}>
-            <Col span={12}>
-              <Weight character={character} setCharacter={setCharacter} />
+            <Col span={6}>
               <Money character={character} setCharacter={setCharacter} />
+            </Col>
+            <Col span={6}>
+              <Weight character={character} setCharacter={setCharacter} />
             </Col>
             <Col span={12}>
               <Typography.Title level={3} className="mt-0 !text-shipGray">
                 Equipment
               </Typography.Title>
-              <Collapse>
+              <Collapse className="bg-seaBuckthorn">
                 {character.class.includes("Magic-User") && (
-                  <Collapse.Panel header="Spells" key="1">
+                  <Collapse.Panel
+                    header="Spells"
+                    key="1"
+                    className="[&>div:not(:first)]:bg-springWood"
+                  >
                     <Spells character={character} setCharacter={setCharacter} />
                   </Collapse.Panel>
                 )}
-                <Collapse.Panel header="Weapons" key="2">
+                <Collapse.Panel
+                  header="Weapons"
+                  key="2"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
                   <EquipmentList
                     character={character}
+                    handleAttack
                     categories={[
                       "axes",
                       "bows",
@@ -231,10 +242,28 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     ]}
                   />
                 </Collapse.Panel>
-                <Collapse.Panel header="Miscellaneous Items" key="3">
+                <Collapse.Panel
+                  header="Miscellaneous Items"
+                  key="3"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
                   <EquipmentList character={character} categories={"items"} />
                 </Collapse.Panel>
-                <Collapse.Panel header="Beasts of Burden" key="4">
+                <Collapse.Panel
+                  header="Armor and Shields"
+                  key="4"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
+                  <EquipmentList
+                    character={character}
+                    categories={"armor-and-shields"}
+                  />
+                </Collapse.Panel>
+                <Collapse.Panel
+                  header="Beasts of Burden"
+                  key="5"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
                   <EquipmentList
                     character={character}
                     categories={"beasts-of-burden"}

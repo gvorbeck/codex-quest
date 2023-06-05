@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Divider, Typography } from "antd";
 import { CharacterDetails } from "../types";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 
@@ -8,14 +8,21 @@ export default function Weight({ character, setCharacter }: CharacterDetails) {
     character.race
   );
   return (
-    <div>
-      <Typography.Text>weight</Typography.Text>
-      <Typography.Text>{character.weight}</Typography.Text>
-      <Typography.Text>Max: {capacity.heavy}</Typography.Text>
+    <div className="text-center">
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
+        Weight
+      </Typography.Title>
+      <Typography.Text className="text-6xl font-bold !text-shipGray">
+        {character.weight}
+      </Typography.Text>
+      <Divider />
+      <Typography.Paragraph className="text-3xl font-bold !text-shipGray !mb-3">
+        Max: {capacity.heavy}
+      </Typography.Paragraph>
       <Typography.Text>
         {character.weight < capacity.light
-          ? "Lightly Loaded"
-          : "Heavily Loaded"}
+          ? "(Lightly Loaded)"
+          : "(Heavily Loaded)"}
       </Typography.Text>
     </div>
   );

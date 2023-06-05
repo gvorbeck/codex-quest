@@ -1,4 +1,4 @@
-import { InputNumber } from "antd";
+import { InputNumber, Space, Typography } from "antd";
 import { CharacterDetails } from "../types";
 
 export default function Money({ character, setCharacter }: CharacterDetails) {
@@ -26,9 +26,14 @@ export default function Money({ character, setCharacter }: CharacterDetails) {
 
   return (
     <div>
-      {Object.entries(makeChange()).map(([key, value]) => (
-        <InputNumber key={key} min={0} value={value} addonAfter={key} />
-      ))}
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
+        Money
+      </Typography.Title>
+      <Space direction="vertical">
+        {Object.entries(makeChange()).map(([key, value]) => (
+          <InputNumber key={key} min={0} value={value} addonAfter={key} />
+        ))}
+      </Space>
     </div>
   );
 }

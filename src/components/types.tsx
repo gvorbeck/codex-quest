@@ -164,6 +164,7 @@ export interface CharacterDetails {
 }
 export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;
+  handleAttack?: boolean;
 }
 
 export interface SavingThrowsTables {
