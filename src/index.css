@@ -31,3 +31,14 @@ footer a {
 .ant-collapse-content {
   background-color: theme("colors.springWood") !important;
 }
+
+.ant-card-actions {
+  background-color: theme("colors.seaBuckthorn") !important;
+  border-top-color: rgba(0, 0, 0, 0.35) !important;
+}
+.ant-card-actions li {
+  border-color: rgba(0, 0, 0, 0.35) !important;
+}
+.ant-card-actions li span .anticon:hover {
+  color: rgba(0, 0, 0, 0.75) !important;
+}

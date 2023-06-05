@@ -1,12 +1,31 @@
-import { Avatar, Button, Card, Col, Empty, Row } from "antd";
+import { Avatar, Card, Col, Empty, Popconfirm, Row } from "antd";
 import { CharacterListProps } from "./types";
-import { Link } from "react-router-dom";
-import { UserOutlined, SolutionOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import {
+  UserOutlined,
+  SolutionOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function CharacterList({
   user,
   characters,
+  onCharacterDeleted,
 }: CharacterListProps) {
+  const navigate = useNavigate();
+
+  const confirm = async (characterId: string) => {
+    if (user) {
+      const characterDoc = doc(
+        db,
+        `users/${user.uid}/characters/${characterId}`
+      );
+      await deleteDoc(characterDoc);
+      onCharacterDeleted();
+    }
+  };
   return (
     <div>
       {characters.length ? (
@@ -14,20 +33,34 @@ export default function CharacterList({
           {characters.map((character) => (
             <Col span={5} key={character.id}>
               <Card
-                className="bg-seaBuckthorn"
-                extra={
-                  <Link to={`/u/${user?.uid}/c/${character.id}`}>
-                    <Button
-                      className="bg-zorba bg-opacity-25 !border-transparent hover:border-transparent hover:bg-opacity-40"
-                      icon={<SolutionOutlined />}
-                      aria-label="Open character sheet"
+                actions={[
+                  <SolutionOutlined
+                    key="sheet"
+                    onClick={() =>
+                      navigate(`/u/${user?.uid}/c/${character.id}`)
+                    }
+                    title="Go to Character Sheet"
+                    aria-label="Go to Character Sheet"
+                  />,
+                  <Popconfirm
+                    title="Delete this character?"
+                    description={`This cannot be undone!`}
+                    onConfirm={() => character?.id && confirm(character.id)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <DeleteOutlined
+                      key="delete"
+                      // onClick={() => console.log("delete character")}
+                      aria-label="Delete character"
+                      title="Delete character"
                     />
-                  </Link>
-                }
-                title={character.name}
+                  </Popconfirm>,
+                ]}
+                className="h-full flex flex-col justify-between"
               >
                 <Card.Meta
-                  description={`${character.race} - ${character.class} - ${character.id}`}
+                  description={`Level ${character.level} ${character.race} ${character.class}`}
                   avatar={
                     character.avatar ? (
                       <Avatar src={character.avatar} />
@@ -38,6 +71,7 @@ export default function CharacterList({
                       />
                     )
                   }
+                  title={character.name}
                 />
               </Card>
             </Col>

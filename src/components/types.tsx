@@ -152,6 +152,7 @@ export interface HeaderContentProps extends PageLayoutProps {}
 export interface CharacterListProps {
   user: User | null;
   characters: CharacterData[];
+  onCharacterDeleted: () => void;
 }
 
 export interface CharacterSheetProps {

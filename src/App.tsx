@@ -140,7 +140,11 @@ function App() {
             index
             element={
               user ? (
-                <CharacterList user={user} characters={characters} />
+                <CharacterList
+                  user={user}
+                  characters={characters}
+                  onCharacterDeleted={handleCharacterAdded}
+                />
               ) : (
                 <Welcome />
               )
