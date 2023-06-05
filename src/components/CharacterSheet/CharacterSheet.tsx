@@ -169,14 +169,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       />
       {character ? (
         <div className="!text-shipGray [&>*]:mt-8 [&>div:first-child]:mt-0">
-          <BaseStats character={character} />
-          <div className="flex justify-between">
-            <ExperiencePoints
-              character={character}
-              setCharacter={setCharacter}
-            />
-            <InitiativeRoller character={character} />
-          </div>
+          <BaseStats character={character} setCharacter={setCharacter} />
+          {/* <div className="flex justify-end"> */}
+          <InitiativeRoller character={character} />
+          {/* </div> */}
           <Row gutter={32}>
             <Col span={8}>
               <Abilities character={character} />
@@ -272,6 +268,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               </Collapse>
             </Col>
           </Row>
+          <Divider />
           <Description character={character} setCharacter={setCharacter} />
         </div>
       ) : (

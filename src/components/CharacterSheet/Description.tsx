@@ -1,37 +1,19 @@
 import { CharacterDetails } from "../types";
-import { useState } from "react";
-import { Button, Tooltip } from "antd";
-import { CheckCircleTwoTone, EditTwoTone } from "@ant-design/icons";
+import { Input, Typography } from "antd";
 
 export default function Description({
   character,
   setCharacter,
 }: CharacterDetails) {
-  const [editMode, setEditMode] = useState(false);
-  const handleToggleEditMode = () => setEditMode(!editMode);
-  return editMode ? (
+  return (
     <div>
-      <p>goodbye world</p>
-      <Tooltip title="Save">
-        <Button
-          type="ghost"
-          shape="circle"
-          icon={<CheckCircleTwoTone />}
-          onClick={handleToggleEditMode}
-        />
-      </Tooltip>
-    </div>
-  ) : (
-    <div>
-      <p>hello world</p>
-      <Tooltip title="Edit">
-        <Button
-          type="ghost"
-          shape="circle"
-          icon={<EditTwoTone />}
-          onClick={handleToggleEditMode}
-        />
-      </Tooltip>
+      <Typography.Title level={3} className="mt-0 !text-shipGray">
+        Bio & Notes
+      </Typography.Title>
+      <Input.TextArea
+        rows={4}
+        placeholder={`Write anything and everything about ${character.name}`}
+      />
     </div>
   );
 }
