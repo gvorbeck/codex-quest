@@ -151,7 +151,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
         if (characterSnapshot.exists()) {
           const characterData = characterSnapshot.data() as CharacterData;
-          console.log(characterData);
+          console.log("DEV:", characterData);
           setCharacter(characterData);
         } else {
           console.log("Character not found");

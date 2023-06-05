@@ -10,7 +10,6 @@ export default function PageLayout({
   onCharacterAdded,
   user,
 }: PageLayoutProps) {
-  console.log("user", user);
   return (
     <Layout>
       <Layout.Header className="bg-shipGray px-8">

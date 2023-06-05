@@ -15,7 +15,7 @@ import CharacterSheet from "./components/CharacterSheet/CharacterSheet";
 import { CharacterData } from "./components/types";
 import { ConfigProvider, theme } from "antd";
 
-console.log(theme);
+console.log("DEV: antd theme", theme);
 // TODOS
 // GENERAL:
 // - TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
