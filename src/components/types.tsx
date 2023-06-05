@@ -161,6 +161,7 @@ export interface CharacterDetails {
   character: CharacterData;
   setCharacter?: (character: CharacterData) => void;
   className?: string;
+  userIsOwner?: boolean;
 }
 export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;

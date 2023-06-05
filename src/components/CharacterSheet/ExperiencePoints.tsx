@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function ExperiencePoints({
   character,
   setCharacter,
+  userIsOwner,
 }: CharacterDetails) {
   const levelRequirements = {
     Cleric: [
@@ -96,6 +97,7 @@ export default function ExperiencePoints({
           }
         }}
         suffix={`/ ${totalLevelRequirement} XP`}
+        disabled={!userIsOwner}
       />
       <Button
         disabled={character.xp < totalLevelRequirement}

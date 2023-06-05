@@ -6,6 +6,7 @@ import ExperiencePoints from "./ExperiencePoints";
 export default function BaseStats({
   character,
   setCharacter,
+  userIsOwner,
 }: CharacterDetails) {
   return (
     <div>
@@ -21,7 +22,11 @@ export default function BaseStats({
       </Space>
       <Divider className="mt-4 mb-4" />
       <Space direction="horizontal" className="flex justify-between">
-        <ExperiencePoints character={character} setCharacter={setCharacter} />
+        <ExperiencePoints
+          character={character}
+          setCharacter={setCharacter}
+          userIsOwner={userIsOwner}
+        />
         <dl className="flex m-0 justify-end text-lg">
           <div className="flex">
             <dt className="font-bold">Level</dt>

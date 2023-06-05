@@ -1,17 +1,24 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps } from "../types";
 import BaseStats from "./BaseStats";
-import { Breadcrumb, Col, Collapse, Divider, Row, Typography } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Collapse,
+  Divider,
+  Row,
+  Typography,
+} from "antd";
 import Description from "./Description";
 import Abilities from "./Abilities";
 import AttackBonus from "./AttackBonus";
 import HitPoints from "./HitPoints";
 import SpecialsRestrictions from "./SpecialsRestrictions";
 import SavingThrows from "./SavingThrows";
-import ExperiencePoints from "./ExperiencePoints";
 import Weight from "./Weight";
 import Money from "./Money";
 import EquipmentList from "./EquipmentList";
@@ -19,10 +26,14 @@ import Spells from "./Spells";
 import InitiativeRoller from "./InitiativeRoller";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import SimpleNumberStat from "./SimpleNumberStat";
+import { User } from "firebase/auth";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
+  const userLoggedIn: User = useOutletContext();
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
+
+  const userIsOwner = userLoggedIn?.uid === uid;
 
   // MOVEMENT
   let movement;
@@ -169,17 +180,23 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       />
       {character ? (
         <div className="!text-shipGray [&>*]:mt-8 [&>div:first-child]:mt-0">
-          <BaseStats character={character} setCharacter={setCharacter} />
-          {/* <div className="flex justify-end"> */}
+          <BaseStats
+            character={character}
+            setCharacter={setCharacter}
+            userIsOwner={userIsOwner}
+          />
           <InitiativeRoller character={character} />
-          {/* </div> */}
           <Row gutter={32}>
             <Col span={8}>
               <Abilities character={character} />
             </Col>
             <Col span={8} className="flex flex-col justify-between">
               <AttackBonus character={character} />
-              <HitPoints character={character} setCharacter={setCharacter} />
+              <HitPoints
+                character={character}
+                setCharacter={setCharacter}
+                userIsOwner={userIsOwner}
+              />
             </Col>
             <Col
               span={8}
@@ -202,7 +219,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <Divider />
           <Row gutter={32}>
             <Col span={6}>
-              <Money character={character} setCharacter={setCharacter} />
+              <Money
+                character={character}
+                setCharacter={setCharacter}
+                userIsOwner={userIsOwner}
+              />
             </Col>
             <Col span={6}>
               <Weight character={character} setCharacter={setCharacter} />
@@ -211,7 +232,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               <Typography.Title level={3} className="mt-0 !text-shipGray">
                 Equipment
               </Typography.Title>
-              <Collapse className="bg-seaBuckthorn">
+              <Button type="primary" disabled={!userIsOwner}>
+                Add Equipment
+              </Button>
+              <Collapse className="bg-seaBuckthorn mt-4">
                 {character.class.includes("Magic-User") && (
                   <Collapse.Panel
                     header="Spells"
@@ -269,7 +293,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
           </Row>
           <Divider />
-          <Description character={character} setCharacter={setCharacter} />
+          <Description
+            character={character}
+            setCharacter={setCharacter}
+            userIsOwner={userIsOwner}
+          />
         </div>
       ) : (
         <div>Loading character...</div>

@@ -4,6 +4,7 @@ import { Input, Typography } from "antd";
 export default function Description({
   character,
   setCharacter,
+  userIsOwner,
 }: CharacterDetails) {
   return (
     <div>
@@ -13,6 +14,7 @@ export default function Description({
       <Input.TextArea
         rows={4}
         placeholder={`Write anything and everything about ${character.name}`}
+        disabled={!userIsOwner}
       />
     </div>
   );

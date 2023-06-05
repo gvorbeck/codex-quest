@@ -1,7 +1,11 @@
 import { InputNumber, Space, Typography } from "antd";
 import { CharacterDetails } from "../types";
 
-export default function Money({ character, setCharacter }: CharacterDetails) {
+export default function Money({
+  character,
+  setCharacter,
+  userIsOwner,
+}: CharacterDetails) {
   function makeChange() {
     // Convert gold to copper
     let copper = character.gold * 100;
@@ -31,7 +35,13 @@ export default function Money({ character, setCharacter }: CharacterDetails) {
       </Typography.Title>
       <Space direction="vertical">
         {Object.entries(makeChange()).map(([key, value]) => (
-          <InputNumber key={key} min={0} value={value} addonAfter={key} />
+          <InputNumber
+            key={key}
+            min={0}
+            value={value}
+            addonAfter={key}
+            disabled={!userIsOwner}
+          />
         ))}
       </Space>
     </div>

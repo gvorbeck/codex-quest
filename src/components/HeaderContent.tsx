@@ -15,33 +15,34 @@ export default function HeaderContent({
   };
   return (
     <>
-      {user ? (
-        <Row>
-          <Col flex={4} className="flex items-center">
-            <Typography.Title
-              level={1}
-              className="!mb-0 mt-0 leading-none mr-4"
-            >
-              CODEX.QUEST
-            </Typography.Title>
+      <Row>
+        <Col flex={4} className="flex items-center">
+          <Typography.Title level={1} className="!mb-0 mt-0 leading-none mr-4">
+            CODEX.QUEST
+          </Typography.Title>
+          {user && (
             <Button type="primary" onClick={showModal}>
               Create BFRPG Character
             </Button>
-          </Col>
-          <Col flex={1} className="flex justify-end">
-            <Space>
-              <Typography.Text>{user.displayName}</Typography.Text>
-              <Button type="primary" onClick={() => auth.signOut()}>
-                Log out
+          )}
+        </Col>
+        <Col flex={1} className="flex justify-end">
+          <Space>
+            {user ? (
+              <>
+                <Typography.Text>{user.displayName}</Typography.Text>
+                <Button type="primary" onClick={() => auth.signOut()}>
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <Button type="primary" onClick={handleLogin}>
+                Log in with Google
               </Button>
-            </Space>
-          </Col>
-        </Row>
-      ) : (
-        <Button type="primary" onClick={handleLogin}>
-          Log in with Google
-        </Button>
-      )}
+            )}
+          </Space>
+        </Col>
+      </Row>
       <CreateCharacterModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}

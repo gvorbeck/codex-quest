@@ -10,6 +10,7 @@ export default function PageLayout({
   onCharacterAdded,
   user,
 }: PageLayoutProps) {
+  console.log("user", user);
   return (
     <Layout>
       <Layout.Header className="bg-shipGray px-8">
@@ -21,7 +22,7 @@ export default function PageLayout({
         />
       </Layout.Header>
       <Layout.Content className="bg-springWood p-8">
-        <Outlet />
+        <Outlet context={user} />
       </Layout.Content>
       <Layout.Footer className="bg-shipGray p-8">
         <FooterContent />

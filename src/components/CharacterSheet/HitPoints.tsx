@@ -5,6 +5,7 @@ export default function HitPoints({
   character,
   setCharacter,
   className,
+  userIsOwner,
 }: CharacterDetails) {
   return (
     <div className={className}>
@@ -16,11 +17,13 @@ export default function HitPoints({
         min={0}
         max={character.hp.max}
         addonAfter={`Max: ${character.hp.max}`}
+        disabled={!userIsOwner}
       />
       <Input.TextArea
         rows={4}
         placeholder="Wounds and Conditions"
         className="mt-4"
+        disabled={!userIsOwner}
       />
     </div>
   );
