@@ -1,12 +1,16 @@
 import { Button, Input, Space } from "antd";
 import { CharacterDetails } from "../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+import { useParams } from "react-router-dom";
 
 export default function ExperiencePoints({
   character,
   setCharacter,
   userIsOwner,
 }: CharacterDetails) {
+  const [prevValue, setPrevValue] = useState(character.xp.toString());
   const levelRequirements = {
     Cleric: [
       0, 1500, 3000, 6000, 12000, 24000, 48000, 90000, 180000, 270000, 360000,
@@ -32,6 +36,28 @@ export default function ExperiencePoints({
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+  };
+
+  const { uid, id } = useParams();
+  const updateXP = async () => {
+    if (!uid || !id) {
+      console.error("User ID or Character ID is undefined");
+      return;
+    }
+
+    if (character.xp.toString() !== prevValue) {
+      const docRef = doc(db, "users", uid, "characters", id);
+
+      try {
+        await updateDoc(docRef, {
+          xp: character.xp,
+        });
+        console.log(`${character.name}'s XP: ${character.xp}`);
+        setPrevValue(character.xp.toString()); // update the previous value
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
   };
 
   const handleInputBlur = () => {
@@ -83,6 +109,11 @@ export default function ExperiencePoints({
         ]
     )
     .reduce((a, b) => a + b, 0);
+
+  useEffect(() => {
+    updateXP();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [character.xp]);
 
   return (
     <Space.Compact>
