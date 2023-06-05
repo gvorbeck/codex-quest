@@ -22,7 +22,8 @@ console.log("DEV: antd theme", theme);
 // - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
 // - buying enough equipment to get to 0 gold disables next button.
-// welcome screen with sample sheet
+// - welcome screen with sample sheet
+// - Tablet / Mobile styles
 
 // BUILDER:
 // - ARMOR NOT COSTING GOLD
@@ -34,8 +35,10 @@ console.log("DEV: antd theme", theme);
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
-// - Armor collapse
-// - buy new equipment option
+// - make all relevant fields updatable
+// - "add equipment" modal
+// - "Attack" button
+// - "Cast" button?
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
