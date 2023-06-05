@@ -14,6 +14,7 @@ import { db } from "./firebase.js";
 import CharacterSheet from "./components/CharacterSheet/CharacterSheet";
 import { CharacterData } from "./components/types";
 import { ConfigProvider, theme } from "antd";
+import Welcome from "./components/Welcome";
 
 console.log("DEV: antd theme", theme);
 // TODOS
@@ -22,11 +23,11 @@ console.log("DEV: antd theme", theme);
 // - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
 // - buying enough equipment to get to 0 gold disables next button.
-// - welcome screen with sample sheet
 // - Tablet / Mobile styles
 
 // BUILDER:
 // - ARMOR NOT COSTING GOLD
+// - style builder
 // - WEIGHT MAXES AND LABELS
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
@@ -137,7 +138,13 @@ function App() {
         >
           <Route
             index
-            element={<CharacterList user={user} characters={characters} />}
+            element={
+              user ? (
+                <CharacterList user={user} characters={characters} />
+              ) : (
+                <Welcome />
+              )
+            }
           />
           <Route path="u/:uid/c/:id" element={<CharacterSheet user={user} />} />
         </Route>
