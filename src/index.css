@@ -3,16 +3,17 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
+  margin: 0 !important;
 }
 
 button span {
-  color: theme("colors.shipGray");
+  color: theme("colors.shipGray") !important;
 }
 
 footer .ant-typography,
-header .ant-typography {
-  color: theme("colors.springWood");
+header .ant-typography,
+.ant-table {
+  color: theme("colors.springWood") !important;
 }
 
 footer a {
@@ -21,14 +22,15 @@ footer a {
 
 .ant-table {
   background-color: theme("colors.shipGray") !important;
-  color: theme("colors.springWood") !important;
 }
 
 .ant-table-row:hover td {
   background-color: rgba(0, 0, 0, 0.25) !important;
 }
 
-.ant-collapse-content {
+.ant-collapse-content,
+.ant-modal-content,
+.ant-modal-header {
   background-color: theme("colors.springWood") !important;
 }
 

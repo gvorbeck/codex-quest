@@ -159,7 +159,7 @@ export default function CharClassStep({
         </div>
       )}
       {comboClass ? (
-        <Space direction="vertical">
+        <Space direction="vertical" className="mt-4">
           {classChoices.map((choice) => (
             <Checkbox
               key={choice}
@@ -213,6 +213,7 @@ export default function CharClassStep({
         <Radio.Group
           onChange={onSpellRadioChange}
           value={firstSpell ? firstSpell.name : null}
+          className="ml-16"
         >
           <Space direction="vertical">
             {spellsData

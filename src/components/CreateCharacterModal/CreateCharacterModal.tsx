@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Steps, Typography } from "antd";
+import { Button, Col, Modal, Row, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CharAbilityScoreStep";
 import CharRaceStep from "./CharRaceStep";
 import CharClassStep from "./CharClassStep";
@@ -246,22 +246,28 @@ export default function CreateCharacterModal({
 
   return (
     <Modal
-      title="Basic Modal"
+      title="Create BFRPG Character"
       open={isModalOpen}
       onCancel={handleCancel}
       width={1200}
       footer={null}
     >
-      <Steps current={current} items={items} />
-      <section>
-        <Typography.Title level={1}>
-          {steps[current].fullTitle}
-        </Typography.Title>
-        <Typography.Paragraph>
-          {steps[current].description}
-        </Typography.Paragraph>
-        {steps[current].content}
-      </section>
+      <Row>
+        <Col span={5}>
+          <Steps current={current} items={items} direction="vertical" />
+        </Col>
+        <Col span={19}>
+          <section>
+            <Typography.Title level={1} className="mt-0">
+              {steps[current].fullTitle}
+            </Typography.Title>
+            <Typography.Paragraph>
+              {steps[current].description}
+            </Typography.Paragraph>
+            {steps[current].content}
+          </section>
+        </Col>
+      </Row>
       <div>
         {current < steps.length - 1 && (
           <Button

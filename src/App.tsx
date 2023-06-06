@@ -28,6 +28,7 @@ console.log("DEV: antd theme", theme);
 // BUILDER:
 // - ARMOR NOT COSTING GOLD
 // - style builder
+// - clicking done navigates to character sheet
 // - WEIGHT MAXES AND LABELS
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
