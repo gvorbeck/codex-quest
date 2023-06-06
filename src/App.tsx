@@ -26,7 +26,6 @@ console.log("DEV: antd theme", theme);
 // - Tablet / Mobile styles
 
 // BUILDER:
-// - ARMOR NOT COSTING GOLD
 // - style builder
 // - clicking done navigates to character sheet
 // - WEIGHT MAXES AND LABELS
