@@ -11,6 +11,7 @@ export default function EquipmentCheckbox({
   setCharacterData,
 }: EquipmentCheckboxProps) {
   const item = equipmentItems.find((item) => item.name === itemName);
+  console.log(item);
   const isHalflingOrDwarf =
     characterData.race === "Halfling" || characterData.race === "Dwarf";
 
@@ -63,10 +64,30 @@ export default function EquipmentCheckbox({
         onChange={updatedEquipmentSelections(item)}
         checked={isChecked}
         disabled={
+          // If 0 gold and item is UNCHECKED
           (!isChecked && characterData.gold <= 0) ||
+          // If UNCHECKED and item costs more gold than character currently has
           (!isChecked && realCost > characterData.gold) ||
+          // If UNCHECKED and character is carrying too much
           (!isChecked && characterData.weight >= weightRestrictions.heavy) ||
-          (isHalflingOrDwarf && item.size === "L")
+          // If character is a Dwarf or Halfling and item is of size L
+          (isHalflingOrDwarf && item.size === "L") ||
+          // If character is a Cleric and category is Axes
+          (characterData.class === "Cleric" && item.category === "axes") ||
+          // If character is a Cleric and category is Bows
+          (characterData.class === "Cleric" && item.category === "bows") ||
+          // If character is a Cleric and category is Ammunition (except "Stone")
+          (characterData.class === "Cleric" &&
+            item.category === "ammunition" &&
+            item.name !== "Stone") ||
+          // If character is a Cleric and category is Daggers
+          (characterData.class === "Cleric" && item.category === "daggers") ||
+          // If character is a Cleric and category is Other Weapons and is spear or pole arm
+          (characterData.class === "Cleric" &&
+            item.category === "other-weapons" &&
+            (item.name === "Pole Arm" || item.name === "Spear")) ||
+          // If character is a Cleric and category is Swords
+          (characterData.class === "Cleric" && item.category === "swords")
         }
       >
         <Space direction="vertical">
