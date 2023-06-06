@@ -39,6 +39,7 @@ export default function CharEquipmentStep({
       let equipment;
       if (!armorSelection && noArmorItem) {
         equipment = [...characterData.equipment, noArmorItem];
+        setArmorSelection(noArmorItem);
       } else {
         equipment = [...characterData.equipment];
       }
@@ -58,19 +59,18 @@ export default function CharEquipmentStep({
     return [...categoriesSet];
   };
 
-  // const updateStartingGold = (startingGold: number | null) => {
-  //   startingGold !== null &&
-  //     setCharacterData({ ...characterData, gold: startingGold });
-  // };
-
   const updateArmorSelection = (itemName: string) => {
     const item = equipmentItems.find((item) => item.name === itemName);
     if (item) {
       const updatedEquipment = characterData.equipment.filter(
         (notArmor: EquipmentItem) => notArmor.category !== "armor-and-shields"
       );
+      const costDifference = armorSelection
+        ? armorSelection.costValue - item.costValue
+        : -item.costValue;
       setCharacterData({
         ...characterData,
+        gold: characterData.gold + costDifference,
         equipment: [...updatedEquipment, item],
       });
       setArmorSelection(item);
@@ -85,42 +85,13 @@ export default function CharEquipmentStep({
     setCharacterData({ ...characterData, weight: newWeight });
   };
 
-  /**
-   * Side-effect for when equipmentItems are retrieved from Firestore.
-   * Sets equipmentCategories state array
-   * Sets armorSelection state object
-   * Adds "No Armor" object to equipment state array
-   */
   useEffect(() => {
     setEquipmentCategories(getCategories());
-    // const noArmorItem = equipmentItems.find(
-    //   (noArmor: EquipmentItem) => noArmor.name === "No Armor"
-    // );
-
-    // if (noArmorItem) {
-    //   setArmorSelection(noArmorItem);
-
-    //   // Check if the "No Armor" item already exists in the equipment array
-    //   const noArmorExists = characterData.equipment.find(
-    //     (item) => item.name === noArmorItem.name
-    //   );
-
-    //   // If it doesn't exist, add it
-    //   if (!noArmorExists) {
-    //     const newEquipment = [...characterData.equipment, noArmorItem];
-    //     setCharacterData({
-    //       ...characterData,
-    //       equipment: newEquipment,
-    //     });
-    //   }
-    // }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     handleWeightChange();
-    console.log(characterData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characterData.equipment]);
 
