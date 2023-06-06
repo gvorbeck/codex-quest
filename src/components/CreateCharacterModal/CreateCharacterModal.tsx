@@ -204,7 +204,10 @@ export default function CreateCharacterModal({
       case 1:
         return characterData.race !== "";
       case 2:
-        return characterData.class !== "";
+        return characterData.class !== "" &&
+          characterData.class.includes("Magic-User")
+          ? characterData.spells.length > 1
+          : true;
       case 3:
         return characterData.hp.points !== 0;
       case 4:

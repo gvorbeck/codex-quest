@@ -10,6 +10,9 @@ module.exports = {
         copperRust: "#965247",
         shipGray: "#3E3643",
       },
+      flex: {
+        25: "1 1 25%",
+      },
     },
   },
   plugins: [],

@@ -1,4 +1,4 @@
-import { Checkbox, Radio, Space, Switch } from "antd";
+import { Checkbox, Col, Radio, Row, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useState } from "react";
@@ -98,6 +98,7 @@ export default function CharClassStep({
 
   const onClassRadioChange = (e: RadioChangeEvent) => {
     const classValue = e.target.value;
+    setFirstSpell(null);
     const spells = classValue === "Magic-User" ? readMagic : [];
     const thisClass = e.target.value
       .toString()
@@ -158,77 +159,94 @@ export default function CharClassStep({
           />
         </div>
       )}
-      {comboClass ? (
-        <Space direction="vertical" className="mt-4">
-          {classChoices.map((choice) => (
-            <Checkbox
-              key={choice}
-              onChange={onCheckboxChange}
-              value={choice}
-              checked={checkedClasses.includes(choice)}
-              disabled={
-                choice === "Cleric" ||
-                (choice === "Fighter" && checkedClasses.includes("Thief")) ||
-                (choice === "Thief" && checkedClasses.includes("Fighter")) ||
-                (choice === "Fighter" &&
-                  +characterData.abilities.scores.strength < 9) ||
-                (choice === "Magic-User" &&
-                  +characterData.abilities.scores.intelligence < 9) ||
-                (choice === "Thief" &&
-                  +characterData.abilities.scores.dexterity < 9)
-              }
-            >
-              {choice}
-            </Checkbox>
-          ))}
-        </Space>
-      ) : (
-        <Radio.Group value={characterData.class} onChange={onClassRadioChange}>
-          <Space direction="vertical">
-            {classChoices.map((choice) => (
-              <Radio
-                key={choice}
-                value={choice}
-                disabled={
-                  (characterData.race === "Dwarf" && choice === "Magic-User") ||
-                  (characterData.race === "Halfling" &&
-                    choice === "Magic-User") ||
-                  (choice === "Cleric" &&
-                    +characterData.abilities.scores.wisdom < 9) ||
-                  (choice === "Fighter" &&
-                    +characterData.abilities.scores.strength < 9) ||
-                  (choice === "Magic-User" &&
-                    +characterData.abilities.scores.intelligence < 9) ||
-                  (choice === "Thief" &&
-                    +characterData.abilities.scores.dexterity < 9)
-                }
-              >
-                {choice}
-              </Radio>
-            ))}
-          </Space>
-        </Radio.Group>
-      )}
-      {characterData.class.includes("Magic-User") && (
-        <Radio.Group
-          onChange={onSpellRadioChange}
-          value={firstSpell ? firstSpell.name : null}
-          className="ml-16"
-        >
-          <Space direction="vertical">
-            {spellsData
-              .filter(
-                (spell) =>
-                  spell.level["magic-user"] === 1 && spell.name !== "Read Magic"
-              )
-              .map((spell) => (
-                <Radio key={spell.name} value={spell.name}>
-                  {spell.name}
-                </Radio>
+      <Row className="mt-6">
+        <Col span={4}>
+          {comboClass ? (
+            <Space direction="vertical">
+              {classChoices.map((choice) => (
+                <Checkbox
+                  key={choice}
+                  onChange={onCheckboxChange}
+                  value={choice}
+                  checked={checkedClasses.includes(choice)}
+                  disabled={
+                    choice === "Cleric" ||
+                    (choice === "Fighter" &&
+                      checkedClasses.includes("Thief")) ||
+                    (choice === "Thief" &&
+                      checkedClasses.includes("Fighter")) ||
+                    (choice === "Fighter" &&
+                      +characterData.abilities.scores.strength < 9) ||
+                    (choice === "Magic-User" &&
+                      +characterData.abilities.scores.intelligence < 9) ||
+                    (choice === "Thief" &&
+                      +characterData.abilities.scores.dexterity < 9)
+                  }
+                >
+                  {choice}
+                </Checkbox>
               ))}
-          </Space>
-        </Radio.Group>
-      )}
+            </Space>
+          ) : (
+            <Radio.Group
+              value={characterData.class}
+              onChange={onClassRadioChange}
+            >
+              <Space direction="vertical">
+                {classChoices.map((choice) => (
+                  <Radio
+                    key={choice}
+                    value={choice}
+                    disabled={
+                      (characterData.race === "Dwarf" &&
+                        choice === "Magic-User") ||
+                      (characterData.race === "Halfling" &&
+                        choice === "Magic-User") ||
+                      (choice === "Cleric" &&
+                        +characterData.abilities.scores.wisdom < 9) ||
+                      (choice === "Fighter" &&
+                        +characterData.abilities.scores.strength < 9) ||
+                      (choice === "Magic-User" &&
+                        +characterData.abilities.scores.intelligence < 9) ||
+                      (choice === "Thief" &&
+                        +characterData.abilities.scores.dexterity < 9)
+                    }
+                  >
+                    {choice}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+          )}
+        </Col>
+        <Col span={20}>
+          {characterData.class.includes("Magic-User") && (
+            <Radio.Group
+              onChange={onSpellRadioChange}
+              value={firstSpell ? firstSpell.name : null}
+              className="flex flex-wrap items-center gap-2 border-0 border-solid border-l-zorba border-l-2 pl-7"
+            >
+              {/* <Space direction="vertical"> */}
+              {spellsData
+                .filter(
+                  (spell) =>
+                    spell.level["magic-user"] === 1 &&
+                    spell.name !== "Read Magic"
+                )
+                .map((spell) => (
+                  <Radio
+                    key={spell.name}
+                    value={spell.name}
+                    className="flex-25"
+                  >
+                    {spell.name}
+                  </Radio>
+                ))}
+              {/* </Space> */}
+            </Radio.Group>
+          )}
+        </Col>
+      </Row>
     </>
   );
 }
