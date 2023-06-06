@@ -20,7 +20,8 @@ export default function PurchasedEquipment({
     <section>
       <header>
         <Typography.Title level={2} className="text-shipGray mt-0">
-          Gold: {characterData.gold} | Weight: {characterData.weight}
+          Gold: {characterData.gold.toFixed(2)} | Weight:{" "}
+          {characterData.weight.toFixed(2)}
         </Typography.Title>
       </header>
       <div>
