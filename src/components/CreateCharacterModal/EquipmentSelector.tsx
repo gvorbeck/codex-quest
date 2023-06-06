@@ -50,7 +50,10 @@ export default function EquipmentSelector({
                     .filter((catItem) => catItem.category === cat)
                     .map((item) => (
                       <React.Fragment key={item.name}>
-                        <EquipmentRadio item={item} />
+                        <EquipmentRadio
+                          item={item}
+                          characterData={characterData}
+                        />
                         <Divider />
                       </React.Fragment>
                     ))}

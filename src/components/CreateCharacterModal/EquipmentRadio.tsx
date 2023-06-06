@@ -1,9 +1,24 @@
 import { Radio, Space, Typography } from "antd";
-import { EquipmentItem } from "../types";
+import { CharacterData, EquipmentItem } from "../types";
 
-export default function EquipmentRadio({ item }: { item: EquipmentItem }) {
+export default function EquipmentRadio({
+  item,
+  characterData,
+}: {
+  item: EquipmentItem;
+  characterData: CharacterData;
+}) {
   return (
-    <Radio value={item.name}>
+    <Radio
+      value={item.name}
+      disabled={
+        characterData.class === "Magic-User" ||
+        // If character is a Thief and category is Armor and is a metal armor
+        (characterData.class.includes("Thief") &&
+          item.name !== "No Armor" &&
+          item.name !== "Leather Armor")
+      }
+    >
       <Space direction="vertical">
         <Typography.Text strong>{item.name}</Typography.Text>
         <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
