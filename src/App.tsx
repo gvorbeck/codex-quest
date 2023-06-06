@@ -29,7 +29,6 @@ console.log("DEV: antd theme", theme);
 // - WEIGHT MAXES AND LABELS
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
-// - Class restrictions to weapon choices!
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
