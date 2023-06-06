@@ -19,7 +19,7 @@ export default function PurchasedEquipment({
   return (
     <section>
       <header>
-        <Typography.Title level={2}>
+        <Typography.Title level={2} className="text-shipGray mt-0">
           Gold: {characterData.gold} | Weight: {characterData.weight}
         </Typography.Title>
       </header>

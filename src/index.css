@@ -11,7 +11,7 @@ button span {
 }
 
 footer .ant-typography,
-header .ant-typography,
+.ant-layout > header .ant-typography,
 .ant-table {
   color: theme("colors.springWood") !important;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CharEquipmentStepProps, EquipmentItem } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { Button, Divider, InputNumber, Space, Spin } from "antd";
+import { Button, Col, Divider, InputNumber, Row, Space, Spin } from "antd";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import PurchasedEquipment from "./PurchasedEquipment";
 import EquipmentSelector from "./EquipmentSelector";
@@ -149,22 +149,28 @@ export default function CharEquipmentStep({
         </Button>
       </Space.Compact>
       <Divider orientation="left">Equipment Lists</Divider>
-      <Space>
-        <EquipmentSelector
-          armorSelection={armorSelection}
-          equipmentCategories={equipmentCategories}
-          equipmentItems={equipmentItems}
-          handleWeightChange={handleWeightChange}
-          updateArmorSelection={updateArmorSelection}
-          weightRestrictions={weightRestrictions}
-          characterData={characterData}
-          setCharacterData={setCharacterData}
-        />
-        <PurchasedEquipment
-          characterData={characterData}
-          setCharacterData={setCharacterData}
-        />
-      </Space>
+      <Row gutter={32}>
+        <Col span={12}>
+          {/* <Space className="items-stretch [&>div:last-of-type]:sticky [&>div:last-of-type]:top-0 [&>div:last-of-type]:h-full"> */}
+          <EquipmentSelector
+            armorSelection={armorSelection}
+            equipmentCategories={equipmentCategories}
+            equipmentItems={equipmentItems}
+            handleWeightChange={handleWeightChange}
+            updateArmorSelection={updateArmorSelection}
+            weightRestrictions={weightRestrictions}
+            characterData={characterData}
+            setCharacterData={setCharacterData}
+          />
+        </Col>
+        <Col span={12} className="sticky top-0 h-full">
+          <PurchasedEquipment
+            characterData={characterData}
+            setCharacterData={setCharacterData}
+          />
+        </Col>
+        {/* </Space> */}
+      </Row>
     </>
   );
 }
