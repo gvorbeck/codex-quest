@@ -22,16 +22,13 @@ console.log("DEV: antd theme", theme);
 // - TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
 // - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
-// - buying enough equipment to get to 0 gold disables next button.
 // - Tablet / Mobile styles
 
 // BUILDER:
-// - style builder
 // - clicking done navigates to character sheet
 // - WEIGHT MAXES AND LABELS
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
-// - limit gold decimal space to 2
 // - Class restrictions to weapon choices!
 
 // Character Sheet

@@ -24,6 +24,10 @@ footer a {
   background-color: theme("colors.shipGray") !important;
 }
 
+.ant-table-row td {
+  border-bottom-color: rgba(0, 0, 0, 2.5) !important;
+}
+
 .ant-table-row:hover td {
   background-color: rgba(0, 0, 0, 0.25) !important;
 }

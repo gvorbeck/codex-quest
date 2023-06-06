@@ -211,7 +211,7 @@ export default function CreateCharacterModal({
       case 3:
         return characterData.hp.points !== 0;
       case 4:
-        return characterData.gold !== 0;
+        return characterData.equipment.length !== 0;
       case 5:
         return characterData.name;
       default:
