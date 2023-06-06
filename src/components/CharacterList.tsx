@@ -66,7 +66,7 @@ export default function CharacterList({
                       <Avatar src={character.avatar} />
                     ) : (
                       <Avatar
-                        className="text-seaBuckthorn"
+                        className="text-springWood"
                         icon={<UserOutlined />}
                       />
                     )
