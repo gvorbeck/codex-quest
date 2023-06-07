@@ -63,7 +63,7 @@ export default function AttackModal({
   };
 
   let missileRangeValues = [0, 0, 0];
-  switch (weapon.name) {
+  switch (weapon?.name) {
     case "Longbow":
       missileRangeValues = [70, 140, 210];
       break;
@@ -116,52 +116,58 @@ export default function AttackModal({
 
   return (
     <Modal
-      title={`Attack with ${weapon.name}`}
+      title={`Attack with ${weapon?.name || "weapon"}`}
       open={isAttackModalOpen}
       onCancel={handleCancel}
       footer={false}
     >
-      {/* {weapon.type === "melee" && <div>hello world</div>} */}
-      {weapon.type === "missile" && <div>jello world</div>}
-      {weapon.type === "both" && (
-        <Space direction="vertical">
-          <Switch
-            unCheckedChildren="Melee Attack"
-            checkedChildren="Missile Attack"
-            onChange={handleSwitchChange}
-          />
-          {isMissile ? (
-            <>
-              <Radio.Group
-                value={missileRangeBonus}
-                onChange={handleRangeChange}
-              >
-                <Radio value={1}>
-                  Short Range (+1): {missileRangeValues[0]}'
-                </Radio>
-                <Radio value={0}>
-                  Medium Range (+0): {missileRangeValues[1]}'
-                  <Radio value={-2}>
-                    Long Range (-2): {missileRangeValues[2]}'
-                  </Radio>
-                </Radio>
-              </Radio.Group>
-              <AttackButtons
-                weapon={weapon}
-                damage={damage}
-                attack={attack}
-                type="missile"
+      {weapon ? (
+        <div>
+          {weapon.type === "melee" && <div>hello world</div>}
+          {weapon.type === "missile" && <div>jello world</div>}
+          {weapon.type === "both" && (
+            <Space direction="vertical">
+              <Switch
+                unCheckedChildren="Melee Attack"
+                checkedChildren="Missile Attack"
+                onChange={handleSwitchChange}
               />
-            </>
-          ) : (
-            <AttackButtons
-              weapon={weapon}
-              damage={damage}
-              attack={attack}
-              type="melee"
-            />
+              {isMissile ? (
+                <>
+                  <Radio.Group
+                    value={missileRangeBonus}
+                    onChange={handleRangeChange}
+                  >
+                    <Radio value={1}>
+                      Short Range (+1): {missileRangeValues[0]}'
+                    </Radio>
+                    <Radio value={0}>
+                      Medium Range (+0): {missileRangeValues[1]}'
+                      <Radio value={-2}>
+                        Long Range (-2): {missileRangeValues[2]}'
+                      </Radio>
+                    </Radio>
+                  </Radio.Group>
+                  <AttackButtons
+                    weapon={weapon}
+                    damage={damage}
+                    attack={attack}
+                    type="missile"
+                  />
+                </>
+              ) : (
+                <AttackButtons
+                  weapon={weapon}
+                  damage={damage}
+                  attack={attack}
+                  type="melee"
+                />
+              )}
+            </Space>
           )}
-        </Space>
+        </div>
+      ) : (
+        <p>No weapon selected</p>
       )}
     </Modal>
   );
