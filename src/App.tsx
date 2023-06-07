@@ -28,7 +28,6 @@ console.log("DEV: antd theme", theme);
 // - all purpose roller button
 
 // BUILDER:
-// - clicking done navigates to character sheet
 // - WEIGHT MAXES AND LABELS
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
@@ -41,6 +40,7 @@ console.log("DEV: antd theme", theme);
 // - "Attack" button
 // - "Cast" button?
 // - Money: force whole numbers (sometimes cp is showing as a decimal value)
+// - ATTACKMODAL bug, all modals opening at the same time. needs to be moved to character sheet I think.
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/

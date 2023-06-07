@@ -1,7 +1,7 @@
 import { Button, List, Space, Typography } from "antd";
 import { EquipmentListProps } from "../types";
-import { useState } from "react";
-import AttackModal from "./AttackModal";
+// import { useState } from "react";
+// import AttackModal from "./AttackModal";
 
 export default function EquipmentList({
   character,
@@ -9,8 +9,10 @@ export default function EquipmentList({
   categories,
   handleAttack,
   attackBonus,
+  setWeapon,
+  showAttackModal,
 }: EquipmentListProps) {
-  const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
+  // const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
 
   let equipmentItems;
   if (typeof categories === "string") {
@@ -25,13 +27,13 @@ export default function EquipmentList({
 
   console.log(equipmentItems);
 
-  const showAttackModal = () => {
-    setIsAttackModalOpen(true);
-  };
+  // const showAttackModal = () => {
+  //   setIsAttackModalOpen(true);
+  // };
 
-  const handleCancel = () => {
-    setIsAttackModalOpen(false);
-  };
+  // const handleCancel = () => {
+  //   setIsAttackModalOpen(false);
+  // };
   return (
     <List
       dataSource={equipmentItems}
@@ -90,13 +92,13 @@ export default function EquipmentList({
                   Attack
                 </Button>
               </div>
-              <AttackModal
+              {/* <AttackModal
                 isAttackModalOpen={isAttackModalOpen}
                 handleCancel={handleCancel}
                 attackBonus={attackBonus || 0}
                 weapon={item}
                 character={character}
-              />
+              /> */}
             </>
           )}
         </List.Item>

@@ -169,6 +169,8 @@ export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;
   handleAttack?: boolean;
   attackBonus?: number;
+  setWeapon?: (weapon: EquipmentItem) => void;
+  showAttackModal?: () => void;
 }
 export interface AttackBonusProps extends CharacterDetails {
   attackBonus: number;
@@ -189,7 +191,7 @@ export interface AttackModalProps {
   isAttackModalOpen: boolean;
   handleCancel: () => void;
   attackBonus: number;
-  weapon: EquipmentItem;
+  weapon?: EquipmentItem;
   character: CharacterData;
 }
 

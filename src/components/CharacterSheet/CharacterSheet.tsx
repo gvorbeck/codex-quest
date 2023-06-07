@@ -2,7 +2,7 @@ import { useParams, Link, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { CharacterData, CharacterSheetProps } from "../types";
+import { CharacterData, CharacterSheetProps, EquipmentItem } from "../types";
 import BaseStats from "./BaseStats";
 import {
   Breadcrumb,
@@ -27,6 +27,7 @@ import InitiativeRoller from "./InitiativeRoller";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import SimpleNumberStat from "./SimpleNumberStat";
 import { User } from "firebase/auth";
+import AttackModal from "./AttackModal";
 
 const attackBonus = function (character: CharacterData) {
   const attackBonusTable: Record<string, number[]> = {
@@ -57,6 +58,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const userLoggedIn: User = useOutletContext();
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
+  const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
+  const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
+
+  const showAttackModal = () => {
+    setIsAttackModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsAttackModalOpen(false);
+  };
 
   const userIsOwner = userLoggedIn?.uid === uid;
 
@@ -289,6 +300,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                       "hammers-and-maces",
                     ]}
                     attackBonus={attackBonus(character)}
+                    setWeapon={setWeapon}
+                    showAttackModal={showAttackModal}
                   />
                 </Collapse.Panel>
                 <Collapse.Panel
@@ -326,6 +339,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             character={character}
             setCharacter={setCharacter}
             userIsOwner={userIsOwner}
+          />
+          <AttackModal
+            isAttackModalOpen={isAttackModalOpen}
+            handleCancel={handleCancel}
+            character={character}
+            attackBonus={attackBonus(character)}
+            weapon={weapon}
           />
         </div>
       ) : (
