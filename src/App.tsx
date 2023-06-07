@@ -25,7 +25,6 @@ console.log("DEV: antd theme", theme);
 // - Tablet / Mobile styles
 // - better reload of character list when deleting a character
 // - better load experience (spinners? skeleton?)
-// - all purpose roller button
 
 // BUILDER:
 // - WEIGHT MAXES AND LABELS
@@ -37,10 +36,8 @@ console.log("DEV: antd theme", theme);
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - make all relevant fields updatable
 // - "add equipment" modal
-// - "Attack" button
-// - "Cast" button?
+// - "Attack" button - in progress
 // - Money: force whole numbers (sometimes cp is showing as a decimal value)
-// - ATTACKMODAL bug, all modals opening at the same time. needs to be moved to character sheet I think.
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
