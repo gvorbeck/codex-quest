@@ -167,6 +167,10 @@ export interface CharacterDetails {
 export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;
   handleAttack?: boolean;
+  attackBonus?: number;
+}
+export interface AttackBonusProps extends CharacterDetails {
+  setAttackBonus: (attackBonus: number) => void;
 }
 
 export interface SavingThrowsTables {

@@ -1,7 +1,10 @@
 import { Table, Typography } from "antd";
-import { CharacterDetails } from "../types";
+import { AttackBonusProps } from "../types";
 
-export default function AttackBonus({ character }: CharacterDetails) {
+export default function AttackBonus({
+  character,
+  setAttackBonus,
+}: AttackBonusProps) {
   const rangedRaceBonus = character.race === "Halfling" ? 1 : 0;
 
   function getAttackBonus() {
@@ -22,6 +25,7 @@ export default function AttackBonus({ character }: CharacterDetails) {
     for (let i = 0; i < classes.length; i++) {
       if (character.class.includes(classes[i])) {
         let attackBonus = attackBonusTable[classes[i]][character.level];
+        setAttackBonus(attackBonus);
         if (attackBonus > maxAttackBonus) {
           maxAttackBonus = attackBonus;
         }

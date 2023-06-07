@@ -32,6 +32,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const userLoggedIn: User = useOutletContext();
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
+  const [attackBonus, setAttackBonus] = useState(0);
 
   const userIsOwner = userLoggedIn?.uid === uid;
 
@@ -191,7 +192,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               <Abilities character={character} />
             </Col>
             <Col span={8} className="flex flex-col justify-between">
-              <AttackBonus character={character} />
+              <AttackBonus
+                character={character}
+                setAttackBonus={setAttackBonus}
+              />
               <HitPoints
                 character={character}
                 setCharacter={setCharacter}
@@ -260,6 +264,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                       "swords",
                       "hammers-and-maces",
                     ]}
+                    attackBonus={attackBonus}
                   />
                 </Collapse.Panel>
                 <Collapse.Panel

@@ -1,12 +1,16 @@
-import { Button, List, Space, Typography } from "antd";
+import { Button, List, Modal, Space, Typography } from "antd";
 import { EquipmentListProps } from "../types";
+import { useState } from "react";
 
 export default function EquipmentList({
   character,
   setCharacter,
   categories,
   handleAttack,
+  attackBonus,
 }: EquipmentListProps) {
+  const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
+
   let equipmentItems;
   if (typeof categories === "string") {
     equipmentItems = character.equipment
@@ -17,13 +21,26 @@ export default function EquipmentList({
       .filter((item) => categories.includes(item.category))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
+
+  const showAttackModal = () => {
+    setIsAttackModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsAttackModalOpen(false);
+  };
+
+  const attack = () => {
+    console.log("attack", attackBonus);
+    showAttackModal();
+  };
   return (
     <List
       dataSource={equipmentItems}
       size="small"
       renderItem={(item) => (
         <List.Item className="!block">
-          <Typography.Paragraph className="font-bold">
+          <Typography.Paragraph className="font-bold mb-3">
             {item.name}
           </Typography.Paragraph>
           <Space direction="horizontal" className="!flex italic justify-end">
@@ -69,9 +86,23 @@ export default function EquipmentList({
             )}
           </Space>
           {handleAttack && (
-            <div className="text-right">
-              <Button type="primary">Attack</Button>
-            </div>
+            <>
+              <div className="text-right mt-3">
+                <Button type="primary" onClick={attack}>
+                  Attack
+                </Button>
+              </div>
+              <Modal
+                title="Basic Modal"
+                open={isAttackModalOpen}
+                onCancel={handleCancel}
+                footer={false}
+              >
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+              </Modal>
+            </>
           )}
         </List.Item>
       )}

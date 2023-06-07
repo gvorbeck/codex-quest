@@ -34,6 +34,11 @@ export default function HeaderContent({
                 <Button type="primary" onClick={() => auth.signOut()}>
                   Log out
                 </Button>
+                <CreateCharacterModal
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  onCharacterAdded={onCharacterAdded}
+                />
               </>
             ) : (
               <Button type="primary" onClick={handleLogin}>
@@ -43,11 +48,6 @@ export default function HeaderContent({
           </Space>
         </Col>
       </Row>
-      <CreateCharacterModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        onCharacterAdded={onCharacterAdded}
-      />
     </>
   );
 }
