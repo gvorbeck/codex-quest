@@ -1,6 +1,7 @@
-import { Button, List, Modal, Space, Typography } from "antd";
+import { Button, List, Space, Typography } from "antd";
 import { EquipmentListProps } from "../types";
 import { useState } from "react";
+import AttackModal from "./AttackModal";
 
 export default function EquipmentList({
   character,
@@ -22,17 +23,14 @@ export default function EquipmentList({
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  console.log(equipmentItems);
+
   const showAttackModal = () => {
     setIsAttackModalOpen(true);
   };
 
   const handleCancel = () => {
     setIsAttackModalOpen(false);
-  };
-
-  const attack = () => {
-    console.log("attack", attackBonus);
-    showAttackModal();
   };
   return (
     <List
@@ -88,20 +86,17 @@ export default function EquipmentList({
           {handleAttack && (
             <>
               <div className="text-right mt-3">
-                <Button type="primary" onClick={attack}>
+                <Button type="primary" onClick={showAttackModal}>
                   Attack
                 </Button>
               </div>
-              <Modal
-                title="Basic Modal"
-                open={isAttackModalOpen}
-                onCancel={handleCancel}
-                footer={false}
-              >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-              </Modal>
+              <AttackModal
+                isAttackModalOpen={isAttackModalOpen}
+                handleCancel={handleCancel}
+                attackBonus={attackBonus || 0}
+                weapon={item}
+                character={character}
+              />
             </>
           )}
         </List.Item>

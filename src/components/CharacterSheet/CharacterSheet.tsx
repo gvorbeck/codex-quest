@@ -28,11 +28,35 @@ import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import SimpleNumberStat from "./SimpleNumberStat";
 import { User } from "firebase/auth";
 
+const attackBonus = function (character: CharacterData) {
+  const attackBonusTable: Record<string, number[]> = {
+    Fighter: [0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 10, 10, 10],
+    Cleric: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
+    "Magic-User": [
+      0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7,
+    ],
+    Thief: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
+  };
+
+  let classes = Object.keys(attackBonusTable);
+  let maxAttackBonus = 0;
+
+  for (let i = 0; i < classes.length; i++) {
+    if (character && character.class.includes(classes[i])) {
+      let attackBonus = attackBonusTable[classes[i]][character.level];
+      if (attackBonus > maxAttackBonus) {
+        maxAttackBonus = attackBonus;
+      }
+    }
+  }
+
+  return maxAttackBonus;
+};
+
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const userLoggedIn: User = useOutletContext();
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
-  const [attackBonus, setAttackBonus] = useState(0);
 
   const userIsOwner = userLoggedIn?.uid === uid;
 
@@ -194,7 +218,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Col span={8} className="flex flex-col justify-between">
               <AttackBonus
                 character={character}
-                setAttackBonus={setAttackBonus}
+                attackBonus={attackBonus(character)}
               />
               <HitPoints
                 character={character}
@@ -264,7 +288,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                       "swords",
                       "hammers-and-maces",
                     ]}
-                    attackBonus={attackBonus}
+                    attackBonus={attackBonus(character)}
                   />
                 </Collapse.Panel>
                 <Collapse.Panel

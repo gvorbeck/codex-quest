@@ -23,12 +23,16 @@ console.log("DEV: antd theme", theme);
 // - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
 // - Tablet / Mobile styles
+// - better reload of character list when deleting a character
+// - better load experience (spinners? skeleton?)
+// - all purpose roller button
 
 // BUILDER:
 // - clicking done navigates to character sheet
 // - WEIGHT MAXES AND LABELS
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
+// - rework weapon options for combination classes
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
@@ -36,6 +40,7 @@ console.log("DEV: antd theme", theme);
 // - "add equipment" modal
 // - "Attack" button
 // - "Cast" button?
+// - Money: force whole numbers (sometimes cp is showing as a decimal value)
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/

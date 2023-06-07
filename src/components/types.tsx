@@ -109,6 +109,7 @@ export interface EquipmentItem {
   damage?: string;
   AC?: string | number;
   amount: number;
+  type?: string;
 }
 
 export interface AbilityRecord {
@@ -170,7 +171,7 @@ export interface EquipmentListProps extends CharacterDetails {
   attackBonus?: number;
 }
 export interface AttackBonusProps extends CharacterDetails {
-  setAttackBonus: (attackBonus: number) => void;
+  attackBonus: number;
 }
 
 export interface SavingThrowsTables {
@@ -182,4 +183,12 @@ export interface SavingThrowsTables {
 export interface SimpleNumberStatProps {
   title: string;
   value: string | number;
+}
+
+export interface AttackModalProps {
+  isAttackModalOpen: boolean;
+  handleCancel: () => void;
+  attackBonus: number;
+  weapon: EquipmentItem;
+  character: CharacterData;
 }
