@@ -25,7 +25,6 @@ export default function InitiativeRoller({ character }: CharacterDetails) {
     ).total;
     if (character.race === "Halfling") result += 1;
     if (result.total > 0) result = 1;
-    // return result;
     openNotification(result);
   };
   return (

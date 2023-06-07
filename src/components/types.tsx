@@ -192,3 +192,10 @@ export interface AttackModalProps {
   weapon: EquipmentItem;
   character: CharacterData;
 }
+
+export interface AttackButtonsProps {
+  weapon: EquipmentItem;
+  damage: (damage: string) => void;
+  attack: (attack: "melee" | "missile") => void;
+  type: "melee" | "missile";
+}

@@ -1,9 +1,51 @@
-import { Button, Modal, Radio, RadioChangeEvent, Space, Switch } from "antd";
-import { AttackModalProps } from "../types";
-import { useEffect, useState } from "react";
+import {
+  Button,
+  Modal,
+  Radio,
+  RadioChangeEvent,
+  Space,
+  Switch,
+  notification,
+} from "antd";
+import { AttackButtonsProps, AttackModalProps } from "../types";
+import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 const roller = new DiceRoller();
+
+const openAttackNotification = (result: number) => {
+  notification.open({
+    message: "Attack Roll",
+    description: `${result} (+2 if attacking from behind)`,
+    duration: 0,
+    className: "!bg-seaBuckthorn",
+  });
+};
+
+const openDamageNotification = (result: number) => {
+  notification.open({
+    message: "Damage Roll",
+    description: `${result}`,
+    duration: 0,
+    className: "!bg-seaBuckthorn",
+  });
+};
+
+function AttackButtons({ weapon, damage, attack, type }: AttackButtonsProps) {
+  return (
+    <div>
+      <Button type="primary" onClick={() => attack(type)}>
+        Attack Roll
+      </Button>
+      <Button
+        type="default"
+        onClick={() => weapon.damage && damage(weapon.damage)}
+      >
+        Damage Roll
+      </Button>
+    </div>
+  );
+}
 
 export default function AttackModal({
   isAttackModalOpen,
@@ -13,7 +55,7 @@ export default function AttackModal({
   weapon,
 }: AttackModalProps) {
   const [isMissile, setisMissile] = useState(false);
-  const [missileRangeBonus, setMissileRangeBonus] = useState(null);
+  const [missileRangeBonus, setMissileRangeBonus] = useState(0);
 
   const handleSwitchChange = () => setisMissile(!isMissile);
   const handleRangeChange = (e: RadioChangeEvent) => {
@@ -53,23 +95,24 @@ export default function AttackModal({
       break;
   }
 
-  // Some of this code may have been duplicated in AttackBonus.tsx
-  // TODO: refactor that duplication
   const attack = (type: "melee" | "missile") => {
-    console.log(type);
     let result = roller.roll("1d20").total;
-    console.log(result);
     if (type === "melee") {
       result += +character.abilities.modifiers.strength + attackBonus;
     } else {
-      result += +character.abilities.modifiers.dexterity + attackBonus;
+      result +=
+        +character.abilities.modifiers.dexterity +
+        attackBonus +
+        (character.race === "Halfling" ? 1 : 0) +
+        missileRangeBonus;
     }
-    console.log(result);
+    openAttackNotification(result);
   };
 
-  useEffect(() => {
-    console.log(missileRangeValues, weapon);
-  }, [missileRangeValues]);
+  const damage = (roll: string) => {
+    let result = roller.roll(roll).total;
+    openDamageNotification(result);
+  };
 
   return (
     <Modal
@@ -78,7 +121,7 @@ export default function AttackModal({
       onCancel={handleCancel}
       footer={false}
     >
-      {weapon.type === "melee" && <div>hello world</div>}
+      {/* {weapon.type === "melee" && <div>hello world</div>} */}
       {weapon.type === "missile" && <div>jello world</div>}
       {weapon.type === "both" && (
         <Space direction="vertical">
@@ -88,24 +131,35 @@ export default function AttackModal({
             onChange={handleSwitchChange}
           />
           {isMissile ? (
-            <Radio.Group value={missileRangeBonus} onChange={handleRangeChange}>
-              <Radio value={1}>
-                Short Range (+1): {missileRangeValues[0]}'
-              </Radio>
-              <Radio value={0}>
-                Medium Range (+0): {missileRangeValues[1]}'
-                <Radio value={-2}>
-                  Long Range (-2): {missileRangeValues[2]}'
+            <>
+              <Radio.Group
+                value={missileRangeBonus}
+                onChange={handleRangeChange}
+              >
+                <Radio value={1}>
+                  Short Range (+1): {missileRangeValues[0]}'
                 </Radio>
-              </Radio>
-            </Radio.Group>
+                <Radio value={0}>
+                  Medium Range (+0): {missileRangeValues[1]}'
+                  <Radio value={-2}>
+                    Long Range (-2): {missileRangeValues[2]}'
+                  </Radio>
+                </Radio>
+              </Radio.Group>
+              <AttackButtons
+                weapon={weapon}
+                damage={damage}
+                attack={attack}
+                type="missile"
+              />
+            </>
           ) : (
-            <div>
-              <Button type="primary" onClick={() => attack("melee")}>
-                Attack Roll
-              </Button>
-              <Button type="default">Damage Roll</Button>
-            </div>
+            <AttackButtons
+              weapon={weapon}
+              damage={damage}
+              attack={attack}
+              type="melee"
+            />
           )}
         </Space>
       )}
