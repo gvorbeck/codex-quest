@@ -31,12 +31,14 @@ console.log("DEV: antd theme", theme);
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
 // - rework weapon options for combination classes
+// - BUG: Armor options are not disabled before rolling for initial gold or after. options that are too expensive are still available
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - make all relevant fields updatable
 // - "add equipment" modal
 // - level up functionality.
+// - notifications should show full formula for result
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
