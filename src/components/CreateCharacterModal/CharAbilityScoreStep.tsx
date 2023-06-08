@@ -45,6 +45,7 @@ export default function CharAbilityScoreStep({
         dice: "",
         points: 0,
         max: 0,
+        desc: "",
       },
     });
     // Going back and changing ability score wipes out choices made before.

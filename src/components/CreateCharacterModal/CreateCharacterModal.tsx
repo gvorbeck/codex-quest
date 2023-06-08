@@ -58,6 +58,7 @@ const emptyCharacter = {
     dice: "",
     points: 0,
     max: 0,
+    desc: "",
   },
   spells: [],
   gold: 0,

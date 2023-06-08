@@ -16,6 +16,7 @@ interface HP {
   dice: string;
   points: number;
   max: number;
+  desc: string;
 }
 interface SpellLevels {
   cleric: number | null;
