@@ -13,11 +13,16 @@ export default function HitPoints({
 }: CharacterDetails) {
   const [prevValue, setPrevValue] = useState(character.hp.points.toString());
   const [inputValue, setInputValue] = useState(character.hp.points.toString());
+  const [descValue, setDescValue] = useState(character.hp.desc || "");
 
   const { uid, id } = useParams();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+  };
+
+  const handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescValue(event.target.value);
   };
 
   const handleInputBlur = () => {
@@ -96,6 +101,35 @@ export default function HitPoints({
     }
   };
 
+  const handleDescBlur = async () => {
+    if (!uid || !id) {
+      console.error("User ID or Character ID is undefined");
+      return;
+    }
+
+    if (descValue !== character.hp.desc) {
+      const docRef = doc(db, "users", uid, "characters", id);
+
+      try {
+        await updateDoc(docRef, {
+          "hp.desc": descValue,
+        });
+        console.log(`${character.name}'s HP description: ${descValue}`);
+        if (setCharacter) {
+          setCharacter({
+            ...character,
+            hp: {
+              ...character.hp,
+              desc: descValue,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
+  };
+
   useEffect(() => {
     updateHP();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,11 +156,18 @@ export default function HitPoints({
         onFocus={(event) => event.target.select()}
       />
       <Input.TextArea
+        value={descValue}
         rows={4}
+        maxLength={500}
         placeholder="Wounds and Conditions"
         className="mt-4"
         disabled={!userIsOwner}
+        onChange={handleDescChange}
+        onBlur={handleDescBlur}
       />
+      <Typography.Text type="secondary" className="text-xs">
+        Character count: {descValue.length}/500
+      </Typography.Text>
     </div>
   );
 }
