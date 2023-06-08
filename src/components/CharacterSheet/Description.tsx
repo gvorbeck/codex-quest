@@ -53,6 +53,7 @@ export default function Description({
         clearTimeout(timeoutRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
   return (

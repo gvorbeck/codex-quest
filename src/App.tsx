@@ -35,7 +35,6 @@ console.log("DEV: antd theme", theme);
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
-// - make all relevant fields updatable
 // - "add equipment" modal
 // - level up functionality.
 // - notifications should show full formula for result
