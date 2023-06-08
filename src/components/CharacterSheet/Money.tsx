@@ -22,9 +22,9 @@ export default function Money({
     let copperPieces = copper;
 
     return {
-      gp: goldPieces,
-      sp: silverPieces,
-      cp: copperPieces,
+      gp: Math.round(goldPieces),
+      sp: Math.round(silverPieces),
+      cp: Math.round(copperPieces),
     };
   }
 
