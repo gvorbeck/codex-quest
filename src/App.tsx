@@ -36,6 +36,7 @@ console.log("DEV: antd theme", theme);
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - make all relevant fields updatable
 // - "add equipment" modal
+// - level up functionality.
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
 // - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/

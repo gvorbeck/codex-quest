@@ -53,7 +53,7 @@ export default function ExperiencePoints({
           xp: character.xp,
         });
         console.log(`${character.name}'s XP: ${character.xp}`);
-        setPrevValue(character.xp.toString()); // update the previous value
+        setPrevValue(character.xp.toString());
       } catch (error) {
         console.error("Error updating document: ", error);
       }
