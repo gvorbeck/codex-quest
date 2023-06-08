@@ -123,8 +123,38 @@ export default function AttackModal({
     >
       {weapon ? (
         <div>
-          {weapon.type === "melee" && <div>hello world</div>}
-          {weapon.type === "missile" && <div>jello world</div>}
+          {weapon.type === "melee" && (
+            <AttackButtons
+              weapon={weapon}
+              damage={damage}
+              attack={attack}
+              type="melee"
+            />
+          )}
+          {weapon.type === "missile" && (
+            <>
+              <Radio.Group
+                value={missileRangeBonus}
+                onChange={handleRangeChange}
+              >
+                <Radio value={1}>
+                  Short Range (+1): {missileRangeValues[0]}'
+                </Radio>
+                <Radio value={0}>
+                  Medium Range (+0): {missileRangeValues[1]}'
+                  <Radio value={-2}>
+                    Long Range (-2): {missileRangeValues[2]}'
+                  </Radio>
+                </Radio>
+              </Radio.Group>
+              <AttackButtons
+                weapon={weapon}
+                damage={damage}
+                attack={attack}
+                type="missile"
+              />
+            </>
+          )}
           {weapon.type === "both" && (
             <Space direction="vertical">
               <Switch

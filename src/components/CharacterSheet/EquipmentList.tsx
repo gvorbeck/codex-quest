@@ -1,7 +1,5 @@
 import { Button, List, Space, Typography } from "antd";
-import { EquipmentListProps } from "../types";
-// import { useState } from "react";
-// import AttackModal from "./AttackModal";
+import { EquipmentItem, EquipmentListProps } from "../types";
 
 export default function EquipmentList({
   character,
@@ -12,8 +10,6 @@ export default function EquipmentList({
   setWeapon,
   showAttackModal,
 }: EquipmentListProps) {
-  // const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
-
   let equipmentItems;
   if (typeof categories === "string") {
     equipmentItems = character.equipment
@@ -25,15 +21,15 @@ export default function EquipmentList({
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  console.log(equipmentItems);
+  const handleAttackClick = (item: EquipmentItem) => {
+    if (setWeapon) {
+      setWeapon(item);
+    }
+    if (showAttackModal) {
+      showAttackModal();
+    }
+  };
 
-  // const showAttackModal = () => {
-  //   setIsAttackModalOpen(true);
-  // };
-
-  // const handleCancel = () => {
-  //   setIsAttackModalOpen(false);
-  // };
   return (
     <List
       dataSource={equipmentItems}
@@ -88,17 +84,10 @@ export default function EquipmentList({
           {handleAttack && (
             <>
               <div className="text-right mt-3">
-                <Button type="primary" onClick={showAttackModal}>
+                <Button type="primary" onClick={() => handleAttackClick(item)}>
                   Attack
                 </Button>
               </div>
-              {/* <AttackModal
-                isAttackModalOpen={isAttackModalOpen}
-                handleCancel={handleCancel}
-                attackBonus={attackBonus || 0}
-                weapon={item}
-                character={character}
-              /> */}
             </>
           )}
         </List.Item>
