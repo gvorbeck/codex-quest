@@ -10,26 +10,26 @@ import SpellData from "../../data/spells.json";
 const roller = new DiceRoller();
 
 const magicUserSpellBudget = [
-  [1, 0, 0, 0, 0, 0],
   [2, 0, 0, 0, 0, 0],
-  [2, 1, 0, 0, 0, 0],
-  [2, 2, 0, 0, 0, 0],
-  [2, 2, 1, 0, 0, 0],
-  [3, 2, 2, 0, 0, 0],
-  [3, 2, 2, 1, 0, 0],
-  [3, 3, 2, 2, 0, 0],
-  [3, 3, 2, 2, 1, 0],
-  [4, 3, 3, 2, 2, 0],
-  [4, 4, 3, 2, 2, 1],
-  [4, 4, 3, 3, 2, 2],
-  [4, 4, 4, 3, 2, 2],
-  [4, 4, 4, 3, 3, 2],
+  [3, 0, 0, 0, 0, 0],
+  [3, 1, 0, 0, 0, 0],
+  [3, 2, 0, 0, 0, 0],
+  [3, 2, 1, 0, 0, 0],
+  [4, 2, 2, 0, 0, 0],
+  [4, 2, 2, 1, 0, 0],
+  [4, 3, 2, 2, 0, 0],
+  [4, 3, 2, 2, 1, 0],
+  [5, 3, 3, 2, 2, 0],
+  [5, 4, 3, 2, 2, 1],
+  [5, 4, 3, 3, 2, 2],
+  [5, 4, 4, 3, 2, 2],
   [5, 4, 4, 3, 3, 2],
-  [5, 5, 4, 3, 3, 2],
-  [5, 5, 4, 4, 3, 3],
+  [6, 4, 4, 3, 3, 2],
+  [6, 5, 4, 3, 3, 2],
   [6, 5, 4, 4, 3, 3],
-  [6, 5, 5, 4, 3, 3],
-  [6, 5, 5, 4, 4, 3],
+  [7, 5, 4, 4, 3, 3],
+  [7, 5, 5, 4, 3, 3],
+  [7, 5, 5, 4, 4, 3],
 ];
 
 const clericSpellBudget = [
@@ -134,6 +134,7 @@ export default function LevelUpModal({
           if (max) {
             return (
               <Checkbox.Group
+                key={index}
                 value={checkedSpells}
                 onChange={(checkedValues) => {
                   const newCheckedSpells = checkedValues as string[];
@@ -156,6 +157,7 @@ export default function LevelUpModal({
                   (spell) => spell.level["magic-user"] === index + 1
                 ).map((spell) => (
                   <Checkbox
+                    key={spell.name}
                     value={spell.name}
                     disabled={
                       spell.name === "Read Magic" ||
