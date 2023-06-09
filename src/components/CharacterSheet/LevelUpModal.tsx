@@ -1,5 +1,5 @@
 import { Button, Checkbox, Modal } from "antd";
-import { LevelUpModalProps, SpellItem } from "../types";
+import { LevelUpModalProps, SpellItem, Spell } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -93,13 +93,23 @@ export default function LevelUpModal({
     newHitDice += `+${hitDiceModifiers.single[character.level]}`;
   }
 
+  const getSelectedSpells = (checkedSpells: string[]): Spell[] => {
+    return checkedSpells
+      .map((spellName) => SpellData.find((spell) => spell.name === spellName))
+      .filter(Boolean) as Spell[];
+  };
+
   const rollNewHitPoints = async (dice: string) => {
     handleCancel();
     const result = roller.roll(dice).total;
+
+    const selectedSpells = getSelectedSpells(checkedSpells);
+
     setCharacter({
       ...character,
       hp: { ...character.hp, max: result, dice },
       level: character.level + 1,
+      spells: selectedSpells,
     });
     setButtonClicked(true);
 
@@ -114,9 +124,10 @@ export default function LevelUpModal({
         "hp.max": result,
         "hp.dice": dice,
         level: character.level + 1,
+        spells: selectedSpells,
       });
       console.log(
-        `${character.name}'s level, max HP, and HP dice have been updated.`
+        `${character.name}'s level, max HP, HP dice, and spells have been updated.`
       );
     } catch (error) {
       console.error("Error updating document: ", error);
