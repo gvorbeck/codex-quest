@@ -1,7 +1,7 @@
 import { Button, Checkbox, Modal } from "antd";
 import { LevelUpModalProps, SpellItem } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
@@ -94,6 +94,7 @@ export default function LevelUpModal({
   }
 
   const rollNewHitPoints = async (dice: string) => {
+    handleCancel();
     const result = roller.roll(dice).total;
     setCharacter({
       ...character,
@@ -121,6 +122,23 @@ export default function LevelUpModal({
       console.error("Error updating document: ", error);
     }
   };
+
+  useEffect(() => {
+    const initialCheckedSpellsCount = magicUserSpellBudget[
+      character.level - 1
+    ].map(
+      (_, index) =>
+        checkedSpells.filter((spellName) =>
+          SpellData.some(
+            (spell) =>
+              spell.name === spellName &&
+              spell.level["magic-user"] === index + 1
+          )
+        ).length
+    );
+
+    setCheckedSpellsCount(initialCheckedSpellsCount);
+  }, [character.level, checkedSpells]);
 
   return (
     <Modal
