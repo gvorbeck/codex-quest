@@ -57,6 +57,7 @@ export interface CharacterData {
   restrictions: SpecialRestriction;
   savingThrows: SavingThrows;
   xp: number;
+  desc: string;
 }
 
 interface CharSteps {

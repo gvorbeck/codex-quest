@@ -77,6 +77,7 @@ const emptyCharacter = {
     spells: 0,
   },
   xp: 0,
+  desc: "",
 };
 
 export default function CreateCharacterModal({
