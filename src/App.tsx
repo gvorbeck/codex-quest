@@ -35,7 +35,6 @@ console.log("DEV: antd theme", theme);
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - "add equipment" modal
 // - "level up" modal.
-// - notifications should show full formula for result
 // - BUG: Attack button in  attack modal creates console.error
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:
