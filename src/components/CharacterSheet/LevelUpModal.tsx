@@ -62,7 +62,6 @@ export default function LevelUpModal({
   hitDiceModifiers,
   setCharacter,
 }: LevelUpModalProps) {
-  const [buttonClicked, setButtonClicked] = useState(false);
   const [checkedSpells, setCheckedSpells] = useState(
     character.spells.map((spell: SpellItem) => spell.name)
   );
@@ -111,7 +110,6 @@ export default function LevelUpModal({
       level: character.level + 1,
       spells: selectedSpells,
     });
-    setButtonClicked(true);
 
     if (!uid || !id) {
       console.error("User ID or Character ID is undefined");
@@ -215,11 +213,9 @@ export default function LevelUpModal({
         })}
 
       {character.class.includes("Cleric") && <div>clerical</div>}
-      {!buttonClicked && (
-        <Button type="primary" onClick={() => rollNewHitPoints(newHitDice)}>
-          Roll new Hit Points ({newHitDice})
-        </Button>
-      )}
+      <Button type="primary" onClick={() => rollNewHitPoints(newHitDice)}>
+        Roll new Hit Points ({newHitDice})
+      </Button>
     </Modal>
   );
 }
