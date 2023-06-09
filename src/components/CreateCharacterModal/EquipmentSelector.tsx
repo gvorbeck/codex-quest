@@ -53,6 +53,7 @@ export default function EquipmentSelector({
                         <EquipmentRadio
                           item={item}
                           characterData={characterData}
+                          disabled={characterData.equipment.length === 0}
                         />
                         <Divider />
                       </React.Fragment>

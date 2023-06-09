@@ -31,12 +31,11 @@ console.log("DEV: antd theme", theme);
 // - TEST IMG UPLOAD ON PROD
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
 // - rework weapon options for combination classes
-// - BUG: Armor options are not disabled before rolling for initial gold or after. options that are too expensive are still available
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - "add equipment" modal
-// - level up functionality.
+// - "level up" modal.
 // - notifications should show full formula for result
 // - BUG: Attack button in  attack modal creates console.error
 

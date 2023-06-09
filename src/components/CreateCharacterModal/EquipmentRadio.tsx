@@ -4,9 +4,11 @@ import { CharacterData, EquipmentItem } from "../types";
 export default function EquipmentRadio({
   item,
   characterData,
+  disabled,
 }: {
   item: EquipmentItem;
   characterData: CharacterData;
+  disabled: boolean;
 }) {
   return (
     <Radio
@@ -16,7 +18,8 @@ export default function EquipmentRadio({
         // If character is a Thief and category is Armor and is a metal armor
         (characterData.class.includes("Thief") &&
           item.name !== "No Armor" &&
-          item.name !== "Leather Armor")
+          item.name !== "Leather Armor") ||
+        disabled
       }
     >
       <Space direction="vertical">

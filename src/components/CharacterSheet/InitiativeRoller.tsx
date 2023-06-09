@@ -24,7 +24,7 @@ export default function InitiativeRoller({ character }: CharacterDetails) {
       `1d6+${+character.abilities.modifiers.dexterity}`
     ).total;
     if (character.race === "Halfling") result += 1;
-    if (result.total > 0) result = 1;
+    if (result === 0) result = 1;
     openNotification(result);
   };
   return (
