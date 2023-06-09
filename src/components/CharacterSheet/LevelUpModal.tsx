@@ -66,6 +66,9 @@ export default function LevelUpModal({
   const [checkedSpells, setCheckedSpells] = useState(
     character.spells.map((spell: SpellItem) => spell.name)
   );
+  const [checkedSpellsCount, setCheckedSpellsCount] = useState<number[]>(
+    new Array(magicUserSpellBudget[character.level - 1].length).fill(0)
+  );
 
   let newHitDice: string;
 
@@ -132,9 +135,21 @@ export default function LevelUpModal({
             return (
               <Checkbox.Group
                 value={checkedSpells}
-                onChange={(checkedValues) =>
-                  setCheckedSpells(checkedValues as string[])
-                }
+                onChange={(checkedValues) => {
+                  const newCheckedSpells = checkedValues as string[];
+                  setCheckedSpells(newCheckedSpells);
+
+                  const newCheckedSpellsCount = [...checkedSpellsCount];
+                  newCheckedSpellsCount[index] = newCheckedSpells.filter(
+                    (spellName) =>
+                      SpellData.some(
+                        (spell) =>
+                          spell.name === spellName &&
+                          spell.level["magic-user"] === index + 1
+                      )
+                  ).length;
+                  setCheckedSpellsCount(newCheckedSpellsCount);
+                }}
               >
                 level: {index + 1}{" "}
                 {SpellData.filter(
@@ -142,7 +157,11 @@ export default function LevelUpModal({
                 ).map((spell) => (
                   <Checkbox
                     value={spell.name}
-                    disabled={spell.name === "Read Magic"}
+                    disabled={
+                      spell.name === "Read Magic" ||
+                      (!checkedSpells.includes(spell.name) &&
+                        checkedSpellsCount[index] >= max)
+                    }
                   >
                     {spell.name}
                   </Checkbox>
