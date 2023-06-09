@@ -25,6 +25,7 @@ console.log("DEV: antd theme", theme);
 // - Tablet / Mobile styles
 // - better reload of character list when deleting a character
 // - better load experience (spinners? skeleton?)
+// - favicon, / page titles
 
 // BUILDER:
 // - WEIGHT MAXES AND LABELS
