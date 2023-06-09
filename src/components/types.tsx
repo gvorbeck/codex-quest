@@ -92,7 +92,9 @@ export interface EquipmentSelectorProps extends CharSteps {
   updateArmorSelection: any;
   weightRestrictions: any;
 }
-export interface PurchasedEquipmentProps extends CharSteps {}
+export interface PurchasedEquipmentProps extends CharSteps {
+  weightRestrictions: { light: number; heavy: number };
+}
 export interface EquipmentCheckboxProps extends CharSteps {
   itemName: string;
   equipmentItems: EquipmentItem[];

@@ -5,6 +5,7 @@ import { toTitleCase } from "../formatters";
 
 export default function PurchasedEquipment({
   characterData,
+  weightRestrictions,
 }: PurchasedEquipmentProps) {
   const groupedEquipment = useMemo(() => {
     return characterData.equipment.reduce(
@@ -19,10 +20,15 @@ export default function PurchasedEquipment({
   return (
     <section>
       <header>
-        <Typography.Title level={2} className="text-shipGray mt-0">
+        <Typography.Title level={2} className="text-shipGray mt-0 mb-0">
           Gold: {characterData.gold.toFixed(2)} | Weight:{" "}
           {characterData.weight.toFixed(2)}
         </Typography.Title>
+        <Typography.Text type="secondary">
+          Max weight: {weightRestrictions.heavy}{" "}
+          {characterData.weight > weightRestrictions.light &&
+            "/ Heavily Loaded!"}
+        </Typography.Text>
       </header>
       <div>
         {Object.entries(groupedEquipment).map(

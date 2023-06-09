@@ -122,7 +122,6 @@ export default function CharEquipmentStep({
       <Divider orientation="left">Equipment Lists</Divider>
       <Row gutter={32}>
         <Col span={12}>
-          {/* <Space className="items-stretch [&>div:last-of-type]:sticky [&>div:last-of-type]:top-0 [&>div:last-of-type]:h-full"> */}
           <EquipmentSelector
             armorSelection={armorSelection}
             equipmentCategories={equipmentCategories}
@@ -138,9 +137,9 @@ export default function CharEquipmentStep({
           <PurchasedEquipment
             characterData={characterData}
             setCharacterData={setCharacterData}
+            weightRestrictions={weightRestrictions}
           />
         </Col>
-        {/* </Space> */}
       </Row>
     </>
   );
