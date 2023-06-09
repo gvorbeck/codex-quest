@@ -25,6 +25,7 @@ console.log("DEV: antd theme", theme);
 // - Tablet / Mobile styles
 // - better reload of character list for all appropriate events
 // - better load experience (spinners? skeleton?)
+// - npm run build && firebase deploy works, BUT github actions makes site a blank page. why? something related to create-react-app
 
 // BUILDER:
 // - TEST IMG UPLOAD ON PROD
