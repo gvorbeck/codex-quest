@@ -1,12 +1,59 @@
-import { Button, Modal } from "antd";
-import { LevelUpModalProps } from "../types";
+import { Button, Checkbox, Modal } from "antd";
+import { LevelUpModalProps, SpellItem } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
+import SpellData from "../../data/spells.json";
 
 const roller = new DiceRoller();
+
+const magicUserSpellBudget = [
+  [1, 0, 0, 0, 0, 0],
+  [2, 0, 0, 0, 0, 0],
+  [2, 1, 0, 0, 0, 0],
+  [2, 2, 0, 0, 0, 0],
+  [2, 2, 1, 0, 0, 0],
+  [3, 2, 2, 0, 0, 0],
+  [3, 2, 2, 1, 0, 0],
+  [3, 3, 2, 2, 0, 0],
+  [3, 3, 2, 2, 1, 0],
+  [4, 3, 3, 2, 2, 0],
+  [4, 4, 3, 2, 2, 1],
+  [4, 4, 3, 3, 2, 2],
+  [4, 4, 4, 3, 2, 2],
+  [4, 4, 4, 3, 3, 2],
+  [5, 4, 4, 3, 3, 2],
+  [5, 5, 4, 3, 3, 2],
+  [5, 5, 4, 4, 3, 3],
+  [6, 5, 4, 4, 3, 3],
+  [6, 5, 5, 4, 3, 3],
+  [6, 5, 5, 4, 4, 3],
+];
+
+const clericSpellBudget = [
+  [0, 0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 0, 0],
+  [2, 0, 0, 0, 0, 0],
+  [2, 1, 0, 0, 0, 0],
+  [2, 2, 0, 0, 0, 0],
+  [2, 2, 1, 0, 0, 0],
+  [3, 2, 2, 0, 0, 0],
+  [3, 2, 2, 1, 0, 0],
+  [3, 3, 2, 2, 0, 0],
+  [3, 3, 2, 2, 1, 0],
+  [4, 3, 3, 2, 2, 0],
+  [4, 4, 3, 2, 2, 1],
+  [4, 4, 3, 3, 2, 2],
+  [4, 4, 4, 3, 2, 2],
+  [4, 4, 4, 3, 3, 2],
+  [5, 4, 4, 3, 3, 2],
+  [5, 5, 4, 3, 3, 2],
+  [5, 5, 4, 4, 3, 3],
+  [6, 5, 4, 4, 3, 3],
+  [6, 5, 5, 4, 3, 3],
+];
 
 export default function LevelUpModal({
   character,
@@ -16,6 +63,9 @@ export default function LevelUpModal({
   setCharacter,
 }: LevelUpModalProps) {
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [checkedSpells, setCheckedSpells] = useState(
+    character.spells.map((spell: SpellItem) => spell.name)
+  );
 
   let newHitDice: string;
 
@@ -34,10 +84,11 @@ export default function LevelUpModal({
     (character.class.includes("Fighter") ||
       character.class.includes("Thief")) &&
     hitDiceModifiers.double[character.level] !== null
-  )
+  ) {
     newHitDice += `+${hitDiceModifiers.double[character.level]}`;
-  else if (hitDiceModifiers.single[character.level] !== null)
+  } else if (hitDiceModifiers.single[character.level] !== null) {
     newHitDice += `+${hitDiceModifiers.single[character.level]}`;
+  }
 
   const rollNewHitPoints = async (dice: string) => {
     const result = roller.roll(dice).total;
@@ -75,13 +126,34 @@ export default function LevelUpModal({
       onCancel={handleCancel}
       footer={false}
     >
-      {character.class.includes("Magic-User") ? (
-        <div>MAGIC-USER</div>
-      ) : character.class.includes("Cleric") ? (
-        <div>CLERIC</div>
-      ) : (
-        <div>THIEF OR FIGHTER. Your hit dice are now {``}</div>
-      )}
+      {character.class.includes("Magic-User") &&
+        magicUserSpellBudget[character.level].map((max: number, index) => {
+          if (max) {
+            return (
+              <Checkbox.Group
+                value={checkedSpells}
+                onChange={(checkedValues) =>
+                  setCheckedSpells(checkedValues as string[])
+                }
+              >
+                level: {index + 1}{" "}
+                {SpellData.filter(
+                  (spell) => spell.level["magic-user"] === index + 1
+                ).map((spell) => (
+                  <Checkbox
+                    value={spell.name}
+                    disabled={spell.name === "Read Magic"}
+                  >
+                    {spell.name}
+                  </Checkbox>
+                ))}
+              </Checkbox.Group>
+            );
+          }
+          return undefined;
+        })}
+
+      {character.class.includes("Cleric") && <div>clerical</div>}
       {!buttonClicked && (
         <Button type="primary" onClick={() => rollNewHitPoints(newHitDice)}>
           Roll new Hit Points ({newHitDice})
