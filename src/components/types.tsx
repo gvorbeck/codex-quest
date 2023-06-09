@@ -77,6 +77,8 @@ export interface CharClassStepProps extends CharSteps {
   setComboClass: (comboClass: boolean) => void;
   checkedClasses: string[];
   setCheckedClasses: (checkedClasses: string[]) => void;
+  selectedSpell: SpellType | null;
+  setSelectedSpell: (spell: SpellType | null) => void;
 }
 export interface CharHitPointsStepProps extends CharSteps {
   comboClass: boolean;

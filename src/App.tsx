@@ -32,7 +32,6 @@ console.log("DEV: antd theme", theme);
 // - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
 // - rework weapon options for combination classes
 // - BUG: Armor options are not disabled before rolling for initial gold or after. options that are too expensive are still available
-// - BUG: selected spell doesn't show after next/prev
 
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action

@@ -9,6 +9,7 @@ import {
   AbilityTypes,
   CharacterData,
   CreateCharacterModalProps,
+  SpellType,
 } from "../types";
 import CharNameStep from "./CharNameStep";
 import equipmentItems from "../../data/equipment-items.json";
@@ -90,6 +91,7 @@ export default function CreateCharacterModal({
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
   const [characterData, setCharacterData] =
     useState<CharacterData>(emptyCharacter);
+  const [selectedSpell, setSelectedSpell] = useState<SpellType | null>(null);
 
   const steps = [
     {
@@ -130,6 +132,8 @@ export default function CreateCharacterModal({
           setCheckedClasses={setCheckedClasses}
           characterData={characterData}
           setCharacterData={setCharacterData}
+          selectedSpell={selectedSpell}
+          setSelectedSpell={setSelectedSpell}
         />
       ),
     },

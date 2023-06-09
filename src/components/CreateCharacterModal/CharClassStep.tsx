@@ -1,8 +1,8 @@
 import { Checkbox, Col, Radio, Row, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { useEffect, useState } from "react";
-import { CharClassStepProps, SpellType } from "../types";
+import { useEffect } from "react";
+import { CharClassStepProps } from "../types";
 import spellsData from "../../data/spells.json";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
@@ -47,8 +47,10 @@ export default function CharClassStep({
   setComboClass,
   checkedClasses,
   setCheckedClasses,
+  selectedSpell,
+  setSelectedSpell,
 }: CharClassStepProps) {
-  const [firstSpell, setFirstSpell] = useState<SpellType | null>(null);
+  // const [firstSpell, setFirstSpell] = useState<SpellType | null>(null);
 
   useEffect(() => {
     if (comboClass) {
@@ -101,7 +103,7 @@ export default function CharClassStep({
 
   const onClassRadioChange = (e: RadioChangeEvent) => {
     const classValue = e.target.value;
-    setFirstSpell(null);
+    setSelectedSpell(null);
     const spells = classValue === "Magic-User" ? readMagic : [];
     const thisClass = e.target.value
       .toString()
@@ -128,7 +130,7 @@ export default function CharClassStep({
       (spell) => spell.name === e.target.value
     );
     if (foundSpell) {
-      setFirstSpell(foundSpell);
+      setSelectedSpell(foundSpell);
       setCharacterData({
         ...characterData,
         spells: [...readMagic, foundSpell],
@@ -226,7 +228,7 @@ export default function CharClassStep({
           {characterData.class.includes("Magic-User") && (
             <Radio.Group
               onChange={onSpellRadioChange}
-              value={firstSpell ? firstSpell.name : null}
+              value={selectedSpell ? selectedSpell.name : null}
               className="flex flex-wrap items-center gap-2 border-0 border-solid border-l-zorba border-l-2 pl-7"
             >
               {/* <Space direction="vertical"> */}
