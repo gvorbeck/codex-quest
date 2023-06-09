@@ -138,8 +138,19 @@ export default function LevelUpModal({
                 value={checkedSpells}
                 onChange={(checkedValues) => {
                   const newCheckedSpells = checkedValues as string[];
-                  setCheckedSpells(newCheckedSpells);
 
+                  // Add only the spells from current level to checkedSpells
+                  const otherLevelSpells = checkedSpells.filter(
+                    (spellName) =>
+                      !SpellData.some(
+                        (spell) =>
+                          spell.name === spellName &&
+                          spell.level["magic-user"] === index + 1
+                      )
+                  );
+                  setCheckedSpells([...otherLevelSpells, ...newCheckedSpells]);
+
+                  // Update the count for current level in checkedSpellsCount
                   const newCheckedSpellsCount = [...checkedSpellsCount];
                   newCheckedSpellsCount[index] = newCheckedSpells.filter(
                     (spellName) =>
