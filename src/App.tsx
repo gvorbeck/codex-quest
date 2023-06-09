@@ -23,7 +23,7 @@ console.log("DEV: antd theme", theme);
 // - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
 // - Tablet / Mobile styles
-// - better reload of character list when deleting a character
+// - better reload of character list for all appropriate events
 // - better load experience (spinners? skeleton?)
 
 // BUILDER:
@@ -34,7 +34,7 @@ console.log("DEV: antd theme", theme);
 // Character Sheet
 // - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - "add equipment" modal
-// - "level up" modal.
+// - "level up" modal. (Magic-User and Fighter done. Implement Cleric and Check on Thief)
 // - BUG: Attack button in  attack modal creates console.error
 
 // NPM RUN BUILD HAD LARGE BUNDLE WARNING:

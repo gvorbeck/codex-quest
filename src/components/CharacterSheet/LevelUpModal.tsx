@@ -69,6 +69,8 @@ export default function LevelUpModal({
     new Array(magicUserSpellBudget[character.level - 1].length).fill(0)
   );
 
+  console.log("this is here to pass github actions", clericSpellBudget);
+
   let newHitDice: string;
 
   const { uid, id } = useParams();
