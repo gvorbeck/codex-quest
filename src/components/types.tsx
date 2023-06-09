@@ -207,6 +207,9 @@ export interface AttackModalProps extends ModalProps {
 
 export interface LevelUpModalProps extends ModalProps {
   isLevelUpModalOpen: boolean;
+  hitDice: string;
+  hitDiceModifiers: { single: (number | null)[]; double: (number | null)[] };
+  setCharacter: (character: CharacterData) => void;
 }
 
 export interface AddEquipmentModalProps extends ModalProps {

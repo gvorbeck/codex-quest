@@ -185,11 +185,15 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           ? hitDiceModifiers.single[character.level - 1] || 0
           : hitDiceModifiers.double[character.level - 1] || 0;
     }
+    const diceParts = character.hp.dice.split("d");
     if (character.level < 10) {
       hitDice =
-        character.level + hitDice + (modifier !== 0 ? "+" + modifier : "");
+        character.level.toString() +
+        "d" +
+        diceParts[1] +
+        (modifier !== 0 ? "+" + modifier : "");
     } else {
-      hitDice = 9 + hitDice + "+" + modifier;
+      hitDice = "9d" + diceParts[1] + "+" + modifier;
     }
   }
 
@@ -370,6 +374,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             isLevelUpModalOpen={isLevelUpModalOpen}
             handleCancel={handleCancel}
             character={character}
+            hitDice={hitDice}
+            hitDiceModifiers={hitDiceModifiers}
+            setCharacter={setCharacter}
           />
           <AddEquipmentModal
             isAddEquipmentModalOpen={isAddEquipmentModalOpen}

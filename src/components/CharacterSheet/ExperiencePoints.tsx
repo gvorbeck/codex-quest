@@ -135,7 +135,7 @@ export default function ExperiencePoints({
         disabled={character.xp < totalLevelRequirement}
         type="primary"
         onClick={showLevelUpModal}
-      >{`Level ${character.level + 1}`}</Button>
+      >{`Level Up`}</Button>
     </Space.Compact>
   );
 }
