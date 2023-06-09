@@ -28,6 +28,8 @@ import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import SimpleNumberStat from "./SimpleNumberStat";
 import { User } from "firebase/auth";
 import AttackModal from "./AttackModal";
+import LevelUpModal from "./LevelUpModal";
+import AddEquipmentModal from "./AddEquipmentModal";
 
 const attackBonus = function (character: CharacterData) {
   const attackBonusTable: Record<string, number[]> = {
@@ -59,14 +61,26 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
+  const [isAddEquipmentModalOpen, setIsAddEquipmentModalOpen] = useState(false);
   const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
 
   const showAttackModal = () => {
     setIsAttackModalOpen(true);
   };
 
+  const showLevelUpModal = () => {
+    setIsLevelUpModalOpen(true);
+  };
+
+  const showAddEquipmentModal = () => {
+    setIsAddEquipmentModalOpen(true);
+  };
+
   const handleCancel = () => {
     setIsAttackModalOpen(false);
+    setIsLevelUpModalOpen(false);
+    setIsAddEquipmentModalOpen(false);
   };
 
   const userIsOwner = userLoggedIn?.uid === uid;
@@ -220,6 +234,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             character={character}
             setCharacter={setCharacter}
             userIsOwner={userIsOwner}
+            showLevelUpModal={showLevelUpModal}
           />
           <InitiativeRoller character={character} />
           <Row gutter={32}>
@@ -271,7 +286,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               <Typography.Title level={3} className="mt-0 !text-shipGray">
                 Equipment
               </Typography.Title>
-              <Button type="primary" disabled={!userIsOwner}>
+              <Button
+                type="primary"
+                disabled={!userIsOwner}
+                onClick={showAddEquipmentModal}
+              >
                 Add Equipment
               </Button>
               <Collapse className="bg-seaBuckthorn mt-4">
@@ -346,6 +365,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             character={character}
             attackBonus={attackBonus(character)}
             weapon={weapon}
+          />
+          <LevelUpModal
+            isLevelUpModalOpen={isLevelUpModalOpen}
+            handleCancel={handleCancel}
+            character={character}
+          />
+          <AddEquipmentModal
+            isAddEquipmentModalOpen={isAddEquipmentModalOpen}
+            handleCancel={handleCancel}
+            character={character}
           />
         </div>
       ) : (

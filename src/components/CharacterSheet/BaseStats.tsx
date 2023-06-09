@@ -7,6 +7,7 @@ export default function BaseStats({
   character,
   setCharacter,
   userIsOwner,
+  showLevelUpModal,
 }: CharacterDetails) {
   return (
     <div>
@@ -26,6 +27,7 @@ export default function BaseStats({
           character={character}
           setCharacter={setCharacter}
           userIsOwner={userIsOwner}
+          showLevelUpModal={showLevelUpModal}
         />
         <dl className="flex m-0 justify-end text-lg">
           <div className="flex">

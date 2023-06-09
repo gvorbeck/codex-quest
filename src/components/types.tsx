@@ -166,6 +166,7 @@ export interface CharacterDetails {
   setCharacter?: (character: CharacterData) => void;
   className?: string;
   userIsOwner?: boolean;
+  showLevelUpModal?: () => void;
 }
 export interface EquipmentListProps extends CharacterDetails {
   categories: string[] | string;
@@ -189,12 +190,23 @@ export interface SimpleNumberStatProps {
   value: string | number;
 }
 
-export interface AttackModalProps {
-  isAttackModalOpen: boolean;
+interface ModalProps {
   handleCancel: () => void;
+  character: CharacterData;
+}
+
+export interface AttackModalProps extends ModalProps {
+  isAttackModalOpen: boolean;
   attackBonus: number;
   weapon?: EquipmentItem;
-  character: CharacterData;
+}
+
+export interface LevelUpModalProps extends ModalProps {
+  isLevelUpModalOpen: boolean;
+}
+
+export interface AddEquipmentModalProps extends ModalProps {
+  isAddEquipmentModalOpen: boolean;
 }
 
 export interface AttackButtonsProps {
