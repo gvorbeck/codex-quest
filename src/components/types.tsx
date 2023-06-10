@@ -85,6 +85,7 @@ export interface CharHitPointsStepProps extends CharSteps {
 }
 export interface CharEquipmentStepProps extends CharSteps {
   equipmentItems: EquipmentItem[];
+  rollGold?: boolean;
 }
 export interface EquipmentSelectorProps extends CharSteps {
   armorSelection: EquipmentItem | null;
@@ -214,6 +215,7 @@ export interface LevelUpModalProps extends ModalProps {
 
 export interface AddEquipmentModalProps extends ModalProps {
   isAddEquipmentModalOpen: boolean;
+  setCharacter: (character: CharacterData) => void;
 }
 
 export interface AttackButtonsProps {

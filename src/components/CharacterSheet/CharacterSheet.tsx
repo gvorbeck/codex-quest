@@ -382,6 +382,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             isAddEquipmentModalOpen={isAddEquipmentModalOpen}
             handleCancel={handleCancel}
             character={character}
+            setCharacter={setCharacter}
           />
         </div>
       ) : (

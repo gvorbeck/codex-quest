@@ -16,6 +16,7 @@ export default function CharEquipmentStep({
   characterData,
   setCharacterData,
   equipmentItems,
+  rollGold,
 }: CharEquipmentStepProps) {
   const [equipmentCategories, setEquipmentCategories] = useState<
     string[] | null
@@ -99,26 +100,28 @@ export default function CharEquipmentStep({
 
   return (
     <>
-      <Space.Compact>
-        <InputNumber
-          max={180}
-          min={30}
-          defaultValue={0}
-          onChange={(value: number | null) => {
-            setCharacterData({ ...characterData, gold: Number(value) });
-          }}
-          onFocus={handleFocus}
-          type="number"
-          value={Number(characterData.gold.toFixed(2))}
-        />
-        <Button
-          aria-label="Roll for starting gold"
-          type="primary"
-          onClick={rollStartingGold}
-        >
-          Roll 3d6x10
-        </Button>
-      </Space.Compact>
+      {rollGold && (
+        <Space.Compact>
+          <InputNumber
+            max={180}
+            min={30}
+            defaultValue={0}
+            onChange={(value: number | null) => {
+              setCharacterData({ ...characterData, gold: Number(value) });
+            }}
+            onFocus={handleFocus}
+            type="number"
+            value={Number(characterData.gold.toFixed(2))}
+          />
+          <Button
+            aria-label="Roll for starting gold"
+            type="primary"
+            onClick={rollStartingGold}
+          >
+            Roll 3d6x10
+          </Button>
+        </Space.Compact>
+      )}
       <Divider orientation="left">Equipment Lists</Divider>
       <Row gutter={32}>
         <Col span={12}>

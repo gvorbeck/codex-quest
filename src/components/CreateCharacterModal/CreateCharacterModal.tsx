@@ -158,6 +158,7 @@ export default function CreateCharacterModal({
           characterData={characterData}
           setCharacterData={setCharacterData}
           equipmentItems={equipmentItems}
+          rollGold
         />
       ),
     },

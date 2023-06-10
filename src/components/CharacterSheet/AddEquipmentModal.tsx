@@ -1,10 +1,13 @@
 import { Modal } from "antd";
 import { AddEquipmentModalProps } from "../types";
+import CharEquipmentStep from "../CreateCharacterModal/CharEquipmentStep";
+import equipmentItems from "../../data/equipment-items.json";
 
 export default function AddEquipmentModal({
   character,
   handleCancel,
   isAddEquipmentModalOpen,
+  setCharacter,
 }: AddEquipmentModalProps) {
   return (
     <Modal
@@ -13,7 +16,11 @@ export default function AddEquipmentModal({
       onCancel={handleCancel}
       footer={false}
     >
-      hi there
+      <CharEquipmentStep
+        characterData={character}
+        equipmentItems={equipmentItems}
+        setCharacterData={setCharacter}
+      />
     </Modal>
   );
 }
