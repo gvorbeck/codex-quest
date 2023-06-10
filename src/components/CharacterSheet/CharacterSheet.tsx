@@ -298,7 +298,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 Add Equipment
               </Button>
               <Collapse className="bg-seaBuckthorn mt-4">
-                {character.class.includes("Magic-User") && (
+                {character.spells.length > 0 && (
                   <Collapse.Panel
                     header="Spells"
                     key="1"

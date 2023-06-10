@@ -6,54 +6,99 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
 import SpellData from "../../data/spells.json";
+import {
+  clericSpellBudget,
+  magicUserSpellBudget,
+} from "../../data/spellBudgets";
 
 const roller = new DiceRoller();
 
-const magicUserSpellBudget = [
-  [2, 0, 0, 0, 0, 0],
-  [3, 0, 0, 0, 0, 0],
-  [3, 1, 0, 0, 0, 0],
-  [3, 2, 0, 0, 0, 0],
-  [3, 2, 1, 0, 0, 0],
-  [4, 2, 2, 0, 0, 0],
-  [4, 2, 2, 1, 0, 0],
-  [4, 3, 2, 2, 0, 0],
-  [4, 3, 2, 2, 1, 0],
-  [5, 3, 3, 2, 2, 0],
-  [5, 4, 3, 2, 2, 1],
-  [5, 4, 3, 3, 2, 2],
-  [5, 4, 4, 3, 2, 2],
-  [5, 4, 4, 3, 3, 2],
-  [6, 4, 4, 3, 3, 2],
-  [6, 5, 4, 3, 3, 2],
-  [6, 5, 4, 4, 3, 3],
-  [7, 5, 4, 4, 3, 3],
-  [7, 5, 5, 4, 3, 3],
-  [7, 5, 5, 4, 4, 3],
-];
+const getSpellBudget = (characterClass: string) => {
+  if (characterClass.includes("Magic-User")) {
+    return magicUserSpellBudget;
+  } else if (characterClass.includes("Cleric")) {
+    return clericSpellBudget;
+  }
+  return [];
+};
 
-const clericSpellBudget = [
-  [0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0],
-  [2, 0, 0, 0, 0, 0],
-  [2, 1, 0, 0, 0, 0],
-  [2, 2, 0, 0, 0, 0],
-  [2, 2, 1, 0, 0, 0],
-  [3, 2, 2, 0, 0, 0],
-  [3, 2, 2, 1, 0, 0],
-  [3, 3, 2, 2, 0, 0],
-  [3, 3, 2, 2, 1, 0],
-  [4, 3, 3, 2, 2, 0],
-  [4, 4, 3, 2, 2, 1],
-  [4, 4, 3, 3, 2, 2],
-  [4, 4, 4, 3, 2, 2],
-  [4, 4, 4, 3, 3, 2],
-  [5, 4, 4, 3, 3, 2],
-  [5, 5, 4, 3, 3, 2],
-  [5, 5, 4, 4, 3, 3],
-  [6, 5, 4, 4, 3, 3],
-  [6, 5, 5, 4, 3, 3],
-];
+const getSpellLevel = (spell: Spell, characterClass: string) => {
+  if (characterClass.includes("Magic-User")) {
+    return spell.level["magic-user"];
+  } else if (characterClass.includes("Cleric")) {
+    return spell.level["cleric"];
+  }
+  return 0;
+};
+
+const SpellCheckboxGroup = ({
+  characterClass,
+  level,
+  max,
+  checkedSpells,
+  setCheckedSpells,
+  checkedSpellsCount,
+  setCheckedSpellsCount,
+}: {
+  characterClass: string;
+  level: number;
+  max: number;
+  checkedSpells: string[];
+  setCheckedSpells: (checkedSpells: string[]) => void;
+  checkedSpellsCount: number[];
+  setCheckedSpellsCount: (checkedSpellsCount: number[]) => void;
+}) => {
+  if (max) {
+    return (
+      <Checkbox.Group
+        value={checkedSpells}
+        onChange={(checkedValues) => {
+          const newCheckedSpells = checkedValues as string[];
+
+          // Add only the spells from current level to checkedSpells
+          const otherLevelSpells = checkedSpells.filter(
+            (spellName: string) =>
+              !SpellData.some(
+                (spell) =>
+                  spell.name === spellName &&
+                  getSpellLevel(spell, characterClass) === level + 1
+              )
+          );
+          setCheckedSpells([...otherLevelSpells, ...newCheckedSpells]);
+
+          // Update the count for current level in checkedSpellsCount
+          const newCheckedSpellsCount = [...checkedSpellsCount];
+          newCheckedSpellsCount[level] = newCheckedSpells.filter((spellName) =>
+            SpellData.some(
+              (spell) =>
+                spell.name === spellName &&
+                getSpellLevel(spell, characterClass) === level + 1
+            )
+          ).length;
+          setCheckedSpellsCount(newCheckedSpellsCount);
+        }}
+      >
+        level: {level + 1}{" "}
+        {SpellData.filter(
+          (spell) => getSpellLevel(spell, characterClass) === level + 1
+        ).map((spell) => (
+          <Checkbox
+            key={spell.name}
+            value={spell.name}
+            disabled={
+              spell.name === "Read Magic" ||
+              (!checkedSpells.includes(spell.name) &&
+                checkedSpellsCount[level] >= max)
+            }
+          >
+            {spell.name}
+          </Checkbox>
+        ))}
+      </Checkbox.Group>
+    );
+  }
+  return null;
+};
 
 export default function LevelUpModal({
   character,
@@ -126,9 +171,6 @@ export default function LevelUpModal({
         level: character.level + 1,
         spells: selectedSpells,
       });
-      console.log(
-        `${character.name}'s level, max HP, HP dice, and spells have been updated.`
-      );
     } catch (error) {
       console.error("Error updating document: ", error);
     }
@@ -158,63 +200,25 @@ export default function LevelUpModal({
       onCancel={handleCancel}
       footer={false}
     >
-      {character.class.includes("Magic-User") &&
-        magicUserSpellBudget[character.level].map((max: number, index) => {
-          if (max) {
-            return (
-              <Checkbox.Group
-                key={index}
-                value={checkedSpells}
-                onChange={(checkedValues) => {
-                  const newCheckedSpells = checkedValues as string[];
+      {["Magic-User", "Cleric"].map((characterClass) => {
+        if (character.class.includes(characterClass)) {
+          const spellBudget = getSpellBudget(characterClass);
+          return spellBudget[character.level].map((max: number, index) => (
+            <SpellCheckboxGroup
+              key={index}
+              characterClass={characterClass}
+              level={index}
+              max={max}
+              checkedSpells={checkedSpells}
+              setCheckedSpells={setCheckedSpells}
+              checkedSpellsCount={checkedSpellsCount}
+              setCheckedSpellsCount={setCheckedSpellsCount}
+            />
+          ));
+        }
+        return null;
+      })}
 
-                  // Add only the spells from current level to checkedSpells
-                  const otherLevelSpells = checkedSpells.filter(
-                    (spellName) =>
-                      !SpellData.some(
-                        (spell) =>
-                          spell.name === spellName &&
-                          spell.level["magic-user"] === index + 1
-                      )
-                  );
-                  setCheckedSpells([...otherLevelSpells, ...newCheckedSpells]);
-
-                  // Update the count for current level in checkedSpellsCount
-                  const newCheckedSpellsCount = [...checkedSpellsCount];
-                  newCheckedSpellsCount[index] = newCheckedSpells.filter(
-                    (spellName) =>
-                      SpellData.some(
-                        (spell) =>
-                          spell.name === spellName &&
-                          spell.level["magic-user"] === index + 1
-                      )
-                  ).length;
-                  setCheckedSpellsCount(newCheckedSpellsCount);
-                }}
-              >
-                level: {index + 1}{" "}
-                {SpellData.filter(
-                  (spell) => spell.level["magic-user"] === index + 1
-                ).map((spell) => (
-                  <Checkbox
-                    key={spell.name}
-                    value={spell.name}
-                    disabled={
-                      spell.name === "Read Magic" ||
-                      (!checkedSpells.includes(spell.name) &&
-                        checkedSpellsCount[index] >= max)
-                    }
-                  >
-                    {spell.name}
-                  </Checkbox>
-                ))}
-              </Checkbox.Group>
-            );
-          }
-          return undefined;
-        })}
-
-      {character.class.includes("Cleric") && <div>clerical</div>}
       <Button type="primary" onClick={() => rollNewHitPoints(newHitDice)}>
         Roll new Hit Points ({newHitDice})
       </Button>
