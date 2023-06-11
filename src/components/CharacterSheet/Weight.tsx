@@ -13,7 +13,7 @@ export default function Weight({ character, setCharacter }: CharacterDetails) {
         Weight
       </Typography.Title>
       <Typography.Text className="text-6xl font-bold !text-shipGray">
-        {character.weight}
+        {character.weight.toFixed(2)}
       </Typography.Text>
       <Divider />
       <Typography.Paragraph className="text-3xl font-bold !text-shipGray !mb-3">
