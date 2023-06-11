@@ -33,7 +33,6 @@ console.log("DEV: antd theme", theme);
 // - rework weapon options for combination classes
 
 // Character Sheet
-// - Thiefs: Have row of thief ability table appropriate to character level with buttons to execute said action
 // - "add equipment" modal
 // - BUG: Attack button in  attack modal creates console.error
 

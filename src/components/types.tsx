@@ -223,3 +223,7 @@ export interface AttackButtonsProps {
   attack: (attack: "melee" | "missile") => void;
   type: "melee" | "missile";
 }
+
+export interface ThiefAbilitiesArray {
+  [key: string]: number[];
+}

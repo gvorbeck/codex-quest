@@ -32,6 +32,7 @@ import LevelUpModal from "./LevelUpModal";
 import AddEquipmentModal from "./AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
+import ThiefAbilities from "./ThiefAbilities";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -215,6 +216,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <Row gutter={32}>
             <Col span={12}>
               <SpecialsRestrictions character={character} />
+              {character.class.includes("Thief") && (
+                <ThiefAbilities characterLevel={character.level.toString()} />
+              )}
             </Col>
             <Col span={12}>
               <SavingThrows character={character} setCharacter={setCharacter} />
