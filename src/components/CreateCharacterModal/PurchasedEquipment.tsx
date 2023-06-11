@@ -20,11 +20,14 @@ export default function PurchasedEquipment({
   return (
     <section>
       <header>
-        <Typography.Title level={2} className="text-shipGray mt-0 mb-0">
+        <Typography.Title
+          level={2}
+          className="text-shipGray mt-4 mb-0 text-xl text-center"
+        >
           Gold: {characterData.gold.toFixed(2)} | Weight:{" "}
           {characterData.weight.toFixed(2)}
         </Typography.Title>
-        <Typography.Text type="secondary">
+        <Typography.Text type="secondary" className="text-center block">
           Max weight: {weightRestrictions.heavy}{" "}
           {characterData.weight > weightRestrictions.light &&
             "/ Heavily Loaded!"}

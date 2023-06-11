@@ -119,8 +119,8 @@ export default function CharEquipmentStep({
         </Space.Compact>
       )}
       <Divider orientation="left">Equipment Lists</Divider>
-      <Row gutter={32}>
-        <Col span={12}>
+      <Row gutter={32} className="block">
+        <Col xs={24} sm={12}>
           <EquipmentSelector
             armorSelection={armorSelection}
             equipmentCategories={equipmentCategories}
@@ -132,7 +132,7 @@ export default function CharEquipmentStep({
             setCharacterData={setCharacterData}
           />
         </Col>
-        <Col span={12} className="sticky top-0 h-full">
+        <Col xs={24} sm={12} className="sticky top-0 h-full">
           <PurchasedEquipment
             characterData={characterData}
             setCharacterData={setCharacterData}

@@ -119,7 +119,11 @@ export default function CharNameStep({
       >
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
-      <Input value={characterData.name} onChange={handleNameChange} />
+      <Input
+        value={characterData.name}
+        onChange={handleNameChange}
+        placeholder="Name"
+      />
     </>
   );
 }
