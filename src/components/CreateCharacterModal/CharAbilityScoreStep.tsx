@@ -63,36 +63,42 @@ export default function CharAbilityScoreStep({
   const dataSource = [
     {
       key: "1",
+      label: "STR",
       ability: "Strength",
       score: Number(characterData.abilities.scores.strength),
       modifier: String(characterData.abilities.modifiers.strength),
     },
     {
       key: "2",
+      label: "INT",
       ability: "Intelligence",
       score: Number(characterData.abilities.scores.intelligence),
       modifier: String(characterData.abilities.modifiers.intelligence),
     },
     {
       key: "3",
+      label: "WIS",
       ability: "Wisdom",
       score: Number(characterData.abilities.scores.wisdom),
       modifier: String(characterData.abilities.modifiers.wisdom),
     },
     {
       key: "4",
+      label: "DEX",
       ability: "Dexterity",
       score: Number(characterData.abilities.scores.dexterity),
       modifier: String(characterData.abilities.modifiers.dexterity),
     },
     {
       key: "5",
+      label: "CON",
       ability: "Constitution",
       score: Number(characterData.abilities.scores.constitution),
       modifier: String(characterData.abilities.modifiers.constitution),
     },
     {
       key: "6",
+      label: "CHA",
       ability: "Charisma",
       score: Number(characterData.abilities.scores.charisma),
       modifier: String(characterData.abilities.modifiers.charisma),
@@ -102,7 +108,7 @@ export default function CharAbilityScoreStep({
   const columns = [
     {
       title: "Ability",
-      dataIndex: "ability",
+      dataIndex: "label",
       key: "ability",
     },
     {
@@ -164,5 +170,12 @@ export default function CharAbilityScoreStep({
     },
   ];
 
-  return <Table columns={columns} dataSource={dataSource} pagination={false} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      pagination={false}
+      size="small"
+    />
+  );
 }

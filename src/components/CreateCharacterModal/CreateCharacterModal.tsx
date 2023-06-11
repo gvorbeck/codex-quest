@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CharAbilityScoreStep";
 import CharRaceStep from "./CharRaceStep";
@@ -254,6 +254,10 @@ export default function CreateCharacterModal({
     }
   }
 
+  useEffect(() => {
+    console.log(characterData);
+  }, [characterData]);
+
   return (
     <Modal
       title="Create BFRPG Character"
@@ -283,7 +287,7 @@ export default function CreateCharacterModal({
           </section>
         </Col>
       </Row>
-      <div>
+      <div className="mt-4">
         {current < steps.length - 1 && (
           <Button
             type="primary"
