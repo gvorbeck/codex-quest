@@ -30,6 +30,7 @@ import { User } from "firebase/auth";
 import AttackModal from "./AttackModal";
 import LevelUpModal from "./LevelUpModal";
 import AddEquipmentModal from "./AddEquipmentModal";
+import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 
 const attackBonus = function (character: CharacterData) {
   const attackBonusTable: Record<string, number[]> = {
@@ -128,53 +129,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     armorClass += +character.abilities.modifiers.dexterity;
   }
 
-  // HIT DICE
-  const hitDiceModifiers = {
-    single: [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-    ],
-    double: [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      2,
-      4,
-      6,
-      8,
-      10,
-      12,
-      14,
-      16,
-      18,
-      20,
-      22,
-    ],
-  };
   let hitDice = "";
   if (character) {
     hitDice = character.hp.dice;
@@ -375,7 +329,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             handleCancel={handleCancel}
             character={character}
             hitDice={hitDice}
-            hitDiceModifiers={hitDiceModifiers}
             setCharacter={setCharacter}
           />
           <AddEquipmentModal

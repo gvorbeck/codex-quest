@@ -10,6 +10,7 @@ import {
   clericSpellBudget,
   magicUserSpellBudget,
 } from "../../data/spellBudgets";
+import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 
 const roller = new DiceRoller();
 
@@ -104,7 +105,6 @@ export default function LevelUpModal({
   character,
   handleCancel,
   isLevelUpModalOpen,
-  hitDiceModifiers,
   setCharacter,
 }: LevelUpModalProps) {
   const [checkedSpells, setCheckedSpells] = useState(
