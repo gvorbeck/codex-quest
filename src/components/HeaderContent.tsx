@@ -1,4 +1,4 @@
-import { Button, Col, Row, Space, Typography } from "antd";
+import { Button, Col, Row, Typography } from "antd";
 import CreateCharacterModal from "./CreateCharacterModal/CreateCharacterModal";
 import { useState } from "react";
 import { HeaderContentProps } from "./types";
@@ -15,9 +15,12 @@ export default function HeaderContent({
   };
   return (
     <>
-      <Row>
-        <Col flex={4} className="flex items-center">
-          <Typography.Title level={1} className="!mb-0 mt-0 leading-none mr-4">
+      <Row className="gap-4">
+        <Col flex={4} className="flex items-center flex-col gap-4">
+          <Typography.Title
+            level={1}
+            className="!mb-0 mt-0 leading-none text-4xl"
+          >
             CODEX.QUEST
           </Typography.Title>
           {user && (
@@ -26,26 +29,28 @@ export default function HeaderContent({
             </Button>
           )}
         </Col>
-        <Col flex={1} className="flex justify-end">
-          <Space>
-            {user ? (
-              <>
-                <Typography.Text>{user.displayName}</Typography.Text>
-                <Button type="primary" onClick={() => auth.signOut()}>
-                  Log out
-                </Button>
-                <CreateCharacterModal
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                  onCharacterAdded={onCharacterAdded}
-                />
-              </>
-            ) : (
-              <Button type="primary" onClick={handleLogin}>
-                Log in with Google
+        <Col flex={1} className="flex justify-center items-baseline gap-4">
+          {user ? (
+            <>
+              <Typography.Text className="leading-none">
+                {user.displayName}
+              </Typography.Text>
+              <Button type="primary" onClick={() => auth.signOut()}>
+                Log out
               </Button>
-            )}
-          </Space>
+            </>
+          ) : (
+            <Button type="primary" onClick={handleLogin}>
+              Log in with Google
+            </Button>
+          )}
+          {user && (
+            <CreateCharacterModal
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              onCharacterAdded={onCharacterAdded}
+            />
+          )}
         </Col>
       </Row>
     </>

@@ -31,7 +31,7 @@ export default function CharacterList({
       {characters.length ? (
         <Row justify={"start"} className="gap-8">
           {characters.map((character) => (
-            <Col span={5} key={character.id}>
+            <Col span={5} key={character.id} className="flex-[auto] max-w-full">
               <Card
                 actions={[
                   <SolutionOutlined
