@@ -1,44 +1,13 @@
-import { Checkbox, Col, Radio, Row, Space, Switch } from "antd";
+import { Checkbox, Col, Divider, Radio, Row, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect } from "react";
 import { CharClassStepProps } from "../types";
 import spellsData from "../../data/spells.json";
+import { classDetails } from "../../data/classDetails";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
-const classDetails = {
-  cleric: {
-    specials: [
-      "Clerics can cast spells of divine nature starting at 2nd level",
-      "Clerics have the power to Turn the Undead",
-    ],
-    restrictions: [
-      "Clerics may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling)",
-    ],
-  },
-  fighter: {
-    specials: [
-      "Although they are not skilled in the ways of magic, Fighters can nonetheless use many magic items, including but not limited to magical weapons and armor",
-    ],
-    restrictions: [],
-  },
-  "magic-user": {
-    specials: [
-      "Magic-User begins play knowing read magic and one other spell of first level",
-    ],
-    restrictions: [
-      "The only weapons they become proficient with are the dagger and the walking staff (or cudgel)",
-      "Magic-Users may not wear armor of any sort nor use a shield as such things interfere with spellcasting",
-    ],
-  },
-  thief: {
-    specials: ["Thieves have a number of special abilities (see table)"],
-    restrictions: [
-      "Thieves may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
-    ],
-  },
-};
 
 export default function CharClassStep({
   characterData,
@@ -50,8 +19,6 @@ export default function CharClassStep({
   selectedSpell,
   setSelectedSpell,
 }: CharClassStepProps) {
-  // const [firstSpell, setFirstSpell] = useState<SpellType | null>(null);
-
   useEffect(() => {
     if (comboClass) {
       const firstClass =
@@ -164,15 +131,16 @@ export default function CharClassStep({
           />
         </div>
       )}
-      <Row className="mt-6">
-        <Col span={4}>
+      <Row className="mt-6 flex-col">
+        <Col xs={24} sm={4}>
           {comboClass ? (
-            <Space direction="vertical">
+            <div className="flex flex-wrap gap-4">
               {classChoices.map((choice) => (
                 <Checkbox
                   key={choice}
                   onChange={onCheckboxChange}
                   value={choice}
+                  className="flex-[1_1_40%]"
                   checked={checkedClasses.includes(choice)}
                   disabled={
                     choice === "Cleric" ||
@@ -191,66 +159,67 @@ export default function CharClassStep({
                   {choice}
                 </Checkbox>
               ))}
-            </Space>
+            </div>
           ) : (
             <Radio.Group
               value={characterData.class}
               onChange={onClassRadioChange}
+              className="flex flex-wrap gap-4"
             >
-              <Space direction="vertical">
-                {classChoices.map((choice) => (
-                  <Radio
-                    key={choice}
-                    value={choice}
-                    disabled={
-                      (characterData.race === "Dwarf" &&
-                        choice === "Magic-User") ||
-                      (characterData.race === "Halfling" &&
-                        choice === "Magic-User") ||
-                      (choice === "Cleric" &&
-                        +characterData.abilities.scores.wisdom < 9) ||
-                      (choice === "Fighter" &&
-                        +characterData.abilities.scores.strength < 9) ||
-                      (choice === "Magic-User" &&
-                        +characterData.abilities.scores.intelligence < 9) ||
-                      (choice === "Thief" &&
-                        +characterData.abilities.scores.dexterity < 9)
-                    }
-                  >
-                    {choice}
-                  </Radio>
-                ))}
-              </Space>
+              {classChoices.map((choice) => (
+                <Radio
+                  key={choice}
+                  value={choice}
+                  className="flex-1"
+                  disabled={
+                    (characterData.race === "Dwarf" &&
+                      choice === "Magic-User") ||
+                    (characterData.race === "Halfling" &&
+                      choice === "Magic-User") ||
+                    (choice === "Cleric" &&
+                      +characterData.abilities.scores.wisdom < 9) ||
+                    (choice === "Fighter" &&
+                      +characterData.abilities.scores.strength < 9) ||
+                    (choice === "Magic-User" &&
+                      +characterData.abilities.scores.intelligence < 9) ||
+                    (choice === "Thief" &&
+                      +characterData.abilities.scores.dexterity < 9)
+                  }
+                >
+                  {choice}
+                </Radio>
+              ))}
             </Radio.Group>
           )}
         </Col>
-        <Col span={20}>
-          {characterData.class.includes("Magic-User") && (
-            <Radio.Group
-              onChange={onSpellRadioChange}
-              value={selectedSpell ? selectedSpell.name : null}
-              className="flex flex-wrap items-center gap-2 border-0 border-solid border-l-zorba border-l-2 pl-7"
-            >
-              {/* <Space direction="vertical"> */}
-              {spellsData
-                .filter(
-                  (spell) =>
-                    spell.level["magic-user"] === 1 &&
-                    spell.name !== "Read Magic"
-                )
-                .map((spell) => (
-                  <Radio
-                    key={spell.name}
-                    value={spell.name}
-                    className="flex-25"
-                  >
-                    {spell.name}
-                  </Radio>
-                ))}
-              {/* </Space> */}
-            </Radio.Group>
-          )}
-        </Col>
+        {characterData.class.includes("Magic-User") && (
+          <>
+            <Divider />
+            <Col xs={24} sm={20}>
+              <Radio.Group
+                onChange={onSpellRadioChange}
+                value={selectedSpell ? selectedSpell.name : null}
+                className="flex flex-wrap gap-4 items-center"
+              >
+                {spellsData
+                  .filter(
+                    (spell) =>
+                      spell.level["magic-user"] === 1 &&
+                      spell.name !== "Read Magic"
+                  )
+                  .map((spell) => (
+                    <Radio
+                      key={spell.name}
+                      value={spell.name}
+                      className="flex-1"
+                    >
+                      {spell.name}
+                    </Radio>
+                  ))}
+              </Radio.Group>
+            </Col>
+          </>
+        )}
       </Row>
     </>
   );
