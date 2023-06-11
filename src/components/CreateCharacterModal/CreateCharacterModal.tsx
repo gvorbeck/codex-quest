@@ -261,12 +261,17 @@ export default function CreateCharacterModal({
       onCancel={handleCancel}
       width={1200}
       footer={null}
+      className="m-0 max-w-full top-0"
     >
-      <Row>
-        <Col span={5}>
+      <Row className="flex-col">
+        {/* <Row> */}
+        <Col span={5} className="hidden">
+          {/* <Col span={5}> */}
           <Steps current={current} items={items} direction="vertical" />
+          {/* <Steps current={current} items={items} direction="vertical" /> */}
         </Col>
-        <Col span={19}>
+        <Col xs={24} sm={19}>
+          {/* <Col span={19}> */}
           <section>
             <Typography.Title level={1} className="mt-0">
               {steps[current].fullTitle}
