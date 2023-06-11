@@ -31,17 +31,9 @@ import AttackModal from "./AttackModal";
 import LevelUpModal from "./LevelUpModal";
 import AddEquipmentModal from "./AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
+import { attackBonusTable } from "../../data/attackBonusTable";
 
 const attackBonus = function (character: CharacterData) {
-  const attackBonusTable: Record<string, number[]> = {
-    Fighter: [0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 10, 10, 10],
-    Cleric: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
-    "Magic-User": [
-      0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7,
-    ],
-    Thief: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
-  };
-
   let classes = Object.keys(attackBonusTable);
   let maxAttackBonus = 0;
 

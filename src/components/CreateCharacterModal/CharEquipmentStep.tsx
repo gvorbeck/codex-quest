@@ -6,10 +6,6 @@ import calculateCarryingCapacity from "../calculateCarryingCapacity";
 import PurchasedEquipment from "./PurchasedEquipment";
 import EquipmentSelector from "./EquipmentSelector";
 
-const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-  event.target.select();
-};
-
 const roller = new DiceRoller();
 
 export default function CharEquipmentStep({
@@ -109,7 +105,7 @@ export default function CharEquipmentStep({
             onChange={(value: number | null) => {
               setCharacterData({ ...characterData, gold: Number(value) });
             }}
-            onFocus={handleFocus}
+            onFocus={(event) => event.target.select()}
             type="number"
             value={Number(characterData.gold.toFixed(2))}
           />
