@@ -16,7 +16,7 @@ export default function HeaderContent({
   return (
     <>
       <Row className="gap-4">
-        <Col flex={4} className="flex items-center flex-col gap-4">
+        <Col flex={4} className="flex items-center flex-col gap-4 md:flex-row">
           <Typography.Title
             level={1}
             className="!mb-0 mt-0 leading-none text-4xl"
