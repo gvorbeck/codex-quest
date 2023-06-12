@@ -1,3 +1,4 @@
+import { RadioChangeEvent } from "antd";
 import { Auth, User } from "firebase/auth";
 
 export interface AbilityTypes {
@@ -222,8 +223,15 @@ export interface AttackButtonsProps {
   damage: (damage: string) => void;
   attack: (attack: "melee" | "missile") => void;
   type: "melee" | "missile";
+  className?: string;
 }
 
 export interface ThiefAbilitiesArray {
   [key: string]: number[];
+}
+
+export interface RangeRadioButtons {
+  missileRangeBonus: number;
+  handleRangeChange: (e: RadioChangeEvent) => void;
+  missileRangeValues: number[];
 }

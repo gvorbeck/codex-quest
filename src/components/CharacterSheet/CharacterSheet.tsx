@@ -180,7 +180,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         ]}
       />
       {character ? (
-        <div className="!text-shipGray [&>*]:mt-8 [&>div:first-child]:mt-0">
+        <div className="!text-shipGray [&>*]:mt-4 [&>div:first-child]:mt-0">
           <BaseStats
             character={character}
             setCharacter={setCharacter}
@@ -188,11 +188,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             showLevelUpModal={showLevelUpModal}
           />
           <InitiativeRoller character={character} />
-          <Row gutter={32}>
-            <Col span={8}>
+          <Row gutter={32} className="gap-4">
+            <Col xs={24} sm={8}>
               <Abilities character={character} />
             </Col>
-            <Col span={8} className="flex flex-col justify-between">
+            <Col xs={24} sm={8} className="flex flex-col justify-between">
               <AttackBonus
                 character={character}
                 attackBonus={attackBonus(character)}
@@ -201,11 +201,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 character={character}
                 setCharacter={setCharacter}
                 userIsOwner={userIsOwner}
+                className="mt-2"
               />
             </Col>
             <Col
-              span={8}
-              className="flex items-center justify-between flex-col"
+              xs={24}
+              sm={8}
+              className="flex items-center justify-between flex-col gap-4"
             >
               <SimpleNumberStat title="Armor Class" value={armorClass} />
               <SimpleNumberStat title="Movement" value={`${movement}'`} />
@@ -213,30 +215,30 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
           </Row>
           <Divider />
-          <Row gutter={32}>
-            <Col span={12}>
+          <Row gutter={32} className="gap-4">
+            <Col xs={24} sm={12}>
               <SpecialsRestrictions character={character} />
               {character.class.includes("Thief") && (
                 <ThiefAbilities characterLevel={character.level.toString()} />
               )}
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <SavingThrows character={character} setCharacter={setCharacter} />
             </Col>
           </Row>
           <Divider />
-          <Row gutter={32}>
-            <Col span={6}>
+          <Row gutter={32} className="gap-4">
+            <Col xs={24} sm={6}>
               <Money
                 character={character}
                 setCharacter={setCharacter}
                 userIsOwner={userIsOwner}
               />
             </Col>
-            <Col span={6}>
+            <Col xs={24} sm={6}>
               <Weight character={character} setCharacter={setCharacter} />
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <Typography.Title level={3} className="mt-0 !text-shipGray">
                 Equipment
               </Typography.Title>

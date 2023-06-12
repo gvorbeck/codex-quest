@@ -1,5 +1,5 @@
 import { CharacterDetails } from "../types";
-import { Avatar, Divider, Space, Typography } from "antd";
+import { Avatar, Divider, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints";
 
@@ -11,7 +11,7 @@ export default function BaseStats({
 }: CharacterDetails) {
   return (
     <div>
-      <Space direction="horizontal" className="items-center mt-4">
+      <div className="flex flex-col items-center mt-4">
         {character.avatar.length ? (
           <Avatar size={64} src={character.avatar} />
         ) : (
@@ -20,30 +20,31 @@ export default function BaseStats({
         <Typography.Title level={1} className="!mt-0 !mb-0 !text-shipGray ml-4">
           {character.name}
         </Typography.Title>
-      </Space>
+      </div>
       <Divider className="mt-4 mb-4" />
-      <Space direction="horizontal" className="flex justify-between">
+      <div className="flex flex-col justify-between">
         <ExperiencePoints
           character={character}
           setCharacter={setCharacter}
           userIsOwner={userIsOwner}
           showLevelUpModal={showLevelUpModal}
+          className="text-lg"
         />
-        <dl className="flex m-0 justify-end text-lg">
+        <dl className="flex m-0 justify-end text-base mt-2">
           <div className="flex">
             <dt className="font-bold">Level</dt>
-            <dd className="ml-2">{character.level}</dd>
+            <dd className="m-0 pl-1">{character.level}</dd>
           </div>
-          <div className="flex ml-4">
+          <div className="flex pl-2">
             <dt className="font-bold">Race</dt>
-            <dd className="ml-2">{character.race}</dd>
+            <dd className="m-0 pl-1">{character.race}</dd>
           </div>
-          <div className="flex ml-4">
+          <div className="flex pl-2">
             <dt className="font-bold">Class</dt>
-            <dd className="ml-2">{character.class} </dd>
+            <dd className="m-0 pl-1">{character.class} </dd>
           </div>
         </dl>
-      </Space>
+      </div>
     </div>
   );
 }

@@ -3,11 +3,14 @@ import {
   Modal,
   Radio,
   RadioChangeEvent,
-  Space,
   Switch,
   notification,
 } from "antd";
-import { AttackButtonsProps, AttackModalProps } from "../types";
+import {
+  AttackButtonsProps,
+  AttackModalProps,
+  RangeRadioButtons,
+} from "../types";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
@@ -31,19 +34,44 @@ const openDamageNotification = (result: number) => {
   });
 };
 
-function AttackButtons({ weapon, damage, attack, type }: AttackButtonsProps) {
+function AttackButtons({
+  weapon,
+  damage,
+  attack,
+  type,
+  className,
+}: AttackButtonsProps) {
   return (
-    <div>
+    <div className={className}>
       <Button type="primary" onClick={() => attack(type)}>
         Attack Roll
       </Button>
       <Button
         type="default"
         onClick={() => weapon.damage && damage(weapon.damage)}
+        className="ml-2"
       >
         Damage Roll
       </Button>
     </div>
+  );
+}
+
+function RangeRadioGroup({
+  missileRangeBonus,
+  handleRangeChange,
+  missileRangeValues,
+}: RangeRadioButtons) {
+  return (
+    <Radio.Group
+      value={missileRangeBonus}
+      onChange={handleRangeChange}
+      className="flex flex-col gap-2 mt-2"
+    >
+      <Radio value={1}>Short Range (+1): {missileRangeValues[0]}'</Radio>
+      <Radio value={0}>Medium Range (+0): {missileRangeValues[1]}'</Radio>
+      <Radio value={-2}>Long Range (-2): {missileRangeValues[2]}'</Radio>
+    </Radio.Group>
   );
 }
 
@@ -129,34 +157,27 @@ export default function AttackModal({
               damage={damage}
               attack={attack}
               type="melee"
+              className="mt-2"
             />
           )}
           {weapon.type === "missile" && (
             <>
-              <Radio.Group
-                value={missileRangeBonus}
-                onChange={handleRangeChange}
-              >
-                <Radio value={1}>
-                  Short Range (+1): {missileRangeValues[0]}'
-                </Radio>
-                <Radio value={0}>
-                  Medium Range (+0): {missileRangeValues[1]}'
-                  <Radio value={-2}>
-                    Long Range (-2): {missileRangeValues[2]}'
-                  </Radio>
-                </Radio>
-              </Radio.Group>
+              <RangeRadioGroup
+                missileRangeBonus={missileRangeBonus}
+                handleRangeChange={handleRangeChange}
+                missileRangeValues={missileRangeValues}
+              />
               <AttackButtons
                 weapon={weapon}
                 damage={damage}
                 attack={attack}
                 type="missile"
+                className="mt-2"
               />
             </>
           )}
           {weapon.type === "both" && (
-            <Space direction="vertical">
+            <div>
               <Switch
                 unCheckedChildren="Melee Attack"
                 checkedChildren="Missile Attack"
@@ -164,25 +185,17 @@ export default function AttackModal({
               />
               {isMissile ? (
                 <>
-                  <Radio.Group
-                    value={missileRangeBonus}
-                    onChange={handleRangeChange}
-                  >
-                    <Radio value={1}>
-                      Short Range (+1): {missileRangeValues[0]}'
-                    </Radio>
-                    <Radio value={0}>
-                      Medium Range (+0): {missileRangeValues[1]}'
-                      <Radio value={-2}>
-                        Long Range (-2): {missileRangeValues[2]}'
-                      </Radio>
-                    </Radio>
-                  </Radio.Group>
+                  <RangeRadioGroup
+                    missileRangeBonus={missileRangeBonus}
+                    handleRangeChange={handleRangeChange}
+                    missileRangeValues={missileRangeValues}
+                  />
                   <AttackButtons
                     weapon={weapon}
                     damage={damage}
                     attack={attack}
                     type="missile"
+                    className="mt-2"
                   />
                 </>
               ) : (
@@ -191,9 +204,10 @@ export default function AttackModal({
                   damage={damage}
                   attack={attack}
                   type="melee"
+                  className="mt-2"
                 />
               )}
-            </Space>
+            </div>
           )}
         </div>
       ) : (

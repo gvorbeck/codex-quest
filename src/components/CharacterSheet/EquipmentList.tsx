@@ -1,4 +1,4 @@
-import { Button, List, Space, Typography } from "antd";
+import { Button, List, Typography } from "antd";
 import { EquipmentItem, EquipmentListProps } from "../types";
 
 export default function EquipmentList({
@@ -39,7 +39,7 @@ export default function EquipmentList({
           <Typography.Paragraph className="font-bold mb-3">
             {item.name}
           </Typography.Paragraph>
-          <Space direction="horizontal" className="!flex italic justify-end">
+          <div className="flex flex-col text-right italic">
             {item.weight && (
               <Typography.Text>
                 <Typography.Text className="font-bold">
@@ -80,7 +80,7 @@ export default function EquipmentList({
                 {item.damage}
               </Typography.Text>
             )}
-          </Space>
+          </div>
           {handleAttack && (
             <>
               <div className="text-right mt-3">
