@@ -95,7 +95,7 @@ export default function CreateCharacterModal({
 
   const steps = [
     {
-      title: "Ability Scores",
+      title: "Abilities",
       fullTitle: "Roll for Ability Scores",
       description: abilityDescription,
       content: (
@@ -267,11 +267,11 @@ export default function CreateCharacterModal({
       footer={null}
       className="m-0 max-w-full top-0"
     >
-      <Row className="flex-col">
+      <Row gutter={16}>
         <Col span={5} className="hidden md:block">
           <Steps current={current} items={items} direction="vertical" />
         </Col>
-        <Col xs={24} sm={19}>
+        <Col xs={24} md={19}>
           <section>
             <Typography.Title level={1} className="mt-0">
               {steps[current].fullTitle}
