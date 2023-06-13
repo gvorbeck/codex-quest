@@ -268,14 +268,10 @@ export default function CreateCharacterModal({
       className="m-0 max-w-full top-0"
     >
       <Row className="flex-col">
-        {/* <Row> */}
-        <Col span={5} className="hidden">
-          {/* <Col span={5}> */}
+        <Col span={5} className="hidden md:block">
           <Steps current={current} items={items} direction="vertical" />
-          {/* <Steps current={current} items={items} direction="vertical" /> */}
         </Col>
         <Col xs={24} sm={19}>
-          {/* <Col span={19}> */}
           <section>
             <Typography.Title level={1} className="mt-0">
               {steps[current].fullTitle}

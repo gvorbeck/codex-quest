@@ -29,7 +29,6 @@ console.log("DEV: antd theme", theme);
 
 // BUILDER:
 // - TEST IMG UPLOAD ON PROD
-// - RESET CHOICES WHEN GOING BACK (HP MAX IS NEW!)
 // - rework weapon options for combination classes
 
 // Character Sheet
