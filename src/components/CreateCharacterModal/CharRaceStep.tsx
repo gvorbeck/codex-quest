@@ -63,6 +63,7 @@ export default function CharRaceStep({
         race: [...raceDetails[race].restrictions],
         class: [],
       },
+      equipment: [],
       specials: {
         race: [...raceDetails[race].specials],
         class: [],

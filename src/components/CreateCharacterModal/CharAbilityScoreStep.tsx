@@ -48,6 +48,7 @@ export default function CharAbilityScoreStep({
         max: 0,
         desc: "",
       },
+      equipment: [],
     });
     // Going back and changing ability score wipes out choices made before.
     setComboClass(false);

@@ -81,6 +81,7 @@ export default function CharClassStep({
       class: classValue,
       hp: { dice: "", points: 0, max: 0, desc: "" },
       spells,
+      equipment: [],
       restrictions: {
         race: characterData.restrictions.race,
         class: [...classDetails[thisClass].restrictions],
