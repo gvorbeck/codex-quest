@@ -20,7 +20,6 @@ import Welcome from "./components/Welcome";
 // GENERAL:
 // - message or toast like component for when character is saved.
 // - better reload of character list for all appropriate events (refreshCharacters state var)
-// - npm run build && firebase deploy works, BUT github actions makes site a blank page. why? something related to create-react-app
 
 // BUILDER:
 // - TEST IMG UPLOAD ON PROD
