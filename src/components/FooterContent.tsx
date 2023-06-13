@@ -1,8 +1,9 @@
 import { Typography } from "antd";
+import { FooterContentProps } from "./types";
 
-export default function FooterContent() {
+export default function FooterContent({ className }: FooterContentProps) {
   return (
-    <div>
+    <div className={`${className}`}>
       <Typography.Paragraph>
         © 2023 J. Garrett Vorbeck. All rights reserved.
       </Typography.Paragraph>

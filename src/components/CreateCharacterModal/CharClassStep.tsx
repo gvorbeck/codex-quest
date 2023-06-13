@@ -133,7 +133,7 @@ export default function CharClassStep({
         </div>
       )}
       <Row className="mt-6 flex-col md:flex-row">
-        <Col xs={24} md={6}>
+        <Col xs={24} md={6} lg={8}>
           {comboClass ? (
             <div className="flex flex-wrap gap-4">
               {classChoices.map((choice) => (
@@ -196,7 +196,6 @@ export default function CharClassStep({
         {characterData.class.includes("Magic-User") && (
           <>
             <Divider className="md:hidden" />
-            <Divider type="vertical" className="md:block" />
             <Col xs={24} sm={16}>
               <Radio.Group
                 onChange={onSpellRadioChange}

@@ -156,12 +156,18 @@ export interface PageLayoutProps {
   auth: Auth;
   onCharacterAdded: () => void;
 }
-export interface HeaderContentProps extends PageLayoutProps {}
+export interface HeaderContentProps extends PageLayoutProps {
+  className?: string;
+}
+export interface FooterContentProps {
+  className?: string;
+}
 
 export interface CharacterListProps {
   user: User | null;
   characters: CharacterData[];
   onCharacterDeleted: () => void;
+  className?: string;
 }
 
 export interface CharacterSheetProps {

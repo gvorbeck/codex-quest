@@ -1,6 +1,6 @@
 import { Avatar, Card, Col, Empty, Popconfirm, Row } from "antd";
 import { CharacterListProps } from "./types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   UserOutlined,
   SolutionOutlined,
@@ -15,6 +15,7 @@ export default function CharacterList({
   onCharacterDeleted,
 }: CharacterListProps) {
   const navigate = useNavigate();
+  const outletContext = useOutletContext() as { className: string };
 
   const confirm = async (characterId: string) => {
     if (user) {
@@ -27,11 +28,11 @@ export default function CharacterList({
     }
   };
   return (
-    <div>
+    <div className={`${outletContext.className}`}>
       {characters.length ? (
         <Row justify={"start"} gutter={32} className="gap-y-9">
           {characters.map((character) => (
-            <Col xs={24} sm={12} key={character.id}>
+            <Col xs={24} md={12} lg={6} key={character.id}>
               <Card
                 actions={[
                   <SolutionOutlined

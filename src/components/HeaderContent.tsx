@@ -8,13 +8,14 @@ export default function HeaderContent({
   handleLogin,
   user,
   onCharacterAdded,
+  className,
 }: HeaderContentProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
   return (
-    <Row className="gap-y-4">
+    <Row className={`${className} gap-y-4`}>
       <Col
         xs={24}
         md={12}

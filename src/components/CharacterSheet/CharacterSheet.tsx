@@ -11,6 +11,7 @@ import {
   Collapse,
   Divider,
   Row,
+  Skeleton,
   Typography,
 } from "antd";
 import Description from "./Description";
@@ -51,7 +52,8 @@ const attackBonus = function (character: CharacterData) {
 };
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
-  const userLoggedIn: User = useOutletContext();
+  const userLoggedIn: User | null = user;
+  const outletContext = useOutletContext() as { className: string };
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
@@ -166,7 +168,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   }, [uid, id]);
 
   return (
-    <div>
+    <div className={`${outletContext.className}`}>
       <Breadcrumb
         items={[
           {
@@ -188,11 +190,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             showLevelUpModal={showLevelUpModal}
           />
           <InitiativeRoller character={character} />
-          <Row gutter={32} className="gap-4">
-            <Col xs={24} sm={8}>
+          <Row gutter={32} className="gap-4 md:gap-0">
+            <Col xs={24} md={8}>
               <Abilities character={character} />
             </Col>
-            <Col xs={24} sm={8} className="flex flex-col justify-between">
+            <Col xs={24} md={10} className="flex flex-col justify-between">
               <AttackBonus
                 character={character}
                 attackBonus={attackBonus(character)}
@@ -206,7 +208,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
             <Col
               xs={24}
-              sm={8}
+              md={6}
               className="flex items-center justify-between flex-col gap-4"
             >
               <SimpleNumberStat title="Armor Class" value={armorClass} />
@@ -215,30 +217,30 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
           </Row>
           <Divider />
-          <Row gutter={32} className="gap-4">
-            <Col xs={24} sm={12}>
+          <Row gutter={32} className="gap-4 md:gap-0">
+            <Col xs={24} md={12}>
               <SpecialsRestrictions character={character} />
               {character.class.includes("Thief") && (
                 <ThiefAbilities characterLevel={character.level.toString()} />
               )}
             </Col>
-            <Col xs={24} sm={12}>
+            <Col xs={24} md={12}>
               <SavingThrows character={character} setCharacter={setCharacter} />
             </Col>
           </Row>
           <Divider />
-          <Row gutter={32} className="gap-4">
-            <Col xs={24} sm={6}>
+          <Row gutter={32} className="gap-4 md:gap-0">
+            <Col xs={24} md={6}>
               <Money
                 character={character}
                 setCharacter={setCharacter}
                 userIsOwner={userIsOwner}
               />
             </Col>
-            <Col xs={24} sm={6}>
+            <Col xs={24} md={6}>
               <Weight character={character} setCharacter={setCharacter} />
             </Col>
-            <Col xs={24} sm={12}>
+            <Col xs={24} md={12}>
               <Typography.Title level={3} className="mt-0 !text-shipGray">
                 Equipment
               </Typography.Title>
@@ -337,7 +339,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
         </div>
       ) : (
-        <div>Loading character...</div>
+        <Skeleton avatar paragraph={{ rows: 4 }} />
       )}
     </div>
   );

@@ -11,7 +11,7 @@ export default function BaseStats({
 }: CharacterDetails) {
   return (
     <div>
-      <div className="flex flex-col items-center mt-4">
+      <div className="flex flex-col items-center mt-4 md:flex-row">
         {character.avatar.length ? (
           <Avatar size={64} src={character.avatar} />
         ) : (
@@ -22,7 +22,7 @@ export default function BaseStats({
         </Typography.Title>
       </div>
       <Divider className="mt-4 mb-4" />
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between md:flex-row">
         <ExperiencePoints
           character={character}
           setCharacter={setCharacter}

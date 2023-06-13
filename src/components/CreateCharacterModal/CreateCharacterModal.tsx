@@ -265,7 +265,7 @@ export default function CreateCharacterModal({
       onCancel={handleCancel}
       width={1200}
       footer={null}
-      className="m-0 max-w-full top-0"
+      className="max-w-full top-0 m-auto"
     >
       <Row gutter={16}>
         <Col span={5} className="hidden md:block">
