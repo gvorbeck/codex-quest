@@ -13,6 +13,9 @@ module.exports = {
       flex: {
         25: "1 1 25%",
       },
+      screens: {
+        lg: "992px",
+      },
     },
   },
   plugins: [],

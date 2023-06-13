@@ -12,7 +12,7 @@ export default function PageLayout({
 }: PageLayoutProps) {
   return (
     <Layout>
-      <Layout.Header className="bg-shipGray p-4 h-auto">
+      <Layout.Header className="bg-shipGray px-8 py-4 h-auto">
         <HeaderContent
           user={user}
           handleLogin={handleLogin}

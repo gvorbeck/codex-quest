@@ -29,9 +29,9 @@ export default function CharacterList({
   return (
     <div>
       {characters.length ? (
-        <Row justify={"start"} className="gap-8">
+        <Row justify={"start"} gutter={32} className="gap-y-9">
           {characters.map((character) => (
-            <Col span={5} key={character.id} className="flex-[auto] max-w-full">
+            <Col xs={24} sm={12} key={character.id}>
               <Card
                 actions={[
                   <SolutionOutlined
