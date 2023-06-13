@@ -22,7 +22,6 @@ console.log("DEV: antd theme", theme);
 // - TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
 // - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
-// - Tablet / Mobile styles
 // - better reload of character list for all appropriate events
 // - better load experience (spinners? skeleton?)
 // - npm run build && firebase deploy works, BUT github actions makes site a blank page. why? something related to create-react-app
