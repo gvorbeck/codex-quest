@@ -30,7 +30,6 @@ export default function Description({
         await updateDoc(docRef, {
           desc: inputValue,
         });
-        console.log(`${character.name}'s description updated`);
         if (setCharacter) {
           setCharacter({
             ...character,

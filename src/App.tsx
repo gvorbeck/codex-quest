@@ -13,17 +13,13 @@ import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
 import CharacterSheet from "./components/CharacterSheet/CharacterSheet";
 import { CharacterData } from "./components/types";
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider } from "antd";
 import Welcome from "./components/Welcome";
 
-console.log("DEV: antd theme", theme);
 // TODOS
 // GENERAL:
-// - TOS, PRIVACY POLICY, COOKIE POLICY: APP.TERMLY.IO
-// - GOOGLE ANALYTICS
 // - message or toast like component for when character is saved.
-// - better reload of character list for all appropriate events
-// - better load experience (spinners? skeleton?)
+// - better reload of character list for all appropriate events (refreshCharacters state var)
 // - npm run build && firebase deploy works, BUT github actions makes site a blank page. why? something related to create-react-app
 
 // BUILDER:

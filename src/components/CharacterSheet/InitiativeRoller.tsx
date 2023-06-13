@@ -8,9 +8,6 @@ const openNotification = (result: number) => {
     description: result,
     duration: 0,
     className: "!bg-seaBuckthorn",
-    onClick: () => {
-      console.log("Notification Clicked!");
-    },
   });
 };
 

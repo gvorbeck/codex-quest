@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography } from "antd";
 import CharAbilityScoreStep from "./CharAbilityScoreStep";
 import CharRaceStep from "./CharRaceStep";
@@ -253,10 +253,6 @@ export default function CreateCharacterModal({
       console.error("No user is currently logged in.");
     }
   }
-
-  useEffect(() => {
-    console.log(characterData);
-  }, [characterData]);
 
   return (
     <Modal

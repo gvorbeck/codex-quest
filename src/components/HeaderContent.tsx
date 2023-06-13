@@ -21,7 +21,6 @@ export default function HeaderContent({
         md={12}
         className="text-center leading-none lg:flex lg:justify-start lg:items-center"
       >
-        {/* <Col flex={4} className="flex items-center flex-col gap-4 md:flex-row"> */}
         <Typography.Title
           level={1}
           className="!mb-0 mt-0 leading-none text-4xl"
@@ -43,7 +42,6 @@ export default function HeaderContent({
         md={12}
         className="text-center flex flex-col md:justify-center lg:flex-row lg:items-center lg:justify-end"
       >
-        {/* <Col flex={1} className="flex justify-center items-baseline gap-4"> */}
         {user ? (
           <>
             <Typography.Text className="leading-none">

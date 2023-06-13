@@ -75,7 +75,6 @@ export default function Money({
       await updateDoc(docRef, {
         gold,
       });
-      console.log(`${character.name}'s gold: ${gold}`);
     } catch (error) {
       console.error("Error updating document: ", error);
     }

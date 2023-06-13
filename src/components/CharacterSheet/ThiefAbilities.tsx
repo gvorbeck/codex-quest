@@ -30,7 +30,6 @@ export default function ThiefAbilities({
   characterLevel: string;
 }) {
   const abilities = thiefAbilitiesTable[characterLevel];
-  console.log(abilities);
   return (
     <>
       <Typography.Title level={3} className=" !text-shipGray">

@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Empty, Popconfirm, Row } from "antd";
+import { Avatar, Card, Col, Empty, Popconfirm, Row, Spin } from "antd";
 import { CharacterListProps } from "./types";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useEffect, useState } from "react";
 
 export default function CharacterList({
   user,
@@ -16,6 +17,7 @@ export default function CharacterList({
 }: CharacterListProps) {
   const navigate = useNavigate();
   const outletContext = useOutletContext() as { className: string };
+  const [loading, setLoading] = useState(true);
 
   const confirm = async (characterId: string) => {
     if (user) {
@@ -27,9 +29,17 @@ export default function CharacterList({
       onCharacterDeleted();
     }
   };
+
+  useEffect(() => {
+    if (characters.length !== 0) {
+      setLoading(false);
+    }
+  }, [characters]);
   return (
     <div className={`${outletContext.className}`}>
-      {characters.length ? (
+      {loading ? (
+        <Spin />
+      ) : characters.length ? (
         <Row justify={"start"} gutter={32} className="gap-y-9">
           {characters.map((character) => (
             <Col xs={24} md={12} lg={6} key={character.id}>
@@ -52,7 +62,6 @@ export default function CharacterList({
                   >
                     <DeleteOutlined
                       key="delete"
-                      // onClick={() => console.log("delete character")}
                       aria-label="Delete character"
                       title="Delete character"
                     />

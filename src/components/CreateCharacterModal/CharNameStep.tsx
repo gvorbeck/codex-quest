@@ -59,10 +59,10 @@ export default function CharNameStep({
       // You can also add validation for dimensions here if needed
 
       if (!isAllowedType) {
-        console.log(`${file.name} is not an allowed file type.`);
+        console.error(`${file.name} is not an allowed file type.`);
       }
       if (!isBelowMaxSize) {
-        console.log(`${file.name} exceeds the maximum file size.`);
+        console.error(`${file.name} exceeds the maximum file size.`);
       }
 
       return isAllowedType && isBelowMaxSize;

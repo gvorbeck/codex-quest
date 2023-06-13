@@ -93,7 +93,6 @@ export default function HitPoints({
         await updateDoc(docRef, {
           "hp.points": character.hp.points,
         });
-        console.log(`${character.name}'s HP: ${character.hp.points}`);
         setPrevValue(character.hp.points.toString());
       } catch (error) {
         console.error("Error updating document: ", error);
@@ -114,7 +113,6 @@ export default function HitPoints({
         await updateDoc(docRef, {
           "hp.desc": descValue,
         });
-        console.log(`${character.name}'s HP description: ${descValue}`);
         if (setCharacter) {
           setCharacter({
             ...character,

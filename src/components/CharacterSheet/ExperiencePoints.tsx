@@ -53,7 +53,6 @@ export default function ExperiencePoints({
         await updateDoc(docRef, {
           xp: character.xp,
         });
-        console.log(`${character.name}'s XP: ${character.xp}`);
         setPrevValue(character.xp.toString());
       } catch (error) {
         console.error("Error updating document: ", error);

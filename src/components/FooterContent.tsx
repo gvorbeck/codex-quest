@@ -1,5 +1,6 @@
-import { Typography } from "antd";
+import { Divider, Typography } from "antd";
 import { FooterContentProps } from "./types";
+import { Link } from "react-router-dom";
 
 export default function FooterContent({ className }: FooterContentProps) {
   return (
@@ -18,34 +19,37 @@ export default function FooterContent({ className }: FooterContentProps) {
         </a>{" "}
         and is current to release 130.
       </Typography.Paragraph>
-      <Typography.Paragraph>
-        License:{" "}
-        <a
-          href="https://github.com/gvorbeck/codex-quest/blob/main/LICENSE"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          MIT License
-        </a>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        Contact: <a href="mailto:me@iamgarrett.com">me@iamgarrett.com</a>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        Github:{" "}
-        <a
-          href="https://github.com/gvorbeck/codex-quest"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Codex Quest Repository
-        </a>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        <a href="[Link to Privacy Policy]">Privacy Policy</a> |{" "}
-        <a href="[Link to Terms of Use]">Terms of Use</a> |{" "}
-        <a href="[Link to Cookie Policy]">Cookie Policy</a>
-      </Typography.Paragraph>
+      <div className="flex">
+        <Typography.Paragraph>
+          <a
+            href="https://github.com/gvorbeck/codex-quest/blob/main/LICENSE"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            License
+          </a>
+        </Typography.Paragraph>
+        <Divider type="vertical" />
+        <Typography.Paragraph>
+          <a href="mailto:me@iamgarrett.com">Contact</a>
+        </Typography.Paragraph>
+        <Divider type="vertical" />
+        <Typography.Paragraph>
+          <a
+            href="https://github.com/gvorbeck/codex-quest"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </Typography.Paragraph>
+        <Divider type="vertical" />
+        <Typography.Paragraph>
+          <Link to="https://www.freeprivacypolicy.com/live/fbe666aa-8172-4c25-86b3-f8b190191f9c">
+            Privacy Policy
+          </Link>
+        </Typography.Paragraph>
+      </div>
     </div>
   );
 }

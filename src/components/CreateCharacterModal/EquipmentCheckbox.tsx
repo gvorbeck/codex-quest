@@ -11,7 +11,6 @@ export default function EquipmentCheckbox({
   setCharacterData,
 }: EquipmentCheckboxProps) {
   const item = equipmentItems.find((item) => item.name === itemName);
-  console.log(item);
   const isHalflingOrDwarf =
     characterData.race === "Halfling" || characterData.race === "Dwarf";
 
