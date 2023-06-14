@@ -127,15 +127,17 @@ export default function ExperiencePoints({
             handleInputBlur();
           }
         }}
-        suffix={`/ ${totalLevelRequirement} XP`}
+        suffix={character.level < 20 && `/ ${totalLevelRequirement} XP`}
         disabled={!userIsOwner}
         name="Experience Points"
       />
-      <Button
-        disabled={character.xp < totalLevelRequirement}
-        type="primary"
-        onClick={showLevelUpModal}
-      >{`Level Up`}</Button>
+      {character.level < 20 && (
+        <Button
+          disabled={character.xp < totalLevelRequirement}
+          type="primary"
+          onClick={showLevelUpModal}
+        >{`Level Up`}</Button>
+      )}
     </Space.Compact>
   );
 }
