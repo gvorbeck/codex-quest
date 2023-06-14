@@ -23,6 +23,7 @@ const CharacterSheet = lazy(
 // - message or toast like component for when character is saved.
 // - better reload of character list for all appropriate events (refreshCharacters state var)
 // - "Welcome" mobile styles
+// - Character list empty never shows <Empty /> instead <Spin /> never goes away.
 
 // BUILDER:
 // - rework weapon options for combination classes
