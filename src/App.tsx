@@ -8,13 +8,15 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
-import CharacterSheet from "./components/CharacterSheet/CharacterSheet";
 import { CharacterData } from "./components/types";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Spin } from "antd";
 import Welcome from "./components/Welcome";
+const CharacterSheet = lazy(
+  () => import("./components/CharacterSheet/CharacterSheet")
+);
 
 // TODOS
 // GENERAL:
@@ -23,20 +25,18 @@ import Welcome from "./components/Welcome";
 
 // BUILDER:
 // - rework weapon options for combination classes
+// - desktop styles
 
 // Character Sheet
 // - "add equipment" modal
 // - BUG: Attack button in  attack modal creates console.error
-
-// NPM RUN BUILD HAD LARGE BUNDLE WARNING:
-// - LOOK INTO CODE SPLITTING (like only loading the createcharacter shit if they click the button) https://create-react-app.dev/docs/code-splitting/
-// - ANALYZE BUNDLE SIZE: https://create-react-app.dev/docs/analyzing-the-bundle-size/
 console.log("THERE ARE STILL TODOS!!!!");
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [refreshCharacters, setRefreshCharacters] = useState(false);
   const [characters, setCharacters] = useState<CharacterData[]>([]);
+  const [loading, setLoading] = useState(true);
   const auth = getAuth();
 
   const fetchCharacters = async () => {
@@ -57,6 +57,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -103,6 +104,7 @@ function App() {
   const handleCharacterAdded = () => {
     setRefreshCharacters(!refreshCharacters);
   };
+
   return (
     <ConfigProvider
       theme={{
@@ -111,35 +113,42 @@ function App() {
         },
       }}
     >
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <PageLayout
-              user={user}
-              handleLogin={handleLogin}
-              auth={auth}
-              onCharacterAdded={handleCharacterAdded}
-            />
-          }
-        >
+      <Suspense fallback={<Spin />}>
+        <Routes>
           <Route
-            index
+            path="/"
             element={
-              user ? (
-                <CharacterList
-                  user={user}
-                  characters={characters}
-                  onCharacterDeleted={handleCharacterAdded}
-                />
-              ) : (
-                <Welcome />
-              )
+              <PageLayout
+                user={user}
+                handleLogin={handleLogin}
+                auth={auth}
+                onCharacterAdded={handleCharacterAdded}
+              />
             }
-          />
-          <Route path="u/:uid/c/:id" element={<CharacterSheet user={user} />} />
-        </Route>
-      </Routes>
+          >
+            <Route
+              index
+              element={
+                loading ? (
+                  <Spin />
+                ) : user ? (
+                  <CharacterList
+                    user={user}
+                    characters={characters}
+                    onCharacterDeleted={handleCharacterAdded}
+                  />
+                ) : (
+                  <Welcome />
+                )
+              }
+            />
+            <Route
+              path="u/:uid/c/:id"
+              element={<CharacterSheet user={user} />}
+            />
+          </Route>
+        </Routes>
+      </Suspense>
     </ConfigProvider>
   );
 }

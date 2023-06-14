@@ -1,7 +1,10 @@
+import React, { Suspense, useState } from "react";
 import { Button, Col, Row, Typography } from "antd";
-import CreateCharacterModal from "./CreateCharacterModal/CreateCharacterModal";
-import { useState } from "react";
 import { HeaderContentProps } from "./types";
+
+const CreateCharacterModal = React.lazy(
+  () => import("./CreateCharacterModal/CreateCharacterModal")
+);
 
 export default function HeaderContent({
   auth,
@@ -61,11 +64,13 @@ export default function HeaderContent({
           </Button>
         )}
         {user && (
-          <CreateCharacterModal
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            onCharacterAdded={onCharacterAdded}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <CreateCharacterModal
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              onCharacterAdded={onCharacterAdded}
+            />
+          </Suspense>
         )}
       </Col>
     </Row>
