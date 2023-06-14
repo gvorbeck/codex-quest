@@ -25,10 +25,8 @@ const CharacterSheet = lazy(
 
 // BUILDER:
 // - rework weapon options for combination classes
-// - desktop styles
 
 // Character Sheet
-// - "add equipment" modal
 // - level up modal styles
 // - spell list styles
 // - going to level 10 causes Hit Dice to display "9d4+1+1" ...continue to level character up to see how level 20 behaves

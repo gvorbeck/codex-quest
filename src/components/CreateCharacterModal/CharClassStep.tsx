@@ -135,7 +135,7 @@ export default function CharClassStep({
       <Row className="mt-6 flex-col md:flex-row">
         <Col xs={24} md={6} lg={8}>
           {comboClass ? (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 lg:flex-col">
               {classChoices.map((choice) => (
                 <Checkbox
                   key={choice}
@@ -165,7 +165,7 @@ export default function CharClassStep({
             <Radio.Group
               value={characterData.class}
               onChange={onClassRadioChange}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-4 lg:flex-col"
             >
               {classChoices.map((choice) => (
                 <Radio

@@ -119,7 +119,7 @@ export default function CharEquipmentStep({
         </Space.Compact>
       )}
       <Divider orientation="left">Equipment Lists</Divider>
-      <Row gutter={32} className="block">
+      <Row gutter={32} className="block md:flex">
         <Col xs={24} sm={12}>
           <EquipmentSelector
             armorSelection={armorSelection}
