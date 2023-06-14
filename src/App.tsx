@@ -22,7 +22,6 @@ import Welcome from "./components/Welcome";
 // - better reload of character list for all appropriate events (refreshCharacters state var)
 
 // BUILDER:
-// - TEST IMG UPLOAD ON PROD
 // - rework weapon options for combination classes
 
 // Character Sheet
