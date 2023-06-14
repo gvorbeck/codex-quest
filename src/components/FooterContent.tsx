@@ -9,7 +9,7 @@ export default function FooterContent({ className }: FooterContentProps) {
         © 2023 J. Garrett Vorbeck. All rights reserved.
       </Typography.Paragraph>
       <Typography.Paragraph>
-        Credits: This site is based on the&nbsp;
+        This site is based on the&nbsp;
         <a
           href="https://basicfantasy.org"
           rel="noreferrer noopener"
