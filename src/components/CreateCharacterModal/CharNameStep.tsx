@@ -49,7 +49,7 @@ export default function CharNameStep({
   }) => {
     // Validate file type, size, or dimensions here
     const allowedTypes = ["image/jpeg", "image/png"]; // Allowed file types
-    const maxSize = 5 * 1024 * 1024; // Maximum file size in bytes (5MB)
+    const maxSize = 1 * 1024 * 1024; // Maximum file size in bytes (5MB)
 
     const filteredList = newFileList.filter((file) => {
       const isAllowedType = file.type

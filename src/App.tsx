@@ -22,6 +22,7 @@ const CharacterSheet = lazy(
 // GENERAL:
 // - message or toast like component for when character is saved.
 // - better reload of character list for all appropriate events (refreshCharacters state var)
+// - "Welcome" mobile styles
 
 // BUILDER:
 // - rework weapon options for combination classes
@@ -29,8 +30,6 @@ const CharacterSheet = lazy(
 // Character Sheet
 // - level up modal styles
 // - spell list styles
-// - going to level 10 causes Hit Dice to display "9d4+1+1" ...continue to level character up to see how level 20 behaves
-// - investigate how hit points add up. level 10 character is reading 247 hit points... doesn't seem right
 // - BUG: Attack button in  attack modal creates console.error
 console.log("THERE ARE STILL TODOS!!!!");
 
