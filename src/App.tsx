@@ -18,15 +18,6 @@ const CharacterSheet = lazy(
   () => import("./components/CharacterSheet/CharacterSheet")
 );
 
-// TODOS
-// GENERAL:
-// - message or toast like component for when character is saved.
-// - better reload of character list for all appropriate events (refreshCharacters state var)
-
-// Character Sheet
-// - BUG: Attack button in  attack modal creates console.error
-console.log("THERE ARE STILL TODOS!!!!");
-
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [refreshCharacters, setRefreshCharacters] = useState(false);
