@@ -17,7 +17,7 @@ export default function FooterContent({ className }: FooterContentProps) {
         >
           Basic Fantasy Role-Playing Game created by Chris Gonnerman
         </a>{" "}
-        and is current to release 130.
+        and is current to release 132.
       </Typography.Paragraph>
       <div className="flex">
         <Typography.Paragraph>
