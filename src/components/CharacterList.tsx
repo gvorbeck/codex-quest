@@ -31,9 +31,7 @@ export default function CharacterList({
   };
 
   useEffect(() => {
-    if (characters.length !== 0) {
-      setLoading(false);
-    }
+    setLoading(false);
   }, [characters]);
   return (
     <div className={`${outletContext.className}`}>

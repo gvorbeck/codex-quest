@@ -271,7 +271,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     key="1"
                     className="[&>div:not(:first)]:bg-springWood"
                   >
-                    <Spells character={character} setCharacter={setCharacter} />
+                    <Spells character={character} />
                   </Collapse.Panel>
                 )}
                 {/* WEAPONS */}

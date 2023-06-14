@@ -1,4 +1,4 @@
-import { Button, Checkbox, Modal } from "antd";
+import { Button, Checkbox, Modal, Typography } from "antd";
 import { LevelUpModalProps, SpellItem, Spell } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
@@ -51,51 +51,56 @@ const SpellCheckboxGroup = ({
 }) => {
   if (max) {
     return (
-      <Checkbox.Group
-        value={checkedSpells}
-        onChange={(checkedValues) => {
-          const newCheckedSpells = checkedValues as string[];
+      <>
+        <Typography.Title level={4}>Level {level + 1} Spells</Typography.Title>
+        <Checkbox.Group
+          value={checkedSpells}
+          className="mb-4"
+          onChange={(checkedValues) => {
+            const newCheckedSpells = checkedValues as string[];
 
-          // Add only the spells from current level to checkedSpells
-          const otherLevelSpells = checkedSpells.filter(
-            (spellName: string) =>
-              !SpellData.some(
-                (spell) =>
-                  spell.name === spellName &&
-                  getSpellLevel(spell, characterClass) === level + 1
-              )
-          );
-          setCheckedSpells([...otherLevelSpells, ...newCheckedSpells]);
+            // Add only the spells from current level to checkedSpells
+            const otherLevelSpells = checkedSpells.filter(
+              (spellName: string) =>
+                !SpellData.some(
+                  (spell) =>
+                    spell.name === spellName &&
+                    getSpellLevel(spell, characterClass) === level + 1
+                )
+            );
+            setCheckedSpells([...otherLevelSpells, ...newCheckedSpells]);
 
-          // Update the count for current level in checkedSpellsCount
-          const newCheckedSpellsCount = [...checkedSpellsCount];
-          newCheckedSpellsCount[level] = newCheckedSpells.filter((spellName) =>
-            SpellData.some(
-              (spell) =>
-                spell.name === spellName &&
-                getSpellLevel(spell, characterClass) === level + 1
-            )
-          ).length;
-          setCheckedSpellsCount(newCheckedSpellsCount);
-        }}
-      >
-        level: {level + 1}{" "}
-        {SpellData.filter(
-          (spell) => getSpellLevel(spell, characterClass) === level + 1
-        ).map((spell) => (
-          <Checkbox
-            key={spell.name}
-            value={spell.name}
-            disabled={
-              spell.name === "Read Magic" ||
-              (!checkedSpells.includes(spell.name) &&
-                checkedSpellsCount[level] >= max)
-            }
-          >
-            {spell.name}
-          </Checkbox>
-        ))}
-      </Checkbox.Group>
+            // Update the count for current level in checkedSpellsCount
+            const newCheckedSpellsCount = [...checkedSpellsCount];
+            newCheckedSpellsCount[level] = newCheckedSpells.filter(
+              (spellName) =>
+                SpellData.some(
+                  (spell) =>
+                    spell.name === spellName &&
+                    getSpellLevel(spell, characterClass) === level + 1
+                )
+            ).length;
+            setCheckedSpellsCount(newCheckedSpellsCount);
+          }}
+        >
+          {SpellData.filter(
+            (spell) => getSpellLevel(spell, characterClass) === level + 1
+          ).map((spell) => (
+            <Checkbox
+              key={spell.name}
+              value={spell.name}
+              className="flex-[1_1_40%] py-1"
+              disabled={
+                spell.name === "Read Magic" ||
+                (!checkedSpells.includes(spell.name) &&
+                  checkedSpellsCount[level] >= max)
+              }
+            >
+              {spell.name}
+            </Checkbox>
+          ))}
+        </Checkbox.Group>
+      </>
     );
   }
   return null;

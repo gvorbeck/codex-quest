@@ -22,15 +22,8 @@ const CharacterSheet = lazy(
 // GENERAL:
 // - message or toast like component for when character is saved.
 // - better reload of character list for all appropriate events (refreshCharacters state var)
-// - "Welcome" mobile styles
-// - Character list empty never shows <Empty /> instead <Spin /> never goes away.
-
-// BUILDER:
-// - rework weapon options for combination classes
 
 // Character Sheet
-// - level up modal styles
-// - spell list styles
 // - BUG: Attack button in  attack modal creates console.error
 console.log("THERE ARE STILL TODOS!!!!");
 

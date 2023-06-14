@@ -73,21 +73,21 @@ export default function EquipmentCheckbox({
           (isHalflingOrDwarf && item.size === "L") ||
           // If character is a Cleric/Magic-User and category is Axes
           ((characterData.class === "Cleric" ||
-            characterData.class.includes("Magic-User")) &&
+            characterData.class === "Magic-User") &&
             item.category === "axes") ||
           // If character is a Cleric/Magic-User and category is Bows
           ((characterData.class === "Cleric" ||
-            characterData.class.includes("Magic-User")) &&
+            characterData.class === "Magic-User") &&
             item.category === "bows") ||
           // If character is a Cleric and category is Ammunition (except "Stone")
           (characterData.class === "Cleric" &&
             item.category === "ammunition" &&
             item.name !== "Stone") ||
           // If character is a Magic-User and category is Hammers and Maces
-          (characterData.class.includes("Magic-User") &&
+          (characterData.class === "Magic-User" &&
             item.category === "hammers-and-maces") ||
           // If character is a Magic-User and category is Ammunition
-          (characterData.class.includes("Magic-User") &&
+          (characterData.class === "Magic-User" &&
             item.category === "ammunition") ||
           // If character is a Cleric and category is Daggers
           (characterData.class === "Cleric" && item.category === "daggers") ||
@@ -96,12 +96,12 @@ export default function EquipmentCheckbox({
             item.category === "other-weapons" &&
             (item.name === "Pole Arm" || item.name === "Spear")) ||
           // If character is a Magic-User and category is Other Weapons and is not walking staff
-          (characterData.class.includes("Magic-User") &&
+          (characterData.class === "Magic-User" &&
             item.category === "other-weapons" &&
             item.name !== "Club/Cudgel/Walking Staff") ||
           // If character is a Cleric/Magic-User and category is Swords
           ((characterData.class === "Cleric" ||
-            characterData.class.includes("Magic-User")) &&
+            characterData.class === "Magic-User") &&
             item.category === "swords")
         }
       >
