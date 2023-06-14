@@ -134,15 +134,15 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           ? hitDiceModifiers.single[character.level - 1] || 0
           : hitDiceModifiers.double[character.level - 1] || 0;
     }
-    const diceParts = character.hp.dice.split("d");
+    const diceParts = character.hp.dice.split("d")[1].split("+");
     if (character.level < 10) {
       hitDice =
         character.level.toString() +
         "d" +
-        diceParts[1] +
+        diceParts[0] +
         (modifier !== 0 ? "+" + modifier : "");
     } else {
-      hitDice = "9d" + diceParts[1] + "+" + modifier;
+      hitDice = "9d" + diceParts[0] + "+" + modifier;
     }
   }
 
@@ -182,6 +182,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       />
       {character ? (
         <div className="!text-shipGray [&>*]:mt-4 [&>div:first-child]:mt-0">
+          {/* NAME / RACE / CLASS / LEVEL / XP */}
           <BaseStats
             character={character}
             setCharacter={setCharacter}
@@ -191,13 +192,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <InitiativeRoller character={character} />
           <Row gutter={32} className="gap-4 md:gap-0">
             <Col xs={24} md={8}>
+              {/* ABILITY SCORES */}
               <Abilities character={character} />
             </Col>
             <Col xs={24} md={10} className="flex flex-col justify-between">
+              {/* ATTACK BONUSES */}
               <AttackBonus
                 character={character}
                 attackBonus={attackBonus(character)}
               />
+              {/* HIT POINTS */}
               <HitPoints
                 character={character}
                 setCharacter={setCharacter}
@@ -210,26 +214,33 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               md={6}
               className="flex items-center justify-between flex-col gap-4"
             >
+              {/* ARMOR CLASS */}
               <SimpleNumberStat title="Armor Class" value={armorClass} />
+              {/* MOVEMENT */}
               <SimpleNumberStat title="Movement" value={`${movement}'`} />
+              {/* HIT DICE */}
               <SimpleNumberStat title="Hit Dice" value={hitDice} />
             </Col>
           </Row>
           <Divider />
           <Row gutter={32} className="gap-4 md:gap-0">
             <Col xs={24} md={12}>
+              {/* SPECIALS / RESTRICTIONS */}
               <SpecialsRestrictions character={character} />
+              {/* THIEF'S ABILITIES */}
               {character.class.includes("Thief") && (
                 <ThiefAbilities characterLevel={character.level.toString()} />
               )}
             </Col>
             <Col xs={24} md={12}>
+              {/* SAVING THROWS */}
               <SavingThrows character={character} setCharacter={setCharacter} />
             </Col>
           </Row>
           <Divider />
           <Row gutter={32} className="gap-4 md:gap-0">
             <Col xs={24} md={6}>
+              {/* MONEY */}
               <Money
                 character={character}
                 setCharacter={setCharacter}
@@ -237,9 +248,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               />
             </Col>
             <Col xs={24} md={6}>
+              {/* WEIGHT */}
               <Weight character={character} setCharacter={setCharacter} />
             </Col>
             <Col xs={24} md={12}>
+              {/* EQUIPMENT */}
               <Typography.Title level={3} className="mt-0 !text-shipGray">
                 Equipment
               </Typography.Title>
@@ -251,6 +264,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 Add Equipment
               </Button>
               <Collapse className="bg-seaBuckthorn mt-4">
+                {/* SPELLS */}
                 {character.spells.length > 0 && (
                   <Collapse.Panel
                     header="Spells"
@@ -260,6 +274,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     <Spells character={character} setCharacter={setCharacter} />
                   </Collapse.Panel>
                 )}
+                {/* WEAPONS */}
                 <Collapse.Panel
                   header="Weapons"
                   key="2"
@@ -280,6 +295,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     showAttackModal={showAttackModal}
                   />
                 </Collapse.Panel>
+                {/* MISC ITEMS */}
                 <Collapse.Panel
                   header="Miscellaneous Items"
                   key="3"
@@ -287,6 +303,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 >
                   <EquipmentList character={character} categories={"items"} />
                 </Collapse.Panel>
+                {/* ARMOR AND SHIELDS */}
                 <Collapse.Panel
                   header="Armor and Shields"
                   key="4"
@@ -297,6 +314,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     categories={"armor-and-shields"}
                   />
                 </Collapse.Panel>
+                {/* BEAST OF BURDEN */}
                 <Collapse.Panel
                   header="Beasts of Burden"
                   key="5"
@@ -311,11 +329,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
           </Row>
           <Divider />
+          {/* BIO & NOTES */}
           <Description
             character={character}
             setCharacter={setCharacter}
             userIsOwner={userIsOwner}
           />
+          {/* MODALS */}
           <AttackModal
             isAttackModalOpen={isAttackModalOpen}
             handleCancel={handleCancel}

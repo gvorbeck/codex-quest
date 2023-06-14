@@ -120,7 +120,7 @@ export default function LevelUpModal({
 
   // Determine how many hit dice to roll
   if (character.level + 1 >= 10) {
-    newHitDice = "9" + character.hp.dice;
+    newHitDice = character.hp.dice.split("+")[0];
   } else {
     const prefix = character.level + 1;
     newHitDice = prefix.toString() + "d" + character.hp.dice.split("d")[1];
