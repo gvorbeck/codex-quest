@@ -110,6 +110,7 @@ export default function Money({
             key={key as string}
             min={0}
             value={value as string}
+            name={key as string}
             onFocus={(event) => event.target.select()}
             onChange={(event) =>
               handleInputChange(

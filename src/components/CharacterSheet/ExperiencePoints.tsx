@@ -129,6 +129,7 @@ export default function ExperiencePoints({
         }}
         suffix={`/ ${totalLevelRequirement} XP`}
         disabled={!userIsOwner}
+        name="Experience Points"
       />
       <Button
         disabled={character.xp < totalLevelRequirement}

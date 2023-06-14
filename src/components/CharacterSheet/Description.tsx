@@ -63,6 +63,7 @@ export default function Description({
       <Input.TextArea
         value={inputValue}
         rows={4}
+        name="Bio & Notes"
         placeholder={`Write anything and everything about ${character.name}`}
         onChange={handleInputChange}
         onBlur={updateDescription}

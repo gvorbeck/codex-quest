@@ -152,6 +152,7 @@ export default function HitPoints({
           }
         }}
         onFocus={(event) => event.target.select()}
+        name="Hit Points"
       />
       <Input.TextArea
         value={descValue}
@@ -162,6 +163,7 @@ export default function HitPoints({
         disabled={!userIsOwner}
         onChange={handleDescChange}
         onBlur={handleDescBlur}
+        name="Wounds and Conditions"
       />
       <Typography.Text type="secondary" className="text-xs">
         Character count: {descValue.length}/500
