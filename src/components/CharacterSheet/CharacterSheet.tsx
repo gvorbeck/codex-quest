@@ -155,6 +155,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         if (characterSnapshot.exists()) {
           const characterData = characterSnapshot.data() as CharacterData;
           setCharacter(characterData);
+          document.title = `${characterData.name} | CODEX.QUEST`;
         } else {
           console.log("Character not found");
         }
