@@ -22,52 +22,50 @@ export default function Welcome() {
           <a href="https://basicfantasy.org" target="_blank" rel="noreferrer">
             Basic Fantasy RPG
           </a>
-          . Designed with the player in mind, this platform streamlines the
-          process of character creation, allowing you to dive into your
-          adventures quicker and with ease.
+          . Designed with the player in mind, this platform streamlines
+          character creation, allowing you to dive into your adventures with
+          ease.
         </Typography.Paragraph>
         <Typography.Paragraph>
-          Whether you're a seasoned adventurer or a newcomer to the realm of
-          Basic Fantasy RPG, CODEX.QUEST provides an intuitive, user-friendly
-          interface to craft your unique character. From defining your
-          character's abilities to equipping them with the right gear,
-          CODEX.QUEST is there every step of the way, ensuring a seamless and
+          CODEX.QUEST provides an intuitive, user-friendly interface to craft
+          your unique character. From defining your character's abilities to
+          equipping them with the right gear, CODEX.QUEST ensures a seamless and
           immersive gaming experience.
         </Typography.Paragraph>
         <Typography.Paragraph>
           Join us at CODEX.QUEST and let your epic journey in the world of Basic
           Fantasy RPG begin!
         </Typography.Paragraph>
+        <div>
+          <Typography.Title
+            level={2}
+            className="text-shipGray text-3xl md:text-4xl font-bold"
+          >
+            Bring Your Characters to Life
+          </Typography.Title>
+          <Typography.Paragraph>
+            Developed specifically for BFRPG's 4th edition, our tool covers all
+            the basic races and classes, ensuring a comprehensive character
+            creation experience that is both versatile and detailed.
+          </Typography.Paragraph>
+          <Typography.Paragraph>
+            Whether you're a mighty Dwarf Fighter, a cunning Elf Magic-User, or
+            exploring the unique dynamics of combination classes, Codex Quest
+            has you covered. Best of all, it's 100% FREE!
+          </Typography.Paragraph>
+          <Typography.Paragraph>
+            Codex Quest is not just a tool; it's a companion designed to guide
+            you on your characters' adventures. Make the most of your gaming
+            experience by letting Codex Quest handle the complexities of
+            character management, giving you more time to dive into the
+            captivating narratives and thrilling encounters that BFRPG offers.
+            Experience the thrill of bringing your unique characters to life
+            with Codex Quest, your ultimate partner in your BFRPG adventures.
+          </Typography.Paragraph>
+        </div>
       </div>
       {/* <Image src={deadlyStrike} preview={false} className="hidden" /> */}
       <Image src={IronhideSheet} className="border-solid border-1 shadow-md" />
-      <div>
-        <Typography.Title
-          level={2}
-          className="text-shipGray text-3xl md:text-4xl font-bold mt-0"
-        >
-          Bring Your Characters to Life
-        </Typography.Title>
-        <Typography.Paragraph>
-          Developed specifically for BFRPG's 4th edition, our robust suite of
-          tools covers all the basic races and classes, ensuring a comprehensive
-          character creation experience that is both versatile and detailed.
-        </Typography.Paragraph>
-        <Typography.Paragraph>
-          Whether you're a mighty Dwarf Fighter, a cunning Elf Magic-User, or
-          exploring the unique dynamics of combination classes, Codex Quest has
-          you covered. Best of all, it's 100% FREE!
-        </Typography.Paragraph>
-        <Typography.Paragraph>
-          Codex Quest is not just a tool; it's a companion designed to guide you
-          on your journey through the BFRPG universe. Make the most of your
-          gaming experience by letting Codex Quest handle the complexities of
-          character management, giving you more time to dive into the
-          captivating narratives and thrilling encounters that BFRPG offers.
-          Experience the thrill of bringing your unique characters to life with
-          Codex Quest, your ultimate partner in your BFRPG adventures.
-        </Typography.Paragraph>
-      </div>
     </div>
   );
 }
