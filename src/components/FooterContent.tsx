@@ -17,7 +17,7 @@ export default function FooterContent({ className }: FooterContentProps) {
         >
           Basic Fantasy Role-Playing Game created by Chris Gonnerman
         </a>{" "}
-        and is current to release 132.
+        and is current to 4th Edition (release 132).
       </Typography.Paragraph>
       <div className="flex">
         <Typography.Paragraph>
@@ -47,6 +47,12 @@ export default function FooterContent({ className }: FooterContentProps) {
         <Typography.Paragraph>
           <Link to="https://www.freeprivacypolicy.com/live/fbe666aa-8172-4c25-86b3-f8b190191f9c">
             Privacy Policy
+          </Link>
+        </Typography.Paragraph>
+        <Divider type="vertical" />
+        <Typography.Paragraph>
+          <Link to="https://www.paypal.com/donate/?business=4BW6AR5BGQZYW&no_recurring=0&item_name=for+CODEX.QUEST+database+fees&currency_code=USD">
+            Donate
           </Link>
         </Typography.Paragraph>
       </div>
