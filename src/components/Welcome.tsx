@@ -1,15 +1,18 @@
-import { Col, Image, Row, Typography } from "antd";
-import deadlyStrike from "../assets/images/deadly-strike.png";
+import { Image, Typography } from "antd";
+// import deadlyStrike from "../assets/images/deadly-strike.png";
 import { useOutletContext } from "react-router-dom";
+import IronhideSheet from "../assets/images/ironhide_sheet.png";
 
 export default function Welcome() {
   const outletContext = useOutletContext() as { className: string };
   return (
-    <Row className={`${outletContext.className} flex-col-reverse md:flex-row`}>
-      <Col xs={24} md={12}>
+    <div
+      className={`${outletContext.className} grid grid-cols-1 md:grid-cols-2 gap-8`}
+    >
+      <div>
         <Typography.Title
           level={2}
-          className="text-shipGray text-3xl md:text-4xl font-bold"
+          className="text-shipGray text-3xl md:text-4xl font-bold mt-0"
         >
           Welcome to CODEX.QUEST!
         </Typography.Title>
@@ -35,10 +38,36 @@ export default function Welcome() {
           Join us at CODEX.QUEST and let your epic journey in the world of Basic
           Fantasy RPG begin!
         </Typography.Paragraph>
-      </Col>
-      <Col xs={24} md={12}>
-        <Image src={deadlyStrike} preview={false} />
-      </Col>
-    </Row>
+      </div>
+      {/* <Image src={deadlyStrike} preview={false} className="hidden" /> */}
+      <Image src={IronhideSheet} className="border-solid border-1 shadow-md" />
+      <div>
+        <Typography.Title
+          level={2}
+          className="text-shipGray text-3xl md:text-4xl font-bold mt-0"
+        >
+          Bring Your Characters to Life
+        </Typography.Title>
+        <Typography.Paragraph>
+          Developed specifically for BFRPG's 4th edition, our robust suite of
+          tools covers all the basic races and classes, ensuring a comprehensive
+          character creation experience that is both versatile and detailed.
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          Whether you're a mighty Dwarf Fighter, a cunning Elf Magic-User, or
+          exploring the unique dynamics of combination classes, Codex Quest has
+          you covered. Best of all, it's 100% FREE!
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          Codex Quest is not just a tool; it's a companion designed to guide you
+          on your journey through the BFRPG universe. Make the most of your
+          gaming experience by letting Codex Quest handle the complexities of
+          character management, giving you more time to dive into the
+          captivating narratives and thrilling encounters that BFRPG offers.
+          Experience the thrill of bringing your unique characters to life with
+          Codex Quest, your ultimate partner in your BFRPG adventures.
+        </Typography.Paragraph>
+      </div>
+    </div>
   );
 }
