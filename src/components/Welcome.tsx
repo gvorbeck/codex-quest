@@ -50,22 +50,24 @@ export default function Welcome() {
           </Typography.Paragraph>
           <Typography.Paragraph>
             Whether you're a mighty Dwarf Fighter, a cunning Elf Magic-User, or
-            exploring the unique dynamics of combination classes, Codex Quest
+            exploring the unique dynamics of combination classes, CODEX.QUEST
             has you covered. Best of all, it's 100% FREE!
           </Typography.Paragraph>
           <Typography.Paragraph>
-            Codex Quest is not just a tool; it's a companion designed to guide
+            CODEX.QUEST is not just a tool; it's a companion designed to guide
             you on your characters' adventures. Make the most of your gaming
-            experience by letting Codex Quest handle the complexities of
+            experience by letting CODEX.QUEST handle the complexities of
             character management, giving you more time to dive into the
             captivating narratives and thrilling encounters that BFRPG offers.
-            Experience the thrill of bringing your unique characters to life
-            with Codex Quest, your ultimate partner in your BFRPG adventures.
           </Typography.Paragraph>
         </div>
       </div>
       {/* <Image src={deadlyStrike} preview={false} className="hidden" /> */}
-      <Image src={IronhideSheet} className="border-solid border-1 shadow-md" />
+      <Image
+        src={IronhideSheet}
+        alt="Sample Basic Fantasy Role-Playing Game Character Sheet"
+        className="border-solid border-1 shadow-md"
+      />
     </div>
   );
 }
