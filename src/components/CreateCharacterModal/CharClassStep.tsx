@@ -1,4 +1,4 @@
-import { Checkbox, Col, Divider, Radio, Row, Switch } from "antd";
+import { Checkbox, Divider, Radio, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect } from "react";
@@ -132,16 +132,16 @@ export default function CharClassStep({
           />
         </div>
       )}
-      <Row className="mt-6 flex-col md:flex-row">
-        <Col xs={24} md={6} lg={8}>
+      <div className="mt-6">
+        <div>
           {comboClass ? (
-            <div className="flex flex-wrap gap-4 lg:flex-col">
+            <div>
               {classChoices.map((choice) => (
                 <Checkbox
                   key={choice}
                   onChange={onCheckboxChange}
                   value={choice}
-                  className="flex-[1_1_40%]"
+                  // className="flex-[1_1_40%]"
                   checked={checkedClasses.includes(choice)}
                   disabled={
                     choice === "Cleric" ||
@@ -165,13 +165,14 @@ export default function CharClassStep({
             <Radio.Group
               value={characterData.class}
               onChange={onClassRadioChange}
-              className="flex flex-wrap gap-4 lg:flex-col"
+              // className="flex flex-wrap gap-4 lg:flex-col"
+              buttonStyle="solid"
             >
               {classChoices.map((choice) => (
-                <Radio
+                <Radio.Button
                   key={choice}
                   value={choice}
-                  className="flex-1"
+                  className="ps-2 pe-2 md:ps-4 md:pe-4"
                   disabled={
                     (characterData.race === "Dwarf" &&
                       choice === "Magic-User") ||
@@ -188,15 +189,15 @@ export default function CharClassStep({
                   }
                 >
                   {choice}
-                </Radio>
+                </Radio.Button>
               ))}
             </Radio.Group>
           )}
-        </Col>
+        </div>
         {characterData.class.includes("Magic-User") && (
           <>
-            <Divider className="md:hidden" />
-            <Col xs={24} sm={16}>
+            <Divider />
+            <div>
               <Radio.Group
                 onChange={onSpellRadioChange}
                 value={selectedSpell ? selectedSpell.name : null}
@@ -218,10 +219,10 @@ export default function CharClassStep({
                     </Radio>
                   ))}
               </Radio.Group>
-            </Col>
+            </div>
           </>
         )}
-      </Row>
+      </div>
     </>
   );
 }

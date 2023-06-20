@@ -1,4 +1,4 @@
-import { Radio, Space } from "antd";
+import { Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharRaceStepProps } from "../types";
 import { raceDetails } from "../../data/raceDetails";
@@ -35,28 +35,31 @@ export default function CharRaceStep({
   };
 
   return (
-    <Radio.Group onChange={onChange} value={characterData.race}>
-      <Space direction="vertical">
-        {raceChoices.map((race) => (
-          <Radio
-            key={race}
-            value={race}
-            disabled={
-              (race === "Dwarf" &&
-                (+characterData.abilities.scores.constitution < 9 ||
-                  +characterData.abilities.scores.charisma > 17)) ||
-              (race === "Elf" &&
-                (+characterData.abilities.scores.intelligence < 9 ||
-                  +characterData.abilities.scores.constitution > 17)) ||
-              (race === "Halfling" &&
-                (+characterData.abilities.scores.dexterity < 9 ||
-                  +characterData.abilities.scores.strength > 17))
-            }
-          >
-            {race}
-          </Radio>
-        ))}
-      </Space>
+    <Radio.Group
+      onChange={onChange}
+      value={characterData.race}
+      buttonStyle="solid"
+    >
+      {raceChoices.map((race) => (
+        <Radio.Button
+          key={race}
+          value={race}
+          className="ps-2 pe-2 md:ps-4 md:pe-4"
+          disabled={
+            (race === "Dwarf" &&
+              (+characterData.abilities.scores.constitution < 9 ||
+                +characterData.abilities.scores.charisma > 17)) ||
+            (race === "Elf" &&
+              (+characterData.abilities.scores.intelligence < 9 ||
+                +characterData.abilities.scores.constitution > 17)) ||
+            (race === "Halfling" &&
+              (+characterData.abilities.scores.dexterity < 9 ||
+                +characterData.abilities.scores.strength > 17))
+          }
+        >
+          {race}
+        </Radio.Button>
+      ))}
     </Radio.Group>
   );
 }

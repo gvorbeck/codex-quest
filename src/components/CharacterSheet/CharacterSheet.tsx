@@ -254,7 +254,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
             <Col xs={24} md={12}>
               {/* EQUIPMENT */}
-              <Typography.Title level={3} className="mt-0 !text-shipGray">
+              <Typography.Title level={3} className="mt-0 text-shipGray">
                 Equipment
               </Typography.Title>
               <Button

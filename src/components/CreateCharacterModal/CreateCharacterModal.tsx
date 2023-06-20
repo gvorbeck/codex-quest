@@ -32,7 +32,7 @@ const equipmentDescription =
   "Roll for your character's starting gold. You can click the Roll button or use your own dice and record your amount below. Next, it's time to purchase your character's starting equipment. Keep in mind that your character's Race may limit types and amounts of equipment they can carry due to size and carrying capacity restrictions.";
 
 const nameDescription =
-  "You're almost done! Personalize your newly minted character by giving them a name. Optionally, upload a portrait image if you'd like. Image must be PNG/JPG and <= 1mb";
+  "You're almost done! Personalize your newly minted character by giving them a name and a face. Optionally, upload a portrait image if you'd like. Image must be PNG/JPG and <= 1mb";
 
 const emptyCharacter = {
   abilities: {
@@ -261,7 +261,7 @@ export default function CreateCharacterModal({
       onCancel={handleCancel}
       width={1200}
       footer={null}
-      className="max-w-full top-0 m-auto"
+      className="max-w-full top-0 m-auto text-shipGray"
     >
       <Row gutter={16}>
         <Col span={5} className="hidden md:block">
@@ -269,7 +269,7 @@ export default function CreateCharacterModal({
         </Col>
         <Col xs={24} md={19}>
           <section>
-            <Typography.Title level={1} className="mt-0">
+            <Typography.Title level={1} className="mt-0 text-shipGray">
               {steps[current].fullTitle}
             </Typography.Title>
             <Typography.Paragraph>
