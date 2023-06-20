@@ -26,7 +26,7 @@ export const raceDetails = {
       "Halflings are unusually accurate with all sorts of ranged weapons, gaining a +1 attack bonus when employing them",
       "When attacked in melee by creatures larger than man-sized, Halflings gain a +2 bonus to their Armor Class",
       "Halflings are quick-witted, adding +1 to Initiative die rolls",
-      "In their preferred forest terrain, they are able to hide very effectively; so long as they remain still there is only a 10% chance they will be detected. Even indoors, in dungeons or in non- preferred terrain they are able to hide such that there is only a 30% chance of detection. Note that a Halfling Thief will roll only once, using either the Thief ability or the Halfling ability, whichever is better.",
+      "In their preferred forest terrain, Halflings are able to hide very effectively; so long as they remain still there is only a 10% chance they will be detected. Even indoors, in dungeons or in non- preferred terrain they are able to hide such that there is only a 30% chance of detection. Note that a Halfling Thief will roll only once, using either the Thief ability or the Halfling ability, whichever is better.",
     ],
   },
   human: {

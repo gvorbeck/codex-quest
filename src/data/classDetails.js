@@ -19,7 +19,7 @@ export const classDetails = {
       "Magic-User begins play knowing read magic and one other spell of first level",
     ],
     restrictions: [
-      "The only weapons they become proficient with are the dagger and the walking staff (or cudgel)",
+      "The only weapons Magic-Users become proficient with are the dagger and the walking staff (or cudgel)",
       "Magic-Users may not wear armor of any sort nor use a shield as such things interfere with spellcasting",
     ],
   },
