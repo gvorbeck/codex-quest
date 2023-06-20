@@ -10,32 +10,34 @@ export default function Welcome() {
       className={`${outletContext.className} grid grid-cols-1 md:grid-cols-2 gap-8`}
     >
       <div>
-        <Typography.Title
-          level={2}
-          className="text-shipGray text-3xl md:text-4xl font-bold mt-0"
-        >
-          Welcome to CODEX.QUEST!
-        </Typography.Title>
-        <Typography.Paragraph>
-          Welcome to CODEX.QUEST, your ultimate companion for character creation
-          in the world of{" "}
-          <a href="https://basicfantasy.org" target="_blank" rel="noreferrer">
-            Basic Fantasy RPG
-          </a>
-          . Designed with the player in mind, this platform streamlines
-          character creation, allowing you to dive into your adventures with
-          ease.
-        </Typography.Paragraph>
-        <Typography.Paragraph>
-          CODEX.QUEST provides an intuitive, user-friendly interface to craft
-          your unique character. From defining your character's abilities to
-          equipping them with the right gear, CODEX.QUEST ensures a seamless and
-          immersive gaming experience.
-        </Typography.Paragraph>
-        <Typography.Paragraph>
-          Join us at CODEX.QUEST and let your epic journey in the world of Basic
-          Fantasy RPG begin!
-        </Typography.Paragraph>
+        <div>
+          <Typography.Title
+            level={2}
+            className="text-shipGray text-3xl md:text-4xl font-bold mt-0"
+          >
+            Welcome to CODEX.QUEST!
+          </Typography.Title>
+          <Typography.Paragraph>
+            Welcome to CODEX.QUEST, your ultimate companion for character
+            creation in the world of{" "}
+            <a href="https://basicfantasy.org" target="_blank" rel="noreferrer">
+              Basic Fantasy RPG
+            </a>
+            . Designed with the player in mind, this platform streamlines
+            character creation, allowing you to dive into your adventures with
+            ease.
+          </Typography.Paragraph>
+          <Typography.Paragraph>
+            CODEX.QUEST provides an intuitive, user-friendly interface to craft
+            your unique character. From defining your character's abilities to
+            equipping them with the right gear, CODEX.QUEST ensures a seamless
+            and immersive gaming experience.
+          </Typography.Paragraph>
+          <Typography.Paragraph>
+            Join us at CODEX.QUEST and let your epic journey in the world of
+            Basic Fantasy RPG begin!
+          </Typography.Paragraph>
+        </div>
         <div>
           <Typography.Title
             level={2}
