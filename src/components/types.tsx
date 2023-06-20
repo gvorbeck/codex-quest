@@ -1,4 +1,5 @@
-import { RadioChangeEvent } from "antd";
+import { RadioChangeEvent, UploadFile } from "antd";
+import { UploadChangeParam } from "antd/es/upload";
 import { Auth, User } from "firebase/auth";
 
 export interface AbilityTypes {
@@ -61,7 +62,7 @@ export interface CharacterData {
   desc: string;
 }
 
-interface CharSteps {
+export interface CharSteps {
   characterData: CharacterData;
   setCharacterData: (characterData: CharacterData) => void;
 }
@@ -240,4 +241,15 @@ export interface RangeRadioButtons {
   missileRangeBonus: number;
   handleRangeChange: (e: RadioChangeEvent) => void;
   missileRangeValues: number[];
+}
+
+export interface CustomImageProps {
+  fileList: UploadFile<any>[];
+  handlePreview: (file: UploadFile) => Promise<void>;
+  handleChange: (info: UploadChangeParam<UploadFile<any>>) => void;
+  uploadButton: JSX.Element;
+  previewOpen: boolean;
+  previewTitle: string;
+  handleCancel: () => void;
+  previewImage: string;
 }

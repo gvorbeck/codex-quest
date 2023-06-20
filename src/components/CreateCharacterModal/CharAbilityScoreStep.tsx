@@ -2,7 +2,6 @@ import React from "react";
 import { Button, InputNumber, Space, Table } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { AbilityRecord, CharAbilityScoreStepProps } from "../types";
-import RollingDice from "../../assets/images/isometric-die.png";
 
 export default function CharAbilityScoreStep({
   characterData,
@@ -153,12 +152,7 @@ export default function CharAbilityScoreStep({
               type="primary"
               onClick={() => rollAbilityScore(record.ability.toLowerCase())}
             >
-              <img
-                src={RollingDice}
-                title="Roll 3d6"
-                aria-label="Roll 3d6"
-                className="h-full"
-              />
+              Roll 3d6
             </Button>
           </Space.Compact>
         );

@@ -1,11 +1,50 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { Input, Modal, Upload } from "antd";
+import {
+  Button,
+  Input,
+  Modal,
+  Radio,
+  RadioChangeEvent,
+  Typography,
+  Upload,
+} from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
-import { CharNameStepProps } from "../types";
+import { CharNameStepProps, CharSteps } from "../types";
 import { storage, ref, uploadBytes } from "../../firebase";
 import { getDownloadURL } from "firebase/storage";
+import { images } from "../../assets/images/faces/imageAssets";
+
+const StockAvatars = ({ setCharacterData, characterData }: CharSteps) => {
+  const [selectedAvatar, setSelectedAvatar] = useState("");
+
+  return (
+    <div className="mt-4 grid grid-cols-4 gap-2 md:grid-cols-5 lg:w-[75%]">
+      {images.map((image) => (
+        <Button
+          key={image}
+          type="link"
+          className="h-auto w-auto leading-none p-0 border-none"
+          onClick={() => {
+            setCharacterData({ ...characterData, avatar: image });
+            setSelectedAvatar(image);
+          }}
+        >
+          <img
+            alt="Avatar"
+            src={image}
+            className={`w-16 rounded-[50%] border-2 border-solid ${
+              image === selectedAvatar
+                ? "border-seaBuckthorn"
+                : "border-transparent"
+            }`}
+          />
+        </Button>
+      ))}
+    </div>
+  );
+};
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -23,6 +62,7 @@ export default function CharNameStep({
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [imageSource, setImageSource] = useState(0);
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
@@ -94,6 +134,11 @@ export default function CharNameStep({
     }
   };
 
+  const handleChangeImageSource = (e: RadioChangeEvent) => {
+    setCharacterData({ ...characterData, avatar: "" });
+    setImageSource(e.target.value);
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -103,27 +148,50 @@ export default function CharNameStep({
 
   return (
     <>
-      <Upload
-        listType="picture-card"
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 1 ? null : uploadButton}
-      </Upload>
-      <Modal
-        open={previewOpen}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <img alt="example" style={{ width: "100%" }} src={previewImage} />
-      </Modal>
       <Input
         value={characterData.name}
         onChange={handleNameChange}
         placeholder="Name"
       />
+      <Typography.Title level={2} className="text-shipGray">
+        Avatar
+      </Typography.Title>
+      <Radio.Group
+        value={imageSource}
+        onChange={handleChangeImageSource}
+        buttonStyle="solid"
+      >
+        <Radio.Button value={0}>None</Radio.Button>
+        <Radio.Button value={1}>Stock</Radio.Button>
+        <Radio.Button value={2}>Upload</Radio.Button>
+      </Radio.Group>
+      {imageSource === 2 && (
+        <>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            className="mt-4"
+          >
+            {fileList.length >= 1 ? null : uploadButton}
+          </Upload>
+          <Modal
+            open={previewOpen}
+            title={previewTitle}
+            footer={null}
+            onCancel={handleCancel}
+          >
+            <img alt="example" style={{ width: "100%" }} src={previewImage} />
+          </Modal>
+        </>
+      )}
+      {imageSource === 1 && (
+        <StockAvatars
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+        />
+      )}
     </>
   );
 }
