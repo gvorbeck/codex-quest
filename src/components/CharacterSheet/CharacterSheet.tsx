@@ -240,7 +240,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           </Row>
           <Divider />
           <Row gutter={32} className="gap-4 md:gap-0">
-            <Col xs={24} md={6}>
+            <Col xs={24} sm={11} md={6}>
               {/* MONEY */}
               <Money
                 character={character}
@@ -248,7 +248,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 userIsOwner={userIsOwner}
               />
             </Col>
-            <Col xs={24} md={6}>
+            <Col xs={24} sm={12} md={6}>
               {/* WEIGHT */}
               <Weight character={character} setCharacter={setCharacter} />
             </Col>

@@ -97,10 +97,16 @@ export default function Money({
 
   return (
     <div>
-      <Typography.Title level={3} className="mt-0 !text-shipGray">
+      <Typography.Title
+        level={3}
+        className="mt-0 text-shipGray text-center sm:text-left"
+      >
         Money
       </Typography.Title>
-      <Space direction="vertical">
+      <Space
+        direction="vertical"
+        className="w-full items-center sm:items-start"
+      >
         {[
           ["gp", goldValue, setGoldValue, 1],
           ["sp", silverValue, setSilverValue, 10],
