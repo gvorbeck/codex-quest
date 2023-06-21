@@ -48,16 +48,30 @@ export default function EquipmentSelector({
                 <Space direction="vertical">
                   {equipmentItems
                     .filter((catItem) => catItem.category === cat)
-                    .map((item) => (
-                      <React.Fragment key={item.name}>
-                        <EquipmentRadio
-                          item={item}
-                          characterData={characterData}
-                          disabled={characterData.equipment.length === 0}
-                        />
-                        <Divider />
-                      </React.Fragment>
-                    ))}
+                    .map((item) =>
+                      item.name !== "Shield" ? (
+                        // Separate Shield from other Armor items because it can be combined with the others.
+                        <React.Fragment key={item.name}>
+                          <EquipmentRadio
+                            item={item}
+                            characterData={characterData}
+                            disabled={characterData.equipment.length === 0}
+                          />
+                          <Divider />
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment key={item.name}>
+                          <EquipmentCheckbox
+                            itemName={item.name}
+                            equipmentItems={equipmentItems}
+                            handleWeightChange={handleWeightChange}
+                            weightRestrictions={weightRestrictions}
+                            characterData={characterData}
+                            setCharacterData={setCharacterData}
+                          />
+                        </React.Fragment>
+                      )
+                    )}
                 </Space>
               </Radio.Group>
             )}
