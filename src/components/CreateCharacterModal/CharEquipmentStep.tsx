@@ -27,25 +27,25 @@ export default function CharEquipmentStep({
   );
 
   const rollStartingGold = () => {
-    const result = roller.roll("3d6*10");
+    startWithNoArmor(roller.roll("3d6*10").total);
+  };
 
+  const startWithNoArmor = (newGoldValue: number) => {
     const noArmorItem = equipmentItems.find(
       (noArmor: EquipmentItem) => noArmor.name === "No Armor"
     );
-    if (!(result instanceof Array) && result.total !== null) {
-      let equipment;
-      if (!armorSelection && noArmorItem) {
-        equipment = [...characterData.equipment, noArmorItem];
-        setArmorSelection(noArmorItem);
-      } else {
-        equipment = [...characterData.equipment];
-      }
-      setCharacterData({
-        ...characterData,
-        gold: result.total,
-        equipment,
-      });
+    let equipment;
+    if (!armorSelection && noArmorItem) {
+      equipment = [...characterData.equipment, noArmorItem];
+      setArmorSelection(noArmorItem);
+    } else {
+      equipment = [...characterData.equipment];
     }
+    setCharacterData({
+      ...characterData,
+      gold: newGoldValue,
+      equipment,
+    });
   };
 
   const getCategories = () => {
@@ -103,7 +103,8 @@ export default function CharEquipmentStep({
             min={30}
             defaultValue={0}
             onChange={(value: number | null) => {
-              setCharacterData({ ...characterData, gold: Number(value) });
+              const newGoldValue = value !== null ? Number(value) : 0;
+              startWithNoArmor(newGoldValue);
             }}
             onFocus={(event) => event.target.select()}
             type="number"
