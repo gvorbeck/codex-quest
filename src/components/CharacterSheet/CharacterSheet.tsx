@@ -213,7 +213,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Col
               xs={24}
               md={6}
-              className="flex items-center justify-between flex-col gap-4"
+              className="flex items-center justify-between flex-wrap flex-col gap-4 sm:flex-row md:flex-col"
             >
               {/* ARMOR CLASS */}
               <SimpleNumberStat title="Armor Class" value={armorClass} />
