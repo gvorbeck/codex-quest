@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Modal, Row, Steps, Typography } from "antd";
+import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
 import CharAbilityScoreStep from "./CharAbilityScoreStep";
 import CharRaceStep from "./CharRaceStep";
 import CharClassStep from "./CharClassStep";
@@ -92,6 +92,7 @@ export default function CreateCharacterModal({
   const [characterData, setCharacterData] =
     useState<CharacterData>(emptyCharacter);
   const [selectedSpell, setSelectedSpell] = useState<SpellType | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const steps = [
     {
@@ -226,6 +227,20 @@ export default function CreateCharacterModal({
     }
   }
 
+  const success = (name: string) => {
+    messageApi.open({
+      type: "success",
+      content: `${name} successfully saved!`,
+    });
+  };
+
+  const errorMessage = (message: string) => {
+    messageApi.open({
+      type: "error",
+      content: "This is an error message",
+    });
+  };
+
   async function addCharacterData(characterData: CharacterData) {
     // Check if a user is currently logged in
     if (auth.currentUser) {
@@ -238,7 +253,7 @@ export default function CreateCharacterModal({
       // Set the character data for the current user
       try {
         await setDoc(docRef, characterData);
-        console.log(`${characterData.name} successfully saved!`);
+        success(characterData.name);
         setIsModalOpen(false);
         // Refresh Character List
         onCharacterAdded();
@@ -248,62 +263,67 @@ export default function CreateCharacterModal({
         setCurrent(0);
       } catch (error) {
         console.error("Error writing document: ", error);
+        errorMessage(`Error writing document (see console)`);
       }
     } else {
       console.error("No user is currently logged in.");
+      errorMessage(`No user is currently logged in.`);
     }
   }
 
   return (
-    <Modal
-      title="Create BFRPG Character"
-      open={isModalOpen}
-      onCancel={handleCancel}
-      width={1200}
-      footer={null}
-      className="max-w-full top-0 m-auto text-shipGray"
-    >
-      <Row gutter={16}>
-        <Col span={5} className="hidden md:block">
-          <Steps current={current} items={items} direction="vertical" />
-        </Col>
-        <Col xs={24} md={19}>
-          <section>
-            <Typography.Title level={1} className="mt-0 text-shipGray">
-              {steps[current].fullTitle}
-            </Typography.Title>
-            <Typography.Paragraph>
-              {steps[current].description}
-            </Typography.Paragraph>
-            {steps[current].content}
-          </section>
-        </Col>
-      </Row>
-      <div className="mt-4">
-        {current < steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => next()}
-            disabled={!isNextButtonEnabled(current)}
-          >
-            Next
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => addCharacterData(characterData)}
-            disabled={!isNextButtonEnabled(current)}
-          >
-            Done
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-      </div>
-    </Modal>
+    <>
+      {contextHolder}
+      <Modal
+        title="Create BFRPG Character"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        width={1200}
+        footer={null}
+        className="max-w-full top-0 m-auto text-shipGray"
+      >
+        <Row gutter={16}>
+          <Col span={5} className="hidden md:block">
+            <Steps current={current} items={items} direction="vertical" />
+          </Col>
+          <Col xs={24} md={19}>
+            <section>
+              <Typography.Title level={1} className="mt-0 text-shipGray">
+                {steps[current].fullTitle}
+              </Typography.Title>
+              <Typography.Paragraph>
+                {steps[current].description}
+              </Typography.Paragraph>
+              {steps[current].content}
+            </section>
+          </Col>
+        </Row>
+        <div className="mt-4">
+          {current < steps.length - 1 && (
+            <Button
+              type="primary"
+              onClick={() => next()}
+              disabled={!isNextButtonEnabled(current)}
+            >
+              Next
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              type="primary"
+              onClick={() => addCharacterData(characterData)}
+              disabled={!isNextButtonEnabled(current)}
+            >
+              Done
+            </Button>
+          )}
+          {current > 0 && (
+            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+              Previous
+            </Button>
+          )}
+        </div>
+      </Modal>
+    </>
   );
 }

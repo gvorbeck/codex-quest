@@ -32,7 +32,7 @@ export default function ThiefAbilities({
   const abilities = thiefAbilitiesTable[characterLevel];
   return (
     <>
-      <Typography.Title level={3} className=" !text-shipGray">
+      <Typography.Title level={3} className=" text-shipGray">
         Thief Special Abilities
       </Typography.Title>
       <dl>
@@ -45,7 +45,10 @@ export default function ThiefAbilities({
           "Hide",
           "Listen",
         ].map((skill, index) => (
-          <div className="flex w-1/2 justify-between ml-6 items-baseline">
+          <div
+            key={skill}
+            className="flex w-1/2 justify-between ml-6 items-baseline"
+          >
             <dt className="font-bold">{skill}</dt>
             <dd className="m-0 ml-3 mt-3">{abilities[index]}</dd>
           </div>
