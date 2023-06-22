@@ -16,24 +16,6 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 const roller = new DiceRoller();
 
-const openAttackNotification = (result: number) => {
-  notification.open({
-    message: "Attack Roll",
-    description: `${result} (+2 if attacking from behind)`,
-    duration: 0,
-    className: "!bg-seaBuckthorn",
-  });
-};
-
-const openDamageNotification = (result: number) => {
-  notification.open({
-    message: "Damage Roll",
-    description: `${result}`,
-    duration: 0,
-    className: "!bg-seaBuckthorn",
-  });
-};
-
 function AttackButtons({
   weapon,
   damage,
@@ -84,6 +66,26 @@ export default function AttackModal({
 }: AttackModalProps) {
   const [isMissile, setisMissile] = useState(false);
   const [missileRangeBonus, setMissileRangeBonus] = useState(0);
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openAttackNotification = (result: number) => {
+    api.open({
+      message: "Attack Roll",
+      description: `${result} (+2 if attacking from behind)`,
+      duration: 0,
+      className: "!bg-seaBuckthorn",
+    });
+  };
+
+  const openDamageNotification = (result: number) => {
+    api.open({
+      message: "Damage Roll",
+      description: `${result}`,
+      duration: 0,
+      className: "!bg-seaBuckthorn",
+    });
+  };
 
   const handleSwitchChange = () => setisMissile(!isMissile);
   const handleRangeChange = (e: RadioChangeEvent) => {
@@ -143,76 +145,79 @@ export default function AttackModal({
   };
 
   return (
-    <Modal
-      title={`Attack with ${weapon?.name || "weapon"}`}
-      open={isAttackModalOpen}
-      onCancel={handleCancel}
-      footer={false}
-    >
-      {weapon ? (
-        <div>
-          {weapon.type === "melee" && (
-            <AttackButtons
-              weapon={weapon}
-              damage={damage}
-              attack={attack}
-              type="melee"
-              className="mt-2"
-            />
-          )}
-          {weapon.type === "missile" && (
-            <>
-              <RangeRadioGroup
-                missileRangeBonus={missileRangeBonus}
-                handleRangeChange={handleRangeChange}
-                missileRangeValues={missileRangeValues}
-              />
+    <>
+      {contextHolder}
+      <Modal
+        title={`Attack with ${weapon?.name || "weapon"}`}
+        open={isAttackModalOpen}
+        onCancel={handleCancel}
+        footer={false}
+      >
+        {weapon ? (
+          <div>
+            {weapon.type === "melee" && (
               <AttackButtons
                 weapon={weapon}
                 damage={damage}
                 attack={attack}
-                type="missile"
+                type="melee"
                 className="mt-2"
               />
-            </>
-          )}
-          {weapon.type === "both" && (
-            <div>
-              <Switch
-                unCheckedChildren="Melee Attack"
-                checkedChildren="Missile Attack"
-                onChange={handleSwitchChange}
-              />
-              {isMissile ? (
-                <>
-                  <RangeRadioGroup
-                    missileRangeBonus={missileRangeBonus}
-                    handleRangeChange={handleRangeChange}
-                    missileRangeValues={missileRangeValues}
-                  />
-                  <AttackButtons
-                    weapon={weapon}
-                    damage={damage}
-                    attack={attack}
-                    type="missile"
-                    className="mt-2"
-                  />
-                </>
-              ) : (
+            )}
+            {weapon.type === "missile" && (
+              <>
+                <RangeRadioGroup
+                  missileRangeBonus={missileRangeBonus}
+                  handleRangeChange={handleRangeChange}
+                  missileRangeValues={missileRangeValues}
+                />
                 <AttackButtons
                   weapon={weapon}
                   damage={damage}
                   attack={attack}
-                  type="melee"
+                  type="missile"
                   className="mt-2"
                 />
-              )}
-            </div>
-          )}
-        </div>
-      ) : (
-        <p>No weapon selected</p>
-      )}
-    </Modal>
+              </>
+            )}
+            {weapon.type === "both" && (
+              <div>
+                <Switch
+                  unCheckedChildren="Melee Attack"
+                  checkedChildren="Missile Attack"
+                  onChange={handleSwitchChange}
+                />
+                {isMissile ? (
+                  <>
+                    <RangeRadioGroup
+                      missileRangeBonus={missileRangeBonus}
+                      handleRangeChange={handleRangeChange}
+                      missileRangeValues={missileRangeValues}
+                    />
+                    <AttackButtons
+                      weapon={weapon}
+                      damage={damage}
+                      attack={attack}
+                      type="missile"
+                      className="mt-2"
+                    />
+                  </>
+                ) : (
+                  <AttackButtons
+                    weapon={weapon}
+                    damage={damage}
+                    attack={attack}
+                    type="melee"
+                    className="mt-2"
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          <p>No weapon selected</p>
+        )}
+      </Modal>
+    </>
   );
 }
