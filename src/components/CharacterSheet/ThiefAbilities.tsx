@@ -1,5 +1,6 @@
-import { Table, Typography } from "antd";
+import { Table, Tooltip, Typography } from "antd";
 import { ThiefAbilitiesArray } from "../types";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const thiefAbilitiesTable: ThiefAbilitiesArray = {
   "1": [25, 20, 30, 25, 80, 10, 30],
@@ -49,9 +50,14 @@ export default function ThiefAbilities({
   });
   return (
     <>
-      <Typography.Title level={3} className=" text-shipGray">
-        Thief Special Abilities
-      </Typography.Title>
+      <div className="flex justify-between">
+        <Typography.Title level={3} className=" text-shipGray">
+          Thief Special Abilities
+        </Typography.Title>
+        <Tooltip title="A player must roll their percentile dice with a result less than or equal to the numbers shown below.">
+          <QuestionCircleOutlined className="text-lg mt-3" />
+        </Tooltip>
+      </div>
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -59,9 +65,6 @@ export default function ThiefAbilities({
         showHeader={false}
         size="small"
       />
-      <Typography.Text type="secondary" className="text-xs">
-        (Must roll equal to or less than the number shown below)
-      </Typography.Text>
     </>
   );
 }
