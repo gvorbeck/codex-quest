@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Table, Typography } from "antd";
 import { ThiefAbilitiesArray } from "../types";
 
 const thiefAbilitiesTable: ThiefAbilitiesArray = {
@@ -24,36 +24,44 @@ const thiefAbilitiesTable: ThiefAbilitiesArray = {
   "20": [88, 83, 99, 93, 99, 73, 95],
 };
 
+const columns = [
+  { title: "Skill", dataIndex: "skill", key: "skill" },
+  { title: "Percentage", dataIndex: "percentage", key: "percentage" },
+];
+
 export default function ThiefAbilities({
   characterLevel,
 }: {
   characterLevel: string;
 }) {
+  const dataSource: {}[] = [];
   const abilities = thiefAbilitiesTable[characterLevel];
+  [
+    "Open Locks",
+    "Remove Traps",
+    "Pick Pockets",
+    "Move Silently",
+    "Climb Walls",
+    "Hide",
+    "Listen",
+  ].forEach((skill, index) => {
+    dataSource.push({ key: index + 1, skill, percentage: abilities[index] });
+  });
   return (
     <>
       <Typography.Title level={3} className=" text-shipGray">
         Thief Special Abilities
       </Typography.Title>
-      <dl>
-        {[
-          "Open Locks",
-          "Remove Traps",
-          "Pick Pockets",
-          "Move Silently",
-          "Climb Walls",
-          "Hide",
-          "Listen",
-        ].map((skill, index) => (
-          <div
-            key={skill}
-            className="flex w-1/2 justify-between ml-6 items-baseline"
-          >
-            <dt className="font-bold">{skill}</dt>
-            <dd className="m-0 ml-3 mt-3">{abilities[index]}</dd>
-          </div>
-        ))}
-      </dl>
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+        showHeader={false}
+        size="small"
+      />
+      <Typography.Text type="secondary" className="text-xs">
+        (Must roll equal to or less than the number shown below)
+      </Typography.Text>
     </>
   );
 }
