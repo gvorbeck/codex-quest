@@ -17,6 +17,8 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { marked } from "marked";
 
+marked.use({ mangle: false, headerIds: false });
+
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
   
