@@ -15,24 +15,41 @@ import CharNameStep from "./CharNameStep";
 import equipmentItems from "../../data/equipment-items.json";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { marked } from "marked";
 
-const abilityDescription =
-  "Roll for your character's Abilities. You can click the Roll button or use your own dice and record your scores below. Each character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus or penalty Modifier is associated with each score as well. Each Class has a Prime Requisite Ability Score, which must be at least 9 in order for the character to become a member of that Class; also, there are required minimum and maximum scores for each character Race other than Humans.";
+const abilityDescription = marked(
+  `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
+  
+  <a href="https://basicfantasy.org/srd/abilities.html" target="_blank">BFRPG Character Ability documentation</a>`
+);
 
-const raceDescription =
-  "Choose your character's Race. Some options may be unavailable due to your character's Ability Scores. Each Race except Humans has minimum and maximum values for certain Abilities that your character's Ability Scores may not match. A full description of these Race-specific requirements can be found in your copy of the BFRPG rules. Additionally, each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.";
+const raceDescription = marked(
+  `Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.
+  
+  <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Character Race documentation</a>`
+);
 
-const classDescription =
-  "Choose your character's Class. Your character's Race and Ability Scores will determine their Class options. Dwarves and Halflings cannot be Magic-Users. Elves may choose to have a combination Class. Your Class choice will determine your character's background and how they will progress through the game as they level up. Each Class's Prime Requisite Ability Score will also determine which Class options are available to you.";
+const classDescription = marked(
+  `Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up.
+  
+  <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Character Class documentation</a>`
+);
 
-const hitPointsDescription =
-  "Roll for your character's Hit Points. Your character's Race may place restrictions on the Hit Dice available to them, but generally this is determined by their chosen Class. Additionally your character's Constitution modifier is added/subtracted from this value with a minimum value of 1. The end result is the amount of Hit Points your character will start with and determines how much damage your character can take in battle.";
+const hitPointsDescription = marked(
+  `Roll for your character's Hit Points. **Your character's Race may place restrictions on the Hit Dice available to them, but generally this is determined by their chosen Class**. Additionally, your character's Constitution modifier is added/subtracted from this value with a minimum value of 1. The end result is the amount of Hit Points your character will start with and determines how much damage your character can take in battle.
+  
+  <a href="https://basicfantasy.org/srd/abilities.html#hit-points-and-hit-dice" target="_blank">BFRPG Character Hit Points documentation</a>`
+);
 
-const equipmentDescription =
-  "Roll for your character's starting gold. You can click the Roll button or use your own dice and record your amount below. Next, it's time to purchase your character's starting equipment. Keep in mind that your character's Race may limit types and amounts of equipment they can carry due to size and carrying capacity restrictions.";
+const equipmentDescription = marked(
+  `Roll for your character's starting gold and purchase their equipment. **Keep in mind that your character's Race and Class selections may limit types and amounts of equipment they can have**.
+  
+  <a href="https://basicfantasy.org/srd/equipment.html" target="_blank">BFRPG Character Equipment documentation</a>`
+);
 
-const nameDescription =
-  "You're almost done! Personalize your newly minted character by giving them a name and a face. Optionally, upload a portrait image if you'd like. Image must be PNG/JPG and <= 1mb";
+const nameDescription = marked(
+  `You're almost done! Personalize your newly minted character by giving them an identity. Optionally, upload a portrait image if you'd like. Image must be PNG/JPG and <= 1mb`
+);
 
 const emptyCharacter = {
   abilities: {
@@ -292,7 +309,11 @@ export default function CreateCharacterModal({
                 {steps[current].fullTitle}
               </Typography.Title>
               <Typography.Paragraph>
-                {steps[current].description}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: steps[current].description,
+                  }}
+                />
               </Typography.Paragraph>
               {steps[current].content}
             </section>
