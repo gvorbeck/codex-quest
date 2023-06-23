@@ -34,6 +34,7 @@ import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
 import ThiefAbilities from "./ThiefAbilities";
 import WeightStats from "../WeightStats/WeightStats";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -264,6 +265,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               >
                 Add Equipment
               </Button>
+              <HelpTooltip
+                className="ml-2"
+                text="Selecting items will automatically be deducted from your gold."
+              />
               <Collapse className="bg-seaBuckthorn mt-4">
                 {/* SPELLS */}
                 {character.spells.length > 0 && (
