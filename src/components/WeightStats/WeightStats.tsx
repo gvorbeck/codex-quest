@@ -1,8 +1,12 @@
 import { Divider, Typography } from "antd";
 import { CharacterDetails } from "../types";
 import calculateCarryingCapacity from "../calculateCarryingCapacity";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
-export default function Weight({ character, setCharacter }: CharacterDetails) {
+export default function WeightStats({
+  character,
+  setCharacter,
+}: CharacterDetails) {
   const capacity = calculateCarryingCapacity(
     +character.abilities.scores.strength,
     character.race
@@ -18,6 +22,10 @@ export default function Weight({ character, setCharacter }: CharacterDetails) {
       <Divider />
       <Typography.Paragraph className="text-3xl font-bold !text-shipGray !mb-3">
         Max: {capacity.heavy}
+        <HelpTooltip
+          text={`Stay under ${capacity.light} to remain "Lightly Loaded"`}
+          className="relative -top-1 ml-2"
+        />
       </Typography.Paragraph>
       <Typography.Text>
         {character.weight < capacity.light

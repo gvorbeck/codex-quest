@@ -20,7 +20,6 @@ import AttackBonus from "./AttackBonus";
 import HitPoints from "./HitPoints";
 import SpecialsRestrictions from "./SpecialsRestrictions";
 import SavingThrows from "./SavingThrows";
-import Weight from "./Weight";
 import Money from "./Money";
 import EquipmentList from "./EquipmentList";
 import Spells from "./Spells";
@@ -34,6 +33,7 @@ import AddEquipmentModal from "./AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
 import ThiefAbilities from "./ThiefAbilities";
+import WeightStats from "../WeightStats/WeightStats";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -250,7 +250,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
             <Col xs={24} sm={12} md={6}>
               {/* WEIGHT */}
-              <Weight character={character} setCharacter={setCharacter} />
+              <WeightStats character={character} setCharacter={setCharacter} />
             </Col>
             <Col xs={24} md={12}>
               {/* EQUIPMENT */}
