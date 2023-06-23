@@ -20,7 +20,7 @@ import AttackBonus from "./AttackBonus";
 import HitPoints from "./HitPoints";
 import SpecialsRestrictions from "./SpecialsRestrictions";
 import SavingThrows from "./SavingThrows";
-import Money from "./Money";
+import MoneyStats from "../MoneyStats/MoneyStats";
 import EquipmentList from "./EquipmentList";
 import Spells from "./Spells";
 import InitiativeRoller from "./InitiativeRoller";
@@ -242,7 +242,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <Row gutter={32} className="gap-4 md:gap-0">
             <Col xs={24} sm={11} md={6}>
               {/* MONEY */}
-              <Money
+              <MoneyStats
                 character={character}
                 setCharacter={setCharacter}
                 userIsOwner={userIsOwner}

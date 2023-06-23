@@ -4,8 +4,9 @@ import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useParams } from "react-router-dom";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
-export default function Money({
+export default function MoneyStats({
   character,
   setCharacter,
   userIsOwner,
@@ -97,12 +98,18 @@ export default function Money({
 
   return (
     <div>
-      <Typography.Title
-        level={3}
-        className="mt-0 text-shipGray text-center sm:text-left"
-      >
-        Money
-      </Typography.Title>
+      <div className="flex items-baseline justify-between">
+        <Typography.Title
+          level={3}
+          className="mt-0 text-shipGray text-center sm:text-left"
+        >
+          Money
+        </Typography.Title>
+        <HelpTooltip
+          className="mr-2"
+          text="You can manage your coin totals by highlighting the current value and typing '+2' to add 2 of the coin-type to your total and hitting Enter. Coins are automatically organized on refresh (10 sp will become 1gp)."
+        />
+      </div>
       <Space
         direction="vertical"
         className="w-full items-center sm:items-start"
