@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useParams } from "react-router-dom";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
 export default function ExperiencePoints({
   character,
@@ -116,28 +117,34 @@ export default function ExperiencePoints({
   }, [character.xp]);
 
   return (
-    <Space.Compact>
-      <Input
-        value={inputValue}
-        onFocus={(event) => event.target.select()}
-        onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        onKeyPress={(event) => {
-          if (event.key === "Enter") {
-            handleInputBlur();
-          }
-        }}
-        suffix={character.level < 20 && `/ ${totalLevelRequirement} XP`}
-        disabled={!userIsOwner}
-        name="Experience Points"
+    <div>
+      <Space.Compact>
+        <Input
+          value={inputValue}
+          onFocus={(event) => event.target.select()}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              handleInputBlur();
+            }
+          }}
+          suffix={character.level < 20 && `/ ${totalLevelRequirement} XP`}
+          disabled={!userIsOwner}
+          name="Experience Points"
+        />
+        {character.level < 20 && (
+          <Button
+            disabled={character.xp < totalLevelRequirement}
+            type="primary"
+            onClick={showLevelUpModal}
+          >{`Level Up`}</Button>
+        )}
+      </Space.Compact>
+      <HelpTooltip
+        className="ml-4"
+        text="You can add to your XP total by highlighting the current value and typing '+250' to add 250 XP to your total and hitting Enter."
       />
-      {character.level < 20 && (
-        <Button
-          disabled={character.xp < totalLevelRequirement}
-          type="primary"
-          onClick={showLevelUpModal}
-        >{`Level Up`}</Button>
-      )}
-    </Space.Compact>
+    </div>
   );
 }

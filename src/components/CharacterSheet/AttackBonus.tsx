@@ -1,5 +1,6 @@
 import { Table, Typography } from "antd";
 import { AttackBonusProps } from "../types";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
 export default function AttackBonus({
   character,
@@ -31,9 +32,12 @@ export default function AttackBonus({
 
   return (
     <div>
-      <Typography.Title level={3} className="mt-0 !text-shipGray">
-        Attack Bonuses
-      </Typography.Title>
+      <div className="flex items-baseline justify-between">
+        <Typography.Title level={3} className="mt-0 text-shipGray">
+          Attack Bonuses
+        </Typography.Title>
+        <HelpTooltip text="Melee attacks use STR modifier + AB. Missile attacks use DEX modifier + AB." />
+      </div>
       <Table
         size="small"
         dataSource={dataSource}

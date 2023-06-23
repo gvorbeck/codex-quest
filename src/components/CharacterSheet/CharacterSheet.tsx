@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { CharacterData, CharacterSheetProps, EquipmentItem } from "../types";
-import BaseStats from "./BaseStats";
+import BaseStats from "../BaseStats/BaseStats";
 import {
   Breadcrumb,
   Button,
