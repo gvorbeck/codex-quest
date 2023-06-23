@@ -11,13 +11,19 @@ export default function WeightStats({
     +character.abilities.scores.strength,
     character.race
   );
+  const weight = character.equipment.reduce(
+    (accumulator, currentValue) =>
+      accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
+    0
+  );
+
   return (
     <div className="text-center">
       <Typography.Title level={3} className="mt-0 !text-shipGray">
         Weight
       </Typography.Title>
       <Typography.Text className="text-6xl font-bold !text-shipGray">
-        {character.weight.toFixed(0)}
+        {weight.toFixed(0)}
       </Typography.Text>
       <Divider />
       <Typography.Paragraph className="text-3xl font-bold !text-shipGray !mb-3">
@@ -28,9 +34,7 @@ export default function WeightStats({
         />
       </Typography.Paragraph>
       <Typography.Text>
-        {character.weight < capacity.light
-          ? "(Lightly Loaded)"
-          : "(Heavily Loaded)"}
+        {weight < capacity.light ? "(Lightly Loaded)" : "(Heavily Loaded)"}
       </Typography.Text>
     </div>
   );
