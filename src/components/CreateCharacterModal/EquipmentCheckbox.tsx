@@ -108,7 +108,7 @@ export default function EquipmentCheckbox({
         <Space direction="vertical">
           <Typography.Text strong>{item.name}</Typography.Text>
           <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
-          {item.weight && (
+          {item.weight !== undefined ?? (
             <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
           )}
           {item.damage && (

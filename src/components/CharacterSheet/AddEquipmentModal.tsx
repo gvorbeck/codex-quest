@@ -28,6 +28,7 @@ export default function AddEquipmentModal({
       try {
         await updateDoc(docRef, {
           equipment: character.equipment,
+          gold: character.gold,
         });
         setPrevValue(character.equipment);
       } catch (error) {
@@ -39,7 +40,7 @@ export default function AddEquipmentModal({
   useEffect(() => {
     updateEquipment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [character.equipment]);
+  }, [character.equipment, character.gold]);
 
   return (
     <Modal
