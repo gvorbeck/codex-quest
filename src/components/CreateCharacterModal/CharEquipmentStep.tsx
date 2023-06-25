@@ -75,10 +75,12 @@ export default function CharEquipmentStep({
   };
 
   const handleWeightChange = () => {
-    let newWeight = 0;
-    characterData.equipment.forEach(
-      (item) => item.weight && (newWeight += item.weight * item.amount)
-    );
+    const newWeight = characterData.equipment.reduce((totalWeight, item) => {
+      return item.weight
+        ? totalWeight + item.weight * item.amount
+        : totalWeight;
+    }, 0);
+
     setCharacterData({ ...characterData, weight: newWeight });
   };
 

@@ -40,7 +40,7 @@ export default function AddEquipmentModal({
   useEffect(() => {
     updateEquipment();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [character.equipment, character.gold]);
+  }, [character.equipment, character.gold, character.weight]);
 
   return (
     <Modal

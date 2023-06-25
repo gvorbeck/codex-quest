@@ -47,7 +47,11 @@ export default function EquipmentCheckbox({
     if (value !== null) {
       const prevAmount = item.amount;
       const delta = value - prevAmount; // calculate the change in amount
-      characterData.gold = characterData.gold - realCost * delta;
+      const newGoldAmount = characterData.gold - realCost * delta;
+      setCharacterData({
+        ...characterData,
+        gold: newGoldAmount,
+      });
       item.amount = value; // update the item amount
       handleWeightChange();
     }
