@@ -34,6 +34,7 @@ export default function EquipmentCheckbox({
         onChange={onAmountChange}
         disabled={!isChecked}
         className="ml-6"
+        value={item.amount}
       />
     </Space>
   );
