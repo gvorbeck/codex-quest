@@ -65,7 +65,8 @@ const itemIsDisabled = (
     if (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
-      item.category === "ammunition"
+      item.category === "ammunition" ||
+      item.category === "armor-and-shields"
     ) {
       if (
         item.name.toLowerCase().includes("warhammer") ||
@@ -73,7 +74,9 @@ const itemIsDisabled = (
         item.name.toLowerCase().includes("maul") ||
         item.name.toLowerCase().includes("quarterstaff") ||
         item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone")
+        item.name.toLowerCase().includes("stone") ||
+        item.name.toLowerCase().includes("leather armor") ||
+        item.name.toLowerCase().includes("no armor")
       ) {
         disabled = false;
       }
@@ -191,6 +194,11 @@ export default function EquipmentAccordion({
                             item={categoryItem}
                             onRadioCheck={onRadioCheck}
                             equipmentItemDescription={EquipmentItemDescription(
+                              categoryItem
+                            )}
+                            disabled={itemIsDisabled(
+                              playerClass,
+                              playerRace,
                               categoryItem
                             )}
                           />

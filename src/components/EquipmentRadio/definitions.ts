@@ -5,4 +5,5 @@ export interface EquipmentRadioProps {
   item: EquipmentItem;
   onRadioCheck: () => void;
   equipmentItemDescription: ReactElement;
+  disabled?: boolean;
 }

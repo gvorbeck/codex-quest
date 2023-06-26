@@ -8,8 +8,10 @@ export default function EquipmentStore({
 }: EquipmentStoreProps) {
   const inventoryChange = () => {
     console.log("inventoryChange");
-
+    // TODO
     // if some var like updateFirebase run some async firebase fn
+    // combo class split/run fn/add to set
+    // racial limitations
   };
 
   const onCheckboxCheck = (item?: EquipmentItem) => {

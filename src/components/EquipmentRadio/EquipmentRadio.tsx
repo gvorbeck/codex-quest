@@ -5,19 +5,10 @@ export default function EquipmentRadio({
   item,
   onRadioCheck,
   equipmentItemDescription,
+  disabled,
 }: EquipmentRadioProps) {
   return (
-    <Radio
-      value={item.name}
-      // disabled={
-      //   characterData.class === "Magic-User" ||
-      //   // If character is a Thief and category is Armor and is a metal armor
-      //   (characterData.class.includes("Thief") &&
-      //     item.name !== "No Armor" &&
-      //     item.name !== "Leather Armor") ||
-      //   disabled
-      // }
-    >
+    <Radio value={item.name} disabled={disabled}>
       {equipmentItemDescription}
     </Radio>
   );
