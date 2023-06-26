@@ -1,11 +1,12 @@
 import { Modal } from "antd";
 import { AddEquipmentModalProps } from "../types";
-import CharEquipmentStep from "../CreateCharacterModal/CharEquipmentStep";
+import CharEquipmentStep from "../EquipmentStore/EquipmentStore";
 import equipmentItems from "../../data/equipment-items.json";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import EquipmentStore from "../EquipmentStore/EquipmentStore";
 
 export default function AddEquipmentModal({
   character,
@@ -50,9 +51,13 @@ export default function AddEquipmentModal({
       footer={false}
       width={1000}
     >
-      <CharEquipmentStep
+      {/* <CharEquipmentStep
         characterData={character}
         equipmentItems={equipmentItems}
+        setCharacterData={setCharacter}
+      /> */}
+      <EquipmentStore
+        characterData={character}
         setCharacterData={setCharacter}
       />
     </Modal>
