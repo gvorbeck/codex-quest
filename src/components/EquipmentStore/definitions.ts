@@ -5,6 +5,7 @@ export type ClassName = "Cleric" | "Fighter" | "Thief" | "Magic-User";
 export interface EquipmentStoreProps {
   characterData: CharacterData;
   setCharacterData: (characterData: CharacterData) => void;
+  inBuilder?: boolean;
 }
 
 export interface EquipmentItem {

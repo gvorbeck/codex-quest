@@ -184,6 +184,7 @@ export default function CreateCharacterModal({
         <EquipmentStore
           characterData={characterData}
           setCharacterData={setCharacterData}
+          inBuilder
         />
       ),
     },
