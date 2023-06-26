@@ -188,40 +188,50 @@ export default function EquipmentAccordion({
                         (categoryItem) => categoryItem.category === category
                       )
                       .map((categoryItem) =>
-                        categoryItem.name.toLowerCase() !== "shield" ? (
-                          <EquipmentRadio
-                            key={categoryItem.name}
-                            item={categoryItem}
-                            onRadioCheck={onRadioCheck}
-                            equipmentItemDescription={EquipmentItemDescription(
-                              categoryItem
-                            )}
-                            disabled={itemIsDisabled(
+                        categoryItem.name.toLowerCase() !== "shield"
+                          ? !itemIsDisabled(
                               playerClass,
                               playerRace,
                               categoryItem
-                            )}
-                          />
-                        ) : (
-                          <EquipmentCheckbox
-                            key={categoryItem.name}
-                            item={categoryItem}
-                            disabled={itemIsDisabled(
+                            ) && (
+                              <EquipmentRadio
+                                key={categoryItem.name}
+                                item={categoryItem}
+                                onRadioCheck={onRadioCheck}
+                                equipmentItemDescription={EquipmentItemDescription(
+                                  categoryItem
+                                )}
+                                disabled={itemIsDisabled(
+                                  playerClass,
+                                  playerRace,
+                                  categoryItem
+                                )}
+                              />
+                            )
+                          : !itemIsDisabled(
                               playerClass,
                               playerRace,
                               categoryItem
-                            )}
-                            onCheckboxCheck={onCheckboxCheck}
-                            onAmountChange={onAmountChange}
-                            playerHasItem={playerEquipment.some(
-                              (invItem: EquipmentItem) =>
-                                invItem.name === categoryItem.name
-                            )}
-                            equipmentItemDescription={EquipmentItemDescription(
-                              categoryItem
-                            )}
-                          />
-                        )
+                            ) && (
+                              <EquipmentCheckbox
+                                key={categoryItem.name}
+                                item={categoryItem}
+                                disabled={itemIsDisabled(
+                                  playerClass,
+                                  playerRace,
+                                  categoryItem
+                                )}
+                                onCheckboxCheck={onCheckboxCheck}
+                                onAmountChange={onAmountChange}
+                                playerHasItem={playerEquipment.some(
+                                  (invItem: EquipmentItem) =>
+                                    invItem.name === categoryItem.name
+                                )}
+                                equipmentItemDescription={EquipmentItemDescription(
+                                  categoryItem
+                                )}
+                              />
+                            )
                       )}
                   </Space>
                 </Radio.Group>
