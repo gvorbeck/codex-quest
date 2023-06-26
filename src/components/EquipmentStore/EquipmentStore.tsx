@@ -8,6 +8,8 @@ export default function EquipmentStore({
 }: EquipmentStoreProps) {
   const inventoryChange = () => {
     console.log("inventoryChange");
+
+    // if some var like updateFirebase run some async firebase fn
   };
 
   const onCheckboxCheck = () => {
@@ -20,11 +22,17 @@ export default function EquipmentStore({
     inventoryChange();
   };
 
+  const onRadioCheck = () => {
+    console.log("onRadioCheck");
+    inventoryChange();
+  };
+
   return (
     <div>
       <EquipmentAccordion
         onAmountChange={onAmountChange}
         onCheckboxCheck={onCheckboxCheck}
+        onRadioCheck={onRadioCheck}
         playerClass={characterData.class as ClassName}
         playerEquipment={characterData.equipment}
         playerRace={characterData.race as RaceName}

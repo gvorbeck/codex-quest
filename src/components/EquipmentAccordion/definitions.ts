@@ -7,4 +7,5 @@ export interface EquipmentAccordionProps {
   playerRace: RaceName;
   onAmountChange: () => void;
   onCheckboxCheck: () => void;
+  onRadioCheck: () => void;
 }

@@ -1,10 +1,11 @@
-import { Collapse, Space } from "antd";
+import { Collapse, Radio, Space } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../formatters";
 import equipmentItems from "../../data/equipment-items.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../EquipmentStore/definitions";
 import { RaceName } from "../CharacterRace/definitions";
+import EquipmentRadio from "../EquipmentRadio/EquipmentRadio";
 
 const availableEquipmentCategories = (className: ClassName) => {
   switch (className) {
@@ -66,6 +67,14 @@ const itemIsDisabled = (
     }
   } else if (className === "Fighter") {
     disabled = false;
+  } else if (className === "Thief") {
+    if (item.category === "armor-and-shields") {
+      if (item.name.toLowerCase().includes("leather")) {
+        disabled = false;
+      }
+    } else {
+      disabled = false;
+    }
   }
   return disabled;
 };
@@ -73,6 +82,7 @@ const itemIsDisabled = (
 export default function EquipmentAccordion({
   onAmountChange,
   onCheckboxCheck,
+  onRadioCheck,
   playerClass,
   playerEquipment,
   playerRace,
@@ -87,6 +97,13 @@ export default function EquipmentAccordion({
         )
     )
   );
+
+  const playerArmorSelection = playerEquipment.filter(
+    (armorItem) =>
+      armorItem.category === "armor-and-shields" &&
+      armorItem.name.toLowerCase() !== "shield"
+  );
+  console.log(playerArmorSelection);
 
   return (
     <Collapse accordion className="bg-seaBuckthorn mt-4">
@@ -128,7 +145,46 @@ export default function EquipmentAccordion({
                     }
                   })
               ) : (
-                <div>radiogroup</div>
+                <Radio.Group
+                  value={
+                    playerArmorSelection.length > 0
+                      ? playerArmorSelection[0].name
+                      : null
+                  }
+                  onChange={() => console.log("flooboo")}
+                >
+                  <Space direction="vertical">
+                    {equipmentItems
+                      .filter(
+                        (categoryItem) => categoryItem.category === category
+                      )
+                      .map((categoryItem) =>
+                        categoryItem.name.toLowerCase() !== "shield" ? (
+                          <EquipmentRadio
+                            key={categoryItem.name}
+                            item={categoryItem}
+                            onRadioCheck={onRadioCheck}
+                          />
+                        ) : (
+                          <EquipmentCheckbox
+                            key={categoryItem.name}
+                            item={categoryItem}
+                            disabled={itemIsDisabled(
+                              playerClass,
+                              playerRace,
+                              categoryItem
+                            )}
+                            onCheckboxCheck={onCheckboxCheck}
+                            onAmountChange={onAmountChange}
+                            playerHasItem={playerEquipment.some(
+                              (invItem: EquipmentItem) =>
+                                invItem.name === categoryItem.name
+                            )}
+                          />
+                        )
+                      )}
+                  </Space>
+                </Radio.Group>
               )}
             </Space>
           </Collapse.Panel>
