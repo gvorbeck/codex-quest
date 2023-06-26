@@ -5,8 +5,8 @@ export interface EquipmentCheckboxProps {
   disabled?: boolean;
   item: EquipmentItem;
   className?: string;
-  onCheckboxCheck: () => void;
-  onAmountChange: () => void;
+  onCheckboxCheck: (item?: EquipmentItem) => void;
+  onAmountChange: (item?: EquipmentItem) => void;
   playerHasItem: boolean;
   equipmentItemDescription: ReactElement;
 }

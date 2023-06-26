@@ -1,4 +1,4 @@
-import { ClassName, EquipmentStoreProps } from "./definitions";
+import { ClassName, EquipmentItem, EquipmentStoreProps } from "./definitions";
 import EquipmentAccordion from "../EquipmentAccordion/EquipmentAccordion";
 import { RaceName } from "../CharacterRace/definitions";
 
@@ -12,18 +12,18 @@ export default function EquipmentStore({
     // if some var like updateFirebase run some async firebase fn
   };
 
-  const onCheckboxCheck = () => {
-    console.log("onCheckboxCheck");
+  const onCheckboxCheck = (item?: EquipmentItem) => {
+    console.log("onCheckboxCheck", item);
     inventoryChange();
   };
 
-  const onAmountChange = () => {
-    console.log("onAmountChange");
+  const onAmountChange = (item?: EquipmentItem) => {
+    console.log("onAmountChange", item);
     inventoryChange();
   };
 
-  const onRadioCheck = () => {
-    console.log("onRadioCheck");
+  const onRadioCheck = (item?: EquipmentItem) => {
+    console.log("onRadioCheck", item);
     inventoryChange();
   };
 

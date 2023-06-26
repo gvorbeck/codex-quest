@@ -47,7 +47,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "swords",
       ];
     case "Magic-User":
-      return ["daggers", "items", "other-weapons"];
+      return ["daggers", "items", "other-weapons", "beasts-of-burden"];
     default:
       console.error(`availableEquipmentCategories: no case for supplied class`);
       return ["items"];

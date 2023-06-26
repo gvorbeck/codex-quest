@@ -5,7 +5,7 @@ export interface EquipmentAccordionProps {
   playerClass: ClassName;
   playerEquipment: EquipmentItem[];
   playerRace: RaceName;
-  onAmountChange: () => void;
-  onCheckboxCheck: () => void;
-  onRadioCheck: () => void;
+  onAmountChange: (item?: EquipmentItem) => void;
+  onCheckboxCheck: (item?: EquipmentItem) => void;
+  onRadioCheck: (item?: EquipmentItem) => void;
 }

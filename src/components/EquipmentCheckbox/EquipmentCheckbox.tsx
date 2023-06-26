@@ -1,7 +1,8 @@
-import { Checkbox, InputNumber, Space, Typography } from "antd";
+import { Checkbox, InputNumber, Space } from "antd";
 import { EquipmentCheckboxProps } from "./definitions";
 import { useState } from "react";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { EquipmentItem } from "../EquipmentStore/definitions";
 
 export default function EquipmentCheckbox({
   disabled,
@@ -14,15 +15,22 @@ export default function EquipmentCheckbox({
 }: EquipmentCheckboxProps) {
   const [isChecked, setIsChecked] = useState(playerHasItem);
 
-  const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+  const handleCheckboxChange = (
+    e: CheckboxChangeEvent,
+    item: EquipmentItem
+  ) => {
     setIsChecked(e.target.checked);
-    onCheckboxCheck();
+    onCheckboxCheck(item);
+  };
+
+  const handleInputChange = (value: number | null, item: EquipmentItem) => {
+    onAmountChange({ ...item, amount: value || 0 });
   };
   return (
     <Space direction="vertical" className={className}>
       <Checkbox
         disabled={disabled}
-        onChange={handleCheckboxChange}
+        onChange={(e: CheckboxChangeEvent) => handleCheckboxChange(e, item)}
         checked={playerHasItem}
       >
         {equipmentItemDescription}
@@ -30,7 +38,7 @@ export default function EquipmentCheckbox({
       <InputNumber
         min={1}
         defaultValue={1}
-        onChange={onAmountChange}
+        onChange={(value: number | null) => handleInputChange(value, item)}
         disabled={!isChecked}
         className="ml-6"
         value={item.amount}
