@@ -90,6 +90,14 @@ const itemIsDisabled = (
     } else {
       disabled = false;
     }
+  } else if (className === "Magic-User") {
+    if (item.category === "other-weapons") {
+      if (item.name.toLowerCase().includes("cudgel")) {
+        disabled = false;
+      }
+    } else {
+      disabled = false;
+    }
   }
   return disabled;
 };
