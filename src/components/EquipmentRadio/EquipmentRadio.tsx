@@ -1,7 +1,11 @@
 import { Radio } from "antd";
 import { EquipmentRadioProps } from "./definitions";
 
-export default function EquipmentRadio({ item }: EquipmentRadioProps) {
+export default function EquipmentRadio({
+  item,
+  onRadioCheck,
+  equipmentItemDescription,
+}: EquipmentRadioProps) {
   return (
     <Radio
       value={item.name}
@@ -14,7 +18,7 @@ export default function EquipmentRadio({ item }: EquipmentRadioProps) {
       //   disabled
       // }
     >
-      {item.name}
+      {equipmentItemDescription}
     </Radio>
   );
 }

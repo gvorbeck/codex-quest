@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { EquipmentItem } from "../EquipmentStore/definitions";
 
 export interface EquipmentCheckboxProps {
@@ -7,4 +8,5 @@ export interface EquipmentCheckboxProps {
   onCheckboxCheck: () => void;
   onAmountChange: () => void;
   playerHasItem: boolean;
+  equipmentItemDescription: ReactElement;
 }

@@ -1,4 +1,4 @@
-import { Collapse, Radio, Space } from "antd";
+import { Collapse, Radio, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../formatters";
 import equipmentItems from "../../data/equipment-items.json";
@@ -6,6 +6,21 @@ import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../EquipmentStore/definitions";
 import { RaceName } from "../CharacterRace/definitions";
 import EquipmentRadio from "../EquipmentRadio/EquipmentRadio";
+
+const EquipmentItemDescription = (item: EquipmentItem) => (
+  <Space direction="vertical">
+    <Typography.Text strong>{item.name}</Typography.Text>
+    <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
+    {item.weight !== undefined ?? (
+      <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
+    )}
+    {item.damage && (
+      <Typography.Text>{`Damage: ${item.damage}`}</Typography.Text>
+    )}
+    {item.size && <Typography.Text>{`Size: ${item.size}`}</Typography.Text>}
+    {item.AC && <Typography.Text>{`AC: ${item.AC}`}</Typography.Text>}
+  </Space>
+);
 
 const availableEquipmentCategories = (className: ClassName) => {
   switch (className) {
@@ -138,6 +153,9 @@ export default function EquipmentAccordion({
                             (invItem: EquipmentItem) =>
                               invItem.name === categoryItem.name
                           )}
+                          equipmentItemDescription={EquipmentItemDescription(
+                            categoryItem
+                          )}
                         />
                       );
                     } else {
@@ -164,6 +182,9 @@ export default function EquipmentAccordion({
                             key={categoryItem.name}
                             item={categoryItem}
                             onRadioCheck={onRadioCheck}
+                            equipmentItemDescription={EquipmentItemDescription(
+                              categoryItem
+                            )}
                           />
                         ) : (
                           <EquipmentCheckbox
@@ -179,6 +200,9 @@ export default function EquipmentAccordion({
                             playerHasItem={playerEquipment.some(
                               (invItem: EquipmentItem) =>
                                 invItem.name === categoryItem.name
+                            )}
+                            equipmentItemDescription={EquipmentItemDescription(
+                              categoryItem
                             )}
                           />
                         )

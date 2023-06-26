@@ -10,6 +10,7 @@ export default function EquipmentCheckbox({
   onCheckboxCheck,
   onAmountChange,
   playerHasItem,
+  equipmentItemDescription,
 }: EquipmentCheckboxProps) {
   const [isChecked, setIsChecked] = useState(playerHasItem);
 
@@ -24,9 +25,7 @@ export default function EquipmentCheckbox({
         onChange={handleCheckboxChange}
         checked={playerHasItem}
       >
-        <Space direction="vertical">
-          <Typography.Paragraph>{item.name}</Typography.Paragraph>
-        </Space>
+        {equipmentItemDescription}
       </Checkbox>
       <InputNumber
         min={1}
