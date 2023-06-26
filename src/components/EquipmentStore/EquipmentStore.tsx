@@ -5,6 +5,7 @@ import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect } from "react";
 import equipmentItems from "../../data/equipment-items.json";
+import EquipmentInventory from "../EquipmentInventory/EquipmentInventory";
 
 const roller = new DiceRoller();
 
@@ -89,9 +90,9 @@ export default function EquipmentStore({
   }, [characterData]);
 
   return (
-    <div>
+    <div className="sm:grid grid-cols-2 gap-8">
       {inBuilder && (
-        <Space.Compact>
+        <Space.Compact className="col-span-2">
           <InputNumber
             min={30}
             max={180}
@@ -116,6 +117,7 @@ export default function EquipmentStore({
         playerEquipment={characterData.equipment}
         playerRace={characterData.race as RaceName}
       />
+      <EquipmentInventory characterData={characterData} />
     </div>
   );
 }

@@ -113,6 +113,7 @@ export default function EquipmentAccordion({
   playerClass,
   playerEquipment,
   playerRace,
+  className,
 }: EquipmentAccordionProps) {
   // Create a list of unique categories available for each class in the className, removing any duplicates
   const categories = Array.from(
@@ -133,7 +134,7 @@ export default function EquipmentAccordion({
   console.log(playerArmorSelection);
 
   return (
-    <Collapse accordion className="bg-seaBuckthorn mt-4">
+    <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
       {categories
         .sort((a, b) => a.localeCompare(b))
         .map((category: string) => (
