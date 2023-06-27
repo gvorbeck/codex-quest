@@ -42,7 +42,6 @@ export default function CharHitPointsStep({
         dice,
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClick = () => {

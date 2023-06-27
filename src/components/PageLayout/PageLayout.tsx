@@ -1,8 +1,8 @@
 import { Layout } from "antd";
-import FooterContent from "./FooterContent";
+import FooterContent from "./FooterContent/FooterContent";
 import { Outlet } from "react-router-dom";
-import HeaderContent from "./HeaderContent";
-import { PageLayoutProps } from "./types";
+import HeaderContent from "./HeaderContent/HeaderContent";
+import { PageLayoutProps } from "./definitions";
 
 export default function PageLayout({
   auth,

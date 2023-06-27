@@ -4,7 +4,7 @@ import CharAbilityScoreStep from "./CharAbilityScoreStep";
 import CharRaceStep from "./CharRaceStep";
 import CharClassStep from "./CharClassStep";
 import CharHitPointsStep from "./CharHitPointsStep";
-import CharEquipmentStep from "./CharEquipmentStep";
+import CharEquipmentStep from "../EquipmentStore/EquipmentStore";
 import {
   AbilityTypes,
   CharacterData,
@@ -16,6 +16,7 @@ import equipmentItems from "../../data/equipment-items.json";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { marked } from "marked";
+import EquipmentStore from "../EquipmentStore/EquipmentStore";
 
 marked.use({ mangle: false, headerIds: false });
 
@@ -174,11 +175,16 @@ export default function CreateCharacterModal({
       fullTitle: "Buy Equipment",
       description: equipmentDescription,
       content: (
-        <CharEquipmentStep
+        // <CharEquipmentStep
+        //   characterData={characterData}
+        //   setCharacterData={setCharacterData}
+        //   equipmentItems={equipmentItems}
+        //   rollGold
+        // />
+        <EquipmentStore
           characterData={characterData}
           setCharacterData={setCharacterData}
-          equipmentItems={equipmentItems}
-          rollGold
+          inBuilder
         />
       ),
     },

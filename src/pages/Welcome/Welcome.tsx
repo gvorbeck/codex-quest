@@ -1,7 +1,6 @@
 import { Image, Typography } from "antd";
-// import deadlyStrike from "../assets/images/deadly-strike.png";
 import { useOutletContext } from "react-router-dom";
-import IronhideSheet from "../assets/images/ironhide_sheet.png";
+import IronhideSheet from "../../assets/images/ironhide_sheet.png";
 
 export default function Welcome() {
   const outletContext = useOutletContext() as { className: string };

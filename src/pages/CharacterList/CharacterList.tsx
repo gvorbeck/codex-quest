@@ -1,5 +1,5 @@
 import { Avatar, Card, Col, Empty, Popconfirm, Row, Spin } from "antd";
-import { CharacterListProps } from "./types";
+import { CharacterListProps } from "../../components/types";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   UserOutlined,
@@ -7,7 +7,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 
 export default function CharacterList({
@@ -86,7 +86,7 @@ export default function CharacterList({
           ))}
         </Row>
       ) : (
-        <Empty />
+        <Empty description="Create your first character by clicking the button above." />
       )}
     </div>
   );

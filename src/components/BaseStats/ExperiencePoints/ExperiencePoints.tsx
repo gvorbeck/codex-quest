@@ -1,10 +1,10 @@
 import { Button, Input, Space } from "antd";
-import { CharacterDetails } from "../types";
+import { CharacterDetails } from "../../types";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 
 export default function ExperiencePoints({
   character,
@@ -113,7 +113,6 @@ export default function ExperiencePoints({
 
   useEffect(() => {
     updateXP();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character.xp]);
 
   return (

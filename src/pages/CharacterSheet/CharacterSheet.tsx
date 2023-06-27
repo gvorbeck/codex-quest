@@ -2,8 +2,12 @@ import { useParams, Link, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { CharacterData, CharacterSheetProps, EquipmentItem } from "../types";
-import BaseStats from "../BaseStats/BaseStats";
+import {
+  CharacterData,
+  CharacterSheetProps,
+  EquipmentItem,
+} from "../../components/types";
+import BaseStats from "../../components/BaseStats/BaseStats";
 import {
   Breadcrumb,
   Button,
@@ -14,27 +18,27 @@ import {
   Skeleton,
   Typography,
 } from "antd";
-import Description from "./Description";
-import Abilities from "./Abilities";
-import AttackBonus from "./AttackBonus";
-import HitPoints from "./HitPoints";
-import SpecialsRestrictions from "./SpecialsRestrictions";
-import SavingThrows from "./SavingThrows";
-import MoneyStats from "../MoneyStats/MoneyStats";
-import EquipmentList from "./EquipmentList";
-import Spells from "./Spells";
-import InitiativeRoller from "./InitiativeRoller";
-import calculateCarryingCapacity from "../calculateCarryingCapacity";
-import SimpleNumberStat from "./SimpleNumberStat";
+import Description from "../../components/CharacterSheet/Description";
+import Abilities from "../../components/CharacterSheet/Abilities";
+import AttackBonus from "../../components/CharacterSheet/AttackBonus";
+import HitPoints from "../../components/CharacterSheet/HitPoints";
+import SpecialsRestrictions from "../../components/CharacterSheet/SpecialsRestrictions";
+import SavingThrows from "../../components/CharacterSheet/SavingThrows";
+import MoneyStats from "../../components/MoneyStats/MoneyStats";
+import EquipmentList from "../../components/CharacterSheet/EquipmentList";
+import Spells from "../../components/CharacterSheet/Spells";
+import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
+import calculateCarryingCapacity from "../../components/calculateCarryingCapacity";
+import SimpleNumberStat from "../../components/CharacterSheet/SimpleNumberStat";
 import { User } from "firebase/auth";
-import AttackModal from "./AttackModal";
-import LevelUpModal from "./LevelUpModal";
-import AddEquipmentModal from "./AddEquipmentModal";
+import AttackModal from "../../components/CharacterSheet/AttackModal";
+import LevelUpModal from "../../components/CharacterSheet/LevelUpModal";
+import AddEquipmentModal from "../../components/CharacterSheet/AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
-import ThiefAbilities from "./ThiefAbilities";
-import WeightStats from "../WeightStats/WeightStats";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import ThiefAbilities from "../../components/CharacterSheet/ThiefAbilities";
+import WeightStats from "../../components/WeightStats/WeightStats";
+import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -329,6 +333,17 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"beasts-of-burden"}
+                  />
+                </Collapse.Panel>
+                {/* Ammunition */}
+                <Collapse.Panel
+                  header="Ammunition"
+                  key="6"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
+                  <EquipmentList
+                    character={character}
+                    categories={"ammunition"}
                   />
                 </Collapse.Panel>
               </Collapse>

@@ -1,9 +1,9 @@
 import React, { Suspense, useState } from "react";
 import { Button, Col, Row, Typography } from "antd";
-import { HeaderContentProps } from "./types";
+import { HeaderContentProps } from "./definitions";
 
 const CreateCharacterModal = React.lazy(
-  () => import("./CreateCharacterModal/CreateCharacterModal")
+  () => import("../../CreateCharacterModal/CreateCharacterModal")
 );
 
 export default function HeaderContent({

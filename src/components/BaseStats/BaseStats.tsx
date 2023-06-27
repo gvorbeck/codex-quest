@@ -1,7 +1,7 @@
 import { CharacterDetails } from "../types";
 import { Avatar, Divider, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import ExperiencePoints from "../ExperiencePoints/ExperiencePoints";
+import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 
 export default function BaseStats({
   character,
