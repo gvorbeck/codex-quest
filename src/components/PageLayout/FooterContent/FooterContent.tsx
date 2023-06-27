@@ -1,5 +1,5 @@
 import { Divider, Typography } from "antd";
-import { FooterContentProps } from "./types";
+import { FooterContentProps } from "./definitions";
 import { Link } from "react-router-dom";
 
 export default function FooterContent({ className }: FooterContentProps) {

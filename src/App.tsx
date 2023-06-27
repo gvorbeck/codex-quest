@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import PageLayout from "./components/PageLayout";
+import PageLayout from "./components/PageLayout/PageLayout";
 import CharacterList from "./pages/CharacterList/CharacterList";
 import {
   getAuth,
@@ -47,19 +47,16 @@ function App() {
     });
 
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetchCharacters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
     if (refreshCharacters) {
       fetchCharacters();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshCharacters]);
 
   const handleLogin = async () => {

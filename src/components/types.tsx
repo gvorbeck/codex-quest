@@ -1,6 +1,6 @@
 import { RadioChangeEvent, UploadFile } from "antd";
 import { UploadChangeParam } from "antd/es/upload";
-import { Auth, User } from "firebase/auth";
+import { User } from "firebase/auth";
 
 export interface AbilityTypes {
   strength: number | string;
@@ -149,19 +149,6 @@ export interface CreateCharacterModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   onCharacterAdded: () => void;
-}
-
-export interface PageLayoutProps {
-  user: User | null;
-  handleLogin: () => Promise<void>;
-  auth: Auth;
-  onCharacterAdded: () => void;
-}
-export interface HeaderContentProps extends PageLayoutProps {
-  className?: string;
-}
-export interface FooterContentProps {
-  className?: string;
 }
 
 export interface CharacterListProps {
