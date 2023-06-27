@@ -113,7 +113,6 @@ export default function ExperiencePoints({
 
   useEffect(() => {
     updateXP();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character.xp]);
 
   return (

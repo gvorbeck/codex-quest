@@ -51,7 +51,6 @@ export default function CharClassStep({
         },
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedClasses, comboClass]);
 
   const onCheckboxChange = (e: CheckboxChangeEvent) => {

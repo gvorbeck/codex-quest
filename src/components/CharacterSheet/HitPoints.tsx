@@ -130,7 +130,6 @@ export default function HitPoints({
 
   useEffect(() => {
     updateHP();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character.hp.points]);
 
   return (

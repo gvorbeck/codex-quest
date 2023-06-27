@@ -1,7 +1,5 @@
 import { Modal } from "antd";
 import { AddEquipmentModalProps } from "../types";
-import CharEquipmentStep from "../EquipmentStore/EquipmentStore";
-import equipmentItems from "../../data/equipment-items.json";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -40,7 +38,6 @@ export default function AddEquipmentModal({
 
   useEffect(() => {
     updateEquipment();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [character.equipment, character.gold, character.weight]);
 
   return (
@@ -51,11 +48,6 @@ export default function AddEquipmentModal({
       footer={false}
       width={1000}
     >
-      {/* <CharEquipmentStep
-        characterData={character}
-        equipmentItems={equipmentItems}
-        setCharacterData={setCharacter}
-      /> */}
       <EquipmentStore
         characterData={character}
         setCharacterData={setCharacter}
