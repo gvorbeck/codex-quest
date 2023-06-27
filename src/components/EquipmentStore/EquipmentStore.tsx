@@ -17,7 +17,6 @@ export default function EquipmentStore({
   setCharacterData,
   inBuilder,
 }: EquipmentStoreProps) {
-  const [equipmentValue, setEquipmentValue] = useState(0);
   const [prevValue, setPrevValue] = useState(characterData.equipment);
   const [goldInputValue, setGoldInputValue] = useState(characterData.gold);
 
@@ -45,18 +44,42 @@ export default function EquipmentStore({
   };
 
   const inventoryChange = () => {
-    // Calculate total cost of selected equipment
-    const totalEquipmentCost = characterData.equipment.reduce(
-      (total, equipmentItem) => {
-        let cost = equipmentItem.costValue;
-        if (equipmentItem.costCurrency === "sp") cost *= 0.1;
-        if (equipmentItem.costCurrency === "cp") cost *= 0.01;
-        return total + cost * equipmentItem.amount;
-      },
-      0
-    );
+    const newItems = characterData.equipment;
+    const oldItems = prevValue;
 
-    // Calculate total weight of selected equipment
+    let totalAddedCost = 0;
+    let totalRemovedCost = 0;
+
+    newItems.forEach((newItem) => {
+      const oldItem = oldItems.find((item) => item.name === newItem.name);
+
+      if (!oldItem) {
+        // The item is new, add its cost
+        totalAddedCost += calculateItemCost(newItem);
+      } else if (oldItem.amount !== newItem.amount) {
+        // The amount has changed, calculate the cost difference
+        const amountDifference = newItem.amount - oldItem.amount;
+        const costDifference =
+          amountDifference * calculateItemCost({ ...newItem, amount: 1 });
+
+        if (amountDifference > 0) {
+          // The amount has increased, add the cost difference
+          totalAddedCost += costDifference;
+        } else {
+          // The amount has decreased, subtract the cost difference
+          totalRemovedCost -= costDifference;
+        }
+      }
+    });
+
+    // Check for items that were removed entirely
+    oldItems.forEach((oldItem) => {
+      if (!newItems.find((item) => item.name === oldItem.name)) {
+        // The item was removed, subtract its cost
+        totalRemovedCost += calculateItemCost(oldItem);
+      }
+    });
+
     const totalEquipmentWeight = characterData.equipment.reduce(
       (total, equipmentItem) => {
         return total + (equipmentItem.weight || 0) * equipmentItem.amount;
@@ -65,12 +88,10 @@ export default function EquipmentStore({
     );
 
     let newGoldValue = characterData.gold;
-    // Determine if gold is deducted or added to the character's gold value
-    if (totalEquipmentCost < equipmentValue) {
-      newGoldValue = characterData.gold + (equipmentValue - totalEquipmentCost);
-    } else if (totalEquipmentCost > equipmentValue) {
-      newGoldValue = characterData.gold - (totalEquipmentCost - equipmentValue);
-    }
+
+    // Deduct the cost of added items and add the cost of removed items
+    newGoldValue -= totalAddedCost;
+    newGoldValue += totalRemovedCost;
 
     // Update characterData with new gold value
     if (newGoldValue !== characterData.gold) {
@@ -80,12 +101,20 @@ export default function EquipmentStore({
         weight: totalEquipmentWeight,
       });
     }
-    setEquipmentValue(totalEquipmentCost);
+
+    setPrevValue(newItems); // Update previous equipment state
 
     // If this is not inside the Character Builder, update the character's equipment
     if (!inBuilder) {
       updateEquipment();
     }
+  };
+
+  const calculateItemCost = (item: EquipmentItem) => {
+    let cost = item.costValue;
+    if (item.costCurrency === "sp") cost *= 0.1;
+    if (item.costCurrency === "cp") cost *= 0.01;
+    return cost * item.amount;
   };
 
   const onCheckboxCheck = (item?: EquipmentItem, checked?: boolean) => {
