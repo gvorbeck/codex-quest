@@ -181,6 +181,7 @@ export default function EquipmentAccordion({
                           equipmentItemDescription={EquipmentItemDescription(
                             categoryItem
                           )}
+                          inputDisabled={categoryItem.costValue > playerGold}
                         />
                       );
                     } else {
@@ -239,6 +240,9 @@ export default function EquipmentAccordion({
                                 equipmentItemDescription={EquipmentItemDescription(
                                   categoryItem
                                 )}
+                                inputDisabled={
+                                  categoryItem.costValue > playerGold
+                                }
                               />
                             )
                       )}

@@ -9,4 +9,5 @@ export interface EquipmentCheckboxProps {
   onAmountChange: (item?: EquipmentItem) => void;
   playerHasItem: boolean;
   equipmentItemDescription: ReactElement;
+  inputDisabled: boolean;
 }

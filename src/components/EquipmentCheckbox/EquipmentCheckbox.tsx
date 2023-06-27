@@ -12,6 +12,7 @@ export default function EquipmentCheckbox({
   onAmountChange,
   playerHasItem,
   equipmentItemDescription,
+  inputDisabled,
 }: EquipmentCheckboxProps) {
   const [isChecked, setIsChecked] = useState(playerHasItem);
   const [amount, setAmount] = useState(item.amount || 1);
@@ -38,7 +39,7 @@ export default function EquipmentCheckbox({
   return (
     <Space direction="vertical" className={className}>
       <Checkbox
-        disabled={disabled}
+        disabled={(disabled || inputDisabled) && !isChecked}
         onChange={(e: CheckboxChangeEvent) => handleCheckboxChange(e, item)}
         checked={playerHasItem}
       >
@@ -48,7 +49,7 @@ export default function EquipmentCheckbox({
         min={1}
         defaultValue={1}
         onChange={(value: number | null) => handleInputChange(value, item)}
-        disabled={!isChecked}
+        disabled={inputDisabled}
         className={`${!playerHasItem && "hidden"} ml-6`}
         value={amount}
       />
