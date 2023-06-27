@@ -11,15 +11,34 @@ import { useState } from "react";
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <Space direction="vertical">
     <Typography.Text strong>{item.name}</Typography.Text>
-    <Typography.Text>{`Cost: ${item.costValue}${item.costCurrency}`}</Typography.Text>
-    {item.weight !== undefined ?? (
-      <Typography.Text>{`Weight: ${item.weight}`}</Typography.Text>
+    <div>
+      <Typography.Text italic>{`Cost: `}</Typography.Text>
+      <Typography.Text>{`${item.costValue}${item.costCurrency}`}</Typography.Text>
+    </div>
+    {item.weight !== undefined && (
+      <div>
+        <Typography.Text italic>{`Weight: `}</Typography.Text>
+        <Typography.Text>{item.weight}</Typography.Text>
+      </div>
     )}
     {item.damage && (
-      <Typography.Text>{`Damage: ${item.damage}`}</Typography.Text>
+      <div>
+        <Typography.Text italic>{`Damage: `}</Typography.Text>
+        <Typography.Text>{item.damage}</Typography.Text>
+      </div>
     )}
-    {item.size && <Typography.Text>{`Size: ${item.size}`}</Typography.Text>}
-    {item.AC && <Typography.Text>{`AC: ${item.AC}`}</Typography.Text>}
+    {item.size && (
+      <div>
+        <Typography.Text italic>{`Size: `}</Typography.Text>
+        <Typography.Text>{item.size}</Typography.Text>
+      </div>
+    )}
+    {item.AC && (
+      <div>
+        <Typography.Text italic>{`AC: `}</Typography.Text>
+        <Typography.Text>{item.AC}</Typography.Text>
+      </div>
+    )}
   </Space>
 );
 
