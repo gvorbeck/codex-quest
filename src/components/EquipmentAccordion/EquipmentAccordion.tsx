@@ -58,7 +58,7 @@ const availableEquipmentCategories = (className: ClassName) => {
 
 const itemIsDisabled = (
   className: ClassName,
-  race: RaceName,
+  raceName: RaceName,
   item: EquipmentItem
 ) => {
   let disabled = true;
@@ -106,6 +106,14 @@ const itemIsDisabled = (
       disabled = false;
     }
   }
+
+  if (
+    raceName.toLowerCase() === "dwarf" ||
+    raceName.toLowerCase() === "halfling"
+  ) {
+    if (item.size === "L") disabled = true;
+  }
+
   return disabled;
 };
 
@@ -116,6 +124,7 @@ export default function EquipmentAccordion({
   playerClass,
   playerEquipment,
   playerRace,
+  playerGold,
   className,
 }: EquipmentAccordionProps) {
   const [armorValue, setArmorValue] = useState(null);
@@ -214,11 +223,13 @@ export default function EquipmentAccordion({
                               <EquipmentCheckbox
                                 key={categoryItem.name}
                                 item={categoryItem}
-                                disabled={itemIsDisabled(
-                                  playerClass,
-                                  playerRace,
-                                  categoryItem
-                                )}
+                                disabled={
+                                  itemIsDisabled(
+                                    playerClass,
+                                    playerRace,
+                                    categoryItem
+                                  ) || categoryItem.costValue > playerGold
+                                }
                                 onCheckboxCheck={onCheckboxCheck}
                                 onAmountChange={onAmountChange}
                                 playerHasItem={playerEquipment.some(

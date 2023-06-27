@@ -6,6 +6,9 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import equipmentItems from "../../data/equipment-items.json";
 import EquipmentInventory from "../EquipmentInventory/EquipmentInventory";
+import { useParams } from "react-router-dom";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const roller = new DiceRoller();
 
@@ -15,6 +18,31 @@ export default function EquipmentStore({
   inBuilder,
 }: EquipmentStoreProps) {
   const [equipmentValue, setEquipmentValue] = useState(0);
+  const [prevValue, setPrevValue] = useState(characterData.equipment);
+  const [goldInputValue, setGoldInputValue] = useState(characterData.gold);
+
+  const { uid, id } = useParams();
+
+  const updateEquipment = async () => {
+    if (!uid || !id) {
+      console.error("User ID or Character ID is undefined");
+      return;
+    }
+
+    if (characterData.equipment !== prevValue) {
+      const docRef = doc(db, "users", uid, "characters", id);
+
+      try {
+        await updateDoc(docRef, {
+          equipment: characterData.equipment,
+          gold: characterData.gold,
+        });
+        setPrevValue(characterData.equipment);
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
+  };
 
   const inventoryChange = () => {
     // Calculate total cost of selected equipment
@@ -37,14 +65,14 @@ export default function EquipmentStore({
     );
 
     let newGoldValue = characterData.gold;
+    // Determine if gold is deducted or added to the character's gold value
     if (totalEquipmentCost < equipmentValue) {
-      console.log("totalEquipmentCost < equipmentValue");
       newGoldValue = characterData.gold + (equipmentValue - totalEquipmentCost);
     } else if (totalEquipmentCost > equipmentValue) {
-      console.log("totalEquipmentCost > equipmentValue");
       newGoldValue = characterData.gold - (totalEquipmentCost - equipmentValue);
     }
 
+    // Update characterData with new gold value
     if (newGoldValue !== characterData.gold) {
       setCharacterData({
         ...characterData,
@@ -54,10 +82,10 @@ export default function EquipmentStore({
     }
     setEquipmentValue(totalEquipmentCost);
 
-    // TODO
-    // if some var like updateFirebase run some async firebase fn
-    // combo class split/run fn/add to set
-    // racial limitations
+    // If this is not inside the Character Builder, update the character's equipment
+    if (!inBuilder) {
+      updateEquipment();
+    }
   };
 
   const onCheckboxCheck = (item?: EquipmentItem, checked?: boolean) => {
@@ -91,8 +119,10 @@ export default function EquipmentStore({
     setCharacterData({ ...characterData, equipment: updatedItems });
   };
 
-  const handleRollStartingGoldClick = () => {
-    setCharacterData({ ...characterData, gold: roller.roll("3d6*10").total });
+  // Update inputValue when typing in the InputNumber field
+  const handleGoldInputChange = (value: number | null) => {
+    setGoldInputValue(value || 0);
+    setCharacterData({ ...characterData, gold: value || 0 });
   };
 
   // On page load, add "No Armor"
@@ -118,10 +148,15 @@ export default function EquipmentStore({
     }
   }, []);
 
+  // On Equipment change, update gold and weight
   useEffect(() => {
-    console.log(characterData);
     inventoryChange();
   }, [characterData.equipment]);
+
+  // Update inputValue when characterData.gold changes
+  useEffect(() => {
+    setGoldInputValue(characterData.gold);
+  }, [characterData.gold]);
 
   return (
     <div className="sm:grid grid-cols-2 gap-8">
@@ -131,13 +166,14 @@ export default function EquipmentStore({
             min={30}
             max={180}
             defaultValue={0}
-            value={Number(characterData.gold.toFixed(2))}
+            value={Number(goldInputValue.toFixed(2))}
             onFocus={(event) => event.target.select()}
+            onChange={handleGoldInputChange}
           />
           <Button
             aria-label="Roll for starting gold"
             type="primary"
-            onClick={handleRollStartingGoldClick}
+            onClick={() => handleGoldInputChange(roller.roll("3d6*10").total)}
           >
             Roll 3d6x10
           </Button>
@@ -150,6 +186,7 @@ export default function EquipmentStore({
         playerClass={characterData.class as ClassName}
         playerEquipment={characterData.equipment}
         playerRace={characterData.race as RaceName}
+        playerGold={characterData.gold}
       />
       <EquipmentInventory characterData={characterData} />
     </div>
