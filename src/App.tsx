@@ -76,7 +76,7 @@ function App() {
       // Create a document for the user in the 'users' collection
       const userDocRef = doc(db, "users", user.uid);
 
-      setDoc(
+      await setDoc(
         userDocRef,
         {
           name: user.displayName,
@@ -86,7 +86,7 @@ function App() {
         { merge: true }
       ); // Merge the data if document already exists
     } catch (error) {
-      console.error(error);
+      console.error("Failed to login and set user doc:", error);
     }
   };
 
