@@ -331,6 +331,17 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     categories={"beasts-of-burden"}
                   />
                 </Collapse.Panel>
+                {/* Ammunition */}
+                <Collapse.Panel
+                  header="Ammunition"
+                  key="6"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
+                  <EquipmentList
+                    character={character}
+                    categories={"ammunition"}
+                  />
+                </Collapse.Panel>
               </Collapse>
             </Col>
           </Row>
