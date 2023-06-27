@@ -49,7 +49,7 @@ export default function EquipmentCheckbox({
         defaultValue={1}
         onChange={(value: number | null) => handleInputChange(value, item)}
         disabled={!isChecked}
-        className="ml-6"
+        className={`${!playerHasItem && "hidden"} ml-6`}
         value={amount}
       />
     </Space>

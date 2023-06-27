@@ -58,7 +58,7 @@ export default function EquipmentStore({
 
   const handleRollStartingGoldClick = () => {
     console.log("handleRollStartingGoldClick");
-    // roller.roll("3d6*10").total;
+    setCharacterData({ ...characterData, gold: roller.roll("3d6*10").total });
     inventoryChange();
   };
 

@@ -84,17 +84,20 @@ const itemIsDisabled = (
     } else {
       disabled = false;
     }
-  } else if (className === "Fighter") {
+  } else if (className.toLowerCase().includes("fighter")) {
     disabled = false;
-  } else if (className === "Thief") {
+  } else if (className.toLowerCase().includes("thief")) {
     if (item.category === "armor-and-shields") {
-      if (item.name.toLowerCase().includes("leather")) {
+      if (
+        item.name.toLowerCase().includes("leather") ||
+        item.name.toLowerCase().includes("no armor")
+      ) {
         disabled = false;
       }
     } else {
       disabled = false;
     }
-  } else if (className === "Magic-User") {
+  } else if (className.toLowerCase().includes("magic-user")) {
     if (item.category === "other-weapons") {
       if (item.name.toLowerCase().includes("cudgel")) {
         disabled = false;
