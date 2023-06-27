@@ -73,6 +73,12 @@ function App() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
+      // Add this check for user being null
+      if (!user) {
+        console.error("User object is null after sign-in");
+        return;
+      }
+
       // Create a document for the user in the 'users' collection
       const userDocRef = doc(db, "users", user.uid);
 
