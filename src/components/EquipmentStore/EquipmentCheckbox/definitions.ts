@@ -10,4 +10,5 @@ export interface EquipmentCheckboxProps {
   playerHasItem: boolean;
   equipmentItemDescription: ReactElement;
   inputDisabled: boolean;
+  itemAmount: number;
 }

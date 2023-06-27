@@ -13,9 +13,10 @@ export default function EquipmentCheckbox({
   playerHasItem,
   equipmentItemDescription,
   inputDisabled,
+  itemAmount,
 }: EquipmentCheckboxProps) {
   const [isChecked, setIsChecked] = useState(playerHasItem);
-  const [amount, setAmount] = useState(item.amount || 1);
+  const [amount, setAmount] = useState(itemAmount);
 
   const handleCheckboxChange = (
     e: CheckboxChangeEvent,
@@ -33,7 +34,7 @@ export default function EquipmentCheckbox({
   };
 
   useEffect(() => {
-    setAmount(item.amount || 1);
+    setAmount(itemAmount || 1);
   }, [item.amount]);
 
   return (

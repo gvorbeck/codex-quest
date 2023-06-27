@@ -86,7 +86,7 @@ export default function CharacterList({
           ))}
         </Row>
       ) : (
-        <Empty />
+        <Empty description="Create your first character by clicking the button above." />
       )}
     </div>
   );
