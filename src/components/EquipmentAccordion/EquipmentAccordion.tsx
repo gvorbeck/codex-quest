@@ -6,6 +6,7 @@ import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../EquipmentStore/definitions";
 import { RaceName } from "../CharacterRace/definitions";
 import EquipmentRadio from "../EquipmentRadio/EquipmentRadio";
+import { useState } from "react";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <Space direction="vertical">
@@ -54,7 +55,6 @@ const availableEquipmentCategories = (className: ClassName) => {
       return ["items"];
   }
 };
-// For combo class, split the class string by " " and then run this function for each. Then add the results of each into a Set that so there's no repeats.
 
 const itemIsDisabled = (
   className: ClassName,
@@ -118,6 +118,8 @@ export default function EquipmentAccordion({
   playerRace,
   className,
 }: EquipmentAccordionProps) {
+  const [armorValue, setArmorValue] = useState(null);
+
   // Create a list of unique categories available for each class in the className, removing any duplicates
   const categories = Array.from(
     new Set(
@@ -129,12 +131,10 @@ export default function EquipmentAccordion({
     )
   );
 
-  const playerArmorSelection = playerEquipment.filter(
-    (armorItem) =>
-      armorItem.category === "armor-and-shields" &&
-      armorItem.name.toLowerCase() !== "shield"
-  );
-  console.log(playerArmorSelection);
+  const handleRadioChange = (e: any) => {
+    setArmorValue(e.target.value);
+    onRadioCheck(equipmentItems.find((item) => item.name === e.target.value));
+  };
 
   return (
     <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
@@ -179,14 +179,7 @@ export default function EquipmentAccordion({
                     }
                   })
               ) : (
-                <Radio.Group
-                  value={
-                    playerArmorSelection.length > 0
-                      ? playerArmorSelection[0].name
-                      : null
-                  }
-                  onChange={() => console.log("flooboo")}
-                >
+                <Radio.Group value={armorValue} onChange={handleRadioChange}>
                   <Space direction="vertical">
                     {equipmentItems
                       .filter(

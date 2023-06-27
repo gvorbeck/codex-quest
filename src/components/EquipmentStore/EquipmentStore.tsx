@@ -3,7 +3,7 @@ import EquipmentAccordion from "../EquipmentAccordion/EquipmentAccordion";
 import { RaceName } from "../CharacterRace/definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import equipmentItems from "../../data/equipment-items.json";
 import EquipmentInventory from "../EquipmentInventory/EquipmentInventory";
 
@@ -14,8 +14,46 @@ export default function EquipmentStore({
   setCharacterData,
   inBuilder,
 }: EquipmentStoreProps) {
+  const [equipmentValue, setEquipmentValue] = useState(0);
+
   const inventoryChange = () => {
-    console.log("inventoryChange");
+    // Calculate total cost of selected equipment
+    const totalEquipmentCost = characterData.equipment.reduce(
+      (total, equipmentItem) => {
+        let cost = equipmentItem.costValue;
+        if (equipmentItem.costCurrency === "sp") cost *= 0.1;
+        if (equipmentItem.costCurrency === "cp") cost *= 0.01;
+        return total + cost * equipmentItem.amount;
+      },
+      0
+    );
+
+    // Calculate total weight of selected equipment
+    const totalEquipmentWeight = characterData.equipment.reduce(
+      (total, equipmentItem) => {
+        return total + (equipmentItem.weight || 0) * equipmentItem.amount;
+      },
+      0
+    );
+
+    let newGoldValue = characterData.gold;
+    if (totalEquipmentCost < equipmentValue) {
+      console.log("totalEquipmentCost < equipmentValue");
+      newGoldValue = characterData.gold + (equipmentValue - totalEquipmentCost);
+    } else if (totalEquipmentCost > equipmentValue) {
+      console.log("totalEquipmentCost > equipmentValue");
+      newGoldValue = characterData.gold - (totalEquipmentCost - equipmentValue);
+    }
+
+    if (newGoldValue !== characterData.gold) {
+      setCharacterData({
+        ...characterData,
+        gold: newGoldValue,
+        weight: totalEquipmentWeight,
+      });
+    }
+    setEquipmentValue(totalEquipmentCost);
+
     // TODO
     // if some var like updateFirebase run some async firebase fn
     // combo class split/run fn/add to set
@@ -23,7 +61,6 @@ export default function EquipmentStore({
   };
 
   const onCheckboxCheck = (item?: EquipmentItem, checked?: boolean) => {
-    console.log("onCheckboxCheck", item, checked);
     if (checked) {
       const updatedItems = characterData.equipment.concat(item || []);
       setCharacterData({ ...characterData, equipment: updatedItems });
@@ -33,39 +70,35 @@ export default function EquipmentStore({
       );
       setCharacterData({ ...characterData, equipment: filteredItems });
     }
-    inventoryChange();
   };
 
   const onAmountChange = (item?: EquipmentItem) => {
-    console.log("onAmountChange", item);
     const filteredItems = characterData.equipment.filter(
       (equipmentItem) => equipmentItem.name !== item?.name
     );
     const updatedItems = filteredItems.concat(item || []);
     setCharacterData({ ...characterData, equipment: updatedItems });
-    inventoryChange();
   };
 
   const onRadioCheck = (item?: EquipmentItem) => {
-    console.log("onRadioCheck", item);
     const filteredItems = characterData.equipment.filter(
-      (equipmentItem) => equipmentItem.name !== item?.name
+      (equipmentItem) =>
+        equipmentItem.name !== item?.name &&
+        !equipmentItem.name.toLowerCase().includes("armor") &&
+        !equipmentItem.name.toLowerCase().includes("mail")
     );
     const updatedItems = filteredItems.concat(item || []);
     setCharacterData({ ...characterData, equipment: updatedItems });
-    inventoryChange();
   };
 
   const handleRollStartingGoldClick = () => {
-    console.log("handleRollStartingGoldClick");
     setCharacterData({ ...characterData, gold: roller.roll("3d6*10").total });
-    inventoryChange();
   };
 
-  // On page load, add no armor
+  // On page load, add "No Armor"
   useEffect(() => {
     if (inBuilder) {
-      // If this is inside the Character Builder, remove all armors and add 'No Armor'
+      // If this is inside the Character Builder, remove all armors and add "No Armor"
       const filteredItems = characterData.equipment.filter(
         (equipmentItem) =>
           !equipmentItem.name.toLowerCase().includes("armor") &&
@@ -87,7 +120,8 @@ export default function EquipmentStore({
 
   useEffect(() => {
     console.log(characterData);
-  }, [characterData]);
+    inventoryChange();
+  }, [characterData.equipment]);
 
   return (
     <div className="sm:grid grid-cols-2 gap-8">
