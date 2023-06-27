@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import PageLayout from "./components/PageLayout";
-import CharacterList from "./components/CharacterList";
+import CharacterList from "./pages/CharacterList/CharacterList";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -13,9 +13,9 @@ import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { CharacterData } from "./components/types";
 import { ConfigProvider, Spin } from "antd";
-import Welcome from "./components/Welcome";
+import Welcome from "./pages/Welcome/Welcome";
 const CharacterSheet = lazy(
-  () => import("./components/CharacterSheet/CharacterSheet")
+  () => import("./pages/CharacterSheet/CharacterSheet")
 );
 
 function App() {

@@ -1,11 +1,11 @@
 import { ClassName, EquipmentItem, EquipmentStoreProps } from "./definitions";
-import EquipmentAccordion from "../EquipmentAccordion/EquipmentAccordion";
+import EquipmentAccordion from "./EquipmentAccordion/EquipmentAccordion";
 import { RaceName } from "../CharacterRace/definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import equipmentItems from "../../data/equipment-items.json";
-import EquipmentInventory from "../EquipmentInventory/EquipmentInventory";
+import EquipmentInventory from "./EquipmentInventory/EquipmentInventory";
 import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";

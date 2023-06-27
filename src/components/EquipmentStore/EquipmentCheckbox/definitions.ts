@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { EquipmentItem } from "../EquipmentStore/definitions";
+import { EquipmentItem } from "../definitions";
 
 export interface EquipmentCheckboxProps {
   disabled?: boolean;

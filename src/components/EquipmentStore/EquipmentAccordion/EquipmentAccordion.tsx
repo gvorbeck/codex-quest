@@ -1,10 +1,10 @@
 import { Collapse, Radio, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
-import { toTitleCase } from "../formatters";
-import equipmentItems from "../../data/equipment-items.json";
+import { toTitleCase } from "../../formatters";
+import equipmentItems from "../../../data/equipment-items.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
-import { ClassName, EquipmentItem } from "../EquipmentStore/definitions";
-import { RaceName } from "../CharacterRace/definitions";
+import { ClassName, EquipmentItem } from "../definitions";
+import { RaceName } from "../../CharacterRace/definitions";
 import EquipmentRadio from "../EquipmentRadio/EquipmentRadio";
 import { useState } from "react";
 

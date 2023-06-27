@@ -1,8 +1,8 @@
 import { Divider, List, Typography } from "antd";
 import { EquipmentInventoryProps } from "./definitions";
 import { useMemo } from "react";
-import { EquipmentItem } from "../EquipmentStore/definitions";
-import { toTitleCase } from "../formatters";
+import { EquipmentItem } from "../definitions";
+import { toTitleCase } from "../../formatters";
 
 export default function EquipmentInventory({
   className,
