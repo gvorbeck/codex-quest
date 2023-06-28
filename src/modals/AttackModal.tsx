@@ -10,9 +10,10 @@ import {
   AttackButtonsProps,
   AttackModalProps,
   RangeRadioButtons,
-} from "../types";
+} from "../components/types";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 
 const roller = new DiceRoller();
 
@@ -152,6 +153,7 @@ export default function AttackModal({
         open={isAttackModalOpen}
         onCancel={handleCancel}
         footer={false}
+        closeIcon={<ModalCloseIcon />}
       >
         {weapon ? (
           <div>

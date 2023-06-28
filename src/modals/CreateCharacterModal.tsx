@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
-import CharAbilityScoreStep from "./CharAbilityScoreStep";
-import CharRaceStep from "./CharRaceStep";
-import CharClassStep from "./CharClassStep";
-import CharHitPointsStep from "./CharHitPointsStep";
+import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
+import CharRaceStep from "../components/CreateCharacterModal/CharRaceStep";
+import CharClassStep from "../components/CreateCharacterModal/CharClassStep";
+import CharHitPointsStep from "../components/CreateCharacterModal/CharHitPointsStep";
 import {
   AbilityTypes,
   CharacterData,
   CreateCharacterModalProps,
   SpellType,
-} from "../types";
-import CharNameStep from "./CharNameStep";
+} from "../components/types";
+import CharNameStep from "../components/CreateCharacterModal/CharNameStep";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../firebase";
 import { marked } from "marked";
-import EquipmentStore from "../EquipmentStore/EquipmentStore";
+import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
+import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 
 marked.use({ mangle: false, headerIds: false });
 
@@ -300,6 +301,7 @@ export default function CreateCharacterModal({
         width={1200}
         footer={null}
         className="max-w-full top-0 m-auto text-shipGray"
+        closeIcon={<ModalCloseIcon />}
       >
         <Row gutter={16}>
           <Col span={5} className="hidden md:block">

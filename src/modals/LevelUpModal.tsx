@@ -1,16 +1,14 @@
 import { Button, Checkbox, Modal, Typography } from "antd";
-import { LevelUpModalProps, SpellItem, Spell } from "../types";
+import { LevelUpModalProps, SpellItem, Spell } from "../components/types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import { db } from "../../firebase";
-import SpellData from "../../data/spells.json";
-import {
-  clericSpellBudget,
-  magicUserSpellBudget,
-} from "../../data/spellBudgets";
-import { hitDiceModifiers } from "../../data/hitDiceModifiers";
+import { db } from "../firebase";
+import SpellData from "../data/spells.json";
+import { clericSpellBudget, magicUserSpellBudget } from "../data/spellBudgets";
+import { hitDiceModifiers } from "../data/hitDiceModifiers";
+import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 
 const roller = new DiceRoller();
 
@@ -202,6 +200,7 @@ export default function LevelUpModal({
       open={isLevelUpModalOpen}
       onCancel={handleCancel}
       footer={false}
+      closeIcon={<ModalCloseIcon />}
     >
       {["Magic-User", "Cleric"].map((characterClass) => {
         if (character.class.includes(characterClass)) {

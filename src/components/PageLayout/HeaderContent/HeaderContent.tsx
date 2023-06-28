@@ -3,7 +3,7 @@ import { Button, Col, Row, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
 
 const CreateCharacterModal = React.lazy(
-  () => import("../../CreateCharacterModal/CreateCharacterModal")
+  () => import("../../../modals/CreateCharacterModal")
 );
 
 export default function HeaderContent({
