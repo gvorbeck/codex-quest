@@ -55,6 +55,12 @@ export default function FooterContent({ className }: FooterContentProps) {
             Donate
           </Link>
         </Typography.Paragraph>
+        <Divider type="vertical" />
+        <Typography.Paragraph>
+          <Link to="https://basicfantasy.org/forums/viewtopic.php?t=4840">
+            Forum
+          </Link>
+        </Typography.Paragraph>
       </div>
     </div>
   );
