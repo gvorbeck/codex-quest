@@ -21,7 +21,7 @@ export default function PageLayout({
           className="max-w-[1200px] m-auto"
         />
       </Layout.Header>
-      <Layout.Content className="bg-springWood p-8 flex-[1_1_auto]">
+      <Layout.Content className="bg-springWood p-8 flex-[1_1_auto] inline-table">
         <Outlet context={{ user, className: "max-w-[1200px] m-auto" }} />
       </Layout.Content>
       <Layout.Footer className="bg-shipGray p-8 flex-[0_1_auto]">
