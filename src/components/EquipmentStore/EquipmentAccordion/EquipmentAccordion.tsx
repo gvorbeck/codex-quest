@@ -232,7 +232,6 @@ export default function EquipmentAccordion({
                               <EquipmentRadio
                                 key={categoryItem.name}
                                 item={categoryItem}
-                                onRadioCheck={onRadioCheck}
                                 equipmentItemDescription={EquipmentItemDescription(
                                   categoryItem
                                 )}
@@ -241,6 +240,9 @@ export default function EquipmentAccordion({
                                   playerRace,
                                   categoryItem
                                 )}
+                                inputDisabled={
+                                  categoryItem.costValue > playerGold
+                                }
                               />
                             )
                           : !itemIsDisabled(
