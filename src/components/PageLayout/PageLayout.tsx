@@ -12,7 +12,7 @@ export default function PageLayout({
 }: PageLayoutProps) {
   return (
     <Layout>
-      <Layout.Header className="bg-shipGray px-8 py-4 h-auto">
+      <Layout.Header className="bg-shipGray px-8 py-4 h-auto flex-[0_1_auto]">
         <HeaderContent
           user={user}
           handleLogin={handleLogin}
@@ -21,10 +21,10 @@ export default function PageLayout({
           className="max-w-[1200px] m-auto"
         />
       </Layout.Header>
-      <Layout.Content className="bg-springWood p-8">
+      <Layout.Content className="bg-springWood p-8 flex-[1_1_auto]">
         <Outlet context={{ user, className: "max-w-[1200px] m-auto" }} />
       </Layout.Content>
-      <Layout.Footer className="bg-shipGray p-8">
+      <Layout.Footer className="bg-shipGray p-8 flex-[0_1_auto]">
         <FooterContent className="max-w-[1200px] m-auto" />
       </Layout.Footer>
     </Layout>
