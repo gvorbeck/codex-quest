@@ -68,18 +68,24 @@ export default function CharacterList({
                 className="h-full flex flex-col justify-between"
               >
                 <Card.Meta
-                  description={`Level ${character.level} ${character.race} ${character.class}`}
+                  description={
+                    <div className="flex flex-col items-center">
+                      <span>Level {character.level}</span>
+                      <span>{character.race}</span>
+                      <span>{character.class}</span>
+                    </div>
+                  }
+                  className="flex-col [&>.ant-card-meta-avatar]:self-center [&>.ant-card-meta-avatar]:pr-0 [&>.ant-card-meta-avatar]:mb-2 [&>.ant-card-meta-avatar]:text-springWood"
                   avatar={
                     character.avatar ? (
-                      <Avatar src={character.avatar} />
+                      <Avatar size={64} src={character.avatar} />
                     ) : (
-                      <Avatar
-                        className="text-springWood"
-                        icon={<UserOutlined />}
-                      />
+                      <Avatar size={64} icon={<UserOutlined />} />
                     )
                   }
-                  title={character.name}
+                  title={
+                    <span className="text-center block">{character.name}</span>
+                  }
                 />
               </Card>
             </Col>
