@@ -175,6 +175,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   return (
     <div className={`${outletContext.className}`}>
       <Breadcrumb
+        className="print:hidden"
         items={[
           {
             title: (
@@ -196,12 +197,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             showLevelUpModal={showLevelUpModal}
           />
           <InitiativeRoller character={character} />
-          <Row gutter={32} className="gap-4 md:gap-0">
-            <Col xs={24} md={8}>
+          <Row gutter={32} className="gap-4 md:gap-0 print:block">
+            <Col xs={24} md={8} className="print:w-1/2 float-left mb-4">
               {/* ABILITY SCORES */}
               <Abilities character={character} />
             </Col>
-            <Col xs={24} md={10} className="flex flex-col justify-between">
+            <Col
+              xs={24}
+              md={10}
+              className="flex flex-col justify-between print:w-1/2"
+            >
               {/* ATTACK BONUSES */}
               <AttackBonus
                 character={character}
@@ -218,7 +223,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             <Col
               xs={24}
               md={6}
-              className="flex items-center justify-between flex-wrap flex-col gap-4 sm:flex-row md:flex-col"
+              className="flex items-center justify-between flex-wrap flex-col gap-4 sm:flex-row md:flex-col print:clear-left"
             >
               {/* ARMOR CLASS */}
               <SimpleNumberStat title="Armor Class" value={armorClass} />
@@ -228,9 +233,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               <SimpleNumberStat title="Hit Dice" value={hitDice} />
             </Col>
           </Row>
-          <Divider />
-          <Row gutter={32} className="gap-4 md:gap-0">
-            <Col xs={24} md={12}>
+          <Divider className="print:hidden" />
+          <Row gutter={32} className="gap-4 md:gap-0 print:block">
+            <Col xs={24} md={12} className="print:w-1/2 print:float-left">
               {/* SPECIALS / RESTRICTIONS */}
               <SpecialsRestrictions character={character} />
               {/* THIEF'S ABILITIES */}
@@ -238,7 +243,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 <ThiefAbilities characterLevel={character.level.toString()} />
               )}
             </Col>
-            <Col xs={24} md={12}>
+            <Col xs={24} md={12} className="print:w-1/2 print:float-right">
               {/* SAVING THROWS */}
               <SavingThrows character={character} setCharacter={setCharacter} />
             </Col>

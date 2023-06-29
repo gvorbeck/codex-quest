@@ -11,6 +11,7 @@ export default function ExperiencePoints({
   setCharacter,
   userIsOwner,
   showLevelUpModal,
+  className,
 }: CharacterDetails) {
   const [prevValue, setPrevValue] = useState(character.xp.toString());
   const levelRequirements = {
@@ -116,7 +117,7 @@ export default function ExperiencePoints({
   }, [character.xp]);
 
   return (
-    <div>
+    <div className={className}>
       <Space.Compact>
         <Input
           value={inputValue}
@@ -137,6 +138,7 @@ export default function ExperiencePoints({
             disabled={character.xp < totalLevelRequirement}
             type="primary"
             onClick={showLevelUpModal}
+            className="print:hidden"
           >{`Level Up`}</Button>
         )}
       </Space.Compact>

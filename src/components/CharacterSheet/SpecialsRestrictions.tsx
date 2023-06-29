@@ -19,6 +19,7 @@ export default function SpecialsRestrictions({
           ...character.restrictions.class,
         ]}
         renderItem={(item) => <List.Item>{item}</List.Item>}
+        className="print:border-0"
       />
     </div>
   );

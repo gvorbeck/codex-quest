@@ -4,7 +4,11 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export default function HelpTooltip({ text, className }: HelpTooltipProps) {
   return (
-    <Tooltip className={className} title={text} color="#3E3643">
+    <Tooltip
+      className={`${className} print:hidden`}
+      title={text}
+      color="#3E3643"
+    >
       <QuestionCircleOutlined className="text-lg" />
     </Tooltip>
   );

@@ -395,6 +395,7 @@ export default function SavingThrows({
         pagination={false}
         showHeader={false}
         columns={columns}
+        className="[&_td]:print:p-2"
       />
     </div>
   );

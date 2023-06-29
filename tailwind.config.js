@@ -16,6 +16,7 @@ module.exports = {
       screens: {
         lg: "992px",
         sm: "450px",
+        print: { raw: "print" },
       },
     },
   },

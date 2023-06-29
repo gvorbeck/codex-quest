@@ -25,7 +25,7 @@ export default function InitiativeRoller({ character }: CharacterDetails) {
     openNotification(result);
   };
   return (
-    <Tooltip title={rollTooltip}>
+    <Tooltip title={rollTooltip} className="print:hidden">
       <Button type="primary" onClick={rollInitiative}>
         Roll Initiative
       </Button>

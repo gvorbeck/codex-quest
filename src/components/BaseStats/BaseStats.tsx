@@ -22,13 +22,13 @@ export default function BaseStats({
         </Typography.Title>
       </div>
       <Divider className="mt-4 mb-4" />
-      <div className="flex flex-col justify-between md:flex-row">
+      <div className="flex flex-col justify-between md:flex-row print:block">
         <ExperiencePoints
           character={character}
           setCharacter={setCharacter}
           userIsOwner={userIsOwner}
           showLevelUpModal={showLevelUpModal}
-          className="text-lg"
+          className="text-lg print:w-1/2 print:float-left"
         />
         <dl className="flex m-0 justify-end text-base mt-2">
           <div className="flex">

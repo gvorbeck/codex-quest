@@ -38,6 +38,7 @@ export default function Abilities({ character }: CharacterDetails) {
         columns={columns}
         showHeader={false}
         pagination={false}
+        className="[&_td]:print:p-2"
       />
     </div>
   );
