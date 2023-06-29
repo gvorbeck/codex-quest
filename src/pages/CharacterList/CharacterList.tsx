@@ -78,9 +78,17 @@ export default function CharacterList({
                   className="flex-col [&>.ant-card-meta-avatar]:self-center [&>.ant-card-meta-avatar]:pr-0 [&>.ant-card-meta-avatar]:mb-2 [&>.ant-card-meta-avatar]:text-springWood"
                   avatar={
                     character.avatar ? (
-                      <Avatar size={64} src={character.avatar} />
+                      <Avatar
+                        size={64}
+                        src={character.avatar}
+                        alt={character.name}
+                      />
                     ) : (
-                      <Avatar size={64} icon={<UserOutlined />} />
+                      <Avatar
+                        size={64}
+                        icon={<UserOutlined />}
+                        alt={character.name}
+                      />
                     )
                   }
                   title={
