@@ -291,7 +291,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               />
               <div className="hidden print:block">
                 {character.equipment.map((item) => (
-                  <div>{item.name}</div>
+                  <div key={item.name}>{item.name}</div>
                 ))}
               </div>
               <Collapse className="bg-seaBuckthorn mt-4 print:hidden">
