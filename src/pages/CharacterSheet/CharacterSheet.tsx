@@ -40,6 +40,7 @@ import ThiefAbilities from "../../components/CharacterSheet/ThiefAbilities";
 import WeightStats from "../../components/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
+import DiceRollerModal from "../../modals/DiceRollerModal";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -65,6 +66,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [isAddEquipmentModalOpen, setIsAddEquipmentModalOpen] = useState(false);
+  const [isDiceRollerModalOpen, setIsDiceRollerModalOpen] = useState(false);
   const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
 
   const showAttackModal = () => {
@@ -79,10 +81,15 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     setIsAddEquipmentModalOpen(true);
   };
 
+  const showDiceRollerModal = () => {
+    setIsDiceRollerModalOpen(true);
+  };
+
   const handleCancel = () => {
     setIsAttackModalOpen(false);
     setIsLevelUpModalOpen(false);
     setIsAddEquipmentModalOpen(false);
+    setIsDiceRollerModalOpen(false);
   };
 
   const userIsOwner = userLoggedIn?.uid === uid;
@@ -199,7 +206,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
           <div className="flex justify-between">
             <InitiativeRoller character={character} />
-            <DiceRoller />
+            <DiceRoller onClick={showDiceRollerModal} />
           </div>
           <Row gutter={32} className="gap-4 md:gap-0 print:block">
             <Col xs={24} md={8} className="print:w-1/2 float-left mb-4">
@@ -401,6 +408,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             handleCancel={handleCancel}
             character={character}
             setCharacter={setCharacter}
+          />
+          <DiceRollerModal
+            handleCancel={handleCancel}
+            isDiceRollerModalOpen={isDiceRollerModalOpen}
           />
         </div>
       ) : (

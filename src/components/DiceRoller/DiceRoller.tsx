@@ -1,10 +1,13 @@
 import { Button } from "antd";
-import DieIcon from "../../assets/images/isometric-die.png";
 import { DiceRollerProps } from "./definitions";
 
-export default function DiceRoller({ className = "" }: DiceRollerProps) {
+export default function DiceRoller({
+  className = "",
+  onClick,
+}: DiceRollerProps) {
   const handleDiceRollerClick = () => {
-    console.log("🚀 ~ file: DiceRoller.tsx:1 ~ andleDiceRollerClick");
+    console.log("🚀 ~ file: DiceRoller.tsx:5 ~ handleDiceRollerClick");
+    onClick();
   };
   return (
     <div className={className}>
