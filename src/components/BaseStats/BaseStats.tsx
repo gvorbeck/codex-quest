@@ -13,9 +13,9 @@ export default function BaseStats({
     <div>
       <div className="flex flex-col items-center mt-4 md:flex-row">
         {character.avatar.length ? (
-          <Avatar size={64} src={character.avatar} />
+          <Avatar size={64} src={character.avatar} alt={character.name} />
         ) : (
-          <Avatar size={64} icon={<UserOutlined />} />
+          <Avatar size={64} icon={<UserOutlined />} alt={character.name} />
         )}
         <Typography.Title level={1} className="!mt-0 !mb-0 !text-shipGray ml-4">
           {character.name}
