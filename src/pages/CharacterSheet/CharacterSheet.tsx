@@ -204,7 +204,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             userIsOwner={userIsOwner}
             showLevelUpModal={showLevelUpModal}
           />
-          <div className="flex justify-between">
+          <div className="flex justify-between print:hidden">
             <InitiativeRoller character={character} />
             <DiceRoller onClick={showDiceRollerModal} />
           </div>
