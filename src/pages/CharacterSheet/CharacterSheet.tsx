@@ -249,8 +249,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
           </Row>
           <Divider />
-          <Row gutter={32} className="gap-4 md:gap-0">
-            <Col xs={24} sm={11} md={6}>
+          <Row gutter={32} className="gap-4 md:gap-0 print:block">
+            <Col
+              xs={24}
+              sm={11}
+              md={6}
+              className="print:w-1/2 print:float-left"
+            >
               {/* MONEY */}
               <MoneyStats
                 character={character}
@@ -258,11 +263,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 userIsOwner={userIsOwner}
               />
             </Col>
-            <Col xs={24} sm={12} md={6}>
+            <Col
+              xs={24}
+              sm={12}
+              md={6}
+              className="print:w-1/2 print:float-right"
+            >
               {/* WEIGHT */}
               <WeightStats character={character} setCharacter={setCharacter} />
             </Col>
-            <Col xs={24} md={12}>
+            <Col xs={24} md={12} className="print:clear-both">
               {/* EQUIPMENT */}
               <Typography.Title level={3} className="mt-0 text-shipGray">
                 Equipment
@@ -271,6 +281,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 type="primary"
                 disabled={!userIsOwner}
                 onClick={showAddEquipmentModal}
+                className="print:hidden"
               >
                 Add Equipment
               </Button>
@@ -278,7 +289,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 className="ml-2"
                 text="Selecting items will automatically be deducted from your gold."
               />
-              <Collapse className="bg-seaBuckthorn mt-4">
+              <div className="hidden print:block">
+                {character.equipment.map((item) => (
+                  <div>{item.name}</div>
+                ))}
+              </div>
+              <Collapse className="bg-seaBuckthorn mt-4 print:hidden">
                 {/* SPELLS */}
                 {character.spells.length > 0 && (
                   <Collapse.Panel
