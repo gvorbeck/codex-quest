@@ -39,6 +39,7 @@ import { attackBonusTable } from "../../data/attackBonusTable";
 import ThiefAbilities from "../../components/CharacterSheet/ThiefAbilities";
 import WeightStats from "../../components/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
+import DiceRoller from "../../components/DiceRoller/DiceRoller";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -196,7 +197,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             userIsOwner={userIsOwner}
             showLevelUpModal={showLevelUpModal}
           />
-          <InitiativeRoller character={character} />
+          <div className="flex justify-between">
+            <InitiativeRoller character={character} />
+            <DiceRoller />
+          </div>
           <Row gutter={32} className="gap-4 md:gap-0 print:block">
             <Col xs={24} md={8} className="print:w-1/2 float-left mb-4">
               {/* ABILITY SCORES */}
