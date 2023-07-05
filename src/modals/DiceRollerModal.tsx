@@ -3,6 +3,9 @@ import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { DiceRollerModalProps } from "./definitions";
 import { useState, useRef } from "react";
 import { InputRef } from "antd/lib/input";
+import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+
+const roller = new DiceRoller();
 
 export default function DiceRollerModal({
   isDiceRollerModalOpen,
@@ -63,46 +66,50 @@ export default function DiceRollerModal({
 
   const handleRollClick = () => {
     if (inputRef.current && inputRef.current.input) {
-      console.log(inputRef.current.input.value);
+      const result = roller.roll(inputRef.current.input.value).total;
+      console.log(result);
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+  };
+
   return (
-    <>
-      <Modal
-        title="Virtual Dice"
-        open={isDiceRollerModalOpen}
-        onCancel={handleCancel}
-        footer={false}
-        closeIcon={<ModalCloseIcon />}
-        className="text-shipGray"
-      >
-        <Space.Compact className="w-full">
-          <Input
-            ref={inputRef}
-            placeholder="Enter a dice formula to roll"
-            value={diceFormula
-              .map(([count, type]) => `${count}d${type}`)
-              .join("+")}
-          />
-          <Button type="primary" onClick={handleRollClick}>
-            Roll
-          </Button>
-        </Space.Compact>
-        <div className="flex justify-between my-4">
-          <DiceButton die="d4" />
-          <DiceButton die="d6" />
-          <DiceButton die="d8" />
-          <DiceButton die="d10" />
-          <DiceButton die="d12" />
-          <DiceButton die="d20" />
-        </div>
-        <Divider />
-        <Typography.Paragraph type="secondary">
-          Click to add a die to the formula. Right click to remove a die.
-          Optionally, you can type a formula in the input box.
-        </Typography.Paragraph>
-      </Modal>
-    </>
+    <Modal
+      title="Virtual Dice"
+      open={isDiceRollerModalOpen}
+      onCancel={handleCancel}
+      footer={false}
+      closeIcon={<ModalCloseIcon />}
+      className="text-shipGray"
+    >
+      <Space.Compact className="w-full">
+        <Input
+          ref={inputRef}
+          placeholder="Enter a dice formula to roll"
+          value={diceFormula
+            .map(([count, type]) => `${count}d${type}`)
+            .join("+")}
+          onChange={handleInputChange}
+        />
+        <Button type="primary" onClick={handleRollClick}>
+          Roll
+        </Button>
+      </Space.Compact>
+      <div className="flex justify-between my-4">
+        <DiceButton die="d4" />
+        <DiceButton die="d6" />
+        <DiceButton die="d8" />
+        <DiceButton die="d10" />
+        <DiceButton die="d12" />
+        <DiceButton die="d20" />
+      </div>
+      <Divider />
+      <Typography.Paragraph type="secondary">
+        Click to add a die to the formula. Right click to remove a die.
+        Optionally, you can type a formula in the input box.
+      </Typography.Paragraph>
+    </Modal>
   );
 }
