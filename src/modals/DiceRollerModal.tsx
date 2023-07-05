@@ -1,37 +1,72 @@
-import { Button, Input, Modal, Space, Typography } from "antd";
+import { Button, Divider, Input, Modal, Space, Typography } from "antd";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { DiceRollerModalProps } from "./definitions";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { InputRef } from "antd/lib/input";
 
 export default function DiceRollerModal({
   isDiceRollerModalOpen,
   handleCancel,
 }: DiceRollerModalProps) {
-  const [diceFormula, setDiceFormula] = useState([]);
+  const [diceFormula, setDiceFormula] = useState<[number, number][]>([]);
+  const inputRef = useRef<InputRef>(null);
 
-  // prevent the context menu from appearing on right click
-  const handleContextMenu = (event: { preventDefault: () => void }) => {
+  const handleContextMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    const { textContent: die } = event.currentTarget as HTMLButtonElement;
+    setDiceFormula((prevFormula) =>
+      prevFormula.filter(([count, type]) => type !== +die!.split("d")[1])
+    );
   };
 
   const DiceButton = ({ die }: { die: string }) => {
     const [dieCount, setDieCount] = useState(0);
+
+    const handleLeftClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      const { textContent: die } = event.currentTarget as HTMLButtonElement;
+      const newDieCount = dieCount + 1;
+
+      if (
+        die &&
+        diceFormula.some((dice) => dice.includes(+die!.split("d")[1]))
+      ) {
+        setDiceFormula((prevFormula) =>
+          prevFormula.map((dice) =>
+            dice.includes(+die!.split("d")[1]) ? [dice[0] + 1, dice[1]] : dice
+          )
+        );
+      } else if (die) {
+        setDiceFormula((prevFormula) => [
+          ...prevFormula,
+          [1, +die!.split("d")[1]],
+        ]);
+      }
+      setDieCount(newDieCount);
+    };
+
     return (
       <Button
-        onAuxClick={() => {
+        onAuxClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           setDieCount(0);
+          handleContextMenu(event);
         }}
-        onClick={() => setDieCount(dieCount + 1)}
+        onClick={(event) =>
+          handleLeftClick(event as React.MouseEvent<HTMLButtonElement>)
+        }
         onContextMenu={handleContextMenu}
-        onMouseDown={(e) => {
-          console.log(
-            "function that creates the dice formula shown in the input"
-          );
-        }}
         type="primary"
-      >{`${dieCount > 0 ? dieCount : ""}${die}`}</Button>
+      >
+        {`${dieCount > 0 ? dieCount : ""}${die}`}
+      </Button>
     );
   };
+
+  const handleRollClick = () => {
+    if (inputRef.current && inputRef.current.input) {
+      console.log(inputRef.current.input.value);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -44,10 +79,15 @@ export default function DiceRollerModal({
       >
         <Space.Compact className="w-full">
           <Input
-            placeholder="Click the buttons below or type here (ex: 1d6)"
-            value={diceFormula.join("+")}
+            ref={inputRef}
+            placeholder="Enter a dice formula to roll"
+            value={diceFormula
+              .map(([count, type]) => `${count}d${type}`)
+              .join("+")}
           />
-          <Button type="primary">Roll</Button>
+          <Button type="primary" onClick={handleRollClick}>
+            Roll
+          </Button>
         </Space.Compact>
         <div className="flex justify-between my-4">
           <DiceButton die="d4" />
@@ -57,8 +97,10 @@ export default function DiceRollerModal({
           <DiceButton die="d12" />
           <DiceButton die="d20" />
         </div>
-        <Typography.Paragraph>
-          Instructions for clicking and rolling
+        <Divider />
+        <Typography.Paragraph type="secondary">
+          Click to add a die to the formula. Right click to remove a die.
+          Optionally, you can type a formula in the input box.
         </Typography.Paragraph>
       </Modal>
     </>
