@@ -786,6 +786,50 @@
     "amount": 1
   },
   {
+    "name": "Spade",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 4,
+    "category": "improvised-weapons",
+    "damage": "1d6",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Crowbar",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 5,
+    "category": "improvised-weapons",
+    "damage": "1d6",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Pitchfork",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 3,
+    "category": "improvised-weapons",
+    "damage": "1d6",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Frying Pan",
+    "costValue": 8,
+    "costCurrency": "sp",
+    "size": "S",
+    "weight": 4,
+    "category": "improvised-weapons",
+    "damage": "1d4",
+    "type": "melee",
+    "amount": 1
+  },
+  {
     "name": "Shortbow Arrow",
     "costValue": 1,
     "costCurrency": "sp",
