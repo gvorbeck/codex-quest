@@ -487,6 +487,17 @@
     "amount": 1
   },
   {
+    "name": "Defending Dagger",
+    "costValue": 7,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 2,
+    "damage": "1d4",
+    "category": "daggers",
+    "type": "both",
+    "amount": 1
+  },
+  {
     "name": "Shortsword",
     "costValue": 6,
     "costCurrency": "gp",
