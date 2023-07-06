@@ -830,6 +830,17 @@
     "amount": 1
   },
   {
+    "name": "Cestus/Spiked Gauntlet",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 2,
+    "category": "brawling",
+    "damage": "1d3",
+    "type": "melee",
+    "amount": 1
+  },
+  {
     "name": "Shortbow Arrow",
     "costValue": 1,
     "costCurrency": "sp",
