@@ -603,7 +603,7 @@
     "size": "L",
     "weight": 4,
     "damage": "1d6",
-    "category": "other-weapons",
+    "category": "spears-and-polearms",
     "type": "melee",
     "amount": 1
   },
@@ -614,7 +614,51 @@
     "size": "L",
     "weight": 15,
     "damage": "1d10",
-    "category": "other-weapons",
+    "category": "spears-and-polearms",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Chain††",
+    "costValue": 9,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 3,
+    "damage": "1d4",
+    "category": "chain-and-flail",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Flail",
+    "costValue": 8,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 6,
+    "damage": "1d8",
+    "category": "chain-and-flail",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Great Flail",
+    "costValue": 12,
+    "costCurrency": "gp",
+    "size": "L",
+    "weight": 15,
+    "damage": "1d10",
+    "category": "chain-and-flail",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Whip",
+    "costValue": 3,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 2,
+    "damage": "1d3",
+    "category": "chain-and-flail",
     "type": "melee",
     "amount": 1
   },
@@ -634,8 +678,45 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 5,
-    "category": "other-weapons",
+    "category": "spears-and-polearms",
+    "damage": "1d6",
+    "meleeDamage": "1d8",
     "type": "both",
+    "amount": 1
+  },
+  {
+    "name": "Fork/Trident (E)",
+    "costValue": 6,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 5,
+    "category": "spears-and-polearms",
+    "damage": "1d6",
+    "meleeDamage": "1d8",
+    "type": "both",
+    "amount": 1
+  },
+  {
+    "name": "Boar Spear",
+    "costValue": 6,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 5,
+    "category": "spears-and-polearms",
+    "damage": "1d6",
+    "meleeDamage": "1d8",
+    "type": "both",
+    "amount": 1
+  },
+  {
+    "name": "Lance",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "size": "L",
+    "weight": 10,
+    "category": "spears-and-polearms",
+    "damage": "1d8",
+    "type": "melee",
     "amount": 1
   },
   {
