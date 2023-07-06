@@ -597,6 +597,17 @@
     "amount": 1
   },
   {
+    "name": "Silver Walking Stick/Staff†",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 1,
+    "damage": "1d4",
+    "category": "other-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
     "name": "Quarterstaff",
     "costValue": 2,
     "costCurrency": "gp",
@@ -604,6 +615,61 @@
     "weight": 4,
     "damage": "1d6",
     "category": "spears-and-polearms",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Greatclub",
+    "costValue": 3,
+    "costCurrency": "gp",
+    "size": "L",
+    "weight": 8,
+    "damage": "1d8",
+    "category": "other-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Sap/Blackjack**",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 1,
+    "damage": "1d4",
+    "category": "other-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Hook",
+    "costValue": 6,
+    "costCurrency": "sp",
+    "size": "S",
+    "weight": 1,
+    "damage": "1d4",
+    "category": "other-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Sickle",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 2,
+    "damage": "1d6",
+    "category": "other-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Scythe",
+    "costValue": 7,
+    "costCurrency": "gp",
+    "size": "L",
+    "weight": 10,
+    "damage": "1d8",
+    "category": "other-weapons",
     "type": "melee",
     "amount": 1
   },
