@@ -399,6 +399,28 @@
     "weight": 15,
     "damage": "1d10",
     "category": "axes",
+    "type": "both",
+    "amount": 1
+  },
+  {
+    "name": "Pickaxe (Military Pick)",
+    "costValue": 6,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 4,
+    "damage": "1d6",
+    "category": "axes",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Mattock (Footman's Pick)",
+    "costValue": 8,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 6,
+    "damage": "1d8",
+    "category": "axes",
     "type": "melee",
     "amount": 1
   },
