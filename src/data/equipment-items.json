@@ -542,6 +542,17 @@
     "amount": 1
   },
   {
+    "name": "Light Mace",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 5,
+    "damage": "1d6",
+    "category": "hammers-and-maces",
+    "type": "melee",
+    "amount": 1
+  },
+  {
     "name": "Mace",
     "costValue": 6,
     "costCurrency": "gp",
@@ -553,7 +564,18 @@
     "amount": 1
   },
   {
-    "name": "Maul",
+    "name": "Morningstar",
+    "costValue": 7,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 7,
+    "damage": "1d8",
+    "category": "hammers-and-maces",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Maul/Great Mace",
     "costValue": 10,
     "costCurrency": "gp",
     "size": "L",
