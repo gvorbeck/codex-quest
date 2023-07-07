@@ -1049,11 +1049,56 @@
     "amount": 1
   },
   {
+    "name": "Padded or Quilted Armor",
+    "costValue": 15,
+    "costCurrency": "gp",
+    "weight": 10,
+    "AC": 12,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Hide Armor",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "weight": 30,
+    "AC": 13,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
     "name": "Leather Armor",
     "costValue": 20,
     "costCurrency": "gp",
     "weight": 15,
     "AC": 13,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Studded Leather Armor",
+    "costValue": 30,
+    "costCurrency": "gp",
+    "weight": 25,
+    "AC": 14,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Ring Mail",
+    "costValue": 25,
+    "costCurrency": "gp",
+    "weight": 30,
+    "AC": 14,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Brigandine Armor",
+    "costValue": 80,
+    "costCurrency": "gp",
+    "weight": 30,
+    "AC": 15,
     "category": "armor-and-shields",
     "amount": 1
   },
@@ -1067,6 +1112,33 @@
     "amount": 1
   },
   {
+    "name": "Scale Mail",
+    "costValue": 80,
+    "costCurrency": "gp",
+    "weight": 55,
+    "AC": 16,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Splint Mail",
+    "costValue": 100,
+    "costCurrency": "gp",
+    "weight": 45,
+    "AC": 16,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Banded Mail",
+    "costValue": 200,
+    "costCurrency": "gp",
+    "weight": 35,
+    "AC": 16,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
     "name": "Plate Mail",
     "costValue": 300,
     "costCurrency": "gp",
@@ -1076,11 +1148,50 @@
     "amount": 1
   },
   {
-    "name": "Shield",
+    "name": "Field Plate Mail",
+    "costValue": 500,
+    "costCurrency": "gp",
+    "weight": 70,
+    "AC": 18,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Full Plate Mail",
+    "costValue": 1500,
+    "costCurrency": "gp",
+    "weight": 80,
+    "AC": 19,
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Buckler Shield",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": 2,
+    "AC": "+1",
+    "meleeAC": "+0",
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Medium Shield",
     "costValue": 7,
     "costCurrency": "gp",
     "weight": 5,
     "AC": "+1",
+    "meleeAC": "+1",
+    "category": "armor-and-shields",
+    "amount": 1
+  },
+  {
+    "name": "Tower Shield",
+    "costValue": 15,
+    "costCurrency": "gp",
+    "weight": 12,
+    "AC": "+1",
+    "meleeAC": "+3",
     "category": "armor-and-shields",
     "amount": 1
   },
