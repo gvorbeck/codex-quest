@@ -112,6 +112,7 @@ export default function AttackModal({
       missileRangeValues = [10, 30, 50];
       break;
     case "Sling":
+    case "Hand Crossbow":
       missileRangeValues = [30, 60, 90];
       break;
     case "Spear":
@@ -119,7 +120,19 @@ export default function AttackModal({
     case "Hand Axe":
     case "Dagger":
     case "Silver† Dagger":
+    case "Blowgun":
+    case "Dart/Throwing Blade":
+    case "Boar Spear":
+    case "Fork":
+    case "Trident":
       missileRangeValues = [10, 20, 30];
+      break;
+    case "Bola":
+    case "Javelin":
+      missileRangeValues = [20, 40, 60];
+      break;
+    case "Net":
+      missileRangeValues = [10, 15, 20];
       break;
     default:
       missileRangeValues = [0, 0, 0];
