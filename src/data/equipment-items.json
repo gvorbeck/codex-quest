@@ -465,6 +465,26 @@
     "amount": 1
   },
   {
+    "name": "Hand Crossbow",
+    "costValue": 150,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 3,
+    "category": "bows",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Bullet Crossbow",
+    "costValue": 30,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 7,
+    "category": "bows",
+    "type": "missile",
+    "amount": 1
+  },
+  {
     "name": "Dagger",
     "costValue": 2,
     "costCurrency": "gp",
@@ -734,7 +754,60 @@
     "costCurrency": "gp",
     "size": "S",
     "weight": 0.1,
-    "category": "other-weapons",
+    "category": "sling-&-hurled-weapons",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Bola (E)",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 2,
+    "damage": "1d3",
+    "category": "sling-&-hurled-weapons",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Dart/Throwing Blade",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 0.1,
+    "damage": "1d3",
+    "category": "sling-&-hurled-weapons",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Javelin",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 2,
+    "damage": "1d4",
+    "category": "sling-&-hurled-weapons",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Blowgun",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 2,
+    "category": "sling-&-hurled-weapons",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Net (E)",
+    "costValue": 20,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 5,
+    "category": "sling-&-hurled-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -913,6 +986,24 @@
     "amount": 1
   },
   {
+    "name": "Hand Quarrel",
+    "costValue": 2,
+    "costCurrency": "sp",
+    "weight": 0.1,
+    "damage": "1d3",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
+    "name": "Silver† Hand Quarrel",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": 0.1,
+    "damage": "1d3",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
     "name": "Bullet",
     "costValue": 1,
     "costCurrency": "sp",
@@ -922,9 +1013,27 @@
     "amount": 1
   },
   {
+    "name": "Silver† Bullet",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": 0.1,
+    "damage": "1d4",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
     "name": "Stone",
     "costValue": 0,
     "costCurrency": "",
+    "weight": 0.1,
+    "damage": "1d3",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
+    "name": "Dart",
+    "costValue": 1,
+    "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d3",
     "category": "ammunition",
