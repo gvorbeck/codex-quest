@@ -70,9 +70,6 @@ export interface CharAbilityScoreStepProps extends CharSteps {
   setComboClass: (comboClass: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;
 }
-export interface CharHitPointsStepProps extends CharSteps {
-  comboClass: boolean;
-}
 export interface CharEquipmentStepProps extends CharSteps {
   equipmentItems: EquipmentItem[];
   rollGold?: boolean;

@@ -3,7 +3,7 @@ import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
 import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
 import CharRaceStep from "../components/CharacterRace/CharacterRace";
 import CharClassStep from "../components/CharacterClass/CharacterClass";
-import CharHitPointsStep from "../components/CreateCharacterModal/CharHitPointsStep";
+import CharHitPointsStep from "../components/CharacterHitPoints/CharHitPointsStep";
 import {
   AbilityTypes,
   CharacterData,

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { CharHitPointsStepProps } from "../types";
+import { CharacterHitPointsProps } from "./definitions";
 
 export default function CharHitPointsStep({
   characterData,
   setCharacterData,
   comboClass,
-}: CharHitPointsStepProps) {
+}: CharacterHitPointsProps) {
   const roller = new DiceRoller();
 
   useEffect(() => {
