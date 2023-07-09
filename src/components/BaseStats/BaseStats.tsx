@@ -1,5 +1,5 @@
 import { CharacterDetails } from "../types";
-import { Avatar, Divider, Typography } from "antd";
+import { Avatar, Descriptions, Divider, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 
@@ -27,7 +27,10 @@ export default function BaseStats({
             className="print:grayscale"
           />
         )}
-        <Typography.Title level={1} className="!mt-0 !mb-0 !text-shipGray ml-4">
+        <Typography.Title
+          level={1}
+          className="!mt-0 !mb-0 !text-shipGray ml-4 text-center"
+        >
           {character.name}
         </Typography.Title>
       </div>
@@ -40,20 +43,21 @@ export default function BaseStats({
           showLevelUpModal={showLevelUpModal}
           className="text-lg print:w-1/2 print:float-left"
         />
-        <dl className="flex m-0 justify-end text-base mt-2">
-          <div className="flex">
-            <dt className="font-bold">Level</dt>
-            <dd className="m-0 pl-1">{character.level}</dd>
-          </div>
-          <div className="flex pl-2">
-            <dt className="font-bold">Race</dt>
-            <dd className="m-0 pl-1">{character.race}</dd>
-          </div>
-          <div className="flex pl-2">
-            <dt className="font-bold">Class</dt>
-            <dd className="m-0 pl-1">{character.class} </dd>
-          </div>
-        </dl>
+        <Descriptions
+          bordered
+          size="small"
+          className="[&_th]:leading-none [&_td]:leading-none mt-4 sm:mt-0 [&_td]:px-3 [&_th]:px-2"
+        >
+          <Descriptions.Item label="Level" span={1}>
+            {character.level}
+          </Descriptions.Item>
+          <Descriptions.Item label="Race" span={1}>
+            {character.race}
+          </Descriptions.Item>
+          <Descriptions.Item label="Class" span={1}>
+            {character.class}
+          </Descriptions.Item>
+        </Descriptions>
       </div>
     </div>
   );

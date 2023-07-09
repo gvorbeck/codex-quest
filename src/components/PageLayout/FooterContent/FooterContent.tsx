@@ -19,7 +19,7 @@ export default function FooterContent({ className }: FooterContentProps) {
         </a>{" "}
         and is current to 4th Edition (release 132).
       </Typography.Paragraph>
-      <div className="flex">
+      <div className="flex flex-col sm:flex-row [&_a]:sm:text-xs">
         <Typography.Paragraph>
           <a
             href="https://github.com/gvorbeck/codex-quest/blob/main/LICENSE"

@@ -119,7 +119,7 @@ export default function ExperiencePoints({
   }, [character.xp]);
 
   return (
-    <div className={className}>
+    <div className={`${className} flex`}>
       <Space.Compact>
         <Input
           value={inputValue}

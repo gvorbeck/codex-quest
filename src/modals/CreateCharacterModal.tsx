@@ -291,8 +291,6 @@ export default function CreateCharacterModal({
     }
   }
 
-  console.log(characterData);
-
   return (
     <>
       {contextHolder}

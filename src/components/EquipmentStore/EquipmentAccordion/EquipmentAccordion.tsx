@@ -169,8 +169,6 @@ export default function EquipmentAccordion({
 }: EquipmentAccordionProps) {
   const [armorValue, setArmorValue] = useState(null);
 
-  console.log(playerEquipment);
-
   // Create a list of unique categories available for each class in the className, removing any duplicates
   const categories = Array.from(
     new Set(
