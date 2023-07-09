@@ -6,6 +6,7 @@ import { CharacterClassProps } from "./definitions";
 import spellsData from "../../data/spells.json";
 import { classDetails, classChoices } from "../../data/classDetails";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
+import { Spell } from "../types";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -156,6 +157,22 @@ export default function CharacterClass({
     event.currentTarget.select();
   };
 
+  const handleCheckboxChange = (e: CheckboxChangeEvent, spell: Spell) => {
+    if (e.target.checked) {
+      setCharacterData({
+        ...characterData,
+        spells: [...characterData.spells, spell],
+      });
+    } else {
+      setCharacterData({
+        ...characterData,
+        spells: characterData.spells.filter(
+          (prevSpell) => prevSpell.name !== spell.name
+        ),
+      });
+    }
+  };
+
   return (
     <>
       {characterData.race === "Elf" && (
@@ -203,6 +220,7 @@ export default function CharacterClass({
             value={characterData.class}
             onChange={onClassRadioChange}
             buttonStyle="solid"
+            className="block"
           >
             {classChoices.map((choice) => (
               <Radio.Button
@@ -230,16 +248,31 @@ export default function CharacterClass({
         )}
         {showCustomClassInput && (
           <>
+            <HomebrewWarning homebrew="Class" className="my-4" />
             <Input
-              className="my-4"
               value={customClassInput}
               onChange={handleChangeCustomClassInput}
               placeholder="Custom Race"
               onClick={handleClickCustomClassInput}
             />
-            <HomebrewWarning homebrew="Class" />
           </>
         )}
+        {!classChoices.includes(characterData.class) &&
+          characterData.class !== "" && (
+            <div className="mt-4 flex flex-wrap [&_label]:flex-[1_1_calc(25%-8px)] gap-2">
+              {spellsData.map((spell) => (
+                <Checkbox
+                  key={spell.name}
+                  onChange={(e) => handleCheckboxChange(e, spell)}
+                  checked={characterData.spells.some(
+                    (prevSpell) => prevSpell.name === spell.name
+                  )}
+                >
+                  {spell.name}
+                </Checkbox>
+              ))}
+            </div>
+          )}
         {characterData.class.includes("Magic-User") && (
           <div className="mt-4">
             <Radio.Group
