@@ -4,9 +4,8 @@ import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CharacterClassProps } from "./definitions";
 import spellsData from "../../data/spells.json";
-import { classDetails } from "../../data/classDetails";
+import { classDetails, classChoices } from "../../data/classDetails";
 
-const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief", "Custom"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
 export default function CharacterClass({

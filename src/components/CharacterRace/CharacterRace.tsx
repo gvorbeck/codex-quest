@@ -1,10 +1,8 @@
 import { Input, Radio, Typography } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
-import { raceDetails } from "../../data/raceDetails";
+import { raceDetails, raceChoices } from "../../data/raceDetails";
 import { ChangeEvent, useState } from "react";
-
-const raceChoices = ["Dwarf", "Elf", "Halfling", "Human", "Custom"];
 
 export default function CharacterRace({
   characterData,
