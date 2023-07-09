@@ -2,14 +2,14 @@ import { Checkbox, Divider, Radio, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect } from "react";
-import { CharClassStepProps } from "../types";
+import { CharacterClassProps } from "./definitions";
 import spellsData from "../../data/spells.json";
 import { classDetails } from "../../data/classDetails";
 
 const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
-export default function CharClassStep({
+export default function CharacterClass({
   characterData,
   setCharacterData,
   comboClass,
@@ -18,7 +18,7 @@ export default function CharClassStep({
   setCheckedClasses,
   selectedSpell,
   setSelectedSpell,
-}: CharClassStepProps) {
+}: CharacterClassProps) {
   useEffect(() => {
     if (comboClass) {
       const firstClass =
