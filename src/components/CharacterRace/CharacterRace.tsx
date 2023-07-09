@@ -85,9 +85,14 @@ export default function CharacterRace({
             className="my-4"
             value={customRaceInput}
             onChange={handleChangeCustomRaceInput}
+            placeholder="Custom Race"
           />
-          <Typography.Text type="warning" italic>
-            Work closely with your GM when creating a custom Race
+          <Typography.Text
+            type="warning"
+            italic
+            className="bg-shipGray p-2 rounded"
+          >
+            Work closely with your GM when creating a custom Race.
           </Typography.Text>
         </>
       )}
