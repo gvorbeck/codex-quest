@@ -70,10 +70,6 @@ export interface CharAbilityScoreStepProps extends CharSteps {
   setComboClass: (comboClass: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;
 }
-export interface CharRaceStepProps extends CharSteps {
-  setComboClass: (comboxClass: boolean) => void;
-  setCheckedClasses: (checkedClasses: string[]) => void;
-}
 export interface CharClassStepProps extends CharSteps {
   comboClass: boolean;
   setComboClass: (comboClass: boolean) => void;

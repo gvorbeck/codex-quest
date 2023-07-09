@@ -1,16 +1,16 @@
 import { Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { CharRaceStepProps } from "../types";
+import { CharacterRaceProps } from "./definitions";
 import { raceDetails } from "../../data/raceDetails";
 
 const raceChoices = ["Dwarf", "Elf", "Halfling", "Human"];
 
-export default function CharRaceStep({
+export default function CharacterRace({
   characterData,
   setCharacterData,
   setComboClass,
   setCheckedClasses,
-}: CharRaceStepProps) {
+}: CharacterRaceProps) {
   const onChange = (e: RadioChangeEvent) => {
     const race = e.target.value
       .toString()
