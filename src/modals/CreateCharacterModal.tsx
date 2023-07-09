@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
 import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
-import CharRaceStep from "../components/CreateCharacterModal/CharRaceStep";
+import CharRaceStep from "../components/CharacterRace/CharRaceStep";
 import CharClassStep from "../components/CreateCharacterModal/CharClassStep";
 import CharHitPointsStep from "../components/CreateCharacterModal/CharHitPointsStep";
 import {
