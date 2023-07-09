@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
 import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
-import CharRaceStep from "../components/CharacterRace/CharRaceStep";
+import CharRaceStep from "../components/CharacterRace/CharacterRace";
 import CharClassStep from "../components/CreateCharacterModal/CharClassStep";
 import CharHitPointsStep from "../components/CreateCharacterModal/CharHitPointsStep";
 import {
@@ -290,6 +290,8 @@ export default function CreateCharacterModal({
       errorMessage(`No user is currently logged in.`);
     }
   }
+
+  console.log(characterData);
 
   return (
     <>
