@@ -98,7 +98,7 @@ export default function MoneyStats({
 
   return (
     <div>
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline justify-start">
         <Typography.Title
           level={3}
           className="mt-0 text-shipGray text-center sm:text-left"
@@ -106,7 +106,7 @@ export default function MoneyStats({
           Money
         </Typography.Title>
         <HelpTooltip
-          className="mr-2"
+          className="ml-2"
           text="You can manage your coin totals by highlighting the current value and typing '+2' to add 2 of the coin-type to your total and hitting Enter. Coins are automatically organized on refresh (10 sp will become 1gp)."
         />
       </div>

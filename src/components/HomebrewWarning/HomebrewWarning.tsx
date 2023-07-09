@@ -9,7 +9,8 @@ export default function HomebrewWarning({
     <Typography.Text
       type="warning"
       italic
-      className={`${className} bg-shipGray p-2 rounded border border-seaBuckthorn border-solid inline-block`}
+      // className={`${className} bg-copperRust p-2 rounded border border-seaBuckthorn border-solid inline-block`}
+      className={`${className} inline-block text-copperRust`}
     >
       Work closely with your GM when using a custom {homebrew}.
     </Typography.Text>

@@ -21,6 +21,18 @@ export default function CharacterClass({
 }: CharacterClassProps) {
   const [customClassInput, setCustomClassInput] = useState("");
   const [showCustomClassInput, setShowCustomClassInput] = useState(false);
+
+  useEffect(() => {
+    // If the current class is not in the classChoices and it's not an empty string, it's a custom class
+    if (
+      !classChoices.includes(characterData.class) &&
+      characterData.class !== ""
+    ) {
+      setShowCustomClassInput(true);
+      setCustomClassInput(characterData.class);
+    }
+  }, []);
+
   useEffect(() => {
     if (comboClass) {
       const firstClass =
@@ -121,6 +133,8 @@ export default function CharacterClass({
     if (checked !== comboClass) {
       // Only update the playerClass if the switch has actually been toggled
       // Clear whenever the switch is clicked
+      setCustomClassInput("");
+      setShowCustomClassInput(false);
       setCheckedClasses([]);
       setCharacterData({
         ...characterData,

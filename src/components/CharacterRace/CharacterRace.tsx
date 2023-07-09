@@ -2,7 +2,7 @@ import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
 import { raceDetails, raceChoices } from "../../data/raceDetails";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react"; // Include useEffect
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 
 export default function CharacterRace({
@@ -11,8 +11,22 @@ export default function CharacterRace({
   setComboClass,
   setCheckedClasses,
 }: CharacterRaceProps) {
-  const [customRaceInput, setCustomRaceInput] = useState("");
+  const [customRaceInput, setCustomRaceInput] = useState(
+    characterData.race || ""
+  );
   const [showCustomRaceInput, setShowCustomRaceInput] = useState(false);
+
+  useEffect(() => {
+    // If the current race is not in the raceChoices and it's not an empty string, it's a custom race
+    if (
+      !raceChoices.includes(characterData.race) &&
+      characterData.race !== ""
+    ) {
+      setShowCustomRaceInput(true);
+      setCustomRaceInput(characterData.race);
+    }
+  }, []);
+
   const onChange = (e: RadioChangeEvent) => {
     if (e.target.value === "Custom") setShowCustomRaceInput(true);
     else setShowCustomRaceInput(false);
@@ -54,7 +68,12 @@ export default function CharacterRace({
     <>
       <Radio.Group
         onChange={onChange}
-        value={characterData.race}
+        // Check if the current race is included in the raceChoices, if not and it's not an empty string set it as "Custom"
+        value={
+          raceChoices.includes(characterData.race) || characterData.race === ""
+            ? characterData.race
+            : "Custom"
+        }
         buttonStyle="solid"
       >
         {raceChoices.map((race) => (
@@ -84,6 +103,7 @@ export default function CharacterRace({
             className="my-4"
             value={customRaceInput}
             onChange={handleChangeCustomRaceInput}
+            defaultValue={characterData.race}
             placeholder="Custom Race"
           />
           <HomebrewWarning homebrew="Race" />
