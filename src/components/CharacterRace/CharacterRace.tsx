@@ -3,7 +3,6 @@ import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
 import { raceDetails } from "../../data/raceDetails";
 import { ChangeEvent, useState } from "react";
-import { set } from "husky";
 
 const raceChoices = ["Dwarf", "Elf", "Halfling", "Human", "Custom"];
 
