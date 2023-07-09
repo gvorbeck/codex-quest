@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
 import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
-import CharRaceStep from "../components/CharacterRace/CharacterRace";
-import CharClassStep from "../components/CharacterClass/CharacterClass";
-import CharHitPointsStep from "../components/CharacterHitPoints/CharHitPointsStep";
+import CharacterRace from "../components/CharacterRace/CharacterRace";
+import CharacterClass from "../components/CharacterClass/CharacterClass";
+import CharacterHitPoints from "../components/CharacterHitPoints/CharacterHitPoints";
 import {
   AbilityTypes,
   CharacterData,
@@ -132,7 +132,7 @@ export default function CreateCharacterModal({
       fullTitle: "Choose a Race",
       description: raceDescription,
       content: (
-        <CharRaceStep
+        <CharacterRace
           setComboClass={setComboClass}
           setCheckedClasses={setCheckedClasses}
           characterData={characterData}
@@ -145,7 +145,7 @@ export default function CreateCharacterModal({
       fullTitle: "Choose a Class",
       description: classDescription,
       content: (
-        <CharClassStep
+        <CharacterClass
           comboClass={comboClass}
           setComboClass={setComboClass}
           checkedClasses={checkedClasses}
@@ -162,7 +162,7 @@ export default function CreateCharacterModal({
       fullTitle: "Roll for Hit Points",
       description: hitPointsDescription,
       content: (
-        <CharHitPointsStep
+        <CharacterHitPoints
           characterData={characterData}
           setCharacterData={setCharacterData}
           comboClass={comboClass}
