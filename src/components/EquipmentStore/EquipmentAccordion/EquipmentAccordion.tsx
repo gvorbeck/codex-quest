@@ -7,6 +7,7 @@ import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CharacterRace/definitions";
 import EquipmentRadio from "../EquipmentRadio/EquipmentRadio";
 import { useState } from "react";
+import { classChoices } from "../../../data/classDetails";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <Space direction="vertical">
@@ -70,8 +71,25 @@ const availableEquipmentCategories = (className: ClassName) => {
     case "Magic-User":
       return ["daggers", "items", "other-weapons", "beasts-of-burden"];
     default:
-      console.error(`availableEquipmentCategories: no case for supplied class`);
-      return ["items"];
+      if (!classChoices.includes(className)) {
+        return [
+          "ammunition",
+          "armor-and-shields",
+          "axes",
+          "beasts-of-burden",
+          "bows",
+          "daggers",
+          "hammers-and-maces",
+          "items",
+          "other-weapons",
+          "swords",
+        ];
+      } else {
+        console.error(
+          `availableEquipmentCategories: no case for supplied class`
+        );
+        return [];
+      }
   }
 };
 
@@ -103,7 +121,10 @@ const itemIsDisabled = (
     } else {
       disabled = false;
     }
-  } else if (className.toLowerCase().includes("fighter")) {
+  } else if (
+    className.toLowerCase().includes("fighter") ||
+    !classChoices.includes(className)
+  ) {
     disabled = false;
   } else if (className.toLowerCase().includes("thief")) {
     if (item.category === "armor-and-shields") {
