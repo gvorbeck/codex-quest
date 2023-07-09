@@ -1,7 +1,7 @@
 import { Checkbox, Input, Radio, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { CharacterClassProps } from "./definitions";
 import spellsData from "../../data/spells.json";
 import { classDetails, classChoices } from "../../data/classDetails";
@@ -152,6 +152,10 @@ export default function CharacterClass({
     setCharacterData({ ...characterData, class: event.target.value });
   };
 
+  const handleClickCustomClassInput = (event: MouseEvent<HTMLInputElement>) => {
+    event.currentTarget.select();
+  };
+
   return (
     <>
       {characterData.race === "Elf" && (
@@ -231,6 +235,7 @@ export default function CharacterClass({
               value={customClassInput}
               onChange={handleChangeCustomClassInput}
               placeholder="Custom Race"
+              onClick={handleClickCustomClassInput}
             />
             <HomebrewWarning homebrew="Class" />
           </>

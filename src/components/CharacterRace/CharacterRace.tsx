@@ -2,7 +2,7 @@ import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
 import { raceDetails, raceChoices } from "../../data/raceDetails";
-import { ChangeEvent, useState, useEffect } from "react"; // Include useEffect
+import { ChangeEvent, useState, useEffect, MouseEvent } from "react"; // Include useEffect
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 
 export default function CharacterRace({
@@ -64,6 +64,10 @@ export default function CharacterRace({
     setCharacterData({ ...characterData, race: event.target.value });
   };
 
+  const handleClickCustomRaceInput = (event: MouseEvent<HTMLInputElement>) => {
+    event.currentTarget.select();
+  };
+
   return (
     <>
       <Radio.Group
@@ -105,6 +109,7 @@ export default function CharacterRace({
             onChange={handleChangeCustomRaceInput}
             defaultValue={characterData.race}
             placeholder="Custom Race"
+            onClick={handleClickCustomRaceInput}
           />
           <HomebrewWarning homebrew="Race" />
         </>
