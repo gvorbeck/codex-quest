@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useParams } from "react-router-dom";
+import { classChoices } from "../../data/classDetails";
 
 export default function Description({
   character,
@@ -17,6 +18,11 @@ export default function Description({
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
   };
+
+  if (inputValue === "" && !classChoices.includes(character.class)) {
+    const placeholderSavingThrows = `"${character.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
+    setInputValue(placeholderSavingThrows);
+  }
 
   const updateDescription = async () => {
     if (!uid || !id) {
@@ -61,7 +67,7 @@ export default function Description({
       </Typography.Title>
       <Input.TextArea
         value={inputValue}
-        rows={4}
+        rows={10}
         name="Bio & Notes"
         placeholder={`Write anything and everything about ${character.name}`}
         onChange={handleInputChange}

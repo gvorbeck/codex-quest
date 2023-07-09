@@ -1,3 +1,4 @@
+export const raceChoices = ["Dwarf", "Elf", "Halfling", "Human", "Custom"];
 export const raceDetails = {
   dwarf: {
     restrictions: [

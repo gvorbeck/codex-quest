@@ -18,12 +18,12 @@ import {
   Skeleton,
   Typography,
 } from "antd";
-import Description from "../../components/CharacterSheet/Description";
+import Description from "../../components/CharacterDescription/CharacterDescription";
 import Abilities from "../../components/CharacterSheet/Abilities";
 import AttackBonus from "../../components/CharacterSheet/AttackBonus";
 import HitPoints from "../../components/CharacterSheet/HitPoints";
 import SpecialsRestrictions from "../../components/CharacterSheet/SpecialsRestrictions";
-import SavingThrows from "../../components/CharacterSheet/SavingThrows";
+import SavingThrows from "../../components/SavingThrows/SavingThrows";
 import MoneyStats from "../../components/MoneyStats/MoneyStats";
 import EquipmentList from "../../components/CharacterSheet/EquipmentList";
 import Spells from "../../components/CharacterSheet/Spells";
@@ -41,6 +41,7 @@ import WeightStats from "../../components/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
 import DiceRollerModal from "../../modals/DiceRollerModal";
+import { classChoices } from "../../data/classDetails";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -245,20 +246,32 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
           </Row>
           <Divider className="print:hidden" />
-          <Row gutter={32} className="gap-4 md:gap-0 print:block">
-            <Col xs={24} md={12} className="print:w-1/2 print:float-left">
-              {/* SPECIALS / RESTRICTIONS */}
-              <SpecialsRestrictions character={character} />
-              {/* THIEF'S ABILITIES */}
-              {character.class.includes("Thief") && (
-                <ThiefAbilities characterLevel={character.level.toString()} />
-              )}
-            </Col>
-            <Col xs={24} md={12} className="print:w-1/2 print:float-right">
-              {/* SAVING THROWS */}
-              <SavingThrows character={character} setCharacter={setCharacter} />
-            </Col>
-          </Row>
+          {/* Hide these if using a custom Class */}
+          {classChoices.includes(character.class) ? (
+            <Row gutter={32} className="gap-4 md:gap-0 print:block">
+              <Col xs={24} md={12} className="print:w-1/2 print:float-left">
+                {/* SPECIALS / RESTRICTIONS */}
+                <SpecialsRestrictions character={character} />
+                {/* THIEF'S ABILITIES */}
+                {character.class.includes("Thief") && (
+                  <ThiefAbilities characterLevel={character.level.toString()} />
+                )}
+              </Col>
+              <Col xs={24} md={12} className="print:w-1/2 print:float-right">
+                {/* SAVING THROWS */}
+                <SavingThrows
+                  character={character}
+                  setCharacter={setCharacter}
+                />
+              </Col>
+            </Row>
+          ) : (
+            <Typography.Text className="text-center">
+              You are using a custom Class. Use the "Bio & Notes" field below to
+              calculate your character's Saving Throws, Special Abilities, and
+              Restrictions.
+            </Typography.Text>
+          )}
           <Divider />
           <Row gutter={32} className="gap-4 md:gap-0 print:block">
             <Col

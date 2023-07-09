@@ -9,6 +9,9 @@ import SpellData from "../data/spells.json";
 import { clericSpellBudget, magicUserSpellBudget } from "../data/spellBudgets";
 import { hitDiceModifiers } from "../data/hitDiceModifiers";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import { classChoices } from "../data/classDetails";
+import { SpellCheckboxGroupProps } from "./definitions";
+import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 
 const roller = new DiceRoller();
 
@@ -17,8 +20,9 @@ const getSpellBudget = (characterClass: string) => {
     return magicUserSpellBudget;
   } else if (characterClass.includes("Cleric")) {
     return clericSpellBudget;
+  } else if (!classChoices.includes(characterClass)) {
+    return new Array(9).fill(Infinity);
   }
-  return [];
 };
 
 const getSpellLevel = (spell: Spell, characterClass: string) => {
@@ -26,8 +30,9 @@ const getSpellLevel = (spell: Spell, characterClass: string) => {
     return spell.level["magic-user"];
   } else if (characterClass.includes("Cleric")) {
     return spell.level["cleric"];
+  } else if (!classChoices.includes(characterClass)) {
+    return Math.max(...Object.values(spell.level));
   }
-  return 0;
 };
 
 const SpellCheckboxGroup = ({
@@ -38,15 +43,8 @@ const SpellCheckboxGroup = ({
   setCheckedSpells,
   checkedSpellsCount,
   setCheckedSpellsCount,
-}: {
-  characterClass: string;
-  level: number;
-  max: number;
-  checkedSpells: string[];
-  setCheckedSpells: (checkedSpells: string[]) => void;
-  checkedSpellsCount: number[];
-  setCheckedSpellsCount: (checkedSpellsCount: number[]) => void;
-}) => {
+  unrestricted = false,
+}: SpellCheckboxGroupProps) => {
   if (max) {
     return (
       <>
@@ -202,24 +200,47 @@ export default function LevelUpModal({
       footer={false}
       closeIcon={<ModalCloseIcon />}
     >
-      {["Magic-User", "Cleric"].map((characterClass) => {
+      {classChoices.map((characterClass) => {
         if (character.class.includes(characterClass)) {
           const spellBudget = getSpellBudget(characterClass);
-          return spellBudget[character.level].map((max: number, index) => (
+          if (spellBudget && spellBudget[character.level]) {
+            return spellBudget[character.level].map(
+              (max: number, index: number) => (
+                <SpellCheckboxGroup
+                  key={index}
+                  characterClass={characterClass}
+                  level={index}
+                  max={max}
+                  checkedSpells={checkedSpells}
+                  setCheckedSpells={setCheckedSpells}
+                  checkedSpellsCount={checkedSpellsCount}
+                  setCheckedSpellsCount={setCheckedSpellsCount}
+                />
+              )
+            );
+          }
+        }
+        return null;
+      })}
+
+      {!classChoices.includes(character.class) && (
+        <HomebrewWarning homebrew="Race or Class" />
+      )}
+      {!classChoices.some((choice) => character.class.includes(choice)) && // For classes that are not in classChoices
+        new Array(6)
+          .fill(0)
+          .map((_, index) => (
             <SpellCheckboxGroup
               key={index}
-              characterClass={characterClass}
+              characterClass={character.class}
               level={index}
-              max={max}
+              max={Infinity}
               checkedSpells={checkedSpells}
               setCheckedSpells={setCheckedSpells}
               checkedSpellsCount={checkedSpellsCount}
               setCheckedSpellsCount={setCheckedSpellsCount}
             />
-          ));
-        }
-        return null;
-      })}
+          ))}
 
       <Button type="primary" onClick={() => rollNewHitPoints(newHitDice)}>
         Roll new Hit Points ({newHitDice})

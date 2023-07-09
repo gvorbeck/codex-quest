@@ -1,3 +1,10 @@
+export const classChoices = [
+  "Cleric",
+  "Fighter",
+  "Magic-User",
+  "Thief",
+  "Custom",
+];
 export const classDetails = {
   cleric: {
     specials: [
