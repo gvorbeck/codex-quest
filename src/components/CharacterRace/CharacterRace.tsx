@@ -90,7 +90,7 @@ export default function CharacterRace({
           <Typography.Text
             type="warning"
             italic
-            className="bg-shipGray p-2 rounded"
+            className="bg-shipGray p-2 rounded border border-seaBuckthorn border-solid"
           >
             Work closely with your GM when creating a custom Race.
           </Typography.Text>

@@ -1,12 +1,12 @@
-import { Checkbox, Divider, Radio, Switch } from "antd";
+import { Checkbox, Input, Radio, Switch, Typography } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { CharacterClassProps } from "./definitions";
 import spellsData from "../../data/spells.json";
 import { classDetails } from "../../data/classDetails";
 
-const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief"];
+const classChoices = ["Cleric", "Fighter", "Magic-User", "Thief", "Custom"];
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
 export default function CharacterClass({
@@ -19,6 +19,8 @@ export default function CharacterClass({
   selectedSpell,
   setSelectedSpell,
 }: CharacterClassProps) {
+  const [customClassInput, setCustomClassInput] = useState("");
+  const [showCustomClassInput, setShowCustomClassInput] = useState(false);
   useEffect(() => {
     if (comboClass) {
       const firstClass =
@@ -68,7 +70,11 @@ export default function CharacterClass({
   };
 
   const onClassRadioChange = (e: RadioChangeEvent) => {
-    const classValue = e.target.value;
+    if (e.target.value === "Custom") setShowCustomClassInput(true);
+    else setShowCustomClassInput(false);
+
+    const classValue =
+      e.target.value !== "Custom" ? e.target.value : customClassInput;
     setSelectedSpell(null);
     const spells = classValue === "Magic-User" ? readMagic : [];
     const thisClass = e.target.value
@@ -82,12 +88,18 @@ export default function CharacterClass({
       spells,
       equipment: [],
       restrictions: {
-        race: characterData.restrictions.race,
-        class: [...classDetails[thisClass].restrictions],
+        ...characterData.restrictions,
+        class:
+          e.target.value !== "Custom"
+            ? [...classDetails[thisClass].restrictions]
+            : [],
       },
       specials: {
-        race: characterData.specials.race,
-        class: [...classDetails[thisClass].specials],
+        ...characterData.specials,
+        class:
+          e.target.value !== "Custom"
+            ? [...classDetails[thisClass].specials]
+            : [],
       },
     });
   };
@@ -119,6 +131,13 @@ export default function CharacterClass({
     setComboClass(checked);
   };
 
+  const handleChangeCustomClassInput = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setCustomClassInput(event.target.value);
+    setCharacterData({ ...characterData, class: event.target.value });
+  };
+
   return (
     <>
       {characterData.race === "Elf" && (
@@ -132,94 +151,106 @@ export default function CharacterClass({
         </div>
       )}
       <div className="mt-6">
-        <div>
-          {comboClass ? (
-            <div>
-              {classChoices.map((choice) => (
-                <Checkbox
-                  key={choice}
-                  onChange={onCheckboxChange}
-                  value={choice}
-                  // className="flex-[1_1_40%]"
-                  checked={checkedClasses.includes(choice)}
-                  disabled={
-                    choice === "Cleric" ||
-                    (choice === "Fighter" &&
-                      checkedClasses.includes("Thief")) ||
-                    (choice === "Thief" &&
-                      checkedClasses.includes("Fighter")) ||
-                    (choice === "Fighter" &&
-                      +characterData.abilities.scores.strength < 9) ||
-                    (choice === "Magic-User" &&
-                      +characterData.abilities.scores.intelligence < 9) ||
-                    (choice === "Thief" &&
-                      +characterData.abilities.scores.dexterity < 9)
-                  }
-                >
-                  {choice}
-                </Checkbox>
-              ))}
-            </div>
-          ) : (
-            <Radio.Group
-              value={characterData.class}
-              onChange={onClassRadioChange}
-              // className="flex flex-wrap gap-4 lg:flex-col"
-              buttonStyle="solid"
-            >
-              {classChoices.map((choice) => (
-                <Radio.Button
-                  key={choice}
-                  value={choice}
-                  className="ps-2 pe-2 md:ps-4 md:pe-4"
-                  disabled={
-                    (characterData.race === "Dwarf" &&
-                      choice === "Magic-User") ||
-                    (characterData.race === "Halfling" &&
-                      choice === "Magic-User") ||
-                    (choice === "Cleric" &&
-                      +characterData.abilities.scores.wisdom < 9) ||
-                    (choice === "Fighter" &&
-                      +characterData.abilities.scores.strength < 9) ||
-                    (choice === "Magic-User" &&
-                      +characterData.abilities.scores.intelligence < 9) ||
-                    (choice === "Thief" &&
-                      +characterData.abilities.scores.dexterity < 9)
-                  }
-                >
-                  {choice}
-                </Radio.Button>
-              ))}
-            </Radio.Group>
-          )}
-        </div>
-        {characterData.class.includes("Magic-User") && (
-          <>
-            <Divider />
-            <div>
-              <Radio.Group
-                onChange={onSpellRadioChange}
-                value={selectedSpell ? selectedSpell.name : null}
-                className="flex flex-wrap gap-4 items-center"
+        {comboClass ? (
+          <div>
+            {classChoices.map(
+              (choice) =>
+                choice !== "Custom" && (
+                  <Checkbox
+                    key={choice}
+                    onChange={onCheckboxChange}
+                    value={choice}
+                    checked={checkedClasses.includes(choice)}
+                    disabled={
+                      choice === "Cleric" ||
+                      (choice === "Fighter" &&
+                        checkedClasses.includes("Thief")) ||
+                      (choice === "Thief" &&
+                        checkedClasses.includes("Fighter")) ||
+                      (choice === "Fighter" &&
+                        +characterData.abilities.scores.strength < 9) ||
+                      (choice === "Magic-User" &&
+                        +characterData.abilities.scores.intelligence < 9) ||
+                      (choice === "Thief" &&
+                        +characterData.abilities.scores.dexterity < 9)
+                    }
+                  >
+                    {choice}
+                  </Checkbox>
+                )
+            )}
+          </div>
+        ) : (
+          <Radio.Group
+            value={characterData.class}
+            onChange={onClassRadioChange}
+            buttonStyle="solid"
+          >
+            {classChoices.map((choice) => (
+              <Radio.Button
+                key={choice}
+                value={choice}
+                className="ps-2 pe-2 md:ps-4 md:pe-4"
+                disabled={
+                  (characterData.race === "Dwarf" && choice === "Magic-User") ||
+                  (characterData.race === "Halfling" &&
+                    choice === "Magic-User") ||
+                  (choice === "Cleric" &&
+                    +characterData.abilities.scores.wisdom < 9) ||
+                  (choice === "Fighter" &&
+                    +characterData.abilities.scores.strength < 9) ||
+                  (choice === "Magic-User" &&
+                    +characterData.abilities.scores.intelligence < 9) ||
+                  (choice === "Thief" &&
+                    +characterData.abilities.scores.dexterity < 9)
+                }
               >
-                {spellsData
-                  .filter(
-                    (spell) =>
-                      spell.level["magic-user"] === 1 &&
-                      spell.name !== "Read Magic"
-                  )
-                  .map((spell) => (
-                    <Radio
-                      key={spell.name}
-                      value={spell.name}
-                      className="flex-[1_1_45%]"
-                    >
-                      {spell.name}
-                    </Radio>
-                  ))}
-              </Radio.Group>
-            </div>
+                {choice}
+              </Radio.Button>
+            ))}
+          </Radio.Group>
+        )}
+        {showCustomClassInput && (
+          <>
+            <Input
+              className="my-4"
+              value={customClassInput}
+              onChange={handleChangeCustomClassInput}
+              placeholder="Custom Race"
+            />
+            <Typography.Text
+              type="warning"
+              italic
+              className="bg-shipGray p-2 rounded border border-seaBuckthorn border-solid"
+            >
+              Work closely with your GM when creating a custom Class.
+            </Typography.Text>
           </>
+        )}
+        {characterData.class.includes("Magic-User") && (
+          <div className="mt-4">
+            <Radio.Group
+              onChange={onSpellRadioChange}
+              value={selectedSpell ? selectedSpell.name : null}
+              className="flex flex-wrap gap-4 items-center"
+            >
+              {spellsData
+                .filter(
+                  (spell) =>
+                    spell.level["magic-user"] === 1 &&
+                    spell.name !== "Read Magic"
+                )
+                .map((spell) => (
+                  <Radio
+                    key={spell.name}
+                    value={spell.name}
+                    className="flex-[1_1_45%]"
+                  >
+                    {spell.name}
+                  </Radio>
+                ))}
+            </Radio.Group>
+          </div>
         )}
       </div>
     </>
