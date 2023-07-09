@@ -10,7 +10,7 @@ export default function HomebrewWarning({
       type="warning"
       italic
       // className={`${className} bg-copperRust p-2 rounded border border-seaBuckthorn border-solid inline-block`}
-      className={`${className} inline-block text-copperRust`}
+      className={`inline-block text-copperRust ${className}`}
     >
       Work closely with your GM when using a custom {homebrew}.
     </Typography.Text>
