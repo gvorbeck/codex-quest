@@ -9,6 +9,9 @@ import EquipmentInventory from "./EquipmentInventory/EquipmentInventory";
 import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { raceChoices } from "../../data/raceDetails";
+import { classChoices } from "../../data/classDetails";
+import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 
 const roller = new DiceRoller();
 
@@ -188,36 +191,42 @@ export default function EquipmentStore({
   }, [characterData.gold]);
 
   return (
-    <div className="sm:grid grid-cols-2 gap-8">
-      {inBuilder && (
-        <Space.Compact className="col-span-2">
-          <InputNumber
-            min={30}
-            max={180}
-            defaultValue={0}
-            value={Number(goldInputValue.toFixed(2))}
-            onFocus={(event) => event.target.select()}
-            onChange={handleGoldInputChange}
-          />
-          <Button
-            aria-label="Roll for starting gold"
-            type="primary"
-            onClick={() => handleGoldInputChange(roller.roll("3d6*10").total)}
-          >
-            Roll 3d6x10
-          </Button>
-        </Space.Compact>
-      )}
-      <EquipmentAccordion
-        onAmountChange={onAmountChange}
-        onCheckboxCheck={onCheckboxCheck}
-        onRadioCheck={onRadioCheck}
-        playerClass={characterData.class as ClassName}
-        playerEquipment={characterData.equipment}
-        playerRace={characterData.race as RaceName}
-        playerGold={characterData.gold}
-      />
-      <EquipmentInventory characterData={characterData} />
-    </div>
+    <>
+      {!raceChoices.includes(characterData.race) &&
+        !classChoices.includes(characterData.class) && (
+          <HomebrewWarning homebrew="Race or Class" className="mb-4" />
+        )}
+      <div className="sm:grid grid-cols-2 gap-8">
+        {inBuilder && (
+          <Space.Compact className="col-span-2">
+            <InputNumber
+              min={30}
+              max={180}
+              defaultValue={0}
+              value={Number(goldInputValue.toFixed(2))}
+              onFocus={(event) => event.target.select()}
+              onChange={handleGoldInputChange}
+            />
+            <Button
+              aria-label="Roll for starting gold"
+              type="primary"
+              onClick={() => handleGoldInputChange(roller.roll("3d6*10").total)}
+            >
+              Roll 3d6x10
+            </Button>
+          </Space.Compact>
+        )}
+        <EquipmentAccordion
+          onAmountChange={onAmountChange}
+          onCheckboxCheck={onCheckboxCheck}
+          onRadioCheck={onRadioCheck}
+          playerClass={characterData.class as ClassName}
+          playerEquipment={characterData.equipment}
+          playerRace={characterData.race as RaceName}
+          playerGold={characterData.gold}
+        />
+        <EquipmentInventory characterData={characterData} />
+      </div>
+    </>
   );
 }

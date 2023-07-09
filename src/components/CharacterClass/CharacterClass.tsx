@@ -1,10 +1,11 @@
-import { Checkbox, Input, Radio, Switch, Typography } from "antd";
+import { Checkbox, Input, Radio, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CharacterClassProps } from "./definitions";
 import spellsData from "../../data/spells.json";
 import { classDetails, classChoices } from "../../data/classDetails";
+import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -217,13 +218,7 @@ export default function CharacterClass({
               onChange={handleChangeCustomClassInput}
               placeholder="Custom Race"
             />
-            <Typography.Text
-              type="warning"
-              italic
-              className="bg-shipGray p-2 rounded border border-seaBuckthorn border-solid"
-            >
-              Work closely with your GM when creating a custom Class.
-            </Typography.Text>
+            <HomebrewWarning homebrew="Class" />
           </>
         )}
         {characterData.class.includes("Magic-User") && (

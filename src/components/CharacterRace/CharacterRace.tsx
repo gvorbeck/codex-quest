@@ -1,8 +1,9 @@
-import { Input, Radio, Typography } from "antd";
+import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
 import { raceDetails, raceChoices } from "../../data/raceDetails";
 import { ChangeEvent, useState } from "react";
+import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 
 export default function CharacterRace({
   characterData,
@@ -85,13 +86,7 @@ export default function CharacterRace({
             onChange={handleChangeCustomRaceInput}
             placeholder="Custom Race"
           />
-          <Typography.Text
-            type="warning"
-            italic
-            className="bg-shipGray p-2 rounded border border-seaBuckthorn border-solid"
-          >
-            Work closely with your GM when creating a custom Race.
-          </Typography.Text>
+          <HomebrewWarning homebrew="Race" />
         </>
       )}
     </>
