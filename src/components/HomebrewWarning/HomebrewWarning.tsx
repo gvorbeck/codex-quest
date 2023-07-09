@@ -11,7 +11,7 @@ export default function HomebrewWarning({
       italic
       className={`${className} bg-shipGray p-2 rounded border border-seaBuckthorn border-solid inline-block`}
     >
-      Work closely with your GM when creating a custom {homebrew}.
+      Work closely with your GM when using a custom {homebrew}.
     </Typography.Text>
   );
 }

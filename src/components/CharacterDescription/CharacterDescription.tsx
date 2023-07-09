@@ -67,7 +67,7 @@ export default function Description({
       </Typography.Title>
       <Input.TextArea
         value={inputValue}
-        rows={4}
+        rows={10}
         name="Bio & Notes"
         placeholder={`Write anything and everything about ${character.name}`}
         onChange={handleInputChange}
