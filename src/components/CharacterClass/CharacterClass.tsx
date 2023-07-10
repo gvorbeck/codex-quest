@@ -198,6 +198,7 @@ export default function CharacterClass({
                     checked={checkedClasses.includes(choice)}
                     disabled={
                       choice === "Cleric" ||
+                      choice === "Assassin" ||
                       (choice === "Fighter" &&
                         checkedClasses.includes("Thief")) ||
                       (choice === "Thief" &&
@@ -208,6 +209,9 @@ export default function CharacterClass({
                         +characterData.abilities.scores.intelligence < 9) ||
                       (choice === "Thief" &&
                         +characterData.abilities.scores.dexterity < 9)
+                      // (choice === "Assassin" &&
+                      //   +characterData.abilities.scores.dexterity < 9 &&
+                      //   +characterData.abilities.scores.intelligence < 9)
                     }
                   >
                     {choice}
@@ -238,7 +242,11 @@ export default function CharacterClass({
                   (choice === "Magic-User" &&
                     +characterData.abilities.scores.intelligence < 9) ||
                   (choice === "Thief" &&
-                    +characterData.abilities.scores.dexterity < 9)
+                    +characterData.abilities.scores.dexterity < 9) ||
+                  (characterData.race !== "Human" && choice === "Assassin") ||
+                  (choice === "Assassin" &&
+                    (+characterData.abilities.scores.dexterity < 9 ||
+                      +characterData.abilities.scores.intelligence < 9))
                 }
               >
                 {choice}

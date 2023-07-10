@@ -40,7 +40,10 @@ export default function CharacterHitPoints({
         }
       } else if (characterData.class === "Magic-User") {
         dice = "d4";
-      } else if (characterData.class === "Thief") {
+      } else if (
+        characterData.class === "Thief" ||
+        characterData.class === "Assassin"
+      ) {
         dice = "d4";
       } else dice = characterData.hp.dice;
     }

@@ -5,6 +5,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import { levelRequirements } from "../../../data/experience-points";
 
 export default function ExperiencePoints({
   character,
@@ -14,26 +15,6 @@ export default function ExperiencePoints({
   className,
 }: CharacterDetails) {
   const [prevValue, setPrevValue] = useState(character.xp.toString());
-  const levelRequirements = {
-    Cleric: [
-      0, 1500, 3000, 6000, 12000, 24000, 48000, 90000, 180000, 270000, 360000,
-      450000, 540000, 630000, 720000, 810000, 900000, 990000, 1080000, 1170000,
-    ],
-    Fighter: [
-      0, 2000, 4000, 8000, 16000, 32000, 64000, 120000, 240000, 360000, 480000,
-      600000, 720000, 840000, 960000, 1080000, 1200000, 1320000, 1440000,
-      1560000,
-    ],
-    "Magic-User": [
-      0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
-      750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000,
-      1950000,
-    ],
-    Thief: [
-      0, 1250, 2500, 5000, 10000, 20000, 40000, 75000, 150000, 225000, 300000,
-      375000, 450000, 525000, 600000, 675000, 750000, 825000, 900000, 975000,
-    ],
-  };
 
   const [inputValue, setInputValue] = useState(character.xp.toString());
 

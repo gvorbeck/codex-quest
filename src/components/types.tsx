@@ -205,10 +205,6 @@ export interface AttackButtonsProps {
   className?: string;
 }
 
-export interface ThiefAbilitiesArray {
-  [key: string]: number[];
-}
-
 export interface RangeRadioButtons {
   missileRangeBonus: number;
   handleRangeChange: (e: RadioChangeEvent) => void;

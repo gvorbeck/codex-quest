@@ -44,8 +44,8 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
 );
 
 const availableEquipmentCategories = (className: ClassName) => {
-  switch (className) {
-    case "Cleric":
+  switch (className.toLowerCase()) {
+    case "cleric":
       return [
         "ammunition",
         "armor-and-shields",
@@ -54,8 +54,9 @@ const availableEquipmentCategories = (className: ClassName) => {
         "items",
         "other-weapons",
       ];
-    case "Fighter":
-    case "Thief":
+    case "fighter":
+    case "thief":
+    case "assassin":
       return [
         "ammunition",
         "armor-and-shields",
@@ -68,7 +69,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "other-weapons",
         "swords",
       ];
-    case "Magic-User":
+    case "magic-user":
       return ["daggers", "items", "other-weapons", "beasts-of-burden"];
     default:
       if (!classChoices.includes(className)) {
@@ -99,7 +100,7 @@ const itemIsDisabled = (
   item: EquipmentItem
 ) => {
   let disabled = true;
-  if (className === "Cleric") {
+  if (className.toLowerCase() === "cleric") {
     if (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
@@ -126,7 +127,10 @@ const itemIsDisabled = (
     !classChoices.includes(className)
   ) {
     disabled = false;
-  } else if (className.toLowerCase().includes("thief")) {
+  } else if (
+    className.toLowerCase().includes("thief") ||
+    className.toLowerCase().includes("assassin")
+  ) {
     if (item.category === "armor-and-shields") {
       if (
         item.name.toLowerCase().includes("leather") ||

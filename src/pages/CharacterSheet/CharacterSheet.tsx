@@ -36,7 +36,7 @@ import LevelUpModal from "../../modals/LevelUpModal";
 import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
-import ThiefAbilities from "../../components/CharacterSheet/ThiefAbilities";
+import SpecialAbilitiesTable from "../../components/SpecialAbilitiesTable/SpecialAbilitiesTable";
 import WeightStats from "../../components/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
@@ -253,8 +253,21 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 {/* SPECIALS / RESTRICTIONS */}
                 <SpecialsRestrictions character={character} />
                 {/* THIEF'S ABILITIES */}
-                {character.class.includes("Thief") && (
-                  <ThiefAbilities characterLevel={character.level.toString()} />
+                {(character.class.includes("Thief") ||
+                  character.class.includes("Assassin")) && (
+                  <SpecialAbilitiesTable
+                    characterLevel={character.level.toString()}
+                    characterClass={character.class}
+                    abilityNames={[
+                      "Open Locks",
+                      "Remove Traps",
+                      "Pick Pockets",
+                      "Move Silently",
+                      "Climb Walls",
+                      "Hide",
+                      "Listen",
+                    ]}
+                  />
                 )}
               </Col>
               <Col xs={24} md={12} className="print:w-1/2 print:float-right">

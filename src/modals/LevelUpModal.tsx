@@ -130,6 +130,7 @@ export default function LevelUpModal({
   // Determine what, if any, modifier is added to the roll
   if (
     (character.class.includes("Fighter") ||
+      character.class.includes("Assassin") ||
       character.class.includes("Thief")) &&
     hitDiceModifiers.double[character.level] !== null
   ) {
