@@ -319,10 +319,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
             <Col xs={24} md={12} className="print:clear-both">
               {/* EQUIPMENT */}
-              <Typography.Title level={3} className="mt-0 text-shipGray">
-                Equipment
-              </Typography.Title>
-              <div className="print:hidden">
+              <div className="flex items-baseline gap-4">
+                <Typography.Title level={3} className="mt-0 text-shipGray">
+                  Equipment
+                </Typography.Title>
+                <HelpTooltip text="Adding & removing equipment will automatically modify your gold balance." />
+              </div>
+              <div className="print:hidden flex flex-wrap gap-4">
                 <Button
                   type="primary"
                   disabled={!userIsOwner}
@@ -334,14 +337,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   type="primary"
                   disabled={!userIsOwner}
                   onClick={showAddCustomEquipmentModal}
-                  className="ml-2"
                 >
                   Add Custom Equipment
                 </Button>
-                <HelpTooltip
-                  className="ml-2"
-                  text="Adding & removing equipment will automatically modify your gold balance."
-                />
               </div>
               <div className="hidden print:block">
                 {character.equipment.map((item) => (
