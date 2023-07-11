@@ -19,6 +19,7 @@ import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { EquipmentItem } from "../components/EquipmentStore/definitions";
 
 const categoriesSet = new Set(equipmentItems.map((item) => item.category));
 
@@ -86,7 +87,7 @@ export default function AddCustomEquipmentModal({
     console.log("Success:", values);
 
     // Common properties
-    let newItem: { [k: string]: any } = {
+    let newItem: EquipmentItem = {
       name: values.name,
       costValue: values.costValue,
       costCurrency: values.costCurrency,
@@ -166,7 +167,10 @@ export default function AddCustomEquipmentModal({
         break;
     }
 
-    console.log(newItem);
+    setCharacter({
+      ...character,
+      equipment: [...character.equipment, newItem],
+    });
   };
 
   const handleFormChange = (event: { target: { name: any; value: any } }) => {
@@ -211,6 +215,31 @@ export default function AddCustomEquipmentModal({
       type: value,
     });
   };
+
+  const attackTypeHiddenCategories = [
+    "armor-and-shields",
+    "beasts-of-burden",
+    "bows",
+    "brawling",
+    "items",
+    "chain-and-flail",
+    "daggers",
+    "slings-and-hurled-weapons",
+  ];
+
+  const damageHiddenCategories = [
+    "armor-and-shields",
+    "beasts-of-burden",
+    "bows",
+    "items",
+  ];
+
+  const sizeHiddenCategories = [
+    "ammunition",
+    "armor-and-shields",
+    "beasts-of-burden",
+    "items",
+  ];
 
   return (
     <Modal
@@ -324,28 +353,18 @@ export default function AddCustomEquipmentModal({
             <Form.Item
               label="Attack Type"
               name="type"
-              className={`${
-                (formState.category === "armor-and-shields" ||
-                  formState.category === "beasts-of-burden" ||
-                  formState.category === "bows" ||
-                  formState.category === "brawling" ||
-                  formState.category === "items" ||
-                  formState.category === "chain-and-flail" ||
-                  formState.category === "daggers" ||
-                  formState.category === "slings-and-hurled-weapons") &&
-                "hidden"
-              }`}
+              className={
+                attackTypeHiddenCategories.some(
+                  (category) => formState.category === category
+                )
+                  ? "hidden"
+                  : ""
+              }
               rules={[
                 {
-                  required:
-                    formState.category !== "armor-and-shields" &&
-                    formState.category !== "beasts-of-burden" &&
-                    formState.category !== "bows" &&
-                    formState.category !== "items" &&
-                    formState.category !== "brawling" &&
-                    formState.category !== "chain-and-flail" &&
-                    formState.category !== "daggers" &&
-                    formState.category !== "slings-and-hurled-weapons",
+                  required: !attackTypeHiddenCategories.some(
+                    (category) => formState.category === category
+                  ),
                   message: "Required",
                 },
               ]}
@@ -388,21 +407,18 @@ export default function AddCustomEquipmentModal({
               <Form.Item
                 label="Damage"
                 name="damage"
-                className={`${
-                  (formState.category === "armor-and-shields" ||
-                    formState.category === "beasts-of-burden" ||
-                    formState.category === "bows" ||
-                    formState.category === "items") &&
-                  "hidden"
-                }`}
+                className={
+                  damageHiddenCategories.some(
+                    (category) => formState.category === category
+                  )
+                    ? "hidden"
+                    : ""
+                }
                 rules={[
                   {
-                    required:
-                      formState.category !== "armor-and-shields" &&
-                      formState.category !== "beasts-of-burden" &&
-                      formState.category !== "bows" &&
-                      formState.category !== "items" &&
-                      formState.category !== "slings-and-hurled-weapons",
+                    required: !damageHiddenCategories.some(
+                      (category) => formState.category === category
+                    ),
                     message: "Required",
                   },
                   {
@@ -492,20 +508,18 @@ export default function AddCustomEquipmentModal({
               <Form.Item
                 label="Size"
                 name="size"
-                className={`${
-                  (formState.category === "ammunition" ||
-                    formState.category === "armor-and-shields" ||
-                    formState.category === "beasts-of-burden" ||
-                    formState.category === "items") &&
-                  "hidden"
-                }`}
+                className={
+                  sizeHiddenCategories.some(
+                    (category) => formState.category === category
+                  )
+                    ? "hidden"
+                    : ""
+                }
                 rules={[
                   {
-                    required:
-                      formState.category !== "ammunition" &&
-                      formState.category !== "armor-and-shields" &&
-                      formState.category !== "beasts-of-burden" &&
-                      formState.category !== "items",
+                    required: !sizeHiddenCategories.some(
+                      (category) => formState.category === category
+                    ),
                     message: "Required",
                   },
                 ]}
