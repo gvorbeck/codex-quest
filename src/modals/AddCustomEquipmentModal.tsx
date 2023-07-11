@@ -5,6 +5,8 @@ import {
   Input,
   InputNumber,
   Modal,
+  Radio,
+  RadioChangeEvent,
   Select,
   Switch,
 } from "antd";
@@ -27,7 +29,7 @@ const equipmentCategories = Array.from(categoriesSet)
   .sort((a, b) => a.label.localeCompare(b.label));
 
 const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
+  console.error("Failed:", errorInfo);
 };
 
 export default function AddCustomEquipmentModal({
@@ -46,6 +48,7 @@ export default function AddCustomEquipmentModal({
     purchased: true,
     weight: undefined,
     damage: undefined,
+    type: "melee",
     ac: undefined,
     size: undefined,
     amount: 1,
@@ -81,6 +84,112 @@ export default function AddCustomEquipmentModal({
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    let newItem;
+    switch (values.category) {
+      case "ammunition":
+        newItem = {
+          amount: values.amount,
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          weight: values.weight,
+          damage: values.damage,
+          category: values.category,
+        };
+        break;
+      case "armor-and-shields":
+        newItem = {
+          AC: values.armorOrShield ? values["armor-ac"] : values["shield-ac"],
+          amount: values.amount,
+          category: values.category,
+          costCurrency: values.costCurrency,
+          costValue: values.costValue,
+          name: values.name,
+          weight: values.weight,
+        };
+        break;
+      case "axes":
+      case "hammers-and-maces":
+      case "improvised-weapons":
+      case "other-weapons":
+      case "spears-and-polearms":
+        newItem = {
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          size: values.size,
+          weight: values.weight,
+          damage: values.damage,
+          category: values.category,
+          type: values.type,
+          amount: values.amount,
+        };
+        break;
+      case "beasts-of-burden":
+        newItem = {
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          category: values.category,
+          amount: values.amount,
+        };
+        break;
+      case "bows":
+      case "slings-and-hurled-weapons":
+        newItem = {
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          size: values.size,
+          weight: values.weight,
+          category: values.category,
+          type: "missile",
+          amount: values.amount,
+          damage: values.damage,
+        };
+        break;
+      case "brawling":
+      case "chain-and-flail":
+      case "swords":
+        newItem = {
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          size: values.size,
+          weight: values.weight,
+          damage: values.damage,
+          category: values.category,
+          type: "melee",
+          amount: values.amount,
+        };
+        break;
+      case "daggers":
+        newItem = {
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          size: values.size,
+          weight: values.weight,
+          damage: values.damage,
+          category: values.category,
+          type: "both",
+          amount: values.amount,
+        };
+        break;
+      case "items":
+        newItem = {
+          name: values.name,
+          costValue: values.costValue,
+          costCurrency: values.costCurrency,
+          weight: values.weight,
+          category: values.category,
+          amount: values.amount,
+        };
+        break;
+      default:
+        break;
+    }
+    console.log(newItem);
   };
 
   const handleFormChange = (event: { target: { name: any; value: any } }) => {
@@ -104,7 +213,6 @@ export default function AddCustomEquipmentModal({
   };
 
   const handleSwitchChange = (value: any) => {
-    console.log(value);
     setFormState({
       ...formState,
       armorOrShield: value,
@@ -116,6 +224,14 @@ export default function AddCustomEquipmentModal({
     setFormState({
       ...formState,
       [name]: value,
+    });
+  };
+
+  const handleRadioChange = (event: RadioChangeEvent) => {
+    const value = event.target.value;
+    setFormState({
+      ...formState,
+      type: value,
     });
   };
 
@@ -134,7 +250,6 @@ export default function AddCustomEquipmentModal({
           layout="vertical"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          // initialValues={{ purchased }}
         >
           <Form.Item
             label="Name"
@@ -229,6 +344,46 @@ export default function AddCustomEquipmentModal({
                 />
               </Form.Item>
             </div>
+            <Form.Item
+              label="Attack Type"
+              name="type"
+              className={`${
+                (formState.category === "armor-and-shields" ||
+                  formState.category === "beasts-of-burden" ||
+                  formState.category === "bows" ||
+                  formState.category === "brawling" ||
+                  formState.category === "items" ||
+                  formState.category === "chain-and-flail" ||
+                  formState.category === "daggers" ||
+                  formState.category === "slings-and-hurled-weapons") &&
+                "hidden"
+              }`}
+              rules={[
+                {
+                  required:
+                    formState.category !== "armor-and-shields" &&
+                    formState.category !== "beasts-of-burden" &&
+                    formState.category !== "bows" &&
+                    formState.category !== "items" &&
+                    formState.category !== "brawling" &&
+                    formState.category !== "chain-and-flail" &&
+                    formState.category !== "daggers" &&
+                    formState.category !== "slings-and-hurled-weapons",
+                  message: "Required",
+                },
+              ]}
+              initialValue={formState.type}
+            >
+              <Radio.Group
+                value={formState.type}
+                onChange={handleRadioChange}
+                buttonStyle="solid"
+              >
+                <Radio.Button value="melee">Melee</Radio.Button>
+                <Radio.Button value="missile">Missile</Radio.Button>
+                <Radio.Button value="both">Both</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
             <div className="flex gap-4">
               <Form.Item
                 label="Weight"
@@ -269,7 +424,8 @@ export default function AddCustomEquipmentModal({
                       formState.category !== "armor-and-shields" &&
                       formState.category !== "beasts-of-burden" &&
                       formState.category !== "bows" &&
-                      formState.category !== "items",
+                      formState.category !== "items" &&
+                      formState.category !== "slings-and-hurled-weapons",
                     message: "Required",
                   },
                   {
