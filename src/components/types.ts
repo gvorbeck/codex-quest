@@ -163,11 +163,6 @@ export interface SavingThrowsTables {
   };
 }
 
-export interface SimpleNumberStatProps {
-  title: string;
-  value: string | number;
-}
-
 interface ModalProps {
   handleCancel: () => void;
   character: CharacterData;
