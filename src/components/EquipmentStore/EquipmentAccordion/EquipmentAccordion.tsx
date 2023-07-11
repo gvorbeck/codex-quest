@@ -1,6 +1,6 @@
 import { Collapse, Radio, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
-import { toTitleCase } from "../../formatters";
+import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipment-items.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";

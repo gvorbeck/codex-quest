@@ -1,4 +1,4 @@
-import { toTitleCase } from "../formatters";
+import { toTitleCase } from "../../support/stringSupport";
 import { CharacterDetails } from "../types";
 import { Table, Typography } from "antd";
 
