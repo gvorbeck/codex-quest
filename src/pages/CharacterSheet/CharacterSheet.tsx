@@ -25,10 +25,10 @@ import HitPoints from "../../components/CharacterSheet/HitPoints";
 import SpecialsRestrictions from "../../components/CharacterSheet/SpecialsRestrictions";
 import SavingThrows from "../../components/SavingThrows/SavingThrows";
 import MoneyStats from "../../components/MoneyStats/MoneyStats";
-import EquipmentList from "../../components/CharacterSheet/EquipmentList";
+import EquipmentList from "../../components/CharacterSheet/EquipmentList/EquipmentList";
 import Spells from "../../components/CharacterSheet/Spells";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
-import calculateCarryingCapacity from "../../components/calculateCarryingCapacity";
+import { calculateCarryingCapacity } from "../../support/formatSupport";
 import SimpleNumberStat from "../../components/CharacterSheet/SimpleNumberStat";
 import { User } from "firebase/auth";
 import AttackModal from "../../modals/AttackModal";
@@ -42,6 +42,7 @@ import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
 import DiceRollerModal from "../../modals/DiceRollerModal";
 import { classChoices } from "../../data/classDetails";
+import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -67,6 +68,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [isAddEquipmentModalOpen, setIsAddEquipmentModalOpen] = useState(false);
+  const [isAddCustomEquipmentModalOpen, setIsAddCustomEquipmentModalOpen] =
+    useState(false);
   const [isDiceRollerModalOpen, setIsDiceRollerModalOpen] = useState(false);
   const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
 
@@ -82,6 +85,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     setIsAddEquipmentModalOpen(true);
   };
 
+  const showAddCustomEquipmentModal = () => {
+    setIsAddCustomEquipmentModalOpen(true);
+  };
+
   const showDiceRollerModal = () => {
     setIsDiceRollerModalOpen(true);
   };
@@ -90,6 +97,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     setIsAttackModalOpen(false);
     setIsLevelUpModalOpen(false);
     setIsAddEquipmentModalOpen(false);
+    setIsAddCustomEquipmentModalOpen(false);
     setIsDiceRollerModalOpen(false);
   };
 
@@ -311,21 +319,28 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             </Col>
             <Col xs={24} md={12} className="print:clear-both">
               {/* EQUIPMENT */}
-              <Typography.Title level={3} className="mt-0 text-shipGray">
-                Equipment
-              </Typography.Title>
-              <Button
-                type="primary"
-                disabled={!userIsOwner}
-                onClick={showAddEquipmentModal}
-                className="print:hidden"
-              >
-                Add Equipment
-              </Button>
-              <HelpTooltip
-                className="ml-2"
-                text="Selecting items will automatically be deducted from your gold."
-              />
+              <div className="flex items-baseline gap-4">
+                <Typography.Title level={3} className="mt-0 text-shipGray">
+                  Equipment
+                </Typography.Title>
+                <HelpTooltip text="Adding & removing equipment will automatically modify your gold balance." />
+              </div>
+              <div className="print:hidden flex flex-wrap gap-4">
+                <Button
+                  type="primary"
+                  disabled={!userIsOwner}
+                  onClick={showAddEquipmentModal}
+                >
+                  Add Equipment
+                </Button>
+                <Button
+                  type="primary"
+                  disabled={!userIsOwner}
+                  onClick={showAddCustomEquipmentModal}
+                >
+                  Add Custom Equipment
+                </Button>
+              </div>
               <div className="hidden print:block">
                 {character.equipment.map((item) => (
                   <div key={item.name}>{item.name}</div>
@@ -350,6 +365,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 >
                   <EquipmentList
                     character={character}
+                    setCharacter={setCharacter}
                     handleAttack
                     categories={[
                       "axes",
@@ -357,6 +373,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                       "daggers",
                       "swords",
                       "hammers-and-maces",
+                      "improvised-weapons",
+                      "brawling",
+                      "chain-and-flail",
+                      "hammers-and-maces",
+                      "other-weapons",
+                      "slings-and-hurled-weapons",
+                      "spears-and-polearms",
                     ]}
                     attackBonus={attackBonus(character)}
                     setWeapon={setWeapon}
@@ -369,7 +392,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   key="3"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
-                  <EquipmentList character={character} categories={"items"} />
+                  <EquipmentList
+                    character={character}
+                    categories={"items"}
+                    setCharacter={setCharacter}
+                  />
                 </Collapse.Panel>
                 {/* ARMOR AND SHIELDS */}
                 <Collapse.Panel
@@ -380,6 +407,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"armor-and-shields"}
+                    setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
                 {/* BEAST OF BURDEN */}
@@ -391,6 +419,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"beasts-of-burden"}
+                    setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
                 {/* Ammunition */}
@@ -402,6 +431,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"ammunition"}
+                    setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
               </Collapse>
@@ -431,6 +461,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
           <AddEquipmentModal
             isAddEquipmentModalOpen={isAddEquipmentModalOpen}
+            handleCancel={handleCancel}
+            character={character}
+            setCharacter={setCharacter}
+          />
+          <AddCustomEquipmentModal
+            isAddCustomEquipmentModalOpen={isAddCustomEquipmentModalOpen}
             handleCancel={handleCancel}
             character={character}
             setCharacter={setCharacter}

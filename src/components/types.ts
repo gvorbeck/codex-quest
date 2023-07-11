@@ -153,13 +153,6 @@ export interface CharacterDetails {
   userIsOwner?: boolean;
   showLevelUpModal?: () => void;
 }
-export interface EquipmentListProps extends CharacterDetails {
-  categories: string[] | string;
-  handleAttack?: boolean;
-  attackBonus?: number;
-  setWeapon?: (weapon: EquipmentItem) => void;
-  showAttackModal?: () => void;
-}
 export interface AttackBonusProps extends CharacterDetails {
   attackBonus: number;
 }
@@ -189,11 +182,6 @@ export interface AttackModalProps extends ModalProps {
 export interface LevelUpModalProps extends ModalProps {
   isLevelUpModalOpen: boolean;
   hitDice: string;
-  setCharacter: (character: CharacterData) => void;
-}
-
-export interface AddEquipmentModalProps extends ModalProps {
-  isAddEquipmentModalOpen: boolean;
   setCharacter: (character: CharacterData) => void;
 }
 

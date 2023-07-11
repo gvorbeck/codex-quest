@@ -1,8 +1,22 @@
+import { CharacterData } from "../components/types";
+
 interface ModalProps {
   handleCancel: () => void;
 }
 export interface DiceRollerModalProps extends ModalProps {
   isDiceRollerModalOpen: boolean;
+}
+
+export interface AddEquipmentModalProps extends ModalProps {
+  isAddEquipmentModalOpen: boolean;
+  setCharacter: (character: CharacterData) => void;
+  character: CharacterData;
+}
+
+export interface AddCustomEquipmentModalProps extends ModalProps {
+  isAddCustomEquipmentModalOpen: boolean;
+  setCharacter: (character: CharacterData) => void;
+  character: CharacterData;
 }
 
 export interface SpellCheckboxGroupProps {

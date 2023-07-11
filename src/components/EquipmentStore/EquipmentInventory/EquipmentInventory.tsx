@@ -2,7 +2,7 @@ import { Divider, List, Typography } from "antd";
 import { EquipmentInventoryProps } from "./definitions";
 import { useMemo } from "react";
 import { EquipmentItem } from "../definitions";
-import { toTitleCase } from "../../formatters";
+import { toTitleCase } from "../../../support/stringSupport";
 
 export default function EquipmentInventory({
   className,
