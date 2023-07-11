@@ -13,13 +13,30 @@ import {
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
 import equipmentItems from "../data/equipment-items.json";
-import { slugToTitleCase } from "../components/formatters";
+import { slugToTitleCase } from "../support/stringSupport";
 import { useEffect, useState } from "react";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
+import { calculateItemCost } from "../support/formatSupport";
+
+const initialFormState = {
+  name: undefined,
+  category: undefined,
+  subCategory: undefined,
+  costValue: undefined,
+  costCurrency: "gp",
+  armorOrShield: false,
+  purchased: true,
+  weight: undefined,
+  damage: undefined,
+  type: "melee",
+  ac: undefined,
+  size: undefined,
+  amount: 1,
+};
 
 const categoriesSet = new Set(equipmentItems.map((item) => item.category));
 
@@ -39,21 +56,7 @@ export default function AddCustomEquipmentModal({
   character,
   setCharacter,
 }: AddCustomEquipmentModalProps) {
-  const [formState, setFormState] = useState({
-    name: undefined,
-    category: undefined,
-    subCategory: undefined,
-    costValue: undefined,
-    costCurrency: "gp",
-    armorOrShield: false,
-    purchased: true,
-    weight: undefined,
-    damage: undefined,
-    type: "melee",
-    ac: undefined,
-    size: undefined,
-    amount: 1,
-  });
+  const [formState, setFormState] = useState(initialFormState);
   const [prevValue, setPrevValue] = useState(character.equipment);
 
   const { uid, id } = useParams();
@@ -84,8 +87,6 @@ export default function AddCustomEquipmentModal({
   }, [character.equipment, character.gold, character.weight]);
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
-
     // Common properties
     let newItem: EquipmentItem = {
       name: values.name,
@@ -167,10 +168,21 @@ export default function AddCustomEquipmentModal({
         break;
     }
 
+    // Calculate the item cost
+    const itemCost = calculateItemCost(newItem);
+
+    // Update the character's equipment and gold
+    const updatedEquipment = [...character.equipment, newItem];
+    const updatedGold = character.gold - (values.purchased ? itemCost : 0);
+
     setCharacter({
       ...character,
-      equipment: [...character.equipment, newItem],
+      equipment: updatedEquipment,
+      gold: updatedGold,
     });
+
+    handleCancel();
+    setFormState(initialFormState);
   };
 
   const handleFormChange = (event: { target: { name: any; value: any } }) => {
@@ -217,6 +229,7 @@ export default function AddCustomEquipmentModal({
   };
 
   const attackTypeHiddenCategories = [
+    "ammunition",
     "armor-and-shields",
     "beasts-of-burden",
     "bows",
