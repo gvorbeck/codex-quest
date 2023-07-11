@@ -399,28 +399,6 @@
     "weight": 15,
     "damage": "1d10",
     "category": "axes",
-    "type": "both",
-    "amount": 1
-  },
-  {
-    "name": "Pickaxe (Military Pick)",
-    "costValue": 6,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 4,
-    "damage": "1d6",
-    "category": "axes",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Mattock (Footman's Pick)",
-    "costValue": 8,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 6,
-    "damage": "1d8",
-    "category": "axes",
     "type": "melee",
     "amount": 1
   },
@@ -465,26 +443,6 @@
     "amount": 1
   },
   {
-    "name": "Hand Crossbow",
-    "costValue": 150,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 3,
-    "category": "bows",
-    "type": "missile",
-    "amount": 1
-  },
-  {
-    "name": "Bullet Crossbow",
-    "costValue": 30,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 7,
-    "category": "bows",
-    "type": "missile",
-    "amount": 1
-  },
-  {
     "name": "Dagger",
     "costValue": 2,
     "costCurrency": "gp",
@@ -507,18 +465,7 @@
     "amount": 1
   },
   {
-    "name": "Defending Dagger",
-    "costValue": 7,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 2,
-    "damage": "1d4",
-    "category": "daggers",
-    "type": "both",
-    "amount": 1
-  },
-  {
-    "name": "Shortsword/Cutlass",
+    "name": "Shortsword",
     "costValue": 6,
     "costCurrency": "gp",
     "size": "S",
@@ -562,17 +509,6 @@
     "amount": 1
   },
   {
-    "name": "Light Mace",
-    "costValue": 5,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 5,
-    "damage": "1d6",
-    "category": "hammers-and-maces",
-    "type": "melee",
-    "amount": 1
-  },
-  {
     "name": "Mace",
     "costValue": 6,
     "costCurrency": "gp",
@@ -584,18 +520,7 @@
     "amount": 1
   },
   {
-    "name": "Morningstar",
-    "costValue": 7,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 7,
-    "damage": "1d8",
-    "category": "hammers-and-maces",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Maul/Great Mace",
+    "name": "Maul",
     "costValue": 10,
     "costCurrency": "gp",
     "size": "L",
@@ -617,78 +542,12 @@
     "amount": 1
   },
   {
-    "name": "Silver Walking Stick/Staff†",
-    "costValue": 4,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 1,
-    "damage": "1d4",
-    "category": "other-weapons",
-    "type": "melee",
-    "amount": 1
-  },
-  {
     "name": "Quarterstaff",
     "costValue": 2,
     "costCurrency": "gp",
     "size": "L",
     "weight": 4,
     "damage": "1d6",
-    "category": "spears-and-polearms",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Greatclub",
-    "costValue": 3,
-    "costCurrency": "gp",
-    "size": "L",
-    "weight": 8,
-    "damage": "1d8",
-    "category": "other-weapons",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Sap/Blackjack**",
-    "costValue": 1,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 1,
-    "damage": "1d4",
-    "category": "other-weapons",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Hook",
-    "costValue": 6,
-    "costCurrency": "sp",
-    "size": "S",
-    "weight": 1,
-    "damage": "1d4",
-    "category": "other-weapons",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Sickle",
-    "costValue": 2,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 2,
-    "damage": "1d6",
-    "category": "other-weapons",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Scythe",
-    "costValue": 7,
-    "costCurrency": "gp",
-    "size": "L",
-    "weight": 10,
-    "damage": "1d8",
     "category": "other-weapons",
     "type": "melee",
     "amount": 1
@@ -700,51 +559,7 @@
     "size": "L",
     "weight": 15,
     "damage": "1d10",
-    "category": "spears-and-polearms",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Chain††",
-    "costValue": 9,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 3,
-    "damage": "1d4",
-    "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Flail",
-    "costValue": 8,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 6,
-    "damage": "1d8",
-    "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Great Flail",
-    "costValue": 12,
-    "costCurrency": "gp",
-    "size": "L",
-    "weight": 15,
-    "damage": "1d10",
-    "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Whip",
-    "costValue": 3,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 2,
-    "damage": "1d3",
-    "category": "chain-and-flail",
+    "category": "other-weapons",
     "type": "melee",
     "amount": 1
   },
@@ -754,60 +569,7 @@
     "costCurrency": "gp",
     "size": "S",
     "weight": 0.1,
-    "category": "slings-and-hurled-weapons",
-    "type": "missile",
-    "amount": 1
-  },
-  {
-    "name": "Bola (E)",
-    "costValue": 2,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 2,
-    "damage": "1d3",
-    "category": "slings-and-hurled-weapons",
-    "type": "missile",
-    "amount": 1
-  },
-  {
-    "name": "Dart/Throwing Blade",
-    "costValue": 1,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 0.1,
-    "damage": "1d3",
-    "category": "slings-and-hurled-weapons",
-    "type": "missile",
-    "amount": 1
-  },
-  {
-    "name": "Javelin",
-    "costValue": 1,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 2,
-    "damage": "1d4",
-    "category": "slings-and-hurled-weapons",
-    "type": "missile",
-    "amount": 1
-  },
-  {
-    "name": "Blowgun",
-    "costValue": 2,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 2,
-    "category": "slings-and-hurled-weapons",
-    "type": "missile",
-    "amount": 1
-  },
-  {
-    "name": "Net (E)",
-    "costValue": 20,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 5,
-    "category": "slings-and-hurled-weapons",
+    "category": "other-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -817,100 +579,8 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 5,
-    "category": "spears-and-polearms",
-    "damage": "1d6",
-    "meleeDamage": "1d8",
+    "category": "other-weapons",
     "type": "both",
-    "amount": 1
-  },
-  {
-    "name": "Fork/Trident (E)",
-    "costValue": 6,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 5,
-    "category": "spears-and-polearms",
-    "damage": "1d6",
-    "meleeDamage": "1d8",
-    "type": "both",
-    "amount": 1
-  },
-  {
-    "name": "Boar Spear",
-    "costValue": 6,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 5,
-    "category": "spears-and-polearms",
-    "damage": "1d6",
-    "meleeDamage": "1d8",
-    "type": "both",
-    "amount": 1
-  },
-  {
-    "name": "Lance",
-    "costValue": 10,
-    "costCurrency": "gp",
-    "size": "L",
-    "weight": 10,
-    "category": "spears-and-polearms",
-    "damage": "1d8",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Spade",
-    "costValue": 2,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 4,
-    "category": "improvised-weapons",
-    "damage": "1d6",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Crowbar",
-    "costValue": 2,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 5,
-    "category": "improvised-weapons",
-    "damage": "1d6",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Pitchfork",
-    "costValue": 1,
-    "costCurrency": "gp",
-    "size": "M",
-    "weight": 3,
-    "category": "improvised-weapons",
-    "damage": "1d6",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Frying Pan",
-    "costValue": 8,
-    "costCurrency": "sp",
-    "size": "S",
-    "weight": 4,
-    "category": "improvised-weapons",
-    "damage": "1d4",
-    "type": "melee",
-    "amount": 1
-  },
-  {
-    "name": "Cestus/Spiked Gauntlet",
-    "costValue": 1,
-    "costCurrency": "gp",
-    "size": "S",
-    "weight": 2,
-    "category": "brawling",
-    "damage": "1d3",
-    "type": "melee",
     "amount": 1
   },
   {
@@ -986,36 +656,9 @@
     "amount": 1
   },
   {
-    "name": "Hand Quarrel",
-    "costValue": 2,
-    "costCurrency": "sp",
-    "weight": 0.1,
-    "damage": "1d3",
-    "category": "ammunition",
-    "amount": 1
-  },
-  {
-    "name": "Silver† Hand Quarrel",
-    "costValue": 5,
-    "costCurrency": "gp",
-    "weight": 0.1,
-    "damage": "1d3",
-    "category": "ammunition",
-    "amount": 1
-  },
-  {
     "name": "Bullet",
     "costValue": 1,
     "costCurrency": "sp",
-    "weight": 0.1,
-    "damage": "1d4",
-    "category": "ammunition",
-    "amount": 1
-  },
-  {
-    "name": "Silver† Bullet",
-    "costValue": 1,
-    "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d4",
     "category": "ammunition",
@@ -1031,38 +674,11 @@
     "amount": 1
   },
   {
-    "name": "Dart",
-    "costValue": 1,
-    "costCurrency": "sp",
-    "weight": 0.1,
-    "damage": "1d3",
-    "category": "ammunition",
-    "amount": 1
-  },
-  {
     "name": "No Armor",
     "costValue": 0,
     "costCurrency": "gp",
     "weight": 0,
     "AC": 11,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Padded or Quilted Armor",
-    "costValue": 15,
-    "costCurrency": "gp",
-    "weight": 10,
-    "AC": 12,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Hide Armor",
-    "costValue": 10,
-    "costCurrency": "gp",
-    "weight": 30,
-    "AC": 13,
     "category": "armor-and-shields",
     "amount": 1
   },
@@ -1076,65 +692,11 @@
     "amount": 1
   },
   {
-    "name": "Studded Leather Armor",
-    "costValue": 30,
-    "costCurrency": "gp",
-    "weight": 25,
-    "AC": 14,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Ring Mail",
-    "costValue": 25,
-    "costCurrency": "gp",
-    "weight": 30,
-    "AC": 14,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Brigandine Armor",
-    "costValue": 80,
-    "costCurrency": "gp",
-    "weight": 30,
-    "AC": 15,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
     "name": "Chain Mail",
     "costValue": 60,
     "costCurrency": "gp",
     "weight": 40,
     "AC": 15,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Scale Mail",
-    "costValue": 80,
-    "costCurrency": "gp",
-    "weight": 55,
-    "AC": 16,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Splint Mail",
-    "costValue": 100,
-    "costCurrency": "gp",
-    "weight": 45,
-    "AC": 16,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Banded Mail",
-    "costValue": 200,
-    "costCurrency": "gp",
-    "weight": 35,
-    "AC": 16,
     "category": "armor-and-shields",
     "amount": 1
   },
@@ -1148,50 +710,11 @@
     "amount": 1
   },
   {
-    "name": "Field Plate Mail",
-    "costValue": 500,
-    "costCurrency": "gp",
-    "weight": 70,
-    "AC": 18,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Full Plate Mail",
-    "costValue": 1500,
-    "costCurrency": "gp",
-    "weight": 80,
-    "AC": 19,
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Buckler Shield",
-    "costValue": 5,
-    "costCurrency": "gp",
-    "weight": 2,
-    "AC": "+1",
-    "meleeAC": "+0",
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Medium Shield",
+    "name": "Shield",
     "costValue": 7,
     "costCurrency": "gp",
     "weight": 5,
     "AC": "+1",
-    "meleeAC": "+1",
-    "category": "armor-and-shields",
-    "amount": 1
-  },
-  {
-    "name": "Tower Shield",
-    "costValue": 15,
-    "costCurrency": "gp",
-    "weight": 12,
-    "AC": "+1",
-    "meleeAC": "+3",
     "category": "armor-and-shields",
     "amount": 1
   },
