@@ -25,7 +25,7 @@ import HitPoints from "../../components/CharacterSheet/HitPoints";
 import SpecialsRestrictions from "../../components/CharacterSheet/SpecialsRestrictions";
 import SavingThrows from "../../components/SavingThrows/SavingThrows";
 import MoneyStats from "../../components/MoneyStats/MoneyStats";
-import EquipmentList from "../../components/CharacterSheet/EquipmentList";
+import EquipmentList from "../../components/CharacterSheet/EquipmentList/EquipmentList";
 import Spells from "../../components/CharacterSheet/Spells";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
 import { calculateCarryingCapacity } from "../../support/formatSupport";
