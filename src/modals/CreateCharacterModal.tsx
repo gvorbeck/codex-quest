@@ -324,6 +324,11 @@ export default function CreateCharacterModal({
           </Col>
         </Row>
         <div className="mt-4">
+          {current > 0 && (
+            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+              Previous
+            </Button>
+          )}
           {current < steps.length - 1 && (
             <Button
               type="primary"
@@ -340,11 +345,6 @@ export default function CreateCharacterModal({
               disabled={!isNextButtonEnabled(current)}
             >
               Done
-            </Button>
-          )}
-          {current > 0 && (
-            <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-              Previous
             </Button>
           )}
         </div>
