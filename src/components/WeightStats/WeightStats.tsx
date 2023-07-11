@@ -1,8 +1,7 @@
-import { Divider, Typography } from "antd";
+import { Descriptions, Divider } from "antd";
 import { CharacterDetails } from "../types";
 import { calculateCarryingCapacity } from "../../support/formatSupport";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import SimpleNumberStat from "../CharacterSheet/SimpleNumberStat";
+import SimpleNumberStat from "../CharacterSheet/SimpleNumberStat/SimpleNumberStat";
 
 export default function WeightStats({
   character,
@@ -20,18 +19,20 @@ export default function WeightStats({
 
   return (
     <div className="text-center">
-      <SimpleNumberStat title="Weight" value={weight.toFixed(0)} />
+      <SimpleNumberStat
+        title="Weight"
+        value={weight.toFixed(0)}
+        helpText={`Stay under ${capacity.light} to remain "Lightly Loaded"`}
+      />
       <Divider />
-      <Typography.Paragraph className="text-3xl font-bold !text-shipGray !mb-3">
-        Max: {capacity.heavy}
-        <HelpTooltip
-          text={`Stay under ${capacity.light} to remain "Lightly Loaded"`}
-          className="relative -top-1 ml-2"
-        />
-      </Typography.Paragraph>
-      <Typography.Text>
-        {weight < capacity.light ? "(Lightly Loaded)" : "(Heavily Loaded)"}
-      </Typography.Text>
+      <Descriptions bordered>
+        <Descriptions.Item label="Max" span={3}>
+          {capacity.heavy}
+        </Descriptions.Item>
+        <Descriptions.Item label="Load">
+          {weight < capacity.light ? "Lightly Loaded" : "Heavily Loaded"}
+        </Descriptions.Item>
+      </Descriptions>
     </div>
   );
 }
