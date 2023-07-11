@@ -41,20 +41,25 @@ export default function AddCustomEquipmentModal({
 }: AddCustomEquipmentModalProps) {
   const [name, setName] = useState<string | undefined>(undefined);
   const [category, setCategory] = useState<string | undefined>(undefined);
+  const [costValue, setCostValue] = useState<number | undefined>(undefined);
+  const [costCurrency, setCostCurrency] = useState<string>("gp");
   const [armorOrShield, setArmorOrShield] = useState<boolean>(false);
+  const [purchased, setPurchased] = useState<boolean>(true);
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) =>
     setName(event.target.value);
 
   const handleCategoryChange = (event: string) => setCategory(event);
 
+  const handleCostValueChange = (value: number | null) => {
+    setCostValue(value ?? undefined);
+  };
+
+  const handleCostCurrencyChange = (event: string) => setCostCurrency(event);
+
   const handleSwitchChange = () => setArmorOrShield(!armorOrShield);
 
-  const validDiceNotation = (value: string) => {
-    const diceNotationRegex =
-      /(\d+)?d(\d+)(([+-]\d+)|([kK]\d+([lLhH])?)|([eE]))?/g;
-    return diceNotationRegex.test(value);
-  };
+  const handlePurchaseChange = () => setPurchased(!purchased);
 
   return (
     <Modal
@@ -75,163 +80,221 @@ export default function AddCustomEquipmentModal({
           <Form.Item
             label="Name"
             name="name"
-            required
             rules={[
+              {
+                required: true,
+                message: "Required",
+              },
               { max: 100, message: "Name must be 100 characters or less" },
             ]}
           >
-            <Input value={name} onChange={handleNameChange} />
+            <Input
+              value={name}
+              onChange={handleNameChange}
+              placeholder="Custom Item"
+            />
           </Form.Item>
-          <Form.Item label="Category" name="category" required>
+          <Form.Item
+            label="Category"
+            name="category"
+            rules={[
+              {
+                required: true,
+                message: "Required",
+              },
+            ]}
+          >
             <Select
               onChange={handleCategoryChange}
               options={equipmentCategories}
             />
           </Form.Item>
-          <Form.Item
-            label="Sub-Category"
-            name="sub-category"
-            required={category === "general-equipment"}
-            className={`${category !== "general-equipment" && "hidden"}`}
-          >
-            <Select />
-          </Form.Item>
-          <div className="flex gap-4">
+          <div className={`${category === undefined && "hidden"}`}>
             <Form.Item
-              label="Cost"
-              name="costValue"
-              rules={[{ type: "number", message: "Weight must be a number" }]}
-            >
-              <InputNumber />
-            </Form.Item>
-            <Form.Item label="Currency" name="costCurrency">
-              <Select
-                onChange={handleChange}
-                options={[
-                  { value: "gp", label: "gp" },
-                  { value: "sp", label: "sp" },
-                  { value: "cp", label: "cp" },
-                ]}
-              />
-            </Form.Item>
-          </div>
-          <div className="flex gap-4">
-            <Form.Item
-              label="Weight"
-              name="weight"
-              className={`${category === "beasts-of-burden" && "hidden"}`}
+              label="Sub-Category"
+              name="sub-category"
               rules={[
                 {
-                  required: category !== "beasts-of-burden",
+                  required: category === "general-equipment",
                   message: "Required",
                 },
-                {
-                  type: "number",
-                  message: "Weight must be a number",
-                  transform: (value) => Number(value),
-                },
               ]}
+              className={`${category !== "general-equipment" && "hidden"}`}
             >
-              <Input type="number" />
+              <Select />
             </Form.Item>
-            <Form.Item
-              label="Damage"
-              name="damage"
-              required={true}
-              className={`${
-                (category === "armor-and-shields" ||
-                  category === "beasts-of-burden" ||
-                  category === "bows" ||
-                  category === "items") &&
-                "hidden"
-              }`}
-              rules={[
-                {
-                  pattern:
-                    /(\d+)?d(\d+)(([+-]\d+)|([kK]\d+([lLhH])?)|([eE]))?/g,
-                  message: "Invalid dice notation",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </div>
-          <div className={`${category !== "armor-and-shields" && "hidden"}`}>
-            <Form.Item label="Armor or Shield?" name="armor-or-shield">
-              <Switch
-                checked={armorOrShield}
-                onChange={handleSwitchChange}
-                unCheckedChildren="Shield"
-                checkedChildren="Armor"
-              />
-            </Form.Item>
-            <div className="flex gap-4 [&>*]:flex-[0_0_50%]">
+            <div className="flex gap-4">
               <Form.Item
-                label="AC"
-                name="shield-ac"
-                required={category === "armor-and-shields" && !armorOrShield}
-                className={`${armorOrShield && "hidden"}`}
+                label="Cost"
+                name="costValue"
+                rules={[
+                  { required: purchased, message: "Required for purchase" },
+                  { type: "number", message: "Weight must be a number" },
+                ]}
+              >
+                <InputNumber
+                  onChange={handleCostValueChange}
+                  placeholder="0"
+                  value={costValue}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Currency"
+                name="costCurrency"
+                initialValue={costCurrency}
+              >
+                <Select
+                  onChange={handleCostCurrencyChange}
+                  options={[
+                    { value: "gp", label: "gp" },
+                    { value: "sp", label: "sp" },
+                    { value: "cp", label: "cp" },
+                  ]}
+                />
+              </Form.Item>
+            </div>
+            <div className="flex gap-4">
+              <Form.Item
+                label="Weight"
+                name="weight"
+                className={`${category === "beasts-of-burden" && "hidden"}`}
                 rules={[
                   {
-                    pattern: /[+-]\d/g,
-                    message: 'Must be a number that starts with "+" or "-"',
+                    required: category !== "beasts-of-burden",
+                    message: "Required",
+                  },
+                  {
+                    type: "number",
+                    message: "Weight must be a number",
+                    transform: (value) => Number(value),
                   },
                 ]}
               >
-                <Input />
+                <Input type="number" placeholder="0" />
               </Form.Item>
               <Form.Item
-                label="AC"
-                name="armor-ac"
-                required={category === "armor-and-shields" && armorOrShield}
+                label="Damage"
+                name="damage"
                 className={`${
-                  !armorOrShield && "hidden"
-                } [&_.ant-input-number]:w-full`}
+                  (category === "armor-and-shields" ||
+                    category === "beasts-of-burden" ||
+                    category === "bows" ||
+                    category === "items") &&
+                  "hidden"
+                }`}
                 rules={[
                   {
-                    type: "number",
-                    message: "Must be a number",
+                    required:
+                      category !== "armor-and-shields" &&
+                      category !== "beasts-of-burden" &&
+                      category !== "bows" &&
+                      category !== "items",
+                    message: "Required",
+                  },
+                  {
+                    pattern:
+                      /(\d+)?d(\d+)(([+-]\d+)|([kK]\d+([lLhH])?)|([eE]))?/g,
+                    message: "Invalid dice notation",
                   },
                 ]}
+              >
+                <Input placeholder="1d10" />
+              </Form.Item>
+            </div>
+            <div className={`${category !== "armor-and-shields" && "hidden"}`}>
+              <Form.Item label="Armor or Shield?" name="armor-or-shield">
+                <Switch
+                  checked={armorOrShield}
+                  onChange={handleSwitchChange}
+                  unCheckedChildren="Shield"
+                  checkedChildren="Armor"
+                />
+              </Form.Item>
+              <div className="flex gap-4 [&>*]:flex-[0_0_50%]">
+                <Form.Item
+                  label="AC"
+                  name="shield-ac"
+                  className={`${armorOrShield && "hidden"}`}
+                  rules={[
+                    {
+                      required:
+                        category === "armor-and-shields" && !armorOrShield,
+                      message: "Required",
+                    },
+                    {
+                      pattern: /[+-]\d/g,
+                      message: 'Must be a number that starts with "+" or "-"',
+                    },
+                  ]}
+                >
+                  <Input placeholder="+1" />
+                </Form.Item>
+                <Form.Item
+                  label="AC"
+                  name="armor-ac"
+                  className={`${
+                    !armorOrShield && "hidden"
+                  } [&_.ant-input-number]:w-full`}
+                  rules={[
+                    {
+                      required:
+                        category === "armor-and-shields" && armorOrShield,
+                      message: "Required",
+                    },
+                    {
+                      type: "number",
+                      message: "Must be a number",
+                    },
+                  ]}
+                >
+                  <InputNumber placeholder="11" />
+                </Form.Item>
+              </div>
+            </div>
+            <div className="flex gap-4 justify-between">
+              <Form.Item
+                label="Size"
+                name="size"
+                className={`${
+                  (category === "ammunition" ||
+                    category === "armor-and-shields" ||
+                    category === "beasts-of-burden" ||
+                    category === "items") &&
+                  "hidden"
+                }`}
+                rules={[
+                  {
+                    required:
+                      category !== "ammunition" &&
+                      category !== "armor-and-shields" &&
+                      category !== "beasts-of-burden" &&
+                      category !== "items",
+                    message: "Required",
+                  },
+                ]}
+              >
+                <Select
+                  onChange={handleChange}
+                  options={[
+                    { value: "S", label: "S" },
+                    { value: "M", label: "M" },
+                    { value: "L", label: "L" },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Amount"
+                name="amount"
+                initialValue={1}
+                rules={[{ required: true, message: "Required" }]}
               >
                 <InputNumber />
               </Form.Item>
             </div>
-          </div>
-          <div className="flex gap-4 justify-between">
-            <Form.Item
-              label="Size"
-              name="size"
-              required={
-                category !== "ammunition" &&
-                category !== "armor-and-shields" &&
-                category !== "beasts-of-burden" &&
-                category !== "items"
-              }
-              className={`${
-                (category === "ammunition" ||
-                  category === "armor-and-shields" ||
-                  category === "beasts-of-burden" ||
-                  category === "items") &&
-                "hidden"
-              }`}
-            >
-              <Select
-                onChange={handleChange}
-                options={[
-                  { value: "S", label: "S" },
-                  { value: "M", label: "M" },
-                  { value: "L", label: "L" },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item label="Amount" name="amount">
-              <InputNumber />
+            <Form.Item label="Purchased?" name="purchased">
+              <Checkbox checked={purchased} onChange={handlePurchaseChange} />
             </Form.Item>
           </div>
-          <Form.Item label="Purchased?" name="purchased">
-            <Checkbox checked />
-          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
