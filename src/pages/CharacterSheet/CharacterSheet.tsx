@@ -29,7 +29,7 @@ import EquipmentList from "../../components/CharacterSheet/EquipmentList/Equipme
 import Spells from "../../components/CharacterSheet/Spells";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
 import { calculateCarryingCapacity } from "../../support/formatSupport";
-import SimpleNumberStat from "../../components/CharacterSheet/SimpleNumberStat";
+import SimpleNumberStat from "../../components/CharacterSheet/SimpleNumberStat/SimpleNumberStat";
 import { User } from "firebase/auth";
 import AttackModal from "../../modals/AttackModal";
 import LevelUpModal from "../../modals/LevelUpModal";
