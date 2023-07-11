@@ -365,6 +365,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 >
                   <EquipmentList
                     character={character}
+                    setCharacter={setCharacter}
                     handleAttack
                     categories={[
                       "axes",
@@ -391,7 +392,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   key="3"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
-                  <EquipmentList character={character} categories={"items"} />
+                  <EquipmentList
+                    character={character}
+                    categories={"items"}
+                    setCharacter={setCharacter}
+                  />
                 </Collapse.Panel>
                 {/* ARMOR AND SHIELDS */}
                 <Collapse.Panel
@@ -402,6 +407,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"armor-and-shields"}
+                    setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
                 {/* BEAST OF BURDEN */}
@@ -413,6 +419,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"beasts-of-burden"}
+                    setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
                 {/* Ammunition */}
@@ -424,6 +431,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   <EquipmentList
                     character={character}
                     categories={"ammunition"}
+                    setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
               </Collapse>

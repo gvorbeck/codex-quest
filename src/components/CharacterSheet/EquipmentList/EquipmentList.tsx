@@ -1,9 +1,9 @@
-import { Button, List, Popconfirm, Typography, message } from "antd";
+import { Button, List, Typography } from "antd";
 import { EquipmentListProps } from "./definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { DeleteOutlined } from "@ant-design/icons";
 import allEquipmentItems from "../../../data/equipment-items.json";
-import { MouseEvent, useMemo } from "react";
+import { useMemo } from "react";
 
 const TextWithLabel = ({ label, value }: { label: string; value: any }) =>
   value && (
@@ -15,6 +15,7 @@ const TextWithLabel = ({ label, value }: { label: string; value: any }) =>
 
 export default function EquipmentList({
   character,
+  setCharacter,
   categories,
   handleAttack,
   setWeapon,
@@ -41,12 +42,13 @@ export default function EquipmentList({
     }
   };
 
-  const confirm = (e?: MouseEvent<HTMLElement>) => {
-    message.success("Click on Yes");
-  };
-
-  const cancel = (e?: MouseEvent<HTMLElement>) => {
-    message.error("Click on No");
+  const handleCustomDelete = (item: EquipmentItem) => {
+    const newEquipment = character.equipment.filter(
+      (e) => e.name !== item.name
+    );
+    if (setCharacter) setCharacter({ ...character, equipment: newEquipment });
+    else
+      console.error("Cannot delete item because setCharacter is not defined");
   };
 
   return (
@@ -60,20 +62,12 @@ export default function EquipmentList({
               {item.name}
             </Typography.Paragraph>
             {!allEquipmentItems.find((e) => e.name === item.name) && (
-              <Popconfirm
-                title="Remove custom item"
-                description="Are you selling this item?"
-                onConfirm={confirm}
-                onCancel={cancel}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button
-                  type="default"
-                  icon={<DeleteOutlined />}
-                  shape="circle"
-                />
-              </Popconfirm>
+              <Button
+                type="default"
+                icon={<DeleteOutlined />}
+                shape="circle"
+                onClick={() => handleCustomDelete(item)}
+              />
             )}
           </div>
           <div className="flex flex-col text-right italic">
