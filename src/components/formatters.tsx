@@ -35,3 +35,7 @@ export function toTitleCase(input: string): string {
 export function camelCaseToTitleCase(input: string) {
   return toTitleCase(input.replace(/([A-Z])/g, " $1").toLowerCase());
 }
+
+export function slugToTitleCase(input: string) {
+  return toTitleCase(input.replace(/-/g, " "));
+}

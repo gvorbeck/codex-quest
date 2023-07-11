@@ -42,6 +42,7 @@ import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
 import DiceRollerModal from "../../modals/DiceRollerModal";
 import { classChoices } from "../../data/classDetails";
+import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 
 const attackBonus = function (character: CharacterData) {
   let classes = Object.keys(attackBonusTable);
@@ -67,6 +68,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [isAddEquipmentModalOpen, setIsAddEquipmentModalOpen] = useState(false);
+  const [isAddCustomEquipmentModalOpen, setIsAddCustomEquipmentModalOpen] =
+    useState(false);
   const [isDiceRollerModalOpen, setIsDiceRollerModalOpen] = useState(false);
   const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
 
@@ -82,6 +85,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     setIsAddEquipmentModalOpen(true);
   };
 
+  const showAddCustomEquipmentModal = () => {
+    setIsAddCustomEquipmentModalOpen(true);
+  };
+
   const showDiceRollerModal = () => {
     setIsDiceRollerModalOpen(true);
   };
@@ -90,6 +97,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     setIsAttackModalOpen(false);
     setIsLevelUpModalOpen(false);
     setIsAddEquipmentModalOpen(false);
+    setIsAddCustomEquipmentModalOpen(false);
     setIsDiceRollerModalOpen(false);
   };
 
@@ -314,18 +322,27 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               <Typography.Title level={3} className="mt-0 text-shipGray">
                 Equipment
               </Typography.Title>
-              <Button
-                type="primary"
-                disabled={!userIsOwner}
-                onClick={showAddEquipmentModal}
-                className="print:hidden"
-              >
-                Add Equipment
-              </Button>
-              <HelpTooltip
-                className="ml-2"
-                text="Selecting items will automatically be deducted from your gold."
-              />
+              <div className="print:hidden">
+                <Button
+                  type="primary"
+                  disabled={!userIsOwner}
+                  onClick={showAddEquipmentModal}
+                >
+                  Add Equipment
+                </Button>
+                <Button
+                  type="primary"
+                  disabled={!userIsOwner}
+                  onClick={showAddCustomEquipmentModal}
+                  className="ml-2"
+                >
+                  Add Custom Equipment
+                </Button>
+                <HelpTooltip
+                  className="ml-2"
+                  text="Adding & removing equipment will automatically modify your gold balance."
+                />
+              </div>
               <div className="hidden print:block">
                 {character.equipment.map((item) => (
                   <div key={item.name}>{item.name}</div>
@@ -431,6 +448,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
           <AddEquipmentModal
             isAddEquipmentModalOpen={isAddEquipmentModalOpen}
+            handleCancel={handleCancel}
+            character={character}
+            setCharacter={setCharacter}
+          />
+          <AddCustomEquipmentModal
+            isAddCustomEquipmentModalOpen={isAddCustomEquipmentModalOpen}
             handleCancel={handleCancel}
             character={character}
             setCharacter={setCharacter}

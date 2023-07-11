@@ -754,7 +754,7 @@
     "costCurrency": "gp",
     "size": "S",
     "weight": 0.1,
-    "category": "sling-&-hurled-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -765,7 +765,7 @@
     "size": "S",
     "weight": 2,
     "damage": "1d3",
-    "category": "sling-&-hurled-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -776,7 +776,7 @@
     "size": "S",
     "weight": 0.1,
     "damage": "1d3",
-    "category": "sling-&-hurled-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -787,7 +787,7 @@
     "size": "M",
     "weight": 2,
     "damage": "1d4",
-    "category": "sling-&-hurled-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -797,7 +797,7 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 2,
-    "category": "sling-&-hurled-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
     "amount": 1
   },
@@ -807,7 +807,7 @@
     "costCurrency": "gp",
     "size": "M",
     "weight": 5,
-    "category": "sling-&-hurled-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
     "amount": 1
   },

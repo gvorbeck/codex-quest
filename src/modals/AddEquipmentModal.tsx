@@ -1,11 +1,11 @@
 import { Modal } from "antd";
-import { AddEquipmentModalProps } from "../components/types";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import { AddEquipmentModalProps } from "./definitions";
 
 export default function AddEquipmentModal({
   character,
@@ -43,7 +43,7 @@ export default function AddEquipmentModal({
 
   return (
     <Modal
-      title="ADD EQUIPMENT MODAL"
+      title="ADD EQUIPMENT"
       open={isAddEquipmentModalOpen}
       onCancel={handleCancel}
       footer={false}

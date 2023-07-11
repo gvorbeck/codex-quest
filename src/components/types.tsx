@@ -192,11 +192,6 @@ export interface LevelUpModalProps extends ModalProps {
   setCharacter: (character: CharacterData) => void;
 }
 
-export interface AddEquipmentModalProps extends ModalProps {
-  isAddEquipmentModalOpen: boolean;
-  setCharacter: (character: CharacterData) => void;
-}
-
 export interface AttackButtonsProps {
   weapon: EquipmentItem;
   damage: (damage: string) => void;
