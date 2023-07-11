@@ -84,27 +84,29 @@ export default function AddCustomEquipmentModal({
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
-    let newItem;
+
+    // Common properties
+    let newItem: { [k: string]: any } = {
+      name: values.name,
+      costValue: values.costValue,
+      costCurrency: values.costCurrency,
+      category: values.category,
+      amount: values.amount,
+    };
+
+    // Additional properties based on category
     switch (values.category) {
       case "ammunition":
         newItem = {
-          amount: values.amount,
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
+          ...newItem,
           weight: values.weight,
           damage: values.damage,
-          category: values.category,
         };
         break;
       case "armor-and-shields":
         newItem = {
+          ...newItem,
           AC: values.armorOrShield ? values["armor-ac"] : values["shield-ac"],
-          amount: values.amount,
-          category: values.category,
-          costCurrency: values.costCurrency,
-          costValue: values.costValue,
-          name: values.name,
           weight: values.weight,
         };
         break;
@@ -114,37 +116,23 @@ export default function AddCustomEquipmentModal({
       case "other-weapons":
       case "spears-and-polearms":
         newItem = {
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
+          ...newItem,
           size: values.size,
           weight: values.weight,
           damage: values.damage,
-          category: values.category,
           type: values.type,
-          amount: values.amount,
         };
         break;
       case "beasts-of-burden":
-        newItem = {
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
-          category: values.category,
-          amount: values.amount,
-        };
+        // No additional properties
         break;
       case "bows":
       case "slings-and-hurled-weapons":
         newItem = {
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
+          ...newItem,
           size: values.size,
           weight: values.weight,
-          category: values.category,
           type: "missile",
-          amount: values.amount,
           damage: values.damage,
         };
         break;
@@ -152,43 +140,32 @@ export default function AddCustomEquipmentModal({
       case "chain-and-flail":
       case "swords":
         newItem = {
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
+          ...newItem,
           size: values.size,
           weight: values.weight,
           damage: values.damage,
-          category: values.category,
           type: "melee",
-          amount: values.amount,
         };
         break;
       case "daggers":
         newItem = {
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
+          ...newItem,
           size: values.size,
           weight: values.weight,
           damage: values.damage,
-          category: values.category,
           type: "both",
-          amount: values.amount,
         };
         break;
       case "items":
         newItem = {
-          name: values.name,
-          costValue: values.costValue,
-          costCurrency: values.costCurrency,
+          ...newItem,
           weight: values.weight,
-          category: values.category,
-          amount: values.amount,
         };
         break;
       default:
         break;
     }
+
     console.log(newItem);
   };
 
