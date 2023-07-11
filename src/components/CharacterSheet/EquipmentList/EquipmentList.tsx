@@ -1,9 +1,17 @@
-import { Button, List, Popconfirm, Tooltip, Typography, message } from "antd";
+import { Button, List, Popconfirm, Typography, message } from "antd";
 import { EquipmentListProps } from "./definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { DeleteOutlined } from "@ant-design/icons";
 import allEquipmentItems from "../../../data/equipment-items.json";
-import { MouseEvent } from "react";
+import { MouseEvent, useMemo } from "react";
+
+const TextWithLabel = ({ label, value }: { label: string; value: any }) =>
+  value && (
+    <Typography.Text>
+      <Typography.Text className="font-bold">{label}&nbsp;</Typography.Text>
+      {value}
+    </Typography.Text>
+  );
 
 export default function EquipmentList({
   character,
@@ -12,16 +20,17 @@ export default function EquipmentList({
   setWeapon,
   showAttackModal,
 }: EquipmentListProps) {
-  let equipmentItems;
-  if (typeof categories === "string") {
-    equipmentItems = character.equipment
-      .filter((items) => items.category === categories)
-      .sort((a, b) => a.name.localeCompare(b.name));
-  } else {
-    equipmentItems = character.equipment
-      .filter((item) => categories.includes(item.category))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }
+  const equipmentItems = useMemo(() => {
+    if (typeof categories === "string") {
+      return character.equipment
+        .filter((items) => items.category === categories)
+        .sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      return character.equipment
+        .filter((item) => categories.includes(item.category))
+        .sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }, [character.equipment, categories]);
 
   const handleAttackClick = (item: EquipmentItem) => {
     if (setWeapon) {
@@ -45,7 +54,7 @@ export default function EquipmentList({
       dataSource={equipmentItems}
       size="small"
       renderItem={(item) => (
-        <List.Item className="!block">
+        <List.Item className="block">
           <div className="flex items-baseline gap-4">
             <Typography.Paragraph className="font-bold mb-3">
               {item.name}
@@ -69,44 +78,15 @@ export default function EquipmentList({
           </div>
           <div className="flex flex-col text-right italic">
             {item.weight && (
-              <Typography.Text>
-                <Typography.Text className="font-bold">
-                  Weight&nbsp;
-                </Typography.Text>
-                {item.weight}
-              </Typography.Text>
+              <TextWithLabel label="Weight" value={item.weight} />
             )}
-            {item.size && (
-              <Typography.Text>
-                <Typography.Text className="font-bold">
-                  Size&nbsp;
-                </Typography.Text>
-                {item.size}
-              </Typography.Text>
-            )}
+            {item.size && <TextWithLabel label="Size" value={item.size} />}
             {item.amount && (
-              <Typography.Text>
-                <Typography.Text className="font-bold">
-                  Amount&nbsp;
-                </Typography.Text>
-                {item.amount}
-              </Typography.Text>
+              <TextWithLabel label="Amount" value={item.amount} />
             )}
-            {item.AC && (
-              <Typography.Text>
-                <Typography.Text className="font-bold">
-                  AC&nbsp;
-                </Typography.Text>
-                {item.AC}
-              </Typography.Text>
-            )}
+            {item.AC && <TextWithLabel label="AC" value={item.AC} />}
             {item.damage && (
-              <Typography.Text>
-                <Typography.Text className="font-bold">
-                  Damage&nbsp;
-                </Typography.Text>
-                {item.damage}
-              </Typography.Text>
+              <TextWithLabel label="Damage" value={item.damage} />
             )}
           </div>
           {handleAttack && (
