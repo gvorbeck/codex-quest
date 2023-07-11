@@ -28,7 +28,7 @@ import MoneyStats from "../../components/MoneyStats/MoneyStats";
 import EquipmentList from "../../components/CharacterSheet/EquipmentList";
 import Spells from "../../components/CharacterSheet/Spells";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
-import calculateCarryingCapacity from "../../components/calculateCarryingCapacity";
+import { calculateCarryingCapacity } from "../../support/formatSupport";
 import SimpleNumberStat from "../../components/CharacterSheet/SimpleNumberStat";
 import { User } from "firebase/auth";
 import AttackModal from "../../modals/AttackModal";
@@ -372,6 +372,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                       "daggers",
                       "swords",
                       "hammers-and-maces",
+                      "improvised-weapons",
+                      "brawling",
+                      "chain-and-flail",
+                      "hammers-and-maces",
+                      "other-weapons",
+                      "slings-and-hurled-weapons",
+                      "spears-and-polearms",
                     ]}
                     attackBonus={attackBonus(character)}
                     setWeapon={setWeapon}

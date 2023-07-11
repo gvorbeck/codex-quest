@@ -1,9 +1,17 @@
-import { Capacity, CapacityMap } from "./types";
+import { EquipmentItem } from "../components/EquipmentStore/definitions";
+import { Capacity, CapacityMap } from "../components/types";
 
-export default function calculateCarryingCapacity(
+export const calculateItemCost = (item: EquipmentItem) => {
+  let cost = item.costValue;
+  if (item.costCurrency === "sp") cost *= 0.1;
+  if (item.costCurrency === "cp") cost *= 0.01;
+  return cost * item.amount;
+};
+
+export const calculateCarryingCapacity = (
   strength: number,
   race: string
-): Capacity {
+): Capacity => {
   const capacities: CapacityMap = {
     "3": { light: 25, heavy: 60 },
     "4-5": { light: 35, heavy: 90 },
@@ -43,4 +51,4 @@ export default function calculateCarryingCapacity(
   }
 
   return race === "Halfling" ? halflingCapacities[range] : capacities[range];
-}
+};

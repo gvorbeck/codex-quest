@@ -12,6 +12,7 @@ import { db } from "../../firebase";
 import { raceChoices } from "../../data/raceDetails";
 import { classChoices } from "../../data/classDetails";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
+import { calculateItemCost } from "../../support/formatSupport";
 
 const roller = new DiceRoller();
 
@@ -111,13 +112,6 @@ export default function EquipmentStore({
     if (!inBuilder) {
       updateEquipment();
     }
-  };
-
-  const calculateItemCost = (item: EquipmentItem) => {
-    let cost = item.costValue;
-    if (item.costCurrency === "sp") cost *= 0.1;
-    if (item.costCurrency === "cp") cost *= 0.01;
-    return cost * item.amount;
   };
 
   const onCheckboxCheck = (item?: EquipmentItem, checked?: boolean) => {

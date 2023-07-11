@@ -1,6 +1,6 @@
 import { Divider, Typography } from "antd";
 import { CharacterDetails } from "../types";
-import calculateCarryingCapacity from "../calculateCarryingCapacity";
+import { calculateCarryingCapacity } from "../../support/formatSupport";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
 export default function WeightStats({
