@@ -32,7 +32,7 @@ export default function AttackBonus({
 
   return (
     <div>
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline gap-4">
         <Typography.Title level={3} className="mt-0 text-shipGray">
           Attack Bonuses
         </Typography.Title>

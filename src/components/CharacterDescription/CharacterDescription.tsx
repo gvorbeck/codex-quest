@@ -5,6 +5,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useParams } from "react-router-dom";
 import { classChoices } from "../../data/classDetails";
+import HelpTooltip from "../HelpTooltip/HelpTooltip";
 
 export default function Description({
   character,
@@ -62,9 +63,16 @@ export default function Description({
 
   return (
     <div>
-      <Typography.Title level={3} className="mt-0 !text-shipGray">
-        Bio & Notes
-      </Typography.Title>
+      <div className="flex items-baseline gap-4">
+        <Typography.Title level={3} className="mt-0 !text-shipGray">
+          Bio & Notes
+        </Typography.Title>
+        {!classChoices.includes(character.class) && (
+          <HelpTooltip
+            text={`You can clear this field to restore the "${character.class}" Saving Throws template.`}
+          />
+        )}
+      </div>
       <Input.TextArea
         value={inputValue}
         rows={10}

@@ -19,7 +19,7 @@ export default function InitiativeRoller({ character }: CharacterDetails) {
   const rollInitiative = () => {
     let result = roller.roll(
       `1d6+${+character.abilities.modifiers.dexterity}`
-    ).total;
+    ).output;
     if (character.race === "Halfling") result += 1;
     if (result === 0) result = 1;
     openNotification(result);
