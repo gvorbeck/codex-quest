@@ -12,8 +12,11 @@ import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
 import equipmentItems from "../data/equipment-items.json";
 import { slugToTitleCase } from "../components/formatters";
-import { ChangeEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
+import { useParams } from "react-router-dom";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const categoriesSet = new Set(equipmentItems.map((item) => item.category));
 
@@ -23,10 +26,6 @@ const equipmentCategories = Array.from(categoriesSet)
   })
   .sort((a, b) => a.label.localeCompare(b.label));
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
@@ -34,59 +33,91 @@ const onFinishFailed = (errorInfo: any) => {
 export default function AddCustomEquipmentModal({
   isAddCustomEquipmentModalOpen,
   handleCancel,
+  character,
+  setCharacter,
 }: AddCustomEquipmentModalProps) {
-  const [name, setName] = useState<string | undefined>(undefined);
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [subCategory, setSubCategory] = useState<string | undefined>(undefined);
-  const [costValue, setCostValue] = useState<number | undefined>(undefined);
-  const [costCurrency, setCostCurrency] = useState<string>("gp");
-  const [armorOrShield, setArmorOrShield] = useState<boolean>(false);
-  const [purchased, setPurchased] = useState<boolean>(true);
-  const [weight, setWeight] = useState<number | undefined>(undefined);
-  const [damage, setDamage] = useState<string | undefined>(undefined);
-  const [ac, setAc] = useState<string | number | undefined>(undefined);
-  const [size, setSize] = useState<string | undefined>(undefined);
-  const [amount, setAmount] = useState<number>(1);
+  const [formState, setFormState] = useState({
+    name: undefined,
+    category: undefined,
+    subCategory: undefined,
+    costValue: undefined,
+    costCurrency: "gp",
+    armorOrShield: false,
+    purchased: true,
+    weight: undefined,
+    damage: undefined,
+    ac: undefined,
+    size: undefined,
+    amount: 1,
+  });
+  const [prevValue, setPrevValue] = useState(character.equipment);
 
-  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
+  const { uid, id } = useParams();
+
+  const updateEquipment = async () => {
+    if (!uid || !id) {
+      console.error("User ID or Character ID is undefined");
+      return;
+    }
+
+    if (character.equipment !== prevValue) {
+      const docRef = doc(db, "users", uid, "characters", id);
+
+      try {
+        await updateDoc(docRef, {
+          equipment: character.equipment,
+          gold: character.gold,
+        });
+        setPrevValue(character.equipment);
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
   };
 
-  const handleCategoryChange = (event: string) => setCategory(event);
-  const handleSubCategoryChange = (event: string) => setSubCategory(event);
+  useEffect(() => {
+    updateEquipment();
+  }, [character.equipment, character.gold, character.weight]);
 
-  const handleCostValueChange = (value: number | null) => {
-    setCostValue(value ?? undefined);
-  };
-  const handleCostCurrencyChange = (event: string) => setCostCurrency(event);
-
-  const handleWeightChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWeight(Number(event.target.value));
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
   };
 
-  const handleDamageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDamage(event.target.value);
+  const handleFormChange = (event: { target: { name: any; value: any } }) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
 
-  const handleSwitchChange = () => {
-    setArmorOrShield(!armorOrShield);
-    setAc(0);
+  const handleNumberChange = (
+    value: number | string | null,
+    fieldName: string
+  ): void => {
+    const numValue = typeof value === "string" ? Number(value) : value;
+
+    setFormState({
+      ...formState,
+      [fieldName]: numValue,
+    });
   };
 
-  const handleShieldAcChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAc(event.target.value);
-  };
-  const handleArmorAcChange = (value: number | null) => {
-    setAc(value ?? undefined);
-  };
-
-  const handleSizeChange = (event: string) => setSize(event);
-
-  const handleAmountChange = (value: number | null) => {
-    setAmount(value ?? 1);
+  const handleSwitchChange = (value: any) => {
+    console.log(value);
+    setFormState({
+      ...formState,
+      armorOrShield: value,
+      ac: undefined,
+    });
   };
 
-  const handlePurchaseChange = () => setPurchased(!purchased);
+  const handleSelectChange = (value: string, name: string) => {
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
 
   return (
     <Modal
@@ -103,6 +134,7 @@ export default function AddCustomEquipmentModal({
           layout="vertical"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          // initialValues={{ purchased }}
         >
           <Form.Item
             label="Name"
@@ -116,8 +148,8 @@ export default function AddCustomEquipmentModal({
             ]}
           >
             <Input
-              value={name}
-              onChange={handleNameChange}
+              value={formState.name}
+              onChange={handleFormChange}
               placeholder="Custom Item"
             />
           </Form.Item>
@@ -132,53 +164,68 @@ export default function AddCustomEquipmentModal({
             ]}
           >
             <Select
-              onChange={handleCategoryChange}
+              onChange={(value) =>
+                value !== undefined && handleSelectChange(value, "category")
+              }
               options={equipmentCategories}
-              value={category}
+              value={formState.category}
             />
           </Form.Item>
-          <div className={`${category === undefined && "hidden"}`}>
+          <div className={`${formState.category === undefined && "hidden"}`}>
             <Form.Item
               label="Sub-Category"
               name="sub-category"
               rules={[
                 {
-                  required: category === "general-equipment",
+                  required: formState.category === "general-equipment",
                   message: "Required",
                 },
               ]}
-              className={`${category !== "general-equipment" && "hidden"}`}
+              className={`${
+                formState.category !== "general-equipment" && "hidden"
+              }`}
             >
-              <Select onChange={handleSubCategoryChange} value={subCategory} />
+              <Select
+                onChange={(value) =>
+                  value !== undefined &&
+                  handleSelectChange(value, "subCategory")
+                }
+                value={formState.subCategory}
+              />
             </Form.Item>
             <div className="flex gap-4">
               <Form.Item
                 label="Cost"
                 name="costValue"
                 rules={[
-                  { required: purchased, message: "Required for purchase" },
+                  {
+                    required: formState.purchased,
+                    message: "Required for purchase",
+                  },
                   { type: "number", message: "Weight must be a number" },
                 ]}
               >
                 <InputNumber
-                  onChange={handleCostValueChange}
+                  onChange={(value) => handleNumberChange(value, "costValue")}
                   placeholder="0"
-                  value={costValue}
+                  value={formState.costValue}
                 />
               </Form.Item>
               <Form.Item
                 label="Currency"
                 name="costCurrency"
-                initialValue={costCurrency}
+                initialValue={formState.costCurrency}
               >
                 <Select
-                  onChange={handleCostCurrencyChange}
+                  onChange={(value) =>
+                    handleSelectChange(value, "costCurrency")
+                  }
                   options={[
                     { value: "gp", label: "gp" },
                     { value: "sp", label: "sp" },
                     { value: "cp", label: "cp" },
                   ]}
-                  value={costCurrency}
+                  value={formState.costCurrency}
                 />
               </Form.Item>
             </div>
@@ -186,43 +233,43 @@ export default function AddCustomEquipmentModal({
               <Form.Item
                 label="Weight"
                 name="weight"
-                className={`${category === "beasts-of-burden" && "hidden"}`}
+                className={`${
+                  formState.category === "beasts-of-burden" && "hidden"
+                }`}
                 rules={[
                   {
-                    required: category !== "beasts-of-burden",
+                    required: formState.category !== "beasts-of-burden",
                     message: "Required",
                   },
                   {
                     type: "number",
                     message: "Weight must be a number",
-                    transform: (value) => Number(value),
                   },
                 ]}
               >
-                <Input
-                  type="number"
+                <InputNumber
                   placeholder="0"
-                  value={weight}
-                  onChange={handleWeightChange}
+                  value={formState.weight}
+                  onChange={(value) => handleNumberChange(value, "weight")}
                 />
               </Form.Item>
               <Form.Item
                 label="Damage"
                 name="damage"
                 className={`${
-                  (category === "armor-and-shields" ||
-                    category === "beasts-of-burden" ||
-                    category === "bows" ||
-                    category === "items") &&
+                  (formState.category === "armor-and-shields" ||
+                    formState.category === "beasts-of-burden" ||
+                    formState.category === "bows" ||
+                    formState.category === "items") &&
                   "hidden"
                 }`}
                 rules={[
                   {
                     required:
-                      category !== "armor-and-shields" &&
-                      category !== "beasts-of-burden" &&
-                      category !== "bows" &&
-                      category !== "items",
+                      formState.category !== "armor-and-shields" &&
+                      formState.category !== "beasts-of-burden" &&
+                      formState.category !== "bows" &&
+                      formState.category !== "items",
                     message: "Required",
                   },
                   {
@@ -234,29 +281,39 @@ export default function AddCustomEquipmentModal({
               >
                 <Input
                   placeholder="1d10"
-                  value={damage}
-                  onChange={handleDamageChange}
+                  value={formState.damage}
+                  onChange={handleFormChange}
                 />
               </Form.Item>
             </div>
-            <div className={`${category !== "armor-and-shields" && "hidden"}`}>
-              <Form.Item label="Armor or Shield?" name="armor-or-shield">
+            <div
+              className={`${
+                formState.category !== "armor-and-shields" && "hidden"
+              }`}
+            >
+              <Form.Item
+                label="Armor or Shield?"
+                name="armorOrShield"
+                valuePropName="checked"
+                initialValue={formState.armorOrShield}
+              >
                 <Switch
-                  checked={armorOrShield}
                   onChange={handleSwitchChange}
-                  unCheckedChildren="Shield"
                   checkedChildren="Armor"
+                  unCheckedChildren="Shield"
+                  defaultChecked={formState.armorOrShield}
                 />
               </Form.Item>
               <div className="flex gap-4 [&>*]:flex-[0_0_50%]">
                 <Form.Item
                   label="AC"
                   name="shield-ac"
-                  className={`${armorOrShield && "hidden"}`}
+                  className={`${formState.armorOrShield && "hidden"}`}
                   rules={[
                     {
                       required:
-                        category === "armor-and-shields" && !armorOrShield,
+                        formState.category === "armor-and-shields" &&
+                        !formState.armorOrShield,
                       message: "Required",
                     },
                     {
@@ -267,20 +324,21 @@ export default function AddCustomEquipmentModal({
                 >
                   <Input
                     placeholder="+1"
-                    value={ac}
-                    onChange={handleShieldAcChange}
+                    value={formState.ac}
+                    onChange={handleFormChange}
                   />
                 </Form.Item>
                 <Form.Item
                   label="AC"
                   name="armor-ac"
                   className={`${
-                    !armorOrShield && "hidden"
+                    !formState.armorOrShield && "hidden"
                   } [&_.ant-input-number]:w-full`}
                   rules={[
                     {
                       required:
-                        category === "armor-and-shields" && armorOrShield,
+                        formState.category === "armor-and-shields" &&
+                        formState.armorOrShield,
                       message: "Required",
                     },
                     {
@@ -291,8 +349,8 @@ export default function AddCustomEquipmentModal({
                 >
                   <InputNumber
                     placeholder="11"
-                    value={Number(ac)}
-                    onChange={handleArmorAcChange}
+                    value={Number(formState.ac)}
+                    onChange={(value) => handleNumberChange(value, "ac")}
                   />
                 </Form.Item>
               </div>
@@ -302,31 +360,33 @@ export default function AddCustomEquipmentModal({
                 label="Size"
                 name="size"
                 className={`${
-                  (category === "ammunition" ||
-                    category === "armor-and-shields" ||
-                    category === "beasts-of-burden" ||
-                    category === "items") &&
+                  (formState.category === "ammunition" ||
+                    formState.category === "armor-and-shields" ||
+                    formState.category === "beasts-of-burden" ||
+                    formState.category === "items") &&
                   "hidden"
                 }`}
                 rules={[
                   {
                     required:
-                      category !== "ammunition" &&
-                      category !== "armor-and-shields" &&
-                      category !== "beasts-of-burden" &&
-                      category !== "items",
+                      formState.category !== "ammunition" &&
+                      formState.category !== "armor-and-shields" &&
+                      formState.category !== "beasts-of-burden" &&
+                      formState.category !== "items",
                     message: "Required",
                   },
                 ]}
               >
                 <Select
-                  onChange={handleSizeChange}
+                  onChange={(value) =>
+                    value !== undefined && handleSelectChange(value, "size")
+                  }
                   options={[
                     { value: "S", label: "S" },
                     { value: "M", label: "M" },
                     { value: "L", label: "L" },
                   ]}
-                  value={size}
+                  value={formState.size}
                 />
               </Form.Item>
               <Form.Item
@@ -335,11 +395,27 @@ export default function AddCustomEquipmentModal({
                 initialValue={1}
                 rules={[{ required: true, message: "Required" }]}
               >
-                <InputNumber value={amount} onChange={handleAmountChange} />
+                <InputNumber
+                  value={formState.amount}
+                  onChange={(value) => handleNumberChange(value, "amount")}
+                />
               </Form.Item>
             </div>
-            <Form.Item label="Purchased?" name="purchased">
-              <Checkbox checked={purchased} onChange={handlePurchaseChange} />
+            <Form.Item
+              name="purchased"
+              valuePropName="checked"
+              rules={[{ type: "boolean" }]}
+              initialValue={formState.purchased}
+            >
+              <Checkbox
+                onChange={(e) =>
+                  handleFormChange({
+                    target: { name: "purchased", value: e.target.checked },
+                  })
+                }
+              >
+                Purchased?
+              </Checkbox>
             </Form.Item>
           </div>
           <Form.Item>
