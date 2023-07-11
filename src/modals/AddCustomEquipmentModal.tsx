@@ -31,33 +31,60 @@ const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-
 export default function AddCustomEquipmentModal({
   isAddCustomEquipmentModalOpen,
   handleCancel,
 }: AddCustomEquipmentModalProps) {
   const [name, setName] = useState<string | undefined>(undefined);
   const [category, setCategory] = useState<string | undefined>(undefined);
+  const [subCategory, setSubCategory] = useState<string | undefined>(undefined);
   const [costValue, setCostValue] = useState<number | undefined>(undefined);
   const [costCurrency, setCostCurrency] = useState<string>("gp");
   const [armorOrShield, setArmorOrShield] = useState<boolean>(false);
   const [purchased, setPurchased] = useState<boolean>(true);
+  const [weight, setWeight] = useState<number | undefined>(undefined);
+  const [damage, setDamage] = useState<string | undefined>(undefined);
+  const [ac, setAc] = useState<string | number | undefined>(undefined);
+  const [size, setSize] = useState<string | undefined>(undefined);
+  const [amount, setAmount] = useState<number>(1);
 
-  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) =>
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
+  };
 
   const handleCategoryChange = (event: string) => setCategory(event);
+  const handleSubCategoryChange = (event: string) => setSubCategory(event);
 
   const handleCostValueChange = (value: number | null) => {
     setCostValue(value ?? undefined);
   };
-
   const handleCostCurrencyChange = (event: string) => setCostCurrency(event);
 
-  const handleSwitchChange = () => setArmorOrShield(!armorOrShield);
+  const handleWeightChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setWeight(Number(event.target.value));
+  };
+
+  const handleDamageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDamage(event.target.value);
+  };
+
+  const handleSwitchChange = () => {
+    setArmorOrShield(!armorOrShield);
+    setAc(0);
+  };
+
+  const handleShieldAcChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAc(event.target.value);
+  };
+  const handleArmorAcChange = (value: number | null) => {
+    setAc(value ?? undefined);
+  };
+
+  const handleSizeChange = (event: string) => setSize(event);
+
+  const handleAmountChange = (value: number | null) => {
+    setAmount(value ?? 1);
+  };
 
   const handlePurchaseChange = () => setPurchased(!purchased);
 
@@ -107,6 +134,7 @@ export default function AddCustomEquipmentModal({
             <Select
               onChange={handleCategoryChange}
               options={equipmentCategories}
+              value={category}
             />
           </Form.Item>
           <div className={`${category === undefined && "hidden"}`}>
@@ -121,7 +149,7 @@ export default function AddCustomEquipmentModal({
               ]}
               className={`${category !== "general-equipment" && "hidden"}`}
             >
-              <Select />
+              <Select onChange={handleSubCategoryChange} value={subCategory} />
             </Form.Item>
             <div className="flex gap-4">
               <Form.Item
@@ -150,6 +178,7 @@ export default function AddCustomEquipmentModal({
                     { value: "sp", label: "sp" },
                     { value: "cp", label: "cp" },
                   ]}
+                  value={costCurrency}
                 />
               </Form.Item>
             </div>
@@ -170,7 +199,12 @@ export default function AddCustomEquipmentModal({
                   },
                 ]}
               >
-                <Input type="number" placeholder="0" />
+                <Input
+                  type="number"
+                  placeholder="0"
+                  value={weight}
+                  onChange={handleWeightChange}
+                />
               </Form.Item>
               <Form.Item
                 label="Damage"
@@ -198,7 +232,11 @@ export default function AddCustomEquipmentModal({
                   },
                 ]}
               >
-                <Input placeholder="1d10" />
+                <Input
+                  placeholder="1d10"
+                  value={damage}
+                  onChange={handleDamageChange}
+                />
               </Form.Item>
             </div>
             <div className={`${category !== "armor-and-shields" && "hidden"}`}>
@@ -227,7 +265,11 @@ export default function AddCustomEquipmentModal({
                     },
                   ]}
                 >
-                  <Input placeholder="+1" />
+                  <Input
+                    placeholder="+1"
+                    value={ac}
+                    onChange={handleShieldAcChange}
+                  />
                 </Form.Item>
                 <Form.Item
                   label="AC"
@@ -247,7 +289,11 @@ export default function AddCustomEquipmentModal({
                     },
                   ]}
                 >
-                  <InputNumber placeholder="11" />
+                  <InputNumber
+                    placeholder="11"
+                    value={Number(ac)}
+                    onChange={handleArmorAcChange}
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -274,12 +320,13 @@ export default function AddCustomEquipmentModal({
                 ]}
               >
                 <Select
-                  onChange={handleChange}
+                  onChange={handleSizeChange}
                   options={[
                     { value: "S", label: "S" },
                     { value: "M", label: "M" },
                     { value: "L", label: "L" },
                   ]}
+                  value={size}
                 />
               </Form.Item>
               <Form.Item
@@ -288,7 +335,7 @@ export default function AddCustomEquipmentModal({
                 initialValue={1}
                 rules={[{ required: true, message: "Required" }]}
               >
-                <InputNumber />
+                <InputNumber value={amount} onChange={handleAmountChange} />
               </Form.Item>
             </div>
             <Form.Item label="Purchased?" name="purchased">
