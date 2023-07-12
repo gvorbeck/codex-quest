@@ -255,7 +255,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           </Row>
           <Divider className="print:hidden" />
           {/* Hide these if using a custom Class */}
-          {classChoices.includes(character.class) ? (
+          {classChoices.includes(character.class) ||
+          character.class.includes("Magic-User") ? (
             <Row gutter={32} className="gap-4 md:gap-0 print:block">
               <Col xs={24} md={12} className="print:w-1/2 print:float-left">
                 {/* SPECIALS / RESTRICTIONS */}
@@ -265,16 +266,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   character.class.includes("Assassin")) && (
                   <SpecialAbilitiesTable
                     characterLevel={character.level.toString()}
-                    characterClass={character.class}
-                    abilityNames={[
-                      "Open Locks",
-                      "Remove Traps",
-                      "Pick Pockets",
-                      "Move Silently",
-                      "Climb Walls",
-                      "Hide",
-                      "Listen",
-                    ]}
+                    characterClass={
+                      character.class.includes("Thief")
+                        ? "Thief"
+                        : character.class
+                    }
                   />
                 )}
               </Col>

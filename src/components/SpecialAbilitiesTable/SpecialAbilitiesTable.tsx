@@ -1,6 +1,10 @@
 import { Table, Typography } from "antd";
 import HelpTooltip from "../HelpTooltip/HelpTooltip";
-import { SpecialAbilitiesTableProps, AbilitiesArray } from "./definitions";
+import {
+  SpecialAbilitiesTableProps,
+  AbilitiesArray,
+  CharacterClass,
+} from "./definitions";
 
 const abilitiesTable: AbilitiesArray = {
   thief: {
@@ -54,23 +58,46 @@ const columns = [
   { title: "Percentage", dataIndex: "percentage", key: "percentage" },
 ];
 
+const abilityNames = {
+  thief: [
+    "Open Locks",
+    "Remove Traps",
+    "Pick Pockets",
+    "Move Silently",
+    "Climb Walls",
+    "Hide",
+    "Listen",
+  ],
+  assassin: [
+    "Open Locks",
+    "Pick Pockets",
+    "Move Silently",
+    "Climb Walls",
+    "Hide",
+    "Listen",
+    "Poison",
+  ],
+};
+
 export default function SpecialAbilitiesTable({
   characterLevel,
-  abilityNames,
   characterClass,
 }: SpecialAbilitiesTableProps) {
   const dataSource: {}[] = [];
   const abilities = abilitiesTable[characterClass.toLowerCase()][
     characterLevel
   ] as number[];
-  abilityNames.forEach((skill, index) => {
-    dataSource.push({ key: index + 1, skill, percentage: abilities[index] });
-  });
+  abilityNames[characterClass.toLowerCase() as CharacterClass].forEach(
+    (skill: string, index: number) => {
+      dataSource.push({ key: index + 1, skill, percentage: abilities[index] });
+    }
+  );
+
   return (
     <>
       <div className="mt-6 flex items-baseline justify-between">
         <Typography.Title level={3} className="mt-0 text-shipGray">
-          Thief Special Abilities
+          {characterClass} Special Abilities
         </Typography.Title>
         <HelpTooltip text="A player must roll their percentile dice with a result less than or equal to the numbers shown below." />
       </div>
