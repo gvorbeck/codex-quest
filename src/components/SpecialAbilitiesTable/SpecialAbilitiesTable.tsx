@@ -95,7 +95,7 @@ export default function SpecialAbilitiesTable({
 
   return (
     <>
-      <div className="mt-6 flex items-baseline justify-between">
+      <div className="mt-6 flex items-baseline gap-4">
         <Typography.Title level={3} className="mt-0 text-shipGray">
           {characterClass} Special Abilities
         </Typography.Title>
