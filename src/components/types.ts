@@ -61,6 +61,7 @@ export interface CharacterData {
   savingThrows: SavingThrows;
   xp: number;
   desc: string;
+  wearing?: EquipmentItem[];
 }
 export interface CharEquipmentStepProps extends CharSteps {
   equipmentItems: EquipmentItem[];

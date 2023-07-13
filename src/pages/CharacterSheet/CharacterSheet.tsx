@@ -157,6 +157,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     }
   }
 
+  // GET/SETUP WEARING
+  if (character) {
+    if (character.wearing) {
+      console.log("it's wearing");
+    } else console.log("nope");
+  }
+
   // GET CHARACTER
   useEffect(() => {
     async function fetchCharacter() {
