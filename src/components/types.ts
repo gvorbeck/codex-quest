@@ -128,9 +128,6 @@ export interface CharacterListProps {
   className?: string;
 }
 
-export interface CharacterSheetProps {
-  user: User | null;
-}
 export interface CharacterDetails {
   character: CharacterData;
   setCharacter?: (character: CharacterData) => void;

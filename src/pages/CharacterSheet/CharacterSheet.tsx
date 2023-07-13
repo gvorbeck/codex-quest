@@ -1,13 +1,11 @@
-import { useParams, Link, useOutletContext } from "react-router-dom";
+// REACT
 import { useEffect, useState } from "react";
+import { useParams, Link, useOutletContext } from "react-router-dom";
+// FIREBASE
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import {
-  CharacterData,
-  CharacterSheetProps,
-  EquipmentItem,
-} from "../../components/types";
-import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
+import { User } from "firebase/auth";
+// ANTD COMPONENTS
 import {
   Breadcrumb,
   Button,
@@ -18,6 +16,8 @@ import {
   Skeleton,
   Typography,
 } from "antd";
+// CHARACTER SHEET COMPONENTS
+import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
 import Description from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
 import Abilities from "../../components/CharacterSheet/Abilities";
 import AttackBonus from "../../components/CharacterSheet/AttackBonus";
@@ -28,20 +28,25 @@ import MoneyStats from "../../components/CharacterSheet/MoneyStats/MoneyStats";
 import EquipmentList from "../../components/CharacterSheet/EquipmentList/EquipmentList";
 import Spells from "../../components/CharacterSheet/Spells";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
-import { calculateCarryingCapacity } from "../../support/formatSupport";
 import SimpleNumberStat from "../../components/CharacterSheet/SimpleNumberStat/SimpleNumberStat";
-import { User } from "firebase/auth";
-import AttackModal from "../../modals/AttackModal";
-import LevelUpModal from "../../modals/LevelUpModal";
-import AddEquipmentModal from "../../modals/AddEquipmentModal";
-import { hitDiceModifiers } from "../../data/hitDiceModifiers";
-import { attackBonusTable } from "../../data/attackBonusTable";
 import SpecialAbilitiesTable from "../../components/CharacterSheet/SpecialAbilitiesTable/SpecialAbilitiesTable";
 import WeightStats from "../../components/CharacterSheet/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
-import DiceRollerModal from "../../modals/DiceRollerModal";
+// SUPPORT
+import { calculateCarryingCapacity } from "../../support/formatSupport";
+// DATA
+import { hitDiceModifiers } from "../../data/hitDiceModifiers";
+import { attackBonusTable } from "../../data/attackBonusTable";
 import { classChoices } from "../../data/classDetails";
+// DEFINITIONS
+import { CharacterData, EquipmentItem } from "../../components/types";
+import { CharacterSheetProps } from "./definitions";
+// MODALS
+import AttackModal from "../../modals/AttackModal";
+import LevelUpModal from "../../modals/LevelUpModal";
+import DiceRollerModal from "../../modals/DiceRollerModal";
+import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 
 const attackBonus = function (character: CharacterData) {
@@ -129,6 +134,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     }
   }
 
+  // HIT DICE
   let hitDice = "";
   if (character) {
     hitDice = character.hp.dice;
@@ -151,6 +157,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     }
   }
 
+  // GET CHARACTER
   useEffect(() => {
     async function fetchCharacter() {
       try {
