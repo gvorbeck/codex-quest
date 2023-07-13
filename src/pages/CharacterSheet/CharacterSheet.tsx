@@ -246,7 +246,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               className="flex items-center justify-between flex-wrap flex-col gap-4 sm:flex-row md:flex-col print:clear-left"
             >
               {/* ARMOR CLASS */}
-              <SimpleNumberStat title="Armor Class" value={armorClass} />
+              <SimpleNumberStat
+                title="Armor Class"
+                value={armorClass}
+                helpText="TBD"
+              />
               {/* MOVEMENT */}
               <SimpleNumberStat title="Movement" value={`${movement}'`} />
               {/* HIT DICE */}
