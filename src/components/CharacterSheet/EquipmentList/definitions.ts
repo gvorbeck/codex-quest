@@ -7,5 +7,13 @@ export interface EquipmentListProps extends CharacterDetails {
   attackBonus?: number;
   setWeapon?: (weapon: EquipmentItem) => void;
   showAttackModal?: () => void;
+  calculatedAC?: number;
+  setCalculatedAC?: (ac: number) => void;
   radios?: boolean;
+}
+
+export interface ItemDescriptionProps {
+  item: EquipmentItem;
+  hideAmount?: boolean;
+  hideTrash?: boolean;
 }

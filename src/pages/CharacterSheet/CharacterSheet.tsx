@@ -392,6 +392,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     character={character}
                     categories={["armor", "armor-and-shields"]}
                     setCharacter={setCharacter}
+                    calculatedAC={calculatedAC}
+                    setCalculatedAC={setCalculatedAC}
                     radios
                   />
                 </Collapse.Panel>
@@ -405,6 +407,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     character={character}
                     categories={["shields", "armor-and-shields"]}
                     setCharacter={setCharacter}
+                    calculatedAC={calculatedAC}
+                    setCalculatedAC={setCalculatedAC}
                     radios
                   />
                 </Collapse.Panel>

@@ -1,5 +1,5 @@
-import { Button, Checkbox, Descriptions, List, Typography } from "antd";
-import { EquipmentListProps } from "./definitions";
+import { Button, Descriptions, Radio, Typography } from "antd";
+import { EquipmentListProps, ItemDescriptionProps } from "./definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { DeleteOutlined } from "@ant-design/icons";
 import allEquipmentItems from "../../../data/equipment-items.json";
@@ -12,6 +12,8 @@ export default function EquipmentList({
   handleAttack,
   setWeapon,
   showAttackModal,
+  calculatedAC,
+  setCalculatedAC,
   radios,
 }: EquipmentListProps) {
   const equipmentItems = useMemo(() => {
@@ -63,19 +65,19 @@ export default function EquipmentList({
       console.error("Cannot delete item because setCharacter is not defined");
   };
 
-  return (
-    <List
-      // no armor / no shield options should be added to equipmentItems.
-      // Filter out existing 'no armor' items from equipmentItems.
-      dataSource={equipmentItems}
-      size="small"
-      renderItem={(item) => (
-        <List.Item className="block">
-          <div className="flex items-baseline gap-4">
-            <Typography.Paragraph className="font-bold mb-3">
-              {item.name}
-            </Typography.Paragraph>
-            {!allEquipmentItems.find((e) => e.name === item.name) && (
+  const ItemDescription = ({
+    item,
+    hideAmount,
+    hideTrash,
+  }: ItemDescriptionProps) => {
+    return (
+      <>
+        <div className="flex items-baseline gap-4">
+          <Typography.Paragraph className="font-bold mb-3">
+            {item.name}
+          </Typography.Paragraph>
+          {!hideTrash &&
+            !allEquipmentItems.find((e) => e.name === item.name) && (
               <Button
                 type="default"
                 icon={<DeleteOutlined />}
@@ -83,46 +85,71 @@ export default function EquipmentList({
                 onClick={() => handleCustomDelete(item)}
               />
             )}
-          </div>
-          {(item.category.includes("armor") ||
-            item.category.includes("shield") ||
-            item.category.includes("armor-and-shields")) && (
-            <Checkbox>Wearing</Checkbox>
+        </div>
+        <Descriptions bordered size="small" column={1}>
+          {item.weight && (
+            <Descriptions.Item label="Weight">{item.weight}</Descriptions.Item>
           )}
-          <Descriptions bordered size="small" column={1}>
-            {item.weight && (
-              <Descriptions.Item label="Weight">
-                {item.weight}
-              </Descriptions.Item>
-            )}
-            {item.size && (
-              <Descriptions.Item label="Size">{item.size}</Descriptions.Item>
-            )}
-            {item.amount && (
-              <Descriptions.Item label="Amount">
-                {item.amount}
-              </Descriptions.Item>
-            )}
-            {item.AC && (
-              <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>
-            )}
-            {item.damage && (
-              <Descriptions.Item label="Damage">
-                {item.damage}
-              </Descriptions.Item>
-            )}
-          </Descriptions>
-          {handleAttack && (
-            <>
-              <div className="text-right mt-3">
-                <Button type="primary" onClick={() => handleAttackClick(item)}>
-                  Attack
-                </Button>
-              </div>
-            </>
+          {item.size && (
+            <Descriptions.Item label="Size">{item.size}</Descriptions.Item>
           )}
-        </List.Item>
+          {item.amount && !hideAmount && (
+            <Descriptions.Item label="Amount">{item.amount}</Descriptions.Item>
+          )}
+          {item.AC && (
+            <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>
+          )}
+          {item.damage && (
+            <Descriptions.Item label="Damage">{item.damage}</Descriptions.Item>
+          )}
+        </Descriptions>
+        {handleAttack && (
+          <>
+            <div className="text-right mt-3">
+              <Button type="primary" onClick={() => handleAttackClick(item)}>
+                Attack
+              </Button>
+            </div>
+          </>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      {radios ? (
+        <Radio.Group size="small" className="flex flex-col">
+          <Radio value="11" className="block">
+            <ItemDescription
+              item={{
+                name: "No armor",
+                costValue: 0,
+                costCurrency: "gp",
+                category: categories.includes("armor") ? "armor" : "shield",
+                weight: 0,
+                amount: 1,
+                AC: categories.includes("armor") ? 11 : 0,
+              }}
+              hideAmount
+              hideTrash
+            />
+          </Radio>
+          {equipmentItems.map((item) => (
+            <Radio key={item.name} value={item.AC} className="block">
+              <ItemDescription item={item} />
+            </Radio>
+          ))}
+        </Radio.Group>
+      ) : (
+        <ul className="list-none p-0 m-0 [&>li+li]:mt-4 [&>li+li]:border-solid [&>li+li]:border-t [&>li+li]:border-t-gray-200 [&>li+li]:border-l-0 [&>li+li]:border-r-0 [&>li+li]:border-b-0 [&>li+li]:pt-4">
+          {equipmentItems.map((item) => (
+            <li>
+              <ItemDescription item={item} />
+            </li>
+          ))}
+        </ul>
       )}
-    />
+    </>
   );
 }
