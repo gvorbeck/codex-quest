@@ -1,12 +1,9 @@
 import { Descriptions, Divider } from "antd";
-import { CharacterDetails } from "../types";
-import { calculateCarryingCapacity } from "../../support/formatSupport";
-import SimpleNumberStat from "../CharacterSheet/SimpleNumberStat/SimpleNumberStat";
+import { CharacterDetails } from "../../types";
+import { calculateCarryingCapacity } from "../../../support/formatSupport";
+import SimpleNumberStat from "../SimpleNumberStat/SimpleNumberStat";
 
-export default function WeightStats({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+export default function WeightStats({ character }: CharacterDetails) {
   const capacity = calculateCarryingCapacity(
     +character.abilities.scores.strength,
     character.race
@@ -25,8 +22,8 @@ export default function WeightStats({
         helpText={`Stay under ${capacity.light} to remain "Lightly Loaded"`}
       />
       <Divider />
-      <Descriptions bordered>
-        <Descriptions.Item label="Max" span={3}>
+      <Descriptions bordered column={1}>
+        <Descriptions.Item label="Max Weight">
           {capacity.heavy}
         </Descriptions.Item>
         <Descriptions.Item label="Load">
