@@ -396,13 +396,24 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 </Collapse.Panel>
                 {/* ARMOR AND SHIELDS */}
                 <Collapse.Panel
-                  header="Armor and Shields"
+                  header="Armor"
                   key="4"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
                     character={character}
-                    categories={"armor-and-shields"}
+                    categories={"armor"}
+                    setCharacter={setCharacter}
+                  />
+                </Collapse.Panel>
+                <Collapse.Panel
+                  header="Shields"
+                  key="4"
+                  className="[&>div:not:first-child]:bg-springWood"
+                >
+                  <EquipmentList
+                    character={character}
+                    categories={"shields"}
                     setCharacter={setCharacter}
                   />
                 </Collapse.Panel>

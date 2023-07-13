@@ -8,7 +8,6 @@ import {
   Radio,
   RadioChangeEvent,
   Select,
-  Switch,
 } from "antd";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
@@ -105,10 +104,17 @@ export default function AddCustomEquipmentModal({
           damage: values.damage,
         };
         break;
-      case "armor-and-shields":
+      case "armor":
         newItem = {
           ...newItem,
-          AC: values.armorOrShield ? values["armor-ac"] : values["shield-ac"],
+          AC: values["armor-ac"],
+          weight: values.weight,
+        };
+        break;
+      case "shields":
+        newItem = {
+          ...newItem,
+          AC: values["shield-ac"],
           weight: values.weight,
         };
         break;
@@ -205,14 +211,6 @@ export default function AddCustomEquipmentModal({
     });
   };
 
-  const handleSwitchChange = (value: any) => {
-    setFormState({
-      ...formState,
-      armorOrShield: value,
-      ac: undefined,
-    });
-  };
-
   const handleSelectChange = (value: string, name: string) => {
     setFormState({
       ...formState,
@@ -230,7 +228,8 @@ export default function AddCustomEquipmentModal({
 
   const attackTypeHiddenCategories = [
     "ammunition",
-    "armor-and-shields",
+    "armor",
+    "shields",
     "beasts-of-burden",
     "bows",
     "brawling",
@@ -241,7 +240,8 @@ export default function AddCustomEquipmentModal({
   ];
 
   const damageHiddenCategories = [
-    "armor-and-shields",
+    "armor",
+    "shields",
     "beasts-of-burden",
     "bows",
     "items",
@@ -249,7 +249,8 @@ export default function AddCustomEquipmentModal({
 
   const sizeHiddenCategories = [
     "ammunition",
-    "armor-and-shields",
+    "armor",
+    "shields",
     "beasts-of-burden",
     "items",
   ];
@@ -450,32 +451,19 @@ export default function AddCustomEquipmentModal({
             </div>
             <div
               className={`${
-                formState.category !== "armor-and-shields" && "hidden"
+                (formState.category !== "armor" ||
+                  formState.category !== "shields") &&
+                "hidden"
               }`}
             >
-              <Form.Item
-                label="Armor or Shield?"
-                name="armorOrShield"
-                valuePropName="checked"
-                initialValue={formState.armorOrShield}
-              >
-                <Switch
-                  onChange={handleSwitchChange}
-                  checkedChildren="Armor"
-                  unCheckedChildren="Shield"
-                  defaultChecked={formState.armorOrShield}
-                />
-              </Form.Item>
               <div className="flex gap-4 [&>*]:flex-[0_0_50%]">
                 <Form.Item
                   label="AC"
                   name="shield-ac"
-                  className={`${formState.armorOrShield && "hidden"}`}
+                  className={`${formState.category === "armor" && "hidden"}`}
                   rules={[
                     {
-                      required:
-                        formState.category === "armor-and-shields" &&
-                        !formState.armorOrShield,
+                      required: formState.category === "shields",
                       message: "Required",
                     },
                     {
@@ -494,13 +482,11 @@ export default function AddCustomEquipmentModal({
                   label="AC"
                   name="armor-ac"
                   className={`${
-                    !formState.armorOrShield && "hidden"
+                    formState.category === "shields" && "hidden"
                   } [&_.ant-input-number]:w-full`}
                   rules={[
                     {
-                      required:
-                        formState.category === "armor-and-shields" &&
-                        formState.armorOrShield,
+                      required: formState.category === "armor",
                       message: "Required",
                     },
                     {
