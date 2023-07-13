@@ -64,6 +64,8 @@ export default function EquipmentList({
 
   return (
     <List
+      // no armor / no shield options should be added to equipmentItems.
+      // Filter out existing 'no armor' items from equipmentItems.
       dataSource={equipmentItems}
       size="small"
       renderItem={(item) => (
