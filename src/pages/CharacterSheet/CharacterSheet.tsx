@@ -37,7 +37,7 @@ import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
 import SpecialAbilitiesTable from "../../components/SpecialAbilitiesTable/SpecialAbilitiesTable";
-import WeightStats from "../../components/WeightStats/WeightStats";
+import WeightStats from "../../components/CharacterSheet/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";
 import DiceRollerModal from "../../modals/DiceRollerModal";
@@ -327,7 +327,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   disabled={!userIsOwner}
                   onClick={showAddEquipmentModal}
                 >
-                  Add Equipment
+                  Add/Edit Equipment
                 </Button>
                 <Button
                   type="primary"
