@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
-import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
+import CharAbilityScoreStep from "../components/CreateCharacter/CharAbilityScoreStep";
 import CharacterRace from "../components/CharacterRace/CharacterRace";
 import CharacterClass from "../components/CharacterClass/CharacterClass";
 import CharacterHitPoints from "../components/CharacterHitPoints/CharacterHitPoints";
@@ -10,7 +10,7 @@ import {
   CreateCharacterModalProps,
   SpellType,
 } from "../components/types";
-import CharNameStep from "../components/CreateCharacterModal/CharNameStep";
+import CharNameStep from "../components/CreateCharacter/CharNameStep";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { marked } from "marked";
