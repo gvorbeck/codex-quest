@@ -4,7 +4,7 @@ import CharacterAbilities from "../components/CreateCharacter/CharacterAbilities
 import CharacterRace from "../components/CreateCharacter/CharacterRace/CharacterRace";
 import CharacterClass from "../components/CreateCharacter/CharacterClass/CharacterClass";
 import CharacterHitPoints from "../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
-import CharacterName from "../components/CreateCharacter/CharacterName/CharNameStep";
+import CharacterName from "../components/CreateCharacter/CharacterName/CharacterName";
 import {
   AbilityTypes,
   CharacterData,
