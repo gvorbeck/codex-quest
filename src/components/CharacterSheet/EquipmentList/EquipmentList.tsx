@@ -1,4 +1,4 @@
-import { Button, Descriptions, List, Typography } from "antd";
+import { Button, Checkbox, Descriptions, List, Typography } from "antd";
 import { EquipmentListProps } from "./definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -81,6 +81,11 @@ export default function EquipmentList({
               />
             )}
           </div>
+          {(item.category.includes("armor") ||
+            item.category.includes("shield") ||
+            item.category.includes("armor-and-shields")) && (
+            <Checkbox>Wearing</Checkbox>
+          )}
           <Descriptions bordered size="small" column={1}>
             {item.weight && (
               <Descriptions.Item label="Weight">
