@@ -28,7 +28,26 @@ export default function EquipmentList({
         .sort((a, b) => a.name.localeCompare(b.name));
     } else {
       return character.equipment
-        .filter((item) => categories.includes(item.category))
+        .filter((item) => {
+          // Check if the item's category is in the categories array
+          if (categories.includes(item.category)) {
+            // Further filter based on name if the category is 'armor-and-shields'
+            // This is being done because originally, there was an 'armor-and-shields' category that included both armor and shields
+            if (item.category === "armor-and-shields") {
+              if (categories.includes("armor")) {
+                // Only include the item if its name includes 'Armor' (case insensitive)
+                return item.name.toLowerCase().includes("armor");
+              } else if (categories.includes("shields")) {
+                // Only include the item if its name includes 'Shield' (case insensitive)
+                return item.name.toLowerCase().includes("shield");
+              }
+            }
+            // If the category is not 'armor-and-shields', include the item
+            return true;
+          }
+          // If the item's category is not in the categories array, exclude the item
+          return false;
+        })
         .sort((a, b) => a.name.localeCompare(b.name));
     }
   }, [character.equipment, categories]);

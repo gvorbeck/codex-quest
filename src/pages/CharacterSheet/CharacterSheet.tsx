@@ -347,7 +347,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 {character.spells.length > 0 && (
                   <Collapse.Panel
                     header="Spells"
-                    key="1"
+                    key="spells"
                     className="[&>div:not(:first)]:bg-springWood"
                   >
                     <Spells character={character} />
@@ -356,7 +356,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 {/* WEAPONS */}
                 <Collapse.Panel
                   header="Weapons"
-                  key="2"
+                  key="weapons"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
@@ -384,8 +384,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 </Collapse.Panel>
                 {/* MISC ITEMS */}
                 <Collapse.Panel
-                  header="Miscellaneous Items"
-                  key="3"
+                  header="General Equipment"
+                  key="general-equipment"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
@@ -394,33 +394,35 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
-                {/* ARMOR AND SHIELDS */}
+                {/* ARMOR */}
+                {/* 'armor-and-shields' was an old category that included armor AND shields. Keep for legacy characters. */}
                 <Collapse.Panel
                   header="Armor"
-                  key="4"
+                  key="armor"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
                     character={character}
-                    categories={"armor"}
+                    categories={["armor", "armor-and-shields"]}
                     setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
+                {/* SHIELDS */}
                 <Collapse.Panel
                   header="Shields"
-                  key="4"
+                  key="shields"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
                     character={character}
-                    categories={"shields"}
+                    categories={["shields", "armor-and-shields"]}
                     setCharacter={setCharacter}
                   />
                 </Collapse.Panel>
                 {/* BEAST OF BURDEN */}
                 <Collapse.Panel
                   header="Beasts of Burden"
-                  key="5"
+                  key="beasts-of-burden"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
@@ -432,7 +434,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 {/* Ammunition */}
                 <Collapse.Panel
                   header="Ammunition"
-                  key="6"
+                  key="ammunition"
                   className="[&>div:not:first-child]:bg-springWood"
                 >
                   <EquipmentList
