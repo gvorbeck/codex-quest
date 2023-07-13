@@ -1,4 +1,5 @@
-import { CharSteps, SpellType } from "../types";
+import { SpellType } from "../../types";
+import { CharSteps } from "../definitions";
 
 export interface CharacterClassProps extends CharSteps {
   comboClass: boolean;

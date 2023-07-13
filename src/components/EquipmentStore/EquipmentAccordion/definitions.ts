@@ -1,4 +1,4 @@
-import { RaceName } from "../../CharacterRace/definitions";
+import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { ClassName, EquipmentItem } from "../definitions";
 
 export interface EquipmentAccordionProps {

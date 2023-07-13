@@ -9,8 +9,8 @@ import {
 } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CharacterHitPointsProps } from "./definitions";
-import { classChoices } from "../../data/classDetails";
-import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
+import { classChoices } from "../../../data/classDetails";
+import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 
 export default function CharacterHitPoints({
   characterData,

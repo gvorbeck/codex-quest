@@ -1,6 +1,7 @@
 import { RadioChangeEvent, UploadFile } from "antd";
 import { UploadChangeParam } from "antd/es/upload";
 import { User } from "firebase/auth";
+import { CharSteps } from "./CreateCharacter/definitions";
 
 export interface AbilityTypes {
   strength: number | string;
@@ -61,15 +62,6 @@ export interface CharacterData {
   xp: number;
   desc: string;
 }
-
-export interface CharSteps {
-  characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
-}
-export interface CharAbilityScoreStepProps extends CharSteps {
-  setComboClass: (comboClass: boolean) => void;
-  setCheckedClasses: (checkedClasses: string[]) => void;
-}
 export interface CharEquipmentStepProps extends CharSteps {
   equipmentItems: EquipmentItem[];
   rollGold?: boolean;
@@ -91,7 +83,6 @@ export interface EquipmentCheckboxProps extends CharSteps {
   handleWeightChange: () => void;
   weightRestrictions: any;
 }
-export interface CharNameStepProps extends CharSteps {}
 
 export interface EquipmentItem {
   name: string;
@@ -104,12 +95,6 @@ export interface EquipmentItem {
   AC?: string | number;
   amount: number;
   type?: string;
-}
-
-export interface AbilityRecord {
-  key: string;
-  ability: string;
-  score: number;
 }
 
 export type Capacity = { light: number; heavy: number };

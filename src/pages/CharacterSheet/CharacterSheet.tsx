@@ -18,7 +18,7 @@ import {
   Skeleton,
   Typography,
 } from "antd";
-import Description from "../../components/CharacterDescription/CharacterDescription";
+import Description from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
 import Abilities from "../../components/CharacterSheet/Abilities";
 import AttackBonus from "../../components/CharacterSheet/AttackBonus";
 import HitPoints from "../../components/CharacterSheet/HitPoints";

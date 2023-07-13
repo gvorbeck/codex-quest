@@ -1,11 +1,11 @@
-import { CharacterDetails } from "../types";
+import { CharacterDetails } from "../../types";
 import { Input, Typography } from "antd";
 import { useEffect, useState, useRef } from "react";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
-import { classChoices } from "../../data/classDetails";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import { classChoices } from "../../../data/classDetails";
+import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 
 export default function Description({
   character,

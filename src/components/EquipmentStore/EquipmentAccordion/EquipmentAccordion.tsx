@@ -4,7 +4,7 @@ import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipment-items.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";
-import { RaceName } from "../../CharacterRace/definitions";
+import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (

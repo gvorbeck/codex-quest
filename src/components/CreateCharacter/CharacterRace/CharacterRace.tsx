@@ -1,9 +1,9 @@
 import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
-import { raceDetails, raceChoices } from "../../data/raceDetails";
+import { raceDetails, raceChoices } from "../../../data/raceDetails";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
-import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
+import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 
 export default function CharacterRace({
   characterData,

@@ -1,6 +1,6 @@
 import { ClassName, EquipmentItem, EquipmentStoreProps } from "./definitions";
 import EquipmentAccordion from "./EquipmentAccordion/EquipmentAccordion";
-import { RaceName } from "../CharacterRace/definitions";
+import { RaceName } from "../CreateCharacter/CharacterRace/definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";

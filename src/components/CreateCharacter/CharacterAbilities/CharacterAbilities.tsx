@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, InputNumber, Space, Table } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { AbilityRecord, CharAbilityScoreStepProps } from "../types";
+import { AbilityRecord, CharAbilityScoreStepProps } from "./definitions";
 
-export default function CharAbilityScoreStep({
+export default function CharacterAbilities({
   characterData,
   setCharacterData,
   setComboClass,

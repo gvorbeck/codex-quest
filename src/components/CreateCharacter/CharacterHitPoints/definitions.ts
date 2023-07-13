@@ -1,4 +1,4 @@
-import { CharSteps } from "../types";
+import { CharSteps } from "../definitions";
 
 export interface CharacterHitPointsProps extends CharSteps {
   comboClass: boolean;

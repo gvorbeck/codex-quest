@@ -3,10 +3,10 @@ import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { CharacterClassProps } from "./definitions";
-import spellsData from "../../data/spells.json";
-import { classDetails, classChoices } from "../../data/classDetails";
-import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
-import { Spell } from "../types";
+import spellsData from "../../../data/spells.json";
+import { classDetails, classChoices } from "../../../data/classDetails";
+import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
+import { Spell } from "../../types";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 

@@ -11,10 +11,11 @@ import {
 } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
-import { CharNameStepProps, CharSteps } from "../types";
-import { storage, ref, uploadBytes } from "../../firebase";
+import { storage, ref, uploadBytes } from "../../../firebase";
 import { getDownloadURL } from "firebase/storage";
-import { images } from "../../assets/images/faces/imageAssets";
+import { images } from "../../../assets/images/faces/imageAssets";
+import { CharSteps } from "../definitions";
+import { CharacterNameProps } from "./definitions";
 
 const StockAvatars = ({ setCharacterData, characterData }: CharSteps) => {
   const [selectedAvatar, setSelectedAvatar] = useState("");
@@ -54,10 +55,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-export default function CharNameStep({
+export default function CharacterName({
   characterData,
   setCharacterData,
-}: CharNameStepProps) {
+}: CharacterNameProps) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
