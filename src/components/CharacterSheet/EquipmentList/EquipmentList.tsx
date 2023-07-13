@@ -1,17 +1,9 @@
-import { Button, List, Typography } from "antd";
+import { Button, Descriptions, List, Typography } from "antd";
 import { EquipmentListProps } from "./definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { DeleteOutlined } from "@ant-design/icons";
 import allEquipmentItems from "../../../data/equipment-items.json";
 import { useMemo } from "react";
-
-const TextWithLabel = ({ label, value }: { label: string; value: any }) =>
-  value && (
-    <Typography.Text>
-      <Typography.Text className="font-bold">{label}&nbsp;</Typography.Text>
-      {value}
-    </Typography.Text>
-  );
 
 export default function EquipmentList({
   character,
@@ -89,19 +81,29 @@ export default function EquipmentList({
               />
             )}
           </div>
-          <div className="flex flex-col text-right italic">
+          <Descriptions bordered size="small" column={1}>
             {item.weight && (
-              <TextWithLabel label="Weight" value={item.weight} />
+              <Descriptions.Item label="Weight">
+                {item.weight}
+              </Descriptions.Item>
             )}
-            {item.size && <TextWithLabel label="Size" value={item.size} />}
+            {item.size && (
+              <Descriptions.Item label="Size">{item.size}</Descriptions.Item>
+            )}
             {item.amount && (
-              <TextWithLabel label="Amount" value={item.amount} />
+              <Descriptions.Item label="Amount">
+                {item.amount}
+              </Descriptions.Item>
             )}
-            {item.AC && <TextWithLabel label="AC" value={item.AC} />}
+            {item.AC && (
+              <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>
+            )}
             {item.damage && (
-              <TextWithLabel label="Damage" value={item.damage} />
+              <Descriptions.Item label="Damage">
+                {item.damage}
+              </Descriptions.Item>
             )}
-          </div>
+          </Descriptions>
           {handleAttack && (
             <>
               <div className="text-right mt-3">
