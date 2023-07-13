@@ -65,13 +65,15 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const outletContext = useOutletContext() as { className: string };
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
+  const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
+  const [calculatedAC, setCalculatedAC] = useState<number>(11);
+  // MODALS
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const [isAddEquipmentModalOpen, setIsAddEquipmentModalOpen] = useState(false);
   const [isAddCustomEquipmentModalOpen, setIsAddCustomEquipmentModalOpen] =
     useState(false);
   const [isDiceRollerModalOpen, setIsDiceRollerModalOpen] = useState(false);
-  const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
 
   const showAttackModal = () => {
     setIsAttackModalOpen(true);
@@ -125,25 +127,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     ) {
       movement = character.weight >= carryingCapacity.light ? 20 : 10;
     }
-  }
-
-  // ARMOR CLASS
-  let armorClass = 11;
-  if (character) {
-    if (character.equipment.find((item) => item.name === "Leather Armor")) {
-      armorClass = 13;
-    } else if (
-      character.equipment.find((item) => item.name === "Chain Mail Armor")
-    ) {
-      armorClass = 15;
-    } else if (
-      character.equipment.find((item) => item.name === "Plate Mail Armor")
-    ) {
-      armorClass = 17;
-    }
-    if (character.equipment.find((item) => item.name === "Shield"))
-      armorClass++;
-    armorClass += +character.abilities.modifiers.dexterity;
   }
 
   let hitDice = "";
@@ -248,8 +231,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
               {/* ARMOR CLASS */}
               <SimpleNumberStat
                 title="Armor Class"
-                value={armorClass}
-                helpText="TBD"
+                value={calculatedAC}
+                helpText="Base AC is 11. Select the armor your character is wearing in their equipment section below"
               />
               {/* MOVEMENT */}
               <SimpleNumberStat title="Movement" value={`${movement}'`} />
@@ -409,6 +392,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     character={character}
                     categories={["armor", "armor-and-shields"]}
                     setCharacter={setCharacter}
+                    radios
                   />
                 </Collapse.Panel>
                 {/* SHIELDS */}
@@ -421,6 +405,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                     character={character}
                     categories={["shields", "armor-and-shields"]}
                     setCharacter={setCharacter}
+                    radios
                   />
                 </Collapse.Panel>
                 {/* BEAST OF BURDEN */}

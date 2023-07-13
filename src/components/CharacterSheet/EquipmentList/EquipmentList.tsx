@@ -12,6 +12,7 @@ export default function EquipmentList({
   handleAttack,
   setWeapon,
   showAttackModal,
+  radios,
 }: EquipmentListProps) {
   const equipmentItems = useMemo(() => {
     if (typeof categories === "string") {
