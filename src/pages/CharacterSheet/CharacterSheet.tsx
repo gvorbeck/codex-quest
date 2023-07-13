@@ -7,7 +7,7 @@ import {
   CharacterSheetProps,
   EquipmentItem,
 } from "../../components/types";
-import BaseStats from "../../components/BaseStats/BaseStats";
+import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
 import {
   Breadcrumb,
   Button,
@@ -23,8 +23,8 @@ import Abilities from "../../components/CharacterSheet/Abilities";
 import AttackBonus from "../../components/CharacterSheet/AttackBonus";
 import HitPoints from "../../components/CharacterSheet/HitPoints";
 import SpecialsRestrictions from "../../components/CharacterSheet/SpecialsRestrictions";
-import SavingThrows from "../../components/SavingThrows/SavingThrows";
-import MoneyStats from "../../components/MoneyStats/MoneyStats";
+import SavingThrows from "../../components/CharacterSheet/SavingThrows/SavingThrows";
+import MoneyStats from "../../components/CharacterSheet/MoneyStats/MoneyStats";
 import EquipmentList from "../../components/CharacterSheet/EquipmentList/EquipmentList";
 import Spells from "../../components/CharacterSheet/Spells";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller";
@@ -36,7 +36,7 @@ import LevelUpModal from "../../modals/LevelUpModal";
 import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
-import SpecialAbilitiesTable from "../../components/SpecialAbilitiesTable/SpecialAbilitiesTable";
+import SpecialAbilitiesTable from "../../components/CharacterSheet/SpecialAbilitiesTable/SpecialAbilitiesTable";
 import WeightStats from "../../components/CharacterSheet/WeightStats/WeightStats";
 import HelpTooltip from "../../components/HelpTooltip/HelpTooltip";
 import DiceRoller from "../../components/DiceRoller/DiceRoller";

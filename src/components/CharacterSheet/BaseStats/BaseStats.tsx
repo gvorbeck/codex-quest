@@ -1,4 +1,4 @@
-import { CharacterDetails } from "../types";
+import { CharacterDetails } from "../../types";
 import { Avatar, Descriptions, Divider, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";

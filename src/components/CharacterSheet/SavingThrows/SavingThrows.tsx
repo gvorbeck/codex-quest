@@ -1,6 +1,10 @@
 import { Table, Typography } from "antd";
-import { CharacterData, CharacterDetails, SavingThrowsTables } from "../types";
-import { camelCaseToTitleCase } from "../../support/stringSupport";
+import {
+  CharacterData,
+  CharacterDetails,
+  SavingThrowsTables,
+} from "../../types";
+import { camelCaseToTitleCase } from "../../../support/stringSupport";
 
 export default function SavingThrows({
   character,

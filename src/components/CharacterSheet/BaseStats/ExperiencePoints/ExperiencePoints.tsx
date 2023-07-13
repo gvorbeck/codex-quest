@@ -1,11 +1,11 @@
 import { Button, Input, Space } from "antd";
-import { CharacterDetails } from "../../types";
+import { CharacterDetails } from "../../../types";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
-import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import { levelRequirements } from "../../../data/experience-points";
+import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
+import { levelRequirements } from "../../../../data/experience-points";
 
 export default function ExperiencePoints({
   character,

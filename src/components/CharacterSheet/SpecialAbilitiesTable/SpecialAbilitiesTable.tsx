@@ -1,5 +1,5 @@
 import { Table, Typography } from "antd";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import {
   SpecialAbilitiesTableProps,
   AbilitiesArray,
