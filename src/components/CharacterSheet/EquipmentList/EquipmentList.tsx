@@ -1,9 +1,15 @@
-import { Button, Descriptions, Radio, Typography } from "antd";
+import {
+  Button,
+  Descriptions,
+  Radio,
+  RadioChangeEvent,
+  Typography,
+} from "antd";
 import { EquipmentListProps, ItemDescriptionProps } from "./definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { DeleteOutlined } from "@ant-design/icons";
 import allEquipmentItems from "../../../data/equipment-items.json";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function EquipmentList({
   character,
@@ -16,6 +22,13 @@ export default function EquipmentList({
   setCalculatedAC,
   radios,
 }: EquipmentListProps) {
+  const [armorWorn, setArmorWorn] = useState(
+    character.wearing?.armor || "No Armor"
+  );
+  const [shieldWorn, setShieldWorn] = useState(
+    character.wearing?.shield || "No Shield"
+  );
+
   const equipmentItems = useMemo(() => {
     if (typeof categories === "string") {
       return character.equipment
@@ -116,14 +129,57 @@ export default function EquipmentList({
     );
   };
 
+  const handleWearingChange = (event: RadioChangeEvent) => {
+    if (setCharacter) {
+      if (event.target.value.toLowerCase().includes("armor")) {
+        setArmorWorn(event.target.value);
+        setCharacter({
+          ...character,
+          wearing: {
+            armor: event.target.value,
+            shield: character.wearing?.shield || "No Shield",
+          },
+        });
+      } else {
+        setShieldWorn(event.target.value);
+        setCharacter({
+          ...character,
+          wearing: {
+            shield: event.target.value,
+            armor: character.wearing?.armor || "No Armor",
+          },
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const armorAC =
+      equipmentItems.find((item) => item.name === character.wearing?.armor)
+        ?.AC || 11;
+    const shieldAC =
+      equipmentItems.find((item) => item.name === character.wearing?.shield)
+        ?.AC || 0;
+    console.log(armorAC, +shieldAC, character.wearing);
+    setCalculatedAC && setCalculatedAC(+armorAC + +shieldAC);
+  }, [character.wearing]);
+
   return (
     <>
       {radios ? (
-        <Radio.Group size="small" className="flex flex-col">
-          <Radio value="11" className="block">
+        <Radio.Group
+          size="small"
+          className="flex flex-col"
+          onChange={handleWearingChange}
+          value={categories.includes("armor") ? armorWorn : shieldWorn}
+        >
+          <Radio
+            className="block"
+            value={categories.includes("armor") ? "No Armor" : "No Shield"}
+          >
             <ItemDescription
               item={{
-                name: "No armor",
+                name: categories.includes("armor") ? "No Armor" : "No Shield",
                 costValue: 0,
                 costCurrency: "gp",
                 category: categories.includes("armor") ? "armor" : "shield",
@@ -136,7 +192,7 @@ export default function EquipmentList({
             />
           </Radio>
           {equipmentItems.map((item) => (
-            <Radio key={item.name} value={item.AC} className="block">
+            <Radio key={item.name} value={item.name} className="block">
               <ItemDescription item={item} />
             </Radio>
           ))}

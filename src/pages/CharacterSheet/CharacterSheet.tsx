@@ -71,7 +71,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
   const [character, setCharacter] = useState<CharacterData | null>(null);
   const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
-  const [calculatedAC, setCalculatedAC] = useState<number>(11);
+  const [calculatedAC, setCalculatedAC] = useState<number>(0);
   // MODALS
   const [isAttackModalOpen, setIsAttackModalOpen] = useState(false);
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
@@ -158,11 +158,19 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   }
 
   // GET/SETUP WEARING
-  if (character) {
-    if (character.wearing) {
-      console.log("it's wearing");
-    } else console.log("nope");
-  }
+  useEffect(() => {
+    if (character) {
+      if (!character.wearing) {
+        character.wearing = { armor: "", shield: "" };
+        setCalculatedAC(11);
+      } else console.log(character.wearing);
+    }
+  }, []);
+  // if (character) {
+  //   if (!character.wearing) {
+  //     character.wearing = { armor: "", shield: "" };
+  //   }
+  // }
 
   // GET CHARACTER
   useEffect(() => {
