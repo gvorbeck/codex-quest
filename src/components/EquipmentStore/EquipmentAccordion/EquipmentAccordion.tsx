@@ -104,8 +104,7 @@ const itemIsDisabled = (
     if (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
-      item.category === "ammunition" ||
-      item.category === "armor-and-shields"
+      item.category === "ammunition"
     ) {
       if (
         item.name.toLowerCase().includes("warhammer") ||
@@ -113,9 +112,7 @@ const itemIsDisabled = (
         item.name.toLowerCase().includes("maul") ||
         item.name.toLowerCase().includes("quarterstaff") ||
         item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone") ||
-        item.name.toLowerCase().includes("leather armor") ||
-        item.name.toLowerCase().includes("no armor")
+        item.name.toLowerCase().includes("stone")
       ) {
         disabled = false;
       }
