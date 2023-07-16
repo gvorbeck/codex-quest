@@ -249,11 +249,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     fetchCharacter();
   }, [uid, id]);
 
-  useEffect(() => {
-    console.log(characterData);
-    if (characterData) console.log(getArmorClass(characterData));
-  }, [characterData]);
-
   return characterData ? (
     <div className={`${outletContext.className} text-shipGray [&>*+*]:mt-4`}>
       <Breadcrumb
