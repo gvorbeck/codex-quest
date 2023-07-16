@@ -1,8 +1,8 @@
-import { toTitleCase } from "../../support/stringSupport";
-import { CharacterDetails } from "../types";
+import { toTitleCase } from "../../../support/stringSupport";
 import { Table, Typography } from "antd";
+import { AbilitiesProps } from "./definitions";
 
-export default function Abilities({ character }: CharacterDetails) {
+export default function Abilities({ characterData }: AbilitiesProps) {
   const dataSource: {
     key: number;
     ability: string;
@@ -16,17 +16,19 @@ export default function Abilities({ character }: CharacterDetails) {
     { title: "Modifier", dataIndex: "modifier", key: "modifier" },
   ];
 
-  Object.entries(character.abilities.scores).forEach(([key, value], index) => {
-    dataSource.push({
-      key: index + 1,
-      ability: toTitleCase(key),
-      score: value,
-      modifier:
-        character.abilities.modifiers[
-          key as keyof typeof character.abilities.modifiers
-        ],
-    });
-  });
+  Object.entries(characterData.abilities.scores).forEach(
+    ([key, value], index) => {
+      dataSource.push({
+        key: index + 1,
+        ability: toTitleCase(key),
+        score: value,
+        modifier:
+          characterData.abilities.modifiers[
+            key as keyof typeof characterData.abilities.modifiers
+          ],
+      });
+    }
+  );
 
   return (
     <div>

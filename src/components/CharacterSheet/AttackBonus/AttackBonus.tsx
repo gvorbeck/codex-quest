@@ -1,26 +1,26 @@
 import { Table, Typography } from "antd";
-import { AttackBonusProps } from "../types";
-import HelpTooltip from "../HelpTooltip/HelpTooltip";
+import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import { AttackBonusProps } from "./definitions";
 
 export default function AttackBonus({
-  character,
+  characterData,
   attackBonus,
 }: AttackBonusProps) {
-  const rangedRaceBonus = character.race === "Halfling" ? 1 : 0;
+  const rangedRaceBonus = characterData.race === "Halfling" ? 1 : 0;
 
   const dataSource = [
     { key: 1, label: "Attack Bonus", bonus: attackBonus },
     {
       key: 2,
       label: "Melee Attack Bonus",
-      bonus: attackBonus + +character.abilities.modifiers.strength,
+      bonus: attackBonus + +characterData.abilities.modifiers.strength,
     },
     {
       key: 3,
       label: "Ranged Attack Bonus",
       bonus:
         attackBonus +
-        +character.abilities.modifiers.dexterity +
+        +characterData.abilities.modifiers.dexterity +
         rangedRaceBonus,
     },
   ];

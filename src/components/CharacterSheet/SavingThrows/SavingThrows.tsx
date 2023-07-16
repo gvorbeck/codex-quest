@@ -1,15 +1,12 @@
 import { Table, Typography } from "antd";
-import {
-  CharacterData,
-  CharacterDetails,
-  SavingThrowsTables,
-} from "../../types";
+import { CharacterData, SavingThrowsTables } from "../../types";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
+import { SavingThrowsProps } from "./definitions";
 
 export default function SavingThrows({
-  character,
-  setCharacter,
-}: CharacterDetails) {
+  characterData,
+  setCharacterData,
+}: SavingThrowsProps) {
   const savingThrowsTables: SavingThrowsTables = {
     Assassin: {
       "1": {
@@ -457,20 +454,22 @@ export default function SavingThrows({
   }
 
   const dataSource: {}[] = [];
-  Object.entries(getSavingThrows(character)).forEach(([key, value], index) => {
-    dataSource.push({
-      key: index + 1,
-      throw: camelCaseToTitleCase(key),
-      score: value,
-    });
-  });
+  Object.entries(getSavingThrows(characterData)).forEach(
+    ([key, value], index) => {
+      dataSource.push({
+        key: index + 1,
+        throw: camelCaseToTitleCase(key),
+        score: value,
+      });
+    }
+  );
   const columns = [
     { title: "Saving Throw", dataIndex: "throw", key: "throw" },
     { title: "Value", dataIndex: "score", key: "score" },
   ];
   return (
     <div>
-      <Typography.Title level={3} className="mt-0 !text-shipGray">
+      <Typography.Title level={3} className="mt-0 text-shipGray">
         Saving Throws
       </Typography.Title>
       <Table

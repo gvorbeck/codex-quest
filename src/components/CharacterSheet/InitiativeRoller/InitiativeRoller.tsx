@@ -1,6 +1,7 @@
 import { Button, Tooltip, notification } from "antd";
-import { CharacterDetails } from "../types";
+// import { CharacterDetails } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import { InitiativeRollerProps } from "./definitions";
 
 const openNotification = (result: number) => {
   notification.open({
@@ -11,16 +12,18 @@ const openNotification = (result: number) => {
   });
 };
 
-export default function InitiativeRoller({ character }: CharacterDetails) {
+export default function InitiativeRoller({
+  characterData,
+}: InitiativeRollerProps) {
   const rollTooltip = `1d6 + DEX modifier ${
-    character.race === "Halfling" ? "+ 1 as a Halfling" : ""
+    characterData.race === "Halfling" ? "+ 1 as a Halfling" : ""
   }`;
   const roller = new DiceRoller();
   const rollInitiative = () => {
     let result = roller.roll(
-      `1d6+${+character.abilities.modifiers.dexterity}`
+      `1d6+${+characterData.abilities.modifiers.dexterity}`
     ).output;
-    if (character.race === "Halfling") result += 1;
+    if (characterData.race === "Halfling") result += 1;
     if (result === 0) result = 1;
     openNotification(result);
   };

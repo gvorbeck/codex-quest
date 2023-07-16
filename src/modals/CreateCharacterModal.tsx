@@ -98,6 +98,10 @@ const emptyCharacter = {
   },
   xp: 0,
   desc: "",
+  wearing: {
+    armor: "",
+    shield: "",
+  },
 };
 
 export default function CreateCharacterModal({

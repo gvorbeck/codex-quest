@@ -1,19 +1,23 @@
 import { Input, Typography } from "antd";
-import { CharacterDetails } from "../types";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
+import { HitPointsProps } from "./definitions";
 
 export default function HitPoints({
-  character,
-  setCharacter,
+  characterData,
+  setCharacterData,
   className,
   userIsOwner,
-}: CharacterDetails) {
-  const [prevValue, setPrevValue] = useState(character.hp.points.toString());
-  const [inputValue, setInputValue] = useState(character.hp.points.toString());
-  const [descValue, setDescValue] = useState(character.hp.desc || "");
+}: HitPointsProps) {
+  const [prevValue, setPrevValue] = useState(
+    characterData.hp.points.toString()
+  );
+  const [inputValue, setInputValue] = useState(
+    characterData.hp.points.toString()
+  );
+  const [descValue, setDescValue] = useState(characterData.hp.desc || "");
 
   const { uid, id } = useParams();
 
@@ -30,51 +34,45 @@ export default function HitPoints({
     if (newValue.startsWith("+")) {
       const increment = parseInt(newValue.slice(1));
       if (!isNaN(increment)) {
-        let updatedHP = character.hp.points + increment;
+        let updatedHP = characterData.hp.points + increment;
         // Ensure that the updated HP does not exceed the maximum HP
-        updatedHP = Math.min(updatedHP, character.hp.max);
-        if (setCharacter) {
-          setCharacter({
-            ...character,
-            hp: {
-              ...character.hp,
-              points: updatedHP,
-            },
-          });
-        }
+        updatedHP = Math.min(updatedHP, characterData.hp.max);
+        setCharacterData({
+          ...characterData,
+          hp: {
+            ...characterData.hp,
+            points: updatedHP,
+          },
+        });
         setInputValue(updatedHP.toString());
       }
     } else if (newValue.startsWith("-")) {
       const decrement = parseInt(newValue.slice(1));
       if (!isNaN(decrement)) {
-        let updatedHP = character.hp.points - decrement;
+        let updatedHP = characterData.hp.points - decrement;
         // Ensure that the updated HP does not go below 0
         updatedHP = Math.max(updatedHP, 0);
-        if (setCharacter) {
-          setCharacter({
-            ...character,
-            hp: {
-              ...character.hp,
-              points: updatedHP,
-            },
-          });
-        }
+        setCharacterData({
+          ...characterData,
+          hp: {
+            ...characterData.hp,
+            points: updatedHP,
+          },
+        });
         setInputValue(updatedHP.toString());
       }
     } else {
       let value = parseInt(newValue);
       if (!isNaN(value)) {
         // Ensure that the value does not exceed the maximum HP or go below 0
-        value = Math.min(Math.max(value, 0), character.hp.max);
-        if (setCharacter) {
-          setCharacter({
-            ...character,
-            hp: {
-              ...character.hp,
-              points: value,
-            },
-          });
-        }
+        value = Math.min(Math.max(value, 0), characterData.hp.max);
+        setCharacterData({
+          ...characterData,
+          hp: {
+            ...characterData.hp,
+            points: value,
+          },
+        });
         setInputValue(value.toString());
       }
     }
@@ -86,14 +84,14 @@ export default function HitPoints({
       return;
     }
 
-    if (character.hp.points.toString() !== prevValue) {
+    if (characterData.hp.points.toString() !== prevValue) {
       const docRef = doc(db, "users", uid, "characters", id);
 
       try {
         await updateDoc(docRef, {
-          "hp.points": character.hp.points,
+          "hp.points": characterData.hp.points,
         });
-        setPrevValue(character.hp.points.toString());
+        setPrevValue(characterData.hp.points.toString());
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -106,22 +104,20 @@ export default function HitPoints({
       return;
     }
 
-    if (descValue !== character.hp.desc) {
+    if (descValue !== characterData.hp.desc) {
       const docRef = doc(db, "users", uid, "characters", id);
 
       try {
         await updateDoc(docRef, {
           "hp.desc": descValue,
         });
-        if (setCharacter) {
-          setCharacter({
-            ...character,
-            hp: {
-              ...character.hp,
-              desc: descValue,
-            },
-          });
-        }
+        setCharacterData({
+          ...characterData,
+          hp: {
+            ...characterData.hp,
+            desc: descValue,
+          },
+        });
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -130,7 +126,7 @@ export default function HitPoints({
 
   useEffect(() => {
     updateHP();
-  }, [character.hp.points]);
+  }, [characterData.hp.points]);
 
   return (
     <div className={className}>
@@ -140,12 +136,12 @@ export default function HitPoints({
       <Input
         value={inputValue}
         min={0}
-        max={character.hp.max}
-        addonAfter={`Max: ${character.hp.max}`}
+        max={characterData.hp.max}
+        addonAfter={`Max: ${characterData.hp.max}`}
         disabled={!userIsOwner}
         onChange={handleInputChange}
         onBlur={handleInputBlur}
-        onKeyPress={(event) => {
+        onKeyDown={(event) => {
           if (event.key === "Enter") {
             handleInputBlur();
           }

@@ -1,12 +1,12 @@
 import { Button, List, Typography } from "antd";
-import { CharacterDetails } from "../types";
 import { useState } from "react";
+import { SpellsProps } from "./definitions";
 
-export default function Spells({ character }: CharacterDetails) {
+export default function Spells({ characterData }: SpellsProps) {
   const [selectedSpell, setSelectedSpell] = useState<number | null>(null);
   return (
     <List
-      dataSource={character.spells}
+      dataSource={characterData.spells}
       renderItem={(item, index) => (
         <List.Item className="flex-col items-baseline">
           <Typography.Paragraph className="font-bold mb-3">

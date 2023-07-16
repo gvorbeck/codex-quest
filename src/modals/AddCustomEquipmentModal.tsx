@@ -52,11 +52,11 @@ const onFinishFailed = (errorInfo: any) => {
 export default function AddCustomEquipmentModal({
   isAddCustomEquipmentModalOpen,
   handleCancel,
-  character,
-  setCharacter,
+  characterData,
+  setCharacterData,
 }: AddCustomEquipmentModalProps) {
   const [formState, setFormState] = useState(initialFormState);
-  const [prevValue, setPrevValue] = useState(character.equipment);
+  const [prevValue, setPrevValue] = useState(characterData.equipment);
 
   const { uid, id } = useParams();
 
@@ -66,15 +66,15 @@ export default function AddCustomEquipmentModal({
       return;
     }
 
-    if (character.equipment !== prevValue) {
+    if (characterData.equipment !== prevValue) {
       const docRef = doc(db, "users", uid, "characters", id);
 
       try {
         await updateDoc(docRef, {
-          equipment: character.equipment,
-          gold: character.gold,
+          equipment: characterData.equipment,
+          gold: characterData.gold,
         });
-        setPrevValue(character.equipment);
+        setPrevValue(characterData.equipment);
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -83,7 +83,7 @@ export default function AddCustomEquipmentModal({
 
   useEffect(() => {
     updateEquipment();
-  }, [character.equipment, character.gold, character.weight]);
+  }, [characterData.equipment, characterData.gold, characterData.weight]);
 
   const onFinish = (values: any) => {
     // Common properties
@@ -178,11 +178,11 @@ export default function AddCustomEquipmentModal({
     const itemCost = calculateItemCost(newItem);
 
     // Update the character's equipment and gold
-    const updatedEquipment = [...character.equipment, newItem];
-    const updatedGold = character.gold - (values.purchased ? itemCost : 0);
+    const updatedEquipment = [...characterData.equipment, newItem];
+    const updatedGold = characterData.gold - (values.purchased ? itemCost : 0);
 
-    setCharacter({
-      ...character,
+    setCharacterData({
+      ...characterData,
       equipment: updatedEquipment,
       gold: updatedGold,
     });
@@ -254,6 +254,10 @@ export default function AddCustomEquipmentModal({
     "beasts-of-burden",
     "items",
   ];
+
+  useEffect(() => {
+    console.log(formState);
+  }, [formState]);
 
   return (
     <Modal
@@ -451,8 +455,8 @@ export default function AddCustomEquipmentModal({
             </div>
             <div
               className={`${
-                (formState.category !== "armor" ||
-                  formState.category !== "shields") &&
+                formState.category !== "armor" &&
+                formState.category !== "shields" &&
                 "hidden"
               }`}
             >

@@ -5,6 +5,7 @@ import {
   AbilitiesArray,
   CharacterClass,
 } from "./definitions";
+import { toTitleCase } from "../../../support/stringSupport";
 
 const abilitiesTable: AbilitiesArray = {
   thief: {
@@ -97,7 +98,7 @@ export default function SpecialAbilitiesTable({
     <>
       <div className="mt-6 flex items-baseline gap-4">
         <Typography.Title level={3} className="mt-0 text-shipGray">
-          {characterClass} Special Abilities
+          {toTitleCase(characterClass)} Special Abilities
         </Typography.Title>
         <HelpTooltip text="A player must roll their percentile dice with a result less than or equal to the numbers shown below." />
       </div>

@@ -1,10 +1,10 @@
-import { CharacterDetails } from "../types";
 import { List, Typography } from "antd";
+import { SpecialsRestrictionsProps } from "./definitions";
 
 export default function SpecialsRestrictions({
-  character,
+  characterData,
   className,
-}: CharacterDetails) {
+}: SpecialsRestrictionsProps) {
   return (
     <div className={className}>
       <Typography.Title level={3} className="mt-0 !text-shipGray">
@@ -13,10 +13,10 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...character.specials.race,
-          ...character.specials.class,
-          ...character.restrictions.race,
-          ...character.restrictions.class,
+          ...characterData.specials.race,
+          ...characterData.specials.class,
+          ...characterData.restrictions.race,
+          ...characterData.restrictions.class,
         ]}
         renderItem={(item) => <List.Item>{item}</List.Item>}
         className="print:border-0"

@@ -136,9 +136,6 @@ export interface CharacterDetails {
   userIsOwner?: boolean;
   showLevelUpModal?: () => void;
 }
-export interface AttackBonusProps extends CharacterDetails {
-  attackBonus: number;
-}
 
 export interface SavingThrowsTables {
   [characterClass: string]: {
@@ -149,18 +146,6 @@ export interface SavingThrowsTables {
 interface ModalProps {
   handleCancel: () => void;
   character: CharacterData;
-}
-
-export interface AttackModalProps extends ModalProps {
-  isAttackModalOpen: boolean;
-  attackBonus: number;
-  weapon?: EquipmentItem;
-}
-
-export interface LevelUpModalProps extends ModalProps {
-  isLevelUpModalOpen: boolean;
-  hitDice: string;
-  setCharacter: (character: CharacterData) => void;
 }
 
 export interface AttackButtonsProps {
