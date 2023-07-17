@@ -5,7 +5,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
 
 const itemDescription = (item: EquipmentItem) => (
-  <Descriptions bordered size="small" column={1}>
+  <Descriptions bordered size="small" column={1} className="flex-grow">
     {item.weight && (
       <Descriptions.Item label="Weight">{item.weight}</Descriptions.Item>
     )}
@@ -58,7 +58,7 @@ export default function EquipmentList({
 
   return categories.includes("armor") || categories.includes("shields") ? (
     <Radio.Group
-      className="flex flex-col"
+      className="flex flex-col [&>*+*]:mt-4"
       size="small"
       value={
         categories.includes("armor")
@@ -87,7 +87,11 @@ export default function EquipmentList({
       {shownItems.map((item) => {
         if (item.name === "No Shield" || item.name === "No Armor") return null;
         return (
-          <Radio key={item.name} value={item.name}>
+          <Radio
+            key={item.name}
+            value={item.name}
+            className="[&>span:last-child]:w-full"
+          >
             <div>
               <Typography.Paragraph className="font-bold mb-3">
                 {item.name}

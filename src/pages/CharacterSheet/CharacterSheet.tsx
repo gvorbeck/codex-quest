@@ -219,11 +219,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     );
 
     if (findEquipment(["No Armor", "Magic Leather Armor"])) {
-      return characterData.weight >= carryingCapacity.light ? 40 : 30;
+      return characterData.weight <= carryingCapacity.light ? 40 : 30;
     } else if (findEquipment(["Leather Armor", "Magic Metal Armor"])) {
-      return characterData.weight >= carryingCapacity.light ? 30 : 20;
+      return characterData.weight <= carryingCapacity.light ? 30 : 20;
     } else if (findEquipment(["Metal Armor"])) {
-      return characterData.weight >= carryingCapacity.light ? 20 : 10;
+      return characterData.weight <= carryingCapacity.light ? 20 : 10;
     }
   };
 
