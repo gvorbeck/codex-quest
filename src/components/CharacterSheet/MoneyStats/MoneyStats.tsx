@@ -1,16 +1,17 @@
 import { Input, Space, Typography } from "antd";
-import { CharacterDetails } from "../../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import { MoneyStatsProps } from "./definitions";
 
 export default function MoneyStats({
-  character,
-  setCharacter,
+  characterData,
+  setCharacterData,
   userIsOwner,
-}: CharacterDetails) {
+  makeChange,
+}: MoneyStatsProps) {
   const { gp, sp, cp } = makeChange();
   const [goldValue, setGoldValue] = useState(gp.toString());
   const [silverValue, setSilverValue] = useState(sp.toString());
@@ -51,15 +52,15 @@ export default function MoneyStats({
       }
     }
 
-    if (!isNaN(valueToSet) && setCharacter) {
+    if (!isNaN(valueToSet) && setCharacterData) {
       setFunc(valueToSet.toString());
-      setCharacter({
-        ...character,
-        gold: character.gold + (valueToSet - originalValue) / multiplier,
+      setCharacterData({
+        ...characterData,
+        gold: characterData.gold + (valueToSet - originalValue) / multiplier,
       });
 
       await updateMoney(
-        character.gold + (valueToSet - originalValue) / multiplier
+        characterData.gold + (valueToSet - originalValue) / multiplier
       );
     }
   };
@@ -81,20 +82,13 @@ export default function MoneyStats({
     }
   };
 
-  function makeChange() {
-    let copper = character.gold * 100;
-    let goldPieces = Math.floor(copper / 100);
-    copper %= 100;
-    let silverPieces = Math.floor(copper / 10);
-    copper %= 10;
-    let copperPieces = copper;
+  useEffect(() => {
+    const { gp, sp, cp } = makeChange();
 
-    return {
-      gp: Math.round(goldPieces),
-      sp: Math.round(silverPieces),
-      cp: Math.round(copperPieces),
-    };
-  }
+    setGoldValue(gp.toString());
+    setSilverValue(sp.toString());
+    setCopperValue(cp.toString());
+  }, [characterData.gold]);
 
   return (
     <div>
@@ -141,7 +135,7 @@ export default function MoneyStats({
                 multiplier as number
               )
             }
-            onKeyPress={(event) => {
+            onKeyDown={(event) => {
               if (event.key === "Enter") {
                 handleInputBlur(
                   value as string,

@@ -143,11 +143,6 @@ export interface SavingThrowsTables {
   };
 }
 
-interface ModalProps {
-  handleCancel: () => void;
-  character: CharacterData;
-}
-
 export interface AttackButtonsProps {
   weapon: EquipmentItem;
   damage: (damage: string) => void;

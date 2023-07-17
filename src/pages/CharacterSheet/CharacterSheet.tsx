@@ -227,6 +227,26 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     }
   };
 
+  // MONEY
+  function makeChange() {
+    if (characterData) {
+      let copper = characterData.gold * 100;
+      let goldPieces = Math.floor(copper / 100);
+      copper %= 100;
+      let silverPieces = Math.floor(copper / 10);
+      copper %= 10;
+      let copperPieces = copper;
+
+      return {
+        gp: Math.round(goldPieces),
+        sp: Math.round(silverPieces),
+        cp: Math.round(copperPieces),
+      };
+    } else {
+      return { gp: 0, sp: 0, cp: 0 }; // default object when characterData is null/undefined
+    }
+  }
+
   // GET CHARACTERDATA
   useEffect(() => {
     async function fetchCharacter() {
@@ -360,9 +380,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         <Col xs={24} sm={11} md={6} className="print:w-1/2 print:float-left">
           {/* MONEY */}
           <MoneyStats
-            character={characterData}
-            setCharacter={setCharacterData}
+            characterData={characterData}
+            setCharacterData={setCharacterData}
             userIsOwner={userIsOwner}
+            makeChange={makeChange}
           />
         </Col>
         <Col xs={24} sm={12} md={6} className="print:w-1/2 print:float-right">
