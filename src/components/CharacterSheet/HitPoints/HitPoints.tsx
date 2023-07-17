@@ -4,6 +4,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import { HitPointsProps } from "./definitions";
+import DOMPurify from "dompurify";
 
 export default function HitPoints({
   characterData,
@@ -26,7 +27,8 @@ export default function HitPoints({
   };
 
   const handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescValue(event.target.value);
+    const sanitizedInput = DOMPurify.sanitize(event.target.value);
+    setDescValue(sanitizedInput);
   };
 
   const handleInputBlur = () => {
