@@ -50,7 +50,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "shields",
         "beasts-of-burden",
         "hammers-and-maces",
-        "items",
+        "general-equipment",
         "other-weapons",
       ];
     case "fighter":
@@ -65,7 +65,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "bows",
         "daggers",
         "hammers-and-maces",
-        "items",
+        "general-equipment",
         "other-weapons",
         "swords",
       ];
@@ -82,7 +82,7 @@ const availableEquipmentCategories = (className: ClassName) => {
           "bows",
           "daggers",
           "hammers-and-maces",
-          "items",
+          "general-equipment",
           "other-weapons",
           "swords",
         ];
