@@ -45,7 +45,6 @@ export default function DiceRollerModal({
     });
   };
 
-  // Return the JSX for the modal.
   return (
     <>
       {contextHolder} {/* The notification context holder */}
