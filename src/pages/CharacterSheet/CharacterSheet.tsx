@@ -218,11 +218,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       characterData.race
     );
 
+    console.log(findEquipment(["Metal Armor"]));
+
     if (findEquipment(["No Armor", "Magic Leather Armor"])) {
       return characterData.weight <= carryingCapacity.light ? 40 : 30;
     } else if (findEquipment(["Leather Armor", "Magic Metal Armor"])) {
       return characterData.weight <= carryingCapacity.light ? 30 : 20;
-    } else if (findEquipment(["Metal Armor"])) {
+    } else if (findEquipment(["Metal Armor", "Chain Mail"])) {
       return characterData.weight <= carryingCapacity.light ? 20 : 10;
     }
   };
