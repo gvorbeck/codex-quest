@@ -7,6 +7,7 @@ import spellsData from "../../../data/spells.json";
 import { classDetails, classChoices } from "../../../data/classDetails";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import { Spell } from "../../types";
+import DOMPurify from "dompurify";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -149,8 +150,9 @@ export default function CharacterClass({
   const handleChangeCustomClassInput = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    setCustomClassInput(event.target.value);
-    setCharacterData({ ...characterData, class: event.target.value });
+    const cleanInput = DOMPurify.sanitize(event.target.value);
+    setCustomClassInput(cleanInput);
+    setCharacterData({ ...characterData, class: cleanInput });
   };
 
   const handleClickCustomClassInput = (event: MouseEvent<HTMLInputElement>) => {

@@ -4,6 +4,7 @@ import { CharacterRaceProps } from "./definitions";
 import { raceDetails, raceChoices } from "../../../data/raceDetails";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
+import DOMPurify from "dompurify";
 
 export default function CharacterRace({
   characterData,
@@ -60,8 +61,9 @@ export default function CharacterRace({
   const handleChangeCustomRaceInput = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    setCustomRaceInput(event.target.value);
-    setCharacterData({ ...characterData, race: event.target.value });
+    const cleanInput = DOMPurify.sanitize(event.target.value);
+    setCustomRaceInput(cleanInput);
+    setCharacterData({ ...characterData, race: cleanInput });
   };
 
   const handleClickCustomRaceInput = (event: MouseEvent<HTMLInputElement>) => {

@@ -16,6 +16,7 @@ import { getDownloadURL } from "firebase/storage";
 import { images } from "../../../assets/images/faces/imageAssets";
 import { CharSteps } from "../definitions";
 import { CharacterNameProps } from "./definitions";
+import DOMPurify from "dompurify";
 
 const StockAvatars = ({ setCharacterData, characterData }: CharSteps) => {
   const [selectedAvatar, setSelectedAvatar] = useState("");
@@ -66,9 +67,8 @@ export default function CharacterName({
   const [imageSource, setImageSource] = useState(0);
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newName = event.target.value;
-    setCharacterData({ ...characterData, name: newName });
-    // setName(newName);
+    const cleanInput = DOMPurify.sanitize(event.target.value);
+    setCharacterData({ ...characterData, name: cleanInput });
   };
 
   const handleCancel = () => setPreviewOpen(false);
@@ -90,7 +90,7 @@ export default function CharacterName({
   }) => {
     // Validate file type, size, or dimensions here
     const allowedTypes = ["image/jpeg", "image/png"]; // Allowed file types
-    const maxSize = 1 * 1024 * 1024; // Maximum file size in bytes (5MB)
+    const maxSize = 1 * 1024 * 1024; // Maximum file size in bytes (1MB)
 
     const filteredList = newFileList.filter((file) => {
       const isAllowedType = file.type

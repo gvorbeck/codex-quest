@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -9,17 +10,17 @@ import {
   RadioChangeEvent,
   Select,
 } from "antd";
+import { useParams } from "react-router-dom";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
 import equipmentItems from "../data/equipment-items.json";
 import { slugToTitleCase } from "../support/stringSupport";
-import { useEffect, useState } from "react";
-import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
-import { useParams } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { calculateItemCost } from "../support/formatSupport";
+import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
+import { EquipmentItem } from "../components/EquipmentStore/definitions";
+import DOMPurify from "dompurify";
 
 const initialFormState = {
   name: undefined,
@@ -195,7 +196,7 @@ export default function AddCustomEquipmentModal({
     const { name, value } = event.target;
     setFormState({
       ...formState,
-      [name]: value,
+      [name]: DOMPurify.sanitize(value),
     });
   };
 
@@ -219,7 +220,7 @@ export default function AddCustomEquipmentModal({
   };
 
   const handleRadioChange = (event: RadioChangeEvent) => {
-    const value = event.target.value;
+    const { value } = event.target;
     setFormState({
       ...formState,
       type: value,

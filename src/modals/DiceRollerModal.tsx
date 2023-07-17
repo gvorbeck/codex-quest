@@ -3,6 +3,7 @@ import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { DiceRollerModalProps } from "./definitions";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import DOMPurify from "dompurify";
 
 export default function DiceRollerModal({
   isDiceRollerModalOpen,
@@ -30,7 +31,8 @@ export default function DiceRollerModal({
 
   // Handler for updating the input value state when the dice notation input changes.
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    const cleanInput = DOMPurify.sanitize(event.target.value);
+    setInputValue(cleanInput);
   };
 
   // Function for opening a notification with a given message.
