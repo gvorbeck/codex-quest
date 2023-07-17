@@ -12,10 +12,8 @@ export default function EquipmentInfo({
   characterData,
   setCharacterData,
   handleCustomDelete,
-  weapon,
   setWeapon,
   showAttackModal,
-  attackBonus,
   updateAC,
 }: EquipmentInfoProps) {
   const equipmentListCategories = {
@@ -102,9 +100,6 @@ export default function EquipmentInfo({
             handleCustomDelete={handleCustomDelete}
             handleAttackClick={handleAttackClick}
             handleAttack
-            attackBonus={attackBonus}
-            setWeapon={setWeapon}
-            showAttackModal={showAttackModal}
           />
         </Collapse.Panel>
         {/* GENERAL EQUIPMENT */}

@@ -8,9 +8,7 @@ export interface EquipmentInfoProps {
   characterData: CharacterData;
   setCharacterData: (characterData: CharacterData) => void;
   handleCustomDelete: (item: EquipmentItem) => void;
-  weapon?: EquipmentItem;
   setWeapon?: (weapon: EquipmentItem) => void;
   showAttackModal?: () => void;
-  attackBonus?: number;
   updateAC: () => void;
 }

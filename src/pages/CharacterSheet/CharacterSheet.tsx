@@ -404,7 +404,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             handleCustomDelete={handleCustomDelete}
             setWeapon={setWeapon}
             showAttackModal={showAttackModal}
-            attackBonus={getAttackBonus(characterData)}
             updateAC={updateAC}
           />
         </Col>

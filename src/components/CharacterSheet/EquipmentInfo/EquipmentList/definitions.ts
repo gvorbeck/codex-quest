@@ -8,17 +8,5 @@ export interface EquipmentListProps {
   handleCustomDelete: (item: EquipmentItem) => void;
   handleAttack?: boolean;
   handleAttackClick?: (item: EquipmentItem) => void;
-  attackBonus?: number;
-  setWeapon?: (weapon: EquipmentItem) => void;
-  showAttackModal?: () => void;
   updateAC?: () => void;
-  // calculatedAC?: number;
-  // setCalculatedAC?: (ac: number) => void;
-  // radios?: boolean;
 }
-
-// export interface ItemDescriptionProps {
-//   item: EquipmentItem;
-//   hideAmount?: boolean;
-//   hideTrash?: boolean;
-// }
