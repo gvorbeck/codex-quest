@@ -1,4 +1,3 @@
-import { CharacterDetails } from "../../types";
 import { Input, Typography } from "antd";
 import { useEffect, useState, useRef } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -6,13 +5,14 @@ import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import { classChoices } from "../../../data/classDetails";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+import { CharacterDescriptionProps } from "./definitions";
 
 export default function Description({
-  character,
-  setCharacter,
+  characterData,
+  setCharacterData,
   userIsOwner,
-}: CharacterDetails) {
-  const [inputValue, setInputValue] = useState(character.desc || "");
+}: CharacterDescriptionProps) {
+  const [inputValue, setInputValue] = useState(characterData.desc || "");
   const { uid, id } = useParams();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -20,8 +20,8 @@ export default function Description({
     setInputValue(event.target.value);
   };
 
-  if (inputValue === "" && !classChoices.includes(character.class)) {
-    const placeholderSavingThrows = `"${character.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
+  if (inputValue === "" && !classChoices.includes(characterData.class)) {
+    const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
     setInputValue(placeholderSavingThrows);
   }
 
@@ -31,18 +31,16 @@ export default function Description({
       return;
     }
 
-    if (character.desc !== inputValue) {
+    if (characterData.desc !== inputValue) {
       const docRef = doc(db, "users", uid, "characters", id);
       try {
         await updateDoc(docRef, {
           desc: inputValue,
         });
-        if (setCharacter) {
-          setCharacter({
-            ...character,
-            desc: inputValue,
-          });
-        }
+        setCharacterData({
+          ...characterData,
+          desc: inputValue,
+        });
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -67,9 +65,9 @@ export default function Description({
         <Typography.Title level={3} className="mt-0 !text-shipGray">
           Bio & Notes
         </Typography.Title>
-        {!classChoices.includes(character.class) && (
+        {!classChoices.includes(characterData.class) && (
           <HelpTooltip
-            text={`You can clear this field to restore the "${character.class}" Saving Throws template.`}
+            text={`You can clear this field to restore the "${characterData.class}" Saving Throws template.`}
           />
         )}
       </div>
@@ -77,7 +75,7 @@ export default function Description({
         value={inputValue}
         rows={10}
         name="Bio & Notes"
-        placeholder={`Write anything and everything about ${character.name}`}
+        placeholder={`Write anything and everything about ${characterData.name}`}
         onChange={handleInputChange}
         onBlur={updateDescription}
         disabled={!userIsOwner}
