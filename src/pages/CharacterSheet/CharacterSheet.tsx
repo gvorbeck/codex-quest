@@ -135,13 +135,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     return maxAttackBonus;
   };
 
-  const findEquipment = (itemNames: string[]): boolean => {
-    if (!characterData) return false;
-    return itemNames.some((name) =>
-      characterData.equipment.find((item) => item.name === name)
-    );
-  };
-
   // ARMOR CLASS (AC)
   const getArmorClass = (characterData: CharacterData) => {
     if (!characterData) return;
@@ -150,7 +143,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     let armorAC = 0;
     let shieldAC = 0;
 
-    // armorAC = equipmentItems.filter((item) => item.name === characterData.wearing.armor).AC
     if (!characterData.wearing) {
       setCharacterData({
         ...characterData,
@@ -218,13 +210,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       characterData.race
     );
 
-    console.log(findEquipment(["Metal Armor"]));
+    const isWearing = (armorNames: string[]) => {
+      return armorNames.includes(characterData?.wearing?.armor || "");
+    };
 
-    if (findEquipment(["No Armor", "Magic Leather Armor"])) {
+    // This checks if there is armor being worn or not and adjusts movement.
+    if (isWearing(["No Armor", "Magic Leather Armor", ""])) {
       return characterData.weight <= carryingCapacity.light ? 40 : 30;
-    } else if (findEquipment(["Leather Armor", "Magic Metal Armor"])) {
+    } else if (isWearing(["Leather Armor", "Magic Metal Armor"])) {
       return characterData.weight <= carryingCapacity.light ? 30 : 20;
-    } else if (findEquipment(["Metal Armor", "Chain Mail"])) {
+    } else if (isWearing(["Metal Armor", "Chain Mail"])) {
       return characterData.weight <= carryingCapacity.light ? 20 : 10;
     }
   };
@@ -245,7 +240,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         cp: Math.round(copperPieces),
       };
     } else {
-      return { gp: 0, sp: 0, cp: 0 }; // default object when characterData is null/undefined
+      // default object when characterData is null/undefined
+      return { gp: 0, sp: 0, cp: 0 };
     }
   }
 
