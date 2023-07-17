@@ -332,6 +332,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <SimpleNumberStat
             title="Movement"
             value={`${getMovement(characterData)}'`}
+            helpText="Movement starts at 40' and is affected by how much weight your character is carrying and the armor they are wearing."
           />
           {/* HIT DICE */}
           <SimpleNumberStat title="Hit Dice" value={hitDice} />
