@@ -44,6 +44,12 @@ export default function ExperiencePoints({
   };
 
   const handleInputBlur = () => {
+    // Check if inputValue matches the expected format (optional '-' or '+', followed by numeric characters)
+    if (!/^[+-]?\d+$/.test(inputValue)) {
+      console.error("Invalid input");
+      return;
+    }
+
     const newValue = inputValue;
     if (newValue.startsWith("+")) {
       const increment = parseInt(newValue.slice(1));
@@ -107,7 +113,7 @@ export default function ExperiencePoints({
           onFocus={(event) => event.target.select()}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
-          onKeyPress={(event) => {
+          onKeyDown={(event) => {
             if (event.key === "Enter") {
               handleInputBlur();
             }
