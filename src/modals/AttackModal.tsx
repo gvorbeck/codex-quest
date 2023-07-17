@@ -6,14 +6,11 @@ import {
   Switch,
   notification,
 } from "antd";
-import {
-  AttackButtonsProps,
-  AttackModalProps,
-  RangeRadioButtons,
-} from "../components/types";
+import { AttackButtonsProps, RangeRadioButtons } from "../components/types";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import { AttackModalProps } from "./definitions";
 
 const roller = new DiceRoller();
 
@@ -62,7 +59,7 @@ export default function AttackModal({
   isAttackModalOpen,
   handleCancel,
   attackBonus,
-  character,
+  characterData,
   weapon,
 }: AttackModalProps) {
   const [isMissile, setisMissile] = useState(false);
@@ -70,7 +67,7 @@ export default function AttackModal({
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openAttackNotification = (result: number) => {
+  const openAttackNotification = (result: string) => {
     api.open({
       message: "Attack Roll",
       description: `${result} (+2 if attacking from behind)`,
@@ -79,7 +76,7 @@ export default function AttackModal({
     });
   };
 
-  const openDamageNotification = (result: number) => {
+  const openDamageNotification = (result: string) => {
     api.open({
       message: "Damage Roll",
       description: `${result}`,
@@ -140,23 +137,25 @@ export default function AttackModal({
   }
 
   const attack = (type: "melee" | "missile") => {
-    let result = roller.roll("1d20").total;
-    if (type === "melee") {
-      result += +character.abilities.modifiers.strength + attackBonus;
-    } else {
-      result +=
-        +character.abilities.modifiers.dexterity +
-        attackBonus +
-        (character.race === "Halfling" ? 1 : 0) +
-        missileRangeBonus;
+    let roll = "1d20";
+
+    if (characterData) {
+      const strength = Number(characterData.abilities.modifiers.strength);
+      const dexterity = Number(characterData.abilities.modifiers.dexterity);
+      const halflingBonus =
+        characterData.race.toLowerCase() === "halfling" ? "+1" : "";
+
+      roll +=
+        type === "melee"
+          ? `+${strength + attackBonus}`
+          : `+${dexterity + attackBonus}${halflingBonus}+${missileRangeBonus}`;
     }
-    openAttackNotification(result);
+
+    openAttackNotification(roller.roll(roll).output);
   };
 
-  const damage = (roll: string) => {
-    let result = roller.roll(roll).total;
-    openDamageNotification(result);
-  };
+  const damage = (roll: string) =>
+    openDamageNotification(roller.roll(roll).output);
 
   return (
     <>

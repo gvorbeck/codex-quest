@@ -1,12 +1,10 @@
-import { Collapse, Radio, Space, Typography } from "antd";
+import { Collapse, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipment-items.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";
-import { RaceName } from "../../CharacterRace/definitions";
-import EquipmentRadio from "../EquipmentRadio/EquipmentRadio";
-import { useState } from "react";
+import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
@@ -48,10 +46,11 @@ const availableEquipmentCategories = (className: ClassName) => {
     case "cleric":
       return [
         "ammunition",
-        "armor-and-shields",
+        "armor",
+        "shields",
         "beasts-of-burden",
         "hammers-and-maces",
-        "items",
+        "general-equipment",
         "other-weapons",
       ];
     case "fighter":
@@ -59,13 +58,14 @@ const availableEquipmentCategories = (className: ClassName) => {
     case "assassin":
       return [
         "ammunition",
-        "armor-and-shields",
+        "armor",
+        "shields",
         "axes",
         "beasts-of-burden",
         "bows",
         "daggers",
         "hammers-and-maces",
-        "items",
+        "general-equipment",
         "other-weapons",
         "swords",
       ];
@@ -75,13 +75,14 @@ const availableEquipmentCategories = (className: ClassName) => {
       if (!classChoices.includes(className)) {
         return [
           "ammunition",
-          "armor-and-shields",
+          "armor",
+          "shields",
           "axes",
           "beasts-of-burden",
           "bows",
           "daggers",
           "hammers-and-maces",
-          "items",
+          "general-equipment",
           "other-weapons",
           "swords",
         ];
@@ -128,11 +129,8 @@ const itemIsDisabled = (
     className.toLowerCase().includes("thief") ||
     className.toLowerCase().includes("assassin")
   ) {
-    if (item.category === "armor-and-shields") {
-      if (
-        item.name.toLowerCase().includes("leather") ||
-        item.name.toLowerCase().includes("no armor")
-      ) {
+    if (item.category === "armor") {
+      if (item.name.toLowerCase().includes("leather")) {
         disabled = false;
       }
     } else {
@@ -161,15 +159,12 @@ const itemIsDisabled = (
 export default function EquipmentAccordion({
   onAmountChange,
   onCheckboxCheck,
-  onRadioCheck,
   playerClass,
   playerEquipment,
   playerRace,
   playerGold,
   className,
 }: EquipmentAccordionProps) {
-  const [armorValue, setArmorValue] = useState(null);
-
   // Create a list of unique categories available for each class in the className, removing any duplicates
   const categories = Array.from(
     new Set(
@@ -180,11 +175,6 @@ export default function EquipmentAccordion({
         )
     )
   );
-
-  const handleRadioChange = (e: any) => {
-    setArmorValue(e.target.value);
-    onRadioCheck(equipmentItems.find((item) => item.name === e.target.value));
-  };
 
   return (
     <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
@@ -197,113 +187,41 @@ export default function EquipmentAccordion({
             className="[&>div:not(:first)]:bg-springWood"
           >
             <Space direction="vertical">
-              {category !== "armor-and-shields" ? (
-                equipmentItems
-                  .filter((categoryItem) => categoryItem.category === category)
-                  .map((categoryItem) => {
-                    if (
-                      !itemIsDisabled(playerClass, playerRace, categoryItem)
-                    ) {
-                      return (
-                        <EquipmentCheckbox
-                          key={categoryItem.name}
-                          item={categoryItem}
-                          disabled={itemIsDisabled(
-                            playerClass,
-                            playerRace,
-                            categoryItem
-                          )}
-                          onCheckboxCheck={onCheckboxCheck}
-                          onAmountChange={onAmountChange}
-                          playerHasItem={playerEquipment.some(
+              {equipmentItems
+                .filter((categoryItem) => categoryItem.category === category)
+                .map((categoryItem) => {
+                  if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
+                    return (
+                      <EquipmentCheckbox
+                        key={categoryItem.name}
+                        item={categoryItem}
+                        disabled={itemIsDisabled(
+                          playerClass,
+                          playerRace,
+                          categoryItem
+                        )}
+                        onCheckboxCheck={onCheckboxCheck}
+                        onAmountChange={onAmountChange}
+                        playerHasItem={playerEquipment.some(
+                          (invItem: EquipmentItem) =>
+                            invItem.name === categoryItem.name
+                        )}
+                        equipmentItemDescription={EquipmentItemDescription(
+                          categoryItem
+                        )}
+                        inputDisabled={categoryItem.costValue > playerGold}
+                        itemAmount={
+                          playerEquipment.filter(
                             (invItem: EquipmentItem) =>
                               invItem.name === categoryItem.name
-                          )}
-                          equipmentItemDescription={EquipmentItemDescription(
-                            categoryItem
-                          )}
-                          inputDisabled={categoryItem.costValue > playerGold}
-                          itemAmount={
-                            playerEquipment.filter(
-                              (invItem: EquipmentItem) =>
-                                invItem.name === categoryItem.name
-                            )[0]?.amount
-                          }
-                        />
-                      );
-                    } else {
-                      return null;
-                    }
-                  })
-              ) : (
-                <Radio.Group value={armorValue} onChange={handleRadioChange}>
-                  <Space direction="vertical">
-                    {equipmentItems
-                      .filter(
-                        (categoryItem) => categoryItem.category === category
-                      )
-                      .map((categoryItem) =>
-                        categoryItem.name.toLowerCase() !== "shield"
-                          ? !itemIsDisabled(
-                              playerClass,
-                              playerRace,
-                              categoryItem
-                            ) && (
-                              <EquipmentRadio
-                                key={categoryItem.name}
-                                item={categoryItem}
-                                equipmentItemDescription={EquipmentItemDescription(
-                                  categoryItem
-                                )}
-                                disabled={itemIsDisabled(
-                                  playerClass,
-                                  playerRace,
-                                  categoryItem
-                                )}
-                                inputDisabled={
-                                  categoryItem.costValue > playerGold
-                                }
-                              />
-                            )
-                          : !itemIsDisabled(
-                              playerClass,
-                              playerRace,
-                              categoryItem
-                            ) && (
-                              <EquipmentCheckbox
-                                key={categoryItem.name}
-                                item={categoryItem}
-                                disabled={
-                                  itemIsDisabled(
-                                    playerClass,
-                                    playerRace,
-                                    categoryItem
-                                  ) || categoryItem.costValue > playerGold
-                                }
-                                onCheckboxCheck={onCheckboxCheck}
-                                onAmountChange={onAmountChange}
-                                playerHasItem={playerEquipment.some(
-                                  (invItem: EquipmentItem) =>
-                                    invItem.name === categoryItem.name
-                                )}
-                                equipmentItemDescription={EquipmentItemDescription(
-                                  categoryItem
-                                )}
-                                inputDisabled={
-                                  categoryItem.costValue > playerGold
-                                }
-                                itemAmount={
-                                  playerEquipment.filter(
-                                    (invItem: EquipmentItem) =>
-                                      invItem.name === categoryItem.name
-                                  )[0]?.amount
-                                }
-                              />
-                            )
-                      )}
-                  </Space>
-                </Radio.Group>
-              )}
+                          )[0]?.amount
+                        }
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
             </Space>
           </Collapse.Panel>
         ))}

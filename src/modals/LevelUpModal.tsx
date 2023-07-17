@@ -1,5 +1,5 @@
 import { Button, Checkbox, Modal, Typography } from "antd";
-import { LevelUpModalProps, SpellItem, Spell } from "../components/types";
+import { SpellItem, Spell } from "../components/types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -10,7 +10,7 @@ import { clericSpellBudget, magicUserSpellBudget } from "../data/spellBudgets";
 import { hitDiceModifiers } from "../data/hitDiceModifiers";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { classChoices } from "../data/classDetails";
-import { SpellCheckboxGroupProps } from "./definitions";
+import { LevelUpModalProps, SpellCheckboxGroupProps } from "./definitions";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 
 const roller = new DiceRoller();
@@ -103,16 +103,16 @@ const SpellCheckboxGroup = ({
 };
 
 export default function LevelUpModal({
-  character,
+  characterData,
   handleCancel,
   isLevelUpModalOpen,
-  setCharacter,
+  setCharacterData,
 }: LevelUpModalProps) {
   const [checkedSpells, setCheckedSpells] = useState(
-    character.spells.map((spell: SpellItem) => spell.name)
+    characterData.spells.map((spell: SpellItem) => spell.name)
   );
   const [checkedSpellsCount, setCheckedSpellsCount] = useState<number[]>(
-    new Array(magicUserSpellBudget[character.level - 1].length).fill(0)
+    new Array(magicUserSpellBudget[characterData.level - 1].length).fill(0)
   );
 
   let newHitDice: string;
@@ -120,23 +120,23 @@ export default function LevelUpModal({
   const { uid, id } = useParams();
 
   // Determine how many hit dice to roll
-  if (character.level + 1 >= 10) {
-    newHitDice = character.hp.dice.split("+")[0];
+  if (characterData.level + 1 >= 10) {
+    newHitDice = characterData.hp.dice.split("+")[0];
   } else {
-    const prefix = character.level + 1;
-    newHitDice = prefix.toString() + "d" + character.hp.dice.split("d")[1];
+    const prefix = characterData.level + 1;
+    newHitDice = prefix.toString() + "d" + characterData.hp.dice.split("d")[1];
   }
 
   // Determine what, if any, modifier is added to the roll
   if (
-    (character.class.includes("Fighter") ||
-      character.class.includes("Assassin") ||
-      character.class.includes("Thief")) &&
-    hitDiceModifiers.double[character.level] !== null
+    (characterData.class.includes("Fighter") ||
+      characterData.class.includes("Assassin") ||
+      characterData.class.includes("Thief")) &&
+    hitDiceModifiers.double[characterData.level] !== null
   ) {
-    newHitDice += `+${hitDiceModifiers.double[character.level]}`;
-  } else if (hitDiceModifiers.single[character.level] !== null) {
-    newHitDice += `+${hitDiceModifiers.single[character.level]}`;
+    newHitDice += `+${hitDiceModifiers.double[characterData.level]}`;
+  } else if (hitDiceModifiers.single[characterData.level] !== null) {
+    newHitDice += `+${hitDiceModifiers.single[characterData.level]}`;
   }
 
   const getSelectedSpells = (checkedSpells: string[]): Spell[] => {
@@ -151,10 +151,10 @@ export default function LevelUpModal({
 
     const selectedSpells = getSelectedSpells(checkedSpells);
 
-    setCharacter({
-      ...character,
-      hp: { ...character.hp, max: result, dice },
-      level: character.level + 1,
+    setCharacterData({
+      ...characterData,
+      hp: { ...characterData.hp, max: result, dice },
+      level: characterData.level + 1,
       spells: selectedSpells,
     });
 
@@ -168,7 +168,7 @@ export default function LevelUpModal({
       await updateDoc(docRef, {
         "hp.max": result,
         "hp.dice": dice,
-        level: character.level + 1,
+        level: characterData.level + 1,
         spells: selectedSpells,
       });
     } catch (error) {
@@ -178,7 +178,7 @@ export default function LevelUpModal({
 
   useEffect(() => {
     const initialCheckedSpellsCount = magicUserSpellBudget[
-      character.level - 1
+      characterData.level - 1
     ].map(
       (_, index) =>
         checkedSpells.filter((spellName) =>
@@ -191,7 +191,7 @@ export default function LevelUpModal({
     );
 
     setCheckedSpellsCount(initialCheckedSpellsCount);
-  }, [character.level, checkedSpells]);
+  }, [characterData.level, checkedSpells]);
 
   return (
     <Modal
@@ -202,10 +202,10 @@ export default function LevelUpModal({
       closeIcon={<ModalCloseIcon />}
     >
       {classChoices.map((characterClass) => {
-        if (character.class.includes(characterClass)) {
+        if (characterData.class.includes(characterClass)) {
           const spellBudget = getSpellBudget(characterClass);
-          if (spellBudget && spellBudget[character.level]) {
-            return spellBudget[character.level].map(
+          if (spellBudget && spellBudget[characterData.level]) {
+            return spellBudget[characterData.level].map(
               (max: number, index: number) => (
                 <SpellCheckboxGroup
                   key={index}
@@ -224,16 +224,16 @@ export default function LevelUpModal({
         return null;
       })}
 
-      {!classChoices.includes(character.class) && (
+      {!classChoices.includes(characterData.class) && (
         <HomebrewWarning homebrew="Race or Class" />
       )}
-      {!classChoices.some((choice) => character.class.includes(choice)) && // For classes that are not in classChoices
+      {!classChoices.some((choice) => characterData.class.includes(choice)) && // For classes that are not in classChoices
         new Array(6)
           .fill(0)
           .map((_, index) => (
             <SpellCheckboxGroup
               key={index}
-              characterClass={character.class}
+              characterClass={characterData.class}
               level={index}
               max={Infinity}
               checkedSpells={checkedSpells}

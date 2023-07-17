@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
-import CharAbilityScoreStep from "../components/CreateCharacterModal/CharAbilityScoreStep";
-import CharacterRace from "../components/CharacterRace/CharacterRace";
-import CharacterClass from "../components/CharacterClass/CharacterClass";
-import CharacterHitPoints from "../components/CharacterHitPoints/CharacterHitPoints";
+import CharacterAbilities from "../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
+import CharacterRace from "../components/CreateCharacter/CharacterRace/CharacterRace";
+import CharacterClass from "../components/CreateCharacter/CharacterClass/CharacterClass";
+import CharacterHitPoints from "../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
+import CharacterName from "../components/CreateCharacter/CharacterName/CharacterName";
 import {
   AbilityTypes,
   CharacterData,
   CreateCharacterModalProps,
   SpellType,
 } from "../components/types";
-import CharNameStep from "../components/CreateCharacterModal/CharNameStep";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { marked } from "marked";
@@ -98,6 +98,10 @@ const emptyCharacter = {
   },
   xp: 0,
   desc: "",
+  wearing: {
+    armor: "",
+    shield: "",
+  },
 };
 
 export default function CreateCharacterModal({
@@ -119,7 +123,7 @@ export default function CreateCharacterModal({
       fullTitle: "Roll for Ability Scores",
       description: abilityDescription,
       content: (
-        <CharAbilityScoreStep
+        <CharacterAbilities
           characterData={characterData}
           setCharacterData={setCharacterData}
           setComboClass={setComboClass}
@@ -186,7 +190,7 @@ export default function CreateCharacterModal({
       fullTitle: "Name your character",
       description: nameDescription,
       content: (
-        <CharNameStep
+        <CharacterName
           characterData={characterData}
           setCharacterData={setCharacterData}
         />

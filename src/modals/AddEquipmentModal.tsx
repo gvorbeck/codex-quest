@@ -8,12 +8,12 @@ import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { AddEquipmentModalProps } from "./definitions";
 
 export default function AddEquipmentModal({
-  character,
+  characterData,
   handleCancel,
   isAddEquipmentModalOpen,
-  setCharacter,
+  setCharacterData,
 }: AddEquipmentModalProps) {
-  const [prevValue, setPrevValue] = useState(character.equipment);
+  const [prevValue, setPrevValue] = useState(characterData?.equipment);
   const { uid, id } = useParams();
 
   const updateEquipment = async () => {
@@ -22,15 +22,15 @@ export default function AddEquipmentModal({
       return;
     }
 
-    if (character.equipment !== prevValue) {
+    if (characterData && characterData.equipment !== prevValue) {
       const docRef = doc(db, "users", uid, "characters", id);
 
       try {
         await updateDoc(docRef, {
-          equipment: character.equipment,
-          gold: character.gold,
+          equipment: characterData.equipment,
+          gold: characterData.gold,
         });
-        setPrevValue(character.equipment);
+        setPrevValue(characterData.equipment);
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -39,7 +39,7 @@ export default function AddEquipmentModal({
 
   useEffect(() => {
     updateEquipment();
-  }, [character.equipment, character.gold, character.weight]);
+  }, [characterData?.equipment, characterData?.gold, characterData?.weight]);
 
   return (
     <Modal
@@ -50,10 +50,12 @@ export default function AddEquipmentModal({
       width={1000}
       closeIcon={<ModalCloseIcon />}
     >
-      <EquipmentStore
-        characterData={character}
-        setCharacterData={setCharacter}
-      />
+      {characterData && (
+        <EquipmentStore
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+        />
+      )}
     </Modal>
   );
 }

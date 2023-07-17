@@ -1,6 +1,7 @@
 import { RadioChangeEvent, UploadFile } from "antd";
 import { UploadChangeParam } from "antd/es/upload";
 import { User } from "firebase/auth";
+import { CharSteps } from "./CreateCharacter/definitions";
 
 export interface AbilityTypes {
   strength: number | string;
@@ -60,15 +61,7 @@ export interface CharacterData {
   savingThrows: SavingThrows;
   xp: number;
   desc: string;
-}
-
-export interface CharSteps {
-  characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
-}
-export interface CharAbilityScoreStepProps extends CharSteps {
-  setComboClass: (comboClass: boolean) => void;
-  setCheckedClasses: (checkedClasses: string[]) => void;
+  wearing?: { armor: string; shield: string };
 }
 export interface CharEquipmentStepProps extends CharSteps {
   equipmentItems: EquipmentItem[];
@@ -91,7 +84,6 @@ export interface EquipmentCheckboxProps extends CharSteps {
   handleWeightChange: () => void;
   weightRestrictions: any;
 }
-export interface CharNameStepProps extends CharSteps {}
 
 export interface EquipmentItem {
   name: string;
@@ -104,12 +96,6 @@ export interface EquipmentItem {
   AC?: string | number;
   amount: number;
   type?: string;
-}
-
-export interface AbilityRecord {
-  key: string;
-  ability: string;
-  score: number;
 }
 
 export type Capacity = { light: number; heavy: number };
@@ -143,9 +129,6 @@ export interface CharacterListProps {
   className?: string;
 }
 
-export interface CharacterSheetProps {
-  user: User | null;
-}
 export interface CharacterDetails {
   character: CharacterData;
   setCharacter?: (character: CharacterData) => void;
@@ -153,31 +136,11 @@ export interface CharacterDetails {
   userIsOwner?: boolean;
   showLevelUpModal?: () => void;
 }
-export interface AttackBonusProps extends CharacterDetails {
-  attackBonus: number;
-}
 
 export interface SavingThrowsTables {
   [characterClass: string]: {
     [levelRange: string]: SavingThrows;
   };
-}
-
-interface ModalProps {
-  handleCancel: () => void;
-  character: CharacterData;
-}
-
-export interface AttackModalProps extends ModalProps {
-  isAttackModalOpen: boolean;
-  attackBonus: number;
-  weapon?: EquipmentItem;
-}
-
-export interface LevelUpModalProps extends ModalProps {
-  isLevelUpModalOpen: boolean;
-  hitDice: string;
-  setCharacter: (character: CharacterData) => void;
 }
 
 export interface AttackButtonsProps {

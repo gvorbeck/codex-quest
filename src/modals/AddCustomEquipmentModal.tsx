@@ -8,7 +8,6 @@ import {
   Radio,
   RadioChangeEvent,
   Select,
-  Switch,
 } from "antd";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
@@ -53,11 +52,11 @@ const onFinishFailed = (errorInfo: any) => {
 export default function AddCustomEquipmentModal({
   isAddCustomEquipmentModalOpen,
   handleCancel,
-  character,
-  setCharacter,
+  characterData,
+  setCharacterData,
 }: AddCustomEquipmentModalProps) {
   const [formState, setFormState] = useState(initialFormState);
-  const [prevValue, setPrevValue] = useState(character.equipment);
+  const [prevValue, setPrevValue] = useState(characterData.equipment);
 
   const { uid, id } = useParams();
 
@@ -67,15 +66,15 @@ export default function AddCustomEquipmentModal({
       return;
     }
 
-    if (character.equipment !== prevValue) {
+    if (characterData.equipment !== prevValue) {
       const docRef = doc(db, "users", uid, "characters", id);
 
       try {
         await updateDoc(docRef, {
-          equipment: character.equipment,
-          gold: character.gold,
+          equipment: characterData.equipment,
+          gold: characterData.gold,
         });
-        setPrevValue(character.equipment);
+        setPrevValue(characterData.equipment);
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -84,7 +83,7 @@ export default function AddCustomEquipmentModal({
 
   useEffect(() => {
     updateEquipment();
-  }, [character.equipment, character.gold, character.weight]);
+  }, [characterData.equipment, characterData.gold, characterData.weight]);
 
   const onFinish = (values: any) => {
     // Common properties
@@ -105,10 +104,17 @@ export default function AddCustomEquipmentModal({
           damage: values.damage,
         };
         break;
-      case "armor-and-shields":
+      case "armor":
         newItem = {
           ...newItem,
-          AC: values.armorOrShield ? values["armor-ac"] : values["shield-ac"],
+          AC: values["armor-ac"],
+          weight: values.weight,
+        };
+        break;
+      case "shields":
+        newItem = {
+          ...newItem,
+          AC: values["shield-ac"],
           weight: values.weight,
         };
         break;
@@ -172,11 +178,11 @@ export default function AddCustomEquipmentModal({
     const itemCost = calculateItemCost(newItem);
 
     // Update the character's equipment and gold
-    const updatedEquipment = [...character.equipment, newItem];
-    const updatedGold = character.gold - (values.purchased ? itemCost : 0);
+    const updatedEquipment = [...characterData.equipment, newItem];
+    const updatedGold = characterData.gold - (values.purchased ? itemCost : 0);
 
-    setCharacter({
-      ...character,
+    setCharacterData({
+      ...characterData,
       equipment: updatedEquipment,
       gold: updatedGold,
     });
@@ -205,14 +211,6 @@ export default function AddCustomEquipmentModal({
     });
   };
 
-  const handleSwitchChange = (value: any) => {
-    setFormState({
-      ...formState,
-      armorOrShield: value,
-      ac: undefined,
-    });
-  };
-
   const handleSelectChange = (value: string, name: string) => {
     setFormState({
       ...formState,
@@ -230,7 +228,8 @@ export default function AddCustomEquipmentModal({
 
   const attackTypeHiddenCategories = [
     "ammunition",
-    "armor-and-shields",
+    "armor",
+    "shields",
     "beasts-of-burden",
     "bows",
     "brawling",
@@ -241,7 +240,8 @@ export default function AddCustomEquipmentModal({
   ];
 
   const damageHiddenCategories = [
-    "armor-and-shields",
+    "armor",
+    "shields",
     "beasts-of-burden",
     "bows",
     "items",
@@ -249,10 +249,15 @@ export default function AddCustomEquipmentModal({
 
   const sizeHiddenCategories = [
     "ammunition",
-    "armor-and-shields",
+    "armor",
+    "shields",
     "beasts-of-burden",
     "items",
   ];
+
+  useEffect(() => {
+    console.log(formState);
+  }, [formState]);
 
   return (
     <Modal
@@ -450,32 +455,19 @@ export default function AddCustomEquipmentModal({
             </div>
             <div
               className={`${
-                formState.category !== "armor-and-shields" && "hidden"
+                formState.category !== "armor" &&
+                formState.category !== "shields" &&
+                "hidden"
               }`}
             >
-              <Form.Item
-                label="Armor or Shield?"
-                name="armorOrShield"
-                valuePropName="checked"
-                initialValue={formState.armorOrShield}
-              >
-                <Switch
-                  onChange={handleSwitchChange}
-                  checkedChildren="Armor"
-                  unCheckedChildren="Shield"
-                  defaultChecked={formState.armorOrShield}
-                />
-              </Form.Item>
               <div className="flex gap-4 [&>*]:flex-[0_0_50%]">
                 <Form.Item
                   label="AC"
                   name="shield-ac"
-                  className={`${formState.armorOrShield && "hidden"}`}
+                  className={`${formState.category === "armor" && "hidden"}`}
                   rules={[
                     {
-                      required:
-                        formState.category === "armor-and-shields" &&
-                        !formState.armorOrShield,
+                      required: formState.category === "shields",
                       message: "Required",
                     },
                     {
@@ -494,13 +486,11 @@ export default function AddCustomEquipmentModal({
                   label="AC"
                   name="armor-ac"
                   className={`${
-                    !formState.armorOrShield && "hidden"
+                    formState.category === "shields" && "hidden"
                   } [&_.ant-input-number]:w-full`}
                   rules={[
                     {
-                      required:
-                        formState.category === "armor-and-shields" &&
-                        formState.armorOrShield,
+                      required: formState.category === "armor",
                       message: "Required",
                     },
                     {
