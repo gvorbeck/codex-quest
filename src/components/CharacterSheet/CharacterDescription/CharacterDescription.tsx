@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { classChoices } from "../../../data/classDetails";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import { CharacterDescriptionProps } from "./definitions";
+import DOMPurify from "dompurify";
 
 export default function Description({
   characterData,
@@ -17,7 +18,8 @@ export default function Description({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(event.target.value);
+    const cleanInput = DOMPurify.sanitize(event.target.value);
+    setInputValue(cleanInput);
   };
 
   if (inputValue === "" && !classChoices.includes(characterData.class)) {
