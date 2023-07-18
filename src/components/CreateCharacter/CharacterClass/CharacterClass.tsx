@@ -6,7 +6,7 @@ import { CharacterClassProps } from "./definitions";
 import spellsData from "../../../data/spells.json";
 import { classDetails, classChoices } from "../../../data/classDetails";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { Spell } from "../../types";
+import { Spell } from "../../definitions";
 import DOMPurify from "dompurify";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");

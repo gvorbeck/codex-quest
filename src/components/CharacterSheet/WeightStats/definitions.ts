@@ -1,6 +1,5 @@
 import { CharacterData } from "../../definitions";
 
-export interface EquipmentInventoryProps {
-  className?: string;
+export interface WeightStatsProps {
   characterData: CharacterData;
 }

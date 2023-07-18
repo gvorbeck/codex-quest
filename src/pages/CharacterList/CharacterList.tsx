@@ -1,5 +1,5 @@
 import { Avatar, Card, Col, Empty, Popconfirm, Row, Spin } from "antd";
-import { CharacterListProps } from "../../components/types";
+import { CharacterListProps } from "../../components/definitions";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   UserOutlined,

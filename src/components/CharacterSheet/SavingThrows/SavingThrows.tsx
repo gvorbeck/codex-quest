@@ -1,7 +1,7 @@
 import { Table, Typography, notification } from "antd";
-import { CharacterData, SavingThrowsTables } from "../../types";
+import { CharacterData } from "../../definitions";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
-import { SavingThrowsProps } from "./definitions";
+import { SavingThrowsProps, SavingThrowsTables } from "./definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 const savingThrowsTables: SavingThrowsTables = {

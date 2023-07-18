@@ -1,5 +1,5 @@
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
-import { Capacity, CapacityMap } from "../components/types";
+import { Capacity, CapacityMap } from "../components/definitions";
 
 export const calculateItemCost = (item: EquipmentItem) => {
   let cost = item.costValue;

@@ -8,7 +8,7 @@ import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
 import { CharacterSheetProps } from "./definitions";
-import { CharacterData } from "../../components/types";
+import { CharacterData } from "../../components/definitions";
 // ANTD COMPONENTS
 import { Breadcrumb, Col, Divider, Row, Skeleton, Typography } from "antd";
 // CHARACTER SHEET COMPONENTS
@@ -385,10 +385,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         </Col>
         <Col xs={24} sm={12} md={6} className="print:w-1/2 print:float-right">
           {/* WEIGHT */}
-          <WeightStats
-            character={characterData}
-            setCharacter={setCharacterData}
-          />
+          <WeightStats characterData={characterData} />
         </Col>
         <Col xs={24} md={12} className="print:clear-both">
           {/* EQUIPMENT */}

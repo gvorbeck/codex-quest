@@ -1,11 +1,11 @@
 import { Button, Input, Space } from "antd";
-import { CharacterDetails } from "../../../types";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
 import { levelRequirements } from "../../../../data/experience-points";
+import { ExperiencePointsProps } from "./definitions";
 
 export default function ExperiencePoints({
   character,
@@ -13,7 +13,7 @@ export default function ExperiencePoints({
   userIsOwner,
   showLevelUpModal,
   className,
-}: CharacterDetails) {
+}: ExperiencePointsProps) {
   const [prevValue, setPrevValue] = useState(character.xp.toString());
 
   const [inputValue, setInputValue] = useState(character.xp.toString());

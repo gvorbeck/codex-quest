@@ -8,14 +8,14 @@ import CharacterName from "../components/CreateCharacter/CharacterName/Character
 import {
   AbilityTypes,
   CharacterData,
-  CreateCharacterModalProps,
   SpellType,
-} from "../components/types";
+} from "../components/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { marked } from "marked";
 import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import { CreateCharacterModalProps } from "./definitions";
 
 marked.use({ mangle: false, headerIds: false });
 

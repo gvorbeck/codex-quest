@@ -1,7 +1,8 @@
-import { RadioChangeEvent, UploadFile } from "antd";
+import { UploadFile } from "antd";
 import { UploadChangeParam } from "antd/es/upload";
 import { User } from "firebase/auth";
 import { CharSteps } from "./CreateCharacter/definitions";
+import { SavingThrows } from "./CharacterSheet/SavingThrows/definitions";
 
 export interface AbilityTypes {
   strength: number | string;
@@ -35,13 +36,6 @@ export interface Spell {
 interface SpecialRestriction {
   race: string[];
   class: string[];
-}
-interface SavingThrows {
-  deathRayOrPoison: number;
-  magicWands: number;
-  paralysisOrPetrify: number;
-  dragonBreath: number;
-  spells: number;
 }
 export interface CharacterData {
   abilities: Abilities;
@@ -116,45 +110,11 @@ export interface SpellType {
   description: string;
 }
 
-export interface CreateCharacterModalProps {
-  isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
-  onCharacterAdded: () => void;
-}
-
 export interface CharacterListProps {
   user: User | null;
   characters: CharacterData[];
   onCharacterDeleted: () => void;
   className?: string;
-}
-
-export interface CharacterDetails {
-  character: CharacterData;
-  setCharacter?: (character: CharacterData) => void;
-  className?: string;
-  userIsOwner?: boolean;
-  showLevelUpModal?: () => void;
-}
-
-export interface SavingThrowsTables {
-  [characterClass: string]: {
-    [levelRange: string]: SavingThrows;
-  };
-}
-
-export interface AttackButtonsProps {
-  weapon: EquipmentItem;
-  damage: (damage: string) => void;
-  attack: (attack: "melee" | "missile") => void;
-  type: "melee" | "missile";
-  className?: string;
-}
-
-export interface RangeRadioButtons {
-  missileRangeBonus: number;
-  handleRangeChange: (e: RadioChangeEvent) => void;
-  missileRangeValues: number[];
 }
 
 export interface CustomImageProps {

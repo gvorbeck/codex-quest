@@ -1,5 +1,5 @@
 import { Button, Checkbox, Modal, Typography } from "antd";
-import { SpellItem, Spell } from "../components/types";
+import { SpellItem, Spell } from "../components/definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";

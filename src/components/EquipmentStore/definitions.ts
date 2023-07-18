@@ -1,4 +1,4 @@
-import { CharacterData } from "../types";
+import { CharacterData } from "../definitions";
 
 export type ClassName = "Cleric" | "Fighter" | "Thief" | "Magic-User";
 

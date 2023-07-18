@@ -11,7 +11,7 @@ import {
 import { Suspense, lazy, useEffect, useState } from "react";
 import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase.js";
-import { CharacterData } from "./components/types";
+import { CharacterData } from "./components/definitions";
 import { ConfigProvider, Spin } from "antd";
 import Welcome from "./pages/Welcome/Welcome";
 const CharacterSheet = lazy(

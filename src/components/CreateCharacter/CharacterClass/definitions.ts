@@ -1,4 +1,4 @@
-import { SpellType } from "../../types";
+import { SpellType } from "../../definitions";
 import { CharSteps } from "../definitions";
 
 export interface CharacterClassProps extends CharSteps {

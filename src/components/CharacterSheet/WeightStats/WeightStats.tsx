@@ -1,14 +1,14 @@
 import { Descriptions, Divider } from "antd";
-import { CharacterDetails } from "../../types";
 import { calculateCarryingCapacity } from "../../../support/formatSupport";
 import SimpleNumberStat from "../SimpleNumberStat/SimpleNumberStat";
+import { WeightStatsProps } from "./definitions";
 
-export default function WeightStats({ character }: CharacterDetails) {
+export default function WeightStats({ characterData }: WeightStatsProps) {
   const capacity = calculateCarryingCapacity(
-    +character.abilities.scores.strength,
-    character.race
+    +characterData.abilities.scores.strength,
+    characterData.race
   );
-  const weight = character.equipment.reduce(
+  const weight = characterData.equipment.reduce(
     (accumulator, currentValue) =>
       accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
     0

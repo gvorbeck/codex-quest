@@ -1,5 +1,6 @@
+import { RadioChangeEvent } from "antd";
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
-import { CharacterData } from "../components/types";
+import { CharacterData } from "../components/definitions";
 
 interface ModalProps {
   handleCancel: () => void;
@@ -43,4 +44,24 @@ export interface AttackModalProps extends ModalProps {
   isAttackModalOpen: boolean;
   attackBonus: number;
   weapon?: EquipmentItem;
+}
+
+export interface RangeRadioButtons {
+  missileRangeBonus: number;
+  handleRangeChange: (e: RadioChangeEvent) => void;
+  missileRangeValues: number[];
+}
+
+export interface AttackButtonsProps {
+  weapon: EquipmentItem;
+  damage: (damage: string) => void;
+  attack: (attack: "melee" | "missile") => void;
+  type: "melee" | "missile";
+  className?: string;
+}
+
+export interface CreateCharacterModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
+  onCharacterAdded: () => void;
 }

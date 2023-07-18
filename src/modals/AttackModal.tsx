@@ -6,11 +6,15 @@ import {
   Switch,
   notification,
 } from "antd";
-import { AttackButtonsProps, RangeRadioButtons } from "../components/types";
+import {} from "../components/definitions";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
-import { AttackModalProps } from "./definitions";
+import {
+  AttackModalProps,
+  AttackButtonsProps,
+  RangeRadioButtons,
+} from "./definitions";
 
 const roller = new DiceRoller();
 

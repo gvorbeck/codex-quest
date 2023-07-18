@@ -1,4 +1,4 @@
-import { CharacterData } from "../../types";
+import { CharacterData } from "../../definitions";
 
 export interface SpecialsRestrictionsProps {
   characterData: CharacterData;

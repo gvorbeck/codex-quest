@@ -1,5 +1,5 @@
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
-import { CharacterData } from "../../../types";
+import { CharacterData } from "../../../definitions";
 
 export interface EquipmentListProps {
   characterData: CharacterData;
