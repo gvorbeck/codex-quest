@@ -1,4 +1,4 @@
-import { Table, Typography } from "antd";
+import { Table, Typography, notification } from "antd";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import {
   SpecialAbilitiesTableProps,
@@ -6,6 +6,7 @@ import {
   CharacterClass,
 } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
+import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 const abilitiesTable: AbilitiesArray = {
   thief: {
@@ -54,11 +55,6 @@ const abilitiesTable: AbilitiesArray = {
   },
 };
 
-const columns = [
-  { title: "Skill", dataIndex: "skill", key: "skill" },
-  { title: "Percentage", dataIndex: "percentage", key: "percentage" },
-];
-
 const abilityNames = {
   thief: [
     "Open Locks",
@@ -85,22 +81,63 @@ export default function SpecialAbilitiesTable({
   characterClass,
 }: SpecialAbilitiesTableProps) {
   const dataSource: {}[] = [];
+
   const abilities = abilitiesTable[characterClass.toLowerCase()][
     characterLevel
   ] as number[];
+
   abilityNames[characterClass.toLowerCase() as CharacterClass].forEach(
     (skill: string, index: number) => {
       dataSource.push({ key: index + 1, skill, percentage: abilities[index] });
     }
   );
 
+  const columns = [
+    {
+      title: "Skill",
+      dataIndex: "skill",
+      key: "skill",
+      onCell: (record: any) => ({
+        onClick: () => rollSpecialAbility(record.percentage, record.skill),
+      }),
+    },
+    {
+      title: "Percentage",
+      dataIndex: "percentage",
+      key: "percentage",
+      onCell: (record: any) => ({
+        onClick: () => rollSpecialAbility(record.percentage, record.skill),
+      }),
+    },
+  ];
+
+  const roller = new DiceRoller();
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (result: string, specialAbilityTitle: string) => {
+    api.open({
+      message: `${specialAbilityTitle} Roll`,
+      description: result,
+      duration: 0,
+      className: "bg-seaBuckthorn",
+    });
+  };
+  const rollSpecialAbility = (
+    specialAbilityScore: number,
+    specialAbilityTitle: string
+  ) => {
+    const result = roller.roll(`d%`);
+    const passFail = result.total <= specialAbilityScore ? "Pass" : "Fail";
+    openNotification(result.output + " - " + passFail, specialAbilityTitle);
+  };
+
   return (
     <>
+      {contextHolder}
       <div className="mt-6 flex items-baseline gap-4">
         <Typography.Title level={3} className="mt-0 text-shipGray">
           {toTitleCase(characterClass)} Special Abilities
         </Typography.Title>
-        <HelpTooltip text="A player must roll their percentile dice with a result less than or equal to the numbers shown below." />
+        <HelpTooltip text="A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability." />
       </div>
       <Table
         dataSource={dataSource}
@@ -108,6 +145,7 @@ export default function SpecialAbilitiesTable({
         pagination={false}
         showHeader={false}
         size="small"
+        className="cursor-pointer"
       />
     </>
   );
