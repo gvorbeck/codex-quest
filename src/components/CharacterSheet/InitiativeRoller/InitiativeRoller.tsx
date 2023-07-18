@@ -20,11 +20,12 @@ export default function InitiativeRoller({
   const roller = new DiceRoller();
   const rollInitiative = () => {
     let result = roller.roll(
-      `1d6+${+characterData.abilities.modifiers.dexterity}`
-    ).output;
-    if (characterData.race === "Halfling") result += 1;
-    if (result === 0) result = 1;
-    openNotification(result);
+      `1d6${characterData.abilities.modifiers.dexterity}${
+        characterData.race === "Halfling" ? "+1" : ""
+      }`
+    );
+    if (result.total === 0) result = 1;
+    openNotification(result.output);
   };
   return (
     <Tooltip title={rollTooltip}>
