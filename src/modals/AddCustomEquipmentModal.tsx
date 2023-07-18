@@ -256,10 +256,6 @@ export default function AddCustomEquipmentModal({
     "items",
   ];
 
-  useEffect(() => {
-    console.log(formState);
-  }, [formState]);
-
   return (
     <Modal
       title="ADD CUSTOM EQUIPMENT"

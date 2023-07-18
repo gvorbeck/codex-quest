@@ -258,7 +258,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           setCharacterData(characterData);
           document.title = `${characterData.name} | CODEX.QUEST`;
         } else {
-          console.log("Character not found");
+          console.error("Character not found");
         }
       } catch (error) {
         console.error("Error fetching character:", error);
