@@ -22,7 +22,10 @@ export default function Description({
     setInputValue(cleanInput);
   };
 
-  if (inputValue === "" && !classChoices.includes(characterData.class)) {
+  if (
+    inputValue === "" &&
+    !classChoices.includes(characterData.class.split(" ")[0])
+  ) {
     const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
     setInputValue(placeholderSavingThrows);
   }
