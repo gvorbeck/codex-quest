@@ -362,10 +362,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           </Col>
           <Col xs={24} md={12} className="print:w-1/2 print:float-right">
             {/* SAVING THROWS */}
-            <SavingThrows
-              characterData={characterData}
-              setCharacterData={setCharacterData}
-            />
+            <SavingThrows characterData={characterData} />
           </Col>
         </Row>
       ) : (
