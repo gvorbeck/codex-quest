@@ -1,5 +1,4 @@
 import { Button, Tooltip, notification } from "antd";
-// import { CharacterDetails } from "../types";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { InitiativeRollerProps } from "./definitions";
 
