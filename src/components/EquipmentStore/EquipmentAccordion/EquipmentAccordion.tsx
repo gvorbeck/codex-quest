@@ -48,10 +48,12 @@ const availableEquipmentCategories = (className: ClassName) => {
         "ammunition",
         "armor",
         "shields",
+        "bows",
         "beasts-of-burden",
         "hammers-and-maces",
         "general-equipment",
         "other-weapons",
+        "chain-and-flail",
       ];
     case "fighter":
     case "thief":
@@ -68,6 +70,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "general-equipment",
         "other-weapons",
         "swords",
+        "spears-and-polearms",
       ];
     case "magic-user":
       return ["daggers", "items", "other-weapons", "beasts-of-burden"];
@@ -85,6 +88,7 @@ const availableEquipmentCategories = (className: ClassName) => {
           "general-equipment",
           "other-weapons",
           "swords",
+          "spears-and-polearms",
         ];
       } else {
         console.error(
@@ -105,12 +109,15 @@ const itemIsDisabled = (
     if (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
-      item.category === "ammunition"
+      item.category === "ammunition" ||
+      item.category === "bows"
     ) {
       if (
         item.name.toLowerCase().includes("warhammer") ||
         item.name.toLowerCase().includes("mace") ||
         item.name.toLowerCase().includes("maul") ||
+        item.name.toLowerCase().includes("crossbow") ||
+        item.name.toLowerCase().includes("morningstar") ||
         item.name.toLowerCase().includes("quarterstaff") ||
         item.name.toLowerCase().includes("sling") ||
         item.name.toLowerCase().includes("stone")
