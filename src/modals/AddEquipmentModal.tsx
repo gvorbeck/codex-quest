@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
-import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { AddEquipmentModalProps } from "./definitions";
 
 export default function AddEquipmentModal({
@@ -48,7 +48,7 @@ export default function AddEquipmentModal({
       onCancel={handleCancel}
       footer={false}
       width={1000}
-      closeIcon={<ModalCloseIcon />}
+      closeIcon={<CloseIcon />}
     >
       {characterData && (
         <EquipmentStore

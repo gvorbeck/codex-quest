@@ -3,6 +3,7 @@ import { CharacterData } from "../../definitions";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
 import { SavingThrowsProps, SavingThrowsTables } from "./definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import CloseIcon from "../../CloseIcon/CloseIcon";
 
 const savingThrowsTables: SavingThrowsTables = {
   Assassin: {
@@ -462,6 +463,7 @@ export default function SavingThrows({ characterData }: SavingThrowsProps) {
       description: result,
       duration: 0,
       className: "bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
     });
   };
 

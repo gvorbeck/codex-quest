@@ -1,6 +1,7 @@
 import { Button, Tooltip, notification } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { InitiativeRollerProps } from "./definitions";
+import CloseIcon from "../../CloseIcon/CloseIcon";
 
 export default function InitiativeRoller({
   characterData,
@@ -13,6 +14,7 @@ export default function InitiativeRoller({
       description: result,
       duration: 0,
       className: "!bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
     });
   };
 

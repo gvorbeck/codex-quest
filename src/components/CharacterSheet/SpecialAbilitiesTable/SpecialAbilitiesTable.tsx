@@ -7,6 +7,7 @@ import {
 } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import CloseIcon from "../../CloseIcon/CloseIcon";
 
 const abilitiesTable: AbilitiesArray = {
   thief: {
@@ -119,6 +120,7 @@ export default function SpecialAbilitiesTable({
       description: result,
       duration: 0,
       className: "bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
     });
   };
   const rollSpecialAbility = (
