@@ -3,19 +3,8 @@ import { UploadChangeParam } from "antd/es/upload";
 import { User } from "firebase/auth";
 import { CharSteps } from "./CreateCharacter/definitions";
 import { SavingThrows } from "./CharacterSheet/SavingThrows/definitions";
+import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
 
-export interface AbilityTypes {
-  strength: number | string;
-  intelligence: number | string;
-  wisdom: number | string;
-  dexterity: number | string;
-  constitution: number | string;
-  charisma: number | string;
-}
-interface Abilities {
-  scores: AbilityTypes;
-  modifiers: AbilityTypes;
-}
 interface HP {
   dice: string;
   points: number;

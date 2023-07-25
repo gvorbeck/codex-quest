@@ -5,17 +5,14 @@ import CharacterRace from "../components/CreateCharacter/CharacterRace/Character
 import CharacterClass from "../components/CreateCharacter/CharacterClass/CharacterClass";
 import CharacterHitPoints from "../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
 import CharacterName from "../components/CreateCharacter/CharacterName/CharacterName";
-import {
-  AbilityTypes,
-  CharacterData,
-  SpellType,
-} from "../components/definitions";
+import { CharacterData, SpellType } from "../components/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { marked } from "marked";
 import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
 import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
 import { CreateCharacterModalProps } from "./definitions";
+import { AbilityTypes } from "../components/CreateCharacter/CharacterAbilities/definitions";
 
 marked.use({ mangle: false, headerIds: false });
 
