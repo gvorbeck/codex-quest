@@ -685,6 +685,39 @@
     "amount": 1
   },
   {
+    "name": "Spade",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 4,
+    "damage": "1d6",
+    "category": "improvised-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Crowbar",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 5,
+    "damage": "1d6",
+    "category": "improvised-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
+    "name": "Pitchfork",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 3,
+    "damage": "1d6",
+    "category": "improvised-weapons",
+    "type": "melee",
+    "amount": 1
+  },
+  {
     "name": "Chain††",
     "costValue": 9,
     "costCurrency": "gp",

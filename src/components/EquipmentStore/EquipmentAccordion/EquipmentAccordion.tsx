@@ -54,6 +54,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "general-equipment",
         "other-weapons",
         "chain-and-flail",
+        "improvised-weapons",
       ];
     case "fighter":
     case "thief":
@@ -71,9 +72,16 @@ const availableEquipmentCategories = (className: ClassName) => {
         "other-weapons",
         "swords",
         "spears-and-polearms",
+        "improvised-weapons",
       ];
     case "magic-user":
-      return ["daggers", "items", "other-weapons", "beasts-of-burden"];
+      return [
+        "daggers",
+        "items",
+        "other-weapons",
+        "beasts-of-burden",
+        "improvised-weapons",
+      ];
     default:
       if (!classChoices.includes(className)) {
         return [
@@ -89,6 +97,7 @@ const availableEquipmentCategories = (className: ClassName) => {
           "other-weapons",
           "swords",
           "spears-and-polearms",
+          "improvised-weapons",
         ];
       } else {
         console.error(
