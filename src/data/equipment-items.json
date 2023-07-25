@@ -86,6 +86,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "type": "missile",
+    "range": [10, 30, 50],
     "amount": 1
   },
   {
@@ -175,6 +176,7 @@
     "weight": 1,
     "category": "general-equipment",
     "type": "missile",
+    "range": [10, 30, 50],
     "amount": 1
   },
   {
@@ -378,6 +380,7 @@
     "damage": "1d6",
     "category": "axes",
     "type": "both",
+    "range": [10, 20, 30],
     "amount": 1
   },
   {
@@ -432,6 +435,7 @@
     "weight": 2,
     "category": "bows",
     "type": "missile",
+    "range": [50, 100, 150],
     "amount": 1
   },
   {
@@ -442,6 +446,7 @@
     "weight": 3,
     "category": "bows",
     "type": "missile",
+    "range": [70, 140, 210],
     "amount": 1
   },
   {
@@ -452,6 +457,7 @@
     "weight": 7,
     "category": "bows",
     "type": "missile",
+    "range": [60, 120, 180],
     "amount": 1
   },
   {
@@ -462,6 +468,7 @@
     "weight": 14,
     "category": "bows",
     "type": "missile",
+    "range": [80, 160, 240],
     "amount": 1
   },
   {
@@ -472,6 +479,7 @@
     "weight": 3,
     "category": "bows",
     "type": "missile",
+    "range": [30, 60, 90],
     "amount": 1
   },
   {
@@ -493,6 +501,7 @@
     "damage": "1d4",
     "category": "daggers",
     "type": "both",
+    "range": [10, 20, 30],
     "amount": 1
   },
   {
@@ -559,6 +568,7 @@
     "damage": "1d6",
     "category": "hammers-and-maces",
     "type": "both",
+    "range": [10, 20, 30],
     "amount": 1
   },
   {
@@ -787,8 +797,67 @@
     "costCurrency": "gp",
     "size": "S",
     "weight": 0.1,
-    "category": "other-weapons",
+    "category": "slings-and-hurled-weapons",
     "type": "missile",
+    "range": [30, 60, 90],
+    "amount": 1
+  },
+  {
+    "name": "Bola (E)",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 0.1,
+    "category": "slings-and-hurled-weapons",
+    "damage": "1d3",
+    "type": "missile",
+    "range": [20, 40, 60],
+    "amount": 1
+  },
+  {
+    "name": "Dart/Throwing Blade",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 0.1,
+    "category": "slings-and-hurled-weapons",
+    "damage": "1d3",
+    "type": "missile",
+    "range": [10, 20, 30],
+    "amount": 1
+  },
+  {
+    "name": "Javelin",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 2,
+    "category": "slings-and-hurled-weapons",
+    "damage": "1d4",
+    "type": "missile",
+    "range": [20, 40, 60],
+    "amount": 1
+  },
+  {
+    "name": "Blowgun",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 2,
+    "category": "slings-and-hurled-weapons",
+    "type": "missile",
+    "range": [10, 20, 30],
+    "amount": 1
+  },
+  {
+    "name": "Net (E)",
+    "costValue": 20,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 5,
+    "category": "slings-and-hurled-weapons",
+    "type": "missile",
+    "range": [10, 15, 20],
     "amount": 1
   },
   {
@@ -801,6 +870,7 @@
     "damage": "1d6",
     "twoHandedDamage": "1d8",
     "type": "both",
+    "range": [10, 20, 30],
     "amount": 1
   },
   {
@@ -813,6 +883,7 @@
     "damage": "1d6",
     "twoHandedDamage": "1d8",
     "type": "both",
+    "range": [10, 20, 30],
     "amount": 1
   },
   {
@@ -825,6 +896,7 @@
     "damage": "1d6",
     "twoHandedDamage": "1d8",
     "type": "both",
+    "range": [10, 20, 30],
     "amount": 1
   },
   {
@@ -932,6 +1004,15 @@
     "name": "Bullet",
     "costValue": 1,
     "costCurrency": "sp",
+    "weight": 0.1,
+    "damage": "1d4",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
+    "name": "Silver† Bullet",
+    "costValue": 1,
+    "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d4",
     "category": "ammunition",

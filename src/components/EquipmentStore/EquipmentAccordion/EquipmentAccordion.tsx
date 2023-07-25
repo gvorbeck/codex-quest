@@ -55,6 +55,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "other-weapons",
         "chain-and-flail",
         "improvised-weapons",
+        "slings-and-hurled-weapons",
       ];
     case "fighter":
     case "thief":
@@ -73,6 +74,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "swords",
         "spears-and-polearms",
         "improvised-weapons",
+        "slings-and-hurled-weapons",
       ];
     case "magic-user":
       return [
@@ -98,6 +100,7 @@ const availableEquipmentCategories = (className: ClassName) => {
           "swords",
           "spears-and-polearms",
           "improvised-weapons",
+          "slings-and-hurled-weapons",
         ];
       } else {
         console.error(
@@ -119,7 +122,8 @@ const itemIsDisabled = (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
       item.category === "ammunition" ||
-      item.category === "bows"
+      item.category === "bows" ||
+      item.category === "slings-and-hurled-weapons"
     ) {
       if (
         item.name.toLowerCase().includes("warhammer") ||
