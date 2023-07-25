@@ -35,7 +35,7 @@ export default function EquipmentInfo({
     general: ["general-equipment", "items"],
     armor: ["armor", "armor-and-shields"],
     shields: ["shields", "armor-and-shields"],
-    beasts: ["beasts-of-burden"],
+    beasts: ["beasts-of-burden", "barding"],
     ammo: ["ammunition"],
   };
 

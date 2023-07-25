@@ -37,6 +37,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "shields",
         "bows",
         "beasts-of-burden",
+        "barding",
         "hammers-and-maces",
         "general-equipment",
         "other-weapons",
@@ -53,6 +54,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "shields",
         "axes",
         "beasts-of-burden",
+        "barding",
         "bows",
         "daggers",
         "hammers-and-maces",
@@ -69,6 +71,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "items",
         "other-weapons",
         "beasts-of-burden",
+        "barding",
         "improvised-weapons",
       ];
     default:
@@ -196,6 +199,7 @@ export default function EquipmentAccordion({
             <Space direction="vertical">
               {equipmentItems
                 .filter((categoryItem) => categoryItem.category === category)
+                .sort((a, b) => a.name.localeCompare(b.name))
                 .map((categoryItem) => {
                   if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
                     return (
