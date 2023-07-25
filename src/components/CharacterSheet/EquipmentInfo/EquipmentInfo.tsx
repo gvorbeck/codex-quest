@@ -18,6 +18,7 @@ export default function EquipmentInfo({
 }: EquipmentInfoProps) {
   const equipmentListCategories = {
     weapons: [
+      "weapons",
       "axes",
       "bows",
       "daggers",
