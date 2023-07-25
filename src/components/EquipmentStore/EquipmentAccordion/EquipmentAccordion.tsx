@@ -1,4 +1,4 @@
-import { Collapse, Space, Typography } from "antd";
+import { Collapse, Descriptions, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipment-items.json";
@@ -8,37 +8,24 @@ import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
-  <Space direction="vertical">
+  <>
     <Typography.Text strong>{item.name}</Typography.Text>
-    <div>
-      <Typography.Text italic>{`Cost: `}</Typography.Text>
-      <Typography.Text>{`${item.costValue}${item.costCurrency}`}</Typography.Text>
-    </div>
-    {item.weight !== undefined && (
-      <div>
-        <Typography.Text italic>{`Weight: `}</Typography.Text>
-        <Typography.Text>{item.weight}</Typography.Text>
-      </div>
-    )}
-    {item.damage && (
-      <div>
-        <Typography.Text italic>{`Damage: `}</Typography.Text>
-        <Typography.Text>{item.damage}</Typography.Text>
-      </div>
-    )}
-    {item.size && (
-      <div>
-        <Typography.Text italic>{`Size: `}</Typography.Text>
-        <Typography.Text>{item.size}</Typography.Text>
-      </div>
-    )}
-    {item.AC && (
-      <div>
-        <Typography.Text italic>{`AC: `}</Typography.Text>
-        <Typography.Text>{item.AC}</Typography.Text>
-      </div>
-    )}
-  </Space>
+    <Descriptions bordered size="small" column={2} className="flex-grow">
+      <Descriptions.Item label="Cost">
+        {`${item.costValue}${item.costCurrency}`}
+      </Descriptions.Item>
+      {item.weight && (
+        <Descriptions.Item label="Weight">{item.weight}</Descriptions.Item>
+      )}
+      {item.size && (
+        <Descriptions.Item label="Size">{item.size}</Descriptions.Item>
+      )}
+      {item.AC && <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>}
+      {item.damage && (
+        <Descriptions.Item label="Damage">{item.damage}</Descriptions.Item>
+      )}
+    </Descriptions>
+  </>
 );
 
 const availableEquipmentCategories = (className: ClassName) => {
