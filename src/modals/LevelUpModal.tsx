@@ -8,7 +8,7 @@ import { db } from "../firebase";
 import SpellData from "../data/spells.json";
 import { clericSpellBudget, magicUserSpellBudget } from "../data/spellBudgets";
 import { hitDiceModifiers } from "../data/hitDiceModifiers";
-import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { classChoices } from "../data/classDetails";
 import { LevelUpModalProps, SpellCheckboxGroupProps } from "./definitions";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
@@ -199,7 +199,7 @@ export default function LevelUpModal({
       open={isLevelUpModalOpen}
       onCancel={handleCancel}
       footer={false}
-      closeIcon={<ModalCloseIcon />}
+      closeIcon={<CloseIcon />}
     >
       {classChoices.map((characterClass) => {
         if (characterData.class.includes(characterClass)) {

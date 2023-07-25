@@ -13,7 +13,7 @@ import {
 import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
 import equipmentItems from "../data/equipment-items.json";
 import { slugToTitleCase } from "../support/stringSupport";
@@ -263,7 +263,7 @@ export default function AddCustomEquipmentModal({
       onCancel={handleCancel}
       footer={false}
       width={600}
-      closeIcon={<ModalCloseIcon />}
+      closeIcon={<CloseIcon />}
     >
       <div className="flex flex-col gap-4">
         <HomebrewWarning homebrew="item" />

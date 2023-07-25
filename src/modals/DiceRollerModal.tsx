@@ -1,5 +1,5 @@
 import { Button, Input, Modal, Space, Typography, notification } from "antd";
-import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { DiceRollerModalProps } from "./definitions";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
@@ -42,6 +42,7 @@ export default function DiceRollerModal({
       description: result,
       duration: 0,
       className: "!bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
     });
   };
 
@@ -53,7 +54,7 @@ export default function DiceRollerModal({
         open={isDiceRollerModalOpen}
         onCancel={handleCancel}
         footer={false}
-        closeIcon={<ModalCloseIcon />}
+        closeIcon={<CloseIcon />}
         className="text-shipGray"
       >
         <Space.Compact className="w-full my-4">
@@ -61,6 +62,11 @@ export default function DiceRollerModal({
             placeholder="1d6"
             value={inputValue}
             onChange={handleInputChange}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleRollClick();
+              }
+            }}
           />
           <Button type="primary" onClick={handleRollClick}>
             Roll

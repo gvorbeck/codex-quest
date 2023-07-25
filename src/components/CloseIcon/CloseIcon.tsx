@@ -1,4 +1,4 @@
-export default function ModalCloseIcon() {
+export default function CloseIcon() {
   return (
     <div>
       <svg

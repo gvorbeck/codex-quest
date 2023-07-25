@@ -10,7 +10,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { marked } from "marked";
 import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
-import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { CreateCharacterModalProps } from "./definitions";
 import { AbilityTypes } from "../components/CreateCharacter/CharacterAbilities/definitions";
 
@@ -302,7 +302,7 @@ export default function CreateCharacterModal({
         width={1200}
         footer={null}
         className="max-w-full top-0 m-auto text-shipGray"
-        closeIcon={<ModalCloseIcon />}
+        closeIcon={<CloseIcon />}
       >
         <Row gutter={16}>
           <Col span={5} className="hidden md:block">

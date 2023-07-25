@@ -9,7 +9,7 @@ import {
 import {} from "../components/definitions";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import ModalCloseIcon from "./ModalCloseIcon/ModalCloseIcon";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import {
   AttackModalProps,
   AttackButtonsProps,
@@ -77,6 +77,7 @@ export default function AttackModal({
       description: `${result} (+2 if attacking from behind)`,
       duration: 0,
       className: "!bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
     });
   };
 
@@ -86,6 +87,7 @@ export default function AttackModal({
       description: `${result}`,
       duration: 0,
       className: "!bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
     });
   };
 
@@ -169,7 +171,7 @@ export default function AttackModal({
         open={isAttackModalOpen}
         onCancel={handleCancel}
         footer={false}
-        closeIcon={<ModalCloseIcon />}
+        closeIcon={<CloseIcon />}
       >
         {weapon ? (
           <div>
