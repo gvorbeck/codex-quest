@@ -465,6 +465,26 @@
     "amount": 1
   },
   {
+    "name": "Hand Crossbow",
+    "costValue": 150,
+    "costCurrency": "gp",
+    "size": "S",
+    "weight": 3,
+    "category": "bows",
+    "type": "missile",
+    "amount": 1
+  },
+  {
+    "name": "Bullet Crossbow",
+    "costValue": 30,
+    "costCurrency": "gp",
+    "size": "M",
+    "weight": 7,
+    "category": "bows",
+    "type": "missile",
+    "amount": 1
+  },
+  {
     "name": "Dagger",
     "costValue": 2,
     "costCurrency": "gp",
@@ -887,6 +907,24 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d8",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
+    "name": "Hand Quarrel",
+    "costValue": 2,
+    "costCurrency": "sp",
+    "weight": 0.1,
+    "damage": "1d3",
+    "category": "ammunition",
+    "amount": 1
+  },
+  {
+    "name": "Silver† Hand Quarrel",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": 0.1,
+    "damage": "1d3",
     "category": "ammunition",
     "amount": 1
   },
