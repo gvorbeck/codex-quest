@@ -10,7 +10,7 @@ import { classChoices } from "../../../data/classDetails";
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
     <Typography.Text strong>{item.name}</Typography.Text>
-    <Descriptions bordered size="small" column={2} className="flex-grow">
+    <Descriptions bordered size="small" column={2} className="flex-grow mt-2">
       <Descriptions.Item label="Cost">
         {`${item.costValue}${item.costCurrency}`}
       </Descriptions.Item>
