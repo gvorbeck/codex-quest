@@ -594,11 +594,84 @@
     "amount": 1
   },
   {
+    "name": "Air Bladder",
+    "costValue": 15,
+    "costCurrency": "gp",
+    "weight": 3,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Caltrops",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": 2,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Crampons",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": 0.1,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Hunter's Horn",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": 2,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Piton, climbing",
+    "costValue": 2,
+    "costCurrency": "sp",
+    "weight": 0,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Skates",
+    "costValue": 10,
+    "costCurrency": "gp",
+    "weight": 2,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Snow skis",
+    "costValue": 15,
+    "costCurrency": "gp",
+    "weight": 7,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
     "name": "Tent, Large (ten men)",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 20,
     "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Tent, Pavillion",
+    "costValue": 100,
+    "costCurrency": "gp",
+    "weight": 40,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
     "amount": 1
   },
   {
@@ -607,6 +680,43 @@
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Trap, small animal",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Trap, medium animal",
+    "costValue": 7,
+    "costCurrency": "gp",
+    "weight": 2,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Trap, large animal",
+    "costValue": 14,
+    "costCurrency": "gp",
+    "weight": 5,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
+    "amount": 1
+  },
+  {
+    "name": "Travois",
+    "costValue": 5,
+    "costCurrency": "gp",
+    "weight": 15,
+    "category": "general-equipment",
+    "subCategory": "outdoor",
     "amount": 1
   },
   {
