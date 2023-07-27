@@ -15,6 +15,7 @@ import {
   AttackButtonsProps,
   RangeRadioButtons,
 } from "./definitions";
+import equipmentItems from "../data/equipment-items.json";
 
 const roller = new DiceRoller();
 
@@ -96,52 +97,6 @@ export default function AttackModal({
     setMissileRangeBonus(e.target.value);
   };
 
-  let missileRangeValues = [0, 0, 0];
-  switch (weapon?.name) {
-    case "Longbow":
-      missileRangeValues = [70, 140, 210];
-      break;
-    case "Shortbow":
-      missileRangeValues = [50, 100, 150];
-      break;
-    case "Heavy Crossbow":
-      missileRangeValues = [80, 160, 240];
-      break;
-    case "Light Crossbow":
-      missileRangeValues = [60, 120, 180];
-      break;
-    case "Oil":
-    case "Holy Water":
-      missileRangeValues = [10, 30, 50];
-      break;
-    case "Sling":
-    case "Hand Crossbow":
-      missileRangeValues = [30, 60, 90];
-      break;
-    case "Spear":
-    case "Warhammer":
-    case "Hand Axe":
-    case "Dagger":
-    case "Silver† Dagger":
-    case "Blowgun":
-    case "Dart/Throwing Blade":
-    case "Boar Spear":
-    case "Fork":
-    case "Trident":
-      missileRangeValues = [10, 20, 30];
-      break;
-    case "Bola":
-    case "Javelin":
-      missileRangeValues = [20, 40, 60];
-      break;
-    case "Net":
-      missileRangeValues = [10, 15, 20];
-      break;
-    default:
-      missileRangeValues = [0, 0, 0];
-      break;
-  }
-
   const attack = (type: "melee" | "missile") => {
     let roll = "1d20";
 
@@ -163,36 +118,38 @@ export default function AttackModal({
   const damage = (roll: string) =>
     openDamageNotification(roller.roll(roll).output);
 
+  const attackingWeapon = equipmentItems.find((item) => item.name === weapon);
+
   return (
     <>
       {contextHolder}
       <Modal
-        title={`Attack with ${weapon?.name || "weapon"}`}
+        title={`Attack with ${attackingWeapon?.name || "weapon"}`}
         open={isAttackModalOpen}
         onCancel={handleCancel}
         footer={false}
         closeIcon={<CloseIcon />}
       >
-        {weapon ? (
+        {attackingWeapon ? (
           <div>
-            {weapon.type === "melee" && (
+            {attackingWeapon.type === "melee" && (
               <AttackButtons
-                weapon={weapon}
+                weapon={attackingWeapon}
                 damage={damage}
                 attack={attack}
                 type="melee"
                 className="mt-2"
               />
             )}
-            {weapon.type === "missile" && (
+            {attackingWeapon.type === "missile" && attackingWeapon.range && (
               <>
                 <RangeRadioGroup
                   missileRangeBonus={missileRangeBonus}
                   handleRangeChange={handleRangeChange}
-                  missileRangeValues={missileRangeValues}
+                  missileRangeValues={attackingWeapon.range}
                 />
                 <AttackButtons
-                  weapon={weapon}
+                  weapon={attackingWeapon}
                   damage={damage}
                   attack={attack}
                   type="missile"
@@ -200,22 +157,22 @@ export default function AttackModal({
                 />
               </>
             )}
-            {weapon.type === "both" && (
+            {attackingWeapon.type === "both" && (
               <div>
                 <Switch
                   unCheckedChildren="Melee Attack"
                   checkedChildren="Missile Attack"
                   onChange={handleSwitchChange}
                 />
-                {isMissile ? (
+                {isMissile && attackingWeapon.range ? (
                   <>
                     <RangeRadioGroup
                       missileRangeBonus={missileRangeBonus}
                       handleRangeChange={handleRangeChange}
-                      missileRangeValues={missileRangeValues}
+                      missileRangeValues={attackingWeapon.range}
                     />
                     <AttackButtons
-                      weapon={weapon}
+                      weapon={attackingWeapon}
                       damage={damage}
                       attack={attack}
                       type="missile"
@@ -224,7 +181,7 @@ export default function AttackModal({
                   </>
                 ) : (
                   <AttackButtons
-                    weapon={weapon}
+                    weapon={attackingWeapon}
                     damage={damage}
                     attack={attack}
                     type="melee"

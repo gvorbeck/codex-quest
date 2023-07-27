@@ -41,7 +41,7 @@ export default function EquipmentInfo({
 
   const handleAttackClick = (item: EquipmentItem) => {
     if (setWeapon) {
-      setWeapon(item);
+      setWeapon(item.name);
     }
     if (showAttackModal) {
       showAttackModal();

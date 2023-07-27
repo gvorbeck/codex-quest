@@ -43,7 +43,7 @@ export interface SpellCheckboxGroupProps {
 export interface AttackModalProps extends ModalProps {
   isAttackModalOpen: boolean;
   attackBonus: number;
-  weapon?: EquipmentItem;
+  weapon?: string;
 }
 
 export interface RangeRadioButtons {
