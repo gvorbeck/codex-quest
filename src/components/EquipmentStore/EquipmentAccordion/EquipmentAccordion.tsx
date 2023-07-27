@@ -6,7 +6,6 @@ import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
-import { ReactNode } from "react";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
