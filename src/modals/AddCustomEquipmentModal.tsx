@@ -32,7 +32,7 @@ const initialFormState = {
   purchased: true,
   weight: undefined,
   damage: undefined,
-  type: "melee",
+  type: "both",
   ac: undefined,
   size: undefined,
   amount: 1,
@@ -58,6 +58,9 @@ export default function AddCustomEquipmentModal({
 }: AddCustomEquipmentModalProps) {
   const [formState, setFormState] = useState(initialFormState);
   const [prevValue, setPrevValue] = useState(characterData.equipment);
+
+  const [form] = Form.useForm();
+  const type = Form.useWatch("type", { form });
 
   const { uid, id } = useParams();
 
@@ -278,6 +281,8 @@ export default function AddCustomEquipmentModal({
           layout="vertical"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          form={form}
+          initialValues={initialFormState}
         >
           <Form.Item
             label="Name"
@@ -307,9 +312,10 @@ export default function AddCustomEquipmentModal({
             ]}
           >
             <Select
-              onChange={(value) =>
-                value !== undefined && handleSelectChange(value, "category")
-              }
+              onChange={(value) => {
+                value !== undefined && handleSelectChange(value, "category");
+                form.setFieldsValue({ type: "both" });
+              }}
               options={equipmentCategories}
               value={formState.category}
             />
@@ -354,11 +360,7 @@ export default function AddCustomEquipmentModal({
                   value={formState.costValue}
                 />
               </Form.Item>
-              <Form.Item
-                label="Currency"
-                name="costCurrency"
-                initialValue={formState.costCurrency}
-              >
+              <Form.Item label="Currency" name="costCurrency">
                 <Select
                   onChange={(value) =>
                     handleSelectChange(value, "costCurrency")
@@ -390,16 +392,15 @@ export default function AddCustomEquipmentModal({
                   message: "Required",
                 },
               ]}
-              initialValue={formState.type}
             >
               <Radio.Group
                 value={formState.type}
                 onChange={handleRadioChange}
                 buttonStyle="solid"
               >
+                <Radio.Button value="both">Both</Radio.Button>
                 <Radio.Button value="melee">Melee</Radio.Button>
                 <Radio.Button value="missile">Missile</Radio.Button>
-                <Radio.Button value="both">Both</Radio.Button>
               </Radio.Group>
             </Form.Item>
             <div className="flex gap-4">
@@ -456,6 +457,29 @@ export default function AddCustomEquipmentModal({
                   onChange={handleFormChange}
                 />
               </Form.Item>
+            </div>
+            <div
+              className={
+                (showAttackTypeCategories.some(
+                  (category) => formState.category === category
+                ) ||
+                  formState.category === "bows" ||
+                  formState.category === "daggers" ||
+                  formState.category === "slings-and-hurled-weapons") &&
+                type !== "melee"
+                  ? ""
+                  : "hidden"
+              }
+              // rules={[
+              //   {
+              //     required: showAttackTypeCategories.some(
+              //       (category) => formState.category === category
+              //     ),
+              //     message: "Required",
+              //   },
+              // ]}
+            >
+              RANGE!
             </div>
             <div
               className={`${
@@ -546,7 +570,6 @@ export default function AddCustomEquipmentModal({
               <Form.Item
                 label="Amount"
                 name="amount"
-                initialValue={1}
                 rules={[{ required: true, message: "Required" }]}
               >
                 <InputNumber
@@ -559,7 +582,6 @@ export default function AddCustomEquipmentModal({
               name="purchased"
               valuePropName="checked"
               rules={[{ type: "boolean" }]}
-              initialValue={formState.purchased}
             >
               <Checkbox
                 onChange={(e) =>
