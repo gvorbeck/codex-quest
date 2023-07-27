@@ -167,10 +167,6 @@ const itemIsDisabled = (
   return disabled;
 };
 
-function EquipmentItemList(itemList: EquipmentItem[], itemDisplay: ReactNode) {
-  return itemList.map((item) => {});
-}
-
 export default function EquipmentAccordion({
   onAmountChange,
   onCheckboxCheck,
@@ -191,6 +187,49 @@ export default function EquipmentAccordion({
     )
   );
 
+  const generateEquipmentCheckboxes = (
+    category: string,
+    subCategory?: string
+  ) => (
+    <Space direction="vertical">
+      {equipmentItems
+        .filter(
+          (categoryItem) =>
+            categoryItem.category === category &&
+            (!subCategory || categoryItem.subCategory === subCategory)
+        )
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((categoryItem) => {
+          if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
+            return (
+              <EquipmentCheckbox
+                key={categoryItem.name}
+                item={categoryItem}
+                disabled={itemIsDisabled(playerClass, playerRace, categoryItem)}
+                onCheckboxCheck={onCheckboxCheck}
+                onAmountChange={onAmountChange}
+                playerHasItem={playerEquipment.some(
+                  (invItem: EquipmentItem) => invItem.name === categoryItem.name
+                )}
+                equipmentItemDescription={EquipmentItemDescription(
+                  categoryItem
+                )}
+                inputDisabled={categoryItem.costValue > playerGold}
+                itemAmount={
+                  playerEquipment.filter(
+                    (invItem: EquipmentItem) =>
+                      invItem.name === categoryItem.name
+                  )[0]?.amount
+                }
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
+    </Space>
+  );
+
   return (
     <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
       {categories
@@ -201,44 +240,31 @@ export default function EquipmentAccordion({
             header={toTitleCase(category.replaceAll("-", " "))}
             className="[&>div:not(:first)]:bg-springWood"
           >
-            <Space direction="vertical">
-              {equipmentItems
-                .filter((categoryItem) => categoryItem.category === category)
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((categoryItem) => {
-                  if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
-                    return (
-                      <EquipmentCheckbox
-                        key={categoryItem.name}
-                        item={categoryItem}
-                        disabled={itemIsDisabled(
-                          playerClass,
-                          playerRace,
-                          categoryItem
-                        )}
-                        onCheckboxCheck={onCheckboxCheck}
-                        onAmountChange={onAmountChange}
-                        playerHasItem={playerEquipment.some(
-                          (invItem: EquipmentItem) =>
-                            invItem.name === categoryItem.name
-                        )}
-                        equipmentItemDescription={EquipmentItemDescription(
-                          categoryItem
-                        )}
-                        inputDisabled={categoryItem.costValue > playerGold}
-                        itemAmount={
-                          playerEquipment.filter(
-                            (invItem: EquipmentItem) =>
-                              invItem.name === categoryItem.name
-                          )[0]?.amount
-                        }
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
+            {/* if category === 'general-equipment' Create a sub Collapse */}
+            {category === "general-equipment" ? (
+              <Collapse accordion ghost>
+                {[
+                  ...new Set(
+                    equipmentItems
+                      .filter((item) => item.category === category)
+                      .map((item) => item.subCategory)
+                  ),
+                ].map((subCategory) => {
+                  return (
+                    subCategory !== undefined && (
+                      <Collapse.Panel
+                        key={subCategory}
+                        header={toTitleCase(subCategory?.replaceAll("-", " "))}
+                      >
+                        {generateEquipmentCheckboxes(category, subCategory)}
+                      </Collapse.Panel>
+                    )
+                  );
                 })}
-            </Space>
+              </Collapse>
+            ) : (
+              generateEquipmentCheckboxes(category)
+            )}
           </Collapse.Panel>
         ))}
     </Collapse>

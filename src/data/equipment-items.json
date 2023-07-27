@@ -50,6 +50,7 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
+    "subCategory": "bags-and-pouches",
     "amount": 1
   },
   {
@@ -58,6 +59,7 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
+    "subCategory": "bags-and-pouches",
     "amount": 1
   },
   {
@@ -102,6 +104,7 @@
     "costCurrency": "sp",
     "weight": 3,
     "category": "general-equipment",
+    "subCategory": "tack-and-harness",
     "amount": 1
   },
   {
@@ -290,6 +293,7 @@
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
+    "subCategory": "outerwear",
     "amount": 1
   },
   {
@@ -298,6 +302,7 @@
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
+    "subCategory": "outfit",
     "amount": 1
   },
   {
@@ -380,6 +385,7 @@
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
+    "subCategory": "tack-and-harness",
     "amount": 1
   },
   {
@@ -433,6 +439,7 @@
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
+    "subCategory": "dungeon-exploration",
     "amount": 1
   },
   {
@@ -468,6 +475,7 @@
     "costCurrency": "gp",
     "weight": 4,
     "category": "general-equipment",
+    "subCategory": "dungeon-exploration",
     "amount": 1
   },
   {
@@ -541,6 +549,7 @@
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
+    "subCategory": "dungeon-exploration",
     "amount": 1
   },
   {
@@ -567,6 +576,7 @@
     "costCurrency": "sp",
     "weight": 0,
     "category": "general-equipment",
+    "subCategory": "wizards-wares",
     "amount": 1
   },
   {
@@ -575,6 +585,7 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
+    "subCategory": "wizards-wares",
     "amount": 1
   },
   {
@@ -655,6 +666,7 @@
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
+    "subCategory": "bags-and-pouches",
     "amount": 1
   },
   {
@@ -663,6 +675,7 @@
     "costCurrency": "sp",
     "weight": 0.1,
     "category": "general-equipment",
+    "subCategory": "bags-and-pouches",
     "amount": 1
   },
   {
@@ -671,6 +684,7 @@
     "costCurrency": "gp",
     "weight": 15,
     "category": "general-equipment",
+    "subCategory": "bags-and-pouches",
     "amount": 1
   },
   {
@@ -679,6 +693,7 @@
     "costCurrency": "gp",
     "weight": 35,
     "category": "general-equipment",
+    "subCategory": "tack-and-harness",
     "amount": 1
   },
   {
@@ -687,6 +702,7 @@
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
+    "subCategory": "bags-and-pouches",
     "amount": 1
   },
   {
@@ -758,6 +774,7 @@
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
+    "subCategory": "wizards-wares",
     "amount": 1
   },
   {
