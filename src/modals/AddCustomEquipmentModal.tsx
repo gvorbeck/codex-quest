@@ -266,6 +266,8 @@ export default function AddCustomEquipmentModal({
     "swords",
   ];
 
+  useEffect(() => console.log(formState), [formState]);
+
   return (
     <Modal
       title="ADD CUSTOM EQUIPMENT"
@@ -479,7 +481,21 @@ export default function AddCustomEquipmentModal({
               //   },
               // ]}
             >
-              RANGE!
+              <Form.Item label="Short Range" name="shortRange">
+                <InputNumber
+                  onChange={(value) => handleNumberChange(value, "shortRange")}
+                ></InputNumber>
+              </Form.Item>
+              <Form.Item label="Medium Range" name="mediumRange">
+                <InputNumber
+                  onChange={(value) => handleNumberChange(value, "mediumRange")}
+                ></InputNumber>
+              </Form.Item>
+              <Form.Item label="Long Range" name="longRange">
+                <InputNumber
+                  onChange={(value) => handleNumberChange(value, "longRange")}
+                ></InputNumber>
+              </Form.Item>
             </div>
             <div
               className={`${
