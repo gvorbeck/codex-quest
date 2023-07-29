@@ -16,6 +16,7 @@ import {
   RangeRadioButtons,
 } from "./definitions";
 import equipmentItems from "../data/equipment-items.json";
+import { EquipmentItem } from "../components/EquipmentStore/definitions";
 
 const roller = new DiceRoller();
 
@@ -57,6 +58,32 @@ function RangeRadioGroup({
       <Radio value={0}>Medium Range (+0): {missileRangeValues[1]}'</Radio>
       <Radio value={-2}>Long Range (-2): {missileRangeValues[2]}'</Radio>
     </Radio.Group>
+  );
+}
+
+function AmmoSelect({
+  ammo,
+  equipment,
+}: {
+  ammo: string[];
+  equipment: EquipmentItem[];
+}) {
+  const ammoItems = ammo.map((ammoItem) => {
+    console.log(ammoItem);
+    // if (equipment.find((item) => item.name === ammoItem)) {
+    //   const ammoItem = equipment.find((item) => item.name === ammoItem);
+    //   return {value: ammoItem, label: ammoItem.name};
+    // }
+  });
+  return (
+    <div className="flex flex-col gap-2 mt-2">
+      <label htmlFor="ammo">Ammo</label>
+      <select name="ammo" id="ammo">
+        {ammo.map((ammoItem) => (
+          <option value={ammoItem}>{ammoItem}</option>
+        ))}
+      </select>
+    </div>
   );
 }
 
@@ -149,6 +176,12 @@ export default function AttackModal({
                   handleRangeChange={handleRangeChange}
                   missileRangeValues={attackingWeapon.range}
                 />
+                {attackingWeapon.ammo && (
+                  <AmmoSelect
+                    ammo={attackingWeapon.ammo}
+                    equipment={characterData?.equipment || []}
+                  />
+                )}
                 <AttackButtons
                   weapon={attackingWeapon}
                   damage={damage}
@@ -172,6 +205,12 @@ export default function AttackModal({
                       handleRangeChange={handleRangeChange}
                       missileRangeValues={attackingWeapon.range}
                     />
+                    {attackingWeapon.ammo && (
+                      <AmmoSelect
+                        ammo={attackingWeapon.ammo}
+                        equipment={characterData?.equipment || []}
+                      />
+                    )}
                     <AttackButtons
                       weapon={attackingWeapon}
                       damage={damage}
