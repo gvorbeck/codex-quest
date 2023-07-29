@@ -4,7 +4,6 @@ import { EquipmentInfoProps } from "./definitions";
 import Spells from "./Spells/Spells";
 import EquipmentList from "./EquipmentList/EquipmentList";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
-import equipmentItems from "../../../data/equipment-items.json";
 
 export default function EquipmentInfo({
   userIsOwner,
@@ -42,7 +41,7 @@ export default function EquipmentInfo({
 
   const handleAttackClick = (item: EquipmentItem) => {
     if (setWeapon) {
-      setWeapon(item.name);
+      setWeapon(item);
     }
     if (showAttackModal) {
       showAttackModal();

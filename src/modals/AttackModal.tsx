@@ -118,7 +118,8 @@ export default function AttackModal({
   const damage = (roll: string) =>
     openDamageNotification(roller.roll(roll).output);
 
-  const attackingWeapon = equipmentItems.find((item) => item.name === weapon);
+  const attackingWeapon =
+    equipmentItems.find((item) => item.name === weapon?.name) || weapon;
 
   return (
     <>

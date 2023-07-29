@@ -46,7 +46,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const [characterData, setCharacterData] = useState<CharacterData | null>(
     null
   );
-  const [weapon, setWeapon] = useState<string | undefined>(undefined);
+  const [weapon, setWeapon] = useState<EquipmentItem | undefined>(undefined);
 
   const userLoggedIn: User | null = user;
   const userIsOwner = userLoggedIn?.uid === uid;
