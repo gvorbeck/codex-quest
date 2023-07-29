@@ -4,6 +4,7 @@ import { EquipmentInfoProps } from "./definitions";
 import Spells from "./Spells/Spells";
 import EquipmentList from "./EquipmentList/EquipmentList";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
+import equipmentItems from "../../../data/equipment-items.json";
 
 export default function EquipmentInfo({
   userIsOwner,
@@ -129,9 +130,6 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
-            // calculatedAC={calculatedAC}
-            // setCalculatedAC={setCalculatedAC}
-            // radios
           />
         </Collapse.Panel>
         {/* SHIELDS */}
@@ -146,9 +144,6 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
-            // calculatedAC={calculatedAC}
-            // setCalculatedAC={setCalculatedAC}
-            // radios
           />
         </Collapse.Panel>
         {/* BEAST OF BURDEN */}
