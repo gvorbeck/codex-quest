@@ -90,6 +90,7 @@ export interface EquipmentItem {
   AC?: string | number;
   amount: number;
   type?: string;
+  range?: number[];
 }
 
 export type Capacity = { light: number; heavy: number };

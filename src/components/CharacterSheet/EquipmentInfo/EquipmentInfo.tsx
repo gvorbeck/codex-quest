@@ -129,9 +129,6 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
-            // calculatedAC={calculatedAC}
-            // setCalculatedAC={setCalculatedAC}
-            // radios
           />
         </Collapse.Panel>
         {/* SHIELDS */}
@@ -146,9 +143,6 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
-            // calculatedAC={calculatedAC}
-            // setCalculatedAC={setCalculatedAC}
-            // radios
           />
         </Collapse.Panel>
         {/* BEAST OF BURDEN */}

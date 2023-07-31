@@ -3,6 +3,7 @@ import equipmentItems from "../../../../data/equipment-items.json";
 import { Button, Descriptions, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
+import { slugToTitleCase } from "../../../../support/stringSupport";
 
 const itemDescription = (item: EquipmentItem) => (
   <Descriptions bordered size="small" column={1} className="flex-grow">
@@ -19,6 +20,9 @@ const itemDescription = (item: EquipmentItem) => (
     {item.damage && (
       <Descriptions.Item label="Damage">{item.damage}</Descriptions.Item>
     )}
+    <Descriptions.Item label="Category">
+      {slugToTitleCase(item.category)}
+    </Descriptions.Item>
   </Descriptions>
 );
 

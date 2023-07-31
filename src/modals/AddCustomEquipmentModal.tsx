@@ -140,6 +140,14 @@ export default function AddCustomEquipmentModal({
         // No additional properties
         break;
       case "bows":
+        newItem = {
+          ...newItem,
+          size: values.size,
+          weight: values.weight,
+          type: "missile",
+          range: values.range,
+        };
+        break;
       case "slings-and-hurled-weapons":
         newItem = {
           ...newItem,
@@ -586,6 +594,7 @@ export default function AddCustomEquipmentModal({
               <Form.Item
                 label="Amount"
                 name="amount"
+                initialValue={1}
                 rules={[{ required: true, message: "Required" }]}
               >
                 <InputNumber
@@ -598,6 +607,7 @@ export default function AddCustomEquipmentModal({
               name="purchased"
               valuePropName="checked"
               rules={[{ type: "boolean" }]}
+              initialValue={formState.purchased}
             >
               <Checkbox
                 onChange={(e) =>
