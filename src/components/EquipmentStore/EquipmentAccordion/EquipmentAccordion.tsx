@@ -6,6 +6,7 @@ import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
+import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -230,42 +231,47 @@ export default function EquipmentAccordion({
   );
 
   return (
-    <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
-      {categories
-        .sort((a, b) => a.localeCompare(b))
-        .map((category: string) => (
-          <Collapse.Panel
-            key={category}
-            header={toTitleCase(category.replaceAll("-", " "))}
-            className="[&>div:not(:first)]:bg-springWood"
-          >
-            {/* if category === 'general-equipment' Create a sub Collapse */}
-            {category === "general-equipment" ? (
-              <Collapse accordion ghost>
-                {[
-                  ...new Set(
-                    equipmentItems
-                      .filter((item) => item.category === category)
-                      .map((item) => item.subCategory)
-                  ),
-                ].map((subCategory) => {
-                  return (
-                    subCategory !== undefined && (
-                      <Collapse.Panel
-                        key={subCategory}
-                        header={toTitleCase(subCategory?.replaceAll("-", " "))}
-                      >
-                        {generateEquipmentCheckboxes(category, subCategory)}
-                      </Collapse.Panel>
-                    )
-                  );
-                })}
-              </Collapse>
-            ) : (
-              generateEquipmentCheckboxes(category)
-            )}
-          </Collapse.Panel>
-        ))}
-    </Collapse>
+    <div>
+      <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
+        {categories
+          .sort((a, b) => a.localeCompare(b))
+          .map((category: string) => (
+            <Collapse.Panel
+              key={category}
+              header={toTitleCase(category.replaceAll("-", " "))}
+              className="[&>div:not(:first)]:bg-springWood"
+            >
+              {/* if category === 'general-equipment' Create a sub Collapse */}
+              {category === "general-equipment" ? (
+                <Collapse accordion ghost>
+                  {[
+                    ...new Set(
+                      equipmentItems
+                        .filter((item) => item.category === category)
+                        .map((item) => item.subCategory)
+                    ),
+                  ].map((subCategory) => {
+                    return (
+                      subCategory !== undefined && (
+                        <Collapse.Panel
+                          key={subCategory}
+                          header={toTitleCase(
+                            subCategory?.replaceAll("-", " ")
+                          )}
+                        >
+                          {generateEquipmentCheckboxes(category, subCategory)}
+                        </Collapse.Panel>
+                      )
+                    );
+                  })}
+                </Collapse>
+              ) : (
+                generateEquipmentCheckboxes(category)
+              )}
+            </Collapse.Panel>
+          ))}
+      </Collapse>
+      <WeaponKeys className="mt-4" />
+    </div>
   );
 }

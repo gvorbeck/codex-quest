@@ -4,6 +4,7 @@ import { Button, Descriptions, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { slugToTitleCase } from "../../../../support/stringSupport";
+import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 
 const itemDescription = (item: EquipmentItem) => (
   <Descriptions bordered size="small" column={1} className="flex-grow">
@@ -215,6 +216,7 @@ export default function EquipmentList({
           )}
         </div>
       ))}
+      {categories.includes("weapons") && <WeaponKeys />}
     </div>
   );
 }
