@@ -1202,7 +1202,8 @@
     "category": "bows",
     "type": "missile",
     "range": [50, 100, 150],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Shortbow Arrow", "Silver† Shortbow Arrow"]
   },
   {
     "name": "Longbow",
@@ -1213,7 +1214,8 @@
     "category": "bows",
     "type": "missile",
     "range": [70, 140, 210],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Longbow Arrow", "Silver† Longbow Arrow"]
   },
   {
     "name": "Light Crossbow",
@@ -1224,7 +1226,8 @@
     "category": "bows",
     "type": "missile",
     "range": [60, 120, 180],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Light Quarrel", "Silver† Light Quarrel"]
   },
   {
     "name": "Heavy Crossbow",
@@ -1235,7 +1238,8 @@
     "category": "bows",
     "type": "missile",
     "range": [80, 160, 240],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Heavy Quarrel", "Silver† Heavy Quarrel"]
   },
   {
     "name": "Hand Crossbow",
@@ -1246,7 +1250,8 @@
     "category": "bows",
     "type": "missile",
     "range": [30, 60, 90],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Hand Quarrel", "Silver† Hand Quarrel"]
   },
   {
     "name": "Bullet Crossbow",
@@ -1256,7 +1261,8 @@
     "weight": 7,
     "category": "bows",
     "type": "missile",
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Bullet", "Silver† Bullet"]
   },
   {
     "name": "Dagger",
@@ -1566,7 +1572,8 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [30, 60, 90],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Stone"]
   },
   {
     "name": "Bola (E)",
@@ -1613,7 +1620,8 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 1,
+    "ammo": ["Dart/Throwing Blade"]
   },
   {
     "name": "Net (E)",
@@ -1944,7 +1952,8 @@
     "name": "Light Barding",
     "costValue": 120,
     "costCurrency": "gp",
-    "weight": 50,
+    "weight": 0,
+    "animalWeight": 50,
     "AC": "+2",
     "category": "barding",
     "amount": 1
@@ -1953,7 +1962,8 @@
     "name": "Mail Barding",
     "costValue": 400,
     "costCurrency": "gp",
-    "weight": 80,
+    "weight": 0,
+    "animalWeight": 80,
     "AC": "+4",
     "category": "barding",
     "amount": 1
@@ -1962,7 +1972,8 @@
     "name": "Plate Barding",
     "costValue": 1200,
     "costCurrency": "gp",
-    "weight": 100,
+    "weight": 0,
+    "animalWeight": 100,
     "AC": "+6",
     "category": "barding",
     "amount": 1

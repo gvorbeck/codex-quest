@@ -3,6 +3,7 @@ import {
   Modal,
   Radio,
   RadioChangeEvent,
+  Select,
   Switch,
   notification,
 } from "antd";
@@ -14,8 +15,10 @@ import {
   AttackModalProps,
   AttackButtonsProps,
   RangeRadioButtons,
+  AmmoSelectProps,
 } from "./definitions";
 import equipmentItems from "../data/equipment-items.json";
+import { EquipmentItem } from "../components/EquipmentStore/definitions";
 
 const roller = new DiceRoller();
 
@@ -25,16 +28,27 @@ function AttackButtons({
   attack,
   type,
   className,
+  ammo,
+  isMissile,
 }: AttackButtonsProps) {
+  const isButtonDisabled = type === "missile" && !ammo;
   return (
     <div className={className}>
-      <Button type="primary" onClick={() => attack(type)}>
+      <Button
+        type="primary"
+        onClick={() => attack(type)}
+        disabled={isButtonDisabled}
+      >
         Attack Roll
       </Button>
       <Button
         type="default"
-        onClick={() => weapon.damage && damage(weapon.damage)}
+        onClick={() => {
+          if (isMissile) ammo?.damage && damage(ammo.damage);
+          else weapon.damage && damage(weapon.damage);
+        }}
         className="ml-2"
+        disabled={isButtonDisabled}
       >
         Damage Roll
       </Button>
@@ -60,6 +74,33 @@ function RangeRadioGroup({
   );
 }
 
+function AmmoSelect({ ammo, equipment, setAmmo }: AmmoSelectProps) {
+  const options = ammo
+    .map((ammoItem) => {
+      const item = equipment.find((item) => item.name === ammoItem);
+      return item
+        ? { value: ammoItem, label: `${ammoItem} (${item.amount})` }
+        : null;
+    })
+    .filter(
+      (option): option is { value: string; label: string } => option !== null
+    );
+
+  const handleAmmoChange = (value: string) => {
+    const selectedAmmoItem = equipment.find((item) => item.name === value);
+    if (selectedAmmoItem) {
+      setAmmo(selectedAmmoItem);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-2 mt-2">
+      <label htmlFor="ammo">Ammunition</label>
+      <Select id="ammo" options={options} onChange={handleAmmoChange} />
+    </div>
+  );
+}
+
 export default function AttackModal({
   isAttackModalOpen,
   handleCancel,
@@ -69,6 +110,7 @@ export default function AttackModal({
 }: AttackModalProps) {
   const [isMissile, setisMissile] = useState(false);
   const [missileRangeBonus, setMissileRangeBonus] = useState(0);
+  const [ammo, setAmmo] = useState<EquipmentItem | undefined>(undefined);
 
   const [api, contextHolder] = notification.useNotification();
 
@@ -115,10 +157,15 @@ export default function AttackModal({
     openAttackNotification(roller.roll(roll).output);
   };
 
-  const damage = (roll: string) =>
-    openDamageNotification(roller.roll(roll).output);
+  const damage = (roll: string, ammo: string = "") =>
+    openDamageNotification(
+      `${ammo !== "" ? ammo.toUpperCase() + ": " : ""}${
+        roller.roll(roll).output
+      }`
+    );
 
-  const attackingWeapon = equipmentItems.find((item) => item.name === weapon);
+  const attackingWeapon =
+    equipmentItems.find((item) => item.name === weapon?.name) || weapon;
 
   return (
     <>
@@ -148,12 +195,21 @@ export default function AttackModal({
                   handleRangeChange={handleRangeChange}
                   missileRangeValues={attackingWeapon.range}
                 />
+                {attackingWeapon.ammo && (
+                  <AmmoSelect
+                    ammo={attackingWeapon.ammo}
+                    equipment={characterData?.equipment || []}
+                    setAmmo={setAmmo}
+                  />
+                )}
                 <AttackButtons
                   weapon={attackingWeapon}
                   damage={damage}
                   attack={attack}
                   type="missile"
                   className="mt-2"
+                  ammo={ammo}
+                  isMissile
                 />
               </>
             )}
@@ -171,12 +227,21 @@ export default function AttackModal({
                       handleRangeChange={handleRangeChange}
                       missileRangeValues={attackingWeapon.range}
                     />
+                    {attackingWeapon.ammo && (
+                      <AmmoSelect
+                        ammo={attackingWeapon.ammo}
+                        equipment={characterData?.equipment || []}
+                        setAmmo={setAmmo}
+                      />
+                    )}
                     <AttackButtons
                       weapon={attackingWeapon}
                       damage={damage}
                       attack={attack}
                       type="missile"
                       className="mt-2"
+                      ammo={ammo}
+                      isMissile
                     />
                   </>
                 ) : (
