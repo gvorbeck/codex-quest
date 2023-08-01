@@ -31,7 +31,9 @@ function AttackButtons({
   ammo,
   isMissile,
 }: AttackButtonsProps) {
-  const isButtonDisabled = type === "missile" && !ammo;
+  const isButtonDisabled =
+    type === "missile" && isMissile && !ammo && !weapon.damage;
+
   return (
     <div className={className}>
       <Button
@@ -44,8 +46,13 @@ function AttackButtons({
       <Button
         type="default"
         onClick={() => {
-          if (isMissile) ammo?.damage && damage(ammo.damage);
-          else weapon.damage && damage(weapon.damage);
+          if (weapon.type === "missile") {
+            console.log("foo", weapon);
+            ammo?.damage && damage(ammo.damage);
+          } else {
+            console.log("bar");
+            weapon.damage && damage(weapon.damage);
+          }
         }}
         className="ml-2"
         disabled={isButtonDisabled}
@@ -167,6 +174,8 @@ export default function AttackModal({
   const attackingWeapon =
     equipmentItems.find((item) => item.name === weapon?.name) || weapon;
 
+  console.log(attackingWeapon, isMissile);
+
   return (
     <>
       {contextHolder}
@@ -219,6 +228,7 @@ export default function AttackModal({
                   unCheckedChildren="Melee Attack"
                   checkedChildren="Missile Attack"
                   onChange={handleSwitchChange}
+                  checked={isMissile}
                 />
                 {isMissile && attackingWeapon.range ? (
                   <>
