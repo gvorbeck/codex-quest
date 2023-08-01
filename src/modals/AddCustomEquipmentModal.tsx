@@ -32,7 +32,7 @@ const initialFormState = {
   purchased: true,
   weight: undefined,
   damage: undefined,
-  type: "melee",
+  type: "both",
   ac: undefined,
   size: undefined,
   amount: 1,
@@ -58,6 +58,9 @@ export default function AddCustomEquipmentModal({
 }: AddCustomEquipmentModalProps) {
   const [formState, setFormState] = useState(initialFormState);
   const [prevValue, setPrevValue] = useState(characterData.equipment);
+
+  const [form] = Form.useForm();
+  const type = Form.useWatch("type", { form });
 
   const { uid, id } = useParams();
 
@@ -130,12 +133,21 @@ export default function AddCustomEquipmentModal({
           weight: values.weight,
           damage: values.damage,
           type: values.type,
+          range: values.range,
         };
         break;
       case "beasts-of-burden":
         // No additional properties
         break;
       case "bows":
+        newItem = {
+          ...newItem,
+          size: values.size,
+          weight: values.weight,
+          type: "missile",
+          range: values.range,
+        };
+        break;
       case "slings-and-hurled-weapons":
         newItem = {
           ...newItem,
@@ -143,6 +155,7 @@ export default function AddCustomEquipmentModal({
           weight: values.weight,
           type: "missile",
           damage: values.damage,
+          range: values.range,
         };
         break;
       case "brawling":
@@ -163,6 +176,7 @@ export default function AddCustomEquipmentModal({
           weight: values.weight,
           damage: values.damage,
           type: "both",
+          range: values.range,
         };
         break;
       case "items":
@@ -227,34 +241,40 @@ export default function AddCustomEquipmentModal({
     });
   };
 
-  const attackTypeHiddenCategories = [
+  const showAttackTypeCategories: string[] = [
+    "axes",
+    "hammers-and-maces",
+    "improvised-weapons",
+    "other-weapons",
+  ];
+
+  const showDamageCategories: string[] = [
     "ammunition",
-    "armor",
-    "shields",
-    "beasts-of-burden",
-    "bows",
-    "brawling",
-    "items",
+    "axes",
     "chain-and-flail",
     "daggers",
+    "hammers-and-maces",
+    "improvised-weapons",
+    "other-weapons",
     "slings-and-hurled-weapons",
+    "spears-and-polearms",
+    "swords",
   ];
 
-  const damageHiddenCategories = [
-    "armor",
-    "shields",
-    "beasts-of-burden",
+  const showSizeCategories = [
+    "axes",
     "bows",
-    "items",
+    "chain-and-flail",
+    "daggers",
+    "hammers-and-maces",
+    "improvised-weapons",
+    "other-weapons",
+    "slings-and-hurled-weapons",
+    "spears-and-polearms",
+    "swords",
   ];
 
-  const sizeHiddenCategories = [
-    "ammunition",
-    "armor",
-    "shields",
-    "beasts-of-burden",
-    "items",
-  ];
+  useEffect(() => console.log(formState), [formState]);
 
   return (
     <Modal
@@ -271,6 +291,8 @@ export default function AddCustomEquipmentModal({
           layout="vertical"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          form={form}
+          initialValues={initialFormState}
         >
           <Form.Item
             label="Name"
@@ -300,9 +322,10 @@ export default function AddCustomEquipmentModal({
             ]}
           >
             <Select
-              onChange={(value) =>
-                value !== undefined && handleSelectChange(value, "category")
-              }
+              onChange={(value) => {
+                value !== undefined && handleSelectChange(value, "category");
+                form.setFieldsValue({ type: "both" });
+              }}
               options={equipmentCategories}
               value={formState.category}
             />
@@ -347,11 +370,7 @@ export default function AddCustomEquipmentModal({
                   value={formState.costValue}
                 />
               </Form.Item>
-              <Form.Item
-                label="Currency"
-                name="costCurrency"
-                initialValue={formState.costCurrency}
-              >
+              <Form.Item label="Currency" name="costCurrency">
                 <Select
                   onChange={(value) =>
                     handleSelectChange(value, "costCurrency")
@@ -369,7 +388,7 @@ export default function AddCustomEquipmentModal({
               label="Attack Type"
               name="type"
               className={
-                attackTypeHiddenCategories.some(
+                !showAttackTypeCategories.some(
                   (category) => formState.category === category
                 )
                   ? "hidden"
@@ -377,22 +396,21 @@ export default function AddCustomEquipmentModal({
               }
               rules={[
                 {
-                  required: !attackTypeHiddenCategories.some(
+                  required: showAttackTypeCategories.some(
                     (category) => formState.category === category
                   ),
                   message: "Required",
                 },
               ]}
-              initialValue={formState.type}
             >
               <Radio.Group
                 value={formState.type}
                 onChange={handleRadioChange}
                 buttonStyle="solid"
               >
+                <Radio.Button value="both">Both</Radio.Button>
                 <Radio.Button value="melee">Melee</Radio.Button>
                 <Radio.Button value="missile">Missile</Radio.Button>
-                <Radio.Button value="both">Both</Radio.Button>
               </Radio.Group>
             </Form.Item>
             <div className="flex gap-4">
@@ -423,7 +441,7 @@ export default function AddCustomEquipmentModal({
                 label="Damage"
                 name="damage"
                 className={
-                  damageHiddenCategories.some(
+                  !showDamageCategories.some(
                     (category) => formState.category === category
                   )
                     ? "hidden"
@@ -431,7 +449,7 @@ export default function AddCustomEquipmentModal({
                 }
                 rules={[
                   {
-                    required: !damageHiddenCategories.some(
+                    required: showDamageCategories.some(
                       (category) => formState.category === category
                     ),
                     message: "Required",
@@ -448,6 +466,43 @@ export default function AddCustomEquipmentModal({
                   value={formState.damage}
                   onChange={handleFormChange}
                 />
+              </Form.Item>
+            </div>
+            <div
+              className={
+                (showAttackTypeCategories.some(
+                  (category) => formState.category === category
+                ) ||
+                  formState.category === "bows" ||
+                  formState.category === "daggers" ||
+                  formState.category === "slings-and-hurled-weapons") &&
+                type !== "melee"
+                  ? ""
+                  : "hidden"
+              }
+              // rules={[
+              //   {
+              //     required: showAttackTypeCategories.some(
+              //       (category) => formState.category === category
+              //     ),
+              //     message: "Required",
+              //   },
+              // ]}
+            >
+              <Form.Item label="Short Range" name="shortRange">
+                <InputNumber
+                  onChange={(value) => handleNumberChange(value, "shortRange")}
+                ></InputNumber>
+              </Form.Item>
+              <Form.Item label="Medium Range" name="mediumRange">
+                <InputNumber
+                  onChange={(value) => handleNumberChange(value, "mediumRange")}
+                ></InputNumber>
+              </Form.Item>
+              <Form.Item label="Long Range" name="longRange">
+                <InputNumber
+                  onChange={(value) => handleNumberChange(value, "longRange")}
+                ></InputNumber>
               </Form.Item>
             </div>
             <div
@@ -509,7 +564,7 @@ export default function AddCustomEquipmentModal({
                 label="Size"
                 name="size"
                 className={
-                  sizeHiddenCategories.some(
+                  !showSizeCategories.some(
                     (category) => formState.category === category
                   )
                     ? "hidden"
@@ -517,7 +572,7 @@ export default function AddCustomEquipmentModal({
                 }
                 rules={[
                   {
-                    required: !sizeHiddenCategories.some(
+                    required: showSizeCategories.some(
                       (category) => formState.category === category
                     ),
                     message: "Required",

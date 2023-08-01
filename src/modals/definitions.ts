@@ -58,10 +58,18 @@ export interface AttackButtonsProps {
   attack: (attack: "melee" | "missile") => void;
   type: "melee" | "missile";
   className?: string;
+  ammo?: EquipmentItem;
+  isMissile?: boolean;
 }
 
 export interface CreateCharacterModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   onCharacterAdded: () => void;
+}
+
+export interface AmmoSelectProps {
+  ammo: string[];
+  equipment: EquipmentItem[];
+  setAmmo: (ammo: EquipmentItem) => void;
 }

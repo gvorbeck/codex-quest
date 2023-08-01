@@ -12,11 +12,13 @@ export interface EquipmentItem {
   name: string;
   costValue: number;
   costCurrency: string;
-  weight?: number;
   category: string;
+  amount: number;
+  weight?: number;
   size?: string;
   damage?: string;
   AC?: string | number;
-  amount: number;
   type?: string;
+  range?: number[];
+  ammo?: string[];
 }

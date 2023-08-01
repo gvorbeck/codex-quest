@@ -218,9 +218,30 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     // This checks if there is armor being worn or not and adjusts movement.
     if (isWearing(["No Armor", "Magic Leather Armor", ""])) {
       return characterData.weight <= carryingCapacity.light ? 40 : 30;
-    } else if (isWearing(["Leather Armor", "Magic Metal Armor"])) {
+    } else if (
+      isWearing([
+        "Studded Leather Armor",
+        "Hide Armor",
+        "Leather Armor",
+        "Magic Metal Armor",
+        "Hide Armor",
+      ])
+    ) {
       return characterData.weight <= carryingCapacity.light ? 30 : 20;
-    } else if (isWearing(["Metal Armor", "Chain Mail"])) {
+    } else if (
+      isWearing([
+        "Metal Armor",
+        "Chain Mail",
+        "Ring Mail",
+        "Brigandine Armor",
+        "Scale Mail",
+        "Splint Mail",
+        "Banded Mail",
+        "Plate Mail",
+        "Field Plate Mail",
+        "Full Plate Mail",
+      ])
+    ) {
       return characterData.weight <= carryingCapacity.light ? 20 : 10;
     }
   };

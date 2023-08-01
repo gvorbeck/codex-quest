@@ -18,6 +18,7 @@ export default function EquipmentInfo({
 }: EquipmentInfoProps) {
   const equipmentListCategories = {
     weapons: [
+      "weapons",
       "axes",
       "bows",
       "daggers",
@@ -34,7 +35,7 @@ export default function EquipmentInfo({
     general: ["general-equipment", "items"],
     armor: ["armor", "armor-and-shields"],
     shields: ["shields", "armor-and-shields"],
-    beasts: ["beasts-of-burden"],
+    beasts: ["beasts-of-burden", "barding"],
     ammo: ["ammunition"],
   };
 
@@ -128,9 +129,6 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
-            // calculatedAC={calculatedAC}
-            // setCalculatedAC={setCalculatedAC}
-            // radios
           />
         </Collapse.Panel>
         {/* SHIELDS */}
@@ -145,9 +143,6 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
-            // calculatedAC={calculatedAC}
-            // setCalculatedAC={setCalculatedAC}
-            // radios
           />
         </Collapse.Panel>
         {/* BEAST OF BURDEN */}

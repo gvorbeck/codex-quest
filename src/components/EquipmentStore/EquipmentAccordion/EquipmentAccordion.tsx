@@ -1,4 +1,4 @@
-import { Collapse, Space, Typography } from "antd";
+import { Collapse, Descriptions, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipment-items.json";
@@ -6,39 +6,27 @@ import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
+import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
-  <Space direction="vertical">
+  <>
     <Typography.Text strong>{item.name}</Typography.Text>
-    <div>
-      <Typography.Text italic>{`Cost: `}</Typography.Text>
-      <Typography.Text>{`${item.costValue}${item.costCurrency}`}</Typography.Text>
-    </div>
-    {item.weight !== undefined && (
-      <div>
-        <Typography.Text italic>{`Weight: `}</Typography.Text>
-        <Typography.Text>{item.weight}</Typography.Text>
-      </div>
-    )}
-    {item.damage && (
-      <div>
-        <Typography.Text italic>{`Damage: `}</Typography.Text>
-        <Typography.Text>{item.damage}</Typography.Text>
-      </div>
-    )}
-    {item.size && (
-      <div>
-        <Typography.Text italic>{`Size: `}</Typography.Text>
-        <Typography.Text>{item.size}</Typography.Text>
-      </div>
-    )}
-    {item.AC && (
-      <div>
-        <Typography.Text italic>{`AC: `}</Typography.Text>
-        <Typography.Text>{item.AC}</Typography.Text>
-      </div>
-    )}
-  </Space>
+    <Descriptions bordered size="small" column={2} className="flex-grow mt-2">
+      <Descriptions.Item label="Cost">
+        {`${item.costValue}${item.costCurrency}`}
+      </Descriptions.Item>
+      {item.weight && (
+        <Descriptions.Item label="Weight">{item.weight}</Descriptions.Item>
+      )}
+      {item.size && (
+        <Descriptions.Item label="Size">{item.size}</Descriptions.Item>
+      )}
+      {item.AC && <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>}
+      {item.damage && (
+        <Descriptions.Item label="Damage">{item.damage}</Descriptions.Item>
+      )}
+    </Descriptions>
+  </>
 );
 
 const availableEquipmentCategories = (className: ClassName) => {
@@ -48,10 +36,15 @@ const availableEquipmentCategories = (className: ClassName) => {
         "ammunition",
         "armor",
         "shields",
+        "bows",
         "beasts-of-burden",
+        "barding",
         "hammers-and-maces",
         "general-equipment",
         "other-weapons",
+        "chain-and-flail",
+        "improvised-weapons",
+        "slings-and-hurled-weapons",
       ];
     case "fighter":
     case "thief":
@@ -62,15 +55,26 @@ const availableEquipmentCategories = (className: ClassName) => {
         "shields",
         "axes",
         "beasts-of-burden",
+        "barding",
         "bows",
         "daggers",
         "hammers-and-maces",
         "general-equipment",
         "other-weapons",
         "swords",
+        "spears-and-polearms",
+        "improvised-weapons",
+        "slings-and-hurled-weapons",
       ];
     case "magic-user":
-      return ["daggers", "items", "other-weapons", "beasts-of-burden"];
+      return [
+        "daggers",
+        "items",
+        "other-weapons",
+        "beasts-of-burden",
+        "barding",
+        "improvised-weapons",
+      ];
     default:
       if (!classChoices.includes(className)) {
         return [
@@ -85,6 +89,9 @@ const availableEquipmentCategories = (className: ClassName) => {
           "general-equipment",
           "other-weapons",
           "swords",
+          "spears-and-polearms",
+          "improvised-weapons",
+          "slings-and-hurled-weapons",
         ];
       } else {
         console.error(
@@ -105,12 +112,16 @@ const itemIsDisabled = (
     if (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
-      item.category === "ammunition"
+      item.category === "ammunition" ||
+      item.category === "bows" ||
+      item.category === "slings-and-hurled-weapons"
     ) {
       if (
         item.name.toLowerCase().includes("warhammer") ||
         item.name.toLowerCase().includes("mace") ||
         item.name.toLowerCase().includes("maul") ||
+        item.name.toLowerCase().includes("crossbow") ||
+        item.name.toLowerCase().includes("morningstar") ||
         item.name.toLowerCase().includes("quarterstaff") ||
         item.name.toLowerCase().includes("sling") ||
         item.name.toLowerCase().includes("stone")
@@ -176,55 +187,91 @@ export default function EquipmentAccordion({
     )
   );
 
+  const generateEquipmentCheckboxes = (
+    category: string,
+    subCategory?: string
+  ) => (
+    <Space direction="vertical">
+      {equipmentItems
+        .filter(
+          (categoryItem) =>
+            categoryItem.category === category &&
+            (!subCategory || categoryItem.subCategory === subCategory)
+        )
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((categoryItem) => {
+          if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
+            return (
+              <EquipmentCheckbox
+                key={categoryItem.name}
+                item={categoryItem}
+                disabled={itemIsDisabled(playerClass, playerRace, categoryItem)}
+                onCheckboxCheck={onCheckboxCheck}
+                onAmountChange={onAmountChange}
+                playerHasItem={playerEquipment.some(
+                  (invItem: EquipmentItem) => invItem.name === categoryItem.name
+                )}
+                equipmentItemDescription={EquipmentItemDescription(
+                  categoryItem
+                )}
+                inputDisabled={categoryItem.costValue > playerGold}
+                itemAmount={
+                  playerEquipment.filter(
+                    (invItem: EquipmentItem) =>
+                      invItem.name === categoryItem.name
+                  )[0]?.amount
+                }
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
+    </Space>
+  );
+
   return (
-    <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
-      {categories
-        .sort((a, b) => a.localeCompare(b))
-        .map((category: string) => (
-          <Collapse.Panel
-            key={category}
-            header={toTitleCase(category.replaceAll("-", " "))}
-            className="[&>div:not(:first)]:bg-springWood"
-          >
-            <Space direction="vertical">
-              {equipmentItems
-                .filter((categoryItem) => categoryItem.category === category)
-                .map((categoryItem) => {
-                  if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
+    <div>
+      <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
+        {categories
+          .sort((a, b) => a.localeCompare(b))
+          .map((category: string) => (
+            <Collapse.Panel
+              key={category}
+              header={toTitleCase(category.replaceAll("-", " "))}
+              className="[&>div:not(:first)]:bg-springWood"
+            >
+              {/* if category === 'general-equipment' Create a sub Collapse */}
+              {category === "general-equipment" ? (
+                <Collapse accordion ghost>
+                  {[
+                    ...new Set(
+                      equipmentItems
+                        .filter((item) => item.category === category)
+                        .map((item) => item.subCategory)
+                    ),
+                  ].map((subCategory) => {
                     return (
-                      <EquipmentCheckbox
-                        key={categoryItem.name}
-                        item={categoryItem}
-                        disabled={itemIsDisabled(
-                          playerClass,
-                          playerRace,
-                          categoryItem
-                        )}
-                        onCheckboxCheck={onCheckboxCheck}
-                        onAmountChange={onAmountChange}
-                        playerHasItem={playerEquipment.some(
-                          (invItem: EquipmentItem) =>
-                            invItem.name === categoryItem.name
-                        )}
-                        equipmentItemDescription={EquipmentItemDescription(
-                          categoryItem
-                        )}
-                        inputDisabled={categoryItem.costValue > playerGold}
-                        itemAmount={
-                          playerEquipment.filter(
-                            (invItem: EquipmentItem) =>
-                              invItem.name === categoryItem.name
-                          )[0]?.amount
-                        }
-                      />
+                      subCategory !== undefined && (
+                        <Collapse.Panel
+                          key={subCategory}
+                          header={toTitleCase(
+                            subCategory?.replaceAll("-", " ")
+                          )}
+                        >
+                          {generateEquipmentCheckboxes(category, subCategory)}
+                        </Collapse.Panel>
+                      )
                     );
-                  } else {
-                    return null;
-                  }
-                })}
-            </Space>
-          </Collapse.Panel>
-        ))}
-    </Collapse>
+                  })}
+                </Collapse>
+              ) : (
+                generateEquipmentCheckboxes(category)
+              )}
+            </Collapse.Panel>
+          ))}
+      </Collapse>
+      <WeaponKeys className="mt-4" />
+    </div>
   );
 }
