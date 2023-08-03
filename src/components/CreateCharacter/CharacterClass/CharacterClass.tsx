@@ -175,6 +175,48 @@ export default function CharacterClass({
     }
   };
 
+  // Methods for disabling class choices
+  const magicUserRaceRestriction = (choice: string) =>
+    choice === ClassNames.MAGICUSER &&
+    characterData.race !== "Elf" &&
+    characterData.race !== "Human";
+  const clericAbilityRestriction = (choice: string) =>
+    choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
+  const fighterAbilityRestriction = (choice: string) =>
+    choice === ClassNames.FIGHTER &&
+    +characterData.abilities.scores.strength < 9;
+  const magicUserAbilityRestriction = (choice: string) =>
+    choice === ClassNames.MAGICUSER &&
+    +characterData.abilities.scores.intelligence < 9;
+  const thiefAbilityRestriction = (choice: string) =>
+    choice === ClassNames.THIEF &&
+    +characterData.abilities.scores.dexterity < 9;
+  const assassinRaceRestriction = (choice: string) =>
+    choice === ClassNames.ASSASSIN && characterData.race !== "Human";
+  const assassinAbilityRestriction = (choice: string) =>
+    choice === ClassNames.ASSASSIN &&
+    (+characterData.abilities.scores.dexterity < 9 ||
+      +characterData.abilities.scores.intelligence < 9);
+  const barbarianAbilityRestriction = (choice: string) =>
+    choice === ClassNames.BARBARIAN &&
+    (+characterData.abilities.scores.strength < 9 ||
+      +characterData.abilities.scores.dexterity < 9 ||
+      +characterData.abilities.scores.constitution < 9);
+  const barbarianRaceRestriction = (choice: string) =>
+    choice === ClassNames.BARBARIAN &&
+    characterData.race !== "Dwarf" &&
+    characterData.race !== "Human";
+
+  // Methods for disabling combo class choices
+  const comboClassRestrictedClasses = (choice: string) =>
+    choice === ClassNames.CLERIC ||
+    choice === ClassNames.ASSASSIN ||
+    choice === ClassNames.BARBARIAN;
+  const comboClassThiefSelected = (choice: string) =>
+    choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
+  const comboClassFighterSelected = (choice: string) =>
+    choice === ClassNames.THIEF && checkedClasses.includes(ClassNames.FIGHTER);
+
   return (
     <>
       {characterData.race === "Elf" && (
@@ -187,6 +229,7 @@ export default function CharacterClass({
           />
         </div>
       )}
+      {/* COMBO CLASS */}
       <div className="mt-6">
         {comboClass ? (
           <div>
@@ -199,18 +242,12 @@ export default function CharacterClass({
                     value={choice}
                     checked={checkedClasses.includes(choice)}
                     disabled={
-                      choice === ClassNames.CLERIC ||
-                      choice === ClassNames.ASSASSIN ||
-                      (choice === ClassNames.FIGHTER &&
-                        checkedClasses.includes(ClassNames.THIEF)) ||
-                      (choice === ClassNames.THIEF &&
-                        checkedClasses.includes(ClassNames.FIGHTER)) ||
-                      (choice === ClassNames.FIGHTER &&
-                        +characterData.abilities.scores.strength < 9) ||
-                      (choice === ClassNames.MAGICUSER &&
-                        +characterData.abilities.scores.intelligence < 9) ||
-                      (choice === ClassNames.THIEF &&
-                        +characterData.abilities.scores.dexterity < 9)
+                      comboClassRestrictedClasses(choice) ||
+                      comboClassThiefSelected(choice) ||
+                      comboClassFighterSelected(choice) ||
+                      fighterAbilityRestriction(choice) ||
+                      magicUserAbilityRestriction(choice) ||
+                      thiefAbilityRestriction(choice)
                     }
                   >
                     {choice}
@@ -231,23 +268,15 @@ export default function CharacterClass({
                 value={choice}
                 className="ps-2 pe-2 md:ps-4 md:pe-4"
                 disabled={
-                  (characterData.race === "Dwarf" &&
-                    choice === ClassNames.MAGICUSER) ||
-                  (characterData.race === "Halfling" &&
-                    choice === ClassNames.MAGICUSER) ||
-                  (choice === ClassNames.CLERIC &&
-                    +characterData.abilities.scores.wisdom < 9) ||
-                  (choice === ClassNames.FIGHTER &&
-                    +characterData.abilities.scores.strength < 9) ||
-                  (choice === ClassNames.MAGICUSER &&
-                    +characterData.abilities.scores.intelligence < 9) ||
-                  (choice === ClassNames.THIEF &&
-                    +characterData.abilities.scores.dexterity < 9) ||
-                  (characterData.race !== "Human" &&
-                    choice === ClassNames.ASSASSIN) ||
-                  (choice === ClassNames.ASSASSIN &&
-                    (+characterData.abilities.scores.dexterity < 9 ||
-                      +characterData.abilities.scores.intelligence < 9))
+                  magicUserRaceRestriction(choice) ||
+                  magicUserAbilityRestriction(choice) ||
+                  clericAbilityRestriction(choice) ||
+                  fighterAbilityRestriction(choice) ||
+                  thiefAbilityRestriction(choice) ||
+                  assassinRaceRestriction(choice) ||
+                  assassinAbilityRestriction(choice) ||
+                  barbarianRaceRestriction(choice) ||
+                  barbarianAbilityRestriction(choice)
                 }
               >
                 {choice}
@@ -294,8 +323,9 @@ export default function CharacterClass({
               {spellsData
                 .filter(
                   (spell) =>
-                    spell.level["magic-user"] === 1 &&
-                    spell.name !== "Read Magic"
+                    (spell.level as Record<string, number>)[
+                      ClassNames.MAGICUSER.toLowerCase()
+                    ] === 1 && spell.name !== "Read Magic"
                 )
                 .map((spell) => (
                   <Radio
