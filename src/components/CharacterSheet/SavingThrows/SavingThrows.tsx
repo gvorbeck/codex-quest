@@ -6,85 +6,6 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 
 const savingThrowsTables: SavingThrowsTables = {
-  [ClassNames.ASSASSIN]: {
-    "1": {
-      deathRayOrPoison: 13,
-      magicWands: 14,
-      paralysisOrPetrify: 13,
-      dragonBreath: 16,
-      spells: 15,
-    },
-    "2-3": {
-      deathRayOrPoison: 12,
-      magicWands: 14,
-      paralysisOrPetrify: 12,
-      dragonBreath: 15,
-      spells: 14,
-    },
-    "4-5": {
-      deathRayOrPoison: 11,
-      magicWands: 13,
-      paralysisOrPetrify: 12,
-      dragonBreath: 14,
-      spells: 13,
-    },
-    "6-7": {
-      deathRayOrPoison: 11,
-      magicWands: 13,
-      paralysisOrPetrify: 11,
-      dragonBreath: 13,
-      spells: 13,
-    },
-    "8-9": {
-      deathRayOrPoison: 10,
-      magicWands: 12,
-      paralysisOrPetrify: 11,
-      dragonBreath: 12,
-      spells: 12,
-    },
-    "10-11": {
-      deathRayOrPoison: 9,
-      magicWands: 12,
-      paralysisOrPetrify: 10,
-      dragonBreath: 11,
-      spells: 11,
-    },
-    "12-13": {
-      deathRayOrPoison: 9,
-      magicWands: 10,
-      paralysisOrPetrify: 10,
-      dragonBreath: 10,
-      spells: 11,
-    },
-    "14-15": {
-      deathRayOrPoison: 8,
-      magicWands: 10,
-      paralysisOrPetrify: 9,
-      dragonBreath: 9,
-      spells: 10,
-    },
-    "16-17": {
-      deathRayOrPoison: 7,
-      magicWands: 9,
-      paralysisOrPetrify: 9,
-      dragonBreath: 8,
-      spells: 9,
-    },
-    "18-19": {
-      deathRayOrPoison: 7,
-      magicWands: 9,
-      paralysisOrPetrify: 8,
-      dragonBreath: 7,
-      spells: 9,
-    },
-    "20": {
-      deathRayOrPoison: 6,
-      magicWands: 8,
-      paralysisOrPetrify: 8,
-      dragonBreath: 6,
-      spells: 8,
-    },
-  },
   [ClassNames.CLERIC]: {
     "1": {
       deathRayOrPoison: 11,
@@ -402,6 +323,12 @@ const savingThrowsTables: SavingThrowsTables = {
     },
   },
 };
+
+// Assassin has the same Saving Throws as Thief.
+savingThrowsTables[ClassNames.ASSASSIN] = savingThrowsTables[ClassNames.THIEF];
+// Barbarian has the same Saving Throws as Fighter.
+savingThrowsTables[ClassNames.BARBARIAN] =
+  savingThrowsTables[ClassNames.FIGHTER];
 
 function getSavingThrows(character: CharacterData) {
   const characterClasses = character.class.split(" ");
