@@ -1,6 +1,6 @@
-import { CharacterData } from "../definitions";
+import { CharacterData, ClassNames } from "../definitions";
 
-export type ClassName = "Cleric" | "Fighter" | "Thief" | "Magic-User";
+export type ClassName = ClassNames;
 
 export interface EquipmentStoreProps {
   characterData: CharacterData;

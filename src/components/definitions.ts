@@ -1,7 +1,3 @@
-import { UploadFile } from "antd";
-import { UploadChangeParam } from "antd/es/upload";
-import { User } from "firebase/auth";
-import { CharSteps } from "./CreateCharacter/definitions";
 import { SavingThrows } from "./CharacterSheet/SavingThrows/definitions";
 import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
 
@@ -11,10 +7,12 @@ interface HP {
   max: number;
   desc: string;
 }
-interface SpellLevels {
+
+export interface SpellLevels {
   cleric: number | null;
   "magic-user": number | null;
 }
+
 export interface Spell {
   name: string;
   range: string;
@@ -22,10 +20,12 @@ export interface Spell {
   duration: string;
   description: string;
 }
+
 interface SpecialRestriction {
   race: string[];
   class: string[];
 }
+
 export interface CharacterData {
   abilities: Abilities;
   class: string;
@@ -45,27 +45,6 @@ export interface CharacterData {
   xp: number;
   desc: string;
   wearing?: { armor: string; shield: string };
-}
-export interface CharEquipmentStepProps extends CharSteps {
-  equipmentItems: EquipmentItem[];
-  rollGold?: boolean;
-}
-export interface EquipmentSelectorProps extends CharSteps {
-  armorSelection: EquipmentItem | null;
-  equipmentCategories: string[];
-  equipmentItems: EquipmentItem[];
-  handleWeightChange: () => void;
-  updateArmorSelection: any;
-  weightRestrictions: any;
-}
-export interface PurchasedEquipmentProps extends CharSteps {
-  weightRestrictions: { light: number; heavy: number };
-}
-export interface EquipmentCheckboxProps extends CharSteps {
-  itemName: string;
-  equipmentItems: EquipmentItem[];
-  handleWeightChange: () => void;
-  weightRestrictions: any;
 }
 
 export interface EquipmentItem {
@@ -100,20 +79,12 @@ export interface SpellType {
   description: string;
 }
 
-export interface CharacterListProps {
-  user: User | null;
-  characters: CharacterData[];
-  onCharacterDeleted: () => void;
-  className?: string;
-}
-
-export interface CustomImageProps {
-  fileList: UploadFile<any>[];
-  handlePreview: (file: UploadFile) => Promise<void>;
-  handleChange: (info: UploadChangeParam<UploadFile<any>>) => void;
-  uploadButton: JSX.Element;
-  previewOpen: boolean;
-  previewTitle: string;
-  handleCancel: () => void;
-  previewImage: string;
+export enum ClassNames {
+  ASSASSIN = "Assassin",
+  BARBARIAN = "Barbarian",
+  CLERIC = "Cleric",
+  FIGHTER = "Fighter",
+  MAGICUSER = "Magic-User",
+  THIEF = "Thief",
+  CUSTOM = "Custom",
 }

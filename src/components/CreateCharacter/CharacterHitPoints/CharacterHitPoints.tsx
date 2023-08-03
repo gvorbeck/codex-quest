@@ -11,6 +11,7 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CharacterHitPointsProps } from "./definitions";
 import { classChoices } from "../../../data/classDetails";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
+import { ClassNames } from "../../definitions";
 
 export default function CharacterHitPoints({
   characterData,
@@ -25,24 +26,24 @@ export default function CharacterHitPoints({
     let dice: string;
 
     if (comboClass) {
-      if (characterData.class.includes("Thief")) {
+      if (characterData.class.includes(ClassNames.THIEF)) {
         dice = "d4";
       } else {
         dice = "d6";
       }
     } else {
-      if (characterData.class === "Cleric") {
+      if (characterData.class === ClassNames.CLERIC) {
         dice = "d6";
-      } else if (characterData.class === "Fighter") {
+      } else if (characterData.class === ClassNames.FIGHTER) {
         dice = "d8";
         if (characterData.race === "Elf" || characterData.race === "Halfling") {
           dice = "d6";
         }
-      } else if (characterData.class === "Magic-User") {
+      } else if (characterData.class === ClassNames.MAGICUSER) {
         dice = "d4";
       } else if (
-        characterData.class === "Thief" ||
-        characterData.class === "Assassin"
+        characterData.class === ClassNames.THIEF ||
+        characterData.class === ClassNames.ASSASSIN
       ) {
         dice = "d4";
       } else dice = characterData.hp.dice;
@@ -89,7 +90,9 @@ export default function CharacterHitPoints({
 
   return (
     <>
-      {!classChoices.includes(characterData.class) && (
+      {!classChoices.includes(
+        ClassNames[characterData.class as keyof typeof ClassNames]
+      ) && (
         <>
           <Radio.Group
             value={customHitDice}
@@ -122,7 +125,10 @@ export default function CharacterHitPoints({
           type="primary"
           onClick={onClick}
           disabled={
-            customHitDice === "" && !classChoices.includes(characterData.class)
+            customHitDice === "" &&
+            !classChoices.includes(
+              ClassNames[characterData.class as keyof typeof ClassNames]
+            )
           }
         >{`Roll 1${characterData.hp.dice}${characterData.abilities.modifiers.constitution}`}</Button>
       </Space.Compact>

@@ -13,6 +13,7 @@ import { raceChoices } from "../../data/raceDetails";
 import { classChoices } from "../../data/classDetails";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
+import { ClassNames } from "../definitions";
 
 const roller = new DiceRoller();
 
@@ -187,9 +188,9 @@ export default function EquipmentStore({
   return (
     <>
       {!raceChoices.includes(characterData.race) &&
-        !classChoices.includes(characterData.class) && (
-          <HomebrewWarning homebrew="Race or Class" className="mb-4" />
-        )}
+        !classChoices.includes(
+          ClassNames[characterData.class as keyof typeof ClassNames]
+        ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
       <div className="sm:grid grid-cols-2 gap-8">
         {inBuilder && (
           <Space.Compact className="col-span-2">

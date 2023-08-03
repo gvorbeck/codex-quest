@@ -1,5 +1,10 @@
 import { Button, Checkbox, Modal, Typography } from "antd";
-import { SpellItem, Spell } from "../components/definitions";
+import {
+  SpellItem,
+  Spell,
+  ClassNames,
+  SpellLevels,
+} from "../components/definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -16,21 +21,29 @@ import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 const roller = new DiceRoller();
 
 const getSpellBudget = (characterClass: string) => {
-  if (characterClass.includes("Magic-User")) {
+  if (characterClass.includes(ClassNames.MAGICUSER)) {
     return magicUserSpellBudget;
-  } else if (characterClass.includes("Cleric")) {
+  } else if (characterClass.includes(ClassNames.CLERIC)) {
     return clericSpellBudget;
-  } else if (!classChoices.includes(characterClass)) {
+  } else if (
+    !classChoices.includes(
+      ClassNames[characterClass as keyof typeof ClassNames]
+    )
+  ) {
     return new Array(9).fill(Infinity);
   }
 };
 
 const getSpellLevel = (spell: Spell, characterClass: string) => {
-  if (characterClass.includes("Magic-User")) {
-    return spell.level["magic-user"];
-  } else if (characterClass.includes("Cleric")) {
-    return spell.level["cleric"];
-  } else if (!classChoices.includes(characterClass)) {
+  if (characterClass.includes(ClassNames.MAGICUSER)) {
+    return spell.level[ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels];
+  } else if (characterClass.includes(ClassNames.CLERIC)) {
+    return spell.level[ClassNames.CLERIC.toLowerCase() as keyof SpellLevels];
+  } else if (
+    !classChoices.includes(
+      ClassNames[characterClass as keyof typeof ClassNames]
+    )
+  ) {
     return Math.max(...Object.values(spell.level));
   }
 };
@@ -129,9 +142,9 @@ export default function LevelUpModal({
 
   // Determine what, if any, modifier is added to the roll
   if (
-    (characterData.class.includes("Fighter") ||
-      characterData.class.includes("Assassin") ||
-      characterData.class.includes("Thief")) &&
+    (characterData.class.includes(ClassNames.FIGHTER) ||
+      characterData.class.includes(ClassNames.ASSASSIN) ||
+      characterData.class.includes(ClassNames.THIEF)) &&
     hitDiceModifiers.double[characterData.level] !== null
   ) {
     newHitDice += `+${hitDiceModifiers.double[characterData.level]}`;
@@ -185,7 +198,10 @@ export default function LevelUpModal({
           SpellData.some(
             (spell) =>
               spell.name === spellName &&
-              spell.level["magic-user"] === index + 1
+              spell.level[
+                ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
+              ] ===
+                index + 1
           )
         ).length
     );
@@ -223,10 +239,9 @@ export default function LevelUpModal({
         }
         return null;
       })}
-
-      {!classChoices.includes(characterData.class) && (
-        <HomebrewWarning homebrew="Race or Class" />
-      )}
+      {!classChoices.includes(
+        ClassNames[characterData.class as keyof typeof ClassNames]
+      ) && <HomebrewWarning homebrew="Race or Class" />}
       {!classChoices.some((choice) => characterData.class.includes(choice)) && // For classes that are not in classChoices
         new Array(6)
           .fill(0)

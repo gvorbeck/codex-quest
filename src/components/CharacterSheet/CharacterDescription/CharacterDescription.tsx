@@ -3,10 +3,10 @@ import { useEffect, useState, useRef } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
-import { classChoices } from "../../../data/classDetails";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import { CharacterDescriptionProps } from "./definitions";
 import DOMPurify from "dompurify";
+import { ClassNames } from "../../definitions";
 
 export default function Description({
   characterData,
@@ -24,7 +24,9 @@ export default function Description({
 
   if (
     inputValue === "" &&
-    !classChoices.includes(characterData.class.split(" ")[0])
+    !Object.values(ClassNames).includes(
+      characterData.class.split(" ")[0] as ClassNames
+    )
   ) {
     const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
     setInputValue(placeholderSavingThrows);
@@ -70,7 +72,9 @@ export default function Description({
         <Typography.Title level={3} className="mt-0 !text-shipGray">
           Bio & Notes
         </Typography.Title>
-        {!classChoices.includes(characterData.class) && (
+        {!Object.values(ClassNames).includes(
+          characterData.class as ClassNames
+        ) && (
           <HelpTooltip
             text={`You can clear this field to restore the "${characterData.class}" Saving Throws template.`}
           />

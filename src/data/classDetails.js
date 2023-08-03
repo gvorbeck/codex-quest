@@ -1,11 +1,6 @@
-export const classChoices = [
-  "Assassin",
-  "Cleric",
-  "Fighter",
-  "Magic-User",
-  "Thief",
-  "Custom",
-];
+import { ClassNames } from "../components/definitions";
+
+export const classChoices = Object.values(ClassNames);
 export const classDetails = {
   assassin: {
     specials: [

@@ -1,12 +1,12 @@
 import { Table, Typography, notification } from "antd";
-import { CharacterData } from "../../definitions";
+import { CharacterData, ClassNames } from "../../definitions";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
 import { SavingThrowsProps, SavingThrowsTables } from "./definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 
 const savingThrowsTables: SavingThrowsTables = {
-  Assassin: {
+  [ClassNames.ASSASSIN]: {
     "1": {
       deathRayOrPoison: 13,
       magicWands: 14,
@@ -85,7 +85,7 @@ const savingThrowsTables: SavingThrowsTables = {
       spells: 8,
     },
   },
-  Cleric: {
+  [ClassNames.CLERIC]: {
     "1": {
       deathRayOrPoison: 11,
       magicWands: 12,
@@ -164,7 +164,7 @@ const savingThrowsTables: SavingThrowsTables = {
       spells: 10,
     },
   },
-  "Magic-User": {
+  [ClassNames.MAGICUSER]: {
     "1": {
       deathRayOrPoison: 13,
       magicWands: 14,
@@ -243,7 +243,7 @@ const savingThrowsTables: SavingThrowsTables = {
       spells: 8,
     },
   },
-  Fighter: {
+  [ClassNames.FIGHTER]: {
     "1": {
       deathRayOrPoison: 12,
       magicWands: 13,
@@ -322,7 +322,7 @@ const savingThrowsTables: SavingThrowsTables = {
       spells: 10,
     },
   },
-  Thief: {
+  [ClassNames.THIEF]: {
     "1": {
       deathRayOrPoison: 13,
       magicWands: 14,

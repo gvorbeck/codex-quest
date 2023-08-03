@@ -6,7 +6,7 @@ import { CharacterClassProps } from "./definitions";
 import spellsData from "../../../data/spells.json";
 import { classDetails, classChoices } from "../../../data/classDetails";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { Spell } from "../../definitions";
+import { ClassNames, Spell } from "../../definitions";
 import DOMPurify from "dompurify";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
@@ -27,7 +27,7 @@ export default function CharacterClass({
   useEffect(() => {
     // If the current class is not in the classChoices and it's not an empty string, it's a custom class
     if (
-      !classChoices.includes(characterData.class) &&
+      !Object.values(ClassNames).includes(characterData.class as ClassNames) &&
       characterData.class !== ""
     ) {
       setShowCustomClassInput(true);
@@ -90,7 +90,7 @@ export default function CharacterClass({
     const classValue =
       e.target.value !== "Custom" ? e.target.value : customClassInput;
     setSelectedSpell(null);
-    const spells = classValue === "Magic-User" ? readMagic : [];
+    const spells = classValue === ClassNames.MAGICUSER ? readMagic : [];
     const thisClass = e.target.value
       .toString()
       .toLowerCase() as keyof typeof classDetails;
@@ -199,21 +199,18 @@ export default function CharacterClass({
                     value={choice}
                     checked={checkedClasses.includes(choice)}
                     disabled={
-                      choice === "Cleric" ||
-                      choice === "Assassin" ||
-                      (choice === "Fighter" &&
-                        checkedClasses.includes("Thief")) ||
-                      (choice === "Thief" &&
-                        checkedClasses.includes("Fighter")) ||
-                      (choice === "Fighter" &&
+                      choice === ClassNames.CLERIC ||
+                      choice === ClassNames.ASSASSIN ||
+                      (choice === ClassNames.FIGHTER &&
+                        checkedClasses.includes(ClassNames.THIEF)) ||
+                      (choice === ClassNames.THIEF &&
+                        checkedClasses.includes(ClassNames.FIGHTER)) ||
+                      (choice === ClassNames.FIGHTER &&
                         +characterData.abilities.scores.strength < 9) ||
-                      (choice === "Magic-User" &&
+                      (choice === ClassNames.MAGICUSER &&
                         +characterData.abilities.scores.intelligence < 9) ||
-                      (choice === "Thief" &&
+                      (choice === ClassNames.THIEF &&
                         +characterData.abilities.scores.dexterity < 9)
-                      // (choice === "Assassin" &&
-                      //   +characterData.abilities.scores.dexterity < 9 &&
-                      //   +characterData.abilities.scores.intelligence < 9)
                     }
                   >
                     {choice}
@@ -234,19 +231,21 @@ export default function CharacterClass({
                 value={choice}
                 className="ps-2 pe-2 md:ps-4 md:pe-4"
                 disabled={
-                  (characterData.race === "Dwarf" && choice === "Magic-User") ||
+                  (characterData.race === "Dwarf" &&
+                    choice === ClassNames.MAGICUSER) ||
                   (characterData.race === "Halfling" &&
-                    choice === "Magic-User") ||
-                  (choice === "Cleric" &&
+                    choice === ClassNames.MAGICUSER) ||
+                  (choice === ClassNames.CLERIC &&
                     +characterData.abilities.scores.wisdom < 9) ||
-                  (choice === "Fighter" &&
+                  (choice === ClassNames.FIGHTER &&
                     +characterData.abilities.scores.strength < 9) ||
-                  (choice === "Magic-User" &&
+                  (choice === ClassNames.MAGICUSER &&
                     +characterData.abilities.scores.intelligence < 9) ||
-                  (choice === "Thief" &&
+                  (choice === ClassNames.THIEF &&
                     +characterData.abilities.scores.dexterity < 9) ||
-                  (characterData.race !== "Human" && choice === "Assassin") ||
-                  (choice === "Assassin" &&
+                  (characterData.race !== "Human" &&
+                    choice === ClassNames.ASSASSIN) ||
+                  (choice === ClassNames.ASSASSIN &&
                     (+characterData.abilities.scores.dexterity < 9 ||
                       +characterData.abilities.scores.intelligence < 9))
                 }
@@ -267,7 +266,9 @@ export default function CharacterClass({
             />
           </>
         )}
-        {!classChoices.includes(characterData.class) &&
+        {!classChoices.includes(
+          ClassNames[characterData.class as keyof typeof ClassNames]
+        ) &&
           characterData.class !== "" && (
             <div className="mt-4 flex flex-wrap [&_label]:flex-[1_1_calc(25%-8px)] gap-2">
               {spellsData.map((spell) => (
@@ -283,7 +284,7 @@ export default function CharacterClass({
               ))}
             </div>
           )}
-        {characterData.class.includes("Magic-User") && (
+        {characterData.class.includes(ClassNames.MAGICUSER) && (
           <div className="mt-4">
             <Radio.Group
               onChange={onSpellRadioChange}
