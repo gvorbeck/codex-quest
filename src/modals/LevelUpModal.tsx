@@ -26,8 +26,8 @@ const getSpellBudget = (characterClass: string) => {
   } else if (characterClass.includes(ClassNames.CLERIC)) {
     return clericSpellBudget;
   } else if (
-    !classChoices.includes(
-      ClassNames[characterClass as keyof typeof ClassNames]
+    !Object.values(ClassNames).some((className) =>
+      characterClass.includes(className)
     )
   ) {
     return new Array(9).fill(Infinity);
