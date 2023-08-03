@@ -46,6 +46,8 @@ export default function CharacterHitPoints({
         characterData.class === ClassNames.ASSASSIN
       ) {
         dice = "d4";
+      } else if (characterData.class === ClassNames.BARBARIAN) {
+        dice = "d10";
       } else dice = characterData.hp.dice;
     }
 
