@@ -34,6 +34,9 @@ const getSpellBudget = (characterClass: string) => {
   }
 };
 
+// This function determines the level of a spell for a given character class.
+// It checks if the character class is a Magic User or a Cleric and returns the corresponding spell level.
+// If the character class is not included in the class choices, it returns the maximum level among all spell levels.
 const getSpellLevel = (spell: Spell, characterClass: string) => {
   if (characterClass.includes(ClassNames.MAGICUSER)) {
     return spell.level[ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels];
