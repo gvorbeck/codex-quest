@@ -1,4 +1,6 @@
 import { List, Typography } from "antd";
+import { classDetails } from "../../../data/classDetails";
+import { raceDetails } from "../../../data/raceDetails";
 import { SpecialsRestrictionsProps } from "./definitions";
 
 // Ant Design's List component treats the input as a string and not as HTML.
@@ -21,10 +23,10 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...characterData.specials.race,
-          ...characterData.specials.class,
-          ...characterData.restrictions.race,
-          ...characterData.restrictions.class,
+          ...raceDetails[characterData.race].specials,
+          ...classDetails[characterData.class].specials,
+          ...raceDetails[characterData.race].restrictions,
+          ...classDetails[characterData.class].restrictions,
         ]}
         renderItem={(item) => (
           <List.Item>
@@ -32,6 +34,7 @@ export default function SpecialsRestrictions({
           </List.Item>
         )}
         className="print:border-0"
+        size="small"
       />
     </div>
   );

@@ -1,6 +1,12 @@
+import { marked } from "marked";
+import { RaceNames } from "../components/definitions";
+
 export const raceChoices = ["Dwarf", "Elf", "Halfling", "Human", "Custom"];
-export const raceDetails = {
-  dwarf: {
+export const raceDetails: Record<
+  string,
+  { specials: string[]; restrictions: string[] }
+> = {
+  [RaceNames.DWARF]: {
     restrictions: [
       "Dwarves may not employ Large weapons more than four feet in length",
     ],
@@ -9,7 +15,7 @@ export const raceDetails = {
       "Dwarves are able to detect slanting passages, stonework traps, shifting walls and new construction on a roll of 1-2 on 1d6; a search must be performed before this roll may be made",
     ],
   },
-  elf: {
+  [RaceNames.ELF]: {
     restrictions: [],
     specials: [
       "All Elves have Darkvision with a 60' range",
@@ -19,7 +25,7 @@ export const raceDetails = {
       "Elves are less likely to be surprised in combat, reducing the chance of surprise by 1 in 1d6",
     ],
   },
-  halfling: {
+  [RaceNames.HALFLING]: {
     restrictions: [
       "Halflings may not use Large weapons, and must wield Medium weapons with both hands",
     ],
@@ -30,7 +36,7 @@ export const raceDetails = {
       "In their preferred forest terrain, Halflings are able to hide very effectively; so long as they remain still there is only a 10% chance they will be detected. Even indoors, in dungeons or in non- preferred terrain they are able to hide such that there is only a 30% chance of detection. Note that a Halfling Thief will roll only once, using either the Thief ability or the Halfling ability, whichever is better.",
     ],
   },
-  human: {
+  [RaceNames.HUMAN]: {
     restrictions: [],
     specials: [
       "Humans learn unusually quickly, gaining a bonus of 10% to all experience points earned",

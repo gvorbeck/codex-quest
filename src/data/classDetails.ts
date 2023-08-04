@@ -8,7 +8,7 @@ export const classDetails: Record<
   string,
   { specials: string[]; restrictions: string[] }
 > = {
-  [ClassNames.BARBARIAN.toLowerCase()]: {
+  [ClassNames.BARBARIAN]: {
     specials: [
       marked(
         `Barbarians may use any armor or shields, and may wield any weapons desired.`
@@ -29,22 +29,22 @@ export const classDetails: Record<
         `**Runner**: The Barbarian adds 5 feet to their tactical movement.`
       ),
       marked(
-        `**Rage**: Once per day a Barbarian can fly into a Rage, which will last ten rounds. While raging, a Barbarian cannot use any abilities that require patience or concentration, nor can they activate magic items of any kind (including potions). Of course, magic items with a continuous effect (like a **Ring of Protection**) continue to function. Barbarians hcan always use **Rage**, regardless of armor worn.
+        `**Rage**: Once per day a Barbarian can fly into a Rage, which will last ten rounds. While raging, a Barbarian cannot use any abilities that require patience or concentration, nor can they activate magic items of any kind (including potions). Of course, magic items with a continuous effect (like a **Ring of Protection**) continue to function. Barbarians hcan always use Rage, regardless of armor worn.
+
+While raging, the Barbarian must charge directly into combat with the nearest recognizable enemy. If no enemy is nearby, the Barbarian must end their rage (see below) or else attack the nearest character.
         
-        While raging, the Barbarian must charge directly into combat with the nearest recognizable enemy. If no enemy is nearby, the Barbarian must end their rage (see below) or else attack the nearest character. 
+While raging, the character temporarily gains a +2 bonus on attack rolls, damage rolls, and saving throws versus mind-altering spells, but suffers a penalty of -2 to armor class.
         
-        While raging, the character temporarily gains a +2 bonus on attack rolls, damage rolls, and saving throws versus mind-altering spells, but suffers a penalty of -2 to armor class. 
+The Barbarian may prematurely end their rage with a successful save vs. Spells.
         
-        The Barbarian may prematurely end their rage with a successful save vs. Spells.
+At the end of the rage, the Barbarian loses the rage modifiers and becomes fatigued, suffering a penalty of -2 to attack rolls, damage, armor class, and saving throws. While fatigued, the Barbarian may not charge nor move at a running rate. This state of fatigue lasts for an hour.
         
-        At the end of the rage, the Barbarian loses the rage modifiers and becomes fatigued, suffering a penalty of -2 to attack rolls, damage, armor class, and saving throws. While fatigued, the Barbarian may not charge nor move at a running rate. This state of fatigue lasts for an hour. 
-        
-        A Barbarian may use this ability up to two times per day at 6th level and three times per day at 12th level.`
+A Barbarian may use this ability up to two times per day at 6th level and three times per day at 12th level.`
       ),
     ],
     restrictions: [],
   },
-  [ClassNames.ASSASSIN.toLowerCase()]: {
+  [ClassNames.ASSASSIN]: {
     specials: [
       "Assassins have several special abilities (see table). Some abilities are shared with the Thief class, and are described in the Core Rules.",
       marked(
@@ -61,7 +61,7 @@ export const classDetails: Record<
       "Assassins may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
     ],
   },
-  [ClassNames.CLERIC.toLowerCase()]: {
+  [ClassNames.CLERIC]: {
     specials: [
       "Clerics can cast spells of divine nature starting at 2nd level",
       "Clerics have the power to Turn the Undead",
@@ -70,13 +70,13 @@ export const classDetails: Record<
       "Clerics may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling)",
     ],
   },
-  [ClassNames.FIGHTER.toLowerCase()]: {
+  [ClassNames.FIGHTER]: {
     specials: [
       "Although they are not skilled in the ways of magic, Fighters can nonetheless use many magic items, including but not limited to magical weapons and armor",
     ],
     restrictions: [],
   },
-  [ClassNames.MAGICUSER.toLowerCase()]: {
+  [ClassNames.MAGICUSER]: {
     specials: [
       "Magic-User begins play knowing read magic and one other spell of first level",
     ],
@@ -85,7 +85,7 @@ export const classDetails: Record<
       "Magic-Users may not wear armor of any sort nor use a shield as such things interfere with spellcasting",
     ],
   },
-  [ClassNames.THIEF.toLowerCase()]: {
+  [ClassNames.THIEF]: {
     specials: ["Thieves have a number of special abilities (see table)"],
     restrictions: [
       "Thieves may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
