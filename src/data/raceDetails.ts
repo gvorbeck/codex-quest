@@ -1,4 +1,4 @@
-// import { marked } from "marked";
+import { marked } from "marked";
 import { RaceNames } from "../components/definitions";
 
 export const raceChoices = ["Dwarf", "Elf", "Halfling", "Human", "Custom"];
@@ -8,7 +8,9 @@ export const raceDetails: Record<
 > = {
   [RaceNames.DWARF]: {
     restrictions: [
-      "Dwarves may not employ Large weapons more than four feet in length",
+      marked(
+        `**Dwarves** may not employ Large weapons more than four feet in length`
+      ),
     ],
     specials: [
       "All Dwarves have Darkvision with a 60' range",
