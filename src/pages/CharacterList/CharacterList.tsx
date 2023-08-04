@@ -1,5 +1,4 @@
 import { Avatar, Card, Col, Empty, Popconfirm, Row, Spin } from "antd";
-import { CharacterListProps } from "../../components/definitions";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   UserOutlined,
@@ -9,6 +8,7 @@ import {
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
+import { CharacterListProps } from "./definitions";
 
 export default function CharacterList({
   user,

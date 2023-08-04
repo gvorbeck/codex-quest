@@ -8,7 +8,7 @@ import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
 import { CharacterSheetProps } from "./definitions";
-import { CharacterData } from "../../components/definitions";
+import { CharacterData, ClassNames } from "../../components/definitions";
 // ANTD COMPONENTS
 import { Breadcrumb, Col, Divider, Row, Skeleton, Typography } from "antd";
 // CHARACTER SHEET COMPONENTS
@@ -362,8 +362,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       </Row>
       <Divider className="print:hidden" />
       {/* Hide these if using a custom Class */}
-      {classChoices.includes(characterData.class) ||
-      characterData.class.toLowerCase().includes("magic-user") ? (
+      {classChoices.includes(
+        ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
+      ) || characterData.class.toLowerCase().includes("magic-user") ? (
         <Row gutter={32} className="gap-4 md:gap-0 print:block">
           <Col xs={24} md={12} className="print:w-1/2 print:float-left">
             {/* SPECIALS / RESTRICTIONS */}

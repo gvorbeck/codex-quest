@@ -1,5 +1,10 @@
 import { Button, Checkbox, Modal, Typography } from "antd";
-import { SpellItem, Spell } from "../components/definitions";
+import {
+  SpellItem,
+  Spell,
+  ClassNames,
+  SpellLevels,
+} from "../components/definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
@@ -15,26 +20,45 @@ import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 
 const roller = new DiceRoller();
 
+// This function determines the spell budget for a given character class.
+// It checks if the character class is a Magic User or a Cleric and returns the corresponding spell budget.
+// If the character class is not one of the predefined classes in ClassNames, it returns an array filled with Infinity.
 const getSpellBudget = (characterClass: string) => {
-  if (characterClass.includes("Magic-User")) {
-    return magicUserSpellBudget;
-  } else if (characterClass.includes("Cleric")) {
-    return clericSpellBudget;
-  } else if (!classChoices.includes(characterClass)) {
-    return new Array(9).fill(Infinity);
+  switch (true) {
+    case characterClass.includes(ClassNames.MAGICUSER):
+      return magicUserSpellBudget;
+    case characterClass.includes(ClassNames.CLERIC):
+      return clericSpellBudget;
+    case !Object.values(ClassNames).some((className) =>
+      characterClass.includes(className)
+    ):
+      return new Array(9).fill(Infinity);
+    default:
+      return;
   }
 };
 
+// This function determines the level of a spell for a given character class.
+// It checks if the character class is a Magic User or a Cleric and returns the corresponding spell level.
+// If the character class is not included in the class choices, it returns the maximum level among all spell levels.
 const getSpellLevel = (spell: Spell, characterClass: string) => {
-  if (characterClass.includes("Magic-User")) {
-    return spell.level["magic-user"];
-  } else if (characterClass.includes("Cleric")) {
-    return spell.level["cleric"];
-  } else if (!classChoices.includes(characterClass)) {
-    return Math.max(...Object.values(spell.level));
+  switch (true) {
+    case characterClass.includes(ClassNames.MAGICUSER):
+      return spell.level[
+        ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
+      ];
+    case characterClass.includes(ClassNames.CLERIC):
+      return spell.level[ClassNames.CLERIC.toLowerCase() as keyof SpellLevels];
+    case !classChoices.includes(
+      ClassNames[characterClass as keyof typeof ClassNames]
+    ):
+      return Math.max(...Object.values(spell.level));
+    default:
+      return; // or return a default value if needed
   }
 };
 
+// This component renders a group of checkboxes for spells of a specific level for a character class, with the ability to limit the maximum number of checked spells.
 const SpellCheckboxGroup = ({
   characterClass,
   level,
@@ -43,7 +67,6 @@ const SpellCheckboxGroup = ({
   setCheckedSpells,
   checkedSpellsCount,
   setCheckedSpellsCount,
-  unrestricted = false,
 }: SpellCheckboxGroupProps) => {
   if (max) {
     return (
@@ -129,9 +152,9 @@ export default function LevelUpModal({
 
   // Determine what, if any, modifier is added to the roll
   if (
-    (characterData.class.includes("Fighter") ||
-      characterData.class.includes("Assassin") ||
-      characterData.class.includes("Thief")) &&
+    (characterData.class.includes(ClassNames.FIGHTER) ||
+      characterData.class.includes(ClassNames.ASSASSIN) ||
+      characterData.class.includes(ClassNames.THIEF)) &&
     hitDiceModifiers.double[characterData.level] !== null
   ) {
     newHitDice += `+${hitDiceModifiers.double[characterData.level]}`;
@@ -185,7 +208,10 @@ export default function LevelUpModal({
           SpellData.some(
             (spell) =>
               spell.name === spellName &&
-              spell.level["magic-user"] === index + 1
+              spell.level[
+                ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
+              ] ===
+                index + 1
           )
         ).length
     );
@@ -223,10 +249,9 @@ export default function LevelUpModal({
         }
         return null;
       })}
-
-      {!classChoices.includes(characterData.class) && (
-        <HomebrewWarning homebrew="Race or Class" />
-      )}
+      {!classChoices.includes(
+        ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
+      ) && <HomebrewWarning homebrew="Race or Class" />}
       {!classChoices.some((choice) => characterData.class.includes(choice)) && // For classes that are not in classChoices
         new Array(6)
           .fill(0)

@@ -7,6 +7,7 @@ import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
+import { ClassNames } from "../../definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -30,8 +31,8 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
 );
 
 const availableEquipmentCategories = (className: ClassName) => {
-  switch (className.toLowerCase()) {
-    case "cleric":
+  switch (className) {
+    case ClassNames.CLERIC:
       return [
         "ammunition",
         "armor",
@@ -46,9 +47,10 @@ const availableEquipmentCategories = (className: ClassName) => {
         "improvised-weapons",
         "slings-and-hurled-weapons",
       ];
-    case "fighter":
-    case "thief":
-    case "assassin":
+    case ClassNames.FIGHTER:
+    case ClassNames.THIEF:
+    case ClassNames.ASSASSIN:
+    case ClassNames.BARBARIAN:
       return [
         "ammunition",
         "armor",
@@ -66,7 +68,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "improvised-weapons",
         "slings-and-hurled-weapons",
       ];
-    case "magic-user":
+    case ClassNames.MAGICUSER:
       return [
         "daggers",
         "items",
@@ -108,7 +110,7 @@ const itemIsDisabled = (
   item: EquipmentItem
 ) => {
   let disabled = true;
-  if (className.toLowerCase() === "cleric") {
+  if (className === ClassNames.CLERIC) {
     if (
       item.category === "hammers-and-maces" ||
       item.category === "other-weapons" ||
@@ -132,13 +134,14 @@ const itemIsDisabled = (
       disabled = false;
     }
   } else if (
-    className.toLowerCase().includes("fighter") ||
+    className.includes(ClassNames.FIGHTER) ||
+    className.includes(ClassNames.BARBARIAN) ||
     !classChoices.includes(className)
   ) {
     disabled = false;
   } else if (
-    className.toLowerCase().includes("thief") ||
-    className.toLowerCase().includes("assassin")
+    className.includes(ClassNames.THIEF) ||
+    className.includes(ClassNames.ASSASSIN)
   ) {
     if (item.category === "armor") {
       if (item.name.toLowerCase().includes("leather")) {
@@ -147,7 +150,7 @@ const itemIsDisabled = (
     } else {
       disabled = false;
     }
-  } else if (className.toLowerCase().includes("magic-user")) {
+  } else if (className.toLowerCase().includes(ClassNames.MAGICUSER)) {
     if (item.category === "other-weapons") {
       if (item.name.toLowerCase().includes("cudgel")) {
         disabled = false;

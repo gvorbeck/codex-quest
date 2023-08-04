@@ -1,7 +1,22 @@
+import { ClassNames } from "../components/definitions";
+
+const thiefAndAssassin = [
+  0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8,
+];
+
+const fighterAndBarbarian = [
+  0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 10, 10, 10,
+];
+
 export const attackBonusTable: Record<string, number[]> = {
-  Fighter: [0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 10, 10, 10],
-  Cleric: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
-  "Magic-User": [0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7],
-  Thief: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
-  Assassin: [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8],
+  [ClassNames.FIGHTER]: fighterAndBarbarian,
+  [ClassNames.BARBARIAN]: fighterAndBarbarian,
+  [ClassNames.CLERIC]: [
+    0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8,
+  ],
+  [ClassNames.MAGICUSER]: [
+    0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7,
+  ],
+  [ClassNames.THIEF]: thiefAndAssassin,
+  [ClassNames.ASSASSIN]: thiefAndAssassin,
 };

@@ -37,7 +37,6 @@ export interface SpellCheckboxGroupProps {
   setCheckedSpells: (checkedSpells: string[]) => void;
   checkedSpellsCount: number[];
   setCheckedSpellsCount: (checkedSpellsCount: number[]) => void;
-  unrestricted?: boolean;
 }
 
 export interface AttackModalProps extends ModalProps {

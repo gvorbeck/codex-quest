@@ -47,10 +47,8 @@ function AttackButtons({
         type="default"
         onClick={() => {
           if (weapon.type === "missile") {
-            console.log("foo", weapon);
             ammo?.damage && damage(ammo.damage);
           } else {
-            console.log("bar");
             weapon.damage && damage(weapon.damage);
           }
         }}
@@ -173,8 +171,6 @@ export default function AttackModal({
 
   const attackingWeapon =
     equipmentItems.find((item) => item.name === weapon?.name) || weapon;
-
-  console.log(attackingWeapon, isMissile);
 
   return (
     <>
