@@ -88,3 +88,11 @@ export enum ClassNames {
   THIEF = "Thief",
   CUSTOM = "Custom",
 }
+
+export enum RaceNames {
+  DWARF = "Dwarf",
+  ELF = "Elf",
+  HALFLING = "Halfling",
+  HUMAN = "Human",
+  CUSTOM = "Custom",
+}
