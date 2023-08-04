@@ -31,10 +31,7 @@ export default function CharacterRace({
   const onChange = (e: RadioChangeEvent) => {
     if (e.target.value === "Custom") setShowCustomRaceInput(true);
     else setShowCustomRaceInput(false);
-
-    const race = e.target.value
-      .toString()
-      .toLowerCase() as keyof typeof raceDetails;
+    const race = e.target.value.toString() as keyof typeof raceDetails;
     setComboClass(false);
     setCheckedClasses([]);
     setCharacterData({
