@@ -91,9 +91,7 @@ export default function CharacterClass({
       e.target.value !== "Custom" ? e.target.value : customClassInput;
     setSelectedSpell(null);
     const spells = classValue === ClassNames.MAGICUSER ? readMagic : [];
-    const thisClass = e.target.value
-      .toString()
-      .toLowerCase() as keyof typeof classDetails;
+    const thisClass = e.target.value.toString() as keyof typeof classDetails;
 
     setCharacterData({
       ...characterData,
