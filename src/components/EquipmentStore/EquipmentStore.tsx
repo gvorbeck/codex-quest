@@ -188,8 +188,8 @@ export default function EquipmentStore({
   return (
     <>
       {!raceChoices.includes(characterData.race) &&
-        !classChoices.includes(
-          ClassNames[characterData.class as keyof typeof ClassNames]
+        !Object.values(ClassNames).includes(
+          characterData.class as ClassNames
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
       <div className="sm:grid grid-cols-2 gap-8">
         {inBuilder && (

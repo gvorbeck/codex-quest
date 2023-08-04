@@ -1,4 +1,4 @@
-import { Checkbox, Input, Radio, Switch } from "antd";
+import { Checkbox, Input, Radio, Space, Switch } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -229,8 +229,8 @@ export default function CharacterClass({
           />
         </div>
       )}
-      {/* COMBO CLASS */}
       <div className="mt-6">
+        {/* COMBO CLASS */}
         {comboClass ? (
           <div>
             {classChoices.map(
@@ -261,27 +261,30 @@ export default function CharacterClass({
             onChange={onClassRadioChange}
             buttonStyle="solid"
             className="block"
+            size="small"
           >
-            {classChoices.map((choice) => (
-              <Radio.Button
-                key={choice}
-                value={choice}
-                className="ps-2 pe-2 md:ps-4 md:pe-4"
-                disabled={
-                  magicUserRaceRestriction(choice) ||
-                  magicUserAbilityRestriction(choice) ||
-                  clericAbilityRestriction(choice) ||
-                  fighterAbilityRestriction(choice) ||
-                  thiefAbilityRestriction(choice) ||
-                  assassinRaceRestriction(choice) ||
-                  assassinAbilityRestriction(choice) ||
-                  barbarianRaceRestriction(choice) ||
-                  barbarianAbilityRestriction(choice)
-                }
-              >
-                {choice}
-              </Radio.Button>
-            ))}
+            <Space direction="vertical">
+              {classChoices.map((choice) => (
+                <Radio
+                  key={choice}
+                  value={choice}
+                  className="ps-2 pe-2 md:ps-4 md:pe-4"
+                  disabled={
+                    magicUserRaceRestriction(choice) ||
+                    magicUserAbilityRestriction(choice) ||
+                    clericAbilityRestriction(choice) ||
+                    fighterAbilityRestriction(choice) ||
+                    thiefAbilityRestriction(choice) ||
+                    assassinRaceRestriction(choice) ||
+                    assassinAbilityRestriction(choice) ||
+                    barbarianRaceRestriction(choice) ||
+                    barbarianAbilityRestriction(choice)
+                  }
+                >
+                  {choice}
+                </Radio>
+              ))}
+            </Space>
           </Radio.Group>
         )}
         {showCustomClassInput && (
@@ -290,16 +293,16 @@ export default function CharacterClass({
             <Input
               value={customClassInput}
               onChange={handleChangeCustomClassInput}
-              placeholder="Custom Race"
+              placeholder="Custom Class"
               onClick={handleClickCustomClassInput}
             />
           </>
         )}
-        {!classChoices.includes(
-          ClassNames[characterData.class as keyof typeof ClassNames]
+        {!Object.values(ClassNames).includes(
+          characterData.class as ClassNames
         ) &&
           characterData.class !== "" && (
-            <div className="mt-4 flex flex-wrap [&_label]:flex-[1_1_calc(25%-8px)] gap-2">
+            <div className="mt-4 gap-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {spellsData.map((spell) => (
                 <Checkbox
                   key={spell.name}

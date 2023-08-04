@@ -9,7 +9,6 @@ import {
 } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CharacterHitPointsProps } from "./definitions";
-import { classChoices } from "../../../data/classDetails";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import { ClassNames } from "../../definitions";
 
@@ -92,8 +91,8 @@ export default function CharacterHitPoints({
 
   return (
     <>
-      {!classChoices.includes(
-        ClassNames[characterData.class as keyof typeof ClassNames]
+      {!Object.values(ClassNames).includes(
+        characterData.class as ClassNames
       ) && (
         <>
           <Radio.Group
@@ -128,8 +127,8 @@ export default function CharacterHitPoints({
           onClick={onClick}
           disabled={
             customHitDice === "" &&
-            !classChoices.includes(
-              ClassNames[characterData.class as keyof typeof ClassNames]
+            !Object.values(ClassNames).includes(
+              characterData.class as ClassNames
             )
           }
         >{`Roll 1${characterData.hp.dice}${characterData.abilities.modifiers.constitution}`}</Button>

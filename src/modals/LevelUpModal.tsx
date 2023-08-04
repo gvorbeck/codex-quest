@@ -20,17 +20,21 @@ import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 
 const roller = new DiceRoller();
 
+// This function determines the spell budget for a given character class.
+// It checks if the character class is a Magic User or a Cleric and returns the corresponding spell budget.
+// If the character class is not one of the predefined classes in ClassNames, it returns an array filled with Infinity.
 const getSpellBudget = (characterClass: string) => {
-  if (characterClass.includes(ClassNames.MAGICUSER)) {
-    return magicUserSpellBudget;
-  } else if (characterClass.includes(ClassNames.CLERIC)) {
-    return clericSpellBudget;
-  } else if (
-    !Object.values(ClassNames).some((className) =>
+  switch (true) {
+    case characterClass.includes(ClassNames.MAGICUSER):
+      return magicUserSpellBudget;
+    case characterClass.includes(ClassNames.CLERIC):
+      return clericSpellBudget;
+    case !Object.values(ClassNames).some((className) =>
       characterClass.includes(className)
-    )
-  ) {
-    return new Array(9).fill(Infinity);
+    ):
+      return new Array(9).fill(Infinity);
+    default:
+      return;
   }
 };
 
@@ -38,19 +42,23 @@ const getSpellBudget = (characterClass: string) => {
 // It checks if the character class is a Magic User or a Cleric and returns the corresponding spell level.
 // If the character class is not included in the class choices, it returns the maximum level among all spell levels.
 const getSpellLevel = (spell: Spell, characterClass: string) => {
-  if (characterClass.includes(ClassNames.MAGICUSER)) {
-    return spell.level[ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels];
-  } else if (characterClass.includes(ClassNames.CLERIC)) {
-    return spell.level[ClassNames.CLERIC.toLowerCase() as keyof SpellLevels];
-  } else if (
-    !classChoices.includes(
+  switch (true) {
+    case characterClass.includes(ClassNames.MAGICUSER):
+      return spell.level[
+        ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
+      ];
+    case characterClass.includes(ClassNames.CLERIC):
+      return spell.level[ClassNames.CLERIC.toLowerCase() as keyof SpellLevels];
+    case !classChoices.includes(
       ClassNames[characterClass as keyof typeof ClassNames]
-    )
-  ) {
-    return Math.max(...Object.values(spell.level));
+    ):
+      return Math.max(...Object.values(spell.level));
+    default:
+      return; // or return a default value if needed
   }
 };
 
+// This component renders a group of checkboxes for spells of a specific level for a character class, with the ability to limit the maximum number of checked spells.
 const SpellCheckboxGroup = ({
   characterClass,
   level,
@@ -59,7 +67,6 @@ const SpellCheckboxGroup = ({
   setCheckedSpells,
   checkedSpellsCount,
   setCheckedSpellsCount,
-  unrestricted = false,
 }: SpellCheckboxGroupProps) => {
   if (max) {
     return (
