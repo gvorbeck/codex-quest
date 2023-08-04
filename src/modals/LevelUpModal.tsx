@@ -250,7 +250,7 @@ export default function LevelUpModal({
         return null;
       })}
       {!classChoices.includes(
-        ClassNames[characterData.class as keyof typeof ClassNames]
+        ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
       ) && <HomebrewWarning homebrew="Race or Class" />}
       {!classChoices.some((choice) => characterData.class.includes(choice)) && // For classes that are not in classChoices
         new Array(6)

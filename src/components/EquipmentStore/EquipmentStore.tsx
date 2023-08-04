@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { raceChoices } from "../../data/raceDetails";
-import { classChoices } from "../../data/classDetails";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
 import { ClassNames } from "../definitions";

@@ -363,7 +363,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       <Divider className="print:hidden" />
       {/* Hide these if using a custom Class */}
       {classChoices.includes(
-        ClassNames[characterData.class as keyof typeof ClassNames]
+        ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
       ) || characterData.class.toLowerCase().includes("magic-user") ? (
         <Row gutter={32} className="gap-4 md:gap-0 print:block">
           <Col xs={24} md={12} className="print:w-1/2 print:float-left">
