@@ -109,7 +109,6 @@ const itemIsDisabled = (
   raceName: RaceName,
   item: EquipmentItem
 ) => {
-  console.log(className === ClassNames.MAGICUSER);
   let disabled = true;
   if (className === ClassNames.CLERIC) {
     if (

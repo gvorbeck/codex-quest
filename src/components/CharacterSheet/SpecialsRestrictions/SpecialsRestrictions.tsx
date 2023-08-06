@@ -15,6 +15,19 @@ export default function SpecialsRestrictions({
   characterData,
   className,
 }: SpecialsRestrictionsProps) {
+  // Split the class string into individual classes
+  const individualClasses = characterData.class.split(" ");
+
+  // Gather the specials and restrictions for each class in the combination
+  const classSpecials: string[] = [];
+  const classRestrictions: string[] = [];
+  individualClasses.forEach((cls) => {
+    if (classDetails[cls.toLowerCase()]) {
+      classSpecials.push(...classDetails[cls.toLowerCase()].specials);
+      classRestrictions.push(...classDetails[cls.toLowerCase()].restrictions);
+    }
+  });
+
   return (
     <div className={className}>
       <Typography.Title level={3} className="mt-0 !text-shipGray">
@@ -24,9 +37,9 @@ export default function SpecialsRestrictions({
         bordered
         dataSource={[
           ...raceDetails[characterData.race.toLowerCase()].specials,
-          ...classDetails[characterData.class.toLowerCase()].specials,
+          ...classSpecials,
           ...raceDetails[characterData.race.toLowerCase()].restrictions,
-          ...classDetails[characterData.class.toLowerCase()].restrictions,
+          ...classRestrictions,
         ]}
         renderItem={(item) => (
           <List.Item>

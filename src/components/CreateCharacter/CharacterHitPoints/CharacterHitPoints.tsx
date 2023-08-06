@@ -91,9 +91,11 @@ export default function CharacterHitPoints({
 
   return (
     <>
-      {!Object.values(ClassNames).includes(
-        characterData.class as ClassNames
-      ) && (
+      {!characterData.class
+        .split(" ")
+        .some((part) =>
+          Object.values(ClassNames).includes(part as ClassNames)
+        ) && (
         <>
           <Radio.Group
             value={customHitDice}
@@ -127,9 +129,11 @@ export default function CharacterHitPoints({
           onClick={onClick}
           disabled={
             customHitDice === "" &&
-            !Object.values(ClassNames).includes(
-              characterData.class as ClassNames
-            )
+            !characterData.class
+              .split(" ")
+              .some((part) =>
+                Object.values(ClassNames).includes(part as ClassNames)
+              )
           }
         >{`Roll 1${characterData.hp.dice}${characterData.abilities.modifiers.constitution}`}</Button>
       </Space.Compact>

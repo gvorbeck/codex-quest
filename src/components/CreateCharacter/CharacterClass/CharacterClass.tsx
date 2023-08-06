@@ -25,13 +25,19 @@ export default function CharacterClass({
   const [showCustomClassInput, setShowCustomClassInput] = useState(false);
 
   useEffect(() => {
-    // If the current class is not in the classChoices and it's not an empty string, it's a custom class
-    if (
-      !Object.values(ClassNames).includes(characterData.class as ClassNames) &&
-      characterData.class !== ""
-    ) {
+    const isCustomClass = characterData.class
+      .split(" ")
+      .some(
+        (className) =>
+          !Object.values(ClassNames).includes(className as ClassNames)
+      );
+
+    if (isCustomClass && characterData.class !== "") {
       setShowCustomClassInput(true);
       setCustomClassInput(characterData.class);
+    } else {
+      setShowCustomClassInput(false);
+      setCustomClassInput("");
     }
   }, []);
 
@@ -296,9 +302,11 @@ export default function CharacterClass({
             />
           </>
         )}
-        {!Object.values(ClassNames).includes(
-          characterData.class as ClassNames
-        ) &&
+        {!characterData.class
+          .split(" ")
+          .some((part) =>
+            Object.values(ClassNames).includes(part as ClassNames)
+          ) &&
           characterData.class !== "" && (
             <div className="mt-4 gap-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {spellsData.map((spell) => (
