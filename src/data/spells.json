@@ -1153,5 +1153,335 @@
     },
     "duration": "instantaneous",
     "description": "With the utterance of a single word this spell transports the caster to a place of refuge which they designate when preparing the spell. The place must be Known Well (as explained for teleport) to the caster to be so designated. This spell cannot transport the caster beyond their current plane of existence. \n\nThe caster can bring along objects or creatures, not to exceed 300 pounds plus 100 pounds per level above 10th. The caster must be in contact with all objects and/or creatures to be transported (although creatures to be transported may be in contact with one another, with at least one of those creatures in contact with the caster). \n\nUnwilling creatures cannot be transported by this spell, nor can items in their possession. If the caster or one of their passengers is holding an object that is also being held by an unwilling creature, the latter can retain possession of the object with a successful save vs. Spells."
+  },
+  {
+    "name": "Animal Friendship",
+    "range": "30’",
+    "level": {
+      "druid": 1,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "permanent",
+    "description": "Upon encountering a normal or giant-sized (but not magical) animal, the caster may begin casting this spell, which requires an hour to complete. During this period the animal will remain nearby, and will not attack the caster or his or her allies for the duration of the casting (so long as they do not attack or otherwise disturb it). At the end of the casting, if the animal rolls a successful save vs. Spells, the spell has failed. If the animal fails its save, it becomes an animal friend and joins the caster for the rest of its natural life. Both the caster and any other animal friends are treated as treasured partners. There is no arcane mental connection, nor any particular control, but rather a strong fraternal bond which should go both ways. If the animal is treated poorly, or it's love not returned over a period of time, it can attempt another save vs. Spells at the GM's discretion. A caster may only have, at most, twice his or her level in hit dice of animal friends. If this spell is cast on an animal that would put the total above that number, it has no effect."
+  },
+  {
+    "name": "Animate Natural Objects",
+    "range": "100'+10'/level",
+    "level": {
+      "druid": 6,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell functions identically to the cleric spell animate objects, but it may only be cast on living trees, plants, or fungi, wooden objects, un-worked stone or earth, or naturally-occurring bodies of water or ice. At the GM's option other natural phenomena such as non-magical fires or weather effects might also be subject to this spell."
+  },
+  {
+    "name": "Assume Animal Form",
+    "range": "Self",
+    "level": {
+      "druid": 3,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 hour/level",
+    "description": "This spell allows the caster to change into the form of any natural animal. The assumed animal form cannot have more hit dice than the caster's level. If slain, the caster reverts back to his or her original form. The caster gains the physical capabilities and statistics of the new form but retains his or her own mental abilities. The caster may remain transformed up to one hour per level, or end the spell earlier if he or she so desires."
+  },
+  {
+    "name": "Call Lightning",
+    "range": "100’ + 10'/level",
+    "level": {
+      "druid": 3,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "Immediately upon completion of the spell, and at most once per round thereafter, the caster may call down a 5 ft wide, 30 ft long vertical bolt of lightning that deals 3d6 points of electricity damage. The bolt of lightning flashes down in a vertical stroke at whichever target point the caster chooses within the spell’s range. Any creature in the target area or in the path of the bolt is affected; a successful save vs. Spells reduces damage taken by half. The caster may call a total number of bolts equal to one-third of his or her caster level, rounded down. If the caster is outdoors and in a stormy area, each bolt deals 3d8 points of damage instead of 3d6. This spell functions only where the open sky is accessible, generally meaning outdoors; bolts may be summoned through windows or skylights at the GM's discretion."
+  },
+  {
+    "name": "Call Woodland Beings",
+    "range": "120’",
+    "level": {
+      "druid": 4,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell summons woodland creatures. They appear where the caster designates and act immediately, on his or her turn. They attack the caster's opponents to the best of their ability. The caster may conjure one type of creature from this list, at his or her option: 4 Centaurs, 16 Pixies, 2 Treants, or 4 Unicorns. This spell only works outdoors in a natural location; it will not function in any artificial structure, nor within the boundaries of any village, town, or city."
+  },
+  {
+    "name": "Commune With Nature",
+    "range": "see text",
+    "level": {
+      "druid": 5,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "The caster becomes one with nature, attaining knowledge of the surrounding territory. After 10 minutes of concentration, the caster instantly gains knowledge of one fact per caster level among various subjects. In outdoor settings, the spell operates in a radius of 1 mile per caster level. In natural underground settings, the radius is limited to 100 ft per caster level. The spell does not function where nature has been replaced by construction or settlement."
+  },
+  {
+    "name": "Control Temperature, 10' Radius",
+    "range": "0'",
+    "level": {
+      "druid": 4,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 hour/level",
+    "description": "The caster can change automatically the surrounding temperature (10 ft radius sphere) by up to 10 degrees Fahrenheit per caster level. The change can be upward or downward (caster’s choice)."
+  },
+  {
+    "name": "Control Winds",
+    "range": "0 (see text)",
+    "level": {
+      "druid": 5,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "10 minutes/level",
+    "description": "The caster alters wind force around him or her (40 ft per caster level radius cylinder 40 ft high). The caster can make the wind blow in a certain direction or manner, increase its strength, or decrease its strength. The new wind direction and strength persist until the spell ends or until the caster chooses to alter it, which requires concentration. The caster may create an \"eye\" of calm air up to 40 ft radius around him or her and may choose to limit the area of effect to any cylindrical area less than his or her full limit. \n\nThe caster may choose wind patterns over the spell’s area. He or she can choose a downdraft blows from the center outward, an updraft blows from the outer edges in toward the center, a rotation that causes the winds to circle the center or a blast that simply causes the winds to blow in one direction across the entire area from one side to the other. \n\nFor every three caster levels, the caster can increase or decrease wind condition by one level (as described in the Waterborne Travel section of the Basic Fantasy RPG Core Rules)."
+  },
+  {
+    "name": "Detect Snares and Pits",
+    "range": "60’",
+    "level": {
+      "druid": 1,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "10 turns",
+    "description": "By means of this spell, the caster can detect simple pits, deadfalls, and snares as well as mechanical traps constructed of natural materials. The spell does not detect complex traps, including trapdoor traps. \n\nThis spell does detect certain natural hazards, for instance quicksand (detected as a snare), a sinkhole (a pit), or unsafe walls of natural rock (a deadfall). However, it does not reveal other potentially dangerous conditions. \n\nThe spell does not detect magic traps (except those that operate by pit, deadfall, or snaring), nor mechanically complex ones, nor those that have been rendered safe or inactive. \n\nThe amount of information revealed depends on how long the caster studies a particular area. \n\n• 1st Round: Presence or absence of hazards. \n\n• 2nd Round: Number of hazards and the location of each. If a hazard is outside the caster's line of sight, then the caster discern its direction but not its exact location. \n\n• Each Additional Round: The general type and trigger for one particular hazard closely examined by the caster. \n\n• Each round, the caster can turn to detect snares and pits in a new area. The spell can penetrate barriers, but 1 ft of stone, 1 in of common metal, a thin sheet of lead, or 3 ft of wood or dirt blocks it."
+  },
+  {
+    "name": "Entangle",
+    "range": "200’",
+    "level": {
+      "druid": 1,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "3 rounds/level",
+    "description": "This spell causes existing grasses, trees, bushes, shrubs, or other plants to entwine around creatures in a 40 ft x 40 ft area. At the GM's discretion a caster underground may use roots of plants or trees if such are present. Most creatures within the area of effect move at ¼ normal speed; very large and/or very strong creatures (at least as big or strong as a giant or dragon) move at ½ normal speed. If the creature affected is running at the time the spell is cast, the creature must make a saving throw vs Spell (with Dexterity bonus applied, if any) or trip and become prone and trapped until the end of spell. \n\nEntangled creatures may not attack nor take most actions other than movement due to the interference of the enchanted plants. This spell is only effective in a settings where plants will grow, including wilderness areas, farmland, and earthen-walled tunnels."
+  },
+  {
+    "name": "Faerie Fire",
+    "range": "200’ +10'/level",
+    "level": {
+      "druid": 1,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 minute/level",
+    "description": "A pale glow surrounds and outlines all objects including individuals within a 20 ft radius from a point chosen by the caster. Outlined subjects shed light as candles. \n\nOutlined creatures do not benefit from the concealment normally provided by darkness, and the spell effectively negates the effects of blur, displacement, invisibility, or similar effects. The light is too dim to have any special effect on undead or dark-dwelling creatures vulnerable to light. \n\nThe faerie fire can be blue, green, or violet, according to your choice at the time of casting. The faerie fire does not cause any harm to the objects or creatures thus outlined."
+  },
+  {
+    "name": "Flame Strike",
+    "range": "60’",
+    "level": {
+      "druid": null,
+      "magic-user": null,
+      "cleric": 5
+    },
+    "duration": "instantaneous",
+    "description": "A flame strike produces a vertical column of divine fire roaring downward (cylinder of 10 ft radius, 30 ft high). The spell deals 6d8 points of damage to any creatures within the area of effect; a save vs. Spells for half damage is allowed."
+  },
+  {
+    "name": "Heat Metal",
+    "range": "25’",
+    "level": {
+      "druid": 2,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "7 rounds",
+    "description": "This spell causes a single item made of ferrous (iron-based) metal to become hot for a brief period of time.\n\nThe affected item is warm to the touch immediately, and then becomes progressively hotter each round as indicated on the table below. The damage roll indicated is applied to any creature holding or wearing the affected item; a brief touch does no damage.\n\nRound Temperature Damage\n1st Warm None\n2nd-3rd Hot 1d4 points\n4th-5th Searing 2d4 points\n6th Hot 1d4 points\n7th Warm None\nNote that this spell can damage items harmed by heat, such as potions for example, and might boil water, wine, or oil stored in vessels within affected metal item, possibly causing an affected vessel to burst. Generally this will happen on the 4th or 5th round, when the effect is at its most powerful.\n\nThe reverse of this spell is chill metal. It inflicts damage as outlined in the table above, but the damage is caused by cold instead of heat. Note that this can freeze water, congeal oil, and so on. Frozen water might burst its vessel."
+  },
+  {
+    "name": "Hold Animal",
+    "range": "180’",
+    "level": {
+      "druid": 3,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "2d8 turns",
+    "description": "This spell functions like hold person, except that it affects only animals; specifically, this means non-magical living creatures of animal intelligence, including giant-sized animals. A save vs. Spells is allowed to resist this spell."
+  },
+  {
+    "name": "Obscuring Mists",
+    "range": "20' radius",
+    "level": {
+      "druid": 2,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 turn/level",
+    "description": "This spell causes a bank of misty vapor to arise around the caster, remaining stationary once created. The vapor obscures all sight, including darkvision, beyond 2d4 feet. A strong wind can disperse the spell in one-quarter the usual duration"
+  },
+  {
+    "name": "Part Water",
+    "range": "60'",
+    "level": {
+      "druid": 6,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 turn/level",
+    "description": "This spell, when cast on a body of water, causes it to part. This exposes a path that can be traversed as if it where dry land. Note that this spell does not change the topography of the bottom of the body of water, so the terrain my still be difficult to cross. The caster is able to affect a body of water up to 5 ft./caster level. The caster may dismiss this spell at any time."
+  },
+  {
+    "name": "Pass Tree",
+    "range": "Touch",
+    "level": {
+      "druid": 6,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "Instantaneous",
+    "description": "This spell allows the caster and up to two others to teleport between any two living trees on the same plane. The caster chooses a general location or a specific tree. The caster must have personal knowledge of the specific tree or general area of the target destination."
+  },
+  {
+    "name": "Pass Without Trace",
+    "range": "Touch",
+    "level": {
+      "druid": 1,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 hour/level",
+    "description": "This spell permits up to one creature per caster level to move through any type of terrain, leaving neither footprints nor scent. Tracking the subjects by nonmagical means is thus rendered impossible."
+  },
+  {
+    "name": "Plant Growth",
+    "range": "Special",
+    "level": {
+      "druid": 3,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "Permanent",
+    "description": "This spell causes normal vegetation (grasses, briars, bushes, creepers, thistles, trees, vines) within 400 ft. + 40 ft./caster level to become thick and overgrown. The plants entwine to form a thicket or jungle that creatures must hack or force a way through. Movement rate is reduced to a maximum of 5 ft./round, or 10 ft for Large creatures. The area must have brush and trees in it for this spell to take effect. An area up to 100 ft radius may thus be altered. Also, the caster may specify an area (a path, a clearing, etc.) within the given area of effect which is not so affected. \n\nThis spell has no effect on plant creatures, that is, any self-willed and/or animated plant."
+  },
+  {
+    "name": "Produce Flame/Cold",
+    "range": "0",
+    "level": {
+      "druid": 2,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 min./level",
+    "description": "Flames as bright as a torch appear in the caster’s open hand. The flames don’t harm the caster or his or her equipment. Alternatively, a bluish, cold aura may be produced, which also sheds light as bright as torch-light. In addition to providing illumination, the flames or cold aura can be hurled or used to touch enemies. The caster can strike an opponent with a melee touch attack, dealing fire or cold damage respectively equal to 1d6, +1 points per caster level (maximum +5). Alternatively, the caster can hurl the flames or cold aura up to 50 ft as a thrown weapon. When doing so, the caster must make an attack roll (with no range penalty), and on a successful hit deals the same damage as the melee attack. As soon as the caster hurls the flames or cold aura, a new one appears in his or her hand. Each attack made reduces the remaining duration by 1 minute. If an attack reduces the remaining duration to 0 minutes or less, the spell ends with that attack. \n\nNeither variation of this spell functions underwater."
+  },
+  {
+    "name": "Protection From Fire",
+    "range": "Touch",
+    "level": {
+      "druid": 3,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "If the caster touches himself or herself, this spell grants temporary immunity to fire (normal and magic). When the spell absorbs 12 points per caster level of magical fire damage, it is discharged. Otherwise the spell lasts for 1 turn per caster level. \n\nIf the spell is cast upon another creature than the caster, protection from fire grants temporary immunity against normal fire. The spell also offers a +4 bonus to saving throws against magical fire and if the save is successful, the creature suffers no damage (and only 25% if the save fails). This version of the spell lasts for 1 turn per caster level."
+  },
+  {
+    "name": "Protection From Lightning",
+    "range": "Touch",
+    "level": {
+      "druid": 4,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "This spell functions exactly like protection from fire, except that that it protects against any sort of electrical or lightning damage."
+  },
+  {
+    "name": "Rock to Mud*",
+    "range": "150’",
+    "level": {
+      "druid": 5,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "permanent",
+    "description": "This spell turns natural, uncut or un-worked rock of any sort into an equal volume of mud; up to two 10 ft cubes per caster level may be so transformed. Magical stone is not affected by this spell. The depth of the mud created cannot exceed 10 ft. A creature unable to levitate, fly, or otherwise free itself from the mud sinks until hip- or chest-deep, reducing its speed to 5 ft and causing it to suffer a -2 penalty to attack rolls, saving throws, and armor class. Creatures large enough to walk on the bottom can wade through the area at a speed of 5 ft., suffering none of the other penalties given. \n\nIf rock to mud is cast upon the ceiling of a cavern or tunnel, the mud falls to the floor and spreads out in a pool to a depth of 5 ft. The falling mud and the ensuing cave-in deal 8d6 points of damage to anyone caught directly beneath the area, or half damage to those who succeed a save vs. Death Ray. \n\nCastles and large stone buildings are generally immune to the effect of the spell, since rock to mud cannot affect worked stone and doesn’t reach deep enough to undermine such a buildings’ foundation. However, small buildings or structures often rest upon foundations shallow enough to be damaged or even partially-toppled by this spell. \n\nThe mud remains until a successful dispel magic or mud to rock spell restores its substance (though not necessarily its form). Evaporation turns the mud to normal dirt over a period of days. The exact time depends on exposure to the sun, wind, and normal drainage. \n\nWhen using the reverse, mud to rock, the spell converts the same volume of mud into relatively soft stone (such as limestone or sandstone) permanently. Any creature in the mud must save vs. Death Ray to escape before the area transforms into rock (assuming it has enough movement to do so)."
+  },
+  {
+    "name": "Slow Poison",
+    "range": "Touch",
+    "level": {
+      "druid": 2,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 hour/level",
+    "description": "The creature touched by the caster becomes temporarily immune to poison. Any poison in its system or any poison to which it is exposed during the spell’s duration does not affect the subject until the spell’s duration has expired. Slow poison does not cure any damage that poison may have already done, with exception of the following circumstances. \n\nIf cast on a character who received lethal damage from poison the previous round, the spell will remove that round's poison damage only, and delay it for the duration of the spell. Prior poison damage will remain unaffected, but, as noted above, no further damage is accrued until the spell lapses, and will never accrue if the poison is neutralized while this spell is in effect. This will give the poisoned victim an opportunity to seek a cure to neutralize the poison before it is fatal. "
+  },
+  {
+    "name": "Summon Animals I",
+    "range": "40'/level",
+    "level": {
+      "druid": 4,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "One hour",
+    "description": "This spell summons 1d8 ordinary animals (including giant ones) of no more than 4 HD each if they are within range. The caster must name the type of animal summoned, and can have up to three choices. If none of the three species are found within range, the spell fails. \n\nThe animals will be friendly when summoned and aid the caster's current task, including combat, in whatever way they can (to the best of their understanding). The caster may dismiss any animals called by this spell at any time."
+  },
+  {
+    "name": "Summon Animals II",
+    "range": "60'/level",
+    "level": {
+      "druid": 5,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "One day",
+    "description": "This spell is a more powerful version of Summon Animals I. Up to 3d4 animals of 4 HD or less can be summoned, or 1d6 animals of 8 HD or less."
+  },
+  {
+    "name": "Summon Animals III",
+    "range": "80'/level",
+    "level": {
+      "druid": 6,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "One day",
+    "description": "This spell is a more powerful version of Summon Animals II. Up to 4d6 animals of 4 HD or less can be summoned, or 3d4 animals of 8 HD or less, or 1d4 animals of 12 HD or less."
+  },
+  {
+    "name": "Tree Sanctuary",
+    "range": "Touch",
+    "level": {
+      "druid": 4,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "1 turn/level",
+    "description": "This spell enables the caster to create an invisible door in the trunk of a tree that is visible only to dryads and Druids. The tree must be at least 10 ft tall and planted in the earth for this spell to work. Once the spell is complete, the caster may enter the tree, effectively disappearing from sight. A caster may only affect one tree with this spell at a time. Furthermore, this spell may only be cast on a tree occupied by a dryad if the dryad allows it. The caster is completely aware of his or her surroundings while in the tree, being able to hear normally and see in a 360 degree radius, as well as being able to detect changes in the immediate temperature surrounding the tree. A Druid or Cleric may meditate to prepare spells in the tree. Each turn the caster sleeps inside the tree counts as a full hour of sleep. If the tree is an oak, the caster heals 1d4 hit points per turn spent inside the tree. \n\nThe caster loses the senses of taste, smell, and touch, and may not speak or cast spells while inside the tree. The caster takes half of any damage the tree suffers, and if the tree is destroyed or cut down, the caster is forcefully expelled into the nearest available space."
+  },
+  {
+    "name": "Warp Wood*",
+    "range": "50’",
+    "level": {
+      "druid": 2,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "The caster causes non-magical wood in a 20 ft radius to bend and warp, permanently destroying its straightness, form, and strength. A warped door springs open or becomes stuck; a boat or ship springs a leak; warped weapons (like bows and arrows) are useless. The caster may warp wood object(s) up to 1 ft on all sides per caster level. \n\nAlternatively, the caster can \"un-warp\" non-magical wood (effectively warping it back to normal), straightening wood that has been warped by this spell or by other means. \n\nThe caster can combine multiple consecutive warp wood spells to warp (or un-warp) an object that is too large to warp with a single spell."
+  },
+  {
+    "name": "Weather Summoning",
+    "range": "10 miles",
+    "level": {
+      "druid": 6,
+      "magic-user": null,
+      "cleric": null
+    },
+    "duration": "5 turns/level",
+    "description": "The caster is able to summon nearby weather conditions. The caster must be aware of the weather condition to summon it. This spell does not grant control of the weather to the caster."
   }
 ]
