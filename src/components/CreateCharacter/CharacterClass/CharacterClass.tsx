@@ -1,4 +1,4 @@
-import { Checkbox, Input, Radio, Space, Switch } from "antd";
+import { Checkbox, Input, Radio, Space, Switch, Typography } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -310,22 +310,33 @@ export default function CharacterClass({
             Object.values(ClassNames).includes(part as ClassNames)
           ) &&
           characterData.class !== "" && (
-            <div className="mt-4 gap-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {spellsData.map((spell) => (
-                <Checkbox
-                  key={spell.name}
-                  onChange={(e) => handleCheckboxChange(e, spell)}
-                  checked={characterData.spells.some(
-                    (prevSpell) => prevSpell.name === spell.name
-                  )}
-                >
-                  {spell.name}
-                </Checkbox>
-              ))}
-            </div>
+            <>
+              <Typography.Title level={4}>
+                Choose your starting spells
+              </Typography.Title>
+              <div className="mt-4 gap-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {spellsData.map((spell) => (
+                  <Checkbox
+                    key={spell.name}
+                    onChange={(e) => handleCheckboxChange(e, spell)}
+                    checked={characterData.spells.some(
+                      (prevSpell) => prevSpell.name === spell.name
+                    )}
+                  >
+                    {spell.name}
+                  </Checkbox>
+                ))}
+              </div>
+            </>
           )}
         {characterData.class.includes(ClassNames.MAGICUSER) && (
           <div className="mt-4">
+            <Typography.Title level={4}>
+              Choose your starting spell
+            </Typography.Title>
+            <Typography.Text type="secondary" className="mb-4 block">
+              Magic-Users start with Read Magic.
+            </Typography.Text>
             <Radio.Group
               onChange={onSpellRadioChange}
               value={selectedSpell ? selectedSpell.name : null}

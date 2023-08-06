@@ -11,7 +11,11 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
 import SpellData from "../data/spells.json";
-import { clericSpellBudget, magicUserSpellBudget } from "../data/spellBudgets";
+import {
+  clericSpellBudget,
+  magicUserSpellBudget,
+  druidSpellBudget,
+} from "../data/spellBudgets";
 import { hitDiceModifiers } from "../data/hitDiceModifiers";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { classChoices } from "../data/classDetails";
@@ -29,6 +33,8 @@ const getSpellBudget = (characterClass: string) => {
       return magicUserSpellBudget;
     case characterClass.includes(ClassNames.CLERIC):
       return clericSpellBudget;
+    case characterClass.includes(ClassNames.DRUID):
+      return druidSpellBudget;
     case !Object.values(ClassNames).some((className) =>
       characterClass.includes(className)
     ):
@@ -49,6 +55,8 @@ const getSpellLevel = (spell: Spell, characterClass: string) => {
       ];
     case characterClass.includes(ClassNames.CLERIC):
       return spell.level[ClassNames.CLERIC.toLowerCase() as keyof SpellLevels];
+    case characterClass.includes(ClassNames.DRUID):
+      return spell.level[ClassNames.DRUID.toLowerCase() as keyof SpellLevels];
     case !classChoices.includes(
       ClassNames[characterClass as keyof typeof ClassNames]
     ):
