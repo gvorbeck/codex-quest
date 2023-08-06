@@ -23,8 +23,8 @@ export default function SpecialsRestrictions({
   const classRestrictions: string[] = [];
   individualClasses.forEach((cls) => {
     if (classDetails[cls.toLowerCase()]) {
-      classSpecials.push(...classDetails[cls.toLowerCase()].specials);
-      classRestrictions.push(...classDetails[cls.toLowerCase()].restrictions);
+      classSpecials.push(...classDetails[cls].specials);
+      classRestrictions.push(...classDetails[cls].restrictions);
     }
   });
 
@@ -36,9 +36,9 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...raceDetails[characterData.race.toLowerCase()].specials,
+          ...raceDetails[characterData.race].specials,
           ...classSpecials,
-          ...raceDetails[characterData.race.toLowerCase()].restrictions,
+          ...raceDetails[characterData.race].restrictions,
           ...classRestrictions,
         ]}
         renderItem={(item) => (
