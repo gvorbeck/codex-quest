@@ -31,7 +31,10 @@ export default function CharacterHitPoints({
         dice = "d6";
       }
     } else {
-      if (characterData.class === ClassNames.CLERIC) {
+      if (
+        characterData.class === ClassNames.CLERIC ||
+        characterData.class === ClassNames.DRUID
+      ) {
         dice = "d6";
       } else if (characterData.class === ClassNames.FIGHTER) {
         dice = "d8";
