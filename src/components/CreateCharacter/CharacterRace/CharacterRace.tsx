@@ -43,13 +43,15 @@ export default function CharacterRace({
         race:
           e.target.value === "Custom"
             ? []
-            : [...raceDetails[race].restrictions],
+            : [...raceDetails[race.toLowerCase()].restrictions],
         class: [],
       },
       equipment: [],
       specials: {
         race:
-          e.target.value === "Custom" ? [] : [...raceDetails[race].specials],
+          e.target.value === "Custom"
+            ? []
+            : [...raceDetails[race.toLowerCase()].specials],
         class: [],
       },
     });

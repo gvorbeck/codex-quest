@@ -103,14 +103,14 @@ export default function CharacterClass({
         ...characterData.restrictions,
         class:
           e.target.value !== "Custom"
-            ? [...classDetails[thisClass].restrictions]
+            ? [...classDetails[thisClass.toLowerCase()].restrictions]
             : [],
       },
       specials: {
         ...characterData.specials,
         class:
           e.target.value !== "Custom"
-            ? [...classDetails[thisClass].specials]
+            ? [...classDetails[thisClass.toLowerCase()].specials]
             : [],
       },
     });

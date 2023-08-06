@@ -71,7 +71,7 @@ const availableEquipmentCategories = (className: ClassName) => {
     case ClassNames.MAGICUSER:
       return [
         "daggers",
-        "items",
+        "general-equipment",
         "other-weapons",
         "beasts-of-burden",
         "barding",
@@ -109,6 +109,7 @@ const itemIsDisabled = (
   raceName: RaceName,
   item: EquipmentItem
 ) => {
+  console.log(className === ClassNames.MAGICUSER);
   let disabled = true;
   if (className === ClassNames.CLERIC) {
     if (
@@ -150,7 +151,7 @@ const itemIsDisabled = (
     } else {
       disabled = false;
     }
-  } else if (className.toLowerCase().includes(ClassNames.MAGICUSER)) {
+  } else if (className.includes(ClassNames.MAGICUSER)) {
     if (item.category === "other-weapons") {
       if (item.name.toLowerCase().includes("cudgel")) {
         disabled = false;

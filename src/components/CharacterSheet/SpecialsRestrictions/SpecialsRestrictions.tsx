@@ -23,10 +23,10 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...raceDetails[characterData.race].specials,
-          ...classDetails[characterData.class].specials,
-          ...raceDetails[characterData.race].restrictions,
-          ...classDetails[characterData.class].restrictions,
+          ...raceDetails[characterData.race.toLowerCase()].specials,
+          ...classDetails[characterData.class.toLowerCase()].specials,
+          ...raceDetails[characterData.race.toLowerCase()].restrictions,
+          ...classDetails[characterData.class.toLowerCase()].restrictions,
         ]}
         renderItem={(item) => (
           <List.Item>
