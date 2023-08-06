@@ -43,10 +43,8 @@ export default function CharacterClass({
 
   useEffect(() => {
     if (comboClass) {
-      const firstClass =
-        checkedClasses[0]?.toLowerCase() as keyof typeof classDetails;
-      const secondClass =
-        checkedClasses[1]?.toLowerCase() as keyof typeof classDetails;
+      const firstClass = checkedClasses[0] as keyof typeof classDetails;
+      const secondClass = checkedClasses[1] as keyof typeof classDetails;
       const firstClassRestrictions = firstClass
         ? classDetails[firstClass].restrictions
         : [];
