@@ -6,7 +6,7 @@ export default function FooterContent({ className }: FooterContentProps) {
   return (
     <div className={`${className}`}>
       <Typography.Paragraph>
-        © 2023 J. Garrett Vorbeck. All rights reserved.
+        © 2023 J. Garrett Vorbeck. All rights reserved. v1.7.1
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
