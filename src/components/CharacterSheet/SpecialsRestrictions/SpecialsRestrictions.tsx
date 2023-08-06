@@ -22,7 +22,7 @@ export default function SpecialsRestrictions({
   const classSpecials: string[] = [];
   const classRestrictions: string[] = [];
   individualClasses.forEach((cls) => {
-    if (classDetails[cls.toLowerCase()]) {
+    if (classDetails[cls]) {
       classSpecials.push(...classDetails[cls].specials);
       classRestrictions.push(...classDetails[cls].restrictions);
     }
