@@ -11,6 +11,7 @@ interface HP {
 export interface SpellLevels {
   cleric: number | null;
   "magic-user": number | null;
+  druid: number | null;
 }
 
 export interface Spell {
@@ -74,6 +75,7 @@ export interface SpellType {
   level: {
     cleric: number | null;
     "magic-user": number | null;
+    druid: number | null;
   };
   duration: string;
   description: string;
@@ -83,6 +85,7 @@ export enum ClassNames {
   ASSASSIN = "Assassin",
   BARBARIAN = "Barbarian",
   CLERIC = "Cleric",
+  DRUID = "Druid",
   FIGHTER = "Fighter",
   MAGICUSER = "Magic-User",
   THIEF = "Thief",

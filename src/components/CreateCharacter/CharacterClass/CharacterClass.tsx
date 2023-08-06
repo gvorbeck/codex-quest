@@ -184,6 +184,8 @@ export default function CharacterClass({
     characterData.race !== "Human";
   const clericAbilityRestriction = (choice: string) =>
     choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
+  const druidAbilityRestriction = (choice: string) =>
+    choice === ClassNames.DRUID && +characterData.abilities.scores.wisdom < 9;
   const fighterAbilityRestriction = (choice: string) =>
     choice === ClassNames.FIGHTER &&
     +characterData.abilities.scores.strength < 9;
@@ -211,9 +213,10 @@ export default function CharacterClass({
 
   // Methods for disabling combo class choices
   const comboClassRestrictedClasses = (choice: string) =>
-    choice === ClassNames.CLERIC ||
     choice === ClassNames.ASSASSIN ||
-    choice === ClassNames.BARBARIAN;
+    choice === ClassNames.BARBARIAN ||
+    choice === ClassNames.CLERIC ||
+    choice === ClassNames.DRUID;
   const comboClassThiefSelected = (choice: string) =>
     choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
   const comboClassFighterSelected = (choice: string) =>
@@ -275,6 +278,7 @@ export default function CharacterClass({
                     magicUserRaceRestriction(choice) ||
                     magicUserAbilityRestriction(choice) ||
                     clericAbilityRestriction(choice) ||
+                    druidAbilityRestriction(choice) ||
                     fighterAbilityRestriction(choice) ||
                     thiefAbilityRestriction(choice) ||
                     assassinRaceRestriction(choice) ||
@@ -330,7 +334,7 @@ export default function CharacterClass({
               {spellsData
                 .filter(
                   (spell) =>
-                    (spell.level as Record<string, number>)[
+                    (spell.level as Record<string, number | null>)[
                       ClassNames.MAGICUSER.toLowerCase()
                     ] === 1 && spell.name !== "Read Magic"
                 )

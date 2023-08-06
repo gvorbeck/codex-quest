@@ -326,6 +326,8 @@ const savingThrowsTables: SavingThrowsTables = {
 
 // Assassin has the same Saving Throws as Thief.
 savingThrowsTables[ClassNames.ASSASSIN] = savingThrowsTables[ClassNames.THIEF];
+// Druid has the same Saving Throws as Cleric.
+savingThrowsTables[ClassNames.DRUID] = savingThrowsTables[ClassNames.CLERIC];
 // Barbarian has the same Saving Throws as Fighter.
 savingThrowsTables[ClassNames.BARBARIAN] =
   savingThrowsTables[ClassNames.FIGHTER];
