@@ -84,7 +84,13 @@ export default function LevelUpModal({
     const newSpellCounts = newSpells.reduce(
       (acc, spell) => {
         const spellLevel =
-          spell.level[characterData.class.toLowerCase() as keyof SpellLevels];
+          getClassType(characterData.class) === "combination"
+            ? spell.level[
+                ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
+              ]
+            : spell.level[
+                characterData.class.toLowerCase() as keyof SpellLevels
+              ];
         if (spellLevel !== null && !isNaN(spellLevel)) {
           acc[spellLevel - 1] += 1;
         }
