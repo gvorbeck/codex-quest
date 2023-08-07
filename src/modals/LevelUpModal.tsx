@@ -105,16 +105,24 @@ export default function LevelUpModal({
             characterData.level
           ];
       } else {
-        const classes = characterData.class.split(" ");
-        spellBudget = classes.reduce((acc, cls) => {
-          const clsSpellBudgets =
-            spellBudgets[cls.toLowerCase() as keyof typeof spellBudgets];
-          if (clsSpellBudgets) {
-            const clsSpellBudget = clsSpellBudgets[characterData.level];
-            return acc.map((max, index) => max + clsSpellBudget[index]);
-          }
-          return acc;
-        }, new Array(6).fill(0));
+        // If the combination class includes a Magic-User, use the Magic-User spell budget
+        if (characterData.class.includes(ClassNames.MAGICUSER)) {
+          spellBudget =
+            spellBudgets[ClassNames.MAGICUSER as keyof typeof spellBudgets][
+              characterData.level
+            ];
+        } else {
+          const classes = characterData.class.split(" ");
+          spellBudget = classes.reduce((acc, cls) => {
+            const clsSpellBudgets =
+              spellBudgets[cls.toLowerCase() as keyof typeof spellBudgets];
+            if (clsSpellBudgets) {
+              const clsSpellBudget = clsSpellBudgets[characterData.level];
+              return acc.map((max, index) => max + clsSpellBudget[index]);
+            }
+            return acc;
+          }, new Array(6).fill(0));
+        }
       }
       // If the character is a custom class, get the spell budget for the character's level
     } else if (getClassType(characterData.class) === "custom") {
@@ -194,7 +202,6 @@ export default function LevelUpModal({
       };
 
     const isCustomClass = getClassType(characterData.class) === "custom";
-    console.log(characterData.spells);
 
     return spellBudget.length ? (
       <>
