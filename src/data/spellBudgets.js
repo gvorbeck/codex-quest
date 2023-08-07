@@ -1,3 +1,5 @@
+import { ClassNames } from "../components/definitions";
+
 const clericAndDruidSpellBudget = [
   [0, 0, 0, 0, 0, 0],
   [1, 0, 0, 0, 0, 0],
@@ -21,7 +23,7 @@ const clericAndDruidSpellBudget = [
   [6, 5, 5, 4, 3, 3],
 ];
 
-export const magicUserSpellBudget = [
+const magicUserSpellBudget = [
   [2, 0, 0, 0, 0, 0],
   [3, 0, 0, 0, 0, 0],
   [3, 1, 0, 0, 0, 0],
@@ -44,6 +46,12 @@ export const magicUserSpellBudget = [
   [7, 5, 5, 4, 4, 3],
 ];
 
-export const clericSpellBudget = clericAndDruidSpellBudget;
+const clericSpellBudget = clericAndDruidSpellBudget;
 
-export const druidSpellBudget = clericAndDruidSpellBudget;
+const druidSpellBudget = clericAndDruidSpellBudget;
+
+export const spellBudgets = {
+  [ClassNames.CLERIC]: clericSpellBudget,
+  [ClassNames.DRUID]: druidSpellBudget,
+  [ClassNames.MAGICUSER]: magicUserSpellBudget,
+};

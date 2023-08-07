@@ -164,7 +164,6 @@ const itemIsDisabled = (
       item.category === "swords" ||
       item.category === "ammunition"
     ) {
-      console.log(item.category);
       if (
         item.name.toLowerCase().includes("shortbow") ||
         item.name.toLowerCase().includes("padded") ||
