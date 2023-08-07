@@ -121,6 +121,14 @@ export default function LevelUpModal({
 
     const handleSpellChange =
       (level: number) => (checkedValues: CheckboxValueType[]) => {
+        console.log(checkedValues, characterData.spells);
+        let newCheckedSpells: (Spell | undefined)[] = [];
+        checkedValues.map((value) =>
+          newCheckedSpells.push(spells.find((spell) => spell.name === value))
+        );
+        console.log(newCheckedSpells);
+        // I think this isn the step to the solution ^^^^
+        //================================================
         const newSpells = checkedValues
           .map((value) => {
             const spellName = String(value);
