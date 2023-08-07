@@ -68,7 +68,8 @@ export default function LevelUpModal({
         );
         break;
       case "custom":
-        filteredSpells = spells;
+        // If the level is 1, return all spells. Otherwise, return an empty array.
+        filteredSpells = level === 1 ? spells : [];
         break;
       default:
         filteredSpells = [];
@@ -149,7 +150,7 @@ export default function LevelUpModal({
           }
         });
 
-        // Find the spells that were checked
+        // Find the spells that were checked and not already known
         const checkedSpells = newSpells.filter(
           (spell) => !characterData.spells.includes(spell)
         );
@@ -174,43 +175,65 @@ export default function LevelUpModal({
           ...newSpells,
         ];
 
+        // Remove duplicates from combinedSpells
+        const uniqueSpells: Spell[] = [];
+        combinedSpells.forEach((spell) => {
+          if (
+            !uniqueSpells.some((uniqueSpell) => uniqueSpell.name === spell.name)
+          ) {
+            uniqueSpells.push(spell);
+          }
+        });
+
         setCharacterData({
           ...characterData,
-          spells: combinedSpells,
+          spells: uniqueSpells,
         });
 
         dispatch({ type: "init", spellCounts: newSpellCounts });
       };
 
+    const isCustomClass = getClassType(characterData.class) === "custom";
+    console.log(characterData.spells);
+
     return spellBudget.length ? (
       <>
         {spellBudget.map((max, index) => {
+          // If it's a custom class and we're not on the first iteration, return null
+          if (isCustomClass && index !== 0) {
+            return null;
+          }
+
           return max > 0 ? (
             <div key={index} className="mb-4">
               <Typography.Title level={5}>
-                Select Level {index + 1} Spells
+                {isCustomClass
+                  ? "Select your Custom Class Spells"
+                  : `Select Level ${index + 1} Spells`}
               </Typography.Title>
               <Checkbox.Group
                 className="grid grid-cols-1 [&>*+*]:mt-2"
                 value={characterData.spells.map((spell) => spell.name)}
                 onChange={handleSpellChange(index + 1)}
               >
-                {spellsOfLevel(characterData.class, index + 1).map((spell) => (
-                  <div key={spell.name}>
-                    <Checkbox
-                      value={spell.name}
-                      disabled={
-                        spell.name === "Read Magic" ||
-                        (newSpellCounts[index] >= spellBudget[index] &&
-                          !newSpells.some(
-                            (knownSpell) => knownSpell.name === spell.name
-                          ))
-                      }
-                    >
-                      {spell.name}
-                    </Checkbox>
-                  </div>
-                ))}
+                {spellsOfLevel(characterData.class, index + 1)
+                  .sort((a, b) => a.name.localeCompare(b.name)) // Sort spells alphabetically
+                  .map((spell) => (
+                    <div key={spell.name}>
+                      <Checkbox
+                        value={spell.name}
+                        disabled={
+                          spell.name === "Read Magic" ||
+                          (newSpellCounts[index] >= spellBudget[index] &&
+                            !newSpells.some(
+                              (knownSpell) => knownSpell.name === spell.name
+                            ))
+                        }
+                      >
+                        {spell.name}
+                      </Checkbox>
+                    </div>
+                  ))}
               </Checkbox.Group>
             </div>
           ) : null;
