@@ -1,8 +1,10 @@
-import { Button, Modal, Typography } from "antd";
-import CloseIcon from "../components/CloseIcon/CloseIcon";
-import { LevelUpModalProps } from "./definitions";
+import { useReducer } from "react";
+import { Button, Checkbox, Modal, Typography } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
+import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { ClassNames, Spell, SpellLevels } from "../components/definitions";
+import { Action, LevelUpModalProps } from "./definitions";
 import { spellBudgets } from "../data/spellBudgets";
 import spellList from "../data/spells.json";
 import { getClassType } from "../support/helpers";
@@ -16,12 +18,32 @@ export default function LevelUpModal({
   setCharacterData,
   hitDice,
 }: LevelUpModalProps) {
+  const [spellCounts, dispatch] = useReducer(
+    (state: number[], action: Action) => {
+      switch (action.type) {
+        case "increment":
+          return state.map((count, index) =>
+            index === action.level ? count + 1 : count
+          );
+        case "decrement":
+          return state.map((count, index) =>
+            index === action.level ? count - 1 : count
+          );
+        case "init":
+          // When the action type is "init", return the spellCounts from the action
+          return action.spellCounts;
+        default:
+          return state;
+      }
+    },
+    [0, 0, 0, 0, 0, 0]
+  );
+
   const newHitDiceValue = hitDice(
     characterData.level + 1,
     characterData.class,
     characterData.hp.dice
   );
-
   const spells: Spell[] = spellList;
 
   const spellsOfLevel = (className: string, level: number) => {
@@ -32,19 +54,21 @@ export default function LevelUpModal({
     switch (classType) {
       case "standard":
         filteredSpells = spells.filter(
-          (spell) => spell.level[className as keyof SpellLevels] === level
+          (spell) =>
+            spell.level[className.toLowerCase() as keyof SpellLevels] === level
         );
         break;
       case "combination":
         const classes = className.split(" ");
         filteredSpells = spells.filter((spell) =>
-          classes.some((cls) => spell.level[cls as keyof SpellLevels] === level)
+          classes.some(
+            (cls) =>
+              spell.level[cls.toLowerCase() as keyof SpellLevels] === level
+          )
         );
         break;
       case "custom":
-        filteredSpells = spells.filter((spell) =>
-          Object.values(spell.level).includes(level)
-        );
+        filteredSpells = spells;
         break;
       default:
         filteredSpells = [];
@@ -55,6 +79,18 @@ export default function LevelUpModal({
 
   const SpellSelector = () => {
     let spellBudget: number[] = [];
+    const newSpells = characterData.spells;
+    const newSpellCounts = newSpells.reduce(
+      (acc, spell) => {
+        const spellLevel =
+          spell.level[characterData.class.toLowerCase() as keyof SpellLevels];
+        if (spellLevel !== null) {
+          acc[spellLevel - 1] += 1;
+        }
+        return acc;
+      },
+      [0, 0, 0, 0, 0, 0]
+    );
     // If the character is a Magic-User, Cleric, or Druid, get the spell budget for the character's level
     if (
       (characterData.class.includes(ClassNames.MAGICUSER) ||
@@ -62,25 +98,120 @@ export default function LevelUpModal({
         characterData.class.includes(ClassNames.DRUID)) &&
       getClassType(characterData.class) !== "custom"
     ) {
-      spellBudget =
-        spellBudgets[characterData.class as keyof typeof spellBudgets][
-          characterData.level
-        ];
+      if (getClassType(characterData.class) === "standard") {
+        spellBudget =
+          spellBudgets[characterData.class as keyof typeof spellBudgets][
+            characterData.level
+          ];
+      } else {
+        const classes = characterData.class.split(" ");
+        spellBudget = classes.reduce((acc, cls) => {
+          const clsSpellBudgets =
+            spellBudgets[cls.toLowerCase() as keyof typeof spellBudgets];
+          if (clsSpellBudgets) {
+            const clsSpellBudget = clsSpellBudgets[characterData.level];
+            return acc.map((max, index) => max + clsSpellBudget[index]);
+          }
+          return acc;
+        }, new Array(6).fill(0));
+      }
       // If the character is a custom class, get the spell budget for the character's level
     } else if (getClassType(characterData.class) === "custom") {
       spellBudget = new Array(6).fill(Infinity);
     }
-    // console.log(spellBudget);
-    console.log("foo", spellsOfLevel(characterData.class, characterData.level));
+
+    const handleSpellChange =
+      (level: number) => (checkedValues: CheckboxValueType[]) => {
+        const newSpells = checkedValues
+          .map((value) => {
+            const spellName = String(value);
+            return spells.find((spell) => spell.name === spellName);
+          })
+          .filter((spell): spell is Spell => spell !== undefined);
+
+        const newSpellCounts = [...spellCounts]; // Copy the current spellCounts state
+
+        // Find the spells that were unchecked
+        const uncheckedSpells = characterData.spells.filter(
+          (spell) =>
+            !newSpells.includes(spell) &&
+            spell.level[
+              characterData.class.toLowerCase() as keyof SpellLevels
+            ] === level
+        );
+
+        // Decrement the count for each unchecked spell
+        uncheckedSpells.forEach((spell) => {
+          const spellLevel =
+            spell.level[characterData.class.toLowerCase() as keyof SpellLevels];
+          if (spellLevel !== null) {
+            newSpellCounts[spellLevel - 1] -= 1;
+          }
+        });
+
+        // Find the spells that were checked
+        const checkedSpells = newSpells.filter(
+          (spell) => !characterData.spells.includes(spell)
+        );
+
+        // Increment the count for each checked spell
+        checkedSpells.forEach((spell) => {
+          const spellLevel =
+            spell.level[characterData.class.toLowerCase() as keyof SpellLevels];
+          if (spellLevel !== null) {
+            newSpellCounts[spellLevel - 1] += 1;
+          }
+        });
+
+        // Combine the new spells with the spells from other levels
+        const combinedSpells = [
+          ...characterData.spells.filter(
+            (spell) =>
+              spell.level[
+                characterData.class.toLowerCase() as keyof SpellLevels
+              ] !== level
+          ),
+          ...newSpells,
+        ];
+
+        setCharacterData({
+          ...characterData,
+          spells: combinedSpells,
+        });
+
+        dispatch({ type: "init", spellCounts: newSpellCounts });
+      };
 
     return spellBudget.length ? (
       <>
         {spellBudget.map((max, index) => {
           return max > 0 ? (
-            <div key={index}>
+            <div key={index} className="mb-4">
               <Typography.Title level={5}>
                 Select Level {index + 1} Spells
               </Typography.Title>
+              <Checkbox.Group
+                className="grid grid-cols-1 [&>*+*]:mt-2"
+                value={characterData.spells.map((spell) => spell.name)}
+                onChange={handleSpellChange(index + 1)}
+              >
+                {spellsOfLevel(characterData.class, index + 1).map((spell) => (
+                  <div key={spell.name}>
+                    <Checkbox
+                      value={spell.name}
+                      disabled={
+                        spell.name === "Read Magic" ||
+                        (newSpellCounts[index] >= spellBudget[index] &&
+                          !newSpells.some(
+                            (knownSpell) => knownSpell.name === spell.name
+                          ))
+                      }
+                    >
+                      {spell.name}
+                    </Checkbox>
+                  </div>
+                ))}
+              </Checkbox.Group>
             </div>
           ) : null;
         })}
@@ -89,7 +220,6 @@ export default function LevelUpModal({
   };
 
   const handleLevelUp = () => {
-    console.log("level:", characterData.level);
     const result = roller.roll(newHitDiceValue).total;
     setCharacterData({
       ...characterData,
