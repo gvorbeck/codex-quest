@@ -47,6 +47,23 @@ const availableEquipmentCategories = (className: ClassName) => {
         "improvised-weapons",
         "slings-and-hurled-weapons",
       ];
+    case ClassNames.DRUID:
+      return [
+        "ammunition",
+        "armor",
+        "shields",
+        "axes",
+        "bows",
+        "beasts-of-burden",
+        "barding",
+        "hammers-and-maces",
+        "daggers",
+        "general-equipment",
+        "other-weapons",
+        "chain-and-flail",
+        "slings-and-hurled-weapons",
+        "swords",
+      ];
     case ClassNames.FIGHTER:
     case ClassNames.THIEF:
     case ClassNames.ASSASSIN:
@@ -67,6 +84,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "spears-and-polearms",
         "improvised-weapons",
         "slings-and-hurled-weapons",
+        "chain-and-flail",
       ];
     case ClassNames.MAGICUSER:
       return [
@@ -127,6 +145,45 @@ const itemIsDisabled = (
         item.name.toLowerCase().includes("quarterstaff") ||
         item.name.toLowerCase().includes("sling") ||
         item.name.toLowerCase().includes("stone")
+      ) {
+        disabled = false;
+      }
+    } else {
+      disabled = false;
+    }
+  } else if (className === ClassNames.DRUID) {
+    if (
+      item.category === "bows" ||
+      item.category === "armor" ||
+      item.category === "shields" ||
+      item.category === "chain-and-flail" ||
+      item.category === "axes" ||
+      item.category === "hammers-and-maces" ||
+      item.category === "other-weapons" ||
+      item.category === "slings-and-hurled-weapons" ||
+      item.category === "swords" ||
+      item.category === "ammunition"
+    ) {
+      if (
+        item.name.toLowerCase().includes("shortbow") ||
+        item.name.toLowerCase().includes("padded") ||
+        item.name.toLowerCase().includes("hide") ||
+        item.name.toLowerCase().includes("leather") ||
+        item.name.toLowerCase().includes("buckler") ||
+        item.name.toLowerCase().includes("chain††") ||
+        item.name.toLowerCase() === "flail" ||
+        item.name.toLowerCase().includes("whip") ||
+        item.name.toLowerCase().includes("hand axe") ||
+        item.name.toLowerCase().includes("mattock") ||
+        item.name.toLowerCase().includes("pickaxe") ||
+        item.name.toLowerCase() === "mace" ||
+        item.name.toLowerCase().includes("morningstar") ||
+        item.name.toLowerCase().includes("light mace") ||
+        item.name.toLowerCase().includes("staff") ||
+        item.name.toLowerCase().includes("sling") ||
+        item.name.toLowerCase().includes("stone") ||
+        item.name.toLowerCase().includes("shortsword") ||
+        item.name.toLowerCase().includes("longsword")
       ) {
         disabled = false;
       }

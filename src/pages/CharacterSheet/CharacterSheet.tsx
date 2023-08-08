@@ -33,7 +33,6 @@ import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../modals/AttackModal";
 // DATA
-import { hitDiceModifiers } from "../../data/hitDiceModifiers";
 import { attackBonusTable } from "../../data/attackBonusTable";
 import equipmentItems from "../../data/equipment-items.json";
 import { classChoices } from "../../data/classDetails";
@@ -97,27 +96,31 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   };
 
   // HIT DICE
-  let hitDice = "";
-  if (characterData) {
-    hitDice = characterData.hp.dice;
-    let modifier = 0;
-    if (!characterData.class.includes(" ")) {
-      modifier =
-        characterData.class === "Cleric" || characterData.class === "Magic-User"
-          ? hitDiceModifiers.single[characterData.level - 1] || 0
-          : hitDiceModifiers.double[characterData.level - 1] || 0;
+  const hitDice = (level: number, className: string, dice: string) => {
+    console.log(
+      level,
+      className,
+      dice.split("d")[1].split("+")[0],
+      characterData?.hp.dice
+    );
+    const dieType = dice.split("d")[1].split("+")[0];
+    const prefix = Math.min(level, 9);
+
+    // Calculate the suffix
+    let suffix = level > 9 ? level - 9 : 0;
+    if (
+      className.includes(ClassNames.FIGHTER) ||
+      className === ClassNames.ASSASSIN ||
+      className === ClassNames.BARBARIAN ||
+      className.includes(ClassNames.THIEF)
+    ) {
+      suffix *= 2;
     }
-    const diceParts = characterData.hp.dice.split("d")[1].split("+");
-    if (characterData.level < 10) {
-      hitDice =
-        characterData.level.toString() +
-        "d" +
-        diceParts[0] +
-        (modifier !== 0 ? "+" + modifier : "");
-    } else {
-      hitDice = "9d" + diceParts[0] + "+" + modifier;
-    }
-  }
+
+    // Combine to create the result
+    const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
+    return result;
+  };
 
   // ATTACK BONUS
   const getAttackBonus = function (characterData: CharacterData) {
@@ -357,7 +360,14 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             helpText="Movement starts at 40' and is affected by how much weight your character is carrying and the armor they are wearing."
           />
           {/* HIT DICE */}
-          <SimpleNumberStat title="Hit Dice" value={hitDice} />
+          <SimpleNumberStat
+            title="Hit Dice"
+            value={hitDice(
+              characterData.level,
+              characterData.class,
+              characterData.hp.dice
+            )}
+          />
         </Col>
       </Row>
       <Divider className="print:hidden" />

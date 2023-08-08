@@ -1,5 +1,5 @@
 import { Table, Typography, notification } from "antd";
-import { CharacterData, ClassNames } from "../../definitions";
+import { CharacterData, ClassNames, RaceNames } from "../../definitions";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
 import { SavingThrowsProps, SavingThrowsTables } from "./definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
@@ -326,6 +326,8 @@ const savingThrowsTables: SavingThrowsTables = {
 
 // Assassin has the same Saving Throws as Thief.
 savingThrowsTables[ClassNames.ASSASSIN] = savingThrowsTables[ClassNames.THIEF];
+// Druid has the same Saving Throws as Cleric.
+savingThrowsTables[ClassNames.DRUID] = savingThrowsTables[ClassNames.CLERIC];
 // Barbarian has the same Saving Throws as Fighter.
 savingThrowsTables[ClassNames.BARBARIAN] =
   savingThrowsTables[ClassNames.FIGHTER];
@@ -362,14 +364,17 @@ function getSavingThrows(character: CharacterData) {
     spells: Math.min(...savingThrows.map((st) => st.spells)),
   };
 
-  if (character.race === "Dwarf" || character.race === "Halfling") {
+  if (
+    character.race === RaceNames.DWARF ||
+    character.race === RaceNames.HALFLING
+  ) {
     bestSavingThrows.deathRayOrPoison -= 4;
     bestSavingThrows.magicWands -= 4;
     bestSavingThrows.paralysisOrPetrify -= 4;
     bestSavingThrows.spells -= 4;
     bestSavingThrows.dragonBreath -= 3;
   }
-  if (character.race === "Elf") {
+  if (character.race === RaceNames.ELF) {
     bestSavingThrows.paralysisOrPetrify -= 1;
     bestSavingThrows.magicWands -= 2;
     bestSavingThrows.spells -= 2;
