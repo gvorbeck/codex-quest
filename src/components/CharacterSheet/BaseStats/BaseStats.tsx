@@ -17,14 +17,14 @@ export default function BaseStats({
             size={64}
             src={characterData.avatar}
             alt={characterData.name}
-            className="print:grayscale"
+            className="print:grayscale shadow-md"
           />
         ) : (
           <Avatar
             size={64}
             icon={<UserOutlined />}
             alt={characterData.name}
-            className="print:grayscale"
+            className="print:grayscale shadow-md"
           />
         )}
         <Typography.Title
@@ -48,13 +48,25 @@ export default function BaseStats({
           size="small"
           className="[&_th]:leading-none [&_td]:leading-none mt-4 sm:mt-0 [&_td]:px-3 [&_th]:px-2"
         >
-          <Descriptions.Item label="Level" span={1}>
+          <Descriptions.Item
+            label="Level"
+            span={1}
+            contentStyle={{ fontWeight: "bold" }}
+          >
             {characterData.level}
           </Descriptions.Item>
-          <Descriptions.Item label="Race" span={1}>
+          <Descriptions.Item
+            label="Race"
+            span={1}
+            contentStyle={{ fontWeight: "bold" }}
+          >
             {characterData.race}
           </Descriptions.Item>
-          <Descriptions.Item label="Class" span={1}>
+          <Descriptions.Item
+            label="Class"
+            span={1}
+            contentStyle={{ fontWeight: "bold" }}
+          >
             {characterData.class}
           </Descriptions.Item>
         </Descriptions>

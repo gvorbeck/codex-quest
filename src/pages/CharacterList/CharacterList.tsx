@@ -87,12 +87,14 @@ export default function CharacterList({
                         size={64}
                         src={character.avatar}
                         alt={character.name}
+                        className="shadow-md"
                       />
                     ) : (
                       <Avatar
                         size={64}
                         icon={<UserOutlined />}
                         alt={character.name}
+                        className="shadow-md"
                       />
                     )
                   }
