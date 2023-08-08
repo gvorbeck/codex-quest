@@ -74,7 +74,7 @@ export default function CharacterRace({
       <Radio.Group
         onChange={onChange}
         value={
-          isStandardRace(characterData.race) ? characterData.race : "Custom"
+          isStandardRace(characterData.race) ? characterData.race : undefined
         }
         className="grid gap-2"
       >
