@@ -5,6 +5,8 @@ import { raceDetails, raceChoices } from "../../../data/raceDetails";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
+import { RaceNames } from "../../definitions";
+import { isStandardRace } from "../../../support/helpers";
 
 export default function CharacterRace({
   characterData,
@@ -71,33 +73,30 @@ export default function CharacterRace({
     <>
       <Radio.Group
         onChange={onChange}
-        // Check if the current race is included in the raceChoices, if not and it's not an empty string set it as "Custom"
         value={
-          raceChoices.includes(characterData.race) || characterData.race === ""
-            ? characterData.race
-            : "Custom"
+          isStandardRace(characterData.race) ? characterData.race : "Custom"
         }
-        buttonStyle="solid"
+        className="grid gap-2"
       >
         {raceChoices.map((race) => (
-          <Radio.Button
+          <Radio
             key={race}
             value={race}
             className="ps-2 pe-2 md:ps-4 md:pe-4"
             disabled={
-              (race === "Dwarf" &&
+              (race === RaceNames.DWARF &&
                 (+characterData.abilities.scores.constitution < 9 ||
                   +characterData.abilities.scores.charisma > 17)) ||
-              (race === "Elf" &&
+              (race === RaceNames.ELF &&
                 (+characterData.abilities.scores.intelligence < 9 ||
                   +characterData.abilities.scores.constitution > 17)) ||
-              (race === "Halfling" &&
+              (race === RaceNames.HALFLING &&
                 (+characterData.abilities.scores.dexterity < 9 ||
                   +characterData.abilities.scores.strength > 17))
             }
           >
             {race}
-          </Radio.Button>
+          </Radio>
         ))}
       </Radio.Group>
       {showCustomRaceInput && (

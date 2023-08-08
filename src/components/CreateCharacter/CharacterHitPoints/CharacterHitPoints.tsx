@@ -10,26 +10,29 @@ import {
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CharacterHitPointsProps } from "./definitions";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { ClassNames } from "../../definitions";
+import { ClassNames, RaceNames } from "../../definitions";
+import { getClassType } from "../../../support/helpers";
 
 export default function CharacterHitPoints({
   characterData,
   setCharacterData,
-  comboClass,
 }: CharacterHitPointsProps) {
   const [customHitDice, setCustomHitDice] = useState("");
 
   const roller = new DiceRoller();
 
   useEffect(() => {
-    let dice: string;
+    let dice = "d6";
 
-    if (comboClass) {
+    if (getClassType(characterData.class) === "custom") {
       if (characterData.class.includes(ClassNames.THIEF)) {
         dice = "d4";
       } else {
         dice = "d6";
       }
+    } else if (getClassType(characterData.class) === "combination") {
+      if (characterData.class.includes(ClassNames.FIGHTER)) dice = "d6";
+      if (characterData.class.includes(ClassNames.THIEF)) dice = "d4";
     } else {
       if (
         characterData.class === ClassNames.CLERIC ||
@@ -38,7 +41,10 @@ export default function CharacterHitPoints({
         dice = "d6";
       } else if (characterData.class === ClassNames.FIGHTER) {
         dice = "d8";
-        if (characterData.race === "Elf" || characterData.race === "Halfling") {
+        if (
+          characterData.race === RaceNames.ELF ||
+          characterData.race === RaceNames.HALFLING
+        ) {
           dice = "d6";
         }
       } else if (characterData.class === ClassNames.MAGICUSER) {

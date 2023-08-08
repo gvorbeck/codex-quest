@@ -166,7 +166,6 @@ export default function CreateCharacterModal({
         <CharacterHitPoints
           characterData={characterData}
           setCharacterData={setCharacterData}
-          comboClass={comboClass}
         />
       ),
     },

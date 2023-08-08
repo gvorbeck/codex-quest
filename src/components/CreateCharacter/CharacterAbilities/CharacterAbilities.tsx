@@ -202,6 +202,11 @@ export default function CharacterAbilities({
         dataSource={dataSource}
         pagination={false}
         size="small"
+        onHeaderRow={(columns, index) => {
+          return {
+            className: "[&>th]:bg-slate-200 [&>th:before]:bg-slate-400",
+          };
+        }}
       />
     </>
   );

@@ -6,8 +6,9 @@ import { CharacterClassProps } from "./definitions";
 import spellsData from "../../../data/spells.json";
 import { classDetails, classChoices } from "../../../data/classDetails";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { ClassNames, Spell } from "../../definitions";
+import { ClassNames, RaceNames, Spell } from "../../definitions";
 import DOMPurify from "dompurify";
+import { getClassType } from "../../../support/helpers";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -25,14 +26,10 @@ export default function CharacterClass({
   const [showCustomClassInput, setShowCustomClassInput] = useState(false);
 
   useEffect(() => {
-    const isCustomClass = characterData.class
-      .split(" ")
-      .some(
-        (className) =>
-          !Object.values(ClassNames).includes(className as ClassNames)
-      );
-
-    if (isCustomClass && characterData.class !== "") {
+    if (
+      getClassType(characterData.class) === "custom" &&
+      characterData.class !== ""
+    ) {
       setShowCustomClassInput(true);
       setCustomClassInput(characterData.class);
     } else {
@@ -224,7 +221,7 @@ export default function CharacterClass({
 
   return (
     <>
-      {characterData.race === "Elf" && (
+      {characterData.race === RaceNames.ELF && (
         <div>
           <Switch
             checked={comboClass}
