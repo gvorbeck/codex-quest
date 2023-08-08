@@ -97,27 +97,29 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   // HIT DICE
   const hitDice = (level: number, className: string, dice: string) => {
-    const prefix = level > 9 ? 9 : level;
-    let suffix = "";
-    if (level >= 9) {
-      if (
-        className === ClassNames.DRUID ||
-        className === ClassNames.CLERIC ||
-        className === ClassNames.MAGICUSER
-      ) {
-        suffix = level - 9 > 0 ? "+" + (level - 9) : "";
-      }
-      if (
-        className === ClassNames.FIGHTER ||
-        className === ClassNames.ASSASSIN ||
-        className === ClassNames.BARBARIAN ||
-        className === ClassNames.THIEF
-      ) {
-        suffix = level - 9 > 0 ? "+" + (level - 9) * 2 : "";
-      }
+    console.log(
+      level,
+      className,
+      dice.split("d")[1].split("+")[0],
+      characterData?.hp.dice
+    );
+    const dieType = dice.split("d")[1].split("+")[0];
+    const prefix = Math.min(level, 9);
+
+    // Calculate the suffix
+    let suffix = level > 9 ? level - 9 : 0;
+    if (
+      className.includes(ClassNames.FIGHTER) ||
+      className === ClassNames.ASSASSIN ||
+      className === ClassNames.BARBARIAN ||
+      className.includes(ClassNames.THIEF)
+    ) {
+      suffix *= 2;
     }
 
-    return prefix + dice + suffix;
+    // Combine to create the result
+    const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
+    return result;
   };
 
   // ATTACK BONUS

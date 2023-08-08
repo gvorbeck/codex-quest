@@ -7,6 +7,9 @@ import { LevelUpModalProps } from "./definitions";
 import { spellBudgets } from "../data/spellBudgets";
 import spellList from "../data/spells.json";
 import { getClassType } from "../support/helpers";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { useParams } from "react-router-dom";
 
 const roller = new DiceRoller();
 
@@ -17,6 +20,9 @@ export default function LevelUpModal({
   setCharacterData,
   hitDice,
 }: LevelUpModalProps) {
+  const { uid, id } = useParams();
+  console.log(characterData.hp.dice);
+
   const newHitDiceValue = hitDice(
     characterData.level + 1,
     characterData.class,
@@ -109,7 +115,6 @@ export default function LevelUpModal({
     } else if (getClassType(characterData.class) === "custom") {
       spellBudget = new Array(6).fill(Infinity);
     }
-    console.log(spellBudget, newSpellCounts);
 
     const handleSpellChange =
       (level: number) => (checkedValues: CheckboxValueType[]) => {
@@ -147,7 +152,7 @@ export default function LevelUpModal({
 
     const isCustomClass = getClassType(characterData.class) === "custom";
 
-    return spellBudget.length ? (
+    return characterData.level < 20 && spellBudget?.length ? (
       <>
         {spellBudget.map((max, index) => {
           if ((isCustomClass && index !== 0) || max === 0) return null;
@@ -190,13 +195,35 @@ export default function LevelUpModal({
     ) : null;
   };
 
-  const handleLevelUp = () => {
+  const handleLevelUp = async () => {
     const result = roller.roll(newHitDiceValue).total;
-    setCharacterData({
+    const newCharacterData = {
       ...characterData,
-      hp: { ...characterData.hp, max: result },
+      hp: { ...characterData.hp, max: result, dice: newHitDiceValue },
       level: characterData.level + 1,
-    });
+    };
+
+    // Update the character in the component state
+    setCharacterData(newCharacterData);
+
+    // Update the character in Firebase
+    try {
+      if (!uid || !id) {
+        console.error("User ID or Character ID is undefined");
+        return;
+      }
+
+      const docRef = doc(db, "users", uid, "characters", id);
+      await updateDoc(docRef, {
+        "hp.max": newCharacterData.hp.max,
+        "hp.dice": newCharacterData.hp.dice,
+        level: newCharacterData.level,
+        spells: newCharacterData.spells,
+      });
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+
     handleCancel();
   };
 
