@@ -1,7 +1,13 @@
 import { marked } from "marked";
 import { RaceNames } from "../components/definitions";
 
-export const raceChoices = ["Dwarf", "Elf", "Halfling", "Human", "Custom"];
+export const raceChoices: (RaceNames | string)[] = [
+  RaceNames.DWARF,
+  RaceNames.ELF,
+  RaceNames.HALFLING,
+  RaceNames.HUMAN,
+  RaceNames.CUSTOM,
+];
 export const raceDetails: Record<
   string,
   { specials: string[]; restrictions: string[] }
@@ -13,8 +19,10 @@ export const raceDetails: Record<
       ),
     ],
     specials: [
-      "All Dwarves have Darkvision with a 60' range",
-      "Dwarves are able to detect slanting passages, stonework traps, shifting walls and new construction on a roll of 1-2 on 1d6; a search must be performed before this roll may be made",
+      marked(`All **Dwarves** have Darkvision with a 60' range`),
+      marked(
+        `**Dwarves** are able to detect slanting passages, stonework traps, shifting walls and new construction on a roll of 1-2 on 1d6; a search must be performed before this roll may be made`
+      ),
     ],
   },
   [RaceNames.ELF]: {

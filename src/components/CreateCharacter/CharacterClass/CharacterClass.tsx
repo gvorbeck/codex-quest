@@ -177,8 +177,8 @@ export default function CharacterClass({
   // Methods for disabling class choices
   const magicUserRaceRestriction = (choice: string) =>
     choice === ClassNames.MAGICUSER &&
-    characterData.race !== "Elf" &&
-    characterData.race !== "Human";
+    characterData.race !== RaceNames.ELF &&
+    characterData.race !== RaceNames.HUMAN;
   const clericAbilityRestriction = (choice: string) =>
     choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
   const druidAbilityRestriction = (choice: string) =>
@@ -193,7 +193,7 @@ export default function CharacterClass({
     choice === ClassNames.THIEF &&
     +characterData.abilities.scores.dexterity < 9;
   const assassinRaceRestriction = (choice: string) =>
-    choice === ClassNames.ASSASSIN && characterData.race !== "Human";
+    choice === ClassNames.ASSASSIN && characterData.race !== RaceNames.HUMAN;
   const assassinAbilityRestriction = (choice: string) =>
     choice === ClassNames.ASSASSIN &&
     (+characterData.abilities.scores.dexterity < 9 ||
@@ -205,8 +205,8 @@ export default function CharacterClass({
       +characterData.abilities.scores.constitution < 9);
   const barbarianRaceRestriction = (choice: string) =>
     choice === ClassNames.BARBARIAN &&
-    characterData.race !== "Dwarf" &&
-    characterData.race !== "Human";
+    characterData.race !== RaceNames.DWARF &&
+    characterData.race !== RaceNames.HUMAN;
 
   // Methods for disabling combo class choices
   const comboClassRestrictedClasses = (choice: string) =>
