@@ -42,6 +42,11 @@ export default function CharacterList({
           {characters.map((character) => (
             <Col xs={24} md={12} lg={6} key={character.id}>
               <Card
+                bodyStyle={{
+                  backgroundColor: "#e2e8f0",
+                  borderRadius: "0.5rem 0.5rem 0 0",
+                  borderBottom: "0.25rem solid rgba(62,53,67, 0.15)",
+                }}
                 actions={[
                   <SolutionOutlined
                     key="sheet"
@@ -69,7 +74,7 @@ export default function CharacterList({
               >
                 <Card.Meta
                   description={
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center text-slate-600">
                       <span>Level {character.level}</span>
                       <span>{character.race}</span>
                       <span>{character.class}</span>
