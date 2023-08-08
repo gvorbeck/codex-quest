@@ -97,12 +97,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   // HIT DICE
   const hitDice = (level: number, className: string, dice: string) => {
-    console.log(
-      level,
-      className,
-      dice.split("d")[1].split("+")[0],
-      characterData?.hp.dice
-    );
     const dieType = dice.split("d")[1].split("+")[0];
     const prefix = Math.min(level, 9);
 
