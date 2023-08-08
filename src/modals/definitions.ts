@@ -72,8 +72,3 @@ export interface AmmoSelectProps {
   equipment: EquipmentItem[];
   setAmmo: (ammo: EquipmentItem) => void;
 }
-
-export type Action =
-  | { type: "increment"; level: number }
-  | { type: "decrement"; level: number }
-  | { type: "init"; spellCounts: number[] };
