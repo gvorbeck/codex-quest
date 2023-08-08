@@ -4,15 +4,44 @@ import { SavingThrowsProps } from "./definitions";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import savingThrows from "../../../data/savingThrows";
+import { getClassType } from "../../../support/helpers";
 
 export default function SavingThrows({ characterData }: SavingThrowsProps) {
   const dataSource: {}[] = [];
 
   const roller = new DiceRoller();
 
-  let foundThrow = (savingThrows as any)[characterData.class].find(
-    (savingThrow: number[]) => savingThrow[0] >= characterData.level
-  )[1];
+  let foundThrow;
+
+  if (getClassType(characterData.class) === "standard") {
+    foundThrow = (savingThrows as any)[characterData.class].find(
+      (savingThrow: number[]) => savingThrow[0] >= characterData.level
+    )[1];
+  } else {
+    // Split the combination class into its two components
+    const [firstClass, secondClass] = characterData.class.split(" ");
+
+    // Find the best saving throw for each component class
+    const firstClassThrow = (savingThrows as any)[firstClass].find(
+      (savingThrow: number[]) => savingThrow[0] >= characterData.level
+    )[1];
+    const secondClassThrow = (savingThrows as any)[secondClass].find(
+      (savingThrow: number[]) => savingThrow[0] >= characterData.level
+    )[1];
+
+    // Find the best of the two saving throws
+    foundThrow = Object.entries(firstClassThrow).reduce((prev, curr) => {
+      const key = curr[0];
+      const value = curr[1];
+      const secondClassValue = secondClassThrow[key];
+
+      if ((value as number) < secondClassValue) {
+        return { ...prev, [key]: value };
+      } else {
+        return { ...prev, [key]: secondClassValue };
+      }
+    }, {});
+  }
 
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (result: string, specialAbilityTitle: string) => {
