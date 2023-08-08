@@ -21,7 +21,6 @@ export default function LevelUpModal({
   hitDice,
 }: LevelUpModalProps) {
   const { uid, id } = useParams();
-  console.log(characterData.hp.dice);
 
   const newHitDiceValue = hitDice(
     characterData.level + 1,
