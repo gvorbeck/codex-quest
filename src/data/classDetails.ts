@@ -64,7 +64,9 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
   },
   [ClassNames.ASSASSIN]: {
     specials: [
-      "Assassins have several special abilities (see table). Some abilities are shared with the Thief class, and are described in the Core Rules.",
+      marked(
+        `**Assassins** have several special abilities (see table). Some abilities are shared with the Thief class, and are described in the Core Rules.`
+      ),
       marked(
         `**Poison**: Assassins learn the art of making lethal poisons. Poisons are often quite expensive to make; it is not uncommon for a single application of contact poison to cost 500 gp or more. The GM is advised to take care that poison does not become too much of an easy solution for the Assassin.`
       ),
@@ -76,37 +78,55 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
       ),
     ],
     restrictions: [
-      "Assassins may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
+      marked(
+        `**Assassins** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort`
+      ),
     ],
   },
   [ClassNames.CLERIC]: {
     specials: [
-      "Clerics can cast spells of divine nature starting at 2nd level",
-      "Clerics have the power to Turn the Undead",
+      marked(
+        `**Clerics** can cast spells of divine nature starting at 2nd level`
+      ),
+      marked(`**Clerics** have the power to Turn the Undead`),
     ],
     restrictions: [
-      "Clerics may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling)",
+      marked(
+        `**Clerics** may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling)`
+      ),
     ],
   },
   [ClassNames.FIGHTER]: {
     specials: [
-      "Although they are not skilled in the ways of magic, Fighters can nonetheless use many magic items, including but not limited to magical weapons and armor",
+      marked(
+        `Although they are not skilled in the ways of magic, **Fighters** can nonetheless use many magic items, including but not limited to magical weapons and armor`
+      ),
     ],
     restrictions: [],
   },
   [ClassNames.MAGICUSER]: {
     specials: [
-      "Magic-User begins play knowing read magic and one other spell of first level",
+      marked(
+        `**Magic-Users** begins play knowing Read Magic and one other spell of first level`
+      ),
     ],
     restrictions: [
-      "The only weapons Magic-Users become proficient with are the dagger and the walking staff (or cudgel)",
-      "Magic-Users may not wear armor of any sort nor use a shield as such things interfere with spellcasting",
+      marked(
+        `The only weapons **Magic-Users** become proficient with are the dagger and the walking staff (or cudgel)`
+      ),
+      marked(
+        `**Magic-Users** may not wear armor of any sort nor use a shield as such things interfere with spellcasting`
+      ),
     ],
   },
   [ClassNames.THIEF]: {
-    specials: ["Thieves have a number of special abilities (see table)"],
+    specials: [
+      marked(`**Thieves** have a number of special abilities (see table)`),
+    ],
     restrictions: [
-      "Thieves may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
+      marked(
+        `**Thieves** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort`
+      ),
     ],
   },
 };
