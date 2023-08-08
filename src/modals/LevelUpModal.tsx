@@ -121,82 +121,36 @@ export default function LevelUpModal({
 
     const handleSpellChange =
       (level: number) => (checkedValues: CheckboxValueType[]) => {
-        console.log(checkedValues, characterData.spells);
-        let newCheckedSpells: (Spell | undefined)[] = [];
-        checkedValues.map((value) =>
-          newCheckedSpells.push(spells.find((spell) => spell.name === value))
-        );
-        console.log(newCheckedSpells);
-        // I think this isn the step to the solution ^^^^
-        //================================================
-        const newSpells = checkedValues
-          .map((value) => {
-            const spellName = String(value);
-            return spells.find((spell) => spell.name === spellName);
-          })
-          .filter((spell): spell is Spell => spell !== undefined);
+        let newCheckedSpells: Spell[] = [];
 
-        const newSpellCounts = [...spellCounts]; // Copy the current spellCounts state
+        const classType = getClassType(characterData.class);
 
-        // Find the spells that were unchecked
-        const uncheckedSpells = characterData.spells.filter(
-          (spell) =>
-            !newSpells.includes(spell) &&
-            spell.level[
-              characterData.class.toLowerCase() as keyof SpellLevels
-            ] === level
-        );
+        if (classType === "custom" && level === 1) {
+          // For custom classes, handle all spells
+          newCheckedSpells = spells.filter((spell) =>
+            checkedValues.includes(spell.name)
+          );
+        } else {
+          // For standard and combination classes, filter out spells of the specific level
+          const classNameToCheck =
+            classType === "combination"
+              ? ClassNames.MAGICUSER.toLowerCase()
+              : characterData.class.toLowerCase();
 
-        // Decrement the count for each unchecked spell
-        uncheckedSpells.forEach((spell) => {
-          const spellLevel =
-            spell.level[characterData.class.toLowerCase() as keyof SpellLevels];
-          if (spellLevel !== null) {
-            newSpellCounts[spellLevel - 1] -= 1;
-          }
-        });
-
-        // Find the spells that were checked and not already known
-        const checkedSpells = newSpells.filter(
-          (spell) => !characterData.spells.includes(spell)
-        );
-
-        // Increment the count for each checked spell
-        checkedSpells.forEach((spell) => {
-          const spellLevel =
-            spell.level[characterData.class.toLowerCase() as keyof SpellLevels];
-          if (spellLevel !== null) {
-            newSpellCounts[spellLevel - 1] += 1;
-          }
-        });
-
-        // Combine the new spells with the spells from other levels
-        const combinedSpells = [
-          ...characterData.spells.filter(
+          newCheckedSpells = characterData.spells.filter(
             (spell) =>
-              spell.level[
-                characterData.class.toLowerCase() as keyof SpellLevels
-              ] !== level
-          ),
-          ...newSpells,
-        ];
+              spell.level[classNameToCheck as keyof SpellLevels] !== level
+          );
 
-        // Remove duplicates from combinedSpells
-        const uniqueSpells: Spell[] = [];
-        combinedSpells.forEach((spell) => {
-          if (
-            !uniqueSpells.some((uniqueSpell) => uniqueSpell.name === spell.name)
-          ) {
-            uniqueSpells.push(spell);
-          }
-        });
+          checkedValues.forEach((value) => {
+            const foundSpell = spells.find((spell) => spell.name === value);
+            if (foundSpell) {
+              newCheckedSpells.push(foundSpell);
+            }
+          });
+        }
 
-        setCharacterData({
-          ...characterData,
-          spells: uniqueSpells,
-        });
-
-        dispatch({ type: "init", spellCounts: newSpellCounts });
+        setCharacterData({ ...characterData, spells: newCheckedSpells });
       };
 
     const isCustomClass = getClassType(characterData.class) === "custom";
