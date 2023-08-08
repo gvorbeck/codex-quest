@@ -234,7 +234,7 @@ export default function CharacterClass({
       <div className="mt-6">
         {/* COMBO CLASS */}
         {comboClass ? (
-          <div>
+          <div className="grid gap-2">
             {classChoices.map(
               (choice) =>
                 choice !== "Custom" && (
@@ -332,12 +332,13 @@ export default function CharacterClass({
               Choose your starting spell
             </Typography.Title>
             <Typography.Text type="secondary" className="mb-4 block">
-              Magic-Users start with Read Magic.
+              Magic-Users start with <strong>Read Magic</strong> and can choose
+              a second.
             </Typography.Text>
             <Radio.Group
               onChange={onSpellRadioChange}
               value={selectedSpell ? selectedSpell.name : null}
-              className="flex flex-wrap gap-4 items-center"
+              className="mt-4 gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             >
               {spellsData
                 .filter(
