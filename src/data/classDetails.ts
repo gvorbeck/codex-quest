@@ -11,7 +11,7 @@ export const classDetails: Record<
   [ClassNames.DRUID]: {
     specials: [
       marked(
-        `**Druids** can cast spells of divine nature starting at 2nd level`
+        `**Druids** can cast spells of divine nature starting at 2nd level.`
       ),
       marked(
         `**Druids** have the power of **Animal Affinity**, working much like the Clerical ability to Turn Undead. They can identify any natural animal or plant, and can identify clean water.`
@@ -79,27 +79,27 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
     ],
     restrictions: [
       marked(
-        `**Assassins** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort`
+        `**Assassins** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort.`
       ),
     ],
   },
   [ClassNames.CLERIC]: {
     specials: [
       marked(
-        `**Clerics** can cast spells of divine nature starting at 2nd level`
+        `**Clerics** can cast spells of divine nature starting at 2nd level.`
       ),
-      marked(`**Clerics** have the power to Turn the Undead`),
+      marked(`**Clerics** have the power to Turn the Undead.`),
     ],
     restrictions: [
       marked(
-        `**Clerics** may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling)`
+        `**Clerics** may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling).`
       ),
     ],
   },
   [ClassNames.FIGHTER]: {
     specials: [
       marked(
-        `Although they are not skilled in the ways of magic, **Fighters** can nonetheless use many magic items, including but not limited to magical weapons and armor`
+        `Although they are not skilled in the ways of magic, **Fighters** can nonetheless use many magic items, including but not limited to magical weapons and armor.`
       ),
     ],
     restrictions: [],
@@ -107,25 +107,25 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
   [ClassNames.MAGICUSER]: {
     specials: [
       marked(
-        `**Magic-Users** begins play knowing Read Magic and one other spell of first level`
+        `**Magic-Users** begins play knowing Read Magic and one other spell of first level.`
       ),
     ],
     restrictions: [
       marked(
-        `The only weapons **Magic-Users** become proficient with are the dagger and the walking staff (or cudgel)`
+        `The only weapons **Magic-Users** become proficient with are the dagger and the walking staff (or cudgel).`
       ),
       marked(
-        `**Magic-Users** may not wear armor of any sort nor use a shield as such things interfere with spellcasting`
+        `**Magic-Users** may not wear armor of any sort nor use a shield as such things interfere with spellcasting.`
       ),
     ],
   },
   [ClassNames.THIEF]: {
     specials: [
-      marked(`**Thieves** have a number of special abilities (see table)`),
+      marked(`**Thieves** have a number of special abilities (see table).`),
     ],
     restrictions: [
       marked(
-        `**Thieves** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort`
+        `**Thieves** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort.`
       ),
     ],
   },
