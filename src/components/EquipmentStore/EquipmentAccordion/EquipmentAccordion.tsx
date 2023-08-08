@@ -7,7 +7,7 @@ import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import { classChoices } from "../../../data/classDetails";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
-import { ClassNames } from "../../definitions";
+import { ClassNames, RaceNames } from "../../definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -218,8 +218,8 @@ const itemIsDisabled = (
   }
 
   if (
-    raceName.toLowerCase() === "dwarf" ||
-    raceName.toLowerCase() === "halfling"
+    raceName.toLowerCase() === RaceNames.DWARF ||
+    raceName.toLowerCase() === RaceNames.HALFLING
   ) {
     if (item.size === "L") disabled = true;
   }
