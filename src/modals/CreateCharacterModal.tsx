@@ -291,6 +291,15 @@ export default function CreateCharacterModal({
     }
   }
 
+  const FloatingGold = () => {
+    return (
+      <div className="sticky top-4 z-10 sm:hidden inline-block float-right bg-seaBuckthorn p-2 rounded shadow-md font-bold italic">
+        {`Gold: ${characterData.gold.toFixed(2)}`}
+      </div>
+    );
+  };
+  console.log("current:", current);
+
   return (
     <>
       {contextHolder}
@@ -308,7 +317,8 @@ export default function CreateCharacterModal({
             <Steps current={current} items={items} direction="vertical" />
           </Col>
           <Col xs={24} md={19}>
-            <section>
+            <section className="relative">
+              {current === 4 && <FloatingGold />}
               <Typography.Title level={1} className="mt-0 text-shipGray">
                 {steps[current].fullTitle}
               </Typography.Title>

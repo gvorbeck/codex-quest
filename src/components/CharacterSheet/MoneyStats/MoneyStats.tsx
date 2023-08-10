@@ -1,5 +1,5 @@
 import { Input, Space, Typography } from "antd";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
@@ -113,9 +113,8 @@ export default function MoneyStats({
           ["sp", silverValue, setSilverValue, 10],
           ["cp", copperValue, setCopperValue, 100],
         ].map(([key, value, setFunc, multiplier]) => (
-          <>
+          <React.Fragment key={key as string}>
             <Input
-              key={key as string}
               min={0}
               value={value as string}
               name={key as string}
@@ -155,7 +154,7 @@ export default function MoneyStats({
             <label htmlFor={key as string} className="hidden">
               {key as string}
             </label>
-          </>
+          </React.Fragment>
         ))}
       </Space>
     </div>
