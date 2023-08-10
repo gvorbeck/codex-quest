@@ -113,30 +113,20 @@ export default function MoneyStats({
           ["sp", silverValue, setSilverValue, 10],
           ["cp", copperValue, setCopperValue, 100],
         ].map(([key, value, setFunc, multiplier]) => (
-          <Input
-            key={key as string}
-            min={0}
-            value={value as string}
-            name={key as string}
-            onFocus={(event) => event.target.select()}
-            onChange={(event) =>
-              handleInputChange(
-                event,
-                setFunc as React.Dispatch<React.SetStateAction<string>>
-              )
-            }
-            onBlur={() =>
-              handleInputBlur(
-                value as string,
-                (makeChange() as { [key: string]: number })[
-                  key as "gp" | "sp" | "cp"
-                ],
-                setFunc as React.Dispatch<React.SetStateAction<string>>,
-                multiplier as number
-              )
-            }
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
+          <>
+            <Input
+              key={key as string}
+              min={0}
+              value={value as string}
+              name={key as string}
+              onFocus={(event) => event.target.select()}
+              onChange={(event) =>
+                handleInputChange(
+                  event,
+                  setFunc as React.Dispatch<React.SetStateAction<string>>
+                )
+              }
+              onBlur={() =>
                 handleInputBlur(
                   value as string,
                   (makeChange() as { [key: string]: number })[
@@ -144,12 +134,28 @@ export default function MoneyStats({
                   ],
                   setFunc as React.Dispatch<React.SetStateAction<string>>,
                   multiplier as number
-                );
+                )
               }
-            }}
-            addonAfter={key as string}
-            disabled={!userIsOwner}
-          />
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleInputBlur(
+                    value as string,
+                    (makeChange() as { [key: string]: number })[
+                      key as "gp" | "sp" | "cp"
+                    ],
+                    setFunc as React.Dispatch<React.SetStateAction<string>>,
+                    multiplier as number
+                  );
+                }
+              }}
+              addonAfter={key as string}
+              disabled={!userIsOwner}
+              id={key as string}
+            />
+            <label htmlFor={key as string} className="hidden">
+              {key as string}
+            </label>
+          </>
         ))}
       </Space>
     </div>

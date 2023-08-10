@@ -121,7 +121,11 @@ export default function ExperiencePoints({
           suffix={character.level < 20 && `/ ${totalLevelRequirement} XP`}
           disabled={!userIsOwner}
           name="Experience Points"
+          id="experience-points"
         />
+        <label htmlFor="experience-points" className="hidden">
+          Experience Points
+        </label>
         {character.level < 20 && (
           <Button
             disabled={character.xp < totalLevelRequirement}

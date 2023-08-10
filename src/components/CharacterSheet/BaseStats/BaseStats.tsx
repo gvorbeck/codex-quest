@@ -28,7 +28,7 @@ export default function BaseStats({
           />
         )}
         <Typography.Title
-          level={1}
+          level={2}
           className="!mt-0 !mb-0 !text-shipGray ml-4 text-center"
         >
           {characterData.name}

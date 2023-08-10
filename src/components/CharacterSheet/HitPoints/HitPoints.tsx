@@ -150,7 +150,11 @@ export default function HitPoints({
         }}
         onFocus={(event) => event.target.select()}
         name="Hit Points"
+        id="hit-points"
       />
+      <label htmlFor="hit-points" className="hidden">
+        Hit Points
+      </label>
       <Input.TextArea
         value={descValue}
         rows={4}
