@@ -46,27 +46,15 @@ export default function BaseStats({
         <Descriptions
           bordered
           size="small"
-          className="[&_th]:leading-none [&_td]:leading-none mt-4 sm:mt-0 [&_td]:px-3 [&_th]:px-2"
+          className="[&_th]:leading-none [&_td]:leading-none mt-4 md:mt-0 [&_td]:px-3 [&_th]:px-2"
         >
-          <Descriptions.Item
-            label="Level"
-            span={1}
-            contentStyle={{ fontWeight: "bold" }}
-          >
+          <Descriptions.Item label="Level" span={1}>
             {characterData.level}
           </Descriptions.Item>
-          <Descriptions.Item
-            label="Race"
-            span={1}
-            contentStyle={{ fontWeight: "bold" }}
-          >
+          <Descriptions.Item label="Race" span={1}>
             {characterData.race}
           </Descriptions.Item>
-          <Descriptions.Item
-            label="Class"
-            span={1}
-            contentStyle={{ fontWeight: "bold" }}
-          >
+          <Descriptions.Item label="Class" span={1}>
             {characterData.class}
           </Descriptions.Item>
         </Descriptions>
