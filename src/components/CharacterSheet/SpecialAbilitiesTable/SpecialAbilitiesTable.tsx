@@ -80,6 +80,7 @@ const abilityNames = {
 export default function SpecialAbilitiesTable({
   characterLevel,
   characterClass,
+  className,
 }: SpecialAbilitiesTableProps) {
   const dataSource: {}[] = [];
 
@@ -135,20 +136,22 @@ export default function SpecialAbilitiesTable({
   return (
     <>
       {contextHolder}
-      <div className="mt-6 flex items-baseline gap-4">
-        <Typography.Title level={3} className="mt-0 text-shipGray">
-          {toTitleCase(characterClass)} Special Abilities
-        </Typography.Title>
-        <HelpTooltip text="A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability." />
+      <div className={`${className}`}>
+        <div className={` mt-6 flex items-baseline gap-4`}>
+          <Typography.Title level={3} className="mt-0 text-shipGray">
+            {toTitleCase(characterClass)} Special Abilities
+          </Typography.Title>
+          <HelpTooltip text="A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability." />
+        </div>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={false}
+          showHeader={false}
+          size="small"
+          className="cursor-pointer"
+        />
       </div>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        showHeader={false}
-        size="small"
-        className="cursor-pointer"
-      />
     </>
   );
 }

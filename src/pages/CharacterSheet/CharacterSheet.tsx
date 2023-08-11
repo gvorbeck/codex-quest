@@ -369,28 +369,31 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {classChoices.includes(
         ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
       ) || characterData.class.toLowerCase().includes("magic-user") ? (
-        <Row gutter={32} className="gap-4 md:gap-0 print:block">
-          <Col xs={24} md={12} className="print:w-1/2 print:float-left">
-            {/* SPECIALS / RESTRICTIONS */}
-            <SpecialsRestrictions characterData={characterData} />
-            {/* THIEF'S ABILITIES */}
-            {(characterData.class.toLowerCase().includes("thief") ||
-              characterData.class.toLowerCase().includes("assassin")) && (
-              <SpecialAbilitiesTable
-                characterLevel={characterData.level.toString()}
-                characterClass={
-                  characterData.class.toLowerCase().includes("thief")
-                    ? "thief"
-                    : characterData.class.toLowerCase()
-                }
-              />
-            )}
-          </Col>
-          <Col xs={24} md={12} className="print:w-1/2 print:float-right">
-            {/* SAVING THROWS */}
-            <SavingThrows characterData={characterData} />
-          </Col>
-        </Row>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* SPECIALS / RESTRICTIONS */}
+          <SpecialsRestrictions
+            characterData={characterData}
+            className="md:col-span-2 md:row-span-2"
+          />
+          {/* THIEF'S ABILITIES */}
+          {(characterData.class.toLowerCase().includes("thief") ||
+            characterData.class.toLowerCase().includes("assassin")) && (
+            <SpecialAbilitiesTable
+              className="md:col-start-3"
+              characterLevel={characterData.level.toString()}
+              characterClass={
+                characterData.class.toLowerCase().includes("thief")
+                  ? "thief"
+                  : characterData.class.toLowerCase()
+              }
+            />
+          )}
+          {/* SAVING THROWS */}
+          <SavingThrows
+            characterData={characterData}
+            className="md:col-start-3"
+          />
+        </div>
       ) : (
         <Typography.Text className="text-center">
           You are using a custom Class. Use the "Bio & Notes" field below to

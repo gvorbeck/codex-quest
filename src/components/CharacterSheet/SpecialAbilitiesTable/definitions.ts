@@ -1,6 +1,7 @@
 export interface SpecialAbilitiesTableProps {
   characterLevel: string;
   characterClass: string;
+  className?: string;
 }
 
 export interface AbilitiesArray {

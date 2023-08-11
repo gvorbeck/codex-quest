@@ -16,4 +16,5 @@ export interface SavingThrowsTables {
 
 export interface SavingThrowsProps {
   characterData: CharacterData;
+  className?: string;
 }

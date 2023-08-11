@@ -6,7 +6,10 @@ import CloseIcon from "../../CloseIcon/CloseIcon";
 import savingThrows from "../../../data/savingThrows";
 import { getClassType } from "../../../support/helpers";
 
-export default function SavingThrows({ characterData }: SavingThrowsProps) {
+export default function SavingThrows({
+  characterData,
+  className,
+}: SavingThrowsProps) {
   const dataSource: {}[] = [];
 
   const roller = new DiceRoller();
@@ -90,7 +93,7 @@ export default function SavingThrows({ characterData }: SavingThrowsProps) {
   return (
     <>
       {contextHolder}
-      <div>
+      <div className={`${className}`}>
         <Typography.Title level={3} className="mt-0 text-shipGray">
           Saving Throws
         </Typography.Title>
