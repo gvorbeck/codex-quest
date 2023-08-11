@@ -298,7 +298,6 @@ export default function CreateCharacterModal({
       </div>
     );
   };
-  console.log("current:", current);
 
   return (
     <>
