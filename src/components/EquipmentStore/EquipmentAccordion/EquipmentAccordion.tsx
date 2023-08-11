@@ -303,7 +303,7 @@ export default function EquipmentAccordion({
             >
               {/* if category === 'general-equipment' Create a sub Collapse */}
               {category === "general-equipment" ? (
-                <Collapse accordion ghost>
+                <Collapse accordion ghost size="small">
                   {[
                     ...new Set(
                       equipmentItems

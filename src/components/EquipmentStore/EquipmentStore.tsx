@@ -190,9 +190,9 @@ export default function EquipmentStore({
         !Object.values(ClassNames).includes(
           characterData.class as ClassNames
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
-      <div className="sm:grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {inBuilder && (
-          <Space.Compact className="col-span-2">
+          <Space.Compact className="sm:col-span-2">
             <InputNumber
               min={30}
               max={180}
