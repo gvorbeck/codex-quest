@@ -3,7 +3,10 @@ import { calculateCarryingCapacity } from "../../../support/formatSupport";
 import SimpleNumberStat from "../SimpleNumberStat/SimpleNumberStat";
 import { WeightStatsProps } from "./definitions";
 
-export default function WeightStats({ characterData }: WeightStatsProps) {
+export default function WeightStats({
+  characterData,
+  className,
+}: WeightStatsProps) {
   const capacity = calculateCarryingCapacity(
     +characterData.abilities.scores.strength,
     characterData.race
@@ -15,7 +18,7 @@ export default function WeightStats({ characterData }: WeightStatsProps) {
   );
 
   return (
-    <div className="text-center">
+    <div className={`${className} text-center`}>
       <SimpleNumberStat
         title="Weight"
         value={weight.toFixed(0)}

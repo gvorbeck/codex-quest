@@ -17,6 +17,7 @@ export interface EquipmentItem {
   weight?: number;
   size?: string;
   damage?: string;
+  missileAC?: string;
   AC?: string | number;
   type?: string;
   range?: number[];

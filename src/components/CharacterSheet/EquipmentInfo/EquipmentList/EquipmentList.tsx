@@ -18,6 +18,9 @@ const itemDescription = (item: EquipmentItem) => (
       <Descriptions.Item label="Amount">{item.amount}</Descriptions.Item>
     )}
     {item.AC && <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>}
+    {item.missileAC && (
+      <Descriptions.Item label="Missile AC">{item.missileAC}</Descriptions.Item>
+    )}
     {item.damage && (
       <Descriptions.Item label="Damage">{item.damage}</Descriptions.Item>
     )}

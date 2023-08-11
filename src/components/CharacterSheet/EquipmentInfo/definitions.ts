@@ -11,4 +11,5 @@ export interface EquipmentInfoProps {
   setWeapon?: (weapon: EquipmentItem) => void;
   showAttackModal?: () => void;
   updateAC: () => void;
+  className?: string;
 }

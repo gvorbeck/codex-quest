@@ -11,6 +11,7 @@ export default function MoneyStats({
   setCharacterData,
   userIsOwner,
   makeChange,
+  className,
 }: MoneyStatsProps) {
   const { gp, sp, cp } = makeChange();
   const [goldValue, setGoldValue] = useState(gp.toString());
@@ -91,7 +92,7 @@ export default function MoneyStats({
   }, [characterData.gold]);
 
   return (
-    <div>
+    <div className={`${className}`}>
       <div className="flex items-baseline justify-start">
         <Typography.Title
           level={3}

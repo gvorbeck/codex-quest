@@ -15,6 +15,7 @@ export default function EquipmentInfo({
   setWeapon,
   showAttackModal,
   updateAC,
+  className,
 }: EquipmentInfoProps) {
   const equipmentListCategories = {
     weapons: [
@@ -49,7 +50,7 @@ export default function EquipmentInfo({
   };
 
   return (
-    <>
+    <div className={`${className}`}>
       <div className="flex items-baseline gap-4">
         <Typography.Title level={3} className="mt-0 text-shipGray">
           Equipment
@@ -172,6 +173,6 @@ export default function EquipmentInfo({
           />
         </Collapse.Panel>
       </Collapse>
-    </>
+    </div>
   );
 }

@@ -399,35 +399,34 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         </Typography.Text>
       )}
       <Divider />
-      <Row gutter={32} className="gap-4 md:gap-0 print:block">
-        <Col xs={24} sm={11} md={6} className="print:w-1/2 print:float-left">
-          {/* MONEY */}
-          <MoneyStats
-            characterData={characterData}
-            setCharacterData={setCharacterData}
-            userIsOwner={userIsOwner}
-            makeChange={makeChange}
-          />
-        </Col>
-        <Col xs={24} sm={12} md={6} className="print:w-1/2 print:float-right">
-          {/* WEIGHT */}
-          <WeightStats characterData={characterData} />
-        </Col>
-        <Col xs={24} md={12} className="print:clear-both">
-          {/* EQUIPMENT */}
-          <EquipmentInfo
-            userIsOwner={userIsOwner}
-            showAddEquipmentModal={showAddEquipmentModal}
-            showAddCustomEquipmentModal={showAddCustomEquipmentModal}
-            characterData={characterData}
-            setCharacterData={setCharacterData}
-            handleCustomDelete={handleCustomDelete}
-            setWeapon={setWeapon}
-            showAttackModal={showAttackModal}
-            updateAC={updateAC}
-          />
-        </Col>
-      </Row>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* MONEY */}
+        <MoneyStats
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          userIsOwner={userIsOwner}
+          makeChange={makeChange}
+          className="col-span-1"
+        />
+        {/* WEIGHT */}
+        <WeightStats
+          characterData={characterData}
+          className="col-span-1 md:col-start-1 lg:col-start-2 lg:col-span-2"
+        />
+        {/* EQUIPMENT */}
+        <EquipmentInfo
+          userIsOwner={userIsOwner}
+          showAddEquipmentModal={showAddEquipmentModal}
+          showAddCustomEquipmentModal={showAddCustomEquipmentModal}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+          setWeapon={setWeapon}
+          showAttackModal={showAttackModal}
+          updateAC={updateAC}
+          className="col-span-1 md:col-start-2 md:row-start-1 lg:col-start-4 lg:col-span-2 row-span-2"
+        />
+      </div>
       <Divider />
       {/* BIO & NOTES */}
       <Description
