@@ -102,7 +102,7 @@
       "cleric": null,
       "magic-user": 3,
       "druid": null,
-      "illusionist": null
+      "illusionist": 3
     },
     "duration": "12 turns",
     "description": "This spell enables the caster to see into another area through the eyes of a living creature in that area. The caster must specify the direction and approximate distance, up to a maximum of 60' away. If there is no appropriate creature in that area, the spell fails. No saving throw is allowed, and the target creature is unaware that it is being so used. The caster may choose another subject creature after at least a turn has passed, enabling multiple locations to be viewed. If the subject creature moves out of range, contact is lost, though the caster may be able to choose another target in this case."
@@ -114,7 +114,7 @@
       "cleric": null,
       "magic-user": 5,
       "druid": null,
-      "illusionist": null
+      "illusionist": 5
     },
     "duration": "6 rounds/level",
     "description": "This spell creates a 20'x20'x20' cloud of poison gas which moves at a rate of 10' per round under the control of the caster (so long as they concentrate on it). The gas kills outright any creatures of 3 or fewer hit dice or levels it comes in contact with; creatures having 4 or more hit dice or levels must save vs. Poison or die. The cloud persists for the entire duration even if the caster ceases to concentrate upon it."
@@ -138,7 +138,7 @@
       "cleric": null,
       "magic-user": 4,
       "druid": null,
-      "illusionist": null
+      "illusionist": 4
     },
     "duration": "2 rounds+1/level",
     "description": "This spell causes up to 3d6 living creatures within a 30' radius circle around the target point to become confused, making them unable to independently determine what they will do. A saving throw vs. Spells is allowed to resist the effect. Roll on the following table on each subject's Initiative number each round to see what the subject does.<table><thead><tr><th>d10</th><th>Behavior</th></tr></thead><tbody><tr><td>1</td><td>Act normally.</td></tr><tr><td>2</td><td>Move toward the caster, and attack if possible. 3-5 Take no action except possibly to babble. 6-7 Move swiftly away from the caster.</td></tr><tr><td>8-10</td><td>Attack the nearest creature, regardless of  whether it is a friend or foe.</td></tr></tbody></table>\n\nIf the target cannot perform the action indicated, the GM should move down the table (going back to the top if the table runs out) until an action is found that the target can perform. If a confused creature is attacked, it returns the attack on its next initiative number (later in this round or in the next round if it has already acted) regardless of what is rolled on the table."
@@ -162,7 +162,7 @@
       "cleric": 3,
       "magic-user": 2,
       "druid": null,
-      "illusionist": null
+      "illusionist": 2
     },
     "duration": "1 year/level",
     "description": "This spell creates a spherical region of light, as bright as full daylight up to a 30' radius, with light of lesser intensity to a radius of 60'. Continual light can be cast on an object, into the air, or at a creature, just as with the light spell, up to a maximum range of 360' from the caster. The spell remains in effect for one year per level of the caster. \n\nAs with light, this spell can be used to blind a creature if cast on its visual organs. Creatures targeted by this spell are allowed a save vs. Death Ray; if the save is made, the spell is cast into the air just behind the target creature. A penalty of -4 is applied to the blinded creature's attack rolls if the saving throw fails. \n\nThe reversed spell, continual darkness, causes complete absence of light in the area of effect, overpowering normal light sources. Continual darkness may be used to blind in the same way as continual light."
@@ -246,7 +246,7 @@
       "cleric": null,
       "magic-user": 3,
       "druid": null,
-      "illusionist": null
+      "illusionist": 3
     },
     "duration": "1 hour/level",
     "description": "The subject receives Darkvision with a range of 60' for the duration of the spell. (See page 43 for details.)"
@@ -282,7 +282,7 @@
       "cleric": null,
       "magic-user": 2,
       "druid": null,
-      "illusionist": null
+      "illusionist": 1
     },
     "duration": "1 turn/level",
     "description": "By means of this spell the caster is able to see invisible characters, creatures or objects within the given range, seeing them as bright transparent outlines or shapes."
@@ -294,7 +294,7 @@
       "cleric": 1,
       "magic-user": 1,
       "druid": null,
-      "illusionist": null
+      "illusionist": 2
     },
     "duration": "2 turns",
     "description": "The caster of this spell is able to detect enchanted or enspelled objects or creatures within the given range by sight, seeing them surrounded by a pale glowing light. Only the caster sees the glow. Invisible creatures or objects are not detected by this spell, but the emanations of the invisibility magic will be seen as an amorphous glowing fog, possibly allowing the caster (only) to attack the invisible creature at an attack penalty of only -2."
@@ -342,7 +342,7 @@
       "cleric": 4,
       "magic-user": 3,
       "druid": null,
-      "illusionist": null
+      "illusionist": 4
     },
     "duration": "instantaneous",
     "description": "This spell can be used to end ongoing spells or similar magical effects cast on a creature or object, or to end such effects within a cubic area 20' on a side. The caster must choose whether to dispel magic on a creature or object, or to affect an area. \n\nIf dispel magic is targeted at a creature, all spell effects (including ongoing potion effects) may be canceled. If cast upon an area, all such effects within the area may be canceled. Any spell or effect having a caster level equal to or less than the dispel magic caster's level is ended automatically. Those created by higher level casters might not be canceled; there is a 5% chance the dispel magic will fail for each level the spell effect exceeds the caster level. For example, a 10th level caster dispelling magic created by a 14th level caster has a 20% chance of failure. \n\nSome spells cannot be ended by dispel magic; this specifically includes any curse, including those created by bestow curse (the reverse of remove curse) as well as by cursed items."
@@ -354,7 +354,7 @@
       "cleric": null,
       "magic-user": 5,
       "druid": null,
-      "illusionist": null
+      "illusionist": 5
     },
     "duration": "permanent",
     "description": "This spell allows the caster to inflict a terrible curse on a living creature, reducing both Intelligence and Charisma to just 1 point each. A saving throw vs. Spells is allowed to resist this effect, but if the target creature is a spellcaster a penalty of -4 is applied to the saving throw. \n\nOnce feebleminded, the victim of this spell can no longer cast spells, speak or understand any language, or indeed communicate at all as their mind can no longer understand even such simple things as pointing or beckoning. The victim still knows their friends and allies and will follow them and try to help or protect them. \n\nThis effect can be removed with a heal spell, or with the reversed form of this spell restoremind."
@@ -474,7 +474,7 @@
       "cleric": null,
       "magic-user": 4,
       "druid": null,
-      "illusionist": null
+      "illusionist": 4
     },
     "duration": "12 turns/level",
     "description": "This spell makes one 10 yard cube per level of outdoor terrain appear to be a different type (i.e. field into forest, grassland into desert, or the like). This spell requires a full turn to cast. \n\nThe affected terrain looks, sounds, and smells like another type of normal terrain. The magic does not affect creatures nor any sort of fabricated item; such things retain their appearance and visibility. A save vs. Spells is allowed to see through the illusion, but only if the creatures or characters viewing the area actively attempt to do so."
@@ -522,7 +522,7 @@
       "cleric": 2,
       "magic-user": 3,
       "druid": null,
-      "illusionist": null
+      "illusionist": 4
     },
     "duration": "2d8 turns",
     "description": "This spell will render any living (not undead) humanoid creature (as defined in charm person) paralyzed. Creatures larger than ogres will not be affected by this spell. Targets of the spell are conscious and able to breathe, but cannot move, act, or speak in any way. A successful save vs. Spells is allowed to resist the effect. The spell may be cast at a single person, who makes their save at -2, or at a group, in which case 1d4 of the creatures in the group may be affected. \n\nA paralyzed swimmer can't swim and may drown. A character who has somehow gained wings and is then paralyzed while airborne will not be able to move its wings to fly and will thus fall."
@@ -570,7 +570,7 @@
       "cleric": null,
       "magic-user": 2,
       "druid": null,
-      "illusionist": null
+      "illusionist": 2
     },
     "duration": "special",
     "description": "This spell causes the creature touched (who may be the caster) to become invisible, undetectable by normal vision or Darkvision. Invisible creatures may be detected by those with non-visual sensory abilities. \n\nAll items worn or carried by the target when the spell is cast become invisible as well. If the target lays down an \n\ninvisible item, it instantly becomes visible again; on the other hand, items picked up do not automatically become invisible. If the target places a visible item entirely inside its invisible clothing, backpack, pouch, or other container so that if the target were visible the item could not be seen, it will become invisible just as if it were held when the spell was cast. \n\nNote that casting this spell upon another makes the target invisible to the caster as well as everyone else. A party of invisible characters will likely experience problems with running into or tripping over each other. \n\nThe spell lasts at most 24 hours if not ended sooner. It ends instantly if the target attacks an opponent or casts any spell. Other actions do not normally end the spell. The target may end the spell at will. \n\nObjects that shed light may be made invisible but the light itself will remain visible, and the source of that light (and the character carrying it) can thus be discovered. Rain, dust, paint, and any other visible substance thrown or applied to an invisible creature will also render it detectable."
@@ -582,7 +582,7 @@
       "cleric": null,
       "magic-user": 3,
       "druid": null,
-      "illusionist": null
+      "illusionist": 3
     },
     "duration": "1 turn/level",
     "description": "The target of this spell becomes invisible just as with invisibility, but in addition all other creatures within 10 feet of the target at the time of casting (referred to as members of the group) also become invisible. Unlike with normal invisibility, all members can see each other and themselves normally. \n\nIf any member negates the effect by attacking or casting a spell, it becomes visible but all other members remain invisible. However, if the original subject takes an action that negates the invisibility, it ends for the entire group. If a member negates its own invisibility, that member will no longer be able to see the still-invisible group members. Moving further than 10 feet from the target also causes a group member to become visible; returning to the area does not reinstate the invisibility."
@@ -594,7 +594,7 @@
       "cleric": null,
       "magic-user": 6,
       "druid": null,
-      "illusionist": null
+      "illusionist": 6
     },
     "duration": "special",
     "description": "The caster summons an invisible stalker to do their bidding. The spell persists until dispel evil is cast on the creature, it is slain, or the task is fulfilled. The GM is advised to review the monster entry for the invisible stalker when this spell is used, as they may not always perform reliably."
@@ -630,7 +630,7 @@
       "cleric": 1,
       "magic-user": 1,
       "druid": null,
-      "illusionist": null
+      "illusionist": 1
     },
     "duration": "6 turns + 1/level",
     "description": "This spell creates a light equal to torchlight which illuminates a 30' radius area well (with dim light extending for an additional 20') around the target location or object. This effect is stationary when cast in an area, but it can be cast on a movable object or even onto a character or creature. \n\nReversed, light becomes darkness, creating an area of darkness just as described above. This darkness blocks out Darkvision and negates mundane light sources. Wherever both spells overlap they cancel out, leaving only normal illumination in the overlapping area.\n\nA light spell may be cast to dispel the darkness spell of an equal or lower level caster (and vice versa), leaving neither spell active; likewise, a darkness spell can cancel the light spell of an equal or lower level caster.\n\nEither version of this spell may be used to blind an opponent by means of casting it on the target's ocular organs. The target is allowed a saving throw vs. Death Ray to avoid the effect, and if the save is made the spell does not take effect at all. A light or darkness spell cast to blind does not have the given area of effect (that is, no light or darkness is shed around the victim)."
@@ -702,7 +702,7 @@
       "cleric": null,
       "magic-user": 1,
       "druid": null,
-      "illusionist": null
+      "illusionist": 1
     },
     "duration": "special",
     "description": "This spell places a simple form of programmed illusion on a non-living object within range. When triggered, the spell causes the illusion of a mouth to appear on the object and a message to be said aloud. The enchantment can remain in place indefinitely, but is expended when triggered (i.e. the message is normally delivered only once). \n\nThe message recounted may be up to three words per caster level in length. The caster may insert pauses in the message, but the entire message must be delivered in a time period of no more than a turn. The voice of the spell can be made to speak at any volume attainable by a normal human. It will sound enough like the caster's own voice to be recognized by a close associate of the caster, but not identical. \n\nThe illusionary mouth moves as if actually speaking the message being delivered, and remains visible during pauses. If placed on an artistic depiction of a creature with a mouth (such as a painting or statue), the spell can be made to appear to animate the mouth of the object. \n\nThis spell cannot be used to activate magic items which have command words, nor to activate any other magical effects. \n\nThe caster must choose the conditions under which this spell is triggered. The conditions may be as complicated or simple as desired, but must depend only on sight and hearing; the spell has no other sensory capabilities. The spell also has no particular intelligence, and can be fooled by disguises or illusions. The spell does have the capability to effectively see in normal darkness, but not in any sort of magical darkness, and it cannot detect invisible creatures nor see through doors, walls, or even opaque curtains. Likewise, stealth or magical silence are effective in preventing audible triggers. Finally, the spell cannot detect a character's class, level, ability scores, or any other feature not obvious to a normal NPC. \n\nTriggers have an effective sensory range of 10 feet per caster level; sounds, sights, or actions outside that range will never trigger the spell."
@@ -714,7 +714,7 @@
       "cleric": null,
       "magic-user": 4,
       "druid": null,
-      "illusionist": null
+      "illusionist": 4
     },
     "duration": "1 hour/level",
     "description": "With this spell the caster causes 1d4+1 man-sized (or smaller) creatures per four caster levels to appear as if they are natural effects of the terrain (for example, trees in a forest, stalagmites in a cave, coral underwater, boulders in a cavern, etc.). All creatures to be affected must be within a 120' radius of the caster at the time the spell is cast. Only those creatures the caster wishes to hide are affected, and then only if they are willing to be concealed. The caster may choose to be included among the affected creatures. \n\nThose affected are thus concealed from other creatures passing through the area for so long as they remain still. If an affected creature chooses to move or attack, the illusion is dispelled for that creature, but those who remain still continue to be hidden. The caster may end the spell early if they wish by speaking a single word. The illusion can also be ended by dispel magic."
@@ -738,7 +738,7 @@
       "cleric": null,
       "magic-user": 2,
       "druid": null,
-      "illusionist": null
+      "illusionist": 1
     },
     "duration": "1 turn/level",
     "description": "This spell allows the caster to create multiple illusory duplicates (called figments) which seem to swirl and move around and through each other as well as the caster more or less constantly, making it impossible for most creatures to determine which is the real one. A total of 1d4 images plus one image per three caster levels (maximum eight images total) are created. \n\nThe figments mimic the caster's actions, going through the motions of casting spells, drinking potions, levitating, and so on, just as the caster does. Figments always look exactly like the caster. \n\nAny opponent who attacks or casts spells directly on the caster will always hit a figment instead. Attacking a figment destroys it, whether or not the attack roll is successful, as does any attack spell directed at one. Area-effect spells are not cast directly on the caster, and thus appear to affect all figments exactly as they affect the caster; for instance, if the caster is subjected to a fireball, all figments will appear to be injured just as the caster was."
@@ -774,7 +774,7 @@
       "cleric": null,
       "magic-user": 2,
       "druid": null,
-      "illusionist": null
+      "illusionist": 2
     },
     "duration": "concentration",
     "description": "With this spell the caster visualizes and projects the illusion of an object, creature (or small group of creatures), or other effect. The caster can project an illusion up to a maximum size of 20'x20'x20'. The illusion is purely visual, with no other sensory features. The image is not static, but can be animated as the caster desires so long as all images remain within the area of effect. The illusion persists so long as the caster concentrates upon it. \n\nIf used to create the illusion of one or more creatures, they will have an Armor Class of 11 and will disappear if hit in combat. Damage done by monsters, spells, etc. simulated by this spell is not real; those \"killed\" or otherwise apparently disabled will wake up uninjured (at least by this spell) after 2d8 rounds. The illusory damage done will be equal to the normal damage for any attack form simulated. \n\nAttempting to animate more creatures than the caster's level grants viewing creatures with at least average Intelligence an immediate save vs. Spells to recognize the creatures as illusions; those making the save will be unaffected by any actions taken by the illusions from that point on. A similar save may be granted by the GM any time they feel the illusion is likely to be seen through, especially if the player describes an illusion which seems improbable or otherwise poorly conceived."
@@ -810,7 +810,7 @@
       "cleric": null,
       "magic-user": 6,
       "druid": null,
-      "illusionist": null
+      "illusionist": 5
     },
     "duration": "6 turns",
     "description": "This spell creates a quasi-real, illusory version of the caster. This illusory projected image looks, sounds, and smells like the caster, in addition to mimicking gestures and actions (including speech, which is projected from the caster to the illusory image as if by a form of ventriloquism). Any further spells cast seem to originate from the illusion, not the actual caster. \n\nA line of sight between the caster and their illusory self must be maintained or the spell ends. Any effect or action that breaks the line of sight dispels the image, as does the illusionary caster being struck in combat. Note that this spell grants no special sensory powers to the caster; for example, if the illusory self is positioned so as to be able to see something the caster can't directly see, the caster does not see it. Also, all spell ranges are still figured from the caster's actual position, not the illusory self's position."
@@ -894,7 +894,7 @@
       "cleric": null,
       "magic-user": 1,
       "druid": null,
-      "illusionist": null
+      "illusionist": 2
     },
     "duration": "special",
     "description": "This spell grants the caster the ability to read almost any written language. It may be cast in one of three modes: \n\nIn the first mode, the spell allows the caster to read any number of written works in a variety of languages. This mode lasts for 1 turn per caster level. \n\nIn the second mode, the spell allows the caster to read any one book or tome; this mode lasts 3 hours per caster level. \n\nIn the third mode, the spell allows the caster to read any one non-magical scroll or other single-sheet document; this mode is permanent. \n\nThis spell does not work on any sort of magical text, such as spell scrolls or spellbooks; see read magic, below, for the correct spell to use in such cases. \n\nThe spell grants the ability to read the texts, but does not in any way hasten the reading nor grant understanding of concepts the caster doesn't otherwise have the ability to understand. Also, for this spell to function, there must be at least one living creature that can read the given language somewhere on the same plane. The knowledge is not copied from that creature's mind; rather, it is the existence of the knowledge that enables the spell to function."
@@ -906,7 +906,7 @@
       "cleric": null,
       "magic-user": 1,
       "druid": null,
-      "illusionist": null
+      "illusionist": 1
     },
     "duration": "permanent",
     "description": "When cast upon any magical text, such as a spellbook or magic-user spell scroll, this spell enables the caster to read that text. Casting this spell on a cursed text will generally trigger the curse. All Magic-Users begin play knowing this spell, and it can be prepared even if the Magic-User loses access to their spellbook."
@@ -1014,7 +1014,7 @@
       "cleric": 2,
       "magic-user": null,
       "druid": null,
-      "illusionist": null
+      "illusionist": 4
     },
     "duration": "2 rounds/level",
     "description": "This spell creates a spherical area with a 15 foot radius where no sound will pass. No one within the affected area can make nor hear any sound. Neither does sound issue from the affected area; those outside cannot hear those inside. This effect blocks verbal communication, of course, as well as spell casting. \n\nThis effect can be cast in a fixed area, upon an item (making it portable), or upon a creature. An unwilling target receives a save vs. Spells to negate the spell. If an item in another creature's possession is targeted, that creature also receives a save vs. Spells to negate. \n\nThis spell can be used to protect against any kind of attack or magic where the victims must be able to hear the attacker, for such attacks cannot pass into or out of the affected area."
@@ -1146,7 +1146,7 @@
       "cleric": 5,
       "magic-user": null,
       "druid": null,
-      "illusionist": null
+      "illusionist": 6
     },
     "duration": "1 round/level",
     "description": "This spell confers on the target the ability to see all things as they actually are. The subject sees through normal and magical darkness, notices secret doors, sees the exact locations of displaced creatures or objects, sees through normal or magical disguises, sees invisible creatures or objects normally, sees through illusions, and sees the true form of transformed, changed, or transmuted things. The range of true seeing conferred is 120 feet. \n\nTrue seeing, however, does not penetrate solid objects. It in no way confers X-ray vision or its equivalent. It does not negate concealment, including that caused by fog and the like. In addition, the spell effects cannot be further enhanced with known magic, so one cannot use true seeing through a crystal ball or in conjunction with clairvoyance."
@@ -1158,7 +1158,7 @@
       "cleric": null,
       "magic-user": 1,
       "druid": null,
-      "illusionist": null
+      "illusionist": 1
     },
     "duration": "1 turn/level",
     "description": "This spell causes the caster's voice to appear to come from another location within range, for example, from a dark alcove or statue. The caster may choose a new location each round if desired, and can cause the spell to temporarily abate without ending it and then resume it again at any time within the given duration."
@@ -1230,7 +1230,7 @@
       "cleric": null,
       "magic-user": 4,
       "druid": null,
-      "illusionist": null
+      "illusionist": 5
     },
     "duration": "6 turns",
     "description": "With this spell the caster creates an invisible magical \"eye\" through which they can see. The eye has Darkvision with a range of 30 feet, but otherwise sees exactly as the caster would. It can be created in any place the caster can see, up to a range of 240 feet away, and thereafter can move at a rate of 40 feet per round as directed by the caster. The eye will not move more than 240 feet away from the caster under any circumstances. The eye cannot pass through solid objects, but as it is exactly the size of a normal human's eye, it can pass through holes as small as 1 inch in diameter. The caster must concentrate to use the eye."
