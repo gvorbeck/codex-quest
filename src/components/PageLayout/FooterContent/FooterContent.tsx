@@ -6,7 +6,7 @@ export default function FooterContent({ className }: FooterContentProps) {
   return (
     <div className={`${className}`}>
       <Typography.Paragraph>
-        © 2023 J. Garrett Vorbeck. All rights reserved. v1.8.1
+        © 2023 J. Garrett Vorbeck. All rights reserved. v1.9
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
@@ -17,7 +17,7 @@ export default function FooterContent({ className }: FooterContentProps) {
         >
           Basic Fantasy Role-Playing Game created by Chris Gonnerman
         </a>{" "}
-        and is current to 4th Edition (release 133).
+        and is current to 4th Edition (release 135).
       </Typography.Paragraph>
       <div className="flex flex-col sm:flex-row [&_a]:sm:text-xs">
         <Typography.Paragraph>

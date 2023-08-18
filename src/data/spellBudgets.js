@@ -23,7 +23,7 @@ const clericAndDruidSpellBudget = [
   [6, 5, 5, 4, 3, 3],
 ];
 
-const magicUserSpellBudget = [
+const magicUserAndIllusionistSpellBudget = [
   [2, 0, 0, 0, 0, 0],
   [3, 0, 0, 0, 0, 0],
   [3, 1, 0, 0, 0, 0],
@@ -53,5 +53,6 @@ const druidSpellBudget = clericAndDruidSpellBudget;
 export const spellBudgets = {
   [ClassNames.CLERIC]: clericSpellBudget,
   [ClassNames.DRUID]: druidSpellBudget,
-  [ClassNames.MAGICUSER]: magicUserSpellBudget,
+  [ClassNames.MAGICUSER]: magicUserAndIllusionistSpellBudget,
+  [ClassNames.ILLUSIONIST]: magicUserAndIllusionistSpellBudget,
 };

@@ -95,10 +95,11 @@ export default function LevelUpModal({
       },
       [0, 0, 0, 0, 0, 0]
     );
-    // If the character is a Magic-User, Cleric, or Druid, get the spell budget for the character's level
+    // If the character is a Magic-User, Cleric, Illusionist, or Druid, get the spell budget for the character's level
     if (
       (characterData.class.includes(ClassNames.MAGICUSER) ||
         characterData.class.includes(ClassNames.CLERIC) ||
+        characterData.class.includes(ClassNames.ILLUSIONIST) ||
         characterData.class.includes(ClassNames.DRUID)) &&
       getClassType(characterData.class) !== "custom"
     ) {

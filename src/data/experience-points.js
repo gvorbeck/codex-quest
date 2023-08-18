@@ -1,6 +1,6 @@
 import { ClassNames } from "../components/definitions";
 
-const magicUserAndBarbarian = [
+const magicUserAndBarbarianAndIllusionist = [
   0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
   750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000, 1950000,
 ];
@@ -21,8 +21,9 @@ export const levelRequirements = {
     0, 2000, 4000, 8000, 16000, 32000, 64000, 120000, 240000, 360000, 480000,
     600000, 720000, 840000, 960000, 1080000, 1200000, 1320000, 1440000, 1560000,
   ],
-  [ClassNames.MAGICUSER]: magicUserAndBarbarian,
-  [ClassNames.BARBARIAN]: magicUserAndBarbarian,
+  [ClassNames.MAGICUSER]: magicUserAndBarbarianAndIllusionist,
+  [ClassNames.BARBARIAN]: magicUserAndBarbarianAndIllusionist,
+  [ClassNames.ILLUSIONIST]: magicUserAndBarbarianAndIllusionist,
   [ClassNames.THIEF]: [
     0, 1250, 2500, 5000, 10000, 20000, 40000, 75000, 150000, 225000, 300000,
     375000, 450000, 525000, 600000, 675000, 750000, 825000, 900000, 975000,

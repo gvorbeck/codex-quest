@@ -8,6 +8,30 @@ export const classDetails: Record<
   string,
   { specials: string[]; restrictions: string[] }
 > = {
+  [ClassNames.ILLUSIONIST]: {
+    specials: [
+      marked(
+        `**Illusionists** begins play knowing Read Magic and one other spell of first level.`
+      ),
+      marked(
+        `Because of their expertise at creating and understanding illusions, **Illusionists** always gain an additional +2 on saves vs. any sort of illusion or phantasm.`
+      ),
+      marked(
+        `**Illusionists** produce magic much like other types of Magic-Users, but have different spell choices. They can learn spells from each other so long as the spells are available to both classes. Illusionists may learn spells by being taught directly by another Illusionist or by studying another Illusionist's spellbook. The Illusionist may also learn appropriate spells from standard Magic-Users (or other arcane casters, if used); the spell always being at the level as it appears on the Illusionist Spell List.  If being taught, a spell can be learned in a single day; researching another Illusionist's spellbook takes one day per spell level. Either way, the spell learned must be transcribed into the Illusionist's own spellbook, at a cost of 500 gp per spell level transcribed.`
+      ),
+      marked(
+        `Like other Magic-Users, a first level **Illusionist** begins play knowing Read Magic and one other spell of first level, recorded within a spell book`
+      ),
+    ],
+    restrictions: [
+      marked(
+        `**Illusionists** may not wear any armor of any sort or use shields.`
+      ),
+      marked(
+        `**Illusionists**, like other Magic-Users, can utilize a walking staff (or cudgel) or dagger, and of course they may use magical weapons of those types.`
+      ),
+    ],
+  },
   [ClassNames.DRUID]: {
     specials: [
       marked(

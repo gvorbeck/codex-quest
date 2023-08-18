@@ -86,6 +86,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "slings-and-hurled-weapons",
         "chain-and-flail",
       ];
+    case ClassNames.ILLUSIONIST:
     case ClassNames.MAGICUSER:
       return [
         "daggers",
@@ -207,7 +208,10 @@ const itemIsDisabled = (
     } else {
       disabled = false;
     }
-  } else if (className.includes(ClassNames.MAGICUSER)) {
+  } else if (
+    className.includes(ClassNames.MAGICUSER) ||
+    className.includes(ClassNames.ILLUSIONIST)
+  ) {
     if (item.category === "other-weapons") {
       if (item.name.toLowerCase().includes("cudgel")) {
         disabled = false;
