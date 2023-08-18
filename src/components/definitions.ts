@@ -12,6 +12,7 @@ export interface SpellLevels {
   cleric: number | null;
   "magic-user": number | null;
   druid: number | null;
+  illusionist: number | null;
 }
 
 export interface Spell {
@@ -72,11 +73,7 @@ export type SpellItem = {
 export interface SpellType {
   name: string;
   range: string;
-  level: {
-    cleric: number | null;
-    "magic-user": number | null;
-    druid: number | null;
-  };
+  level: SpellLevels;
   duration: string;
   description: string;
 }
@@ -87,6 +84,7 @@ export enum ClassNames {
   CLERIC = "Cleric",
   DRUID = "Druid",
   FIGHTER = "Fighter",
+  ILLUSIONIST = "Illusionist",
   MAGICUSER = "Magic-User",
   THIEF = "Thief",
   CUSTOM = "Custom",

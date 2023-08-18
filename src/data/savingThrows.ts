@@ -454,5 +454,7 @@ const savingThrows = {
 (savingThrows as any)[ClassNames.ASSASSIN] = savingThrows[ClassNames.THIEF];
 (savingThrows as any)[ClassNames.DRUID] = savingThrows[ClassNames.CLERIC];
 (savingThrows as any)[ClassNames.BARBARIAN] = savingThrows[ClassNames.FIGHTER];
+(savingThrows as any)[ClassNames.ILLUSIONIST] =
+  savingThrows[ClassNames.MAGICUSER];
 
 export default savingThrows;

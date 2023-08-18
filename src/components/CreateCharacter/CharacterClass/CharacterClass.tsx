@@ -1,14 +1,14 @@
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Checkbox, Input, Radio, Space, Switch, Typography } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 import { CharacterClassProps } from "./definitions";
+import { ClassNames, RaceNames, Spell } from "../../definitions";
 import spellsData from "../../../data/spells.json";
 import { classDetails, classChoices } from "../../../data/classDetails";
-import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { ClassNames, RaceNames, Spell } from "../../definitions";
-import DOMPurify from "dompurify";
 import { getClassType } from "../../../support/helpers";
+import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -207,6 +207,7 @@ export default function CharacterClass({
     choice === ClassNames.BARBARIAN &&
     characterData.race !== RaceNames.DWARF &&
     characterData.race !== RaceNames.HUMAN;
+  // const illusionistAbilityRestriction = (choice: string) =>
 
   // Methods for disabling combo class choices
   const comboClassRestrictedClasses = (choice: string) =>
