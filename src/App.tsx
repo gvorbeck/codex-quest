@@ -14,6 +14,8 @@ import { db } from "./firebase.js";
 import { CharacterData } from "./components/definitions";
 import { ConfigProvider, Spin } from "antd";
 import Welcome from "./pages/Welcome/Welcome";
+import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
+
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
 );
@@ -142,6 +144,7 @@ function App() {
               path="u/:uid/c/:id"
               element={<CharacterSheet user={user} />}
             />
+            <Route path="/create" element={<CharacterCreator />} />
           </Route>
         </Routes>
       </Suspense>
