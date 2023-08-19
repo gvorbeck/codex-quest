@@ -1,10 +1,6 @@
-import React, { Suspense, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Col, Row, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
-
-const CreateCharacterModal = React.lazy(
-  () => import("../../../modals/CreateCharacterModal")
-);
 
 export default function HeaderContent({
   auth,
@@ -13,10 +9,7 @@ export default function HeaderContent({
   onCharacterAdded,
   className,
 }: HeaderContentProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const navigate = useNavigate();
   return (
     <Row className={`${className} gap-y-4`}>
       <Col
@@ -33,7 +26,7 @@ export default function HeaderContent({
         {user && (
           <Button
             type="primary"
-            onClick={showModal}
+            onClick={() => navigate(`/create`)}
             className="mt-4 lg:mt-0 lg:ml-4 leading-none"
           >
             Create BFRPG Character
@@ -62,15 +55,6 @@ export default function HeaderContent({
           <Button type="primary" onClick={handleLogin}>
             Log in with Google
           </Button>
-        )}
-        {user && (
-          <Suspense fallback={<div>Loading...</div>}>
-            <CreateCharacterModal
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              onCharacterAdded={onCharacterAdded}
-            />
-          </Suspense>
         )}
       </Col>
     </Row>
