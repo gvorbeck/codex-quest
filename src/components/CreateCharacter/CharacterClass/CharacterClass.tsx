@@ -220,6 +220,7 @@ export default function CharacterClass({
     choice === ClassNames.ASSASSIN ||
     choice === ClassNames.BARBARIAN ||
     choice === ClassNames.CLERIC ||
+    choice === ClassNames.ILLUSIONIST ||
     choice === ClassNames.DRUID;
   const comboClassThiefSelected = (choice: string) =>
     choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
@@ -351,12 +352,19 @@ export default function CharacterClass({
               className="mt-4 gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             >
               {spellsData
-                .filter(
-                  (spell) =>
-                    (spell.level as Record<string, number | null>)[
-                      characterData.class.toLowerCase()
-                    ] === 1 && spell.name !== "Read Magic"
-                )
+                .filter((spell) => {
+                  const characterClasses = characterData.class
+                    .toLowerCase()
+                    .split(" ");
+                  return (
+                    characterClasses.some(
+                      (characterClass) =>
+                        (spell.level as Record<string, number | null>)[
+                          characterClass
+                        ] === 1
+                    ) && spell.name !== "Read Magic"
+                  );
+                })
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((spell) => (
                   <Radio
