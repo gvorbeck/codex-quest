@@ -1,14 +1,14 @@
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Checkbox, Input, Radio, Space, Switch, Typography } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 import { CharacterClassProps } from "./definitions";
+import { ClassNames, RaceNames, Spell } from "../../definitions";
 import spellsData from "../../../data/spells.json";
 import { classDetails, classChoices } from "../../../data/classDetails";
-import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { ClassNames, RaceNames, Spell } from "../../definitions";
-import DOMPurify from "dompurify";
 import { getClassType } from "../../../support/helpers";
+import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -207,6 +207,13 @@ export default function CharacterClass({
     choice === ClassNames.BARBARIAN &&
     characterData.race !== RaceNames.DWARF &&
     characterData.race !== RaceNames.HUMAN;
+  const illusionistAbilityRestriction = (choice: string) =>
+    choice === ClassNames.ILLUSIONIST &&
+    +characterData.abilities.scores.intelligence < 13;
+  const illusionistRaceRestriction = (choice: string) =>
+    choice === ClassNames.ILLUSIONIST &&
+    characterData.race !== RaceNames.ELF &&
+    characterData.race !== RaceNames.HUMAN;
 
   // Methods for disabling combo class choices
   const comboClassRestrictedClasses = (choice: string) =>
@@ -281,7 +288,9 @@ export default function CharacterClass({
                     assassinRaceRestriction(choice) ||
                     assassinAbilityRestriction(choice) ||
                     barbarianRaceRestriction(choice) ||
-                    barbarianAbilityRestriction(choice)
+                    barbarianAbilityRestriction(choice) ||
+                    illusionistAbilityRestriction(choice) ||
+                    illusionistRaceRestriction(choice)
                   }
                 >
                   {choice}
@@ -326,14 +335,15 @@ export default function CharacterClass({
               </div>
             </>
           )}
-        {characterData.class.includes(ClassNames.MAGICUSER) && (
+        {(characterData.class.includes(ClassNames.MAGICUSER) ||
+          characterData.class === ClassNames.ILLUSIONIST) && (
           <div className="mt-4">
             <Typography.Title level={4}>
               Choose your starting spell
             </Typography.Title>
             <Typography.Text type="secondary" className="mb-4 block">
-              Magic-Users start with <strong>Read Magic</strong> and can choose
-              a second.
+              {characterData.class}s begin with <strong>Read Magic</strong> and
+              can choose a second spell to start.
             </Typography.Text>
             <Radio.Group
               onChange={onSpellRadioChange}
@@ -344,9 +354,10 @@ export default function CharacterClass({
                 .filter(
                   (spell) =>
                     (spell.level as Record<string, number | null>)[
-                      ClassNames.MAGICUSER.toLowerCase()
+                      characterData.class.toLowerCase()
                     ] === 1 && spell.name !== "Read Magic"
                 )
+                .sort((a, b) => a.name.localeCompare(b.name))
                 .map((spell) => (
                   <Radio
                     key={spell.name}

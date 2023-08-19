@@ -47,11 +47,11 @@ export default function CharacterHitPoints({
         ) {
           dice = "d6";
         }
-      } else if (characterData.class === ClassNames.MAGICUSER) {
-        dice = "d4";
       } else if (
+        characterData.class === ClassNames.MAGICUSER ||
         characterData.class === ClassNames.THIEF ||
-        characterData.class === ClassNames.ASSASSIN
+        characterData.class === ClassNames.ASSASSIN ||
+        characterData.class === ClassNames.ILLUSIONIST
       ) {
         dice = "d4";
       } else if (characterData.class === ClassNames.BARBARIAN) {
