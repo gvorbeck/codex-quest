@@ -1,7 +1,7 @@
-import { Input, Radio } from "antd";
+import { Input, Radio, Typography } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
-import { raceDetails, raceChoices } from "../../../data/raceDetails";
+import { raceDetails } from "../../../data/raceDetails";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
@@ -20,9 +20,9 @@ export default function CharacterRace({
   const [showCustomRaceInput, setShowCustomRaceInput] = useState(false);
 
   useEffect(() => {
-    // If the current race is not in the raceChoices and it's not an empty string, it's a custom race
+    // If the current race is not in the RaceNames enum and it's not an empty string, it's a custom race
     if (
-      !raceChoices.includes(characterData.race) &&
+      !Object.values(RaceNames).includes(characterData.race as RaceNames) &&
       characterData.race !== ""
     ) {
       setShowCustomRaceInput(true);
@@ -71,34 +71,51 @@ export default function CharacterRace({
 
   return (
     <>
-      <Radio.Group
-        onChange={onChange}
-        value={
-          isStandardRace(characterData.race) ? characterData.race : undefined
-        }
-        className="grid gap-2"
-      >
-        {raceChoices.map((race) => (
-          <Radio
-            key={race}
-            value={race}
-            className="ps-2 pe-2 md:ps-4 md:pe-4"
-            disabled={
-              (race === RaceNames.DWARF &&
-                (+characterData.abilities.scores.constitution < 9 ||
-                  +characterData.abilities.scores.charisma > 17)) ||
-              (race === RaceNames.ELF &&
-                (+characterData.abilities.scores.intelligence < 9 ||
-                  +characterData.abilities.scores.constitution > 17)) ||
-              (race === RaceNames.HALFLING &&
-                (+characterData.abilities.scores.dexterity < 9 ||
-                  +characterData.abilities.scores.strength > 17))
-            }
-          >
-            {race}
-          </Radio>
-        ))}
-      </Radio.Group>
+      <div className="grid gap-8 grid-cols-[auto_auto] items-start">
+        <Radio.Group
+          onChange={onChange}
+          value={
+            isStandardRace(characterData.race) ? characterData.race : undefined
+          }
+          className="grid gap-2"
+        >
+          {Object.values(RaceNames).map((race) => {
+            if (race === RaceNames.CUSTOM) return null; // Optionally exclude custom race
+            return (
+              <Radio
+                key={race}
+                value={race}
+                className="ps-2 pe-2 md:ps-4 md:pe-4"
+                disabled={
+                  (race === RaceNames.DWARF &&
+                    (+characterData.abilities.scores.constitution < 9 ||
+                      +characterData.abilities.scores.charisma > 17)) ||
+                  (race === RaceNames.ELF &&
+                    (+characterData.abilities.scores.intelligence < 9 ||
+                      +characterData.abilities.scores.constitution > 17)) ||
+                  (race === RaceNames.HALFLING &&
+                    (+characterData.abilities.scores.dexterity < 9 ||
+                      +characterData.abilities.scores.strength > 17))
+                }
+              >
+                {race}
+              </Radio>
+            );
+          })}
+        </Radio.Group>
+        {characterData.race &&
+          Object.values(RaceNames).includes(characterData.race as RaceNames) &&
+          characterData.race !== RaceNames.CUSTOM && (
+            <Typography.Paragraph>
+              <strong>Description:</strong>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: raceDetails[characterData.race].description,
+                }}
+              />
+            </Typography.Paragraph>
+          )}
+      </div>
       {showCustomRaceInput && (
         <>
           <Input
