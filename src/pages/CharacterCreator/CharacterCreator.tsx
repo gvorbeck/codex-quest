@@ -1,7 +1,7 @@
 import { marked } from "marked";
 import { useState } from "react";
 import { CharacterData, SpellType } from "../../components/definitions";
-import { Breadcrumb, Button, Col, Row, Steps, Typography, message } from "antd";
+import { Breadcrumb, Button, Divider, Steps, Typography, message } from "antd";
 import CharacterAbilities from "../../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
 import CharacterRace from "../../components/CreateCharacter/CharacterRace/CharacterRace";
 import CharacterClass from "../../components/CreateCharacter/CharacterClass/CharacterClass";
@@ -203,13 +203,6 @@ export default function CharacterCreator() {
     title: item.title,
   }));
 
-  const handleCancel = () => {
-    // setIsModalOpen(false);
-    navigate("/");
-    setCharacterData(emptyCharacter);
-    setCurrent(0);
-  };
-
   function areAllAbilitiesSet(abilities: AbilityTypes) {
     for (let key in abilities) {
       const value = +abilities[key as keyof typeof abilities];
@@ -300,8 +293,9 @@ export default function CharacterCreator() {
   return (
     <>
       {contextHolder}
-      <div className="flex flex-col gap-4">
+      <div className="grid gap-4 grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
         <Breadcrumb
+          className="col-span-full"
           items={[
             {
               title: (
@@ -313,30 +307,28 @@ export default function CharacterCreator() {
             { title: "Character Creator" },
           ]}
         />
-        <div className="flex gap-4 items-start">
-          <Steps
-            current={current}
-            items={items}
-            direction="vertical"
-            progressDot
-            className="w-1/2"
-          />
-          <div className="relative">
-            {current === 4 && <FloatingGold />}
-            <Typography.Title level={1} className="mt-0 text-shipGray">
-              {steps[current].fullTitle}
-            </Typography.Title>
-            <Typography.Paragraph>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: steps[current].description,
-                }}
-              />
-            </Typography.Paragraph>
-            {steps[current].content}
-          </div>
+        <Steps
+          current={current}
+          items={items}
+          direction="vertical"
+          progressDot
+        />
+        <div className="relative">
+          {current === 4 && <FloatingGold />}
+          <Typography.Title level={1} className="mt-0 text-shipGray">
+            {steps[current].fullTitle}
+          </Typography.Title>
+          <Typography.Paragraph>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: steps[current].description,
+              }}
+            />
+          </Typography.Paragraph>
+          <Divider />
+          {steps[current].content}
         </div>
-        <div className="ml-auto">
+        <div className="col-span-full ml-auto">
           {current > 0 && (
             <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
               Previous
@@ -362,52 +354,6 @@ export default function CharacterCreator() {
           )}
         </div>
       </div>
-      {/* <Row gutter={16}>
-        <Col span={5} className="hidden md:block">
-          <Steps current={current} items={items} direction="vertical" />
-        </Col>
-        <Col xs={24} md={19}>
-          <section className="relative">
-            {current === 4 && <FloatingGold />}
-            <Typography.Title level={1} className="mt-0 text-shipGray">
-              {steps[current].fullTitle}
-            </Typography.Title>
-            <Typography.Paragraph>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: steps[current].description,
-                }}
-              />
-            </Typography.Paragraph>
-            {steps[current].content}
-          </section>
-        </Col>
-      </Row>
-      <div className="mt-4">
-        {current > 0 && (
-          <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => next()}
-            disabled={!isNextButtonEnabled(current)}
-          >
-            Next
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => addCharacterData(characterData)}
-            disabled={!isNextButtonEnabled(current)}
-          >
-            Done
-          </Button>
-        )}
-      </div> */}
     </>
   );
 }
