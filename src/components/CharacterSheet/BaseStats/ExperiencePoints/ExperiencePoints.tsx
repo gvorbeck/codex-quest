@@ -4,7 +4,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
-import { levelRequirements } from "../../../../data/experience-points";
+import { levelRequirements } from "../../../../data/experiencePoints";
 import { ExperiencePointsProps } from "./definitions";
 
 export default function ExperiencePoints({

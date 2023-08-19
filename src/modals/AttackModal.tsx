@@ -17,7 +17,7 @@ import {
   RangeRadioButtons,
   AmmoSelectProps,
 } from "./definitions";
-import equipmentItems from "../data/equipment-items.json";
+import equipmentItems from "../data/equipmentItems.json";
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 
 const roller = new DiceRoller();
