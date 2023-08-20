@@ -1,6 +1,10 @@
 import { marked } from "marked";
 import { useState } from "react";
-import { CharacterData, SpellType } from "../../components/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  SpellType,
+} from "../../components/definitions";
 import { Breadcrumb, Button, Divider, Steps, Typography, message } from "antd";
 import CharacterAbilities from "../../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
 import CharacterRace from "../../components/CreateCharacter/CharacterRace/CharacterRace";
@@ -8,7 +12,7 @@ import CharacterClass from "../../components/CreateCharacter/CharacterClass/Char
 import CharacterHitPoints from "../../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
 import EquipmentStore from "../../components/EquipmentStore/EquipmentStore";
 import CharacterName from "../../components/CreateCharacter/CharacterName/CharacterName";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilities/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
@@ -101,6 +105,7 @@ const emptyCharacter = {
 };
 
 export default function CharacterCreator() {
+  const outletContext = useOutletContext() as { className: string };
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [comboClass, setComboClass] = useState(false);
@@ -222,7 +227,10 @@ export default function CharacterCreator() {
       case 2:
         if (characterData.class === "") {
           return false;
-        } else if (characterData.class.includes("Magic-User")) {
+        } else if (
+          characterData.class.includes(ClassNames.MAGICUSER) ||
+          characterData.class === ClassNames.ILLUSIONIST
+        ) {
           return characterData.spells.length > 1;
         }
         return true;
@@ -264,13 +272,11 @@ export default function CharacterCreator() {
       try {
         await setDoc(docRef, characterData);
         success(characterData.name);
-        // setIsModalOpen(false);
+        // Go back to Home
         navigate("/");
-        // Refresh Character List
-        // onCharacterAdded();
         // Reset characterData
         setCharacterData(emptyCharacter);
-        // Reset modal step
+        // Reset step
         setCurrent(0);
       } catch (error) {
         console.error("Error writing document: ", error);
@@ -291,7 +297,7 @@ export default function CharacterCreator() {
   };
 
   return (
-    <>
+    <div className={`${outletContext.className}`}>
       {contextHolder}
       <div className="grid gap-4 grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
         <Breadcrumb
@@ -354,6 +360,6 @@ export default function CharacterCreator() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
