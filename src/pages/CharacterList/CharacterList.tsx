@@ -5,19 +5,40 @@ import {
   SolutionOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import { CharacterListProps } from "./definitions";
+import { CharacterData } from "../../components/definitions";
+import classNames from "classnames";
 
-export default function CharacterList({
-  user,
-  characters,
-  onCharacterDeleted,
-}: CharacterListProps) {
+export default function CharacterList({ user, className }: CharacterListProps) {
   const navigate = useNavigate();
   const outletContext = useOutletContext() as { className: string };
+  const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const fetchCharacters = async () => {
+    try {
+      if (user) {
+        const uid = user.uid;
+        const charactersCollectionRef = collection(
+          db,
+          `users/${uid}/characters`
+        );
+        const characterSnapshot = await getDocs(charactersCollectionRef);
+
+        const userCharacters = characterSnapshot.docs.map((doc) => {
+          const data = doc.data() as CharacterData;
+          data.id = doc.id;
+          return data;
+        });
+        setCharacters(userCharacters);
+      }
+    } catch (error) {
+      console.error("Failed to fetch characters:", error);
+    }
+  };
 
   const confirm = async (characterId: string) => {
     if (user) {
@@ -26,18 +47,25 @@ export default function CharacterList({
         `users/${user.uid}/characters/${characterId}`
       );
       await deleteDoc(characterDoc);
-      onCharacterDeleted();
     }
   };
+
+  fetchCharacters();
 
   useEffect(() => {
     setLoading(false);
   }, [characters]);
+
+  const characterListClassNames = classNames(
+    outletContext.className,
+    className
+  );
+
   return (
-    <div className={`${outletContext.className}`}>
+    <div className={characterListClassNames}>
       {loading ? (
         <Spin />
-      ) : characters.length ? (
+      ) : characters.length > 0 ? (
         <Row justify={"start"} gutter={32} className="gap-y-9">
           {characters
             .sort((a, b) => a.name.localeCompare(b.name))
