@@ -21,6 +21,7 @@ import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 import { marked } from "marked";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import CloseIcon from "../../CloseIcon/CloseIcon";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -304,7 +305,7 @@ export default function CharacterClass({
                   <Radio
                     key={choice}
                     value={choice}
-                    className="ps-2 pe-2 md:ps-4 md:pe-4"
+                    className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
                     disabled={
                       magicUserRaceRestriction(choice) ||
                       magicUserAbilityRestriction(choice) ||
@@ -365,6 +366,7 @@ export default function CharacterClass({
                     checked={characterData.spells.some(
                       (prevSpell) => prevSpell.name === spell.name
                     )}
+                    className="text-shipGray"
                   >
                     {spell.name}
                   </Checkbox>
@@ -375,7 +377,7 @@ export default function CharacterClass({
         {(characterData.class.includes(ClassNames.MAGICUSER) ||
           characterData.class === ClassNames.ILLUSIONIST) && (
           <div className="mt-4">
-            <Typography.Title level={4}>
+            <Typography.Title level={4} className="text-shipGray">
               Choose your starting spell
             </Typography.Title>
             <Typography.Text type="secondary" className="mb-4 block">
@@ -408,7 +410,7 @@ export default function CharacterClass({
                     <Radio
                       key={spell.name}
                       value={spell.name}
-                      className="flex-[1_1_45%]"
+                      className="flex-[1_1_45%] text-shipGray"
                     >
                       {spell.name}
                       <Button
@@ -431,6 +433,7 @@ export default function CharacterClass({
           open={isModalOpen}
           onCancel={handleCancel}
           footer={[]}
+          closeIcon={<CloseIcon />}
         >
           <div dangerouslySetInnerHTML={{ __html: modalDescription }} />
         </Modal>
