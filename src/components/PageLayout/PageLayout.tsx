@@ -7,7 +7,6 @@ import { PageLayoutProps } from "./definitions";
 export default function PageLayout({
   auth,
   handleLogin,
-  onCharacterAdded,
   user,
 }: PageLayoutProps) {
   return (
@@ -17,7 +16,6 @@ export default function PageLayout({
           user={user}
           handleLogin={handleLogin}
           auth={auth}
-          onCharacterAdded={onCharacterAdded}
           className="max-w-[1200px] m-auto"
         />
       </Layout.Header>

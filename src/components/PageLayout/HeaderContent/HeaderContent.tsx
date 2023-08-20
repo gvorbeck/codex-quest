@@ -6,7 +6,6 @@ export default function HeaderContent({
   auth,
   handleLogin,
   user,
-  onCharacterAdded,
   className,
 }: HeaderContentProps) {
   const navigate = useNavigate();
