@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Row, Typography } from "antd";
+import { Button, Col, Row, Tooltip, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
+import { LogoutOutlined } from "@ant-design/icons";
 
 export default function HeaderContent({
   auth,
@@ -35,20 +36,22 @@ export default function HeaderContent({
       <Col
         xs={24}
         md={12}
-        className="text-center flex flex-col md:justify-center lg:flex-row lg:items-center lg:justify-end"
+        className="text-center flex md:justify-center items-baseline lg:items-center lg:justify-end gap-4 justify-center"
       >
         {user ? (
           <>
             <Typography.Text className="leading-none">
               {user.displayName}
             </Typography.Text>
-            <Button
-              type="primary"
-              onClick={() => auth.signOut()}
-              className="w-1/2 mx-auto mt-4 lg:m-0 lg:ml-4 leading-none"
-            >
-              Log out
-            </Button>
+            <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<LogoutOutlined />}
+                onClick={() => auth.signOut()}
+                className="mt-4 lg:m-0 lg:ml-4 leading-none"
+              />
+            </Tooltip>
           </>
         ) : (
           <Button type="primary" onClick={handleLogin}>
