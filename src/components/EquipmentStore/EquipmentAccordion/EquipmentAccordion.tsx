@@ -1,11 +1,10 @@
 import { Collapse, Descriptions, Space, Typography } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
-import equipmentItems from "../../../data/equipment-items.json";
+import equipmentItems from "../../../data/equipmentItems.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { ClassName, EquipmentItem } from "../definitions";
 import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
-import { classChoices } from "../../../data/classDetails";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { ClassNames, RaceNames } from "../../definitions";
 
@@ -97,7 +96,7 @@ const availableEquipmentCategories = (className: ClassName) => {
         "improvised-weapons",
       ];
     default:
-      if (!classChoices.includes(className)) {
+      if (!Object.values(ClassNames).includes(className as ClassNames)) {
         return [
           "ammunition",
           "armor",
@@ -145,7 +144,10 @@ const itemIsDisabled = (
         item.name.toLowerCase().includes("morningstar") ||
         item.name.toLowerCase().includes("quarterstaff") ||
         item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone")
+        item.name.toLowerCase().includes("stone") ||
+        item.name.toLowerCase().includes("club") ||
+        item.name.toLowerCase().includes("bullet") ||
+        item.name.toLowerCase().includes("quarrel")
       ) {
         disabled = false;
       }
@@ -194,7 +196,7 @@ const itemIsDisabled = (
   } else if (
     className.includes(ClassNames.FIGHTER) ||
     className.includes(ClassNames.BARBARIAN) ||
-    !classChoices.includes(className)
+    !Object.values(ClassNames).includes(className as ClassNames)
   ) {
     disabled = false;
   } else if (

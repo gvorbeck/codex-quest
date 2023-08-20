@@ -9,43 +9,20 @@ import {
   User,
 } from "firebase/auth";
 import { Suspense, lazy, useEffect, useState } from "react";
-import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
-import { CharacterData } from "./components/definitions";
 import { ConfigProvider, Spin } from "antd";
 import Welcome from "./pages/Welcome/Welcome";
+import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
+
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
 );
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [refreshCharacters, setRefreshCharacters] = useState(false);
-  const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
   const auth = getAuth();
-
-  const fetchCharacters = async () => {
-    try {
-      if (user) {
-        const uid = user.uid;
-        const charactersCollectionRef = collection(
-          db,
-          `users/${uid}/characters`
-        );
-        const characterSnapshot = await getDocs(charactersCollectionRef);
-
-        const characters = characterSnapshot.docs.map((doc) => {
-          const data = doc.data() as CharacterData;
-          data.id = doc.id;
-          return data;
-        });
-        setCharacters(characters);
-      }
-    } catch (error) {
-      console.error("Failed to fetch characters:", error);
-    }
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -55,16 +32,6 @@ function App() {
 
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    fetchCharacters();
-  }, [user]);
-
-  useEffect(() => {
-    if (refreshCharacters) {
-      fetchCharacters();
-    }
-  }, [refreshCharacters]);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -96,11 +63,6 @@ function App() {
     }
   };
 
-  // Handle character added
-  const handleCharacterAdded = () => {
-    setRefreshCharacters(!refreshCharacters);
-  };
-
   return (
     <ConfigProvider
       theme={{
@@ -114,12 +76,7 @@ function App() {
           <Route
             path="/"
             element={
-              <PageLayout
-                user={user}
-                handleLogin={handleLogin}
-                auth={auth}
-                onCharacterAdded={handleCharacterAdded}
-              />
+              <PageLayout user={user} handleLogin={handleLogin} auth={auth} />
             }
           >
             <Route
@@ -128,11 +85,7 @@ function App() {
                 loading ? (
                   <Spin />
                 ) : user ? (
-                  <CharacterList
-                    user={user}
-                    characters={characters}
-                    onCharacterDeleted={handleCharacterAdded}
-                  />
+                  <CharacterList user={user} />
                 ) : (
                   <Welcome />
                 )
@@ -142,6 +95,7 @@ function App() {
               path="u/:uid/c/:id"
               element={<CharacterSheet user={user} />}
             />
+            <Route path="/create" element={<CharacterCreator />} />
           </Route>
         </Routes>
       </Suspense>

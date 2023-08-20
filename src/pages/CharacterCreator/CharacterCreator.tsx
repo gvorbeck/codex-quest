@@ -1,18 +1,21 @@
-import { useState } from "react";
-import { Button, Col, Modal, Row, Steps, Typography, message } from "antd";
-import CharacterAbilities from "../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
-import CharacterRace from "../components/CreateCharacter/CharacterRace/CharacterRace";
-import CharacterClass from "../components/CreateCharacter/CharacterClass/CharacterClass";
-import CharacterHitPoints from "../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
-import CharacterName from "../components/CreateCharacter/CharacterName/CharacterName";
-import { CharacterData, SpellType } from "../components/definitions";
-import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
 import { marked } from "marked";
-import EquipmentStore from "../components/EquipmentStore/EquipmentStore";
-import CloseIcon from "../components/CloseIcon/CloseIcon";
-import { CreateCharacterModalProps } from "./definitions";
-import { AbilityTypes } from "../components/CreateCharacter/CharacterAbilities/definitions";
+import { useState } from "react";
+import {
+  CharacterData,
+  ClassNames,
+  SpellType,
+} from "../../components/definitions";
+import { Breadcrumb, Button, Divider, Steps, Typography, message } from "antd";
+import CharacterAbilities from "../../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
+import CharacterRace from "../../components/CreateCharacter/CharacterRace/CharacterRace";
+import CharacterClass from "../../components/CreateCharacter/CharacterClass/CharacterClass";
+import CharacterHitPoints from "../../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
+import EquipmentStore from "../../components/EquipmentStore/EquipmentStore";
+import CharacterName from "../../components/CreateCharacter/CharacterName/CharacterName";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilities/definitions";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 marked.use({ mangle: false, headerIds: false });
 
@@ -101,11 +104,9 @@ const emptyCharacter = {
   },
 };
 
-export default function CreateCharacterModal({
-  isModalOpen,
-  setIsModalOpen,
-  onCharacterAdded,
-}: CreateCharacterModalProps) {
+export default function CharacterCreator() {
+  const outletContext = useOutletContext() as { className: string };
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [comboClass, setComboClass] = useState(false);
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
@@ -207,12 +208,6 @@ export default function CreateCharacterModal({
     title: item.title,
   }));
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    setCharacterData(emptyCharacter);
-    setCurrent(0);
-  };
-
   function areAllAbilitiesSet(abilities: AbilityTypes) {
     for (let key in abilities) {
       const value = +abilities[key as keyof typeof abilities];
@@ -232,7 +227,10 @@ export default function CreateCharacterModal({
       case 2:
         if (characterData.class === "") {
           return false;
-        } else if (characterData.class.includes("Magic-User")) {
+        } else if (
+          characterData.class.includes(ClassNames.MAGICUSER) ||
+          characterData.class === ClassNames.ILLUSIONIST
+        ) {
           return characterData.spells.length > 1;
         }
         return true;
@@ -274,12 +272,11 @@ export default function CreateCharacterModal({
       try {
         await setDoc(docRef, characterData);
         success(characterData.name);
-        setIsModalOpen(false);
-        // Refresh Character List
-        onCharacterAdded();
+        // Go back to Home
+        navigate("/");
         // Reset characterData
         setCharacterData(emptyCharacter);
-        // Reset modal step
+        // Reset step
         setCurrent(0);
       } catch (error) {
         console.error("Error writing document: ", error);
@@ -300,39 +297,45 @@ export default function CreateCharacterModal({
   };
 
   return (
-    <>
+    <div className={`${outletContext.className}`}>
       {contextHolder}
-      <Modal
-        title="Create BFRPG Character"
-        open={isModalOpen}
-        onCancel={handleCancel}
-        width={1200}
-        footer={null}
-        className="max-w-full top-0 m-auto text-shipGray"
-        closeIcon={<CloseIcon />}
-      >
-        <Row gutter={16}>
-          <Col span={5} className="hidden md:block">
-            <Steps current={current} items={items} direction="vertical" />
-          </Col>
-          <Col xs={24} md={19}>
-            <section className="relative">
-              {current === 4 && <FloatingGold />}
-              <Typography.Title level={1} className="mt-0 text-shipGray">
-                {steps[current].fullTitle}
-              </Typography.Title>
-              <Typography.Paragraph>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: steps[current].description,
-                  }}
-                />
-              </Typography.Paragraph>
-              {steps[current].content}
-            </section>
-          </Col>
-        </Row>
-        <div className="mt-4">
+      <div className="grid gap-4 md:grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
+        <Breadcrumb
+          className="col-span-full"
+          items={[
+            {
+              title: (
+                <Link aria-label="Go back Home" to="/">
+                  Home
+                </Link>
+              ),
+            },
+            { title: "Character Creator" },
+          ]}
+        />
+        <Steps
+          current={current}
+          items={items}
+          direction="vertical"
+          progressDot
+          className="hidden md:block"
+        />
+        <div className="relative">
+          {current === 4 && <FloatingGold />}
+          <Typography.Title level={1} className="mt-0 text-shipGray">
+            {steps[current].fullTitle}
+          </Typography.Title>
+          <Typography.Paragraph>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: steps[current].description,
+              }}
+            />
+          </Typography.Paragraph>
+          <Divider />
+          {steps[current].content}
+        </div>
+        <div className="col-span-full ml-auto">
           {current > 0 && (
             <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
               Previous
@@ -357,7 +360,7 @@ export default function CreateCharacterModal({
             </Button>
           )}
         </div>
-      </Modal>
-    </>
+      </div>
+    </div>
   );
 }

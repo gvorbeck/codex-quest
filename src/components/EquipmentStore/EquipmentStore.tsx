@@ -4,15 +4,14 @@ import { RaceName } from "../CreateCharacter/CharacterRace/definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
-import equipmentItems from "../../data/equipment-items.json";
+import equipmentItems from "../../data/equipmentItems.json";
 import EquipmentInventory from "./EquipmentInventory/EquipmentInventory";
 import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { raceChoices } from "../../data/raceDetails";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
-import { ClassNames } from "../definitions";
+import { ClassNames, RaceNames } from "../definitions";
 
 const roller = new DiceRoller();
 
@@ -186,7 +185,7 @@ export default function EquipmentStore({
 
   return (
     <>
-      {!raceChoices.includes(characterData.race) &&
+      {!Object.values(RaceNames).includes(characterData.race as RaceNames) &&
         !Object.values(ClassNames).includes(
           characterData.class as ClassNames
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}

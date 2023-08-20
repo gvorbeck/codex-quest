@@ -6,9 +6,10 @@ import DOMPurify from "dompurify";
 import { CharacterClassProps } from "./definitions";
 import { ClassNames, RaceNames, Spell } from "../../definitions";
 import spellsData from "../../../data/spells.json";
-import { classDetails, classChoices } from "../../../data/classDetails";
+import { classDetails } from "../../../data/classDetails";
 import { getClassType } from "../../../support/helpers";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
+import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -243,9 +244,9 @@ export default function CharacterClass({
         {/* COMBO CLASS */}
         {comboClass ? (
           <div className="grid gap-2">
-            {classChoices.map(
+            {Object.values(ClassNames).map(
               (choice) =>
-                choice !== "Custom" && (
+                choice !== ClassNames.CUSTOM && (
                   <Checkbox
                     key={choice}
                     onChange={onCheckboxChange}
@@ -266,39 +267,50 @@ export default function CharacterClass({
             )}
           </div>
         ) : (
-          <Radio.Group
-            value={characterData.class}
-            onChange={onClassRadioChange}
-            buttonStyle="solid"
-            className="block"
-            size="small"
-          >
-            <Space direction="vertical">
-              {classChoices.map((choice) => (
-                <Radio
-                  key={choice}
-                  value={choice}
-                  className="ps-2 pe-2 md:ps-4 md:pe-4"
-                  disabled={
-                    magicUserRaceRestriction(choice) ||
-                    magicUserAbilityRestriction(choice) ||
-                    clericAbilityRestriction(choice) ||
-                    druidAbilityRestriction(choice) ||
-                    fighterAbilityRestriction(choice) ||
-                    thiefAbilityRestriction(choice) ||
-                    assassinRaceRestriction(choice) ||
-                    assassinAbilityRestriction(choice) ||
-                    barbarianRaceRestriction(choice) ||
-                    barbarianAbilityRestriction(choice) ||
-                    illusionistAbilityRestriction(choice) ||
-                    illusionistRaceRestriction(choice)
-                  }
-                >
-                  {choice}
-                </Radio>
-              ))}
-            </Space>
-          </Radio.Group>
+          <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
+            <Radio.Group
+              value={characterData.class}
+              onChange={onClassRadioChange}
+              buttonStyle="solid"
+              className="block"
+              size="small"
+            >
+              <Space direction="vertical">
+                {Object.values(ClassNames).map((choice) => (
+                  <Radio
+                    key={choice}
+                    value={choice}
+                    className="ps-2 pe-2 md:ps-4 md:pe-4"
+                    disabled={
+                      magicUserRaceRestriction(choice) ||
+                      magicUserAbilityRestriction(choice) ||
+                      clericAbilityRestriction(choice) ||
+                      druidAbilityRestriction(choice) ||
+                      fighterAbilityRestriction(choice) ||
+                      thiefAbilityRestriction(choice) ||
+                      assassinRaceRestriction(choice) ||
+                      assassinAbilityRestriction(choice) ||
+                      barbarianRaceRestriction(choice) ||
+                      barbarianAbilityRestriction(choice) ||
+                      illusionistAbilityRestriction(choice) ||
+                      illusionistRaceRestriction(choice)
+                    }
+                  >
+                    {choice}
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+            {characterData.class &&
+              Object.values(ClassNames).includes(
+                characterData.class as ClassNames
+              ) &&
+              characterData.class !== ClassNames.CUSTOM && (
+                <DescriptionBubble
+                  description={classDetails[characterData.class].description}
+                />
+              )}
+          </div>
         )}
         {showCustomClassInput && (
           <>

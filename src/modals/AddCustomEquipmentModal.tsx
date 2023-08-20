@@ -15,7 +15,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
-import equipmentItems from "../data/equipment-items.json";
+import equipmentItems from "../data/equipmentItems.json";
 import { slugToTitleCase } from "../support/stringSupport";
 import { calculateItemCost } from "../support/formatSupport";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";

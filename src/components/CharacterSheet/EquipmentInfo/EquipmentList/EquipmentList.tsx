@@ -1,5 +1,5 @@
 import { EquipmentListProps } from "./definitions";
-import equipmentItems from "../../../../data/equipment-items.json";
+import equipmentItems from "../../../../data/equipmentItems.json";
 import { Button, Descriptions, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";

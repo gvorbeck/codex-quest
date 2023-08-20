@@ -3,12 +3,14 @@ import { ClassNames } from "../components/definitions";
 
 marked.use({ mangle: false, headerIds: false });
 
-export const classChoices = Object.values(ClassNames);
 export const classDetails: Record<
   string,
-  { specials: string[]; restrictions: string[] }
+  { description: string; specials: string[]; restrictions: string[] }
 > = {
   [ClassNames.ILLUSIONIST]: {
+    description: marked(
+      `Illusionists are “specialist” Magic-Users who focus on the creation and manipulation of illusions, whether visual, auditory, or mental, and at higher levels quasi-real things made of tangible shadow. Though “normal” Magic-Users can create illusions, those created by a true Illusionist are superior in quality and realism. `
+    ),
     specials: [
       marked(
         `**Illusionists** begins play knowing Read Magic and one other spell of first level.`
@@ -33,6 +35,9 @@ export const classDetails: Record<
     ],
   },
   [ClassNames.DRUID]: {
+    description: marked(
+      `Druids are nature priests, revering the gods of the natural world. Often a Druid uses mistletoe as a holy symbol, but this can vary with specific nature deities. Druids spend their time contemplating nature or in mundane forms of service such as ministering in rural areas. However, there are those who are called to go abroad to serve the natural order in a more direct way by working actively to restore balance.`
+    ),
     specials: [
       marked(
         `**Druids** can cast spells of divine nature starting at 2nd level.`
@@ -51,6 +56,9 @@ export const classDetails: Record<
     ],
   },
   [ClassNames.BARBARIAN]: {
+    description: marked(
+      `Barbarians are warriors born in savage lands, far from the mollifying comforts of civilization. Barbarians rely on hardiness, stealth, and foolhardy bravery to beat their enemies.`
+    ),
     specials: [
       marked(
         `**Barbarians** may use any armor or shields, and may wield any weapons desired.`
@@ -87,6 +95,9 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
     restrictions: [],
   },
   [ClassNames.ASSASSIN]: {
+    description: marked(
+      `There are those who make their living dealing death from the shadows. These people are called assassins. Most are trained by secret guilds or societies; civilized lands generally forbid and destroy such organizations.`
+    ),
     specials: [
       marked(
         `**Assassins** have several special abilities (see table). Some abilities are shared with the Thief class, and are described in the Core Rules.`
@@ -108,6 +119,9 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
     ],
   },
   [ClassNames.CLERIC]: {
+    description: marked(
+      `Clerics are those who have devoted themselves to the service of a deity, pantheon or other belief system. Most Clerics spend their time in mundane forms of service such as preaching and ministering in a temple; but there are those who are called to go abroad from the temple and serve their deity in a more direct way, smiting undead monsters and aiding in the battle against evil and chaos. Player character Clerics are assumed to be among the latter group.`
+    ),
     specials: [
       marked(
         `**Clerics** can cast spells of divine nature starting at 2nd level.`
@@ -121,6 +135,9 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
     ],
   },
   [ClassNames.FIGHTER]: {
+    description: marked(
+      `Fighters include soldiers, guardsmen, barbarian warriors, and anyone else for whom fighting is a way of life. They train in combat, and they generally approach problems head-on, weapon in hand.`
+    ),
     specials: [
       marked(
         `Although they are not skilled in the ways of magic, **Fighters** can nonetheless use many magic items, including but not limited to magical weapons and armor.`
@@ -129,6 +146,9 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
     restrictions: [],
   },
   [ClassNames.MAGICUSER]: {
+    description: marked(
+      `Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding.`
+    ),
     specials: [
       marked(
         `**Magic-Users** begins play knowing Read Magic and one other spell of first level.`
@@ -144,6 +164,9 @@ A **Barbarian** may use this ability up to two times per day at 6th level and th
     ],
   },
   [ClassNames.THIEF]: {
+    description: marked(
+      `Thieves are those who take what they want or need by stealth, disarming traps and picking locks to get to the gold they crave; or "borrowing" money from pockets, beltpouches, etc. right under the nose of the "mark" without the victim ever knowing.`
+    ),
     specials: [
       marked(`**Thieves** have a number of special abilities (see table).`),
     ],

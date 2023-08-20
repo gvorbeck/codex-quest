@@ -34,8 +34,7 @@ import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../modals/AttackModal";
 // DATA
 import { attackBonusTable } from "../../data/attackBonusTable";
-import equipmentItems from "../../data/equipment-items.json";
-import { classChoices } from "../../data/classDetails";
+import equipmentItems from "../../data/equipmentItems.json";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { EquipmentItem } from "../../components/EquipmentStore/definitions";
@@ -366,7 +365,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       </Row>
       <Divider className="print:hidden" />
       {/* Hide these if using a custom Class */}
-      {classChoices.includes(
+      {Object.values(ClassNames).includes(
         ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
       ) || characterData.class.toLowerCase().includes("magic-user") ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

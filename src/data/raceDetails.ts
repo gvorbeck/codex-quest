@@ -1,18 +1,14 @@
 import { marked } from "marked";
 import { RaceNames } from "../components/definitions";
 
-export const raceChoices: (RaceNames | string)[] = [
-  RaceNames.DWARF,
-  RaceNames.ELF,
-  RaceNames.HALFLING,
-  RaceNames.HUMAN,
-  RaceNames.CUSTOM,
-];
 export const raceDetails: Record<
   string,
-  { specials: string[]; restrictions: string[] }
+  { description: string; specials: string[]; restrictions: string[] }
 > = {
   [RaceNames.DWARF]: {
+    description: marked(
+      `Dwarves are a short, stocky race; both male and female Dwarves stand around four feet tall and typically weigh around 120 pounds. Their long hair and thick beards are dark brown, gray or black. They take great pride in their beards, sometimes braiding or forking them. Dwarves have stout frames and a strong, muscular build. They are rugged and resilient, with the capacity to endure great hardships. Dwarves are typically practical, stubborn and courageous. They can also be introspective, suspicious and possessive. They have a lifespan of three to four centuries.`
+    ),
     restrictions: [
       marked(
         `**Dwarves** may not employ Large weapons more than four feet in length.`
@@ -26,6 +22,9 @@ export const raceDetails: Record<
     ],
   },
   [RaceNames.ELF]: {
+    description: marked(
+      `Elves are a slender race, with both males and females standing around five feet tall and weighing around 130 pounds. Most have dark hair, with little or no body or facial hair. Thhey have pointed ears and delicate features. Elves are lithe and graceful. They have keen eyesight and hearing. Elves are typically inquisitive, passionate, self-assured, and sometimes haughty. Their typical lifespan is a dozen centuries or more.`
+    ),
     restrictions: [],
     specials: [
       marked(`All **Elves** have Darkvision with a 60' range.`),
@@ -42,6 +41,9 @@ export const raceDetails: Record<
     ],
   },
   [RaceNames.HALFLING]: {
+    description: marked(
+      `Halflings are small, slightly stocky folk who stand around three feet tall and weigh about 60 pounds. They have curly hair on their heads and feet, but rarely have facial hair. Halflings are remarkably rugged for their small size. They are dexterous and nimble, capable of moving quietly and remaining very still. They usually go barefoot. Halflings are typically outgoing, unassuming and goodnatured. They live about a hundred years.`
+    ),
     restrictions: [
       marked(
         `**Halflings** may not use Large weapons, and must wield Medium weapons with both hands.`
@@ -63,6 +65,9 @@ export const raceDetails: Record<
     ],
   },
   [RaceNames.HUMAN]: {
+    description: marked(
+      `Humans come in a broad variety of shapes and sizes. An average Human male in stands around six feet tall and weighs about 175 pounds, while females average five feet nine inches and weigh around 145 pounds. Most Humans live around 75 years.`
+    ),
     restrictions: [],
     specials: [
       marked(
