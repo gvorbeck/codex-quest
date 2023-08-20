@@ -10,6 +10,10 @@ import { getClassType } from "../support/helpers";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useParams } from "react-router-dom";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { marked } from "marked";
+import DescriptionBubble from "../components/CreateCharacter/DescriptionBubble/DescriptionBubble";
 
 const roller = new DiceRoller();
 
@@ -21,6 +25,8 @@ export default function LevelUpModal({
   hitDice,
 }: LevelUpModalProps) {
   const { uid, id } = useParams();
+  const [spellDescription, setSpellDescription] = useState("");
+  const [spellName, setSpellName] = useState("");
 
   const newHitDiceValue = hitDice(
     characterData.level + 1,
@@ -75,7 +81,12 @@ export default function LevelUpModal({
     );
   };
 
-  const SpellSelector = () => {
+  const showSpellDescription = (text: string, title?: string) => {
+    title && setSpellName(title);
+    setSpellDescription(text);
+  };
+
+  const SpellSelector = ({ className }: { className: string }) => {
     let spellBudget: number[] = [];
     const newSpells = characterData.spells;
     const newSpellCounts = newSpells.reduce(
@@ -153,7 +164,7 @@ export default function LevelUpModal({
     const isCustomClass = getClassType(characterData.class) === "custom";
 
     return characterData.level < 20 && spellBudget?.length ? (
-      <>
+      <div className={className}>
         {spellBudget.map((max, index) => {
           if ((isCustomClass && index !== 0) || max === 0) return null;
 
@@ -171,27 +182,41 @@ export default function LevelUpModal({
               >
                 {spellsOfLevel(characterData.class, index + 1)
                   .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((spell) => (
-                    <div key={spell.name}>
-                      <Checkbox
-                        value={spell.name}
-                        disabled={shouldDisableCheckbox(
-                          spell.name,
-                          newSpellCounts,
-                          spellBudget,
-                          newSpells,
-                          index
-                        )}
-                      >
-                        {spell.name}
-                      </Checkbox>
-                    </div>
-                  ))}
+                  .map((spell) => {
+                    const description = marked(spell.description);
+                    return (
+                      <div key={spell.name}>
+                        <Checkbox
+                          value={spell.name}
+                          disabled={shouldDisableCheckbox(
+                            spell.name,
+                            newSpellCounts,
+                            spellBudget,
+                            newSpells,
+                            index
+                          )}
+                        >
+                          {spell.name}
+                          <Button
+                            type="ghost"
+                            shape="circle"
+                            size="small"
+                            icon={<InfoCircleOutlined />}
+                            onClick={() =>
+                              showSpellDescription(description, spell.name)
+                            }
+                            aria-label={`${spell.name} description`}
+                            title={`${spell.name} description`}
+                          />
+                        </Checkbox>
+                      </div>
+                    );
+                  })}
               </Checkbox.Group>
             </div>
           );
         })}
-      </>
+      </div>
     ) : null;
   };
 
@@ -234,8 +259,18 @@ export default function LevelUpModal({
       onCancel={handleCancel}
       footer={false}
       closeIcon={<CloseIcon />}
+      width={800}
     >
-      <SpellSelector />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-[auto_auto] items-start md:relative">
+        <SpellSelector className="col-start-1" />
+        {spellDescription !== "" && (
+          <DescriptionBubble
+            title={spellName ? ` ${spellName}` : ""}
+            description={spellDescription}
+            className="md:col-start-2 md:row-span-2 md:sticky md:top-4 self-start"
+          />
+        )}
+      </div>
       <Button type="primary" onClick={handleLevelUp}>
         Roll new Hit Points ({newHitDiceValue})
       </Button>
