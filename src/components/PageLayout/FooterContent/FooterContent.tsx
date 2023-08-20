@@ -1,10 +1,13 @@
-import { Divider, Typography } from "antd";
+import { Typography } from "antd";
 import { FooterContentProps } from "./definitions";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
 export default function FooterContent({ className }: FooterContentProps) {
+  const FooterContentClassNames = classNames(className, "text-springWood");
+
   return (
-    <div className={`${className}`}>
+    <div className={FooterContentClassNames}>
       <Typography.Paragraph>
         © 2023 J. Garrett Vorbeck. All rights reserved. v1.9
       </Typography.Paragraph>
@@ -19,7 +22,7 @@ export default function FooterContent({ className }: FooterContentProps) {
         </a>{" "}
         and is current to 4th Edition (release 135).
       </Typography.Paragraph>
-      <div className="flex flex-col sm:flex-row [&_a]:sm:text-xs">
+      <div className="grid grid-cols-2 md:flex md:gap-8 md:grid-rows-1">
         <Typography.Paragraph>
           <a
             href="https://github.com/gvorbeck/codex-quest/blob/main/LICENSE"
@@ -29,11 +32,9 @@ export default function FooterContent({ className }: FooterContentProps) {
             License
           </a>
         </Typography.Paragraph>
-        <Divider type="vertical" />
         <Typography.Paragraph>
           <a href="mailto:me@iamgarrett.com">Contact</a>
         </Typography.Paragraph>
-        <Divider type="vertical" />
         <Typography.Paragraph>
           <a
             href="https://github.com/gvorbeck/codex-quest"
@@ -43,19 +44,16 @@ export default function FooterContent({ className }: FooterContentProps) {
             GitHub
           </a>
         </Typography.Paragraph>
-        <Divider type="vertical" />
         <Typography.Paragraph>
           <Link to="https://www.freeprivacypolicy.com/live/fbe666aa-8172-4c25-86b3-f8b190191f9c">
             Privacy Policy
           </Link>
         </Typography.Paragraph>
-        <Divider type="vertical" />
         <Typography.Paragraph>
           <Link to="https://www.paypal.com/donate/?business=4BW6AR5BGQZYW&no_recurring=0&item_name=for+CODEX.QUEST+database+fees&currency_code=USD">
             Donate
           </Link>
         </Typography.Paragraph>
-        <Divider type="vertical" />
         <Typography.Paragraph>
           <Link to="https://basicfantasy.org/forums/viewtopic.php?t=4840">
             Forum
