@@ -299,7 +299,7 @@ export default function CharacterCreator() {
   return (
     <div className={`${outletContext.className}`}>
       {contextHolder}
-      <div className="grid gap-4 grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
+      <div className="grid gap-4 md:grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
         <Breadcrumb
           className="col-span-full"
           items={[
@@ -318,6 +318,7 @@ export default function CharacterCreator() {
           items={items}
           direction="vertical"
           progressDot
+          className="hidden md:block"
         />
         <div className="relative">
           {current === 4 && <FloatingGold />}
