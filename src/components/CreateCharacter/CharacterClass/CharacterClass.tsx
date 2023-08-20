@@ -9,6 +9,7 @@ import spellsData from "../../../data/spells.json";
 import { classDetails } from "../../../data/classDetails";
 import { getClassType } from "../../../support/helpers";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
+import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -266,7 +267,7 @@ export default function CharacterClass({
             )}
           </div>
         ) : (
-          <div className="grid gap-8 grid-cols-[auto_auto] items-start">
+          <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
             <Radio.Group
               value={characterData.class}
               onChange={onClassRadioChange}
@@ -305,14 +306,9 @@ export default function CharacterClass({
                 characterData.class as ClassNames
               ) &&
               characterData.class !== ClassNames.CUSTOM && (
-                <Typography.Paragraph>
-                  <strong>Description:</strong>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: classDetails[characterData.class].description,
-                    }}
-                  />
-                </Typography.Paragraph>
+                <DescriptionBubble
+                  description={classDetails[characterData.class].description}
+                />
               )}
           </div>
         )}

@@ -1,4 +1,4 @@
-import { Input, Radio, Typography } from "antd";
+import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
 import { raceDetails } from "../../../data/raceDetails";
@@ -7,6 +7,7 @@ import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
 import { RaceNames } from "../../definitions";
 import { isStandardRace } from "../../../support/helpers";
+import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 
 export default function CharacterRace({
   characterData,
@@ -71,7 +72,7 @@ export default function CharacterRace({
 
   return (
     <>
-      <div className="grid gap-8 grid-cols-[auto_auto] items-start">
+      <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
         <Radio.Group
           onChange={onChange}
           value={
@@ -106,14 +107,9 @@ export default function CharacterRace({
         {characterData.race &&
           Object.values(RaceNames).includes(characterData.race as RaceNames) &&
           characterData.race !== RaceNames.CUSTOM && (
-            <Typography.Paragraph>
-              <strong>Description:</strong>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: raceDetails[characterData.race].description,
-                }}
-              />
-            </Typography.Paragraph>
+            <DescriptionBubble
+              description={raceDetails[characterData.race].description}
+            />
           )}
       </div>
       {showCustomRaceInput && (
