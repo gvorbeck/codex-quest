@@ -417,7 +417,8 @@ export default function CharacterClass({
                         size="small"
                         icon={<InfoCircleOutlined />}
                         onClick={() => showModal(spell.name, description)}
-                        aria-label="spell description"
+                        aria-label={`${spell.name} description`}
+                        title={`${spell.name} description`}
                       />
                     </Radio>
                   );
