@@ -1,5 +1,14 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import { Checkbox, Input, Radio, Space, Switch, Typography } from "antd";
+import {
+  Button,
+  Checkbox,
+  Input,
+  Modal,
+  Radio,
+  Space,
+  Switch,
+  Typography,
+} from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import DOMPurify from "dompurify";
@@ -10,6 +19,8 @@ import { classDetails } from "../../../data/classDetails";
 import { getClassType } from "../../../support/helpers";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
+import { marked } from "marked";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -25,6 +36,9 @@ export default function CharacterClass({
 }: CharacterClassProps) {
   const [customClassInput, setCustomClassInput] = useState("");
   const [showCustomClassInput, setShowCustomClassInput] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalName, setModalName] = useState<string | undefined>(undefined);
+  const [modalDescription, setModalDescription] = useState<string>("");
 
   useEffect(() => {
     if (
@@ -228,6 +242,16 @@ export default function CharacterClass({
   const comboClassFighterSelected = (choice: string) =>
     choice === ClassNames.THIEF && checkedClasses.includes(ClassNames.FIGHTER);
 
+  const showModal = (name: string, text: string) => {
+    setModalName(name);
+    setModalDescription(text);
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       {characterData.race === RaceNames.ELF && (
@@ -378,18 +402,37 @@ export default function CharacterClass({
                   );
                 })
                 .sort((a, b) => a.name.localeCompare(b.name))
-                .map((spell) => (
-                  <Radio
-                    key={spell.name}
-                    value={spell.name}
-                    className="flex-[1_1_45%]"
-                  >
-                    {spell.name}
-                  </Radio>
-                ))}
+                .map((spell) => {
+                  const description = marked(spell.description);
+                  return (
+                    <Radio
+                      key={spell.name}
+                      value={spell.name}
+                      className="flex-[1_1_45%]"
+                    >
+                      {spell.name}
+                      <Button
+                        type="ghost"
+                        shape="circle"
+                        size="small"
+                        icon={<InfoCircleOutlined />}
+                        onClick={() => showModal(spell.name, description)}
+                        aria-label="spell description"
+                      />
+                    </Radio>
+                  );
+                })}
             </Radio.Group>
           </div>
         )}
+        <Modal
+          title={modalName}
+          open={isModalOpen}
+          onCancel={handleCancel}
+          footer={[]}
+        >
+          <div dangerouslySetInnerHTML={{ __html: modalDescription }} />
+        </Modal>
       </div>
     </>
   );
