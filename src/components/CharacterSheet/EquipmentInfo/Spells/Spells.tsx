@@ -1,6 +1,7 @@
 import { Button, List, Typography } from "antd";
 import { useState } from "react";
 import { SpellsProps } from "./definitions";
+import { marked } from "marked";
 
 export default function Spells({ characterData }: SpellsProps) {
   const [selectedSpell, setSelectedSpell] = useState<number | null>(null);
@@ -39,7 +40,10 @@ export default function Spells({ characterData }: SpellsProps) {
             {selectedSpell === index ? "Hide Description" : "Show Description"}
           </Button>
           {selectedSpell === index && (
-            <div className="mt-4">{item.description}</div>
+            <div
+              className="mt-4"
+              dangerouslySetInnerHTML={{ __html: marked(item.description) }}
+            />
           )}
         </List.Item>
       )}
