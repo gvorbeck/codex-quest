@@ -43,7 +43,8 @@ export default function CharacterHitPoints({
         dice = "d8";
         if (
           characterData.race === RaceNames.ELF ||
-          characterData.race === RaceNames.HALFLING
+          characterData.race === RaceNames.HALFLING ||
+          characterData.race === RaceNames.GNOME
         ) {
           dice = "d6";
         }

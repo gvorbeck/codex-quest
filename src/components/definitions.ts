@@ -1,4 +1,4 @@
-import { SavingThrows } from "./CharacterSheet/SavingThrows/definitions";
+import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
 import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
 
 interface HP {
@@ -43,7 +43,7 @@ export interface CharacterData {
   level: number;
   specials: SpecialRestriction;
   restrictions: SpecialRestriction;
-  savingThrows: SavingThrows;
+  savingThrows: SavingThrowsType;
   xp: number;
   desc: string;
   wearing?: { armor: string; shield: string };
@@ -93,6 +93,7 @@ export enum ClassNames {
 export enum RaceNames {
   DWARF = "Dwarf",
   ELF = "Elf",
+  GNOME = "Gnome",
   HALFLING = "Halfling",
   HUMAN = "Human",
   CUSTOM = "Custom",

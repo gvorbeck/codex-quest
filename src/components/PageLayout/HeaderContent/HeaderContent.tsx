@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Row, Tooltip, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
 import { LogoutOutlined } from "@ant-design/icons";
@@ -21,7 +21,9 @@ export default function HeaderContent({
           level={1}
           className="!mb-0 mt-0 leading-none text-4xl"
         >
-          CODEX.QUEST
+          <Link to="/" className="text-white">
+            CODEX.QUEST
+          </Link>
         </Typography.Title>
         {user && (
           <Button
