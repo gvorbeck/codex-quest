@@ -49,7 +49,7 @@ export const raceDetails: Record<
         `**Gnomes** are naturally very observant; being smaller than most other races has made them cautious and aware of their surroundings. As a consequence, a Gnome has a 10% chance to detect an invisible or hidden creature within a 30 foot radius. This ability does not apply to inanimate objects such as secret doors or invisible objects.`
       ),
       marked(
-        `When fighting an invisible opponent, a **Gnome** who has successfully detected the invisible creature suffers only a -2 penalty on the attack roll, rather than the usual -4 penalty as given `
+        `When fighting an invisible opponent, a **Gnome** who has successfully detected the invisible creature suffers only a -2 penalty on the attack roll, rather than the usual -4 penalty as given.`
       ),
     ],
     restrictions: [
