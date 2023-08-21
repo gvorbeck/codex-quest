@@ -40,6 +40,13 @@ export const raceDetails: Record<
       ),
     ],
   },
+  [RaceNames.GNOME]: {
+    description: marked(
+      `Gnomes are small and stocky, more so than halflings but not as much as dwarves; both male and female gnomes stand around three and a half feet tall and typically weigh around 90 pounds. The most noticeable features about a gnome from the standpoint of other races is their pointed ears and noses. They are renowned for their rapidly-changing moods, sometimes gruff and contrary, sometimes whimsical and humorous. They have a lifespan between two and three centuries long.`
+    ),
+    restrictions: [marked(`foo`)],
+    specials: [marked(`foo`)],
+  },
   [RaceNames.HALFLING]: {
     description: marked(
       `Halflings are small, slightly stocky folk who stand around three feet tall and weigh about 60 pounds. They have curly hair on their heads and feet, but rarely have facial hair. Halflings are remarkably rugged for their small size. They are dexterous and nimble, capable of moving quietly and remaining very still. They usually go barefoot. Halflings are typically outgoing, unassuming and goodnatured. They live about a hundred years.`
