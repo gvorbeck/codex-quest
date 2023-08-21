@@ -81,7 +81,6 @@ export default function CharacterRace({
           className="grid gap-2"
         >
           {Object.values(RaceNames).map((race) => {
-            if (race === RaceNames.CUSTOM) return null; // Optionally exclude custom race
             return (
               <Radio
                 key={race}
