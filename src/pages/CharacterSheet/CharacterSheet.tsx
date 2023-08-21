@@ -368,11 +368,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {Object.values(ClassNames).includes(
         ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
       ) || characterData.class.toLowerCase().includes("magic-user") ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print:grid-cols-2">
           {/* SPECIALS / RESTRICTIONS */}
           <SpecialsRestrictions
             characterData={characterData}
-            className="md:col-span-2 md:row-span-2"
+            className="md:col-span-2 md:row-span-2 print:row-span-2"
           />
           {/* THIEF'S ABILITIES */}
           {(characterData.class.toLowerCase().includes("thief") ||
@@ -390,7 +390,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* SAVING THROWS */}
           <SavingThrows
             characterData={characterData}
-            className="md:col-start-3"
+            className="md:col-start-3 print:col-start-2"
           />
         </div>
       ) : (

@@ -24,7 +24,7 @@ export default function BaseStats({
             size={64}
             icon={<UserOutlined />}
             alt={characterData.name}
-            className="print:grayscale shadow-md"
+            className="print:hidden shadow-md"
           />
         )}
         <Typography.Title
@@ -35,7 +35,7 @@ export default function BaseStats({
         </Typography.Title>
       </div>
       <Divider className="mt-4 mb-4" />
-      <div className="flex flex-col justify-between md:flex-row print:block">
+      <div className="flex flex-col justify-between md:flex-row print:flex-row print:items-baseline">
         <ExperiencePoints
           character={characterData}
           setCharacter={setCharacterData}
@@ -46,15 +46,15 @@ export default function BaseStats({
         <Descriptions
           bordered
           size="small"
-          className="[&_th]:leading-none [&_td]:leading-none mt-4 md:mt-0 [&_td]:px-3 [&_th]:px-2"
+          className="[&_th]:leading-none [&_td]:leading-none mt-4 md:mt-0 [&_td]:px-3 [&_th]:px-2 print:w-1/2"
         >
-          <Descriptions.Item label="Level" span={1}>
+          <Descriptions.Item label="Level">
             {characterData.level}
           </Descriptions.Item>
-          <Descriptions.Item label="Race" span={1}>
+          <Descriptions.Item label="Race">
             {characterData.race}
           </Descriptions.Item>
-          <Descriptions.Item label="Class" span={1}>
+          <Descriptions.Item label="Class">
             {characterData.class}
           </Descriptions.Item>
         </Descriptions>
