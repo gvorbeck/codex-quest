@@ -96,6 +96,9 @@ export default function CharacterRace({
                       +characterData.abilities.scores.constitution > 17)) ||
                   (race === RaceNames.HALFLING &&
                     (+characterData.abilities.scores.dexterity < 9 ||
+                      +characterData.abilities.scores.strength > 17)) ||
+                  (race === RaceNames.GNOME &&
+                    (+characterData.abilities.scores.constitution < 9 ||
                       +characterData.abilities.scores.strength > 17))
                 }
               >
