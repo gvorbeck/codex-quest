@@ -44,7 +44,18 @@ export const raceDetails: Record<
     description: marked(
       `Gnomes are small and stocky, more so than halflings but not as much as dwarves; both male and female gnomes stand around three and a half feet tall and typically weigh around 90 pounds. The most noticeable features about a gnome from the standpoint of other races is their pointed ears and noses. They are renowned for their rapidly-changing moods, sometimes gruff and contrary, sometimes whimsical and humorous. They have a lifespan between two and three centuries long.`
     ),
-    restrictions: [marked(`foo`)],
+    restrictions: [
+      marked(`All **Gnomes** have Darkvision with a 30-foot range.`),
+      marked(
+        `When attacked in melee by creatures larger than man-sized, **Gnomes** gain a +1 bonus to their Armor Class.`
+      ),
+      marked(
+        `**Gnomes** are naturally very observant; being smaller than most other races has made them cautious and aware of their surroundings. As a consequence, a Gnome has a 10% chance to detect an invisible or hidden creature within a 30 foot radius. This ability does not apply to inanimate objects such as secret doors or invisible objects.`
+      ),
+      marked(
+        `When fighting an invisible opponent, a **Gnome** who has successfully detected the invisible creature suffers only a -2 penalty on the attack roll, rather than the usual -4 penalty as given `
+      ),
+    ],
     specials: [marked(`foo`)],
   },
   [RaceNames.HALFLING]: {

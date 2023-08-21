@@ -449,6 +449,7 @@ const savingThrows = {
       },
     ],
   ],
+  [ClassNames.CUSTOM]: [],
 };
 
 (savingThrows as any)[ClassNames.ASSASSIN] = savingThrows[ClassNames.THIEF];

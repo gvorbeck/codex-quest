@@ -38,6 +38,7 @@ import equipmentItems from "../../data/equipmentItems.json";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { EquipmentItem } from "../../components/EquipmentStore/definitions";
+import { getClassType } from "../../support/helpers";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -365,9 +366,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       </Row>
       <Divider className="print:hidden" />
       {/* Hide these if using a custom Class */}
-      {Object.values(ClassNames).includes(
-        ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
-      ) || characterData.class.toLowerCase().includes(ClassNames.MAGICUSER) ? (
+      {getClassType(characterData.class) !== "custom" ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print:grid-cols-2">
           {/* SPECIALS / RESTRICTIONS */}
           <SpecialsRestrictions
