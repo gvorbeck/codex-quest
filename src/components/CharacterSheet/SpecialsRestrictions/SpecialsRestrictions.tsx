@@ -41,7 +41,7 @@ export default function SpecialsRestrictions({
             ?.specials || []),
           ...classSpecials,
           ...(raceDetails[characterData.race as keyof typeof raceDetails]
-            ?.specials || []),
+            ?.restrictions || []),
           ...classRestrictions,
         ]}
         renderItem={(item) => (
