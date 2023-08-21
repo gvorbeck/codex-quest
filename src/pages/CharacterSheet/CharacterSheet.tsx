@@ -367,7 +367,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {/* Hide these if using a custom Class */}
       {Object.values(ClassNames).includes(
         ClassNames[characterData.class.toUpperCase() as keyof typeof ClassNames]
-      ) || characterData.class.toLowerCase().includes("magic-user") ? (
+      ) || characterData.class.toLowerCase().includes(ClassNames.MAGICUSER) ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print:grid-cols-2">
           {/* SPECIALS / RESTRICTIONS */}
           <SpecialsRestrictions
@@ -375,14 +375,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             className="md:col-span-2 md:row-span-2 print:row-span-2"
           />
           {/* THIEF'S ABILITIES */}
-          {(characterData.class.toLowerCase().includes("thief") ||
-            characterData.class.toLowerCase().includes("assassin")) && (
+          {(characterData.class.toLowerCase().includes(ClassNames.THIEF) ||
+            characterData.class
+              .toLowerCase()
+              .includes(ClassNames.ASSASSIN)) && (
             <SpecialAbilitiesTable
               className="md:col-start-3"
               characterLevel={characterData.level.toString()}
               characterClass={
-                characterData.class.toLowerCase().includes("thief")
-                  ? "thief"
+                characterData.class.toLowerCase().includes(ClassNames.THIEF)
+                  ? ClassNames.THIEF.toLowerCase()
                   : characterData.class.toLowerCase()
               }
             />
