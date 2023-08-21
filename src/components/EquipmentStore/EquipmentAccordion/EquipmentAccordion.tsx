@@ -224,11 +224,13 @@ const itemIsDisabled = (
   }
 
   if (
-    raceName.toLowerCase() === RaceNames.DWARF ||
-    raceName.toLowerCase() === RaceNames.HALFLING ||
-    raceName.toLowerCase() === RaceNames.GNOME
+    raceName === RaceNames.DWARF ||
+    raceName === RaceNames.HALFLING ||
+    raceName === RaceNames.GNOME
   ) {
-    if (item.size === "L") disabled = true;
+    if (item.size === "L") {
+      disabled = true;
+    }
   }
 
   return disabled;
