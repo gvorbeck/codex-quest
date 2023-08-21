@@ -194,7 +194,8 @@ export default function CharacterClass({
   const magicUserRaceRestriction = (choice: string) =>
     choice === ClassNames.MAGICUSER &&
     characterData.race !== RaceNames.ELF &&
-    characterData.race !== RaceNames.HUMAN;
+    characterData.race !== RaceNames.HUMAN &&
+    characterData.race !== RaceNames.GNOME;
   const clericAbilityRestriction = (choice: string) =>
     choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
   const druidAbilityRestriction = (choice: string) =>
@@ -229,7 +230,8 @@ export default function CharacterClass({
   const illusionistRaceRestriction = (choice: string) =>
     choice === ClassNames.ILLUSIONIST &&
     characterData.race !== RaceNames.ELF &&
-    characterData.race !== RaceNames.HUMAN;
+    characterData.race !== RaceNames.HUMAN &&
+    characterData.race !== RaceNames.GNOME;
 
   // Methods for disabling combo class choices
   const comboClassRestrictedClasses = (choice: string) =>
@@ -237,7 +239,8 @@ export default function CharacterClass({
     choice === ClassNames.BARBARIAN ||
     choice === ClassNames.CLERIC ||
     choice === ClassNames.ILLUSIONIST ||
-    choice === ClassNames.DRUID;
+    choice === ClassNames.DRUID ||
+    (characterData.race === RaceNames.GNOME && choice === ClassNames.FIGHTER);
   const comboClassThiefSelected = (choice: string) =>
     choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
   const comboClassFighterSelected = (choice: string) =>
@@ -255,7 +258,8 @@ export default function CharacterClass({
 
   return (
     <>
-      {characterData.race === RaceNames.ELF && (
+      {(characterData.race === RaceNames.ELF ||
+        characterData.race === RaceNames.GNOME) && (
         <div>
           <Switch
             checked={comboClass}
