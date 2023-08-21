@@ -1,9 +1,8 @@
 import { ClassNames, DiceTypes } from "../../components/definitions";
 import { RaceSetup } from "./definitions";
-import { GNOME_NAME } from "./names";
 
 export const gnome: RaceSetup = {
-  name: GNOME_NAME,
+  name: "Gnome",
   allowedStandardClasses: [
     ClassNames.CLERIC,
     ClassNames.CUSTOM,

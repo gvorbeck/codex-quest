@@ -1,13 +1,14 @@
 import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
-import { raceDetails } from "../../../data/raceDetails";
+// import { raceDetails } from "../../../data/raceDetails";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
-import { RaceNames } from "../../definitions";
-import { isStandardRace } from "../../../support/helpers";
+// import { RaceNames } from "../../definitions";
+// import { isStandardRace } from "../../../support/helpers";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
+import { races } from "../../../data/races";
 
 export default function CharacterRace({
   characterData,
