@@ -93,6 +93,7 @@ export enum ClassNames {
 export enum RaceNames {
   DWARF = "Dwarf",
   ELF = "Elf",
+  GNOME = "Gnome",
   HALFLING = "Halfling",
   HUMAN = "Human",
   CUSTOM = "Custom",
