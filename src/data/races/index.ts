@@ -14,10 +14,15 @@ type Races = {
   [key in RaceNamesTwo]: RaceSetup;
 };
 
+const customPlaceholder = {
+  name: "",
+  allowedStandardClasses: [],
+};
+
 export const races: Races = {
   // [RaceNamesTwo.DWARF]: dwarf, // assuming you have a dwarf object
   // [RaceNamesTwo.ELF]: elf, // assuming you have an elf object
   [RaceNamesTwo.GNOME]: gnome,
-  [RaceNamesTwo.CUSTOM]: {},
+  [RaceNamesTwo.CUSTOM]: customPlaceholder,
   // ... other races
 };
