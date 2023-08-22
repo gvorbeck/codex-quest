@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import { ClassNames } from "../components/definitions";
+import { ClassNames } from "../../components/definitions";
 
 marked.use({ mangle: false, headerIds: false });
 

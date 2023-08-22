@@ -1,4 +1,4 @@
-import { ClassNames } from "../components/definitions";
+import { ClassNames } from "../../components/definitions";
 
 const clericAndDruidSpellBudget = [
   [0, 0, 0, 0, 0, 0],

@@ -1,4 +1,4 @@
-import { ClassNames } from "../components/definitions";
+import { ClassNames } from "../../components/definitions";
 
 const thiefAndAssassin = [
   0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8,

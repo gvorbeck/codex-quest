@@ -1,4 +1,4 @@
-import { ClassNames } from "../components/definitions";
+import { ClassNames } from "../../components/definitions";
 
 const magicUserAndBarbarianAndIllusionist = [
   0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,

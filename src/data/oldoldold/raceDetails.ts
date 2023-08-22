@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import { RaceNames } from "../components/definitions";
+import { RaceNames } from "../../components/definitions";
 
 export const raceDetails: Record<
   string,
