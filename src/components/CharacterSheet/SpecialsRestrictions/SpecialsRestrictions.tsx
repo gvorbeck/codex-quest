@@ -1,7 +1,7 @@
 import { List, Typography } from "antd";
-import { classDetails } from "../../../data/classDetails";
-import { raceDetails } from "../../../data/raceDetails";
 import { SpecialsRestrictionsProps } from "./definitions";
+import { ClassNamesTwo, classes } from "../../../data/classes";
+import { RaceNamesTwo, races } from "../../../data/races";
 
 // Ant Design's List component treats the input as a string and not as HTML.
 // To render HTML, you need to use dangerouslySetInnerHTML prop in React.
@@ -22,10 +22,14 @@ export default function SpecialsRestrictions({
   const classSpecials: string[] = [];
   const classRestrictions: string[] = [];
   individualClasses.forEach((cls) => {
-    const key = cls as keyof typeof classDetails;
-    if (classDetails[key]) {
-      classSpecials.push(...classDetails[key].specials);
-      classRestrictions.push(...classDetails[key].restrictions);
+    // const key = cls as keyof typeof classDetails;
+    if (classes[cls as ClassNamesTwo]) {
+      classSpecials.push(
+        ...(classes[cls as ClassNamesTwo].details?.specials || [])
+      );
+      classRestrictions.push(
+        ...(classes[cls as ClassNamesTwo].details?.restrictions || [])
+      );
     }
   });
 
@@ -37,11 +41,11 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...(raceDetails[characterData.race as keyof typeof raceDetails]
-            ?.specials || []),
+          ...(races[characterData.race as RaceNamesTwo].details?.specials ||
+            []),
           ...classSpecials,
-          ...(raceDetails[characterData.race as keyof typeof raceDetails]
-            ?.restrictions || []),
+          ...(races[characterData.race as RaceNamesTwo].details?.restrictions ||
+            []),
           ...classRestrictions,
         ]}
         renderItem={(item) => (

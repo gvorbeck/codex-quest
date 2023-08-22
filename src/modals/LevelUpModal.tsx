@@ -4,7 +4,7 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { ClassNames, Spell, SpellLevels } from "../components/definitions";
 import { LevelUpModalProps } from "./definitions";
-import { spellBudgets } from "../data/spellBudgets";
+import { spellBudgets } from "../data/oldoldold/spellBudgets";
 import spellList from "../data/spells.json";
 import { getClassType } from "../support/helpers";
 import { doc, updateDoc } from "firebase/firestore";

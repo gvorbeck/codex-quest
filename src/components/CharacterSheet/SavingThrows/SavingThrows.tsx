@@ -1,34 +1,13 @@
 import { SavingThrowsProps, SavingThrowsType } from "./definitions";
-import savingThrows from "../../../data/savingThrows";
-import { RaceNames } from "../../definitions";
 import { getClassType } from "../../../support/helpers";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { Table, Typography, notification } from "antd";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
+import { RaceNamesTwo, races } from "../../../data/races";
+import { ClassNamesTwo, classes } from "../../../data/classes";
 
 const roller = new DiceRoller();
-
-const raceSavingThrowModifiers: Record<RaceNames, Partial<SavingThrowsType>> = {
-  [RaceNames.DWARF]: {
-    deathRayOrPoison: 4,
-    magicWands: 4,
-    paralysisOrPetrify: 4,
-    dragonBreath: 3,
-    spells: 4,
-  },
-  [RaceNames.ELF]: { paralysisOrPetrify: 1, magicWands: 2, spells: 2 },
-  [RaceNames.GNOME]: { deathRayOrPoison: 4, dragonBreath: 3 },
-  [RaceNames.HALFLING]: {
-    deathRayOrPoison: 4,
-    magicWands: 4,
-    paralysisOrPetrify: 4,
-    dragonBreath: 3,
-    spells: 4,
-  },
-  [RaceNames.HUMAN]: {},
-  [RaceNames.CUSTOM]: {},
-};
 
 const defaultSavingThrows: SavingThrowsType = {
   deathRayOrPoison: 0,
@@ -45,10 +24,13 @@ export default function SavingThrows({
   let baseSavingThrows: SavingThrowsType;
   const dataSource: {}[] = [];
 
+  const getSavingThrowsForLevel = (characterClass: string) =>
+    classes[characterClass as ClassNamesTwo].savingThrows.find(
+      (savingThrow) => (savingThrow[0] as number) >= characterData.level
+    );
+
   if (getClassType(characterData.class) === "standard") {
-    const savingThrowForLevel = savingThrows[
-      characterData.class as keyof typeof savingThrows
-    ].find((savingThrow) => (savingThrow[0] as number) >= characterData.level);
+    const savingThrowForLevel = getSavingThrowsForLevel(characterData.class);
     baseSavingThrows = savingThrowForLevel
       ? (savingThrowForLevel[1] as SavingThrowsType)
       : defaultSavingThrows;
@@ -57,16 +39,15 @@ export default function SavingThrows({
     const [firstClass, secondClass] = characterData.class.split(" ");
 
     // Find the best saving throw for each component class
-    const firstClassThrow = savingThrows[
-      firstClass as keyof typeof savingThrows
-    ].find(
-      (savingThrow) => (savingThrow[0] as number) >= characterData.level
-    )?.[1] as SavingThrowsType;
-    const secondClassThrow = savingThrows[
-      secondClass as keyof typeof savingThrows
-    ].find(
-      (savingThrow) => (savingThrow[0] as number) >= characterData.level
-    )?.[1] as SavingThrowsType;
+    let getSavingThrowsForLevelResult = getSavingThrowsForLevel(firstClass);
+    const firstClassThrow = getSavingThrowsForLevelResult
+      ? (getSavingThrowsForLevelResult[1] as SavingThrowsType)
+      : defaultSavingThrows; // Provide a default value if undefined
+
+    getSavingThrowsForLevelResult = getSavingThrowsForLevel(secondClass);
+    const secondClassThrow = getSavingThrowsForLevelResult
+      ? (getSavingThrowsForLevelResult[1] as SavingThrowsType)
+      : defaultSavingThrows; // Provide a default value if undefined
 
     // Find the best of the two saving throws
     baseSavingThrows = Object.entries(
@@ -84,12 +65,13 @@ export default function SavingThrows({
   }
 
   // Apply race modifiers
-  const raceModifier =
-    raceSavingThrowModifiers[characterData.race as RaceNames];
+  const raceModifiers = races[characterData.race as RaceNamesTwo].savingThrows;
   const finalSavingThrows = Object.entries(baseSavingThrows).reduce(
     (prev, [key, value]) => ({
       ...prev,
-      [key]: value + (raceModifier[key as keyof SavingThrowsType] || 0),
+      [key]:
+        value +
+        ((raceModifiers && raceModifiers[key as keyof SavingThrowsType]) || 0),
     }),
     {} as SavingThrowsType
   );

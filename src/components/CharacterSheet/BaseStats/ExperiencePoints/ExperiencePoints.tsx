@@ -4,19 +4,19 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
-import { levelRequirements } from "../../../../data/experiencePoints";
 import { ExperiencePointsProps } from "./definitions";
+import { ClassNamesTwo, classes } from "../../../../data/classes";
 
 export default function ExperiencePoints({
-  character,
-  setCharacter,
+  characterData,
+  setCharacterData,
   userIsOwner,
   showLevelUpModal,
   className,
 }: ExperiencePointsProps) {
-  const [prevValue, setPrevValue] = useState(character.xp.toString());
+  const [prevValue, setPrevValue] = useState(characterData.xp.toString());
 
-  const [inputValue, setInputValue] = useState(character.xp.toString());
+  const [inputValue, setInputValue] = useState(characterData.xp.toString());
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -29,14 +29,14 @@ export default function ExperiencePoints({
       return;
     }
 
-    if (character.xp.toString() !== prevValue) {
+    if (characterData.xp.toString() !== prevValue) {
       const docRef = doc(db, "users", uid, "characters", id);
 
       try {
         await updateDoc(docRef, {
-          xp: character.xp,
+          xp: characterData.xp,
         });
-        setPrevValue(character.xp.toString());
+        setPrevValue(characterData.xp.toString());
       } catch (error) {
         console.error("Error updating document: ", error);
       }
@@ -54,10 +54,10 @@ export default function ExperiencePoints({
     if (newValue.startsWith("+")) {
       const increment = parseInt(newValue.slice(1));
       if (!isNaN(increment)) {
-        const updatedXP = character.xp + increment;
-        if (setCharacter) {
-          setCharacter({
-            ...character,
+        const updatedXP = characterData.xp + increment;
+        if (setCharacterData) {
+          setCharacterData({
+            ...characterData,
             xp: updatedXP,
           });
         }
@@ -66,10 +66,10 @@ export default function ExperiencePoints({
     } else if (newValue.startsWith("-")) {
       const decrement = parseInt(newValue.slice(1));
       if (!isNaN(decrement)) {
-        const updatedXP = character.xp - decrement;
-        if (setCharacter) {
-          setCharacter({
-            ...character,
+        const updatedXP = characterData.xp - decrement;
+        if (setCharacterData) {
+          setCharacterData({
+            ...characterData,
             xp: updatedXP,
           });
         }
@@ -78,9 +78,9 @@ export default function ExperiencePoints({
     } else {
       const value = parseInt(newValue);
       if (!isNaN(value)) {
-        if (setCharacter) {
-          setCharacter({
-            ...character,
+        if (setCharacterData) {
+          setCharacterData({
+            ...characterData,
             xp: value,
           });
         }
@@ -89,21 +89,18 @@ export default function ExperiencePoints({
     }
   };
 
-  const classes = character.class.split(" ");
-  const totalLevelRequirement = classes
-    .map(
-      (className) =>
-        levelRequirements[className as keyof typeof levelRequirements]
-          ? levelRequirements[className as keyof typeof levelRequirements][
-              character.level
-            ]
-          : 0 // value if using a custom class
-    )
+  const classNames = characterData.class.split(" ");
+  const totalLevelRequirement = classNames
+    .map((className) => {
+      const classRequirements =
+        classes[className as ClassNamesTwo].experiencePoints;
+      return classRequirements ? classRequirements[characterData.level] : 0; // value if using a custom class
+    })
     .reduce((a, b) => a + b, 0);
 
   useEffect(() => {
     updateXP();
-  }, [character.xp]);
+  }, [characterData.xp]);
 
   return (
     <div className={`${className} flex`}>
@@ -118,7 +115,7 @@ export default function ExperiencePoints({
               handleInputBlur();
             }
           }}
-          suffix={character.level < 20 && `/ ${totalLevelRequirement} XP`}
+          suffix={characterData.level < 20 && `/ ${totalLevelRequirement} XP`}
           disabled={!userIsOwner}
           name="Experience Points"
           id="experience-points"
@@ -126,9 +123,9 @@ export default function ExperiencePoints({
         <label htmlFor="experience-points" className="hidden">
           Experience Points
         </label>
-        {character.level < 20 && (
+        {characterData.level < 20 && (
           <Button
-            disabled={character.xp < totalLevelRequirement}
+            disabled={characterData.xp < totalLevelRequirement}
             type="primary"
             onClick={showLevelUpModal}
             className="print:hidden"

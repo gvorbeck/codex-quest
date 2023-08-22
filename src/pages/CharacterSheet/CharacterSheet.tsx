@@ -33,7 +33,7 @@ import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../modals/AttackModal";
 // DATA
-import { attackBonusTable } from "../../data/attackBonusTable";
+import { attackBonusTable } from "../../data/oldoldold/attackBonusTable";
 import equipmentItems from "../../data/equipmentItems.json";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";

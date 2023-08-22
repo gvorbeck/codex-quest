@@ -13,6 +13,7 @@ import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import { DiceTypes } from "../../definitions";
 import { getClassType } from "../../../support/helpers";
 import { ClassNamesTwo, classes } from "../../../data/classes";
+import { RaceNamesTwo, races } from "../../../data/races";
 
 export default function CharacterHitPoints({
   characterData,
@@ -30,47 +31,18 @@ export default function CharacterHitPoints({
     if (getClassType(characterData.class) === "combination") {
     }
     if (getClassType(characterData.class) === "standard") {
-      const classDie =
-        classes[characterData.class as keyof typeof classes].hitDice;
-
-      console.log(classDie);
+      const classDie = classes[characterData.class as ClassNamesTwo].hitDice;
+      const raceData = races[characterData.race as RaceNamesTwo];
+      if (
+        raceData &&
+        raceData.maximumHitDice !== undefined &&
+        classDie.split("d")[1] > raceData.maximumHitDice
+      ) {
+        dice = raceData.maximumHitDice;
+      } else {
+        dice = classDie as DiceTypes;
+      }
     }
-
-    // if (getClassType(characterData.class) === "custom") {
-    //   if (characterData.class.includes(ClassNames.THIEF)) {
-    //     dice = DiceTypes.D4;
-    //   } else {
-    //     dice = DiceTypes.D6;
-    //   }
-    // } else if (getClassType(characterData.class) === "combination") {
-    //   if (characterData.class.includes(ClassNames.FIGHTER)) dice = DiceTypes.D6;
-    //   if (characterData.class.includes(ClassNames.THIEF)) dice = DiceTypes.D4;
-    // } else {
-    //   if (
-    //     characterData.class === ClassNames.CLERIC ||
-    //     characterData.class === ClassNames.DRUID
-    //   ) {
-    //     dice = DiceTypes.D6;
-    //   } else if (characterData.class === ClassNames.FIGHTER) {
-    //     dice = DiceTypes.D8;
-    //     if (
-    //       characterData.race === RaceNames.ELF ||
-    //       characterData.race === RaceNames.HALFLING ||
-    //       characterData.race === RaceNames.GNOME
-    //     ) {
-    //       dice = DiceTypes.D6;
-    //     }
-    //   } else if (
-    //     characterData.class === ClassNames.MAGICUSER ||
-    //     characterData.class === ClassNames.THIEF ||
-    //     characterData.class === ClassNames.ASSASSIN ||
-    //     characterData.class === ClassNames.ILLUSIONIST
-    //   ) {
-    //     dice = DiceTypes.D4;
-    //   } else if (characterData.class === ClassNames.BARBARIAN) {
-    //     dice = DiceTypes.D10;
-    //   } // else dice = characterData.hp.dice;
-    // }
 
     setCharacterData({
       ...characterData,
@@ -125,12 +97,11 @@ export default function CharacterHitPoints({
             buttonStyle="solid"
             className="block mb-4"
           >
-            <Radio.Button value="d4">d4</Radio.Button>
-            <Radio.Button value="d6">d6</Radio.Button>
-            <Radio.Button value="d8">d8</Radio.Button>
-            <Radio.Button value="d10">d10</Radio.Button>
-            <Radio.Button value="d12">d12</Radio.Button>
-            <Radio.Button value="d20">d20</Radio.Button>
+            {Object.values(DiceTypes).map((die) => (
+              <Radio.Button key={die} value={die}>
+                {die}
+              </Radio.Button>
+            ))}
           </Radio.Group>
           <HomebrewWarning homebrew="Race or Class" />
           <Divider />

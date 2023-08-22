@@ -13,9 +13,8 @@ import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import DOMPurify from "dompurify";
 import { CharacterClassProps } from "./definitions";
-import { ClassNames, Spell } from "../../definitions";
+import { Spell } from "../../definitions";
 import spellsData from "../../../data/spells.json";
-import { classDetails } from "../../../data/classDetails";
 import { getClassType, getDisabledClasses } from "../../../support/helpers";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
@@ -58,32 +57,9 @@ export default function CharacterClass({
 
   useEffect(() => {
     if (comboClass) {
-      const firstClass = checkedClasses[0] as keyof typeof classDetails;
-      const secondClass = checkedClasses[1] as keyof typeof classDetails;
-      const firstClassRestrictions = firstClass
-        ? classDetails[firstClass].restrictions
-        : [];
-      const firstClassSpecials = firstClass
-        ? classDetails[firstClass].specials
-        : [];
-      const secondClassRestrictions = secondClass
-        ? classDetails[secondClass].restrictions
-        : [];
-      const secondClassSpecials = secondClass
-        ? classDetails[secondClass].specials
-        : [];
-
       setCharacterData({
         ...characterData,
         class: checkedClasses.join(" "),
-        restrictions: {
-          race: characterData.restrictions.race,
-          class: [...firstClassRestrictions, ...secondClassRestrictions],
-        },
-        specials: {
-          race: characterData.specials.race,
-          class: [...firstClassSpecials, ...secondClassSpecials],
-        },
       });
     }
   }, [checkedClasses, comboClass]);
@@ -109,8 +85,13 @@ export default function CharacterClass({
     const classValue =
       e.target.value !== "Custom" ? e.target.value : customClassInput;
     setSelectedSpell(null);
-    const spells = classValue === ClassNames.MAGICUSER ? readMagic : [];
-    const thisClass = e.target.value.toString() as keyof typeof classDetails;
+    const spells: Spell[] = (classes[
+      classValue as ClassNamesTwo
+    ].startingSpells?.flatMap((spell) =>
+      spellsData.find((s) => s.name === spell)
+        ? [spellsData.find((s) => s.name === spell)]
+        : []
+    ) || []) as Spell[];
 
     setCharacterData({
       ...characterData,
@@ -118,20 +99,6 @@ export default function CharacterClass({
       hp: { dice: "", points: 0, max: 0, desc: "" },
       spells,
       equipment: [],
-      restrictions: {
-        ...characterData.restrictions,
-        class:
-          e.target.value !== "Custom" && classDetails[thisClass]
-            ? [...classDetails[thisClass]?.restrictions]
-            : [],
-      },
-      specials: {
-        ...characterData.specials,
-        class:
-          e.target.value !== "Custom" && classDetails[thisClass]
-            ? [...classDetails[thisClass].specials]
-            : [],
-      },
     });
   };
 
@@ -192,62 +159,6 @@ export default function CharacterClass({
     }
   };
 
-  // Methods for disabling class choices
-  // const magicUserRaceRestriction = (choice: string) =>
-  //   choice === ClassNames.MAGICUSER &&
-  //   characterData.race !== RaceNamesTwo.ELF &&
-  //   characterData.race !== RaceNamesTwo.HUMAN &&
-  //   characterData.race !== RaceNamesTwo.GNOME;
-  // const clericAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
-  // const druidAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.DRUID && +characterData.abilities.scores.wisdom < 9;
-  // const fighterAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.FIGHTER &&
-  //   +characterData.abilities.scores.strength < 9;
-  // const magicUserAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.MAGICUSER &&
-  //   +characterData.abilities.scores.intelligence < 9;
-  // const thiefAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.THIEF &&
-  //   +characterData.abilities.scores.dexterity < 9;
-  // const assassinRaceRestriction = (choice: string) =>
-  //   choice === ClassNames.ASSASSIN && characterData.race !== RaceNamesTwo.HUMAN;
-  // const assassinAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.ASSASSIN &&
-  //   (+characterData.abilities.scores.dexterity < 9 ||
-  //     +characterData.abilities.scores.intelligence < 9);
-  // const barbarianAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.BARBARIAN &&
-  //   (+characterData.abilities.scores.strength < 9 ||
-  //     +characterData.abilities.scores.dexterity < 9 ||
-  //     +characterData.abilities.scores.constitution < 9);
-  // const barbarianRaceRestriction = (choice: string) =>
-  //   choice === ClassNames.BARBARIAN &&
-  //   characterData.race !== RaceNamesTwo.DWARF &&
-  //   characterData.race !== RaceNamesTwo.HUMAN;
-  // const illusionistAbilityRestriction = (choice: string) =>
-  //   choice === ClassNames.ILLUSIONIST &&
-  //   +characterData.abilities.scores.intelligence < 13;
-  // const illusionistRaceRestriction = (choice: string) =>
-  //   choice === ClassNames.ILLUSIONIST &&
-  //   characterData.race !== RaceNamesTwo.ELF &&
-  //   characterData.race !== RaceNamesTwo.HUMAN &&
-  //   characterData.race !== RaceNamesTwo.GNOME;
-
-  // // Methods for disabling combo class choices
-  // const comboClassRestrictedClasses = (choice: string) =>
-  //   choice === ClassNames.ASSASSIN ||
-  //   choice === ClassNames.BARBARIAN ||
-  //   choice === ClassNames.CLERIC ||
-  //   choice === ClassNames.ILLUSIONIST ||
-  //   choice === ClassNames.DRUID ||
-  //   (characterData.race === RaceNames.GNOME && choice === ClassNames.FIGHTER);
-  // const comboClassThiefSelected = (choice: string) =>
-  //   choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
-  // const comboClassFighterSelected = (choice: string) =>
-  //   choice === ClassNames.THIEF && checkedClasses.includes(ClassNames.FIGHTER);
-
   const showModal = (name: string, text: string) => {
     setModalName(name);
     setModalDescription(text);
@@ -264,6 +175,8 @@ export default function CharacterClass({
     characterData.race as RaceNamesTwo,
     characterData.abilities
   );
+
+  console.log(comboClass);
 
   return (
     <>
@@ -287,7 +200,7 @@ export default function CharacterClass({
                   <Checkbox
                     key={choice.name}
                     onChange={onCheckboxChange}
-                    value={choice}
+                    value={choice.name}
                     checked={checkedClasses.includes(choice.name)}
                     disabled={
                       !races[raceKey]?.allowedCombinationClasses?.find(
@@ -330,12 +243,15 @@ export default function CharacterClass({
               </Space>
             </Radio.Group>
             {characterData.class &&
-              Object.values(ClassNames).includes(
-                characterData.class as ClassNames
+              Object.values(ClassNamesTwo).includes(
+                characterData.class as ClassNamesTwo
               ) &&
-              characterData.class !== ClassNames.CUSTOM && (
+              getClassType(characterData.class) !== "custom" && (
                 <DescriptionBubble
-                  description={classDetails[characterData.class].description}
+                  description={
+                    classes[characterData.class as ClassNamesTwo].details
+                      ?.description || ""
+                  }
                 />
               )}
           </div>
@@ -354,7 +270,7 @@ export default function CharacterClass({
         {!characterData.class
           .split(" ")
           .some((part) =>
-            Object.values(ClassNames).includes(part as ClassNames)
+            Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
           ) &&
           characterData.class !== "" && (
             <>
@@ -377,8 +293,12 @@ export default function CharacterClass({
               </div>
             </>
           )}
-        {(characterData.class.includes(ClassNames.MAGICUSER) ||
-          characterData.class === ClassNames.ILLUSIONIST) && (
+        {characterData.class
+          .split(" ")
+          .some(
+            (className) =>
+              classes[className as ClassNamesTwo]?.spellBudget?.length
+          ) && (
           <div className="mt-4">
             <Typography.Title level={4} className="text-shipGray">
               Choose your starting spell
