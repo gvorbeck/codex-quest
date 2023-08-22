@@ -2,11 +2,11 @@ import { gnome } from "./gnome";
 import { RaceSetup } from "./definitions";
 
 export enum RaceNamesTwo {
-  // DWARF = "Dwarf",
-  // ELF = "Elf",
+  DWARF = "Dwarf",
+  ELF = "Elf",
   GNOME = "Gnome",
-  // HALFLING = "Halfling",
-  // HUMAN = "Human",
+  HALFLING = "Halfling",
+  HUMAN = "Human",
   CUSTOM = "Custom",
 }
 
@@ -20,9 +20,11 @@ const customPlaceholder = {
 };
 
 export const races: Races = {
-  // [RaceNamesTwo.DWARF]: dwarf, // assuming you have a dwarf object
-  // [RaceNamesTwo.ELF]: elf, // assuming you have an elf object
+  [RaceNamesTwo.DWARF]: customPlaceholder,
+  [RaceNamesTwo.ELF]: customPlaceholder,
   [RaceNamesTwo.GNOME]: gnome,
+  [RaceNamesTwo.HALFLING]: customPlaceholder,
+  [RaceNamesTwo.HUMAN]: customPlaceholder,
   [RaceNamesTwo.CUSTOM]: customPlaceholder,
   // ... other races
 };

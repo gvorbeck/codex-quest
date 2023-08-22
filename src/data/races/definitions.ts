@@ -1,13 +1,10 @@
-import {
-  ClassNames,
-  DiceTypes,
-  SavingThrows,
-} from "../../components/definitions";
+import { DiceTypes, SavingThrows } from "../../components/definitions";
+import { ClassNamesTwo } from "../classes";
 
 export interface RaceSetup {
   name: string;
-  allowedStandardClasses: ClassNames[];
-  allowedCombinationClasses?: ClassNames[];
+  allowedStandardClasses: ClassNamesTwo[];
+  allowedCombinationClasses?: ClassNamesTwo[];
   minimumAbilityRequirements?: Record<string, number>;
   maximumAbilityRequirements?: Record<string, number>;
   maximumHitDice?: DiceTypes;

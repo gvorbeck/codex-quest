@@ -1,18 +1,19 @@
-import { ClassNames, DiceTypes } from "../../components/definitions";
+import { DiceTypes } from "../../components/definitions";
+import { ClassNamesTwo } from "../classes";
 import { RaceSetup } from "./definitions";
 
 export const gnome: RaceSetup = {
   name: "Gnome",
   allowedStandardClasses: [
-    ClassNames.CLERIC,
-    ClassNames.CUSTOM,
-    ClassNames.DRUID,
-    ClassNames.FIGHTER,
-    ClassNames.ILLUSIONIST,
-    ClassNames.MAGICUSER,
-    ClassNames.THIEF,
+    ClassNamesTwo.CLERIC,
+    ClassNamesTwo.CUSTOM,
+    ClassNamesTwo.DRUID,
+    ClassNamesTwo.FIGHTER,
+    ClassNamesTwo.ILLUSIONIST,
+    ClassNamesTwo.MAGICUSER,
+    ClassNamesTwo.THIEF,
   ],
-  allowedCombinationClasses: [ClassNames.MAGICUSER, ClassNames.THIEF],
+  allowedCombinationClasses: [ClassNamesTwo.MAGICUSER, ClassNamesTwo.THIEF],
   minimumAbilityRequirements: { constitution: 9 },
   maximumAbilityRequirements: { strength: 17 },
   maximumHitDice: DiceTypes.D6,
