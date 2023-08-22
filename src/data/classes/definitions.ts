@@ -21,7 +21,8 @@ export interface ClassSetup {
   experiencePoints: number[];
   attackBonus: number[];
   savingThrows: SavingThrowsCollection;
-  spellBudget?: number[][] | null;
+  spellBudget?: number[][];
+  startingSpells?: string[];
   details?: {
     description?: string;
     specials?: string[];

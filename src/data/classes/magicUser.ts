@@ -146,6 +146,7 @@ export const magicUser: ClassSetup = {
     [7, 5, 5, 4, 3, 3],
     [7, 5, 5, 4, 4, 3],
   ],
+  startingSpells: ["Read Magic"],
   details: {
     description:
       "Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding.\n\nMagic-Users are the worst of all the classes at fighting; hours spent studying massive tomes of magic do not lead a character to become strong or adept with weapons. They are the least hardy, equal to Thieves at lower levels but quickly falling behind.\n\nThe Prime Requisite for Magic-Users is Intelligence; a character must have an Intelligence score of 9 or higher to become a Magic-User. The only weapons they become proficient with are the dagger and the walking staff (or cudgel). Magic-Users may not wear armor of any sort nor use a shield as such things interfere with spellcasting.\n\nA first level Magic-User begins play knowing read magic and one other spell of first level. These spells are written in a spellbook provided by their master. The GM may roll for the spell, assign it as they see fit, or allow the player to choose it, at their option. See the Spells section for more details.",

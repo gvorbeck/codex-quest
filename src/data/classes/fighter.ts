@@ -125,7 +125,6 @@ export const fighter: ClassSetup = {
       },
     ],
   ],
-  spellBudget: null,
   details: {
     description:
       "**Fighters** include soldiers, guardsmen, barbarian warriors, and anyone else for whom fighting is a way of life. They train in combat, and they generally approach problems head-on, weapon in hand.\n\nNot surprisingly, Fighters are the best at fighting of all the classes. They are also the hardiest, able to take more punishment than any other class. Although they are not skilled in the ways of magic, Fighters can nonetheless use many magic items, including but not limited to magical weapons and armor.\n\nThe Prime Requisite for Fighters is Strength; a character must have a Strength score of 9 or higher to become a Fighter. Members of this class may wear any armor and use any weapon.",
