@@ -1,14 +1,12 @@
 import { Input, Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { CharacterRaceProps } from "./definitions";
-// import { raceDetails } from "../../../data/raceDetails";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
-// import { RaceNames } from "../../definitions";
-// import { isStandardRace } from "../../../support/helpers";
+import { isStandardRace } from "../../../support/helpers";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
-import { races } from "../../../data/races";
+import { RaceNamesTwo, races } from "../../../data/races";
 
 export default function CharacterRace({
   characterData,
@@ -22,9 +20,11 @@ export default function CharacterRace({
   const [showCustomRaceInput, setShowCustomRaceInput] = useState(false);
 
   useEffect(() => {
-    // If the current race is not in the RaceNames enum and it's not an empty string, it's a custom race
+    // If the current race is not in the RaceNames enum and it's not an empty string, it's a custom race.
     if (
-      !Object.values(RaceNames).includes(characterData.race as RaceNames) &&
+      !Object.values(RaceNamesTwo).includes(
+        characterData.race as RaceNamesTwo
+      ) &&
       characterData.race !== ""
     ) {
       setShowCustomRaceInput(true);
@@ -35,27 +35,15 @@ export default function CharacterRace({
   const onChange = (e: RadioChangeEvent) => {
     if (e.target.value === "Custom") setShowCustomRaceInput(true);
     else setShowCustomRaceInput(false);
-    const race = e.target.value.toString() as keyof typeof raceDetails;
+    const selectedRace = e.target.value.toString() as keyof typeof RaceNamesTwo;
     setComboClass(false);
     setCheckedClasses([]);
     setCharacterData({
       ...characterData,
-      race: e.target.value !== "Custom" ? e.target.value : customRaceInput,
+      race: e.target.value !== "Custom" ? selectedRace : customRaceInput,
       class: "",
       hp: { dice: "", points: 0, max: 0, desc: "" },
-      restrictions: {
-        race:
-          e.target.value === "Custom"
-            ? []
-            : [...raceDetails[race].restrictions],
-        class: [],
-      },
       equipment: [],
-      specials: {
-        race:
-          e.target.value === "Custom" ? [] : [...raceDetails[race].specials],
-        class: [],
-      },
     });
   };
 
@@ -71,6 +59,9 @@ export default function CharacterRace({
     event.currentTarget.select();
   };
 
+  const raceDescription =
+    races[characterData.race as keyof typeof races]?.details?.description || "";
+
   return (
     <>
       <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
@@ -81,25 +72,31 @@ export default function CharacterRace({
           }
           className="grid gap-2"
         >
-          {Object.values(RaceNames).map((race) => {
+          {Object.values(RaceNamesTwo).map((race) => {
             return (
               <Radio
                 key={race}
                 value={race}
                 className="ps-2 pe-2 md:ps-4 md:pe-4"
                 disabled={
-                  (race === RaceNames.DWARF &&
-                    (+characterData.abilities.scores.constitution < 9 ||
-                      +characterData.abilities.scores.charisma > 17)) ||
-                  (race === RaceNames.ELF &&
-                    (+characterData.abilities.scores.intelligence < 9 ||
-                      +characterData.abilities.scores.constitution > 17)) ||
-                  (race === RaceNames.HALFLING &&
-                    (+characterData.abilities.scores.dexterity < 9 ||
-                      +characterData.abilities.scores.strength > 17)) ||
-                  (race === RaceNames.GNOME &&
-                    (+characterData.abilities.scores.constitution < 9 ||
-                      +characterData.abilities.scores.strength > 17))
+                  (races[race].minimumAbilityRequirements &&
+                    Object.entries(
+                      races[race].minimumAbilityRequirements!
+                    ).some(
+                      ([ability, requirement]) =>
+                        +characterData.abilities.scores[
+                          ability as keyof typeof characterData.abilities.scores
+                        ] < requirement
+                    )) ||
+                  (races[race].maximumAbilityRequirements &&
+                    Object.entries(
+                      races[race].maximumAbilityRequirements!
+                    ).some(
+                      ([ability, requirement]) =>
+                        +characterData.abilities.scores[
+                          ability as keyof typeof characterData.abilities.scores
+                        ] > requirement
+                    ))
                 }
               >
                 {race}
@@ -108,11 +105,11 @@ export default function CharacterRace({
           })}
         </Radio.Group>
         {characterData.race &&
-          Object.values(RaceNames).includes(characterData.race as RaceNames) &&
-          characterData.race !== RaceNames.CUSTOM && (
-            <DescriptionBubble
-              description={raceDetails[characterData.race].description}
-            />
+          Object.values(RaceNamesTwo).includes(
+            characterData.race as RaceNamesTwo
+          ) &&
+          characterData.race !== RaceNamesTwo.CUSTOM && (
+            <DescriptionBubble description={raceDescription} />
           )}
       </div>
       {showCustomRaceInput && (
