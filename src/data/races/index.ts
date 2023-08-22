@@ -1,4 +1,5 @@
 import { gnome } from "./gnome";
+import { dwarf } from "./dwarf";
 import { RaceSetup } from "./definitions";
 
 export enum RaceNamesTwo {
@@ -20,7 +21,7 @@ const customPlaceholder = {
 };
 
 export const races: Races = {
-  [RaceNamesTwo.DWARF]: customPlaceholder,
+  [RaceNamesTwo.DWARF]: dwarf,
   [RaceNamesTwo.ELF]: customPlaceholder,
   [RaceNamesTwo.GNOME]: gnome,
   [RaceNamesTwo.HALFLING]: customPlaceholder,

@@ -12,6 +12,7 @@ export const gnome: RaceSetup = {
     ClassNamesTwo.ILLUSIONIST,
     ClassNamesTwo.MAGICUSER,
     ClassNamesTwo.THIEF,
+    ClassNamesTwo.ASSASSIN,
   ],
   allowedCombinationClasses: [ClassNamesTwo.MAGICUSER, ClassNamesTwo.THIEF],
   minimumAbilityRequirements: { constitution: 9 },
