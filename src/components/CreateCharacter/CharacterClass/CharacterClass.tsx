@@ -13,15 +13,17 @@ import type { RadioChangeEvent } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import DOMPurify from "dompurify";
 import { CharacterClassProps } from "./definitions";
-import { ClassNames, RaceNames, Spell } from "../../definitions";
+import { ClassNames, Spell } from "../../definitions";
 import spellsData from "../../../data/spells.json";
 import { classDetails } from "../../../data/classDetails";
-import { getClassType } from "../../../support/helpers";
+import { getClassType, getDisabledClasses } from "../../../support/helpers";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 import { marked } from "marked";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import CloseIcon from "../../CloseIcon/CloseIcon";
+import { RaceNamesTwo, races } from "../../../data/races";
+import { ClassNamesTwo, classes } from "../../../data/classes";
 
 const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
 
@@ -191,60 +193,60 @@ export default function CharacterClass({
   };
 
   // Methods for disabling class choices
-  const magicUserRaceRestriction = (choice: string) =>
-    choice === ClassNames.MAGICUSER &&
-    characterData.race !== RaceNames.ELF &&
-    characterData.race !== RaceNames.HUMAN &&
-    characterData.race !== RaceNames.GNOME;
-  const clericAbilityRestriction = (choice: string) =>
-    choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
-  const druidAbilityRestriction = (choice: string) =>
-    choice === ClassNames.DRUID && +characterData.abilities.scores.wisdom < 9;
-  const fighterAbilityRestriction = (choice: string) =>
-    choice === ClassNames.FIGHTER &&
-    +characterData.abilities.scores.strength < 9;
-  const magicUserAbilityRestriction = (choice: string) =>
-    choice === ClassNames.MAGICUSER &&
-    +characterData.abilities.scores.intelligence < 9;
-  const thiefAbilityRestriction = (choice: string) =>
-    choice === ClassNames.THIEF &&
-    +characterData.abilities.scores.dexterity < 9;
-  const assassinRaceRestriction = (choice: string) =>
-    choice === ClassNames.ASSASSIN && characterData.race !== RaceNames.HUMAN;
-  const assassinAbilityRestriction = (choice: string) =>
-    choice === ClassNames.ASSASSIN &&
-    (+characterData.abilities.scores.dexterity < 9 ||
-      +characterData.abilities.scores.intelligence < 9);
-  const barbarianAbilityRestriction = (choice: string) =>
-    choice === ClassNames.BARBARIAN &&
-    (+characterData.abilities.scores.strength < 9 ||
-      +characterData.abilities.scores.dexterity < 9 ||
-      +characterData.abilities.scores.constitution < 9);
-  const barbarianRaceRestriction = (choice: string) =>
-    choice === ClassNames.BARBARIAN &&
-    characterData.race !== RaceNames.DWARF &&
-    characterData.race !== RaceNames.HUMAN;
-  const illusionistAbilityRestriction = (choice: string) =>
-    choice === ClassNames.ILLUSIONIST &&
-    +characterData.abilities.scores.intelligence < 13;
-  const illusionistRaceRestriction = (choice: string) =>
-    choice === ClassNames.ILLUSIONIST &&
-    characterData.race !== RaceNames.ELF &&
-    characterData.race !== RaceNames.HUMAN &&
-    characterData.race !== RaceNames.GNOME;
+  // const magicUserRaceRestriction = (choice: string) =>
+  //   choice === ClassNames.MAGICUSER &&
+  //   characterData.race !== RaceNamesTwo.ELF &&
+  //   characterData.race !== RaceNamesTwo.HUMAN &&
+  //   characterData.race !== RaceNamesTwo.GNOME;
+  // const clericAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.CLERIC && +characterData.abilities.scores.wisdom < 9;
+  // const druidAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.DRUID && +characterData.abilities.scores.wisdom < 9;
+  // const fighterAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.FIGHTER &&
+  //   +characterData.abilities.scores.strength < 9;
+  // const magicUserAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.MAGICUSER &&
+  //   +characterData.abilities.scores.intelligence < 9;
+  // const thiefAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.THIEF &&
+  //   +characterData.abilities.scores.dexterity < 9;
+  // const assassinRaceRestriction = (choice: string) =>
+  //   choice === ClassNames.ASSASSIN && characterData.race !== RaceNamesTwo.HUMAN;
+  // const assassinAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.ASSASSIN &&
+  //   (+characterData.abilities.scores.dexterity < 9 ||
+  //     +characterData.abilities.scores.intelligence < 9);
+  // const barbarianAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.BARBARIAN &&
+  //   (+characterData.abilities.scores.strength < 9 ||
+  //     +characterData.abilities.scores.dexterity < 9 ||
+  //     +characterData.abilities.scores.constitution < 9);
+  // const barbarianRaceRestriction = (choice: string) =>
+  //   choice === ClassNames.BARBARIAN &&
+  //   characterData.race !== RaceNamesTwo.DWARF &&
+  //   characterData.race !== RaceNamesTwo.HUMAN;
+  // const illusionistAbilityRestriction = (choice: string) =>
+  //   choice === ClassNames.ILLUSIONIST &&
+  //   +characterData.abilities.scores.intelligence < 13;
+  // const illusionistRaceRestriction = (choice: string) =>
+  //   choice === ClassNames.ILLUSIONIST &&
+  //   characterData.race !== RaceNamesTwo.ELF &&
+  //   characterData.race !== RaceNamesTwo.HUMAN &&
+  //   characterData.race !== RaceNamesTwo.GNOME;
 
-  // Methods for disabling combo class choices
-  const comboClassRestrictedClasses = (choice: string) =>
-    choice === ClassNames.ASSASSIN ||
-    choice === ClassNames.BARBARIAN ||
-    choice === ClassNames.CLERIC ||
-    choice === ClassNames.ILLUSIONIST ||
-    choice === ClassNames.DRUID ||
-    (characterData.race === RaceNames.GNOME && choice === ClassNames.FIGHTER);
-  const comboClassThiefSelected = (choice: string) =>
-    choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
-  const comboClassFighterSelected = (choice: string) =>
-    choice === ClassNames.THIEF && checkedClasses.includes(ClassNames.FIGHTER);
+  // // Methods for disabling combo class choices
+  // const comboClassRestrictedClasses = (choice: string) =>
+  //   choice === ClassNames.ASSASSIN ||
+  //   choice === ClassNames.BARBARIAN ||
+  //   choice === ClassNames.CLERIC ||
+  //   choice === ClassNames.ILLUSIONIST ||
+  //   choice === ClassNames.DRUID ||
+  //   (characterData.race === RaceNames.GNOME && choice === ClassNames.FIGHTER);
+  // const comboClassThiefSelected = (choice: string) =>
+  //   choice === ClassNames.FIGHTER && checkedClasses.includes(ClassNames.THIEF);
+  // const comboClassFighterSelected = (choice: string) =>
+  //   choice === ClassNames.THIEF && checkedClasses.includes(ClassNames.FIGHTER);
 
   const showModal = (name: string, text: string) => {
     setModalName(name);
@@ -256,10 +258,16 @@ export default function CharacterClass({
     setIsModalOpen(false);
   };
 
+  const raceKey = characterData.race as keyof typeof races;
+  const allowedCombinationClasses = races[raceKey]?.allowedCombinationClasses;
+  const disabledClasses = getDisabledClasses(
+    characterData.race as RaceNamesTwo,
+    characterData.abilities
+  );
+
   return (
     <>
-      {(characterData.race === RaceNames.ELF ||
-        characterData.race === RaceNames.GNOME) && (
+      {allowedCombinationClasses && allowedCombinationClasses.length > 1 && (
         <div>
           <Switch
             checked={comboClass}
@@ -272,25 +280,22 @@ export default function CharacterClass({
       <div className="mt-6">
         {/* COMBO CLASS */}
         {comboClass ? (
-          <div className="grid gap-2">
-            {Object.values(ClassNames).map(
+          <div className="grid gap-2 pl-4">
+            {Object.values(classes).map(
               (choice) =>
-                choice !== ClassNames.CUSTOM && (
+                choice.name !== ClassNamesTwo.CUSTOM && (
                   <Checkbox
-                    key={choice}
+                    key={choice.name}
                     onChange={onCheckboxChange}
                     value={choice}
-                    checked={checkedClasses.includes(choice)}
+                    checked={checkedClasses.includes(choice.name)}
                     disabled={
-                      comboClassRestrictedClasses(choice) ||
-                      comboClassThiefSelected(choice) ||
-                      comboClassFighterSelected(choice) ||
-                      fighterAbilityRestriction(choice) ||
-                      magicUserAbilityRestriction(choice) ||
-                      thiefAbilityRestriction(choice)
+                      !races[raceKey]?.allowedCombinationClasses?.find(
+                        (comboClassName) => choice.name === comboClassName
+                      )
                     }
                   >
-                    {choice}
+                    {choice.name}
                   </Checkbox>
                 )
             )}
@@ -305,29 +310,23 @@ export default function CharacterClass({
               size="small"
             >
               <Space direction="vertical">
-                {Object.values(ClassNames).map((choice) => (
-                  <Radio
-                    key={choice}
-                    value={choice}
-                    className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
-                    disabled={
-                      magicUserRaceRestriction(choice) ||
-                      magicUserAbilityRestriction(choice) ||
-                      clericAbilityRestriction(choice) ||
-                      druidAbilityRestriction(choice) ||
-                      fighterAbilityRestriction(choice) ||
-                      thiefAbilityRestriction(choice) ||
-                      assassinRaceRestriction(choice) ||
-                      assassinAbilityRestriction(choice) ||
-                      barbarianRaceRestriction(choice) ||
-                      barbarianAbilityRestriction(choice) ||
-                      illusionistAbilityRestriction(choice) ||
-                      illusionistRaceRestriction(choice)
-                    }
-                  >
-                    {choice}
-                  </Radio>
-                ))}
+                {Object.keys(classes).map((classKey) => {
+                  const choice = classes[classKey as keyof typeof classes];
+                  if (!choice) return null; // Skip rendering if choice is undefined
+
+                  return (
+                    <Radio
+                      key={choice.name}
+                      value={choice.name} // Set value to choice.name
+                      className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
+                      disabled={disabledClasses.includes(
+                        choice.name as ClassNamesTwo
+                      )} // Cast choice.name to ClassNamesTwo
+                    >
+                      {choice.name}
+                    </Radio>
+                  );
+                })}
               </Space>
             </Radio.Group>
             {characterData.class &&

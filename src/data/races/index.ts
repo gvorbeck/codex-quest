@@ -15,7 +15,7 @@ type Races = {
 };
 
 const customPlaceholder = {
-  name: "",
+  name: "Custom",
   allowedStandardClasses: [],
 };
 

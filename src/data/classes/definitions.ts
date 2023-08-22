@@ -5,13 +5,23 @@ export type SavingThrowsCollection = SavingThrowEntry[];
 
 export interface ClassSetup {
   name: string;
-  minimumAbilityRequirements?: Record<string, number>;
+  minimumAbilityRequirements?: Partial<
+    Record<
+      | "strength"
+      | "wisdom"
+      | "intelligence"
+      | "dexterity"
+      | "charisma"
+      | "constitution",
+      number
+    >
+  >;
   hitDice: string;
   hitDiceModifier: number;
   experiencePoints: number[];
   attackBonus: number[];
   savingThrows: SavingThrowsCollection;
-  spellBudget?: number[] | null;
+  spellBudget?: number[][] | null;
   details?: {
     description?: string;
     specials?: string[];

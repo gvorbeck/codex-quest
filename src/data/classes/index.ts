@@ -1,6 +1,8 @@
 import { DiceTypes } from "../../components/definitions";
 import { ClassSetup, SavingThrowsCollection } from "./definitions";
 import { fighter } from "./fighter";
+import { magicUser } from "./magicUser";
+import { thief } from "./thief";
 
 export enum ClassNamesTwo {
   ASSASSIN = "Assassin",
@@ -19,7 +21,7 @@ type Classes = {
 };
 
 const customPlaceholder = {
-  name: "",
+  name: "Custom",
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
   experiencePoints: [0],
@@ -56,6 +58,6 @@ export const classes: Classes = {
   [ClassNamesTwo.DRUID]: customPlaceholder,
   [ClassNamesTwo.FIGHTER]: fighter,
   [ClassNamesTwo.ILLUSIONIST]: customPlaceholder,
-  [ClassNamesTwo.MAGICUSER]: customPlaceholder,
-  [ClassNamesTwo.THIEF]: customPlaceholder,
+  [ClassNamesTwo.MAGICUSER]: magicUser,
+  [ClassNamesTwo.THIEF]: thief,
 };
