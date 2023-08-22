@@ -1,6 +1,7 @@
 import { Typography } from "antd";
 import { DescriptionBubbleProps } from "./definitions";
 import classNames from "classnames";
+import { marked } from "marked";
 
 export default function DescriptionBubble({
   description,
@@ -16,7 +17,7 @@ export default function DescriptionBubble({
       <strong>Description:{title}</strong>
       <div
         dangerouslySetInnerHTML={{
-          __html: description,
+          __html: marked(description),
         }}
       />
     </Typography.Paragraph>
