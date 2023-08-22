@@ -1,5 +1,5 @@
 import { gnome } from "./gnome";
-import { RaceSetup } from "./definitions"; // Make sure to import or define RaceSetup
+import { RaceSetup } from "./definitions";
 
 export enum RaceNamesTwo {
   // DWARF = "Dwarf",
