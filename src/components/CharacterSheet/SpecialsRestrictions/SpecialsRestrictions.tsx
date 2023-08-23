@@ -1,4 +1,5 @@
 import { List, Typography } from "antd";
+import { marked } from "marked";
 import { SpecialsRestrictionsProps } from "./definitions";
 import { ClassNamesTwo, classes } from "../../../data/classes";
 import { RaceNamesTwo, races } from "../../../data/races";
@@ -50,7 +51,7 @@ export default function SpecialsRestrictions({
         ]}
         renderItem={(item) => (
           <List.Item>
-            <HtmlRender html={item} />
+            <HtmlRender html={marked(item)} />
           </List.Item>
         )}
         className="print:border-0"
