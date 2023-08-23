@@ -2,9 +2,8 @@ import { Button, Checkbox, Modal, Typography } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
-import { ClassNames, Spell, SpellLevels } from "../components/definitions";
+import { Spell, SpellLevels } from "../components/definitions";
 import { LevelUpModalProps } from "./definitions";
-import { spellBudgets } from "../data/oldoldold/spellBudgets";
 import spellList from "../data/spells.json";
 import { getClassType } from "../support/helpers";
 import { doc, updateDoc } from "firebase/firestore";
@@ -14,6 +13,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { marked } from "marked";
 import DescriptionBubble from "../components/CreateCharacter/DescriptionBubble/DescriptionBubble";
+import { ClassNamesTwo, classes } from "../data/classes";
 
 const roller = new DiceRoller();
 
@@ -91,10 +91,11 @@ export default function LevelUpModal({
     const newSpells = characterData.spells;
     const newSpellCounts = newSpells.reduce(
       (acc, spell) => {
+        // If it is a combination class, just use the magic-user level
         const spellLevel =
           getClassType(characterData.class) === "combination"
             ? spell.level[
-                ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
+                ClassNamesTwo.MAGICUSER.toLowerCase() as keyof SpellLevels
               ]
             : spell.level[
                 characterData.class.toLowerCase() as keyof SpellLevels
@@ -106,23 +107,21 @@ export default function LevelUpModal({
       },
       [0, 0, 0, 0, 0, 0]
     );
-    // If the character is a Magic-User, Cleric, Illusionist, or Druid, get the spell budget for the character's level
     if (
-      (characterData.class.includes(ClassNames.MAGICUSER) ||
-        characterData.class.includes(ClassNames.CLERIC) ||
-        characterData.class.includes(ClassNames.ILLUSIONIST) ||
-        characterData.class.includes(ClassNames.DRUID)) &&
+      classes[characterData.class as ClassNamesTwo].spellBudget &&
       getClassType(characterData.class) !== "custom"
     ) {
       if (getClassType(characterData.class) === "standard") {
         spellBudget =
-          spellBudgets[characterData.class as keyof typeof spellBudgets][
+          classes[characterData.class as ClassNamesTwo].spellBudget![
             characterData.level
           ];
       } else {
-        spellBudget = spellBudgets[ClassNames.MAGICUSER][characterData.level];
+        // If a combination class, use the magic-user spell budget
+        spellBudget = classes[ClassNamesTwo.MAGICUSER as ClassNamesTwo]
+          .spellBudget?.[characterData.level] ?? [0];
       }
-      // If the character is a custom class, get the spell budget for the character's level
+      // If the character is a custom class, allow them to choose any spells
     } else if (getClassType(characterData.class) === "custom") {
       spellBudget = new Array(6).fill(Infinity);
     }
@@ -142,7 +141,7 @@ export default function LevelUpModal({
           // For standard and combination classes, filter out spells of the specific level
           const classNameToCheck =
             classType === "combination"
-              ? ClassNames.MAGICUSER.toLowerCase()
+              ? ClassNamesTwo.MAGICUSER.toLowerCase()
               : characterData.class.toLowerCase();
 
           newCheckedSpells = characterData.spells.filter(
