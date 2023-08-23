@@ -1,4 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
+import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const druid: ClassSetup = {
@@ -6,6 +7,56 @@ export const druid: ClassSetup = {
   minimumAbilityRequirements: { wisdom: 9 },
   hitDice: DiceTypes.D6,
   hitDiceModifier: 1,
+  availableEquipmentCategories: [
+    equipmentCategories.AMMUNITION,
+    equipmentCategories.ARMOR,
+    equipmentCategories.SHIELDS,
+    equipmentCategories.AXES,
+    equipmentCategories.BOWS,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.HAMMERMACE,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.CHAINFLAIL,
+    equipmentCategories.SLINGHURLED,
+    equipmentCategories.SWORDS,
+  ],
+  specificEquipmentItems: [
+    [
+      equipmentCategories.BOWS,
+      equipmentCategories.ARMOR,
+      equipmentCategories.SHIELDS,
+      equipmentCategories.CHAINFLAIL,
+      equipmentCategories.AXES,
+      equipmentCategories.HAMMERMACE,
+      equipmentCategories.OTHERWEAPONS,
+      equipmentCategories.SLINGHURLED,
+      equipmentCategories.SWORDS,
+      equipmentCategories.AMMUNITION,
+    ],
+    [
+      "shortbow",
+      "padded",
+      "hide",
+      "leather",
+      "buckler",
+      "chain††",
+      "flail",
+      "whip",
+      "hand axe",
+      "mattock",
+      "pickaxe",
+      "mace",
+      "morningstar",
+      "light mace",
+      "staff",
+      "sling",
+      "stone",
+      "shortsword",
+      "longsword",
+    ],
+  ],
   experiencePoints: [
     0, 1500, 3000, 6000, 12000, 24000, 48000, 90000, 180000, 270000, 360000,
     450000, 540000, 630000, 720000, 810000, 900000, 990000, 1080000, 1170000,

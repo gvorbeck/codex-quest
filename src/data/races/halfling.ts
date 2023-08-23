@@ -14,6 +14,7 @@ export const halfling: RaceSetup = {
   minimumAbilityRequirements: { dexterity: 9 },
   maximumAbilityRequirements: { strength: 17 },
   maximumHitDice: DiceTypes.D6,
+  noLargeEquipment: true,
   savingThrows: {
     deathRayOrPoison: 4,
     magicWands: 4,

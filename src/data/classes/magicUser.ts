@@ -1,4 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
+import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const magicUser: ClassSetup = {
@@ -6,6 +7,15 @@ export const magicUser: ClassSetup = {
   minimumAbilityRequirements: { intelligence: 9 },
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
+  availableEquipmentCategories: [
+    equipmentCategories.DAGGERS,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.IMPROVISED,
+  ],
+  specificEquipmentItems: [[equipmentCategories.OTHERWEAPONS], ["cudgel"]],
   experiencePoints: [
     0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
     750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000,

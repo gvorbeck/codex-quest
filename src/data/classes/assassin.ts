@@ -1,4 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
+import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const assassin: ClassSetup = {
@@ -6,6 +7,25 @@ export const assassin: ClassSetup = {
   minimumAbilityRequirements: { dexterity: 9, intelligence: 9 },
   hitDice: DiceTypes.D4,
   hitDiceModifier: 2,
+  availableEquipmentCategories: [
+    equipmentCategories.AMMUNITION,
+    equipmentCategories.ARMOR,
+    equipmentCategories.SHIELDS,
+    equipmentCategories.AXES,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.BOWS,
+    equipmentCategories.DAGGERS,
+    equipmentCategories.HAMMERMACE,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.SWORDS,
+    equipmentCategories.SPEARSPOLES,
+    equipmentCategories.IMPROVISED,
+    equipmentCategories.SLINGHURLED,
+    equipmentCategories.CHAINFLAIL,
+  ],
+  specificEquipmentItems: [[equipmentCategories.ARMOR], ["leather"]],
   experiencePoints: [
     0, 1375, 2750, 5500, 11000, 22000, 44000, 82500, 165000, 247500, 330000,
     412500, 495000, 577500, 660000, 742500, 825000, 907500, 990000, 1072500,

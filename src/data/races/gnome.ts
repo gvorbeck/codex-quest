@@ -14,6 +14,7 @@ export const gnome: RaceSetup = {
     ClassNamesTwo.THIEF,
   ],
   allowedCombinationClasses: [ClassNamesTwo.MAGICUSER, ClassNamesTwo.THIEF],
+  noLargeEquipment: true,
   minimumAbilityRequirements: { constitution: 9 },
   maximumAbilityRequirements: { strength: 17 },
   maximumHitDice: DiceTypes.D6,

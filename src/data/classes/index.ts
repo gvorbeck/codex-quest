@@ -8,6 +8,7 @@ import { assassin } from "./assassin";
 import { barbarian } from "./barbarian";
 import { druid } from "./druid";
 import { illusionist } from "./illusionist";
+import { equipmentCategories } from "../definitions";
 
 export enum ClassNamesTwo {
   ASSASSIN = "Assassin",
@@ -25,10 +26,28 @@ type Classes = {
   [key in ClassNamesTwo]: ClassSetup;
 };
 
-const customPlaceholder = {
+const customPlaceholder: ClassSetup = {
   name: "Custom",
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
+  availableEquipmentCategories: [
+    equipmentCategories.AMMUNITION,
+    equipmentCategories.ARMOR,
+    equipmentCategories.SHIELDS,
+    equipmentCategories.AXES,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.BOWS,
+    equipmentCategories.DAGGERS,
+    equipmentCategories.HAMMERMACE,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.SWORDS,
+    equipmentCategories.SPEARSPOLES,
+    equipmentCategories.IMPROVISED,
+    equipmentCategories.SLINGHURLED,
+    equipmentCategories.CHAINFLAIL,
+  ],
   experiencePoints: [0],
   attackBonus: [0],
   savingThrows: [

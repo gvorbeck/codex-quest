@@ -11,6 +11,7 @@ export const dwarf: RaceSetup = {
     ClassNamesTwo.BARBARIAN,
     ClassNamesTwo.THIEF,
   ],
+  noLargeEquipment: true,
   minimumAbilityRequirements: { constitution: 9 },
   maximumAbilityRequirements: { charisma: 17 },
   savingThrows: {

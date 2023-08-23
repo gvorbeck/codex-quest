@@ -1,4 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
+import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const cleric: ClassSetup = {
@@ -6,6 +7,42 @@ export const cleric: ClassSetup = {
   minimumAbilityRequirements: { wisdom: 9 },
   hitDice: DiceTypes.D6,
   hitDiceModifier: 1,
+  availableEquipmentCategories: [
+    equipmentCategories.AMMUNITION,
+    equipmentCategories.ARMOR,
+    equipmentCategories.SHIELDS,
+    equipmentCategories.BOWS,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.HAMMERMACE,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.CHAINFLAIL,
+    equipmentCategories.IMPROVISED,
+    equipmentCategories.SLINGHURLED,
+  ],
+  specificEquipmentItems: [
+    [
+      equipmentCategories.HAMMERMACE,
+      equipmentCategories.OTHERWEAPONS,
+      equipmentCategories.AMMUNITION,
+      equipmentCategories.BOWS,
+      equipmentCategories.SLINGHURLED,
+    ],
+    [
+      "warhammer",
+      "mace",
+      "maul",
+      "crossbow",
+      "morningstar",
+      "quaterstaff",
+      "sling",
+      "stone",
+      "club",
+      "bullet",
+      "quarrel",
+    ],
+  ],
   experiencePoints: [
     0, 1500, 3000, 6000, 12000, 24000, 48000, 90000, 180000, 270000, 360000,
     450000, 540000, 630000, 720000, 810000, 900000, 990000, 1080000, 1170000,

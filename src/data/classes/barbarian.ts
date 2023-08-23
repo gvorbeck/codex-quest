@@ -1,4 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
+import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const barbarian: ClassSetup = {
@@ -6,6 +7,24 @@ export const barbarian: ClassSetup = {
   minimumAbilityRequirements: { strength: 9, dexterity: 9, constitution: 9 },
   hitDice: DiceTypes.D10,
   hitDiceModifier: 2,
+  availableEquipmentCategories: [
+    equipmentCategories.AMMUNITION,
+    equipmentCategories.ARMOR,
+    equipmentCategories.SHIELDS,
+    equipmentCategories.AXES,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.BOWS,
+    equipmentCategories.DAGGERS,
+    equipmentCategories.HAMMERMACE,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.SWORDS,
+    equipmentCategories.SPEARSPOLES,
+    equipmentCategories.IMPROVISED,
+    equipmentCategories.SLINGHURLED,
+    equipmentCategories.CHAINFLAIL,
+  ],
   experiencePoints: [
     0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
     750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000,

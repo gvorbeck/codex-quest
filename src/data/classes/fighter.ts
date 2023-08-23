@@ -1,4 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
+import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const fighter: ClassSetup = {
@@ -6,6 +7,24 @@ export const fighter: ClassSetup = {
   minimumAbilityRequirements: { strength: 9 },
   hitDice: DiceTypes.D8,
   hitDiceModifier: 2,
+  availableEquipmentCategories: [
+    equipmentCategories.AMMUNITION,
+    equipmentCategories.ARMOR,
+    equipmentCategories.SHIELDS,
+    equipmentCategories.AXES,
+    equipmentCategories.BEASTS,
+    equipmentCategories.BARDING,
+    equipmentCategories.BOWS,
+    equipmentCategories.DAGGERS,
+    equipmentCategories.HAMMERMACE,
+    equipmentCategories.GENERAL,
+    equipmentCategories.OTHERWEAPONS,
+    equipmentCategories.SWORDS,
+    equipmentCategories.SPEARSPOLES,
+    equipmentCategories.IMPROVISED,
+    equipmentCategories.SLINGHURLED,
+    equipmentCategories.CHAINFLAIL,
+  ],
   experiencePoints: [
     0, 2000, 4000, 8000, 16000, 32000, 64000, 120000, 240000, 360000, 480000,
     600000, 720000, 840000, 960000, 1080000, 1200000, 1320000, 1440000, 1560000,

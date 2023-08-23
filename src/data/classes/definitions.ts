@@ -16,6 +16,8 @@ export interface ClassSetup {
       number
     >
   >;
+  availableEquipmentCategories: string[];
+  specificEquipmentItems?: [string[], string[]];
   hitDice: string;
   hitDiceModifier: number;
   experiencePoints: number[];
