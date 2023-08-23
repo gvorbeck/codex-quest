@@ -35,27 +35,29 @@ const itemIsDisabled = (
   raceName: RaceNamesTwo,
   item: EquipmentItem
 ) => {
-  let disabled = true;
-
   if (getClassType(className) === "custom") return false;
 
   const specificEquipmentItems = classes[className].specificEquipmentItems;
 
   if (specificEquipmentItems) {
     if (specificEquipmentItems[0].includes(item.category)) {
-      if (specificEquipmentItems[1].includes(item.name.toLowerCase())) {
-        disabled = false;
+      if (
+        specificEquipmentItems[1].some((specificItem) =>
+          item.name.toLowerCase().includes(specificItem)
+        )
+      ) {
+        return false;
       }
     } else {
-      disabled = false;
+      return false;
     }
   } else {
-    disabled = false; // or handle this case differently if needed
+    return false;
   }
 
-  if (races[raceName].noLargeEquipment && item.size === "L") disabled = true;
+  if (races[raceName].noLargeEquipment && item.size === "L") return true;
 
-  return disabled;
+  return true;
 };
 
 export default function EquipmentAccordion({
