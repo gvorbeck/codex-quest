@@ -6,6 +6,8 @@ import { thief } from "./thief";
 import { cleric } from "./cleric";
 import { assassin } from "./assassin";
 import { barbarian } from "./barbarian";
+import { druid } from "./druid";
+import { illusionist } from "./illusionist";
 
 export enum ClassNamesTwo {
   ASSASSIN = "Assassin",
@@ -58,9 +60,9 @@ export const classes: Classes = {
   [ClassNamesTwo.BARBARIAN]: barbarian,
   [ClassNamesTwo.CLERIC]: cleric,
   [ClassNamesTwo.CUSTOM]: customPlaceholder,
-  [ClassNamesTwo.DRUID]: customPlaceholder,
+  [ClassNamesTwo.DRUID]: druid,
   [ClassNamesTwo.FIGHTER]: fighter,
-  [ClassNamesTwo.ILLUSIONIST]: customPlaceholder,
+  [ClassNamesTwo.ILLUSIONIST]: illusionist,
   [ClassNamesTwo.MAGICUSER]: magicUser,
   [ClassNamesTwo.THIEF]: thief,
 };
