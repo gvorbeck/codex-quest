@@ -377,19 +377,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             characterData={characterData}
             className="md:col-span-2 md:row-span-2 print:row-span-2"
           />
-          {/* THIEF'S ABILITIES */}
-          {(characterData.class.toLowerCase().includes(ClassNamesTwo.THIEF) ||
-            characterData.class
-              .toLowerCase()
-              .includes(ClassNamesTwo.ASSASSIN)) && (
+          {/* SPECIAL ABILITIES TABLE */}
+          {classes[characterData.class as ClassNamesTwo].specialAbilities && (
             <SpecialAbilitiesTable
               className="md:col-start-3"
-              characterLevel={characterData.level.toString()}
-              characterClass={
-                characterData.class.toLowerCase().includes(ClassNamesTwo.THIEF)
-                  ? ClassNamesTwo.THIEF.toLowerCase()
-                  : characterData.class.toLowerCase()
-              }
+              characterLevel={characterData.level}
+              characterClass={characterData.class}
             />
           )}
           {/* SAVING THROWS */}
