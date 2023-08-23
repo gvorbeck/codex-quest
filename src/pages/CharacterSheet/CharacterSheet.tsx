@@ -8,7 +8,8 @@ import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
 import { CharacterSheetProps } from "./definitions";
-import { CharacterData, ClassNames } from "../../components/definitions";
+import { CharacterData } from "../../components/definitions";
+import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 // ANTD COMPONENTS
 import { Breadcrumb, Col, Divider, Row, Skeleton, Typography } from "antd";
 // CHARACTER SHEET COMPONENTS
@@ -33,11 +34,10 @@ import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../modals/AttackModal";
 // DATA
-import { attackBonusTable } from "../../data/oldoldold/attackBonusTable";
 import equipmentItems from "../../data/equipmentItems.json";
+import { ClassNamesTwo, classes } from "../../data/classes";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
-import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { getClassType } from "../../support/helpers";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
@@ -103,10 +103,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     // Calculate the suffix
     let suffix = level > 9 ? level - 9 : 0;
     if (
-      className.includes(ClassNames.FIGHTER) ||
-      className === ClassNames.ASSASSIN ||
-      className === ClassNames.BARBARIAN ||
-      className.includes(ClassNames.THIEF)
+      className.includes(ClassNamesTwo.FIGHTER) ||
+      className === ClassNamesTwo.ASSASSIN ||
+      className === ClassNamesTwo.BARBARIAN ||
+      className.includes(ClassNamesTwo.THIEF)
     ) {
       suffix *= 2;
     }
@@ -117,21 +117,21 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   };
 
   // ATTACK BONUS
-  const getAttackBonus = function (characterData: CharacterData) {
-    let classes = Object.keys(attackBonusTable);
-    let maxAttackBonus = 0;
+  // const getAttackBonus = function (characterData: CharacterData) {
+  //   let classes = Object.keys(attackBonusTable);
+  //   let maxAttackBonus = 0;
 
-    for (let i = 0; i < classes.length; i++) {
-      if (characterData && characterData.class.includes(classes[i])) {
-        let attackBonus = attackBonusTable[classes[i]][characterData.level];
-        if (attackBonus > maxAttackBonus) {
-          maxAttackBonus = attackBonus;
-        }
-      }
-    }
+  //   for (let i = 0; i < classes.length; i++) {
+  //     if (characterData && characterData.class.includes(classes[i])) {
+  //       let attackBonus = attackBonusTable[classes[i]][characterData.level];
+  //       if (attackBonus > maxAttackBonus) {
+  //         maxAttackBonus = attackBonus;
+  //       }
+  //     }
+  //   }
 
-    return maxAttackBonus;
-  };
+  //   return maxAttackBonus;
+  // };
 
   // ARMOR CLASS (AC)
   const getArmorClass = (characterData: CharacterData) => {
@@ -326,7 +326,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* ATTACK BONUSES */}
           <AttackBonus
             characterData={characterData}
-            attackBonus={getAttackBonus(characterData)}
+            attackBonus={
+              classes[characterData.class as ClassNamesTwo].attackBonus[
+                characterData.level
+              ]
+            }
           />
           {/* HIT POINTS */}
           <HitPoints
@@ -374,16 +378,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             className="md:col-span-2 md:row-span-2 print:row-span-2"
           />
           {/* THIEF'S ABILITIES */}
-          {(characterData.class.toLowerCase().includes(ClassNames.THIEF) ||
+          {(characterData.class.toLowerCase().includes(ClassNamesTwo.THIEF) ||
             characterData.class
               .toLowerCase()
-              .includes(ClassNames.ASSASSIN)) && (
+              .includes(ClassNamesTwo.ASSASSIN)) && (
             <SpecialAbilitiesTable
               className="md:col-start-3"
               characterLevel={characterData.level.toString()}
               characterClass={
-                characterData.class.toLowerCase().includes(ClassNames.THIEF)
-                  ? ClassNames.THIEF.toLowerCase()
+                characterData.class.toLowerCase().includes(ClassNamesTwo.THIEF)
+                  ? ClassNamesTwo.THIEF.toLowerCase()
                   : characterData.class.toLowerCase()
               }
             />
@@ -465,7 +469,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         isAttackModalOpen={isAttackModalOpen}
         handleCancel={handleCancel}
         characterData={characterData}
-        attackBonus={getAttackBonus(characterData)}
+        // attackBonus={getAttackBonus(characterData)}
+        attackBonus={
+          classes[characterData.class as ClassNamesTwo].attackBonus[
+            characterData.level
+          ]
+        }
         weapon={weapon}
       />
     </div>
