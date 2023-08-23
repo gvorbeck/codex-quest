@@ -25,6 +25,10 @@ export interface ClassSetup {
   savingThrows: SavingThrowsCollection;
   spellBudget?: number[][];
   startingSpells?: string[];
+  specialAbilities?: {
+    titles: string[];
+    stats: number[][];
+  };
   details?: {
     description?: string;
     specials?: string[];
