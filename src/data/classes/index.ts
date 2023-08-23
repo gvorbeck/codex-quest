@@ -3,6 +3,9 @@ import { ClassSetup, SavingThrowsCollection } from "./definitions";
 import { fighter } from "./fighter";
 import { magicUser } from "./magicUser";
 import { thief } from "./thief";
+import { cleric } from "./cleric";
+import { assassin } from "./assassin";
+import { barbarian } from "./barbarian";
 
 export enum ClassNamesTwo {
   ASSASSIN = "Assassin",
@@ -51,9 +54,9 @@ const customPlaceholder = {
 };
 
 export const classes: Classes = {
-  [ClassNamesTwo.ASSASSIN]: customPlaceholder,
-  [ClassNamesTwo.BARBARIAN]: customPlaceholder,
-  [ClassNamesTwo.CLERIC]: customPlaceholder,
+  [ClassNamesTwo.ASSASSIN]: assassin,
+  [ClassNamesTwo.BARBARIAN]: barbarian,
+  [ClassNamesTwo.CLERIC]: cleric,
   [ClassNamesTwo.CUSTOM]: customPlaceholder,
   [ClassNamesTwo.DRUID]: customPlaceholder,
   [ClassNamesTwo.FIGHTER]: fighter,
