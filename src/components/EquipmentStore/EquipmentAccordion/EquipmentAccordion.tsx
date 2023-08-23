@@ -77,7 +77,6 @@ export default function EquipmentAccordion({
         )
     )
   );
-  console.log("categories:", categories);
 
   const generateEquipmentCheckboxes = (
     category: string,
