@@ -4,11 +4,10 @@ import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipmentItems.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { EquipmentItem } from "../definitions";
-// import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
-// import { ClassNames, RaceNames } from "../../definitions";
-import { ClassNamesTwo } from "../../../data/classes";
-import { RaceNamesTwo } from "../../../data/races";
+import { ClassNamesTwo, classes } from "../../../data/classes";
+import { RaceNamesTwo, races } from "../../../data/races";
+import { getClassType } from "../../../support/helpers";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -31,209 +30,30 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
   </>
 );
 
-const availableEquipmentCategories = (className: ClassNamesTwo) => {
-  switch (className) {
-    case ClassNamesTwo.CLERIC:
-      return [
-        "ammunition",
-        "armor",
-        "shields",
-        "bows",
-        "beasts-of-burden",
-        "barding",
-        "hammers-and-maces",
-        "general-equipment",
-        "other-weapons",
-        "chain-and-flail",
-        "improvised-weapons",
-        "slings-and-hurled-weapons",
-      ];
-    case ClassNamesTwo.DRUID:
-      return [
-        "ammunition",
-        "armor",
-        "shields",
-        "axes",
-        "bows",
-        "beasts-of-burden",
-        "barding",
-        "hammers-and-maces",
-        "daggers",
-        "general-equipment",
-        "other-weapons",
-        "chain-and-flail",
-        "slings-and-hurled-weapons",
-        "swords",
-      ];
-    case ClassNamesTwo.FIGHTER:
-    case ClassNamesTwo.THIEF:
-    case ClassNamesTwo.ASSASSIN:
-    case ClassNamesTwo.BARBARIAN:
-      return [
-        "ammunition",
-        "armor",
-        "shields",
-        "axes",
-        "beasts-of-burden",
-        "barding",
-        "bows",
-        "daggers",
-        "hammers-and-maces",
-        "general-equipment",
-        "other-weapons",
-        "swords",
-        "spears-and-polearms",
-        "improvised-weapons",
-        "slings-and-hurled-weapons",
-        "chain-and-flail",
-      ];
-    case ClassNamesTwo.ILLUSIONIST:
-    case ClassNamesTwo.MAGICUSER:
-      return [
-        "daggers",
-        "general-equipment",
-        "other-weapons",
-        "beasts-of-burden",
-        "barding",
-        "improvised-weapons",
-      ];
-    default:
-      if (!Object.values(ClassNamesTwo).includes(className as ClassNamesTwo)) {
-        return [
-          "ammunition",
-          "armor",
-          "shields",
-          "axes",
-          "beasts-of-burden",
-          "bows",
-          "daggers",
-          "hammers-and-maces",
-          "general-equipment",
-          "other-weapons",
-          "swords",
-          "spears-and-polearms",
-          "improvised-weapons",
-          "slings-and-hurled-weapons",
-        ];
-      } else {
-        console.error(
-          `availableEquipmentCategories: no case for supplied class`
-        );
-        return [];
-      }
-  }
-};
-
 const itemIsDisabled = (
   className: ClassNamesTwo,
   raceName: RaceNamesTwo,
   item: EquipmentItem
 ) => {
   let disabled = true;
-  if (className === ClassNamesTwo.CLERIC) {
-    if (
-      item.category === "hammers-and-maces" ||
-      item.category === "other-weapons" ||
-      item.category === "ammunition" ||
-      item.category === "bows" ||
-      item.category === "slings-and-hurled-weapons"
-    ) {
-      if (
-        item.name.toLowerCase().includes("warhammer") ||
-        item.name.toLowerCase().includes("mace") ||
-        item.name.toLowerCase().includes("maul") ||
-        item.name.toLowerCase().includes("crossbow") ||
-        item.name.toLowerCase().includes("morningstar") ||
-        item.name.toLowerCase().includes("quarterstaff") ||
-        item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone") ||
-        item.name.toLowerCase().includes("club") ||
-        item.name.toLowerCase().includes("bullet") ||
-        item.name.toLowerCase().includes("quarrel")
-      ) {
+
+  if (getClassType(className) === "custom") return false;
+
+  const specificEquipmentItems = classes[className].specificEquipmentItems;
+
+  if (specificEquipmentItems) {
+    if (specificEquipmentItems[0].includes(item.category)) {
+      if (specificEquipmentItems[1].includes(item.name.toLowerCase())) {
         disabled = false;
       }
     } else {
       disabled = false;
     }
-  } else if (className === ClassNamesTwo.DRUID) {
-    if (
-      item.category === "bows" ||
-      item.category === "armor" ||
-      item.category === "shields" ||
-      item.category === "chain-and-flail" ||
-      item.category === "axes" ||
-      item.category === "hammers-and-maces" ||
-      item.category === "other-weapons" ||
-      item.category === "slings-and-hurled-weapons" ||
-      item.category === "swords" ||
-      item.category === "ammunition"
-    ) {
-      if (
-        item.name.toLowerCase().includes("shortbow") ||
-        item.name.toLowerCase().includes("padded") ||
-        item.name.toLowerCase().includes("hide") ||
-        item.name.toLowerCase().includes("leather") ||
-        item.name.toLowerCase().includes("buckler") ||
-        item.name.toLowerCase().includes("chain††") ||
-        item.name.toLowerCase() === "flail" ||
-        item.name.toLowerCase().includes("whip") ||
-        item.name.toLowerCase().includes("hand axe") ||
-        item.name.toLowerCase().includes("mattock") ||
-        item.name.toLowerCase().includes("pickaxe") ||
-        item.name.toLowerCase() === "mace" ||
-        item.name.toLowerCase().includes("morningstar") ||
-        item.name.toLowerCase().includes("light mace") ||
-        item.name.toLowerCase().includes("staff") ||
-        item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone") ||
-        item.name.toLowerCase().includes("shortsword") ||
-        item.name.toLowerCase().includes("longsword")
-      ) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
-  } else if (
-    className.includes(ClassNamesTwo.FIGHTER) ||
-    className.includes(ClassNamesTwo.BARBARIAN) ||
-    !Object.values(ClassNamesTwo).includes(className as ClassNamesTwo)
-  ) {
-    disabled = false;
-  } else if (
-    className.includes(ClassNamesTwo.THIEF) ||
-    className.includes(ClassNamesTwo.ASSASSIN)
-  ) {
-    if (item.category === "armor") {
-      if (item.name.toLowerCase().includes("leather")) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
-  } else if (
-    className.includes(ClassNamesTwo.MAGICUSER) ||
-    className.includes(ClassNamesTwo.ILLUSIONIST)
-  ) {
-    if (item.category === "other-weapons") {
-      if (item.name.toLowerCase().includes("cudgel")) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
+  } else {
+    disabled = false; // or handle this case differently if needed
   }
 
-  if (
-    raceName === RaceNamesTwo.DWARF ||
-    raceName === RaceNamesTwo.HALFLING ||
-    raceName === RaceNamesTwo.GNOME
-  ) {
-    if (item.size === "L") {
-      disabled = true;
-    }
-  }
+  if (races[raceName].noLargeEquipment && item.size === "L") disabled = true;
 
   return disabled;
 };
@@ -249,11 +69,13 @@ export default function EquipmentAccordion({
     new Set(
       characterData.class
         .split(" ")
-        .flatMap((classPiece) =>
-          availableEquipmentCategories(classPiece as ClassNamesTwo)
+        .flatMap(
+          (classPiece) =>
+            classes[classPiece as ClassNamesTwo].availableEquipmentCategories
         )
     )
   );
+  console.log("categories:", categories);
 
   const generateEquipmentCheckboxes = (
     category: string,
