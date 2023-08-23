@@ -176,8 +176,6 @@ export default function CharacterClass({
     characterData.abilities
   );
 
-  console.log(comboClass);
-
   return (
     <>
       {allowedCombinationClasses && allowedCombinationClasses.length > 1 && (
