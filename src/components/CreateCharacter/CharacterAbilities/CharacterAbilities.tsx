@@ -1,6 +1,7 @@
-import { Button, InputNumber, Space, Table } from "antd";
+import { Button, Table } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { AbilityRecord, CharAbilityScoreStepProps } from "./definitions";
+import AbilityRoller from "./AbilityRoller/AbilityRoller";
 
 const getModifier = (score: number): string => {
   const modifierMapping: Record<number, string> = {
@@ -52,12 +53,6 @@ export default function CharacterAbilities({
     });
     setComboClass(false);
     setCheckedClasses([]);
-  };
-
-  const rollAbilityScore = (ability: string) => {
-    const score = rollDice();
-    const modifier = getModifier(score);
-    updateCharacterData({ [ability]: score }, { [ability]: modifier });
   };
 
   const rollAllAbilities = () => {
@@ -143,9 +138,6 @@ export default function CharacterAbilities({
       dataIndex: "score",
       key: "score",
       render: (text: string, record: AbilityRecord, index: number) => {
-        const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-          event.target.select();
-        };
         const abilityKey = record.ability.toLowerCase();
         let abilityValue = 0;
         if (isAbilityKey(abilityKey)) {
@@ -155,33 +147,14 @@ export default function CharacterAbilities({
             ];
         }
 
-        const onChange = (value: number | null) => {
-          if (value === null) return;
-          if (value < 3) value = 3;
-          if (value > 18) value = 18;
-          rollAbilityScore(record.ability.toLowerCase());
-        };
-
         return (
-          <Space.Compact>
-            <InputNumber
-              id={record.ability.toLowerCase()}
-              max={18}
-              min={3}
-              defaultValue={0}
-              onChange={onChange}
-              onFocus={handleFocus}
-              type="number"
-              value={abilityValue}
-              className="w-[40px]"
-            />
-            <Button
-              type="primary"
-              onClick={() => rollAbilityScore(record.ability.toLowerCase())}
-            >
-              Roll 3d6
-            </Button>
-          </Space.Compact>
+          <AbilityRoller
+            rollDice={rollDice}
+            abilityValue={abilityValue}
+            getModifier={getModifier}
+            updateCharacterData={updateCharacterData}
+            record={record}
+          />
         );
       },
     },
