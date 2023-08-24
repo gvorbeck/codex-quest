@@ -3,10 +3,12 @@ import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipmentItems.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
-import { ClassName, EquipmentItem } from "../definitions";
-import { RaceName } from "../../CreateCharacter/CharacterRace/definitions";
+import { EquipmentItem } from "../definitions";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
-import { ClassNames, RaceNames } from "../../definitions";
+import { ClassNamesTwo, classes } from "../../../data/classes";
+import { RaceNamesTwo, races } from "../../../data/races";
+import { getClassType } from "../../../support/helpers";
+import { equipmentCategories } from "../../../data/definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -29,232 +31,54 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
   </>
 );
 
-const availableEquipmentCategories = (className: ClassName) => {
-  switch (className) {
-    case ClassNames.CLERIC:
-      return [
-        "ammunition",
-        "armor",
-        "shields",
-        "bows",
-        "beasts-of-burden",
-        "barding",
-        "hammers-and-maces",
-        "general-equipment",
-        "other-weapons",
-        "chain-and-flail",
-        "improvised-weapons",
-        "slings-and-hurled-weapons",
-      ];
-    case ClassNames.DRUID:
-      return [
-        "ammunition",
-        "armor",
-        "shields",
-        "axes",
-        "bows",
-        "beasts-of-burden",
-        "barding",
-        "hammers-and-maces",
-        "daggers",
-        "general-equipment",
-        "other-weapons",
-        "chain-and-flail",
-        "slings-and-hurled-weapons",
-        "swords",
-      ];
-    case ClassNames.FIGHTER:
-    case ClassNames.THIEF:
-    case ClassNames.ASSASSIN:
-    case ClassNames.BARBARIAN:
-      return [
-        "ammunition",
-        "armor",
-        "shields",
-        "axes",
-        "beasts-of-burden",
-        "barding",
-        "bows",
-        "daggers",
-        "hammers-and-maces",
-        "general-equipment",
-        "other-weapons",
-        "swords",
-        "spears-and-polearms",
-        "improvised-weapons",
-        "slings-and-hurled-weapons",
-        "chain-and-flail",
-      ];
-    case ClassNames.ILLUSIONIST:
-    case ClassNames.MAGICUSER:
-      return [
-        "daggers",
-        "general-equipment",
-        "other-weapons",
-        "beasts-of-burden",
-        "barding",
-        "improvised-weapons",
-      ];
-    default:
-      if (!Object.values(ClassNames).includes(className as ClassNames)) {
-        return [
-          "ammunition",
-          "armor",
-          "shields",
-          "axes",
-          "beasts-of-burden",
-          "bows",
-          "daggers",
-          "hammers-and-maces",
-          "general-equipment",
-          "other-weapons",
-          "swords",
-          "spears-and-polearms",
-          "improvised-weapons",
-          "slings-and-hurled-weapons",
-        ];
-      } else {
-        console.error(
-          `availableEquipmentCategories: no case for supplied class`
-        );
-        return [];
-      }
-  }
-};
-
 const itemIsDisabled = (
-  className: ClassName,
-  raceName: RaceName,
+  className: ClassNamesTwo,
+  raceName: RaceNamesTwo,
   item: EquipmentItem
 ) => {
-  let disabled = true;
-  if (className === ClassNames.CLERIC) {
-    if (
-      item.category === "hammers-and-maces" ||
-      item.category === "other-weapons" ||
-      item.category === "ammunition" ||
-      item.category === "bows" ||
-      item.category === "slings-and-hurled-weapons"
-    ) {
-      if (
-        item.name.toLowerCase().includes("warhammer") ||
-        item.name.toLowerCase().includes("mace") ||
-        item.name.toLowerCase().includes("maul") ||
-        item.name.toLowerCase().includes("crossbow") ||
-        item.name.toLowerCase().includes("morningstar") ||
-        item.name.toLowerCase().includes("quarterstaff") ||
-        item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone") ||
-        item.name.toLowerCase().includes("club") ||
-        item.name.toLowerCase().includes("bullet") ||
-        item.name.toLowerCase().includes("quarrel")
-      ) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
-  } else if (className === ClassNames.DRUID) {
-    if (
-      item.category === "bows" ||
-      item.category === "armor" ||
-      item.category === "shields" ||
-      item.category === "chain-and-flail" ||
-      item.category === "axes" ||
-      item.category === "hammers-and-maces" ||
-      item.category === "other-weapons" ||
-      item.category === "slings-and-hurled-weapons" ||
-      item.category === "swords" ||
-      item.category === "ammunition"
-    ) {
-      if (
-        item.name.toLowerCase().includes("shortbow") ||
-        item.name.toLowerCase().includes("padded") ||
-        item.name.toLowerCase().includes("hide") ||
-        item.name.toLowerCase().includes("leather") ||
-        item.name.toLowerCase().includes("buckler") ||
-        item.name.toLowerCase().includes("chain††") ||
-        item.name.toLowerCase() === "flail" ||
-        item.name.toLowerCase().includes("whip") ||
-        item.name.toLowerCase().includes("hand axe") ||
-        item.name.toLowerCase().includes("mattock") ||
-        item.name.toLowerCase().includes("pickaxe") ||
-        item.name.toLowerCase() === "mace" ||
-        item.name.toLowerCase().includes("morningstar") ||
-        item.name.toLowerCase().includes("light mace") ||
-        item.name.toLowerCase().includes("staff") ||
-        item.name.toLowerCase().includes("sling") ||
-        item.name.toLowerCase().includes("stone") ||
-        item.name.toLowerCase().includes("shortsword") ||
-        item.name.toLowerCase().includes("longsword")
-      ) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
-  } else if (
-    className.includes(ClassNames.FIGHTER) ||
-    className.includes(ClassNames.BARBARIAN) ||
-    !Object.values(ClassNames).includes(className as ClassNames)
-  ) {
-    disabled = false;
-  } else if (
-    className.includes(ClassNames.THIEF) ||
-    className.includes(ClassNames.ASSASSIN)
-  ) {
-    if (item.category === "armor") {
-      if (item.name.toLowerCase().includes("leather")) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
-  } else if (
-    className.includes(ClassNames.MAGICUSER) ||
-    className.includes(ClassNames.ILLUSIONIST)
-  ) {
-    if (item.category === "other-weapons") {
-      if (item.name.toLowerCase().includes("cudgel")) {
-        disabled = false;
-      }
-    } else {
-      disabled = false;
-    }
-  }
+  if (getClassType(className) === "custom") return false;
+  className.split(" ").forEach((classPiece) => {
+    const specificEquipmentItems =
+      classes[classPiece as ClassNamesTwo].specificEquipmentItems;
 
-  if (
-    raceName === RaceNames.DWARF ||
-    raceName === RaceNames.HALFLING ||
-    raceName === RaceNames.GNOME
-  ) {
-    if (item.size === "L") {
-      disabled = true;
+    if (specificEquipmentItems) {
+      if (specificEquipmentItems[0].includes(item.category)) {
+        if (
+          specificEquipmentItems[1].some((specificItem) =>
+            item.name.toLowerCase().includes(specificItem)
+          )
+        ) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
-  }
 
-  return disabled;
+    if (races[raceName].noLargeEquipment && item.size === "L") return true;
+
+    return true;
+  });
 };
 
 export default function EquipmentAccordion({
   onAmountChange,
   onCheckboxCheck,
-  playerClass,
-  playerEquipment,
-  playerRace,
-  playerGold,
+  characterData,
   className,
 }: EquipmentAccordionProps) {
-  // Create a list of unique categories available for each class in the className, removing any duplicates
-  const categories = Array.from(
-    new Set(
-      playerClass
-        .split(" ")
-        .flatMap((classPiece) =>
-          availableEquipmentCategories(classPiece as ClassName)
-        )
-    )
-  );
+  const classCategories = characterData.class
+    .split(" ")
+    .flatMap(
+      (classPiece) =>
+        classes[classPiece as ClassNamesTwo]?.availableEquipmentCategories
+    );
+
+  const categories = classCategories.some((category) => category !== undefined)
+    ? Array.from(new Set(classCategories))
+    : Object.values(equipmentCategories);
 
   const generateEquipmentCheckboxes = (
     category: string,
@@ -269,23 +93,33 @@ export default function EquipmentAccordion({
         )
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((categoryItem) => {
-          if (!itemIsDisabled(playerClass, playerRace, categoryItem)) {
+          if (
+            !itemIsDisabled(
+              characterData.class as ClassNamesTwo,
+              characterData.race as RaceNamesTwo,
+              categoryItem
+            )
+          ) {
             return (
               <EquipmentCheckbox
                 key={categoryItem.name}
                 item={categoryItem}
-                disabled={itemIsDisabled(playerClass, playerRace, categoryItem)}
+                disabled={itemIsDisabled(
+                  characterData.class as ClassNamesTwo,
+                  characterData.race as RaceNamesTwo,
+                  categoryItem
+                )}
                 onCheckboxCheck={onCheckboxCheck}
                 onAmountChange={onAmountChange}
-                playerHasItem={playerEquipment.some(
+                playerHasItem={characterData.equipment.some(
                   (invItem: EquipmentItem) => invItem.name === categoryItem.name
                 )}
                 equipmentItemDescription={EquipmentItemDescription(
                   categoryItem
                 )}
-                inputDisabled={categoryItem.costValue > playerGold}
+                inputDisabled={categoryItem.costValue > characterData.gold}
                 itemAmount={
-                  playerEquipment.filter(
+                  characterData.equipment.filter(
                     (invItem: EquipmentItem) =>
                       invItem.name === categoryItem.name
                   )[0]?.amount

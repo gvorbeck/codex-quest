@@ -37,8 +37,8 @@ export default function BaseStats({
       <Divider className="mt-4 mb-4" />
       <div className="flex flex-col justify-between md:flex-row print:flex-row print:items-baseline">
         <ExperiencePoints
-          character={characterData}
-          setCharacter={setCharacterData}
+          characterData={characterData}
+          setCharacterData={setCharacterData}
           userIsOwner={userIsOwner}
           showLevelUpModal={showLevelUpModal}
           className="text-lg print:w-1/2 print:float-left"

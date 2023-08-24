@@ -1,5 +1,5 @@
 export interface SpecialAbilitiesTableProps {
-  characterLevel: string;
+  characterLevel: number;
   characterClass: string;
   className?: string;
 }

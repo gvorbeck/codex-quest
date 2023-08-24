@@ -1,7 +1,8 @@
 import { List, Typography } from "antd";
-import { classDetails } from "../../../data/classDetails";
-import { raceDetails } from "../../../data/raceDetails";
+import { marked } from "marked";
 import { SpecialsRestrictionsProps } from "./definitions";
+import { ClassNamesTwo, classes } from "../../../data/classes";
+import { RaceNamesTwo, races } from "../../../data/races";
 
 // Ant Design's List component treats the input as a string and not as HTML.
 // To render HTML, you need to use dangerouslySetInnerHTML prop in React.
@@ -15,17 +16,17 @@ export default function SpecialsRestrictions({
   characterData,
   className,
 }: SpecialsRestrictionsProps) {
-  // Split the class string into individual classes
-  const individualClasses = characterData.class.split(" ");
-
   // Gather the specials and restrictions for each class in the combination
   const classSpecials: string[] = [];
   const classRestrictions: string[] = [];
-  individualClasses.forEach((cls) => {
-    const key = cls as keyof typeof classDetails;
-    if (classDetails[key]) {
-      classSpecials.push(...classDetails[key].specials);
-      classRestrictions.push(...classDetails[key].restrictions);
+  characterData.class.split(" ").forEach((cls) => {
+    if (classes[cls as ClassNamesTwo]) {
+      classSpecials.push(
+        ...(classes[cls as ClassNamesTwo].details?.specials || [])
+      );
+      classRestrictions.push(
+        ...(classes[cls as ClassNamesTwo].details?.restrictions || [])
+      );
     }
   });
 
@@ -37,16 +38,16 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...(raceDetails[characterData.race as keyof typeof raceDetails]
-            ?.specials || []),
+          ...(races[characterData.race as RaceNamesTwo].details?.specials ||
+            []),
           ...classSpecials,
-          ...(raceDetails[characterData.race as keyof typeof raceDetails]
-            ?.restrictions || []),
+          ...(races[characterData.race as RaceNamesTwo].details?.restrictions ||
+            []),
           ...classRestrictions,
         ]}
         renderItem={(item) => (
           <List.Item>
-            <HtmlRender html={item} />
+            <HtmlRender html={marked(item)} />
           </List.Item>
         )}
         className="print:border-0"

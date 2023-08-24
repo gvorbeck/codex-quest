@@ -10,8 +10,10 @@ import {
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CharacterHitPointsProps } from "./definitions";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
-import { ClassNames, RaceNames } from "../../definitions";
+import { DiceTypes } from "../../definitions";
 import { getClassType } from "../../../support/helpers";
+import { ClassNamesTwo, classes } from "../../../data/classes";
+import { RaceNamesTwo, races } from "../../../data/races";
 
 export default function CharacterHitPoints({
   characterData,
@@ -22,42 +24,24 @@ export default function CharacterHitPoints({
   const roller = new DiceRoller();
 
   useEffect(() => {
-    let dice = "d6";
+    let dice = DiceTypes.D6;
 
     if (getClassType(characterData.class) === "custom") {
-      if (characterData.class.includes(ClassNames.THIEF)) {
-        dice = "d4";
-      } else {
-        dice = "d6";
-      }
-    } else if (getClassType(characterData.class) === "combination") {
-      if (characterData.class.includes(ClassNames.FIGHTER)) dice = "d6";
-      if (characterData.class.includes(ClassNames.THIEF)) dice = "d4";
-    } else {
+    }
+    if (getClassType(characterData.class) === "combination") {
+    }
+    if (getClassType(characterData.class) === "standard") {
+      const classDie = classes[characterData.class as ClassNamesTwo].hitDice;
+      const raceData = races[characterData.race as RaceNamesTwo];
       if (
-        characterData.class === ClassNames.CLERIC ||
-        characterData.class === ClassNames.DRUID
+        raceData &&
+        raceData.maximumHitDice !== undefined &&
+        classDie.split("d")[1] > raceData.maximumHitDice
       ) {
-        dice = "d6";
-      } else if (characterData.class === ClassNames.FIGHTER) {
-        dice = "d8";
-        if (
-          characterData.race === RaceNames.ELF ||
-          characterData.race === RaceNames.HALFLING ||
-          characterData.race === RaceNames.GNOME
-        ) {
-          dice = "d6";
-        }
-      } else if (
-        characterData.class === ClassNames.MAGICUSER ||
-        characterData.class === ClassNames.THIEF ||
-        characterData.class === ClassNames.ASSASSIN ||
-        characterData.class === ClassNames.ILLUSIONIST
-      ) {
-        dice = "d4";
-      } else if (characterData.class === ClassNames.BARBARIAN) {
-        dice = "d10";
-      } else dice = characterData.hp.dice;
+        dice = raceData.maximumHitDice;
+      } else {
+        dice = classDie as DiceTypes;
+      }
     }
 
     setCharacterData({
@@ -104,7 +88,7 @@ export default function CharacterHitPoints({
       {!characterData.class
         .split(" ")
         .some((part) =>
-          Object.values(ClassNames).includes(part as ClassNames)
+          Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
         ) && (
         <>
           <Radio.Group
@@ -113,12 +97,11 @@ export default function CharacterHitPoints({
             buttonStyle="solid"
             className="block mb-4"
           >
-            <Radio.Button value="d4">d4</Radio.Button>
-            <Radio.Button value="d6">d6</Radio.Button>
-            <Radio.Button value="d8">d8</Radio.Button>
-            <Radio.Button value="d10">d10</Radio.Button>
-            <Radio.Button value="d12">d12</Radio.Button>
-            <Radio.Button value="d20">d20</Radio.Button>
+            {Object.values(DiceTypes).map((die) => (
+              <Radio.Button key={die} value={die}>
+                {die}
+              </Radio.Button>
+            ))}
           </Radio.Group>
           <HomebrewWarning homebrew="Race or Class" />
           <Divider />
@@ -142,7 +125,7 @@ export default function CharacterHitPoints({
             !characterData.class
               .split(" ")
               .some((part) =>
-                Object.values(ClassNames).includes(part as ClassNames)
+                Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
               )
           }
         >{`Roll 1${characterData.hp.dice}${characterData.abilities.modifiers.constitution}`}</Button>

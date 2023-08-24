@@ -1,6 +1,5 @@
-import { ClassName, EquipmentItem, EquipmentStoreProps } from "./definitions";
+import { EquipmentItem, EquipmentStoreProps } from "./definitions";
 import EquipmentAccordion from "./EquipmentAccordion/EquipmentAccordion";
-import { RaceName } from "../CreateCharacter/CharacterRace/definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
@@ -11,7 +10,8 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
-import { ClassNames, RaceNames } from "../definitions";
+import { RaceNamesTwo } from "../../data/races";
+import { ClassNamesTwo } from "../../data/classes";
 
 const roller = new DiceRoller();
 
@@ -185,9 +185,11 @@ export default function EquipmentStore({
 
   return (
     <>
-      {!Object.values(RaceNames).includes(characterData.race as RaceNames) &&
-        !Object.values(ClassNames).includes(
-          characterData.class as ClassNames
+      {!Object.values(RaceNamesTwo).includes(
+        characterData.race as RaceNamesTwo
+      ) &&
+        !Object.values(ClassNamesTwo).includes(
+          characterData.class as ClassNamesTwo
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {inBuilder && (
@@ -213,10 +215,7 @@ export default function EquipmentStore({
           onAmountChange={onAmountChange}
           onCheckboxCheck={onCheckboxCheck}
           onRadioCheck={onRadioCheck}
-          playerClass={characterData.class as ClassName}
-          playerEquipment={characterData.equipment}
-          playerRace={characterData.race as RaceName}
-          playerGold={characterData.gold}
+          characterData={characterData}
         />
         <EquipmentInventory characterData={characterData} />
       </div>
