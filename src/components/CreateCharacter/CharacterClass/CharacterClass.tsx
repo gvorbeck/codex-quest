@@ -80,7 +80,6 @@ export default function CharacterClass({
         />
       )}
       <div className="mt-6">
-        {/* COMBO CLASS */}
         {comboClass ? (
           <CombinationClassOptions
             characterData={characterData}
