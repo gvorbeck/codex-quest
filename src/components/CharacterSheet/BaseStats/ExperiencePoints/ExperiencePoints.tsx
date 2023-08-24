@@ -93,7 +93,7 @@ export default function ExperiencePoints({
   const totalLevelRequirement = classNames
     .map((className) => {
       const classRequirements =
-        classes[className as ClassNamesTwo].experiencePoints;
+        classes[className as ClassNamesTwo]?.experiencePoints;
       return classRequirements ? classRequirements[characterData.level] : 0; // value if using a custom class
     })
     .reduce((a, b) => a + b, 0);

@@ -51,7 +51,7 @@ export function getDisabledClasses(
 
     // Check if the class is allowed for the race
     if (
-      race.allowedStandardClasses?.includes(className) &&
+      !race.allowedStandardClasses?.includes(className) &&
       !race.allowedCombinationClasses?.includes(className)
     ) {
       disabledClasses.push(className);

@@ -228,11 +228,11 @@ export default function CharacterClass({
                   return (
                     <Radio
                       key={choice.name}
-                      value={choice.name} // Set value to choice.name
+                      value={choice.name}
                       className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
                       disabled={disabledClasses.includes(
                         choice.name as ClassNamesTwo
-                      )} // Cast choice.name to ClassNamesTwo
+                      )}
                     >
                       {choice.name}
                     </Radio>

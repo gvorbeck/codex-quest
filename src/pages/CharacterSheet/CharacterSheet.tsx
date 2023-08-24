@@ -393,7 +393,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
         </div>
       ) : (
-        <Typography.Text className="text-center">
+        <Typography.Text className="text-center block">
           You are using a custom Class. Use the "Bio & Notes" field below to
           calculate your character's Saving Throws, Special Abilities, and
           Restrictions.
