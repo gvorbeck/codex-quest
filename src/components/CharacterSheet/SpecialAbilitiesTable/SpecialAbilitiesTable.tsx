@@ -14,9 +14,9 @@ export default function SpecialAbilitiesTable({
   const dataSource: {}[] = [];
 
   const abilities =
-    classes[characterClass as ClassNamesTwo].specialAbilities!.stats[
+    classes[characterClass as ClassNamesTwo].specialAbilities?.stats[
       characterLevel
-    ];
+    ] || [];
 
   classes[characterClass as ClassNamesTwo].specialAbilities?.titles.forEach(
     (skill: string, index: number) => {
@@ -66,8 +66,8 @@ export default function SpecialAbilitiesTable({
   return (
     <>
       {contextHolder}
-      <div className={`${className}`}>
-        <div className={` mt-6 flex items-baseline gap-4`}>
+      <div className={className}>
+        <div className={`flex items-baseline gap-4`}>
           <Typography.Title level={3} className="mt-0 text-shipGray">
             {toTitleCase(characterClass)} Special Abilities
           </Typography.Title>

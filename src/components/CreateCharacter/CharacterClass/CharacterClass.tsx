@@ -87,7 +87,7 @@ export default function CharacterClass({
     setSelectedSpell(null);
     const spells: Spell[] = (classes[
       classValue as ClassNamesTwo
-    ].startingSpells?.flatMap((spell) =>
+    ]?.startingSpells?.flatMap((spell) =>
       spellsData.find((s) => s.name === spell)
         ? [spellsData.find((s) => s.name === spell)]
         : []

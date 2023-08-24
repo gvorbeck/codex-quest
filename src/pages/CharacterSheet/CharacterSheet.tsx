@@ -117,21 +117,20 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   };
 
   // ATTACK BONUS
-  // const getAttackBonus = function (characterData: CharacterData) {
-  //   let classes = Object.keys(attackBonusTable);
-  //   let maxAttackBonus = 0;
+  const getAttackBonus = function (characterData: CharacterData) {
+    if (getClassType(characterData.class) === "custom") return 0;
+    let maxAttackBonus = 0;
 
-  //   for (let i = 0; i < classes.length; i++) {
-  //     if (characterData && characterData.class.includes(classes[i])) {
-  //       let attackBonus = attackBonusTable[classes[i]][characterData.level];
-  //       if (attackBonus > maxAttackBonus) {
-  //         maxAttackBonus = attackBonus;
-  //       }
-  //     }
-  //   }
+    characterData.class.split(" ").forEach((classPiece) => {
+      const classAttackBonus =
+        classes[classPiece as ClassNamesTwo].attackBonus[characterData.level];
+      if (classAttackBonus > maxAttackBonus) {
+        maxAttackBonus = classAttackBonus;
+      }
+    });
 
-  //   return maxAttackBonus;
-  // };
+    return maxAttackBonus;
+  };
 
   // ARMOR CLASS (AC)
   const getArmorClass = (characterData: CharacterData) => {
@@ -326,11 +325,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* ATTACK BONUSES */}
           <AttackBonus
             characterData={characterData}
-            attackBonus={
-              classes[characterData.class as ClassNamesTwo].attackBonus[
-                characterData.level
-              ]
-            }
+            attackBonus={getAttackBonus(characterData)}
           />
           {/* HIT POINTS */}
           <HitPoints
@@ -375,16 +370,22 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* SPECIALS / RESTRICTIONS */}
           <SpecialsRestrictions
             characterData={characterData}
-            className="md:col-span-2 md:row-span-2 print:row-span-2"
+            className="md:col-span-2 row-span-6 print:row-span-2"
           />
           {/* SPECIAL ABILITIES TABLE */}
-          {classes[characterData.class as ClassNamesTwo].specialAbilities && (
-            <SpecialAbilitiesTable
-              className="md:col-start-3"
-              characterLevel={characterData.level}
-              characterClass={characterData.class}
-            />
-          )}
+          {characterData.class.split(" ").map((cls) => {
+            if (classes[cls as ClassNamesTwo]?.specialAbilities) {
+              return (
+                <SpecialAbilitiesTable
+                  key={cls}
+                  className="md:col-start-3"
+                  characterLevel={characterData.level}
+                  characterClass={cls}
+                />
+              );
+            }
+            return null; // Return null if the condition is not met
+          })}
           {/* SAVING THROWS */}
           <SavingThrows
             characterData={characterData}
@@ -462,12 +463,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         isAttackModalOpen={isAttackModalOpen}
         handleCancel={handleCancel}
         characterData={characterData}
-        // attackBonus={getAttackBonus(characterData)}
-        attackBonus={
-          classes[characterData.class as ClassNamesTwo].attackBonus[
-            characterData.level
-          ]
-        }
+        attackBonus={getAttackBonus(characterData)}
         weapon={weapon}
       />
     </div>

@@ -43,12 +43,15 @@ export function getDisabledClasses(
   const race = races[raceKey];
   const disabledClasses = [];
 
+  // Check if the race is defined
+  if (!race) return [];
+
   for (const className of Object.values(ClassNamesTwo)) {
     const classSetup = classes[className];
 
     // Check if the class is allowed for the race
     if (
-      !race.allowedStandardClasses.includes(className) &&
+      race.allowedStandardClasses?.includes(className) &&
       !race.allowedCombinationClasses?.includes(className)
     ) {
       disabledClasses.push(className);

@@ -16,14 +16,10 @@ export default function SpecialsRestrictions({
   characterData,
   className,
 }: SpecialsRestrictionsProps) {
-  // Split the class string into individual classes
-  const individualClasses = characterData.class.split(" ");
-
   // Gather the specials and restrictions for each class in the combination
   const classSpecials: string[] = [];
   const classRestrictions: string[] = [];
-  individualClasses.forEach((cls) => {
-    // const key = cls as keyof typeof classDetails;
+  characterData.class.split(" ").forEach((cls) => {
     if (classes[cls as ClassNamesTwo]) {
       classSpecials.push(
         ...(classes[cls as ClassNamesTwo].details?.specials || [])

@@ -8,6 +8,7 @@ import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { ClassNamesTwo, classes } from "../../../data/classes";
 import { RaceNamesTwo, races } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
+import { equipmentCategories } from "../../../data/definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -36,28 +37,30 @@ const itemIsDisabled = (
   item: EquipmentItem
 ) => {
   if (getClassType(className) === "custom") return false;
+  className.split(" ").forEach((classPiece) => {
+    const specificEquipmentItems =
+      classes[classPiece as ClassNamesTwo].specificEquipmentItems;
 
-  const specificEquipmentItems = classes[className].specificEquipmentItems;
-
-  if (specificEquipmentItems) {
-    if (specificEquipmentItems[0].includes(item.category)) {
-      if (
-        specificEquipmentItems[1].some((specificItem) =>
-          item.name.toLowerCase().includes(specificItem)
-        )
-      ) {
+    if (specificEquipmentItems) {
+      if (specificEquipmentItems[0].includes(item.category)) {
+        if (
+          specificEquipmentItems[1].some((specificItem) =>
+            item.name.toLowerCase().includes(specificItem)
+          )
+        ) {
+          return false;
+        }
+      } else {
         return false;
       }
     } else {
       return false;
     }
-  } else {
-    return false;
-  }
 
-  if (races[raceName].noLargeEquipment && item.size === "L") return true;
+    if (races[raceName].noLargeEquipment && item.size === "L") return true;
 
-  return true;
+    return true;
+  });
 };
 
 export default function EquipmentAccordion({
@@ -66,17 +69,16 @@ export default function EquipmentAccordion({
   characterData,
   className,
 }: EquipmentAccordionProps) {
-  // Create a list of unique categories available for each class in the className, removing any duplicates
-  const categories = Array.from(
-    new Set(
-      characterData.class
-        .split(" ")
-        .flatMap(
-          (classPiece) =>
-            classes[classPiece as ClassNamesTwo].availableEquipmentCategories
-        )
-    )
-  );
+  const classCategories = characterData.class
+    .split(" ")
+    .flatMap(
+      (classPiece) =>
+        classes[classPiece as ClassNamesTwo]?.availableEquipmentCategories
+    );
+
+  const categories = classCategories.some((category) => category !== undefined)
+    ? Array.from(new Set(classCategories))
+    : Object.values(equipmentCategories);
 
   const generateEquipmentCheckboxes = (
     category: string,
