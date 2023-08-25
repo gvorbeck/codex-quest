@@ -35,37 +35,44 @@ export default function RaceOptions({
       }
       className="grid gap-2"
     >
-      {Object.keys(races).map((raceKey) => {
-        const race = races[raceKey as keyof typeof races];
-        if (!race) return null; // Skip rendering if race is undefined
+      {Object.keys(races)
+        .sort((a, b) =>
+          races[a as keyof typeof races].name >
+          races[b as keyof typeof races].name
+            ? 1
+            : -1
+        )
+        .map((raceKey) => {
+          const race = races[raceKey as keyof typeof races];
+          if (!race) return null; // Skip rendering if race is undefined
 
-        const isDisabled =
-          (race.minimumAbilityRequirements &&
-            Object.entries(race.minimumAbilityRequirements).some(
-              ([ability, requirement]) =>
-                +characterData.abilities.scores[
-                  ability as keyof typeof characterData.abilities.scores
-                ] < (requirement as number) // Cast requirement to number
-            )) ||
-          (race.maximumAbilityRequirements &&
-            Object.entries(race.maximumAbilityRequirements).some(
-              ([ability, requirement]) =>
-                +characterData.abilities.scores[
-                  ability as keyof typeof characterData.abilities.scores
-                ] > (requirement as number) // Cast requirement to number
-            ));
+          const isDisabled =
+            (race.minimumAbilityRequirements &&
+              Object.entries(race.minimumAbilityRequirements).some(
+                ([ability, requirement]) =>
+                  +characterData.abilities.scores[
+                    ability as keyof typeof characterData.abilities.scores
+                  ] < (requirement as number) // Cast requirement to number
+              )) ||
+            (race.maximumAbilityRequirements &&
+              Object.entries(race.maximumAbilityRequirements).some(
+                ([ability, requirement]) =>
+                  +characterData.abilities.scores[
+                    ability as keyof typeof characterData.abilities.scores
+                  ] > (requirement as number) // Cast requirement to number
+              ));
 
-        return (
-          <Radio
-            key={race.name}
-            value={race.name} // Set value to race.name
-            className="ps-2 pe-2 md:ps-4 md:pe-4"
-            disabled={isDisabled}
-          >
-            {race.name}
-          </Radio>
-        );
-      })}
+          return (
+            <Radio
+              key={race.name}
+              value={race.name} // Set value to race.name
+              className="ps-2 pe-2 md:ps-4 md:pe-4"
+              disabled={isDisabled}
+            >
+              {race.name}
+            </Radio>
+          );
+        })}
     </Radio.Group>
   );
 }
