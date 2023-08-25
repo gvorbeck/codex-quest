@@ -1,7 +1,5 @@
 import { EquipmentItem, EquipmentStoreProps } from "./definitions";
 import EquipmentAccordion from "./EquipmentAccordion/EquipmentAccordion";
-import { Button, InputNumber, Space } from "antd";
-import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { useEffect, useState } from "react";
 import equipmentItems from "../../data/equipmentItems.json";
 import EquipmentInventory from "./EquipmentInventory/EquipmentInventory";
@@ -12,8 +10,7 @@ import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
 import { RaceNamesTwo } from "../../data/races";
 import { ClassNamesTwo } from "../../data/classes";
-
-const roller = new DiceRoller();
+import GoldRoller from "./GoldRoller/GoldRoller";
 
 export default function EquipmentStore({
   characterData,
@@ -144,12 +141,6 @@ export default function EquipmentStore({
     setCharacterData({ ...characterData, equipment: updatedItems });
   };
 
-  // Update inputValue when typing in the InputNumber field
-  const handleGoldInputChange = (value: number | null) => {
-    setGoldInputValue(value || 0);
-    setCharacterData({ ...characterData, gold: value || 0 });
-  };
-
   // On page load, add "No Armor"
   useEffect(() => {
     if (inBuilder) {
@@ -193,23 +184,12 @@ export default function EquipmentStore({
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {inBuilder && (
-          <Space.Compact className="sm:col-span-2">
-            <InputNumber
-              min={30}
-              max={180}
-              defaultValue={0}
-              value={Number(goldInputValue.toFixed(2))}
-              onFocus={(event) => event.target.select()}
-              onChange={handleGoldInputChange}
-            />
-            <Button
-              aria-label="Roll for starting gold"
-              type="primary"
-              onClick={() => handleGoldInputChange(roller.roll("3d6*10").total)}
-            >
-              Roll 3d6x10
-            </Button>
-          </Space.Compact>
+          <GoldRoller
+            characterData={characterData}
+            setCharacterData={setCharacterData}
+            goldInputValue={goldInputValue}
+            setGoldInputValue={setGoldInputValue}
+          />
         )}
         <EquipmentAccordion
           onAmountChange={onAmountChange}
