@@ -1,12 +1,11 @@
-import { Input, Radio } from "antd";
-import type { RadioChangeEvent } from "antd";
+import { Input } from "antd";
 import { CharacterRaceProps } from "./definitions";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
-import { isStandardRace } from "../../../support/helpers";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 import { RaceNamesTwo, races } from "../../../data/races";
+import RaceOptions from "./RaceOptions/RaceOptions";
 
 export default function CharacterRace({
   characterData,
@@ -32,21 +31,6 @@ export default function CharacterRace({
     }
   }, []);
 
-  const onChange = (e: RadioChangeEvent) => {
-    if (e.target.value === "Custom") setShowCustomRaceInput(true);
-    else setShowCustomRaceInput(false);
-    const selectedRace = e.target.value.toString() as keyof typeof RaceNamesTwo;
-    setComboClass(false);
-    setCheckedClasses([]);
-    setCharacterData({
-      ...characterData,
-      race: e.target.value !== "Custom" ? selectedRace : customRaceInput,
-      class: "",
-      hp: { dice: "", points: 0, max: 0, desc: "" },
-      equipment: [],
-    });
-  };
-
   const handleChangeCustomRaceInput = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -65,45 +49,14 @@ export default function CharacterRace({
   return (
     <>
       <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
-        <Radio.Group
-          onChange={onChange}
-          value={
-            isStandardRace(characterData.race) ? characterData.race : undefined
-          }
-          className="grid gap-2"
-        >
-          {Object.keys(races).map((raceKey) => {
-            const race = races[raceKey as keyof typeof races];
-            if (!race) return null; // Skip rendering if race is undefined
-
-            const isDisabled =
-              (race.minimumAbilityRequirements &&
-                Object.entries(race.minimumAbilityRequirements).some(
-                  ([ability, requirement]) =>
-                    +characterData.abilities.scores[
-                      ability as keyof typeof characterData.abilities.scores
-                    ] < (requirement as number) // Cast requirement to number
-                )) ||
-              (race.maximumAbilityRequirements &&
-                Object.entries(race.maximumAbilityRequirements).some(
-                  ([ability, requirement]) =>
-                    +characterData.abilities.scores[
-                      ability as keyof typeof characterData.abilities.scores
-                    ] > (requirement as number) // Cast requirement to number
-                ));
-
-            return (
-              <Radio
-                key={race.name}
-                value={race.name} // Set value to race.name
-                className="ps-2 pe-2 md:ps-4 md:pe-4"
-                disabled={isDisabled}
-              >
-                {race.name}
-              </Radio>
-            );
-          })}
-        </Radio.Group>
+        <RaceOptions
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          setComboClass={setComboClass}
+          setShowCustomRaceInput={setShowCustomRaceInput}
+          setCheckedClasses={setCheckedClasses}
+          customRaceInput={customRaceInput}
+        />
         {characterData.race &&
           Object.values(RaceNamesTwo).includes(
             characterData.race as RaceNamesTwo
