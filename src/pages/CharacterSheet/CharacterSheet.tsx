@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // REACT ROUTER
 import { Link, useOutletContext, useParams } from "react-router-dom";
 // FIREBASE
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
@@ -265,24 +265,21 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   // GET CHARACTERDATA
   useEffect(() => {
-    async function fetchCharacter() {
-      try {
-        const characterDocRef = doc(db, `users/${uid}/characters/${id}`);
-        const characterSnapshot = await getDoc(characterDocRef);
+    const characterDocRef = doc(db, `users/${uid}/characters/${id}`);
 
-        if (characterSnapshot.exists()) {
-          const characterData = characterSnapshot.data() as CharacterData;
-          setCharacterData(characterData);
-          document.title = `${characterData.name} | CODEX.QUEST`;
-        } else {
-          console.error("Character not found");
-        }
-      } catch (error) {
-        console.error("Error fetching character:", error);
+    // Listen to real-time updates
+    const unsubscribe = onSnapshot(characterDocRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const characterData = snapshot.data() as CharacterData;
+        setCharacterData(characterData);
+        document.title = `${characterData.name} | CODEX.QUEST`;
+      } else {
+        console.error("Character not found");
       }
-    }
+    });
 
-    fetchCharacter();
+    // Return the unsubscribe function to clean up the listener
+    return () => unsubscribe();
   }, [uid, id]);
 
   return characterData ? (
