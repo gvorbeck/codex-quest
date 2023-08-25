@@ -2,7 +2,6 @@ import {
   Abilities,
   AbilityTypes,
 } from "../components/CreateCharacter/CharacterAbilities/definitions";
-import { ClassNames, RaceNames } from "../components/definitions";
 import { ClassNamesTwo, classes } from "../data/classes";
 import { RaceNamesTwo, races } from "../data/races";
 
@@ -12,7 +11,7 @@ export const getClassType = (characterClass: string) => {
 
   // Check if all parts of the class string are standard classes
   const allStandard = classes.every((cls: string) =>
-    Object.values(ClassNames).includes(cls as ClassNames)
+    Object.values(ClassNamesTwo).includes(cls as ClassNamesTwo)
   );
 
   if (allStandard) {
@@ -28,8 +27,8 @@ export const getClassType = (characterClass: string) => {
 
 export const isStandardRace = (characterRace: string) => {
   // Check if the race is a standard race
-  const isStandard = Object.values(RaceNames).includes(
-    characterRace as RaceNames
+  const isStandard = Object.values(RaceNamesTwo).includes(
+    characterRace as RaceNamesTwo
   );
 
   // Return true if it's a standard race, false otherwise
