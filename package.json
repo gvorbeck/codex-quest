@@ -5,7 +5,6 @@
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
     "@dice-roller/rpg-dice-roller": "^5.3.2",
-    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
     "@types/node": "^16.18.31",
     "@types/react": "^18.2.6",
@@ -64,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^14.0.0",
     "@types/dompurify": "^3.0.2",
     "@types/jest": "^29.5.4",
