@@ -21,6 +21,29 @@ export default function CharacterHitPoints({
     if (getClassType(characterData.class) === "custom") {
     }
     if (getClassType(characterData.class) === "combination") {
+      // Initialize a variable to hold the largest die
+      let largestDie = "d4";
+
+      // Iterate through each class and find the largest die
+      characterData.class.split(" ").forEach((part) => {
+        const classDie = classes[part as ClassNamesTwo].hitDice;
+        if (classDie.split("d")[1] > largestDie.split("d")[1]) {
+          largestDie = classDie;
+        }
+      });
+
+      // Check for raceData.maximumHitDice and compare with the largest die
+      const raceData = races[characterData.race as RaceNamesTwo];
+      console.log(raceData);
+      if (
+        raceData &&
+        raceData.maximumHitDice !== undefined &&
+        largestDie.split("d")[1] > raceData.maximumHitDice.split("d")[1]
+      ) {
+        dice = raceData.maximumHitDice;
+      } else {
+        dice = largestDie as DiceTypes;
+      }
     }
     if (getClassType(characterData.class) === "standard") {
       const classDie = classes[characterData.class as ClassNamesTwo].hitDice;
@@ -28,7 +51,7 @@ export default function CharacterHitPoints({
       if (
         raceData &&
         raceData.maximumHitDice !== undefined &&
-        classDie.split("d")[1] > raceData.maximumHitDice
+        classDie.split("d")[1] > raceData.maximumHitDice.split("d")[1]
       ) {
         dice = raceData.maximumHitDice;
       } else {
