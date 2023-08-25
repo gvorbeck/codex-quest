@@ -5,7 +5,7 @@ import {
   SolutionOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import { CharacterListProps } from "./definitions";
@@ -18,27 +18,41 @@ export default function CharacterList({ user, className }: CharacterListProps) {
   const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchCharacters = async () => {
-    try {
-      if (user) {
-        const uid = user.uid;
-        const charactersCollectionRef = collection(
-          db,
-          `users/${uid}/characters`
-        );
-        const characterSnapshot = await getDocs(charactersCollectionRef);
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      try {
+        if (user) {
+          const uid = user.uid;
+          const charactersCollectionRef = collection(
+            db,
+            `users/${uid}/characters`
+          );
 
-        const userCharacters = characterSnapshot.docs.map((doc) => {
-          const data = doc.data() as CharacterData;
-          data.id = doc.id;
-          return data;
-        });
-        setCharacters(userCharacters);
+          // Listen to real-time updates
+          const unsubscribe = onSnapshot(
+            charactersCollectionRef,
+            (snapshot) => {
+              const userCharacters = snapshot.docs.map((doc) => {
+                const data = doc.data() as CharacterData;
+                data.id = doc.id;
+                return data;
+              });
+              setCharacters(userCharacters);
+              setLoading(false);
+            }
+          );
+
+          // Return the unsubscribe function to clean up the listener
+          return () => unsubscribe();
+        }
+      } catch (error) {
+        console.error("Failed to fetch characters:", error);
       }
-    } catch (error) {
-      console.error("Failed to fetch characters:", error);
-    }
-  };
+    };
+
+    // Call the fetchCharacters function when the component mounts
+    fetchCharacters();
+  }, [user]);
 
   const confirm = async (characterId: string) => {
     if (user) {
@@ -49,8 +63,6 @@ export default function CharacterList({ user, className }: CharacterListProps) {
       await deleteDoc(characterDoc);
     }
   };
-
-  fetchCharacters();
 
   useEffect(() => {
     setLoading(false);
