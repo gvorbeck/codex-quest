@@ -1,14 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Input,
-  Modal,
-  Radio,
-  RadioChangeEvent,
-  Typography,
-  Upload,
-} from "antd";
+import { Button, Input, Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
 import { storage, ref, uploadBytes } from "../../../firebase";
@@ -17,6 +9,7 @@ import { images } from "../../../assets/images/faces/imageAssets";
 import { CharSteps } from "../definitions";
 import { CharacterNameProps } from "./definitions";
 import DOMPurify from "dompurify";
+import AvatarPicker from "./AvatarPicker/AvatarPicker";
 
 const StockAvatars = ({ setCharacterData, characterData }: CharSteps) => {
   const [selectedAvatar, setSelectedAvatar] = useState("");
@@ -135,11 +128,6 @@ export default function CharacterName({
     }
   };
 
-  const handleChangeImageSource = (e: RadioChangeEvent) => {
-    setCharacterData({ ...characterData, avatar: "" });
-    setImageSource(e.target.value);
-  };
-
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -154,18 +142,12 @@ export default function CharacterName({
         onChange={handleNameChange}
         placeholder="Name"
       />
-      <Typography.Title level={2} className="text-shipGray">
-        Avatar
-      </Typography.Title>
-      <Radio.Group
-        value={imageSource}
-        onChange={handleChangeImageSource}
-        buttonStyle="solid"
-      >
-        <Radio.Button value={0}>None</Radio.Button>
-        <Radio.Button value={1}>Stock</Radio.Button>
-        <Radio.Button value={2}>Upload</Radio.Button>
-      </Radio.Group>
+      <AvatarPicker
+        characterData={characterData}
+        setCharacterData={setCharacterData}
+        imageSource={imageSource}
+        setImageSource={setImageSource}
+      />
       {imageSource === 2 && (
         <>
           <Upload
