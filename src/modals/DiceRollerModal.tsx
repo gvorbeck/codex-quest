@@ -73,7 +73,7 @@ export default function DiceRollerModal({
           </Button>
         </Space.Compact>
         <Typography.Paragraph type="secondary">
-          Type any dice notation in the input box. ex: 2d0+5
+          Type any dice notation in the input box. ex: 2d6+5
         </Typography.Paragraph>
       </Modal>
     </>
