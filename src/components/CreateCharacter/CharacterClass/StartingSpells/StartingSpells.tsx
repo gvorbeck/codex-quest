@@ -72,7 +72,7 @@ export default function StartingSpells({
               >
                 {spell.name}
                 <Button
-                  type="ghost"
+                  type="link"
                   shape="circle"
                   size="small"
                   icon={<InfoCircleOutlined />}

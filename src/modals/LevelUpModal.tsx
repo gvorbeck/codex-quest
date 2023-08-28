@@ -197,7 +197,7 @@ export default function LevelUpModal({
                         >
                           {spell.name}
                           <Button
-                            type="ghost"
+                            type="link"
                             shape="circle"
                             size="small"
                             icon={<InfoCircleOutlined />}
