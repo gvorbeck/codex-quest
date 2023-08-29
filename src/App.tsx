@@ -14,6 +14,7 @@ import { db } from "./firebase.js";
 import { ConfigProvider, Spin } from "antd";
 import Welcome from "./pages/Welcome/Welcome";
 import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
+import Sources from "./pages/Sources/Sources";
 
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
@@ -96,6 +97,7 @@ function App() {
               element={<CharacterSheet user={user} />}
             />
             <Route path="/create" element={<CharacterCreator />} />
+            <Route path="/sources" element={<Sources />} />
           </Route>
         </Routes>
       </Suspense>

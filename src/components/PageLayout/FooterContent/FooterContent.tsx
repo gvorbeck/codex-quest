@@ -9,7 +9,7 @@ export default function FooterContent({ className }: FooterContentProps) {
   return (
     <div className={FooterContentClassNames}>
       <Typography.Paragraph>
-        © 2023 J. Garrett Vorbeck. All rights reserved. v1.11.0.0
+        © 2023 J. Garrett Vorbeck. All rights reserved. v1.11.1.0
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
@@ -58,6 +58,9 @@ export default function FooterContent({ className }: FooterContentProps) {
           <Link to="https://basicfantasy.org/forums/viewtopic.php?t=4840">
             Forum
           </Link>
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          <Link to="/sources">Sources</Link>
         </Typography.Paragraph>
       </div>
     </div>
