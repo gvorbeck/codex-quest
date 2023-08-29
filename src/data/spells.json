@@ -2005,7 +2005,7 @@
     "name": "Detect Illusion",
     "range": "60'",
     "level": {
-      "illusionist": 2,
+      "illusionist": 1,
       "necromancer": null,
       "magic-user": null,
       "druid": null,
