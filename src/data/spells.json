@@ -982,7 +982,7 @@
       "magic-user": 1,
       "druid": null,
       "illusionist": 1,
-      "necromancer": null
+      "necromancer": 1
     },
     "duration": "permanent",
     "description": "When cast upon any magical text, such as a spellbook or magic-user spell scroll, this spell enables the caster to read that text. Casting this spell on a cursed text will generally trigger the curse. All Magic-Users begin play knowing this spell, and it can be prepared even if the Magic-User loses access to their spellbook."
@@ -2383,7 +2383,7 @@
     "range": "30'",
     "level": {
       "illusionist": null,
-      "necromancer": 1,
+      "necromancer": 2,
       "magic-user": null,
       "druid": null,
       "cleric": null
@@ -2639,7 +2639,7 @@
     "description": "After careful ceremonial preparations lasting five days, and the application of many rare and expensive unguents, the caster is able to call back the spirit of the dead to reanimate its corpse as a mummy. Mummies so created are of the standard sort (see its monster entry). \n\nMummies do not count against the normal limits of controllable undead (per re-animation spell), but the caster can maintain control over as many Hit Dice of mummies as his or her own level. \n\nMummies do not travel well, being slow and quickly wear down, taking damage on long journeys. They make better guardians for the animator's lair. A separate casting of the spell is necessary for each mummy created. It might be possible to create a mummy from a large humanoid such as a giant, however the difficulty will be greater (the GM determines how much more difficult). \n\nMore powerful mummies, such as those with intact class-based powers, are generally created through the use of the undeath spell. \n\nMummification is generally in the realm of the Necromancer, but occasionally Clerics of certain cults might have access as well."
   },
   {
-    "name": "Portection from Undead*",
+    "name": "Protection from Undead*",
     "range": "touch",
     "level": {
       "illusionist": null,
@@ -2649,7 +2649,7 @@
       "cleric": null
     },
     "duration": "1 turn / level",
-    "description": "This spell works almost identically to the protection from evil spell by warding a creature from attacks by undead creatures, from mental control, and from summoned creatures regardless of any moral or ethical leanings. It creates a magical barrier around the subject at a distance of 1 foot. The barrier moves with the subject and has three major effects: \n\nFirst, the subject gains a +2 bonus to AC and on saves. Both of these bonuses apply against attacks made or effects created by undead creatures or beings that the GM decides have a strong connection with death or undead. \n\nSecond, the barrier blocks any attempt to possess the warded creature (by a magic jar attack, for example) or to exercise mental control over the creature (including charm spells or effects). The protection does not prevent such effects from targeting the protected creature, but it suppresses the effect for the duration of the protection from undead spell. If the protection from undead effect ends before the effect granting control does, the would-be controller would then be able to command the controlled creature. Likewise, the barrier keeps out a possessing life force but does not expel one if it is in place before the spell is cast. \n\nThird, the spell prevents bodily contact by summoned creatures (regardless of whether they are undead or not). This causes the natural weapon attacks of such creatures to fail and the creatures to recoil if such attacks require touching the warded creature. The protection against contact by summoned creatures ends if the warded creature makes an attack against or tries to force the barrier against the blocked creature. \n\nReversed, this spell becomes quite potent as protection from living. It functions in all ways as described above, save that “living” creatures are kept away, rather than dead or “undead” creatures. Necromancers often use both versions of the spell to protect themselves from threats by both the living population as well as powerful undead that may try to command the Necromancer such as ghosts or vampires."
+    "description": "This spell works almost identically to the **protection from evil** spell by warding a creature from attacks by undead creatures, from mental control, and from summoned creatures regardless of any moral or ethical leanings. It creates a magical barrier around the subject at a distance of 1 foot. The barrier moves with the subject and has three major effects: \n\nFirst, the subject gains a +2 bonus to AC and on saves. Both of these bonuses apply against attacks made or effects created by undead creatures or beings that the GM decides have a strong connection with death or undead. \n\nSecond, the barrier blocks any attempt to possess the warded creature (by a **magic jar** attack, for example) or to exercise mental control over the creature (including **charm** spells or effects). The protection does not prevent such effects from targeting the protected creature, but it suppresses the effect for the duration of the **protection from undead** spell. If the **protection from undead** effect ends before the effect granting control does, the would-be controller would then be able to command the controlled creature. Likewise, the barrier keeps out a possessing life force but does not expel one if it is in place before the spell is cast. \n\nThird, the spell prevents bodily contact by summoned creatures (regardless of whether they are undead or not). This causes the natural weapon attacks of such creatures to fail and the creatures to recoil if such attacks require touching the warded creature. The protection against contact by summoned creatures ends if the warded creature makes an attack against or tries to force the barrier against the blocked creature. \n\nReversed, this spell becomes quite potent as **protection from living**. It functions in all ways as described above, save that “living” creatures are kept away, rather than dead or “undead” creatures. Necromancers often use both versions of the spell to protect themselves from threats by both the living population as well as powerful undead that may try to command the Necromancer such as ghosts or vampires."
   },
   {
     "name": "Protection from Undead 10' Radius*",
