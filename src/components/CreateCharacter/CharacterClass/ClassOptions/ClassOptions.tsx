@@ -52,23 +52,30 @@ export default function ClassOptions({
         size="small"
       >
         <Space direction="vertical">
-          {Object.keys(classes).map((classKey) => {
-            const choice = classes[classKey as keyof typeof classes];
-            if (!choice) return null; // Skip rendering if choice is undefined
+          {Object.keys(classes)
+            .sort((a, b) =>
+              classes[a as keyof typeof classes].name >
+              classes[b as keyof typeof classes].name
+                ? 1
+                : -1
+            )
+            .map((classKey) => {
+              const choice = classes[classKey as keyof typeof classes];
+              if (!choice) return null; // Skip rendering if choice is undefined
 
-            return (
-              <Radio
-                key={choice.name}
-                value={choice.name}
-                className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
-                disabled={disabledClasses.includes(
-                  choice.name as ClassNamesTwo
-                )}
-              >
-                {choice.name}
-              </Radio>
-            );
-          })}
+              return (
+                <Radio
+                  key={choice.name}
+                  value={choice.name}
+                  className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
+                  disabled={disabledClasses.includes(
+                    choice.name as ClassNamesTwo
+                  )}
+                >
+                  {choice.name}
+                </Radio>
+              );
+            })}
         </Space>
       </Radio.Group>
       {characterData.class &&
