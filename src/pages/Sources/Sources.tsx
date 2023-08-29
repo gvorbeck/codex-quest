@@ -52,6 +52,10 @@ export default function Sources() {
           Gonnerman, Chris. "Half Humans: A Basic Fantasy Supplement." Basic
           Fantasy Role-Playing Game, 2023, basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>
+          Smoot, et al. "Necromancers: A Basic Fantasy Supplement." Basic
+          Fantasy Role-Playing Game, 2023, basicfantasy.org/downloads.html.
+        </List.Item>
       </List>
     </div>
   );
