@@ -4,6 +4,9 @@ import { elf } from "./elf";
 import { halfling } from "./halfling";
 import { human } from "./human";
 import { RaceSetup } from "./definitions";
+import { halfElf } from "./halfElf";
+import { halfOgre } from "./halfOgre";
+import { halfOrc } from "./halfOrc";
 
 export enum RaceNamesTwo {
   DWARF = "Dwarf",
@@ -12,6 +15,9 @@ export enum RaceNamesTwo {
   HALFLING = "Halfling",
   HUMAN = "Human",
   CUSTOM = "Custom",
+  HALFELF = "Half-Elf",
+  HALFOGRE = "Half-Ogre",
+  HALFORC = "Half-Orc",
   // ... other races
 }
 
@@ -31,5 +37,8 @@ export const races: Races = {
   [RaceNamesTwo.HALFLING]: halfling,
   [RaceNamesTwo.HUMAN]: human,
   [RaceNamesTwo.CUSTOM]: customPlaceholder,
+  [RaceNamesTwo.HALFELF]: halfElf,
+  [RaceNamesTwo.HALFOGRE]: halfOgre,
+  [RaceNamesTwo.HALFORC]: halfOrc,
   // ... other races
 };

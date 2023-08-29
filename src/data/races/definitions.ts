@@ -10,6 +10,7 @@ export interface RaceSetup {
   maximumAbilityRequirements?: Record<string, number>;
   maximumHitDice?: DiceTypes;
   savingThrows?: Partial<SavingThrows>;
+  incrementHitDie?: boolean;
   details?: {
     description?: string;
     specials?: string[];

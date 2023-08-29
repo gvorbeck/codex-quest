@@ -23,6 +23,10 @@ export interface AddEquipmentModalProps extends ModalProps {
   setCharacterData: (character: CharacterData) => void;
 }
 
+export interface CheatSheetModalProps extends ModalProps {
+  isCheatSheetModalOpen: boolean;
+}
+
 export interface AddCustomEquipmentModalProps extends ModalProps {
   isAddCustomEquipmentModalOpen: boolean;
   setCharacterData: (character: CharacterData) => void;

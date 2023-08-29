@@ -17,5 +17,6 @@
     "jsx": "react-jsx",
     "downlevelIteration": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "types": ["node", "jest", "@testing-library/jest-dom"],
 }

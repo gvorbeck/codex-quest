@@ -11,7 +11,15 @@ import { CharacterSheetProps } from "./definitions";
 import { CharacterData } from "../../components/definitions";
 import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 // ANTD COMPONENTS
-import { Breadcrumb, Col, Divider, Row, Skeleton, Typography } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Divider,
+  Row,
+  Skeleton,
+  Typography,
+} from "antd";
 // CHARACTER SHEET COMPONENTS
 import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller/InitiativeRoller";
@@ -39,6 +47,7 @@ import { ClassNamesTwo, classes } from "../../data/classes";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { getClassType } from "../../support/helpers";
+import CheatSheetModal from "../../modals/CheatSheetModal";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -60,6 +69,11 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const [isDiceRollerModalOpen, setIsDiceRollerModalOpen] = useState(false);
   const showDiceRollerModal = () => {
     setIsDiceRollerModalOpen(true);
+  };
+
+  const [isCheatSheetModalOpen, setIsCheatSheetModalOpen] = useState(false);
+  const showCheatSheetModal = () => {
+    setIsCheatSheetModalOpen(true);
   };
 
   const [isAddEquipmentModalOpen, setIsAddEquipmentModalOpen] = useState(false);
@@ -84,6 +98,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     setIsAddEquipmentModalOpen(false);
     setIsAddCustomEquipmentModalOpen(false);
     setIsAttackModalOpen(false);
+    setIsCheatSheetModalOpen(false);
   };
 
   const handleCustomDelete = (item: EquipmentItem) => {
@@ -307,7 +322,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       {/* ROLLING BUTTONS */}
       <div className="flex justify-between print:hidden">
         <InitiativeRoller characterData={characterData} />
-        <DiceRoller onClick={showDiceRollerModal} />
+        <div className="flex gap-4 flex-row">
+          <Button type="primary" onClick={showCheatSheetModal}>
+            Cheat Sheet
+          </Button>
+          <DiceRoller onClick={showDiceRollerModal} />
+        </div>
       </div>
       <Row gutter={32} className="gap-4 md:gap-0 print:block">
         <Col xs={24} md={8} className="print:w-1/2 float-left mb-4">
@@ -462,6 +482,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         characterData={characterData}
         attackBonus={getAttackBonus(characterData)}
         weapon={weapon}
+      />
+      <CheatSheetModal
+        handleCancel={handleCancel}
+        isCheatSheetModalOpen={isCheatSheetModalOpen}
       />
     </div>
   ) : (

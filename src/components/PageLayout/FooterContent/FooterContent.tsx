@@ -9,7 +9,7 @@ export default function FooterContent({ className }: FooterContentProps) {
   return (
     <div className={FooterContentClassNames}>
       <Typography.Paragraph>
-        © 2023 J. Garrett Vorbeck. All rights reserved. v1.10.0.1
+        © 2023 J. Garrett Vorbeck. All rights reserved. v1.11.0.0
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
