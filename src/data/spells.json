@@ -33,7 +33,7 @@
       "magic-user": 6,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 6
     },
     "duration": "1 turn/level",
     "description": "Within a 10' radius around the caster, all magic is negated for the full duration of the spell. Magical attacks will not affect the caster, magic items and spells within the radius are suppressed, and the caster cannot perform further magic until the spell has expired."
@@ -124,7 +124,7 @@
       "magic-user": 5,
       "druid": null,
       "illusionist": 5,
-      "necromancer": null
+      "necromancer": 5
     },
     "duration": "6 rounds/level",
     "description": "This spell creates a 20'x20'x20' cloud of poison gas which moves at a rate of 10' per round under the control of the caster (so long as they concentrate on it). The gas kills outright any creatures of 3 or fewer hit dice or levels it comes in contact with; creatures having 4 or more hit dice or levels must save vs. Poison or die. The cloud persists for the entire duration even if the caster ceases to concentrate upon it."
@@ -176,7 +176,7 @@
       "magic-user": 2,
       "druid": null,
       "illusionist": 2,
-      "necromancer": null
+      "necromancer": 2
     },
     "duration": "1 year/level",
     "description": "This spell creates a spherical region of light, as bright as full daylight up to a 30' radius, with light of lesser intensity to a radius of 60'. Continual light can be cast on an object, into the air, or at a creature, just as with the light spell, up to a maximum range of 360' from the caster. The spell remains in effect for one year per level of the caster. \n\nAs with light, this spell can be used to blind a creature if cast on its visual organs. Creatures targeted by this spell are allowed a save vs. Death Ray; if the save is made, the spell is cast into the air just behind the target creature. A penalty of -4 is applied to the blinded creature's attack rolls if the saving throw fails. \n\nThe reversed spell, continual darkness, causes complete absence of light in the area of effect, overpowering normal light sources. Continual darkness may be used to blind in the same way as continual light."
@@ -228,7 +228,7 @@
       "magic-user": null,
       "druid": 3,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 4
     },
     "duration": "instantaneous",
     "description": "Cure disease cures all diseases and kills all parasites afflicting the target creature. A magical or otherwise special disease (as defined by the GM) may be unaffected by this spell, or may require a caster of a certain minimum level to cure it. Also note, just because a disease or parasite is removed does not mean that the victim cannot be infected anew should that affliction be encountered again. \n\nThe reverse form of this spell, cause disease, causes a living creature touched by the caster to suffer from a debilitating and potentially deadly disease for the next 1d10 days. A successful melee attack roll is required to touch the victim, and no Saving Throw is allowed. The target suffers a -2 penalty to attack rolls, Armor Class and Saving Throws. While the victim is sick they cannot benefit from natural healing of damage or Constitution point losses, nor prepare spells or move at running speed. At the end of each day in which an infected character performed any form of exertion (for example by fighting, traveling, working, or doing magical research), the character must roll a saving throw vs. Spells or suffer 1d6 points of damage. Once the spell duration has elapsed the affected character, if still alive, is free of the illness and can start healing damage and recovering lost Constitution points, and can again prepare spells."
@@ -267,7 +267,7 @@
       "magic-user": 3,
       "druid": null,
       "illusionist": 3,
-      "necromancer": null
+      "necromancer": 3
     },
     "duration": "1 hour/level",
     "description": "The subject receives Darkvision with a range of 60' for the duration of the spell. (See page 43 for details.)"
@@ -280,7 +280,7 @@
       "magic-user": 6,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 6
     },
     "duration": "instantaneous",
     "description": "This spell will kill 3d12 hit dice or levels of creatures in a 30' radius sphere centered wherever the caster wishes (within the range limit). Excess levels of effectiveness are lost. Each creature affected is allowed to save vs. Death Ray; those that fail the save die immediately. Creatures of 8 or more hit dice or levels are immune to the spell, as are undead monsters, golems, and any other \"creature\" that is not truly alive."
@@ -306,7 +306,7 @@
       "magic-user": 2,
       "druid": null,
       "illusionist": 1,
-      "necromancer": null
+      "necromancer": 2
     },
     "duration": "1 turn/level",
     "description": "By means of this spell the caster is able to see invisible characters, creatures or objects within the given range, seeing them as bright transparent outlines or shapes."
@@ -332,7 +332,7 @@
       "magic-user": 4,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 4
     },
     "duration": "instantaneous",
     "description": "The caster of this spell or any single target creature within range is transported instantly, to any location within 200 feet plus 20 feet per caster level. The caster may give distance and direction or may choose to visualize the target location, and the target will be transported unerringly to that place. An unwilling target may save vs. Spells to avoid being transported. Anything worn or carried by the caster or target creature will be transported also, including another character or creature if the transportee can lift it. If the target area is within a solid object, the spell fails automatically."
@@ -345,7 +345,7 @@
       "magic-user": 6,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 6
     },
     "duration": "instantaneous",
     "description": "This spell causes a green laser-like beam of light to spring from the caster's pointing finger. Any single creature or object (up to a 10x10x10 foot cube of material) will be completely disintegrated. The target is allowed a save vs. Spells to resist. This spell can target just one creature per casting, so if the target makes its save the spell is wasted. \n\nEquipment worn or carried by a disintegrated creature is not affected, and will naturally fall to the floor as if dropped."
@@ -371,7 +371,7 @@
       "magic-user": 3,
       "druid": null,
       "illusionist": 4,
-      "necromancer": null
+      "necromancer": 3
     },
     "duration": "instantaneous",
     "description": "This spell can be used to end ongoing spells or similar magical effects cast on a creature or object, or to end such effects within a cubic area 20' on a side. The caster must choose whether to dispel magic on a creature or object, or to affect an area. \n\nIf dispel magic is targeted at a creature, all spell effects (including ongoing potion effects) may be canceled. If cast upon an area, all such effects within the area may be canceled. Any spell or effect having a caster level equal to or less than the dispel magic caster's level is ended automatically. Those created by higher level casters might not be canceled; there is a 5% chance the dispel magic will fail for each level the spell effect exceeds the caster level. For example, a 10th level caster dispelling magic created by a 14th level caster has a 20% chance of failure. \n\nSome spells cannot be ended by dispel magic; this specifically includes any curse, including those created by bestow curse (the reverse of remove curse) as well as by cursed items."
@@ -618,7 +618,7 @@
       "magic-user": 2,
       "druid": null,
       "illusionist": 2,
-      "necromancer": null
+      "necromancer": 2
     },
     "duration": "special",
     "description": "This spell causes the creature touched (who may be the caster) to become invisible, undetectable by normal vision or Darkvision. Invisible creatures may be detected by those with non-visual sensory abilities. \n\nAll items worn or carried by the target when the spell is cast become invisible as well. If the target lays down an \n\ninvisible item, it instantly becomes visible again; on the other hand, items picked up do not automatically become invisible. If the target places a visible item entirely inside its invisible clothing, backpack, pouch, or other container so that if the target were visible the item could not be seen, it will become invisible just as if it were held when the spell was cast. \n\nNote that casting this spell upon another makes the target invisible to the caster as well as everyone else. A party of invisible characters will likely experience problems with running into or tripping over each other. \n\nThe spell lasts at most 24 hours if not ended sooner. It ends instantly if the target attacks an opponent or casts any spell. Other actions do not normally end the spell. The target may end the spell at will. \n\nObjects that shed light may be made invisible but the light itself will remain visible, and the source of that light (and the character carrying it) can thus be discovered. Rain, dust, paint, and any other visible substance thrown or applied to an invisible creature will also render it detectable."
@@ -657,7 +657,7 @@
       "magic-user": 2,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 2
     },
     "duration": "special",
     "description": "This spell can undo a single means of securing a door, chest, or shackle. It negates hold portal, dispelling it; a wizard lock spell is deactivated for 1 turn but is not dispelled. A lock can be opened, a stuck door forced, a door barred or bolted can be unbarred or unbolted. These effects do not automatically restore themselves, except for the wizard lock. Knock cannot raise a portcullis or open any other portal which requires a mechanism to open (such as a winch for example). \n\nEach casting undoes a single method of securing the door or item, so that for example a door which is both locked and stuck can be unlocked but will still be stuck; a second casting of knock will open such a door."
@@ -709,7 +709,7 @@
       "magic-user": 2,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 2
     },
     "duration": "1 round/level",
     "description": "This spell grants the caster knowledge of the location of an object. The caster must know the object well or be able to clearly imagine it. (Viewing an accurate drawing or painting will suffice for the latter option.) A general item can be located; if more than one such item is in range, the spell will lead the caster to the nearest one. \n\nUnique or unusual items can only be located if the caster has first-hand knowledge (not merely through divination such as clairvoyance or a crystal ball). The spell cannot be used to locate creatures of any sort. A \n\nlayer of lead or gold no thicker than foil surrounding the item will prevent it from being located."
@@ -735,7 +735,7 @@
       "magic-user": 5,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 5
     },
     "duration": "special",
     "description": "This spell allows the caster to attempt to possess the body of another living creature. The caster begins by placing their spirit into a gem, jewel, or large crystal of some sort within the spell range, called the magic jar. The caster needs to know where the magic jar is located, but does not have to be able to see it. While the caster's spirit is outside their body, that body appears to all intents and purposes to be dead, but does not undergo decay as a normal dead body would. \n\nEach round after entering the magic jar the caster's spirit can attempt to take control of the body of a living creature within the spell range; the target is allowed a save vs. Spells to resist. If the saving throw fails, the spirit of the target (now called the host) is trapped in the magic jar and the caster's spirit takes possession of the host's body. Possession of a creature by means of this spell is blocked by protection from evil or a similar ward. \n\nIf the attempt to possess a victim fails, the caster's spirit remains in the magic jar, and that target creature is immune to further attempts for the duration of the spell. The caster may make an attempt to possess another target on the following round, if desired. \n\nIf on the other hand the possession attempt is successful, the caster may remain in control of the host's body for as long as desired. The caster's spirit may return to the magic jar at any time when it is within spell range, restoring the host's spirit to its own body. The caster may not return to the same host's body again for the remainder of the duration of this spell, but may attempt to possess it again on a subsequent casting. \n\nWhenever the caster's spirit is in the magic jar, it may choose to return to its own body if it is within spell range. If the body is not in range, the caster's spirit may become trapped if no vulnerable creatures are in range. \n\nWhenever the caster's spirit returns to their own body, the spell ends. There is a 50% chance that the magic jar will shatter when the spell ends (if the spell did not end because it was broken), becoming worthless and unusable. \n\nWhen the caster's spirit possesses a host, the caster has access to the physical abilities of the host's body, including Strength, Dexterity, and Constitution, while still retaining their own Intelligence, Wisdom, and Charisma. The caster has access only to their own knowledge, class and level, attack bonus, saving throws, spell casting ability, and any other purely mental capabilities. \n\nThe caster does not gain access to supernatural or otherwise extraordinary powers of the host, and may not be able to perform physical actions that the caster has never done before (such as flying, if a winged body has been possessed). The caster does have access to the host's sensory capabilities, such as Darkvision, the enhanced sense of smell of a dog, and so on. \n\nIf the caster's spirit is in the magic jar, and the jar is broken (whether by dispel magic or physical damage), the caster's spirit will return to its own body if it is in spell range; if not, the caster's spirit departs (i.e. the caster dies). In either case, the spell ends. \n\nIf the caster's spirit is driven from the host body by dispel evil, and the magic jar is in range of the host body, the caster's spirit returns to the jar and the host's spirit returns to its body. The caster will not be able to possess the same host again for the remaining duration of the spell. If the magic jar is not in range of the host body, the caster's spirit departs, the host's spirit is freed from the jar and also departs, and the host's body dies. \n\nIf the host's spirit is in the magic jar, and the jar is broken while in spell range of the host body, the caster's spirit departs, the host's spirit returns to its body, and the spell ends. If the jar is broken while out of range of the host's body, the host's spirit departs, the caster's spirit is stranded in the host body. Note here that the spell has not ended. Dispel evil can still be \n\nused to drive the caster's spirit from the body, which departs as noted, ending the spell. A stranded caster may use another casting of this spell (with another magic jar, of course) to return to their own body, which of course kills the host's body."
@@ -826,7 +826,7 @@
       "magic-user": 5,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 5
     },
     "duration": "3 turns",
     "description": "Passwall creates a passage through wooden, plaster, or stone walls, but not through metal or other harder materials. The passage is up to 10 feet deep plus an additional 10 feet per three caster levels above 9th (20 feet at 12th, 30 feet at 15th, 40 feet at 18th). If the wall's thickness is more than the depth of the passage created, then a single passwall simply makes a niche or short tunnel. Several passwall spells can then form a continuing passage to breach very thick walls. When passwall ends (due to duration, dispel magic, or caster's choice), creatures within the passage are ejected out the nearest exit."
@@ -878,7 +878,7 @@
       "magic-user": 6,
       "druid": null,
       "illusionist": 5,
-      "necromancer": null
+      "necromancer": 6
     },
     "duration": "6 turns",
     "description": "This spell creates a quasi-real, illusory version of the caster. This illusory projected image looks, sounds, and smells like the caster, in addition to mimicking gestures and actions (including speech, which is projected from the caster to the illusory image as if by a form of ventriloquism). Any further spells cast seem to originate from the illusion, not the actual caster. \n\nA line of sight between the caster and their illusory self must be maintained or the spell ends. Any effect or action that breaks the line of sight dispels the image, as does the illusionary caster being struck in combat. Note that this spell grants no special sensory powers to the caster; for example, if the illusory self is positioned so as to be able to see something the caster can't directly see, the caster does not see it. Also, all spell ranges are still figured from the caster's actual position, not the illusory self's position."
@@ -969,7 +969,7 @@
       "magic-user": 1,
       "druid": null,
       "illusionist": 2,
-      "necromancer": null
+      "necromancer": 1
     },
     "duration": "special",
     "description": "This spell grants the caster the ability to read almost any written language. It may be cast in one of three modes: \n\nIn the first mode, the spell allows the caster to read any number of written works in a variety of languages. This mode lasts for 1 turn per caster level. \n\nIn the second mode, the spell allows the caster to read any one book or tome; this mode lasts 3 hours per caster level. \n\nIn the third mode, the spell allows the caster to read any one non-magical scroll or other single-sheet document; this mode is permanent. \n\nThis spell does not work on any sort of magical text, such as spell scrolls or spellbooks; see read magic, below, for the correct spell to use in such cases. \n\nThe spell grants the ability to read the texts, but does not in any way hasten the reading nor grant understanding of concepts the caster doesn't otherwise have the ability to understand. Also, for this spell to function, there must be at least one living creature that can read the given language somewhere on the same plane. The knowledge is not copied from that creature's mind; rather, it is the existence of the knowledge that enables the spell to function."
@@ -1021,7 +1021,7 @@
       "magic-user": 4,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 4
     },
     "duration": "instantaneous",
     "description": "This spell removes any and all ordinary curses afflicting a creature. It does not generally remove the curse from a magic item such as a sword or suit of armor, but a character afflicted by a cursed item of this type will be freed of it long enough to discard the item (a turn, at least). \n\nSome special curses are more difficult to remove, and may require a caster of a certain minimum level. A very few curses created by godlike beings cannot be removed by this spell at all. \n\nThe reverse of this spell, bestow curse, allows the caster to place a curse on the subject. A save vs. Spells is allowed to resist. The caster must choose one of the following three effects:\n\n<ul><li>-4 decrease to an ability score (minimum 1).</li><li>-4 penalty on attack rolls and saves.</li><li>Each round of combat, the target has a 50% chance to act normally; otherwise, it takes no action.</li></ul>\n\nThe caster may also invent their own curse, but it should be no more powerful than those described above. The curse thus bestowed cannot be dispelled, but it can be removed with a remove curse spell."
@@ -1034,7 +1034,7 @@
       "magic-user": null,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 1
     },
     "duration": "instantaneous (2 turns)",
     "description": "This spell will calm the creature touched. If the target creature is currently subject to any sort of magical fear, it is allowed a new save vs. Spells to resist that fear, at a bonus of +1 per level of the caster. \n\nThe reverse of this spell, cause fear, causes one target creature within 120' to become frightened; if the target fails to save vs. Spells, it flees for 2 turns. Creatures with 6 or more hit dice are immune to this effect."
@@ -1138,7 +1138,7 @@
       "magic-user": null,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 3
     },
     "duration": "3 rounds/level",
     "description": "With this spell the caster causes the corpse of an intelligent creature to become animated and to answer the caster's questions. It does not matter how long the corpse has been dead, but it must be essentially intact with at least a complete mouth in order to answer questions. \n\nThe corpse will answer at most one question per two caster levels, but if the duration expires any remaining questions are lost. The corpse only knows what it knew when it was alive; this includes the languages it knew in life. Thus, the caster must share a language with the deceased in order to get any questions answered at all. \n\nThe answers given are drawn from knowledge \"imprinted\" on the corpse during life; the caster does not in any case actually communicate with the spirit of the deceased creature. The corpse cannot retain any information given to it, and does not even remember any previous instances of communication via this spell. \n\nThe answers given may not be useful for various reasons. If the corpse knew the caster when it was alive, or if the caster is a member of a group the deceased disliked, it may choose to lie or mislead the caster. If the caster asks the corpse questions of a personal nature, or questions that indicate the caster may be working against whatever interests the corpse had in life, it will almost certainly seek to mislead the caster. \n\nIf the corpse has been roused by this spell within the last seven days, the spell will fail. Undead creatures (including the remains of defeated undead creatures) cannot be affected by this spell."
@@ -1255,7 +1255,7 @@
       "magic-user": 1,
       "druid": null,
       "illusionist": 1,
-      "necromancer": null
+      "necromancer": 1
     },
     "duration": "1 turn/level",
     "description": "This spell causes the caster's voice to appear to come from another location within range, for example, from a dark alcove or statue. The caster may choose a new location each round if desired, and can cause the spell to temporarily abate without ending it and then resume it again at any time within the given duration."
@@ -1281,7 +1281,7 @@
       "magic-user": 6,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 6
     },
     "duration": "permanent",
     "description": "Using this spell the caster creates an iron wall. The wall stands upright, and consists of up to one 10'x10' square section, one inch thick, per caster level. The caster can increase the thickness of the wall with a proportionate reduction in the area; for example, doubling the thickness halves the area. The caster may choose to make the wall smaller than the maximum size if desired. The wall may not be made less than one inch thick, and must always be created in contact with the ground or floor beneath it. It is always a flat plate with no bends, but the edges do not have to be straight; indeed, the caster can cause the wall edge to mold itself around any obstructing object very closely. The wall cannot otherwise be created such that it occupies the space of any object or creature. \n\nIf the caster wishes, the wall edges will bond to any inanimate materials they touch (stone walls, soil, furnishings, and so on). If this is not done, the wall may be unsupported (as determined by the GM based on the situation) and will thus likely fall. If left unattended, there is an equal chance it will fall in either direction in 1d6 rounds, but it can be pushed in a specific direction by any character having a minimum of Strength score of 13, or any monster with 4 or more hit dice. Several creatures can work together to do so if desired. (If the optional Ability Roll rule is being used, a Strength roll at -3 is sufficient to topple the wall.) \n\nWhen the wall falls, any creatures it falls upon are likely to be injured or killed. If it is possible for a character or creature to escape the area (i.e. it has sufficient movement rate and is not otherwise prevented from doing so), it is allowed to roll a save vs. Death Ray (with Dexterity bonus added). If this save is successful, the creature or character moves by the most direct route to the nearest safe space; if the save fails or it is for some reason impossible to flee, 10d6 points of damage are inflicted on that victim. Creatures larger than ogre-sized are immune to being crushed and will simply be knocked down if the save fails. \n\nThe wall is permanent, as indicated, but being made of iron is susceptible to rust and corrosion."
@@ -1294,7 +1294,7 @@
       "magic-user": 5,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 5
     },
     "duration": "permanent",
     "description": "Using this spell the caster creates a stone wall. The wall is composed of up to one 10'x10' square section, one foot thick, per caster level. The caster can form this wall into almost any shape, with some restrictions. The caster can increase the thickness of the wall with a proportionate reduction in the area; for example, doubling the thickness halves the area. The wall cannot be created such that it occupies the space of any object or creature. It must be adequately supported by existing stone, which it will bond with automatically, but need not be supported over its entire area. For example, a wall of stone may be formed into a bridge over a stream or chasm, so long as both ends of the bridge rest solidly upon (and bond with) existing stone. \n\nBridges longer than 20 feet must be arched, buttressed, or both in order to stand; this extra construction reduces the wall's usable volume by half, as does creating a wall with battlements, crenelations, and similar basic structural elements. No complex structural elements may be created by this spell. \n\nThough made by magic, the wall is made of stone and can be broken or damaged just as if it were ordinary stone. \n\nThe wall can be formed into a container to trap creatures, and if this is attempted the targets of the spell are allowed to save vs. Death Ray to avoid being trapped. If the save is successful the targets are able to make up to one full move to a space outside the container."
@@ -1333,7 +1333,7 @@
       "magic-user": 4,
       "druid": null,
       "illusionist": 5,
-      "necromancer": null
+      "necromancer": 4
     },
     "duration": "6 turns",
     "description": "With this spell the caster creates an invisible magical \"eye\" through which they can see. The eye has Darkvision with a range of 30 feet, but otherwise sees exactly as the caster would. It can be created in any place the caster can see, up to a range of 240 feet away, and thereafter can move at a rate of 40 feet per round as directed by the caster. The eye will not move more than 240 feet away from the caster under any circumstances. The eye cannot pass through solid objects, but as it is exactly the size of a normal human's eye, it can pass through holes as small as 1 inch in diameter. The caster must concentrate to use the eye."
@@ -1346,7 +1346,7 @@
       "magic-user": 2,
       "druid": null,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 2
     },
     "duration": "permanent",
     "description": "This spell magically holds shut a door, gate, window, or shutter of wood, metal, or stone. The magic affects the portal just as if it were securely closed and normally locked. The effect lasts indefinitely. Knock can be used to open the doorway without ending the spell, and dispel magic can be used to end it permanently. The caster of this spell can easily open the door or other portal without ending the spell, as can a Magic-User three or more levels higher than the caster."
@@ -1359,7 +1359,7 @@
       "magic-user": null,
       "druid": 6,
       "illusionist": null,
-      "necromancer": null
+      "necromancer": 5
     },
     "duration": "instantaneous",
     "description": "With the utterance of a single word this spell transports the caster to a place of refuge which they designate when preparing the spell. The place must be Known Well (as explained for teleport) to the caster to be so designated. This spell cannot transport the caster beyond their current plane of existence. \n\nThe caster can bring along objects or creatures, not to exceed 300 pounds plus 100 pounds per level above 10th. The caster must be in contact with all objects and/or creatures to be transported (although creatures to be transported may be in contact with one another, with at least one of those creatures in contact with the caster). \n\nUnwilling creatures cannot be transported by this spell, nor can items in their possession. If the caster or one of their passengers is holding an object that is also being held by an unwilling creature, the latter can retain possession of the object with a successful save vs. Spells."
