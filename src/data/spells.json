@@ -70,7 +70,7 @@
     "level": {
       "cleric": 2,
       "magic-user": null,
-      "druid": null,
+      "druid": 2,
       "illusionist": null,
       "necromancer": null
     },
@@ -200,7 +200,7 @@
     "level": {
       "cleric": 4,
       "magic-user": null,
-      "druid": null,
+      "druid": 1,
       "illusionist": null,
       "necromancer": null
     },
@@ -226,7 +226,7 @@
     "level": {
       "cleric": 3,
       "magic-user": null,
-      "druid": null,
+      "druid": 3,
       "illusionist": null,
       "necromancer": null
     },
@@ -239,7 +239,7 @@
     "level": {
       "cleric": 1,
       "magic-user": null,
-      "druid": null,
+      "druid": 1,
       "illusionist": null,
       "necromancer": null
     },
@@ -252,7 +252,7 @@
     "level": {
       "cleric": 4,
       "magic-user": null,
-      "druid": null,
+      "druid": 4,
       "illusionist": null,
       "necromancer": null
     },
@@ -317,9 +317,9 @@
     "level": {
       "cleric": 1,
       "magic-user": 1,
-      "druid": null,
+      "druid": 1,
       "illusionist": 2,
-      "necromancer": null
+      "necromancer": 1
     },
     "duration": "2 turns",
     "description": "The caster of this spell is able to detect enchanted or enspelled objects or creatures within the given range by sight, seeing them surrounded by a pale glowing light. Only the caster sees the glow. Invisible creatures or objects are not detected by this spell, but the emanations of the invisibility magic will be seen as an amorphous glowing fog, possibly allowing the caster (only) to attack the invisible creature at an attack penalty of only -2."
@@ -356,7 +356,7 @@
     "level": {
       "cleric": 5,
       "magic-user": null,
-      "druid": null,
+      "druid": 5,
       "illusionist": null,
       "necromancer": null
     },
@@ -395,7 +395,7 @@
     "level": {
       "cleric": 2,
       "magic-user": null,
-      "druid": null,
+      "druid": 2,
       "illusionist": null,
       "necromancer": null
     },
@@ -408,7 +408,7 @@
     "level": {
       "cleric": 6,
       "magic-user": null,
-      "druid": null,
+      "druid": 6,
       "illusionist": null,
       "necromancer": null
     },
@@ -486,7 +486,7 @@
     "level": {
       "cleric": 3,
       "magic-user": null,
-      "druid": null,
+      "druid": 5,
       "illusionist": null,
       "necromancer": null
     },
@@ -683,7 +683,7 @@
       "magic-user": 1,
       "druid": null,
       "illusionist": 1,
-      "necromancer": null
+      "necromancer": 1
     },
     "duration": "6 turns + 1/level",
     "description": "This spell creates a light equal to torchlight which illuminates a 30' radius area well (with dim light extending for an additional 20') around the target location or object. This effect is stationary when cast in an area, but it can be cast on a movable object or even onto a character or creature. \n\nReversed, light becomes darkness, creating an area of darkness just as described above. This darkness blocks out Darkvision and negates mundane light sources. Wherever both spells overlap they cancel out, leaving only normal illumination in the overlapping area.\n\nA light spell may be cast to dispel the darkness spell of an equal or lower level caster (and vice versa), leaving neither spell active; likewise, a darkness spell can cancel the light spell of an equal or lower level caster.\n\nEither version of this spell may be used to blind an opponent by means of casting it on the target's ocular organs. The target is allowed a saving throw vs. Death Ray to avoid the effect, and if the save is made the spell does not take effect at all. A light or darkness spell cast to blind does not have the given area of effect (that is, no light or darkness is shed around the victim)."
@@ -720,7 +720,7 @@
     "level": {
       "cleric": null,
       "magic-user": 6,
-      "druid": null,
+      "druid": 4,
       "illusionist": null,
       "necromancer": null
     },
@@ -811,7 +811,7 @@
     "level": {
       "cleric": 4,
       "magic-user": null,
-      "druid": null,
+      "druid": 3,
       "illusionist": null,
       "necromancer": null
     },
@@ -1006,7 +1006,7 @@
     "level": {
       "cleric": null,
       "magic-user": 6,
-      "druid": null,
+      "druid": 6,
       "illusionist": null,
       "necromancer": null
     },
@@ -1123,7 +1123,7 @@
     "level": {
       "cleric": 2,
       "magic-user": null,
-      "druid": null,
+      "druid": 2,
       "illusionist": null,
       "necromancer": null
     },
@@ -1266,7 +1266,7 @@
     "level": {
       "cleric": 5,
       "magic-user": 4,
-      "druid": null,
+      "druid": 5,
       "illusionist": null,
       "necromancer": null
     },
@@ -1305,7 +1305,7 @@
     "level": {
       "cleric": null,
       "magic-user": 3,
-      "druid": null,
+      "druid": 3,
       "illusionist": null,
       "necromancer": null
     },
@@ -1357,7 +1357,7 @@
     "level": {
       "cleric": 6,
       "magic-user": null,
-      "druid": null,
+      "druid": 6,
       "illusionist": null,
       "necromancer": null
     },
