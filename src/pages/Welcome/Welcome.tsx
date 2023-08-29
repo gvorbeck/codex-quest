@@ -1,13 +1,19 @@
 import { Image, Typography } from "antd";
 import { useOutletContext } from "react-router-dom";
 import IronhideSheet from "../../assets/images/ironhide_sheet.png";
+import classNames from "classnames";
 
 export default function Welcome() {
   const outletContext = useOutletContext() as { className: string };
+  const welcomeClassNames = classNames(
+    outletContext.className,
+    "grid",
+    "grid-cols-1",
+    "md:grid-cols-2",
+    "gap-8"
+  );
   return (
-    <div
-      className={`${outletContext.className} grid grid-cols-1 md:grid-cols-2 gap-8`}
-    >
+    <div className={welcomeClassNames}>
       <div>
         <div>
           <Typography.Title
