@@ -2315,6 +2315,522 @@
   },
   {
     "name": "Black Tentacles",
-    "range": "100' + 10' / level"
+    "range": "100' + 10' / level",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "A field of 10-foot-long rubbery tentacles will spring from the ground. The area is up to 30 feet by 30 feet, and they will appear from whatever surface is present, including water. \n\nThe tentacles will attack any creature in the area with the intent to wrestle them (as in the Wrestling rules in the Basic Fantasy RPG Core Rules). They attack with the caster’s attack bonus and are considered to have a Strength of 18. There are more than enough tentacles to individually attack as many targets as can be present. If the attack succeeds, the target is held immobile and takes 1d6 points of damage each round it is held. \n\nAny creature that is not held by a tentacle may still only move through the affected area at half speed."
+  },
+  {
+    "name": "Blight",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 5,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell withers a single plant of any size. It causes 1d6 points of damage per level of the caster to the touched plant creature. The creature is allowed a save vs. Spells for half damage. If the plant is not a creature, it immediately withers and dies with no saving throw. \n\nOnly the touched plant is affected; the spell has no effect on anything else in the area."
+  },
+  {
+    "name": "Boneskin",
+    "range": "self",
+    "level": {
+      "illusionist": null,
+      "necromancer": 2,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "Protects the caster; the caster manifests a chitinous bonelike armor, giving the caster a +4 bonus to AC. No actual bulk is added to the caster, so it doesn’t affect other spellcasting."
+  },
+  {
+    "name": "Call Poltergeist",
+    "range": "5' / level",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 hour / level",
+    "description": "This spell binds a minor spirit to an area. The poltergeist is an invisible, shapeless force that performs simple tasks at the Necromancer’s command. A poltergeist can run and fetch things, open unstuck doors, and hold chairs, as well as clean and mend. The poltergeist can perform only one activity at a time, but it repeats the same activity over and over again if told to do so as long as the Necromancer remains within range. A poltergeist can only open normal doors, drawers, lids, and the like, having an effective Strength score of 3. The poltergeist can trigger traps and such, but it can exert only 20 pounds of force, which may not be enough to activate certain pressure plates and other devices."
+  },
+  {
+    "name": "Chill",
+    "range": "10'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "2 rounds",
+    "description": "This spell does 1d4 points of damage to one creature within range. Furthermore, the creature must save vs. Paralysis or suffer -1 to melee hit and damage rolls for 1d6 rounds. A large heat source nearby gives a +2 to save. The caster may use this spell on one target up to 2 rounds after casting."
+  },
+  {
+    "name": "Command Undead",
+    "range": "30'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "This spell allows the caster to influence an undead creature. If the undead creature is intelligent, this spell operates as charm person, except that the caster can influence 2 HD per caster level, instead of just a flat 4 HD. It otherwise operates the same, including duration. \n\nIf the undead creature is unintelligent, the caster immediately gains complete control, the creature gets no saving throw, and the duration is permanent. Any unintelligent undead controlled using this spell count against the total control limit from re-animation."
+  },
+  {
+    "name": "Control Undead",
+    "range": "60'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 6,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "6 rounds / level",
+    "description": "This spell allows for complete control of up to 3 HD/caster level of undead for a short period of time. Verbal control is required, but they will understand regardless of the language used. If communication is not possible, they will still not attack. Intelligent undead creatures may save vs. Spells to resist and will remember if they are controlled. Unintelligent undead do not get a saving throw and the control is permanent. Any unintelligent undead controlled using this spell count against the total control limit from re-animation."
+  },
+  {
+    "name": "Corpse Feast",
+    "range": "5' / level",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell heals the caster and nearby active undead beings by draining the last energies from any fresh corpses (no more than an hour old) within the spell range. The corpse must have been a living sentient being (i.e. not animal, undead, construct, elemental, etc). Any corpse drained using this spell provides vigor to the caster and his or her active undead allies within range, healing 1d4 hit points per corpse, up to their maximum. Slain or destroyed undead do not heal or rise anew. Any corpses consumed by this spell cannot be raised or resurrected by any means, even a wish."
+  },
+  {
+    "name": "Corpse Servant",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 hour / level",
+    "description": "This spell allows the caster to temporarily animate skeletons or zombies. A number of hit dice equal to the caster's level may be animated for up to one hour per caster level. These non-permanent undead do not count towards the re-animation spell limitations, but they otherwise conform to the permanent undead created by that spell. Only one instance of this spell may be active at a time for any particular caster. \n\nAnimated skeletons have hit dice equal to the number the creature had in life; for skeletons of humans or demihumans, this means one hit die, regardless of the character level of the deceased. Zombies have one more hit die than the creature had in life. An animated skeleton can be created only from a mostly intact skeleton; a zombie can be created only from a mostly intact corpse. The caster must touch the remains to be animated."
+  },
+  {
+    "name": "Decay Flesh",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This is a version of the cause light wounds spell (the reverse of cure light wounds), dealing 1d6+1 points of damage to the creature affected by it. The caster must make a successful attack to inflict the damage. A missed attack roll does not dispel the effect, as it can be active until used or until a number of rounds equal to the caster's level have passed. \n\nUnlike the Clerical spell mentioned, this spell may not be reversed. However, this spell does work upon undead creatures in the opposite fashion; they are healed 1d6+1 hit points instead."
+  },
+  {
+    "name": "Drainblade",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "This spell imbues an edged weapon with the ability to drain blood with each successful strike made against a living creature. When a living creature is hit by a drainbladed weapon, the target suffers 1 additional point of damage. If the wielder of the weapon is injured, the extra point of damage is transferred to him or her as healing energy. In no way can this healing energy grant more hit points than the wielder's normal maximum. \n\nAgainst nonliving creatures, such as undead, golems, living statues, etc, this spell has no effect."
+  },
+  {
+    "name": "Ectoplasm",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "When cast upon a willing intelligent creature, this spell grants the being the ability to become semi-transparent and immaterial. While in this ectoplasmic state, magical weapons or weapons with certain special properties are necessary to strike the recipient. Any stealth checks such as Move Silently or Hide are made at +20%, and the character may move through materials up to 1 inch thick per level of the caster. Some materials may prevent passage such as lead, gold, or other materials with special properties (as determined by the GM). While able to move through materials and effectively weightless, the ectoplasmic being does not gain any other special movement modes like flying or levitation; walking upon materials such as water is possible though.\n\nThe character in an ectoplasmic state may not make physical attacks but may cast spells that do not require physical contact. While the spell is active, the individual may choose to revert back and forth between corporeal and incorporeal forms on his or her turn, remaining in the chosen state until their next turn. The spell cannot be cast upon on an unwilling individual and fails completely if attempted. Likewise, unintelligent or animal intelligence creatures do not possess understanding of changing their physical state, so the spell is wasted on them."
+  },
+  {
+    "name": "Enervation",
+    "range": "50'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "The caster points a finger at their intended target and rolls a ranged attack roll against the target that ignores armor (but not any Dexterity bonus). If the narrow ray of crackling black energy hits, the target suffers 1d4 negative levels and all of the effects described in Energy Drain in the Basic Fantasy RPG Core Rules. There is no saving throw, only the attack roll. \n\nIf the target survives, it will lose the negative levels (i.e. regain their levels) after a number of hours equal to the caster’s level. \n\nAn undead creature struck by the ray gains 5d4 temporary hit points for one hour."
+  },
+  {
+    "name": "Eyebite",
+    "range": "60'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 6,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / 3 levels",
+    "description": "Each round the caster may target a single living creature for the duration of the spell. The affected creature suffers effects depending on its total hit dice. If the target has 10 HD or more, it is sickened. If the target has 5 HD through 9 HD, it is panicked and sickened. If the target has 4 HD or fewer, it is comatose, panicked, and sickened. The effects are cumulative and concurrent. \n\nTargeting each additional creature after the first requires an action, and only one may be targeted in a given round. \n\nThe target must save vs. Death Ray to avoid the worst effect of the spell. If the target is affected by more than one effect, the remaining effects are still present. \n\nIf a creature is sickened, it suffers from a -2 modifier for attack rolls, damage rolls, and saving throws. This effect lasts for 1 turn per caster level. \n\nIf a creature is panicked, it will flee for 1d4 rounds. After that, the victim will flee again for 1d4 rounds if it can still see the caster. Even after the fleeing ends, the creature is still affected by the sickening as described above. \n\nIf a creature is comatose, it falls into a coma for 1 turn per caster level. During this time, the victim cannot be awakened by any means short of dispelling the effect. Even if the coma is dispelled, the creature is still subject to fleeing if the caster is visible, and is still sickened. This is not a sleep effect."
+  },
+  {
+    "name": "Fireskull Familiar",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 2,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 hour / level",
+    "description": "This spell animates a single skull to serve the Necromancer. Wrapped in cold magical flames and gifted with a form of levitation-based flight, the flaming skull can fetch small items, convey messages, or other similar tasks for the Necromancer. When not tasked with a specific duty, the fireskull familiar generally hovers near its master, providing light equal to torchlight. A Necromancer may have only one instance of this spell active at a time. \n\nSubsequent castings have no effect unless the first instance of the spell is dismissed or destroyed. \n\nThe fireskull familiar is not designed for combat, having hit points equal to 25% of the Necromancer's total hit points. The skull has an Armor Class of 13 and only a single attack for 1d2 points of damage, attacking with the same basic chance to hit as the Necromancer. The skull can be charged with spells that must be delivered by touch, with the spell effect being available to the skull on the following round. While a fireskull familiar is within 5 feet, the caster's chance of being surprised is reduced by 1. \n\nOf interesting note, although each skull does not remember any details of its former life, it does retain many personality traits, making each skull distinct from the next. Practitioners of this spell often have favorite skulls that they use regularly, and skulls that they are loathe to animate. Any particular skull that is destroyed through damage may never again be used."
+  },
+  {
+    "name": "Fossilize",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "permanent",
+    "description": "This spell permanently hardens the bones of one skeletal undead creature, making the bones denser and stronger. The fossilized skeleton permanently gets +2 on damage rolls, +4 on its AC, and its damage resistance is enhanced. A fossilized skeleton takes only quarter-damage from edged weapons, and half-damage from any other weapons. The fossilized skeleton becomes immune to normal arrows, bolts, and bullets. Magical missile weapons do only their 'plus' in damage. \n\nWhile this spell is permanent, there is a drawback. The newly fossilized skeleton may not be repaired or otherwise 'healed', as the organic materials that made up the bones has been completely replaced by minerals. Intelligent skeletal undead would not normally want this spell applied to themselves, but the spell would affect them nevertheless."
+  },
+  {
+    "name": "Ghoulish Hands",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 2,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "This spell causes the hands of one living creature to become like the horrible claws of ghouls. The bearer of these ghoulish hands may make two claw attacks that cause 1d4 points of damage each. If the recipient of this spell already had better claw attacks, then he or she gains a +2 damage bonus to their damage rolls while this spell is in effect. In addition to the damage, those struck by the hands must save vs. Paralysis or be paralyzed for 2d8 turns (Elves are immune), exactly like the attacks of a ghoul. \n\nRecipients of this spell must be true living creatures; other creatures such as undead, constructs, elementals, and the like are immune. There is a 1% non-cumulative chance that on any particular casting of this spell that the recipient is actually infected with Ghoul Fever (per the monster description), which if proper curative steps are not taken, may ultimately result in the recipient's death and rising as an actual ghoul."
+  },
+  {
+    "name": "Grave Sanctuary",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "Similar to the Druid spell tree sanctuary, this spell enables the caster to create an invisible entry into a grave, mausoleum, sarcophagus, large tombstone, or similar item associated with the repose of the dead. The entry is visible to undead and other Necromancers, but this does not grant any special access to the doorway. Once the spell is complete, the Necromancer may enter the space, effectively disappearing from sight. Only one grave may be effected by grave sanctuary at a time. \n\nThe Necromancer is completely aware of his or her surroundings while in the grave, gaining the bonus of 360-degree vision and hearing, as well as being able to detect changes in the immediate temperature surrounding the site. Another benefit of this spell is that each turn the Necromancer rests inside the grave counts as a full hour of sleep, so the Necromancer may meditate to memorize spells while within the magical sanctuary. Also, if the grave site is on unhallowed ground or an area otherwise associated with hauntings and the like, then the Necromancer heals 1d4 HP per turn spent inside the grave. \n\nWhile inside the grave, the Necromancer does lose any sense of taste, smell, or touch, and may not speak or otherwise cast spells while inside the grave's protection. If the grave itself is unearthed or broken into in some way, then the Necromancer takes 2d10 points of damage and is cast out into the nearest available space. This kind of undertaking should be roughly equivalent to actually digging a grave up, and not simply an attack against the earth."
+  },
+  {
+    "name": "Greater Fear",
+    "range": "30'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "This spell sends an invisible wave of fear out forward of the caster to a range of 30 feet. Anyone in the area must save vs. Spells or be panicked. A panicked creature will drop whatever it is holding and flee using any means necessary. If cornered, the creature will cower in fear. The victim will also suffer a -2 to all saving throws. The creature will do this for the duration of the spell. If a save is made, the victim is still shaken and suffers -2 to attack rolls and saving throws for 1 round."
+  },
+  {
+    "name": "Halt Undead",
+    "range": "200'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "This spell will render up to three undead creatures immobile for the duration of the spell (similar to hold person, but only affecting undead and potentially affecting more than one target). Intelligent undead get a save vs. Spells to avoid; unintelligent undead get no saving throw."
+  },
+  {
+    "name": "Locate Corpse",
+    "range": "360'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "This spell allows the caster to sense the direction of the closest corpse or remains of a type usable for spells such as re-animation or other similar spells. Throughout the duration, the caster need simply concentrate on the general type of corpse (animal, humanoid, large size, etc) and of applicable state (intact, fresh, skeletal, etc). The nearest remains fitting the criteria is located if more than one is within range. Upon arrival at the location of the nearest corpse, the caster can again concentrate to locate another corpse, as long as the spell duration lasts. \n\nSpecific remains belonging to a particular individual can be located with this spell, so long as the caster knew the individual personally during life. This spell is blocked by even a thin sheet of lead or gold. Creatures, whether living or in states of undeath, cannot be found by this spell."
+  },
+  {
+    "name": "Maggot Spray",
+    "range": "10'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 2,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "From the caster’s mouth sprays a stream of filth containing live flesh-eating maggots, affecting all within a 10-foot section immediately adjacent to and chosen by the caster. Those struck by the spray must save or be sickened for 2d6 rounds (like the stench spell, causing a penalty of -2 to their attacks). Additionally, the maggots eat into the flesh, causing 1d4 points of damage immediately and on subsequent rounds an additional 1d4 points of damage per round for a number of rounds equal to the caster's level. Individuals may stop the damage by using an entire round to brush off the maggots (no movement, attacks, and loss of any dexterity or shield bonuses during this round). Those taking the time to brush off the maggots take normal damage that round. Removing the maggots does not remove the sickening effect of those who failed their save."
+  },
+  {
+    "name": "Mask of Life",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 5,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 hour / level",
+    "description": "This spell makes a single undead creature appear to be alive. The caster can decide which race and style of clothes is worn by an undead creature. The spell will also make the target’s movements appear life-like. The illusion will create appropriate ambient effects (smells, sounds, clothing textures, and such) that would be expected for the life-like appearance. If the appearance is that of a living version of the target, anyone interacting with the target takes a -5 penalty to any saving throw to disbelieve the illusion. If the target attacks or does anything that only the undead creature could do, the penalty is removed."
+  },
+  {
+    "name": "Minor Warding",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 2,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "This spell cloaks an object of less than 10 cubic feet with an invisible aura of harmful energy. Thereafter, the first living creature touching the object sets off the ward, receiving 3d6 points of damage; no saving throw is allowed to avoid the damage. The object is unaffected by the discharge of the minor ward. \n\nNon-living creatures such as undead or golems will not set off a minor ward. The caster is free to handle the object at will. The maximum duration of the spell is 1 hour per level of the caster."
+  },
+  {
+    "name": "Mummify",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 5,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "permanent",
+    "description": "After careful ceremonial preparations lasting five days, and the application of many rare and expensive unguents, the caster is able to call back the spirit of the dead to reanimate its corpse as a mummy. Mummies so created are of the standard sort (see its monster entry). \n\nMummies do not count against the normal limits of controllable undead (per re-animation spell), but the caster can maintain control over as many Hit Dice of mummies as his or her own level. \n\nMummies do not travel well, being slow and quickly wear down, taking damage on long journeys. They make better guardians for the animator's lair. A separate casting of the spell is necessary for each mummy created. It might be possible to create a mummy from a large humanoid such as a giant, however the difficulty will be greater (the GM determines how much more difficult). \n\nMore powerful mummies, such as those with intact class-based powers, are generally created through the use of the undeath spell. \n\nMummification is generally in the realm of the Necromancer, but occasionally Clerics of certain cults might have access as well."
+  },
+  {
+    "name": "Portection from Undead*",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "This spell works almost identically to the protection from evil spell by warding a creature from attacks by undead creatures, from mental control, and from summoned creatures regardless of any moral or ethical leanings. It creates a magical barrier around the subject at a distance of 1 foot. The barrier moves with the subject and has three major effects: \n\nFirst, the subject gains a +2 bonus to AC and on saves. Both of these bonuses apply against attacks made or effects created by undead creatures or beings that the GM decides have a strong connection with death or undead. \n\nSecond, the barrier blocks any attempt to possess the warded creature (by a magic jar attack, for example) or to exercise mental control over the creature (including charm spells or effects). The protection does not prevent such effects from targeting the protected creature, but it suppresses the effect for the duration of the protection from undead spell. If the protection from undead effect ends before the effect granting control does, the would-be controller would then be able to command the controlled creature. Likewise, the barrier keeps out a possessing life force but does not expel one if it is in place before the spell is cast. \n\nThird, the spell prevents bodily contact by summoned creatures (regardless of whether they are undead or not). This causes the natural weapon attacks of such creatures to fail and the creatures to recoil if such attacks require touching the warded creature. The protection against contact by summoned creatures ends if the warded creature makes an attack against or tries to force the barrier against the blocked creature. \n\nReversed, this spell becomes quite potent as protection from living. It functions in all ways as described above, save that “living” creatures are kept away, rather than dead or “undead” creatures. Necromancers often use both versions of the spell to protect themselves from threats by both the living population as well as powerful undead that may try to command the Necromancer such as ghosts or vampires."
+  },
+  {
+    "name": "Protection from Undead 10' Radius*",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "This spell functions exactly as protection from undead, but with a 10-foot radius rather than 1. All within the radius receive the protection; those who leave and then re-enter, or who enter after the spell is cast, receive the protection as well. \n\nReversed, this spell becomes protection from living 10' radius, and functions exactly as the reversed form of protection from undead, except that it covers a 10-foot radius around the target rather than 1."
+  },
+  {
+    "name": "Ray of Exhaustion",
+    "range": "50'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "6 rounds / level",
+    "description": "The caster points a finger at his or her intended target and rolls a ranged attack roll against the target that ignores armor (but not any dexterity bonus). If the narrow black ray hits, the target must save vs. Spells or suffer a -6 adjustment to its Strength and Dexterity for the duration of the spell. If the save is made, the reduction is only -2."
+  },
+  {
+    "name": "Re-Animation",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "Virtually identical to the Cleric or Magic-User animate dead spell, this spell turns the bones or bodies of dead creatures into undead skeletons or zombies that follow the caster's spoken commands. They remain animated until they are destroyed. The Necromancer may animate a number of hit dice of undead equal to three times his or her caster level, and no more. Animated skeletons have hit dice equal to the number the creature had in life; for skeletons of humans or demi-humans, this means one hit die, regardless of the character level of the deceased. Zombies have one more hit die than the creature had in life. An animated skeleton can be created only from a mostly-intact skeleton; a zombie can be created only from a mostly-intact corpse. The caster must touch the remains to be animated. The caster may control no more hit dice of undead than 6 times his or her level."
+  },
+  {
+    "name": "Rot Flesh",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell works exactly like the decay flesh spell, save that it deals 2d6 points of damage plus 1 point per caster level to the creature affected by it. The caster must make a successful attack to inflict the damage. A missed attack roll does not dispel the effect, as it can be active until used or a number of rounds equal to the caster's level have passed. \n\nJust like the lower level decay flesh spell, this spell may not be reversed, and similarly, this spell works upon undead creatures in the opposite fashion; they are healed for 2d6 points plus 1 point per caster level worth of damage instead."
+  },
+  {
+    "name": "Spirit Wrack",
+    "range": "special",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell deals 1d8 points of damage per caster level to any one particular incorporeal undead being such as wraiths, spectres, ghosts, or similar entities within sight of the caster. Alternatively, the caster may choose to cause a burst of 1d4 points of damage per level to any such beings within 20 feet of the caster, whether visible or not. \n\nMinor spiritual beings such as poltergeists haunting an area are usually destroyed outright by this spell. Any affected being is allowed a save for half damage. Some persistent types of undead may reform after the passage of some time (typically days later), and may require certain rituals or other requirements be fulfilled before being permanently destroyed. This spell only affects true incorporeal undead and does nothing against other types of beings, even if they happen to be insubstantial at the time; vampires that happen to be in gaseous form are immune to this spell's effect."
+  },
+  {
+    "name": "Stench",
+    "range": "self",
+    "level": {
+      "illusionist": null,
+      "necromancer": 1,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "This spell creates a sickly stinking smell of rot and decay that emanates from the caster's body. The stench duplicates the sickening effect of ghasts (see its entry in the Basic Fantasy Field Guide 1). The smell of death and corruption surrounding the caster is so overwhelming that living creatures within 10 feet must succeed a save vs. Poison or be sickened for 2d6 rounds (-2 to attack rolls). For every three levels the caster has, a penalty of -1 on the save is applied to those affected (at 3rd the save is at -1, at 6th level at -2, at 9th level at -3, etc). A creature that successfully saves cannot be affected again by this spell or a ghast’s stench for 24 hours. A neutralize poison spell removes the effect from a sickened creature."
+  },
+  {
+    "name": "Summon Spirit",
+    "range": "10' / level",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "Upon casting this spell, a malevolent spirit in the form of a wraith is called to serve the caster for 1 turn per level. If the caster is 10th level he or she may choose between 1d4 wraiths or one spectre. At 15th level the caster may opt to summon 2d4 wraiths, 1d3 spectres, or one ghost. The summoned spirits will serve according to its ability, usually by combating the caster's foes, and generally disappearing at the end of the spell's duration. \n\nOccasionally the spirit does not depart at the end of the spell duration, but simply becomes free of the compulsion to serve and will usually attack the caster. The chance is 5% for any particular wraith, 10% for spectres, and 20% for a ghost. When this occurs, the spirit will remain in the area for a number of rounds equal to the caster's level before departing. A spirit with less than half its hit points will not stay regardless. The caster would be wise to have protections or other contingencies against the rogue spirits."
+  },
+  {
+    "name": "Symbol of Fear",
+    "range": "see text",
+    "level": {
+      "illusionist": null,
+      "necromancer": 6,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "see text",
+    "description": "This spell functions like symbol of pain, except that all creatures within 60 feet of the symbol of fear become panicked for 1 round per caster level. A panicked creature will drop whatever it is holding and flee using any means necessary. If cornered, the creature will cower in fear. The victim will also suffer a -2 to all saving throws. The creature will do this for the duration of the spell. If a save is made, the victim is still shaken and suffers -2 to attack rolls and saving throws for 1 round."
+  },
+  {
+    "name": "Symbol of Pain",
+    "range": "see text",
+    "level": {
+      "illusionist": null,
+      "necromancer": 5,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "see text",
+    "description": "With this spell, the caster writes a potent rune on a surface. When triggered each creature within 60 feet of the **symbol of pain** are wracked with pain. This pain imposes a -4 to all attack rolls, damage rolls, and saving throws. These effects last for as long as the creature stays within range of the symbol, and for 1 hour after leaving the area.\n\nOnce triggered, the symbol will remain active for 1 turn per caster level. After that the symbol is discharged. A symbol is permanent until discharged; it may be removed by **dispel magic** that targets the rune specifically.\n\nThe symbol is triggered by one or more of the following, as determined by the caster: a victim looks at the rune, reads the rune, touches the rune, or passes near the rune. Regardless of the triggering methods, it cannot be triggered by a creature more than 60 feet away. Once the spell is cast, the trigger methods cannot be changed.\n\nTriggering methods can be further modified by qualifiers, type of creature, race of creature, number of creatures, skip some number of triggers (so it is the third creature to touch it, not the first or second), or any other qualifier that is based on observable actions or details.\n\nThe symbol may also be assigned a password that will temporarily disable the symbol when the password is said as a creature enters the range of the symbol. Each time the range is entered, the password must be said again or the symbol will go off. This is set at the time of casting and cannot be changed."
+  },
+  {
+    "name": "Undeath",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 6,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "As a vile necromantic alternative to the reincarnation spell, this spell can be used to bring back individuals to the world of the living. Upon casting this spell, the caster brings back a dead character (or creature) in an undead state, whether as some sort of reanimated body or as spiritual or ghost-like form. Wicked, cruel, murderous, or so-called evil beings will often want to continue their predations in undeath, but for most beings the subject's soul is not willing to return in such a state. Most normal individuals roll a saving throw vs. Spells to avoid coming back (rolled as if they were still alive and well), and if successful the spell fails completely as the soul cannot be compelled to return.\n\nRoll on the following table to determine what sort of undead creature the character becomes. Entries marked with (FG) indicate creatures from the Basic Fantasy Field Guide 1.\n\n| d% | Undead Form |\n|---|---|\n| 01-25 | Ghoul |\n| 26–40 | Ghast (FG) |\n| 41-50 | Mummy |\n| 51-55 | Spectre |\n| 56-60 | Vampire |\n| 61-75 | Wight |\n| 81-90 | Wraith |\n| 85-90 | Ghost |\n| 91-00 | Other (GM's choice) |\n\nSince the dead character is returning in a state of undeath, all physical ills and afflictions are generally irrelevant. The condition of the remains is not really a factor so long as the body is largely intact. The magic of the spell repairs or otherwise accommodates any changes necessary to conform to the new undead state, the process taking one hour to complete. When the spell is finished, the new undead being becomes aware and active. The caster has absolutely no special control over the newly-'risen' being. Of course, subsequent spells may be cast, having completely normal effects upon the new undead.\n\nThe newly-undead character recalls the majority of its former life and form. Its class is unchanged, as are the character's Intelligence, Wisdom, and Charisma (but see below). The physical abilities of Strength, Dexterity, and Constitution should be re-rolled or determined by the parameters of the new form. The subject’s level (or Hit Dice) is reduced by 1; this is a real reduction, not a negative level, and is not subject to magical restoration. The subject of this spell takes on all the abilities, hindrances, and disadvantages of the new undead state, having either the undead creature's normal hit dice or will have hit points according to the character's reduced level, whichever is higher. In either case, the character's class abilities are available to the newly-risen form excepting any obviously contradicting situations. For instance, Climbing is probably of little importance to a ghost-like form.\n\nThe spell can thus create generally-superior undead beings who often go on to lead others of their kind. The undead creature gains all  abilities associated with its new form, including forms of movement and speeds, natural armor, natural attacks, extraordinary abilities, and the like, but also must confront any special tendencies of the new state. For instance, a newly risen ghoul hungers voraciously for fetid flesh, and a new vampire thirsts for blood. The compulsions of the undead is very strong, and the behaviors will soon overcome any previous relationships with living beings, although it may experience remorse over killing its former friends. For undead such as ghouls, ghasts, wights, and similar beings, the urges to kill and feed are so strong that they can become effectively mindless (-6 to Intelligence and Wisdom scores) until the urges are temporarily satisfied. Vampires have a bit more conscious control over their hunger and do not have this penalty. For other types of undead not listed here, the GM may assign relevant behaviors that must be followed.\n\nConstructs, elementals, and similar creatures cannot become undead. The creature must have originally been a living corporeal being with some semblance of intelligence. The GM has the final say whether this spell affects any specific being. Likewise the GM decides any special situations or special manifestations that may occur from the use of this spell. Generally, any character who becomes an undead immediately becomes an NPC under the control of the GM unless he or she has made special accommodations to allow for undead player characters.\n\n_**Note**: this spell is intended only for Necromancers, as the other spell-casting classes have access to similar types of spells (**reincarnation** and **raise dead**)._"
+  },
+  {
+    "name": "Undeath to Death",
+    "range": "240'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 6,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell functions exactly as **death spell**, except that it affects undead creatures rather than living creatures."
+  },
+  {
+    "name": "Vampiric Touch",
+    "range": "touch",
+    "level": {
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "The caster must make an attack roll. If successful, the caster deals 1d6 points of damage per two caster levels. The caster gains temporary hit points equal to the damage dealt. If the attack kills the target, the caster only gains as many temporary hit points as it took to kill the target, not the full number rolled. The temporary hit points will last for 1 hour."
+  },
+  {
+    "name": "Wall of Bones",
+    "range": "10' / level",
+    "level": {
+      "illusionist": null,
+      "necromancer": 4,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round / level",
+    "description": "An immobile wall of writhing interlocking bone and bone fragments rises from the earth. The wall is composed of up to one 10-foot x 10-foot square section, 1 foot thick, per caster level. Unlike the similar spell, wall of stone, the caster may not double the wall’s area by halving its thickness, as the structure is already very porous and would lose its structural integrity, but of course the wall can be made thicker. For instance, a 10th-level caster could conjure a section to fill in a 10-foot cube (10 feet x 10 feet x 1 foot, 10 sections thick). The wall cannot be conjured so that it occupies the same space as a creature or another object. The wall does not require concentration to maintain, but falls to pieces at the end of the spell duration.\n\nThe spell also differs from the wall of stone spell in that the semi-animated wall attacks those within close proximity to its structure (10 feet) for 2d4 piercing and slashing damage from the bones. The structure is not completely solid, so high-strength individuals may attempt to break through with a Strength check, but they take an additional 2d6+1/level points of damage while making the attempt for each 1 foot of thickness that they attempt to move through. A separate Strength check is necessary for each 1 foot of thickness of the wall section in order to break through. The bone wall does not attack the caster or any undead creatures. The wall of bones may be fashioned into simple structures such as ramps or bridges to span a rift, but these uses reduce the size by half so that supporting arches or buttresses can be included."
+  },
+  {
+    "name": "Waves of Fatigue",
+    "range": "30'",
+    "level": {
+      "illusionist": null,
+      "necromancer": 5,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn / level",
+    "description": "This spell sends an invisible wave of harmful energy out forward of the caster to a range of 30 feet. All living creatures in the area suffer a -2 adjustment to their Strength and Dexterity for the duration of the spell."
   }
 ]
