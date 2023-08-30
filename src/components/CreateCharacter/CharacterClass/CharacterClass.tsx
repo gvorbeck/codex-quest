@@ -120,7 +120,7 @@ export default function CharacterClass({
           .split(" ")
           .some(
             (className) =>
-              classes[className as ClassNamesTwo]?.spellBudget?.length
+              classes?.[className as ClassNamesTwo]?.spellBudget?.[0][0] !== 0
           ) && (
           <StartingSpells
             characterData={characterData}
