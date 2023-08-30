@@ -182,6 +182,17 @@ export const cleric: ClassSetup = {
     [6, 5, 4, 4, 3, 3],
     [6, 5, 5, 4, 3, 3],
   ],
+  powers: [
+    {
+      name: "Turn Undead",
+      costValue: 0,
+      costCurrency: "gp",
+      category: "weapons",
+      damage: "2d6",
+      amount: 1,
+      type: "holy",
+    },
+  ],
   details: {
     description:
       "Clerics are those who have devoted themselves to the service of a deity, pantheon or other belief system. Most Clerics spend their time in mundane forms of service such as preaching and ministering in a temple; but there are those who are called to go abroad from the temple and serve their deity in a more direct way, smiting undead monsters and aiding in the battle against evil and chaos. Player character Clerics are assumed to be among the latter group.\n\nClerics fight about as well as Thieves, but not as well as Fighters. They are hardier than Thieves, at least at lower levels, as they are accustomed to physical labor that the Thief would deftly avoid. Clerics can cast spells of divine nature starting at 2nd level, and they have the power to Turn the Undead, that is, to drive away undead monsters by means of faith alone (refer to page 57 in the Encounter section for details).\n\nThe Prime Requisite for Clerics is Wisdom; a character must have a Wisdom score of 9 or higher to become a Cleric. They may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling).",
