@@ -261,6 +261,7 @@ export default function AttackModal({
                 )}
               </div>
             )}
+            {attackingWeapon.type === "power" && <div>poop</div>}
           </div>
         ) : (
           <p>No weapon selected</p>

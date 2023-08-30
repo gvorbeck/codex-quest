@@ -1,3 +1,4 @@
+import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { SavingThrows } from "../../components/definitions";
 
 // type Power = {
@@ -39,7 +40,7 @@ export interface ClassSetup {
     titles: string[];
     stats: number[][];
   };
-  powers?: {}[];
+  powers?: EquipmentItem[];
   details?: {
     description?: string;
     specials?: string[];

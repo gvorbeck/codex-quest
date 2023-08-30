@@ -6,6 +6,7 @@ import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
+import { ClassNamesTwo, classes } from "../../../../data/classes";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -139,6 +140,16 @@ export default function EquipmentList({
             handleAttack={handleAttack}
             handleCustomDelete={handleCustomDelete}
           />
+          {classes[characterData.class as ClassNamesTwo].powers?.map(
+            (power) => (
+              <ItemWrapper
+                item={power}
+                handleAttackClick={handleAttackClick}
+                handleAttack={handleAttack}
+                handleCustomDelete={handleCustomDelete}
+              />
+            )
+          )}
         </>
       )}
       {shownItems.map((item) => (

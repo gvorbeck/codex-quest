@@ -190,7 +190,8 @@ export const cleric: ClassSetup = {
       category: "weapons",
       damage: "2d6",
       amount: 1,
-      type: "holy",
+      type: "power",
+      noDelete: true,
     },
   ],
   details: {
