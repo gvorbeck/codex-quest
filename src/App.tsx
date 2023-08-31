@@ -15,6 +15,8 @@ import { ConfigProvider, Spin } from "antd";
 import Welcome from "./pages/Welcome/Welcome";
 import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
 import Sources from "./pages/Sources/Sources";
+import Signup from "./pages/Authentication/Signup";
+import Login from "./pages/Authentication/Login";
 
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
@@ -98,6 +100,8 @@ function App() {
             />
             <Route path="/create" element={<CharacterCreator />} />
             <Route path="/sources" element={<Sources />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
           </Route>
         </Routes>
       </Suspense>
