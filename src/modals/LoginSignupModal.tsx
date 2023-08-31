@@ -1,4 +1,4 @@
-import { Button, Modal } from "antd";
+import { Button, Input, Modal } from "antd";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
 import {
   LoginFormProps,
@@ -12,13 +12,16 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import classNames from "classnames";
+
+const formClassNames = classNames("my-4", "[&>div+div]:mt-4");
 
 const LoginForm: FC<LoginFormProps> = ({ setEmail, setPassword, onLogin }) => {
   return (
-    <div>
+    <div className={formClassNames}>
       <div>
         <label htmlFor="email-address">Email address</label>
-        <input
+        <Input
           id="email-address"
           name="email"
           type="email"
@@ -29,7 +32,7 @@ const LoginForm: FC<LoginFormProps> = ({ setEmail, setPassword, onLogin }) => {
       </div>
       <div>
         <label htmlFor="password">Password</label>
-        <input
+        <Input.Password
           id="password"
           name="password"
           type="password"
@@ -39,7 +42,9 @@ const LoginForm: FC<LoginFormProps> = ({ setEmail, setPassword, onLogin }) => {
         />
       </div>
       <div>
-        <button onClick={onLogin}>Login</button>
+        <Button type="primary" onClick={onLogin}>
+          Log in
+        </Button>
       </div>
     </div>
   );
@@ -53,10 +58,10 @@ const SignupForm: FC<SignupFormProps> = ({
   onSubmit,
 }) => {
   return (
-    <div>
+    <div className={formClassNames}>
       <div>
         <label htmlFor="email-address">Email address</label>
-        <input
+        <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -66,7 +71,7 @@ const SignupForm: FC<SignupFormProps> = ({
       </div>
       <div>
         <label htmlFor="password">Password</label>
-        <input
+        <Input.Password
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -74,9 +79,11 @@ const SignupForm: FC<SignupFormProps> = ({
           placeholder="Password"
         />
       </div>
-      <button type="submit" onClick={onSubmit}>
-        Sign up
-      </button>
+      <div>
+        <Button type="primary" onClick={onSubmit}>
+          Sign up
+        </Button>
+      </div>
     </div>
   );
 };
@@ -99,11 +106,14 @@ export default function LoginSignupModal({
         const user = userCredential.user;
         navigate("/");
         console.log(user);
+        handleCancel();
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+        // Here, you can also show a message to the user about the failed login
+        // but the modal will remain open
       });
   };
 
@@ -115,8 +125,9 @@ export default function LoginSignupModal({
         // Signed in
         const user = userCredential.user;
         console.log(user);
-        navigate("/login");
-        // ...
+        navigate("/");
+        console.log(user);
+        handleCancel();
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -144,8 +155,8 @@ export default function LoginSignupModal({
             setPassword={setPassword}
             onLogin={onLogin}
           />
-          <Button type="link" onClick={() => setSignInForm(false)}>
-            Sign up
+          <Button type="default" onClick={() => setSignInForm(false)}>
+            Go to Sign Up form
           </Button>
         </div>
       ) : (
@@ -157,8 +168,8 @@ export default function LoginSignupModal({
             setPassword={setPassword}
             onSubmit={onSubmit}
           />
-          <Button type="link" onClick={() => setSignInForm(true)}>
-            Sign in
+          <Button type="default" onClick={() => setSignInForm(true)}>
+            Go to Log In form
           </Button>
         </div>
       )}
