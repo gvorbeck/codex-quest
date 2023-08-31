@@ -1,6 +1,7 @@
 import { RadioChangeEvent } from "antd";
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { CharacterData } from "../components/definitions";
+import { FormEvent } from "react";
 
 interface ModalProps {
   handleCancel: () => void;
@@ -31,6 +32,25 @@ export interface AddCustomEquipmentModalProps extends ModalProps {
   isAddCustomEquipmentModalOpen: boolean;
   setCharacterData: (character: CharacterData) => void;
   characterData: CharacterData;
+}
+
+export interface LoginSignupModalProps extends ModalProps {
+  isLoginSignupModalOpen: boolean;
+  handleLogin: () => Promise<void>;
+}
+
+export interface LoginFormProps {
+  setEmail: (email: string) => void;
+  setPassword: (password: string) => void;
+  onLogin: (e: FormEvent) => void;
+}
+
+export interface SignupFormProps {
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  onSubmit: (e: FormEvent) => void;
 }
 
 export interface SpellCheckboxGroupProps {
