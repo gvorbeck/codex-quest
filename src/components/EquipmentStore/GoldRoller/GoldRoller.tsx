@@ -19,7 +19,7 @@ export default function GoldRoller({
   return (
     <Space.Compact className="sm:col-span-2">
       <InputNumber
-        min={30}
+        min={0}
         max={180}
         defaultValue={0}
         value={Number(goldInputValue.toFixed(2))}
