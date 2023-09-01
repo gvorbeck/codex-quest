@@ -1,6 +1,7 @@
 import { DiceTypes } from "../../components/definitions";
 import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
+import equipmentItems from "../equipmentItems.json";
 
 export const illusionist: ClassSetup = {
   name: "Illusionist",
@@ -157,6 +158,11 @@ export const illusionist: ClassSetup = {
     [7, 5, 5, 4, 4, 3],
   ],
   startingSpells: ["Read Magic"],
+  startingEquipment: [
+    equipmentItems.find((item) =>
+      item.name.toLowerCase().startsWith("spellbook")
+    )!,
+  ],
   details: {
     description:
       "(Illusionists Release 9)\n\nIllusionists are “specialist” Magic-Users who focus on the creation and manipulation of illusions, whether visual, auditory, or mental, and at higher levels quasi-real things made of tangible shadow. Though “normal” Magic-Users can create illusions, those created by a true Illusionist are superior in quality and realism.\n\nThe Prime Requisite for an Illusionist is Intelligence. The Illusionist is required to have an Intelligence score of 13 or higher. Illusionists are poor fighters, with fighting ability equivalent to normal Magic-Users. Likewise they are no more hardy than standard Magic-Users (d4 hit die). They may not wear any armor of any sort or use shields. Like other Magic-Users, they can utilize a walking staff (or cudgel) or dagger, and of course they may use magical weapons of those types. Otherwise, Illusionists can generally be treated as equivalent to Magic-Users for any situation not covered here.\n\nBecause of their expertise at creating and understanding illusions, Illusionists always gain an additional +2 on saves vs. any sort of illusion or phantasm.\n\nIllusionists produce magic much like other types of Magic-Users, but have different spell choices. They can learn spells from each other so long as the spells are available to both classes. Like other Magic-Users, a first level Illusionist begins play knowing read magic and one other spell of first level, recorded within a spell book. The GM may roll for the spell, assign it as they see fit, or allow the player to choose it, at their option. See the Illusionist Spells section below for more details.",

@@ -3,6 +3,7 @@ import { EquipmentInventoryProps } from "./definitions";
 import { useMemo } from "react";
 import { EquipmentItem } from "../definitions";
 import { toTitleCase } from "../../../support/stringSupport";
+import { ClassNamesTwo, classes } from "../../../data/classes";
 
 export default function EquipmentInventory({
   className,
@@ -28,6 +29,31 @@ export default function EquipmentInventory({
       </Typography.Title>
       <Divider className="text-shipGray">Current Loadout</Divider>
       <div className="[&>*+*]:mt-8">
+        <div>
+          {/* STARTING EQUIPMENT */}
+          {/* TODO remove repeated code */}
+          <List
+            header={
+              <Typography.Title level={3} className="m-0 text-shipGray">
+                Included w/ Class
+              </Typography.Title>
+            }
+            bordered
+            dataSource={classes[
+              characterData.class as ClassNamesTwo
+            ].startingEquipment?.map((item: EquipmentItem) => ({
+              name: item.name,
+              amount: item.amount,
+            }))}
+            renderItem={(item) => (
+              <List.Item className="text-shipGray">
+                <span>{item.name}</span>
+                <span>x{item.amount}</span>
+              </List.Item>
+            )}
+            size="small"
+          />
+        </div>
         {Object.entries(groupedEquipment).map(
           ([category, categoryItems]: [string, EquipmentItem[]]) => (
             <div key={category}>

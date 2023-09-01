@@ -152,6 +152,19 @@ export default function EquipmentList({
           )}
         </>
       )}
+      {/* STARTING EQUIPMENT */}
+      {categories.includes("general-equipment") &&
+        classes[characterData.class as ClassNamesTwo].startingEquipment?.map(
+          (item: EquipmentItem) => (
+            <ItemWrapper
+              item={item}
+              handleCustomDelete={handleCustomDelete}
+              handleAttack={handleAttack}
+              handleAttackClick={handleAttackClick}
+              key={item.name}
+            />
+          )
+        )}
       {shownItems.map((item) => (
         <ItemWrapper
           item={item}
