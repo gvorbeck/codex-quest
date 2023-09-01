@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { HitPointsRollerProps } from "./definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
@@ -10,39 +11,42 @@ export default function HitPointsRoller({
   setCharacterData,
   customHitDice,
 }: HitPointsRollerProps) {
+  const [hitPoints, setHitPoints] = useState(characterData.hp.points);
+
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     event.target.select();
   };
 
-  const handleHitPointValue = (value: number | null) => {
-    if (value === null) return;
-    value += +characterData.abilities.modifiers.constitution;
-    if (value < 1) value = 1;
-    setCharacterData({
-      ...characterData,
-      hp: { ...characterData.hp, points: value, max: value },
-    });
+  const rollHitPoints = (score?: number) => {
+    console.log("bar");
+    const result =
+      score ||
+      roller.roll(characterData.hp.dice).total +
+        +characterData.abilities.modifiers.constitution;
+    setHitPoints(result);
   };
 
-  const onClick = () => {
-    const result = roller.roll(characterData.hp.dice);
-    if (!(result instanceof Array)) handleHitPointValue(result.total);
-  };
+  useEffect(() => {
+    console.log("foo:", hitPoints);
+    setCharacterData({
+      ...characterData,
+      hp: { ...characterData.hp, points: hitPoints, max: hitPoints },
+    });
+  }, [hitPoints]);
 
   return (
     <Space.Compact>
       <InputNumber
-        max={11}
-        min={1}
         defaultValue={0}
-        onChange={handleHitPointValue}
+        min={1}
         onFocus={handleFocus}
+        onChange={(value) => rollHitPoints(value || 1)}
         type="number"
-        value={characterData.hp.points}
+        value={hitPoints}
       />
       <Button
         type="primary"
-        onClick={onClick}
+        onClick={() => rollHitPoints()}
         disabled={
           customHitDice === "" &&
           !characterData.class
