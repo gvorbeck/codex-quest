@@ -1,3 +1,4 @@
+import React from "react";
 import { GoldRollerProps } from "./definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";

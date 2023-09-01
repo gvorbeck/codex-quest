@@ -1,3 +1,4 @@
+import React from "react";
 import { Typography } from "antd";
 import { FooterContentProps } from "./definitions";
 import { Link } from "react-router-dom";
