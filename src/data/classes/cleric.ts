@@ -1,6 +1,7 @@
 import { DiceTypes } from "../../components/definitions";
 import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
+import equipmentItems from "../equipmentItems.json";
 
 export const cleric: ClassSetup = {
   name: "Cleric",
@@ -181,6 +182,12 @@ export const cleric: ClassSetup = {
     [5, 5, 4, 4, 3, 3],
     [6, 5, 4, 4, 3, 3],
     [6, 5, 5, 4, 3, 3],
+  ],
+  startingSpells: ["Read Magic"],
+  startingEquipment: [
+    equipmentItems.find((item) =>
+      item.name.toLowerCase().startsWith("holy symbol")
+    )!,
   ],
   powers: [
     {
