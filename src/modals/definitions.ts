@@ -77,7 +77,7 @@ export interface RangeRadioButtons {
 
 export interface AttackButtonsProps {
   weapon: EquipmentItem;
-  damage: (damage: string) => void;
+  damage?: (damage: string) => void;
   attack: (attack: "melee" | "missile") => void;
   type: "melee" | "missile";
   className?: string;

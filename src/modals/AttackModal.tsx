@@ -43,20 +43,22 @@ function AttackButtons({
       >
         Attack Roll
       </Button>
-      <Button
-        type="default"
-        onClick={() => {
-          if (weapon.type === "missile") {
-            ammo?.damage && damage(ammo.damage);
-          } else {
-            weapon.damage && damage(weapon.damage);
-          }
-        }}
-        className="ml-2"
-        disabled={isButtonDisabled}
-      >
-        Damage Roll
-      </Button>
+      {damage && (
+        <Button
+          type="default"
+          onClick={() => {
+            if (weapon.type === "missile") {
+              ammo?.damage && damage(ammo.damage);
+            } else {
+              weapon.damage && damage(weapon.damage);
+            }
+          }}
+          className="ml-2"
+          disabled={isButtonDisabled}
+        >
+          Damage Roll
+        </Button>
+      )}
     </div>
   );
 }
@@ -119,10 +121,12 @@ export default function AttackModal({
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openAttackNotification = (result: string) => {
+  const openAttackNotification = (result: string, hideNote?: boolean) => {
     api.open({
       message: "Attack Roll",
-      description: `${result} (+2 if attacking from behind)`,
+      description: `${result} ${
+        !hideNote ? `(+2 if attacking from behind)` : ""
+      }`,
       duration: 0,
       className: "!bg-seaBuckthorn",
       closeIcon: <CloseIcon />,
@@ -143,6 +147,9 @@ export default function AttackModal({
   const handleRangeChange = (e: RadioChangeEvent) => {
     setMissileRangeBonus(e.target.value);
   };
+
+  const powerAttack = () =>
+    openAttackNotification(roller.roll("1d20").output, true);
 
   const attack = (type: "melee" | "missile") => {
     let roll = "1d20";
@@ -184,6 +191,15 @@ export default function AttackModal({
       >
         {attackingWeapon ? (
           <div>
+            {attackingWeapon.type === "power" && (
+              <AttackButtons
+                weapon={attackingWeapon}
+                attack={powerAttack}
+                damage={damage}
+                type="melee"
+                className="mt-2"
+              />
+            )}
             {attackingWeapon.type === "melee" && (
               <AttackButtons
                 weapon={attackingWeapon}
@@ -261,7 +277,6 @@ export default function AttackModal({
                 )}
               </div>
             )}
-            {attackingWeapon.type === "power" && <div>poop</div>}
           </div>
         ) : (
           <p>No weapon selected</p>

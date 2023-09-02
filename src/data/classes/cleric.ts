@@ -183,7 +183,6 @@ export const cleric: ClassSetup = {
     [6, 5, 4, 4, 3, 3],
     [6, 5, 5, 4, 3, 3],
   ],
-  startingSpells: ["Read Magic"],
   startingEquipment: [
     equipmentItems.find((item) =>
       item.name.toLowerCase().startsWith("holy symbol")
