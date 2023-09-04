@@ -2,6 +2,7 @@
   "name": "codex-quest",
   "version": "0.1.0",
   "private": true,
+  "license": "CC BY-SA 4.0",
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "@dice-roller/rpg-dice-roller": "^5.4.1",
