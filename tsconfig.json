@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,8 +15,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "types": ["vite/client", "vite-plugin-svgr/client"]
   },
   "include": ["src"],
-  "types": ["node", "jest", "@testing-library/jest-dom"],
+  "types": ["vite/client", "vite-plugin-svgr/client"]
 }

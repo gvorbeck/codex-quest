@@ -13,6 +13,7 @@ export const human: RaceSetup = {
     ClassNamesTwo.MAGICUSER,
     ClassNamesTwo.THIEF,
     ClassNamesTwo.ASSASSIN,
+    ClassNamesTwo.NECROMANCER,
   ],
   details: {
     description:

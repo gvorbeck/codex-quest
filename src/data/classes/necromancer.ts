@@ -3,9 +3,9 @@ import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
 
-export const illusionist: ClassSetup = {
-  name: "Illusionist",
-  minimumAbilityRequirements: { intelligence: 13 },
+export const necromancer: ClassSetup = {
+  name: "Necromancer",
+  minimumAbilityRequirements: { intelligence: 11, wisdom: 9 },
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
   availableEquipmentCategories: [
@@ -15,8 +15,16 @@ export const illusionist: ClassSetup = {
     equipmentCategories.BEASTS,
     equipmentCategories.BARDING,
     equipmentCategories.IMPROVISED,
+    equipmentCategories.SWORDS,
   ],
-  specificEquipmentItems: [[equipmentCategories.OTHERWEAPONS], ["cudgel"]],
+  specificEquipmentItems: [
+    [
+      equipmentCategories.OTHERWEAPONS,
+      equipmentCategories.IMPROVISED,
+      equipmentCategories.SWORDS,
+    ],
+    ["sickle", "scythe", "spade", "scimitar"],
+  ],
   experiencePoints: [
     0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
     750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000,
@@ -165,16 +173,13 @@ export const illusionist: ClassSetup = {
   ],
   details: {
     description:
-      "(Illusionists Release 9)\n\nIllusionists are “specialist” Magic-Users who focus on the creation and manipulation of illusions, whether visual, auditory, or mental, and at higher levels quasi-real things made of tangible shadow. Though “normal” Magic-Users can create illusions, those created by a true Illusionist are superior in quality and realism.\n\nThe Prime Requisite for an Illusionist is Intelligence. The Illusionist is required to have an Intelligence score of 13 or higher. Illusionists are poor fighters, with fighting ability equivalent to normal Magic-Users. Likewise they are no more hardy than standard Magic-Users (d4 hit die). They may not wear any armor of any sort or use shields. Like other Magic-Users, they can utilize a walking staff (or cudgel) or dagger, and of course they may use magical weapons of those types. Otherwise, Illusionists can generally be treated as equivalent to Magic-Users for any situation not covered here.\n\nBecause of their expertise at creating and understanding illusions, Illusionists always gain an additional +2 on saves vs. any sort of illusion or phantasm.\n\nIllusionists produce magic much like other types of Magic-Users, but have different spell choices. They can learn spells from each other so long as the spells are available to both classes. Like other Magic-Users, a first level Illusionist begins play knowing read magic and one other spell of first level, recorded within a spell book. The GM may roll for the spell, assign it as they see fit, or allow the player to choose it, at their option. See the Illusionist Spells section below for more details.",
+      "(Necromancers Release 10)\n\nNecromancers are Magic-Users who practice necromancy, seeking expertise of the darker side of the arcane. Necromancers are rare due to the unsavory nature of their profession, often living in proximity to graveyards, burial mounds, and other places associated with the dead. They are sometimes known by other terms such as _Bokor_ or even _Death Master_. Regardless of what they are called or the culture they come from, they share certain traits.\n\nNecromancers are poor fighters, with fighting ability equivalent to normal Magic-Users. Likewise they are no more hardy than standard Magic-Users (d4 hit die). They may not wear armor of any sort or use shields, but unlike other Magic-Users they have expanded weapon choices. In addition to the dagger and walking staff, Necromancers can use sickles, scythes, spades, and scimitars, and they can likewise use magical weapons of those types. Otherwise, Necromancers can generally be treated as equivalent to Magic-Users for any situation not covered here.\n\nThe Prime Requisite for Necromancers is Intelligence. In addition to requiring an Intelligence score of 11 or higher, a Necromancer also must have a Wisdom score of at least 9 in order to qualify for the rigors of the class. Although not a requirement, most Necromancers do not score high in looks or Charisma. The class generally attracts those who are persecuted or otherwise disenfranchised with normal society.\n\nNecromancers produce magic much like other types of Magic-Users, but have different spell choices. They can learn spells from each other so long as the spells are available to both classes. Like other Magic-Users, a firstlevel Necromancer begins play knowing **read magic** and one other spell of first level, recorded within a spellbook. The GM may roll for the spell, assign it as he or she sees fit, or allow the player to choose it, at his or her option.",
     specials: [
-      "**Illusionists** begins play knowing Read Magic and one other spell of first level.",
-      "Because of their expertise at creating and understanding illusions, **Illusionists** always gain an additional +2 on saves vs. any sort of illusion or phantasm.",
-      "**Illusionists** produce magic much like other types of Magic-Users, but have different spell choices. They can learn spells from each other so long as the spells are available to both classes. Illusionists may learn spells by being taught directly by another Illusionist or by studying another Illusionist's spellbook. The Illusionist may also learn appropriate spells from standard Magic-Users (or other arcane casters, if used); the spell always being at the level as it appears on the Illusionist Spell List.  If being taught, a spell can be learned in a single day; researching another Illusionist's spellbook takes one day per spell level. Either way, the spell learned must be transcribed into the Illusionist's own spellbook, at a cost of 500 gp per spell level transcribed.",
-      "Like other Magic-Users, a first level **Illusionist** begins play knowing Read Magic and one other spell of first level, recorded within a spell book",
+      "**Necromancers** can use sickles, scythes, spades, and scimitars",
     ],
     restrictions: [
-      "**Illusionists** may not wear any armor of any sort or use shields.",
-      "**Illusionists**, like other Magic-Users, can utilize a walking staff (or cudgel) or dagger, and of course they may use magical weapons of those types.",
+      "**Necromancers** may not wear armor of any sort or use shields",
+      "**Necromancers** may not wear armor of any sort or use shields",
     ],
   },
 };

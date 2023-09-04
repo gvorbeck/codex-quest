@@ -11,6 +11,7 @@ export const halfElf: RaceSetup = {
     ClassNamesTwo.ILLUSIONIST,
     ClassNamesTwo.MAGICUSER,
     ClassNamesTwo.THIEF,
+    ClassNamesTwo.NECROMANCER,
   ],
   allowedCombinationClasses: [
     ClassNamesTwo.MAGICUSER,

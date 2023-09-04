@@ -9,6 +9,7 @@ import { barbarian } from "./barbarian";
 import { druid } from "./druid";
 import { illusionist } from "./illusionist";
 import { equipmentCategories } from "../definitions";
+import { necromancer } from "./necromancer";
 
 export enum ClassNamesTwo {
   ASSASSIN = "Assassin",
@@ -19,6 +20,7 @@ export enum ClassNamesTwo {
   ILLUSIONIST = "Illusionist",
   MAGICUSER = "Magic-User",
   THIEF = "Thief",
+  NECROMANCER = "Necromancer",
   CUSTOM = "Custom",
 }
 
@@ -84,4 +86,5 @@ export const classes: Classes = {
   [ClassNamesTwo.ILLUSIONIST]: illusionist,
   [ClassNamesTwo.MAGICUSER]: magicUser,
   [ClassNamesTwo.THIEF]: thief,
+  [ClassNamesTwo.NECROMANCER]: necromancer,
 };

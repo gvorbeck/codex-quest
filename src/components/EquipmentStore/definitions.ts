@@ -22,4 +22,5 @@ export interface EquipmentItem {
   type?: string;
   range?: number[];
   ammo?: string[];
+  noDelete?: boolean;
 }

@@ -1,53 +1,33 @@
 import { EquipmentListProps } from "./definitions";
 import equipmentItems from "../../../../data/equipmentItems.json";
-import { Button, Descriptions, Radio, Typography } from "antd";
+import { Button, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { EquipmentItem } from "../../../EquipmentStore/definitions";
-import { slugToTitleCase } from "../../../../support/stringSupport";
 import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
+import ItemWrapper from "./ItemWrapper/ItemWrapper";
+import ItemDescription from "./ItemDescription/ItemDescription";
+import { EquipmentItem } from "../../../EquipmentStore/definitions";
+import { ClassNamesTwo, classes } from "../../../../data/classes";
 
-const itemDescription = (item: EquipmentItem) => (
-  <Descriptions bordered size="small" column={1} className="flex-grow">
-    {item.weight && (
-      <Descriptions.Item label="Weight">{item.weight}</Descriptions.Item>
-    )}
-    {item.size && (
-      <Descriptions.Item label="Size">{item.size}</Descriptions.Item>
-    )}
-    {item.amount && item.name !== "Punch" && item.name !== "Kick" && (
-      <Descriptions.Item label="Amount">{item.amount}</Descriptions.Item>
-    )}
-    {item.AC && <Descriptions.Item label="AC">{item.AC}</Descriptions.Item>}
-    {item.missileAC && (
-      <Descriptions.Item label="Missile AC">{item.missileAC}</Descriptions.Item>
-    )}
-    {item.damage && (
-      <Descriptions.Item label="Damage">{item.damage}</Descriptions.Item>
-    )}
-    <Descriptions.Item label="Category">
-      {slugToTitleCase(item.category)}
-    </Descriptions.Item>
-  </Descriptions>
-);
-
-const punchItem = {
-  name: "Punch",
+const punchItem: EquipmentItem = {
+  name: "Punch**",
   costValue: 0,
   costCurrency: "gp",
-  category: "weapons",
+  category: "inherent",
   damage: "1d3",
   amount: 1,
   type: "melee",
+  noDelete: true,
 };
 
-const kickItem = {
-  name: "Kick",
+const kickItem: EquipmentItem = {
+  name: "Kick**",
   costValue: 0,
   costCurrency: "gp",
-  category: "weapons",
+  category: "inherent",
   damage: "1d4",
   amount: 1,
   type: "melee",
+  noDelete: true,
 };
 
 export default function EquipmentList({
@@ -139,7 +119,7 @@ export default function EquipmentList({
                   />
                 )}
             </div>
-            {itemDescription(item)}
+            <ItemDescription item={item} />
           </Radio>
         );
       })}
@@ -148,76 +128,51 @@ export default function EquipmentList({
     <div className="[&>div+div]:mt-4">
       {categories.includes("weapons") && (
         <>
-          <div>
-            <div className="flex items-baseline gap-4">
-              <Typography.Paragraph className="font-bold mb-3">
-                Punch**
-              </Typography.Paragraph>
-            </div>
-            {itemDescription(punchItem)}
-            {handleAttack && handleAttackClick && (
-              <>
-                <div className="text-right mt-3">
-                  <Button
-                    type="primary"
-                    onClick={() => handleAttackClick(punchItem)}
-                  >
-                    Attack
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-          <div>
-            <div className="flex items-baseline gap-4">
-              <Typography.Paragraph className="font-bold mb-3">
-                Kick**
-              </Typography.Paragraph>
-            </div>
-            {itemDescription(kickItem)}
-            {handleAttack && handleAttackClick && (
-              <>
-                <div className="text-right mt-3">
-                  <Button
-                    type="primary"
-                    onClick={() => handleAttackClick(kickItem)}
-                  >
-                    Attack
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
+          <ItemWrapper
+            item={punchItem}
+            handleAttackClick={handleAttackClick}
+            handleAttack={handleAttack}
+            handleCustomDelete={handleCustomDelete}
+          />
+          <ItemWrapper
+            item={kickItem}
+            handleAttackClick={handleAttackClick}
+            handleAttack={handleAttack}
+            handleCustomDelete={handleCustomDelete}
+          />
+          {classes[characterData.class as ClassNamesTwo].powers?.map(
+            (power) => (
+              <ItemWrapper
+                item={power}
+                handleAttackClick={handleAttackClick}
+                handleAttack={handleAttack}
+                handleCustomDelete={handleCustomDelete}
+              />
+            )
+          )}
         </>
       )}
+      {/* STARTING EQUIPMENT */}
+      {categories.includes("general-equipment") &&
+        classes[characterData.class as ClassNamesTwo].startingEquipment?.map(
+          (item: EquipmentItem) => (
+            <ItemWrapper
+              item={item}
+              handleCustomDelete={handleCustomDelete}
+              handleAttack={handleAttack}
+              handleAttackClick={handleAttackClick}
+              key={item.name}
+            />
+          )
+        )}
       {shownItems.map((item) => (
-        <div key={item.name}>
-          <div className="flex items-baseline gap-4">
-            <Typography.Paragraph className="font-bold mb-3">
-              {item.name}
-            </Typography.Paragraph>
-            {!equipmentItems.some(
-              (equipmentItem) => equipmentItem.name === item.name
-            ) && (
-              <Button
-                type="default"
-                icon={<DeleteOutlined />}
-                shape="circle"
-                onClick={() => handleCustomDelete(item)}
-              />
-            )}
-          </div>
-          {itemDescription(item)}
-          {handleAttack && handleAttackClick && (
-            <>
-              <div className="text-right mt-3">
-                <Button type="primary" onClick={() => handleAttackClick(item)}>
-                  Attack
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
+        <ItemWrapper
+          item={item}
+          handleCustomDelete={handleCustomDelete}
+          handleAttack={handleAttack}
+          handleAttackClick={handleAttackClick}
+          key={item.name}
+        />
       ))}
       {categories.includes("weapons") && <WeaponKeys />}
     </div>

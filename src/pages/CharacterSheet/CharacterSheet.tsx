@@ -1,5 +1,5 @@
 // REACT
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // REACT ROUTER
 import { Link, useOutletContext, useParams } from "react-router-dom";
 // FIREBASE

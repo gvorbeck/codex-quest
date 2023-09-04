@@ -1,6 +1,7 @@
 import { RadioChangeEvent } from "antd";
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { CharacterData } from "../components/definitions";
+import { FormEvent } from "react";
 
 interface ModalProps {
   handleCancel: () => void;
@@ -33,6 +34,25 @@ export interface AddCustomEquipmentModalProps extends ModalProps {
   characterData: CharacterData;
 }
 
+export interface LoginSignupModalProps extends ModalProps {
+  isLoginSignupModalOpen: boolean;
+  handleLogin: () => Promise<void>;
+}
+
+export interface LoginFormProps {
+  setEmail: (email: string) => void;
+  setPassword: (password: string) => void;
+  onLogin: (e: FormEvent) => void;
+}
+
+export interface SignupFormProps {
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  onSubmit: (e: FormEvent) => void;
+}
+
 export interface SpellCheckboxGroupProps {
   characterClass: string;
   level: number;
@@ -57,7 +77,7 @@ export interface RangeRadioButtons {
 
 export interface AttackButtonsProps {
   weapon: EquipmentItem;
-  damage: (damage: string) => void;
+  damage?: (damage: string) => void;
   attack: (attack: "melee" | "missile") => void;
   type: "melee" | "missile";
   className?: string;

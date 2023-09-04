@@ -1,4 +1,15 @@
+import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { SavingThrows } from "../../components/definitions";
+
+// type Power = {
+//   name: string;
+//   costValue: 0;
+//   costCurrency: "gp";
+//   category: "weapons";
+//   damage: string;
+//   amount: 1;
+//   type: string;
+// };
 
 type SavingThrowEntry = [number, SavingThrows];
 export type SavingThrowsCollection = SavingThrowEntry[];
@@ -25,10 +36,12 @@ export interface ClassSetup {
   savingThrows: SavingThrowsCollection;
   spellBudget?: number[][];
   startingSpells?: string[];
+  startingEquipment?: EquipmentItem[];
   specialAbilities?: {
     titles: string[];
     stats: number[][];
   };
+  powers?: EquipmentItem[];
   details?: {
     description?: string;
     specials?: string[];

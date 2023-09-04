@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Row, Tooltip, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
 import { LogoutOutlined } from "@ant-design/icons";
+import LoginSignupModal from "../../../modals/LoginSignupModal";
+import { useState } from "react";
 
 export default function HeaderContent({
   auth,
@@ -10,6 +12,8 @@ export default function HeaderContent({
   className,
 }: HeaderContentProps) {
   const navigate = useNavigate();
+  const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] = useState(false);
+  const handleCancel = () => setIsLoginSignupModalOpen(false);
   return (
     <Row className={`${className} gap-y-4`}>
       <Col
@@ -43,7 +47,7 @@ export default function HeaderContent({
         {user ? (
           <>
             <Typography.Text className="leading-none">
-              {user.displayName}
+              {user.displayName || user.email}
             </Typography.Text>
             <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
               <Button
@@ -56,11 +60,19 @@ export default function HeaderContent({
             </Tooltip>
           </>
         ) : (
-          <Button type="primary" onClick={handleLogin}>
-            Log in with Google
+          <Button
+            type="primary"
+            onClick={() => setIsLoginSignupModalOpen(true)}
+          >
+            Log in / Sign up
           </Button>
         )}
       </Col>
+      <LoginSignupModal
+        handleCancel={handleCancel}
+        isLoginSignupModalOpen={isLoginSignupModalOpen}
+        handleLogin={handleLogin}
+      />
     </Row>
   );
 }

@@ -69,7 +69,6 @@ export default function Welcome() {
           </Typography.Paragraph>
         </div>
       </div>
-      {/* <Image src={deadlyStrike} preview={false} className="hidden" /> */}
       <Image
         src={IronhideSheet}
         alt="Sample Basic Fantasy Role-Playing Game Character Sheet"
