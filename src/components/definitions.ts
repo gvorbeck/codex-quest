@@ -1,5 +1,6 @@
 import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
 import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
+import { EquipmentItem } from "./EquipmentStore/definitions";
 
 interface HP {
   dice: string;
@@ -47,20 +48,6 @@ export interface CharacterData {
   xp: number;
   desc: string;
   wearing?: { armor: string; shield: string };
-}
-
-export interface EquipmentItem {
-  name: string;
-  costValue: number;
-  costCurrency: string;
-  weight?: number;
-  category: string;
-  size?: string;
-  damage?: string;
-  AC?: string | number;
-  amount: number;
-  type?: string;
-  range?: number[];
 }
 
 export type Capacity = { light: number; heavy: number };
