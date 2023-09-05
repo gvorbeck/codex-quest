@@ -2,6 +2,8 @@ import { Avatar, Descriptions, Divider, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import { BaseStatsProps } from "./definitions";
+import { extractImageName } from "../../../support/stringSupport";
+import { images } from "../../../assets/images/faces/imageAssets";
 
 export default function BaseStats({
   characterData,
@@ -9,13 +11,26 @@ export default function BaseStats({
   userIsOwner,
   showLevelUpModal,
 }: BaseStatsProps) {
+  // Legacy characters created while the site was using Create React App will have broken image links that start with "/static/media/"
+  // This code checks for that and replaces the broken link with the correct one
+  let image = "";
+  if (characterData.avatar.startsWith("/static/media/")) {
+    const legacyImage = extractImageName(characterData.avatar);
+    if (legacyImage) {
+      // find the matching source images in `images`
+      // "/src/assets/images/faces/gnome-boy-1.jpg" matches gnome-boy-1
+      image = images.find((image) => image.includes(legacyImage)) || "";
+    }
+  } else {
+    image = characterData.avatar;
+  }
   return (
     <div>
       <div className="flex flex-col items-center mt-4 md:flex-row">
         {characterData.avatar.length ? (
           <Avatar
             size={64}
-            src={characterData.avatar}
+            src={image}
             alt={characterData.name}
             className="print:grayscale shadow-md"
           />

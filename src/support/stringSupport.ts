@@ -39,3 +39,9 @@ export function camelCaseToTitleCase(input: string) {
 export function slugToTitleCase(input: string) {
   return toTitleCase(input.replace(/-/g, " "));
 }
+
+export function extractImageName(url: string) {
+  const regex = /\/static\/media\/(.*[^-])\..*?\.jpg/;
+  const match = url.match(regex);
+  return match ? match[1] : undefined;
+}
