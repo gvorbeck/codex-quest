@@ -102,7 +102,7 @@ export default function MoneyStats({
         </Typography.Title>
         <HelpTooltip
           className="ml-2"
-          text="You can manage your coin totals by highlighting the current value and typing '+2' to add 2 of the coin-type to your total and hitting Enter. Coins are automatically organized on refresh (10 sp will become 1gp)."
+          text={`You can manage your coin totals by highlighting the current value and typing a number starting with _+ or -_ (ex: _+2_) to add 2 of the coin-type to your total and hitting Enter.\n\nCoins are automatically reorganized on refresh (10 sp will become 1gp).`}
         />
       </div>
       <Space

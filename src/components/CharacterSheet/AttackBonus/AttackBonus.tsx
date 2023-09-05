@@ -39,7 +39,9 @@ export default function AttackBonus({
         <Typography.Title level={3} className="mt-0 text-shipGray">
           Attack Bonuses
         </Typography.Title>
-        <HelpTooltip text="Melee attacks use STR modifier + Attack Bonus. Missile attacks use DEX modifier + Attack Bonus." />
+        <HelpTooltip
+          text={`**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`}
+        />
       </div>
       <Table
         size="small"
