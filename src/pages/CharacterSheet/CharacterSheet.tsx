@@ -40,7 +40,7 @@ import LevelUpModal from "../../modals/LevelUpModal";
 import DiceRollerModal from "../../modals/DiceRollerModal";
 import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
-import AttackModal from "../../modals/AttackModal";
+import AttackModal from "../../components/AttackModal/AttackModal";
 // DATA
 import equipmentItems from "../../data/equipmentItems.json";
 import { ClassNamesTwo, classes } from "../../data/classes";
