@@ -8,6 +8,7 @@ import { CharacterData } from "../../components/definitions";
 import classNames from "classnames";
 import CharacterCard from "./CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
+import { extractImageName } from "../../support/stringSupport";
 
 export default function CharacterList({ user, className }: CharacterListProps) {
   const navigate = useNavigate();
@@ -69,12 +70,6 @@ export default function CharacterList({ user, className }: CharacterListProps) {
     outletContext.className,
     className
   );
-
-  function extractImageName(url: string) {
-    const regex = /\/static\/media\/(.*[^-])\..*?\.jpg/;
-    const match = url.match(regex);
-    return match ? match[1] : undefined;
-  }
 
   return (
     <div className={characterListClassNames}>
