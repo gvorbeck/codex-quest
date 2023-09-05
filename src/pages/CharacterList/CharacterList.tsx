@@ -1,5 +1,5 @@
 import { Col, Empty, Row, Spin } from "antd";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
@@ -11,7 +11,6 @@ import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
 
 export default function CharacterList({ user, className }: CharacterListProps) {
-  const navigate = useNavigate();
   const outletContext = useOutletContext() as { className: string };
   const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
