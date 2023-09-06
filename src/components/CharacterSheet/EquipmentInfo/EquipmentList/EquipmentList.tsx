@@ -7,6 +7,8 @@ import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { ClassNamesTwo, classes } from "../../../../data/classes";
+import { use } from "marked";
+import { useEffect } from "react";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -63,6 +65,16 @@ export default function EquipmentList({
       updateAC && updateAC();
     }
   };
+
+  useEffect(() => {
+    // Find any item in characterData.equipment that has a `amount` property of 0, and remove it from the array. Then update characterData.
+    const newEquipment = characterData.equipment.filter(
+      (item) => item.amount !== 0
+    );
+    if (newEquipment.length !== characterData.equipment.length) {
+      setCharacterData({ ...characterData, equipment: newEquipment });
+    }
+  }, [characterData.equipment]);
 
   return categories.includes("armor") || categories.includes("shields") ? (
     <Radio.Group
