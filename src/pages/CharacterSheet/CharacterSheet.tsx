@@ -509,6 +509,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         characterData={characterData}
         attackBonus={getAttackBonus(characterData)}
         weapon={weapon}
+        setCharacterData={setCharacterData}
       />
       <CheatSheetModal
         handleCancel={handleCancel}

@@ -67,6 +67,7 @@ export interface AttackModalProps extends ModalProps {
   isAttackModalOpen: boolean;
   attackBonus: number;
   weapon?: EquipmentItem;
+  setCharacterData: (character: CharacterData) => void;
 }
 
 export interface CreateCharacterModalProps {

@@ -8,6 +8,7 @@ import { EquipmentItem } from "../EquipmentStore/definitions";
 import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
 import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
+import { CharacterData } from "../definitions";
 
 const roller = new DiceRoller();
 
@@ -16,6 +17,7 @@ export default function AttackModal({
   handleCancel,
   attackBonus,
   characterData,
+  setCharacterData,
   weapon,
 }: AttackModalProps) {
   const [isMissile, setisMissile] = useState(false);
@@ -54,7 +56,25 @@ export default function AttackModal({
   const powerAttack = () =>
     openAttackNotification(roller.roll("1d20").output, true);
 
-  const attack = (type: "melee" | "missile") => {
+  const fireMissile = (missile: EquipmentItem) => {
+    // Generate a random number between 0 and 1
+    const randomNumber = Math.random();
+
+    // 25% chance to recover fired missile
+    if (randomNumber > 0.25) {
+      missile.amount = Math.max(0, missile.amount - 1);
+    }
+
+    setCharacterData({
+      ...characterData,
+      equipment:
+        characterData?.equipment.map((item) =>
+          item.name === missile.name ? missile : item
+        ) || [],
+    } as CharacterData);
+  };
+
+  const attack = (type: "melee" | "missile", missile?: EquipmentItem) => {
     let roll = "1d20";
 
     if (characterData) {
@@ -63,10 +83,19 @@ export default function AttackModal({
       const halflingBonus =
         characterData.race.toLowerCase() === "halfling" ? "+1" : "";
 
-      roll +=
-        type === "melee"
-          ? `+${strength + attackBonus}`
-          : `+${dexterity + attackBonus}${halflingBonus}+${missileRangeBonus}`;
+      console.log("halflingBonus", halflingBonus);
+
+      if (type === "melee") {
+        roll += `+${strength + attackBonus}`;
+      } else {
+        roll += `+${
+          dexterity + attackBonus
+        }${halflingBonus}+${missileRangeBonus}`;
+      }
+
+      if (type === "missile" && missile) fireMissile(missile);
+
+      clearAmmo();
     }
 
     openAttackNotification(roller.roll(roll).output);
@@ -82,13 +111,22 @@ export default function AttackModal({
   const attackingWeapon =
     equipmentItems.find((item) => item.name === weapon?.name) || weapon;
 
+  const handleAttackCancel = () => {
+    // setAmmo(undefined);
+    handleCancel();
+  };
+
+  const clearAmmo = () => {
+    setAmmo(undefined);
+  };
+
   return (
     <>
       {contextHolder}
       <Modal
         title={`Attack with ${attackingWeapon?.name || "weapon"}`}
         open={isAttackModalOpen}
-        onCancel={handleCancel}
+        onCancel={handleAttackCancel}
         footer={false}
         closeIcon={<CloseIcon />}
       >
@@ -116,7 +154,7 @@ export default function AttackModal({
               <WeaponTypeMissile
                 ammo={ammo}
                 damage={damage}
-                attack={attack}
+                attack={() => attack("missile", ammo)}
                 attackingWeapon={attackingWeapon}
                 characterData={characterData}
                 handleRangeChange={handleRangeChange}

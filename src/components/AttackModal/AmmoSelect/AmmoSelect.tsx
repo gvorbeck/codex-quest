@@ -1,21 +1,24 @@
 import { Select } from "antd";
 import { AmmoSelectProps } from "./definitions";
+import { EquipmentItem } from "../../EquipmentStore/definitions";
 
 export default function AmmoSelect({
   ammo,
   equipment,
   setAmmo,
 }: AmmoSelectProps) {
-  const options = ammo
-    .map((ammoItem) => {
-      const item = equipment.find((item) => item.name === ammoItem);
-      return item
-        ? { value: ammoItem, label: `${ammoItem} (${item.amount})` }
-        : null;
-    })
-    .filter(
-      (option): option is { value: string; label: string } => option !== null
-    );
+  const options =
+    ammo &&
+    ammo
+      .map((ammoItem) => {
+        const item = equipment.find((item) => item.name === ammoItem);
+        return item
+          ? { value: ammoItem, label: `${ammoItem} (${item.amount})` }
+          : null;
+      })
+      .filter(
+        (option): option is { value: string; label: string } => option !== null
+      );
 
   const handleAmmoChange = (value: string) => {
     const selectedAmmoItem = equipment.find((item) => item.name === value);
@@ -27,7 +30,13 @@ export default function AmmoSelect({
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label htmlFor="ammo">Ammunition</label>
-      <Select id="ammo" options={options} onChange={handleAmmoChange} />
+      <Select
+        id="ammo"
+        options={options}
+        onChange={handleAmmoChange}
+        allowClear
+        value={ammo ? ammo : undefined}
+      />
     </div>
   );
 }
