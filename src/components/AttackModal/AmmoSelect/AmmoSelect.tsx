@@ -12,9 +12,7 @@ export default function AmmoSelect({
     ammo
       .map((ammoItem) => {
         const item = equipment.find((item) => item.name === ammoItem);
-        return item
-          ? { value: ammoItem, label: `${ammoItem} (${item.amount})` }
-          : null;
+        return item ? { value: ammoItem, label: `${ammoItem}` } : null;
       })
       .filter(
         (option): option is { value: string; label: string } => option !== null

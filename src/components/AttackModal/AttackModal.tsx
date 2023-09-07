@@ -1,4 +1,4 @@
-import { Modal, RadioChangeEvent, notification } from "antd";
+import { Modal, RadioChangeEvent, Typography, notification } from "antd";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../CloseIcon/CloseIcon";
@@ -92,8 +92,6 @@ export default function AttackModal({
       }
 
       if (type === "missile" && missile) fireMissile(missile);
-
-      clearAmmo();
     }
 
     openAttackNotification(roller.roll(roll).output);
@@ -110,13 +108,14 @@ export default function AttackModal({
     equipmentItems.find((item) => item.name === weapon?.name) || weapon;
 
   const handleAttackCancel = () => {
-    // setAmmo(undefined);
     handleCancel();
   };
 
-  const clearAmmo = () => {
-    // setAmmo(undefined);
-  };
+  const RecoveryWarning = () => (
+    <Typography.Text type="secondary" className="mt-2 block">
+      25% chance to recover your ammunition.
+    </Typography.Text>
+  );
 
   return (
     <>
@@ -151,34 +150,40 @@ export default function AttackModal({
               />
             )}
             {attackingWeapon.type === "missile" && attackingWeapon.range && (
-              <WeaponTypeMissile
-                ammo={ammo}
-                damage={damage}
-                attack={() => attack("missile", ammo)}
-                attackingWeapon={attackingWeapon}
-                characterData={characterData}
-                handleRangeChange={handleRangeChange}
-                handleSwitchChange={handleSwitchChange}
-                isMissile={isMissile}
-                missileRangeBonus={missileRangeBonus}
-                setAmmo={setAmmo}
-                handleCancel={handleCancel}
-              />
+              <>
+                <WeaponTypeMissile
+                  ammo={ammo}
+                  damage={damage}
+                  attack={() => attack("missile", ammo)}
+                  attackingWeapon={attackingWeapon}
+                  characterData={characterData}
+                  handleRangeChange={handleRangeChange}
+                  handleSwitchChange={handleSwitchChange}
+                  isMissile={isMissile}
+                  missileRangeBonus={missileRangeBonus}
+                  setAmmo={setAmmo}
+                  handleCancel={handleCancel}
+                />
+                <RecoveryWarning />
+              </>
             )}
             {attackingWeapon.type === "both" && (
-              <WeaponTypeBoth
-                attackingWeapon={attackingWeapon}
-                handleSwitchChange={handleSwitchChange}
-                isMissile={isMissile}
-                missileRangeBonus={missileRangeBonus}
-                handleRangeChange={handleRangeChange}
-                characterData={characterData}
-                damage={damage}
-                attack={attack}
-                ammo={ammo}
-                setAmmo={setAmmo}
-                handleCancel={handleCancel}
-              />
+              <>
+                <WeaponTypeBoth
+                  attackingWeapon={attackingWeapon}
+                  handleSwitchChange={handleSwitchChange}
+                  isMissile={isMissile}
+                  missileRangeBonus={missileRangeBonus}
+                  handleRangeChange={handleRangeChange}
+                  characterData={characterData}
+                  damage={damage}
+                  attack={attack}
+                  ammo={ammo}
+                  setAmmo={setAmmo}
+                  handleCancel={handleCancel}
+                />
+                <RecoveryWarning />
+              </>
             )}
           </div>
         ) : (
