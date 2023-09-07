@@ -31,23 +31,23 @@ interface SpecialRestriction {
 
 export interface CharacterData {
   abilities: Abilities;
-  class: string;
-  race: string;
-  hp: HP;
-  spells: Spell[];
-  gold: number;
-  equipment: EquipmentItem[];
-  weight: number;
-  name: string;
   avatar: string;
+  class: string;
+  desc: string | string[];
+  equipment: EquipmentItem[];
+  gold: number;
+  hp: HP;
   id?: string;
   level: number;
-  specials: SpecialRestriction;
+  name: string;
+  race: string;
   restrictions: SpecialRestriction;
   savingThrows: SavingThrowsType;
-  xp: number;
-  desc: string;
+  specials: SpecialRestriction;
+  spells: Spell[];
   wearing?: { armor: string; shield: string };
+  weight: number;
+  xp: number;
 }
 
 export type Capacity = { light: number; heavy: number };
