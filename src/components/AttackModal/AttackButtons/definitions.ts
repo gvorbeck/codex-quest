@@ -8,4 +8,5 @@ export type AttackButtonsProps = {
   className?: string;
   ammo?: EquipmentItem;
   isMissile?: boolean;
+  handleCancel: () => void;
 };

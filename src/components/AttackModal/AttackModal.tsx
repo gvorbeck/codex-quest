@@ -83,8 +83,6 @@ export default function AttackModal({
       const halflingBonus =
         characterData.race.toLowerCase() === "halfling" ? "+1" : "";
 
-      console.log("halflingBonus", halflingBonus);
-
       if (type === "melee") {
         roll += `+${strength + attackBonus}`;
       } else {
@@ -117,7 +115,7 @@ export default function AttackModal({
   };
 
   const clearAmmo = () => {
-    setAmmo(undefined);
+    // setAmmo(undefined);
   };
 
   return (
@@ -139,6 +137,7 @@ export default function AttackModal({
                 damage={damage}
                 type="melee"
                 className="mt-2"
+                handleCancel={handleCancel}
               />
             )}
             {attackingWeapon.type === "melee" && (
@@ -148,6 +147,7 @@ export default function AttackModal({
                 attack={attack}
                 type="melee"
                 className="mt-2"
+                handleCancel={handleCancel}
               />
             )}
             {attackingWeapon.type === "missile" && attackingWeapon.range && (
@@ -162,6 +162,7 @@ export default function AttackModal({
                 isMissile={isMissile}
                 missileRangeBonus={missileRangeBonus}
                 setAmmo={setAmmo}
+                handleCancel={handleCancel}
               />
             )}
             {attackingWeapon.type === "both" && (
@@ -176,6 +177,7 @@ export default function AttackModal({
                 attack={attack}
                 ammo={ammo}
                 setAmmo={setAmmo}
+                handleCancel={handleCancel}
               />
             )}
           </div>

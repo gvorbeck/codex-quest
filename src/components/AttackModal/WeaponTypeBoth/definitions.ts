@@ -13,4 +13,5 @@ export type WeaponTypeBothProps = {
   attack: (type: "melee" | "missile") => void;
   ammo: EquipmentItem | undefined;
   setAmmo: React.Dispatch<React.SetStateAction<EquipmentItem | undefined>>;
+  handleCancel: () => void;
 };

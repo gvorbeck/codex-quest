@@ -30,13 +30,7 @@ export default function AmmoSelect({
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label htmlFor="ammo">Ammunition</label>
-      <Select
-        id="ammo"
-        options={options}
-        onChange={handleAmmoChange}
-        allowClear
-        value={ammo ? ammo : undefined}
-      />
+      <Select id="ammo" options={options} onChange={handleAmmoChange} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ export default function WeaponTypeMissile({
   setAmmo,
   damage,
   attack,
+  handleCancel,
 }: WeaponTypeMissileProps) {
   return (
     <>
@@ -35,6 +36,7 @@ export default function WeaponTypeMissile({
         className="mt-2"
         ammo={ammo}
         isMissile
+        handleCancel={handleCancel}
       />
     </>
   );

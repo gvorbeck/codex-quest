@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import { AttackButtonsProps } from "./definitions";
+import { useState } from "react";
 
 export default function AttackButtons({
   weapon,
@@ -9,7 +10,9 @@ export default function AttackButtons({
   className,
   ammo,
   isMissile,
+  handleCancel,
 }: AttackButtonsProps) {
+  const [isDmgBtnDisabled, setIsDmgBtnDisabled] = useState(true);
   const isButtonDisabled =
     type === "missile" && isMissile && !ammo && !weapon.damage;
 
@@ -17,7 +20,10 @@ export default function AttackButtons({
     <div className={className}>
       <Button
         type="primary"
-        onClick={() => attack(type)}
+        onClick={() => {
+          attack(type);
+          setIsDmgBtnDisabled(false);
+        }}
         disabled={isButtonDisabled}
       >
         Attack Roll
@@ -31,9 +37,11 @@ export default function AttackButtons({
             } else {
               weapon.damage && damage(weapon.damage);
             }
+            setIsDmgBtnDisabled(true);
+            handleCancel();
           }}
           className="ml-2"
-          disabled={isButtonDisabled}
+          disabled={isButtonDisabled && isDmgBtnDisabled}
         >
           Damage Roll
         </Button>

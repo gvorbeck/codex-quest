@@ -15,6 +15,7 @@ export default function WeaponTypeBoth({
   setAmmo,
   attack,
   ammo,
+  handleCancel,
 }: WeaponTypeBothProps) {
   return (
     <div>
@@ -46,6 +47,7 @@ export default function WeaponTypeBoth({
             className="mt-2"
             ammo={ammo}
             isMissile
+            handleCancel={handleCancel}
           />
         </>
       ) : (
@@ -55,6 +57,7 @@ export default function WeaponTypeBoth({
           attack={attack}
           type="melee"
           className="mt-2"
+          handleCancel={handleCancel}
         />
       )}
     </div>
