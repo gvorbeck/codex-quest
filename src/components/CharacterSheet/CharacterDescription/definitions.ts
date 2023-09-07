@@ -10,4 +10,5 @@ export type CharacterDescriptionProps = {
 export type DescriptionFieldButtonProps = {
   handler: (event: React.MouseEvent<HTMLElement>) => void;
   icon: ReactNode;
+  className?: string;
 };

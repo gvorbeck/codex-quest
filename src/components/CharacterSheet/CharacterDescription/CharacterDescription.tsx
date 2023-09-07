@@ -11,13 +11,13 @@ import {
 import DOMPurify from "dompurify";
 import { ClassNames } from "../../definitions";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import classNames from "classnames";
 
 export default function Description({
   characterData,
   setCharacterData,
   userIsOwner,
 }: CharacterDescriptionProps) {
-  console.log(characterData.desc);
   if (typeof characterData.desc === "string") {
     setCharacterData({
       ...characterData,
@@ -28,11 +28,15 @@ export default function Description({
   const DescriptionFieldButton: FC<DescriptionFieldButtonProps> = ({
     handler,
     icon,
-  }) => (
-    <Tooltip title="Add text field" className="absolute left-0">
-      <Button type="primary" shape="circle" icon={icon} onClick={handler} />
-    </Tooltip>
-  );
+    className,
+  }) => {
+    const buttonClassNames = classNames("absolute", "left-0", className);
+    return (
+      <Tooltip title="Add text field" className={buttonClassNames}>
+        <Button type="primary" shape="circle" icon={icon} onClick={handler} />
+      </Tooltip>
+    );
+  };
 
   const handleAddDescriptionField = () => {
     setCharacterData({
@@ -41,7 +45,19 @@ export default function Description({
     });
   };
 
-  const handleDeleteDescriptionField = () => {};
+  const handleDeleteDescriptionField = (index: number) => {
+    // remove the description field at the given index
+    let newDescription = characterData.desc;
+    if (typeof characterData.desc === "object") {
+      newDescription = characterData.desc.filter(
+        (_: string, i: number) => i !== index
+      );
+    }
+    setCharacterData({
+      ...characterData,
+      desc: newDescription,
+    });
+  };
 
   return (
     <div>
@@ -64,14 +80,15 @@ export default function Description({
               <div className="relative pl-12">
                 {index > 0 && (
                   <DescriptionFieldButton
-                    handler={handleDeleteDescriptionField}
+                    handler={() => handleDeleteDescriptionField(index)}
                     icon={<MinusCircleOutlined />}
                   />
                 )}
-                {index === characterData.desc.length - 1 && (
+                {index === characterData.desc.length - 1 && index < 9 && (
                   <DescriptionFieldButton
                     handler={handleAddDescriptionField}
                     icon={<PlusCircleOutlined />}
+                    className={index > 0 ? "top-12" : ""}
                   />
                 )}
                 <Input.TextArea
@@ -98,7 +115,6 @@ export default function Description({
   //     const cleanInput = DOMPurify.sanitize(event.target.value);
   //     setInputValue(cleanInput);
   //   };
-  //   console.log(characterData.desc);
 
   //   if (
   //     inputValue === "" &&
