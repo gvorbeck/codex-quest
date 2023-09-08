@@ -1,5 +1,5 @@
 import { Button, Input, Tooltip, Typography } from "antd";
-import { useEffect, useState, useRef, ReactNode, FC } from "react";
+import { useEffect, useState, useRef, FC } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
@@ -18,13 +18,15 @@ export default function Description({
   setCharacterData,
   userIsOwner,
 }: CharacterDescriptionProps) {
-  if (typeof characterData.desc === "string") {
-    setCharacterData({
-      ...characterData,
-      desc: [characterData.desc],
-    });
-  }
+  // Hooks and state variables
+  const { uid, id } = useParams();
+  const initialDesc = Array.isArray(characterData.desc)
+    ? characterData.desc
+    : [characterData.desc];
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [textAreaValues, setTextAreaValues] = useState<string[]>(initialDesc);
 
+  // Button component for adding and deleting text fields
   const DescriptionFieldButton: FC<DescriptionFieldButtonProps> = ({
     handler,
     icon,
@@ -38,26 +40,89 @@ export default function Description({
     );
   };
 
-  const handleAddDescriptionField = () => {
-    setCharacterData({
-      ...characterData,
-      desc: [...characterData.desc, ""],
-    });
+  // Function to update the database
+  const updateDatabase = async () => {
+    if (!uid || !id) {
+      console.error("User ID or Character ID is undefined");
+      return;
+    }
+    const sanitizedValues = textAreaValues.map((value) =>
+      DOMPurify.sanitize(value)
+    );
+    if (
+      JSON.stringify(characterData.desc) !== JSON.stringify(sanitizedValues)
+    ) {
+      const docRef = doc(db, "users", uid, "characters", id);
+      try {
+        await updateDoc(docRef, {
+          desc: sanitizedValues,
+        });
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
   };
 
+  // Function to add a new description field
+  const handleAddDescriptionField = () => {
+    const newTextAreaValues = [...textAreaValues, ""];
+    setTextAreaValues(newTextAreaValues);
+  };
+
+  // Function to delete a description field
   const handleDeleteDescriptionField = (index: number) => {
-    // remove the description field at the given index
-    let newDescription = characterData.desc;
-    if (typeof characterData.desc === "object") {
-      newDescription = characterData.desc.filter(
-        (_: string, i: number) => i !== index
-      );
+    const newTextAreaValues = textAreaValues.filter((_, i) => i !== index);
+    setTextAreaValues(newTextAreaValues);
+  };
+
+  // Function to handle text area changes
+  const handleTextAreaChange = (value: string, index: number) => {
+    const sanitizedValue = DOMPurify.sanitize(value);
+    const newTextAreaValues = [...textAreaValues];
+    newTextAreaValues[index] = sanitizedValue;
+    setTextAreaValues(newTextAreaValues);
+  };
+
+  // Function to handle immediate database update on blur
+  const handleImmediateUpdate = async () => {
+    await updateDatabase();
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
+  };
+
+  // Effect to initialize characterData.desc
+  useEffect(() => {
+    if (typeof characterData.desc === "string") {
+      setCharacterData({
+        ...characterData,
+        desc: [characterData.desc],
+      });
+    }
+  }, [characterData.desc]);
+
+  // Effect to update characterData.desc when textAreaValues change
+  useEffect(() => {
     setCharacterData({
       ...characterData,
-      desc: newDescription,
+      desc: textAreaValues,
     });
-  };
+  }, [textAreaValues]);
+
+  // Effect to handle database update with a delay
+  useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      updateDatabase();
+    }, 1000);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [textAreaValues]);
 
   return (
     <div>
@@ -77,7 +142,7 @@ export default function Description({
         {typeof characterData.desc === "object" &&
           characterData.desc.map((desc: string, index: number) => {
             return (
-              <div className="relative pl-12">
+              <div className="relative pl-12" key={index}>
                 {index > 0 && (
                   <DescriptionFieldButton
                     handler={() => handleDeleteDescriptionField(index)}
@@ -97,9 +162,9 @@ export default function Description({
                   rows={10}
                   name="Bio & Notes"
                   placeholder={`Write anything and everything about ${characterData.name}`}
-                  // onChange={handleInputChange}
-                  // onBlur={updateDescription}
+                  onChange={(e) => handleTextAreaChange(e.target.value, index)}
                   disabled={!userIsOwner}
+                  onBlur={() => handleImmediateUpdate()}
                 />
               </div>
             );
@@ -107,85 +172,4 @@ export default function Description({
       </div>
     </div>
   );
-  //   const [inputValue, setInputValue] = useState(characterData.desc || "");
-  //   const { uid, id } = useParams();
-  //   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  //   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //     const cleanInput = DOMPurify.sanitize(event.target.value);
-  //     setInputValue(cleanInput);
-  //   };
-
-  //   if (
-  //     inputValue === "" &&
-  //     !Object.values(ClassNames).includes(
-  //       characterData.class.split(" ")[0] as ClassNames
-  //     )
-  //   ) {
-  //     const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
-  //     setInputValue(placeholderSavingThrows);
-  //   }
-
-  //   const updateDescription = async () => {
-  //     if (!uid || !id) {
-  //       console.error("User ID or Character ID is undefined");
-  //       return;
-  //     }
-
-  //     if (characterData.desc !== inputValue) {
-  //       const docRef = doc(db, "users", uid, "characters", id);
-  //       try {
-  //         await updateDoc(docRef, {
-  //           desc: inputValue,
-  //         });
-  //         setCharacterData({
-  //           ...characterData,
-  //           desc: inputValue,
-  //         });
-  //       } catch (error) {
-  //         console.error("Error updating document: ", error);
-  //       }
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     if (timeoutRef.current) {
-  //       clearTimeout(timeoutRef.current);
-  //     }
-  //     timeoutRef.current = setTimeout(updateDescription, 5000);
-  //     return () => {
-  //       if (timeoutRef.current) {
-  //         clearTimeout(timeoutRef.current);
-  //       }
-  //     };
-  //   }, [inputValue]);
-
-  //   return (
-  //     <div>
-  //       <div className="flex items-baseline gap-4">
-  //         <Typography.Title level={3} className="mt-0 !text-shipGray">
-  //           Bio & Notes
-  //         </Typography.Title>
-  //         {!Object.values(ClassNames).includes(
-  //           characterData.class as ClassNames
-  //         ) && (
-  //           <HelpTooltip
-  //             text={`You can clear this field to restore the "${characterData.class}" Saving Throws template.`}
-  //           />
-  //         )}
-  //       </div>
-  //       <Tooltip title="search">
-  //         <Button type="primary" shape="circle" icon={<PlusCircleOutlined />} />
-  //       </Tooltip>
-  //       <Input.TextArea
-  //         value={inputValue}
-  //         rows={10}
-  //         name="Bio & Notes"
-  //         placeholder={`Write anything and everything about ${characterData.name}`}
-  //         onChange={handleInputChange}
-  //         onBlur={updateDescription}
-  //         disabled={!userIsOwner}
-  //       />
-  //     </div>
-  //   );
 }
