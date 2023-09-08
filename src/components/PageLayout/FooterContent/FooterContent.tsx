@@ -3,6 +3,7 @@ import { Typography } from "antd";
 import { FooterContentProps } from "./definitions";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
+import { version } from "../../../../package.json";
 
 export default function FooterContent({ className }: FooterContentProps) {
   const FooterContentClassNames = classNames(className, "text-springWood");
@@ -10,7 +11,7 @@ export default function FooterContent({ className }: FooterContentProps) {
   return (
     <div className={FooterContentClassNames}>
       <Typography.Paragraph>
-        © 2023 J. Garrett Vorbeck. All rights reserved. v1.12.0.2
+        © 2023 J. Garrett Vorbeck. All rights reserved. {version}
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
