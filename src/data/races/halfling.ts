@@ -10,6 +10,7 @@ export const halfling: RaceSetup = {
     ClassNamesTwo.DRUID,
     ClassNamesTwo.FIGHTER,
     ClassNamesTwo.THIEF,
+    ClassNamesTwo.RANGER,
   ],
   minimumAbilityRequirements: { dexterity: 9 },
   maximumAbilityRequirements: { strength: 17 },
