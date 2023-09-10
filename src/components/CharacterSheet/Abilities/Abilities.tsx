@@ -3,22 +3,25 @@ import { Table, Typography } from "antd";
 import { AbilitiesProps } from "./definitions";
 
 export default function Abilities({ characterData }: AbilitiesProps) {
-  const dataSource: {
-    key: number;
-    ability: string;
-    score: any;
-    modifier: string | number;
-  }[] = [];
-
   const columns = [
     { title: "Ability", dataIndex: "ability", key: "ability" },
     { title: "Score", dataIndex: "score", key: "score" },
     { title: "Modifier", dataIndex: "modifier", key: "modifier" },
   ];
 
-  Object.entries(characterData.abilities.scores).forEach(
-    ([key, value], index) => {
-      dataSource.push({
+  const abilityOrder = [
+    "strength",
+    "intelligence",
+    "wisdom",
+    "dexterity",
+    "constitution",
+    "charisma",
+  ];
+
+  const dataSource = Object.entries(characterData.abilities.scores)
+    .sort(([a], [b]) => abilityOrder.indexOf(a) - abilityOrder.indexOf(b))
+    .map(([key, value], index) => {
+      return {
         key: index + 1,
         ability: toTitleCase(key),
         score: value,
@@ -26,9 +29,8 @@ export default function Abilities({ characterData }: AbilitiesProps) {
           characterData.abilities.modifiers[
             key as keyof typeof characterData.abilities.modifiers
           ],
-      });
-    }
-  );
+      };
+    });
 
   return (
     <div>
