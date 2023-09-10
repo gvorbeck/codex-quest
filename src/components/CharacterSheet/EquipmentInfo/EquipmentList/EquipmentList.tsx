@@ -153,14 +153,18 @@ export default function EquipmentList({
             handleCustomDelete={handleCustomDelete}
           />
           {classes[characterData.class as ClassNamesTwo].powers?.map(
-            (power) => (
-              <ItemWrapper
-                item={power}
-                handleAttackClick={handleAttackClick}
-                handleAttack={handleAttack}
-                handleCustomDelete={handleCustomDelete}
-              />
-            )
+            (power) => {
+              return (
+                characterData.level >= (power.minLevel ?? 0) && (
+                  <ItemWrapper
+                    item={power}
+                    handleAttackClick={handleAttackClick}
+                    handleAttack={handleAttack}
+                    handleCustomDelete={handleCustomDelete}
+                  />
+                )
+              );
+            }
           )}
         </>
       )}
