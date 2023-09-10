@@ -32,6 +32,7 @@ export default function EquipmentInventory({
         <div>
           {/* STARTING EQUIPMENT */}
           {/* TODO remove repeated code */}
+          {/* BUG: combination classes crash page */}
           {classes[characterData.class as ClassNamesTwo].startingEquipment && (
             <List
               header={
