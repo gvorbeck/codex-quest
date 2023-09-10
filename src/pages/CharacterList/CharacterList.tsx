@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { CharacterListProps } from "./definitions";
 import { CharacterData } from "../../components/definitions";
 import classNames from "classnames";
-import CharacterCard from "./CharacterCard/CharacterCard";
+import CharacterCard from "../../components/CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
 
