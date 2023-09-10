@@ -6,6 +6,8 @@ import { ClassNamesTwo, classes } from "../data/classes";
 import { RaceNamesTwo, races } from "../data/races";
 
 export const getClassType = (characterClass: string) => {
+  // Check for "Custom"
+  if (characterClass === "Custom") return "custom";
   // Split the class string by space to check for combination classes
   const classes = characterClass.split(" ");
 
