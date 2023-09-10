@@ -67,12 +67,12 @@ export default function EquipmentList({
   };
 
   useEffect(() => {
-    // Find any item in characterData.equipment that has a `amount` property of 0, and remove it from the array. Then update characterData.
-    const newEquipment = characterData.equipment.filter(
+    // Remove empty items from the equipment array.
+    const remainingEquipment = characterData.equipment.filter(
       (item) => item.amount !== 0
     );
-    if (newEquipment.length !== characterData.equipment.length) {
-      setCharacterData({ ...characterData, equipment: newEquipment });
+    if (remainingEquipment.length !== characterData.equipment.length) {
+      setCharacterData({ ...characterData, equipment: remainingEquipment });
     }
   }, [characterData.equipment]);
 
