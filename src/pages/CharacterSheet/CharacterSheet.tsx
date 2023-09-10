@@ -48,6 +48,7 @@ import { ClassNamesTwo, classes } from "../../data/classes";
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { getClassType } from "../../support/helpers";
 import CheatSheetModal from "../../modals/CheatSheetModal";
+import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -324,11 +325,19 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {
             title: (
               <Link aria-label="Go back Home" to="/">
+                <HomeOutlined className="mr-2" />
                 Home
               </Link>
             ),
           },
-          { title: characterData.name },
+          {
+            title: (
+              <div>
+                <SolutionOutlined className="mr-2" />
+                {characterData.name}
+              </div>
+            ),
+          },
         ]}
       />
       {/* NAME / RACE / CLASS / LEVEL / XP */}

@@ -4,6 +4,7 @@ import { HeaderContentProps } from "./definitions";
 import { LogoutOutlined } from "@ant-design/icons";
 import LoginSignupModal from "../../../modals/LoginSignupModal";
 import { useState } from "react";
+import { title } from "../../../../package.json";
 
 export default function HeaderContent({
   auth,
@@ -25,8 +26,11 @@ export default function HeaderContent({
           level={1}
           className="!mb-0 mt-0 leading-none text-4xl"
         >
-          <Link to="/" className="text-white">
-            CODEX.QUEST
+          <Link
+            to="/"
+            className="text-white/95 font-enchant tracking-wider text-5xl"
+          >
+            {title}
           </Link>
         </Typography.Title>
         {user && (
