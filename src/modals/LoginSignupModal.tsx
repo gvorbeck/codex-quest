@@ -105,13 +105,11 @@ export default function LoginSignupModal({
         // Signed in
         const user = userCredential.user;
         navigate("/");
-        console.log(user);
         handleCancel();
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
         // Here, you can also show a message to the user about the failed login
         // but the modal will remain open
       });
@@ -124,15 +122,13 @@ export default function LoginSignupModal({
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
         navigate("/");
-        console.log(user);
         handleCancel();
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        console.error(errorCode, errorMessage);
         // ..
       });
   };

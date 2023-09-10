@@ -9,6 +9,7 @@ export const halfOgre: RaceSetup = {
     ClassNamesTwo.DRUID,
     ClassNamesTwo.FIGHTER,
     ClassNamesTwo.BARBARIAN,
+    ClassNamesTwo.PALADIN,
   ],
   minimumAbilityRequirements: { strength: 13, constitution: 13 },
   maximumAbilityRequirements: { intelligence: 15, wisdom: 15 },

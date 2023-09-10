@@ -18,7 +18,6 @@ export default function HitPointsRoller({
   };
 
   const rollHitPoints = (score?: number) => {
-    console.log("bar");
     const result =
       score ||
       roller.roll(characterData.hp.dice).total +
@@ -27,7 +26,6 @@ export default function HitPointsRoller({
   };
 
   useEffect(() => {
-    console.log("foo:", hitPoints);
     setCharacterData({
       ...characterData,
       hp: { ...characterData.hp, points: hitPoints, max: hitPoints },

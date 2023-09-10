@@ -67,32 +67,11 @@ export interface AttackModalProps extends ModalProps {
   isAttackModalOpen: boolean;
   attackBonus: number;
   weapon?: EquipmentItem;
-}
-
-export interface RangeRadioButtons {
-  missileRangeBonus: number;
-  handleRangeChange: (e: RadioChangeEvent) => void;
-  missileRangeValues: number[];
-}
-
-export interface AttackButtonsProps {
-  weapon: EquipmentItem;
-  damage?: (damage: string) => void;
-  attack: (attack: "melee" | "missile") => void;
-  type: "melee" | "missile";
-  className?: string;
-  ammo?: EquipmentItem;
-  isMissile?: boolean;
+  setCharacterData: (character: CharacterData) => void;
 }
 
 export interface CreateCharacterModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   onCharacterAdded: () => void;
-}
-
-export interface AmmoSelectProps {
-  ammo: string[];
-  equipment: EquipmentItem[];
-  setAmmo: (ammo: EquipmentItem) => void;
 }

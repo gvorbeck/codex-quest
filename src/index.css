@@ -55,3 +55,8 @@ footer a {
 .ant-card-actions li span .anticon:hover {
   color: rgba(0, 0, 0, 0.75) !important;
 }
+
+@font-face {
+  font-family: "Enchant";
+  src: url("assets/fonts/Enchant.ttf") format("truetype");
+}

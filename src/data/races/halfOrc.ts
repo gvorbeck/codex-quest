@@ -14,6 +14,8 @@ export const halfOrc: RaceSetup = {
     ClassNamesTwo.THIEF,
     ClassNamesTwo.ASSASSIN,
     ClassNamesTwo.NECROMANCER,
+    ClassNamesTwo.RANGER,
+    ClassNamesTwo.PALADIN,
   ],
   minimumAbilityRequirements: { constitution: 9 },
   maximumAbilityRequirements: { intelligence: 17 },

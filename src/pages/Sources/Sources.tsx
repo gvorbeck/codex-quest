@@ -38,7 +38,7 @@ export default function Sources() {
         </List.Item>
         <List.Item>
           Gonnerman, et al. "Druids: A Basic Fantasy Supplement." Basic Fantasy
-          Role-Playing Game, 2023, basicfantasy.org/downloads.html.
+          Role-Playing Game, 2022, basicfantasy.org/downloads.html.
         </List.Item>
         <List.Item>
           Gonnerman, et al. "Illusionists: A Basic Fantasy Supplement." Basic
@@ -54,7 +54,12 @@ export default function Sources() {
         </List.Item>
         <List.Item>
           Smoot, et al. "Necromancers: A Basic Fantasy Supplement." Basic
-          Fantasy Role-Playing Game, 2023, basicfantasy.org/downloads.html.
+          Fantasy Role-Playing Game, 2021, basicfantasy.org/downloads.html.
+        </List.Item>
+        <List.Item>
+          Gonnerman, et al. "Rangers and Paladins: A Basic Fantasy Supplement."
+          Basic Fantasy Role-Playing Game, 2021,
+          basicfantasy.org/downloads.html.
         </List.Item>
       </List>
     </div>

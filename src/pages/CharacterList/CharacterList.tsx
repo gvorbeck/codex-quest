@@ -1,17 +1,16 @@
 import { Col, Empty, Row, Spin } from "antd";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import { CharacterListProps } from "./definitions";
 import { CharacterData } from "../../components/definitions";
 import classNames from "classnames";
-import CharacterCard from "./CharacterCard/CharacterCard";
+import CharacterCard from "../../components/CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
 
 export default function CharacterList({ user, className }: CharacterListProps) {
-  const navigate = useNavigate();
   const outletContext = useOutletContext() as { className: string };
   const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,6 +99,7 @@ export default function CharacterList({ user, className }: CharacterListProps) {
                     characterData={characterData}
                     user={user}
                     image={image}
+                    confirm={confirm}
                   />
                 </Col>
               );

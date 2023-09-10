@@ -7,6 +7,8 @@ import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { ClassNamesTwo, classes } from "../../../../data/classes";
+import { use } from "marked";
+import { useEffect } from "react";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -63,6 +65,16 @@ export default function EquipmentList({
       updateAC && updateAC();
     }
   };
+
+  useEffect(() => {
+    // Remove empty items from the equipment array.
+    const remainingEquipment = characterData.equipment.filter(
+      (item) => item.amount !== 0
+    );
+    if (remainingEquipment.length !== characterData.equipment.length) {
+      setCharacterData({ ...characterData, equipment: remainingEquipment });
+    }
+  }, [characterData.equipment]);
 
   return categories.includes("armor") || categories.includes("shields") ? (
     <Radio.Group
@@ -141,14 +153,18 @@ export default function EquipmentList({
             handleCustomDelete={handleCustomDelete}
           />
           {classes[characterData.class as ClassNamesTwo].powers?.map(
-            (power) => (
-              <ItemWrapper
-                item={power}
-                handleAttackClick={handleAttackClick}
-                handleAttack={handleAttack}
-                handleCustomDelete={handleCustomDelete}
-              />
-            )
+            (power) => {
+              return (
+                characterData.level >= (power.minLevel ?? 0) && (
+                  <ItemWrapper
+                    item={power}
+                    handleAttackClick={handleAttackClick}
+                    handleAttack={handleAttack}
+                    handleCustomDelete={handleCustomDelete}
+                  />
+                )
+              );
+            }
           )}
         </>
       )}

@@ -40,7 +40,7 @@ import LevelUpModal from "../../modals/LevelUpModal";
 import DiceRollerModal from "../../modals/DiceRollerModal";
 import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
-import AttackModal from "../../modals/AttackModal";
+import AttackModal from "../../components/AttackModal/AttackModal";
 // DATA
 import equipmentItems from "../../data/equipmentItems.json";
 import { ClassNamesTwo, classes } from "../../data/classes";
@@ -48,6 +48,7 @@ import { ClassNamesTwo, classes } from "../../data/classes";
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { getClassType } from "../../support/helpers";
 import CheatSheetModal from "../../modals/CheatSheetModal";
+import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -148,7 +149,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   };
 
   // ARMOR CLASS (AC)
-  const getArmorClass = (characterData: CharacterData) => {
+  const getArmorClass = (
+    characterData: CharacterData,
+    type: "missile" | "melee" = "melee"
+  ) => {
     if (!characterData) return;
 
     let armorClass = 11;
@@ -170,15 +174,27 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           )[0]?.AC ||
           0
       );
-      shieldAC = Number(
-        equipmentItems.filter(
-          (item) => item.name === characterData.wearing?.shield
-        )[0]?.AC ||
-          characterData.equipment.filter(
+      if (type === "melee") {
+        shieldAC = Number(
+          equipmentItems.filter(
             (item) => item.name === characterData.wearing?.shield
           )[0]?.AC ||
-          0
-      );
+            characterData.equipment.filter(
+              (item) => item.name === characterData.wearing?.shield
+            )[0]?.AC ||
+            0
+        );
+      } else {
+        shieldAC = Number(
+          equipmentItems.filter(
+            (item) => item.name === characterData.wearing?.shield
+          )[0]?.missileAC ||
+            characterData.equipment.filter(
+              (item) => item.name === characterData.wearing?.shield
+            )[0]?.missileAC ||
+            0
+        );
+      }
       armorClass =
         armorAC + shieldAC > armorClass + shieldAC
           ? armorAC + shieldAC
@@ -278,6 +294,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     }
   }
 
+  const showMissileAC =
+    characterData &&
+    getArmorClass(characterData, "missile") !== getArmorClass(characterData);
+
   // GET CHARACTERDATA
   useEffect(() => {
     const characterDocRef = doc(db, `users/${uid}/characters/${id}`);
@@ -305,11 +325,19 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {
             title: (
               <Link aria-label="Go back Home" to="/">
+                <HomeOutlined className="mr-2" />
                 Home
               </Link>
             ),
           },
-          { title: characterData.name },
+          {
+            title: (
+              <div>
+                <SolutionOutlined className="mr-2" />
+                {characterData.name}
+              </div>
+            ),
+          },
         ]}
       />
       {/* NAME / RACE / CLASS / LEVEL / XP */}
@@ -361,13 +389,21 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           <SimpleNumberStat
             title="Armor Class"
             value={getArmorClass(characterData) || 0}
-            helpText="Base AC is 11. Select the armor your character is wearing in the Equipment section below."
+            altValue={
+              showMissileAC
+                ? getArmorClass(characterData, "missile")
+                : undefined
+            }
+            helpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.${
+              showMissileAC &&
+              `\n\nThe smaller number is the AC your character's worn shield provides against **missile attacks**.`
+            }`}
           />
           {/* MOVEMENT */}
           <SimpleNumberStat
             title="Movement"
             value={`${getMovement(characterData)}'`}
-            helpText="Movement starts at 40' and is affected by how much weight your character is carrying and the armor they are wearing."
+            helpText={`Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`}
           />
           {/* HIT DICE */}
           <SimpleNumberStat
@@ -482,6 +518,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
         characterData={characterData}
         attackBonus={getAttackBonus(characterData)}
         weapon={weapon}
+        setCharacterData={setCharacterData}
       />
       <CheatSheetModal
         handleCancel={handleCancel}

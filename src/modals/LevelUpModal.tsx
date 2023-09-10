@@ -108,7 +108,7 @@ export default function LevelUpModal({
       [0, 0, 0, 0, 0, 0]
     );
     if (
-      classes[characterData.class as ClassNamesTwo].spellBudget &&
+      classes[characterData.class as ClassNamesTwo]?.spellBudget &&
       getClassType(characterData.class) !== "custom"
     ) {
       if (getClassType(characterData.class) === "standard") {

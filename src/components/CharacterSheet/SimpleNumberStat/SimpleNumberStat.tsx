@@ -6,6 +6,7 @@ export default function SimpleNumberStat({
   title,
   value,
   helpText,
+  altValue,
 }: SimpleNumberStatProps) {
   return (
     <Statistic
@@ -25,6 +26,7 @@ export default function SimpleNumberStat({
         fontWeight: "bold",
         color: "#3E3643",
       }}
+      suffix={altValue && <div className="text-base">/ {altValue}</div>}
     />
   );
 }

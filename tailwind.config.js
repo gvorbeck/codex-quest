@@ -18,6 +18,9 @@ module.exports = {
         sm: "450px",
         print: { raw: "print" },
       },
+      fontFamily: {
+        enchant: ["Enchant", "serif"],
+      },
     },
   },
   plugins: ["tailwindcss ,autoprefixer"],

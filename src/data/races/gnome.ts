@@ -13,6 +13,7 @@ export const gnome: RaceSetup = {
     ClassNamesTwo.MAGICUSER,
     ClassNamesTwo.THIEF,
     ClassNamesTwo.NECROMANCER,
+    ClassNamesTwo.PALADIN,
   ],
   allowedCombinationClasses: [ClassNamesTwo.MAGICUSER, ClassNamesTwo.THIEF],
   noLargeEquipment: true,

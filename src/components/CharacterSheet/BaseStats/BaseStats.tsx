@@ -32,19 +32,19 @@ export default function BaseStats({
             size={64}
             src={image}
             alt={characterData.name}
-            className="print:grayscale shadow-md"
+            className="print:grayscale shadow-md border-solid border-2 border-seaBuckthorn"
           />
         ) : (
           <Avatar
             size={64}
             icon={<UserOutlined />}
             alt={characterData.name}
-            className="print:hidden shadow-md"
+            className="print:hidden shadow-md border-solid border-2 border-seaBuckthorn"
           />
         )}
         <Typography.Title
           level={2}
-          className="!mt-0 !mb-0 !text-shipGray ml-4 text-center"
+          className="mt-0 mb-0 text-shipGray ml-4 text-center font-enchant text-6xl tracking-wide"
         >
           {characterData.name}
         </Typography.Title>

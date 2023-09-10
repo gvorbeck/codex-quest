@@ -34,7 +34,6 @@ export default function CharacterHitPoints({
 
       // Check for raceData.maximumHitDice and compare with the largest die
       const raceData = races[characterData.race as RaceNamesTwo];
-      console.log(raceData);
       if (
         raceData &&
         raceData.maximumHitDice !== undefined &&

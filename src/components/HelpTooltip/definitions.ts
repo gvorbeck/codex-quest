@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
 export interface HelpTooltipProps {
-  text: string | ReactNode;
+  text: string;
   className?: string;
 }

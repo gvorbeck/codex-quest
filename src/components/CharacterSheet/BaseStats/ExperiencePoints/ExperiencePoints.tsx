@@ -134,7 +134,7 @@ export default function ExperiencePoints({
       </Space.Compact>
       <HelpTooltip
         className="ml-4"
-        text="You can add to your XP total by highlighting the current value and typing '+250' to add 250 XP to your total and hitting Enter."
+        text="You can add to your XP total by highlighting the current value and typing a number starting with _+ or -_ (ex: _+250_) and hitting Enter."
       />
     </div>
   );

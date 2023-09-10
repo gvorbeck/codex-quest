@@ -11,6 +11,7 @@ export default function CharacterCard({
   characterData,
   user,
   image,
+  confirm,
 }: CharacterCardProps) {
   const navigate = useNavigate();
   return (
@@ -42,7 +43,7 @@ export default function CharacterCard({
           />
         </Popconfirm>,
       ]}
-      className="h-full flex flex-col justify-between [&>ul]:border-t-solid [&>ul]:border-t-2 [&>ul]:border-[rgba(0,0,0,0.1)]"
+      className="h-full flex flex-col justify-between shadow-md [&>ul]:border-t-solid [&>ul]:border-t-2 [&>ul]:border-[rgba(0,0,0,0.1)]"
     >
       <Card.Meta
         description={
@@ -70,7 +71,11 @@ export default function CharacterCard({
             />
           )
         }
-        title={<span className="text-center block">{characterData.name}</span>}
+        title={
+          <span className="text-center block font-enchant text-2xl/[3rem] tracking-wide text-shipGray border-solid border-0 border-b-2 border-seaBuckthorn">
+            {characterData.name}
+          </span>
+        }
       />
     </Card>
   );

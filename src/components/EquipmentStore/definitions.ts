@@ -23,4 +23,5 @@ export interface EquipmentItem {
   range?: number[];
   ammo?: string[];
   noDelete?: boolean;
+  minLevel?: number;
 }
