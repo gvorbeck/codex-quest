@@ -17,8 +17,6 @@ import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilitie
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
-marked.use({ mangle: false, headerIds: false });
-
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
   
@@ -322,7 +320,10 @@ export default function CharacterCreator() {
         />
         <div className="relative">
           {current === 4 && <FloatingGold />}
-          <Typography.Title level={1} className="mt-0 text-shipGray">
+          <Typography.Title
+            level={1}
+            className="mt-0 text-shipGray font-enchant text-5xl tracking-wide"
+          >
             {steps[current].fullTitle}
           </Typography.Title>
           <Typography.Paragraph>
