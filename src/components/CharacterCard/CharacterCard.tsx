@@ -43,7 +43,7 @@ export default function CharacterCard({
           />
         </Popconfirm>,
       ]}
-      className="h-full flex flex-col justify-between [&>ul]:border-t-solid [&>ul]:border-t-2 [&>ul]:border-[rgba(0,0,0,0.1)]"
+      className="h-full flex flex-col justify-between shadow-md [&>ul]:border-t-solid [&>ul]:border-t-2 [&>ul]:border-[rgba(0,0,0,0.1)]"
     >
       <Card.Meta
         description={
