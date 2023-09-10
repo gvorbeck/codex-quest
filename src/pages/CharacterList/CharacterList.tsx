@@ -99,6 +99,7 @@ export default function CharacterList({ user, className }: CharacterListProps) {
                     characterData={characterData}
                     user={user}
                     image={image}
+                    confirm={confirm}
                   />
                 </Col>
               );

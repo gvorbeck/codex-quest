@@ -5,4 +5,5 @@ export type CharacterCardProps = {
   characterData: CharacterData;
   user: User | null;
   image: string;
+  confirm: (characterId: string) => Promise<void>;
 };

@@ -11,6 +11,7 @@ export default function CharacterCard({
   characterData,
   user,
   image,
+  confirm,
 }: CharacterCardProps) {
   const navigate = useNavigate();
   return (
