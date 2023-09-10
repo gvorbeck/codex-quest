@@ -71,7 +71,11 @@ export default function CharacterCard({
             />
           )
         }
-        title={<span className="text-center block">{characterData.name}</span>}
+        title={
+          <span className="text-center block font-enchant text-2xl/[3rem] tracking-wide text-shipGray border-solid border-0 border-b-2 border-seaBuckthorn">
+            {characterData.name}
+          </span>
+        }
       />
     </Card>
   );
