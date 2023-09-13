@@ -34,18 +34,24 @@ export default function CharacterClass({
       characterData.class !== ""
     ) {
       setShowCustomClassInput(true);
-      setCustomClassInput(characterData.class);
+      setCustomClassInput(
+        Array.isArray(characterData.class)
+          ? characterData.class.join(" ")
+          : characterData.class
+      );
     } else {
       setShowCustomClassInput(false);
       setCustomClassInput("");
     }
-  }, []);
+  }, [characterData.class]);
+
+  console.log(getClassType(characterData.class));
 
   useEffect(() => {
     if (comboClass) {
       setCharacterData({
         ...characterData,
-        class: checkedClasses.join(" "),
+        class: checkedClasses,
       });
     }
   }, [checkedClasses, comboClass]);
@@ -68,6 +74,23 @@ export default function CharacterClass({
 
   const raceKey = characterData.race as keyof typeof races;
   const allowedCombinationClasses = races[raceKey]?.allowedCombinationClasses;
+
+  const showStartingSpells = (classValue: string | string[]) => {
+    if (
+      typeof classValue === "string" &&
+      classes?.[classValue as ClassNamesTwo]?.spellBudget &&
+      classes?.[classValue as ClassNamesTwo]?.spellBudget?.[0][0] !== 0
+    )
+      return true;
+
+    if (Array.isArray(classValue)) {
+      return classValue.some(
+        (className) =>
+          classes?.[className as ClassNamesTwo]?.spellBudget &&
+          classes?.[className as ClassNamesTwo]?.spellBudget?.[0][0] !== 0
+      );
+    }
+  };
 
   return (
     <>
@@ -105,34 +128,25 @@ export default function CharacterClass({
             setCustomClassInput={setCustomClassInput}
           />
         )}
-        {!characterData.class
-          .split(" ")
-          .some((part) =>
-            Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
-          ) &&
+        {getClassType(characterData.class) === "custom" &&
           characterData.class !== "" && (
             <CustomClassStartingSpells
               characterData={characterData}
               setCharacterData={setCharacterData}
             />
           )}
-        {characterData.class
-          .split(" ")
-          .some(
-            (className) =>
-              classes?.[className as ClassNamesTwo]?.spellBudget &&
-              classes?.[className as ClassNamesTwo]?.spellBudget?.[0][0] !== 0
-          ) && (
-          <StartingSpells
-            characterData={characterData}
-            setCharacterData={setCharacterData}
-            selectedSpell={selectedSpell}
-            setSelectedSpell={setSelectedSpell}
-            setModalName={setModalName}
-            setModalDescription={setModalDescription}
-            setIsModalOpen={setIsModalOpen}
-          />
-        )}
+        {getClassType(characterData.class) !== "custom" &&
+          showStartingSpells(characterData.class) && (
+            <StartingSpells
+              characterData={characterData}
+              setCharacterData={setCharacterData}
+              selectedSpell={selectedSpell}
+              setSelectedSpell={setSelectedSpell}
+              setModalName={setModalName}
+              setModalDescription={setModalDescription}
+              setIsModalOpen={setIsModalOpen}
+            />
+          )}
         <SpellDescriptionModal
           title={modalName || ""}
           isModalOpen={isModalOpen}

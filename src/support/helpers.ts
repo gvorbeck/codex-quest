@@ -5,25 +5,14 @@ import {
 import { ClassNamesTwo, classes } from "../data/classes";
 import { RaceNamesTwo, races } from "../data/races";
 
-export const getClassType = (characterClass: string) => {
-  // Check for "Custom"
-  if (characterClass === "Custom") return "custom";
-  // Split the class string by space to check for combination classes
-  const classes = characterClass.split(" ");
+export const getClassType = (characterClass: string[]) => {
+  // If characterClass is an array return "combination"
+  if (Array.isArray(characterClass)) return "combination";
 
-  // Check if all parts of the class string are standard classes
-  const allStandard = classes.every((cls: string) =>
-    Object.values(ClassNamesTwo).includes(cls as ClassNamesTwo)
-  );
+  // If characterClass is a string and is a value in ClassNamesTwo return "standard"
+  if (Object.values(ClassNamesTwo).includes(characterClass as ClassNamesTwo))
+    return "standard";
 
-  if (allStandard) {
-    // If there's only one class and it's standard
-    if (classes.length === 1) return "standard";
-    // If there are two different standard classes
-    if (classes.length === 2 && classes[0] !== classes[1]) return "combination";
-  }
-
-  // If it's neither standard nor combination, it's custom
   return "custom";
 };
 
