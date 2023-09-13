@@ -1,7 +1,7 @@
 {
   "name": "codex-quest",
   "title": "Codex.Quest",
-  "version": "1.13.0.0",
+  "version": "1.14.0.0",
   "private": true,
   "license": "CC BY-SA 4.0",
   "dependencies": {
