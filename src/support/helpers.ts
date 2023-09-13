@@ -6,13 +6,15 @@ import { ClassNamesTwo, classes } from "../data/classes";
 import { RaceNamesTwo, races } from "../data/races";
 
 export const getClassType = (characterClass: string[]) => {
-  // If characterClass is an array return "combination"
-  if (Array.isArray(characterClass)) return "combination";
+  if (characterClass.length === 0 || characterClass[0] === "") return "none";
+  // If characterClass is an array with more than one element return "combination"
+  if (characterClass.length > 1) return "combination";
 
-  // If characterClass is a string and is a value in ClassNamesTwo return "standard"
-  if (Object.values(ClassNamesTwo).includes(characterClass as ClassNamesTwo))
+  // if characterClass[0] is in `ClassNamesTwo` enum return "standard"
+  if (Object.values(ClassNamesTwo).includes(characterClass[0] as ClassNamesTwo))
     return "standard";
 
+  console.log(characterClass);
   return "custom";
 };
 

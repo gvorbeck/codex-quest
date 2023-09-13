@@ -30,13 +30,13 @@ export default function SavingThrows({
     );
 
   if (getClassType(characterData.class) === "standard") {
-    const savingThrowForLevel = getSavingThrowsForLevel(characterData.class);
+    const savingThrowForLevel = getSavingThrowsForLevel(characterData.class[0]);
     baseSavingThrows = savingThrowForLevel
       ? (savingThrowForLevel[1] as SavingThrowsType)
       : defaultSavingThrows;
   } else {
     // Split the combination class into its two components
-    const [firstClass, secondClass] = characterData.class.split(" ");
+    const [firstClass, secondClass] = characterData.class;
 
     // Find the best saving throw for each component class
     let getSavingThrowsForLevelResult = getSavingThrowsForLevel(firstClass);

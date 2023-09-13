@@ -49,11 +49,8 @@ export default function StartingSpells({
       >
         {spellsData
           .filter((spell) => {
-            const characterClasses = characterData.class
-              .toLowerCase()
-              .split(" ");
             return (
-              characterClasses.some(
+              characterData.class.some(
                 (characterClass) =>
                   (spell.level as Record<string, number | null>)[
                     characterClass

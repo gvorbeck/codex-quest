@@ -89,8 +89,7 @@ export default function ExperiencePoints({
     }
   };
 
-  const classNames = characterData.class.split(" ");
-  const totalLevelRequirement = classNames
+  const totalLevelRequirement = characterData.class
     .map((className) => {
       const classRequirements =
         classes[className as ClassNamesTwo]?.experiencePoints;

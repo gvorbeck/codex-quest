@@ -112,7 +112,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   };
 
   // HIT DICE
-  const hitDice = (level: number, className: string, dice: string) => {
+  const hitDice = (level: number, className: string[], dice: string) => {
+    // TODO: This should be using class modifier and specific classes should not be called out here.
     const dieType = dice.split("d")[1].split("+")[0];
     const prefix = Math.min(level, 9);
 
@@ -120,8 +121,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     let suffix = level > 9 ? level - 9 : 0;
     if (
       className.includes(ClassNamesTwo.FIGHTER) ||
-      className === ClassNamesTwo.ASSASSIN ||
-      className === ClassNamesTwo.BARBARIAN ||
+      className.includes(ClassNamesTwo.ASSASSIN) ||
+      className.includes(ClassNamesTwo.BARBARIAN) ||
       className.includes(ClassNamesTwo.THIEF)
     ) {
       suffix *= 2;
@@ -137,7 +138,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     if (getClassType(characterData.class) === "custom") return 0;
     let maxAttackBonus = 0;
 
-    characterData.class.split(" ").forEach((classPiece) => {
+    characterData.class.forEach((classPiece) => {
       const classAttackBonus =
         classes[classPiece as ClassNamesTwo].attackBonus[characterData.level];
       if (classAttackBonus > maxAttackBonus) {
@@ -305,7 +306,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     // Listen to real-time updates
     const unsubscribe = onSnapshot(characterDocRef, (snapshot) => {
       if (snapshot.exists()) {
-        const characterData = snapshot.data() as CharacterData;
+        let characterData = snapshot.data() as CharacterData;
+        if (typeof characterData.class === "string")
+          characterData.class = [characterData.class];
         setCharacterData(characterData);
         document.title = `${characterData.name} | CODEX.QUEST`;
       } else {
@@ -426,7 +429,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             className="md:col-span-2 row-span-6 print:row-span-2"
           />
           {/* SPECIAL ABILITIES TABLE */}
-          {characterData.class.split(" ").map((cls) => {
+          {characterData.class.map((cls) => {
             if (classes[cls as ClassNamesTwo]?.specialAbilities) {
               return (
                 <SpecialAbilitiesTable

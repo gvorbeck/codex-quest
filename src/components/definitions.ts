@@ -32,7 +32,7 @@ interface SpecialRestriction {
 export interface CharacterData {
   abilities: Abilities;
   avatar: string;
-  class: string | string[];
+  class: string[];
   desc: string | string[];
   equipment: EquipmentItem[];
   gold: number;

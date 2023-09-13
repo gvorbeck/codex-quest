@@ -41,7 +41,7 @@ export default function CharacterAbilities({
         scores: { ...characterData.abilities.scores, ...scores },
         modifiers: { ...characterData.abilities.modifiers, ...modifiers },
       },
-      class: "",
+      class: [],
       race: "",
       hp: {
         dice: "",

@@ -9,9 +9,9 @@ import {
   DescriptionFieldButtonProps,
 } from "./definitions";
 import DOMPurify from "dompurify";
-import { ClassNames } from "../../definitions";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import classNames from "classnames";
+import { getClassType } from "../../../support/helpers";
 
 export default function Description({
   characterData,
@@ -130,9 +130,7 @@ export default function Description({
         <Typography.Title level={3} className="mt-0 !text-shipGray">
           Bio & Notes
         </Typography.Title>
-        {!Object.values(ClassNames).includes(
-          characterData.class as ClassNames
-        ) && (
+        {getClassType(characterData.class) === "custom" && (
           <HelpTooltip
             text={`You can clear this field to restore the "${characterData.class}" Saving Throws template.`}
           />

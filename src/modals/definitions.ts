@@ -10,7 +10,7 @@ interface ModalProps {
 
 export interface LevelUpModalProps extends ModalProps {
   isLevelUpModalOpen: boolean;
-  hitDice: (level: number, className: string, dice: string) => string;
+  hitDice: (level: number, className: string[], dice: string) => string;
   setCharacterData: (character: CharacterData) => void;
   characterData: CharacterData;
 }

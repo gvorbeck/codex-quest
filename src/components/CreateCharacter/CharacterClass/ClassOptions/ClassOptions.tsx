@@ -20,6 +20,7 @@ export default function ClassOptions({
   );
 
   const onClassRadioChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     if (e.target.value === "Custom") setShowCustomClassInput(true);
     else setShowCustomClassInput(false);
 
@@ -36,7 +37,7 @@ export default function ClassOptions({
 
     setCharacterData({
       ...characterData,
-      class: classValue,
+      class: [classValue],
       hp: { dice: "", points: 0, max: 0, desc: "" },
       spells,
       equipment: [],
@@ -45,7 +46,7 @@ export default function ClassOptions({
   return (
     <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
       <Radio.Group
-        value={characterData.class}
+        value={characterData.class[0]}
         onChange={onClassRadioChange}
         buttonStyle="solid"
         className="block"
@@ -78,14 +79,11 @@ export default function ClassOptions({
             })}
         </Space>
       </Radio.Group>
-      {characterData.class &&
-        Object.values(ClassNamesTwo).includes(
-          characterData.class as ClassNamesTwo
-        ) &&
-        getClassType(characterData.class) !== "custom" && (
+      {getClassType(characterData.class) !== "custom" &&
+        getClassType(characterData.class) !== "none" && (
           <DescriptionBubble
             description={
-              classes[characterData.class as ClassNamesTwo].details
+              classes[characterData.class[0] as ClassNamesTwo].details
                 ?.description || ""
             }
           />

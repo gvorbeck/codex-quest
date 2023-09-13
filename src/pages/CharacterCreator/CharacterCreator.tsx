@@ -5,14 +5,14 @@ import {
   ClassNames,
   SpellType,
 } from "../../components/definitions";
-import { Breadcrumb, Button, Divider, Steps, Typography, message } from "antd";
+import { Button, Divider, Steps, Typography, message } from "antd";
 import CharacterAbilities from "../../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
 import CharacterRace from "../../components/CreateCharacter/CharacterRace/CharacterRace";
 import CharacterClass from "../../components/CreateCharacter/CharacterClass/CharacterClass";
 import CharacterHitPoints from "../../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
 import EquipmentStore from "../../components/EquipmentStore/EquipmentStore";
 import CharacterName from "../../components/CreateCharacter/CharacterName/CharacterName";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilities/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
@@ -70,7 +70,7 @@ const emptyCharacter = {
       charisma: "",
     },
   },
-  class: "",
+  class: [],
   race: "",
   hp: {
     dice: "",
@@ -223,11 +223,11 @@ export default function CharacterCreator() {
       case 1:
         return characterData.race !== "";
       case 2:
-        if (characterData.class === "") {
+        if (characterData.class.length === 0) {
           return false;
         } else if (
           characterData.class.includes(ClassNames.MAGICUSER) ||
-          characterData.class === ClassNames.ILLUSIONIST
+          characterData.class.includes(ClassNames.ILLUSIONIST)
         ) {
           return characterData.spells.length > 1;
         }
@@ -298,19 +298,6 @@ export default function CharacterCreator() {
     <div className={`${outletContext.className}`}>
       {contextHolder}
       <div className="grid gap-4 md:grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
-        <Breadcrumb
-          className="col-span-full"
-          items={[
-            {
-              title: (
-                <Link aria-label="Go back Home" to="/">
-                  Home
-                </Link>
-              ),
-            },
-            { title: "Character Creator" },
-          ]}
-        />
         <Steps
           current={current}
           items={items}

@@ -152,34 +152,38 @@ export default function EquipmentList({
             handleAttack={handleAttack}
             handleCustomDelete={handleCustomDelete}
           />
-          {classes[characterData.class as ClassNamesTwo].powers?.map(
-            (power) => {
-              return (
-                characterData.level >= (power.minLevel ?? 0) && (
-                  <ItemWrapper
-                    item={power}
-                    handleAttackClick={handleAttackClick}
-                    handleAttack={handleAttack}
-                    handleCustomDelete={handleCustomDelete}
-                  />
-                )
-              );
-            }
+          {characterData.class.map(
+            (className) =>
+              classes[className as ClassNamesTwo].powers?.map((power) => {
+                return (
+                  characterData.level >= (power.minLevel ?? 0) && (
+                    <ItemWrapper
+                      item={power}
+                      handleAttackClick={handleAttackClick}
+                      handleAttack={handleAttack}
+                      handleCustomDelete={handleCustomDelete}
+                    />
+                  )
+                );
+              })
           )}
         </>
       )}
       {/* STARTING EQUIPMENT */}
       {categories.includes("general-equipment") &&
-        classes[characterData.class as ClassNamesTwo].startingEquipment?.map(
-          (item: EquipmentItem) => (
-            <ItemWrapper
-              item={item}
-              handleCustomDelete={handleCustomDelete}
-              handleAttack={handleAttack}
-              handleAttackClick={handleAttackClick}
-              key={item.name}
-            />
-          )
+        characterData.class.map(
+          (className) =>
+            classes[className as ClassNamesTwo].startingEquipment?.map(
+              (item: EquipmentItem) => (
+                <ItemWrapper
+                  item={item}
+                  handleCustomDelete={handleCustomDelete}
+                  handleAttack={handleAttack}
+                  handleAttackClick={handleAttackClick}
+                  key={item.name}
+                />
+              )
+            )
         )}
       {shownItems.map((item) => (
         <ItemWrapper

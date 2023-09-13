@@ -35,7 +35,7 @@ export default function LevelUpModal({
   );
   const spells: Spell[] = spellList;
 
-  const spellsOfLevel = (className: string, level: number) => {
+  const spellsOfLevel = (className: string[], level: number) => {
     const classType = getClassType(className);
 
     let filteredSpells: Spell[] = [];
@@ -44,13 +44,13 @@ export default function LevelUpModal({
       case "standard":
         filteredSpells = spells.filter(
           (spell) =>
-            spell.level[className.toLowerCase() as keyof SpellLevels] === level
+            spell.level[className[0].toLowerCase() as keyof SpellLevels] ===
+            level
         );
         break;
       case "combination":
-        const classes = className.split(" ");
         filteredSpells = spells.filter((spell) =>
-          classes.some(
+          className.some(
             (cls) =>
               spell.level[cls.toLowerCase() as keyof SpellLevels] === level
           )
@@ -98,7 +98,7 @@ export default function LevelUpModal({
                 ClassNamesTwo.MAGICUSER.toLowerCase() as keyof SpellLevels
               ]
             : spell.level[
-                characterData.class.toLowerCase() as keyof SpellLevels
+                characterData.class[0].toLowerCase() as keyof SpellLevels
               ];
         if (spellLevel !== null && !isNaN(spellLevel)) {
           acc[spellLevel - 1] += 1;
@@ -108,12 +108,12 @@ export default function LevelUpModal({
       [0, 0, 0, 0, 0, 0]
     );
     if (
-      classes[characterData.class as ClassNamesTwo]?.spellBudget &&
+      classes[characterData.class[0] as ClassNamesTwo]?.spellBudget &&
       getClassType(characterData.class) !== "custom"
     ) {
       if (getClassType(characterData.class) === "standard") {
         spellBudget =
-          classes[characterData.class as ClassNamesTwo].spellBudget![
+          classes[characterData.class[0] as ClassNamesTwo].spellBudget![
             characterData.level
           ];
       } else {
@@ -142,7 +142,7 @@ export default function LevelUpModal({
           const classNameToCheck =
             classType === "combination"
               ? ClassNamesTwo.MAGICUSER.toLowerCase()
-              : characterData.class.toLowerCase();
+              : characterData.class[0].toLowerCase();
 
           newCheckedSpells = characterData.spells.filter(
             (spell) =>

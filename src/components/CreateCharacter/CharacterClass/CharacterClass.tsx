@@ -31,14 +31,10 @@ export default function CharacterClass({
   useEffect(() => {
     if (
       getClassType(characterData.class) === "custom" &&
-      characterData.class !== ""
+      characterData.class[0] !== ""
     ) {
       setShowCustomClassInput(true);
-      setCustomClassInput(
-        Array.isArray(characterData.class)
-          ? characterData.class.join(" ")
-          : characterData.class
-      );
+      setCustomClassInput(characterData.class.join(" "));
     } else {
       setShowCustomClassInput(false);
       setCustomClassInput("");
@@ -65,7 +61,7 @@ export default function CharacterClass({
       setCheckedClasses([]);
       setCharacterData({
         ...characterData,
-        class: "",
+        class: [],
         hp: { dice: "", points: 0, max: 0, desc: "" },
       });
     }
@@ -75,21 +71,13 @@ export default function CharacterClass({
   const raceKey = characterData.race as keyof typeof races;
   const allowedCombinationClasses = races[raceKey]?.allowedCombinationClasses;
 
-  const showStartingSpells = (classValue: string | string[]) => {
-    if (
-      typeof classValue === "string" &&
-      classes?.[classValue as ClassNamesTwo]?.spellBudget &&
-      classes?.[classValue as ClassNamesTwo]?.spellBudget?.[0][0] !== 0
-    )
-      return true;
-
-    if (Array.isArray(classValue)) {
-      return classValue.some(
-        (className) =>
-          classes?.[className as ClassNamesTwo]?.spellBudget &&
-          classes?.[className as ClassNamesTwo]?.spellBudget?.[0][0] !== 0
-      );
-    }
+  const showStartingSpells = (classValue: string[]) => {
+    if (!classValue) return false;
+    console.log(classValue);
+    const spellBudget = classValue.map(
+      (className) => classes[className as ClassNamesTwo]?.spellBudget
+    );
+    return spellBudget.some((budget) => budget && budget[0][0] > 0);
   };
 
   return (
@@ -128,13 +116,12 @@ export default function CharacterClass({
             setCustomClassInput={setCustomClassInput}
           />
         )}
-        {getClassType(characterData.class) === "custom" &&
-          characterData.class !== "" && (
-            <CustomClassStartingSpells
-              characterData={characterData}
-              setCharacterData={setCharacterData}
-            />
-          )}
+        {getClassType(characterData.class) === "custom" && (
+          <CustomClassStartingSpells
+            characterData={characterData}
+            setCharacterData={setCharacterData}
+          />
+        )}
         {getClassType(characterData.class) !== "custom" &&
           showStartingSpells(characterData.class) && (
             <StartingSpells
