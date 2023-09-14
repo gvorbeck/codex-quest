@@ -5,6 +5,8 @@ import DOMPurify from "dompurify";
 import { Input } from "antd";
 import { useDebounce } from "../../../../support/helpers";
 
+// TODO: Look into component rerendering as a cause for how long it takes to type in this field
+
 export default function CustomClassInput({
   characterData,
   setCharacterData,

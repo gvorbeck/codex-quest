@@ -32,12 +32,12 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
 );
 
 const itemIsDisabled = (
-  className: ClassNamesTwo,
+  className: ClassNamesTwo[],
   raceName: RaceNamesTwo,
   item: EquipmentItem
 ) => {
   if (getClassType(className) === "custom") return false;
-  className.split(" ").forEach((classPiece) => {
+  className.forEach((classPiece) => {
     const specificEquipmentItems =
       classes[classPiece as ClassNamesTwo].specificEquipmentItems;
 
@@ -93,7 +93,7 @@ export default function EquipmentAccordion({
         .map((categoryItem) => {
           if (
             !itemIsDisabled(
-              characterData.class as ClassNamesTwo,
+              characterData.class as ClassNamesTwo[],
               characterData.race as RaceNamesTwo,
               categoryItem
             )
@@ -103,7 +103,7 @@ export default function EquipmentAccordion({
                 key={categoryItem.name}
                 item={categoryItem}
                 disabled={itemIsDisabled(
-                  characterData.class as ClassNamesTwo,
+                  characterData.class as ClassNamesTwo[],
                   characterData.race as RaceNamesTwo,
                   categoryItem
                 )}

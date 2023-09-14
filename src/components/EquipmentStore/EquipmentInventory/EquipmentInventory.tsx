@@ -6,32 +6,33 @@ import { toTitleCase } from "../../../support/stringSupport";
 import { ClassNamesTwo, classes } from "../../../data/classes";
 import { getClassType } from "../../../support/helpers";
 
-const renderEquipmentList = (className: ClassNamesTwo) => {
-  return (
-    classes[className].startingEquipment && (
-      <List
-        header={
-          <Typography.Title level={3} className="m-0 text-shipGray">
-            Included w/ {className}
-          </Typography.Title>
-        }
-        bordered
-        dataSource={classes[className].startingEquipment?.map(
-          (item: EquipmentItem) => ({
-            name: item.name,
-            amount: item.amount,
-          })
-        )}
-        renderItem={(item) => (
-          <List.Item className="text-shipGray">
-            <span>{item.name}</span>
-            <span>x{item.amount}</span>
-          </List.Item>
-        )}
-        size="small"
-        key={className}
-      />
-    )
+const renderEquipmentList = (classNameArray: ClassNamesTwo[]) => {
+  return classNameArray.map(
+    (classValue: ClassNamesTwo) =>
+      classes[classValue].startingEquipment && (
+        <List
+          header={
+            <Typography.Title level={3} className="m-0 text-shipGray">
+              Included w/ {classValue}
+            </Typography.Title>
+          }
+          bordered
+          dataSource={classes[classValue].startingEquipment?.map(
+            (item: EquipmentItem) => ({
+              name: item.name,
+              amount: item.amount,
+            })
+          )}
+          renderItem={(item) => (
+            <List.Item className="text-shipGray">
+              <span>{item.name}</span>
+              <span>x{item.amount}</span>
+            </List.Item>
+          )}
+          size="small"
+          key={classValue}
+        />
+      )
   );
 };
 
@@ -66,13 +67,7 @@ export default function EquipmentInventory({
         {getClassType(characterData.class) !== "custom" && (
           <div>
             {/* STARTING EQUIPMENT */}
-            {getClassType(characterData.class) === "combination"
-              ? characterData.class
-                  .split(" ")
-                  .map((singleClass) =>
-                    renderEquipmentList(singleClass as ClassNamesTwo)
-                  )
-              : renderEquipmentList(characterData.class as ClassNamesTwo)}
+            {renderEquipmentList(characterData.class as ClassNamesTwo[])}
           </div>
         )}
         {Object.entries(groupedEquipment).map(
