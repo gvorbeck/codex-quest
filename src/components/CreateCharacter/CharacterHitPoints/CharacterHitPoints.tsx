@@ -25,7 +25,7 @@ export default function CharacterHitPoints({
       let largestDie = "d4";
 
       // Iterate through each class and find the largest die
-      characterData.class.split(" ").forEach((part) => {
+      characterData.class.forEach((part) => {
         const classDie = classes[part as ClassNamesTwo].hitDice;
         if (classDie.split("d")[1] > largestDie.split("d")[1]) {
           largestDie = classDie;
@@ -45,7 +45,7 @@ export default function CharacterHitPoints({
       }
     }
     if (getClassType(characterData.class) === "standard") {
-      const classDie = classes[characterData.class as ClassNamesTwo].hitDice;
+      const classDie = classes[characterData.class[0] as ClassNamesTwo].hitDice;
       const raceData = races[characterData.race as RaceNamesTwo];
       if (
         raceData &&
@@ -79,11 +79,9 @@ export default function CharacterHitPoints({
 
   return (
     <>
-      {!characterData.class
-        .split(" ")
-        .some((part) =>
-          Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
-        ) && (
+      {!characterData.class.some((part) =>
+        Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
+      ) && (
         <>
           <CustomHitPointsPicker
             characterData={characterData}

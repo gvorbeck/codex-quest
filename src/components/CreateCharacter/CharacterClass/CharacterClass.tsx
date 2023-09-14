@@ -36,12 +36,9 @@ export default function CharacterClass({
       setShowCustomClassInput(true);
       setCustomClassInput(characterData.class.join(" "));
     } else {
-      setShowCustomClassInput(false);
       setCustomClassInput("");
     }
   }, [characterData.class]);
-
-  console.log(getClassType(characterData.class));
 
   useEffect(() => {
     if (comboClass) {
@@ -73,11 +70,9 @@ export default function CharacterClass({
 
   const showStartingSpells = (classValue: string[]) => {
     if (!classValue) return false;
-    console.log(classValue);
-    const spellBudget = classValue.map(
-      (className) => classes[className as ClassNamesTwo]?.spellBudget
-    );
-    return spellBudget.some((budget) => budget && budget[0][0] > 0);
+    return classValue
+      .map((className) => classes[className as ClassNamesTwo]?.spellBudget)
+      .some((budget) => budget && budget[0][0] > 0);
   };
 
   return (

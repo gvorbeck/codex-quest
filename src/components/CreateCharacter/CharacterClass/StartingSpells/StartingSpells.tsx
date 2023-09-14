@@ -2,9 +2,29 @@ import { Button, Radio, RadioChangeEvent, Typography } from "antd";
 import { StartingSpellsProps } from "./definitions";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { marked } from "marked";
-import spellsData from "../../../../data/spells.json";
+import spellsJson from "../../../../data/spells.json";
+import { ClassNamesTwo, classes } from "../../../../data/classes";
 
-const readMagic = spellsData.filter((spell) => spell.name === "Read Magic");
+const readMagicSpell = spellsJson.filter(
+  (spell) => spell.name === "Read Magic"
+);
+
+const getClassLevelOneSpells = (characterClassArray: string[]) => {
+  if (!characterClassArray) return [];
+  return characterClassArray.flatMap((className) => {
+    if (classes[className as ClassNamesTwo]?.spellBudget?.[0][0]) {
+      return spellsJson
+        .filter(
+          (spell) =>
+            spell.level![
+              className.toLowerCase() as keyof typeof spell.level
+            ] === 1 && spell.name !== "Read Magic"
+        )
+        .sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return null;
+  });
+};
 
 export default function StartingSpells({
   characterData,
@@ -16,14 +36,14 @@ export default function StartingSpells({
   setIsModalOpen,
 }: StartingSpellsProps) {
   const onSpellRadioChange = (e: RadioChangeEvent) => {
-    const foundSpell = spellsData.find(
+    const foundSpell = spellsJson.find(
       (spell) => spell.name === e.target.value
     );
     if (foundSpell) {
       setSelectedSpell(foundSpell);
       setCharacterData({
         ...characterData,
-        spells: [...readMagic, foundSpell],
+        spells: [...readMagicSpell, foundSpell],
       });
     }
   };
@@ -33,35 +53,24 @@ export default function StartingSpells({
     setModalDescription(text);
     setIsModalOpen(true);
   };
+
   return (
     <div className="mt-4">
       <Typography.Title level={4} className="text-shipGray">
         Choose your starting spell
       </Typography.Title>
       <Typography.Text type="secondary" className="mb-4 block">
-        {characterData.class}s begin with <strong>Read Magic</strong> and can
-        choose a second spell to start.
+        <em>{characterData.class.join(" ")}s</em> begin with{" "}
+        <strong>Read Magic</strong> and can choose a second spell to start.
       </Typography.Text>
       <Radio.Group
         onChange={onSpellRadioChange}
         value={selectedSpell ? selectedSpell.name : null}
         className="mt-4 gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
       >
-        {spellsData
-          .filter((spell) => {
-            return (
-              characterData.class.some(
-                (characterClass) =>
-                  (spell.level as Record<string, number | null>)[
-                    characterClass
-                  ] === 1
-              ) && spell.name !== "Read Magic"
-            );
-          })
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((spell) => {
-            const description = marked(spell.description);
-            return (
+        {getClassLevelOneSpells(characterData.class)?.map((spell) => {
+          return (
+            spell && (
               <Radio
                 key={spell.name}
                 value={spell.name}
@@ -73,13 +82,16 @@ export default function StartingSpells({
                   shape="circle"
                   size="small"
                   icon={<InfoCircleOutlined />}
-                  onClick={() => showModal(spell.name, description)}
+                  onClick={() =>
+                    showModal(spell.name, spell && marked(spell.description))
+                  }
                   aria-label={`${spell.name} description`}
                   title={`${spell.name} description`}
                 />
               </Radio>
-            );
-          })}
+            )
+          );
+        })}
       </Radio.Group>
     </div>
   );

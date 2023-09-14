@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Abilities,
   AbilityTypes,
@@ -14,7 +15,6 @@ export const getClassType = (characterClass: string[]) => {
   if (Object.values(ClassNamesTwo).includes(characterClass[0] as ClassNamesTwo))
     return "standard";
 
-  console.log(characterClass);
   return "custom";
 };
 
@@ -65,4 +65,20 @@ export function getDisabledClasses(
   }
 
   return disabledClasses;
+}
+
+export function useDebounce(value: any, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 }

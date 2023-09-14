@@ -19,10 +19,12 @@ export default function ClassOptions({
     characterData.abilities
   );
 
-  const onClassRadioChange = (e: RadioChangeEvent) => {
-    console.log(e.target.value);
-    if (e.target.value === "Custom") setShowCustomClassInput(true);
-    else setShowCustomClassInput(false);
+  const onRadioButtonChange = (e: RadioChangeEvent) => {
+    if (e.target.value === "Custom") {
+      setShowCustomClassInput(true);
+    } else {
+      setShowCustomClassInput(false);
+    }
 
     const classValue =
       e.target.value !== "Custom" ? e.target.value : customClassInput;
@@ -46,8 +48,16 @@ export default function ClassOptions({
   return (
     <div className="grid gap-8 sm:grid-cols-[auto_auto] items-start">
       <Radio.Group
-        value={characterData.class[0]}
-        onChange={onClassRadioChange}
+        value={
+          characterData.class.length === 0
+            ? null
+            : Object.values(ClassNamesTwo).includes(
+                characterData.class[0] as ClassNamesTwo
+              )
+            ? characterData.class[0]
+            : "Custom"
+        }
+        onChange={onRadioButtonChange}
         buttonStyle="solid"
         className="block"
         size="small"

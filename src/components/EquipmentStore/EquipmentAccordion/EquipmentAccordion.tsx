@@ -69,12 +69,10 @@ export default function EquipmentAccordion({
   characterData,
   className,
 }: EquipmentAccordionProps) {
-  const classCategories = characterData.class
-    .split(" ")
-    .flatMap(
-      (classPiece) =>
-        classes[classPiece as ClassNamesTwo]?.availableEquipmentCategories
-    );
+  const classCategories = characterData.class.flatMap(
+    (classPiece) =>
+      classes[classPiece as ClassNamesTwo]?.availableEquipmentCategories
+  );
 
   const categories = classCategories.some((category) => category !== undefined)
     ? Array.from(new Set(classCategories))

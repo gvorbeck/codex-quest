@@ -1,10 +1,6 @@
 import { marked } from "marked";
 import { useState } from "react";
-import {
-  CharacterData,
-  ClassNames,
-  SpellType,
-} from "../../components/definitions";
+import { CharacterData, SpellType } from "../../components/definitions";
 import { Button, Divider, Steps, Typography, message } from "antd";
 import CharacterAbilities from "../../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
 import CharacterRace from "../../components/CreateCharacter/CharacterRace/CharacterRace";
@@ -16,6 +12,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilities/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { ClassNamesTwo, classes } from "../../data/classes";
 
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
@@ -223,11 +220,17 @@ export default function CharacterCreator() {
       case 1:
         return characterData.race !== "";
       case 2:
+        // Check if the character has a class
+        // AND IF SO, any value in their class has a spell budget
+        // AND IF SO, they have more than 1 spell
         if (characterData.class.length === 0) {
           return false;
         } else if (
-          characterData.class.includes(ClassNames.MAGICUSER) ||
-          characterData.class.includes(ClassNames.ILLUSIONIST)
+          characterData.class.some((className) => {
+            const spellBudget =
+              classes[className as ClassNamesTwo]?.spellBudget;
+            return spellBudget && spellBudget[0] && spellBudget[0][0] > 0;
+          })
         ) {
           return characterData.spells.length > 1;
         }

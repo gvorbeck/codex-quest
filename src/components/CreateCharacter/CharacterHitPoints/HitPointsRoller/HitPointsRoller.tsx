@@ -47,11 +47,9 @@ export default function HitPointsRoller({
         onClick={() => rollHitPoints()}
         disabled={
           customHitDice === "" &&
-          !characterData.class
-            .split(" ")
-            .some((part) =>
-              Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
-            )
+          !characterData.class.some((part) =>
+            Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
+          )
         }
       >{`Roll 1${characterData.hp.dice}${characterData.abilities.modifiers.constitution}`}</Button>
     </Space.Compact>
