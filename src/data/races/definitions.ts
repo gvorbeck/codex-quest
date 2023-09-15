@@ -2,18 +2,19 @@ import { DiceTypes, SavingThrows } from "../../components/definitions";
 import { ClassNamesTwo } from "../classes";
 
 export interface RaceSetup {
-  name: string;
-  allowedStandardClasses: ClassNamesTwo[];
-  noLargeEquipment?: boolean;
+  additionalAttackBonus?: string; // Ex: "+1"
   allowedCombinationClasses?: ClassNamesTwo[];
-  minimumAbilityRequirements?: Record<string, number>;
-  maximumAbilityRequirements?: Record<string, number>;
-  maximumHitDice?: DiceTypes;
-  savingThrows?: Partial<SavingThrows>;
-  incrementHitDie?: boolean;
+  allowedStandardClasses: ClassNamesTwo[];
   details?: {
     description?: string;
-    specials?: string[];
     restrictions?: string[];
+    specials?: string[];
   };
+  incrementHitDie?: boolean; // Use the next highest die type for hit points
+  maximumAbilityRequirements?: Record<string, number>;
+  maximumHitDice?: DiceTypes;
+  minimumAbilityRequirements?: Record<string, number>;
+  name: string;
+  noLargeEquipment?: boolean;
+  savingThrows?: Partial<SavingThrows>;
 }

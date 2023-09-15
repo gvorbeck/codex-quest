@@ -57,7 +57,15 @@ const itemIsDisabled = (
       return false;
     }
 
-    if (races[raceName].noLargeEquipment && item.size === "L") return true;
+    // If Race or Class has noLargeEquipment and item is Large
+    if (
+      (races[raceName].noLargeEquipment ||
+        className.some(
+          (classValue) => classes[classValue]?.noLargeEquipment
+        )) &&
+      item.size === "L"
+    )
+      return true;
 
     return true;
   });

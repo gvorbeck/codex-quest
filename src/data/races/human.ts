@@ -16,6 +16,7 @@ export const human: RaceSetup = {
     ClassNamesTwo.NECROMANCER,
     ClassNamesTwo.RANGER,
     ClassNamesTwo.PALADIN,
+    ClassNamesTwo.SCOUT,
   ],
   details: {
     description:

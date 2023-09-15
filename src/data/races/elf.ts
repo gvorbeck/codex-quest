@@ -15,6 +15,7 @@ export const elf: RaceSetup = {
     ClassNamesTwo.NECROMANCER,
     ClassNamesTwo.RANGER,
     ClassNamesTwo.PALADIN,
+    ClassNamesTwo.SCOUT,
   ],
   allowedCombinationClasses: [
     ClassNamesTwo.MAGICUSER,

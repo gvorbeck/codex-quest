@@ -9,6 +9,7 @@ import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
 import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
 import { CharacterData } from "../definitions";
+import { RaceNamesTwo, races } from "../../data/races";
 
 const roller = new DiceRoller();
 
@@ -80,15 +81,15 @@ export default function AttackModal({
     if (characterData) {
       const strength = Number(characterData.abilities.modifiers.strength);
       const dexterity = Number(characterData.abilities.modifiers.dexterity);
-      const halflingBonus =
-        characterData.race.toLowerCase() === "halfling" ? "+1" : "";
+      const raceAttackBonus =
+        races[characterData.race as RaceNamesTwo].additionalAttackBonus || "";
 
       if (type === "melee") {
         roll += `+${strength + attackBonus}`;
       } else {
         roll += `+${
           dexterity + attackBonus
-        }${halflingBonus}+${missileRangeBonus}`;
+        }${raceAttackBonus}+${missileRangeBonus}`;
       }
 
       if (type === "missile" && missile) fireMissile(missile);

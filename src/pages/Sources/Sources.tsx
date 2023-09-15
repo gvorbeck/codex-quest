@@ -61,6 +61,10 @@ export default function Sources() {
           Basic Fantasy Role-Playing Game, 2021,
           basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>
+          Brentlinger, Jason. "Scouts: A Basic Fantasy RPG Supplement." Basic
+          Fantasy Role-Playing Game, 2018, basicfantasy.org/downloads.html.
+        </List.Item>
       </List>
     </div>
   );

@@ -12,6 +12,7 @@ import { equipmentCategories } from "../definitions";
 import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
+import { scout } from "./scout";
 
 export enum ClassNamesTwo {
   ASSASSIN = "Assassin",
@@ -26,6 +27,7 @@ export enum ClassNamesTwo {
   RANGER = "Ranger",
   CUSTOM = "Custom",
   PALADIN = "Paladin",
+  SCOUT = "Scout",
 }
 
 type Classes = {
@@ -93,4 +95,5 @@ export const classes: Classes = {
   [ClassNamesTwo.NECROMANCER]: necromancer,
   [ClassNamesTwo.RANGER]: ranger,
   [ClassNamesTwo.PALADIN]: paladin,
+  [ClassNamesTwo.SCOUT]: scout,
 };
