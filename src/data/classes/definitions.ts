@@ -4,7 +4,7 @@ import { SavingThrows } from "../../components/definitions";
 type SavingThrowEntry = [number, SavingThrows];
 export type SavingThrowsCollection = SavingThrowEntry[];
 
-export interface ClassSetup {
+export type ClassSetup = {
   attackBonus: number[];
   availableEquipmentCategories: string[];
   details?: {
@@ -13,6 +13,7 @@ export interface ClassSetup {
     specials?: string[];
   };
   experiencePoints: number[];
+  equipmentAttackBonuses?: [string, string][];
   hitDice: string;
   hitDiceModifier: number;
   minimumAbilityRequirements?: Partial<
@@ -38,4 +39,4 @@ export interface ClassSetup {
   spellBudget?: number[][];
   startingEquipment?: EquipmentItem[];
   startingSpells?: string[];
-}
+};

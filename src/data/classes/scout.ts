@@ -24,6 +24,10 @@ export const scout: ClassSetup = {
     equipmentCategories.SLINGHURLED,
     equipmentCategories.CHAINFLAIL,
   ],
+  equipmentAttackBonuses: [
+    ["shortbow", "+1"],
+    ["longbow", "+1"],
+  ],
   noLargeEquipment: true,
   specificEquipmentItems: [[equipmentCategories.ARMOR], ["leather"]],
   experiencePoints: [
