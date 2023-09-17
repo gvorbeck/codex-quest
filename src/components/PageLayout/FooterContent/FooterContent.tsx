@@ -6,7 +6,11 @@ import classNames from "classnames";
 import { version } from "../../../../package.json";
 
 export default function FooterContent({ className }: FooterContentProps) {
-  const FooterContentClassNames = classNames(className, "text-springWood");
+  const FooterContentClassNames = classNames(
+    className,
+    "[&_*]:text-springWood",
+    "[&_a]:text-seaBuckthorn"
+  );
 
   return (
     <div className={FooterContentClassNames}>
