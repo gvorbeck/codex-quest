@@ -13,7 +13,7 @@ import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilitie
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { classes } from "../../data/classes";
-import { ClassNamesTwo } from "../../data/definitions";
+import { ClassNames } from "../../data/definitions";
 
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
@@ -228,8 +228,7 @@ export default function CharacterCreator() {
           return false;
         } else if (
           characterData.class.some((className) => {
-            const spellBudget =
-              classes[className as ClassNamesTwo]?.spellBudget;
+            const spellBudget = classes[className as ClassNames]?.spellBudget;
             return spellBudget && spellBudget[0] && spellBudget[0][0] > 0;
           })
         ) {

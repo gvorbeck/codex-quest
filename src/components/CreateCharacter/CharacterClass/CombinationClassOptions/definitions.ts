@@ -1,4 +1,4 @@
-import { RaceNamesTwo } from "../../../../data/definitions";
+import { RaceNames } from "../../../../data/definitions";
 import { CharacterData } from "../../../definitions";
 
 export type CombinationClassOptionsProps = {
@@ -6,5 +6,5 @@ export type CombinationClassOptionsProps = {
   setCharacterData: (characterData: CharacterData) => void;
   checkedClasses: string[];
   setCheckedClasses: (checkedClasses: string[]) => void;
-  raceKey: RaceNamesTwo;
+  raceKey: RaceNames;
 };

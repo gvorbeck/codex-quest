@@ -3,7 +3,7 @@ import { isStandardRace } from "../../../../support/helpers";
 import type { RadioChangeEvent } from "antd";
 import { Radio } from "antd";
 import { races } from "../../../../data/races";
-import { RaceNamesTwo } from "../../../../data/definitions";
+import { RaceNames } from "../../../../data/definitions";
 
 export default function RaceOptions({
   characterData,
@@ -16,7 +16,7 @@ export default function RaceOptions({
   const onChange = (e: RadioChangeEvent) => {
     if (e.target.value === "Custom") setShowCustomRaceInput(true);
     else setShowCustomRaceInput(false);
-    const selectedRace = e.target.value.toString() as keyof typeof RaceNamesTwo;
+    const selectedRace = e.target.value.toString() as keyof typeof RaceNames;
     setComboClass(false);
     setCheckedClasses([]);
     setCharacterData({

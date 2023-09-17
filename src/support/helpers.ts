@@ -4,7 +4,7 @@ import {
   AbilityTypes,
 } from "../components/CreateCharacter/CharacterAbilities/definitions";
 import { classes } from "../data/classes";
-import { ClassNamesTwo, RaceNamesTwo } from "../data/definitions";
+import { ClassNames, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
 
 export const getClassType = (characterClass: string[]) => {
@@ -12,8 +12,8 @@ export const getClassType = (characterClass: string[]) => {
   // If characterClass is an array with more than one element return "combination"
   if (characterClass.length > 1) return "combination";
 
-  // if characterClass[0] is in `ClassNamesTwo` enum return "standard"
-  if (Object.values(ClassNamesTwo).includes(characterClass[0] as ClassNamesTwo))
+  // if characterClass[0] is in `ClassNames` enum return "standard"
+  if (Object.values(ClassNames).includes(characterClass[0] as ClassNames))
     return "standard";
 
   return "custom";
@@ -21,8 +21,8 @@ export const getClassType = (characterClass: string[]) => {
 
 export const isStandardRace = (characterRace: string) => {
   // Check if the race is a standard race
-  const isStandard = Object.values(RaceNamesTwo).includes(
-    characterRace as RaceNamesTwo
+  const isStandard = Object.values(RaceNames).includes(
+    characterRace as RaceNames
   );
 
   // Return true if it's a standard race, false otherwise
@@ -30,16 +30,16 @@ export const isStandardRace = (characterRace: string) => {
 };
 
 export function getDisabledClasses(
-  raceKey: RaceNamesTwo,
+  raceKey: RaceNames,
   abilities: Abilities
-): ClassNamesTwo[] {
+): ClassNames[] {
   const race = races[raceKey];
   const disabledClasses = [];
 
   // Check if the race is defined
   if (!race) return [];
 
-  for (const className of Object.values(ClassNamesTwo)) {
+  for (const className of Object.values(ClassNames)) {
     const classSetup = classes[className];
 
     // Check if the class is allowed for the race

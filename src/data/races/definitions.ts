@@ -1,11 +1,11 @@
 import { SavingThrows } from "../../components/definitions";
 import { DiceTypes } from "../definitions";
-import { ClassNamesTwo } from "../definitions";
+import { ClassNames } from "../definitions";
 
 export interface RaceSetup {
   additionalAttackBonus?: string; // Ex: "+1"
-  allowedCombinationClasses?: ClassNamesTwo[];
-  allowedStandardClasses: ClassNamesTwo[];
+  allowedCombinationClasses?: ClassNames[];
+  allowedStandardClasses: ClassNames[];
   details?: {
     description?: string;
     restrictions?: string[];

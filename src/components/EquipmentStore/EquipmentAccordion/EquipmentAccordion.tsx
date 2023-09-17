@@ -9,7 +9,7 @@ import { classes } from "../../../data/classes";
 import { races } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
 import { equipmentCategories } from "../../../data/definitions";
-import { ClassNamesTwo, RaceNamesTwo } from "../../../data/definitions";
+import { ClassNames, RaceNames } from "../../../data/definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -33,14 +33,14 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
 );
 
 const itemIsDisabled = (
-  className: ClassNamesTwo[],
-  raceName: RaceNamesTwo,
+  className: ClassNames[],
+  raceName: RaceNames,
   item: EquipmentItem
 ) => {
   if (getClassType(className) === "custom") return false;
   className.forEach((classPiece) => {
     const specificEquipmentItems =
-      classes[classPiece as ClassNamesTwo].specificEquipmentItems;
+      classes[classPiece as ClassNames].specificEquipmentItems;
 
     if (specificEquipmentItems) {
       if (specificEquipmentItems[0].includes(item.category)) {
@@ -80,7 +80,7 @@ export default function EquipmentAccordion({
 }: EquipmentAccordionProps) {
   const classCategories = characterData.class.flatMap(
     (classPiece) =>
-      classes[classPiece as ClassNamesTwo]?.availableEquipmentCategories
+      classes[classPiece as ClassNames]?.availableEquipmentCategories
   );
 
   const categories = classCategories.some((category) => category !== undefined)
@@ -102,8 +102,8 @@ export default function EquipmentAccordion({
         .map((categoryItem) => {
           if (
             !itemIsDisabled(
-              characterData.class as ClassNamesTwo[],
-              characterData.race as RaceNamesTwo,
+              characterData.class as ClassNames[],
+              characterData.race as RaceNames,
               categoryItem
             )
           ) {
@@ -112,8 +112,8 @@ export default function EquipmentAccordion({
                 key={categoryItem.name}
                 item={categoryItem}
                 disabled={itemIsDisabled(
-                  characterData.class as ClassNamesTwo[],
-                  characterData.race as RaceNamesTwo,
+                  characterData.class as ClassNames[],
+                  characterData.race as RaceNames,
                   categoryItem
                 )}
                 onCheckboxCheck={onCheckboxCheck}

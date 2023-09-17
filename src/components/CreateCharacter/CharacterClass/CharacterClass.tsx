@@ -10,7 +10,7 @@ import CustomClassInput from "./CustomClassInput/CustomClassInput";
 import CustomClassStartingSpells from "./CustomClassStartingSpells/CustomClassStartingSpells";
 import ClassOptions from "./ClassOptions/ClassOptions";
 import CombinationClassOptions from "./CombinationClassOptions/CombinationClassOptions";
-import { ClassNamesTwo } from "../../../data/definitions";
+import { ClassNames } from "../../../data/definitions";
 
 export default function CharacterClass({
   characterData,
@@ -72,7 +72,7 @@ export default function CharacterClass({
   const showStartingSpells = (classValue: string[]) => {
     if (!classValue) return false;
     return classValue
-      .map((className) => classes[className as ClassNamesTwo]?.spellBudget)
+      .map((className) => classes[className as ClassNames]?.spellBudget)
       .some((budget) => budget && budget[0][0] > 0);
   };
 

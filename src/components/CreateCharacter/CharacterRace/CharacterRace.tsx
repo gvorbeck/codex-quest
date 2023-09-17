@@ -6,7 +6,7 @@ import DOMPurify from "dompurify";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 import { races } from "../../../data/races";
 import RaceOptions from "./RaceOptions/RaceOptions";
-import { RaceNamesTwo } from "../../../data/definitions";
+import { RaceNames } from "../../../data/definitions";
 
 export default function CharacterRace({
   characterData,
@@ -22,9 +22,7 @@ export default function CharacterRace({
   useEffect(() => {
     // If the current race is not in the RaceNames enum and it's not an empty string, it's a custom race.
     if (
-      !Object.values(RaceNamesTwo).includes(
-        characterData.race as RaceNamesTwo
-      ) &&
+      !Object.values(RaceNames).includes(characterData.race as RaceNames) &&
       characterData.race !== ""
     ) {
       setShowCustomRaceInput(true);
@@ -59,10 +57,8 @@ export default function CharacterRace({
           customRaceInput={customRaceInput}
         />
         {characterData.race &&
-          Object.values(RaceNamesTwo).includes(
-            characterData.race as RaceNamesTwo
-          ) &&
-          characterData.race !== RaceNamesTwo.CUSTOM && (
+          Object.values(RaceNames).includes(characterData.race as RaceNames) &&
+          characterData.race !== RaceNames.CUSTOM && (
             <DescriptionBubble description={raceDescription} />
           )}
       </div>

@@ -7,21 +7,21 @@ import { RaceSetup } from "./definitions";
 import { halfElf } from "./halfElf";
 import { halfOgre } from "./halfOgre";
 import { halfOrc } from "./halfOrc";
-import { RaceNamesTwo } from "../definitions";
+import { RaceNames } from "../definitions";
 
 const customPlaceholder = {
   name: "Custom",
   allowedStandardClasses: [],
 };
 
-export const races: { [key in RaceNamesTwo]: RaceSetup } = {
-  [RaceNamesTwo.DWARF]: dwarf,
-  [RaceNamesTwo.ELF]: elf,
-  [RaceNamesTwo.GNOME]: gnome,
-  [RaceNamesTwo.HALFLING]: halfling,
-  [RaceNamesTwo.HUMAN]: human,
-  [RaceNamesTwo.CUSTOM]: customPlaceholder,
-  [RaceNamesTwo.HALFELF]: halfElf,
-  [RaceNamesTwo.HALFOGRE]: halfOgre,
-  [RaceNamesTwo.HALFORC]: halfOrc,
+export const races: { [key in RaceNames]: RaceSetup } = {
+  [RaceNames.DWARF]: dwarf,
+  [RaceNames.ELF]: elf,
+  [RaceNames.GNOME]: gnome,
+  [RaceNames.HALFLING]: halfling,
+  [RaceNames.HUMAN]: human,
+  [RaceNames.CUSTOM]: customPlaceholder,
+  [RaceNames.HALFELF]: halfElf,
+  [RaceNames.HALFOGRE]: halfOgre,
+  [RaceNames.HALFORC]: halfOrc,
 };

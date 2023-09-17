@@ -4,7 +4,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { marked } from "marked";
 import spellsJson from "../../../../data/spells.json";
 import { classes } from "../../../../data/classes";
-import { ClassNamesTwo } from "../../../../data/definitions";
+import { ClassNames } from "../../../../data/definitions";
 
 const readMagicSpell = spellsJson.filter(
   (spell) => spell.name === "Read Magic"
@@ -13,7 +13,7 @@ const readMagicSpell = spellsJson.filter(
 const getClassLevelOneSpells = (characterClassArray: string[]) => {
   if (!characterClassArray) return [];
   return characterClassArray.flatMap((className) => {
-    if (classes[className as ClassNamesTwo]?.spellBudget?.[0][0]) {
+    if (classes[className as ClassNames]?.spellBudget?.[0][0]) {
       return spellsJson
         .filter(
           (spell) =>

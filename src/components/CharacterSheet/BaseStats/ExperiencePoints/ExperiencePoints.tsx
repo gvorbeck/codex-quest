@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
 import { ExperiencePointsProps } from "./definitions";
 import { classes } from "../../../../data/classes";
-import { ClassNamesTwo } from "../../../../data/definitions";
+import { ClassNames } from "../../../../data/definitions";
 
 export default function ExperiencePoints({
   characterData,
@@ -93,7 +93,7 @@ export default function ExperiencePoints({
   const totalLevelRequirement = characterData.class
     .map((className) => {
       const classRequirements =
-        classes[className as ClassNamesTwo]?.experiencePoints;
+        classes[className as ClassNames]?.experiencePoints;
       return classRequirements ? classRequirements[characterData.level] : 0; // value if using a custom class
     })
     .reduce((a, b) => a + b, 0);

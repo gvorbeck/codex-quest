@@ -8,7 +8,7 @@ import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
-import { ClassNamesTwo } from "../../../../data/definitions";
+import { ClassNames } from "../../../../data/definitions";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -154,7 +154,7 @@ export default function EquipmentList({
           />
           {characterData.class.map(
             (className) =>
-              classes[className as ClassNamesTwo].powers?.map((power) => {
+              classes[className as ClassNames].powers?.map((power) => {
                 return (
                   characterData.level >= (power.minLevel ?? 0) && (
                     <ItemWrapper
@@ -173,7 +173,7 @@ export default function EquipmentList({
       {categories.includes("general-equipment") &&
         characterData.class.map(
           (className) =>
-            classes[className as ClassNamesTwo].startingEquipment?.map(
+            classes[className as ClassNames].startingEquipment?.map(
               (item: EquipmentItem) => (
                 <ItemWrapper
                   item={item}

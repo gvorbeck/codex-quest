@@ -6,7 +6,7 @@ import { Table, Typography, notification } from "antd";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
 import { races } from "../../../data/races";
 import { classes } from "../../../data/classes";
-import { ClassNamesTwo, RaceNamesTwo } from "../../../data/definitions";
+import { ClassNames, RaceNames } from "../../../data/definitions";
 
 const roller = new DiceRoller();
 
@@ -26,7 +26,7 @@ export default function SavingThrows({
   const dataSource: {}[] = [];
 
   const getSavingThrowsForLevel = (characterClass: string) =>
-    classes[characterClass as ClassNamesTwo].savingThrows.find(
+    classes[characterClass as ClassNames].savingThrows.find(
       (savingThrow) => (savingThrow[0] as number) >= characterData.level
     );
 
@@ -66,7 +66,7 @@ export default function SavingThrows({
   }
 
   // Apply race modifiers
-  const raceModifiers = races[characterData.race as RaceNamesTwo].savingThrows;
+  const raceModifiers = races[characterData.race as RaceNames].savingThrows;
   const finalSavingThrows = Object.entries(baseSavingThrows).reduce(
     (prev, [key, value]) => ({
       ...prev,

@@ -17,7 +17,7 @@ export enum equipmentCategories {
   BEASTS = "beasts-of-burden",
 }
 
-export enum ClassNamesTwo {
+export enum ClassNames {
   ASSASSIN = "Assassin",
   BARBARIAN = "Barbarian",
   CLERIC = "Cleric",
@@ -33,7 +33,7 @@ export enum ClassNamesTwo {
   SCOUT = "Scout",
 }
 
-export enum RaceNamesTwo {
+export enum RaceNames {
   DWARF = "Dwarf",
   ELF = "Elf",
   GNOME = "Gnome",

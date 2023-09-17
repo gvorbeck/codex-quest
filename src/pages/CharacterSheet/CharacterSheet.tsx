@@ -44,7 +44,7 @@ import AttackModal from "../../components/AttackModal/AttackModal";
 // DATA
 import equipmentItems from "../../data/equipmentItems.json";
 import { classes } from "../../data/classes";
-import { ClassNamesTwo } from "../../data/definitions";
+import { ClassNames } from "../../data/definitions";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { getClassType } from "../../support/helpers";
@@ -121,10 +121,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     // Calculate the suffix
     let suffix = level > 9 ? level - 9 : 0;
     if (
-      className.includes(ClassNamesTwo.FIGHTER) ||
-      className.includes(ClassNamesTwo.ASSASSIN) ||
-      className.includes(ClassNamesTwo.BARBARIAN) ||
-      className.includes(ClassNamesTwo.THIEF)
+      className.includes(ClassNames.FIGHTER) ||
+      className.includes(ClassNames.ASSASSIN) ||
+      className.includes(ClassNames.BARBARIAN) ||
+      className.includes(ClassNames.THIEF)
     ) {
       suffix *= 2;
     }
@@ -141,7 +141,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
     characterData.class.forEach((classPiece) => {
       const classAttackBonus =
-        classes[classPiece as ClassNamesTwo].attackBonus[characterData.level];
+        classes[classPiece as ClassNames].attackBonus[characterData.level];
       if (classAttackBonus > maxAttackBonus) {
         maxAttackBonus = classAttackBonus;
       }
@@ -431,7 +431,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
           {/* SPECIAL ABILITIES TABLE */}
           {characterData.class.map((cls) => {
-            if (classes[cls as ClassNamesTwo]?.specialAbilities) {
+            if (classes[cls as ClassNames]?.specialAbilities) {
               return (
                 <SpecialAbilitiesTable
                   key={cls}

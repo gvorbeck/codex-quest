@@ -3,7 +3,7 @@ import { marked } from "marked";
 import { SpecialsRestrictionsProps } from "./definitions";
 import { classes } from "../../../data/classes";
 import { races } from "../../../data/races";
-import { ClassNamesTwo, RaceNamesTwo } from "../../../data/definitions";
+import { ClassNames, RaceNames } from "../../../data/definitions";
 
 // Ant Design's List component treats the input as a string and not as HTML.
 // To render HTML, you need to use dangerouslySetInnerHTML prop in React.
@@ -21,12 +21,12 @@ export default function SpecialsRestrictions({
   const classSpecials: string[] = [];
   const classRestrictions: string[] = [];
   characterData.class.forEach((cls) => {
-    if (classes[cls as ClassNamesTwo]) {
+    if (classes[cls as ClassNames]) {
       classSpecials.push(
-        ...(classes[cls as ClassNamesTwo].details?.specials || [])
+        ...(classes[cls as ClassNames].details?.specials || [])
       );
       classRestrictions.push(
-        ...(classes[cls as ClassNamesTwo].details?.restrictions || [])
+        ...(classes[cls as ClassNames].details?.restrictions || [])
       );
     }
   });
@@ -39,10 +39,9 @@ export default function SpecialsRestrictions({
       <List
         bordered
         dataSource={[
-          ...(races[characterData.race as RaceNamesTwo].details?.specials ||
-            []),
+          ...(races[characterData.race as RaceNames].details?.specials || []),
           ...classSpecials,
-          ...(races[characterData.race as RaceNamesTwo].details?.restrictions ||
+          ...(races[characterData.race as RaceNames].details?.restrictions ||
             []),
           ...classRestrictions,
         ]}

@@ -3,7 +3,7 @@ import { classes } from "../../../../data/classes";
 import { CombinationClassOptionsProps } from "./definitions";
 import { races } from "../../../../data/races";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { ClassNamesTwo } from "../../../../data/definitions";
+import { ClassNames } from "../../../../data/definitions";
 
 export default function CombinationClassOptions({
   characterData,
@@ -32,14 +32,14 @@ export default function CombinationClassOptions({
     className: string
   ) => {
     if (
-      checkedClasses.includes(ClassNamesTwo.FIGHTER) &&
-      className === ClassNamesTwo.THIEF
+      checkedClasses.includes(ClassNames.FIGHTER) &&
+      className === ClassNames.THIEF
     ) {
       return true;
     }
     if (
-      checkedClasses.includes(ClassNamesTwo.THIEF) &&
-      className === ClassNamesTwo.FIGHTER
+      checkedClasses.includes(ClassNames.THIEF) &&
+      className === ClassNames.FIGHTER
     ) {
       return true;
     }
@@ -53,15 +53,17 @@ export default function CombinationClassOptions({
     <div className="grid gap-2 pl-4">
       {Object.values(classes).map(
         (choice) =>
-          choice.name !== ClassNamesTwo.CUSTOM && (
+          choice.name !== ClassNames.CUSTOM && (
             <Checkbox
               key={choice.name}
               onChange={onCheckboxChange}
               value={choice.name}
               checked={checkedClasses.includes(choice.name)}
               disabled={
-                !races[raceKey]?.allowedCombinationClasses?.find(
-                  (comboClassName) => choice.name === comboClassName
+                !races[
+                  raceKey as keyof typeof races
+                ]?.allowedCombinationClasses?.find(
+                  (comboClassName: ClassNames) => choice.name === comboClassName
                 ) || shouldDisableCheckbox(checkedClasses, choice.name)
               }
             >

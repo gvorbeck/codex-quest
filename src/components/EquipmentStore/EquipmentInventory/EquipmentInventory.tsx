@@ -5,11 +5,11 @@ import { EquipmentItem } from "../definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import { classes } from "../../../data/classes";
 import { getClassType } from "../../../support/helpers";
-import { ClassNamesTwo } from "../../../data/definitions";
+import { ClassNames } from "../../../data/definitions";
 
-const renderEquipmentList = (classNameArray: ClassNamesTwo[]) => {
+const renderEquipmentList = (classNameArray: ClassNames[]) => {
   return classNameArray.map(
-    (classValue: ClassNamesTwo) =>
+    (classValue: ClassNames) =>
       classes[classValue].startingEquipment && (
         <List
           header={
@@ -68,7 +68,7 @@ export default function EquipmentInventory({
         {getClassType(characterData.class) !== "custom" && (
           <div>
             {/* STARTING EQUIPMENT */}
-            {renderEquipmentList(characterData.class as ClassNamesTwo[])}
+            {renderEquipmentList(characterData.class as ClassNames[])}
           </div>
         )}
         {Object.entries(groupedEquipment).map(

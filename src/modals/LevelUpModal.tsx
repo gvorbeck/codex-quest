@@ -14,7 +14,7 @@ import { useState } from "react";
 import { marked } from "marked";
 import DescriptionBubble from "../components/CreateCharacter/DescriptionBubble/DescriptionBubble";
 import { classes } from "../data/classes";
-import { ClassNamesTwo } from "../data/definitions";
+import { ClassNames } from "../data/definitions";
 import { SpellLevels } from "../data/definitions";
 
 const roller = new DiceRoller();
@@ -97,7 +97,7 @@ export default function LevelUpModal({
         const spellLevel =
           getClassType(characterData.class) === "combination"
             ? spell.level[
-                ClassNamesTwo.MAGICUSER.toLowerCase() as keyof SpellLevels
+                ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
               ]
             : spell.level[
                 characterData.class[0].toLowerCase() as keyof SpellLevels
@@ -110,18 +110,19 @@ export default function LevelUpModal({
       [0, 0, 0, 0, 0, 0]
     );
     if (
-      classes[characterData.class[0] as ClassNamesTwo]?.spellBudget &&
+      classes[characterData.class[0] as ClassNames]?.spellBudget &&
       getClassType(characterData.class) !== "custom"
     ) {
       if (getClassType(characterData.class) === "standard") {
         spellBudget =
-          classes[characterData.class[0] as ClassNamesTwo].spellBudget![
+          classes[characterData.class[0] as ClassNames].spellBudget![
             characterData.level
           ];
       } else {
         // If a combination class, use the magic-user spell budget
-        spellBudget = classes[ClassNamesTwo.MAGICUSER as ClassNamesTwo]
-          .spellBudget?.[characterData.level] ?? [0];
+        spellBudget = classes[ClassNames.MAGICUSER as ClassNames].spellBudget?.[
+          characterData.level
+        ] ?? [0];
       }
       // If the character is a custom class, allow them to choose any spells
     } else if (getClassType(characterData.class) === "custom") {
@@ -143,7 +144,7 @@ export default function LevelUpModal({
           // For standard and combination classes, filter out spells of the specific level
           const classNameToCheck =
             classType === "combination"
-              ? ClassNamesTwo.MAGICUSER.toLowerCase()
+              ? ClassNames.MAGICUSER.toLowerCase()
               : characterData.class[0].toLowerCase();
 
           newCheckedSpells = characterData.spells.filter(

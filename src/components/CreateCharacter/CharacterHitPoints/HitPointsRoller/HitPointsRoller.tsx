@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { HitPointsRollerProps } from "./definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { ClassNamesTwo } from "../../../../data/definitions";
+import { ClassNames } from "../../../../data/definitions";
 
 const roller = new DiceRoller();
 
@@ -48,7 +48,7 @@ export default function HitPointsRoller({
         disabled={
           customHitDice === "" &&
           !characterData.class.some((part) =>
-            Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
+            Object.values(ClassNames).includes(part as ClassNames)
           )
         }
       >{`Roll 1${characterData.hp.dice}${characterData.abilities.modifiers.constitution}`}</Button>

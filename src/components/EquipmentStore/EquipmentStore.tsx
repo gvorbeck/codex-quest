@@ -9,7 +9,7 @@ import { db } from "../../firebase";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
 import GoldRoller from "./GoldRoller/GoldRoller";
-import { ClassNamesTwo, RaceNamesTwo } from "../../data/definitions";
+import { ClassNames, RaceNames } from "../../data/definitions";
 
 export default function EquipmentStore({
   characterData,
@@ -175,11 +175,9 @@ export default function EquipmentStore({
 
   return (
     <>
-      {!Object.values(RaceNamesTwo).includes(
-        characterData.race as RaceNamesTwo
-      ) &&
+      {!Object.values(RaceNames).includes(characterData.race as RaceNames) &&
         !characterData.class.some((className) =>
-          Object.values(ClassNamesTwo).includes(className as ClassNamesTwo)
+          Object.values(ClassNames).includes(className as ClassNames)
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {inBuilder && (

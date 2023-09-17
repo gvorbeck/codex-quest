@@ -5,7 +5,7 @@ import DescriptionBubble from "../../DescriptionBubble/DescriptionBubble";
 import { getClassType, getDisabledClasses } from "../../../../support/helpers";
 import spellsData from "../../../../data/spells.json";
 import { Spell } from "../../../definitions";
-import { ClassNamesTwo, RaceNamesTwo } from "../../../../data/definitions";
+import { ClassNames, RaceNames } from "../../../../data/definitions";
 
 export default function ClassOptions({
   characterData,
@@ -15,7 +15,7 @@ export default function ClassOptions({
   setSelectedSpell,
 }: ClassOptionsProps) {
   const disabledClasses = getDisabledClasses(
-    characterData.race as RaceNamesTwo,
+    characterData.race as RaceNames,
     characterData.abilities
   );
 
@@ -30,7 +30,7 @@ export default function ClassOptions({
       e.target.value !== "Custom" ? e.target.value : customClassInput;
     setSelectedSpell(null);
     const spells: Spell[] = (classes[
-      classValue as ClassNamesTwo
+      classValue as ClassNames
     ]?.startingSpells?.flatMap((spell) =>
       spellsData.find((s) => s.name === spell)
         ? [spellsData.find((s) => s.name === spell)]
@@ -51,8 +51,8 @@ export default function ClassOptions({
         value={
           characterData.class.length === 0
             ? null
-            : Object.values(ClassNamesTwo).includes(
-                characterData.class[0] as ClassNamesTwo
+            : Object.values(ClassNames).includes(
+                characterData.class[0] as ClassNames
               )
             ? characterData.class[0]
             : "Custom"
@@ -79,9 +79,7 @@ export default function ClassOptions({
                   key={choice.name}
                   value={choice.name}
                   className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
-                  disabled={disabledClasses.includes(
-                    choice.name as ClassNamesTwo
-                  )}
+                  disabled={disabledClasses.includes(choice.name as ClassNames)}
                 >
                   {choice.name}
                 </Radio>
@@ -93,7 +91,7 @@ export default function ClassOptions({
         getClassType(characterData.class) !== "none" && (
           <DescriptionBubble
             description={
-              classes[characterData.class[0] as ClassNamesTwo].details
+              classes[characterData.class[0] as ClassNames].details
                 ?.description || ""
             }
           />

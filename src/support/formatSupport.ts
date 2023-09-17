@@ -1,6 +1,6 @@
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { Capacity, CapacityMap } from "../components/definitions";
-import { RaceNamesTwo } from "../data/definitions";
+import { RaceNames } from "../data/definitions";
 
 export const calculateItemCost = (item: EquipmentItem) => {
   let cost = item.costValue;
@@ -51,7 +51,7 @@ export const calculateCarryingCapacity = (
     range = "18";
   }
 
-  return race === (RaceNamesTwo.HALFLING || RaceNamesTwo.GNOME)
+  return race === (RaceNames.HALFLING || RaceNames.GNOME)
     ? halflingCapacities[range]
     : capacities[range];
 };

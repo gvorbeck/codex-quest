@@ -4,10 +4,10 @@ import { CharacterHitPointsProps } from "./definitions";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import { getClassType } from "../../../support/helpers";
 import { classes } from "../../../data/classes";
-import { RaceNamesTwo, races } from "../../../data/races";
+import { races } from "../../../data/races";
 import HitPointsRoller from "./HitPointsRoller/HitPointsRoller";
 import CustomHitPointsPicker from "./CustomHitPointsPicker/CustomHitPointsPicker";
-import { ClassNamesTwo } from "../../../data/definitions";
+import { ClassNames, RaceNames } from "../../../data/definitions";
 import { DiceTypes } from "../../../data/definitions";
 
 export default function CharacterHitPoints({
@@ -27,14 +27,14 @@ export default function CharacterHitPoints({
 
       // Iterate through each class and find the largest die
       characterData.class.forEach((part) => {
-        const classDie = classes[part as ClassNamesTwo].hitDice;
+        const classDie = classes[part as ClassNames].hitDice;
         if (classDie.split("d")[1] > largestDie.split("d")[1]) {
           largestDie = classDie;
         }
       });
 
       // Check for raceData.maximumHitDice and compare with the largest die
-      const raceData = races[characterData.race as RaceNamesTwo];
+      const raceData = races[characterData.race as RaceNames];
       if (
         raceData &&
         raceData.maximumHitDice !== undefined &&
@@ -46,8 +46,8 @@ export default function CharacterHitPoints({
       }
     }
     if (getClassType(characterData.class) === "standard") {
-      const classDie = classes[characterData.class[0] as ClassNamesTwo].hitDice;
-      const raceData = races[characterData.race as RaceNamesTwo];
+      const classDie = classes[characterData.class[0] as ClassNames].hitDice;
+      const raceData = races[characterData.race as RaceNames];
       if (
         raceData &&
         raceData.maximumHitDice !== undefined &&
@@ -59,7 +59,7 @@ export default function CharacterHitPoints({
       }
     }
     // If Race increments Class's Hit Die (Half-Ogre)
-    if (races[characterData.race as RaceNamesTwo]?.incrementHitDie) {
+    if (races[characterData.race as RaceNames]?.incrementHitDie) {
       let index = Object.values(DiceTypes).indexOf(dice);
 
       // Increment the index, but make sure it doesn't exceed the bounds of the enum
@@ -81,7 +81,7 @@ export default function CharacterHitPoints({
   return (
     <>
       {!characterData.class.some((part) =>
-        Object.values(ClassNamesTwo).includes(part as ClassNamesTwo)
+        Object.values(ClassNames).includes(part as ClassNames)
       ) && (
         <>
           <CustomHitPointsPicker

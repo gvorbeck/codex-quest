@@ -8,7 +8,7 @@ import { assassin } from "./assassin";
 import { barbarian } from "./barbarian";
 import { druid } from "./druid";
 import { illusionist } from "./illusionist";
-import { ClassNamesTwo, equipmentCategories } from "../definitions";
+import { ClassNames, equipmentCategories } from "../definitions";
 import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
@@ -63,18 +63,18 @@ const customPlaceholder: ClassSetup = {
   ] as [number, SavingThrows][],
 };
 
-export const classes: { [key in ClassNamesTwo]: ClassSetup } = {
-  [ClassNamesTwo.ASSASSIN]: assassin,
-  [ClassNamesTwo.BARBARIAN]: barbarian,
-  [ClassNamesTwo.CLERIC]: cleric,
-  [ClassNamesTwo.CUSTOM]: customPlaceholder,
-  [ClassNamesTwo.DRUID]: druid,
-  [ClassNamesTwo.FIGHTER]: fighter,
-  [ClassNamesTwo.ILLUSIONIST]: illusionist,
-  [ClassNamesTwo.MAGICUSER]: magicUser,
-  [ClassNamesTwo.THIEF]: thief,
-  [ClassNamesTwo.NECROMANCER]: necromancer,
-  [ClassNamesTwo.RANGER]: ranger,
-  [ClassNamesTwo.PALADIN]: paladin,
-  [ClassNamesTwo.SCOUT]: scout,
+export const classes: { [key in ClassNames]: ClassSetup } = {
+  [ClassNames.ASSASSIN]: assassin,
+  [ClassNames.BARBARIAN]: barbarian,
+  [ClassNames.CLERIC]: cleric,
+  [ClassNames.CUSTOM]: customPlaceholder,
+  [ClassNames.DRUID]: druid,
+  [ClassNames.FIGHTER]: fighter,
+  [ClassNames.ILLUSIONIST]: illusionist,
+  [ClassNames.MAGICUSER]: magicUser,
+  [ClassNames.THIEF]: thief,
+  [ClassNames.NECROMANCER]: necromancer,
+  [ClassNames.RANGER]: ranger,
+  [ClassNames.PALADIN]: paladin,
+  [ClassNames.SCOUT]: scout,
 };
