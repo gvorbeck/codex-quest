@@ -1,4 +1,5 @@
-import { DiceTypes, SavingThrows } from "../../components/definitions";
+import { SavingThrows } from "../../components/definitions";
+import { DiceTypes } from "../definitions";
 import { ClassNamesTwo } from "../definitions";
 
 export interface RaceSetup {

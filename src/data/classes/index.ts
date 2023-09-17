@@ -1,4 +1,4 @@
-import { DiceTypes } from "../../components/definitions";
+import { DiceTypes } from "../definitions";
 import { ClassSetup, SavingThrowsCollection } from "./definitions";
 import { fighter } from "./fighter";
 import { magicUser } from "./magicUser";

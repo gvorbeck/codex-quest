@@ -1,4 +1,4 @@
-import { DiceTypes } from "../../components/definitions";
+import { DiceTypes } from "../definitions";
 import { ClassNamesTwo } from "../definitions";
 import { RaceSetup } from "./definitions";
 

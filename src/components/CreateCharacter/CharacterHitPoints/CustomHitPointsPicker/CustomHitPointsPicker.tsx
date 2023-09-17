@@ -1,6 +1,6 @@
-import { DiceTypes } from "../../../definitions";
 import { CustomHitPointsPickerProps } from "./definitions";
 import { Radio, RadioChangeEvent } from "antd";
+import { DiceTypes } from "../../../../data/definitions";
 
 export default function CustomHitPointsPicker({
   characterData,

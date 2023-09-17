@@ -32,3 +32,13 @@ export enum ClassNamesTwo {
   PALADIN = "Paladin",
   SCOUT = "Scout",
 }
+
+export enum DiceTypes {
+  D4 = "d4",
+  D6 = "d6",
+  D8 = "d8",
+  D10 = "d10",
+  D12 = "d12",
+  D20 = "d20",
+  D100 = "d100",
+}
