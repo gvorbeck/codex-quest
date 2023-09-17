@@ -25,6 +25,7 @@ export default function Description({
     : [characterData.desc];
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [textAreaValues, setTextAreaValues] = useState<string[]>(initialDesc);
+  const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
 
   // Button component for adding and deleting text fields
   const DescriptionFieldButton: FC<DescriptionFieldButtonProps> = ({
@@ -156,7 +157,10 @@ export default function Description({
                 )}
                 <Input.TextArea
                   key={index}
-                  value={desc}
+                  value={
+                    index === 0 && desc === "" ? placeholderSavingThrows : desc
+                  }
+                  // value={desc}
                   rows={10}
                   name="Bio & Notes"
                   placeholder={`Write anything and everything about ${characterData.name}`}
