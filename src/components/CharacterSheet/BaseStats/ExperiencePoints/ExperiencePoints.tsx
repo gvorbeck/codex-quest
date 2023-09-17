@@ -5,7 +5,8 @@ import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
 import { ExperiencePointsProps } from "./definitions";
-import { ClassNamesTwo, classes } from "../../../../data/classes";
+import { classes } from "../../../../data/classes";
+import { ClassNamesTwo } from "../../../../data/definitions";
 
 export default function ExperiencePoints({
   characterData,

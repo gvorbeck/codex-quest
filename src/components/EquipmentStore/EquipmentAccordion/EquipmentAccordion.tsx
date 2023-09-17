@@ -5,10 +5,11 @@ import equipmentItems from "../../../data/equipmentItems.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { EquipmentItem } from "../definitions";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
 import { RaceNamesTwo, races } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
 import { equipmentCategories } from "../../../data/definitions";
+import { ClassNamesTwo } from "../../../data/definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>

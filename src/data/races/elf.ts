@@ -1,5 +1,5 @@
 import { DiceTypes } from "../../components/definitions";
-import { ClassNamesTwo } from "../classes";
+import { ClassNamesTwo } from "../definitions";
 import { RaceSetup } from "./definitions";
 
 export const elf: RaceSetup = {

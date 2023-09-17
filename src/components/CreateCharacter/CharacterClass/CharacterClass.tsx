@@ -3,13 +3,14 @@ import { Switch } from "antd";
 import { CharacterClassProps } from "./definitions";
 import { getClassType } from "../../../support/helpers";
 import { races } from "../../../data/races";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
 import SpellDescriptionModal from "./SpellDescriptionModal/SpellDescriptionModal";
 import StartingSpells from "./StartingSpells/StartingSpells";
 import CustomClassInput from "./CustomClassInput/CustomClassInput";
 import CustomClassStartingSpells from "./CustomClassStartingSpells/CustomClassStartingSpells";
 import ClassOptions from "./ClassOptions/ClassOptions";
 import CombinationClassOptions from "./CombinationClassOptions/CombinationClassOptions";
+import { ClassNamesTwo } from "../../../data/definitions";
 
 export default function CharacterClass({
   characterData,

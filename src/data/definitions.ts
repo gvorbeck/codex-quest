@@ -16,3 +16,19 @@ export enum equipmentCategories {
   BARDING = "barding",
   BEASTS = "beasts-of-burden",
 }
+
+export enum ClassNamesTwo {
+  ASSASSIN = "Assassin",
+  BARBARIAN = "Barbarian",
+  CLERIC = "Cleric",
+  DRUID = "Druid",
+  FIGHTER = "Fighter",
+  ILLUSIONIST = "Illusionist",
+  MAGICUSER = "Magic-User",
+  THIEF = "Thief",
+  NECROMANCER = "Necromancer",
+  RANGER = "Ranger",
+  CUSTOM = "Custom",
+  PALADIN = "Paladin",
+  SCOUT = "Scout",
+}

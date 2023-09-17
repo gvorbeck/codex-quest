@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { HitPointsRollerProps } from "./definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { ClassNamesTwo } from "../../../../data/classes";
+import { ClassNamesTwo } from "../../../../data/definitions";
 
 const roller = new DiceRoller();
 

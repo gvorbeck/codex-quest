@@ -4,7 +4,8 @@ import { SpecialAbilitiesTableProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
+import { ClassNamesTwo } from "../../../data/definitions";
 
 export default function SpecialAbilitiesTable({
   characterLevel,

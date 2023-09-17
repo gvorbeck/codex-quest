@@ -3,7 +3,8 @@ import { StartingSpellsProps } from "./definitions";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { marked } from "marked";
 import spellsJson from "../../../../data/spells.json";
-import { ClassNamesTwo, classes } from "../../../../data/classes";
+import { classes } from "../../../../data/classes";
+import { ClassNamesTwo } from "../../../../data/definitions";
 
 const readMagicSpell = spellsJson.filter(
   (spell) => spell.name === "Read Magic"

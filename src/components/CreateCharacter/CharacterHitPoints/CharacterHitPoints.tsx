@@ -4,10 +4,11 @@ import { CharacterHitPointsProps } from "./definitions";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import { DiceTypes } from "../../definitions";
 import { getClassType } from "../../../support/helpers";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
 import { RaceNamesTwo, races } from "../../../data/races";
 import HitPointsRoller from "./HitPointsRoller/HitPointsRoller";
 import CustomHitPointsPicker from "./CustomHitPointsPicker/CustomHitPointsPicker";
+import { ClassNamesTwo } from "../../../data/definitions";
 
 export default function CharacterHitPoints({
   characterData,

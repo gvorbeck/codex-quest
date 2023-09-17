@@ -3,7 +3,8 @@ import {
   Abilities,
   AbilityTypes,
 } from "../components/CreateCharacter/CharacterAbilities/definitions";
-import { ClassNamesTwo, classes } from "../data/classes";
+import { classes } from "../data/classes";
+import { ClassNamesTwo } from "../data/definitions";
 import { RaceNamesTwo, races } from "../data/races";
 
 export const getClassType = (characterClass: string[]) => {

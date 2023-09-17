@@ -3,8 +3,9 @@ import { EquipmentInventoryProps } from "./definitions";
 import { useMemo } from "react";
 import { EquipmentItem } from "../definitions";
 import { toTitleCase } from "../../../support/stringSupport";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
 import { getClassType } from "../../../support/helpers";
+import { ClassNamesTwo } from "../../../data/definitions";
 
 const renderEquipmentList = (classNameArray: ClassNamesTwo[]) => {
   return classNameArray.map(

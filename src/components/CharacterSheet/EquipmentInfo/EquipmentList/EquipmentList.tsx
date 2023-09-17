@@ -6,9 +6,9 @@ import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
-import { ClassNamesTwo, classes } from "../../../../data/classes";
-import { use } from "marked";
+import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
+import { ClassNamesTwo } from "../../../../data/definitions";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",

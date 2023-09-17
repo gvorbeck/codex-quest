@@ -13,7 +13,8 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { marked } from "marked";
 import DescriptionBubble from "../components/CreateCharacter/DescriptionBubble/DescriptionBubble";
-import { ClassNamesTwo, classes } from "../data/classes";
+import { classes } from "../data/classes";
+import { ClassNamesTwo } from "../data/definitions";
 
 const roller = new DiceRoller();
 

@@ -82,24 +82,3 @@ export enum DiceTypes {
   D20 = "d20",
   D100 = "d100",
 }
-
-export enum ClassNames {
-  ASSASSIN = "Assassin",
-  BARBARIAN = "Barbarian",
-  CLERIC = "Cleric",
-  DRUID = "Druid",
-  FIGHTER = "Fighter",
-  ILLUSIONIST = "Illusionist",
-  MAGICUSER = "Magic-User",
-  THIEF = "Thief",
-  CUSTOM = "Custom",
-}
-
-export enum RaceNames {
-  DWARF = "Dwarf",
-  ELF = "Elf",
-  GNOME = "Gnome",
-  HALFLING = "Halfling",
-  HUMAN = "Human",
-  CUSTOM = "Custom",
-}

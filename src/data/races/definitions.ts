@@ -1,5 +1,5 @@
 import { DiceTypes, SavingThrows } from "../../components/definitions";
-import { ClassNamesTwo } from "../classes";
+import { ClassNamesTwo } from "../definitions";
 
 export interface RaceSetup {
   additionalAttackBonus?: string; // Ex: "+1"

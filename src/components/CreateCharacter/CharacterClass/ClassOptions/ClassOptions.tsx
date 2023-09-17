@@ -1,11 +1,12 @@
 import { Radio, RadioChangeEvent, Space } from "antd";
-import { ClassNamesTwo, classes } from "../../../../data/classes";
+import { classes } from "../../../../data/classes";
 import { ClassOptionsProps } from "./definitions";
 import DescriptionBubble from "../../DescriptionBubble/DescriptionBubble";
 import { getClassType, getDisabledClasses } from "../../../../support/helpers";
 import { RaceNamesTwo } from "../../../../data/races";
 import spellsData from "../../../../data/spells.json";
 import { Spell } from "../../../definitions";
+import { ClassNamesTwo } from "../../../../data/definitions";
 
 export default function ClassOptions({
   characterData,

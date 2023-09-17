@@ -43,7 +43,8 @@ import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../components/AttackModal/AttackModal";
 // DATA
 import equipmentItems from "../../data/equipmentItems.json";
-import { ClassNamesTwo, classes } from "../../data/classes";
+import { classes } from "../../data/classes";
+import { ClassNamesTwo } from "../../data/definitions";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
 import { getClassType } from "../../support/helpers";

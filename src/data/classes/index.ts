@@ -8,31 +8,11 @@ import { assassin } from "./assassin";
 import { barbarian } from "./barbarian";
 import { druid } from "./druid";
 import { illusionist } from "./illusionist";
-import { equipmentCategories } from "../definitions";
+import { ClassNamesTwo, equipmentCategories } from "../definitions";
 import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
 import { scout } from "./scout";
-
-export enum ClassNamesTwo {
-  ASSASSIN = "Assassin",
-  BARBARIAN = "Barbarian",
-  CLERIC = "Cleric",
-  DRUID = "Druid",
-  FIGHTER = "Fighter",
-  ILLUSIONIST = "Illusionist",
-  MAGICUSER = "Magic-User",
-  THIEF = "Thief",
-  NECROMANCER = "Necromancer",
-  RANGER = "Ranger",
-  CUSTOM = "Custom",
-  PALADIN = "Paladin",
-  SCOUT = "Scout",
-}
-
-type Classes = {
-  [key in ClassNamesTwo]: ClassSetup;
-};
 
 const customPlaceholder: ClassSetup = {
   name: "Custom",
@@ -82,7 +62,7 @@ const customPlaceholder: ClassSetup = {
   ] as SavingThrowsCollection,
 };
 
-export const classes: Classes = {
+export const classes: { [key in ClassNamesTwo]: ClassSetup } = {
   [ClassNamesTwo.ASSASSIN]: assassin,
   [ClassNamesTwo.BARBARIAN]: barbarian,
   [ClassNamesTwo.CLERIC]: cleric,

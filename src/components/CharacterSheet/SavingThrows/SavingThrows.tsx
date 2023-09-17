@@ -5,7 +5,8 @@ import CloseIcon from "../../CloseIcon/CloseIcon";
 import { Table, Typography, notification } from "antd";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
 import { RaceNamesTwo, races } from "../../../data/races";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
+import { ClassNamesTwo } from "../../../data/definitions";
 
 const roller = new DiceRoller();
 

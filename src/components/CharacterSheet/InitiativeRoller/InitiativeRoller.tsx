@@ -2,7 +2,7 @@ import { Button, Tooltip, notification } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { InitiativeRollerProps } from "./definitions";
 import CloseIcon from "../../CloseIcon/CloseIcon";
-import { RaceNames } from "../../definitions";
+import { RaceNamesTwo } from "../../../data/races";
 
 export default function InitiativeRoller({
   characterData,
@@ -20,8 +20,8 @@ export default function InitiativeRoller({
   };
 
   const rollTooltip = `1d6 + DEX modifier ${
-    characterData.race === RaceNames.HALFLING
-      ? `+ 1 as a ${RaceNames.HALFLING}`
+    characterData.race === RaceNamesTwo.HALFLING
+      ? `+ 1 as a ${RaceNamesTwo.HALFLING}`
       : ""
   }`;
 
@@ -30,7 +30,7 @@ export default function InitiativeRoller({
   const rollInitiative = () => {
     let result = roller.roll(
       `1d6${characterData.abilities.modifiers.dexterity}${
-        characterData.race === RaceNames.HALFLING ? "+1" : ""
+        characterData.race === RaceNamesTwo.HALFLING ? "+1" : ""
       }`
     );
     if (result.total === 0) result = 1;

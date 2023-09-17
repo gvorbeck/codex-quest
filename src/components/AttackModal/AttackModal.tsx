@@ -10,8 +10,8 @@ import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
 import { CharacterData } from "../definitions";
 import { RaceNamesTwo, races } from "../../data/races";
-import { ClassNamesTwo, classes } from "../../data/classes";
-import { marked } from "marked";
+import { classes } from "../../data/classes";
+import { ClassNamesTwo } from "../../data/definitions";
 
 const roller = new DiceRoller();
 
@@ -118,10 +118,6 @@ export default function AttackModal({
       const dexterity = Number(characterData.abilities.modifiers.dexterity);
       const raceAttackBonus =
         races[characterData.race as RaceNamesTwo].additionalAttackBonus || "";
-      // const equipmentAttackBonus = characterData.class.some(
-      //   (classValue) =>
-      //     classes[classValue as ClassNamesTwo].equipmentAttackBonuses?.some((weapon) => weapon[0] === missile?.name)
-      // );
 
       if (type === "melee") {
         roll += `+${strength + attackBonus}`;
