@@ -160,8 +160,8 @@ export default function Description({
                   value={
                     index === 0 && desc === "" ? placeholderSavingThrows : desc
                   }
-                  // value={desc}
                   rows={10}
+                  maxLength={10000}
                   name="Bio & Notes"
                   placeholder={`Write anything and everything about ${characterData.name}`}
                   onChange={(e) => handleTextAreaChange(e.target.value, index)}
