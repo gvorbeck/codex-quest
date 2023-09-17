@@ -399,8 +399,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 : undefined
             }
             helpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.${
-              showMissileAC &&
-              `\n\nThe smaller number is the AC your character's worn shield provides against **missile attacks**.`
+              showMissileAC
+                ? `\n\nThe smaller number is the AC your character's worn shield provides against **missile attacks**.`
+                : ""
             }`}
           />
           {/* MOVEMENT */}
