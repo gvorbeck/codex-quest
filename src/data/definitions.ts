@@ -33,6 +33,18 @@ export enum ClassNamesTwo {
   SCOUT = "Scout",
 }
 
+export enum RaceNamesTwo {
+  DWARF = "Dwarf",
+  ELF = "Elf",
+  GNOME = "Gnome",
+  HALFLING = "Halfling",
+  HUMAN = "Human",
+  CUSTOM = "Custom",
+  HALFELF = "Half-Elf",
+  HALFOGRE = "Half-Ogre",
+  HALFORC = "Half-Orc",
+}
+
 export interface SpellLevels {
   cleric: number | null;
   "magic-user": number | null;

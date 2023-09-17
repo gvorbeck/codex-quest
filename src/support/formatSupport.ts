@@ -1,6 +1,6 @@
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { Capacity, CapacityMap } from "../components/definitions";
-import { RaceNamesTwo } from "../data/races";
+import { RaceNamesTwo } from "../data/definitions";
 
 export const calculateItemCost = (item: EquipmentItem) => {
   let cost = item.costValue;

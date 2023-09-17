@@ -4,9 +4,9 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { Table, Typography, notification } from "antd";
 import { camelCaseToTitleCase } from "../../../support/stringSupport";
-import { RaceNamesTwo, races } from "../../../data/races";
+import { races } from "../../../data/races";
 import { classes } from "../../../data/classes";
-import { ClassNamesTwo } from "../../../data/definitions";
+import { ClassNamesTwo, RaceNamesTwo } from "../../../data/definitions";
 
 const roller = new DiceRoller();
 

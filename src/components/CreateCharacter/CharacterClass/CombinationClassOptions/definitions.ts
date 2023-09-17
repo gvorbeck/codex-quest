@@ -1,4 +1,4 @@
-import { RaceNamesTwo } from "../../../../data/races";
+import { RaceNamesTwo } from "../../../../data/definitions";
 import { CharacterData } from "../../../definitions";
 
 export type CombinationClassOptionsProps = {

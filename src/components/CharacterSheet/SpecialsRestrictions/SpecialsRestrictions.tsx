@@ -2,8 +2,8 @@ import { List, Typography } from "antd";
 import { marked } from "marked";
 import { SpecialsRestrictionsProps } from "./definitions";
 import { classes } from "../../../data/classes";
-import { RaceNamesTwo, races } from "../../../data/races";
-import { ClassNamesTwo } from "../../../data/definitions";
+import { races } from "../../../data/races";
+import { ClassNamesTwo, RaceNamesTwo } from "../../../data/definitions";
 
 // Ant Design's List component treats the input as a string and not as HTML.
 // To render HTML, you need to use dangerouslySetInnerHTML prop in React.

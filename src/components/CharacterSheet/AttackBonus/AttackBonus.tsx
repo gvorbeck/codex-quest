@@ -1,8 +1,8 @@
 import { Table, Typography } from "antd";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import { AttackBonusProps } from "./definitions";
-import { RaceNamesTwo } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
+import { RaceNamesTwo } from "../../../data/definitions";
 
 export default function AttackBonus({
   characterData,

@@ -9,9 +9,9 @@ import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
 import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
 import { CharacterData } from "../definitions";
-import { RaceNamesTwo, races } from "../../data/races";
+import { races } from "../../data/races";
 import { classes } from "../../data/classes";
-import { ClassNamesTwo } from "../../data/definitions";
+import { ClassNamesTwo, RaceNamesTwo } from "../../data/definitions";
 
 const roller = new DiceRoller();
 

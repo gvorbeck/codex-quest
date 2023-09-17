@@ -4,8 +4,8 @@ import {
   AbilityTypes,
 } from "../components/CreateCharacter/CharacterAbilities/definitions";
 import { classes } from "../data/classes";
-import { ClassNamesTwo } from "../data/definitions";
-import { RaceNamesTwo, races } from "../data/races";
+import { ClassNamesTwo, RaceNamesTwo } from "../data/definitions";
+import { races } from "../data/races";
 
 export const getClassType = (characterClass: string[]) => {
   if (characterClass.length === 0 || characterClass[0] === "") return "none";

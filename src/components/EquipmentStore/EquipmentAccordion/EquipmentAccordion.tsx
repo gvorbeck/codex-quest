@@ -6,10 +6,10 @@ import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
 import { EquipmentItem } from "../definitions";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { classes } from "../../../data/classes";
-import { RaceNamesTwo, races } from "../../../data/races";
+import { races } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
 import { equipmentCategories } from "../../../data/definitions";
-import { ClassNamesTwo } from "../../../data/definitions";
+import { ClassNamesTwo, RaceNamesTwo } from "../../../data/definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>

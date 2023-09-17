@@ -4,8 +4,9 @@ import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
-import { RaceNamesTwo, races } from "../../../data/races";
+import { races } from "../../../data/races";
 import RaceOptions from "./RaceOptions/RaceOptions";
+import { RaceNamesTwo } from "../../../data/definitions";
 
 export default function CharacterRace({
   characterData,

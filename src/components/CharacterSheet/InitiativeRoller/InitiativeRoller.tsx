@@ -2,7 +2,7 @@ import { Button, Tooltip, notification } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { InitiativeRollerProps } from "./definitions";
 import CloseIcon from "../../CloseIcon/CloseIcon";
-import { RaceNamesTwo } from "../../../data/races";
+import { RaceNamesTwo } from "../../../data/definitions";
 
 export default function InitiativeRoller({
   characterData,

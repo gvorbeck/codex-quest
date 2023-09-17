@@ -8,9 +8,8 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
-import { RaceNamesTwo } from "../../data/races";
 import GoldRoller from "./GoldRoller/GoldRoller";
-import { ClassNamesTwo } from "../../data/definitions";
+import { ClassNamesTwo, RaceNamesTwo } from "../../data/definitions";
 
 export default function EquipmentStore({
   characterData,

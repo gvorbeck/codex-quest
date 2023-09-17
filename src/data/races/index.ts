@@ -7,18 +7,7 @@ import { RaceSetup } from "./definitions";
 import { halfElf } from "./halfElf";
 import { halfOgre } from "./halfOgre";
 import { halfOrc } from "./halfOrc";
-
-export enum RaceNamesTwo {
-  DWARF = "Dwarf",
-  ELF = "Elf",
-  GNOME = "Gnome",
-  HALFLING = "Halfling",
-  HUMAN = "Human",
-  CUSTOM = "Custom",
-  HALFELF = "Half-Elf",
-  HALFOGRE = "Half-Ogre",
-  HALFORC = "Half-Orc",
-}
+import { RaceNamesTwo } from "../definitions";
 
 const customPlaceholder = {
   name: "Custom",

@@ -2,7 +2,8 @@ import { RaceOptionsProps } from "./definitions";
 import { isStandardRace } from "../../../../support/helpers";
 import type { RadioChangeEvent } from "antd";
 import { Radio } from "antd";
-import { RaceNamesTwo, races } from "../../../../data/races";
+import { races } from "../../../../data/races";
+import { RaceNamesTwo } from "../../../../data/definitions";
 
 export default function RaceOptions({
   characterData,
@@ -21,7 +22,7 @@ export default function RaceOptions({
     setCharacterData({
       ...characterData,
       race: e.target.value !== "Custom" ? selectedRace : customRaceInput,
-      class: "",
+      class: [],
       hp: { dice: "", points: 0, max: 0, desc: "" },
       equipment: [],
     });
