@@ -13,7 +13,12 @@ export default function HelpTooltip({ text, className }: HelpTooltipProps) {
   return (
     <Tooltip
       className={tooltipClassNames}
-      title={<div dangerouslySetInnerHTML={{ __html: marked(text) }} />}
+      title={
+        <div
+          className="[&_p]:mt-0 [&_p:last-child]:mb-0"
+          dangerouslySetInnerHTML={{ __html: marked(text) }}
+        />
+      }
       color="#3E3643"
     >
       <QuestionCircleOutlined className="text-lg" />
