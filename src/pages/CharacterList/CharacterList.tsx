@@ -35,6 +35,7 @@ export default function CharacterList({ user, className }: CharacterListProps) {
                 return data;
               });
               setCharacters(userCharacters);
+              document.title = `CODEX.QUEST`;
               setLoading(false);
             }
           );
