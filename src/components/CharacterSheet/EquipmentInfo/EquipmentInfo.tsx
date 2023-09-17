@@ -50,7 +50,7 @@ export default function EquipmentInfo({
   };
 
   return (
-    <div className={`${className}`}>
+    <div className={className}>
       <div className="flex items-baseline gap-4">
         <Typography.Title level={3} className="mt-0 text-shipGray">
           Equipment
