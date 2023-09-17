@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { ClassSetup, SavingThrowsCollection } from "./definitions";
+import { ClassSetup } from "./definitions";
 import { fighter } from "./fighter";
 import { magicUser } from "./magicUser";
 import { thief } from "./thief";
@@ -13,6 +13,7 @@ import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
 import { scout } from "./scout";
+import { SavingThrows } from "../../components/definitions";
 
 const customPlaceholder: ClassSetup = {
   name: "Custom",
@@ -59,7 +60,7 @@ const customPlaceholder: ClassSetup = {
         spells: 16,
       },
     ],
-  ] as SavingThrowsCollection,
+  ] as [number, SavingThrows][],
 };
 
 export const classes: { [key in ClassNamesTwo]: ClassSetup } = {

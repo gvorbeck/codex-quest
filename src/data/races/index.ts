@@ -18,19 +18,14 @@ export enum RaceNamesTwo {
   HALFELF = "Half-Elf",
   HALFOGRE = "Half-Ogre",
   HALFORC = "Half-Orc",
-  // ... other races
 }
-
-type Races = {
-  [key in RaceNamesTwo]: RaceSetup;
-};
 
 const customPlaceholder = {
   name: "Custom",
   allowedStandardClasses: [],
 };
 
-export const races: Races = {
+export const races: { [key in RaceNamesTwo]: RaceSetup } = {
   [RaceNamesTwo.DWARF]: dwarf,
   [RaceNamesTwo.ELF]: elf,
   [RaceNamesTwo.GNOME]: gnome,
@@ -40,5 +35,4 @@ export const races: Races = {
   [RaceNamesTwo.HALFELF]: halfElf,
   [RaceNamesTwo.HALFOGRE]: halfOgre,
   [RaceNamesTwo.HALFORC]: halfOrc,
-  // ... other races
 };

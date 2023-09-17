@@ -1,9 +1,6 @@
 import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { SavingThrows } from "../../components/definitions";
 
-type SavingThrowEntry = [number, SavingThrows];
-export type SavingThrowsCollection = SavingThrowEntry[];
-
 export type ClassSetup = {
   attackBonus: number[];
   availableEquipmentCategories: string[];
@@ -30,7 +27,7 @@ export type ClassSetup = {
   name: string;
   noLargeEquipment?: boolean;
   powers?: EquipmentItem[];
-  savingThrows: SavingThrowsCollection;
+  savingThrows: [number, SavingThrows][];
   specialAbilities?: {
     titles: string[];
     stats: number[][];
