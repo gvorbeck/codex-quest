@@ -65,6 +65,11 @@ export default function Sources() {
           Brentlinger, Jason. "Scouts: A Basic Fantasy RPG Supplement." Basic
           Fantasy Role-Playing Game, 2018, basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>
+          Castellani, et al. "Spellcrafters: A Basic Fantasy RPG Supplement."
+          Basic Fantasy Role-Playing Game, 2023,
+          basicfantasy.org/downloads.html.
+        </List.Item>
       </List>
     </div>
   );

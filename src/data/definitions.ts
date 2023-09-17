@@ -31,6 +31,7 @@ export enum ClassNames {
   CUSTOM = "Custom",
   PALADIN = "Paladin",
   SCOUT = "Scout",
+  SPELLCRAFTER = "Spellcrafter",
 }
 
 export enum RaceNames {

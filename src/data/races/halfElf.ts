@@ -10,6 +10,7 @@ export const halfElf: RaceSetup = {
     ClassNames.FIGHTER,
     ClassNames.ILLUSIONIST,
     ClassNames.MAGICUSER,
+    ClassNames.SPELLCRAFTER,
     ClassNames.THIEF,
     ClassNames.NECROMANCER,
     ClassNames.RANGER,

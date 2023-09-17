@@ -11,6 +11,7 @@ export const gnome: RaceSetup = {
     ClassNames.FIGHTER,
     ClassNames.ILLUSIONIST,
     ClassNames.MAGICUSER,
+    ClassNames.SPELLCRAFTER,
     ClassNames.THIEF,
     ClassNames.NECROMANCER,
     ClassNames.PALADIN,

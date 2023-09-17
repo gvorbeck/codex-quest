@@ -11,6 +11,7 @@ export const halfOrc: RaceSetup = {
     ClassNames.BARBARIAN,
     ClassNames.ILLUSIONIST,
     ClassNames.MAGICUSER,
+    ClassNames.SPELLCRAFTER,
     ClassNames.THIEF,
     ClassNames.ASSASSIN,
     ClassNames.NECROMANCER,

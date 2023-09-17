@@ -14,6 +14,7 @@ import { ranger } from "./ranger";
 import { paladin } from "./paladin";
 import { scout } from "./scout";
 import { SavingThrows } from "../../components/definitions";
+import { spellCrafter } from "./spellcrafter";
 
 const customPlaceholder: ClassSetup = {
   name: "Custom",
@@ -77,4 +78,5 @@ export const classes: { [key in ClassNames]: ClassSetup } = {
   [ClassNames.RANGER]: ranger,
   [ClassNames.PALADIN]: paladin,
   [ClassNames.SCOUT]: scout,
+  [ClassNames.SPELLCRAFTER]: spellCrafter,
 };
