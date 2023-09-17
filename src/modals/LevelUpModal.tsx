@@ -2,7 +2,7 @@ import { Button, Checkbox, Modal, Typography } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
-import { Spell, SpellLevels } from "../components/definitions";
+import { Spell } from "../components/definitions";
 import { LevelUpModalProps } from "./definitions";
 import spellList from "../data/spells.json";
 import { getClassType } from "../support/helpers";
@@ -15,6 +15,7 @@ import { marked } from "marked";
 import DescriptionBubble from "../components/CreateCharacter/DescriptionBubble/DescriptionBubble";
 import { classes } from "../data/classes";
 import { ClassNamesTwo } from "../data/definitions";
+import { SpellLevels } from "../data/definitions";
 
 const roller = new DiceRoller();
 

@@ -1,3 +1,4 @@
+import { SpellLevels } from "../data/definitions";
 import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
 import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
 import { EquipmentItem } from "./EquipmentStore/definitions";
@@ -7,13 +8,6 @@ interface HP {
   points: number;
   max: number;
   desc: string;
-}
-
-export interface SpellLevels {
-  cleric: number | null;
-  "magic-user": number | null;
-  druid: number | null;
-  illusionist: number | null;
 }
 
 export interface Spell {

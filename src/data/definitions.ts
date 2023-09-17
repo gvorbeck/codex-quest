@@ -33,6 +33,15 @@ export enum ClassNamesTwo {
   SCOUT = "Scout",
 }
 
+export interface SpellLevels {
+  cleric: number | null;
+  "magic-user": number | null;
+  druid: number | null;
+  illusionist: number | null;
+  necromancer: number | null;
+  paladin: number | null;
+}
+
 export enum DiceTypes {
   D4 = "d4",
   D6 = "d6",
