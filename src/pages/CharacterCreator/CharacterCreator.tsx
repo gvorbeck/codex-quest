@@ -22,13 +22,13 @@ const abilityDescription = marked(
 );
 
 const raceDescription = marked(
-  `Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.
+  `Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely. **Races included in the base game rules are in bold**.
   
   <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Character Race documentation</a>`
 );
 
 const classDescription = marked(
-  `Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up.
+  `Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up. **Classes included in the base game rules are in bold**.
   
   <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Character Class documentation</a>`
 );
