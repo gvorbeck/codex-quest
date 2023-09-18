@@ -49,7 +49,7 @@ export default function BaseStats({
           {characterData.name}
         </Typography.Title>
       </div>
-      <Divider className="mt-4 mb-4" />
+      <Divider className="mt-4 mb-4 border-seaBuckthorn" />
       <div className="flex flex-col justify-between md:flex-row print:flex-row print:items-baseline">
         <ExperiencePoints
           characterData={characterData}

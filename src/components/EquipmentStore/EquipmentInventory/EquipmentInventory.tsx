@@ -63,7 +63,9 @@ export default function EquipmentInventory({
           }, 0)
           .toFixed(2)}
       </Typography.Title>
-      <Divider className="text-shipGray">Current Loadout</Divider>
+      <Divider className="text-shipGray border-seaBuckthorn">
+        Current Loadout
+      </Divider>
       <div className="[&>*+*]:mt-8">
         {getClassType(characterData.class) !== "custom" && (
           <div>

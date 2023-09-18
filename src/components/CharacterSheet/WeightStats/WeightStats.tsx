@@ -24,7 +24,7 @@ export default function WeightStats({
         value={weight.toFixed(0)}
         helpText={`Stay under ${capacity.light} to remain "Lightly Loaded"`}
       />
-      <Divider />
+      <Divider className="border-seaBuckthorn" />
       <Descriptions bordered column={1}>
         <Descriptions.Item label="Max Weight">
           {capacity.heavy}

@@ -421,7 +421,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
         </Col>
       </Row>
-      <Divider className="print:hidden" />
+      <Divider className="print:hidden border-seaBuckthorn" />
       {/* Hide these if using a custom Class */}
       {getClassType(characterData.class) !== "custom" ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print:grid-cols-2">
@@ -457,7 +457,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           Restrictions.
         </Typography.Text>
       )}
-      <Divider />
+      <Divider className="border-seaBuckthorn" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* MONEY */}
         <MoneyStats
@@ -486,7 +486,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           className="col-span-1 md:col-start-2 md:row-start-1 lg:col-start-4 lg:col-span-2 row-span-2"
         />
       </div>
-      <Divider />
+      <Divider className="border-seaBuckthorn" />
       {/* BIO & NOTES */}
       <Description
         characterData={characterData}

@@ -91,7 +91,7 @@ export default function CharacterHitPoints({
             setCustomHitDice={setCustomHitDice}
           />
           <HomebrewWarning homebrew="Race or Class" />
-          <Divider />
+          <Divider className="border-seaBuckthorn" />
         </>
       )}
       <HitPointsRoller

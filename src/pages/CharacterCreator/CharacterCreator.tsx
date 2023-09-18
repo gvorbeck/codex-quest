@@ -323,7 +323,7 @@ export default function CharacterCreator() {
               }}
             />
           </Typography.Paragraph>
-          <Divider />
+          <Divider className="border-seaBuckthorn" />
           {steps[current].content}
         </div>
         <div className="col-span-full ml-auto">
