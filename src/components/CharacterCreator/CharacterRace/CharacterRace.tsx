@@ -59,7 +59,10 @@ export default function CharacterRace({
         {characterData.race &&
           Object.values(RaceNames).includes(characterData.race as RaceNames) &&
           characterData.race !== RaceNames.CUSTOM && (
-            <DescriptionBubble description={raceDescription} />
+            <DescriptionBubble
+              description={raceDescription}
+              title={characterData.race}
+            />
           )}
       </div>
       {showCustomRaceInput && (
