@@ -7,6 +7,13 @@ export const fighter: ClassSetup = {
   minimumAbilityRequirements: { strength: 9 },
   hitDice: DiceTypes.D8,
   hitDiceModifier: 2,
+  customRules: [
+    {
+      title: "Weapon Specialization Option",
+      description:
+        'Under this rule, the player of a Fighter may choose a weapon in which the character is especially skilled. Specialization only applies to "true" Fighters, and not to any subclasses thereof which may appear in this or any other supplement, unless otherwise noted.\n\nAt first level, the player applies one **rank** of specialization to the chosen weapon. This choice must be quite specific; for instance, a specialization in the longsword will give no bonuses when using a shortsword.\n\nEvery third level after first (that is, 4th, 7th, 10th, etc.) the player applies another rank of specialization. Each new rank may be applied to an existing specialization, or to a new specialization.\n\nFor instance, at first level Darion\'s player assigns a rank to longsword. Darion gains a bonus of +1 on attack rolls when using a longsword. At 4th level, the player may assign the new rank to longsword, giving a bonus of +1 on attack rolls and +1 on damage; or, the rank may be applied to a new weapon, such as the longbow, in which case both weapons have +1 on attack rolls but no bonus to damage.\n\nAs indicated in the Attacks Per Round column, at higher ranks of specialization the Fighter is allowed to attack more than one time per round. 3/2 means that the character may attack three time in every two rounds, once in the oddnumbered round and twice in the even-numbered round. At 2/1 the Fighter is allowed to attack with the specialized weapon two times per round. Additional attacks always come after all other attacks are resolved; that is, the Fighter attacks once on his or her Initiative number, then again after all “first” attacks are done. If more than one weapon specialist is involved in a battle, count Initiative down twice, once for “first” attacks and again for “second” attacks.\n\n| Rank | Combat Bonuses | Attacks per Round | --- | --- | --- | 1 | +1 / +0 | 1 / 1 | 2 | +1 / +1 | 1 / 1 | 3 | +2 / +1 | 3 / 2 | 4 | +2 / +2 | 3 / 2 | 5 | +3 / +2 | 2 / 1 | 6 | +3 / +3 | 2 / 1 |',
+    },
+  ],
   availableEquipmentCategories: [
     equipmentCategories.AMMUNITION,
     equipmentCategories.ARMOR,

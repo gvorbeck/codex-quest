@@ -11,6 +11,7 @@ export type ClassSetup = {
   };
   experiencePoints: number[];
   equipmentAttackBonuses?: [string, string][];
+  customRules?: { title: string; description: string }[];
   hitDice: string;
   hitDiceModifier: number;
   minimumAbilityRequirements?: Partial<
