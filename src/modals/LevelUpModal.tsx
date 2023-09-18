@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { marked } from "marked";
-import DescriptionBubble from "../components/CreateCharacter/DescriptionBubble/DescriptionBubble";
+import DescriptionBubble from "../components/CharacterCreator/DescriptionBubble/DescriptionBubble";
 import { classes } from "../data/classes";
 import { ClassNames } from "../data/definitions";
 import { SpellLevels } from "../data/definitions";

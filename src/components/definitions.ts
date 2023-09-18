@@ -1,6 +1,6 @@
 import { SpellLevels } from "../data/definitions";
 import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
-import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
+import { Abilities } from "./CharacterCreator/CharacterAbilities/definitions";
 import { EquipmentItem } from "./EquipmentStore/definitions";
 
 interface HP {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Abilities,
   AbilityTypes,
-} from "../components/CreateCharacter/CharacterAbilities/definitions";
+} from "../components/CharacterCreator/CharacterAbilities/definitions";
 import { classes } from "../data/classes";
 import { ClassNames, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
