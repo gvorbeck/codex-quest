@@ -25,10 +25,13 @@ export default function SavingThrows({
   let baseSavingThrows: SavingThrowsType;
   const dataSource: {}[] = [];
 
-  const getSavingThrowsForLevel = (characterClass: string) =>
-    classes[characterClass as ClassNames].savingThrows.find(
-      (savingThrow) => (savingThrow[0] as number) >= characterData.level
-    );
+  const getSavingThrowsForLevel = (characterClass: string) => {
+    if (getClassType(characterClass) === "standard") {
+      classes[characterClass as ClassNames]?.savingThrows.find(
+        (savingThrow) => (savingThrow[0] as number) >= characterData.level
+      );
+    }
+  };
 
   if (getClassType(characterData.class) === "standard") {
     const savingThrowForLevel = getSavingThrowsForLevel(characterData.class[0]);
