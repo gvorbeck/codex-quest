@@ -4,6 +4,7 @@ import type { RadioChangeEvent } from "antd";
 import { Radio } from "antd";
 import { races } from "../../../../data/races";
 import { RaceNames } from "../../../../data/definitions";
+import classNames from "classnames";
 
 export default function RaceOptions({
   characterData,
@@ -27,6 +28,12 @@ export default function RaceOptions({
       equipment: [],
     });
   };
+  const baseRaces = [
+    RaceNames.DWARF,
+    RaceNames.ELF,
+    RaceNames.HALFLING,
+    RaceNames.HUMAN,
+  ];
 
   return (
     <Radio.Group
@@ -44,19 +51,27 @@ export default function RaceOptions({
             : -1
         )
         .map((raceKey) => {
-          const race = races[raceKey as keyof typeof races];
-          if (!race) return null; // Skip rendering if race is undefined
+          const choice = races[raceKey as keyof typeof races];
+          if (!choice) return null; // Skip rendering if race is undefined
+          const radioClassNames = classNames(
+            "ps-2",
+            "pe-2",
+            "md:ps-4",
+            "md:pe-4",
+            "text-shipGray",
+            { "font-bold": baseRaces.includes(choice.name as RaceNames) }
+          );
 
           const isDisabled =
-            (race.minimumAbilityRequirements &&
-              Object.entries(race.minimumAbilityRequirements).some(
+            (choice.minimumAbilityRequirements &&
+              Object.entries(choice.minimumAbilityRequirements).some(
                 ([ability, requirement]) =>
                   +characterData.abilities.scores[
                     ability as keyof typeof characterData.abilities.scores
                   ] < (requirement as number) // Cast requirement to number
               )) ||
-            (race.maximumAbilityRequirements &&
-              Object.entries(race.maximumAbilityRequirements).some(
+            (choice.maximumAbilityRequirements &&
+              Object.entries(choice.maximumAbilityRequirements).some(
                 ([ability, requirement]) =>
                   +characterData.abilities.scores[
                     ability as keyof typeof characterData.abilities.scores
@@ -65,12 +80,12 @@ export default function RaceOptions({
 
           return (
             <Radio
-              key={race.name}
-              value={race.name} // Set value to race.name
-              className="ps-2 pe-2 md:ps-4 md:pe-4"
+              key={choice.name}
+              value={choice.name} // Set value to race.name
+              className={radioClassNames}
               disabled={isDisabled}
             >
-              {race.name}
+              {choice.name}
             </Radio>
           );
         })}

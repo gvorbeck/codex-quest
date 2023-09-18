@@ -6,6 +6,7 @@ import { getClassType, getDisabledClasses } from "../../../../support/helpers";
 import spellsData from "../../../../data/spells.json";
 import { Spell } from "../../../definitions";
 import { ClassNames, RaceNames } from "../../../../data/definitions";
+import classNames from "classnames";
 
 export default function ClassOptions({
   characterData,
@@ -18,6 +19,12 @@ export default function ClassOptions({
     characterData.race as RaceNames,
     characterData.abilities
   );
+  const baseClasses = [
+    ClassNames.FIGHTER,
+    ClassNames.CLERIC,
+    ClassNames.THIEF,
+    ClassNames.MAGICUSER,
+  ];
 
   const onRadioButtonChange = (e: RadioChangeEvent) => {
     if (e.target.value === "Custom") {
@@ -73,12 +80,20 @@ export default function ClassOptions({
             .map((classKey) => {
               const choice = classes[classKey as keyof typeof classes];
               if (!choice) return null; // Skip rendering if choice is undefined
+              const radioClassNames = classNames(
+                "ps-2",
+                "pe-2",
+                "md:ps-4",
+                "md:pe-4",
+                "text-shipGray",
+                { "font-bold": baseClasses.includes(choice.name as ClassNames) }
+              );
 
               return (
                 <Radio
                   key={choice.name}
                   value={choice.name}
-                  className="ps-2 pe-2 md:ps-4 md:pe-4 text-shipGray"
+                  className={radioClassNames}
                   disabled={disabledClasses.includes(choice.name as ClassNames)}
                 >
                   {choice.name}
@@ -90,6 +105,7 @@ export default function ClassOptions({
       {getClassType(characterData.class) !== "custom" &&
         getClassType(characterData.class) !== "none" && (
           <DescriptionBubble
+            title={characterData.class[0]}
             description={
               classes[characterData.class[0] as ClassNames].details
                 ?.description || ""
