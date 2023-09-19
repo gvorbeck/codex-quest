@@ -3,6 +3,7 @@
     "name": "Animate Dead",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 4,
       "magic-user": 5,
@@ -17,6 +18,7 @@
     "name": "Animate Objects",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": 6,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -31,6 +33,7 @@
     "name": "Anti-Magic Shell",
     "range": "10' radius",
     "level": {
+      "spellcrafter": 6,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -45,6 +48,7 @@
     "name": "Blade Barrier",
     "range": "90'",
     "level": {
+      "spellcrafter": 6,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -59,6 +63,7 @@
     "name": "Bless*",
     "range": "50' radius",
     "level": {
+      "spellcrafter": null,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -73,6 +78,7 @@
     "name": "Charm Animal",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -87,6 +93,7 @@
     "name": "Charm Monster",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -101,6 +108,7 @@
     "name": "Charm Person",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -115,6 +123,7 @@
     "name": "Clairvoyance",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -129,6 +138,7 @@
     "name": "Cloudkill",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -143,6 +153,7 @@
     "name": "Commune",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -157,6 +168,7 @@
     "name": "Confusion",
     "range": "280'+10'/ level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -171,6 +183,7 @@
     "name": "Conjure Elemental",
     "range": "240'",
     "level": {
+      "spellcrafter": 5,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -185,6 +198,7 @@
     "name": "Continual Light*",
     "range": "360'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 3,
       "magic-user": 2,
@@ -199,6 +213,7 @@
     "name": "Create Food",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -213,6 +228,7 @@
     "name": "Create Water",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 4,
       "magic-user": null,
@@ -227,6 +243,7 @@
     "name": "Cure Blindness*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 3,
       "magic-user": null,
@@ -241,6 +258,7 @@
     "name": "Cure Disease*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 3,
       "magic-user": null,
@@ -255,6 +273,7 @@
     "name": "Cure Light Wounds*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": 1,
       "cleric": 1,
       "magic-user": null,
@@ -269,6 +288,7 @@
     "name": "Cure Serious Wounds* ",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 4,
       "magic-user": null,
@@ -277,12 +297,13 @@
       "necromancer": null
     },
     "duration": "instantaneous",
-    "description": "This spell works exactly like cure light wounds, save that it heals 2d6 points of damage, plus 1 point per caster level. The reverse, cause serious wounds, also works exactly like cause light wounds, except that it inflicts 2d6 points of damage, +2 points per caster level."
+    "description": "This spell works exactly like **cure light wounds**, save that it heals 2d6 points of damage, plus 1 point per caster level. The reverse, **cause serious wounds**, also works exactly like **cause light wounds**, except that it inflicts 2d6 points of damage, +1 point per caster level."
   },
   {
     "name": "Darkvision",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -297,6 +318,7 @@
     "name": "Death Spell",
     "range": "240'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -311,6 +333,7 @@
     "name": "Detect Evil*",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": 1,
       "cleric": 1,
       "magic-user": 2,
@@ -325,6 +348,7 @@
     "name": "Detect Invisible",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -339,6 +363,7 @@
     "name": "Detect Magic",
     "range": "60'",
     "level": {
+      "spellcrafter": 1,
       "paladin": 1,
       "cleric": 1,
       "magic-user": 1,
@@ -353,6 +378,7 @@
     "name": "Dimension Door",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -367,6 +393,7 @@
     "name": "Disintegrate",
     "range": "60'",
     "level": {
+      "spellcrafter": 6,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -381,6 +408,7 @@
     "name": "Dispel Evil",
     "range": "touch",
     "level": {
+      "spellcrafter": 5,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -395,6 +423,7 @@
     "name": "Dispel Magic",
     "range": "120'",
     "level": {
+      "spellcrafter": 3,
       "paladin": null,
       "cleric": 4,
       "magic-user": 3,
@@ -409,6 +438,7 @@
     "name": "Feeblemind*",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -423,6 +453,7 @@
     "name": "Find Traps",
     "range": "30'",
     "level": {
+      "spellcrafter": 2,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -437,6 +468,7 @@
     "name": "Find the Path",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -451,6 +483,7 @@
     "name": "Fireball",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -465,6 +498,7 @@
     "name": "Flesh to Stone*",
     "range": "30'/level",
     "level": {
+      "spellcrafter": 6,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -479,6 +513,7 @@
     "name": "Floating Disc",
     "range": "0",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -493,6 +528,7 @@
     "name": "Fly",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -507,6 +543,7 @@
     "name": "Geas*",
     "range": "5' per level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -521,6 +558,7 @@
     "name": "Growth of Animals",
     "range": "60'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 3,
       "magic-user": null,
@@ -535,6 +573,7 @@
     "name": "Growth of Plants*",
     "range": "120'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -549,6 +588,7 @@
     "name": "Hallucinatory Terrain",
     "range": "400'+40'/level",
     "level": {
+      "spellcrafter": 4,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -563,6 +603,7 @@
     "name": "Haste*",
     "range": "30'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -577,6 +618,7 @@
     "name": "Heal*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -591,6 +633,7 @@
     "name": "Hold Monster",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -605,6 +648,7 @@
     "name": "Hold Person",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": 2,
       "cleric": 2,
       "magic-user": 3,
@@ -619,6 +663,7 @@
     "name": "Hold Portal",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": 1,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -633,6 +678,7 @@
     "name": "Ice Storm",
     "range": "300'+30'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -647,6 +693,7 @@
     "name": "Insect Plague",
     "range": "300'+30'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -661,6 +708,7 @@
     "name": "Invisibility",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -675,6 +723,7 @@
     "name": "Invisibility 10' Radius",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -689,6 +738,7 @@
     "name": "Invisible Stalker",
     "range": "0",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -703,6 +753,7 @@
     "name": "Knock",
     "range": "30'",
     "level": {
+      "spellcrafter": 2,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -717,6 +768,7 @@
     "name": "Levitate",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -731,6 +783,7 @@
     "name": "Light*",
     "range": "120'",
     "level": {
+      "spellcrafter": 1,
       "paladin": 1,
       "cleric": 1,
       "magic-user": 1,
@@ -745,6 +798,7 @@
     "name": "Lightning Bolt",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -759,6 +813,7 @@
     "name": "Locate Object",
     "range": "360'",
     "level": {
+      "spellcrafter": 2,
       "paladin": null,
       "cleric": 3,
       "magic-user": 2,
@@ -773,6 +828,7 @@
     "name": "Lower Water",
     "range": "20'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -787,6 +843,7 @@
     "name": "Magic Jar",
     "range": "60'",
     "level": {
+      "spellcrafter": 5,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -801,6 +858,7 @@
     "name": "Magic Missile",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": 1,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -815,6 +873,7 @@
     "name": "Magic Mouth",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -829,6 +888,7 @@
     "name": "Massmorph",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -843,6 +903,7 @@
     "name": "Mind Reading",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -857,6 +918,7 @@
     "name": "Mirror Image",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -871,6 +933,7 @@
     "name": "Neutralize Poison*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 4,
       "magic-user": null,
@@ -885,6 +948,7 @@
     "name": "Passwall",
     "range": "30'",
     "level": {
+      "spellcrafter": 5,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -899,6 +963,7 @@
     "name": "Phantasmal Force",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -913,6 +978,7 @@
     "name": "Polymorph Other",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -927,6 +993,7 @@
     "name": "Polymorph Self",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -941,6 +1008,7 @@
     "name": "Projected Image",
     "range": "240'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -955,6 +1023,7 @@
     "name": "Protection from Evil*",
     "range": "touch",
     "level": {
+      "spellcrafter": 1,
       "paladin": 1,
       "cleric": 1,
       "magic-user": 1,
@@ -969,6 +1038,7 @@
     "name": "Protection from Evil 10' Radius*",
     "range": "touch",
     "level": {
+      "spellcrafter": 3,
       "paladin": null,
       "cleric": 4,
       "magic-user": 3,
@@ -983,6 +1053,7 @@
     "name": "Protection from Normal Missiles",
     "range": "self",
     "level": {
+      "spellcrafter": 3,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -997,6 +1068,7 @@
     "name": "Purify Food and Water",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": 1,
       "cleric": 1,
       "magic-user": null,
@@ -1011,6 +1083,7 @@
     "name": "Quest*",
     "range": "5'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -1025,6 +1098,7 @@
     "name": "Raise Dead*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -1039,6 +1113,7 @@
     "name": "Read Languages",
     "range": "0",
     "level": {
+      "spellcrafter": 1,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -1053,6 +1128,7 @@
     "name": "Read Magic",
     "range": "0",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -1067,6 +1143,7 @@
     "name": "Regenerate",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -1081,6 +1158,7 @@
     "name": "Reincarnate",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -1095,6 +1173,7 @@
     "name": "Remove Curse*",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 3,
       "magic-user": 4,
@@ -1109,6 +1188,7 @@
     "name": "Remove Fear*",
     "range": "touch (120')",
     "level": {
+      "spellcrafter": null,
       "paladin": 1,
       "cleric": 1,
       "magic-user": null,
@@ -1123,6 +1203,7 @@
     "name": "Resist Cold",
     "range": "touch",
     "level": {
+      "spellcrafter": 1,
       "paladin": 1,
       "cleric": 1,
       "magic-user": null,
@@ -1137,6 +1218,7 @@
     "name": "Resist Fire",
     "range": "touch",
     "level": {
+      "spellcrafter": 2,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -1151,6 +1233,7 @@
     "name": "Restoration",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -1165,6 +1248,7 @@
     "name": "Shield",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -1179,6 +1263,7 @@
     "name": "Silence 15' Radius",
     "range": "360'",
     "level": {
+      "spellcrafter": null,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -1193,6 +1278,7 @@
     "name": "Sleep",
     "range": "90'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -1207,6 +1293,7 @@
     "name": "Speak with Animals",
     "range": "special",
     "level": {
+      "spellcrafter": null,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -1221,6 +1308,7 @@
     "name": "Speak with Dead",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 3,
       "magic-user": null,
@@ -1235,6 +1323,7 @@
     "name": "Speak with Monsters",
     "range": "special",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -1249,6 +1338,7 @@
     "name": "Speak with Plants",
     "range": "20'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 4,
       "magic-user": null,
@@ -1263,6 +1353,7 @@
     "name": "Spiritual Hammer",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": 2,
       "cleric": 2,
       "magic-user": null,
@@ -1277,6 +1368,7 @@
     "name": "Sticks to Snakes",
     "range": "120'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 4,
       "magic-user": null,
@@ -1291,6 +1383,7 @@
     "name": "Striking",
     "range": "touch",
     "level": {
+      "spellcrafter": 3,
       "paladin": null,
       "cleric": 3,
       "magic-user": null,
@@ -1305,6 +1398,7 @@
     "name": "Telekinesis",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -1319,6 +1413,7 @@
     "name": "Teleport",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -1333,6 +1428,7 @@
     "name": "True Seeing",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 5,
       "magic-user": null,
@@ -1347,6 +1443,7 @@
     "name": "Ventriloquism",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 1,
@@ -1361,6 +1458,7 @@
     "name": "Wall of Fire",
     "range": "180'",
     "level": {
+      "spellcrafter": 4,
       "paladin": null,
       "cleric": 5,
       "magic-user": 4,
@@ -1375,6 +1473,7 @@
     "name": "Wall of Iron",
     "range": "90'",
     "level": {
+      "spellcrafter": 6,
       "paladin": null,
       "cleric": null,
       "magic-user": 6,
@@ -1389,6 +1488,7 @@
     "name": "Wall of Stone",
     "range": "15' per level",
     "level": {
+      "spellcrafter": 5,
       "paladin": null,
       "cleric": null,
       "magic-user": 5,
@@ -1403,6 +1503,7 @@
     "name": "Water Breathing",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 3,
@@ -1417,6 +1518,7 @@
     "name": "Web",
     "range": "10' per level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -1431,6 +1533,7 @@
     "name": "Wizard Eye",
     "range": "240'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": null,
       "magic-user": 4,
@@ -1445,6 +1548,7 @@
     "name": "Wizard Lock",
     "range": "20'",
     "level": {
+      "spellcrafter": 2,
       "paladin": null,
       "cleric": null,
       "magic-user": 2,
@@ -1459,6 +1563,7 @@
     "name": "Word of Recall",
     "range": "self (special)",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "cleric": 6,
       "magic-user": null,
@@ -1473,6 +1578,7 @@
     "name": "Animal Friendship",
     "range": "30’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 1,
       "illusionist": null,
@@ -1487,6 +1593,7 @@
     "name": "Animate Natural Objects",
     "range": "100'+10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 6,
       "illusionist": null,
@@ -1501,6 +1608,7 @@
     "name": "Assume Animal Form",
     "range": "Self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 3,
       "illusionist": null,
@@ -1515,6 +1623,7 @@
     "name": "Call Lightning",
     "range": "100’ + 10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 3,
       "illusionist": null,
@@ -1529,6 +1638,7 @@
     "name": "Call Woodland Beings",
     "range": "120’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 4,
       "illusionist": null,
@@ -1543,6 +1653,7 @@
     "name": "Commune With Nature",
     "range": "see text",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 5,
       "illusionist": null,
@@ -1557,6 +1668,7 @@
     "name": "Control Temperature, 10' Radius",
     "range": "0'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 4,
       "illusionist": null,
@@ -1571,6 +1683,7 @@
     "name": "Control Winds",
     "range": "0 (see text)",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 5,
       "illusionist": null,
@@ -1585,6 +1698,7 @@
     "name": "Detect Snares and Pits",
     "range": "60’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 1,
       "illusionist": null,
@@ -1599,6 +1713,7 @@
     "name": "Entangle",
     "range": "200’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 1,
       "illusionist": null,
@@ -1613,6 +1728,7 @@
     "name": "Faerie Fire",
     "range": "200’ +10'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 1,
       "illusionist": null,
@@ -1627,6 +1743,7 @@
     "name": "Flame Strike",
     "range": "60’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": null,
       "illusionist": null,
@@ -1638,9 +1755,10 @@
     "description": "A flame strike produces a vertical column of divine fire roaring downward (cylinder of 10 ft radius, 30 ft high). The spell deals 6d8 points of damage to any creatures within the area of effect; a save vs. Spells for half damage is allowed."
   },
   {
-    "name": "Heat Metal",
+    "name": "Heat Metal*",
     "range": "25’",
     "level": {
+      "spellcrafter": 2,
       "paladin": null,
       "druid": 2,
       "illusionist": null,
@@ -1655,6 +1773,7 @@
     "name": "Hold Animal",
     "range": "180’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 3,
       "illusionist": null,
@@ -1669,6 +1788,7 @@
     "name": "Obscuring Mists",
     "range": "20' radius",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 2,
       "illusionist": null,
@@ -1683,6 +1803,7 @@
     "name": "Part Water",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 6,
       "illusionist": null,
@@ -1697,6 +1818,7 @@
     "name": "Pass Tree",
     "range": "Touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 6,
       "illusionist": null,
@@ -1711,6 +1833,7 @@
     "name": "Pass Without Trace",
     "range": "Touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 1,
       "illusionist": null,
@@ -1725,6 +1848,7 @@
     "name": "Plant Growth",
     "range": "Special",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 3,
       "illusionist": null,
@@ -1739,6 +1863,7 @@
     "name": "Produce Flame/Cold",
     "range": "0",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 2,
       "illusionist": null,
@@ -1753,6 +1878,7 @@
     "name": "Protection From Fire",
     "range": "Touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 3,
       "illusionist": null,
@@ -1764,23 +1890,10 @@
     "description": "If the caster touches himself or herself, this spell grants temporary immunity to fire (normal and magic). When the spell absorbs 12 points per caster level of magical fire damage, it is discharged. Otherwise the spell lasts for 1 turn per caster level. \n\nIf the spell is cast upon another creature than the caster, protection from fire grants temporary immunity against normal fire. The spell also offers a +4 bonus to saving throws against magical fire and if the save is successful, the creature suffers no damage (and only 25% if the save fails). This version of the spell lasts for 1 turn per caster level."
   },
   {
-    "name": "Protection From Lightning",
-    "range": "Touch",
-    "level": {
-      "paladin": null,
-      "druid": 4,
-      "illusionist": null,
-      "necromancer": null,
-      "magic-user": null,
-      "cleric": null
-    },
-    "duration": "special",
-    "description": "This spell functions exactly like protection from fire, except that that it protects against any sort of electrical or lightning damage."
-  },
-  {
     "name": "Rock to Mud*",
     "range": "150’",
     "level": {
+      "spellcrafter": 5,
       "paladin": null,
       "druid": 5,
       "illusionist": null,
@@ -1795,6 +1908,7 @@
     "name": "Slow Poison",
     "range": "Touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 2,
       "illusionist": null,
@@ -1809,6 +1923,7 @@
     "name": "Summon Animals I",
     "range": "40'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 4,
       "illusionist": null,
@@ -1823,6 +1938,7 @@
     "name": "Summon Animals II",
     "range": "60'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 5,
       "illusionist": null,
@@ -1837,6 +1953,7 @@
     "name": "Summon Animals III",
     "range": "80'/level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 6,
       "illusionist": null,
@@ -1851,6 +1968,7 @@
     "name": "Tree Sanctuary",
     "range": "Touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 4,
       "illusionist": null,
@@ -1865,6 +1983,7 @@
     "name": "Warp Wood*",
     "range": "50’",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 2,
       "illusionist": null,
@@ -1873,12 +1992,13 @@
       "cleric": null
     },
     "duration": "instantaneous",
-    "description": "The caster causes non-magical wood in a 20 ft radius to bend and warp, permanently destroying its straightness, form, and strength. A warped door springs open or becomes stuck; a boat or ship springs a leak; warped weapons (like bows and arrows) are useless. The caster may warp wood object(s) up to 1 ft on all sides per caster level. \n\nAlternatively, the caster can \"un-warp\" non-magical wood (effectively warping it back to normal), straightening wood that has been warped by this spell or by other means. \n\nThe caster can combine multiple consecutive warp wood spells to warp (or un-warp) an object that is too large to warp with a single spell."
+    "description": "The caster causes non-magical wood in a 20 ft radius to bend and warp, permanently destroying its straightness, form, and strength. A warped door springs open or becomes stuck; a boat or ship springs a leak; warped weapons (like bows and arrows) are useless. The caster may warp wood object(s) up to 1 ft on all sides per caster level. \n\nAlternatively, the caster can \"un-warp\" non-magical wood (effectively warping it back to normal), straightening wood that has been warped by this spell or by other means. \n\nThe caster can combine multiple consecutive **warp wood** spells to warp (or un-warp) an object that is too large to warp with a single spell."
   },
   {
     "name": "Weather Summoning",
     "range": "10 miles",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "druid": 6,
       "illusionist": null,
@@ -1893,6 +2013,7 @@
     "name": "Stinking Cloud",
     "range": "100' +10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -1907,6 +2028,7 @@
     "name": "Suggestion",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 4,
       "necromancer": null,
@@ -1921,6 +2043,7 @@
     "name": "Veil",
     "range": "0",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -1935,6 +2058,7 @@
     "name": "Shadow Walk",
     "range": "touch (see text)",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -1949,6 +2073,7 @@
     "name": "Solid Fog",
     "range": "100' + 10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 4,
       "necromancer": null,
@@ -1963,6 +2088,7 @@
     "name": "Spectral Force",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -1977,6 +2103,7 @@
     "name": "Rope Trick",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -1991,6 +2118,7 @@
     "name": "Seeming",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 5,
       "necromancer": null,
@@ -2005,6 +2133,7 @@
     "name": "Shadow Door",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2019,6 +2148,7 @@
     "name": "Programmed Illusion",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 5,
       "necromancer": null,
@@ -2033,6 +2163,7 @@
     "name": "Rainbow Pattern",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 4,
       "necromancer": null,
@@ -2047,6 +2178,7 @@
     "name": "Advanced Illusion",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 4,
       "necromancer": null,
@@ -2061,6 +2193,7 @@
     "name": "Alter Self",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -2075,6 +2208,7 @@
     "name": "Audible Glamer",
     "range": "60' + 10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2089,6 +2223,7 @@
     "name": "Blur",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -2103,6 +2238,7 @@
     "name": "Change Self",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2117,6 +2253,7 @@
     "name": "Color Cloud",
     "range": "40' (see text)",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2131,6 +2268,7 @@
     "name": "Color Spray",
     "range": "20' (see text)",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2145,6 +2283,7 @@
     "name": "Dancing Lights",
     "range": "40' + 10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2159,6 +2298,7 @@
     "name": "Detect Illusion",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2173,6 +2313,7 @@
     "name": "Dispel Illusion",
     "range": "120'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -2187,6 +2328,7 @@
     "name": "Displacement",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2198,23 +2340,10 @@
     "description": "When a displacement spell is cast, the caster causes the creature touched to appear 2 feet away from its actual position. This distortion causes all missile and melee combat attacks to be made at -4 on all attacks. It also grants a +2 on the saving throw die roll against any direct magical attack. \n\nA detect invisible spell does not counteract the blur effect, but a true seeing spell does. Opponents that cannot see the subject ignore the spell’s effect (though fighting an unseen opponent carries penalties of its own)..."
   },
   {
-    "name": "Dream",
-    "range": "see text",
-    "level": {
-      "paladin": null,
-      "illusionist": 5,
-      "necromancer": null,
-      "magic-user": null,
-      "druid": null,
-      "cleric": null
-    },
-    "duration": "special",
-    "description": "This spell allows the caster, or a messenger touched by the caster, to send a recipient a message through the recipient’s dreams. When the spell is cast, the caster must identify the recipient in an unambiguous way. The messenger (whether the caster or someone else) then appears in the recipient’s dream and then delivers the message. The message is purely one-way, and there is no opportunity for questions or interaction. When the recipient wakes up, they will remember the message perfectly. \n\nAfter casting the spell, the messenger is helpless and completely unaware of their surroundings until the spell ends. If the recipient is awake when the spell is cast, the messenger can either end the spell immediately or wait until the recipient goes to sleep. Once the recipient goes to sleep, the message can be delivered. Whether the messenger has to wait or not, the messenger immediately becomes fully aware again once the message is delivered. \n\nCreatures who do not sleep cannot be a recipient of this spell."
-  },
-  {
     "name": "False Vision",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -2229,6 +2358,7 @@
     "name": "Gaze Reflection",
     "range": "0",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2243,6 +2373,7 @@
     "name": "Hypnotic Pattern",
     "range": "120'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -2257,6 +2388,7 @@
     "name": "Illusory Script",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2271,6 +2403,7 @@
     "name": "Illusory Wall",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2285,6 +2418,7 @@
     "name": "Improved Invisibility",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 4,
       "necromancer": null,
@@ -2299,6 +2433,7 @@
     "name": "Mass Invisibility",
     "range": "240'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -2313,6 +2448,7 @@
     "name": "Mass Suggestion",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -2327,6 +2463,7 @@
     "name": "Maze",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -2341,6 +2478,7 @@
     "name": "Mirage Arcana",
     "range": "120'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 5,
       "necromancer": null,
@@ -2355,6 +2493,7 @@
     "name": "Mislead",
     "range": "100'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 5,
       "necromancer": null,
@@ -2369,6 +2508,7 @@
     "name": "Nightmare",
     "range": "see text",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 5,
       "necromancer": null,
@@ -2383,6 +2523,7 @@
     "name": "Obscurement",
     "range": "100' + 10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -2397,6 +2538,7 @@
     "name": "Permanent Illusion",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -2411,6 +2553,7 @@
     "name": "Phantasmal Image",
     "range": "180'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 1,
       "necromancer": null,
@@ -2425,6 +2568,7 @@
     "name": "Phantasmal Killer",
     "range": "100' + 10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 4,
       "necromancer": null,
@@ -2439,6 +2583,7 @@
     "name": "Phantom Messenger",
     "range": "special",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2453,6 +2598,7 @@
     "name": "Phantom Steed",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 3,
       "necromancer": null,
@@ -2467,6 +2613,7 @@
     "name": "Phantom Trap",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 2,
       "necromancer": null,
@@ -2481,6 +2628,7 @@
     "name": "Phase Door",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": 6,
       "necromancer": null,
@@ -2495,6 +2643,7 @@
     "name": "Black Tentacles",
     "range": "100' + 10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2509,6 +2658,7 @@
     "name": "Blight",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 5,
@@ -2523,6 +2673,7 @@
     "name": "Boneskin",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 2,
@@ -2537,6 +2688,7 @@
     "name": "Call Poltergeist",
     "range": "5' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2551,6 +2703,7 @@
     "name": "Chill",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2565,6 +2718,7 @@
     "name": "Command Undead",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 2,
@@ -2579,6 +2733,7 @@
     "name": "Control Undead",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 6,
@@ -2593,6 +2748,7 @@
     "name": "Corpse Feast",
     "range": "5' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2607,6 +2763,7 @@
     "name": "Corpse Servant",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2621,6 +2778,7 @@
     "name": "Decay Flesh",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2632,23 +2790,10 @@
     "description": "This is a version of the cause light wounds spell (the reverse of cure light wounds), dealing 1d6+1 points of damage to the creature affected by it. The caster must make a successful attack to inflict the damage. A missed attack roll does not dispel the effect, as it can be active until used or until a number of rounds equal to the caster's level have passed. \n\nUnlike the Clerical spell mentioned, this spell may not be reversed. However, this spell does work upon undead creatures in the opposite fashion; they are healed 1d6+1 hit points instead."
   },
   {
-    "name": "Drainblade",
-    "range": "touch",
-    "level": {
-      "paladin": null,
-      "illusionist": null,
-      "necromancer": 3,
-      "magic-user": null,
-      "druid": null,
-      "cleric": null
-    },
-    "duration": "1 round / level",
-    "description": "This spell imbues an edged weapon with the ability to drain blood with each successful strike made against a living creature. When a living creature is hit by a drainbladed weapon, the target suffers 1 additional point of damage. If the wielder of the weapon is injured, the extra point of damage is transferred to him or her as healing energy. In no way can this healing energy grant more hit points than the wielder's normal maximum. \n\nAgainst nonliving creatures, such as undead, golems, living statues, etc, this spell has no effect."
-  },
-  {
     "name": "Ectoplasm",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2663,6 +2808,7 @@
     "name": "Enervation",
     "range": "50'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2677,6 +2823,7 @@
     "name": "Eyebite",
     "range": "60'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 6,
@@ -2691,6 +2838,7 @@
     "name": "Fireskull Familiar",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 2,
@@ -2705,6 +2853,7 @@
     "name": "Fossilize",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2719,6 +2868,7 @@
     "name": "Ghoulish Hands",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 2,
@@ -2733,6 +2883,7 @@
     "name": "Grave Sanctuary",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2747,6 +2898,7 @@
     "name": "Greater Fear",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2761,6 +2913,7 @@
     "name": "Halt Undead",
     "range": "200'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2775,6 +2928,7 @@
     "name": "Locate Corpse",
     "range": "360'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2789,6 +2943,7 @@
     "name": "Maggot Spray",
     "range": "10'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 2,
@@ -2803,6 +2958,7 @@
     "name": "Mask of Life",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 5,
@@ -2814,23 +2970,10 @@
     "description": "This spell makes a single undead creature appear to be alive. The caster can decide which race and style of clothes is worn by an undead creature. The spell will also make the target’s movements appear life-like. The illusion will create appropriate ambient effects (smells, sounds, clothing textures, and such) that would be expected for the life-like appearance. If the appearance is that of a living version of the target, anyone interacting with the target takes a -5 penalty to any saving throw to disbelieve the illusion. If the target attacks or does anything that only the undead creature could do, the penalty is removed."
   },
   {
-    "name": "Minor Warding",
-    "range": "touch",
-    "level": {
-      "paladin": null,
-      "illusionist": null,
-      "necromancer": 2,
-      "magic-user": null,
-      "druid": null,
-      "cleric": null
-    },
-    "duration": "special",
-    "description": "This spell cloaks an object of less than 10 cubic feet with an invisible aura of harmful energy. Thereafter, the first living creature touching the object sets off the ward, receiving 3d6 points of damage; no saving throw is allowed to avoid the damage. The object is unaffected by the discharge of the minor ward. \n\nNon-living creatures such as undead or golems will not set off a minor ward. The caster is free to handle the object at will. The maximum duration of the spell is 1 hour per level of the caster."
-  },
-  {
     "name": "Mummify",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 5,
@@ -2845,6 +2988,7 @@
     "name": "Protection from Undead*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2859,6 +3003,7 @@
     "name": "Protection from Undead 10' Radius*",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2873,6 +3018,7 @@
     "name": "Ray of Exhaustion",
     "range": "50'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2887,6 +3033,7 @@
     "name": "Re-Animation",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2901,6 +3048,7 @@
     "name": "Rot Flesh",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -2915,6 +3063,7 @@
     "name": "Spirit Wrack",
     "range": "special",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2929,6 +3078,7 @@
     "name": "Stench",
     "range": "self",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 1,
@@ -2943,6 +3093,7 @@
     "name": "Summon Spirit",
     "range": "10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -2957,6 +3108,7 @@
     "name": "Symbol of Fear",
     "range": "see text",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 6,
@@ -2971,6 +3123,7 @@
     "name": "Symbol of Pain",
     "range": "see text",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 5,
@@ -2985,6 +3138,7 @@
     "name": "Undeath",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 6,
@@ -2999,6 +3153,7 @@
     "name": "Undeath to Death",
     "range": "240'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 6,
@@ -3013,6 +3168,7 @@
     "name": "Vampiric Touch",
     "range": "touch",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 3,
@@ -3027,6 +3183,7 @@
     "name": "Wall of Bones",
     "range": "10' / level",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 4,
@@ -3041,6 +3198,7 @@
     "name": "Waves of Fatigue",
     "range": "30'",
     "level": {
+      "spellcrafter": null,
       "paladin": null,
       "illusionist": null,
       "necromancer": 5,
@@ -3050,5 +3208,545 @@
     },
     "duration": "1 turn / level",
     "description": "This spell sends an invisible wave of harmful energy out forward of the caster to a range of 30 feet. All living creatures in the area suffer a -2 adjustment to their Strength and Dexterity for the duration of the spell."
+  },
+  {
+    "name": "Activate",
+    "range": "self",
+    "level": {
+      "spellcrafter": 2,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell allows the caster to activate a charged magical item in their hands without expending charges or daily uses. The caster must know any activation words required to use the item. This spell will not work on potions. Wands, staves, rods, rings, scrolls, and all other items can be activated by this spell.\n\nThis spell does not allow the caster to use an item forbidden to their class.\n\nIf the power that the caster wants to activate requires 2 charges, it will drain one charge only."
+  },
+  {
+    "name": "Alarm",
+    "range": "20'+10'/level",
+    "level": {
+      "spellcrafter": 1,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "2 hours / level",
+    "description": "Alarm sounds a mental or audible alarm each time any creature larger than a rat enters the warded area or touches it. A creature that speaks the password (determined by the caster at the time of casting) does not set off the alarm. The caster decides at the time of casting whether the alarm will be mental or audible.\n\n**Mental Alarm**: A mental alarm alerts the caster (and only the caster) so long as they remain within 1 mile of the warded area. The caster will hear a single mental “ping” sufficient to awaken the caster from normal sleep, but which does not otherwise disturb concentration. A silence spell has no effect on a mental alarm.\n\n**Audible Alarm**: An audible alarm produces the sound of a hand bell, and anyone within 60 feet of the warded area can hear it clearly. Interposing doors or walls may reduce the distance by 10 or 20 feet. The sound lasts for 1 round. Creatures within a silence spell cannot hear the ringing.\n\nIncorporeal, ethereal, or astrally-projecting creatures do not trigger the alarm."
+  },
+  {
+    "name": "Analyze Magic",
+    "range": "5'",
+    "level": {
+      "spellcrafter": 2,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "Special",
+    "description": "This spell permits the caster to discover information about a magic item or a permanently enchanted area. For each turn spent studying the enchanted item or area, the caster may learn one feature of the enchantment. Features include spell effects, bonuses, and command words or activating conditions. The GM will choose the order in which the features are revealed, but command words or activating conditions should be last. Note: the number of charges remaining for a charged item is not revealed by this spell. Each turn of study requires the caster to make a 1d20 roll, adding their Intelligence bonus and level. The total result must be 16 or higher to succeed; any failure ends the spell. A natural 1 is always a failure.\n\nThe item or area to be studied must be within 5 feet of the caster for the full duration of scrutiny, and they must maintain moderate concentration.\n\nEven with the best rolls, the caster can only learn about one feature per level of ability. The caster does not initially know how many features an item has, but they know when the last feature is discovered (if the caster makes it that far).\n\nWith respect to bonuses (for magic weapons, etc.) use the following table:\n\n| Bonus | Description |\n|---|---|\n| +1 | Weak |\n| +2 | Moderate |\n| +3 | Strong |\n| +4 | Very Strong |\n| +5 | Artifact |\n\nSo, for a Sword +1, +3 vs. Dragons, if the caster makes their first roll (learning about the first feature, the base +1), the GM rolls 1d20 secretly. If the GM gets 1-18, they describe the basic enchantment as \"weak;\" if they get 19 or 20, it's \"moderate.\" If the second roll is made (for the +3 vs. Dragons), the GM rolls again, but this time the most likely result is \"strong\" (or more precisely, \"strongly enchanted against Dragons\"). The caster will know at this point (but not before) that there are no further features to discover."
+  },
+  {
+    "name": "Break Restrictions",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 1,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn/level",
+    "description": "This spell allows the use of a magical item not normally usable by the caster, be it a ring, potion, or scroll. This spell does not allow the caster to break their own class restrictions regarding weapons or armor use, even if they are magical items."
+  },
+  {
+    "name": "Channel Blast",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell allows the caster to drain a charged magical item of its energy to cast a bolt of energy. The touched item loses a charge or one daily use of its powers (scrolls and potions are consumed by this spell), allowing the caster to create an energy discharge. The blast is cone shaped, 60 feet long and 40 feet wide at its end.\n\nThe damage inflicted depends on the item drained:\n\n* Potion: 3d6\n* Scroll: 1d6 per level of the spell or 3d6 for non-spell scrolls\n* Wand: 4d6\n* Staff: 5d6\n* Rod or ring: 6d6\n* Any other (Miscellaneous magic item, weapon or armor): 4d6\n\nTargets may save vs. Spells for half-damage."
+  },
+  {
+    "name": "Charm Constructs",
+    "range": "30'",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "This spell allows the caster to take control of a construct, such as a golem. Control is not absolute and is limited as for the charm person spell; the construct is granted a saving throw to avoid control. The construct is allowed a new saving throw each day to break free of the caster's control. Once control is lost, an unintelligent construct will return to the programming as best as possible. An intelligent construct will know it has been controlled against its will."
+  },
+  {
+    "name": "Drainblade",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": 3,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell imbues an edged weapon with the ability to drain blood with each successful strike made against a living creature. When a living creature is hit by a drainbladed weapon the target suffers an additional point of damage. If the wielder of the weapon is injured, the extra point of damage is transferred to them as healing energy. In no way can this healing energy grant more hit points than the wielder's normal maximum.\n\nAgainst nonliving creatures, such as undead, golems, etc, this spell has no effect."
+  },
+  {
+    "name": "Dream",
+    "range": "see text",
+    "level": {
+      "spellcrafter": 5,
+      "paladin": null,
+      "illusionist": 5,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "This spell allows the caster, or a messenger touched by the caster, to send a recipient a message through the recipient's dreams. When the spell is cast, the caster must identify the recipient in an unambiguous way. The messenger (whether the caster or someone else) then appears in the recipient's dream and then delivers the message. The message is purely one-way, and there is no opportunity for questions or interaction. When the recipient wakes up, they will remember the message perfectly.\n\nAfter casting the spell, the messenger is helpless and completely unaware of their surroundings until the spell ends. If the recipient is awake when the spell is cast, the messenger can either end the spell immediately or wait until the recipient goes to sleep. Once the recipient goes to sleep, the message can be delivered. Whether the messenger has to wait or not, the messenger immediately becomes fully aware again once the message is delivered.\n\nCreatures who do not sleep cannot be a recipient of this spell."
+  },
+  {
+    "name": "Enhance Armor*",
+    "range": "Touch",
+    "level": {
+      "spellcrafter": 1,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn",
+    "description": "This spell imparts a +1 bonus to AC to the touched armor or shield as long as the spell lasts. The reverse form (weaken armor) imparts a -1 to AC of the armor touched.\n\nThe reverse form of this spell can be cast in combat and requires a successful attack; the target may deny its effect with a successful saving throw."
+  },
+  {
+    "name": "Enhance Weapon*",
+    "range": "Touch",
+    "level": {
+      "spellcrafter": 1,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn",
+    "description": "This spell imparts a +1 bonus to hit and damage to the touched weapon as long as the spell lasts. The reverse form (weaken weapon) imparts a -1 to hit and damage.\n\nThe reverse form of this spell can be cast in combat and requires a successful attack; the target may deny its effect with a successful saving throw."
+  },
+  {
+    "name": "Familiar",
+    "range": "Touch",
+    "level": {
+      "spellcrafter": 2,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "Special",
+    "description": "With this spell, the caster binds a single animal into their service as a familiar. The creature must be present, and the caster must touch it to cast the spell. Only normal (non-magical) creatures of 1-1 hit die or lower and having animal intelligence may be made into familiars. Further, each spellcaster may have only one familiar at a time. If a familiar dies, the caster will not be able to successfully cast this spell again for 2d6 months (the period to be rolled by the GM and not revealed to the player). A saving throw vs. Spells is allowed to resist, and if this roll succeeds, the animal chosen is not compatible with the caster and cannot become their familiar.\n\nThe familiar will behave as if permanently charmed by its master, and will perform any task assigned to it to the best of its ability. The creature's morale is increased by 2 points (to a maximum of 11), and it receives improved intelligence equal to 3+1d4 points. Familiars normally capable of speech (such as parrots) or sign language (such as monkeys) can even carry on conversations. Familiars also age at half the normal rate for their kind, so a cat familiar (for instance) might easily live forty years.\n\nThe familiar and its master are linked telepathically, allowing normal communication in both directions. The caster can see through the eyes of the familiar with moderate concentration. They can also sense the direction and approximate distance to the familiar (in general terms, such as \"northeast more than a mile away\" or \"south more than a hundred miles and underground\") by concentrating fully upon it for 1d6 rounds.\n\nThe connection between the master and familiar will extend any distance on the same plane, but if they are on different planes, the familiar saves vs. Spells once per week with success meaning it has been freed from the master. The freed familiar loses all benefits gained from this spell and becomes a normal animal. The master is affected as if their familiar has died. If the familiar was well treated by its former master it will be friendly toward them should they meet again, and the master may cast this spell (even if the normal time limit has not expired) to re-bind the animal as their familiar again."
+  },
+  {
+    "name": "Greater Warding",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "The spell works similar to minor warding, inflicting 6d6 points of damage. It can be activated by non-living creatures (e.g. golems and undead) as well as living creatures."
+  },
+  {
+    "name": "Guards and Wards",
+    "range": "Anywhere within the area to be warded",
+    "level": {
+      "spellcrafter": 6,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "2 hours/level",
+    "description": "This spell casts a ward of misdirection and protection on an area of 200 square-feet per caster level. The warded area can be as much as 20 feet high, and shaped as the caster desires. By dividing the area affected, it is possible for this spell to ward several stories of a stronghold.\n\nThe caster must be inside the area to be warded to cast the spell. The spell creates the following magical effects within the warded area:\n\n* Fog: Fog fills all corridors, obscuring all sight, including darkvision, beyond 5 feet. A creature within 5 feet is concealed (missile attacks have a -1 to hit). Creatures farther away are totally concealed (missile attacks have a -4 to hit).\n* Wizard Locks: All doors in the warded area are wizard locked.\n* Webs: Webs fill all stairs from top to bottom. These strands are identical with those created by the web spell, except that they regrow in 10 minutes if they are burned or torn away while the guards and wards spell lasts.\n* Confusion: Where there are choices in direction, such as a corridor intersection or side passage, a minor confusion-type effect functions so as to make it 50% probable that intruders believe they are going in the opposite direction from the one they actually chose. This is an enchantment, mind-affecting effect.\n* Lost Doors: One door per caster level is covered by an image to appear as if it were a plain wall. This is saved against as if it was a phantasmal force spell.\n\nIn addition, you can place your choice of one of the following five magical effects:\n\n1. Dancing lights in four corridors. You can designate a simple program that causes the lights to repeat as long as the guards and wards spell lasts.\n2. A magic mouth in two places.\n3. A minor warding in two places.\n4. A suggestion in one place. You select an area of up to 5 feet square, and any creature who enters or passes through the area receives the suggestion mentally.\n5. A sleep in two places. You select an area of up to 5 feet square, and any creature who enters or passes through the area triggers the sleep spell.\n\nThe whole warded area radiates strong magic. A dispel magic cast on a specific effect, if successful, removes only that effect."
+  },
+  {
+    "name": "Hardness*",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn/level",
+    "description": "This spell imbues the touched item or construct with one point of Hardness for every two levels of the caster.\n\nThe item may not be larger than 10 cubic feet plus 1 cubic foot per level of the caster.\n\nThe reverse form (weaken) subtracts as many points of Hardness. If the target item is reduced below 0 Hardness, excess negative Hardness is inflicted as damage points."
+  },
+  {
+    "name": "Hold Construct",
+    "range": "180'",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "2d8 turns",
+    "description": "This spell has the same effects of hold person but only affects constructs such as golems."
+  },
+  {
+    "name": "Immunity to Normal Weapons",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "5 rounds+1/level",
+    "description": "This spell temporarily makes the target immune to nonmagical weapons. Anyone under the protection of this spell is treated as an enchanted creature for the purpose of magic items (for instance, a Sword +1, +2 vs. Enchanted Creatures)."
+  },
+  {
+    "name": "Lord of the Rings",
+    "range": "self",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn/level",
+    "description": "For the duration of the spell the caster can wear and benefit from up to four magical rings. Magical rings of the same type do not stack their effects (i.e. two Rings of Protection do not grant a +2 bonus to AC)."
+  },
+  {
+    "name": "Magic Mirror",
+    "range": "10'",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "Turns a reflective surface within range into a magic mirror through which the caster can view other creatures. The caster must know and name the creature. The caster and any other creatures viewing the mirror will be able to see the images, but only the caster will hear sound from the viewing. Detection and vision spells can be cast into it with a 3% chance per caster level of success. If successful, this allows the caster to cast detect magic, see invisible, etc through the mirror."
+  },
+  {
+    "name": "Major Spell Immunity",
+    "range": "self",
+    "level": {
+      "spellcrafter": 6,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell works like minor spell immunity, except that the caster is immune to 1st and 2nd-level spells, and reduces by half the spell effects of 3rd and 4th-level spells."
+  },
+  {
+    "name": "Mass Armor Enhancement*",
+    "range": "special",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn",
+    "description": "The caster can affect with enhance armor up to 3 armor sets within 30 feet with a +1 bonus for every three levels of the caster.\n\nThe reverse of this spell imparts a -1 to AC to affected armor sets and can be avoided with a saving throw."
+  },
+  {
+    "name": "Mass Weapon Enhancement*",
+    "range": "special",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 turn",
+    "description": "The caster can affect with enhance weapon up to 3 weapons within 30 feet with a +1 bonus for every three levels of the caster..\n\nThe reverse of this spell imparts a -1 to hit and damage rolls to affected weapons and can be avoided with a saving throw."
+  },
+  {
+    "name": "Minor Creation",
+    "range": "self",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell creates a non-magical object of non-living matter. The volume of the item created cannot exceed 1 cubic foot per caster level. The item produced by this spell may not be a special component to be used in spell research like a dragon's liver or troll blood."
+  },
+  {
+    "name": "Minor Spell Immunity",
+    "range": "self",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell creates a 1-inch-thick green translucent shell around the caster that protects them from the effects of low-level spells, whether they are harmful or beneficial in nature. The caster is immune to the effects of all 1st-level spells and reduces by half (round in favor of the protected creature) the effects of 2nd and 3rd-level spells, both clerical and magical. The caster's own spells are unaffected by the shell and they can at will lower the protection of the shell for 1 round at a time to receive spells from others (like magical healing). At the end of the round, the shell automatically springs back up again."
+  },
+  {
+    "name": "Minor Warding",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 2,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": 2,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 hour/level",
+    "description": "This spell cloaks an object of less than 10 cubic feet with an invisible aura of harmful energy. Thereafter, the first living creature touching the object sets off the ward, receiving 3d6 points of damage. No saving throw is allowed to avoid the damage. The object is unaffected by the discharge of the minor ward.\n\nNon-living creatures, such as undead or golems, will not set off a minor ward. The caster is free to handle the object at will. The maximum duration of the spell is 1 hour per level of the caster."
+  },
+  {
+    "name": "Move Earth",
+    "range": "400'",
+    "level": {
+      "spellcrafter": 6,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "This spell moves dirt (clay, loam, sand), possibly collapsing embankments, moving hillocks, shifting dunes, and so forth. However, in no event can rock formations be collapsed or moved. The spell can move up to one 150 feet square (up to 10 feet deep) per round.\n\nThis spell does not violently break the surface of the ground. Instead, it creates wavelike crests and troughs, with the earth reacting with glacier-like fluidity until the desired result is achieved. Trees, structures, rock formations, and such are mostly unaffected except for changes in elevation and relative topography. The spell cannot be used for tunneling and is generally too slow to trap or bury creatures. Its primary use is for digging or filling moats or for adjusting terrain contours before a battle.\n\nThis spell has no effect on earth creatures."
+  },
+  {
+    "name": "Neutralize Potion",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell will render a potion touched by the caster inert and non-magical. Touching a person under the effects of a potion immediately dispels the potion's effects. An attack roll is required to touch an unwilling target.\n\nIn addition this spell can function as neutralize poison (though it cannot be reversed)."
+  },
+  {
+    "name": "Overtake Item",
+    "range": "30'",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "With this spell the caster can activate one magical item not in their possession that they are aware of and within range. The item must be in plain sight for the caster to see; if the item is held or owned by someone else the owner is allowed a saving throw vs. Spells to avoid the item's activation."
+  },
+  {
+    "name": "Permanency",
+    "range": "10'",
+    "level": {
+      "spellcrafter": 6,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "permanent",
+    "description": "This spell is used to make another spell of 6th or lower level permanent. Only arcane magic can be affected: Clerical, Druidic, and other spells of divine nature can not be made permanent. No spell with a permanent or instantaneous duration can be made permanent.\n\nA permanency spell lasts until dispelled. When it is dispelled, the other spell effect vanishes immediately.\n\nCasting a permanency spell causes the loss of 1 point of Constitution. Lost Constitution is recovered using the Constitution Point Losses rules from the Basic Fantasy RPG Core Rules.\n\nNo more than two spells can be made permanent on a single person, item or place. If a third permanency spell is cast it automatically fails, and there is a 50% that each of the two other permanency spells fails too.\n\nA permanency spell is not necessary to make any magical item; using permanency to bind a spell to an object, person, or place is not the same as crafting a magic item.\n\nSpells that are commonly made permanent on a creature: detect magic, protection from evil, read languages, read magic, detect invisible, and fly.\n\nSpells commonly made permanent on items or locations include: alarm, animate objects, confusion, dancing lights, guards and wards, invisibility, phantasmal force, private sanctum, magic mouth, symbol, wall of fire, and web."
+  },
+  {
+    "name": "Private Sanctum",
+    "range": "30'",
+    "level": {
+      "spellcrafter": 5,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "24 hours",
+    "description": "This spell creates a field impenetrable to most kinds of scrutiny. Those looking into the area from outside see only a dark, foggy mass. Darkvision cannot penetrate it. Eavesdroppers do not perceive any sound, no matter how loud, emanating from the area. Those inside the affected area can see and hear outside the affected area normally. Anyone inside the affected area are immune to ESP spells.\n\nDivination spells like magic mirror, clairvoyance, and clairaudiance cannot perceive anything within the area. No speech is possible between those inside and those outside the sanctum. The spell does not prevent other means of communication, such as telepathic communication, or such as that between a Magic-User and a familiar.\n\nPrivate sanctum does not stop creatures or objects from moving into and out of the area."
+  },
+  {
+    "name": "Protection From Lightning",
+    "range": "Touch",
+    "level": {
+      "spellcrafter": 4,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": 4,
+      "cleric": null
+    },
+    "duration": "special",
+    "description": "If the caster touches themself, this spell grants temporary immunity to lightning or electrical effects (normal and magic). When the spell absorbs 12 points per caster level of magical lightning damage, it is discharged. Otherwise the spell lasts for 1 turn per caster level.\n\nIf the spell is cast upon another creature than the caster, protection from lightning grants temporary immunity against normal lightning or electrical effects. The spell also offers a +4 bonus to saving throws against magical lightning and if the save is successful, the creature suffers no damage (and only 25% if the save fails). This version of the spell lasts for 1 turn per caster level."
+  },
+  {
+    "name": "Repair*",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 1,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "With this spell the caster repairs 1d6+1 points of damage by laying their hand upon the broken item, be it a vehicle, golem, etc.\n\nThe reverse form of this spell (shrivel) causes 1d6+1 points of damage to the object affected by it, ignoring hardness. If the target is animated (e.g. a golem), a successful attack roll is required in this case.\n\nThis spell has no effect on living creatures, it will shatter small items, and if the target is a magic item, it gets to roll a saving throw vs. Spells at +4."
+  },
+  {
+    "name": "Retrieve Energy",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 2,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell allows the caster to drain a charged magical item of its energy to cast a spell. The touched item loses a charge or one daily use of its powers (scrolls and potions are consumed by this spell), allowing the caster to retain its energy.\n\nIn the following round the caster can cast any spell they have memorized without expending the spell slot. The maximum level that can be cast depends on the item drained:\n\n* Potion: up to 2nd level\n* Scroll: up to level of the spell or 3rd level for non-spell scrolls\n* Wand: up to 3rd level\n* Staff: up to 4th level\n* Rod or ring: up to 5th level\n* Any other (miscellaneous magic item, weapon or armor): up to 3rd level\n\nIf no spell is cast in the round immediately following the casting of this spell, the retrieved energy is lost."
+  },
+  {
+    "name": "Secret Chest",
+    "range": "see text",
+    "level": {
+      "spellcrafter": 5,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "60 days",
+    "description": "This spell hides a chest in an extra-dimensional space for as long as 60 days. Regardless of the chest’s actual size, (which is about 3- by 2- by 2 feet) it can contain up to 1 cubic-foot of material per caster level. The caster can retrieve the chest at will by a simple act of will; the chest will appear beside the caster. If any living creatures are in the chest, there is a 75% chance that the spell simply fails.\n\nAfter 60 days, there is a cumulative chance of 5% per day that the chest is irretrievably lost. Living things in the chest eat, sleep, and age normally, and they die if they run out of food, air, water, or whatever else they need to survive."
+  },
+  {
+    "name": "Serious Repair*",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": null,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell repairs 2d6+1 points of damage by laying their hand upon the injured item, be it a vehicle, golem, etc.\n\nThe reverse form of this spell (serious shrivel) causes 2d6+1 points damage to the object affected by it, ignoring hardness. If the target is animated (e.g. a golem), a successful attack roll is required in this case..\n\nThis spell has no effect on living creatures, it will shatter small items, and if the target is a magic item, it gets to roll a saving throw vs. Spells."
+  },
+  {
+    "name": "Starlight Blade",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 5,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": 5,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "1 round/level",
+    "description": "When cast upon a weapon, starlight blade enhances its abilities against undead creatures of all types. The weapon immediately begins to glow with a silvery radiance and with each stroke leaves a trail of white sparkles, like stars in the night sky. Any undead creature struck suffers an additional 1d6+1 points of damage. In addition, the wielder of the weapon may roll to Turn the creature as if a 5th-level Cleric. Contrary to this spell's name, starlight blade works equally well on any type of weapon."
+  },
+  {
+    "name": "Stone Shape",
+    "range": "touch",
+    "level": {
+      "spellcrafter": 3,
+      "paladin": null,
+      "illusionist": null,
+      "necromancer": null,
+      "magic-user": 3,
+      "druid": null,
+      "cleric": null
+    },
+    "duration": "instantaneous",
+    "description": "This spell allows the caster to shape, bend, and form an existing piece of stone (of up to 10 cubic feet + 1 cubic foot per level) into any shape they wish.\n\nFine detail is not possible but primitive doors, walls, bridges, or similar items can be created with this spell.\n\nStone shaped in the form of moving or mechanical parts will not work on a roll of 1-2 on 1d6."
   }
 ]

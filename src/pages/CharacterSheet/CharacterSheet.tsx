@@ -43,10 +43,11 @@ import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../components/AttackModal/AttackModal";
 // DATA
 import equipmentItems from "../../data/equipmentItems.json";
-import { ClassNamesTwo, classes } from "../../data/classes";
+import { classes } from "../../data/classes";
+import { ClassNames } from "../../data/definitions";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
-import { getClassType } from "../../support/helpers";
+import { getClassType, getHitPointsModifier } from "../../support/helpers";
 import CheatSheetModal from "../../modals/CheatSheetModal";
 import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
 
@@ -112,20 +113,13 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   };
 
   // HIT DICE
-  const hitDice = (level: number, className: string, dice: string) => {
+  const hitDice = (level: number, className: string[], dice: string) => {
+    // TODO: This should be using class modifier and specific classes should not be called out here.
     const dieType = dice.split("d")[1].split("+")[0];
     const prefix = Math.min(level, 9);
 
     // Calculate the suffix
-    let suffix = level > 9 ? level - 9 : 0;
-    if (
-      className.includes(ClassNamesTwo.FIGHTER) ||
-      className === ClassNamesTwo.ASSASSIN ||
-      className === ClassNamesTwo.BARBARIAN ||
-      className.includes(ClassNamesTwo.THIEF)
-    ) {
-      suffix *= 2;
-    }
+    let suffix = (level > 9 ? level - 9 : 0) * getHitPointsModifier(className);
 
     // Combine to create the result
     const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
@@ -137,9 +131,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     if (getClassType(characterData.class) === "custom") return 0;
     let maxAttackBonus = 0;
 
-    characterData.class.split(" ").forEach((classPiece) => {
+    characterData.class.forEach((classPiece) => {
       const classAttackBonus =
-        classes[classPiece as ClassNamesTwo].attackBonus[characterData.level];
+        classes[classPiece as ClassNames]?.attackBonus[characterData.level];
       if (classAttackBonus > maxAttackBonus) {
         maxAttackBonus = classAttackBonus;
       }
@@ -305,7 +299,23 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     // Listen to real-time updates
     const unsubscribe = onSnapshot(characterDocRef, (snapshot) => {
       if (snapshot.exists()) {
-        const characterData = snapshot.data() as CharacterData;
+        let characterData = snapshot.data() as CharacterData;
+        // Make sure legacy characters' class value is converted to an array
+        if (typeof characterData.class === "string") {
+          characterData.class = [characterData.class];
+          // Make sure the string is not two standard classes with a space between them
+          if (characterData.class[0].indexOf(" ") > -1) {
+            const newArr = characterData.class[0].split(" ");
+            // Make sure every value in the array is in the ClassNames enum
+            // That way you know if it is a proper combination class and not a custom class with a space.
+            if (
+              newArr.every((className) =>
+                Object.values(ClassNames).includes(className as ClassNames)
+              )
+            )
+              characterData.class = newArr;
+          }
+        }
         setCharacterData(characterData);
         document.title = `${characterData.name} | CODEX.QUEST`;
       } else {
@@ -395,8 +405,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                 : undefined
             }
             helpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.${
-              showMissileAC &&
-              `\n\nThe smaller number is the AC your character's worn shield provides against **missile attacks**.`
+              showMissileAC
+                ? `\n\nThe smaller number is the AC your character's worn shield provides against **missile attacks**.`
+                : ""
             }`}
           />
           {/* MOVEMENT */}
@@ -416,7 +427,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           />
         </Col>
       </Row>
-      <Divider className="print:hidden" />
+      <Divider className="print:hidden border-seaBuckthorn" />
       {/* Hide these if using a custom Class */}
       {getClassType(characterData.class) !== "custom" ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print:grid-cols-2">
@@ -426,8 +437,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             className="md:col-span-2 row-span-6 print:row-span-2"
           />
           {/* SPECIAL ABILITIES TABLE */}
-          {characterData.class.split(" ").map((cls) => {
-            if (classes[cls as ClassNamesTwo]?.specialAbilities) {
+          {characterData.class.map((cls) => {
+            if (classes[cls as ClassNames]?.specialAbilities) {
               return (
                 <SpecialAbilitiesTable
                   key={cls}
@@ -452,7 +463,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           Restrictions.
         </Typography.Text>
       )}
-      <Divider />
+      <Divider className="border-seaBuckthorn" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* MONEY */}
         <MoneyStats
@@ -481,7 +492,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           className="col-span-1 md:col-start-2 md:row-start-1 lg:col-start-4 lg:col-span-2 row-span-2"
         />
       </div>
-      <Divider />
+      <Divider className="border-seaBuckthorn" />
       {/* BIO & NOTES */}
       <Description
         characterData={characterData}

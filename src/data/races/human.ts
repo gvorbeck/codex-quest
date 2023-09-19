@@ -1,21 +1,23 @@
-import { ClassNamesTwo } from "../classes";
+import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 
 export const human: RaceSetup = {
   name: "Human",
   allowedStandardClasses: [
-    ClassNamesTwo.CLERIC,
-    ClassNamesTwo.CUSTOM,
-    ClassNamesTwo.DRUID,
-    ClassNamesTwo.FIGHTER,
-    ClassNamesTwo.BARBARIAN,
-    ClassNamesTwo.ILLUSIONIST,
-    ClassNamesTwo.MAGICUSER,
-    ClassNamesTwo.THIEF,
-    ClassNamesTwo.ASSASSIN,
-    ClassNamesTwo.NECROMANCER,
-    ClassNamesTwo.RANGER,
-    ClassNamesTwo.PALADIN,
+    ClassNames.CLERIC,
+    ClassNames.CUSTOM,
+    ClassNames.DRUID,
+    ClassNames.FIGHTER,
+    ClassNames.BARBARIAN,
+    ClassNames.ILLUSIONIST,
+    ClassNames.MAGICUSER,
+    ClassNames.SPELLCRAFTER,
+    ClassNames.THIEF,
+    ClassNames.ASSASSIN,
+    ClassNames.NECROMANCER,
+    ClassNames.RANGER,
+    ClassNames.PALADIN,
+    ClassNames.SCOUT,
   ],
   details: {
     description:

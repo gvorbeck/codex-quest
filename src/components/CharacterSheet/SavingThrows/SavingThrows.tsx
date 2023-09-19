@@ -1,11 +1,23 @@
-import { SavingThrowsProps, SavingThrowsType } from "./definitions";
-import { getClassType } from "../../../support/helpers";
+import {
+  SavingThrowsProps,
+  SavingThrowsType,
+  TableCellRecord,
+} from "./definitions";
+import {
+  getClassType,
+  getSavingThrows,
+  getSavingThrowsWeight,
+} from "../../../support/helpers";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { Table, Typography, notification } from "antd";
-import { camelCaseToTitleCase } from "../../../support/stringSupport";
-import { RaceNamesTwo, races } from "../../../data/races";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import {
+  camelCaseToTitleCase,
+  titleCaseToCamelCase,
+} from "../../../support/stringSupport";
+import { races } from "../../../data/races";
+import { RaceNames } from "../../../data/definitions";
+import SavingThrowsFootnotes from "./SavingThrowsFootnotes/SavingThrowsFootnotes";
 
 const roller = new DiceRoller();
 
@@ -21,62 +33,23 @@ export default function SavingThrows({
   characterData,
   className,
 }: SavingThrowsProps) {
-  let baseSavingThrows: SavingThrowsType;
-  const dataSource: {}[] = [];
-
-  const getSavingThrowsForLevel = (characterClass: string) =>
-    classes[characterClass as ClassNamesTwo].savingThrows.find(
-      (savingThrow) => (savingThrow[0] as number) >= characterData.level
-    );
-
-  if (getClassType(characterData.class) === "standard") {
-    const savingThrowForLevel = getSavingThrowsForLevel(characterData.class);
-    baseSavingThrows = savingThrowForLevel
-      ? (savingThrowForLevel[1] as SavingThrowsType)
-      : defaultSavingThrows;
-  } else {
-    // Split the combination class into its two components
-    const [firstClass, secondClass] = characterData.class.split(" ");
-
-    // Find the best saving throw for each component class
-    let getSavingThrowsForLevelResult = getSavingThrowsForLevel(firstClass);
-    const firstClassThrow = getSavingThrowsForLevelResult
-      ? (getSavingThrowsForLevelResult[1] as SavingThrowsType)
-      : defaultSavingThrows; // Provide a default value if undefined
-
-    getSavingThrowsForLevelResult = getSavingThrowsForLevel(secondClass);
-    const secondClassThrow = getSavingThrowsForLevelResult
-      ? (getSavingThrowsForLevelResult[1] as SavingThrowsType)
-      : defaultSavingThrows; // Provide a default value if undefined
-
-    // Find the best of the two saving throws
-    baseSavingThrows = Object.entries(
-      firstClassThrow || {}
-    ).reduce<SavingThrowsType>(
-      (prev, [key, value]) => ({
-        ...prev,
-        [key]: Math.min(
-          value,
-          secondClassThrow?.[key as keyof SavingThrowsType] || value
-        ),
-      }),
-      {} as SavingThrowsType
-    );
-  }
-
-  // Apply race modifiers
-  const raceModifiers = races[characterData.race as RaceNamesTwo].savingThrows;
-  const finalSavingThrows = Object.entries(baseSavingThrows).reduce(
-    (prev, [key, value]) => ({
-      ...prev,
-      [key]:
-        value +
-        ((raceModifiers && raceModifiers[key as keyof SavingThrowsType]) || 0),
-    }),
-    {} as SavingThrowsType
-  );
+  const classType = getClassType(characterData.class);
+  const characterLevel = characterData.level;
 
   const [api, contextHolder] = notification.useNotification();
+
+  const rollSavingThrow = (score: number, title: string) => {
+    const raceModifier =
+      races[characterData.race as RaceNames]?.savingThrows?.[
+        titleCaseToCamelCase(title) as keyof SavingThrowsType
+      ] || 0;
+    const result = roller.roll(
+      `d20${raceModifier > 0 ? `+${raceModifier}` : ""}`
+    );
+    const passFail = result.total >= score ? "Pass" : "Fail";
+    openNotification(result.output + " - " + passFail, title);
+  };
+
   const openNotification = (result: string, specialAbilityTitle: string) => {
     api.open({
       message: `${specialAbilityTitle} Roll`,
@@ -87,13 +60,30 @@ export default function SavingThrows({
     });
   };
 
-  const rollSavingThrow = (score: number, title: string) => {
-    const result = roller.roll(`d20`);
-    const passFail = result.total >= score ? "Pass" : "Fail";
-    openNotification(result.output + " - " + passFail, title);
-  };
+  // Set the default saving throws
+  let savingThrows: SavingThrowsType = defaultSavingThrows;
+  // if classType is standard, find saving throws for that class
+  if (classType === "standard") {
+    savingThrows =
+      getSavingThrows(characterData.class.join(), characterLevel) ||
+      defaultSavingThrows;
+    // if classType is combination, find saving throws for each class and use the best
+  } else {
+    const [firstClass, secondClass] = characterData.class;
+    const firstClassSavingThrows = getSavingThrows(firstClass, characterLevel);
+    const secondClassSavingThrows = getSavingThrows(
+      secondClass,
+      characterLevel
+    );
+    savingThrows =
+      getSavingThrowsWeight(firstClassSavingThrows) <=
+      getSavingThrowsWeight(secondClassSavingThrows)
+        ? firstClassSavingThrows
+        : secondClassSavingThrows;
+  }
 
-  Object.entries(finalSavingThrows).forEach(([key, value], index) => {
+  const dataSource: Array<{ key: number; throw: string; score: number }> = [];
+  Object.entries(savingThrows).forEach(([key, value], index) => {
     dataSource.push({
       key: index + 1,
       throw: camelCaseToTitleCase(key),
@@ -106,7 +96,7 @@ export default function SavingThrows({
       title: "Saving Throw",
       dataIndex: "throw",
       key: "throw",
-      onCell: (record: any) => ({
+      onCell: (record: TableCellRecord) => ({
         onClick: () => rollSavingThrow(record.score, record.throw),
       }),
     },
@@ -114,7 +104,7 @@ export default function SavingThrows({
       title: "Value",
       dataIndex: "score",
       key: "score",
-      onCell: (record: any) => ({
+      onCell: (record: TableCellRecord) => ({
         onClick: () => rollSavingThrow(record.score, record.throw),
       }),
     },
@@ -134,6 +124,7 @@ export default function SavingThrows({
           columns={columns}
           className="[&_td]:print:p-2 cursor-pointer"
         />
+        <SavingThrowsFootnotes characterData={characterData} />
       </div>
     </>
   );

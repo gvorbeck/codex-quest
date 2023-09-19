@@ -4,7 +4,8 @@ import { SpecialAbilitiesTableProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
-import { ClassNamesTwo, classes } from "../../../data/classes";
+import { classes } from "../../../data/classes";
+import { ClassNames } from "../../../data/definitions";
 
 export default function SpecialAbilitiesTable({
   characterLevel,
@@ -14,11 +15,11 @@ export default function SpecialAbilitiesTable({
   const dataSource: {}[] = [];
 
   const abilities =
-    classes[characterClass as ClassNamesTwo].specialAbilities?.stats[
+    classes[characterClass as ClassNames].specialAbilities?.stats[
       characterLevel
     ] || [];
 
-  classes[characterClass as ClassNamesTwo].specialAbilities?.titles.forEach(
+  classes[characterClass as ClassNames].specialAbilities?.titles.forEach(
     (skill: string, index: number) => {
       dataSource.push({ key: index + 1, skill, percentage: abilities[index] });
     }

@@ -1,5 +1,5 @@
-import { DiceTypes } from "../../components/definitions";
-import { ClassSetup, SavingThrowsCollection } from "./definitions";
+import { DiceTypes } from "../definitions";
+import { ClassSetup } from "./definitions";
 import { fighter } from "./fighter";
 import { magicUser } from "./magicUser";
 import { thief } from "./thief";
@@ -8,29 +8,13 @@ import { assassin } from "./assassin";
 import { barbarian } from "./barbarian";
 import { druid } from "./druid";
 import { illusionist } from "./illusionist";
-import { equipmentCategories } from "../definitions";
+import { ClassNames, equipmentCategories } from "../definitions";
 import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
-
-export enum ClassNamesTwo {
-  ASSASSIN = "Assassin",
-  BARBARIAN = "Barbarian",
-  CLERIC = "Cleric",
-  DRUID = "Druid",
-  FIGHTER = "Fighter",
-  ILLUSIONIST = "Illusionist",
-  MAGICUSER = "Magic-User",
-  THIEF = "Thief",
-  NECROMANCER = "Necromancer",
-  RANGER = "Ranger",
-  CUSTOM = "Custom",
-  PALADIN = "Paladin",
-}
-
-type Classes = {
-  [key in ClassNamesTwo]: ClassSetup;
-};
+import { scout } from "./scout";
+import { SavingThrows } from "../../components/definitions";
+import { spellCrafter } from "./spellcrafter";
 
 const customPlaceholder: ClassSetup = {
   name: "Custom",
@@ -77,20 +61,22 @@ const customPlaceholder: ClassSetup = {
         spells: 16,
       },
     ],
-  ] as SavingThrowsCollection,
+  ] as [number, SavingThrows][],
 };
 
-export const classes: Classes = {
-  [ClassNamesTwo.ASSASSIN]: assassin,
-  [ClassNamesTwo.BARBARIAN]: barbarian,
-  [ClassNamesTwo.CLERIC]: cleric,
-  [ClassNamesTwo.CUSTOM]: customPlaceholder,
-  [ClassNamesTwo.DRUID]: druid,
-  [ClassNamesTwo.FIGHTER]: fighter,
-  [ClassNamesTwo.ILLUSIONIST]: illusionist,
-  [ClassNamesTwo.MAGICUSER]: magicUser,
-  [ClassNamesTwo.THIEF]: thief,
-  [ClassNamesTwo.NECROMANCER]: necromancer,
-  [ClassNamesTwo.RANGER]: ranger,
-  [ClassNamesTwo.PALADIN]: paladin,
+export const classes: { [key in ClassNames]: ClassSetup } = {
+  [ClassNames.ASSASSIN]: assassin,
+  [ClassNames.BARBARIAN]: barbarian,
+  [ClassNames.CLERIC]: cleric,
+  [ClassNames.CUSTOM]: customPlaceholder,
+  [ClassNames.DRUID]: druid,
+  [ClassNames.FIGHTER]: fighter,
+  [ClassNames.ILLUSIONIST]: illusionist,
+  [ClassNames.MAGICUSER]: magicUser,
+  [ClassNames.THIEF]: thief,
+  [ClassNames.NECROMANCER]: necromancer,
+  [ClassNames.RANGER]: ranger,
+  [ClassNames.PALADIN]: paladin,
+  [ClassNames.SCOUT]: scout,
+  [ClassNames.SPELLCRAFTER]: spellCrafter,
 };

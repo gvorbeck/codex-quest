@@ -1,16 +1,16 @@
-import { ClassNamesTwo } from "../classes";
+import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 
 export const dwarf: RaceSetup = {
   name: "Dwarf",
   allowedStandardClasses: [
-    ClassNamesTwo.CLERIC,
-    ClassNamesTwo.CUSTOM,
-    ClassNamesTwo.DRUID,
-    ClassNamesTwo.FIGHTER,
-    ClassNamesTwo.BARBARIAN,
-    ClassNamesTwo.THIEF,
-    ClassNamesTwo.PALADIN,
+    ClassNames.CLERIC,
+    ClassNames.CUSTOM,
+    ClassNames.DRUID,
+    ClassNames.FIGHTER,
+    ClassNames.BARBARIAN,
+    ClassNames.THIEF,
+    ClassNames.PALADIN,
   ],
   noLargeEquipment: true,
   minimumAbilityRequirements: { constitution: 9 },

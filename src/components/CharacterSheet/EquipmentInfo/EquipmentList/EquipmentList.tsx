@@ -6,9 +6,9 @@ import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
-import { ClassNamesTwo, classes } from "../../../../data/classes";
-import { use } from "marked";
+import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
+import { ClassNames } from "../../../../data/definitions";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -152,34 +152,38 @@ export default function EquipmentList({
             handleAttack={handleAttack}
             handleCustomDelete={handleCustomDelete}
           />
-          {classes[characterData.class as ClassNamesTwo].powers?.map(
-            (power) => {
-              return (
-                characterData.level >= (power.minLevel ?? 0) && (
-                  <ItemWrapper
-                    item={power}
-                    handleAttackClick={handleAttackClick}
-                    handleAttack={handleAttack}
-                    handleCustomDelete={handleCustomDelete}
-                  />
-                )
-              );
-            }
+          {characterData.class.map(
+            (className) =>
+              classes[className as ClassNames].powers?.map((power) => {
+                return (
+                  characterData.level >= (power.minLevel ?? 0) && (
+                    <ItemWrapper
+                      item={power}
+                      handleAttackClick={handleAttackClick}
+                      handleAttack={handleAttack}
+                      handleCustomDelete={handleCustomDelete}
+                    />
+                  )
+                );
+              })
           )}
         </>
       )}
       {/* STARTING EQUIPMENT */}
       {categories.includes("general-equipment") &&
-        classes[characterData.class as ClassNamesTwo].startingEquipment?.map(
-          (item: EquipmentItem) => (
-            <ItemWrapper
-              item={item}
-              handleCustomDelete={handleCustomDelete}
-              handleAttack={handleAttack}
-              handleAttackClick={handleAttackClick}
-              key={item.name}
-            />
-          )
+        characterData.class.map(
+          (className) =>
+            classes[className as ClassNames].startingEquipment?.map(
+              (item: EquipmentItem) => (
+                <ItemWrapper
+                  item={item}
+                  handleCustomDelete={handleCustomDelete}
+                  handleAttack={handleAttack}
+                  handleAttackClick={handleAttackClick}
+                  key={item.name}
+                />
+              )
+            )
         )}
       {shownItems.map((item) => (
         <ItemWrapper

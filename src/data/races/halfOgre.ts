@@ -1,15 +1,15 @@
-import { ClassNamesTwo } from "../classes";
+import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 
 export const halfOgre: RaceSetup = {
   name: "Half-Ogre",
   allowedStandardClasses: [
-    ClassNamesTwo.CLERIC,
-    ClassNamesTwo.CUSTOM,
-    ClassNamesTwo.DRUID,
-    ClassNamesTwo.FIGHTER,
-    ClassNamesTwo.BARBARIAN,
-    ClassNamesTwo.PALADIN,
+    ClassNames.CLERIC,
+    ClassNames.CUSTOM,
+    ClassNames.DRUID,
+    ClassNames.FIGHTER,
+    ClassNames.BARBARIAN,
+    ClassNames.PALADIN,
   ],
   minimumAbilityRequirements: { strength: 13, constitution: 13 },
   maximumAbilityRequirements: { intelligence: 15, wisdom: 15 },

@@ -1,21 +1,19 @@
 import { marked } from "marked";
 import { useState } from "react";
-import {
-  CharacterData,
-  ClassNames,
-  SpellType,
-} from "../../components/definitions";
-import { Breadcrumb, Button, Divider, Steps, Typography, message } from "antd";
-import CharacterAbilities from "../../components/CreateCharacter/CharacterAbilities/CharacterAbilities";
-import CharacterRace from "../../components/CreateCharacter/CharacterRace/CharacterRace";
-import CharacterClass from "../../components/CreateCharacter/CharacterClass/CharacterClass";
-import CharacterHitPoints from "../../components/CreateCharacter/CharacterHitPoints/CharacterHitPoints";
+import { CharacterData, SpellType } from "../../components/definitions";
+import { Button, Divider, Steps, Typography, message } from "antd";
+import CharacterAbilities from "../../components/CharacterCreator/CharacterAbilities/CharacterAbilities";
+import CharacterRace from "../../components/CharacterCreator/CharacterRace/CharacterRace";
+import CharacterClass from "../../components/CharacterCreator/CharacterClass/CharacterClass";
+import CharacterHitPoints from "../../components/CharacterCreator/CharacterHitPoints/CharacterHitPoints";
 import EquipmentStore from "../../components/EquipmentStore/EquipmentStore";
-import CharacterName from "../../components/CreateCharacter/CharacterName/CharacterName";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
-import { AbilityTypes } from "../../components/CreateCharacter/CharacterAbilities/definitions";
+import CharacterName from "../../components/CharacterCreator/CharacterName/CharacterName";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { AbilityTypes } from "../../components/CharacterCreator/CharacterAbilities/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { classes } from "../../data/classes";
+import { ClassNames } from "../../data/definitions";
 
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
@@ -24,13 +22,13 @@ const abilityDescription = marked(
 );
 
 const raceDescription = marked(
-  `Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.
+  `Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely. **Races included in the base game rules are in bold**.
   
   <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Character Race documentation</a>`
 );
 
 const classDescription = marked(
-  `Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up.
+  `Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up. **Classes included in the base game rules are in bold**.
   
   <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Character Class documentation</a>`
 );
@@ -70,7 +68,7 @@ const emptyCharacter = {
       charisma: "",
     },
   },
-  class: "",
+  class: [],
   race: "",
   hp: {
     dice: "",
@@ -223,11 +221,16 @@ export default function CharacterCreator() {
       case 1:
         return characterData.race !== "";
       case 2:
-        if (characterData.class === "") {
+        // Check if the character has a class
+        // AND IF SO, any value in their class has a spell budget
+        // AND IF SO, they have more than 1 spell
+        if (characterData.class.length === 0) {
           return false;
         } else if (
-          characterData.class.includes(ClassNames.MAGICUSER) ||
-          characterData.class === ClassNames.ILLUSIONIST
+          characterData.class.some((className) => {
+            const spellBudget = classes[className as ClassNames]?.spellBudget;
+            return spellBudget && spellBudget[0] && spellBudget[0][0] > 0;
+          })
         ) {
           return characterData.spells.length > 1;
         }
@@ -298,19 +301,6 @@ export default function CharacterCreator() {
     <div className={`${outletContext.className}`}>
       {contextHolder}
       <div className="grid gap-4 md:grid-cols-[auto_auto] grid-rows-[auto_auto_auto] items-start">
-        <Breadcrumb
-          className="col-span-full"
-          items={[
-            {
-              title: (
-                <Link aria-label="Go back Home" to="/">
-                  Home
-                </Link>
-              ),
-            },
-            { title: "Character Creator" },
-          ]}
-        />
         <Steps
           current={current}
           items={items}
@@ -333,7 +323,7 @@ export default function CharacterCreator() {
               }}
             />
           </Typography.Paragraph>
-          <Divider />
+          <Divider className="border-seaBuckthorn" />
           {steps[current].content}
         </div>
         <div className="col-span-full ml-auto">

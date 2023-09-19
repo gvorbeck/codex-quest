@@ -1,6 +1,6 @@
-import { DiceTypes } from "../../components/definitions";
 import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
+import { DiceTypes } from "../definitions";
 
 export const assassin: ClassSetup = {
   name: "Assassin",

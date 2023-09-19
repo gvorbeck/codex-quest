@@ -40,6 +40,17 @@ export function slugToTitleCase(input: string) {
   return toTitleCase(input.replace(/-/g, " "));
 }
 
+export function titleCaseToCamelCase(input: string) {
+  return input
+    .replace(/\s(.)/g, function ($1) {
+      return $1.toUpperCase();
+    })
+    .replace(/\s/g, "")
+    .replace(/^(.)/, function ($1) {
+      return $1.toLowerCase();
+    });
+}
+
 export function extractImageName(url: string) {
   const regex = /\/static\/media\/(.*[^-])\..*?\.jpg/;
   const match = url.match(regex);

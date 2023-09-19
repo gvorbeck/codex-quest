@@ -9,9 +9,9 @@ import {
   DescriptionFieldButtonProps,
 } from "./definitions";
 import DOMPurify from "dompurify";
-import { ClassNames } from "../../definitions";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import classNames from "classnames";
+import { getClassType } from "../../../support/helpers";
 
 export default function Description({
   characterData,
@@ -25,6 +25,7 @@ export default function Description({
     : [characterData.desc];
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [textAreaValues, setTextAreaValues] = useState<string[]>(initialDesc);
+  const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
 
   // Button component for adding and deleting text fields
   const DescriptionFieldButton: FC<DescriptionFieldButtonProps> = ({
@@ -130,9 +131,7 @@ export default function Description({
         <Typography.Title level={3} className="mt-0 !text-shipGray">
           Bio & Notes
         </Typography.Title>
-        {!Object.values(ClassNames).includes(
-          characterData.class as ClassNames
-        ) && (
+        {getClassType(characterData.class) === "custom" && (
           <HelpTooltip
             text={`You can clear this field to restore the "${characterData.class}" Saving Throws template.`}
           />
@@ -158,8 +157,11 @@ export default function Description({
                 )}
                 <Input.TextArea
                   key={index}
-                  value={desc}
+                  value={
+                    index === 0 && desc === "" ? placeholderSavingThrows : desc
+                  }
                   rows={10}
+                  maxLength={10000}
                   name="Bio & Notes"
                   placeholder={`Write anything and everything about ${characterData.name}`}
                   onChange={(e) => handleTextAreaChange(e.target.value, index)}

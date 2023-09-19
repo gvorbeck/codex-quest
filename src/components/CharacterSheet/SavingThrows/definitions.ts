@@ -18,3 +18,8 @@ export interface SavingThrowsProps {
   characterData: CharacterData;
   className?: string;
 }
+
+export type TableCellRecord = {
+  score: number;
+  throw: string;
+};

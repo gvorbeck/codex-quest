@@ -1,18 +1,20 @@
-import { DiceTypes } from "../../components/definitions";
-import { ClassNamesTwo } from "../classes";
+import { DiceTypes } from "../definitions";
+import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 
 export const halfling: RaceSetup = {
   name: "Halfling",
   allowedStandardClasses: [
-    ClassNamesTwo.CLERIC,
-    ClassNamesTwo.CUSTOM,
-    ClassNamesTwo.DRUID,
-    ClassNamesTwo.FIGHTER,
-    ClassNamesTwo.THIEF,
-    ClassNamesTwo.RANGER,
-    ClassNamesTwo.PALADIN,
+    ClassNames.CLERIC,
+    ClassNames.CUSTOM,
+    ClassNames.DRUID,
+    ClassNames.FIGHTER,
+    ClassNames.THIEF,
+    ClassNames.RANGER,
+    ClassNames.PALADIN,
+    ClassNames.SCOUT,
   ],
+  additionalAttackBonus: "+1",
   minimumAbilityRequirements: { dexterity: 9 },
   maximumAbilityRequirements: { strength: 17 },
   maximumHitDice: DiceTypes.D6,

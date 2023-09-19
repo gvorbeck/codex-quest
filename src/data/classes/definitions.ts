@@ -1,11 +1,19 @@
 import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { SavingThrows } from "../../components/definitions";
 
-type SavingThrowEntry = [number, SavingThrows];
-export type SavingThrowsCollection = SavingThrowEntry[];
-
-export interface ClassSetup {
-  name: string;
+export type ClassSetup = {
+  attackBonus: number[];
+  availableEquipmentCategories: string[];
+  details?: {
+    description?: string;
+    restrictions?: string[];
+    specials?: string[];
+  };
+  experiencePoints: number[];
+  equipmentAttackBonuses?: [string, string][];
+  customRules?: { title: string; description: string }[];
+  hitDice: string;
+  hitDiceModifier: number;
   minimumAbilityRequirements?: Partial<
     Record<
       | "strength"
@@ -17,24 +25,17 @@ export interface ClassSetup {
       number
     >
   >;
-  availableEquipmentCategories: string[];
-  specificEquipmentItems?: [string[], string[]];
-  hitDice: string;
-  hitDiceModifier: number;
-  experiencePoints: number[];
-  attackBonus: number[];
-  savingThrows: SavingThrowsCollection;
-  spellBudget?: number[][];
-  startingSpells?: string[];
-  startingEquipment?: EquipmentItem[];
+  name: string;
+  noLargeEquipment?: boolean;
+  powers?: EquipmentItem[];
+  savingThrows: [number, SavingThrows][];
+  savingThrowsNotes?: string[];
   specialAbilities?: {
     titles: string[];
     stats: number[][];
   };
-  powers?: EquipmentItem[];
-  details?: {
-    description?: string;
-    specials?: string[];
-    restrictions?: string[];
-  };
-}
+  specificEquipmentItems?: [string[], string[]];
+  spellBudget?: number[][];
+  startingEquipment?: EquipmentItem[];
+  startingSpells?: string[];
+};

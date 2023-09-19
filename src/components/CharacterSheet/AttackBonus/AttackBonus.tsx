@@ -1,15 +1,15 @@
 import { Table, Typography } from "antd";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
 import { AttackBonusProps } from "./definitions";
-import { RaceNamesTwo } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
+import { RaceNames } from "../../../data/definitions";
 
 export default function AttackBonus({
   characterData,
   attackBonus,
 }: AttackBonusProps) {
   // TODO: This is a temporary fix for the ranged attack bonus for halflings. It should be housed in the data file.
-  const rangedRaceBonus = characterData.race === RaceNamesTwo.HALFLING ? 1 : 0;
+  const rangedRaceBonus = characterData.race === RaceNames.HALFLING ? 1 : 0;
 
   const dataSource = [
     { key: 1, label: "Attack Bonus", bonus: attackBonus },

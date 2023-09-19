@@ -8,9 +8,8 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { calculateItemCost } from "../../support/formatSupport";
-import { RaceNamesTwo } from "../../data/races";
-import { ClassNamesTwo } from "../../data/classes";
 import GoldRoller from "./GoldRoller/GoldRoller";
+import { ClassNames, RaceNames } from "../../data/definitions";
 
 export default function EquipmentStore({
   characterData,
@@ -176,11 +175,9 @@ export default function EquipmentStore({
 
   return (
     <>
-      {!Object.values(RaceNamesTwo).includes(
-        characterData.race as RaceNamesTwo
-      ) &&
-        !Object.values(ClassNamesTwo).includes(
-          characterData.class as ClassNamesTwo
+      {!Object.values(RaceNames).includes(characterData.race as RaceNames) &&
+        !characterData.class.some((className) =>
+          Object.values(ClassNames).includes(className as ClassNames)
         ) && <HomebrewWarning homebrew="Race or Class" className="mb-4" />}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {inBuilder && (

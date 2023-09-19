@@ -1,5 +1,6 @@
+import { SpellLevels } from "../data/definitions";
 import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
-import { Abilities } from "./CreateCharacter/CharacterAbilities/definitions";
+import { Abilities } from "./CharacterCreator/CharacterAbilities/definitions";
 import { EquipmentItem } from "./EquipmentStore/definitions";
 
 interface HP {
@@ -7,13 +8,6 @@ interface HP {
   points: number;
   max: number;
   desc: string;
-}
-
-export interface SpellLevels {
-  cleric: number | null;
-  "magic-user": number | null;
-  druid: number | null;
-  illusionist: number | null;
 }
 
 export interface Spell {
@@ -32,7 +26,7 @@ interface SpecialRestriction {
 export interface CharacterData {
   abilities: Abilities;
   avatar: string;
-  class: string;
+  class: string[];
   desc: string | string[];
   equipment: EquipmentItem[];
   gold: number;
@@ -72,34 +66,3 @@ export type SavingThrows = {
   dragonBreath: number;
   spells: number;
 };
-
-export enum DiceTypes {
-  D4 = "d4",
-  D6 = "d6",
-  D8 = "d8",
-  D10 = "d10",
-  D12 = "d12",
-  D20 = "d20",
-  D100 = "d100",
-}
-
-export enum ClassNames {
-  ASSASSIN = "Assassin",
-  BARBARIAN = "Barbarian",
-  CLERIC = "Cleric",
-  DRUID = "Druid",
-  FIGHTER = "Fighter",
-  ILLUSIONIST = "Illusionist",
-  MAGICUSER = "Magic-User",
-  THIEF = "Thief",
-  CUSTOM = "Custom",
-}
-
-export enum RaceNames {
-  DWARF = "Dwarf",
-  ELF = "Elf",
-  GNOME = "Gnome",
-  HALFLING = "Halfling",
-  HUMAN = "Human",
-  CUSTOM = "Custom",
-}

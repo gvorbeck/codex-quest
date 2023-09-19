@@ -9,6 +9,9 @@ import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
 import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
 import { CharacterData } from "../definitions";
+import { races } from "../../data/races";
+import { classes } from "../../data/classes";
+import { ClassNames, RaceNames } from "../../data/definitions";
 
 const roller = new DiceRoller();
 
@@ -26,12 +29,45 @@ export default function AttackModal({
 
   const [api, contextHolder] = notification.useNotification();
 
+  const equipmentAttackBonus = () => {
+    let bonusMessage = "";
+    const hasBonus = characterData?.class.some((className) => {
+      const classData = classes[className as ClassNames];
+      return classData.equipmentAttackBonuses?.some((weaponArr) => {
+        if (weaponArr[0] === weapon?.name.toLowerCase()) {
+          bonusMessage = `(${className}s get a ${weaponArr[1]} when using a ${weapon?.name})`;
+          return true;
+        }
+        return false;
+      });
+    });
+    return hasBonus ? bonusMessage : false;
+  };
+
   const openAttackNotification = (result: string, hideNote?: boolean) => {
     api.open({
       message: "Attack Roll",
-      description: `${result} ${
-        !hideNote ? `(+2 if attacking from behind)` : ""
-      }`,
+      description: (
+        <>
+          {result}
+          {!hideNote ? (
+            <>
+              <br />
+              (+2 if attacking from behind)
+            </>
+          ) : (
+            ""
+          )}
+          {equipmentAttackBonus() ? (
+            <>
+              <br />
+              {equipmentAttackBonus()}
+            </>
+          ) : (
+            ""
+          )}
+        </>
+      ),
       duration: 0,
       className: "!bg-seaBuckthorn",
       closeIcon: <CloseIcon />,
@@ -80,15 +116,15 @@ export default function AttackModal({
     if (characterData) {
       const strength = Number(characterData.abilities.modifiers.strength);
       const dexterity = Number(characterData.abilities.modifiers.dexterity);
-      const halflingBonus =
-        characterData.race.toLowerCase() === "halfling" ? "+1" : "";
+      const raceAttackBonus =
+        races[characterData.race as RaceNames].additionalAttackBonus || "";
 
       if (type === "melee") {
         roll += `+${strength + attackBonus}`;
       } else {
         roll += `+${
           dexterity + attackBonus
-        }${halflingBonus}+${missileRangeBonus}`;
+        }${raceAttackBonus}+${missileRangeBonus}`;
       }
 
       if (type === "missile" && missile) fireMissile(missile);

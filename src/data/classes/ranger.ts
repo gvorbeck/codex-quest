@@ -1,4 +1,4 @@
-import { DiceTypes } from "../../components/definitions";
+import { DiceTypes } from "../definitions";
 import { equipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 

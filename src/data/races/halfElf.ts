@@ -1,24 +1,26 @@
-import { ClassNamesTwo } from "../classes";
+import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 
 export const halfElf: RaceSetup = {
   name: "Half-Elf",
   allowedStandardClasses: [
-    ClassNamesTwo.CLERIC,
-    ClassNamesTwo.CUSTOM,
-    ClassNamesTwo.DRUID,
-    ClassNamesTwo.FIGHTER,
-    ClassNamesTwo.ILLUSIONIST,
-    ClassNamesTwo.MAGICUSER,
-    ClassNamesTwo.THIEF,
-    ClassNamesTwo.NECROMANCER,
-    ClassNamesTwo.RANGER,
-    ClassNamesTwo.PALADIN,
+    ClassNames.CLERIC,
+    ClassNames.CUSTOM,
+    ClassNames.DRUID,
+    ClassNames.FIGHTER,
+    ClassNames.ILLUSIONIST,
+    ClassNames.MAGICUSER,
+    ClassNames.SPELLCRAFTER,
+    ClassNames.THIEF,
+    ClassNames.NECROMANCER,
+    ClassNames.RANGER,
+    ClassNames.PALADIN,
+    ClassNames.SCOUT,
   ],
   allowedCombinationClasses: [
-    ClassNamesTwo.MAGICUSER,
-    ClassNamesTwo.THIEF,
-    ClassNamesTwo.FIGHTER,
+    ClassNames.MAGICUSER,
+    ClassNames.THIEF,
+    ClassNames.FIGHTER,
   ],
   minimumAbilityRequirements: { intelligence: 9 },
   maximumAbilityRequirements: { constitution: 17 },

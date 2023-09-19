@@ -5,7 +5,8 @@ import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
 import { ExperiencePointsProps } from "./definitions";
-import { ClassNamesTwo, classes } from "../../../../data/classes";
+import { classes } from "../../../../data/classes";
+import { ClassNames } from "../../../../data/definitions";
 
 export default function ExperiencePoints({
   characterData,
@@ -89,11 +90,10 @@ export default function ExperiencePoints({
     }
   };
 
-  const classNames = characterData.class.split(" ");
-  const totalLevelRequirement = classNames
+  const totalLevelRequirement = characterData.class
     .map((className) => {
       const classRequirements =
-        classes[className as ClassNamesTwo]?.experiencePoints;
+        classes[className as ClassNames]?.experiencePoints;
       return classRequirements ? classRequirements[characterData.level] : 0; // value if using a custom class
     })
     .reduce((a, b) => a + b, 0);
