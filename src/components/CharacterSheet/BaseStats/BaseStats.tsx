@@ -70,7 +70,7 @@ export default function BaseStats({
             {characterData.race}
           </Descriptions.Item>
           <Descriptions.Item label="Class">
-            {characterData.class}
+            {characterData.class.join(" ")}
           </Descriptions.Item>
         </Descriptions>
       </div>
