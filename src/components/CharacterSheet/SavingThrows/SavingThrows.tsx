@@ -1,12 +1,22 @@
-import { SavingThrowsProps, SavingThrowsType } from "./definitions";
-import { getClassType } from "../../../support/helpers";
+import {
+  SavingThrowsProps,
+  SavingThrowsType,
+  TableCellRecord,
+} from "./definitions";
+import {
+  getClassType,
+  getSavingThrows,
+  getSavingThrowsWeight,
+} from "../../../support/helpers";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { Table, Typography, notification } from "antd";
-import { camelCaseToTitleCase } from "../../../support/stringSupport";
+import {
+  camelCaseToTitleCase,
+  titleCaseToCamelCase,
+} from "../../../support/stringSupport";
 import { races } from "../../../data/races";
-import { classes } from "../../../data/classes";
-import { ClassNames, RaceNames } from "../../../data/definitions";
+import { RaceNames } from "../../../data/definitions";
 
 const roller = new DiceRoller();
 
@@ -23,137 +33,120 @@ export default function SavingThrows({
   className,
 }: SavingThrowsProps) {
   const classType = getClassType(characterData.class);
+  const characterLevel = characterData.level;
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const rollSavingThrow = (score: number, title: string) => {
+    const raceModifier =
+      races[characterData.race as RaceNames]?.savingThrows?.[
+        titleCaseToCamelCase(title) as keyof SavingThrowsType
+      ] || 0;
+    const result = roller.roll(
+      `d20${raceModifier > 0 ? `+${raceModifier}` : ""}`
+    );
+    const passFail = result.total >= score ? "Pass" : "Fail";
+    openNotification(result.output + " - " + passFail, title);
+  };
+
+  const openNotification = (result: string, specialAbilityTitle: string) => {
+    api.open({
+      message: `${specialAbilityTitle} Roll`,
+      description: result,
+      duration: 0,
+      className: "bg-seaBuckthorn",
+      closeIcon: <CloseIcon />,
+    });
+  };
+
+  // Set the default saving throws
   let savingThrows: SavingThrowsType = defaultSavingThrows;
+  // if classType is standard, find saving throws for that class
   if (classType === "standard") {
-    savingThrows = classes[
-      characterData.class[0] as ClassNames
-    ]?.savingThrows.find(
-      (savingThrow) => (savingThrow[0] as number) >= characterData.level
-    )?.[1] as SavingThrowsType;
+    savingThrows =
+      getSavingThrows(characterData.class.join(), characterLevel) ||
+      defaultSavingThrows;
+    // if classType is combination, find saving throws for each class and use the best
   } else {
-    console.log("hiii");
+    const [firstClass, secondClass] = characterData.class;
+    const firstClassSavingThrows = getSavingThrows(firstClass, characterLevel);
+    const secondClassSavingThrows = getSavingThrows(
+      secondClass,
+      characterLevel
+    );
+    savingThrows =
+      getSavingThrowsWeight(firstClassSavingThrows) <=
+      getSavingThrowsWeight(secondClassSavingThrows)
+        ? firstClassSavingThrows
+        : secondClassSavingThrows;
   }
 
-  return <div>hello world</div>;
-  // let baseSavingThrows: SavingThrowsType;
-  // const dataSource: {}[] = [];
-  // const getSavingThrowsForLevel = (characterClass: string) => {
-  //   classes[characterClass as ClassNames]?.savingThrows.find(
-  //     (savingThrow) => (savingThrow[0] as number) >= characterData.level
-  //   );
-  // };
-  // if (getClassType(characterData.class) === "standard") {
-  //   const savingThrowForLevel = getSavingThrowsForLevel(characterData.class[0]);
-  //   baseSavingThrows = savingThrowForLevel
-  //     ? (savingThrowForLevel[1] as SavingThrowsType)
-  //     : defaultSavingThrows;
-  // } else {
-  //   if (
-  //     characterData.class.length === 1 &&
-  //     characterData.class[0].indexOf(" ") > -1
-  //   ) {
-  //     const newArr = characterData.class[0].split(" ");
-  //     // Make sure every value in the array is in the ClassNames enum
-  //     if (
-  //       newArr.every((className) =>
-  //         Object.values(ClassNames).includes(className as ClassNames)
-  //       )
-  //     )
-  //       setCharacterData({ ...characterData, class: newArr });
-  //   }
-  //   // Split the combination class into its two components
-  //   const [firstClass, secondClass] = characterData.class;
-  //   console.log(firstClass);
-  //   // Find the best saving throw for each component class
-  //   let getSavingThrowsForLevelResult = getSavingThrowsForLevel(firstClass);
-  //   const firstClassThrow = getSavingThrowsForLevelResult
-  //     ? (getSavingThrowsForLevelResult[1] as SavingThrowsType)
-  //     : defaultSavingThrows; // Provide a default value if undefined
-  //   console.log(firstClassThrow);
-  //   getSavingThrowsForLevelResult = getSavingThrowsForLevel(secondClass);
-  //   const secondClassThrow = getSavingThrowsForLevelResult
-  //     ? (getSavingThrowsForLevelResult[1] as SavingThrowsType)
-  //     : defaultSavingThrows; // Provide a default value if undefined
-  //   // Find the best of the two saving throws
-  //   baseSavingThrows = Object.entries(
-  //     firstClassThrow || {}
-  //   ).reduce<SavingThrowsType>(
-  //     (prev, [key, value]) => ({
-  //       ...prev,
-  //       [key]: Math.min(
-  //         value,
-  //         secondClassThrow?.[key as keyof SavingThrowsType] || value
-  //       ),
-  //     }),
-  //     {} as SavingThrowsType
-  //   );
-  // }
-  // Apply race modifiers
-  // const raceModifiers = races[characterData.race as RaceNames].savingThrows;
-  // const finalSavingThrows = Object.entries(baseSavingThrows).reduce(
-  //   (prev, [key, value]) => ({
-  //     ...prev,
-  //     [key]:
-  //       value +
-  //       ((raceModifiers && raceModifiers[key as keyof SavingThrowsType]) || 0),
-  //   }),
-  //   {} as SavingThrowsType
-  // );
-  // const [api, contextHolder] = notification.useNotification();
-  // const openNotification = (result: string, specialAbilityTitle: string) => {
-  //   api.open({
-  //     message: `${specialAbilityTitle} Roll`,
-  //     description: result,
-  //     duration: 0,
-  //     className: "bg-seaBuckthorn",
-  //     closeIcon: <CloseIcon />,
-  //   });
-  // };
-  // const rollSavingThrow = (score: number, title: string) => {
-  //   const result = roller.roll(`d20`);
-  //   const passFail = result.total >= score ? "Pass" : "Fail";
-  //   openNotification(result.output + " - " + passFail, title);
-  // };
-  // Object.entries(finalSavingThrows).forEach(([key, value], index) => {
-  //   dataSource.push({
-  //     key: index + 1,
-  //     throw: camelCaseToTitleCase(key),
-  //     score: value,
-  //   });
-  // });
-  // const columns = [
-  //   {
-  //     title: "Saving Throw",
-  //     dataIndex: "throw",
-  //     key: "throw",
-  //     onCell: (record: any) => ({
-  //       onClick: () => rollSavingThrow(record.score, record.throw),
-  //     }),
-  //   },
-  //   {
-  //     title: "Value",
-  //     dataIndex: "score",
-  //     key: "score",
-  //     onCell: (record: any) => ({
-  //       onClick: () => rollSavingThrow(record.score, record.throw),
-  //     }),
-  //   },
-  // ];
-  // return (
-  //   <>
-  //     {contextHolder}
-  //     <div className={`${className}`}>
-  //       <Typography.Title level={3} className="mt-0 text-shipGray">
-  //         Saving Throws
-  //       </Typography.Title>
-  //       <Table
-  //         dataSource={dataSource}
-  //         pagination={false}
-  //         showHeader={false}
-  //         columns={columns}
-  //         className="[&_td]:print:p-2 cursor-pointer"
-  //       />
-  //     </div>
-  //   </>
-  // );
+  const dataSource: Array<{ key: number; throw: string; score: number }> = [];
+  Object.entries(savingThrows).forEach(([key, value], index) => {
+    dataSource.push({
+      key: index + 1,
+      throw: camelCaseToTitleCase(key),
+      score: value,
+    });
+  });
+
+  const columns = [
+    {
+      title: "Saving Throw",
+      dataIndex: "throw",
+      key: "throw",
+      onCell: (record: TableCellRecord) => ({
+        onClick: () => rollSavingThrow(record.score, record.throw),
+      }),
+    },
+    {
+      title: "Value",
+      dataIndex: "score",
+      key: "score",
+      onCell: (record: TableCellRecord) => ({
+        onClick: () => rollSavingThrow(record.score, record.throw),
+      }),
+    },
+  ];
+
+  return (
+    <>
+      {contextHolder}
+      <div className={`${className}`}>
+        <Typography.Title level={3} className="mt-0 text-shipGray">
+          Saving Throws
+        </Typography.Title>
+        <Table
+          dataSource={dataSource}
+          pagination={false}
+          showHeader={false}
+          columns={columns}
+          className="[&_td]:print:p-2 cursor-pointer"
+        />
+        <div className="mt-2 ml-3 italic">
+          {characterData.abilities.modifiers.constitution !== "+0" && (
+            <Typography.Text className="text-shipGray block">
+              * Adjust your roll by{" "}
+              {characterData.abilities.modifiers.constitution} against{" "}
+              <strong>Posion</strong> saving throws.
+            </Typography.Text>
+          )}
+          {characterData.abilities.modifiers.intelligence !== "+0" && (
+            <Typography.Text className="text-shipGray block">
+              * Adjust your roll by{" "}
+              {characterData.abilities.modifiers.intelligence} against
+              illusions.
+            </Typography.Text>
+          )}
+          {characterData.abilities.modifiers.wisdom !== "+0" && (
+            <Typography.Text className="text-shipGray block">
+              * Adjust your roll by {characterData.abilities.modifiers.wisdom}{" "}
+              against <strong>charm</strong> spells and other forms of mind
+              control.
+            </Typography.Text>
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
