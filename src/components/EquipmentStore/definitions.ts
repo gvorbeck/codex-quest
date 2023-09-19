@@ -1,4 +1,5 @@
-import { CharacterData, ClassNames } from "../definitions";
+import { ClassNames } from "../../data/definitions";
+import { CharacterData } from "../definitions";
 
 export type ClassName = ClassNames;
 
