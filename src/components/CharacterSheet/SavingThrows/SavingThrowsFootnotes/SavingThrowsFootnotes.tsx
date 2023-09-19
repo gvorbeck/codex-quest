@@ -44,7 +44,7 @@ export default function SavingThrowsFootnotes({
       )}
       {characterData.class.map(
         (className) =>
-          classes[className as ClassNames]?.savingThrowsNotes.map((note) => (
+          classes[className as ClassNames]?.savingThrowsNotes?.map((note) => (
             <Typography.Text key={note} className="text-shipGray block">
               <div dangerouslySetInnerHTML={{ __html: marked(note) }} />
             </Typography.Text>
