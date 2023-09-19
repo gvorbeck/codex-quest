@@ -308,8 +308,22 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     const unsubscribe = onSnapshot(characterDocRef, (snapshot) => {
       if (snapshot.exists()) {
         let characterData = snapshot.data() as CharacterData;
-        if (typeof characterData.class === "string")
+        // Make sure legacy characters' class value is converted to an array
+        if (typeof characterData.class === "string") {
           characterData.class = [characterData.class];
+          // Make sure the string is not two standard classes with a space between them
+          if (characterData.class[0].indexOf(" ") > -1) {
+            const newArr = characterData.class[0].split(" ");
+            // Make sure every value in the array is in the ClassNames enum
+            // That way you know if it is a proper combination class and not a custom class with a space.
+            if (
+              newArr.every((className) =>
+                Object.values(ClassNames).includes(className as ClassNames)
+              )
+            )
+              characterData.class = newArr;
+          }
+        }
         setCharacterData(characterData);
         document.title = `${characterData.name} | CODEX.QUEST`;
       } else {
@@ -423,7 +437,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       </Row>
       <Divider className="print:hidden border-seaBuckthorn" />
       {/* Hide these if using a custom Class */}
-      {console.log(getClassType(characterData.class))}
       {getClassType(characterData.class) !== "custom" ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print:grid-cols-2">
           {/* SPECIALS / RESTRICTIONS */}

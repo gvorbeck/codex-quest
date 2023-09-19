@@ -8,14 +8,23 @@ import { ClassNames, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
 
 export const getClassType = (characterClass: string[]) => {
-  console.log(characterClass.length);
-  if (characterClass.length === 0 || characterClass[0] === "") return "none";
+  if (
+    characterClass === undefined ||
+    characterClass.length === 0 ||
+    characterClass[0] === ""
+  )
+    return "none";
   // If characterClass is an array with more than one element return "combination"
   if (characterClass.length > 1) return "combination";
-  if (characterClass.length === 1 && characterClass[0].indexOf(' ') > -1) {
-    const newArr = characterClass[0].split(' ');
+  if (characterClass.length === 1 && characterClass[0].indexOf(" ") > -1) {
+    const newArr = characterClass[0].split(" ");
     // Make sure every value in the array is in the ClassNames enum
-    if (newArr.every((className) => Object.values(ClassNames).includes(className as ClassNames))) return "combination";
+    if (
+      newArr.every((className) =>
+        Object.values(ClassNames).includes(className as ClassNames)
+      )
+    )
+      return "combination";
   }
 
   // if characterClass[0] is in `ClassNames` enum return "standard"
