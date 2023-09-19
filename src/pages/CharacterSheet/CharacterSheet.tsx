@@ -47,7 +47,7 @@ import { classes } from "../../data/classes";
 import { ClassNames } from "../../data/definitions";
 // SUPPORT
 import { calculateCarryingCapacity } from "../../support/formatSupport";
-import { getClassType } from "../../support/helpers";
+import { getClassType, getHitPointsModifier } from "../../support/helpers";
 import CheatSheetModal from "../../modals/CheatSheetModal";
 import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
 
@@ -119,15 +119,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     const prefix = Math.min(level, 9);
 
     // Calculate the suffix
-    let suffix = level > 9 ? level - 9 : 0;
-    if (
-      className.includes(ClassNames.FIGHTER) ||
-      className.includes(ClassNames.ASSASSIN) ||
-      className.includes(ClassNames.BARBARIAN) ||
-      className.includes(ClassNames.THIEF)
-    ) {
-      suffix *= 2;
-    }
+    let suffix = (level > 9 ? level - 9 : 0) * getHitPointsModifier(className);
 
     // Combine to create the result
     const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;

@@ -110,3 +110,15 @@ export function useDebounce(value: any, delay: number) {
 
   return debouncedValue;
 }
+
+export const getHitPointsModifier = (classArr: string[]) => {
+  let modifier = 0;
+  for (const className of classArr) {
+    const classHitDiceModifier =
+      classes[className as ClassNames]?.hitDiceModifier;
+    if (classHitDiceModifier > modifier) {
+      modifier = classHitDiceModifier;
+    }
+  }
+  return modifier;
+};
