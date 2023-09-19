@@ -13,7 +13,6 @@ export default function CombinationClassOptions({
   raceKey,
 }: CombinationClassOptionsProps) {
   const onCheckboxChange = (e: CheckboxChangeEvent) => {
-    console.log(characterData);
     if (e.target.checked) {
       setCheckedClasses([...checkedClasses, e.target.value]);
     } else {
