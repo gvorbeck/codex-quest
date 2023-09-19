@@ -29,6 +29,7 @@ export type ClassSetup = {
   noLargeEquipment?: boolean;
   powers?: EquipmentItem[];
   savingThrows: [number, SavingThrows][];
+  savingThrowsNotes: string[];
   specialAbilities?: {
     titles: string[];
     stats: number[][];

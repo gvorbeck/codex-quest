@@ -17,6 +17,7 @@ import {
 } from "../../../support/stringSupport";
 import { races } from "../../../data/races";
 import { RaceNames } from "../../../data/definitions";
+import SavingThrowsFootnotes from "./SavingThrowsFootnotes/SavingThrowsFootnotes";
 
 const roller = new DiceRoller();
 
@@ -123,29 +124,7 @@ export default function SavingThrows({
           columns={columns}
           className="[&_td]:print:p-2 cursor-pointer"
         />
-        <div className="mt-2 ml-3 italic">
-          {characterData.abilities.modifiers.constitution !== "+0" && (
-            <Typography.Text className="text-shipGray block">
-              * Adjust your roll by{" "}
-              {characterData.abilities.modifiers.constitution} against{" "}
-              <strong>Posion</strong> saving throws.
-            </Typography.Text>
-          )}
-          {characterData.abilities.modifiers.intelligence !== "+0" && (
-            <Typography.Text className="text-shipGray block">
-              * Adjust your roll by{" "}
-              {characterData.abilities.modifiers.intelligence} against
-              illusions.
-            </Typography.Text>
-          )}
-          {characterData.abilities.modifiers.wisdom !== "+0" && (
-            <Typography.Text className="text-shipGray block">
-              * Adjust your roll by {characterData.abilities.modifiers.wisdom}{" "}
-              against <strong>charm</strong> spells and other forms of mind
-              control.
-            </Typography.Text>
-          )}
-        </div>
+        <SavingThrowsFootnotes characterData={characterData} />
       </div>
     </>
   );
