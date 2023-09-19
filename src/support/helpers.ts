@@ -6,6 +6,7 @@ import {
 import { classes } from "../data/classes";
 import { ClassNames, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
+import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
 
 export const getClassType = (characterClass: string[]) => {
   if (
@@ -16,6 +17,7 @@ export const getClassType = (characterClass: string[]) => {
     return "none";
   // If characterClass is an array with more than one element return "combination"
   if (characterClass.length > 1) return "combination";
+  // If characterClass[0] is a string with a space, and each piece is a documented class, return "combination"
   if (characterClass.length === 1 && characterClass[0].indexOf(" ") > -1) {
     const newArr = characterClass[0].split(" ");
     // Make sure every value in the array is in the ClassNames enum
@@ -82,6 +84,16 @@ export function getDisabledClasses(
 
   return disabledClasses;
 }
+
+// Get the saving throws for a class at a given level
+export const getSavingThrows = (className: string, level: number) =>
+  classes[className as ClassNames]?.savingThrows.find(
+    (savingThrow) => (savingThrow[0] as number) >= level
+  )?.[1] as SavingThrowsType;
+
+// Get the total weight of a saving throw object in order to determine "best"
+export const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
+  Object.values(savingThrows).reduce((prev, curr) => prev + curr, 0);
 
 export function useDebounce(value: any, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
