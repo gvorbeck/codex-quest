@@ -18,10 +18,11 @@ export default function HitPointsRoller({
   };
 
   const rollHitPoints = (score?: number) => {
-    const result =
+    let result =
       score ||
       roller.roll(characterData.hp.dice).total +
         +characterData.abilities.modifiers.constitution;
+    result = result > 0 ? result : 1;
     setHitPoints(result);
   };
 
