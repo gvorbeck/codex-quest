@@ -1,7 +1,7 @@
 {
   "name": "codex-quest",
   "title": "Codex.Quest",
-  "version": "1.14.0.1",
+  "version": "1.15.0.0",
   "bfrpgEdition": "4th",
   "bfrpgRelease": "137",
   "private": true,
@@ -28,7 +28,8 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +61,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/dompurify": "^3.0.2",
+    "@types/jest": "^29.5.5",
     "@types/marked": "^5.0.1",
     "@types/node": "^20.6.3",
     "@types/react": "^18.2.22",
@@ -67,10 +69,12 @@
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.15",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
     "lint-staged": "^14.0.1",
     "postcss": "^8.4.30",
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3",
+    "ts-jest": "^29.1.1",
     "typescript": "5.2.2",
     "vite": "^4.4.9",
     "vite-plugin-svgr": "^4.0.0",
