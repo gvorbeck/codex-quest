@@ -11,6 +11,7 @@ export interface RaceSetup {
     restrictions?: string[];
     specials?: string[];
   };
+  hasLowCapacity?: boolean;
   incrementHitDie?: boolean; // Use the next highest die type for hit points
   maximumAbilityRequirements?: Record<string, number>;
   maximumHitDice?: DiceTypes;
