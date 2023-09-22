@@ -1,17 +1,18 @@
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { Capacity, CapacityMap } from "../components/definitions";
 import { RaceNames } from "../data/definitions";
+import { races } from "../data/races";
 
-export const calculateItemCost = (item: EquipmentItem) => {
+export const getItemCost = (item: EquipmentItem) => {
   let cost = item.costValue;
   if (item.costCurrency === "sp") cost *= 0.1;
   if (item.costCurrency === "cp") cost *= 0.01;
   return cost * item.amount;
 };
 
-export const calculateCarryingCapacity = (
+export const getCarryingCapacity = (
   strength: number,
-  race: string
+  race: RaceNames
 ): Capacity => {
   const capacities: CapacityMap = {
     "3": { light: 25, heavy: 60 },
@@ -23,7 +24,7 @@ export const calculateCarryingCapacity = (
     "18": { light: 80, heavy: 195 },
   };
 
-  const halflingCapacities: CapacityMap = {
+  const lowCapacities: CapacityMap = {
     "3": { light: 20, heavy: 40 },
     "4-5": { light: 30, heavy: 60 },
     "6-8": { light: 40, heavy: 80 },
@@ -51,7 +52,5 @@ export const calculateCarryingCapacity = (
     range = "18";
   }
 
-  return race === (RaceNames.HALFLING || RaceNames.GNOME)
-    ? halflingCapacities[range]
-    : capacities[range];
+  return races[race].hasLowCapacity ? lowCapacities[range] : capacities[range];
 };

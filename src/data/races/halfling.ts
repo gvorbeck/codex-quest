@@ -14,6 +14,7 @@ export const halfling: RaceSetup = {
     ClassNames.PALADIN,
     ClassNames.SCOUT,
   ],
+  hasLowCapacity: true,
   additionalAttackBonus: "+1",
   minimumAbilityRequirements: { dexterity: 9 },
   maximumAbilityRequirements: { strength: 17 },
