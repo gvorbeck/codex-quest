@@ -46,7 +46,7 @@ import equipmentItems from "../../data/equipmentItems.json";
 import { classes } from "../../data/classes";
 import { ClassNames } from "../../data/definitions";
 // SUPPORT
-import { calculateCarryingCapacity } from "../../support/formatSupport";
+import { getCarryingCapacity } from "../../support/formatSupport";
 import { getClassType, getHitPointsModifier } from "../../support/helpers";
 import CheatSheetModal from "../../modals/CheatSheetModal";
 import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
@@ -227,7 +227,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   const getMovement = (characterData: CharacterData) => {
     if (!characterData) return;
 
-    const carryingCapacity = calculateCarryingCapacity(
+    const carryingCapacity = getCarryingCapacity(
       +characterData.abilities.scores.strength,
       characterData.race
     );

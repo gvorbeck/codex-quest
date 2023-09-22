@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
-import { calculateItemCost } from "../../support/formatSupport";
+import { getItemCost } from "../../support/formatSupport";
 import GoldRoller from "./GoldRoller/GoldRoller";
 import { ClassNames, RaceNames } from "../../data/definitions";
 
@@ -54,12 +54,12 @@ export default function EquipmentStore({
 
       if (!oldItem) {
         // The item is new, add its cost
-        totalAddedCost += calculateItemCost(newItem);
+        totalAddedCost += getItemCost(newItem);
       } else if (oldItem.amount !== newItem.amount) {
         // The amount has changed, calculate the cost difference
         const amountDifference = newItem.amount - oldItem.amount;
         const costDifference =
-          amountDifference * calculateItemCost({ ...newItem, amount: 1 });
+          amountDifference * getItemCost({ ...newItem, amount: 1 });
 
         if (amountDifference > 0) {
           // The amount has increased, add the cost difference
@@ -75,7 +75,7 @@ export default function EquipmentStore({
     oldItems.forEach((oldItem) => {
       if (!newItems.find((item) => item.name === oldItem.name)) {
         // The item was removed, subtract its cost
-        totalRemovedCost += calculateItemCost(oldItem);
+        totalRemovedCost += getItemCost(oldItem);
       }
     });
 

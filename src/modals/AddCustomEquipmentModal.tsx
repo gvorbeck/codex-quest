@@ -17,7 +17,7 @@ import CloseIcon from "../components/CloseIcon/CloseIcon";
 import { AddCustomEquipmentModalProps } from "./definitions";
 import equipmentItems from "../data/equipmentItems.json";
 import { slugToTitleCase } from "../support/stringSupport";
-import { calculateItemCost } from "../support/formatSupport";
+import { getItemCost } from "../support/formatSupport";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
 import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import DOMPurify from "dompurify";
@@ -190,7 +190,7 @@ export default function AddCustomEquipmentModal({
     }
 
     // Calculate the item cost
-    const itemCost = calculateItemCost(newItem);
+    const itemCost = getItemCost(newItem);
 
     // Update the character's equipment and gold
     const updatedEquipment = [...characterData.equipment, newItem];

@@ -1,5 +1,5 @@
 import { Descriptions, Divider } from "antd";
-import { calculateCarryingCapacity } from "../../../support/formatSupport";
+import { getCarryingCapacity } from "../../../support/formatSupport";
 import SimpleNumberStat from "../SimpleNumberStat/SimpleNumberStat";
 import { WeightStatsProps } from "./definitions";
 
@@ -7,7 +7,7 @@ export default function WeightStats({
   characterData,
   className,
 }: WeightStatsProps) {
-  const capacity = calculateCarryingCapacity(
+  const capacity = getCarryingCapacity(
     +characterData.abilities.scores.strength,
     characterData.race
   );
