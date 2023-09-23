@@ -5,18 +5,20 @@ import { LogoutOutlined } from "@ant-design/icons";
 import LoginSignupModal from "../../../modals/LoginSignupModal";
 import { useState } from "react";
 import { title } from "../../../../package.json";
+import classNames from "classnames";
 
 export default function HeaderContent({
   auth,
   handleLogin,
   user,
   className,
-}: HeaderContentProps) {
+}: HeaderContentProps & React.ComponentPropsWithRef<"div">) {
   const navigate = useNavigate();
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] = useState(false);
   const handleCancel = () => setIsLoginSignupModalOpen(false);
+  const HeaderContentClassNames = classNames("gap-y-4", className);
   return (
-    <Row className={`${className} gap-y-4`}>
+    <Row className={HeaderContentClassNames}>
       <Col
         xs={24}
         md={12}

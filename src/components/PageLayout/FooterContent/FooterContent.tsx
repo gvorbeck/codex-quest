@@ -1,11 +1,12 @@
 import React from "react";
 import { Typography } from "antd";
-import { FooterContentProps } from "./definitions";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { version, bfrpgRelease, bfrpgEdition } from "../../../../package.json";
 
-export default function FooterContent({ className }: FooterContentProps) {
+export default function FooterContent({
+  className,
+}: React.ComponentPropsWithRef<"div">) {
   const FooterContentClassNames = classNames(
     className,
     "[&_*]:text-springWood",

@@ -10,7 +10,7 @@ export default function DescriptionBubble({
   description,
   className,
   title,
-}: DescriptionBubbleProps) {
+}: DescriptionBubbleProps & React.ComponentPropsWithRef<"div">) {
   const descriptionBubbleClassNames = classNames(
     className,
     "bg-shipGray",

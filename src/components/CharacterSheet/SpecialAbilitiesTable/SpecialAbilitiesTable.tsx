@@ -6,12 +6,13 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { classes } from "../../../data/classes";
 import { ClassNames } from "../../../data/definitions";
+import React from "react";
 
 export default function SpecialAbilitiesTable({
   characterLevel,
   characterClass,
   className,
-}: SpecialAbilitiesTableProps) {
+}: SpecialAbilitiesTableProps & React.ComponentPropsWithRef<"div">) {
   const dataSource: {}[] = [];
 
   const abilities =

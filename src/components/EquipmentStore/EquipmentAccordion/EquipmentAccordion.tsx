@@ -77,7 +77,7 @@ export default function EquipmentAccordion({
   onCheckboxCheck,
   characterData,
   className,
-}: EquipmentAccordionProps) {
+}: EquipmentAccordionProps & React.ComponentPropsWithRef<"div">) {
   const classCategories = characterData.class.flatMap(
     (classPiece) =>
       classes[classPiece as ClassNames]?.availableEquipmentCategories

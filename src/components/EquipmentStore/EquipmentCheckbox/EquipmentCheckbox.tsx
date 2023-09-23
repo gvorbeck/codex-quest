@@ -1,6 +1,6 @@
 import { Checkbox, InputNumber, Space } from "antd";
 import { EquipmentCheckboxProps } from "./definitions";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { EquipmentItem } from "../definitions";
 
@@ -14,7 +14,7 @@ export default function EquipmentCheckbox({
   equipmentItemDescription,
   inputDisabled,
   itemAmount,
-}: EquipmentCheckboxProps) {
+}: EquipmentCheckboxProps & React.ComponentPropsWithRef<"div">) {
   const [isChecked, setIsChecked] = useState(playerHasItem);
   const [amount, setAmount] = useState(itemAmount);
 

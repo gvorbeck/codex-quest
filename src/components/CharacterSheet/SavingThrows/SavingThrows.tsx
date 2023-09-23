@@ -32,7 +32,7 @@ const defaultSavingThrows: SavingThrowsType = {
 export default function SavingThrows({
   characterData,
   className,
-}: SavingThrowsProps) {
+}: SavingThrowsProps & React.ComponentPropsWithRef<"div">) {
   const classType = getClassType(characterData.class);
   const characterLevel = characterData.level;
 

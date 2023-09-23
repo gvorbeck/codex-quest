@@ -16,7 +16,7 @@ const HtmlRender = ({ html }: { html: string }) => (
 export default function SpecialsRestrictions({
   characterData,
   className,
-}: SpecialsRestrictionsProps) {
+}: SpecialsRestrictionsProps & React.ComponentPropsWithRef<"div">) {
   // Gather the specials and restrictions for each class in the combination
   const classSpecials: string[] = [];
   const classRestrictions: string[] = [];

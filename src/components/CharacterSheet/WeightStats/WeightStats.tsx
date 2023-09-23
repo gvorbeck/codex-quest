@@ -2,14 +2,15 @@ import { Descriptions, Divider } from "antd";
 import { getCarryingCapacity } from "../../../support/formatSupport";
 import SimpleNumberStat from "../SimpleNumberStat/SimpleNumberStat";
 import { WeightStatsProps } from "./definitions";
+import { RaceNames } from "../../../data/definitions";
 
 export default function WeightStats({
   characterData,
   className,
-}: WeightStatsProps) {
+}: WeightStatsProps & React.ComponentPropsWithRef<"div">) {
   const capacity = getCarryingCapacity(
     +characterData.abilities.scores.strength,
-    characterData.race
+    characterData.race as RaceNames
   );
   const weight = characterData.equipment.reduce(
     (accumulator, currentValue) =>

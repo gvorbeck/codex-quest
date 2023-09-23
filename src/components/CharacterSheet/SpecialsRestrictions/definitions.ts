@@ -1,6 +1,5 @@
 import { CharacterData } from "../../definitions";
 
-export interface SpecialsRestrictionsProps {
+export type SpecialsRestrictionsProps = {
   characterData: CharacterData;
-  className?: string;
-}
+};

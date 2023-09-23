@@ -7,6 +7,7 @@ import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
 import { ExperiencePointsProps } from "./definitions";
 import { classes } from "../../../../data/classes";
 import { ClassNames } from "../../../../data/definitions";
+import classNames from "classnames";
 
 export default function ExperiencePoints({
   characterData,
@@ -14,7 +15,7 @@ export default function ExperiencePoints({
   userIsOwner,
   showLevelUpModal,
   className,
-}: ExperiencePointsProps) {
+}: ExperiencePointsProps & React.ComponentPropsWithRef<"div">) {
   const [prevValue, setPrevValue] = useState(characterData.xp.toString());
 
   const [inputValue, setInputValue] = useState(characterData.xp.toString());
@@ -102,8 +103,10 @@ export default function ExperiencePoints({
     updateXP();
   }, [characterData.xp]);
 
+  const experiencePointsClassNames = classNames("flex", className);
+
   return (
-    <div className={`${className} flex`}>
+    <div className={experiencePointsClassNames}>
       <Space.Compact>
         <Input
           value={inputValue}
