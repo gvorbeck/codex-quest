@@ -3,10 +3,10 @@ import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import { CharacterData } from "../components/definitions";
 import { FormEvent } from "react";
 
-interface ModalProps {
+export type ModalProps = {
   handleCancel: () => void;
   characterData?: CharacterData;
-}
+};
 
 export interface LevelUpModalProps extends ModalProps {
   isLevelUpModalOpen: boolean;
@@ -61,13 +61,6 @@ export interface SpellCheckboxGroupProps {
   setCheckedSpells: (checkedSpells: string[]) => void;
   checkedSpellsCount: number[];
   setCheckedSpellsCount: (checkedSpellsCount: number[]) => void;
-}
-
-export interface AttackModalProps extends ModalProps {
-  isAttackModalOpen: boolean;
-  attackBonus: number;
-  weapon?: EquipmentItem;
-  setCharacterData: (character: CharacterData) => void;
 }
 
 export interface CreateCharacterModalProps {
