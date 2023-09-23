@@ -1,6 +1,6 @@
-import { CharSteps } from "../definitions";
+import { CharacterDataStatePair } from "../../definitions";
 
-export interface CharAbilityScoreStepProps extends CharSteps {
+export interface CharAbilityScoreStepProps extends CharacterDataStatePair {
   setComboClass: (comboClass: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;
 }

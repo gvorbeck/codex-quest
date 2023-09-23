@@ -1,7 +1,6 @@
-import { SpellType } from "../../definitions";
-import { CharSteps } from "../definitions";
+import { CharacterDataStatePair, SpellType } from "../../definitions";
 
-export interface CharacterClassProps extends CharSteps {
+export interface CharacterClassProps extends CharacterDataStatePair {
   comboClass: boolean;
   setComboClass: (comboClass: boolean) => void;
   checkedClasses: string[];

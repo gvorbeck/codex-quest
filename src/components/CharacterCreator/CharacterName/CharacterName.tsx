@@ -6,12 +6,15 @@ import type { UploadFile } from "antd/es/upload/interface";
 import { storage, ref, uploadBytes } from "../../../firebase";
 import { getDownloadURL } from "firebase/storage";
 import { images } from "../../../assets/images/faces/imageAssets";
-import { CharSteps } from "../definitions";
 import { CharacterNameProps } from "./definitions";
 import DOMPurify from "dompurify";
 import AvatarPicker from "./AvatarPicker/AvatarPicker";
+import { CharacterDataStatePair } from "../../definitions";
 
-const StockAvatars = ({ setCharacterData, characterData }: CharSteps) => {
+const StockAvatars = ({
+  setCharacterData,
+  characterData,
+}: CharacterDataStatePair) => {
   const [selectedAvatar, setSelectedAvatar] = useState("");
 
   return (

@@ -1,3 +1,3 @@
-import { CharSteps } from "../definitions";
+import { CharacterDataStatePair } from "../../definitions";
 
-export interface CharacterHitPointsProps extends CharSteps {}
+export interface CharacterHitPointsProps extends CharacterDataStatePair {}
