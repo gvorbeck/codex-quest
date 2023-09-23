@@ -1,3 +1,4 @@
+import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { SavingThrows } from "../../components/definitions";
 import { DiceTypes } from "../definitions";
 import { ClassNames } from "../definitions";
@@ -19,4 +20,6 @@ export interface RaceSetup {
   name: string;
   noLargeEquipment?: boolean;
   savingThrows?: Partial<SavingThrows>;
+  uniqueAttacks?: EquipmentItem[];
+  specialAbilitiesOverride?: any;
 }

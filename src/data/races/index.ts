@@ -8,6 +8,7 @@ import { halfElf } from "./halfElf";
 import { halfOgre } from "./halfOgre";
 import { halfOrc } from "./halfOrc";
 import { RaceNames } from "../definitions";
+import { bisren } from "./bisren";
 
 const customPlaceholder = {
   name: "Custom",
@@ -24,4 +25,5 @@ export const races: { [key in RaceNames]: RaceSetup } = {
   [RaceNames.HALFELF]: halfElf,
   [RaceNames.HALFOGRE]: halfOgre,
   [RaceNames.HALFORC]: halfOrc,
+  [RaceNames.BISREN]: bisren,
 };

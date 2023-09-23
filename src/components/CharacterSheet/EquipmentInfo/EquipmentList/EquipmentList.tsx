@@ -8,7 +8,8 @@ import ItemDescription from "./ItemDescription/ItemDescription";
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
-import { ClassNames } from "../../../../data/definitions";
+import { ClassNames, RaceNames } from "../../../../data/definitions";
+import { races } from "../../../../data/races";
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -152,6 +153,16 @@ export default function EquipmentList({
             handleAttack={handleAttack}
             handleCustomDelete={handleCustomDelete}
           />
+          {races[characterData.race as RaceNames]?.uniqueAttacks?.map(
+            (attack) => (
+              <ItemWrapper
+                item={attack}
+                handleAttackClick={handleAttackClick}
+                handleAttack={handleAttack}
+                handleCustomDelete={handleCustomDelete}
+              />
+            )
+          )}
           {characterData.class.map(
             (className) =>
               classes[className as ClassNames].powers?.map((power) => {
