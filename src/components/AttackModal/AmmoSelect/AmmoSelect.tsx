@@ -1,6 +1,5 @@
 import { Select } from "antd";
 import { AmmoSelectProps } from "./definitions";
-import { EquipmentItem } from "../../EquipmentStore/definitions";
 
 export default function AmmoSelect({
   ammo,
