@@ -1,11 +1,11 @@
 import { ClassNames } from "../../data/definitions";
-import { CharacterData } from "../definitions";
+import { CharacterData, SetCharacterData } from "../definitions";
 
 export type ClassName = ClassNames;
 
 export interface EquipmentStoreProps {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   inBuilder?: boolean;
 }
 

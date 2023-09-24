@@ -1,8 +1,8 @@
-import { CharacterData } from "../../../definitions";
+import { CharacterData, SetCharacterData } from "../../../definitions";
 
 export type CustomHitPointsPickerProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   customHitDice: string;
   setCustomHitDice: (customHitDice: string) => void;
 };

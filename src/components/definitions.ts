@@ -44,11 +44,11 @@ export type CharacterData = {
   xp: number;
 };
 
-export type setCharacterData = (characterData: CharacterData) => void;
+export type SetCharacterData = (characterData: CharacterData) => void;
 
 export interface CharacterDataStatePair {
   characterData: CharacterData;
-  setCharacterData: setCharacterData;
+  setCharacterData: SetCharacterData;
 }
 
 export type Capacity = { light: number; heavy: number };
