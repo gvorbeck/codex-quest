@@ -8,7 +8,6 @@ import { classes } from "../../../data/classes";
 import { ClassNames } from "../../../data/definitions";
 import React from "react";
 import SpecialAbilitiesFootnotes from "./SpecialAbilitiesFootnotes/SpecialAbilitiesFootnotes";
-import { getSpecialAbilityRaceOverrides } from "../../../support/helpers";
 
 export default function SpecialAbilitiesTable({
   characterLevel,

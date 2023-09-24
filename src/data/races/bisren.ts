@@ -33,11 +33,11 @@ export const bisren: RaceSetup = {
     [
       ClassNames.THIEF,
       {
-        "Open Locks": "Deduct 10% from this roll",
+        "Open Locks": "ADD 10% to this roll",
         "Remove Traps":
-          "Deduct 10% from this roll IF INDOORS, add 20% IF OUTDOORS",
-        "Pick Pockets": "Deduct 10% from this roll",
-        "Move Silently": "Deduct 20% from from this roll if IN DOORS/URBAN",
+          "ADD 10% to this roll IF INDOORS, DEDUCT 20% IF OUTDOORS",
+        "Pick Pockets": "ADD 10% to this roll",
+        "Move Silently": "ADD 20% to this roll if IN DOORS/URBAN SETTING",
       },
     ],
   ],
