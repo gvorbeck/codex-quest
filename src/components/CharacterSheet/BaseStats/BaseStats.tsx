@@ -66,11 +66,13 @@ export default function BaseStats({
           <Descriptions.Item label="Level">
             {characterData.level}
           </Descriptions.Item>
-          <Descriptions.Item label="Race">
-            {characterData.race}
+          <Descriptions.Item label="Race" className="cursor-pointer">
+            <div onClick={() => alert("foo")}>{characterData.race}</div>
           </Descriptions.Item>
-          <Descriptions.Item label="Class">
-            {characterData.class.join(" ")}
+          <Descriptions.Item label="Class" className="cursor-pointer">
+            <div onClick={() => alert("bar")}>
+              {characterData.class.join(" ")}
+            </div>
           </Descriptions.Item>
         </Descriptions>
       </div>
