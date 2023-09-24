@@ -7,10 +7,13 @@ import CloseIcon from "../../CloseIcon/CloseIcon";
 import { classes } from "../../../data/classes";
 import { ClassNames } from "../../../data/definitions";
 import React from "react";
+import SpecialAbilitiesFootnotes from "./SpecialAbilitiesFootnotes/SpecialAbilitiesFootnotes";
+import { getSpecialAbilityRaceOverrides } from "../../../support/helpers";
 
 export default function SpecialAbilitiesTable({
   characterLevel,
   characterClass,
+  characterRace,
   className,
 }: SpecialAbilitiesTableProps & React.ComponentPropsWithRef<"div">) {
   const dataSource: {}[] = [];
@@ -82,6 +85,10 @@ export default function SpecialAbilitiesTable({
           showHeader={false}
           size="small"
           className="cursor-pointer"
+        />
+        <SpecialAbilitiesFootnotes
+          characterRace={characterRace}
+          characterClass={characterClass as ClassNames}
         />
       </div>
     </>

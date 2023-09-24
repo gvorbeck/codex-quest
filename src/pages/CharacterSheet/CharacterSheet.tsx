@@ -44,7 +44,7 @@ import AttackModal from "../../components/AttackModal/AttackModal";
 // DATA
 import equipmentItems from "../../data/equipmentItems.json";
 import { classes } from "../../data/classes";
-import { ClassNames } from "../../data/definitions";
+import { ClassNames, RaceNames } from "../../data/definitions";
 // SUPPORT
 import { getCarryingCapacity } from "../../support/formatSupport";
 import { getClassType, getHitPointsModifier } from "../../support/helpers";
@@ -229,7 +229,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
     const carryingCapacity = getCarryingCapacity(
       +characterData.abilities.scores.strength,
-      characterData.race
+      characterData.race as RaceNames
     );
 
     const isWearing = (armorNames: string[]) => {
@@ -445,6 +445,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
                   className="md:col-start-3"
                   characterLevel={characterData.level}
                   characterClass={cls}
+                  characterRace={characterData.race as RaceNames}
                 />
               );
             }

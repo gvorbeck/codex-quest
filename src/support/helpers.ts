@@ -127,3 +127,6 @@ export const getHitPointsModifier = (classArr: string[]) => {
   }
   return modifier;
 };
+
+export const getSpecialAbilityRaceOverrides = (raceName: RaceNames) =>
+  races[raceName]?.specialAbilitiesOverride ?? [];
