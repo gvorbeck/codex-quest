@@ -4,6 +4,7 @@ import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import { BaseStatsProps } from "./definitions";
 import { extractImageName } from "../../../support/stringSupport";
 import { images } from "../../../assets/images/faces/imageAssets";
+import classNames from "classnames";
 
 export default function BaseStats({
   characterData,
@@ -24,6 +25,7 @@ export default function BaseStats({
   } else {
     image = characterData.avatar;
   }
+  const modalDescriptionsClassNames = classNames("[&+td]:cursor-pointer");
   return (
     <div>
       <div className="flex flex-col items-center mt-4 md:flex-row">
@@ -66,10 +68,16 @@ export default function BaseStats({
           <Descriptions.Item label="Level">
             {characterData.level}
           </Descriptions.Item>
-          <Descriptions.Item label="Race" className="cursor-pointer">
+          <Descriptions.Item
+            label="Race"
+            className={modalDescriptionsClassNames}
+          >
             <div onClick={() => alert("foo")}>{characterData.race}</div>
           </Descriptions.Item>
-          <Descriptions.Item label="Class" className="cursor-pointer">
+          <Descriptions.Item
+            label="Class"
+            className={modalDescriptionsClassNames}
+          >
             <div onClick={() => alert("bar")}>
               {characterData.class.join(" ")}
             </div>
