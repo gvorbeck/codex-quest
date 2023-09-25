@@ -141,7 +141,11 @@ export default function Description({
                 <Input.TextArea
                   key={index}
                   value={
-                    index === 0 && desc === "" ? placeholderSavingThrows : desc
+                    index === 0 &&
+                    desc === "" &&
+                    getClassType(characterData.class) === "custom"
+                      ? placeholderSavingThrows
+                      : desc
                   }
                   rows={10}
                   maxLength={10000}
