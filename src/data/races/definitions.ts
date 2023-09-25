@@ -8,6 +8,7 @@ export interface RaceSetup {
   allowedCombinationClasses?: ClassNames[];
   allowedStandardClasses: ClassNames[];
   altBaseAC?: number;
+  decrementHitDie?: boolean; // Use the next highest die type for hit points
   details: {
     description?: string;
     restrictions?: string[];
