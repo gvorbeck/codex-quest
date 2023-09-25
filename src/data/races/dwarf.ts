@@ -30,7 +30,7 @@ export const dwarf: RaceSetup = {
       "**Dwarves** are able to detect slanting passages, stonework traps, shifting walls and new construction on a roll of 1-2 on 1d6; a search must be performed before this roll may be made.",
     ],
     restrictions: [
-      "`**Dwarves** may not employ Large weapons more than four feet in length.",
+      "**Dwarves** may not employ Large weapons more than four feet in length.",
     ],
   },
 };
