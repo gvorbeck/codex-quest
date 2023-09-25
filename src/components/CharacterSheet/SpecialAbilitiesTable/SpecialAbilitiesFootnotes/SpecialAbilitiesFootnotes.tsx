@@ -15,7 +15,7 @@ export default function SpecialAbilitiesFootnotes({
     }
   });
   return matchingOverrides.map((override: [string, string]) => (
-    <div className="mt-2 italic">
+    <div className="mt-2 italic" key={override[1]}>
       <Typography.Text className="text-shipGray block">
         <div
           dangerouslySetInnerHTML={{
