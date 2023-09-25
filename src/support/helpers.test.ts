@@ -5,8 +5,12 @@ import {
   getHitPointsModifier,
   getSavingThrows,
   getSavingThrowsWeight,
+  getSpecialAbilityRaceOverrides,
   isStandardRace,
+  useDebounce,
 } from "./helpers";
+import React, { useState, useEffect } from "react";
+import { renderHook } from "@testing-library/react";
 
 describe("getClassType", () => {
   test('should return "none" if characterClass is an empty array', () => {
@@ -109,11 +113,23 @@ describe("getSavingThrowsWeight", () => {
   });
 });
 
-// This is a custom hook and can only be used inside the body of a function. A different test strategy is needed.
-// describe("useDebounce", () => {
-//   test("should returns a debounced value", () => {
-//     expect(useDebounce("foo", 100)).toBe("foo");
+// jest.mock("react", () => ({
+//   useState: jest.fn(),
+//   useEffect: jest.fn(),
+// }));
+
+// it("should debounce the value", async () => {
+//   const { result } = renderHook(() => {
+//     const debouncedValue = useDebounce("initial value", 100);
+
+//     return debouncedValue;
 //   });
+
+//   // Wait for the delay to pass.
+//   await new Promise((resolve) => setTimeout(resolve, 100));
+
+//   // Assert that the debouncedValue state is set correctly.
+//   expect(result.current).toBe("initial value");
 // });
 
 describe("getHitPointsModifier", () => {
@@ -133,5 +149,22 @@ describe("getHitPointsModifier", () => {
 
   test("should return a '0' modifier given an empty array", () => {
     expect(getHitPointsModifier([])).toBe(0);
+  });
+});
+
+describe("getSpecialAbilityRaceOverrides", () => {
+  test("should provide the overrides for a race that has them", () => {
+    expect(getSpecialAbilityRaceOverrides(RaceNames.BISREN)).toEqual([
+      [
+        "Thief",
+        {
+          "Move Silently": "ADD 20% to this roll if IN DOORS/URBAN SETTING",
+          "Open Locks": "ADD 10% to this roll",
+          "Pick Pockets": "ADD 10% to this roll",
+          "Remove Traps":
+            "ADD 10% to this roll IF INDOORS, DEDUCT 20% IF OUTDOORS",
+        },
+      ],
+    ]);
   });
 });
