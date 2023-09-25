@@ -11,6 +11,8 @@ import { RaceNames } from "../definitions";
 import { bisren } from "./bisren";
 import { canein } from "./canein";
 import { chelonian } from "./chelonian";
+import { faun } from "./faun";
+import { phaerim } from "./phaerim";
 
 const customPlaceholder: RaceSetup = {
   name: "Custom",
@@ -35,4 +37,6 @@ export const races: { [key in RaceNames]: RaceSetup } = {
   [RaceNames.BISREN]: bisren,
   [RaceNames.CANEIN]: canein,
   [RaceNames.CHELONIAN]: chelonian,
+  [RaceNames.FAUN]: faun,
+  [RaceNames.PHAERIM]: phaerim,
 };
