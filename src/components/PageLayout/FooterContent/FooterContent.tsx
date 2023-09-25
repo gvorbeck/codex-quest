@@ -16,8 +16,8 @@ export default function FooterContent({
   return (
     <div className={FooterContentClassNames}>
       <Typography.Paragraph>
-        © {new Date().getFullYear()} J. Garrett Vorbeck. All rights reserved.{" "}
-        {version}
+        © {new Date().getFullYear()} J. Garrett Vorbeck. All rights reserved.
+        CODEX.QUEST v{version}
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
