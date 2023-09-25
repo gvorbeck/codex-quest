@@ -1,6 +1,7 @@
 import { RadioChangeEvent } from "antd";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { CharacterData } from "../../definitions";
+import { AttackType } from "../definitions";
 
 export type WeaponTypeMissileProps = {
   handleSwitchChange: (switchChange: boolean) => void;
@@ -10,7 +11,7 @@ export type WeaponTypeMissileProps = {
   attackingWeapon: EquipmentItem;
   characterData: CharacterData | undefined;
   damage: (roll: string, ammo?: string) => void;
-  attack: (type: "melee" | "missile") => void;
+  attack: (type: AttackType) => void;
   ammo: EquipmentItem | undefined;
   setAmmo: React.Dispatch<React.SetStateAction<EquipmentItem | undefined>>;
   handleCancel: () => void;

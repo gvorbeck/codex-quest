@@ -1,6 +1,6 @@
-import { CharacterData } from "../../../definitions";
+import { CharacterData, SetCharacterData } from "../../../definitions";
 
 export type CustomClassStartingSpellsProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
 };

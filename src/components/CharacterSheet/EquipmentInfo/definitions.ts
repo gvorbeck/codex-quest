@@ -1,15 +1,14 @@
 import { EquipmentItem } from "../../EquipmentStore/definitions";
-import { CharacterData } from "../../definitions";
+import { CharacterData, SetCharacterData } from "../../definitions";
 
 export interface EquipmentInfoProps {
   userIsOwner: boolean;
   showAddEquipmentModal: () => void;
   showAddCustomEquipmentModal: () => void;
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   handleCustomDelete: (item: EquipmentItem) => void;
   setWeapon?: (weapon: EquipmentItem) => void;
   showAttackModal?: () => void;
   updateAC: () => void;
-  className?: string;
 }

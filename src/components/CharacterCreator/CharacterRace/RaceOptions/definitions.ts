@@ -1,8 +1,8 @@
-import { CharacterData } from "../../../definitions";
+import { CharacterData, SetCharacterData } from "../../../definitions";
 
 export type RaceOptionsProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   setComboClass: (comboClass: boolean) => void;
   setShowCustomRaceInput: (showCustomRaceInput: boolean) => void;
   setCheckedClasses: (checkedClasses: string[]) => void;

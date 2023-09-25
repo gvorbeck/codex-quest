@@ -1,7 +1,8 @@
 import { Descriptions } from "antd";
-import { WeaponKeysProps } from "./definitions";
 
-export default function WeaponKeys({ className }: WeaponKeysProps) {
+export default function WeaponKeys({
+  className,
+}: React.ComponentPropsWithRef<"div">) {
   return (
     <Descriptions size="small" column={1} className={className}>
       <Descriptions.Item label="**">

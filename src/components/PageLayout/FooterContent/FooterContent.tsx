@@ -1,11 +1,12 @@
 import React from "react";
 import { Typography } from "antd";
-import { FooterContentProps } from "./definitions";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { version, bfrpgRelease, bfrpgEdition } from "../../../../package.json";
 
-export default function FooterContent({ className }: FooterContentProps) {
+export default function FooterContent({
+  className,
+}: React.ComponentPropsWithRef<"div">) {
   const FooterContentClassNames = classNames(
     className,
     "[&_*]:text-springWood",
@@ -15,8 +16,15 @@ export default function FooterContent({ className }: FooterContentProps) {
   return (
     <div className={FooterContentClassNames}>
       <Typography.Paragraph>
-        © {new Date().getFullYear()} J. Garrett Vorbeck. All rights reserved.{" "}
-        {version}
+        © {new Date().getFullYear()}{" "}
+        <a
+          href="https://iamgarrett.com"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          J. Garrett Vorbeck
+        </a>
+        . All rights reserved. CODEX.QUEST v{version}
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
@@ -25,7 +33,7 @@ export default function FooterContent({ className }: FooterContentProps) {
           rel="noreferrer noopener"
           target="_blank"
         >
-          Basic Fantasy Role-Playing Game created by Chris Gonnerman
+          Basic Fantasy Role-Playing Game
         </a>{" "}
         and is current to {bfrpgEdition} Edition (release {bfrpgRelease}).
       </Typography.Paragraph>

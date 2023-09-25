@@ -1,7 +1,9 @@
+import { RaceNames } from "../../../data/definitions";
+
 export interface SpecialAbilitiesTableProps {
   characterLevel: number;
   characterClass: string;
-  className?: string;
+  characterRace: RaceNames;
 }
 
 export interface AbilitiesArray {

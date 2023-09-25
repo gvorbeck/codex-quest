@@ -16,6 +16,7 @@ export const gnome: RaceSetup = {
     ClassNames.NECROMANCER,
     ClassNames.PALADIN,
   ],
+  hasLowCapacity: true,
   allowedCombinationClasses: [ClassNames.MAGICUSER, ClassNames.THIEF],
   noLargeEquipment: true,
   minimumAbilityRequirements: { constitution: 9 },

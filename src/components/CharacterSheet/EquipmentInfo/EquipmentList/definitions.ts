@@ -1,9 +1,9 @@
 import { EquipmentItem } from "../../../EquipmentStore/definitions";
-import { CharacterData } from "../../../definitions";
+import { CharacterData, SetCharacterData } from "../../../definitions";
 
 export interface EquipmentListProps {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   categories: string[];
   handleCustomDelete: (item: EquipmentItem) => void;
   handleAttack?: boolean;

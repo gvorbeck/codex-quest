@@ -40,7 +40,7 @@ const renderEquipmentList = (classNameArray: ClassNames[]) => {
 export default function EquipmentInventory({
   className,
   characterData,
-}: EquipmentInventoryProps) {
+}: EquipmentInventoryProps & React.ComponentPropsWithRef<"div">) {
   const groupedEquipment = useMemo(() => {
     return characterData.equipment.reduce(
       (grouped: Record<string, EquipmentItem[]>, item: EquipmentItem) => {

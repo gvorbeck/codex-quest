@@ -1,8 +1,8 @@
-import { CharacterData } from "../../../definitions";
+import { CharacterData, SetCharacterData } from "../../../definitions";
 
 export type CustomClassInputProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   customClassInput: string;
   setCustomClassInput: (customClassInput: string) => void;
 };

@@ -1,7 +1,7 @@
-import { CharacterData } from "../../../definitions";
+import { CharacterData, SetCharacterData } from "../../../definitions";
 
 export type HitPointsRollerProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   customHitDice: string;
 };

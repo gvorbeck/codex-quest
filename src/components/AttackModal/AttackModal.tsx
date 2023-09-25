@@ -2,7 +2,6 @@ import { Modal, RadioChangeEvent, Typography, notification } from "antd";
 import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../CloseIcon/CloseIcon";
-import { AttackModalProps } from "../../modals/definitions";
 import equipmentItems from "../../data/equipmentItems.json";
 import { EquipmentItem } from "../EquipmentStore/definitions";
 import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
@@ -12,6 +11,7 @@ import { CharacterData } from "../definitions";
 import { races } from "../../data/races";
 import { classes } from "../../data/classes";
 import { ClassNames, RaceNames } from "../../data/definitions";
+import { AttackModalProps, AttackType } from "./definitions";
 
 const roller = new DiceRoller();
 
@@ -22,7 +22,7 @@ export default function AttackModal({
   characterData,
   setCharacterData,
   weapon,
-}: AttackModalProps) {
+}: AttackModalProps & React.ComponentPropsWithRef<"div">) {
   const [isMissile, setisMissile] = useState(false);
   const [missileRangeBonus, setMissileRangeBonus] = useState(0);
   const [ammo, setAmmo] = useState<EquipmentItem | undefined>(undefined);
@@ -110,7 +110,7 @@ export default function AttackModal({
     } as CharacterData);
   };
 
-  const attack = (type: "melee" | "missile", missile?: EquipmentItem) => {
+  const attack = (type: AttackType, missile?: EquipmentItem) => {
     let roll = "1d20";
 
     if (characterData) {

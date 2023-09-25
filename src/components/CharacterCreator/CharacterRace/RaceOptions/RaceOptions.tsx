@@ -15,6 +15,7 @@ export default function RaceOptions({
   customRaceInput,
 }: RaceOptionsProps) {
   const onChange = (e: RadioChangeEvent) => {
+    console.log(races[e.target.value as RaceNames]);
     if (e.target.value === "Custom") setShowCustomRaceInput(true);
     else setShowCustomRaceInput(false);
     const selectedRace = e.target.value.toString() as keyof typeof RaceNames;

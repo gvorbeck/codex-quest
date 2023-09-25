@@ -16,7 +16,7 @@ export default function EquipmentInfo({
   showAttackModal,
   updateAC,
   className,
-}: EquipmentInfoProps) {
+}: EquipmentInfoProps & React.ComponentPropsWithRef<"div">) {
   const equipmentListCategories = {
     weapons: [
       "weapons",

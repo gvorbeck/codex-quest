@@ -6,5 +6,4 @@ export interface EquipmentAccordionProps {
   onAmountChange: (item?: EquipmentItem) => void;
   onCheckboxCheck: (item?: EquipmentItem) => void;
   onRadioCheck: (item?: EquipmentItem) => void;
-  className?: string;
 }

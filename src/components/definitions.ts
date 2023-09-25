@@ -23,7 +23,7 @@ interface SpecialRestriction {
   class: string[];
 }
 
-export interface CharacterData {
+export type CharacterData = {
   abilities: Abilities;
   avatar: string;
   class: string[];
@@ -42,6 +42,13 @@ export interface CharacterData {
   wearing?: { armor: string; shield: string };
   weight: number;
   xp: number;
+};
+
+export type SetCharacterData = (characterData: CharacterData) => void;
+
+export interface CharacterDataStatePair {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
 }
 
 export type Capacity = { light: number; heavy: number };

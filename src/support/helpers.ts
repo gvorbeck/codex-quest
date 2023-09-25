@@ -7,44 +7,51 @@ import { classes } from "../data/classes";
 import { ClassNames, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
 import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
+import { CharacterData, SetCharacterData } from "../components/definitions";
+import equipmentItems from "../data/equipmentItems.json";
 
 export const getClassType = (characterClass: string[]) => {
+  // NONE
   if (
-    characterClass === undefined ||
     characterClass.length === 0 ||
-    characterClass[0] === ""
+    characterClass.every((className) => className === "")
   )
     return "none";
-  // If characterClass is an array with more than one element return "combination"
-  if (characterClass.length > 1) return "combination";
-  // If characterClass[0] is a string with a space, and each piece is a documented class, return "combination"
-  if (characterClass.length === 1 && characterClass[0].indexOf(" ") > -1) {
-    const newArr = characterClass[0].split(" ");
-    // Make sure every value in the array is in the ClassNames enum
-    if (
-      newArr.every((className) =>
-        Object.values(ClassNames).includes(className as ClassNames)
-      )
-    )
-      return "combination";
+
+  // STANDARD
+  if (
+    characterClass.length === 1 &&
+    characterClass.every((className) => isStandardClass(className))
+  ) {
+    return "standard";
   }
 
-  // if characterClass[0] is in `ClassNames` enum return "standard"
-  if (Object.values(ClassNames).includes(characterClass[0] as ClassNames))
-    return "standard";
+  // COMBINATION
+  if (
+    characterClass.length === 1 &&
+    characterClass[0]
+      .split(" ")
+      .every((className) => isStandardClass(className))
+  ) {
+    return "combination";
+  }
 
+  if (
+    characterClass.length > 1 &&
+    characterClass.every((className) => isStandardClass(className))
+  ) {
+    return "combination";
+  }
+
+  // CUSTOM
   return "custom";
 };
 
-export const isStandardRace = (characterRace: string) => {
-  // Check if the race is a standard race
-  const isStandard = Object.values(RaceNames).includes(
-    characterRace as RaceNames
-  );
+export const isStandardClass = (className: string) =>
+  Object.values(ClassNames).includes(className as ClassNames);
 
-  // Return true if it's a standard race, false otherwise
-  return isStandard;
-};
+export const isStandardRace = (raceName: string) =>
+  Object.values(RaceNames).includes(raceName as RaceNames);
 
 export function getDisabledClasses(
   raceKey: RaceNames,
@@ -121,4 +128,64 @@ export const getHitPointsModifier = (classArr: string[]) => {
     }
   }
   return modifier;
+};
+
+export const getSpecialAbilityRaceOverrides = (raceName: RaceNames) =>
+  races[raceName]?.specialAbilitiesOverride ?? [];
+
+export // ARMOR CLASS (AC)
+const getArmorClass = (
+  characterData: CharacterData,
+  setCharacterData: SetCharacterData,
+  type: "missile" | "melee" = "melee"
+) => {
+  if (!characterData) return;
+
+  let armorClass = races[characterData.race as RaceNames]?.altBaseAC || 11;
+  let armorAC = 0;
+  let shieldAC = 0;
+
+  if (!characterData.wearing) {
+    setCharacterData({
+      ...characterData,
+      wearing: { armor: "", shield: "" },
+    });
+  } else {
+    armorAC = Number(
+      equipmentItems.filter(
+        (item) => item.name === characterData.wearing?.armor
+      )[0]?.AC ||
+        characterData.equipment.filter(
+          (item) => item.name === characterData.wearing?.armor
+        )[0]?.AC ||
+        0
+    );
+    if (type === "melee") {
+      shieldAC = Number(
+        equipmentItems.filter(
+          (item) => item.name === characterData.wearing?.shield
+        )[0]?.AC ||
+          characterData.equipment.filter(
+            (item) => item.name === characterData.wearing?.shield
+          )[0]?.AC ||
+          0
+      );
+    } else {
+      shieldAC = Number(
+        equipmentItems.filter(
+          (item) => item.name === characterData.wearing?.shield
+        )[0]?.missileAC ||
+          characterData.equipment.filter(
+            (item) => item.name === characterData.wearing?.shield
+          )[0]?.missileAC ||
+          0
+      );
+    }
+    armorClass =
+      armorAC + shieldAC > armorClass + shieldAC
+        ? armorAC + shieldAC
+        : armorClass + shieldAC;
+  }
+
+  return armorClass;
 };

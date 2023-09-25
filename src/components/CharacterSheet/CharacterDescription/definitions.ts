@@ -1,14 +1,7 @@
-import { ReactNode } from "react";
-import { CharacterData } from "../../definitions";
+import { CharacterData, SetCharacterData } from "../../definitions";
 
 export type CharacterDescriptionProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   userIsOwner: boolean;
-};
-
-export type DescriptionFieldButtonProps = {
-  handler: (event: React.MouseEvent<HTMLElement>) => void;
-  icon: ReactNode;
-  className?: string;
 };

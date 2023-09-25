@@ -4,7 +4,7 @@ import { HomebrewWarningProps } from "./definitions";
 export default function HomebrewWarning({
   homebrew,
   className,
-}: HomebrewWarningProps) {
+}: HomebrewWarningProps & React.ComponentPropsWithRef<"div">) {
   return (
     <Typography.Text
       type="warning"

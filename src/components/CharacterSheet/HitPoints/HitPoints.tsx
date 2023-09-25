@@ -11,7 +11,7 @@ export default function HitPoints({
   setCharacterData,
   className,
   userIsOwner,
-}: HitPointsProps) {
+}: HitPointsProps & React.ComponentPropsWithRef<"div">) {
   const [prevValue, setPrevValue] = useState(
     characterData.hp.points.toString()
   );

@@ -11,7 +11,7 @@ export default function AttackButtons({
   ammo,
   isMissile,
   handleCancel,
-}: AttackButtonsProps) {
+}: AttackButtonsProps & React.ComponentPropsWithRef<"div">) {
   const [isDmgBtnDisabled, setIsDmgBtnDisabled] = useState(true);
   const isButtonDisabled =
     type === "missile" && isMissile && !ammo && !weapon.damage;

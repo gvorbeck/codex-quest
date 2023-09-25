@@ -1,11 +1,11 @@
 import { EquipmentItem } from "../../EquipmentStore/definitions";
+import { AttackType } from "../definitions";
 
 export type AttackButtonsProps = {
   weapon: EquipmentItem;
   damage?: (damage: string) => void;
-  attack: (attack: "melee" | "missile") => void;
-  type: "melee" | "missile";
-  className?: string;
+  attack: (attack: AttackType) => void;
+  type: AttackType;
   ammo?: EquipmentItem;
   isMissile?: boolean;
   handleCancel: () => void;

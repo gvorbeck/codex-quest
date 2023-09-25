@@ -1,8 +1,8 @@
-import { CharacterData } from "../../definitions";
+import { CharacterData, SetCharacterData } from "../../definitions";
 
 export type GoldRollerProps = {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   goldInputValue: number;
   setGoldInputValue: (goldInputValue: number) => void;
 };

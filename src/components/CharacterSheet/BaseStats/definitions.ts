@@ -1,8 +1,8 @@
-import { CharacterData } from "../../definitions";
+import { CharacterData, SetCharacterData } from "../../definitions";
 
 export interface BaseStatsProps {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   userIsOwner?: boolean;
   showLevelUpModal?: () => void;
 }

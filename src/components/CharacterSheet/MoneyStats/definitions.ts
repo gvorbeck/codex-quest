@@ -1,9 +1,8 @@
-import { CharacterData } from "../../definitions";
+import { CharacterData, SetCharacterData } from "../../definitions";
 
 export interface MoneyStatsProps {
   characterData: CharacterData;
-  setCharacterData: (characterData: CharacterData) => void;
+  setCharacterData: SetCharacterData;
   userIsOwner: boolean;
   makeChange: () => { gp: number; sp: number; cp: number };
-  className?: string;
 }

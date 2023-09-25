@@ -12,7 +12,7 @@ export default function MoneyStats({
   userIsOwner,
   makeChange,
   className,
-}: MoneyStatsProps) {
+}: MoneyStatsProps & React.ComponentPropsWithRef<"div">) {
   const { gp, sp, cp } = makeChange();
   const [goldValue, setGoldValue] = useState(gp.toString());
   const [silverValue, setSilverValue] = useState(sp.toString());

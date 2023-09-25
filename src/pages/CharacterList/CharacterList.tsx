@@ -10,7 +10,10 @@ import CharacterCard from "../../components/CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
 
-export default function CharacterList({ user, className }: CharacterListProps) {
+export default function CharacterList({
+  user,
+  className,
+}: CharacterListProps & React.ComponentPropsWithRef<"div">) {
   const outletContext = useOutletContext() as { className: string };
   const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);

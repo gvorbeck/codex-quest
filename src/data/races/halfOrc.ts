@@ -3,22 +3,7 @@ import { RaceSetup } from "./definitions";
 
 export const halfOrc: RaceSetup = {
   name: "Half-Orc",
-  allowedStandardClasses: [
-    ClassNames.CLERIC,
-    ClassNames.CUSTOM,
-    ClassNames.DRUID,
-    ClassNames.FIGHTER,
-    ClassNames.BARBARIAN,
-    ClassNames.ILLUSIONIST,
-    ClassNames.MAGICUSER,
-    ClassNames.SPELLCRAFTER,
-    ClassNames.THIEF,
-    ClassNames.ASSASSIN,
-    ClassNames.NECROMANCER,
-    ClassNames.RANGER,
-    ClassNames.PALADIN,
-    ClassNames.SCOUT,
-  ],
+  allowedStandardClasses: [...(Object.values(ClassNames) as ClassNames[])],
   minimumAbilityRequirements: { constitution: 9 },
   maximumAbilityRequirements: { intelligence: 17 },
   savingThrows: { deathRayOrPoison: 1 },

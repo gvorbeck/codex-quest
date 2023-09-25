@@ -40,6 +40,15 @@ button span {
   color: rgba(0, 0, 0, 0.75) !important;
 }
 
+.ant-tabs-tab > div {
+  padding: 0.25rem 0.5rem;
+}
+.ant-tabs-tab-active > div {
+  background: theme("colors.shipGray") !important;
+  border-radius: 0.5rem;
+  color: theme("colors.springWood") !important;
+}
+
 @font-face {
   font-family: "Enchant";
   src: url("assets/fonts/Enchant.ttf") format("truetype");

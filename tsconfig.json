@@ -15,8 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true,
-    "types": ["vite/client", "vite-plugin-svgr/client"]
+    "downlevelIteration": true
+    // "types": ["vite/client", "vite-plugin-svgr/client"]
   },
   "include": ["src"],
   "types": ["vite/client", "vite-plugin-svgr/client"]

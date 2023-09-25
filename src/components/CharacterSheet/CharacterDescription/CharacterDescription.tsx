@@ -1,17 +1,14 @@
-import { Button, Input, Tooltip, Typography } from "antd";
+import { Input, Typography } from "antd";
 import { useEffect, useState, useRef, FC } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import {
-  CharacterDescriptionProps,
-  DescriptionFieldButtonProps,
-} from "./definitions";
+import { CharacterDescriptionProps } from "./definitions";
 import DOMPurify from "dompurify";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import classNames from "classnames";
 import { getClassType } from "../../../support/helpers";
+import DescriptionFieldButton from "./DescriptionFieldButton/DescriptionFieldButton";
 
 export default function Description({
   characterData,
@@ -26,20 +23,6 @@ export default function Description({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [textAreaValues, setTextAreaValues] = useState<string[]>(initialDesc);
   const placeholderSavingThrows = `"${characterData.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
-
-  // Button component for adding and deleting text fields
-  const DescriptionFieldButton: FC<DescriptionFieldButtonProps> = ({
-    handler,
-    icon,
-    className,
-  }) => {
-    const buttonClassNames = classNames("absolute", "left-0", className);
-    return (
-      <Tooltip title="Add text field" className={buttonClassNames}>
-        <Button type="primary" shape="circle" icon={icon} onClick={handler} />
-      </Tooltip>
-    );
-  };
 
   // Function to update the database
   const updateDatabase = async () => {
@@ -158,7 +141,11 @@ export default function Description({
                 <Input.TextArea
                   key={index}
                   value={
-                    index === 0 && desc === "" ? placeholderSavingThrows : desc
+                    index === 0 &&
+                    desc === "" &&
+                    getClassType(characterData.class) === "custom"
+                      ? placeholderSavingThrows
+                      : desc
                   }
                   rows={10}
                   maxLength={10000}
