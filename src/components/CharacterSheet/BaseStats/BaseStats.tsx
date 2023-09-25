@@ -57,7 +57,7 @@ export default function BaseStats({
       <div>
         {classNames.map((className: ClassNames) => {
           return (
-            <div>
+            <div key={className}>
               <Typography.Title level={3} className="text-shipGray">
                 {className}
               </Typography.Title>
