@@ -52,5 +52,5 @@ export const getCarryingCapacity = (
     range = "18";
   }
 
-  return races[race].hasLowCapacity ? lowCapacities[range] : capacities[range];
+  return races[race]?.hasLowCapacity ? lowCapacities[range] : capacities[range];
 };
