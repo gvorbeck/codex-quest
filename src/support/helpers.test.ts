@@ -1,5 +1,6 @@
 import { ClassNames, RaceNames } from "../data/definitions";
 import {
+  getArmorClass,
   getClassType,
   getDisabledClasses,
   getHitPointsModifier,
@@ -11,6 +12,91 @@ import {
 } from "./helpers";
 import React, { useState, useEffect } from "react";
 import { renderHook } from "@testing-library/react";
+import { CharacterData } from "../components/definitions";
+
+let characterData: CharacterData = {
+  savingThrows: {
+    dragonBreath: 0,
+    paralysisOrPetrify: 0,
+    magicWands: 0,
+    spells: 0,
+    deathRayOrPoison: 0,
+  },
+  desc: [""],
+  xp: 0,
+  // Commented out for testing purposes
+  // wearing: {
+  //   armor: "",
+  //   shield: "",
+  // },
+  name: "asd",
+  equipment: [
+    {
+      AC: 15,
+      costValue: 80,
+      category: "armor",
+      name: "Brigandine Armor",
+      weight: 30,
+      amount: 1,
+      costCurrency: "gp",
+    },
+  ],
+  weight: 30,
+  hp: {
+    points: 8,
+    dice: "d8",
+    desc: "",
+    max: 8,
+  },
+  race: "Foo",
+  restrictions: {
+    class: [],
+    race: [],
+  },
+  gold: 0,
+  spells: [
+    {
+      level: {
+        paladin: 2,
+        "magic-user": null,
+        cleric: 2,
+        necromancer: null,
+        illusionist: null,
+        druid: 2,
+      },
+      description:
+        "This spell allows the caster to charm one or more animals, in much the same fashion as charm person, at a rate of 1 hit die per caster level. The caster may decide which individual animals out of a mixed group are to be affected first; excess hit dice of effect are ignored. No saving throw is allowed, either for normal or giant-sized animals, but creatures of more fantastic nature (as determined by the GM) are allowed a save vs. Spells to resist. When the duration expires, the animals will resume normal activity immediately. \n\nThis spell does not grant the caster any special means of communication with the affected animals; if combined with speak with animals, this spell becomes significantly more useful.",
+      duration: "level+1d4 rounds",
+      range: "60'",
+      name: "Charm Animal",
+    },
+  ],
+  avatar: "",
+  level: 1,
+  specials: {
+    class: [],
+    race: [],
+  },
+  class: ["Bar"],
+  abilities: {
+    modifiers: {
+      charisma: "+0",
+      constitution: "+0",
+      wisdom: "+0",
+      strength: "+1",
+      intelligence: "+1",
+      dexterity: "+0",
+    },
+    scores: {
+      intelligence: 13,
+      strength: 13,
+      charisma: 12,
+      constitution: 10,
+      dexterity: 10,
+      wisdom: 11,
+    },
+  },
+};
 
 describe("getClassType", () => {
   test('should return "none" if characterClass is an empty array', () => {
@@ -166,5 +252,36 @@ describe("getSpecialAbilityRaceOverrides", () => {
         },
       ],
     ]);
+  });
+});
+
+describe("getArmorClass", () => {
+  test("a normal starting AC", () => {
+    expect(getArmorClass(characterData, () => console.log("ignore"))).toBe(11);
+  });
+
+  test("a race with a non-normal starting AC", () => {
+    characterData.race = RaceNames.CHELONIAN;
+    expect(getArmorClass(characterData, () => console.log("ignore"))).toBe(13);
+  });
+
+  test("a character with a properly formatted `wearing` property", () => {
+    characterData.wearing = {
+      armor: "",
+      shield: "",
+    };
+    expect(getArmorClass(characterData, () => console.log("ignore"))).toBe(13);
+  });
+
+  test("a 'melee' type", () => {
+    expect(
+      getArmorClass(characterData, () => console.log("ignore"), "melee")
+    ).toBe(13);
+  });
+
+  test("a 'missile' type", () => {
+    expect(
+      getArmorClass(characterData, () => console.log("ignore"), "missile")
+    ).toBe(13);
   });
 });
