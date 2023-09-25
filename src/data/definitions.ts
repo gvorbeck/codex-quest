@@ -45,6 +45,7 @@ export enum RaceNames {
   HALFOGRE = "Half-Ogre",
   HALFORC = "Half-Orc",
   BISREN = "Bisren",
+  CANEIN = "Canein",
 }
 
 export interface SpellLevels {

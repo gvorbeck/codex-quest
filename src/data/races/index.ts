@@ -9,10 +9,16 @@ import { halfOgre } from "./halfOgre";
 import { halfOrc } from "./halfOrc";
 import { RaceNames } from "../definitions";
 import { bisren } from "./bisren";
+import { canein } from "./canein";
 
-const customPlaceholder = {
+const customPlaceholder: RaceSetup = {
   name: "Custom",
   allowedStandardClasses: [],
+  details: {
+    description: "",
+    specials: [],
+    restrictions: [],
+  },
 };
 
 export const races: { [key in RaceNames]: RaceSetup } = {
@@ -26,4 +32,5 @@ export const races: { [key in RaceNames]: RaceSetup } = {
   [RaceNames.HALFOGRE]: halfOgre,
   [RaceNames.HALFORC]: halfOrc,
   [RaceNames.BISREN]: bisren,
+  [RaceNames.CANEIN]: canein,
 };

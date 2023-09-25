@@ -7,7 +7,7 @@ export interface RaceSetup {
   additionalAttackBonus?: string; // Ex: "+1"
   allowedCombinationClasses?: ClassNames[];
   allowedStandardClasses: ClassNames[];
-  details?: {
+  details: {
     description?: string;
     restrictions?: string[];
     specials?: string[];
