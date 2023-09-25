@@ -33,43 +33,40 @@ const EquipmentItemDescription = (item: EquipmentItem) => (
 );
 
 const itemIsDisabled = (
-  className: ClassNames[],
+  classNames: ClassNames[],
   raceName: RaceNames,
   item: EquipmentItem
 ) => {
-  if (getClassType(className) === "custom") return false;
-  className.forEach((classPiece) => {
-    const specificEquipmentItems =
-      classes[classPiece as ClassNames].specificEquipmentItems;
-
-    if (specificEquipmentItems) {
-      if (specificEquipmentItems[0].includes(item.category)) {
-        if (
-          specificEquipmentItems[1].some((specificItem) =>
-            item.name.toLowerCase().includes(specificItem)
-          )
-        ) {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    // If Race or Class has noLargeEquipment and item is Large
-    if (
-      (races[raceName].noLargeEquipment ||
-        className.some(
-          (classValue) => classes[classValue]?.noLargeEquipment
-        )) &&
-      item.size === "L"
-    )
-      return true;
-
+  // Nothing disabled for custom classes
+  if (getClassType(classNames) === "custom") return false;
+  // Races that do not allow large equipment
+  if (races[raceName]?.noLargeEquipment && item.size === "L") return true;
+  // Classes that do not allow large equipment
+  if (
+    classNames.some((className) => classes[className].noLargeEquipment) &&
+    item.size === "L"
+  ) {
     return true;
+  }
+  let disabled = false;
+  classNames.forEach((className) => {
+    if (classes[className].specificEquipmentItems) {
+      const specificEquipmentItems = classes[className]
+        .specificEquipmentItems || [[], []];
+
+      // if the item category is listed in specificEquipmentItems[0] AND the string in specificEquipmentItems[1] is not in the item name
+      if (
+        specificEquipmentItems[0].includes(item.category) &&
+        specificEquipmentItems[1].every(
+          (string) => !item.name.toLowerCase().includes(string)
+        )
+      ) {
+        disabled = true;
+      }
+    }
   });
+
+  return disabled;
 };
 
 export default function EquipmentAccordion({
