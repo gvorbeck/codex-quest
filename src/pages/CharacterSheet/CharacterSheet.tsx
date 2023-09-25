@@ -20,6 +20,7 @@ import {
   Skeleton,
   Typography,
 } from "antd";
+import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
 // CHARACTER SHEET COMPONENTS
 import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller/InitiativeRoller";
@@ -41,15 +42,17 @@ import DiceRollerModal from "../../modals/DiceRollerModal";
 import AddEquipmentModal from "../../modals/AddEquipmentModal";
 import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
 import AttackModal from "../../components/AttackModal/AttackModal";
+import CheatSheetModal from "../../modals/CheatSheetModal";
 // DATA
-import equipmentItems from "../../data/equipmentItems.json";
 import { classes } from "../../data/classes";
 import { ClassNames, RaceNames } from "../../data/definitions";
 // SUPPORT
 import { getCarryingCapacity } from "../../support/formatSupport";
-import { getClassType, getHitPointsModifier } from "../../support/helpers";
-import CheatSheetModal from "../../modals/CheatSheetModal";
-import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
+import {
+  getArmorClass,
+  getClassType,
+  getHitPointsModifier,
+} from "../../support/helpers";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -140,62 +143,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     });
 
     return maxAttackBonus;
-  };
-
-  // ARMOR CLASS (AC)
-  const getArmorClass = (
-    characterData: CharacterData,
-    type: "missile" | "melee" = "melee"
-  ) => {
-    if (!characterData) return;
-
-    let armorClass = 11;
-    let armorAC = 0;
-    let shieldAC = 0;
-
-    if (!characterData.wearing) {
-      setCharacterData({
-        ...characterData,
-        wearing: { armor: "", shield: "" },
-      });
-    } else {
-      armorAC = Number(
-        equipmentItems.filter(
-          (item) => item.name === characterData.wearing?.armor
-        )[0]?.AC ||
-          characterData.equipment.filter(
-            (item) => item.name === characterData.wearing?.armor
-          )[0]?.AC ||
-          0
-      );
-      if (type === "melee") {
-        shieldAC = Number(
-          equipmentItems.filter(
-            (item) => item.name === characterData.wearing?.shield
-          )[0]?.AC ||
-            characterData.equipment.filter(
-              (item) => item.name === characterData.wearing?.shield
-            )[0]?.AC ||
-            0
-        );
-      } else {
-        shieldAC = Number(
-          equipmentItems.filter(
-            (item) => item.name === characterData.wearing?.shield
-          )[0]?.missileAC ||
-            characterData.equipment.filter(
-              (item) => item.name === characterData.wearing?.shield
-            )[0]?.missileAC ||
-            0
-        );
-      }
-      armorClass =
-        armorAC + shieldAC > armorClass + shieldAC
-          ? armorAC + shieldAC
-          : armorClass + shieldAC;
-    }
-
-    return armorClass;
   };
 
   const updateAC = async () => {
@@ -290,7 +237,8 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   const showMissileAC =
     characterData &&
-    getArmorClass(characterData, "missile") !== getArmorClass(characterData);
+    getArmorClass(characterData, setCharacterData, "missile") !==
+      getArmorClass(characterData, setCharacterData);
 
   // GET CHARACTERDATA
   useEffect(() => {
@@ -398,10 +346,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* ARMOR CLASS */}
           <SimpleNumberStat
             title="Armor Class"
-            value={getArmorClass(characterData) || 0}
+            value={getArmorClass(characterData, setCharacterData) || 0}
             altValue={
               showMissileAC
-                ? getArmorClass(characterData, "missile")
+                ? getArmorClass(characterData, setCharacterData, "missile")
                 : undefined
             }
             helpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.${

@@ -7,6 +7,8 @@ import { classes } from "../data/classes";
 import { ClassNames, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
 import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
+import { CharacterData, SetCharacterData } from "../components/definitions";
+import equipmentItems from "../data/equipmentItems.json";
 
 export const getClassType = (characterClass: string[]) => {
   // NONE
@@ -130,3 +132,60 @@ export const getHitPointsModifier = (classArr: string[]) => {
 
 export const getSpecialAbilityRaceOverrides = (raceName: RaceNames) =>
   races[raceName]?.specialAbilitiesOverride ?? [];
+
+export // ARMOR CLASS (AC)
+const getArmorClass = (
+  characterData: CharacterData,
+  setCharacterData: SetCharacterData,
+  type: "missile" | "melee" = "melee"
+) => {
+  if (!characterData) return;
+
+  let armorClass = races[characterData.race as RaceNames]?.altBaseAC || 11;
+  let armorAC = 0;
+  let shieldAC = 0;
+
+  if (!characterData.wearing) {
+    setCharacterData({
+      ...characterData,
+      wearing: { armor: "", shield: "" },
+    });
+  } else {
+    armorAC = Number(
+      equipmentItems.filter(
+        (item) => item.name === characterData.wearing?.armor
+      )[0]?.AC ||
+        characterData.equipment.filter(
+          (item) => item.name === characterData.wearing?.armor
+        )[0]?.AC ||
+        0
+    );
+    if (type === "melee") {
+      shieldAC = Number(
+        equipmentItems.filter(
+          (item) => item.name === characterData.wearing?.shield
+        )[0]?.AC ||
+          characterData.equipment.filter(
+            (item) => item.name === characterData.wearing?.shield
+          )[0]?.AC ||
+          0
+      );
+    } else {
+      shieldAC = Number(
+        equipmentItems.filter(
+          (item) => item.name === characterData.wearing?.shield
+        )[0]?.missileAC ||
+          characterData.equipment.filter(
+            (item) => item.name === characterData.wearing?.shield
+          )[0]?.missileAC ||
+          0
+      );
+    }
+    armorClass =
+      armorAC + shieldAC > armorClass + shieldAC
+        ? armorAC + shieldAC
+        : armorClass + shieldAC;
+  }
+
+  return armorClass;
+};
