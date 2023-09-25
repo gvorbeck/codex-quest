@@ -1,10 +1,17 @@
-import { Avatar, Descriptions, Divider, Typography } from "antd";
+import { Avatar, Descriptions, Divider, Modal, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import { BaseStatsProps } from "./definitions";
 import { extractImageName } from "../../../support/stringSupport";
 import { images } from "../../../assets/images/faces/imageAssets";
 import classNames from "classnames";
+import { ReactNode, useState } from "react";
+import { marked } from "marked";
+import { isStandardClass, isStandardRace } from "../../../support/helpers";
+import { classes } from "../../../data/classes";
+import { ClassNames, RaceNames } from "../../../data/definitions";
+import CloseIcon from "../../CloseIcon/CloseIcon";
+import { races } from "../../../data/races";
 
 export default function BaseStats({
   characterData,
@@ -12,6 +19,68 @@ export default function BaseStats({
   userIsOwner,
   showLevelUpModal,
 }: BaseStatsProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState<ReactNode | undefined>(
+    undefined
+  );
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const getRaceModalContent = (raceName: RaceNames) =>
+    setModalContent(
+      <div>
+        <Typography.Title level={3} className="text-shipGray">
+          {raceName}
+        </Typography.Title>
+        {isStandardRace(raceName) ? (
+          <div
+            className="text-shipGray"
+            dangerouslySetInnerHTML={{
+              __html: marked(races[raceName].details?.description || ""),
+            }}
+          />
+        ) : (
+          <div className="text-shipGray">"{raceName}" is a custom race.</div>
+        )}
+      </div>
+    );
+
+  const getClassModalContent = (classNames: ClassNames[]) =>
+    setModalContent(
+      <div>
+        {classNames.map((className: ClassNames) => {
+          return (
+            <div>
+              <Typography.Title level={3} className="text-shipGray">
+                {className}
+              </Typography.Title>
+              {isStandardClass(className) ? (
+                <div
+                  className="text-shipGray"
+                  dangerouslySetInnerHTML={{
+                    __html: marked(
+                      classes[className].details?.description || ""
+                    ),
+                  }}
+                />
+              ) : (
+                <div className="text-shipGray">
+                  "{className}" is a custom class.
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+
   // Legacy characters created while the site was using Create React App will have broken image links that start with "/static/media/"
   // This code checks for that and replaces the broken link with the correct one
   let image = "";
@@ -72,18 +141,42 @@ export default function BaseStats({
             label="Race"
             className={modalDescriptionsClassNames}
           >
-            <div onClick={() => alert("foo")}>{characterData.race}</div>
+            <div
+              onClick={() => {
+                setModalTitle("Race");
+                getRaceModalContent(characterData.race as RaceNames);
+                showModal();
+              }}
+            >
+              {characterData.race}
+            </div>
           </Descriptions.Item>
           <Descriptions.Item
             label="Class"
             className={modalDescriptionsClassNames}
           >
-            <div onClick={() => alert("bar")}>
+            <div
+              onClick={() => {
+                setModalTitle("Class");
+                getClassModalContent(characterData.class as ClassNames[]);
+                showModal();
+              }}
+            >
               {characterData.class.join(" ")}
             </div>
           </Descriptions.Item>
         </Descriptions>
       </div>
+      <Modal
+        title={modalTitle}
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={false}
+        closeIcon={<CloseIcon />}
+        className="text-shipGray"
+      >
+        {modalContent}
+      </Modal>
     </div>
   );
 }
