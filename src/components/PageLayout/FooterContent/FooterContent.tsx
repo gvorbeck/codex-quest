@@ -26,7 +26,7 @@ export default function FooterContent({
           rel="noreferrer noopener"
           target="_blank"
         >
-          Basic Fantasy Role-Playing Game created by Chris Gonnerman
+          Basic Fantasy Role-Playing Game
         </a>{" "}
         and is current to {bfrpgEdition} Edition (release {bfrpgRelease}).
       </Typography.Paragraph>
