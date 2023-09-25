@@ -58,12 +58,17 @@ export default function CharacterHitPoints({
         dice = classDie as DiceTypes;
       }
     }
-    // If Race increments Class's Hit Die (Half-Ogre)
-    if (races[characterData.race as RaceNames]?.incrementHitDie) {
+    // If Race increments OR decrements Class's Hit Die
+    if (
+      races[characterData.race as RaceNames]?.incrementHitDie ||
+      races[characterData.race as RaceNames]?.decrementHitDie
+    ) {
       let index = Object.values(DiceTypes).indexOf(dice);
 
       // Increment the index, but make sure it doesn't exceed the bounds of the enum
-      index = Math.min(index + 1, Object.values(DiceTypes).length - 1);
+      races[characterData.race as RaceNames]?.incrementHitDie
+        ? (index = Math.min(index + 1, Object.values(DiceTypes).length - 1))
+        : (index = Math.min(index - 1, Object.values(DiceTypes).length - 1));
 
       // Assign the new dice value from the `DiceTypes` enum
       dice = Object.values(DiceTypes)[index] as DiceTypes;
