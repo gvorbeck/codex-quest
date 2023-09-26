@@ -28,19 +28,22 @@ export default function Welcome() {
             <a href="https://basicfantasy.org" target="_blank" rel="noreferrer">
               Basic Fantasy RPG
             </a>
-            . Designed with the player in mind, this platform streamlines
-            character creation, allowing you to dive into your adventures with
-            ease.
+            .
           </Typography.Paragraph>
           <Typography.Paragraph>
-            CODEX.QUEST provides an intuitive, user-friendly interface to craft
-            your unique character. From defining your character's abilities to
-            equipping them with the right gear, CODEX.QUEST ensures a seamless
-            and immersive gaming experience.
+            Designed with the player in mind, this platform streamlines
+            character creation, providing an intuitive, user-friendly interface
+            to craft your unique character. From defining your character's
+            abilities to equipping them with the right gear, CODEX.QUEST ensures
+            a seamless and immersive gaming experience.
           </Typography.Paragraph>
           <Typography.Paragraph>
-            Join us at CODEX.QUEST and let your epic journey in the world of
-            Basic Fantasy RPG begin!
+            CODEX.QUEST is not just a tool; it's a companion designed to guide
+            you on your characters' adventures. Make the most of your gaming
+            experience by letting CODEX.QUEST handle the complexities of
+            character management, giving you more time to dive into the
+            captivating narratives and thrilling encounters that BFRPG offers.
+            Best of all, it's 100% FREE!
           </Typography.Paragraph>
         </div>
         <div>
@@ -51,21 +54,30 @@ export default function Welcome() {
             Bring Your Characters to Life
           </Typography.Title>
           <Typography.Paragraph>
-            Developed specifically for BFRPG's 4th edition, our tool covers all
-            the basic races and classes, ensuring a comprehensive character
-            creation experience that is both versatile and detailed.
-          </Typography.Paragraph>
-          <Typography.Paragraph>
-            Whether you're a mighty Dwarf Fighter, a cunning Elf Magic-User, or
-            exploring the unique dynamics of combination classes, CODEX.QUEST
-            has you covered. Best of all, it's 100% FREE!
-          </Typography.Paragraph>
-          <Typography.Paragraph>
-            CODEX.QUEST is not just a tool; it's a companion designed to guide
-            you on your characters' adventures. Make the most of your gaming
-            experience by letting CODEX.QUEST handle the complexities of
-            character management, giving you more time to dive into the
-            captivating narratives and thrilling encounters that BFRPG offers.
+            <ul>
+              <li>
+                Create, store, and play as an infinite number of characters.
+              </li>
+              <li>
+                Access all the official races, classes, and equipment as well as
+                virtually all of the supplemental releases.
+              </li>
+              <li>
+                Go even further and create custom races and classes to bring
+                your unique character to life.
+              </li>
+              <li>
+                Roll initiative, attack, damage, saving throws, and special
+                abilities with our easy-to-use interface. Our Virtual Dice Tool
+                also lets you roll any other dice you need.
+              </li>
+              <li>
+                Manage your equipment, money, HP, bio, XP, conditions/wounds,
+                spells, and more.
+              </li>
+              <li>Share your characters with anyone using unique URLs.</li>
+              <li>More features being added all the time!</li>
+            </ul>
           </Typography.Paragraph>
         </div>
       </div>
