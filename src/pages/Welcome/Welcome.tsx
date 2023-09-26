@@ -67,6 +67,10 @@ export default function Welcome() {
                 your unique character to life.
               </li>
               <li>
+                Create and use custom equipment from your character's
+                adventures.
+              </li>
+              <li>
                 Roll initiative, attack, damage, saving throws, and special
                 abilities with our easy-to-use interface. Our Virtual Dice Tool
                 also lets you roll any other dice you need.
