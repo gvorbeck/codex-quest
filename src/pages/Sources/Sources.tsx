@@ -70,6 +70,10 @@ export default function Sources() {
           Basic Fantasy Role-Playing Game, 2023,
           basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>
+          Smoot, R. Kevin. "New Races: A Basic Fantasy RPG Supplement." Basic
+          Fantasy Role-Playing Game, 2018, basicfantasy.org/downloads.html.
+        </List.Item>
       </List>
     </div>
   );
