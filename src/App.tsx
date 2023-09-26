@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import PageLayout from "./components/PageLayout/PageLayout";
-import CharacterList from "./pages/CharacterList/CharacterList";
+// import CharacterList from "./pages/CharacterList/CharacterList";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -12,10 +12,17 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { ConfigProvider, Spin } from "antd";
-import Welcome from "./pages/Welcome/Welcome";
-import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
-import Sources from "./pages/Sources/Sources";
+// import Welcome from "./pages/Welcome/Welcome";
+// import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
+// import Sources from "./pages/Sources/Sources";
 
+// Lazy load all the components that are routed
+const CharacterList = lazy(() => import("./pages/CharacterList/CharacterList"));
+const Welcome = lazy(() => import("./pages/Welcome/Welcome"));
+const CharacterCreator = lazy(
+  () => import("./pages/CharacterCreator/CharacterCreator")
+);
+const Sources = lazy(() => import("./pages/Sources/Sources"));
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
 );
