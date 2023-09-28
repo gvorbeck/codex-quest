@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Row, Tooltip, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
-import { LogoutOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  ReconciliationOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import LoginSignupModal from "../../../modals/LoginSignupModal";
 import { useState } from "react";
 import { title } from "../../../../package.json";
@@ -21,8 +25,8 @@ export default function HeaderContent({
     <Row className={HeaderContentClassNames}>
       <Col
         xs={24}
-        md={12}
-        className="text-center leading-none lg:flex lg:justify-start lg:items-center"
+        md={16}
+        className="text-center leading-none lg:flex lg:justify-start lg:items-center gap-4"
       >
         <Typography.Title
           level={1}
@@ -36,18 +40,25 @@ export default function HeaderContent({
           </Link>
         </Typography.Title>
         {user && (
-          <Button
-            type="primary"
-            onClick={() => navigate(`/create`)}
-            className="mt-4 lg:mt-0 lg:ml-4 leading-none"
-          >
-            Create BFRPG Character
-          </Button>
+          <div className="flex gap-4">
+            <Button
+              type="primary"
+              onClick={() => navigate(`/create`)}
+              // className="mt-4 lg:mt-0 lg:ml-4 leading-none"
+            >
+              <UserAddOutlined />
+              New Character
+            </Button>
+            <Button type="primary" onClick={() => navigate(`/gm`)}>
+              <ReconciliationOutlined />
+              GM Portal
+            </Button>
+          </div>
         )}
       </Col>
       <Col
         xs={24}
-        md={12}
+        md={8}
         className="text-center flex md:justify-center items-baseline lg:items-center lg:justify-end gap-4 justify-center"
       >
         {user ? (
