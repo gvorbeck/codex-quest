@@ -9,16 +9,16 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@dice-roller/rpg-dice-roller": "^5.4.1",
-    "antd": "^5.9.3",
+    "antd": "^5.9.4",
     "classnames": "^2.3.2",
-    "dompurify": "^3.0.5",
+    "dompurify": "^3.0.6",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.10.1",
     "marked": "^9.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
-    "web-vitals": "^3.4.0"
+    "web-vitals": "^3.5.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
@@ -63,7 +63,7 @@
     "@types/dompurify": "^3.0.3",
     "@types/jest": "^29.5.5",
     "@types/marked": "^5.0.2",
-    "@types/node": "^20.7.0",
+    "@types/node": "^20.7.1",
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.8",
     "@vitejs/plugin-react": "^4.1.0",
