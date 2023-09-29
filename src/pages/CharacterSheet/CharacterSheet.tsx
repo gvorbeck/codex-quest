@@ -187,7 +187,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     return () => unsubscribe();
   }, [uid, id]);
 
-  const buttonTextClassNames = classNames("hidden");
+  const buttonTextClassNames = classNames("hidden", "md:inline");
 
   const equipmentListCategories = {
     weapons: [
@@ -309,7 +309,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   return characterData ? (
     <div className={`${outletContext.className} text-shipGray [&>*+*]:mt-4`}>
       <Breadcrumb
-        className="hidden lg:block print:hidden"
+        className="hidden md:block print:hidden"
         items={[
           {
             title: (

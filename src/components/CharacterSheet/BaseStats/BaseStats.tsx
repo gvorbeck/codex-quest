@@ -121,7 +121,7 @@ export default function BaseStats({
         </Typography.Title>
       </div>
       <Divider className="mt-4 mb-4 border-seaBuckthorn" />
-      <div className="flex flex-col justify-between md:flex-row print:flex-row print:items-baseline">
+      <div className="flex flex-col justify-between gap-4 w-3/4 lg:w-full lg:flex-row print:flex-row print:items-baseline">
         <ExperiencePoints
           characterData={characterData}
           setCharacterData={setCharacterData}
@@ -132,7 +132,7 @@ export default function BaseStats({
         <Descriptions
           bordered
           size="small"
-          className="[&_th]:leading-none [&_td]:leading-none mt-4 md:mt-0 [&_td]:px-3 [&_th]:px-2 print:w-1/2"
+          className="[&_th]:leading-none [&_td]:leading-none [&_td]:px-3 [&_th]:px-2 print:w-1/2"
         >
           <Descriptions.Item label="Level">
             {characterData.level}

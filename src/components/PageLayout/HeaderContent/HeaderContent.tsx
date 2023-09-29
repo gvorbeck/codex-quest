@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Col, Row, Tooltip, Typography } from "antd";
+import { Button, Tooltip, Typography } from "antd";
 import { HeaderContentProps } from "./definitions";
 import {
   LogoutOutlined,
@@ -27,7 +27,7 @@ export default function HeaderContent({
     "grid-rows-[auto,auto]",
     className
   );
-  const buttonTextClassNames = classNames("hidden");
+  const buttonTextClassNames = classNames("hidden", "md:inline");
   return (
     <div className={headerContentClassNames}>
       <Typography.Title

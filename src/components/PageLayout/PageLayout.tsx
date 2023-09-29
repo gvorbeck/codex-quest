@@ -12,8 +12,8 @@ export default function PageLayout({
 }: PageLayoutProps) {
   const headerClassNames = classNames(
     "bg-shipGray",
-    "px-4",
-    "py-4",
+    "p-4",
+    "md:p-6",
     "h-auto",
     "flex-[0_1_auto]",
     "lg:px-8",
@@ -22,6 +22,7 @@ export default function PageLayout({
   const contentClassNames = classNames(
     "bg-springWood",
     "p-4",
+    "md:p-6",
     "flex-[1_1_auto]",
     "inline-table",
     "lg:p-8",
@@ -29,7 +30,8 @@ export default function PageLayout({
   );
   const footerClassNames = classNames(
     "bg-shipGray",
-    "p-8",
+    "p-4",
+    "md:p-6",
     "flex-[0_1_auto]",
     "print:hidden"
   );
@@ -40,14 +42,14 @@ export default function PageLayout({
           user={user}
           handleLogin={handleLogin}
           auth={auth}
-          className="max-w-[1200px]"
+          className="max-w-[1200px] mx-auto"
         />
       </Layout.Header>
       <Layout.Content className={contentClassNames}>
-        <Outlet context={{ user, className: "max-w-[1200px] m-auto" }} />
+        <Outlet context={{ user, className: "max-w-[1200px] mx-auto" }} />
       </Layout.Content>
       <Layout.Footer className={footerClassNames}>
-        <FooterContent className="max-w-[1200px] m-auto" />
+        <FooterContent className="max-w-[1200px] mx-auto" />
       </Layout.Footer>
     </Layout>
   );
