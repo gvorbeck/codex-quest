@@ -8,7 +8,7 @@ import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { classes } from "../../../data/classes";
 import { races } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
-import { equipmentCategories } from "../../../data/definitions";
+import { EquipmentCategories } from "../../../data/definitions";
 import { ClassNames, RaceNames } from "../../../data/definitions";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
@@ -82,7 +82,7 @@ export default function EquipmentAccordion({
 
   const categories = classCategories.some((category) => category !== undefined)
     ? Array.from(new Set(classCategories))
-    : Object.values(equipmentCategories);
+    : Object.values(EquipmentCategories);
 
   const generateEquipmentCheckboxes = (
     category: string,

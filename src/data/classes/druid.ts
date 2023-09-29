@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const druid: ClassSetup = {
@@ -8,32 +8,32 @@ export const druid: ClassSetup = {
   hitDice: DiceTypes.D6,
   hitDiceModifier: 1,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.SHIELDS,
-    equipmentCategories.AXES,
-    equipmentCategories.BOWS,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.CHAINFLAIL,
-    equipmentCategories.SLINGHURLED,
-    equipmentCategories.SWORDS,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.SHIELDS,
+    EquipmentCategories.AXES,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.CHAINFLAIL,
+    EquipmentCategories.SLINGHURLED,
+    EquipmentCategories.SWORDS,
   ],
   specificEquipmentItems: [
     [
-      equipmentCategories.BOWS,
-      equipmentCategories.ARMOR,
-      equipmentCategories.SHIELDS,
-      equipmentCategories.CHAINFLAIL,
-      equipmentCategories.AXES,
-      equipmentCategories.HAMMERMACE,
-      equipmentCategories.OTHERWEAPONS,
-      equipmentCategories.SLINGHURLED,
-      equipmentCategories.SWORDS,
-      equipmentCategories.AMMUNITION,
+      EquipmentCategories.BOWS,
+      EquipmentCategories.ARMOR,
+      EquipmentCategories.SHIELDS,
+      EquipmentCategories.CHAINFLAIL,
+      EquipmentCategories.AXES,
+      EquipmentCategories.HAMMERMACE,
+      EquipmentCategories.OTHERWEAPONS,
+      EquipmentCategories.SLINGHURLED,
+      EquipmentCategories.SWORDS,
+      EquipmentCategories.AMMUNITION,
     ],
     [
       "shortbow",

@@ -1,4 +1,4 @@
-export enum equipmentCategories {
+export enum EquipmentCategories {
   GENERAL = "general-equipment",
   AXES = "axes",
   BOWS = "bows",

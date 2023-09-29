@@ -8,7 +8,7 @@ import { assassin } from "./assassin";
 import { barbarian } from "./barbarian";
 import { druid } from "./druid";
 import { illusionist } from "./illusionist";
-import { ClassNames, equipmentCategories } from "../definitions";
+import { ClassNames, EquipmentCategories } from "../definitions";
 import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
@@ -21,22 +21,22 @@ const customPlaceholder: ClassSetup = {
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.SHIELDS,
-    equipmentCategories.AXES,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.BOWS,
-    equipmentCategories.DAGGERS,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.SWORDS,
-    equipmentCategories.SPEARSPOLES,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SLINGHURLED,
-    equipmentCategories.CHAINFLAIL,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.SHIELDS,
+    EquipmentCategories.AXES,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.DAGGERS,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.SWORDS,
+    EquipmentCategories.SPEARSPOLES,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SLINGHURLED,
+    EquipmentCategories.CHAINFLAIL,
   ],
   experiencePoints: [0],
   attackBonus: [0],
