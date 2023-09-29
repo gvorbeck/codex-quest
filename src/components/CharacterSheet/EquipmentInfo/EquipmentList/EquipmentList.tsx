@@ -1,6 +1,6 @@
 import { EquipmentListProps } from "./definitions";
 import equipmentItems from "../../../../data/equipmentItems.json";
-import { Button, Radio, Typography } from "antd";
+import { Button, Empty, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 import ItemWrapper from "./ItemWrapper/ItemWrapper";
@@ -67,6 +67,12 @@ export default function EquipmentList({
     }
   };
 
+  const EmptyRadio = ({ label }: { label: string }) => (
+    <Radio value="">
+      <Typography.Text className="font-bold mb-3">{label}</Typography.Text>
+    </Radio>
+  );
+
   useEffect(() => {
     // Remove empty items from the equipment array.
     const remainingEquipment = characterData.equipment.filter(
@@ -91,20 +97,8 @@ export default function EquipmentList({
         handleUpdateAC(e.target.value, type);
       }}
     >
-      {categories.includes("armor") && (
-        <Radio value="">
-          <Typography.Paragraph className="font-bold mb-3">
-            No Armor
-          </Typography.Paragraph>
-        </Radio>
-      )}
-      {categories.includes("shields") && (
-        <Radio value="">
-          <Typography.Paragraph className="font-bold mb-3">
-            No Shield
-          </Typography.Paragraph>
-        </Radio>
-      )}
+      {categories.includes("armor") && <EmptyRadio label="No Armor" />}
+      {categories.includes("shields") && <EmptyRadio label="No Shield" />}
       {shownItems.map((item) => {
         // Ignore previously existing "NO X" items in characters' equipment.
         if (item.name === "No Shield" || item.name === "No Armor") return null;
@@ -138,6 +132,7 @@ export default function EquipmentList({
       })}
     </Radio.Group>
   ) : (
+    // Weapon Items
     <div className="[&>div+div]:mt-4">
       {categories.includes("weapons") && (
         <>
@@ -156,6 +151,7 @@ export default function EquipmentList({
           {races[characterData.race as RaceNames]?.uniqueAttacks?.map(
             (attack) => (
               <ItemWrapper
+                key={attack.name}
                 item={attack}
                 handleAttackClick={handleAttackClick}
                 handleAttack={handleAttack}
@@ -165,10 +161,11 @@ export default function EquipmentList({
           )}
           {characterData.class.map(
             (className) =>
-              classes[className as ClassNames].powers?.map((power) => {
+              classes[className as ClassNames]?.powers?.map((power) => {
                 return (
                   characterData.level >= (power.minLevel ?? 0) && (
                     <ItemWrapper
+                      key={power.name}
                       item={power}
                       handleAttackClick={handleAttackClick}
                       handleAttack={handleAttack}
@@ -184,7 +181,7 @@ export default function EquipmentList({
       {categories.includes("general-equipment") &&
         characterData.class.map(
           (className) =>
-            classes[className as ClassNames].startingEquipment?.map(
+            classes[className as ClassNames]?.startingEquipment?.map(
               (item: EquipmentItem) => (
                 <ItemWrapper
                   item={item}
@@ -196,15 +193,22 @@ export default function EquipmentList({
               )
             )
         )}
-      {shownItems.map((item) => (
-        <ItemWrapper
-          item={item}
-          handleCustomDelete={handleCustomDelete}
-          handleAttack={handleAttack}
-          handleAttackClick={handleAttackClick}
-          key={item.name}
+      {shownItems.length > 0 ? (
+        shownItems.map((item) => (
+          <ItemWrapper
+            item={item}
+            handleCustomDelete={handleCustomDelete}
+            handleAttack={handleAttack}
+            handleAttackClick={handleAttackClick}
+            key={item.name}
+          />
+        ))
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="No equipment in this category"
         />
-      ))}
+      )}
       {categories.includes("weapons") && <WeaponKeys />}
     </div>
   );
