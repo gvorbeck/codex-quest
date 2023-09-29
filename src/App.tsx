@@ -26,6 +26,7 @@ const Sources = lazy(() => import("./pages/Sources/Sources"));
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
 );
+const GMPortal = lazy(() => import("./pages/GMPortal/GMPortal"));
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -105,6 +106,7 @@ function App() {
             />
             <Route path="/create" element={<CharacterCreator />} />
             <Route path="/sources" element={<Sources />} />
+            <Route path="/gm" element={<GMPortal />} />
           </Route>
         </Routes>
       </Suspense>
