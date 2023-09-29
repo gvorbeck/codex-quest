@@ -1,10 +1,11 @@
-import { CharacterDataStatePair, SpellType } from "../../definitions";
+import { Spell } from "../../../data/definitions";
+import { CharacterDataStatePair } from "../../definitions";
 
 export interface CharacterClassProps extends CharacterDataStatePair {
   comboClass: boolean;
   setComboClass: (comboClass: boolean) => void;
   checkedClasses: string[];
   setCheckedClasses: (checkedClasses: string[]) => void;
-  selectedSpell: SpellType | null;
-  setSelectedSpell: (spell: SpellType | null) => void;
+  selectedSpell: Spell | null;
+  setSelectedSpell: (spell: Spell | null) => void;
 }

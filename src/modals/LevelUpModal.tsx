@@ -2,7 +2,6 @@ import { Button, Checkbox, Modal, Typography } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
-import { Spell } from "../components/definitions";
 import { LevelUpModalProps } from "./definitions";
 import spellList from "../data/spells.json";
 import { getClassType } from "../support/helpers";
@@ -14,8 +13,8 @@ import { useState } from "react";
 import { marked } from "marked";
 import DescriptionBubble from "../components/CharacterCreator/DescriptionBubble/DescriptionBubble";
 import { classes } from "../data/classes";
-import { ClassNames } from "../data/definitions";
-import { SpellLevels } from "../data/definitions";
+import { ClassNames, Spell } from "../data/definitions";
+import classNames from "classnames";
 
 const roller = new DiceRoller();
 
@@ -45,17 +44,12 @@ export default function LevelUpModal({
     switch (classType) {
       case "standard":
         filteredSpells = spells.filter(
-          (spell) =>
-            spell.level[className[0].toLowerCase() as keyof SpellLevels] ===
-            level
+          (spell) => spell.level[className[0].toLowerCase()] === level
         );
         break;
       case "combination":
         filteredSpells = spells.filter((spell) =>
-          className.some(
-            (cls) =>
-              spell.level[cls.toLowerCase() as keyof SpellLevels] === level
-          )
+          className.some((cls) => spell.level[cls.toLowerCase()] === level)
         );
         break;
       case "custom":
@@ -96,12 +90,8 @@ export default function LevelUpModal({
         // If it is a combination class, just use the magic-user level
         const spellLevel =
           getClassType(characterData.class) === "combination"
-            ? spell.level[
-                ClassNames.MAGICUSER.toLowerCase() as keyof SpellLevels
-              ]
-            : spell.level[
-                characterData.class[0].toLowerCase() as keyof SpellLevels
-              ];
+            ? spell.level[ClassNames.MAGICUSER.toLowerCase()]
+            : spell.level[characterData.class[0].toLowerCase()];
         if (spellLevel !== null && !isNaN(spellLevel)) {
           acc[spellLevel - 1] += 1;
         }
@@ -148,8 +138,7 @@ export default function LevelUpModal({
               : characterData.class[0].toLowerCase();
 
           newCheckedSpells = characterData.spells.filter(
-            (spell) =>
-              spell.level[classNameToCheck as keyof SpellLevels] !== level
+            (spell) => spell.level[classNameToCheck] !== level
           );
 
           checkedValues.forEach((value) => {

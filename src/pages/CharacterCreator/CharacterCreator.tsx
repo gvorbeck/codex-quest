@@ -1,6 +1,6 @@
 import { marked } from "marked";
 import { useState } from "react";
-import { CharacterData, SpellType } from "../../components/definitions";
+import { CharacterData } from "../../components/definitions";
 import { Button, Divider, Steps, Typography, message } from "antd";
 import CharacterAbilities from "../../components/CharacterCreator/CharacterAbilities/CharacterAbilities";
 import CharacterRace from "../../components/CharacterCreator/CharacterRace/CharacterRace";
@@ -13,7 +13,7 @@ import { AbilityTypes } from "../../components/CharacterCreator/CharacterAbiliti
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { classes } from "../../data/classes";
-import { ClassNames } from "../../data/definitions";
+import { ClassNames, Spell } from "../../data/definitions";
 
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
@@ -108,7 +108,7 @@ export default function CharacterCreator() {
   const [checkedClasses, setCheckedClasses] = useState<string[]>([]);
   const [characterData, setCharacterData] =
     useState<CharacterData>(emptyCharacter);
-  const [selectedSpell, setSelectedSpell] = useState<SpellType | null>(null);
+  const [selectedSpell, setSelectedSpell] = useState<Spell | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
 
   const steps = [

@@ -4,8 +4,7 @@ import { ClassOptionsProps } from "./definitions";
 import DescriptionBubble from "../../DescriptionBubble/DescriptionBubble";
 import { getClassType, getDisabledClasses } from "../../../../support/helpers";
 import spellsData from "../../../../data/spells.json";
-import { Spell } from "../../../definitions";
-import { ClassNames, RaceNames } from "../../../../data/definitions";
+import { ClassNames, RaceNames, Spell } from "../../../../data/definitions";
 import classNames from "classnames";
 
 export default function ClassOptions({
