@@ -8,7 +8,7 @@ export default function DescriptionFieldButton({
   icon,
   className,
 }: DescriptionFieldButtonProps & React.ComponentPropsWithRef<"div">) {
-  const buttonClassNames = classNames("absolute", "lg:left-0", className);
+  const buttonClassNames = classNames(className, "mb-4");
   return (
     <Tooltip title="Add text field">
       <Button
