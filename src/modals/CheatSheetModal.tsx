@@ -1,4 +1,4 @@
-import { Collapse, Modal } from "antd";
+import { Collapse, CollapseProps, Modal } from "antd";
 import { CheatSheetModalProps } from "./definitions";
 import CloseIcon from "../components/CloseIcon/CloseIcon";
 import AttackDefense from "../components/CheatSheet/AttackDefense/AttackDefense";
@@ -24,6 +24,38 @@ export default function CheatSheetModal({
   isCheatSheetModalOpen,
   handleCancel,
 }: CheatSheetModalProps) {
+  const items: CollapseProps["items"] = [
+    { key: "1", label: "Attack and Defense", children: <AttackDefense /> },
+    { key: "2", label: "Attack Bonus / Penalty", children: <AttackBonus /> },
+    { key: "3", label: "Brawling", children: <Brawling /> },
+    { key: "4", label: "Charging", children: <Charging /> },
+    { key: "5", label: "Combat Movement", children: <CombatMovement /> },
+    { key: "6", label: "Combat Overview", children: <CombatOverview /> },
+    { key: "7", label: "Damage", children: <Damage /> },
+    { key: "8", label: "Day to Day Survival", children: <Survival /> },
+    { key: "9", label: "Holy Water Vs Undead", children: <HolyWater /> },
+    {
+      key: "10",
+      label: "Magic-Users and Spells",
+      children: <MagicUsersSpells />,
+    },
+    { key: "11", label: "Missile Fire", children: <MissileFire /> },
+    { key: "12", label: "Missiles that Miss", children: <MissilesMiss /> },
+    {
+      key: "13",
+      label: "Oil Grenade-like Missiles",
+      children: <OilMissiles />,
+    },
+    { key: "14", label: "Running", children: <Running /> },
+    { key: "15", label: "Subduing Damage", children: <Subduing /> },
+    { key: "16", label: "Surprise", children: <Surprise /> },
+    { key: "17", label: "Typical Actions", children: <TypicalActions /> },
+    {
+      key: "18",
+      label: "Wounds & Healing, Death & Dying",
+      children: <Healing />,
+    },
+  ];
   return (
     <Modal
       title="CHEAT SHEET"
@@ -31,63 +63,9 @@ export default function CheatSheetModal({
       onCancel={handleCancel}
       footer={false}
       closeIcon={<CloseIcon />}
+      width={800}
     >
-      <Collapse className="bg-seaBuckthorn mt-4" accordion>
-        <Collapse.Panel header="Attack and Defense" key="1">
-          <AttackDefense />
-        </Collapse.Panel>
-        <Collapse.Panel header="Attack Bonus / Penalty" key="2">
-          <AttackBonus />
-        </Collapse.Panel>
-        <Collapse.Panel header="Brawling" key="3">
-          <Brawling />
-        </Collapse.Panel>
-        <Collapse.Panel header="Charging" key="4">
-          <Charging />
-        </Collapse.Panel>
-        <Collapse.Panel header="Combat Movement" key="5">
-          <CombatMovement />
-        </Collapse.Panel>
-        <Collapse.Panel header="Combat Overview" key="6">
-          <CombatOverview />
-        </Collapse.Panel>
-        <Collapse.Panel header="Damage" key="7">
-          <Damage />
-        </Collapse.Panel>
-        <Collapse.Panel header="Day to Day Survival" key="8">
-          <Survival />
-        </Collapse.Panel>
-        <Collapse.Panel header="Holy Water Vs Undead" key="9">
-          <HolyWater />
-        </Collapse.Panel>
-        <Collapse.Panel header="Magic-Users and Spells" key="10">
-          <MagicUsersSpells />
-        </Collapse.Panel>
-        <Collapse.Panel header="Missile Fire" key="11">
-          <MissileFire />
-        </Collapse.Panel>
-        <Collapse.Panel header="Missiles that Miss" key="12">
-          <MissilesMiss />
-        </Collapse.Panel>
-        <Collapse.Panel header="Oil Grenade-like Missiles" key="13">
-          <OilMissiles />
-        </Collapse.Panel>
-        <Collapse.Panel header="Running" key="14">
-          <Running />
-        </Collapse.Panel>
-        <Collapse.Panel header="Subduing Damage" key="15">
-          <Subduing />
-        </Collapse.Panel>
-        <Collapse.Panel header="Surprise" key="16">
-          <Surprise />
-        </Collapse.Panel>
-        <Collapse.Panel header="Typical Actions" key="17">
-          <TypicalActions />
-        </Collapse.Panel>
-        <Collapse.Panel header="Wounds & Healing, Death & Dying" key="18">
-          <Healing />
-        </Collapse.Panel>
-      </Collapse>
+      <Collapse items={items} className="bg-seaBuckthorn mt-4" accordion />
     </Modal>
   );
 }
