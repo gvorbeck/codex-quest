@@ -110,8 +110,8 @@ export default function CharacterDescription({
 
   return (
     <div>
-      <div className="flex items-baseline gap-4">
-        <Typography.Title level={3} className="mt-0 !text-shipGray">
+      <div>
+        <Typography.Title level={3} className="mt-0 text-shipGray">
           Bio & Notes
         </Typography.Title>
         {getClassType(characterData.class) === "custom" && (
@@ -120,24 +120,29 @@ export default function CharacterDescription({
           />
         )}
       </div>
-      <>
+      <div className="[&>div+div]:mt-5">
         {typeof characterData.desc === "object" &&
           characterData.desc.map((desc: string, index: number) => {
             return (
-              <div className="relative pt-12 lg:pt-0 lg:pl-12" key={index}>
-                {index > 0 && (
-                  <DescriptionFieldButton
-                    handler={() => handleDeleteDescriptionField(index)}
-                    icon={<MinusCircleOutlined />}
-                  />
-                )}
-                {index === characterData.desc.length - 1 && index < 9 && (
-                  <DescriptionFieldButton
-                    handler={handleAddDescriptionField}
-                    icon={<PlusCircleOutlined />}
-                    className={index > 0 ? "top-0 lg:top-12" : ""}
-                  />
-                )}
+              <div
+                key={index}
+                className={characterData.desc.length === 1 ? "mt-8" : ""}
+              >
+                <div className="flex gap-4">
+                  {index > 0 && (
+                    <DescriptionFieldButton
+                      handler={() => handleDeleteDescriptionField(index)}
+                      icon={<MinusCircleOutlined />}
+                    />
+                  )}
+                  {index === characterData.desc.length - 1 && index < 9 && (
+                    <DescriptionFieldButton
+                      handler={handleAddDescriptionField}
+                      icon={<PlusCircleOutlined />}
+                      // className={index > 0 ? "" : ""}
+                    />
+                  )}
+                </div>
                 <Input.TextArea
                   key={index}
                   value={
@@ -158,7 +163,7 @@ export default function CharacterDescription({
               </div>
             );
           })}
-      </>
+      </div>
     </div>
   );
 }
