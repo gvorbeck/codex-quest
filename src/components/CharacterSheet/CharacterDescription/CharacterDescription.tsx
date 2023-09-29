@@ -124,10 +124,7 @@ export default function CharacterDescription({
         {typeof characterData.desc === "object" &&
           characterData.desc.map((desc: string, index: number) => {
             return (
-              <div
-                key={index}
-                className={characterData.desc.length === 1 ? "mt-8" : ""}
-              >
+              <div key={index}>
                 <div className="flex gap-4">
                   {index > 0 && (
                     <DescriptionFieldButton
