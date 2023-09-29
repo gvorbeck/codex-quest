@@ -9,6 +9,7 @@ import {
   ExperimentOutlined,
   ToolOutlined,
 } from "@ant-design/icons";
+import { EquipmentCategories } from "../../../data/definitions";
 
 export default function EquipmentInfo({
   userIsOwner,
@@ -21,28 +22,28 @@ export default function EquipmentInfo({
   showAttackModal,
   updateAC,
   className,
+  collapseItems,
 }: EquipmentInfoProps & React.ComponentPropsWithRef<"div">) {
   const equipmentListCategories = {
     weapons: [
       "weapons",
-      "axes",
-      "bows",
-      "daggers",
-      "swords",
-      "hammers-and-maces",
-      "improvised-weapons",
       "brawling",
-      "chain-and-flail",
-      "hammers-and-maces",
-      "other-weapons",
-      "slings-and-hurled-weapons",
-      "spears-and-polearms",
+      EquipmentCategories.AXES,
+      EquipmentCategories.BOWS,
+      EquipmentCategories.DAGGERS,
+      EquipmentCategories.SWORDS,
+      EquipmentCategories.HAMMERMACE,
+      EquipmentCategories.IMPROVISED,
+      EquipmentCategories.CHAINFLAIL,
+      EquipmentCategories.OTHERWEAPONS,
+      EquipmentCategories.SLINGHURLED,
+      EquipmentCategories.SPEARSPOLES,
     ],
-    general: ["general-equipment", "items"],
-    armor: ["armor", "armor-and-shields"],
-    shields: ["shields", "armor-and-shields"],
-    beasts: ["beasts-of-burden", "barding"],
-    ammo: ["ammunition"],
+    general: [EquipmentCategories.GENERAL, "items"],
+    armor: [EquipmentCategories.ARMOR, "armor-and-shields"],
+    shields: [EquipmentCategories.SHIELDS, "armor-and-shields"],
+    beasts: [EquipmentCategories.BEASTS, EquipmentCategories.BARDING],
+    ammo: [EquipmentCategories.AMMUNITION],
   };
 
   const handleAttackClick = (item: EquipmentItem) => {
@@ -85,9 +86,12 @@ export default function EquipmentInfo({
           <div key={item.name}>{item.name}</div>
         ))}
       </div>
-      <Collapse className="bg-seaBuckthorn mt-4 print:hidden">
-        {/* SPELLS */}
-        {characterData.spells.length > 0 && (
+      <Collapse
+        items={collapseItems}
+        className="bg-seaBuckthorn mt-4 print:hidden"
+      />
+      {/* SPELLS */}
+      {/* {characterData.spells.length > 0 && (
           <Collapse.Panel
             header="Spells"
             key="spells"
@@ -95,9 +99,9 @@ export default function EquipmentInfo({
           >
             <Spells characterData={characterData} />
           </Collapse.Panel>
-        )}
-        {/* WEAPONS */}
-        <Collapse.Panel
+        )} */}
+      {/* WEAPONS */}
+      {/* <Collapse.Panel
           header="Weapons"
           key="weapons"
           className="[&>div:not:first-child]:bg-springWood"
@@ -110,9 +114,9 @@ export default function EquipmentInfo({
             handleAttackClick={handleAttackClick}
             handleAttack
           />
-        </Collapse.Panel>
-        {/* GENERAL EQUIPMENT */}
-        <Collapse.Panel
+        </Collapse.Panel> */}
+      {/* GENERAL EQUIPMENT */}
+      {/* <Collapse.Panel
           header="General Equipment"
           key="general-equipment"
           className="[&>div:not:first-child]:bg-springWood"
@@ -123,10 +127,10 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
           />
-        </Collapse.Panel>
-        {/* ARMOR */}
-        {/* 'armor-and-shields' was an old category that included armor AND shields. Keep for legacy characters. */}
-        <Collapse.Panel
+        </Collapse.Panel> */}
+      {/* ARMOR */}
+      {/* 'armor-and-shields' was an old category that included armor AND shields. Keep for legacy characters. */}
+      {/* <Collapse.Panel
           header="Armor"
           key="armor"
           className="[&>div:not:first-child]:bg-springWood"
@@ -138,9 +142,9 @@ export default function EquipmentInfo({
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
           />
-        </Collapse.Panel>
-        {/* SHIELDS */}
-        <Collapse.Panel
+        </Collapse.Panel> */}
+      {/* SHIELDS */}
+      {/* <Collapse.Panel
           header="Shields"
           key="shields"
           className="[&>div:not:first-child]:bg-springWood"
@@ -152,9 +156,9 @@ export default function EquipmentInfo({
             handleCustomDelete={handleCustomDelete}
             updateAC={updateAC}
           />
-        </Collapse.Panel>
-        {/* BEAST OF BURDEN */}
-        <Collapse.Panel
+        </Collapse.Panel> */}
+      {/* BEAST OF BURDEN */}
+      {/* <Collapse.Panel
           header="Beasts of Burden"
           key="beasts-of-burden"
           className="[&>div:not:first-child]:bg-springWood"
@@ -165,9 +169,9 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
           />
-        </Collapse.Panel>
-        {/* Ammunition */}
-        <Collapse.Panel
+        </Collapse.Panel> */}
+      {/* Ammunition */}
+      {/* <Collapse.Panel
           header="Ammunition"
           key="ammunition"
           className="[&>div:not:first-child]:bg-springWood"
@@ -178,8 +182,8 @@ export default function EquipmentInfo({
             setCharacterData={setCharacterData}
             handleCustomDelete={handleCustomDelete}
           />
-        </Collapse.Panel>
-      </Collapse>
+        </Collapse.Panel> */}
+      {/* </Collapse> */}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { CollapseItem } from "../../../data/definitions";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
 import { CharacterData, SetCharacterData } from "../../definitions";
 
@@ -11,4 +12,5 @@ export interface EquipmentInfoProps {
   setWeapon?: (weapon: EquipmentItem) => void;
   showAttackModal?: () => void;
   updateAC: () => void;
+  collapseItems: CollapseItem[];
 }

@@ -69,3 +69,9 @@ export enum DiceTypes {
   D20 = "d20",
   D100 = "d100",
 }
+
+export interface CollapseItem {
+  key: string;
+  label: string;
+  children: React.ReactNode;
+}

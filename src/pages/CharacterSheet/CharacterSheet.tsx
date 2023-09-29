@@ -283,6 +283,16 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   const buttonTextClassNames = classNames("hidden");
 
+  /* START OF GOOD FUNCTIONS FOR 1.16.0.0 */
+  // TODO: CLEANUP ABOVE THIS LINE
+  const equipmentInfoCollapseItems = [
+    {
+      key: "1",
+      label: "Spells",
+      children: <p>Spells Children</p>,
+    },
+  ];
+
   return characterData ? (
     <div className={`${outletContext.className} text-shipGray [&>*+*]:mt-4`}>
       <Breadcrumb
@@ -462,6 +472,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           showAttackModal={showAttackModal}
           updateAC={updateAC}
           className="col-span-1 md:col-start-2 md:row-start-1 lg:col-start-4 lg:col-span-2 row-span-2"
+          collapseItems={equipmentInfoCollapseItems}
         />
       </div>
       <Divider className="border-seaBuckthorn" />
