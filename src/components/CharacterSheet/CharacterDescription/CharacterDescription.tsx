@@ -10,7 +10,7 @@ import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { getClassType } from "../../../support/helpers";
 import DescriptionFieldButton from "./DescriptionFieldButton/DescriptionFieldButton";
 
-export default function Description({
+export default function CharacterDescription({
   characterData,
   setCharacterData,
   userIsOwner,
@@ -120,11 +120,11 @@ export default function Description({
           />
         )}
       </div>
-      <div className="grid gap-4">
+      <>
         {typeof characterData.desc === "object" &&
           characterData.desc.map((desc: string, index: number) => {
             return (
-              <div className="relative pl-12" key={index}>
+              <div className="relative pt-12 lg:pt-0 lg:pl-12" key={index}>
                 {index > 0 && (
                   <DescriptionFieldButton
                     handler={() => handleDeleteDescriptionField(index)}
@@ -135,7 +135,7 @@ export default function Description({
                   <DescriptionFieldButton
                     handler={handleAddDescriptionField}
                     icon={<PlusCircleOutlined />}
-                    className={index > 0 ? "top-12" : ""}
+                    className={index > 0 ? "top-0 lg:top-12" : ""}
                   />
                 )}
                 <Input.TextArea
@@ -158,7 +158,7 @@ export default function Description({
               </div>
             );
           })}
-      </div>
+      </>
     </div>
   );
 }

@@ -58,6 +58,7 @@ import {
 } from "../../support/helpers";
 import DiceSvg from "../../assets/images/dice.svg";
 import classNames from "classnames";
+import CharacterDescription from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -122,7 +123,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   // HIT DICE
   const hitDice = (level: number, className: string[], dice: string) => {
-    // TODO: This should be using class modifier and specific classes should not be called out here.
     const dieType = dice.split("d")[1].split("+")[0];
     const prefix = Math.min(level, 9);
 
@@ -189,6 +189,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     };
 
     // This checks if there is armor being worn or not and adjusts movement.
+    // TODO: Better way to do this?
     if (isWearing(["No Armor", "Magic Leather Armor", ""])) {
       return characterData.weight <= carryingCapacity.light ? 40 : 30;
     } else if (
@@ -314,6 +315,10 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       />
       {/* ROLLING BUTTONS */}
       <div className="flex justify-between print:hidden">
+        {/* TODO: THIS SHOULD BE THREE OF THE SAME component with different labels,  */}
+        {/* <NewComponent [content_props (icon, label, etc)] medthods={{function1, function2}} */}
+        {/* https://stackoverflow.com/questions/65931823/best-way-to-pass-multiple-props-in-react-js */}
+        {/* https://stackoverflow.com/questions/68631439/pass-multiple-functions-as-a-single-prop-using-react-hooks */}
         <InitiativeRoller
           characterData={characterData}
           buttonTextClassNames={buttonTextClassNames}
@@ -461,7 +466,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       </div>
       <Divider className="border-seaBuckthorn" />
       {/* BIO & NOTES */}
-      <Description
+      <CharacterDescription
         characterData={characterData}
         setCharacterData={setCharacterData}
         userIsOwner={userIsOwner}

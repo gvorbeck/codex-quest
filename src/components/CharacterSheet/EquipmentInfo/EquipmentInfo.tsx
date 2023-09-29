@@ -4,6 +4,11 @@ import { EquipmentInfoProps } from "./definitions";
 import Spells from "./Spells/Spells";
 import EquipmentList from "./EquipmentList/EquipmentList";
 import { EquipmentItem } from "../../EquipmentStore/definitions";
+import {
+  AppstoreAddOutlined,
+  ExperimentOutlined,
+  ToolOutlined,
+} from "@ant-design/icons";
 
 export default function EquipmentInfo({
   userIsOwner,
@@ -62,6 +67,7 @@ export default function EquipmentInfo({
           type="primary"
           disabled={!userIsOwner}
           onClick={showAddEquipmentModal}
+          icon={<ToolOutlined />}
         >
           Add/Edit Equipment
         </Button>
@@ -69,6 +75,7 @@ export default function EquipmentInfo({
           type="primary"
           disabled={!userIsOwner}
           onClick={showAddCustomEquipmentModal}
+          icon={<ExperimentOutlined />}
         >
           Add Custom Equipment
         </Button>
