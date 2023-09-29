@@ -9,6 +9,7 @@ import { races } from "../data/races";
 import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
 import { CharacterData, SetCharacterData } from "../components/definitions";
 import equipmentItems from "../data/equipmentItems.json";
+import { getCarryingCapacity } from "./formatSupport";
 
 export const getClassType = (characterClass: string[]) => {
   // NONE
@@ -133,8 +134,7 @@ export const getHitPointsModifier = (classArr: string[]) => {
 export const getSpecialAbilityRaceOverrides = (raceName: RaceNames) =>
   races[raceName]?.specialAbilitiesOverride ?? [];
 
-export // ARMOR CLASS (AC)
-const getArmorClass = (
+export const getArmorClass = (
   characterData: CharacterData,
   setCharacterData: SetCharacterData,
   type: "missile" | "melee" = "melee"
@@ -188,4 +188,79 @@ const getArmorClass = (
   }
 
   return armorClass;
+};
+
+export const getHitDice = (
+  level: number,
+  className: string[],
+  dice: string
+) => {
+  const dieType = dice.split("d")[1].split("+")[0];
+  const prefix = Math.min(level, 9);
+
+  // Calculate the suffix
+  let suffix = (level > 9 ? level - 9 : 0) * getHitPointsModifier(className);
+
+  // Combine to create the result
+  const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
+  return result;
+};
+
+export const getAttackBonus = function (characterData: CharacterData) {
+  if (getClassType(characterData.class) === "custom") return 0;
+  let maxAttackBonus = 0;
+
+  characterData.class.forEach((classPiece) => {
+    const classAttackBonus =
+      classes[classPiece as ClassNames]?.attackBonus[characterData.level];
+    if (classAttackBonus > maxAttackBonus) {
+      maxAttackBonus = classAttackBonus;
+    }
+  });
+
+  return maxAttackBonus;
+};
+
+export const getMovement = (characterData: CharacterData) => {
+  if (!characterData) return;
+
+  const carryingCapacity = getCarryingCapacity(
+    +characterData.abilities.scores.strength,
+    characterData.race as RaceNames
+  );
+
+  const isWearing = (armorNames: string[]) => {
+    return armorNames.includes(characterData?.wearing?.armor || "");
+  };
+
+  // This checks if there is armor being worn or not and adjusts movement.
+  // TODO: Better way to do this?
+  if (isWearing(["No Armor", "Magic Leather Armor", ""])) {
+    return characterData.weight <= carryingCapacity.light ? 40 : 30;
+  } else if (
+    isWearing([
+      "Studded Leather Armor",
+      "Hide Armor",
+      "Leather Armor",
+      "Magic Metal Armor",
+      "Hide Armor",
+    ])
+  ) {
+    return characterData.weight <= carryingCapacity.light ? 30 : 20;
+  } else if (
+    isWearing([
+      "Metal Armor",
+      "Chain Mail",
+      "Ring Mail",
+      "Brigandine Armor",
+      "Scale Mail",
+      "Splint Mail",
+      "Banded Mail",
+      "Plate Mail",
+      "Field Plate Mail",
+      "Full Plate Mail",
+    ])
+  ) {
+    return characterData.weight <= carryingCapacity.light ? 20 : 10;
+  }
 };
