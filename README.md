@@ -17,7 +17,6 @@ Github Actions deploys the site when pushes are made to `main` branch.
 - [Ant Design Component Library](https://ant.design/components/overview)
 - [Firebase](https://console.firebase.google.com/)
 - [Jest](https://jestjs.io/)
-- [Marked](https://marked.js.org/)
 - [React](https://react.dev/)
 - [React Router](https://reactrouter.com/en/main)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
