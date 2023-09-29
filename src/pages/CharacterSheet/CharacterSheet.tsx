@@ -38,7 +38,9 @@ import SavingThrows from "../../components/CharacterSheet/SavingThrows/SavingThr
 import MoneyStats from "../../components/CharacterSheet/MoneyStats/MoneyStats";
 import WeightStats from "../../components/CharacterSheet/WeightStats/WeightStats";
 import EquipmentInfo from "../../components/CharacterSheet/EquipmentInfo/EquipmentInfo";
-import Description from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
+import CharacterSpellList from "../../components/CharacterSheet/EquipmentInfo/CharacterSpellList/CharacterSpellList";
+import CharacterDescription from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
+import EquipmentList from "../../components/CharacterSheet/EquipmentInfo/EquipmentList/EquipmentList";
 // MODALS
 import LevelUpModal from "../../modals/LevelUpModal";
 import DiceRollerModal from "../../modals/DiceRollerModal";
@@ -48,7 +50,11 @@ import AttackModal from "../../components/AttackModal/AttackModal";
 import CheatSheetModal from "../../modals/CheatSheetModal";
 // DATA
 import { classes } from "../../data/classes";
-import { ClassNames, RaceNames } from "../../data/definitions";
+import {
+  ClassNames,
+  EquipmentCategories,
+  RaceNames,
+} from "../../data/definitions";
 // SUPPORT
 import { getCarryingCapacity } from "../../support/formatSupport";
 import {
@@ -58,7 +64,6 @@ import {
 } from "../../support/helpers";
 import DiceSvg from "../../assets/images/dice.svg";
 import classNames from "classnames";
-import CharacterDescription from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -282,14 +287,122 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   }, [uid, id]);
 
   const buttonTextClassNames = classNames("hidden");
-
   /* START OF GOOD FUNCTIONS FOR 1.16.0.0 */
   // TODO: CLEANUP ABOVE THIS LINE
+  const equipmentListCategories = {
+    weapons: [
+      "weapons",
+      "brawling",
+      EquipmentCategories.AXES,
+      EquipmentCategories.BOWS,
+      EquipmentCategories.DAGGERS,
+      EquipmentCategories.SWORDS,
+      EquipmentCategories.HAMMERMACE,
+      EquipmentCategories.IMPROVISED,
+      EquipmentCategories.CHAINFLAIL,
+      EquipmentCategories.OTHERWEAPONS,
+      EquipmentCategories.SLINGHURLED,
+      EquipmentCategories.SPEARSPOLES,
+    ],
+    general: [EquipmentCategories.GENERAL, "items"],
+    armor: [EquipmentCategories.ARMOR, "armor-and-shields"],
+    shields: [EquipmentCategories.SHIELDS, "armor-and-shields"],
+    beasts: [EquipmentCategories.BEASTS, EquipmentCategories.BARDING],
+    ammo: [EquipmentCategories.AMMUNITION],
+  };
+
+  const handleAttackClick = (item: EquipmentItem) => {
+    if (setWeapon) {
+      setWeapon(item);
+    }
+    if (showAttackModal) {
+      showAttackModal();
+    }
+  };
+
   const equipmentInfoCollapseItems = [
     {
       key: "1",
       label: "Spells",
-      children: <p>Spells Children</p>,
+      children: characterData && (
+        <CharacterSpellList spells={characterData.spells} />
+      ),
+    },
+    {
+      key: "2",
+      label: "Weapons",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          categories={equipmentListCategories.weapons}
+          handleCustomDelete={handleCustomDelete}
+          handleAttackClick={handleAttackClick}
+          handleAttack
+        />
+      ),
+    },
+    {
+      key: "3",
+      label: "Ammunition",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.ammo}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+        />
+      ),
+    },
+    {
+      key: "4",
+      label: "General Equipment",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.general}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+        />
+      ),
+    },
+    {
+      key: "5",
+      label: "Armor",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.armor}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+          updateAC={updateAC}
+        />
+      ),
+    },
+    {
+      key: "6",
+      label: "Shields",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.shields}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+          updateAC={updateAC}
+        />
+      ),
+    },
+    {
+      key: "7",
+      label: "Beasts of Burden",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.beasts}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+        />
+      ),
     },
   ];
 
@@ -466,11 +579,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           showAddEquipmentModal={showAddEquipmentModal}
           showAddCustomEquipmentModal={showAddCustomEquipmentModal}
           characterData={characterData}
-          setCharacterData={setCharacterData}
-          handleCustomDelete={handleCustomDelete}
-          setWeapon={setWeapon}
-          showAttackModal={showAttackModal}
-          updateAC={updateAC}
           className="col-span-1 md:col-start-2 md:row-start-1 lg:col-start-4 lg:col-span-2 row-span-2"
           collapseItems={equipmentInfoCollapseItems}
         />
