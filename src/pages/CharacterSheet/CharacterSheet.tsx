@@ -20,11 +20,14 @@ import {
   Skeleton,
   Typography,
 } from "antd";
-import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
+import {
+  FileSearchOutlined,
+  HomeOutlined,
+  SolutionOutlined,
+} from "@ant-design/icons";
 // CHARACTER SHEET COMPONENTS
 import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller/InitiativeRoller";
-import DiceRoller from "../../components/DiceRoller/DiceRoller";
 import Abilities from "../../components/CharacterSheet/Abilities/Abilities";
 import AttackBonus from "../../components/CharacterSheet/AttackBonus/AttackBonus";
 import HitPoints from "../../components/CharacterSheet/HitPoints/HitPoints";
@@ -53,6 +56,8 @@ import {
   getClassType,
   getHitPointsModifier,
 } from "../../support/helpers";
+import DiceSvg from "../../assets/images/dice.svg";
+import classNames from "classnames";
 
 export default function CharacterSheet({ user }: CharacterSheetProps) {
   const { uid, id } = useParams();
@@ -275,10 +280,12 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     return () => unsubscribe();
   }, [uid, id]);
 
+  const buttonTextClassNames = classNames("hidden");
+
   return characterData ? (
     <div className={`${outletContext.className} text-shipGray [&>*+*]:mt-4`}>
       <Breadcrumb
-        className="print:hidden"
+        className="hidden lg:block print:hidden"
         items={[
           {
             title: (
@@ -307,12 +314,23 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       />
       {/* ROLLING BUTTONS */}
       <div className="flex justify-between print:hidden">
-        <InitiativeRoller characterData={characterData} />
+        <InitiativeRoller
+          characterData={characterData}
+          buttonTextClassNames={buttonTextClassNames}
+        />
         <div className="flex gap-4 flex-row">
           <Button type="primary" onClick={showCheatSheetModal}>
-            Cheat Sheet
+            <FileSearchOutlined />
+            <span className={buttonTextClassNames}>Cheat Sheet</span>
           </Button>
-          <DiceRoller onClick={showDiceRollerModal} />
+          <Button
+            type="primary"
+            onClick={showDiceRollerModal}
+            className="flex items-center"
+          >
+            <img src={DiceSvg} />
+            <span className={buttonTextClassNames}>Virtual Dice</span>
+          </Button>
         </div>
       </div>
       <Row gutter={32} className="gap-4 md:gap-0 print:block">

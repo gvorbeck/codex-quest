@@ -20,50 +20,43 @@ export default function HeaderContent({
   const navigate = useNavigate();
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] = useState(false);
   const handleCancel = () => setIsLoginSignupModalOpen(false);
-  const HeaderContentClassNames = classNames("gap-y-4", className);
+  const headerContentClassNames = classNames(
+    "gap-y-2",
+    "grid",
+    "grid-cols-[1fr,auto]",
+    "grid-rows-[auto,auto]",
+    className
+  );
+  const buttonTextClassNames = classNames("hidden");
   return (
-    <Row className={HeaderContentClassNames}>
-      <Col
-        xs={24}
-        md={16}
-        className="text-center leading-none lg:flex lg:justify-start lg:items-center gap-4"
+    <div className={headerContentClassNames}>
+      <Typography.Title
+        level={1}
+        className="!mb-0 mt-0 text-4xl col-span-2 text-center"
       >
-        <Typography.Title
-          level={1}
-          className="!mb-0 mt-0 leading-none text-4xl"
+        <Link
+          to="/"
+          className="text-white/95 font-enchant tracking-wider text-5xl"
         >
-          <Link
-            to="/"
-            className="text-white/95 font-enchant tracking-wider text-5xl"
-          >
-            {title}
-          </Link>
-        </Typography.Title>
-        {user && (
-          <div className="flex gap-4">
-            <Button
-              type="primary"
-              onClick={() => navigate(`/create`)}
-              // className="mt-4 lg:mt-0 lg:ml-4 leading-none"
-            >
-              <UserAddOutlined />
-              New Character
-            </Button>
-            <Button type="primary" onClick={() => navigate(`/gm`)}>
-              <ReconciliationOutlined />
-              GM Portal
-            </Button>
-          </div>
-        )}
-      </Col>
-      <Col
-        xs={24}
-        md={8}
-        className="text-center flex md:justify-center items-baseline lg:items-center lg:justify-end gap-4 justify-center"
-      >
+          {title}
+        </Link>
+      </Typography.Title>
+      {user && (
+        <div className="flex flex-wrap gap-4">
+          <Button type="primary" onClick={() => navigate(`/create`)}>
+            <UserAddOutlined />
+            <span className={buttonTextClassNames}>New Character</span>
+          </Button>
+          <Button type="primary" onClick={() => navigate(`/gm`)}>
+            <ReconciliationOutlined />
+            <span className={buttonTextClassNames}>GM Portal</span>
+          </Button>
+        </div>
+      )}
+      <>
         {user ? (
-          <>
-            <Typography.Text className="leading-none">
+          <div className="flex gap-4 items-baseline justify-end">
+            <Typography.Text className={buttonTextClassNames}>
               {user.displayName || user.email}
             </Typography.Text>
             <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
@@ -72,10 +65,9 @@ export default function HeaderContent({
                 shape="circle"
                 icon={<LogoutOutlined />}
                 onClick={() => auth.signOut()}
-                className="mt-4 lg:m-0 lg:ml-4 leading-none"
               />
             </Tooltip>
-          </>
+          </div>
         ) : (
           <Button
             type="primary"
@@ -84,12 +76,12 @@ export default function HeaderContent({
             Log in / Sign up
           </Button>
         )}
-      </Col>
+      </>
       <LoginSignupModal
         handleCancel={handleCancel}
         isLoginSignupModalOpen={isLoginSignupModalOpen}
         handleLogin={handleLogin}
       />
-    </Row>
+    </div>
   );
 }

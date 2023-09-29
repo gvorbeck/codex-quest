@@ -3,9 +3,11 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import { InitiativeRollerProps } from "./definitions";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { RaceNames } from "../../../data/definitions";
+import { NodeIndexOutlined } from "@ant-design/icons";
 
 export default function InitiativeRoller({
   characterData,
+  buttonTextClassNames,
 }: InitiativeRollerProps) {
   const [api, contextHolder] = notification.useNotification();
 
@@ -42,7 +44,8 @@ export default function InitiativeRoller({
       {contextHolder}
       <Tooltip title={rollTooltip}>
         <Button type="primary" onClick={rollInitiative}>
-          Roll Initiative
+          <NodeIndexOutlined />
+          <span className={buttonTextClassNames}>Roll Initiative</span>
         </Button>
       </Tooltip>
     </>
