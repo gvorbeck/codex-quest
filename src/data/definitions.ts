@@ -51,15 +51,6 @@ export enum RaceNames {
   PHAERIM = "Phaerim",
 }
 
-export interface SpellLevels {
-  cleric: number | null;
-  "magic-user": number | null;
-  druid: number | null;
-  illusionist: number | null;
-  necromancer: number | null;
-  paladin: number | null;
-}
-
 export enum DiceTypes {
   D4 = "d4",
   D6 = "d6",
@@ -75,3 +66,11 @@ export interface CollapseItem {
   label: string;
   children: React.ReactNode;
 }
+
+export type Spell = {
+  description: string;
+  duration: string;
+  level: Record<string, number | null>;
+  name: string;
+  range: string;
+};
