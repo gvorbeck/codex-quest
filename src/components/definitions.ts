@@ -1,4 +1,4 @@
-import { SpellLevels } from "../data/definitions";
+import { Spell } from "../data/definitions";
 import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
 import { Abilities } from "./CharacterCreator/CharacterAbilities/definitions";
 import { EquipmentItem } from "./EquipmentStore/definitions";
@@ -8,14 +8,6 @@ interface HP {
   points: number;
   max: number;
   desc: string;
-}
-
-export interface Spell {
-  name: string;
-  range: string;
-  level: SpellLevels;
-  duration: string;
-  description: string;
 }
 
 interface SpecialRestriction {
@@ -57,14 +49,6 @@ export type CapacityMap = Record<string, Capacity>;
 export type SpellItem = {
   name: string;
 };
-
-export interface SpellType {
-  name: string;
-  range: string;
-  level: SpellLevels;
-  duration: string;
-  description: string;
-}
 
 export type SavingThrows = {
   deathRayOrPoison: number;
