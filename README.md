@@ -15,7 +15,6 @@ Github Actions deploys the site when pushes are made to `main` branch.
 ## Tech Stack
 
 - [Ant Design Component Library](https://ant.design/components/overview)
-- [classnames](https://github.com/JedWatson/classnames)
 - [Firebase](https://console.firebase.google.com/)
 - [Jest](https://jestjs.io/)
 - [Marked](https://marked.js.org/)
