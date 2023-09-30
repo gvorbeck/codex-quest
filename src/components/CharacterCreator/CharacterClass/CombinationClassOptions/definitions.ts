@@ -1,5 +1,8 @@
-import { RaceNames } from "../../../../data/definitions";
-import { CharacterData, SetCharacterData } from "../../../definitions";
+import {
+  CharacterData,
+  RaceNames,
+  SetCharacterData,
+} from "../../../../data/definitions";
 
 export type CombinationClassOptionsProps = {
   characterData: CharacterData;

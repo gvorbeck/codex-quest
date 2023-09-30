@@ -2,7 +2,7 @@ import { Checkbox, InputNumber, Space } from "antd";
 import { EquipmentCheckboxProps } from "./definitions";
 import React, { useEffect, useState } from "react";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { EquipmentItem } from "../definitions";
+import { EquipmentItem } from "../../../data/definitions";
 
 export default function EquipmentCheckbox({
   disabled,

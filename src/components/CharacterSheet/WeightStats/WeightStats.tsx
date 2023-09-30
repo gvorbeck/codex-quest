@@ -2,7 +2,7 @@ import { Descriptions, Divider } from "antd";
 import { getCarryingCapacity } from "../../../support/formatSupport";
 import SimpleNumberStat from "../SimpleNumberStat/SimpleNumberStat";
 import { WeightStatsProps } from "./definitions";
-import { RaceNames } from "../../../data/definitions";
+import { EquipmentItem, RaceNames } from "../../../data/definitions";
 
 export default function WeightStats({
   characterData,
@@ -13,7 +13,7 @@ export default function WeightStats({
     characterData.race as RaceNames
   );
   const weight = characterData.equipment.reduce(
-    (accumulator, currentValue) =>
+    (accumulator: number, currentValue: EquipmentItem) =>
       accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
     0
   );

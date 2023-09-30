@@ -18,7 +18,7 @@ export default function CustomClassStartingSpells({
       setCharacterData({
         ...characterData,
         spells: characterData.spells.filter(
-          (prevSpell) => prevSpell.name !== spell.name
+          (prevSpell: Spell) => prevSpell.name !== spell.name
         ),
       });
     }
@@ -33,7 +33,7 @@ export default function CustomClassStartingSpells({
             key={spell.name}
             onChange={(e) => handleCheckboxChange(e, spell)}
             checked={characterData.spells.some(
-              (prevSpell) => prevSpell.name === spell.name
+              (prevSpell: Spell) => prevSpell.name === spell.name
             )}
             className="text-shipGray"
           >

@@ -19,8 +19,8 @@ import equipmentItems from "../data/equipmentItems.json";
 import { slugToTitleCase } from "../support/stringSupport";
 import { getItemCost } from "../support/formatSupport";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
-import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import DOMPurify from "dompurify";
+import { EquipmentItem } from "../data/definitions";
 
 const initialFormState = {
   name: undefined,

@@ -1,6 +1,5 @@
 import { marked } from "marked";
 import { useState } from "react";
-import { CharacterData } from "../../components/definitions";
 import { Button, Divider, Steps, Typography, message } from "antd";
 import CharacterAbilities from "../../components/CharacterCreator/CharacterAbilities/CharacterAbilities";
 import CharacterRace from "../../components/CharacterCreator/CharacterRace/CharacterRace";
@@ -9,11 +8,15 @@ import CharacterHitPoints from "../../components/CharacterCreator/CharacterHitPo
 import EquipmentStore from "../../components/EquipmentStore/EquipmentStore";
 import CharacterName from "../../components/CharacterCreator/CharacterName/CharacterName";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { AbilityTypes } from "../../components/CharacterCreator/CharacterAbilities/definitions";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { classes } from "../../data/classes";
-import { ClassNames, Spell } from "../../data/definitions";
+import {
+  Abilities,
+  CharacterData,
+  ClassNames,
+  Spell,
+} from "../../data/definitions";
 
 const abilityDescription = marked(
   `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
@@ -204,7 +207,7 @@ export default function CharacterCreator() {
     title: item.title,
   }));
 
-  function areAllAbilitiesSet(abilities: AbilityTypes) {
+  function areAllAbilitiesSet(abilities: Abilities) {
     for (let key in abilities) {
       const value = +abilities[key as keyof typeof abilities];
       if (value <= 0 || isNaN(value)) {

@@ -1,4 +1,4 @@
-import { CharacterData, SetCharacterData } from "../../definitions";
+import { CharacterData, SetCharacterData } from "../../../data/definitions";
 
 export type GoldRollerProps = {
   characterData: CharacterData;

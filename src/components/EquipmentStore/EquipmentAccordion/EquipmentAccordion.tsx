@@ -3,13 +3,13 @@ import { EquipmentAccordionProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipmentItems.json";
 import EquipmentCheckbox from "../EquipmentCheckbox/EquipmentCheckbox";
-import { EquipmentItem } from "../definitions";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { classes } from "../../../data/classes";
 import { races } from "../../../data/races";
 import { getClassType } from "../../../support/helpers";
-import { EquipmentCategories } from "../../../data/definitions";
+import { EquipmentCategories, EquipmentItem } from "../../../data/definitions";
 import { ClassNames, RaceNames } from "../../../data/definitions";
+import classNames from "classnames";
 
 const EquipmentItemDescription = (item: EquipmentItem) => (
   <>
@@ -137,12 +137,19 @@ export default function EquipmentAccordion({
     </Space>
   );
 
+  const equipmentAccordionClassNames = classNames(
+    className,
+    "bg-seaBuckthorn",
+    "h-fit"
+  );
+
   return (
     <div>
-      <Collapse accordion className={`${className} bg-seaBuckthorn h-fit`}>
+      {/* TODO refactor to use `items` instead of `children` */}
+      <Collapse accordion className={equipmentAccordionClassNames}>
         {categories
-          .sort((a, b) => a.localeCompare(b))
-          .map((category: string) => (
+          .sort((a: any, b: any) => a.localeCompare(b))
+          .map((category: any) => (
             <Collapse.Panel
               key={category}
               header={toTitleCase(category.replaceAll("-", " "))}

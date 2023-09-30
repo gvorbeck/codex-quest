@@ -1,5 +1,5 @@
-import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 import { SavingThrows } from "../../components/definitions";
+import { EquipmentItem } from "../definitions";
 
 export type ClassSetup = {
   attackBonus: number[];

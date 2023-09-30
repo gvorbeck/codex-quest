@@ -1,4 +1,4 @@
-import { CharacterDataStatePair } from "../../definitions";
+import { CharacterDataStatePair } from "../../../data/definitions";
 
 export interface CharAbilityScoreStepProps extends CharacterDataStatePair {
   setComboClass: (comboClass: boolean) => void;
@@ -11,16 +11,16 @@ export interface AbilityRecord {
   score: number;
 }
 
-export interface AbilityTypes {
-  strength: number | string;
-  intelligence: number | string;
-  wisdom: number | string;
-  dexterity: number | string;
-  constitution: number | string;
-  charisma: number | string;
-}
+// export interface AbilityTypes {
+//   strength: number | string;
+//   intelligence: number | string;
+//   wisdom: number | string;
+//   dexterity: number | string;
+//   constitution: number | string;
+//   charisma: number | string;
+// }
 
-export interface Abilities {
-  scores: AbilityTypes;
-  modifiers: AbilityTypes;
-}
+// export interface Abilities {
+//   scores: AbilityTypes;
+//   modifiers: AbilityTypes;
+// }

@@ -9,7 +9,7 @@ import { images } from "../../../assets/images/faces/imageAssets";
 import { CharacterNameProps } from "./definitions";
 import DOMPurify from "dompurify";
 import AvatarPicker from "./AvatarPicker/AvatarPicker";
-import { CharacterDataStatePair } from "../../definitions";
+import { CharacterDataStatePair } from "../../../data/definitions";
 
 const StockAvatars = ({
   setCharacterData,

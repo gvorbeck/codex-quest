@@ -1,4 +1,4 @@
-import { EquipmentItem, EquipmentStoreProps } from "./definitions";
+import { EquipmentStoreProps } from "./definitions";
 import EquipmentAccordion from "./EquipmentAccordion/EquipmentAccordion";
 import { useEffect, useState } from "react";
 import equipmentItems from "../../data/equipmentItems.json";
@@ -9,7 +9,7 @@ import { db } from "../../firebase";
 import HomebrewWarning from "../HomebrewWarning/HomebrewWarning";
 import { getItemCost } from "../../support/formatSupport";
 import GoldRoller from "./GoldRoller/GoldRoller";
-import { ClassNames, RaceNames } from "../../data/definitions";
+import { ClassNames, EquipmentItem, RaceNames } from "../../data/definitions";
 
 export default function EquipmentStore({
   characterData,

@@ -1,5 +1,4 @@
-import { Spell } from "../../../data/definitions";
-import { CharacterDataStatePair } from "../../definitions";
+import { CharacterDataStatePair, Spell } from "../../../data/definitions";
 
 export interface CharacterClassProps extends CharacterDataStatePair {
   comboClass: boolean;

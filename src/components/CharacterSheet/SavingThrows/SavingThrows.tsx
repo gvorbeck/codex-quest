@@ -1,8 +1,4 @@
-import {
-  SavingThrowsProps,
-  SavingThrowsType,
-  TableCellRecord,
-} from "./definitions";
+import { SavingThrowsProps, TableCellRecord } from "./definitions";
 import {
   getClassType,
   getSavingThrows,
@@ -16,12 +12,12 @@ import {
   titleCaseToCamelCase,
 } from "../../../support/stringSupport";
 import { races } from "../../../data/races";
-import { RaceNames } from "../../../data/definitions";
+import { RaceNames, SavingThrows } from "../../../data/definitions";
 import SavingThrowsFootnotes from "./SavingThrowsFootnotes/SavingThrowsFootnotes";
 
 const roller = new DiceRoller();
 
-const defaultSavingThrows: SavingThrowsType = {
+const defaultSavingThrows: SavingThrows = {
   deathRayOrPoison: 0,
   magicWands: 0,
   paralysisOrPetrify: 0,
@@ -41,7 +37,7 @@ export default function SavingThrows({
   const rollSavingThrow = (score: number, title: string) => {
     const raceModifier =
       races[characterData.race as RaceNames]?.savingThrows?.[
-        titleCaseToCamelCase(title) as keyof SavingThrowsType
+        titleCaseToCamelCase(title) as keyof SavingThrows
       ] || 0;
     const result = roller.roll(
       `d20${raceModifier > 0 ? `+${raceModifier}` : ""}`
@@ -61,7 +57,7 @@ export default function SavingThrows({
   };
 
   // Set the default saving throws
-  let savingThrows: SavingThrowsType = defaultSavingThrows;
+  let savingThrows: SavingThrows = defaultSavingThrows;
   // if classType is standard, find saving throws for that class
   if (classType === "standard") {
     savingThrows =

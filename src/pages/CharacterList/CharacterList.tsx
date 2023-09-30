@@ -4,11 +4,11 @@ import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import { CharacterListProps } from "./definitions";
-import { CharacterData } from "../../components/definitions";
 import classNames from "classnames";
 import CharacterCard from "../../components/CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
+import { CharacterData } from "../../data/definitions";
 
 export default function CharacterList({
   user,

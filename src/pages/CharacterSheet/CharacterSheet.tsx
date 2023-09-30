@@ -8,8 +8,6 @@ import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
 import { CharacterSheetProps } from "./definitions";
-import { CharacterData } from "../../components/definitions";
-import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 // ANTD COMPONENTS
 import {
   Breadcrumb,
@@ -45,8 +43,10 @@ import CharacterSheetModals from "../../components/CharacterSheet/CharacterSheet
 // DATA
 import { classes } from "../../data/classes";
 import {
+  CharacterData,
   ClassNames,
   EquipmentCategories,
+  EquipmentItem,
   RaceNames,
 } from "../../data/definitions";
 // SUPPORT
@@ -57,6 +57,7 @@ import {
   getClassType,
   getHitDice,
   getMovement,
+  isStandardClass,
 } from "../../support/helpers";
 import DiceSvg from "../../assets/images/dice.svg";
 import classNames from "classnames";
@@ -117,7 +118,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     if (!characterData) return;
 
     const newEquipment = characterData.equipment.filter(
-      (e) => e.name !== item.name
+      (e: EquipmentItem) => e.name !== item.name
     );
     setCharacterData({ ...characterData, equipment: newEquipment });
   };
@@ -168,11 +169,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             const newArr = characterData.class[0].split(" ");
             // Make sure every value in the array is in the ClassNames enum
             // That way you know if it is a proper combination class and not a custom class with a space.
-            if (
-              newArr.every((className) =>
-                Object.values(ClassNames).includes(className as ClassNames)
-              )
-            )
+            if (newArr.every((className) => isStandardClass(className)))
               characterData.class = newArr;
           }
         }

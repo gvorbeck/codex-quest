@@ -1,5 +1,8 @@
-import { Spell } from "../../../../data/definitions";
-import { CharacterData, SetCharacterData } from "../../../definitions";
+import {
+  CharacterData,
+  SetCharacterData,
+  Spell,
+} from "../../../../data/definitions";
 
 export type StartingSpellsProps = {
   characterData: CharacterData;

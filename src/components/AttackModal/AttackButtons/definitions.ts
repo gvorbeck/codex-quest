@@ -1,4 +1,4 @@
-import { EquipmentItem } from "../../EquipmentStore/definitions";
+import { EquipmentItem } from "../../../data/definitions";
 import { AttackType } from "../definitions";
 
 export type AttackButtonsProps = {

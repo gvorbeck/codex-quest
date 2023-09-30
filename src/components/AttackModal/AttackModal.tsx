@@ -3,14 +3,17 @@ import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../CloseIcon/CloseIcon";
 import equipmentItems from "../../data/equipmentItems.json";
-import { EquipmentItem } from "../EquipmentStore/definitions";
 import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
 import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
-import { CharacterData } from "../definitions";
 import { races } from "../../data/races";
 import { classes } from "../../data/classes";
-import { ClassNames, RaceNames } from "../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+} from "../../data/definitions";
 import { AttackModalProps, AttackType } from "./definitions";
 
 const roller = new DiceRoller();

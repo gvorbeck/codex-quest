@@ -1,3 +1,5 @@
+import { SpecialsRestrictionsProps } from "../components/CharacterSheet/SpecialsRestrictions/definitions";
+
 export enum EquipmentCategories {
   GENERAL = "general-equipment",
   AXES = "axes",
@@ -61,6 +63,14 @@ export enum DiceTypes {
   D100 = "d100",
 }
 
+export type SavingThrows = {
+  deathRayOrPoison: number;
+  magicWands: number;
+  paralysisOrPetrify: number;
+  dragonBreath: number;
+  spells: number;
+};
+
 export interface CollapseItem {
   key: string;
   label: string;
@@ -74,3 +84,71 @@ export type Spell = {
   name: string;
   range: string;
 };
+
+export type Abilities = {
+  strength: number | string;
+  intelligence: number | string;
+  wisdom: number | string;
+  dexterity: number | string;
+  constitution: number | string;
+  charisma: number | string;
+};
+
+export type EquipmentItem = {
+  name: string;
+  costValue: number;
+  costCurrency: string;
+  category: string;
+  amount: number;
+  weight?: number;
+  size?: string;
+  damage?: string;
+  missileAC?: string;
+  AC?: string | number;
+  type?: string;
+  range?: number[];
+  ammo?: string[];
+  noDelete?: boolean;
+  minLevel?: number;
+};
+
+type SpecialRestriction = {
+  race: string[];
+  class: string[];
+};
+
+export type CharacterData = {
+  abilities: {
+    scores: Abilities;
+    modifiers: Abilities;
+  };
+  avatar: string;
+  class: string[];
+  desc: string | string[];
+  equipment: EquipmentItem[];
+  gold: number;
+  hp: {
+    dice: string;
+    points: number;
+    max: number;
+    desc: string;
+  };
+  id?: string;
+  level: number;
+  name: string;
+  race: string;
+  restrictions: SpecialRestriction;
+  savingThrows: SavingThrows;
+  specials: SpecialRestriction;
+  spells: Spell[];
+  wearing?: { armor: string; shield: string };
+  weight: number;
+  xp: number;
+};
+
+export type SetCharacterData = (characterData: CharacterData) => void;
+
+export interface CharacterDataStatePair {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+}

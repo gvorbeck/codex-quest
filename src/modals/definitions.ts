@@ -1,7 +1,5 @@
-import { RadioChangeEvent } from "antd";
-import { EquipmentItem } from "../components/EquipmentStore/definitions";
-import { CharacterData } from "../components/definitions";
 import { FormEvent } from "react";
+import { CharacterData } from "../data/definitions";
 
 export type ModalProps = {
   handleCancel: () => void;

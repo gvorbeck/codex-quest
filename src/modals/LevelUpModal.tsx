@@ -14,7 +14,6 @@ import { marked } from "marked";
 import DescriptionBubble from "../components/CharacterCreator/DescriptionBubble/DescriptionBubble";
 import { classes } from "../data/classes";
 import { ClassNames, Spell } from "../data/definitions";
-import classNames from "classnames";
 
 const roller = new DiceRoller();
 
@@ -86,7 +85,7 @@ export default function LevelUpModal({
     let spellBudget: number[] = [];
     const newSpells = characterData.spells;
     const newSpellCounts = newSpells.reduce(
-      (acc, spell) => {
+      (acc: number[], spell: Spell) => {
         // If it is a combination class, just use the magic-user level
         const spellLevel =
           getClassType(characterData.class) === "combination"
@@ -138,7 +137,7 @@ export default function LevelUpModal({
               : characterData.class[0].toLowerCase();
 
           newCheckedSpells = characterData.spells.filter(
-            (spell) => spell.level[classNameToCheck] !== level
+            (spell: Spell) => spell.level[classNameToCheck] !== level
           );
 
           checkedValues.forEach((value) => {
@@ -168,7 +167,7 @@ export default function LevelUpModal({
               </Typography.Title>
               <Checkbox.Group
                 className="grid grid-cols-1 [&>*+*]:mt-2"
-                value={characterData.spells.map((spell) => spell.name)}
+                value={characterData.spells.map((spell: Spell) => spell.name)}
                 onChange={handleSpellChange(index + 1)}
               >
                 {spellsOfLevel(characterData.class, index + 1)

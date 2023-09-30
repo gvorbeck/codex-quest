@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import { CharacterData } from "../definitions";
+import { CharacterData } from "../../data/definitions";
 
 export type CharacterCardProps = {
   characterData: CharacterData;

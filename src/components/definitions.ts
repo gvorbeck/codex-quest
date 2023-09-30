@@ -1,47 +1,19 @@
 import { Spell } from "../data/definitions";
-import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
-import { Abilities } from "./CharacterCreator/CharacterAbilities/definitions";
-import { EquipmentItem } from "./EquipmentStore/definitions";
+// import { SavingThrowsType } from "./CharacterSheet/SavingThrows/definitions";
+// import { Abilities } from "./CharacterCreator/CharacterAbilities/definitions";
+// import { EquipmentItem } from "./EquipmentStore/definitions";
 
-interface HP {
-  dice: string;
-  points: number;
-  max: number;
-  desc: string;
-}
+// interface HP {
+//   dice: string;
+//   points: number;
+//   max: number;
+//   desc: string;
+// }
 
-interface SpecialRestriction {
-  race: string[];
-  class: string[];
-}
-
-export type CharacterData = {
-  abilities: Abilities;
-  avatar: string;
-  class: string[];
-  desc: string | string[];
-  equipment: EquipmentItem[];
-  gold: number;
-  hp: HP;
-  id?: string;
-  level: number;
-  name: string;
-  race: string;
-  restrictions: SpecialRestriction;
-  savingThrows: SavingThrowsType;
-  specials: SpecialRestriction;
-  spells: Spell[];
-  wearing?: { armor: string; shield: string };
-  weight: number;
-  xp: number;
-};
-
-export type SetCharacterData = (characterData: CharacterData) => void;
-
-export interface CharacterDataStatePair {
-  characterData: CharacterData;
-  setCharacterData: SetCharacterData;
-}
+// interface SpecialRestriction {
+//   race: string[];
+//   class: string[];
+// }
 
 export type Capacity = { light: number; heavy: number };
 export type CapacityMap = Record<string, Capacity>;

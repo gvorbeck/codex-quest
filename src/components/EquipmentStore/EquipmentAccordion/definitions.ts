@@ -1,5 +1,4 @@
-import { CharacterData } from "../../definitions";
-import { EquipmentItem } from "../definitions";
+import { CharacterData, EquipmentItem } from "../../../data/definitions";
 
 export interface EquipmentAccordionProps {
   characterData: CharacterData;

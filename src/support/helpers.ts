@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
+// import {
+//   Abilities,
+//   AbilityTypes,
+// } from "../components/CharacterCreator/CharacterAbilities/definitions";
+import { classes } from "../data/classes";
 import {
   Abilities,
-  AbilityTypes,
-} from "../components/CharacterCreator/CharacterAbilities/definitions";
-import { classes } from "../data/classes";
-import { ClassNames, RaceNames } from "../data/definitions";
+  CharacterData,
+  ClassNames,
+  RaceNames,
+  SavingThrows,
+  SetCharacterData,
+} from "../data/definitions";
 import { races } from "../data/races";
-import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
-import { CharacterData, SetCharacterData } from "../components/definitions";
+// import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
+// import { CharacterData, SetCharacterData } from "../components/definitions";
 import equipmentItems from "../data/equipmentItems.json";
 import { getCarryingCapacity } from "./formatSupport";
 
@@ -54,53 +61,42 @@ export const isStandardClass = (className: string) =>
 export const isStandardRace = (raceName: string) =>
   Object.values(RaceNames).includes(raceName as RaceNames);
 
-export function getDisabledClasses(
+export function getEnabledClasses(
   raceKey: RaceNames,
-  abilities: Abilities
-): ClassNames[] {
-  const race = races[raceKey];
-  const disabledClasses = [];
-
-  // Check if the race is defined
-  if (!race) return [];
-
-  for (const className of Object.values(ClassNames)) {
-    const classSetup = classes[className];
-
-    // Check if the class is allowed for the race
-    if (
-      !race.allowedStandardClasses?.includes(className) &&
-      !race.allowedCombinationClasses?.includes(className)
-    ) {
-      disabledClasses.push(className);
-      continue;
-    }
-
-    // Check ability requirements
-    if (classSetup.minimumAbilityRequirements) {
-      for (const ability of Object.keys(
-        classSetup.minimumAbilityRequirements
-      ) as (keyof AbilityTypes)[]) {
-        const requirement = classSetup.minimumAbilityRequirements[ability];
-        if (requirement && +abilities.scores[ability] < requirement) {
-          disabledClasses.push(className);
-          break;
+  abilityScores: Abilities
+) {
+  const race = isStandardRace(raceKey) ? races[raceKey] : undefined;
+  console.log("race", race);
+  let classList = Object.values(ClassNames);
+  if (!race) return classList;
+  classList = classList
+    .filter((className) => race.allowedStandardClasses.indexOf(className) > -1)
+    .filter((className) => {
+      const classSetup = classes[className];
+      if (classSetup.minimumAbilityRequirements) {
+        for (const ability of Object.keys(
+          classSetup.minimumAbilityRequirements
+        ) as (keyof Abilities)[]) {
+          const requirement = classSetup.minimumAbilityRequirements[ability];
+          if (requirement && +abilityScores[ability] < requirement) {
+            return false;
+          }
         }
       }
-    }
-  }
-
-  return disabledClasses;
+      return true;
+    });
+  console.log("classList2", classList);
+  return classList;
 }
 
 // Get the saving throws for a class at a given level
 export const getSavingThrows = (className: string, level: number) =>
   classes[className as ClassNames]?.savingThrows.find(
     (savingThrow) => (savingThrow[0] as number) >= level
-  )?.[1] as SavingThrowsType;
+  )?.[1] as SavingThrows;
 
 // Get the total weight of a saving throw object in order to determine "best"
-export const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
+export const getSavingThrowsWeight = (savingThrows: SavingThrows) =>
   Object.values(savingThrows).reduce((prev, curr) => prev + curr, 0);
 
 export function useDebounce(value: any, delay: number) {

@@ -5,10 +5,13 @@ import { DeleteOutlined } from "@ant-design/icons";
 import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
-import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
-import { ClassNames, RaceNames } from "../../../../data/definitions";
+import {
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+} from "../../../../data/definitions";
 import { races } from "../../../../data/races";
 
 const punchItem: EquipmentItem = {
@@ -43,8 +46,8 @@ export default function EquipmentList({
   updateAC,
 }: EquipmentListProps) {
   const shownItems = characterData.equipment
-    .filter((item) => categories.includes(item.category))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .filter((item: EquipmentItem) => categories.includes(item.category))
+    .sort((a: EquipmentItem, b: EquipmentItem) => a.name.localeCompare(b.name));
 
   const handleUpdateAC = (item: string, type: string) => {
     const oldArmor = characterData.wearing?.armor;
@@ -76,7 +79,7 @@ export default function EquipmentList({
   useEffect(() => {
     // Remove empty items from the equipment array.
     const remainingEquipment = characterData.equipment.filter(
-      (item) => item.amount !== 0
+      (item: EquipmentItem) => item.amount !== 0
     );
     if (remainingEquipment.length !== characterData.equipment.length) {
       setCharacterData({ ...characterData, equipment: remainingEquipment });
@@ -99,7 +102,7 @@ export default function EquipmentList({
     >
       {categories.includes("armor") && <EmptyRadio label="No Armor" />}
       {categories.includes("shields") && <EmptyRadio label="No Shield" />}
-      {shownItems.map((item) => {
+      {shownItems.map((item: EquipmentItem) => {
         // Ignore previously existing "NO X" items in characters' equipment.
         if (item.name === "No Shield" || item.name === "No Armor") return null;
         return (
@@ -194,7 +197,7 @@ export default function EquipmentList({
             )
         )}
       {shownItems.length > 0 ? (
-        shownItems.map((item) => (
+        shownItems.map((item: EquipmentItem) => (
           <ItemWrapper
             item={item}
             handleCustomDelete={handleCustomDelete}

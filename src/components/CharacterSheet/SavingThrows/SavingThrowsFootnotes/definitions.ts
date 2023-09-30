@@ -1,4 +1,4 @@
-import { CharacterData } from "../../../definitions";
+import { CharacterData } from "../../../../data/definitions";
 
 export type SavingThrowsFootnotesProps = {
   characterData: CharacterData;

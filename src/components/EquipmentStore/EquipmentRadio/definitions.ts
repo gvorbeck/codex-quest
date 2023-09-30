@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { EquipmentItem } from "../definitions";
+import { EquipmentItem } from "../../../data/definitions";
 
 export interface EquipmentRadioProps {
   item: EquipmentItem;

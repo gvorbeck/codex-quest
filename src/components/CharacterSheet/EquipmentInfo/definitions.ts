@@ -1,5 +1,4 @@
-import { CollapseItem } from "../../../data/definitions";
-import { CharacterData } from "../../definitions";
+import { CharacterData, CollapseItem } from "../../../data/definitions";
 
 export interface EquipmentInfoProps {
   userIsOwner: boolean;

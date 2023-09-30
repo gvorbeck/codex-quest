@@ -1,6 +1,5 @@
+import { CharacterData, EquipmentItem } from "../../data/definitions";
 import { ModalProps } from "../../modals/definitions";
-import { EquipmentItem } from "../EquipmentStore/definitions";
-import { CharacterData } from "../definitions";
 
 export type AttackType = "melee" | "missile";
 

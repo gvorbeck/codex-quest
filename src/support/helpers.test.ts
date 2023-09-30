@@ -1,8 +1,8 @@
-import { ClassNames, RaceNames } from "../data/definitions";
+import { CharacterData, ClassNames, RaceNames } from "../data/definitions";
 import {
   getArmorClass,
   getClassType,
-  getDisabledClasses,
+  getEnabledClasses,
   getHitPointsModifier,
   getSavingThrows,
   getSavingThrowsWeight,
@@ -12,7 +12,6 @@ import {
 } from "./helpers";
 import React, { useState, useEffect } from "react";
 import { renderHook } from "@testing-library/react";
-import { CharacterData } from "../components/definitions";
 
 let characterData: CharacterData = {
   savingThrows: {
@@ -142,39 +141,23 @@ describe("isStandardRace", () => {
   });
 });
 
-describe("getDisabledClasses", () => {
+describe("getEnabledClasses", () => {
   // This test will break any time a new class is added, so... maybe not the best test.
-  test("should return a list of disabled classNames based on character race and ability scores", () => {
+  test("should return a list of enabled classNames based on character race selection and ability scores", () => {
     expect(
-      getDisabledClasses(RaceNames.DWARF, {
-        scores: {
-          strength: 9,
-          intelligence: 9,
-          wisdom: 6,
-          constitution: 11,
-          dexterity: 11,
-          charisma: 8,
-        },
-        modifiers: {
-          strength: "+0",
-          intelligence: "+0",
-          wisdom: "-1",
-          constitution: "+0",
-          dexterity: "+0",
-          charisma: "-1",
-        },
+      getEnabledClasses(RaceNames.DWARF, {
+        strength: 9,
+        intelligence: 9,
+        wisdom: 6,
+        constitution: 11,
+        dexterity: 11,
+        charisma: 8,
       })
     ).toEqual([
-      "Assassin",
-      "Cleric",
-      "Druid",
-      "Illusionist",
-      "Magic-User",
-      "Necromancer",
-      "Ranger",
-      "Paladin",
-      "Scout",
-      "Spellcrafter",
+      ClassNames.BARBARIAN,
+      ClassNames.FIGHTER,
+      ClassNames.THIEF,
+      ClassNames.CUSTOM,
     ]);
   });
 });

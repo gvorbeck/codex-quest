@@ -1,4 +1,4 @@
-import { EquipmentItem } from "../../../../EquipmentStore/definitions";
+import { EquipmentItem } from "../../../../../data/definitions";
 
 export type ItemDescriptionProps = {
   item: EquipmentItem;

@@ -1,7 +1,6 @@
 import { RadioChangeEvent } from "antd";
-import { EquipmentItem } from "../../EquipmentStore/definitions";
-import { CharacterData } from "../../definitions";
 import { AttackType } from "../definitions";
+import { CharacterData, EquipmentItem } from "../../../data/definitions";
 
 export type WeaponTypeBothProps = {
   handleSwitchChange: (switchChange: boolean) => void;
