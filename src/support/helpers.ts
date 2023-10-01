@@ -10,7 +10,7 @@ import {
   ClassNames,
   EquipmentItem,
   RaceNames,
-  SavingThrows,
+  SavingThrowsType,
   SetCharacterData,
 } from "../data/definitions";
 import { races } from "../data/races";
@@ -67,7 +67,6 @@ export function getEnabledClasses(
   abilityScores: Abilities
 ) {
   const race = isStandardRace(raceKey) ? races[raceKey] : undefined;
-  console.log("race", race);
   let classList = Object.values(ClassNames);
   if (!race) return classList;
   classList = classList
@@ -86,7 +85,6 @@ export function getEnabledClasses(
       }
       return true;
     });
-  console.log("classList2", classList);
   return classList;
 }
 
@@ -94,10 +92,10 @@ export function getEnabledClasses(
 export const getSavingThrows = (className: string, level: number) =>
   classes[className as ClassNames]?.savingThrows.find(
     (savingThrow) => (savingThrow[0] as number) >= level
-  )?.[1] as SavingThrows;
+  )?.[1] as SavingThrowsType;
 
 // Get the total weight of a saving throw object in order to determine "best"
-export const getSavingThrowsWeight = (savingThrows: SavingThrows) =>
+export const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
   Object.values(savingThrows).reduce((prev, curr) => prev + curr, 0);
 
 export function useDebounce(value: any, delay: number) {

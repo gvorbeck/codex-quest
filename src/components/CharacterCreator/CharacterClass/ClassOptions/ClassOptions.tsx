@@ -18,7 +18,6 @@ export default function ClassOptions({
     characterData.race as RaceNames,
     characterData.abilities.scores
   );
-  console.log("enabledClasses", enabledClasses);
   const baseClasses = [
     ClassNames.FIGHTER,
     ClassNames.CLERIC,

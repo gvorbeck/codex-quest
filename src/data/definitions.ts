@@ -61,7 +61,7 @@ export enum DiceTypes {
   D100 = "d100",
 }
 
-export type SavingThrows = {
+export type SavingThrowsType = {
   deathRayOrPoison: number;
   magicWands: number;
   paralysisOrPetrify: number;
