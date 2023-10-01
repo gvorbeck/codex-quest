@@ -136,7 +136,7 @@ export type CharacterData = {
   name: string;
   race: string;
   restrictions: SpecialRestriction;
-  savingThrows: SavingThrows;
+  savingThrows: SavingThrowsType;
   specials: SpecialRestriction;
   spells: Spell[];
   wearing?: { armor: string; shield: string };
