@@ -1,4 +1,4 @@
-import { DiceTypes } from "../definitions";
+import { DiceTypes, SavingThrows } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { fighter } from "./fighter";
 import { magicUser } from "./magicUser";
@@ -13,7 +13,6 @@ import { necromancer } from "./necromancer";
 import { ranger } from "./ranger";
 import { paladin } from "./paladin";
 import { scout } from "./scout";
-import { SavingThrows } from "../../components/definitions";
 import { spellCrafter } from "./spellcrafter";
 
 const customPlaceholder: ClassSetup = {

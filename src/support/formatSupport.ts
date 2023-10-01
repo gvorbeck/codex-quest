@@ -1,6 +1,9 @@
-import { Capacity, CapacityMap } from "../components/definitions";
+// import { Capacity, CapacityMap } from "../components/definitions";
 import { CharacterData, EquipmentItem, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
+
+type Capacity = { light: number; heavy: number };
+type CapacityMap = Record<string, Capacity>;
 
 export const getItemCost = (item: EquipmentItem) => {
   let cost = item.costValue;
