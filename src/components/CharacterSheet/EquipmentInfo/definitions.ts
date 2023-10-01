@@ -1,9 +1,10 @@
-import { CharacterData, CollapseItem } from "../../../data/definitions";
+import { CollapseProps } from "antd";
+import { CharacterData } from "../../../data/definitions";
 
 export interface EquipmentInfoProps {
   userIsOwner: boolean;
   showAddEquipmentModal: () => void;
   showAddCustomEquipmentModal: () => void;
   characterData: CharacterData;
-  collapseItems: CollapseItem[];
+  collapseItems: CollapseProps["items"];
 }

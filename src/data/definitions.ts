@@ -69,12 +69,6 @@ export type SavingThrowsType = {
   spells: number;
 };
 
-// export interface CollapseItem {
-//   key: string;
-//   label: string;
-//   children: React.ReactNode;
-// }
-
 export type Spell = {
   description: string;
   duration: string;
