@@ -1,5 +1,3 @@
-import { SpecialsRestrictionsProps } from "../components/CharacterSheet/SpecialsRestrictions/definitions";
-
 export enum EquipmentCategories {
   GENERAL = "general-equipment",
   AXES = "axes",
