@@ -1,4 +1,4 @@
-import { DiceTypes, SavingThrows } from "../definitions";
+import { DiceTypes, SavingThrowsType } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { fighter } from "./fighter";
 import { magicUser } from "./magicUser";
@@ -60,7 +60,7 @@ const customPlaceholder: ClassSetup = {
         spells: 16,
       },
     ],
-  ] as [number, SavingThrows][],
+  ] as [number, SavingThrowsType][],
 };
 
 export const classes: { [key in ClassNames]: ClassSetup } = {

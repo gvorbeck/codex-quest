@@ -1,17 +1,8 @@
-import { CharacterData, SavingThrows } from "../../../data/definitions";
-// import { CharacterData } from "../../definitions";
-
-// export type SavingThrowsType = {
-//   deathRayOrPoison: number;
-//   magicWands: number;
-//   paralysisOrPetrify: number;
-//   dragonBreath: number;
-//   spells: number;
-// };
+import { CharacterData, SavingThrowsType } from "../../../data/definitions";
 
 export interface SavingThrowsTables {
   [characterClass: string]: {
-    [levelRange: string]: SavingThrows;
+    [levelRange: string]: SavingThrowsType;
   };
 }
 
