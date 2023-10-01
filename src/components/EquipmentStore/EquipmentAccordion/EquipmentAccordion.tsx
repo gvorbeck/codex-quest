@@ -1,6 +1,6 @@
-import { Collapse } from "antd";
+import { Collapse, CollapseProps } from "antd";
 import { EquipmentAccordionProps } from "./definitions";
-import { toTitleCase } from "../../../support/stringSupport";
+import { slugToTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipmentItems.json";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { classes } from "../../../data/classes";
@@ -30,60 +30,63 @@ export default function EquipmentAccordion({
     "h-fit"
   );
 
+  const generalEquipmentName = "general-equipment";
+
+  const generalEquipmentItems: CollapseProps["items"] = [
+    ...new Set(
+      equipmentItems
+        .filter((item) => item.category === generalEquipmentName)
+        .map((item) => item.subCategory)
+    ),
+  ].map((subCategory, index) => {
+    return {
+      key: index + 1 + "",
+      label: slugToTitleCase(subCategory || ""),
+      children: (
+        <EquipmentCheckboxGroup
+          category={generalEquipmentName}
+          subCategory={subCategory}
+          characterData={characterData}
+          onAmountChange={onAmountChange}
+          onCheckboxCheck={onCheckboxCheck}
+        />
+      ),
+    };
+  });
+
+  const items: CollapseProps["items"] = categories
+    .sort((a, b) => a.localeCompare(b))
+    .map((category, index) => {
+      return {
+        key: index + 1 + "",
+        label: slugToTitleCase(category),
+        children:
+          category === "general-equipment" ? (
+            <Collapse
+              items={generalEquipmentItems}
+              accordion
+              ghost
+              size="small"
+            />
+          ) : (
+            <EquipmentCheckboxGroup
+              category={category}
+              characterData={characterData}
+              onAmountChange={onAmountChange}
+              onCheckboxCheck={onCheckboxCheck}
+            />
+          ),
+      };
+    });
+
   return (
-    <div>
-      {/* TODO refactor to use `items` instead of `children` */}
-      <Collapse accordion className={equipmentAccordionClassNames}>
-        {categories
-          .sort((a: any, b: any) => a.localeCompare(b))
-          .map((category: any) => (
-            <Collapse.Panel
-              key={category}
-              header={toTitleCase(category.replaceAll("-", " "))}
-              className="[&>div:not(:first)]:bg-springWood"
-            >
-              {/* if category === 'general-equipment' Create a sub Collapse */}
-              {category === "general-equipment" ? (
-                <Collapse accordion ghost size="small">
-                  {[
-                    ...new Set(
-                      equipmentItems
-                        .filter((item) => item.category === category)
-                        .map((item) => item.subCategory)
-                    ),
-                  ].map((subCategory) => {
-                    return (
-                      subCategory !== undefined && (
-                        <Collapse.Panel
-                          key={subCategory}
-                          header={toTitleCase(
-                            subCategory?.replaceAll("-", " ")
-                          )}
-                        >
-                          <EquipmentCheckboxGroup
-                            category={category}
-                            subCategory={subCategory}
-                            characterData={characterData}
-                            onAmountChange={onAmountChange}
-                            onCheckboxCheck={onCheckboxCheck}
-                          />
-                        </Collapse.Panel>
-                      )
-                    );
-                  })}
-                </Collapse>
-              ) : (
-                <EquipmentCheckboxGroup
-                  category={category}
-                  characterData={characterData}
-                  onAmountChange={onAmountChange}
-                  onCheckboxCheck={onCheckboxCheck}
-                />
-              )}
-            </Collapse.Panel>
-          ))}
-      </Collapse>
+    <>
+      <Collapse
+        accordion
+        className={equipmentAccordionClassNames}
+        items={items}
+      />
       <WeaponKeys className="mt-4" />
-    </div>
+    </>
   );
 }
