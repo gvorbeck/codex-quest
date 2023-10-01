@@ -8,6 +8,7 @@ import {
   Abilities,
   CharacterData,
   ClassNames,
+  EquipmentItem,
   RaceNames,
   SavingThrows,
   SetCharacterData,
@@ -259,4 +260,41 @@ export const getMovement = (characterData: CharacterData) => {
   ) {
     return characterData.weight <= carryingCapacity.light ? 20 : 10;
   }
+};
+
+export const equipmentItemIsDisabled = (
+  classNames: ClassNames[],
+  raceName: RaceNames,
+  item: EquipmentItem
+) => {
+  // Nothing disabled for custom classes
+  if (getClassType(classNames) === "custom") return false;
+  // Races that do not allow large equipment
+  if (races[raceName]?.noLargeEquipment && item.size === "L") return true;
+  // Classes that do not allow large equipment
+  if (
+    classNames.some((className) => classes[className].noLargeEquipment) &&
+    item.size === "L"
+  ) {
+    return true;
+  }
+  let disabled = false;
+  classNames.forEach((className) => {
+    if (classes[className].specificEquipmentItems) {
+      const specificEquipmentItems = classes[className]
+        .specificEquipmentItems || [[], []];
+
+      // if the item category is listed in specificEquipmentItems[0] AND the string in specificEquipmentItems[1] is not in the item name
+      if (
+        specificEquipmentItems[0].includes(item.category) &&
+        specificEquipmentItems[1].every(
+          (string) => !item.name.toLowerCase().includes(string)
+        )
+      ) {
+        disabled = true;
+      }
+    }
+  });
+
+  return disabled;
 };
