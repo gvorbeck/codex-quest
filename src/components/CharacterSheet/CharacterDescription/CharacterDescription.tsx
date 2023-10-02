@@ -4,11 +4,17 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import { CharacterDescriptionProps } from "./definitions";
 import DOMPurify from "dompurify";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { getClassType } from "../../../support/helpers";
 import DescriptionFieldButton from "./DescriptionFieldButton/DescriptionFieldButton";
+import { CharacterData, SetCharacterData } from "../../../data/definitions";
+
+type CharacterDescriptionProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  userIsOwner: boolean;
+};
 
 export default function CharacterDescription({
   characterData,

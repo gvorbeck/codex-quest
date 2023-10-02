@@ -5,7 +5,24 @@ import DiceRollerModal from "../../../modals/DiceRollerModal";
 import LevelUpModal from "../../../modals/LevelUpModal";
 import { getAttackBonus, getHitDice } from "../../../support/helpers";
 import AttackModal from "../../AttackModal/AttackModal";
-import { CharacterSheetModalsProps } from "./definitions";
+import {
+  CharacterData,
+  SetCharacterData,
+  EquipmentItem,
+} from "../../../data/definitions";
+
+type CharacterSheetModalsProps = {
+  characterData: CharacterData;
+  handleCancel: () => void;
+  isAddCustomEquipmentModalOpen: boolean;
+  isAddEquipmentModalOpen: boolean;
+  isAttackModalOpen: boolean;
+  isCheatSheetModalOpen: boolean;
+  isDiceRollerModalOpen: boolean;
+  isLevelUpModalOpen: boolean;
+  setCharacterData: SetCharacterData;
+  weapon: EquipmentItem | undefined;
+};
 
 export default function CharacterSheetModals({
   characterData,
