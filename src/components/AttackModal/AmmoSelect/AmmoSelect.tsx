@@ -1,5 +1,11 @@
 import { Select } from "antd";
-import { AmmoSelectProps } from "./definitions";
+import { EquipmentItem } from "../../../data/definitions";
+
+type AmmoSelectProps = {
+  ammo: string[] | undefined;
+  equipment: EquipmentItem[];
+  setAmmo: (ammo: EquipmentItem) => void;
+};
 
 export default function AmmoSelect({
   ammo,

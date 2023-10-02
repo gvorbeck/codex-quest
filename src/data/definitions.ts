@@ -144,3 +144,5 @@ export interface CharacterDataStatePair {
   characterData: CharacterData;
   setCharacterData: SetCharacterData;
 }
+
+export type AttackType = "melee" | "missile";

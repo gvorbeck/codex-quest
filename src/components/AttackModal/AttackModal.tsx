@@ -9,12 +9,20 @@ import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
 import { races } from "../../data/races";
 import { classes } from "../../data/classes";
 import {
+  AttackType,
   CharacterData,
   ClassNames,
   EquipmentItem,
   RaceNames,
 } from "../../data/definitions";
-import { AttackModalProps, AttackType } from "./definitions";
+import { ModalProps } from "../../modals/definitions";
+
+interface AttackModalProps extends ModalProps {
+  isAttackModalOpen: boolean;
+  attackBonus: number;
+  weapon?: EquipmentItem;
+  setCharacterData: (character: CharacterData) => void;
+}
 
 const roller = new DiceRoller();
 
