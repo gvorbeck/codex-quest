@@ -31,18 +31,24 @@ export default function HeaderContent({
     className
   );
   const buttonTextClassNames = classNames("hidden", "md:inline");
+  const titleClassNames = classNames(
+    "text-white/95",
+    "font-enchant",
+    "tracking-wider",
+    "text-4xl",
+    "md:text-5xl",
+    "flex",
+    "margin-x-auto",
+    "gap-2",
+    "justify-center",
+    "items-center"
+  );
 
   const displayTitle = title.split(" ");
   return (
     <div className={headerContentClassNames}>
-      <Typography.Title
-        level={1}
-        className="!mb-0 mt-0 text-4xl col-span-2 text-center"
-      >
-        <Link
-          to="/"
-          className="text-white/95 font-enchant tracking-wider text-5xl flex margin-x-auto gap-2 justify-center items-center"
-        >
+      <Typography.Title level={1} className="!mb-0 mt-0 col-span-2 text-center">
+        <Link to="/" className={titleClassNames}>
           <span>{displayTitle[0]}</span>
           <img src={DragonIcon} className="w-12 h-12" alt="Dragon Icon" />
           <span>{displayTitle[1]}</span>
