@@ -1,6 +1,10 @@
 import { toTitleCase } from "../../../support/stringSupport";
 import { Table, Typography } from "antd";
-import { AbilitiesProps } from "./definitions";
+import { CharacterData } from "../../../data/definitions";
+
+type AbilitiesProps = {
+  characterData: CharacterData;
+};
 
 export default function Abilities({ characterData }: AbilitiesProps) {
   const columns = [

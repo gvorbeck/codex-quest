@@ -1,6 +1,11 @@
 import classNames from "classnames";
-import { DescriptionFieldButtonProps } from "./definitions";
 import { Button, Tooltip } from "antd";
+import { ReactNode } from "react";
+
+type DescriptionFieldButtonProps = {
+  handler: (event: React.MouseEvent<HTMLElement>) => void;
+  icon: ReactNode;
+};
 
 // Button component for adding and deleting text fields
 export default function DescriptionFieldButton({

@@ -1,7 +1,6 @@
 import { Avatar, Descriptions, Divider, Modal, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
-import { BaseStatsProps } from "./definitions";
 import { extractImageName } from "../../../support/stringSupport";
 import { images } from "../../../assets/images/faces/imageAssets";
 import classNames from "classnames";
@@ -9,9 +8,21 @@ import { ReactNode, useState } from "react";
 import { marked } from "marked";
 import { isStandardClass, isStandardRace } from "../../../support/helpers";
 import { classes } from "../../../data/classes";
-import { ClassNames, RaceNames } from "../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  RaceNames,
+  SetCharacterData,
+} from "../../../data/definitions";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { races } from "../../../data/races";
+
+type BaseStatsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  userIsOwner?: boolean;
+  showLevelUpModal?: () => void;
+};
 
 export default function BaseStats({
   characterData,
