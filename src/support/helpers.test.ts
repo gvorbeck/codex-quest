@@ -1,5 +1,6 @@
 import { CharacterData, ClassNames, RaceNames } from "../data/definitions";
 import {
+  equipmentItemIsDisabled,
   getArmorClass,
   getClassType,
   getEnabledClasses,
@@ -8,10 +9,11 @@ import {
   getSavingThrowsWeight,
   getSpecialAbilityRaceOverrides,
   isStandardRace,
-  useDebounce,
+  // useDebounce,
 } from "./helpers";
-import React, { useState, useEffect } from "react";
-import { renderHook } from "@testing-library/react";
+// import React, { useState, useEffect } from "react";
+// import { renderHook } from "@testing-library/react";
+import equipmentItems from "../data/equipmentItems.json";
 
 let characterData: CharacterData = {
   savingThrows: {
@@ -268,3 +270,32 @@ describe("getArmorClass", () => {
     ).toBe(13);
   });
 });
+
+describe("equipmentItemIsDisabled", () => {
+  const longbow = equipmentItems.filter((item) => item.name === "Longbow")[0];
+  test("custom class has nothing disabled", () => {
+    expect(equipmentItemIsDisabled(["foo"], RaceNames.HUMAN, longbow)).toBe(
+      false
+    );
+  });
+
+  test("races with `noLargeEquipment`", () => {
+    expect(
+      equipmentItemIsDisabled([ClassNames.CLERIC], RaceNames.GNOME, longbow)
+    ).toBe(true);
+  });
+
+  test("classes with `noLargeEquipment`", () => {
+    expect(
+      equipmentItemIsDisabled([ClassNames.SCOUT], RaceNames.HUMAN, longbow)
+    ).toBe(true);
+  });
+
+  test("classes with specific items restrictions (`specificEquipmentItems`)", () => {
+    expect(
+      equipmentItemIsDisabled([ClassNames.CLERIC], RaceNames.HUMAN, longbow)
+    ).toBe(true);
+  });
+});
+
+// describe("getMovement", () => {});

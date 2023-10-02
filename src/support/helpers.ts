@@ -1,8 +1,4 @@
 import { useEffect, useState } from "react";
-// import {
-//   Abilities,
-//   AbilityTypes,
-// } from "../components/CharacterCreator/CharacterAbilities/definitions";
 import { classes } from "../data/classes";
 import {
   Abilities,
@@ -14,8 +10,6 @@ import {
   SetCharacterData,
 } from "../data/definitions";
 import { races } from "../data/races";
-// import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
-// import { CharacterData, SetCharacterData } from "../components/definitions";
 import equipmentItems from "../data/equipmentItems.json";
 import { getCarryingCapacity } from "./formatSupport";
 
@@ -261,7 +255,7 @@ export const getMovement = (characterData: CharacterData) => {
 };
 
 export const equipmentItemIsDisabled = (
-  classNames: ClassNames[],
+  classNames: string[],
   raceName: RaceNames,
   item: EquipmentItem
 ) => {
@@ -271,15 +265,17 @@ export const equipmentItemIsDisabled = (
   if (races[raceName]?.noLargeEquipment && item.size === "L") return true;
   // Classes that do not allow large equipment
   if (
-    classNames.some((className) => classes[className].noLargeEquipment) &&
+    classNames.some(
+      (className) => classes[className as ClassNames].noLargeEquipment
+    ) &&
     item.size === "L"
   ) {
     return true;
   }
   let disabled = false;
   classNames.forEach((className) => {
-    if (classes[className].specificEquipmentItems) {
-      const specificEquipmentItems = classes[className]
+    if (classes[className as ClassNames].specificEquipmentItems) {
+      const specificEquipmentItems = classes[className as ClassNames]
         .specificEquipmentItems || [[], []];
 
       // if the item category is listed in specificEquipmentItems[0] AND the string in specificEquipmentItems[1] is not in the item name
