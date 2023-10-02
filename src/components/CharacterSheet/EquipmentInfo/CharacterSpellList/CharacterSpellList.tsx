@@ -1,8 +1,11 @@
 import { Button, Descriptions } from "antd";
 import { useState } from "react";
-import { CharacterSpellListProps } from "./definitions";
 import { marked } from "marked";
-import { Spell } from "../../../../data/definitions";
+import { Spell, CharacterData } from "../../../../data/definitions";
+
+type CharacterSpellListProps = {
+  spells: CharacterData["spells"];
+};
 
 export default function CharacterSpellList({
   spells,

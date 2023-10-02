@@ -1,7 +1,12 @@
 import { Typography } from "antd";
 import { getSpecialAbilityRaceOverrides } from "../../../../support/helpers";
-import { SpecialAbilitiesFootnotesProps } from "./definitions";
 import { marked } from "marked";
+import { ClassNames, RaceNames } from "../../../../data/definitions";
+
+type SpecialAbilitiesFootnotesProps = {
+  characterRace: RaceNames;
+  characterClass: ClassNames;
+};
 
 export default function SpecialAbilitiesFootnotes({
   characterRace,

@@ -1,9 +1,13 @@
 import { Button, Tooltip, notification } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { InitiativeRollerProps } from "./definitions";
 import CloseIcon from "../../CloseIcon/CloseIcon";
-import { RaceNames } from "../../../data/definitions";
+import { CharacterData, RaceNames } from "../../../data/definitions";
 import { NodeIndexOutlined } from "@ant-design/icons";
+
+type InitiativeRollerProps = {
+  characterData: CharacterData;
+  buttonTextClassNames: string;
+};
 
 export default function InitiativeRoller({
   characterData,

@@ -1,4 +1,3 @@
-import { SavingThrowsProps, TableCellRecord } from "./definitions";
 import {
   getClassType,
   getSavingThrows,
@@ -12,8 +11,17 @@ import {
   titleCaseToCamelCase,
 } from "../../../support/stringSupport";
 import { races } from "../../../data/races";
-import { RaceNames, SavingThrowsType } from "../../../data/definitions";
+import {
+  CharacterData,
+  RaceNames,
+  SavingThrowsType,
+} from "../../../data/definitions";
 import SavingThrowsFootnotes from "./SavingThrowsFootnotes/SavingThrowsFootnotes";
+
+type TableCellRecord = {
+  score: number;
+  throw: string;
+};
 
 const roller = new DiceRoller();
 
@@ -28,7 +36,7 @@ const defaultSavingThrows: SavingThrowsType = {
 export default function SavingThrows({
   characterData,
   className,
-}: SavingThrowsProps & React.ComponentPropsWithRef<"div">) {
+}: { characterData: CharacterData } & React.ComponentPropsWithRef<"div">) {
   const classType = getClassType(characterData.class);
   const characterLevel = characterData.level;
 

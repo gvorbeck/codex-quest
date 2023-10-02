@@ -1,6 +1,12 @@
 import { Statistic, Typography } from "antd";
-import { SimpleNumberStatProps } from "./definitions";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
+
+type SimpleNumberStatProps = {
+  title: string;
+  value: string | number;
+  altValue?: string | number;
+  helpText?: string;
+};
 
 export default function SimpleNumberStat({
   title,

@@ -1,4 +1,3 @@
-import { EquipmentListProps } from "./definitions";
 import equipmentItems from "../../../../data/equipmentItems.json";
 import { Button, Empty, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -8,11 +7,23 @@ import ItemDescription from "./ItemDescription/ItemDescription";
 import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
 import {
+  CharacterData,
   ClassNames,
   EquipmentItem,
   RaceNames,
+  SetCharacterData,
 } from "../../../../data/definitions";
 import { races } from "../../../../data/races";
+
+type EquipmentListProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  categories: string[];
+  handleCustomDelete: (item: EquipmentItem) => void;
+  handleAttack?: boolean;
+  handleAttackClick?: (item: EquipmentItem) => void;
+  updateAC?: () => void;
+};
 
 const punchItem: EquipmentItem = {
   name: "Punch**",

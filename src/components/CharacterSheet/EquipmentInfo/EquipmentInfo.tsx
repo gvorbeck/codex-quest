@@ -1,7 +1,15 @@
-import { Button, Collapse, Typography } from "antd";
+import { Button, Collapse, CollapseProps, Typography } from "antd";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import { EquipmentInfoProps } from "./definitions";
 import { ExperimentOutlined, ToolOutlined } from "@ant-design/icons";
+import { CharacterData } from "../../../data/definitions";
+
+type EquipmentInfoProps = {
+  userIsOwner: boolean;
+  showAddEquipmentModal: () => void;
+  showAddCustomEquipmentModal: () => void;
+  characterData: CharacterData;
+  collapseItems: CollapseProps["items"];
+};
 
 export default function EquipmentInfo({
   userIsOwner,

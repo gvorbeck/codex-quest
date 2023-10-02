@@ -1,6 +1,10 @@
 import { Descriptions } from "antd";
 import { slugToTitleCase } from "../../../../../support/stringSupport";
-import { ItemDescriptionProps } from "./definitions";
+import { EquipmentItem } from "../../../../../data/definitions";
+
+type ItemDescriptionProps = {
+  item: EquipmentItem;
+};
 
 export default function ItemDescription({ item }: ItemDescriptionProps) {
   return (

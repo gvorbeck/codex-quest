@@ -1,9 +1,12 @@
 import { List, Tabs, TabsProps, Typography } from "antd";
 import { marked } from "marked";
-import { SpecialsRestrictionsProps } from "./definitions";
 import { classes } from "../../../data/classes";
 import { races } from "../../../data/races";
-import { ClassNames, RaceNames } from "../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  RaceNames,
+} from "../../../data/definitions";
 import { titleCaseToCamelCase } from "../../../support/stringSupport";
 
 // Ant Design's List component treats the input as a string and not as HTML.
@@ -31,7 +34,7 @@ const SpecialsRestrictionsList = ({ dataSource }: { dataSource: any[] }) => (
 export default function SpecialsRestrictions({
   characterData,
   className,
-}: SpecialsRestrictionsProps & React.ComponentPropsWithRef<"div">) {
+}: { characterData: CharacterData } & React.ComponentPropsWithRef<"div">) {
   const items: TabsProps["items"] = [
     {
       key: titleCaseToCamelCase(characterData.race),
