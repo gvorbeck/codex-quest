@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Tooltip, Typography } from "antd";
-import { HeaderContentProps } from "./definitions";
 import {
   LogoutOutlined,
   ReconciliationOutlined,
@@ -10,6 +9,10 @@ import LoginSignupModal from "../../../modals/LoginSignupModal";
 import { useState } from "react";
 import { title } from "../../../../package.json";
 import classNames from "classnames";
+import { PageLayoutProps } from "../definitions";
+import DragonIcon from "../../../assets/images/spiked-dragon-head.png";
+
+interface HeaderContentProps extends PageLayoutProps {}
 
 export default function HeaderContent({
   auth,
@@ -28,6 +31,8 @@ export default function HeaderContent({
     className
   );
   const buttonTextClassNames = classNames("hidden", "md:inline");
+
+  const displayTitle = title.split(" ");
   return (
     <div className={headerContentClassNames}>
       <Typography.Title
@@ -36,9 +41,11 @@ export default function HeaderContent({
       >
         <Link
           to="/"
-          className="text-white/95 font-enchant tracking-wider text-5xl"
+          className="text-white/95 font-enchant tracking-wider text-5xl flex margin-x-auto gap-2 justify-center items-center"
         >
-          {title}
+          <span>{displayTitle[0]}</span>
+          <img src={DragonIcon} className="w-12 h-12" alt="Dragon Icon" />
+          <span>{displayTitle[1]}</span>
         </Link>
       </Typography.Title>
       {user && (
