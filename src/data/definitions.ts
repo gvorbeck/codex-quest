@@ -146,3 +146,9 @@ export interface CharacterDataStatePair {
 }
 
 export type AttackType = "melee" | "missile";
+
+export type AbilityRecord = {
+  key: string;
+  ability: string;
+  score: number;
+};

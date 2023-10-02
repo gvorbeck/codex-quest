@@ -1,6 +1,16 @@
-import { CustomHitPointsPickerProps } from "./definitions";
 import { Radio, RadioChangeEvent } from "antd";
-import { DiceTypes } from "../../../../data/definitions";
+import {
+  CharacterData,
+  DiceTypes,
+  SetCharacterData,
+} from "../../../../data/definitions";
+
+type CustomHitPointsPickerProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  customHitDice: string;
+  setCustomHitDice: (customHitDice: string) => void;
+};
 
 export default function CustomHitPointsPicker({
   characterData,

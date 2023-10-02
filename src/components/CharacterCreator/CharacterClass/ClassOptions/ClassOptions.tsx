@@ -1,11 +1,18 @@
 import { Radio, RadioChangeEvent, Space } from "antd";
 import { classes } from "../../../../data/classes";
-import { ClassOptionsProps } from "./definitions";
 import DescriptionBubble from "../../DescriptionBubble/DescriptionBubble";
 import { getClassType, getEnabledClasses } from "../../../../support/helpers";
 import spellsData from "../../../../data/spells.json";
-import { ClassNames, RaceNames, Spell } from "../../../../data/definitions";
+import { CharacterData, ClassNames, RaceNames, SetCharacterData, Spell } from "../../../../data/definitions";
 import classNames from "classnames";
+
+type ClassOptionsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  customClassInput: string;
+  setShowCustomClassInput: (showCustomClassInput: boolean) => void;
+  setSelectedSpell: (spell: Spell | null) => void;
+};
 
 export default function ClassOptions({
   characterData,

@@ -1,10 +1,22 @@
-import { RaceOptionsProps } from "./definitions";
 import { isStandardRace } from "../../../../support/helpers";
 import type { RadioChangeEvent } from "antd";
 import { Radio } from "antd";
 import { races } from "../../../../data/races";
-import { RaceNames } from "../../../../data/definitions";
+import {
+  CharacterData,
+  RaceNames,
+  SetCharacterData,
+} from "../../../../data/definitions";
 import classNames from "classnames";
+
+type RaceOptionsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  setComboClass: (comboClass: boolean) => void;
+  setShowCustomRaceInput: (showCustomRaceInput: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+  customRaceInput: string;
+};
 
 export default function RaceOptions({
   characterData,

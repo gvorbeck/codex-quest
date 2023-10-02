@@ -1,8 +1,9 @@
 import { Checkbox, Typography } from "antd";
-import { CustomClassStartingSpellsProps } from "./definitions";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import spellsData from "../../../../data/spells.json";
-import { Spell } from "../../../../data/definitions";
+import { CharacterDataStatePair, Spell } from "../../../../data/definitions";
+
+interface CustomClassStartingSpellsProps extends CharacterDataStatePair {}
 
 export default function CustomClassStartingSpells({
   characterData,
