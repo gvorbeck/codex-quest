@@ -1,13 +1,23 @@
 import { Collapse, CollapseProps } from "antd";
-import { EquipmentAccordionProps } from "./definitions";
 import { slugToTitleCase } from "../../../support/stringSupport";
 import equipmentItems from "../../../data/equipmentItems.json";
 import WeaponKeys from "../../WeaponKeys/WeaponKeys";
 import { classes } from "../../../data/classes";
-import { EquipmentCategories } from "../../../data/definitions";
+import {
+  CharacterData,
+  EquipmentCategories,
+  EquipmentItem,
+} from "../../../data/definitions";
 import { ClassNames } from "../../../data/definitions";
 import classNames from "classnames";
 import EquipmentCheckboxGroup from "../EquipmentCheckboxGroup/EquipmentCheckboxGroup";
+
+type EquipmentAccordionProps = {
+  characterData: CharacterData;
+  onAmountChange: (item?: EquipmentItem) => void;
+  onCheckboxCheck: (item?: EquipmentItem) => void;
+  onRadioCheck: (item?: EquipmentItem) => void;
+};
 
 export default function EquipmentAccordion({
   onAmountChange,
