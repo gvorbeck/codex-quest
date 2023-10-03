@@ -4,6 +4,7 @@ import {
   getArmorClass,
   getClassType,
   getEnabledClasses,
+  getHitDice,
   getHitPointsModifier,
   getSavingThrows,
   getSavingThrowsWeight,
@@ -298,4 +299,24 @@ describe("equipmentItemIsDisabled", () => {
   });
 });
 
-// describe("getMovement", () => {});
+describe("getHitDice", () => {
+  test("hit dice for level one standard class", () => {
+    expect(getHitDice(1, [ClassNames.FIGHTER], "d8")).toBe("1d8");
+  });
+
+  test("high level hit dice for class with x2 multiplier suffix", () => {
+    expect(getHitDice(11, [ClassNames.FIGHTER], "d8")).toBe("9d8+4");
+  });
+
+  test("high level hit dice for class with x1 multiplier suffix", () => {
+    expect(getHitDice(11, [ClassNames.MAGICUSER], "d4")).toBe("9d4+2");
+  });
+
+  test("get hit dice for custom class", () => {
+    expect(getHitDice(11, ["foo"], "d8")).toBe("9d8");
+  });
+});
+
+describe("getAttackBonus", () => {});
+
+describe("getMovement", () => {});
