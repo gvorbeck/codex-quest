@@ -1,7 +1,13 @@
-import React from "react";
-import { GoldRollerProps } from "./definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import { CharacterData, SetCharacterData } from "../../../data/definitions";
+
+type GoldRollerProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  goldInputValue: number;
+  setGoldInputValue: (goldInputValue: number) => void;
+};
 
 const roller = new DiceRoller();
 
