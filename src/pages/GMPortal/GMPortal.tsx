@@ -7,6 +7,7 @@ import { useOutletContext } from "react-router-dom";
 import { db } from "../../firebase";
 import { GamesData } from "../../data/definitions";
 import classNames from "classnames";
+import NewGameModal from "../../components/NewGameModal/NewGameModal";
 
 export default function GMPortal({
   user,
@@ -14,7 +15,12 @@ export default function GMPortal({
 }: { user: User | null } & React.ComponentPropsWithRef<"div">) {
   const outletContext = useOutletContext() as { className: string };
   const [games, setGames] = useState<GamesData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isNewGameModalOpen, setIsNewGameModalOpen] = useState<boolean>(false);
+
+  const handleCancel = () => {
+    setIsNewGameModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -67,7 +73,11 @@ export default function GMPortal({
         >
           GM Portal
         </Typography.Title>
-        <Button type="primary" icon={<UsergroupAddOutlined />}>
+        <Button
+          type="primary"
+          icon={<UsergroupAddOutlined />}
+          onClick={() => setIsNewGameModalOpen(true)}
+        >
           New Game
         </Button>
       </div>
@@ -79,6 +89,10 @@ export default function GMPortal({
         <PlayerList />
         <AddPlayer />
         */}
+          <NewGameModal
+            isNewGameModalOpen={isNewGameModalOpen}
+            handleCancel={handleCancel}
+          />
         </div>
       )}
     </div>
