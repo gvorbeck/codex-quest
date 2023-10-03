@@ -152,3 +152,7 @@ export type AbilityRecord = {
   ability: string;
   score: number;
 };
+
+export type GamesData = {
+  id?: string;
+};
