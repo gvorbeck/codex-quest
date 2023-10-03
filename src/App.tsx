@@ -106,7 +106,7 @@ function App() {
             />
             <Route path="/create" element={<CharacterCreator />} />
             <Route path="/sources" element={<Sources />} />
-            <Route path="/gm" element={<GMPortal />} />
+            <Route path="/gm" element={<GMPortal user={user} />} />
           </Route>
         </Routes>
       </Suspense>
