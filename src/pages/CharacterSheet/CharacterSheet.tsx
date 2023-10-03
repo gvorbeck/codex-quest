@@ -7,7 +7,6 @@ import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
-import { CharacterSheetProps } from "./definitions";
 // ANTD COMPONENTS
 import {
   Breadcrumb,
@@ -50,7 +49,7 @@ import {
   RaceNames,
 } from "../../data/definitions";
 // SUPPORT
-import { getCarryingCapacity, makeChange } from "../../support/formatSupport";
+import { makeChange } from "../../support/formatSupport";
 import {
   getArmorClass,
   getAttackBonus,
@@ -62,7 +61,7 @@ import {
 import DiceSvg from "../../assets/images/dice.svg";
 import classNames from "classnames";
 
-export default function CharacterSheet({ user }: CharacterSheetProps) {
+export default function CharacterSheet({ user }: { user: User | null }) {
   const { uid, id } = useParams();
   const [characterData, setCharacterData] = useState<CharacterData | null>(
     null

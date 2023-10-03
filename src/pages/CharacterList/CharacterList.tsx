@@ -3,17 +3,17 @@ import { useOutletContext } from "react-router-dom";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
-import { CharacterListProps } from "./definitions";
 import classNames from "classnames";
 import CharacterCard from "../../components/CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
 import { CharacterData } from "../../data/definitions";
+import { User } from "firebase/auth";
 
 export default function CharacterList({
   user,
   className,
-}: CharacterListProps & React.ComponentPropsWithRef<"div">) {
+}: { user: User | null } & React.ComponentPropsWithRef<"div">) {
   const outletContext = useOutletContext() as { className: string };
   const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
