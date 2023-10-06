@@ -153,6 +153,7 @@ export type AbilityRecord = {
   score: number;
 };
 
-export type GamesData = {
+export type GameData = {
+  name: string;
   id?: string;
 };
