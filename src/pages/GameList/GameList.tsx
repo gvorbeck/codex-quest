@@ -16,9 +16,9 @@ import classNames from "classnames";
 import NewGameModal from "../../components/NewGameModal/NewGameModal";
 import GameCard from "../../components/GameCard/GameCard";
 
-const emptyGame: GameData = { name: "", id: "" };
+const emptyGame: GameData = { name: "", id: "", players: [] };
 
-export default function GMPortal({
+export default function GameList({
   user,
   className,
 }: { user: User | null } & React.ComponentPropsWithRef<"div">) {
@@ -147,7 +147,7 @@ export default function GMPortal({
             .map((gameData) => {
               return (
                 <Col xs={24} md={12} lg={6} key={gameData.id}>
-                  <GameCard gameData={gameData} />
+                  <GameCard gameData={gameData} user={user} confirm={confirm} />
                 </Col>
               );
             })}

@@ -12,6 +12,8 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase.js";
 import { ConfigProvider, Spin } from "antd";
+import GameSheet from "./pages/GameSheet/GameSheet";
+import GameList from "./pages/GameList/GameList";
 // import Welcome from "./pages/Welcome/Welcome";
 // import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
 // import Sources from "./pages/Sources/Sources";
@@ -26,7 +28,7 @@ const Sources = lazy(() => import("./pages/Sources/Sources"));
 const CharacterSheet = lazy(
   () => import("./pages/CharacterSheet/CharacterSheet")
 );
-const GMPortal = lazy(() => import("./pages/GMPortal/GMPortal"));
+const GMPortal = lazy(() => import("./pages/GameList/GameList"));
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -106,7 +108,8 @@ function App() {
             />
             <Route path="/create" element={<CharacterCreator />} />
             <Route path="/sources" element={<Sources />} />
-            <Route path="/gm" element={<GMPortal user={user} />} />
+            <Route path="/gm" element={<GameList user={user} />} />
+            <Route path="u/:uid/g/:id" element={<GameSheet user={user} />} />
           </Route>
         </Routes>
       </Suspense>
