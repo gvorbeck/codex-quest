@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Switch, Tooltip, Typography } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import LoginSignupModal from "../../../modals/LoginSignupModal";
@@ -26,6 +26,8 @@ export default function HeaderContent({
   setMode,
 }: HeaderContentProps & React.ComponentPropsWithRef<"div">) {
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   const handleCancel = () => setIsLoginSignupModalOpen(false);
   const handleModeSwitchChange = (checked: boolean) => {
@@ -67,7 +69,7 @@ export default function HeaderContent({
           <span>{displayTitle[1]}</span>
         </Link>
       </Typography.Title>
-      {user && (
+      {user && isHomePage && (
         <div className="flex flex-wrap gap-4">
           <Switch
             className="self-center"
@@ -79,14 +81,6 @@ export default function HeaderContent({
             }
             defaultChecked
           />
-          {/* <Button type="primary" onClick={() => navigate(`/create`)}>
-            <UserAddOutlined />
-            <span className={buttonTextClassNames}>New Character</span>
-          </Button>
-          <Button type="primary" onClick={() => navigate(`/gm`)}>
-            <ReconciliationOutlined />
-            <span className={buttonTextClassNames}>GM Portal</span>
-          </Button> */}
         </div>
       )}
       <>
