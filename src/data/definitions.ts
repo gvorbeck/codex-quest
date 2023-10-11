@@ -156,5 +156,7 @@ export type AbilityRecord = {
 export type GameData = {
   name: string;
   id?: string;
-  players: CharacterData[];
+  players: PlayerListObject[];
 };
+
+export type PlayerListObject = { user: string; character: string };

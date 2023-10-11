@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Form, Input, Button, message } from "antd";
 import DOMPurify from "dompurify";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../../firebase";
-import { CharacterData } from "../../../data/definitions";
+import { db } from "../../../firebase";
+import { PlayerListObject } from "../../../data/definitions";
 
 interface AddPlayerFormProps {
-  players: CharacterData[];
-  setPlayers: (players: CharacterData[]) => void;
+  players: PlayerListObject[];
+  setPlayers: (players: PlayerListObject[]) => void;
   gmId: string;
   gameId: string;
 }
@@ -15,7 +15,7 @@ interface AddPlayerFormProps {
 async function updateGameWithNewPlayer(
   gameId: string,
   userId: string,
-  newPlayer: CharacterData
+  newPlayer: PlayerListObject
 ) {
   const gameDocRef = doc(db, `users/${userId}/games/${gameId}`);
   const gameDoc = await getDoc(gameDocRef);
@@ -50,7 +50,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const characterData = docSnap.data() as CharacterData;
+        const characterData = { user: userId, character: characterId };
         if (Array.isArray(players)) {
           setPlayers([...players, characterData]);
           // Assuming you have the gameId

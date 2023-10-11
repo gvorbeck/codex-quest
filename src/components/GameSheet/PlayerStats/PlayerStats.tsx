@@ -2,12 +2,11 @@ import React from "react";
 import { CharacterData } from "../../../data/definitions";
 
 interface PlayerStatsProps {
-  player: CharacterData;
+  player: CharacterData | undefined;
 }
 
 const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => {
-  console.log("player", player);
-  return <div>{player.name}</div>;
+  return <>{player && <div>{player.name}</div>}</>;
 };
 
 export default PlayerStats;
