@@ -51,9 +51,14 @@ const PlayerList: React.FC<PlayerListProps> = ({
 
   return (
     <div className="bg-black bg-opacity-10 rounded">
-      <div>
+      <div className="flex-col gap-4 flex mb-4">
         {characterDataList.map((characterData, index) => (
-          <PlayerStats player={characterData} key={players[index].character} />
+          <PlayerStats
+            player={characterData}
+            key={players[index].character}
+            userId={players[index].user}
+            characterId={players[index].character}
+          />
         ))}
       </div>
       <AddPlayerForm
