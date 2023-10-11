@@ -35,7 +35,6 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<ModeType>(MODE.PLAYER);
-  useEffect(() => console.log(mode), [mode]);
 
   const auth = getAuth();
 

@@ -55,6 +55,7 @@ export default function AddCustomEquipmentModal({
   handleCancel,
   characterData,
   setCharacterData,
+  user,
 }: AddCustomEquipmentModalProps) {
   const [formState, setFormState] = useState(initialFormState);
   const [prevValue, setPrevValue] = useState(characterData.equipment);
@@ -67,6 +68,10 @@ export default function AddCustomEquipmentModal({
   const updateEquipment = async () => {
     if (!uid || !id) {
       console.error("User ID or Character ID is undefined");
+      return;
+    }
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
       return;
     }
 

@@ -10,6 +10,7 @@ import {
   SetCharacterData,
   EquipmentItem,
 } from "../../../data/definitions";
+import { User } from "firebase/auth";
 
 type CharacterSheetModalsProps = {
   characterData: CharacterData;
@@ -22,6 +23,7 @@ type CharacterSheetModalsProps = {
   isLevelUpModalOpen: boolean;
   setCharacterData: SetCharacterData;
   weapon: EquipmentItem | undefined;
+  user: User | null;
 };
 
 export default function CharacterSheetModals({
@@ -35,6 +37,7 @@ export default function CharacterSheetModals({
   isLevelUpModalOpen,
   setCharacterData,
   weapon,
+  user,
 }: CharacterSheetModalsProps) {
   return (
     <>
@@ -54,12 +57,14 @@ export default function CharacterSheetModals({
         handleCancel={handleCancel}
         characterData={characterData}
         setCharacterData={setCharacterData}
+        user={user}
       />
       <AddCustomEquipmentModal
         isAddCustomEquipmentModalOpen={isAddCustomEquipmentModalOpen}
         handleCancel={handleCancel}
         characterData={characterData}
         setCharacterData={setCharacterData}
+        user={user}
       />
       <AttackModal
         isAttackModalOpen={isAttackModalOpen}

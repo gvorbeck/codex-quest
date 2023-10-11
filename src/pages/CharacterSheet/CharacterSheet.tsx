@@ -127,7 +127,14 @@ export default function CharacterSheet({ user }: { user: User | null }) {
       console.error("User ID or Character ID is undefined");
       return;
     }
-    if (!characterData || !characterData.wearing) return;
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
+      return;
+    }
+    if (!characterData || !characterData.wearing) {
+      console.error("Character data or wearing is undefined");
+      return;
+    }
 
     const docRef = doc(db, "users", uid, "characters", id);
 
@@ -485,6 +492,7 @@ export default function CharacterSheet({ user }: { user: User | null }) {
         characterData={characterData}
         setCharacterData={setCharacterData}
         userIsOwner={userIsOwner}
+        user={user}
       />
       {/* MODALS */}
       <CharacterSheetModals
@@ -498,6 +506,7 @@ export default function CharacterSheet({ user }: { user: User | null }) {
         isLevelUpModalOpen={isLevelUpModalOpen}
         setCharacterData={setCharacterData}
         weapon={weapon}
+        user={user}
       />
     </div>
   ) : (

@@ -9,17 +9,20 @@ import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { getClassType } from "../../../support/helpers";
 import DescriptionFieldButton from "./DescriptionFieldButton/DescriptionFieldButton";
 import { CharacterData, SetCharacterData } from "../../../data/definitions";
+import { User } from "firebase/auth";
 
 type CharacterDescriptionProps = {
   characterData: CharacterData;
   setCharacterData: SetCharacterData;
   userIsOwner: boolean;
+  user: User | null;
 };
 
 export default function CharacterDescription({
   characterData,
   setCharacterData,
   userIsOwner,
+  user,
 }: CharacterDescriptionProps) {
   // Hooks and state variables
   const { uid, id } = useParams();
@@ -34,6 +37,10 @@ export default function CharacterDescription({
   const updateDatabase = async () => {
     if (!uid || !id) {
       console.error("User ID or Character ID is undefined");
+      return;
+    }
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
       return;
     }
     const sanitizedValues = textAreaValues.map((value) =>

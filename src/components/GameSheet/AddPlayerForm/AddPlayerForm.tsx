@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button, message, Typography } from "antd";
 import DOMPurify from "dompurify";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
@@ -79,7 +79,12 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({
           },
         ]}
       >
-        <Input placeholder="https://codex.quest/u/AsxtzoU61db5IAA6d9IrEFFjh6a2/c/qK3N1Oe0JChp1iWLduqW" />
+        <div>
+          <Input placeholder="https://codex.quest/u/AsxtzoU61db5IAA6d9IrEFFjh6a2/c/qK3N1Oe0JChp1iWLduqW" />
+          <Typography.Text type="secondary" className="text-xs ml-3">
+            Enter a codex.quest character URL to add a player's character.
+          </Typography.Text>
+        </div>
       </Form.Item>
 
       <Form.Item>

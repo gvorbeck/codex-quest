@@ -128,7 +128,7 @@ export default function GameList({
           level={2}
           className="m-0 font-enchant text-5xl tracking-wider text-shipGray"
         >
-          Games
+          Games <span className="font-sans text-xs">(beta)</span>
         </Typography.Title>
         <Button
           type="primary"

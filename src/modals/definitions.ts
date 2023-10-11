@@ -1,5 +1,6 @@
 import { FormEvent } from "react";
 import { CharacterData } from "../data/definitions";
+import { User } from "firebase/auth";
 
 export type ModalProps = {
   handleCancel: () => void;
@@ -20,6 +21,7 @@ export interface DiceRollerModalProps extends ModalProps {
 export interface AddEquipmentModalProps extends ModalProps {
   isAddEquipmentModalOpen: boolean;
   setCharacterData: (character: CharacterData) => void;
+  user: User | null;
 }
 
 export interface CheatSheetModalProps extends ModalProps {
@@ -30,6 +32,7 @@ export interface AddCustomEquipmentModalProps extends ModalProps {
   isAddCustomEquipmentModalOpen: boolean;
   setCharacterData: (character: CharacterData) => void;
   characterData: CharacterData;
+  user: User | null;
 }
 
 export interface LoginSignupModalProps extends ModalProps {

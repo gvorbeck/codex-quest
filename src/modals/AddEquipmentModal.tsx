@@ -12,6 +12,7 @@ export default function AddEquipmentModal({
   handleCancel,
   isAddEquipmentModalOpen,
   setCharacterData,
+  user,
 }: AddEquipmentModalProps) {
   const [prevValue, setPrevValue] = useState(characterData?.equipment);
   const { uid, id } = useParams();
@@ -19,6 +20,11 @@ export default function AddEquipmentModal({
   const updateEquipment = async () => {
     if (!uid || !id) {
       console.error("User ID or Character ID is undefined");
+      return;
+    }
+
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
       return;
     }
 
