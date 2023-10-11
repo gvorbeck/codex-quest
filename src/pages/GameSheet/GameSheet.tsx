@@ -22,8 +22,6 @@ export default function GameSheet({ user }: GameSheetProps) {
 
   const { uid, id } = useParams();
 
-  // TODO: NOTE TO SELF: shouldn't be storing copies of the characters' data in the game data as it wont change when the players change their characters. instead should be storing the user/character id and then getting the character data from the character document.
-
   const gameSheetClassNames = classNames(
     "flex",
     "flex-col",
