@@ -1,28 +1,41 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Tooltip, Typography } from "antd";
-import {
-  LogoutOutlined,
-  ReconciliationOutlined,
-  UserAddOutlined,
-} from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { Button, Switch, Tooltip, Typography } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
 import LoginSignupModal from "../../../modals/LoginSignupModal";
 import { useState } from "react";
 import { title } from "../../../../package.json";
 import classNames from "classnames";
-import { PageLayoutProps } from "../definitions";
 import DragonIcon from "../../../assets/images/spiked-dragon-head.png";
+import { Auth, User } from "firebase/auth";
+import { MODE, ModeType } from "../../../data/definitions";
 
-interface HeaderContentProps extends PageLayoutProps {}
+type HeaderContentProps = {
+  user: User | null;
+  handleLogin: () => Promise<void>;
+  auth: Auth;
+  mode: ModeType;
+  setMode: (mode: ModeType) => void;
+};
 
 export default function HeaderContent({
   auth,
   handleLogin,
   user,
   className,
+  mode,
+  setMode,
 }: HeaderContentProps & React.ComponentPropsWithRef<"div">) {
-  const navigate = useNavigate();
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] = useState(false);
+
   const handleCancel = () => setIsLoginSignupModalOpen(false);
+  const handleModeSwitchChange = (checked: boolean) => {
+    if (checked) {
+      setMode(MODE.PLAYER);
+    } else {
+      setMode(MODE.GM);
+    }
+  };
+
   const headerContentClassNames = classNames(
     "gap-y-2",
     "grid",
@@ -56,14 +69,24 @@ export default function HeaderContent({
       </Typography.Title>
       {user && (
         <div className="flex flex-wrap gap-4">
-          <Button type="primary" onClick={() => navigate(`/create`)}>
+          <Switch
+            className="self-center"
+            checked={mode === MODE.PLAYER}
+            onChange={handleModeSwitchChange}
+            checkedChildren={MODE.PLAYER}
+            unCheckedChildren={
+              <span className="text-springWood">{MODE.GM}</span>
+            }
+            defaultChecked
+          />
+          {/* <Button type="primary" onClick={() => navigate(`/create`)}>
             <UserAddOutlined />
             <span className={buttonTextClassNames}>New Character</span>
           </Button>
           <Button type="primary" onClick={() => navigate(`/gm`)}>
             <ReconciliationOutlined />
             <span className={buttonTextClassNames}>GM Portal</span>
-          </Button>
+          </Button> */}
         </div>
       )}
       <>

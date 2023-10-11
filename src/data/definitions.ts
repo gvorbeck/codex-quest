@@ -160,3 +160,9 @@ export type GameData = {
 };
 
 export type PlayerListObject = { user: string; character: string };
+
+export enum MODE {
+  PLAYER = "Player Mode",
+  GM = "GM Mode",
+}
+export type ModeType = MODE.PLAYER | MODE.GM;

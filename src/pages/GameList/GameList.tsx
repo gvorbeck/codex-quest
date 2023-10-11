@@ -128,7 +128,7 @@ export default function GameList({
           level={2}
           className="m-0 font-enchant text-5xl tracking-wider text-shipGray"
         >
-          GM Portal
+          Games
         </Typography.Title>
         <Button
           type="primary"

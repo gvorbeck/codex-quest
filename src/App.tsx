@@ -14,6 +14,7 @@ import { db } from "./firebase.js";
 import { ConfigProvider, Spin } from "antd";
 import GameSheet from "./pages/GameSheet/GameSheet";
 import GameList from "./pages/GameList/GameList";
+import { MODE, ModeType } from "./data/definitions";
 // import Welcome from "./pages/Welcome/Welcome";
 // import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
 // import Sources from "./pages/Sources/Sources";
@@ -33,6 +34,9 @@ const GMPortal = lazy(() => import("./pages/GameList/GameList"));
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState<ModeType>(MODE.PLAYER);
+  useEffect(() => console.log(mode), [mode]);
+
   const auth = getAuth();
 
   useEffect(() => {
@@ -87,7 +91,13 @@ function App() {
           <Route
             path="/"
             element={
-              <PageLayout user={user} handleLogin={handleLogin} auth={auth} />
+              <PageLayout
+                user={user}
+                handleLogin={handleLogin}
+                auth={auth}
+                mode={mode}
+                setMode={setMode}
+              />
             }
           >
             <Route
@@ -96,7 +106,11 @@ function App() {
                 loading ? (
                   <Spin />
                 ) : user ? (
-                  <CharacterList user={user} />
+                  mode === MODE.PLAYER ? (
+                    <CharacterList user={user} />
+                  ) : (
+                    <GameList user={user} />
+                  )
                 ) : (
                   <Welcome />
                 )
@@ -108,7 +122,6 @@ function App() {
             />
             <Route path="/create" element={<CharacterCreator />} />
             <Route path="/sources" element={<Sources />} />
-            <Route path="/gm" element={<GameList user={user} />} />
             <Route path="u/:uid/g/:id" element={<GameSheet user={user} />} />
           </Route>
         </Routes>

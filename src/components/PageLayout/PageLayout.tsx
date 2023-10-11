@@ -2,13 +2,24 @@ import { Layout } from "antd";
 import FooterContent from "./FooterContent/FooterContent";
 import { Outlet } from "react-router-dom";
 import HeaderContent from "./HeaderContent/HeaderContent";
-import { PageLayoutProps } from "./definitions";
 import classNames from "classnames";
+import { User, Auth } from "firebase/auth";
+import { ModeType } from "../../data/definitions";
+
+type PageLayoutProps = {
+  user: User | null;
+  handleLogin: () => Promise<void>;
+  auth: Auth;
+  mode: ModeType;
+  setMode: (mode: ModeType) => void;
+};
 
 export default function PageLayout({
   auth,
   handleLogin,
   user,
+  mode,
+  setMode,
 }: PageLayoutProps) {
   const headerClassNames = classNames(
     "bg-shipGray",
@@ -43,6 +54,8 @@ export default function PageLayout({
           handleLogin={handleLogin}
           auth={auth}
           className="max-w-[1200px] mx-auto"
+          mode={mode}
+          setMode={setMode}
         />
       </Layout.Header>
       <Layout.Content className={contentClassNames}>
