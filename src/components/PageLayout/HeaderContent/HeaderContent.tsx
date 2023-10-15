@@ -1,58 +1,92 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Col, Row, Tooltip, Typography } from "antd";
-import { HeaderContentProps } from "./definitions";
+import { Link, useLocation } from "react-router-dom";
+import { Button, Switch, Tooltip, Typography } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import LoginSignupModal from "../../../modals/LoginSignupModal";
 import { useState } from "react";
 import { title } from "../../../../package.json";
 import classNames from "classnames";
+import DragonIcon from "../../../assets/images/spiked-dragon-head.png";
+import { Auth, User } from "firebase/auth";
+import { MODE, ModeType } from "../../../data/definitions";
+
+type HeaderContentProps = {
+  user: User | null;
+  handleLogin: () => Promise<void>;
+  auth: Auth;
+  mode: ModeType;
+  setMode: (mode: ModeType) => void;
+};
 
 export default function HeaderContent({
   auth,
   handleLogin,
   user,
   className,
+  mode,
+  setMode,
 }: HeaderContentProps & React.ComponentPropsWithRef<"div">) {
-  const navigate = useNavigate();
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   const handleCancel = () => setIsLoginSignupModalOpen(false);
-  const HeaderContentClassNames = classNames("gap-y-4", className);
+  const handleModeSwitchChange = (checked: boolean) => {
+    if (checked) {
+      setMode(MODE.PLAYER);
+    } else {
+      setMode(MODE.GM);
+    }
+  };
+
+  const headerContentClassNames = classNames(
+    "gap-y-2",
+    "grid",
+    "grid-cols-[1fr,auto]",
+    "grid-rows-[auto,auto]",
+    className
+  );
+  const buttonTextClassNames = classNames("hidden", "md:inline");
+  const titleClassNames = classNames(
+    "text-white/95",
+    "font-enchant",
+    "tracking-wider",
+    "text-4xl",
+    "md:text-5xl",
+    "flex",
+    "margin-x-auto",
+    "gap-2",
+    "justify-center",
+    "items-center"
+  );
+
+  const displayTitle = title.split(" ");
   return (
-    <Row className={HeaderContentClassNames}>
-      <Col
-        xs={24}
-        md={12}
-        className="text-center leading-none lg:flex lg:justify-start lg:items-center"
-      >
-        <Typography.Title
-          level={1}
-          className="!mb-0 mt-0 leading-none text-4xl"
-        >
-          <Link
-            to="/"
-            className="text-white/95 font-enchant tracking-wider text-5xl"
-          >
-            {title}
-          </Link>
-        </Typography.Title>
-        {user && (
-          <Button
-            type="primary"
-            onClick={() => navigate(`/create`)}
-            className="mt-4 lg:mt-0 lg:ml-4 leading-none"
-          >
-            Create BFRPG Character
-          </Button>
-        )}
-      </Col>
-      <Col
-        xs={24}
-        md={12}
-        className="text-center flex md:justify-center items-baseline lg:items-center lg:justify-end gap-4 justify-center"
-      >
+    <div className={headerContentClassNames}>
+      <Typography.Title level={1} className="!mb-0 mt-0 col-span-2 text-center">
+        <Link to="/" className={titleClassNames}>
+          <span>{displayTitle[0]}</span>
+          <img src={DragonIcon} className="w-12 h-12" alt="Dragon Icon" />
+          <span>{displayTitle[1]}</span>
+        </Link>
+      </Typography.Title>
+      {user && isHomePage && (
+        <div className="flex flex-wrap gap-4">
+          <Switch
+            className="self-center"
+            checked={mode === MODE.PLAYER}
+            onChange={handleModeSwitchChange}
+            checkedChildren={MODE.PLAYER}
+            unCheckedChildren={
+              <span className="text-springWood">{MODE.GM}</span>
+            }
+            defaultChecked
+          />
+        </div>
+      )}
+      <>
         {user ? (
-          <>
-            <Typography.Text className="leading-none">
+          <div className="flex gap-4 items-baseline justify-end">
+            <Typography.Text className={buttonTextClassNames}>
               {user.displayName || user.email}
             </Typography.Text>
             <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
@@ -61,10 +95,9 @@ export default function HeaderContent({
                 shape="circle"
                 icon={<LogoutOutlined />}
                 onClick={() => auth.signOut()}
-                className="mt-4 lg:m-0 lg:ml-4 leading-none"
               />
             </Tooltip>
-          </>
+          </div>
         ) : (
           <Button
             type="primary"
@@ -73,12 +106,12 @@ export default function HeaderContent({
             Log in / Sign up
           </Button>
         )}
-      </Col>
+      </>
       <LoginSignupModal
         handleCancel={handleCancel}
         isLoginSignupModalOpen={isLoginSignupModalOpen}
         handleLogin={handleLogin}
       />
-    </Row>
+    </div>
   );
 }

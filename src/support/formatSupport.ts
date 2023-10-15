@@ -1,7 +1,9 @@
-import { EquipmentItem } from "../components/EquipmentStore/definitions";
-import { Capacity, CapacityMap } from "../components/definitions";
-import { RaceNames } from "../data/definitions";
+// import { Capacity, CapacityMap } from "../components/definitions";
+import { CharacterData, EquipmentItem, RaceNames } from "../data/definitions";
 import { races } from "../data/races";
+
+type Capacity = { light: number; heavy: number };
+type CapacityMap = Record<string, Capacity>;
 
 export const getItemCost = (item: EquipmentItem) => {
   let cost = item.costValue;
@@ -54,3 +56,23 @@ export const getCarryingCapacity = (
 
   return races[race]?.hasLowCapacity ? lowCapacities[range] : capacities[range];
 };
+
+export function makeChange(characterData: CharacterData) {
+  if (characterData) {
+    let copper = characterData.gold * 100;
+    let goldPieces = Math.floor(copper / 100);
+    copper %= 100;
+    let silverPieces = Math.floor(copper / 10);
+    copper %= 10;
+    let copperPieces = copper;
+
+    return {
+      gp: Math.round(goldPieces),
+      sp: Math.round(silverPieces),
+      cp: Math.round(copperPieces),
+    };
+  } else {
+    // default object when characterData is null/undefined
+    return { gp: 0, sp: 0, cp: 0 };
+  }
+}

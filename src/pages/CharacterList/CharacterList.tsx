@@ -1,22 +1,25 @@
-import { Col, Empty, Row, Spin } from "antd";
-import { useOutletContext } from "react-router-dom";
+import { Button, Col, Empty, Row, Spin, Typography } from "antd";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
-import { CharacterListProps } from "./definitions";
-import { CharacterData } from "../../components/definitions";
 import classNames from "classnames";
 import CharacterCard from "../../components/CharacterCard/CharacterCard";
 import { images } from "../../assets/images/faces/imageAssets";
 import { extractImageName } from "../../support/stringSupport";
+import { CharacterData } from "../../data/definitions";
+import { User } from "firebase/auth";
+import { UserAddOutlined } from "@ant-design/icons";
 
 export default function CharacterList({
   user,
   className,
-}: CharacterListProps & React.ComponentPropsWithRef<"div">) {
+}: { user: User | null } & React.ComponentPropsWithRef<"div">) {
   const outletContext = useOutletContext() as { className: string };
   const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -71,11 +74,28 @@ export default function CharacterList({
 
   const characterListClassNames = classNames(
     outletContext.className,
-    className
+    className,
+    "text-shipGray",
+    "[&>*+*]:mt-4"
   );
 
   return (
     <div className={characterListClassNames}>
+      <div className="flex gap-4 items-center">
+        <Typography.Title
+          level={2}
+          className="m-0 font-enchant text-5xl tracking-wider text-shipGray"
+        >
+          Characters
+        </Typography.Title>
+        <Button
+          type="primary"
+          icon={<UserAddOutlined />}
+          onClick={() => navigate(`/create`)}
+        >
+          New Character
+        </Button>
+      </div>
       {loading ? (
         <Spin />
       ) : characters.length > 0 ? (

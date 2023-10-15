@@ -4,8 +4,16 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Avatar, Card, Popconfirm } from "antd";
-import { CharacterCardProps } from "./definitions";
 import { useNavigate } from "react-router-dom";
+import { CharacterData } from "../../data/definitions";
+import { User } from "firebase/auth";
+
+type CharacterCardProps = {
+  characterData: CharacterData;
+  user: User | null;
+  image: string;
+  confirm: (characterId: string) => Promise<void>;
+};
 
 export default function CharacterCard({
   characterData,

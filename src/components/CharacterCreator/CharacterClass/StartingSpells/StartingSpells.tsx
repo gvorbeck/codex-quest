@@ -1,10 +1,24 @@
 import { Button, Radio, RadioChangeEvent, Typography } from "antd";
-import { StartingSpellsProps } from "./definitions";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { marked } from "marked";
 import spellsJson from "../../../../data/spells.json";
 import { classes } from "../../../../data/classes";
-import { ClassNames } from "../../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  SetCharacterData,
+  Spell,
+} from "../../../../data/definitions";
+
+type StartingSpellsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  selectedSpell: Spell | null;
+  setSelectedSpell: (spell: Spell | null) => void;
+  setModalName: (modalName: string) => void;
+  setModalDescription: (modalDescription: string) => void;
+  setIsModalOpen: (isModalOpen: boolean) => void;
+};
 
 const readMagicSpell = spellsJson.filter(
   (spell) => spell.name === "Read Magic"

@@ -1,6 +1,12 @@
 import { Modal } from "antd";
-import { SpellDescriptionModalProps } from "./definitions";
 import CloseIcon from "../../../CloseIcon/CloseIcon";
+
+type SpellDescriptionModalProps = {
+  title: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (isModalOpen: boolean) => void;
+  description: string;
+};
 
 export default function SpellDescriptionModal({
   title,

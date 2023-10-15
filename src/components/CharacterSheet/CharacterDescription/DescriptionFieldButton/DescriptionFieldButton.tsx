@@ -1,6 +1,11 @@
 import classNames from "classnames";
-import { DescriptionFieldButtonProps } from "./definitions";
 import { Button, Tooltip } from "antd";
+import { ReactNode } from "react";
+
+type DescriptionFieldButtonProps = {
+  handler: (event: React.MouseEvent<HTMLElement>) => void;
+  icon: ReactNode;
+};
 
 // Button component for adding and deleting text fields
 export default function DescriptionFieldButton({
@@ -8,10 +13,16 @@ export default function DescriptionFieldButton({
   icon,
   className,
 }: DescriptionFieldButtonProps & React.ComponentPropsWithRef<"div">) {
-  const buttonClassNames = classNames("absolute", "left-0", className);
+  const buttonClassNames = classNames(className, "mb-4");
   return (
-    <Tooltip title="Add text field" className={buttonClassNames}>
-      <Button type="primary" shape="circle" icon={icon} onClick={handler} />
+    <Tooltip title="Add text field">
+      <Button
+        type="primary"
+        shape="circle"
+        icon={icon}
+        onClick={handler}
+        className={buttonClassNames}
+      />
     </Tooltip>
   );
 }

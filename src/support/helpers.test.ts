@@ -1,18 +1,20 @@
-import { ClassNames, RaceNames } from "../data/definitions";
+import { CharacterData, ClassNames, RaceNames } from "../data/definitions";
 import {
+  equipmentItemIsDisabled,
   getArmorClass,
   getClassType,
-  getDisabledClasses,
+  getEnabledClasses,
+  getHitDice,
   getHitPointsModifier,
   getSavingThrows,
   getSavingThrowsWeight,
   getSpecialAbilityRaceOverrides,
   isStandardRace,
-  useDebounce,
+  // useDebounce,
 } from "./helpers";
-import React, { useState, useEffect } from "react";
-import { renderHook } from "@testing-library/react";
-import { CharacterData } from "../components/definitions";
+// import React, { useState, useEffect } from "react";
+// import { renderHook } from "@testing-library/react";
+import equipmentItems from "../data/equipmentItems.json";
 
 let characterData: CharacterData = {
   savingThrows: {
@@ -142,39 +144,23 @@ describe("isStandardRace", () => {
   });
 });
 
-describe("getDisabledClasses", () => {
+describe("getEnabledClasses", () => {
   // This test will break any time a new class is added, so... maybe not the best test.
-  test("should return a list of disabled classNames based on character race and ability scores", () => {
+  test("should return a list of enabled classNames based on character race selection and ability scores", () => {
     expect(
-      getDisabledClasses(RaceNames.DWARF, {
-        scores: {
-          strength: 9,
-          intelligence: 9,
-          wisdom: 6,
-          constitution: 11,
-          dexterity: 11,
-          charisma: 8,
-        },
-        modifiers: {
-          strength: "+0",
-          intelligence: "+0",
-          wisdom: "-1",
-          constitution: "+0",
-          dexterity: "+0",
-          charisma: "-1",
-        },
+      getEnabledClasses(RaceNames.DWARF, {
+        strength: 9,
+        intelligence: 9,
+        wisdom: 6,
+        constitution: 11,
+        dexterity: 11,
+        charisma: 8,
       })
     ).toEqual([
-      "Assassin",
-      "Cleric",
-      "Druid",
-      "Illusionist",
-      "Magic-User",
-      "Necromancer",
-      "Ranger",
-      "Paladin",
-      "Scout",
-      "Spellcrafter",
+      ClassNames.BARBARIAN,
+      ClassNames.FIGHTER,
+      ClassNames.THIEF,
+      ClassNames.CUSTOM,
     ]);
   });
 });
@@ -285,3 +271,52 @@ describe("getArmorClass", () => {
     ).toBe(13);
   });
 });
+
+describe("equipmentItemIsDisabled", () => {
+  const longbow = equipmentItems.filter((item) => item.name === "Longbow")[0];
+  test("custom class has nothing disabled", () => {
+    expect(equipmentItemIsDisabled(["foo"], RaceNames.HUMAN, longbow)).toBe(
+      false
+    );
+  });
+
+  test("races with `noLargeEquipment`", () => {
+    expect(
+      equipmentItemIsDisabled([ClassNames.CLERIC], RaceNames.GNOME, longbow)
+    ).toBe(true);
+  });
+
+  test("classes with `noLargeEquipment`", () => {
+    expect(
+      equipmentItemIsDisabled([ClassNames.SCOUT], RaceNames.HUMAN, longbow)
+    ).toBe(true);
+  });
+
+  test("classes with specific items restrictions (`specificEquipmentItems`)", () => {
+    expect(
+      equipmentItemIsDisabled([ClassNames.CLERIC], RaceNames.HUMAN, longbow)
+    ).toBe(true);
+  });
+});
+
+describe("getHitDice", () => {
+  test("hit dice for level one standard class", () => {
+    expect(getHitDice(1, [ClassNames.FIGHTER], "d8")).toBe("1d8");
+  });
+
+  test("high level hit dice for class with x2 multiplier suffix", () => {
+    expect(getHitDice(11, [ClassNames.FIGHTER], "d8")).toBe("9d8+4");
+  });
+
+  test("high level hit dice for class with x1 multiplier suffix", () => {
+    expect(getHitDice(11, [ClassNames.MAGICUSER], "d4")).toBe("9d4+2");
+  });
+
+  test("get hit dice for custom class", () => {
+    expect(getHitDice(11, ["foo"], "d8")).toBe("9d8");
+  });
+});
+
+describe("getAttackBonus", () => {});
+
+describe("getMovement", () => {});

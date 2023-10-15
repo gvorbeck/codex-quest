@@ -1,5 +1,16 @@
-import { AbilityRollerProps } from "./definitions";
 import { Space, InputNumber, Button } from "antd";
+import { AbilityRecord } from "../../../../data/definitions";
+
+type AbilityRollerProps = {
+  rollDice: () => any;
+  abilityValue: number;
+  getModifier: (score: number) => string;
+  updateCharacterData: (
+    scores: Record<string, number>,
+    modifiers: Record<string, string>
+  ) => void;
+  record: AbilityRecord;
+};
 
 export default function AbilityRoller({
   rollDice,

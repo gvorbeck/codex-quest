@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
-import { HitPointsRollerProps } from "./definitions";
 import { Button, InputNumber, Space } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { ClassNames } from "../../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  SetCharacterData,
+} from "../../../../data/definitions";
+
+type HitPointsRollerProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  customHitDice: string;
+};
 
 const roller = new DiceRoller();
 

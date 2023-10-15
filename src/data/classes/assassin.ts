@@ -1,4 +1,4 @@
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { DiceTypes } from "../definitions";
 
@@ -8,24 +8,24 @@ export const assassin: ClassSetup = {
   hitDice: DiceTypes.D4,
   hitDiceModifier: 2,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.SHIELDS,
-    equipmentCategories.AXES,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.BOWS,
-    equipmentCategories.DAGGERS,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.SWORDS,
-    equipmentCategories.SPEARSPOLES,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SLINGHURLED,
-    equipmentCategories.CHAINFLAIL,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.SHIELDS,
+    EquipmentCategories.AXES,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.DAGGERS,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.SWORDS,
+    EquipmentCategories.SPEARSPOLES,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SLINGHURLED,
+    EquipmentCategories.CHAINFLAIL,
   ],
-  specificEquipmentItems: [[equipmentCategories.ARMOR], ["leather"]],
+  specificEquipmentItems: [[EquipmentCategories.ARMOR], ["leather"]],
   experiencePoints: [
     0, 1375, 2750, 5500, 11000, 22000, 44000, 82500, 165000, 247500, 330000,
     412500, 495000, 577500, 660000, 742500, 825000, 907500, 990000, 1072500,

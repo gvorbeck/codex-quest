@@ -1,13 +1,22 @@
 import { Table, Typography, notification } from "antd";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import { SpecialAbilitiesTableProps } from "./definitions";
 import { toTitleCase } from "../../../support/stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { classes } from "../../../data/classes";
-import { ClassNames } from "../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  RaceNames,
+} from "../../../data/definitions";
 import React from "react";
 import SpecialAbilitiesFootnotes from "./SpecialAbilitiesFootnotes/SpecialAbilitiesFootnotes";
+
+type SpecialAbilitiesTableProps = {
+  characterLevel: CharacterData["level"];
+  characterClass: string;
+  characterRace: RaceNames;
+};
 
 export default function SpecialAbilitiesTable({
   characterLevel,

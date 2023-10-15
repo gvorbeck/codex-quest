@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const ranger: ClassSetup = {
@@ -12,22 +12,22 @@ export const ranger: ClassSetup = {
   hitDice: DiceTypes.D8,
   hitDiceModifier: 2,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.SHIELDS,
-    equipmentCategories.AXES,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.BOWS,
-    equipmentCategories.DAGGERS,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.SWORDS,
-    equipmentCategories.SPEARSPOLES,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SLINGHURLED,
-    equipmentCategories.CHAINFLAIL,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.SHIELDS,
+    EquipmentCategories.AXES,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.DAGGERS,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.SWORDS,
+    EquipmentCategories.SPEARSPOLES,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SLINGHURLED,
+    EquipmentCategories.CHAINFLAIL,
   ],
   experiencePoints: [
     0, 2200, 4400, 8800, 17600, 35200, 70400, 132000, 264000, 396000, 528000,

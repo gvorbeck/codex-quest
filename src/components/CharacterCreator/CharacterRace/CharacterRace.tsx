@@ -1,12 +1,16 @@
 import { Input } from "antd";
-import { CharacterRaceProps } from "./definitions";
 import { ChangeEvent, useState, useEffect, MouseEvent } from "react";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import DOMPurify from "dompurify";
 import DescriptionBubble from "../DescriptionBubble/DescriptionBubble";
 import { races } from "../../../data/races";
 import RaceOptions from "./RaceOptions/RaceOptions";
-import { RaceNames } from "../../../data/definitions";
+import { CharacterDataStatePair, RaceNames } from "../../../data/definitions";
+
+interface CharacterRaceProps extends CharacterDataStatePair {
+  setComboClass: (comboxClass: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+}
 
 export default function CharacterRace({
   characterData,

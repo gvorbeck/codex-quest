@@ -1795,7 +1795,7 @@
   {
     "name": "Stone",
     "costValue": 0,
-    "costCurrency": "",
+    "costCurrency": "cp",
     "weight": 0.1,
     "damage": "1d3",
     "category": "ammunition",

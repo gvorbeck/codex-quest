@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
+import { classes } from "../data/classes";
 import {
   Abilities,
-  AbilityTypes,
-} from "../components/CharacterCreator/CharacterAbilities/definitions";
-import { classes } from "../data/classes";
-import { ClassNames, RaceNames } from "../data/definitions";
+  CharacterData,
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+  SavingThrowsType,
+  SetCharacterData,
+} from "../data/definitions";
 import { races } from "../data/races";
-import { SavingThrowsType } from "../components/CharacterSheet/SavingThrows/definitions";
-import { CharacterData, SetCharacterData } from "../components/definitions";
 import equipmentItems from "../data/equipmentItems.json";
+import { getCarryingCapacity } from "./formatSupport";
 
 export const getClassType = (characterClass: string[]) => {
   // NONE
@@ -53,43 +56,30 @@ export const isStandardClass = (className: string) =>
 export const isStandardRace = (raceName: string) =>
   Object.values(RaceNames).includes(raceName as RaceNames);
 
-export function getDisabledClasses(
+export function getEnabledClasses(
   raceKey: RaceNames,
-  abilities: Abilities
-): ClassNames[] {
-  const race = races[raceKey];
-  const disabledClasses = [];
-
-  // Check if the race is defined
-  if (!race) return [];
-
-  for (const className of Object.values(ClassNames)) {
-    const classSetup = classes[className];
-
-    // Check if the class is allowed for the race
-    if (
-      !race.allowedStandardClasses?.includes(className) &&
-      !race.allowedCombinationClasses?.includes(className)
-    ) {
-      disabledClasses.push(className);
-      continue;
-    }
-
-    // Check ability requirements
-    if (classSetup.minimumAbilityRequirements) {
-      for (const ability of Object.keys(
-        classSetup.minimumAbilityRequirements
-      ) as (keyof AbilityTypes)[]) {
-        const requirement = classSetup.minimumAbilityRequirements[ability];
-        if (requirement && +abilities.scores[ability] < requirement) {
-          disabledClasses.push(className);
-          break;
+  abilityScores: Abilities
+) {
+  const race = isStandardRace(raceKey) ? races[raceKey] : undefined;
+  let classList = Object.values(ClassNames);
+  if (!race) return classList;
+  classList = classList
+    .filter((className) => race.allowedStandardClasses.indexOf(className) > -1)
+    .filter((className) => {
+      const classSetup = classes[className];
+      if (classSetup.minimumAbilityRequirements) {
+        for (const ability of Object.keys(
+          classSetup.minimumAbilityRequirements
+        ) as (keyof Abilities)[]) {
+          const requirement = classSetup.minimumAbilityRequirements[ability];
+          if (requirement && +abilityScores[ability] < requirement) {
+            return false;
+          }
         }
       }
-    }
-  }
-
-  return disabledClasses;
+      return true;
+    });
+  return classList;
 }
 
 // Get the saving throws for a class at a given level
@@ -133,8 +123,7 @@ export const getHitPointsModifier = (classArr: string[]) => {
 export const getSpecialAbilityRaceOverrides = (raceName: RaceNames) =>
   races[raceName]?.specialAbilitiesOverride ?? [];
 
-export // ARMOR CLASS (AC)
-const getArmorClass = (
+export const getArmorClass = (
   characterData: CharacterData,
   setCharacterData: SetCharacterData,
   type: "missile" | "melee" = "melee"
@@ -188,4 +177,123 @@ const getArmorClass = (
   }
 
   return armorClass;
+};
+
+export const getHitDice = (
+  level: number,
+  className: string[],
+  dice: string
+) => {
+  const dieType = dice.split("d")[1].split("+")[0];
+  const prefix = Math.min(level, 9);
+
+  // Calculate the suffix
+  let suffix = (level > 9 ? level - 9 : 0) * getHitPointsModifier(className);
+
+  // Combine to create the result
+  const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
+  return result;
+};
+
+export const getAttackBonus = function (characterData: CharacterData) {
+  if (getClassType(characterData.class) === "custom") return 0;
+  let maxAttackBonus = 0;
+
+  characterData.class.forEach((classPiece) => {
+    const classAttackBonus =
+      classes[classPiece as ClassNames]?.attackBonus[characterData.level];
+    if (classAttackBonus > maxAttackBonus) {
+      maxAttackBonus = classAttackBonus;
+    }
+  });
+
+  return maxAttackBonus;
+};
+
+export const getMovement = (characterData: CharacterData) => {
+  if (!characterData) return;
+
+  const carryingCapacity = getCarryingCapacity(
+    +characterData.abilities.scores.strength,
+    characterData.race as RaceNames
+  );
+
+  const isWearing = (armorNames: string[]) => {
+    return armorNames.includes(characterData?.wearing?.armor || "");
+  };
+
+  // This checks if there is armor being worn or not and adjusts movement.
+  // TODO: Better way to do this?
+  if (isWearing(["No Armor", "Magic Leather Armor", ""])) {
+    return characterData.weight <= carryingCapacity.light ? 40 : 30;
+  } else if (
+    isWearing([
+      "Studded Leather Armor",
+      "Hide Armor",
+      "Leather Armor",
+      "Magic Metal Armor",
+      "Hide Armor",
+    ])
+  ) {
+    return characterData.weight <= carryingCapacity.light ? 30 : 20;
+  } else if (
+    isWearing([
+      "Metal Armor",
+      "Chain Mail",
+      "Ring Mail",
+      "Brigandine Armor",
+      "Scale Mail",
+      "Splint Mail",
+      "Banded Mail",
+      "Plate Mail",
+      "Field Plate Mail",
+      "Full Plate Mail",
+    ])
+  ) {
+    return characterData.weight <= carryingCapacity.light ? 20 : 10;
+  }
+};
+
+export const equipmentItemIsDisabled = (
+  classNames: string[],
+  raceName: RaceNames,
+  item: EquipmentItem
+) => {
+  // Nothing disabled for custom classes
+  if (getClassType(classNames) === "custom") return false;
+  // Races that do not allow large equipment
+  if (races[raceName]?.noLargeEquipment && item.size === "L") return true;
+  // Classes that do not allow large equipment
+  if (
+    classNames.some(
+      (className) => classes[className as ClassNames].noLargeEquipment
+    ) &&
+    item.size === "L"
+  ) {
+    return true;
+  }
+  let disabled = false;
+  classNames.forEach((className) => {
+    if (classes[className as ClassNames].specificEquipmentItems) {
+      const specificEquipmentItems = classes[className as ClassNames]
+        .specificEquipmentItems || [[], []];
+
+      // if the item category is listed in specificEquipmentItems[0] AND the string in specificEquipmentItems[1] is not in the item name
+      if (
+        specificEquipmentItems[0].includes(item.category) &&
+        specificEquipmentItems[1].every(
+          (string) => !item.name.toLowerCase().includes(string)
+        )
+      ) {
+        disabled = true;
+      }
+    }
+  });
+
+  return disabled;
+};
+
+export const openInNewTab = (url: string) => {
+  const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+  if (newWindow) newWindow.opener = null;
 };

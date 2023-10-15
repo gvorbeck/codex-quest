@@ -19,8 +19,8 @@ import equipmentItems from "../data/equipmentItems.json";
 import { slugToTitleCase } from "../support/stringSupport";
 import { getItemCost } from "../support/formatSupport";
 import HomebrewWarning from "../components/HomebrewWarning/HomebrewWarning";
-import { EquipmentItem } from "../components/EquipmentStore/definitions";
 import DOMPurify from "dompurify";
+import { EquipmentItem } from "../data/definitions";
 
 const initialFormState = {
   name: undefined,
@@ -55,6 +55,7 @@ export default function AddCustomEquipmentModal({
   handleCancel,
   characterData,
   setCharacterData,
+  user,
 }: AddCustomEquipmentModalProps) {
   const [formState, setFormState] = useState(initialFormState);
   const [prevValue, setPrevValue] = useState(characterData.equipment);
@@ -67,6 +68,10 @@ export default function AddCustomEquipmentModal({
   const updateEquipment = async () => {
     if (!uid || !id) {
       console.error("User ID or Character ID is undefined");
+      return;
+    }
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
       return;
     }
 

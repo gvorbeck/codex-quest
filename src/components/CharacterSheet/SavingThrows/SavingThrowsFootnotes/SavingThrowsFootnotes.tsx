@@ -1,12 +1,13 @@
 import { Typography } from "antd";
-import { SavingThrowsFootnotesProps } from "./definitions";
 import { classes } from "../../../../data/classes";
-import { ClassNames } from "../../../../data/definitions";
+import { CharacterData, ClassNames } from "../../../../data/definitions";
 import { marked } from "marked";
 
 export default function SavingThrowsFootnotes({
   characterData,
-}: SavingThrowsFootnotesProps) {
+}: {
+  characterData: CharacterData;
+}) {
   return (
     <div className="mt-2 italic">
       {characterData.abilities.modifiers.constitution !== "+0" && (

@@ -1,4 +1,4 @@
-export enum equipmentCategories {
+export enum EquipmentCategories {
   GENERAL = "general-equipment",
   AXES = "axes",
   BOWS = "bows",
@@ -51,15 +51,6 @@ export enum RaceNames {
   PHAERIM = "Phaerim",
 }
 
-export interface SpellLevels {
-  cleric: number | null;
-  "magic-user": number | null;
-  druid: number | null;
-  illusionist: number | null;
-  necromancer: number | null;
-  paladin: number | null;
-}
-
 export enum DiceTypes {
   D4 = "d4",
   D6 = "d6",
@@ -69,3 +60,109 @@ export enum DiceTypes {
   D20 = "d20",
   D100 = "d100",
 }
+
+export type SavingThrowsType = {
+  deathRayOrPoison: number;
+  magicWands: number;
+  paralysisOrPetrify: number;
+  dragonBreath: number;
+  spells: number;
+};
+
+export type Spell = {
+  description: string;
+  duration: string;
+  level: Record<string, number | null>;
+  name: string;
+  range: string;
+};
+
+export type Abilities = {
+  strength: number | string;
+  intelligence: number | string;
+  wisdom: number | string;
+  dexterity: number | string;
+  constitution: number | string;
+  charisma: number | string;
+};
+
+export type EquipmentItem = {
+  name: string;
+  costValue: number;
+  costCurrency: string;
+  category: string;
+  amount: number;
+  weight?: number;
+  size?: string;
+  damage?: string;
+  missileAC?: string;
+  AC?: string | number;
+  type?: string;
+  range?: number[];
+  ammo?: string[];
+  noDelete?: boolean;
+  minLevel?: number;
+};
+
+type SpecialRestriction = {
+  race: string[];
+  class: string[];
+};
+
+export type CharacterData = {
+  abilities: {
+    scores: Abilities;
+    modifiers: Abilities;
+  };
+  avatar: string;
+  class: string[];
+  desc: string | string[];
+  equipment: EquipmentItem[];
+  gold: number;
+  hp: {
+    dice: string;
+    points: number;
+    max: number;
+    desc: string;
+  };
+  id?: string;
+  level: number;
+  name: string;
+  race: string;
+  restrictions: SpecialRestriction;
+  savingThrows: SavingThrowsType;
+  specials: SpecialRestriction;
+  spells: Spell[];
+  wearing?: { armor: string; shield: string };
+  weight: number;
+  xp: number;
+};
+
+export type SetCharacterData = (characterData: CharacterData) => void;
+
+export interface CharacterDataStatePair {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+}
+
+export type AttackType = "melee" | "missile";
+
+export type AbilityRecord = {
+  key: string;
+  ability: string;
+  score: number;
+};
+
+export type GameData = {
+  name: string;
+  id?: string;
+  players: PlayerListObject[];
+};
+
+export type PlayerListObject = { user: string; character: string };
+
+export enum MODE {
+  PLAYER = "Player Mode",
+  GM = "GM Mode",
+}
+export type ModeType = MODE.PLAYER | MODE.GM;

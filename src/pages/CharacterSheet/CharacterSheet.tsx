@@ -7,9 +7,6 @@ import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 // DEFINITIONS
 import { User } from "firebase/auth";
-import { CharacterSheetProps } from "./definitions";
-import { CharacterData } from "../../components/definitions";
-import { EquipmentItem } from "../../components/EquipmentStore/definitions";
 // ANTD COMPONENTS
 import {
   Breadcrumb,
@@ -20,11 +17,14 @@ import {
   Skeleton,
   Typography,
 } from "antd";
-import { HomeOutlined, SolutionOutlined } from "@ant-design/icons";
+import {
+  FileSearchOutlined,
+  HomeOutlined,
+  SolutionOutlined,
+} from "@ant-design/icons";
 // CHARACTER SHEET COMPONENTS
 import BaseStats from "../../components/CharacterSheet/BaseStats/BaseStats";
 import InitiativeRoller from "../../components/CharacterSheet/InitiativeRoller/InitiativeRoller";
-import DiceRoller from "../../components/DiceRoller/DiceRoller";
 import Abilities from "../../components/CharacterSheet/Abilities/Abilities";
 import AttackBonus from "../../components/CharacterSheet/AttackBonus/AttackBonus";
 import HitPoints from "../../components/CharacterSheet/HitPoints/HitPoints";
@@ -35,26 +35,33 @@ import SavingThrows from "../../components/CharacterSheet/SavingThrows/SavingThr
 import MoneyStats from "../../components/CharacterSheet/MoneyStats/MoneyStats";
 import WeightStats from "../../components/CharacterSheet/WeightStats/WeightStats";
 import EquipmentInfo from "../../components/CharacterSheet/EquipmentInfo/EquipmentInfo";
-import Description from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
-// MODALS
-import LevelUpModal from "../../modals/LevelUpModal";
-import DiceRollerModal from "../../modals/DiceRollerModal";
-import AddEquipmentModal from "../../modals/AddEquipmentModal";
-import AddCustomEquipmentModal from "../../modals/AddCustomEquipmentModal";
-import AttackModal from "../../components/AttackModal/AttackModal";
-import CheatSheetModal from "../../modals/CheatSheetModal";
+import CharacterSpellList from "../../components/CharacterSheet/EquipmentInfo/CharacterSpellList/CharacterSpellList";
+import CharacterDescription from "../../components/CharacterSheet/CharacterDescription/CharacterDescription";
+import EquipmentList from "../../components/CharacterSheet/EquipmentInfo/EquipmentList/EquipmentList";
+import CharacterSheetModals from "../../components/CharacterSheet/CharacterSheetModals/CharacterSheetModals";
 // DATA
 import { classes } from "../../data/classes";
-import { ClassNames, RaceNames } from "../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  EquipmentCategories,
+  EquipmentItem,
+  RaceNames,
+} from "../../data/definitions";
 // SUPPORT
-import { getCarryingCapacity } from "../../support/formatSupport";
+import { makeChange } from "../../support/formatSupport";
 import {
   getArmorClass,
+  getAttackBonus,
   getClassType,
-  getHitPointsModifier,
+  getHitDice,
+  getMovement,
+  isStandardClass,
 } from "../../support/helpers";
+import DiceSvg from "../../assets/images/dice.svg";
+import classNames from "classnames";
 
-export default function CharacterSheet({ user }: CharacterSheetProps) {
+export default function CharacterSheet({ user }: { user: User | null }) {
   const { uid, id } = useParams();
   const [characterData, setCharacterData] = useState<CharacterData | null>(
     null
@@ -66,7 +73,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
 
   const outletContext = useOutletContext() as { className: string };
 
-  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState<boolean>(false);
   const showLevelUpModal = () => {
     setIsLevelUpModalOpen(true);
   };
@@ -110,39 +117,9 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     if (!characterData) return;
 
     const newEquipment = characterData.equipment.filter(
-      (e) => e.name !== item.name
+      (e: EquipmentItem) => e.name !== item.name
     );
     setCharacterData({ ...characterData, equipment: newEquipment });
-  };
-
-  // HIT DICE
-  const hitDice = (level: number, className: string[], dice: string) => {
-    // TODO: This should be using class modifier and specific classes should not be called out here.
-    const dieType = dice.split("d")[1].split("+")[0];
-    const prefix = Math.min(level, 9);
-
-    // Calculate the suffix
-    let suffix = (level > 9 ? level - 9 : 0) * getHitPointsModifier(className);
-
-    // Combine to create the result
-    const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
-    return result;
-  };
-
-  // ATTACK BONUS
-  const getAttackBonus = function (characterData: CharacterData) {
-    if (getClassType(characterData.class) === "custom") return 0;
-    let maxAttackBonus = 0;
-
-    characterData.class.forEach((classPiece) => {
-      const classAttackBonus =
-        classes[classPiece as ClassNames]?.attackBonus[characterData.level];
-      if (classAttackBonus > maxAttackBonus) {
-        maxAttackBonus = classAttackBonus;
-      }
-    });
-
-    return maxAttackBonus;
   };
 
   const updateAC = async () => {
@@ -150,7 +127,14 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       console.error("User ID or Character ID is undefined");
       return;
     }
-    if (!characterData || !characterData.wearing) return;
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
+      return;
+    }
+    if (!characterData || !characterData.wearing) {
+      console.error("Character data or wearing is undefined");
+      return;
+    }
 
     const docRef = doc(db, "users", uid, "characters", id);
 
@@ -169,71 +153,6 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
   useEffect(() => {
     updateAC();
   }, [characterData?.wearing]);
-
-  // MOVEMENT
-  const getMovement = (characterData: CharacterData) => {
-    if (!characterData) return;
-
-    const carryingCapacity = getCarryingCapacity(
-      +characterData.abilities.scores.strength,
-      characterData.race as RaceNames
-    );
-
-    const isWearing = (armorNames: string[]) => {
-      return armorNames.includes(characterData?.wearing?.armor || "");
-    };
-
-    // This checks if there is armor being worn or not and adjusts movement.
-    if (isWearing(["No Armor", "Magic Leather Armor", ""])) {
-      return characterData.weight <= carryingCapacity.light ? 40 : 30;
-    } else if (
-      isWearing([
-        "Studded Leather Armor",
-        "Hide Armor",
-        "Leather Armor",
-        "Magic Metal Armor",
-        "Hide Armor",
-      ])
-    ) {
-      return characterData.weight <= carryingCapacity.light ? 30 : 20;
-    } else if (
-      isWearing([
-        "Metal Armor",
-        "Chain Mail",
-        "Ring Mail",
-        "Brigandine Armor",
-        "Scale Mail",
-        "Splint Mail",
-        "Banded Mail",
-        "Plate Mail",
-        "Field Plate Mail",
-        "Full Plate Mail",
-      ])
-    ) {
-      return characterData.weight <= carryingCapacity.light ? 20 : 10;
-    }
-  };
-
-  // MONEY
-  function makeChange() {
-    if (characterData) {
-      let copper = characterData.gold * 100;
-      let goldPieces = Math.floor(copper / 100);
-      copper %= 100;
-      let silverPieces = Math.floor(copper / 10);
-      copper %= 10;
-      let copperPieces = copper;
-
-      return {
-        gp: Math.round(goldPieces),
-        sp: Math.round(silverPieces),
-        cp: Math.round(copperPieces),
-      };
-    } else {
-      // default object when characterData is null/undefined
-      return { gp: 0, sp: 0, cp: 0 };
-    }
-  }
 
   const showMissileAC =
     characterData &&
@@ -256,11 +175,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
             const newArr = characterData.class[0].split(" ");
             // Make sure every value in the array is in the ClassNames enum
             // That way you know if it is a proper combination class and not a custom class with a space.
-            if (
-              newArr.every((className) =>
-                Object.values(ClassNames).includes(className as ClassNames)
-              )
-            )
+            if (newArr.every((className) => isStandardClass(className)))
               characterData.class = newArr;
           }
         }
@@ -275,10 +190,129 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
     return () => unsubscribe();
   }, [uid, id]);
 
+  const buttonTextClassNames = classNames("hidden", "md:inline");
+
+  const equipmentListCategories = {
+    weapons: [
+      "weapons",
+      "brawling",
+      EquipmentCategories.AXES,
+      EquipmentCategories.BOWS,
+      EquipmentCategories.DAGGERS,
+      EquipmentCategories.SWORDS,
+      EquipmentCategories.HAMMERMACE,
+      EquipmentCategories.IMPROVISED,
+      EquipmentCategories.CHAINFLAIL,
+      EquipmentCategories.OTHERWEAPONS,
+      EquipmentCategories.SLINGHURLED,
+      EquipmentCategories.SPEARSPOLES,
+    ],
+    general: [EquipmentCategories.GENERAL, "items"],
+    armor: [EquipmentCategories.ARMOR, "armor-and-shields"],
+    shields: [EquipmentCategories.SHIELDS, "armor-and-shields"],
+    beasts: [EquipmentCategories.BEASTS, EquipmentCategories.BARDING],
+    ammo: [EquipmentCategories.AMMUNITION],
+  };
+
+  const handleAttackClick = (item: EquipmentItem) => {
+    if (setWeapon) {
+      setWeapon(item);
+    }
+    if (showAttackModal) {
+      showAttackModal();
+    }
+  };
+
+  const equipmentInfoCollapseItems = [
+    {
+      key: "1",
+      label: "Spells",
+      children: characterData && (
+        <CharacterSpellList spells={characterData.spells} />
+      ),
+    },
+    {
+      key: "2",
+      label: "Weapons",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          setCharacterData={setCharacterData}
+          categories={equipmentListCategories.weapons}
+          handleCustomDelete={handleCustomDelete}
+          handleAttackClick={handleAttackClick}
+          handleAttack
+        />
+      ),
+    },
+    {
+      key: "3",
+      label: "Ammunition",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.ammo}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+        />
+      ),
+    },
+    {
+      key: "4",
+      label: "General Equipment",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.general}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+        />
+      ),
+    },
+    {
+      key: "5",
+      label: "Armor",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.armor}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+          updateAC={updateAC}
+        />
+      ),
+    },
+    {
+      key: "6",
+      label: "Shields",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.shields}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+          updateAC={updateAC}
+        />
+      ),
+    },
+    {
+      key: "7",
+      label: "Beasts of Burden",
+      children: characterData && (
+        <EquipmentList
+          characterData={characterData}
+          categories={equipmentListCategories.beasts}
+          setCharacterData={setCharacterData}
+          handleCustomDelete={handleCustomDelete}
+        />
+      ),
+    },
+  ];
+
   return characterData ? (
     <div className={`${outletContext.className} text-shipGray [&>*+*]:mt-4`}>
       <Breadcrumb
-        className="print:hidden"
+        className="hidden md:block print:hidden"
         items={[
           {
             title: (
@@ -307,12 +341,27 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
       />
       {/* ROLLING BUTTONS */}
       <div className="flex justify-between print:hidden">
-        <InitiativeRoller characterData={characterData} />
+        {/* TODO: THIS SHOULD BE THREE OF THE SAME component with different labels,  */}
+        {/* <NewComponent [content_props (icon, label, etc)] medthods={{function1, function2}} */}
+        {/* https://stackoverflow.com/questions/65931823/best-way-to-pass-multiple-props-in-react-js */}
+        {/* https://stackoverflow.com/questions/68631439/pass-multiple-functions-as-a-single-prop-using-react-hooks */}
+        <InitiativeRoller
+          characterData={characterData}
+          buttonTextClassNames={buttonTextClassNames}
+        />
         <div className="flex gap-4 flex-row">
           <Button type="primary" onClick={showCheatSheetModal}>
-            Cheat Sheet
+            <FileSearchOutlined />
+            <span className={buttonTextClassNames}>Cheat Sheet</span>
           </Button>
-          <DiceRoller onClick={showDiceRollerModal} />
+          <Button
+            type="primary"
+            onClick={showDiceRollerModal}
+            className="flex items-center"
+          >
+            <img src={DiceSvg} />
+            <span className={buttonTextClassNames}>Virtual Dice</span>
+          </Button>
         </div>
       </div>
       <Row gutter={32} className="gap-4 md:gap-0 print:block">
@@ -367,7 +416,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           {/* HIT DICE */}
           <SimpleNumberStat
             title="Hit Dice"
-            value={hitDice(
+            value={getHitDice(
               characterData.level,
               characterData.class,
               characterData.hp.dice
@@ -419,7 +468,7 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           characterData={characterData}
           setCharacterData={setCharacterData}
           userIsOwner={userIsOwner}
-          makeChange={makeChange}
+          makeChange={() => makeChange(characterData)}
           className="col-span-1"
         />
         {/* WEIGHT */}
@@ -433,56 +482,31 @@ export default function CharacterSheet({ user }: CharacterSheetProps) {
           showAddEquipmentModal={showAddEquipmentModal}
           showAddCustomEquipmentModal={showAddCustomEquipmentModal}
           characterData={characterData}
-          setCharacterData={setCharacterData}
-          handleCustomDelete={handleCustomDelete}
-          setWeapon={setWeapon}
-          showAttackModal={showAttackModal}
-          updateAC={updateAC}
           className="col-span-1 md:col-start-2 md:row-start-1 lg:col-start-4 lg:col-span-2 row-span-2"
+          collapseItems={equipmentInfoCollapseItems}
         />
       </div>
       <Divider className="border-seaBuckthorn" />
       {/* BIO & NOTES */}
-      <Description
+      <CharacterDescription
         characterData={characterData}
         setCharacterData={setCharacterData}
         userIsOwner={userIsOwner}
+        user={user}
       />
       {/* MODALS */}
-      <LevelUpModal
-        isLevelUpModalOpen={isLevelUpModalOpen}
-        handleCancel={handleCancel}
+      <CharacterSheetModals
         characterData={characterData}
-        hitDice={hitDice}
-        setCharacterData={setCharacterData}
-      />
-      <DiceRollerModal
         handleCancel={handleCancel}
-        isDiceRollerModalOpen={isDiceRollerModalOpen}
-      />
-      <AddEquipmentModal
-        isAddEquipmentModalOpen={isAddEquipmentModalOpen}
-        handleCancel={handleCancel}
-        characterData={characterData}
-        setCharacterData={setCharacterData}
-      />
-      <AddCustomEquipmentModal
         isAddCustomEquipmentModalOpen={isAddCustomEquipmentModalOpen}
-        handleCancel={handleCancel}
-        characterData={characterData}
-        setCharacterData={setCharacterData}
-      />
-      <AttackModal
+        isAddEquipmentModalOpen={isAddEquipmentModalOpen}
         isAttackModalOpen={isAttackModalOpen}
-        handleCancel={handleCancel}
-        characterData={characterData}
-        attackBonus={getAttackBonus(characterData)}
-        weapon={weapon}
-        setCharacterData={setCharacterData}
-      />
-      <CheatSheetModal
-        handleCancel={handleCancel}
         isCheatSheetModalOpen={isCheatSheetModalOpen}
+        isDiceRollerModalOpen={isDiceRollerModalOpen}
+        isLevelUpModalOpen={isLevelUpModalOpen}
+        setCharacterData={setCharacterData}
+        weapon={weapon}
+        user={user}
       />
     </div>
   ) : (

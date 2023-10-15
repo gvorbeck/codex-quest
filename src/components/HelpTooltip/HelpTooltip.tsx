@@ -1,5 +1,4 @@
 import { Tooltip } from "antd";
-import { HelpTooltipProps } from "./definitions";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import classNames from "classnames";
 import { marked } from "marked";
@@ -7,7 +6,7 @@ import { marked } from "marked";
 export default function HelpTooltip({
   text,
   className,
-}: HelpTooltipProps & React.ComponentPropsWithRef<"div">) {
+}: { text: string } & React.ComponentPropsWithRef<"div">) {
   const tooltipClassNames = classNames(
     className,
     "print:hidden",

@@ -1,5 +1,12 @@
-import { AvatarPickerProps } from "./definitions";
+import { CharacterData, SetCharacterData } from "../../../../data/definitions";
 import { Radio, Typography, RadioChangeEvent } from "antd";
+
+type AvatarPickerProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  imageSource: number;
+  setImageSource: (imageSource: number) => void;
+};
 
 export default function AvatarPicker({
   characterData,

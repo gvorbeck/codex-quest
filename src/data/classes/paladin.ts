@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const paladin: ClassSetup = {
@@ -12,22 +12,22 @@ export const paladin: ClassSetup = {
   hitDice: DiceTypes.D8,
   hitDiceModifier: 2,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.SHIELDS,
-    equipmentCategories.AXES,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.BOWS,
-    equipmentCategories.DAGGERS,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.SWORDS,
-    equipmentCategories.SPEARSPOLES,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SLINGHURLED,
-    equipmentCategories.CHAINFLAIL,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.SHIELDS,
+    EquipmentCategories.AXES,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.DAGGERS,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.SWORDS,
+    EquipmentCategories.SPEARSPOLES,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SLINGHURLED,
+    EquipmentCategories.CHAINFLAIL,
   ],
   experiencePoints: [
     0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,

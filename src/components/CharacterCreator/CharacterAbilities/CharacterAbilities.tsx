@@ -1,7 +1,15 @@
 import { Button, Table } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import { AbilityRecord, CharAbilityScoreStepProps } from "./definitions";
 import AbilityRoller from "./AbilityRoller/AbilityRoller";
+import {
+  AbilityRecord,
+  CharacterDataStatePair,
+} from "../../../data/definitions";
+
+interface CharAbilityScoreStepProps extends CharacterDataStatePair {
+  setComboClass: (comboClass: boolean) => void;
+  setCheckedClasses: (checkedClasses: string[]) => void;
+}
 
 const getModifier = (score: number): string => {
   const modifierMapping: Record<number, string> = {

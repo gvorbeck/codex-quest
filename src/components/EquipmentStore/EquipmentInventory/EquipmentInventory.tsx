@@ -1,46 +1,18 @@
 import { Divider, List, Typography } from "antd";
-import { EquipmentInventoryProps } from "./definitions";
 import { useMemo } from "react";
-import { EquipmentItem } from "../definitions";
 import { toTitleCase } from "../../../support/stringSupport";
-import { classes } from "../../../data/classes";
 import { getClassType } from "../../../support/helpers";
-import { ClassNames } from "../../../data/definitions";
-
-const renderEquipmentList = (classNameArray: ClassNames[]) => {
-  return classNameArray.map(
-    (classValue: ClassNames) =>
-      classes[classValue].startingEquipment && (
-        <List
-          header={
-            <Typography.Title level={3} className="m-0 text-shipGray">
-              Included w/ {classValue}
-            </Typography.Title>
-          }
-          bordered
-          dataSource={classes[classValue].startingEquipment?.map(
-            (item: EquipmentItem) => ({
-              name: item.name,
-              amount: item.amount,
-            })
-          )}
-          renderItem={(item) => (
-            <List.Item className="text-shipGray">
-              <span>{item.name}</span>
-              <span>x{item.amount}</span>
-            </List.Item>
-          )}
-          size="small"
-          key={classValue}
-        />
-      )
-  );
-};
+import {
+  CharacterData,
+  ClassNames,
+  EquipmentItem,
+} from "../../../data/definitions";
+import RenderEquipmentList from "./RenderEquipmentList/RenderEquipmentList";
 
 export default function EquipmentInventory({
   className,
   characterData,
-}: EquipmentInventoryProps & React.ComponentPropsWithRef<"div">) {
+}: { characterData: CharacterData } & React.ComponentPropsWithRef<"div">) {
   const groupedEquipment = useMemo(() => {
     return characterData.equipment.reduce(
       (grouped: Record<string, EquipmentItem[]>, item: EquipmentItem) => {
@@ -58,7 +30,7 @@ export default function EquipmentInventory({
       >
         Gold: {characterData.gold.toFixed(2)} | Weight:{" "}
         {characterData.equipment
-          .reduce((total, item) => {
+          .reduce((total: number, item: EquipmentItem) => {
             return total + (item.weight || 0) * item.amount;
           }, 0)
           .toFixed(2)}
@@ -70,11 +42,13 @@ export default function EquipmentInventory({
         {getClassType(characterData.class) !== "custom" && (
           <div>
             {/* STARTING EQUIPMENT */}
-            {renderEquipmentList(characterData.class as ClassNames[])}
+            <RenderEquipmentList
+              classNames={characterData.class as ClassNames[]}
+            />
           </div>
         )}
         {Object.entries(groupedEquipment).map(
-          ([category, categoryItems]: [string, EquipmentItem[]]) => (
+          ([category, categoryItems]: [any, any]) => (
             <div key={category}>
               <List
                 header={
@@ -83,11 +57,13 @@ export default function EquipmentInventory({
                   </Typography.Title>
                 }
                 bordered
-                dataSource={categoryItems.map((categoryItem) => ({
-                  name: categoryItem.name,
-                  amount: categoryItem.amount,
-                }))}
-                renderItem={(item) => (
+                dataSource={categoryItems.map(
+                  (categoryItem: EquipmentItem) => ({
+                    name: categoryItem.name,
+                    amount: categoryItem.amount,
+                  })
+                )}
+                renderItem={(item: EquipmentItem) => (
                   <List.Item className="text-shipGray">
                     <span>{item.name}</span>
                     <span>x{item.amount}</span>

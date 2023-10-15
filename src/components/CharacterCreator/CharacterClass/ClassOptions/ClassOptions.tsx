@@ -1,12 +1,18 @@
 import { Radio, RadioChangeEvent, Space } from "antd";
 import { classes } from "../../../../data/classes";
-import { ClassOptionsProps } from "./definitions";
 import DescriptionBubble from "../../DescriptionBubble/DescriptionBubble";
-import { getClassType, getDisabledClasses } from "../../../../support/helpers";
+import { getClassType, getEnabledClasses } from "../../../../support/helpers";
 import spellsData from "../../../../data/spells.json";
-import { Spell } from "../../../definitions";
-import { ClassNames, RaceNames } from "../../../../data/definitions";
+import { CharacterData, ClassNames, RaceNames, SetCharacterData, Spell } from "../../../../data/definitions";
 import classNames from "classnames";
+
+type ClassOptionsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  customClassInput: string;
+  setShowCustomClassInput: (showCustomClassInput: boolean) => void;
+  setSelectedSpell: (spell: Spell | null) => void;
+};
 
 export default function ClassOptions({
   characterData,
@@ -15,9 +21,9 @@ export default function ClassOptions({
   setShowCustomClassInput,
   setSelectedSpell,
 }: ClassOptionsProps) {
-  const disabledClasses = getDisabledClasses(
+  const enabledClasses = getEnabledClasses(
     characterData.race as RaceNames,
-    characterData.abilities
+    characterData.abilities.scores
   );
   const baseClasses = [
     ClassNames.FIGHTER,
@@ -94,7 +100,8 @@ export default function ClassOptions({
                   key={choice.name}
                   value={choice.name}
                   className={radioClassNames}
-                  disabled={disabledClasses.includes(choice.name as ClassNames)}
+                  // disabled={disabledClasses.includes(choice.name as ClassNames)}
+                  disabled={!enabledClasses.includes(choice.name as ClassNames)}
                 >
                   {choice.name}
                 </Radio>

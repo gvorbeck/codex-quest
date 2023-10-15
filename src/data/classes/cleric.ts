@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
 
@@ -9,26 +9,26 @@ export const cleric: ClassSetup = {
   hitDice: DiceTypes.D6,
   hitDiceModifier: 1,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.SHIELDS,
-    equipmentCategories.BOWS,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.CHAINFLAIL,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SLINGHURLED,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.SHIELDS,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.CHAINFLAIL,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SLINGHURLED,
   ],
   specificEquipmentItems: [
     [
-      equipmentCategories.HAMMERMACE,
-      equipmentCategories.OTHERWEAPONS,
-      equipmentCategories.AMMUNITION,
-      equipmentCategories.BOWS,
-      equipmentCategories.SLINGHURLED,
+      EquipmentCategories.HAMMERMACE,
+      EquipmentCategories.OTHERWEAPONS,
+      EquipmentCategories.AMMUNITION,
+      EquipmentCategories.BOWS,
+      EquipmentCategories.SLINGHURLED,
     ],
     [
       "warhammer",

@@ -74,6 +74,7 @@ export default function Sources() {
           Smoot, R. Kevin. "New Races: A Basic Fantasy RPG Supplement." Basic
           Fantasy Role-Playing Game, 2018, basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>Spiked dragon head icon by Delapouite</List.Item>
       </List>
     </div>
   );

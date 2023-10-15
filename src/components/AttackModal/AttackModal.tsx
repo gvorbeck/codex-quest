@@ -3,15 +3,26 @@ import { useState } from "react";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import CloseIcon from "../CloseIcon/CloseIcon";
 import equipmentItems from "../../data/equipmentItems.json";
-import { EquipmentItem } from "../EquipmentStore/definitions";
 import WeaponTypeBoth from "./WeaponTypeBoth/WeaponTypeBoth";
 import AttackButtons from "./AttackButtons/AttackButtons";
 import WeaponTypeMissile from "./WeaponTypeMissile/WeaponTypeMissile";
-import { CharacterData } from "../definitions";
 import { races } from "../../data/races";
 import { classes } from "../../data/classes";
-import { ClassNames, RaceNames } from "../../data/definitions";
-import { AttackModalProps, AttackType } from "./definitions";
+import {
+  AttackType,
+  CharacterData,
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+} from "../../data/definitions";
+import { ModalProps } from "../../modals/definitions";
+
+interface AttackModalProps extends ModalProps {
+  isAttackModalOpen: boolean;
+  attackBonus: number;
+  weapon?: EquipmentItem;
+  setCharacterData: (character: CharacterData) => void;
+}
 
 const roller = new DiceRoller();
 

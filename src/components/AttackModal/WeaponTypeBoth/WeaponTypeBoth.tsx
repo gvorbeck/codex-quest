@@ -1,8 +1,26 @@
-import { Switch } from "antd";
+import { RadioChangeEvent, Switch } from "antd";
 import RangeRadioGroup from "../RangeRadioGroup/RangeRadioGroup";
-import { WeaponTypeBothProps } from "./definitions";
 import AttackButtons from "../AttackButtons/AttackButtons";
 import AmmoSelect from "../AmmoSelect/AmmoSelect";
+import {
+  AttackType,
+  CharacterData,
+  EquipmentItem,
+} from "../../../data/definitions";
+
+type WeaponTypeBothProps = {
+  handleSwitchChange: (switchChange: boolean) => void;
+  isMissile: boolean;
+  missileRangeBonus: number;
+  handleRangeChange: (e: RadioChangeEvent) => void;
+  attackingWeapon: EquipmentItem;
+  characterData: CharacterData | undefined;
+  damage: (roll: string, ammo?: string) => void;
+  attack: (type: AttackType) => void;
+  ammo: EquipmentItem | undefined;
+  setAmmo: React.Dispatch<React.SetStateAction<EquipmentItem | undefined>>;
+  handleCancel: () => void;
+};
 
 export default function WeaponTypeBoth({
   handleSwitchChange,

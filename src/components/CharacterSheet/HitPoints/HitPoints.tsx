@@ -3,8 +3,14 @@ import { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
-import { HitPointsProps } from "./definitions";
 import DOMPurify from "dompurify";
+import { CharacterData, SetCharacterData } from "../../../data/definitions";
+
+type HitPointsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  userIsOwner: boolean;
+}
 
 export default function HitPoints({
   characterData,
