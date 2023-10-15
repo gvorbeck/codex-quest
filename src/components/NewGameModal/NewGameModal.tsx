@@ -15,7 +15,7 @@ export default function NewGameModal({
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
-    addGameData({ name: values.newGameTitle });
+    addGameData({ name: values.newGameTitle, players: [] });
     form.resetFields();
     handleCancel();
   };
