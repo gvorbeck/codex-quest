@@ -19,6 +19,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({
       {player && (
         <Card
           title={player.name}
+          size="small"
           extra={
             <Button
               type="primary"
@@ -29,7 +30,7 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({
           }
         >
           <Descriptions></Descriptions>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {Object.entries(player.abilities.scores).map((ability) => {
               const key = ability[0] as keyof Abilities;
               return (
