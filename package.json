@@ -9,7 +9,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@dice-roller/rpg-dice-roller": "^5.4.1",
-    "antd": "^5.10.0",
+    "antd": "^5.10.2",
     "classnames": "^2.3.2",
     "dompurify": "^3.0.6",
     "firebase": "^10.5.0",
