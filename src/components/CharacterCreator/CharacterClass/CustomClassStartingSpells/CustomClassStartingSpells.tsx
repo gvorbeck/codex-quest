@@ -1,8 +1,9 @@
 import { Checkbox, Typography } from "antd";
-import { CustomClassStartingSpellsProps } from "./definitions";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { Spell } from "../../../definitions";
 import spellsData from "../../../../data/spells.json";
+import { CharacterDataStatePair, Spell } from "../../../../data/definitions";
+
+interface CustomClassStartingSpellsProps extends CharacterDataStatePair {}
 
 export default function CustomClassStartingSpells({
   characterData,
@@ -18,7 +19,7 @@ export default function CustomClassStartingSpells({
       setCharacterData({
         ...characterData,
         spells: characterData.spells.filter(
-          (prevSpell) => prevSpell.name !== spell.name
+          (prevSpell: Spell) => prevSpell.name !== spell.name
         ),
       });
     }
@@ -33,7 +34,7 @@ export default function CustomClassStartingSpells({
             key={spell.name}
             onChange={(e) => handleCheckboxChange(e, spell)}
             checked={characterData.spells.some(
-              (prevSpell) => prevSpell.name === spell.name
+              (prevSpell: Spell) => prevSpell.name === spell.name
             )}
             className="text-shipGray"
           >

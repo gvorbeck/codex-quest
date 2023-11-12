@@ -1,11 +1,17 @@
 import { ChangeEvent, MouseEvent, useEffect } from "react";
 import HomebrewWarning from "../../../HomebrewWarning/HomebrewWarning";
-import { CustomClassInputProps } from "./definitions";
 import DOMPurify from "dompurify";
 import { Input } from "antd";
 import { useDebounce } from "../../../../support/helpers";
+import { CharacterData, SetCharacterData } from "../../../../data/definitions";
 
 // TODO: Look into component rerendering as a cause for how long it takes to type in this field
+type CustomClassInputProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  customClassInput: string;
+  setCustomClassInput: (customClassInput: string) => void;
+};
 
 export default function CustomClassInput({
   characterData,

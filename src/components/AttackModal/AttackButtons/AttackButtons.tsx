@@ -1,6 +1,16 @@
 import { Button } from "antd";
-import { AttackButtonsProps } from "./definitions";
 import { useState } from "react";
+import { AttackType, EquipmentItem } from "../../../data/definitions";
+
+type AttackButtonsProps = {
+  weapon: EquipmentItem;
+  damage?: (damage: string) => void;
+  attack: (attack: AttackType) => void;
+  type: AttackType;
+  ammo?: EquipmentItem;
+  isMissile?: boolean;
+  handleCancel: () => void;
+};
 
 export default function AttackButtons({
   weapon,

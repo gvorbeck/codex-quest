@@ -1,5 +1,10 @@
-import { Radio } from "antd";
-import { RangeRadioGroupProps } from "./definitions";
+import { Radio, RadioChangeEvent } from "antd";
+
+type RangeRadioGroupProps = {
+  missileRangeBonus: number;
+  handleRangeChange: (e: RadioChangeEvent) => void;
+  missileRangeValues: number[];
+};
 
 export default function RangeRadioGroup({
   missileRangeBonus,

@@ -4,16 +4,25 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import { CharacterDescriptionProps } from "./definitions";
 import DOMPurify from "dompurify";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { getClassType } from "../../../support/helpers";
 import DescriptionFieldButton from "./DescriptionFieldButton/DescriptionFieldButton";
+import { CharacterData, SetCharacterData } from "../../../data/definitions";
+import { User } from "firebase/auth";
 
-export default function Description({
+type CharacterDescriptionProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  userIsOwner: boolean;
+  user: User | null;
+};
+
+export default function CharacterDescription({
   characterData,
   setCharacterData,
   userIsOwner,
+  user,
 }: CharacterDescriptionProps) {
   // Hooks and state variables
   const { uid, id } = useParams();
@@ -28,6 +37,10 @@ export default function Description({
   const updateDatabase = async () => {
     if (!uid || !id) {
       console.error("User ID or Character ID is undefined");
+      return;
+    }
+    if (user?.uid !== uid) {
+      console.log("Not the owner of the character sheet.");
       return;
     }
     const sanitizedValues = textAreaValues.map((value) =>
@@ -110,8 +123,8 @@ export default function Description({
 
   return (
     <div>
-      <div className="flex items-baseline gap-4">
-        <Typography.Title level={3} className="mt-0 !text-shipGray">
+      <div>
+        <Typography.Title level={3} className="mt-0 text-shipGray">
           Bio & Notes
         </Typography.Title>
         {getClassType(characterData.class) === "custom" && (
@@ -120,24 +133,26 @@ export default function Description({
           />
         )}
       </div>
-      <div className="grid gap-4">
+      <div className="[&>div+div]:mt-5">
         {typeof characterData.desc === "object" &&
           characterData.desc.map((desc: string, index: number) => {
             return (
-              <div className="relative pl-12" key={index}>
-                {index > 0 && (
-                  <DescriptionFieldButton
-                    handler={() => handleDeleteDescriptionField(index)}
-                    icon={<MinusCircleOutlined />}
-                  />
-                )}
-                {index === characterData.desc.length - 1 && index < 9 && (
-                  <DescriptionFieldButton
-                    handler={handleAddDescriptionField}
-                    icon={<PlusCircleOutlined />}
-                    className={index > 0 ? "top-12" : ""}
-                  />
-                )}
+              <div key={index}>
+                <div className="flex gap-4">
+                  {index > 0 && (
+                    <DescriptionFieldButton
+                      handler={() => handleDeleteDescriptionField(index)}
+                      icon={<MinusCircleOutlined />}
+                    />
+                  )}
+                  {index === characterData.desc.length - 1 && index < 9 && (
+                    <DescriptionFieldButton
+                      handler={handleAddDescriptionField}
+                      icon={<PlusCircleOutlined />}
+                      // className={index > 0 ? "" : ""}
+                    />
+                  )}
+                </div>
                 <Input.TextArea
                   key={index}
                   value={

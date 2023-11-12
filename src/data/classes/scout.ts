@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 
 export const scout: ClassSetup = {
@@ -8,28 +8,28 @@ export const scout: ClassSetup = {
   hitDice: DiceTypes.D6,
   hitDiceModifier: 2,
   availableEquipmentCategories: [
-    equipmentCategories.AMMUNITION,
-    equipmentCategories.ARMOR,
-    equipmentCategories.AXES,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.BOWS,
-    equipmentCategories.DAGGERS,
-    equipmentCategories.HAMMERMACE,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.SWORDS,
-    equipmentCategories.SPEARSPOLES,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SLINGHURLED,
-    equipmentCategories.CHAINFLAIL,
+    EquipmentCategories.AMMUNITION,
+    EquipmentCategories.ARMOR,
+    EquipmentCategories.AXES,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.BOWS,
+    EquipmentCategories.DAGGERS,
+    EquipmentCategories.HAMMERMACE,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.SWORDS,
+    EquipmentCategories.SPEARSPOLES,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SLINGHURLED,
+    EquipmentCategories.CHAINFLAIL,
   ],
   equipmentAttackBonuses: [
     ["shortbow", "+1"],
     ["longbow", "+1"],
   ],
   noLargeEquipment: true,
-  specificEquipmentItems: [[equipmentCategories.ARMOR], ["leather"]],
+  specificEquipmentItems: [[EquipmentCategories.ARMOR], ["leather"]],
   experiencePoints: [
     0, 1500, 3000, 6000, 12000, 24000, 48000, 90000, 180000, 270000, 360000,
     450000, 540000, 630000, 720000, 810000, 900000, 990000, 1080000, 1170000,

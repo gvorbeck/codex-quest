@@ -1,8 +1,15 @@
 import { Button, Typography } from "antd";
-import { ItemWrapperProps } from "./definitions";
 import ItemDescription from "../ItemDescription/ItemDescription";
 import { DeleteOutlined } from "@ant-design/icons";
 import equipmentItems from "../../../../../data/equipmentItems.json";
+import { EquipmentItem } from "../../../../../data/definitions";
+
+type ItemWrapperProps = {
+  item: EquipmentItem;
+  handleAttack?: boolean;
+  handleAttackClick?: (item: EquipmentItem) => void;
+  handleCustomDelete: (item: EquipmentItem) => void;
+};
 
 export default function ItemWrapper({
   item,

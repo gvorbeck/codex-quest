@@ -4,7 +4,14 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../HelpTooltip/HelpTooltip";
-import { MoneyStatsProps } from "./definitions";
+import { CharacterData, SetCharacterData } from "../../../data/definitions";
+
+type MoneyStatsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  userIsOwner: boolean;
+  makeChange: () => { gp: number; sp: number; cp: number };
+};
 
 export default function MoneyStats({
   characterData,

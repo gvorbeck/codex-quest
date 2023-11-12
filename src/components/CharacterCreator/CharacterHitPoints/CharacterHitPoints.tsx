@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { Divider } from "antd";
-import { CharacterHitPointsProps } from "./definitions";
 import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
 import { getClassType } from "../../../support/helpers";
 import { classes } from "../../../data/classes";
 import { races } from "../../../data/races";
 import HitPointsRoller from "./HitPointsRoller/HitPointsRoller";
 import CustomHitPointsPicker from "./CustomHitPointsPicker/CustomHitPointsPicker";
-import { ClassNames, RaceNames } from "../../../data/definitions";
+import {
+  CharacterDataStatePair,
+  ClassNames,
+  RaceNames,
+} from "../../../data/definitions";
 import { DiceTypes } from "../../../data/definitions";
+
+interface CharacterHitPointsProps extends CharacterDataStatePair {}
 
 export default function CharacterHitPoints({
   characterData,

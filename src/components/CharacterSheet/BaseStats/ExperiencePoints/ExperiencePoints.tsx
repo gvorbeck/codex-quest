@@ -4,10 +4,20 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import { useParams } from "react-router-dom";
 import HelpTooltip from "../../../HelpTooltip/HelpTooltip";
-import { ExperiencePointsProps } from "./definitions";
 import { classes } from "../../../../data/classes";
-import { ClassNames } from "../../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  SetCharacterData,
+} from "../../../../data/definitions";
 import classNames from "classnames";
+
+type ExperiencePointsProps = {
+  characterData: CharacterData;
+  setCharacterData?: SetCharacterData;
+  userIsOwner?: boolean;
+  showLevelUpModal?: () => void;
+};
 
 export default function ExperiencePoints({
   characterData,

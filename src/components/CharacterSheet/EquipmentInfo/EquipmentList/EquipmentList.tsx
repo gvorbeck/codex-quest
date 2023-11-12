@@ -1,15 +1,29 @@
-import { EquipmentListProps } from "./definitions";
 import equipmentItems from "../../../../data/equipmentItems.json";
-import { Button, Radio, Typography } from "antd";
+import { Button, Empty, Radio, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import WeaponKeys from "../../../WeaponKeys/WeaponKeys";
 import ItemWrapper from "./ItemWrapper/ItemWrapper";
 import ItemDescription from "./ItemDescription/ItemDescription";
-import { EquipmentItem } from "../../../EquipmentStore/definitions";
 import { classes } from "../../../../data/classes";
 import { useEffect } from "react";
-import { ClassNames, RaceNames } from "../../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+  SetCharacterData,
+} from "../../../../data/definitions";
 import { races } from "../../../../data/races";
+
+type EquipmentListProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  categories: string[];
+  handleCustomDelete: (item: EquipmentItem) => void;
+  handleAttack?: boolean;
+  handleAttackClick?: (item: EquipmentItem) => void;
+  updateAC?: () => void;
+};
 
 const punchItem: EquipmentItem = {
   name: "Punch**",
@@ -43,8 +57,8 @@ export default function EquipmentList({
   updateAC,
 }: EquipmentListProps) {
   const shownItems = characterData.equipment
-    .filter((item) => categories.includes(item.category))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .filter((item: EquipmentItem) => categories.includes(item.category))
+    .sort((a: EquipmentItem, b: EquipmentItem) => a.name.localeCompare(b.name));
 
   const handleUpdateAC = (item: string, type: string) => {
     const oldArmor = characterData.wearing?.armor;
@@ -67,10 +81,16 @@ export default function EquipmentList({
     }
   };
 
+  const EmptyRadio = ({ label }: { label: string }) => (
+    <Radio value="">
+      <Typography.Text className="font-bold mb-3">{label}</Typography.Text>
+    </Radio>
+  );
+
   useEffect(() => {
     // Remove empty items from the equipment array.
     const remainingEquipment = characterData.equipment.filter(
-      (item) => item.amount !== 0
+      (item: EquipmentItem) => item.amount !== 0
     );
     if (remainingEquipment.length !== characterData.equipment.length) {
       setCharacterData({ ...characterData, equipment: remainingEquipment });
@@ -91,21 +111,9 @@ export default function EquipmentList({
         handleUpdateAC(e.target.value, type);
       }}
     >
-      {categories.includes("armor") && (
-        <Radio value="">
-          <Typography.Paragraph className="font-bold mb-3">
-            No Armor
-          </Typography.Paragraph>
-        </Radio>
-      )}
-      {categories.includes("shields") && (
-        <Radio value="">
-          <Typography.Paragraph className="font-bold mb-3">
-            No Shield
-          </Typography.Paragraph>
-        </Radio>
-      )}
-      {shownItems.map((item) => {
+      {categories.includes("armor") && <EmptyRadio label="No Armor" />}
+      {categories.includes("shields") && <EmptyRadio label="No Shield" />}
+      {shownItems.map((item: EquipmentItem) => {
         // Ignore previously existing "NO X" items in characters' equipment.
         if (item.name === "No Shield" || item.name === "No Armor") return null;
         return (
@@ -138,6 +146,7 @@ export default function EquipmentList({
       })}
     </Radio.Group>
   ) : (
+    // Weapon Items
     <div className="[&>div+div]:mt-4">
       {categories.includes("weapons") && (
         <>
@@ -156,6 +165,7 @@ export default function EquipmentList({
           {races[characterData.race as RaceNames]?.uniqueAttacks?.map(
             (attack) => (
               <ItemWrapper
+                key={attack.name}
                 item={attack}
                 handleAttackClick={handleAttackClick}
                 handleAttack={handleAttack}
@@ -165,10 +175,11 @@ export default function EquipmentList({
           )}
           {characterData.class.map(
             (className) =>
-              classes[className as ClassNames].powers?.map((power) => {
+              classes[className as ClassNames]?.powers?.map((power) => {
                 return (
                   characterData.level >= (power.minLevel ?? 0) && (
                     <ItemWrapper
+                      key={power.name}
                       item={power}
                       handleAttackClick={handleAttackClick}
                       handleAttack={handleAttack}
@@ -184,7 +195,7 @@ export default function EquipmentList({
       {categories.includes("general-equipment") &&
         characterData.class.map(
           (className) =>
-            classes[className as ClassNames].startingEquipment?.map(
+            classes[className as ClassNames]?.startingEquipment?.map(
               (item: EquipmentItem) => (
                 <ItemWrapper
                   item={item}
@@ -196,15 +207,22 @@ export default function EquipmentList({
               )
             )
         )}
-      {shownItems.map((item) => (
-        <ItemWrapper
-          item={item}
-          handleCustomDelete={handleCustomDelete}
-          handleAttack={handleAttack}
-          handleAttackClick={handleAttackClick}
-          key={item.name}
+      {shownItems.length > 0 ? (
+        shownItems.map((item: EquipmentItem) => (
+          <ItemWrapper
+            item={item}
+            handleCustomDelete={handleCustomDelete}
+            handleAttack={handleAttack}
+            handleAttackClick={handleAttackClick}
+            key={item.name}
+          />
+        ))
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="No equipment in this category"
         />
-      ))}
+      )}
       {categories.includes("weapons") && <WeaponKeys />}
     </div>
   );

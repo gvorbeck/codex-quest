@@ -1,7 +1,6 @@
 import { Avatar, Descriptions, Divider, Modal, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
-import { BaseStatsProps } from "./definitions";
 import { extractImageName } from "../../../support/stringSupport";
 import { images } from "../../../assets/images/faces/imageAssets";
 import classNames from "classnames";
@@ -9,9 +8,21 @@ import { ReactNode, useState } from "react";
 import { marked } from "marked";
 import { isStandardClass, isStandardRace } from "../../../support/helpers";
 import { classes } from "../../../data/classes";
-import { ClassNames, RaceNames } from "../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  RaceNames,
+  SetCharacterData,
+} from "../../../data/definitions";
 import CloseIcon from "../../CloseIcon/CloseIcon";
 import { races } from "../../../data/races";
+
+type BaseStatsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  userIsOwner?: boolean;
+  showLevelUpModal?: () => void;
+};
 
 export default function BaseStats({
   characterData,
@@ -121,7 +132,7 @@ export default function BaseStats({
         </Typography.Title>
       </div>
       <Divider className="mt-4 mb-4 border-seaBuckthorn" />
-      <div className="flex flex-col justify-between md:flex-row print:flex-row print:items-baseline">
+      <div className="flex flex-col justify-between gap-4 w-3/4 lg:w-full lg:flex-row print:flex-row print:items-baseline">
         <ExperiencePoints
           characterData={characterData}
           setCharacterData={setCharacterData}
@@ -132,7 +143,7 @@ export default function BaseStats({
         <Descriptions
           bordered
           size="small"
-          className="[&_th]:leading-none [&_td]:leading-none mt-4 md:mt-0 [&_td]:px-3 [&_th]:px-2 print:w-1/2"
+          className="[&_th]:leading-none [&_td]:leading-none [&_td]:px-3 [&_th]:px-2 print:w-1/2"
         >
           <Descriptions.Item label="Level">
             {characterData.level}

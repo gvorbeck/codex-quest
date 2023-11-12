@@ -1,10 +1,12 @@
 import { Card, Switch, Typography } from "antd";
-import { DescriptionBubbleProps } from "./definitions";
 import classNames from "classnames";
 import { marked } from "marked";
 import { classes } from "../../../data/classes";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import HomebrewWarning from "../../HomebrewWarning/HomebrewWarning";
+
+type DescriptionBubbleProps = {
+  description: string;
+  title?: string;
+};
 
 export default function DescriptionBubble({
   description,

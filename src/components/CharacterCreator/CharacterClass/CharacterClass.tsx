@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Switch } from "antd";
-import { CharacterClassProps } from "./definitions";
 import { getClassType } from "../../../support/helpers";
 import { races } from "../../../data/races";
 import { classes } from "../../../data/classes";
@@ -10,7 +9,20 @@ import CustomClassInput from "./CustomClassInput/CustomClassInput";
 import CustomClassStartingSpells from "./CustomClassStartingSpells/CustomClassStartingSpells";
 import ClassOptions from "./ClassOptions/ClassOptions";
 import CombinationClassOptions from "./CombinationClassOptions/CombinationClassOptions";
-import { ClassNames } from "../../../data/definitions";
+import {
+  CharacterDataStatePair,
+  ClassNames,
+  Spell,
+} from "../../../data/definitions";
+
+interface CharacterClassProps extends CharacterDataStatePair {
+  comboClass: boolean;
+  setComboClass: (comboClass: boolean) => void;
+  checkedClasses: string[];
+  setCheckedClasses: (checkedClasses: string[]) => void;
+  selectedSpell: Spell | null;
+  setSelectedSpell: (spell: Spell | null) => void;
+}
 
 export default function CharacterClass({
   characterData,

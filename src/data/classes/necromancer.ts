@@ -1,5 +1,5 @@
 import { DiceTypes } from "../definitions";
-import { equipmentCategories } from "../definitions";
+import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
 
@@ -9,19 +9,19 @@ export const necromancer: ClassSetup = {
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
   availableEquipmentCategories: [
-    equipmentCategories.DAGGERS,
-    equipmentCategories.GENERAL,
-    equipmentCategories.OTHERWEAPONS,
-    equipmentCategories.BEASTS,
-    equipmentCategories.BARDING,
-    equipmentCategories.IMPROVISED,
-    equipmentCategories.SWORDS,
+    EquipmentCategories.DAGGERS,
+    EquipmentCategories.GENERAL,
+    EquipmentCategories.OTHERWEAPONS,
+    EquipmentCategories.BEASTS,
+    EquipmentCategories.BARDING,
+    EquipmentCategories.IMPROVISED,
+    EquipmentCategories.SWORDS,
   ],
   specificEquipmentItems: [
     [
-      equipmentCategories.OTHERWEAPONS,
-      equipmentCategories.IMPROVISED,
-      equipmentCategories.SWORDS,
+      EquipmentCategories.OTHERWEAPONS,
+      EquipmentCategories.IMPROVISED,
+      EquipmentCategories.SWORDS,
     ],
     ["sickle", "scythe", "spade", "scimitar"],
   ],

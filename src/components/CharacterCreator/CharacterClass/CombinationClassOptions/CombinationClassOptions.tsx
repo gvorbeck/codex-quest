@@ -1,9 +1,21 @@
 import { Checkbox } from "antd";
 import { classes } from "../../../../data/classes";
-import { CombinationClassOptionsProps } from "./definitions";
 import { races } from "../../../../data/races";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { ClassNames } from "../../../../data/definitions";
+import {
+  CharacterData,
+  ClassNames,
+  RaceNames,
+  SetCharacterData,
+} from "../../../../data/definitions";
+
+type CombinationClassOptionsProps = {
+  characterData: CharacterData;
+  setCharacterData: SetCharacterData;
+  checkedClasses: string[];
+  setCheckedClasses: (checkedClasses: string[]) => void;
+  raceKey: RaceNames;
+};
 
 export default function CombinationClassOptions({
   characterData,
