@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Alert, Layout } from "antd";
 import FooterContent from "./FooterContent/FooterContent";
 import { Outlet } from "react-router-dom";
 import HeaderContent from "./HeaderContent/HeaderContent";
@@ -19,6 +19,13 @@ export default function PageLayout({
           className="max-w-[1200px] m-auto"
         />
       </Layout.Header>
+      <Alert
+        type="info"
+        message="Codex.Quest v2.0 coming in December with many new features and upgrades."
+        // className="mt-4 mx-4"
+        banner
+        closable
+      />
       <Layout.Content className="bg-springWood p-8 print:p-0 flex-[1_1_auto] inline-table">
         <Outlet context={{ user, className: "max-w-[1200px] m-auto" }} />
       </Layout.Content>
