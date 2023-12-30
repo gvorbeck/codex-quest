@@ -60,7 +60,7 @@ export default function PageLayout({
       </Layout.Header>
       <Alert
         type="info"
-        message="Codex.Quest v2.0 coming in December with many new features and upgrades."
+        message="Codex.Quest v2.0 coming in early January with many new features and upgrades. (I have one feature to finish, for real)"
         // className="mt-4 mx-4"
         banner
         closable
