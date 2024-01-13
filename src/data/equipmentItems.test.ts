@@ -1,3 +1,4 @@
+import { AttackTypes } from "../support/stringSupport";
 import equipmentItems from "./equipmentItems.json";
 
 describe("equipmentItems", () => {
@@ -18,8 +19,8 @@ describe("equipmentItems", () => {
     const uniqueValues = [...new Set(values)];
     expect(uniqueValues).toEqual(
       expect.arrayContaining(
-        values.filter((value) => typeof value === "number" && value > -1)
-      )
+        values.filter((value) => typeof value === "number" && value > -1),
+      ),
     );
   });
 
@@ -31,12 +32,12 @@ describe("equipmentItems", () => {
 
   test("every item that has a `category` value of 'general-equipment' also has a `subCategory` property with a string value", () => {
     const generalEquipment = equipmentItems.filter(
-      (item) => item.category === "general-equipment"
+      (item) => item.category === "general-equipment",
     );
     const subCategories = generalEquipment.map((item) => item.subCategory);
     expect(subCategories.length).toBe(generalEquipment.length);
     expect(
-      subCategories.every((subCategory) => typeof subCategory === "string")
+      subCategories.every((subCategory) => typeof subCategory === "string"),
     ).toBe(true);
   });
 
@@ -49,7 +50,11 @@ describe("equipmentItems", () => {
   test("every item that has a `type` property has a value of 'melee', 'missile', or 'both'", () => {
     const types = equipmentItems.map((item) => item.type);
     const uniqueTypes = [...new Set(types)].sort();
-    expect(uniqueTypes).toEqual(["both", "melee", "missile"]);
+    expect(uniqueTypes).toEqual([
+      AttackTypes.BOTH,
+      AttackTypes.MELEE,
+      AttackTypes.MISSILE,
+    ]);
   });
 
   test("every item that has a `weight` property has a value of typeof 'number' greater than -1", () => {
@@ -61,7 +66,7 @@ describe("equipmentItems", () => {
     });
     const uniqueWeights = [...new Set(weights)];
     expect(uniqueWeights.every((weight) => typeof weight === "number")).toBe(
-      true
+      true,
     );
   });
 });

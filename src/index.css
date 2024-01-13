@@ -2,53 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-button span {
-  color: theme("colors.shipGray") !important;
-}
-
-.ant-layout > header .ant-typography,
-.ant-table {
-  color: theme("colors.springWood") !important;
-}
-
-.ant-table {
-  background-color: theme("colors.shipGray") !important;
-}
-
-.ant-table-row td {
-  border-bottom-color: rgba(0, 0, 0, 2.5) !important;
-}
-
-.ant-table-row:hover td {
-  background-color: rgba(0, 0, 0, 0.25) !important;
-}
-
-.ant-collapse-content,
-.ant-modal-content,
-.ant-modal-header {
-  background-color: theme("colors.springWood") !important;
-}
-
-.ant-card-actions {
-  background-color: theme("colors.seaBuckthorn") !important;
-  border-top-color: rgba(0, 0, 0, 0.35) !important;
-}
-.ant-card-actions li {
-  border-color: rgba(0, 0, 0, 0.35) !important;
-}
-.ant-card-actions li span .anticon:hover {
-  color: rgba(0, 0, 0, 0.75) !important;
-}
-
-.ant-tabs-tab > div {
-  padding: 0.25rem 0.5rem;
-}
-.ant-tabs-tab-active > div {
-  background: theme("colors.shipGray") !important;
-  border-radius: 0.5rem;
-  color: theme("colors.springWood") !important;
-}
-
 @font-face {
   font-family: "Enchant";
   src: url("assets/fonts/Enchant.ttf") format("truetype");

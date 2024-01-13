@@ -1,53 +1,38 @@
 <!doctype html>
 <html
   lang="en"
-  class="h-full [&_body]:h-full [&_#root]:h-full [&_#root>div]:h-full"
+  class="h-full [&_body]:h-full [&_#root]:h-full [&_#root>div]:h-full [&_#root>div]:overflow-auto"
 >
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="CODEX.QUEST is a character creator and interactive character sheet manager for the TTRPG 'Basic Fantasy Role-Playing Game'"
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/src/assets/images/favicon/favicon.ico"
     />
-    <meta
-      name="keywords"
-      content="Basic Fantasy RPG, TTRPG, tabletop RPG, role-playing game, RPG resources, RPG guides, RPG community, character generator, character sheet"
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/src/assets/images/favicon/apple-touch-icon.png"
     />
-    <meta name="author" content="J. Garrett Vorbeck" />
-    <meta
-      property="og:title"
-      content="CODEX.QUEST | Character Creator and Manager for BFRPG"
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/src/assets/images/favicon/favicon-32x32.png"
     />
-    <meta
-      property="og:description"
-      content="CODEX.QUEST is a character creator and interactive character sheet manager for the TTRPG 'Basic Fantasy Role-Playing Game'"
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/src/assets/images/favicon/favicon-16x16.png"
     />
-    <meta property="og:url" content="https://codex.quest" />
-    <meta property="og:type" content="website" />
-    <link rel="apple-touch-icon" href="/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>CODEX.QUEST | Character Creator and Manager for BFRPG</title>
+    <link rel="manifest" href="/src/assets/images/favicon/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CODEX.QUEST</title>
   </head>
-  <body class="m-0">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+  <body>
     <div id="root"></div>
-    <!-- Add entry point 👇 -->
-    <script type="module" src="/src/index.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

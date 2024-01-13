@@ -1,76 +1,55 @@
-import { Alert, Layout } from "antd";
-import FooterContent from "./FooterContent/FooterContent";
-import { Outlet } from "react-router-dom";
-import HeaderContent from "./HeaderContent/HeaderContent";
+import { Flex, FloatButton, Layout } from "antd";
+import React from "react";
+import PageHeader from "./PageHeader/PageHeader";
+import PageFooter from "./PageFooter/PageFooter";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { User } from "firebase/auth";
 import classNames from "classnames";
-import { User, Auth } from "firebase/auth";
-import { ModeType } from "../../data/definitions";
+import { UserAddOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 
-type PageLayoutProps = {
+interface PageLayoutProps {
   user: User | null;
-  handleLogin: () => Promise<void>;
-  auth: Auth;
-  mode: ModeType;
-  setMode: (mode: ModeType) => void;
-};
+}
 
-export default function PageLayout({
-  auth,
-  handleLogin,
-  user,
-  mode,
-  setMode,
-}: PageLayoutProps) {
-  const headerClassNames = classNames(
-    "bg-shipGray",
+const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
+  const contentWidthClassName = "max-w-[1200px] mx-auto w-full";
+  const layoutContentClassName = classNames(
+    contentWidthClassName,
     "p-4",
-    "md:p-6",
-    "h-auto",
-    "flex-[0_1_auto]",
-    "lg:px-8",
-    "print:hidden"
+    "flex-[1_0_auto]",
   );
-  const contentClassNames = classNames(
-    "bg-springWood",
-    "p-4",
-    "md:p-6",
-    "flex-[1_1_auto]",
-    "inline-table",
-    "lg:p-8",
-    "print:p-0"
-  );
-  const footerClassNames = classNames(
-    "bg-shipGray",
-    "p-4",
-    "md:p-6",
-    "flex-[0_1_auto]",
-    "print:hidden"
-  );
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  const navigate = useNavigate();
   return (
-    <Layout>
-      <Layout.Header className={headerClassNames}>
-        <HeaderContent
-          user={user}
-          handleLogin={handleLogin}
-          auth={auth}
-          className="max-w-[1200px] mx-auto"
-          mode={mode}
-          setMode={setMode}
-        />
+    <Layout className="bg-noise flex flex-col">
+      <Layout.Header className="flex items-center">
+        <PageHeader user={user} className={contentWidthClassName} />
       </Layout.Header>
-      <Alert
-        type="info"
-        message="Codex.Quest v2.0 coming in early January with many new features and upgrades. (I have one feature to finish, for real)"
-        // className="mt-4 mx-4"
-        banner
-        closable
-      />
-      <Layout.Content className="bg-springWood p-8 print:p-0 flex-[1_1_auto] inline-table">
-        <Outlet context={{ user, className: "max-w-[1200px] m-auto" }} />
+      <Layout.Content className={layoutContentClassName}>
+        <Flex vertical gap={16}>
+          {isHomePage && (
+            <FloatButton.Group shape="square">
+              <FloatButton
+                icon={<UserAddOutlined />}
+                tooltip={<div>Create New Character</div>}
+                onClick={() => navigate("/new-character")}
+              />
+              <FloatButton
+                icon={<UsergroupAddOutlined />}
+                tooltip={<div>Create New Game</div>}
+                onClick={() => navigate("/new-game")}
+              />
+            </FloatButton.Group>
+          )}
+          <Outlet context={{ user, className: "" }} />
+        </Flex>
       </Layout.Content>
-      <Layout.Footer className={footerClassNames}>
-        <FooterContent className="max-w-[1200px] mx-auto" />
+      <Layout.Footer className="shrink-0">
+        <PageFooter className={contentWidthClassName} />
       </Layout.Footer>
     </Layout>
   );
-}
+};
+
+export default PageLayout;

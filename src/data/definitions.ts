@@ -1,3 +1,5 @@
+import { AttackTypes } from "../support/stringSupport";
+
 export enum EquipmentCategories {
   GENERAL = "general-equipment",
   AXES = "axes",
@@ -15,6 +17,19 @@ export enum EquipmentCategories {
   SHIELDS = "shields",
   BARDING = "barding",
   BEASTS = "beasts-of-burden",
+}
+
+export enum EquipmentCategoriesWeapons {
+  AXES = "axes",
+  BOWS = "bows",
+  DAGGERS = "daggers",
+  SWORDS = "swords",
+  HAMMERMACE = "hammers-and-maces",
+  OTHERWEAPONS = "other-weapons",
+  SPEARSPOLES = "spears-and-polearms",
+  IMPROVISED = "improvised-weapons",
+  CHAINFLAIL = "chain-and-flail",
+  SLINGHURLED = "slings-and-hurled-weapons",
 }
 
 export enum ClassNames {
@@ -86,14 +101,22 @@ export type Abilities = {
   charisma: number | string;
 };
 
+export type CostCurrency = "gp" | "sp" | "cp";
+export type SizeOptions = "S" | "M" | "L";
+export type AttackTypeStrings =
+  | AttackTypes.MELEE
+  | AttackTypes.MISSILE
+  | AttackTypes.BOTH;
+
 export type EquipmentItem = {
   name: string;
   costValue: number;
-  costCurrency: string;
-  category: string;
+  costCurrency: CostCurrency;
+  category: EquipmentCategories | "inherent" | "weapons";
   amount: number;
+  subCategory?: string;
   weight?: number;
-  size?: string;
+  size?: SizeOptions;
   damage?: string;
   missileAC?: string;
   AC?: string | number;
@@ -109,7 +132,7 @@ type SpecialRestriction = {
   class: string[];
 };
 
-export type CharacterData = {
+export type CharData = {
   abilities: {
     scores: Abilities;
     modifiers: Abilities;
@@ -136,16 +159,11 @@ export type CharacterData = {
   wearing?: { armor: string; shield: string };
   weight: number;
   xp: number;
+  userId?: string;
+  charId?: string;
 };
 
-export type SetCharacterData = (characterData: CharacterData) => void;
-
-export interface CharacterDataStatePair {
-  characterData: CharacterData;
-  setCharacterData: SetCharacterData;
-}
-
-export type AttackType = "melee" | "missile";
+export type SetCharData = (characterData: CharData) => void;
 
 export type AbilityRecord = {
   key: string;
@@ -157,12 +175,15 @@ export type GameData = {
   name: string;
   id?: string;
   players: PlayerListObject[];
+  notes?: string;
 };
 
 export type PlayerListObject = { user: string; character: string };
 
-export enum MODE {
-  PLAYER = "Player Mode",
-  GM = "GM Mode",
-}
-export type ModeType = MODE.PLAYER | MODE.GM;
+export type GamePlayer = {
+  user: string;
+  character: string;
+};
+export type GamePlayerList = GamePlayer[];
+
+export type AvatarTypes = "none" | "stock" | "upload";

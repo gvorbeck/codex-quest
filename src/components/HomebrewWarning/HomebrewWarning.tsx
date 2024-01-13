@@ -1,16 +1,22 @@
 import { Typography } from "antd";
+import React from "react";
 
-export default function HomebrewWarning({
-  homebrew,
-  className,
-}: { homebrew: string } & React.ComponentPropsWithRef<"div">) {
+interface HomebrewWarningProps {
+  homebrew: string;
+}
+
+const HomebrewWarning: React.FC<
+  HomebrewWarningProps & React.ComponentPropsWithRef<"div">
+> = ({ homebrew, className }) => {
   return (
     <Typography.Text
       type="warning"
       italic
-      className={`inline-block text-copperRust ${className}`}
+      className={`block text-rust ${className}`}
     >
       Work closely with your GM when using a custom {homebrew}.
     </Typography.Text>
   );
-}
+};
+
+export default HomebrewWarning;

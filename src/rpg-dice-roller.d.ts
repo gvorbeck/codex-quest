@@ -1,1 +1,1 @@
-declare module '@dice-roller/rpg-dice-roller';
+declare module "@dice-roller/rpg-dice-roller";

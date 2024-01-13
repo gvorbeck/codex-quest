@@ -1,16 +1,21 @@
 import { Tooltip } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import classNames from "classnames";
+import React from "react";
 import { marked } from "marked";
+import classNames from "classnames";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { ColorScheme } from "@/support/colorSupport";
 
-export default function HelpTooltip({
-  text,
-  className,
-}: { text: string } & React.ComponentPropsWithRef<"div">) {
+interface HelpTooltipProps {
+  text: string;
+}
+
+const HelpTooltip: React.FC<
+  HelpTooltipProps & React.ComponentPropsWithRef<"div">
+> = ({ className, text }) => {
   const tooltipClassNames = classNames(
     className,
     "print:hidden",
-    "cursor-help"
+    "cursor-help",
   );
   return (
     <Tooltip
@@ -21,9 +26,11 @@ export default function HelpTooltip({
           dangerouslySetInnerHTML={{ __html: marked(text) }}
         />
       }
-      color="#3E3643"
+      color={ColorScheme.SHIPGRAY}
     >
-      <QuestionCircleOutlined className="text-lg" />
+      <QuestionCircleOutlined className="text-lg [&_svg]:fill-shipGray" />
     </Tooltip>
   );
-}
+};
+
+export default HelpTooltip;

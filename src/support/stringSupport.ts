@@ -17,7 +17,8 @@ const titleCaseExceptions = [
 ];
 
 export function toTitleCase(input: string): string {
-  const words = input.toLowerCase().split(" ");
+  const separators = /[-\s]/;
+  const words = input.toLowerCase().split(separators);
   const titleCaseWords = words.map((word, index) => {
     if (
       index === 0 ||
@@ -29,15 +30,19 @@ export function toTitleCase(input: string): string {
       return word;
     }
   });
-  return titleCaseWords.join(" ");
-}
 
-export function camelCaseToTitleCase(input: string) {
-  return toTitleCase(input.replace(/([A-Z])/g, " $1").toLowerCase());
-}
+  // Preserve original separators
+  let currentIndex = 0;
+  const result = [];
+  for (const word of words) {
+    result.push(titleCaseWords[currentIndex]);
+    currentIndex++;
+    if (input.indexOf(word) + word.length < input.length) {
+      result.push(input[input.indexOf(word) + word.length]);
+    }
+  }
 
-export function slugToTitleCase(input: string) {
-  return toTitleCase(input.replace(/-/g, " "));
+  return result.join("");
 }
 
 export function titleCaseToCamelCase(input: string) {
@@ -51,8 +56,41 @@ export function titleCaseToCamelCase(input: string) {
     });
 }
 
-export function extractImageName(url: string) {
-  const regex = /\/static\/media\/(.*[^-])\..*?\.jpg/;
-  const match = url.match(regex);
-  return match ? match[1] : undefined;
+export function toCamelCase(input: string) {
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/[-_\s]+(.)?/g, (_, nextChar) =>
+      nextChar ? nextChar.toUpperCase() : "",
+    )
+    .replace(/^(.)/, (firstChar) => firstChar.toLowerCase());
 }
+
+export function camelCaseToTitleCase(input: string) {
+  return toTitleCase(input.replace(/([A-Z])/g, " $1").toLowerCase());
+}
+
+export function slugToTitleCase(input: string) {
+  return toTitleCase(input.replace(/-/g, " "));
+}
+
+export function toSlugCase(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/[\W_]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export const mobileBreakpoint = "(max-width: 639px)";
+export const tabletBreakpoint = "(min-width: 768px) and (max-width: 1023px)";
+export const desktopBreakpoint = "(min-width: 1024px)";
+
+export enum AttackTypes {
+  MELEE = "melee",
+  MISSILE = "missile",
+  BOTH = "both",
+}
+
+export const customClassString =
+  'You are using a custom class. Use the "Bio & Notes" field below to calculate your character\'s Saving Throws, Special Abilities, and Restrictions. For standard classes, these values will be calculated here automatically.';

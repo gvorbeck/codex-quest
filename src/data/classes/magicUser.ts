@@ -1,4 +1,4 @@
-import { DiceTypes } from "../definitions";
+import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
@@ -160,8 +160,8 @@ export const magicUser: ClassSetup = {
   startingSpells: ["Read Magic"],
   startingEquipment: [
     equipmentItems.find((item) =>
-      item.name.toLowerCase().startsWith("spellbook")
-    )!,
+      item.name.toLowerCase().startsWith("spellbook"),
+    )! as EquipmentItem,
   ],
   details: {
     description:

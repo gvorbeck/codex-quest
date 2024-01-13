@@ -6,7 +6,7 @@
     "weight": 7,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Fire grate",
@@ -15,7 +15,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Fishhook",
@@ -24,7 +24,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Iron Pan (Frying)",
@@ -33,7 +33,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Iron Pot",
@@ -42,7 +42,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Backpack (Standard or Halfling)",
@@ -51,7 +51,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "bags-and-pouches",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Belt Pouch",
@@ -60,7 +60,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "bags-and-pouches",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bell, small",
@@ -69,7 +69,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bellows",
@@ -78,7 +78,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Block and tackle",
@@ -87,7 +87,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bucket (up to 5 gal)",
@@ -96,7 +96,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bit and bridle",
@@ -105,7 +105,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "tack-and-harness",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bed Roll",
@@ -114,7 +114,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Canvas (per sq. yard)",
@@ -123,7 +123,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chain, heavy",
@@ -132,7 +132,7 @@
     "weight": 10,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chain, light",
@@ -141,7 +141,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chisel",
@@ -150,7 +150,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Crowbar (3')",
@@ -159,7 +159,7 @@
     "weight": 10,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Fishing net, 10 ft. sq.",
@@ -168,7 +168,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Grease Pot",
@@ -177,7 +177,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hammer or Mallet",
@@ -186,7 +186,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hand Drill",
@@ -195,7 +195,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hourglass (Hour)",
@@ -204,7 +204,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Marbles, Bag",
@@ -213,7 +213,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Candles, 12",
@@ -222,7 +222,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chalk, colored, small bag of pieces",
@@ -231,7 +231,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chalk, small bag of pieces",
@@ -240,7 +240,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Charcoal sticks",
@@ -249,7 +249,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Coal Keeper",
@@ -258,7 +258,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Cord/Strap, per 3'",
@@ -267,7 +267,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Flask, Silver",
@@ -276,7 +276,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Flask, Steel",
@@ -285,7 +285,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Cloak",
@@ -294,7 +294,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "outerwear",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Clothing, common outfit",
@@ -303,7 +303,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "outfit",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Vial, glass",
@@ -312,7 +312,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Wax, beeswax",
@@ -321,7 +321,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Wooden Stake",
@@ -330,7 +330,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Grappling Hook",
@@ -339,7 +339,7 @@
     "weight": 4,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hammock",
@@ -348,7 +348,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Holy Symbol",
@@ -357,7 +357,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "class-items",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Holy Symbol, Ornate",
@@ -366,7 +366,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "class-items",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Holy Water, per vial",
@@ -377,7 +377,7 @@
     "subCategory": "class-items",
     "type": "missile",
     "range": [10, 30, 50],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Horseshoes & shoeing",
@@ -386,7 +386,7 @@
     "weight": 10,
     "category": "general-equipment",
     "subCategory": "tack-and-harness",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Writing Ink (per vial)",
@@ -395,7 +395,7 @@
     "weight": 0.5,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Iron Spikes, 12",
@@ -404,7 +404,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Jar or Bottle, Ceramic",
@@ -413,7 +413,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Jar or Bottle, Glass",
@@ -422,7 +422,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Ladder, 10 ft.",
@@ -431,7 +431,7 @@
     "weight": 20,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Lantern",
@@ -440,7 +440,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Lantern, Bullseye",
@@ -449,7 +449,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Lantern, Hooded",
@@ -458,7 +458,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Lens, small",
@@ -467,7 +467,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Manacles (without padlock)",
@@ -476,7 +476,7 @@
     "weight": 4,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Map or scroll case",
@@ -485,7 +485,7 @@
     "weight": 0.5,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Mess Kit",
@@ -494,7 +494,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Sealing Wax",
@@ -503,7 +503,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Signet Ring or personal seal",
@@ -512,7 +512,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Smoking Pipe",
@@ -521,7 +521,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Smoking pouch",
@@ -530,7 +530,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Oil (per flask)",
@@ -541,7 +541,7 @@
     "subCategory": "dungeon-exploration",
     "type": "missile",
     "range": [10, 30, 50],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Padlock (with 2 keys)",
@@ -550,7 +550,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Fine Paper or Vellum, per sheet",
@@ -559,7 +559,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Paper or Parchment, per sheet",
@@ -568,7 +568,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Quill",
@@ -577,7 +577,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "wizards-wares",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Quill Knife",
@@ -586,7 +586,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "wizards-wares",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Quiver or Bolt case (20)",
@@ -595,7 +595,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "class-items",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Rations, Dry, one week",
@@ -604,7 +604,7 @@
     "weight": 14,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Rations, Elven Waybread, one week",
@@ -613,7 +613,7 @@
     "weight": 7,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Rations, Standard (perishable), one day",
@@ -622,7 +622,7 @@
     "weight": 4,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tea pot",
@@ -631,7 +631,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tripod, cooking",
@@ -640,7 +640,7 @@
     "weight": 10,
     "category": "general-equipment",
     "subCategory": "cooking",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Rope, Hemp (per 50 ft.)",
@@ -649,7 +649,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Rope, Silk (per 50 ft.)",
@@ -658,7 +658,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Sack, Large",
@@ -667,7 +667,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "bags-and-pouches",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Sack, Small",
@@ -676,7 +676,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "bags-and-pouches",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Saddle, Pack",
@@ -685,7 +685,7 @@
     "weight": 15,
     "category": "general-equipment",
     "subCategory": "bags-and-pouches",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Saddle, Riding",
@@ -694,7 +694,7 @@
     "weight": 35,
     "category": "general-equipment",
     "subCategory": "tack-and-harness",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Saddlebags, pair",
@@ -703,7 +703,7 @@
     "weight": 7,
     "category": "general-equipment",
     "subCategory": "bags-and-pouches",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bandages",
@@ -712,7 +712,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Crutches",
@@ -721,7 +721,7 @@
     "weight": 4,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Oil (per flask), scented/rubbing",
@@ -730,7 +730,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Perfume (per vial)",
@@ -739,7 +739,7 @@
     "weight": 0.5,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Razor",
@@ -748,7 +748,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Soap (per lb)",
@@ -757,7 +757,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Soap, perfumed (per lb)",
@@ -766,7 +766,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "health",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Spellbook (128 pages)",
@@ -775,7 +775,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "wizards-wares",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Air Bladder",
@@ -784,7 +784,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Caltrops",
@@ -793,7 +793,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Crampons",
@@ -802,7 +802,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hunter's Horn",
@@ -811,7 +811,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Piton, climbing",
@@ -820,7 +820,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Skates",
@@ -829,7 +829,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Snow skis",
@@ -838,7 +838,7 @@
     "weight": 7,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tent, Large (ten men)",
@@ -847,7 +847,7 @@
     "weight": 20,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tent, Pavillion",
@@ -856,7 +856,7 @@
     "weight": 40,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tent, Small (one man)",
@@ -865,7 +865,7 @@
     "weight": 10,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Trap, small animal",
@@ -874,7 +874,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Trap, medium animal",
@@ -883,7 +883,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Trap, large animal",
@@ -892,7 +892,7 @@
     "weight": 5,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Travois",
@@ -901,7 +901,7 @@
     "weight": 15,
     "category": "general-equipment",
     "subCategory": "outdoor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Journal (blank)",
@@ -910,7 +910,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Thieves' picks and tools",
@@ -919,7 +919,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "class-items",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tinderbox, flint and steel",
@@ -928,7 +928,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Torches, 6",
@@ -937,7 +937,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Whetstone",
@@ -946,7 +946,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "class-items",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Magnet, small",
@@ -955,7 +955,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Magnifying glass",
@@ -964,7 +964,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Mirror, small metal",
@@ -973,7 +973,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Mirror, small silver",
@@ -982,7 +982,7 @@
     "weight": 0.1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Nails, Iron (20)",
@@ -991,7 +991,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Nails, Silver (20)",
@@ -1000,7 +1000,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Needle, magnitized",
@@ -1009,7 +1009,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Needle, sewing",
@@ -1018,7 +1018,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Paint, per gallon",
@@ -1027,7 +1027,7 @@
     "weight": 4,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Paint, small pot",
@@ -1036,7 +1036,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pick Axe, mining",
@@ -1045,7 +1045,7 @@
     "weight": 7,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pliers",
@@ -1054,7 +1054,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pole, 10' collapsing",
@@ -1063,7 +1063,7 @@
     "weight": 15,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pole, 10' wooden",
@@ -1072,7 +1072,7 @@
     "weight": 10,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Scissors",
@@ -1081,7 +1081,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "tools",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Signal whistle",
@@ -1090,7 +1090,7 @@
     "weight": 0,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "String/Twine, 100 ft.",
@@ -1099,7 +1099,7 @@
     "weight": 1,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "String/Twine, Silk, 100 ft.",
@@ -1108,7 +1108,7 @@
     "weight": 0.5,
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Wineskin/Waterskin",
@@ -1117,7 +1117,7 @@
     "weight": 2,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Wineskin/Waterskin, gallon",
@@ -1126,7 +1126,7 @@
     "weight": 7,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Winter blanket",
@@ -1135,7 +1135,7 @@
     "weight": 3,
     "category": "general-equipment",
     "subCategory": "personal-equipment",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hand Axe",
@@ -1147,7 +1147,7 @@
     "category": "axes",
     "type": "both",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Battle Axe",
@@ -1158,7 +1158,7 @@
     "damage": "1d8",
     "category": "axes",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Great Axe",
@@ -1169,7 +1169,7 @@
     "damage": "1d10",
     "category": "axes",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pickaxe (Military Pick)",
@@ -1180,7 +1180,7 @@
     "damage": "1d6",
     "category": "axes",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Mattock (Footman's Pick)",
@@ -1191,7 +1191,7 @@
     "damage": "1d8",
     "category": "axes",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Shortbow",
@@ -1202,7 +1202,7 @@
     "category": "bows",
     "type": "missile",
     "range": [50, 100, 150],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Shortbow Arrow", "Silver† Shortbow Arrow"]
   },
   {
@@ -1214,7 +1214,7 @@
     "category": "bows",
     "type": "missile",
     "range": [70, 140, 210],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Longbow Arrow", "Silver† Longbow Arrow"]
   },
   {
@@ -1226,7 +1226,7 @@
     "category": "bows",
     "type": "missile",
     "range": [60, 120, 180],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Light Quarrel", "Silver† Light Quarrel"]
   },
   {
@@ -1238,7 +1238,7 @@
     "category": "bows",
     "type": "missile",
     "range": [80, 160, 240],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Heavy Quarrel", "Silver† Heavy Quarrel"]
   },
   {
@@ -1250,7 +1250,7 @@
     "category": "bows",
     "type": "missile",
     "range": [30, 60, 90],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Hand Quarrel", "Silver† Hand Quarrel"]
   },
   {
@@ -1261,7 +1261,7 @@
     "weight": 7,
     "category": "bows",
     "type": "missile",
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Bullet", "Silver† Bullet"]
   },
   {
@@ -1274,7 +1274,7 @@
     "category": "daggers",
     "type": "both",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Defending Dagger",
@@ -1285,7 +1285,7 @@
     "damage": "1d4",
     "category": "daggers",
     "type": "both",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Dagger",
@@ -1296,7 +1296,7 @@
     "damage": "1d4",
     "category": "daggers",
     "type": "both",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Shortsword/Cutlass",
@@ -1307,7 +1307,7 @@
     "damage": "1d6",
     "category": "swords",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Longsword/Scimitar",
@@ -1318,7 +1318,7 @@
     "damage": "1d8",
     "category": "swords",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Two-Handed Sword",
@@ -1329,7 +1329,7 @@
     "damage": "1d10",
     "category": "swords",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Warhammer",
@@ -1341,7 +1341,7 @@
     "category": "hammers-and-maces",
     "type": "both",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Light Mace",
@@ -1352,7 +1352,7 @@
     "damage": "1d6",
     "category": "hammers-and-maces",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Mace",
@@ -1363,7 +1363,7 @@
     "damage": "1d8",
     "category": "hammers-and-maces",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Morningstar",
@@ -1374,7 +1374,7 @@
     "damage": "1d8",
     "category": "hammers-and-maces",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Maul/Great Mace",
@@ -1385,7 +1385,7 @@
     "damage": "1d10",
     "category": "hammers-and-maces",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Club/Cudgel/Walking Staff",
@@ -1396,7 +1396,7 @@
     "damage": "1d4",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver Walking Stick/Staff†",
@@ -1407,7 +1407,7 @@
     "damage": "1d4",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Greatclub",
@@ -1418,7 +1418,7 @@
     "damage": "1d8",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Sap/Blackjack**",
@@ -1429,7 +1429,7 @@
     "damage": "1d4",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hook",
@@ -1440,7 +1440,7 @@
     "damage": "1d4",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Sickle",
@@ -1451,7 +1451,7 @@
     "damage": "1d6",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Scythe",
@@ -1462,7 +1462,7 @@
     "damage": "1d8",
     "category": "other-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Quarterstaff",
@@ -1473,7 +1473,7 @@
     "damage": "1d6",
     "category": "spears-and-polearms",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pole Arm",
@@ -1484,7 +1484,7 @@
     "damage": "1d10",
     "category": "spears-and-polearms",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Spade",
@@ -1495,7 +1495,7 @@
     "damage": "1d6",
     "category": "improvised-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Crowbar",
@@ -1506,7 +1506,7 @@
     "damage": "1d6",
     "category": "improvised-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pitchfork",
@@ -1517,7 +1517,7 @@
     "damage": "1d6",
     "category": "improvised-weapons",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chain††",
@@ -1528,7 +1528,7 @@
     "damage": "1d4",
     "category": "chain-and-flail",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Flail",
@@ -1539,7 +1539,7 @@
     "damage": "1d8",
     "category": "chain-and-flail",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Great Flail",
@@ -1550,7 +1550,7 @@
     "damage": "1d10",
     "category": "chain-and-flail",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Whip",
@@ -1561,7 +1561,7 @@
     "damage": "1d3",
     "category": "chain-and-flail",
     "type": "melee",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Sling",
@@ -1572,7 +1572,7 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [30, 60, 90],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Stone"]
   },
   {
@@ -1585,7 +1585,7 @@
     "damage": "1d3",
     "type": "missile",
     "range": [20, 40, 60],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Dart/Throwing Blade",
@@ -1597,7 +1597,7 @@
     "damage": "1d3",
     "type": "missile",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Javelin",
@@ -1609,7 +1609,7 @@
     "damage": "1d4",
     "type": "missile",
     "range": [20, 40, 60],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Blowgun",
@@ -1620,7 +1620,7 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [10, 20, 30],
-    "amount": 1,
+    "amount": 0,
     "ammo": ["Dart/Throwing Blade"]
   },
   {
@@ -1632,7 +1632,7 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [10, 15, 20],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Spear",
@@ -1645,7 +1645,7 @@
     "twoHandedDamage": "1d8",
     "type": "both",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Fork/Trident (E)",
@@ -1658,7 +1658,7 @@
     "twoHandedDamage": "1d8",
     "type": "both",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Boar Spear",
@@ -1671,7 +1671,7 @@
     "twoHandedDamage": "1d8",
     "type": "both",
     "range": [10, 20, 30],
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Lance",
@@ -1682,7 +1682,7 @@
     "category": "spears-and-polearms",
     "damage": "1d8",
     "type": "both",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Shortbow Arrow",
@@ -1691,7 +1691,7 @@
     "weight": 0.1,
     "damage": "1d6",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Shortbow Arrow",
@@ -1700,7 +1700,7 @@
     "weight": 0.1,
     "damage": "1d6",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Longbow Arrow",
@@ -1709,7 +1709,7 @@
     "weight": 0.1,
     "damage": "1d8",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Longbow Arrow",
@@ -1718,7 +1718,7 @@
     "weight": 0.1,
     "damage": "1d8",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Light Quarrel",
@@ -1727,7 +1727,7 @@
     "weight": 0.1,
     "damage": "1d6",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Light Quarrel",
@@ -1736,7 +1736,7 @@
     "weight": 0.1,
     "damage": "1d6",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Heavy Quarrel",
@@ -1745,7 +1745,7 @@
     "weight": 0.1,
     "damage": "1d8",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Heavy Quarrel",
@@ -1754,7 +1754,7 @@
     "weight": 0.1,
     "damage": "1d8",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hand Quarrel",
@@ -1763,7 +1763,7 @@
     "weight": 0.1,
     "damage": "1d3",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Hand Quarrel",
@@ -1772,7 +1772,7 @@
     "weight": 0.1,
     "damage": "1d3",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Bullet",
@@ -1781,7 +1781,7 @@
     "weight": 0.1,
     "damage": "1d4",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Silver† Bullet",
@@ -1790,7 +1790,7 @@
     "weight": 0.1,
     "damage": "1d4",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Stone",
@@ -1799,7 +1799,7 @@
     "weight": 0.1,
     "damage": "1d3",
     "category": "ammunition",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Padded/Quilted Armor",
@@ -1808,7 +1808,7 @@
     "weight": 10,
     "AC": 12,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Hide Armor",
@@ -1817,7 +1817,7 @@
     "weight": 30,
     "AC": 13,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Leather Armor",
@@ -1826,7 +1826,7 @@
     "weight": 15,
     "AC": 13,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Studded Leather Armor",
@@ -1835,7 +1835,7 @@
     "weight": 25,
     "AC": 14,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Ring Mail",
@@ -1844,7 +1844,7 @@
     "weight": 30,
     "AC": 14,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Brigandine Armor",
@@ -1853,7 +1853,7 @@
     "weight": 30,
     "AC": 15,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Chain Mail",
@@ -1862,7 +1862,7 @@
     "weight": 40,
     "AC": 15,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Scale Mail",
@@ -1871,7 +1871,7 @@
     "weight": 55,
     "AC": 16,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Splint Mail",
@@ -1880,7 +1880,7 @@
     "weight": 45,
     "AC": 16,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Banded Mail",
@@ -1889,7 +1889,7 @@
     "weight": 35,
     "AC": 16,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Plate Mail",
@@ -1898,7 +1898,7 @@
     "weight": 50,
     "AC": 17,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Field Plate Mail",
@@ -1907,7 +1907,7 @@
     "weight": 70,
     "AC": 18,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Full Plate Mail",
@@ -1916,7 +1916,7 @@
     "weight": 80,
     "AC": 19,
     "category": "armor",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Buckler Shield",
@@ -1926,7 +1926,7 @@
     "AC": "+1",
     "missileAC": "+0",
     "category": "shields",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Shield",
@@ -1936,7 +1936,7 @@
     "AC": "+1",
     "missileAC": "+1",
     "category": "shields",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Tower Shield",
@@ -1946,7 +1946,7 @@
     "AC": "+1",
     "missileAC": "+3",
     "category": "shields",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Light Barding",
@@ -1956,7 +1956,7 @@
     "animalWeight": 50,
     "AC": "+2",
     "category": "barding",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Mail Barding",
@@ -1966,7 +1966,7 @@
     "animalWeight": 80,
     "AC": "+4",
     "category": "barding",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Plate Barding",
@@ -1976,41 +1976,41 @@
     "animalWeight": 100,
     "AC": "+6",
     "category": "barding",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Horse, Draft",
     "costValue": 120,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Horse, War",
     "costValue": 200,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Horse, Riding",
     "costValue": 75,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pony*",
     "costValue": 40,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 1
+    "amount": 0
   },
   {
     "name": "Pony, War*",
     "costValue": 80,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 1
+    "amount": 0
   }
 ]

@@ -1,40 +1,28 @@
-import { Route, Routes } from "react-router-dom";
-import PageLayout from "./components/PageLayout/PageLayout";
-// import CharacterList from "./pages/CharacterList/CharacterList";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-  User,
-} from "firebase/auth";
-import { Suspense, lazy, useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebase.js";
+import "./firebase";
 import { ConfigProvider, Spin } from "antd";
-import GameSheet from "./pages/GameSheet/GameSheet";
-import GameList from "./pages/GameList/GameList";
-import { MODE, ModeType } from "./data/definitions";
-// import Welcome from "./pages/Welcome/Welcome";
-// import CharacterCreator from "./pages/CharacterCreator/CharacterCreator";
-// import Sources from "./pages/Sources/Sources";
-
-// Lazy load all the components that are routed
-const CharacterList = lazy(() => import("./pages/CharacterList/CharacterList"));
-const Welcome = lazy(() => import("./pages/Welcome/Welcome"));
-const CharacterCreator = lazy(
-  () => import("./pages/CharacterCreator/CharacterCreator")
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
+import "../node_modules/modern-normalize/modern-normalize.css";
+import PageLayout from "./components/PageLayout/PageLayout";
+import { cqTheme } from "./support/theme";
+const PageWelcome = lazy(() => import("./components/PageWelcome/PageWelcome"));
+const PageCharacterSheet = lazy(
+  () => import("./components/PageCharacterSheet/PageCharacterSheet"),
 );
-const Sources = lazy(() => import("./pages/Sources/Sources"));
-const CharacterSheet = lazy(
-  () => import("./pages/CharacterSheet/CharacterSheet")
+const PageHome = lazy(() => import("./components/PageHome/PageHome"));
+const PageGameSheet = lazy(
+  () => import("./components/PageGameSheet/PageGameSheet"),
 );
-const GMPortal = lazy(() => import("./pages/GameList/GameList"));
+const PageNewCharacter = lazy(
+  () => import("./components/PageNewCharacter/PageNewCharacter"),
+);
+const PageNewGame = lazy(() => import("./components/PageNewGame/PageNewGame"));
+const PageSources = lazy(() => import("./components/PageSources/PageSources"));
 
-function App() {
+const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<ModeType>(MODE.PLAYER);
 
   const auth = getAuth();
 
@@ -45,88 +33,72 @@ function App() {
     });
 
     return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Add this check for user being null
-      if (!user) {
-        console.error("User object is null after sign-in");
-        return;
-      }
-
-      // Create a document for the user in the 'users' collection
-      const userDocRef = doc(db, "users", user.uid);
-
-      await setDoc(
-        userDocRef,
-        {
-          name: user.displayName,
-          email: user.email,
-          // add any additional fields here
-        },
-        { merge: true }
-      ); // Merge the data if document already exists
-    } catch (error) {
-      console.error("Failed to login and set user doc:", error);
-    }
-  };
-
+  // DONE: standardize useNotification custom hook wherever notifications are used.
+  // DONE: Add regular equipment to character sheet.
+  // DONE: Click Saving Throws to roll dice.
+  // DONE: Click Special Abilities to roll dice.
+  // DONE: Character Creator: Show a list of equipment character has purchased.
+  // TODO: Verify race class filtering works when creating new character.
+  // TODO: There are race/class specific special parameters (like incrementing hit dice), that need to be checked.
+  // DONE: Rollinitiative button needs functionality.
+  // DONE: CHEAT SHEET button needs functionality.
+  // DONE: VIRTUAL DICE buttons need functionality.
+  // DONE: LEVEL UP MODAL needs functionality.
+  // DONE: ATTACK button needs functionality.
+  // DONE: Shortbow name is crunched in character sheet.
+  // DONE: Money needs weight
+  // DONE: Selecting Armor/Shield does not change AC value
+  // DONE: Selecting Armor/Shield does get saved
+  // DONE: Spells should be listed on character sheet
+  // DONE: GM SHEET: the rest of the special abilities should be fixed
+  // DONE: GM SHEET: notes panel
+  // DONE: makeChange into custom hook
+  // DONE: Site title and favicon
+  // DONE: Separate general equipment into sub categories https://ant.design/components/collapse#components-collapse-demo-mix
+  // DONE: make whole collapse bar clickable
+  // DONE: Welcome Page
+  // DONE: Sources Page
+  // TODO: Edit character name
+  // DONE: Switch (Options.tsx) to turn on/off supplemental classes/races
+  console.error("REMAINING TODOS!");
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#F9B32A",
-        },
-      }}
-    >
+    <ConfigProvider theme={cqTheme}>
       <Suspense fallback={<Spin />}>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <PageLayout
-                user={user}
-                handleLogin={handleLogin}
-                auth={auth}
-                mode={mode}
-                setMode={setMode}
-              />
-            }
-          >
+          <Route path="/" element={<PageLayout user={user} />}>
             <Route
               index
               element={
                 loading ? (
-                  <Spin />
+                  <Spin size="large" />
                 ) : user ? (
-                  mode === MODE.PLAYER ? (
-                    <CharacterList user={user} />
-                  ) : (
-                    <GameList user={user} />
-                  )
+                  <PageHome user={user} />
                 ) : (
-                  <Welcome />
+                  <PageWelcome />
                 )
               }
             />
             <Route
-              path="u/:uid/c/:id"
-              element={<CharacterSheet user={user} />}
+              path="new-character"
+              element={<PageNewCharacter user={user} />}
             />
-            <Route path="/create" element={<CharacterCreator />} />
-            <Route path="/sources" element={<Sources />} />
-            <Route path="u/:uid/g/:id" element={<GameSheet user={user} />} />
+            <Route path="new-game" element={<PageNewGame user={user} />} />
+            <Route
+              path="u/:uid/c/:id"
+              element={<PageCharacterSheet user={user} />}
+            />
+            <Route
+              path="u/:uid/g/:id"
+              element={<PageGameSheet user={user} />}
+            />
+            <Route path="sources" element={<PageSources />} />
           </Route>
         </Routes>
       </Suspense>
     </ConfigProvider>
   );
-}
+};
 
 export default App;

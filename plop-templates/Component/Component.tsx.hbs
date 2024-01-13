@@ -1,10 +1,9 @@
 import React from 'react';
 
-interface {{pascalCase name}}Props {
-// define your prop types here
-}
+interface {{pascalCase name}}Props {}
 
-const {{pascalCase name}}: React.FC<{{pascalCase name}}Props> = ({}) => {
-  return <div>{{pascalCase name}}</div>};
+const {{pascalCase name}}: React.FC<{{pascalCase name}}Props & React.ComponentPropsWithRef<"div">> = ({ className }) => {
+  return <div className={className}>{{pascalCase name}}</div>
+};
 
   export default {{pascalCase name}};

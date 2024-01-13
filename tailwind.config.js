@@ -1,31 +1,30 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    colors: {
+      california: "#FDA00D",
+      pomegranite: "#44336",
+      rust: "#965247",
+      seaBuckthorn: "#F9B32A",
+      shipGray: "#3E3643",
+      springWood: "#F4F5EB",
+      stone: "#9F9B8F",
+      sushi: "#80B045",
+    },
     extend: {
-      colors: {
-        springWood: "#F4F5EB",
-        zorba: "#9F9B8F",
-        seaBuckthorn: "#F9B32A",
-        copperRust: "#965247",
-        shipGray: "#3E3643",
-      },
-      flex: {
-        25: "1 1 25%",
-      },
-      screens: {
-        lg: "992px",
-        sm: "450px",
-        print: { raw: "print" },
-      },
-      fontFamily: {
-        enchant: ["Enchant", "serif"],
+      backgroundImage: {
+        noise: "url('assets/images/noise.svg')",
       },
     },
+    fontFamily: {
+      enchant: ["Enchant", "serif"],
+    },
   },
-  plugins: ["tailwindcss ,autoprefixer"],
+  plugins: [],
+  important: true,
   corePlugins: {
     preflight: false,
   },
-  important: true,
 };

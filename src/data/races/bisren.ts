@@ -1,4 +1,5 @@
-import { ClassNames } from "../definitions";
+import { AttackTypes } from "@/support/stringSupport";
+import { ClassNames } from "@/data/definitions";
 import { RaceSetup } from "./definitions";
 
 // TODO: Add Details (specials, restrictions)
@@ -25,7 +26,7 @@ export const bisren: RaceSetup = {
       category: "inherent",
       damage: "1d6",
       amount: 1,
-      type: "melee",
+      type: AttackTypes.MELEE,
       noDelete: true,
     },
   ],

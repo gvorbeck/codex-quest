@@ -1,4 +1,4 @@
-import { DiceTypes } from "../definitions";
+import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
@@ -185,8 +185,8 @@ export const cleric: ClassSetup = {
   ],
   startingEquipment: [
     equipmentItems.find((item) =>
-      item.name.toLowerCase().startsWith("holy symbol")
-    )!,
+      item.name.toLowerCase().startsWith("holy symbol"),
+    )! as EquipmentItem,
   ],
   powers: [
     {

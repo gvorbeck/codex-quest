@@ -19,6 +19,7 @@ export interface RaceSetup {
   minimumAbilityRequirements?: Record<string, number>;
   name: string;
   noLargeEquipment?: boolean;
+  rangedBonus?: number;
   savingThrows?: Partial<SavingThrowsType>;
   specialAbilitiesOverride?: any;
   uniqueAttacks?: EquipmentItem[];

@@ -1,4 +1,4 @@
-import { DiceTypes, EquipmentCategories } from "../definitions";
+import { DiceTypes, EquipmentCategories, EquipmentItem } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
 
@@ -163,8 +163,8 @@ export const spellCrafter: ClassSetup = {
   startingSpells: ["Read Magic"],
   startingEquipment: [
     equipmentItems.find((item) =>
-      item.name.toLowerCase().startsWith("spellbook")
-    )!,
+      item.name.toLowerCase().startsWith("spellbook"),
+    )! as EquipmentItem,
   ],
   details: {
     description:

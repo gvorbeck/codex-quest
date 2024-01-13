@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
   plop.setGenerator("component", {
     description: "Create a component dir/file",
     prompts: [
@@ -21,4 +21,4 @@ module.exports = function (plop) {
       // },
     ],
   });
-};
+}
