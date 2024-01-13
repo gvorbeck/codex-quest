@@ -61,7 +61,6 @@ const ModalAttack: React.FC<
           item={item}
           setModalIsOpen={setModalIsOpen}
           character={character}
-          setCharacter={setCharacter}
         />
       )}
       {/* 

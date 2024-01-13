@@ -1,7 +1,7 @@
 import { Spell } from "@/data/definitions";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
-import { Descriptions, DescriptionsProps, Flex, Image, Typography } from "antd";
+import { Descriptions, DescriptionsProps, Image, Typography } from "antd";
 import { marked } from "marked";
 import React from "react";
 
