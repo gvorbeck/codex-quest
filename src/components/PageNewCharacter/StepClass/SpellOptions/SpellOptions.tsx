@@ -10,12 +10,12 @@ import {
   SelectProps,
   Typography,
 } from "antd";
-import { marked } from "marked";
 import { toSlugCase } from "@/support/stringSupport";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import classNames from "classnames";
 import { useImages } from "@/hooks/useImages";
 import { getSpellsAtLevel } from "@/support/spellSupport";
+import { useMarkdown } from "@/hooks/useMarkdown";
 
 interface SpellOptionsProps {
   character: CharData;
@@ -24,21 +24,27 @@ interface SpellOptionsProps {
   setStartingSpells: (startingSpells: string[]) => void;
 }
 
-const SpellDescription: React.FC<{ spell: Spell }> = ({ spell }) => (
-  <div>
-    <Descriptions
-      items={[
-        { key: "1", label: "Range", children: spell.range },
-        { key: "2", label: "Duration", children: spell.duration },
-      ]}
-    />
-    <div dangerouslySetInnerHTML={{ __html: marked(spell.description) }} />
-  </div>
-);
+const SpellDescription: React.FC<{ spell: Spell }> = ({ spell }) => {
+  const parsedDescription = useMarkdown(spell.description);
+  return (
+    <div>
+      <Descriptions
+        items={[
+          { key: "1", label: "Range", children: spell.range },
+          { key: "2", label: "Duration", children: spell.duration },
+        ]}
+      />
+      <div dangerouslySetInnerHTML={{ __html: parsedDescription }} />
+    </div>
+  );
+};
 
 const SpellOptions: React.FC<
   SpellOptionsProps & React.ComponentPropsWithRef<"div">
 > = ({ character, characterClass, startingSpells, setStartingSpells }) => {
+  const classDescription = useMarkdown(
+    `Characters with the **${characterClass}** class start with **Read Magic** and one other spell:`,
+  );
   const { isMobile } = useDeviceType();
   const { getSpellImage } = useImages();
   const selectedSpell =
@@ -53,6 +59,7 @@ const SpellOptions: React.FC<
   const handleStartingSpellChange = (value: string) => {
     setStartingSpells([value]);
   };
+
   return (
     <Card
       title={
@@ -63,13 +70,7 @@ const SpellOptions: React.FC<
     >
       <Flex vertical gap={16}>
         <Typography.Text className="[&_p]:m-0">
-          <div
-            dangerouslySetInnerHTML={{
-              __html: marked(
-                `Characters with the **${characterClass}** class start with **Read Magic** and one other spell:`,
-              ),
-            }}
-          />
+          <div dangerouslySetInnerHTML={{ __html: classDescription }} />
         </Typography.Text>
         <Select
           options={selectOptions}

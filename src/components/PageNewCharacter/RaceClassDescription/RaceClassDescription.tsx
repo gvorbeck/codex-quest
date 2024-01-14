@@ -1,9 +1,9 @@
 import { Card, Flex, Image } from "antd";
-import { marked } from "marked";
 import React from "react";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import classNames from "classnames";
 import { useImages } from "@/hooks/useImages";
+import { useMarkdown } from "@/hooks/useMarkdown";
 
 interface RaceClassDescriptionProps {
   name: string;
@@ -32,7 +32,7 @@ const RaceClassDescription: React.FC<
       >
         <div
           dangerouslySetInnerHTML={{
-            __html: marked(description),
+            __html: useMarkdown(description),
           }}
         />
         <Image src={raceClassImage} className="w-64" />

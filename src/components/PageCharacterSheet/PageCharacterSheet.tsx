@@ -15,7 +15,6 @@ import {
   getMovement,
   isStandardClass,
 } from "@/support/characterSupport";
-import { marked } from "marked";
 import CharacterStat from "./CharacterStat/CharacterStat";
 import SpecialsRestrictions from "./SpecialsRestrictions/SpecialsRestrictions";
 import SpecialAbilitiesTable from "./SpecialAbilitiesTable/SpecialAbilitiesTable";
@@ -36,6 +35,7 @@ import { customClassString } from "@/support/stringSupport";
 import classNames from "classnames";
 import Spells from "./Spells/Spells";
 import { useSpellData } from "@/hooks/useSpellData";
+import { useMarkdown } from "@/hooks/useMarkdown";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -60,10 +60,22 @@ const PageCharacterSheet: React.FC<
     setModalContent,
     modalOkRef,
   } = useModal();
+  const attackBonusesHelpText = useMarkdown(
+    `**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`,
+  );
+  const armorClassHelpText = useMarkdown(
+    `Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`,
+  );
+  const movementHelpText = useMarkdown(
+    `Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`,
+  );
+  const abilitiesTableHelpText = useMarkdown(
+    `A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`,
+  );
+  const customClassAlertMessage = useMarkdown(customClassString);
   const { isMobile, isTablet, isDesktop } = useDeviceType();
   const { isSpellCaster } = useSpellData();
   const classArr = character ? classSplit(character.class) : [];
-  const customClassMessage = marked(customClassString);
   const moneyClassNames = classNames({ "w-1/3": !isMobile });
 
   return character ? (
@@ -104,9 +116,7 @@ const PageCharacterSheet: React.FC<
             <Flex gap={16} vertical>
               <Section
                 title="Attack Bonuses"
-                titleHelpText={marked(
-                  `**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`,
-                )}
+                titleHelpText={attackBonusesHelpText}
                 component={<AttackBonuses />}
               />
               <Section
@@ -130,9 +140,7 @@ const PageCharacterSheet: React.FC<
             >
               <Section
                 title="Armor Class"
-                titleHelpText={marked(
-                  `Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`,
-                )}
+                titleHelpText={armorClassHelpText}
                 component={
                   <CharacterStat
                     value={getArmorClass(character, setCharacter) || 0}
@@ -141,9 +149,7 @@ const PageCharacterSheet: React.FC<
               />
               <Section
                 title="Movement"
-                titleHelpText={marked(
-                  `Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`,
-                )}
+                titleHelpText={movementHelpText}
                 component={
                   <CharacterStat value={`${getMovement(character)}'`} />
                 }
@@ -182,9 +188,7 @@ const PageCharacterSheet: React.FC<
                       <Section
                         key={cls}
                         title={`${cls} Abilities Table`}
-                        titleHelpText={marked(
-                          `A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`,
-                        )}
+                        titleHelpText={abilitiesTableHelpText}
                         component={
                           <SpecialAbilitiesTable
                             specialAbilities={specialAbilities}
@@ -200,7 +204,7 @@ const PageCharacterSheet: React.FC<
             </Col>
           </Row>
         ) : (
-          <Alert type="info" message={customClassMessage} />
+          <Alert type="info" message={customClassAlertMessage} />
         )}
         <Divider />
         <Row gutter={16}>

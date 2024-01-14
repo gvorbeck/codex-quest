@@ -1,8 +1,8 @@
 import { Spell } from "@/data/definitions";
 import { useImages } from "@/hooks/useImages";
+import { useMarkdown } from "@/hooks/useMarkdown";
 import { toSlugCase } from "@/support/stringSupport";
 import { Descriptions, DescriptionsProps, Image, Typography } from "antd";
-import { marked } from "marked";
 import React from "react";
 
 interface SpellDescriptionsProps {
@@ -36,7 +36,7 @@ const SpellDescriptions: React.FC<
           </div>
         )}
         <Typography
-          dangerouslySetInnerHTML={{ __html: marked(spell.description) }}
+          dangerouslySetInnerHTML={{ __html: useMarkdown(spell.description) }}
           className="text-justify"
         />
       </div>
