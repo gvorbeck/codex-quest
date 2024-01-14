@@ -82,6 +82,20 @@ export function toSlugCase(input: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+export function toSnakeCase(str: string): string {
+  return (
+    str
+      // First, replace camelCase with snake_case
+      .replace(/([A-Z])/g, (letter, index) =>
+        index > 0 ? `_${letter}` : letter,
+      )
+      // Replace spaces and hyphens with underscores
+      .replace(/[\s-]+/g, "_")
+      // Convert to lowercase
+      .toLowerCase()
+  );
+}
+
 export const mobileBreakpoint = "(max-width: 639px)";
 export const tabletBreakpoint = "(min-width: 768px) and (max-width: 1023px)";
 export const desktopBreakpoint = "(min-width: 1024px)";

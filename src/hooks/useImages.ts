@@ -1,20 +1,15 @@
-import { toSlugCase } from "@/support/stringSupport";
+import { toSnakeCase } from "@/support/stringSupport";
+import { images as classImages } from "@/assets/images/classes/imageAssets";
+import { images as raceImages } from "@/assets/images/races/imageAssets";
+import { images as spellImages } from "@/assets/images/spells/imageAssets";
 
 export const useImages = () => {
-  const getRaceClassImage = (name: string) => {
-    const classImages = import.meta.glob("@/assets/images/classes/*.jpg");
-    const raceImages = import.meta.glob("@/assets/images/races/*.jpg");
+  const getRaceClassImage = (name: string) =>
+    classImages[toSnakeCase(name) as keyof typeof classImages] ??
+    raceImages[toSnakeCase(name) as keyof typeof raceImages];
 
-    return (
-      classImages[`/src/assets/images/classes/${toSlugCase(name)}.jpg`]?.name ??
-      raceImages[`/src/assets/images/races/${toSlugCase(name)}.jpg`]?.name
-    );
-  };
+  const getSpellImage = (name: string) =>
+    spellImages[toSnakeCase(name) as keyof typeof spellImages];
 
-  const getSpellImage = (name: string) => {
-    const spellImages = import.meta.glob("@/assets/images/spells/*.jpg");
-    return spellImages[`/src/assets/images/spells/${toSlugCase(name)}.jpg`]
-      ?.name;
-  };
   return { getRaceClassImage, getSpellImage };
 };
