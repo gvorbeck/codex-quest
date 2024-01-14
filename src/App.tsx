@@ -35,33 +35,10 @@ const App: React.FC = () => {
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // DONE: standardize useNotification custom hook wherever notifications are used.
-  // DONE: Add regular equipment to character sheet.
-  // DONE: Click Saving Throws to roll dice.
-  // DONE: Click Special Abilities to roll dice.
-  // DONE: Character Creator: Show a list of equipment character has purchased.
   // TODO: Verify race class filtering works when creating new character.
   // TODO: There are race/class specific special parameters (like incrementing hit dice), that need to be checked.
-  // DONE: Rollinitiative button needs functionality.
-  // DONE: CHEAT SHEET button needs functionality.
-  // DONE: VIRTUAL DICE buttons need functionality.
-  // DONE: LEVEL UP MODAL needs functionality.
-  // DONE: ATTACK button needs functionality.
-  // DONE: Shortbow name is crunched in character sheet.
-  // DONE: Money needs weight
-  // DONE: Selecting Armor/Shield does not change AC value
-  // DONE: Selecting Armor/Shield does get saved
-  // DONE: Spells should be listed on character sheet
-  // DONE: GM SHEET: the rest of the special abilities should be fixed
-  // DONE: GM SHEET: notes panel
-  // DONE: makeChange into custom hook
-  // DONE: Site title and favicon
-  // DONE: Separate general equipment into sub categories https://ant.design/components/collapse#components-collapse-demo-mix
-  // DONE: make whole collapse bar clickable
-  // DONE: Welcome Page
-  // DONE: Sources Page
   // TODO: Edit character name
-  // DONE: Switch (Options.tsx) to turn on/off supplemental classes/races
+  // TODO: Edquipment filtering
   console.error("REMAINING TODOS!");
   return (
     <ConfigProvider theme={cqTheme}>

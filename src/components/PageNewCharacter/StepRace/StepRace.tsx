@@ -65,13 +65,6 @@ const StepRace: React.FC<
     [character],
   );
 
-  console.log(
-    "raceSelector",
-    raceSelector,
-    !!raceSelector,
-    getClassType([raceSelector]),
-  );
-
   return (
     <Flex vertical className={className} gap={16}>
       <Options

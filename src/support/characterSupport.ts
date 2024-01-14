@@ -49,7 +49,6 @@ export const classSplit = (characterClass: string | string[]) => {
 
 export const getClassType = (characterClass: string[]) => {
   const classArr = classSplit(characterClass);
-  console.log(classArr);
 
   // NONE
   if (classArr.length === 0 || classArr.every((className) => className === ""))
