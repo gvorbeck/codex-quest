@@ -46,7 +46,7 @@ const SavingThrows: React.FC<React.ComponentPropsWithRef<"div">> = ({
           rollSavingThrow(record.score, record.throw, race, openNotification),
       }),
     },
-    { title: "Percentage", dataIndex: "score", key: "score" },
+    { title: "Score", dataIndex: "score", key: "score" },
   ];
   const tableClassNames = classNames("[&_td]:cursor-pointer", className);
   return (
