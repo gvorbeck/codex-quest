@@ -1,6 +1,6 @@
+import { equipmentSizes } from "@/support/equipmentSupport";
 import { Form, Select } from "antd";
 import React from "react";
-import { equipmentSizes } from "@/support/characterSupport";
 
 const Size: React.FC<React.ComponentPropsWithRef<"div">> = ({ className }) => {
   return (

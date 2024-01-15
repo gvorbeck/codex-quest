@@ -1,5 +1,6 @@
 import { CharData, EquipmentItem } from "@/data/definitions";
-import { getAttackBonus, rollDice } from "@/support/characterSupport";
+import { rollDice } from "@/support/diceSupport";
+import { getAttackBonus } from "@/support/statSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 export const noAmmoMessage = "No ammunition available";

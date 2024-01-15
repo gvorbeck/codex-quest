@@ -1,7 +1,7 @@
 import { classes } from "@/data/classes";
-import { classSplit } from "@/support/characterSupport";
 import React from "react";
 import { ClassNames } from "@/data/definitions";
+import { classSplit } from "@/support/classSupport";
 
 export function useSpellData() {
   const [hasSpellBudget, setHasSpellBudget] = React.useState(false);

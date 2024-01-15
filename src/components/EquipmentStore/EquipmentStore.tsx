@@ -15,16 +15,13 @@ import {
 import {
   equipmentCategoryMap,
   equipmentSubCategoryMap,
+  getItemCost,
 } from "@/support/equipmentSupport";
 import { slugToTitleCase, toSlugCase } from "@/support/stringSupport";
 import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
-import {
-  classSplit,
-  getClassType,
-  getItemCost,
-} from "@/support/characterSupport";
 import { classes } from "@/data/classes";
 import { races } from "@/data/races";
+import { classSplit, getClassType } from "@/support/classSupport";
 
 interface EquipmentStoreProps {
   character?: CharData;

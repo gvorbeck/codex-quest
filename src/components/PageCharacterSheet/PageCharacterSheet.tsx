@@ -8,13 +8,6 @@ import Section from "./Section/Section";
 import AttackBonuses from "./AttackBonuses/AttackBonuses";
 import HitPoints from "./HitPoints/HitPoints";
 import { classes } from "@/data/classes";
-import {
-  classSplit,
-  getArmorClass,
-  getHitDice,
-  getMovement,
-  isStandardClass,
-} from "@/support/characterSupport";
 import CharacterStat from "./CharacterStat/CharacterStat";
 import SpecialsRestrictions from "./SpecialsRestrictions/SpecialsRestrictions";
 import SpecialAbilitiesTable from "./SpecialAbilitiesTable/SpecialAbilitiesTable";
@@ -36,6 +29,8 @@ import classNames from "classnames";
 import Spells from "./Spells/Spells";
 import { useSpellData } from "@/hooks/useSpellData";
 import { useMarkdown } from "@/hooks/useMarkdown";
+import { classSplit, isStandardClass } from "@/support/classSupport";
+import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
 
 interface PageCharacterSheetProps {
   user: User | null;

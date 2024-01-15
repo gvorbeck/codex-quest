@@ -1,11 +1,11 @@
 import React from "react";
 import { CharData, RaceNames } from "@/data/definitions";
 import { Flex, SelectProps } from "antd";
-import { getRaceSelectOptions } from "@/support/characterSupport";
 import { races } from "@/data/races";
 import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
 import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
 import Options from "../StepClass/Options/Options";
+import { getRaceSelectOptions } from "@/support/raceSupport";
 
 interface StepRaceProps {
   character: CharData;

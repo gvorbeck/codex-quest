@@ -1,8 +1,8 @@
 // Custom Hook for rolling dice for a character.
 
 import { CharData } from "@/data/definitions";
-import { rollDice } from "@/support/characterSupport";
 import { useNotification } from "./useNotification";
+import { rollDice } from "@/support/diceSupport";
 
 export function useCharacterDice(character: CharData) {
   const { dexterity: dexBonus } = character.abilities.modifiers;

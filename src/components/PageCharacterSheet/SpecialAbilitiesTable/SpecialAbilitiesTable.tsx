@@ -1,10 +1,10 @@
 import React from "react";
 import { ColumnType } from "antd/es/table";
 import { Table } from "antd";
-import { rollSpecialAbility } from "@/support/characterSupport";
 import classNames from "classnames";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
+import { rollSpecialAbility } from "@/support/diceSupport";
 
 interface SpecialAbilitiesTableProps {
   specialAbilities: {

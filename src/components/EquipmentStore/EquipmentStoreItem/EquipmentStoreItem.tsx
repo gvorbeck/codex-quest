@@ -1,7 +1,7 @@
 import React from "react";
 import { EquipmentItem } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, InputNumber } from "antd";
-import { getItemCost } from "@/support/characterSupport";
+import { getItemCost } from "@/support/equipmentSupport";
 
 interface EquipmentStoreItemProps {
   item: EquipmentItem;

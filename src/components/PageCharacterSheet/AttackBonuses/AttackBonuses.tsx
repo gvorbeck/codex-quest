@@ -2,9 +2,9 @@ import React from "react";
 import { RaceNames } from "@/data/definitions";
 import { ColumnType } from "antd/es/table";
 import { Table } from "antd";
-import { getAttackBonus } from "@/support/characterSupport";
 import { races } from "@/data/races";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { getAttackBonus } from "@/support/statSupport";
 
 interface DataType {
   key: string;

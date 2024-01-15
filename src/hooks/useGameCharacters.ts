@@ -9,7 +9,7 @@ import { removePlayerFromGame } from "../support/accountSupport";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { DescriptionsProps } from "antd";
-import { classSplit } from "../support/characterSupport";
+import { classSplit } from "@/support/classSupport";
 
 export function useGameCharacters(players: GamePlayerList): [
   CharData[],

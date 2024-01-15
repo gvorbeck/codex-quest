@@ -2,10 +2,7 @@ import React from "react";
 import { RaceNames } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, Flex } from "antd";
 import CharacterStat from "../CharacterStat/CharacterStat";
-import {
-  getCarryingCapacity,
-  getCharacterWeight,
-} from "@/support/characterSupport";
+import { getCarryingCapacity, getCharacterWeight } from "@/support/statSupport";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { useDeviceType } from "@/hooks/useDeviceType";
 

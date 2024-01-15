@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
 import { useNotification } from "@/hooks/useNotification";
-import { rollDice } from "@/support/characterSupport";
+import { rollDice } from "@/support/diceSupport";
 
 interface ModalVirtualDiceProps {}
 

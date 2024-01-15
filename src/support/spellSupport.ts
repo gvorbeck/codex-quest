@@ -1,6 +1,6 @@
 import { CharData, Spell } from "@/data/definitions";
 import spells from "@/data/spells.json";
-import { classSplit } from "./characterSupport";
+import { classSplit } from "./classSupport";
 
 export const getSpellFromName = (name: string) => {
   return spells.find((spell) => spell.name === name);

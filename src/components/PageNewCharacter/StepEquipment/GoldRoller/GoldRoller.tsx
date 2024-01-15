@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, InputNumber, Space } from "antd";
-import { rollDice } from "@/support/characterSupport";
+import { rollDice } from "@/support/diceSupport";
 
 interface GoldRollerProps {
   gold: number;

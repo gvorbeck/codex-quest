@@ -5,8 +5,8 @@ import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import SpecialsRestrictionsList from "../SpecialsRestrictionsList/SpecialsRestrictionsList";
 import { titleCaseToCamelCase } from "@/support/stringSupport";
-import { classSplit } from "@/support/characterSupport";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { classSplit } from "@/support/classSupport";
 
 const SpecialsRestrictions: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,

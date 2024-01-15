@@ -1,10 +1,12 @@
 import { classes } from "@/data/classes";
 import { CharData, Spell } from "@/data/definitions";
-import { classSplit, getHitDice, rollDice } from "@/support/characterSupport";
 import React from "react";
 import SpellOptionsContainer from "./SpellOptionsContainer/SpellOptionsContainer";
 import { Button, Flex } from "antd";
 import { getSelectedSpellsByLevel } from "@/support/spellSupport";
+import { classSplit } from "@/support/classSupport";
+import { rollDice } from "@/support/diceSupport";
+import { getHitDice } from "@/support/statSupport";
 
 interface ModalLevelUpProps {
   character: CharData;

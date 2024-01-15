@@ -1,15 +1,13 @@
 import { ColumnType } from "antd/es/table";
 import React from "react";
 import { Table } from "antd";
-import {
-  classSplit,
-  getBestSavingThrowList,
-  rollSavingThrow,
-} from "@/support/characterSupport";
 import { camelCaseToTitleCase } from "@/support/stringSupport";
 import classNames from "classnames";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
+import { classSplit } from "@/support/classSupport";
+import { rollSavingThrow } from "@/support/diceSupport";
+import { getBestSavingThrowList } from "@/support/statSupport";
 
 interface DataType {
   key: number;

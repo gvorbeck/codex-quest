@@ -1,6 +1,11 @@
 import equipmentItems from "../data/equipmentItems.json";
-import { EquipmentCategories, EquipmentItem } from "../data/definitions";
+import {
+  CostCurrency,
+  EquipmentCategories,
+  EquipmentItem,
+} from "../data/definitions";
 import { AttackTypes } from "./stringSupport";
+import { SelectProps } from "antd";
 
 // Get an object with properties for every equipment category. Those properties are arrays of equipment items.
 // If no equipment list is provided, the default equipment list is used.
@@ -64,3 +69,28 @@ export const kickItem: EquipmentItem = {
 };
 
 export const equipmentNames = equipmentItems.map((item) => item.name);
+
+export const getItemCost = (item: EquipmentItem) => {
+  let cost = item.costValue;
+  if (item.costCurrency === "sp") cost *= 0.1;
+  if (item.costCurrency === "cp") cost *= 0.01;
+  return cost * item.amount;
+};
+
+export type ArmorCategory = "lightArmor" | "mediumArmor" | "heavyArmor";
+
+export const CURRENCIES: CostCurrency[] = ["gp", "sp", "cp"];
+export const equipmentSizes: SelectProps["options"] = [
+  {
+    label: "S",
+    value: "S",
+  },
+  {
+    label: "M",
+    value: "M",
+  },
+  {
+    label: "L",
+    value: "L",
+  },
+];

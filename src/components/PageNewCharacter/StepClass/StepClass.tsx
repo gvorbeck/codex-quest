@@ -2,13 +2,13 @@ import { Flex, SelectProps } from "antd";
 import React from "react";
 import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
 import { CharData, ClassNames, DiceTypes } from "@/data/definitions";
-import { getClassSelectOptions } from "@/support/characterSupport";
 import { classes } from "@/data/classes";
 import SpellOptions from "./SpellOptions/SpellOptions";
 import ComboClassOptions from "./ComboClassOptions/ComboClassOptions";
 import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
 import spellsData from "@/data/spells.json";
 import Options from "./Options/Options";
+import { getClassSelectOptions } from "@/support/classSupport";
 
 interface StepClassProps {
   character: CharData;

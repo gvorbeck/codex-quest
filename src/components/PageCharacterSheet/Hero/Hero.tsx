@@ -19,7 +19,7 @@ import {
   Space,
   Typography,
 } from "antd";
-import { classSplit, getAvatar } from "@/support/characterSupport";
+import { getAvatar } from "@/support/characterSupport";
 import { ClassNames } from "@/data/definitions";
 import { classes } from "@/data/classes";
 import HelpTooltip from "@/components/HelpTooltip/HelpTooltip";
@@ -28,6 +28,7 @@ import classNames from "classnames";
 import AvatarPicker from "@/components/AvatarPicker/AvatarPicker";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import ModalLevelUp from "@/components/ModalLevelUp/ModalLevelUp";
+import { classSplit } from "@/support/classSupport";
 
 interface HeroProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;

@@ -1,12 +1,9 @@
 import { Button, Flex, Table } from "antd";
 import React from "react";
 import { AbilityRecord, CharData } from "@/data/definitions";
-import {
-  getModifier,
-  isAbilityKey,
-  rollDice,
-} from "@/support/characterSupport";
 import AbilityRoller from "./AbilityRoller/AbilityRoller";
+import { rollDice } from "@/support/diceSupport";
+import { getModifier, isAbilityKey } from "@/support/statSupport";
 
 interface StepAbilitiesProps {
   character: CharData;

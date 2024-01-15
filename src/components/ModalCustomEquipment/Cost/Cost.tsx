@@ -1,7 +1,7 @@
 import { Form, InputNumber, Select, SelectProps, Space } from "antd";
 import React from "react";
-import { CURRENCIES } from "@/support/characterSupport";
 import { CostCurrency } from "@/data/definitions";
+import { CURRENCIES } from "@/support/equipmentSupport";
 
 const currencyOptions: SelectProps<CostCurrency>["options"] = CURRENCIES.map(
   (currency) => ({ value: currency, label: currency.toUpperCase() }),

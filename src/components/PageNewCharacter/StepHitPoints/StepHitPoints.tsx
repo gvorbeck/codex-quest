@@ -1,11 +1,8 @@
 import React from "react";
 import { CharData } from "@/data/definitions";
 import { Button, Flex, InputNumber, Space } from "antd";
-import {
-  classSplit,
-  isStandardClass,
-  rollDice,
-} from "@/support/characterSupport";
+import { classSplit, isStandardClass } from "@/support/classSupport";
+import { rollDice } from "@/support/diceSupport";
 
 interface StepHitPointsProps {
   character: CharData;

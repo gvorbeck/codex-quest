@@ -3,7 +3,7 @@ import React from "react";
 import AttackForm from "../AttackForm/AttackForm";
 import { useAttack } from "@/hooks/useAttack";
 import { getRollToHitResult } from "../ModalAttackSupport";
-import { rollDice } from "@/support/characterSupport";
+import { rollDice } from "@/support/diceSupport";
 
 interface MeleeAttackFormProps {
   character: CharData;
