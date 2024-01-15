@@ -24,6 +24,7 @@ import {
   getItemCost,
 } from "@/support/characterSupport";
 import { classes } from "@/data/classes";
+import { races } from "@/data/races";
 
 interface EquipmentStoreProps {
   character?: CharData;
@@ -68,6 +69,9 @@ const getFilteredEquipmentCategories = (characterClass: string | string[]) => {
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, equipment, setEquipment, gold, setGold }) => {
+  if (!character) return null;
+  const noLargeEquipment =
+    races[character.race as keyof typeof races]?.noLargeEquipment ?? false;
   const onChange = (value: number | null, item: EquipmentItem) => {
     const newEquipment = equipment.filter((e) => e.name !== item.name);
     if (!!value && value > 0) {
@@ -122,16 +126,21 @@ const EquipmentStore: React.FC<
           {category[0] === EquipmentCategories.GENERAL ? (
             <Collapse items={generalItems} ghost className="flex flex-col" />
           ) : (
-            category[1].map((item: EquipmentItem, index: number) => (
-              <EquipmentStoreItem
-                key={index}
-                item={item}
-                onChange={(e) => onChange(e ? +e : 0, item)}
-                // disabled={item.amount === 0 && getItemCost(item) >= gold}
-                // max={getItemCost(item) >= gold}
-                gold={gold}
-              />
-            ))
+            category[1].map((item: EquipmentItem, index: number) => {
+              if (noLargeEquipment && item.size === "L") {
+                return null;
+              }
+              return (
+                <EquipmentStoreItem
+                  key={index}
+                  item={item}
+                  onChange={(e) => onChange(e ? +e : 0, item)}
+                  // disabled={item.amount === 0 && getItemCost(item) >= gold}
+                  // max={getItemCost(item) >= gold}
+                  gold={gold}
+                />
+              );
+            })
           )}
         </Flex>
       ),
