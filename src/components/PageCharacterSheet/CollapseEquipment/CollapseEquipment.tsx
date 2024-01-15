@@ -138,7 +138,14 @@ const CollapseEquipment: React.FC<
       <Collapse className={className} items={items} />
       <Alert
         type="info"
-        message={<Descriptions size="small" items={equipmentSymbolKeyItems} />}
+        message={
+          <Descriptions
+            size="small"
+            items={equipmentSymbolKeyItems}
+            column={1}
+            contentStyle={{ fontSize: ".75rem" }}
+          />
+        }
       />
     </Flex>
   );

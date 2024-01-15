@@ -164,7 +164,14 @@ const EquipmentStore: React.FC<
       />
       <Alert
         type="info"
-        message={<Descriptions size="small" items={equipmentSymbolKeyItems} />}
+        message={
+          <Descriptions
+            size="small"
+            items={equipmentSymbolKeyItems}
+            column={1}
+            contentStyle={{ fontSize: ".75rem" }}
+          />
+        }
       />
     </Flex>
   );
