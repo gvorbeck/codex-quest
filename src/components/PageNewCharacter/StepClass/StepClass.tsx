@@ -1,16 +1,26 @@
-import { Flex } from "antd";
+import { Flex, Input, Select, Switch, Typography } from "antd";
 import React from "react";
-import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
-import { CharData, ClassNames, DiceTypes, RaceNames } from "@/data/definitions";
+// import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
+// import { CharData, ClassNames, DiceTypes, RaceNames } from "@/data/definitions";
+// import { classes } from "@/data/classes";
+// import SpellOptions from "./SpellOptions/SpellOptions";
+// import ComboClassOptions from "./ComboClassOptions/ComboClassOptions";
+// import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
+// import spellsData from "@/data/spells.json";
+// import Options from "./Options/Options";
+import {
+  baseClasses,
+  classSplit,
+  getClassSelectOptions,
+  getClassType,
+  // isStandardClass,
+} from "@/support/classSupport";
+import { CharData, ClassNames } from "@/data/definitions";
 import { classes } from "@/data/classes";
-import SpellOptions from "./SpellOptions/SpellOptions";
-import ComboClassOptions from "./ComboClassOptions/ComboClassOptions";
-import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
-import spellsData from "@/data/spells.json";
-import Options from "./Options/Options";
-import { classSplit, getClassSelectOptions } from "@/support/classSupport";
-import { useStepClass } from "./useStepClass";
-import { races } from "@/data/races";
+// import { set } from "firebase/database";
+// import { useStepClass } from "./useStepClass";
+// import { races } from "@/data/races";
+// import { set } from "firebase/database";
 
 interface StepClassProps {
   character: CharData;
@@ -30,61 +40,119 @@ const StepClass: React.FC<
   comboClassSwitch,
   setComboClassSwitch,
 }) => {
-  const {
-    classSelector,
-    setClassSelector,
-    customClassInput,
-    setCustomClassInput,
-    // firstClass,
-    secondClass,
-    setSecondClass,
-    //   startingSpells,
-    //   setStartingSpells,
-    supplementalContentSwitch,
-    setSupplementalContentSwitch,
-    //   classSelectOptions,
-    //   setClassSelectOptions,
-    //   adjustHitDice,
-    characterHasSpells,
-  } = useStepClass(character);
+  const defaultStandardClassSelectValue = "Choose a class";
+  const defaultCustomClassInputPlaceholder = "Enter a custom class";
+  const findCharacterStandardClass = (character: CharData) => {
+    if (
+      character.class.length &&
+      getClassType(character.class) === "standard"
+    ) {
+      return classSplit(character.class)[0] as ClassNames;
+    }
+    return undefined;
+  };
+  const findCharacterIsMagical = (character: CharData) => {
+    const classType = getClassType(character.class);
+    if (classType === "custom" || classType === "combination") {
+      return true;
+    } else {
+      const classArr = classSplit(character.class) ?? [];
+      if (
+        classes[classArr[0] as ClassNames]?.spellBudget?.[
+          character.level - 1
+        ].some((number) => number > 0)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+  const onSupplementalContentSwitchChange = (checked: boolean) => {
+    setSupplementalContentSwitch(checked);
+  };
+  const onCombinationClassSwitchChange = (checked: boolean) => {
+    setComboClassSwitch(checked);
+  };
+  const onStandardClassSelectChange = (value: string) => {
+    setStandardClassSelector(value as ClassNames);
+  };
+  const onCustomClassInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomClassInput(e.target.value);
+  };
+  const [customClassInput, setCustomClassInput] = React.useState<string>();
   const [isMagicCharacter, setIsMagicCharacter] = React.useState<boolean>(
-    characterHasSpells(character) ?? false,
+    findCharacterIsMagical(character),
   );
-  const [hasClassSelections, setHasClassSelections] = React.useState<boolean>(
-    !!classSplit(character.class).length,
+  // If a character has a class, and it is 'standard' (and therefore not custom), then it is the value here.
+  const [standardClassSelector, setStandardClassSelector] = React.useState<
+    string | undefined
+  >(findCharacterStandardClass(character));
+  // If a user has a class, it is 'standard', and is not part of the base classes, then it is using supplemental content.
+  const [supplementalContentSwitch, setSupplementalContentSwitch] =
+    React.useState<boolean>(
+      getClassType(character.class) === "standard" &&
+        !baseClasses.includes(character.class[0] as ClassNames),
+    );
+  // If a user has selected the 'custom' option from the standard class select
+  const [usingCustomClass, setUsingCustomClass] = React.useState<boolean>(
+    getClassType(character.class) === "custom",
   );
-  const [characterClassSelections, setCharacterClassSelections] =
-    React.useState<string[]>(classSplit(character.class) ?? []); // TODO: this should have a better initial value, based on the character's class
 
   React.useEffect(() => {
-    if (comboClassSwitch) {
-      setCustomClassInput("");
-      setClassSelector("");
-      setCharacterClassSelections([ClassNames.MAGICUSER]);
-    } else {
-      setCharacterClassSelections([]);
-    }
+    console.log("combination class switch changed", comboClassSwitch);
+    setStandardClassSelector(defaultStandardClassSelectValue);
+    setUsingCustomClass(false);
+    setCustomClassInput(undefined);
   }, [comboClassSwitch]);
-  // Whenever the comboClassSwitch is toggled,
+
+  React.useEffect(() => {
+    console.log(
+      "supplemental content switch changed",
+      supplementalContentSwitch,
+    );
+    setStandardClassSelector(defaultStandardClassSelectValue);
+  }, [supplementalContentSwitch]);
+
+  React.useEffect(() => {
+    console.log("standard class selector changed", standardClassSelector);
+    if (standardClassSelector === "Custom") {
+      setUsingCustomClass(true);
+    } else {
+      setUsingCustomClass(false);
+    }
+  }, [standardClassSelector]);
 
   return (
-    <div>
-      <Options
-        comboClass={comboClass}
-        comboClassSwitch={comboClassSwitch}
-        setComboClassSwitch={setComboClassSwitch}
-        setSupplementalContentSwitch={setSupplementalContentSwitch}
-        supplementalContentSwitch={supplementalContentSwitch}
-      />
-      <div>
+    <Flex gap={16} vertical className={className}>
+      <Flex gap={16}>
+        <Flex gap={8}>
+          <Typography.Text>Enable SupplementalContent</Typography.Text>
+          <Switch
+            checked={supplementalContentSwitch}
+            onChange={onSupplementalContentSwitchChange}
+          />
+        </Flex>
+        {comboClass && (
+          <Flex gap={8}>
+            <Typography.Text>Use Combination Class</Typography.Text>
+            <Switch
+              checked={comboClassSwitch}
+              onChange={onCombinationClassSwitchChange}
+            />
+          </Flex>
+        )}
+      </Flex>
+      <Flex gap={16} vertical>
         {!comboClassSwitch ? (
-          <RaceClassSelector
-            customInput={customClassInput}
-            handleCustomInputChange={handleCustomClassInputChange}
-            handleSelectChange={handleSelectChange}
-            selectOptions={classSelectOptions}
-            selector={classSelector}
-            type="class"
+          <Select
+            className="w-full"
+            defaultValue={defaultStandardClassSelectValue}
+            onChange={onStandardClassSelectChange}
+            options={getClassSelectOptions(
+              character,
+              !supplementalContentSwitch,
+            )}
+            value={standardClassSelector}
           />
         ) : (
           <div>
@@ -92,10 +160,17 @@ const StepClass: React.FC<
             <div>second class select</div>
           </div>
         )}
+        {usingCustomClass && (
+          <Input
+            placeholder={defaultCustomClassInputPlaceholder}
+            value={customClassInput}
+            onChange={onCustomClassInputChange}
+          />
+        )}
         {isMagicCharacter && <div>spell select/description</div>}
-        {hasClassSelections && <div>class selections</div>}
-      </div>
-    </div>
+        {/* {hasClassSelections && <div>class selections</div>} */}
+      </Flex>
+    </Flex>
   );
 
   // const handleCustomClassInputChange = (
