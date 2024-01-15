@@ -42,7 +42,8 @@ const StepHitPoints: React.FC<
         <Space.Compact>
           <InputNumber value={max} />
           <Button onClick={handleButtonClick}>
-            Roll {character.hp.dice}
+            Roll&nbsp;{character.level === 1 && "1"}
+            {character.hp.dice}
             {character.abilities.modifiers.constitution}
           </Button>
         </Space.Compact>
