@@ -17,6 +17,7 @@ const EquipmentStoreItem: React.FC<
   const damageItem = {
     key: "damage",
     label: "Damage",
+    span: 2,
     children: item.damage,
   };
   const sizeItem = { key: "size", label: "Size", children: item.size };
@@ -29,27 +30,32 @@ const EquipmentStoreItem: React.FC<
   const missileACItem = {
     key: "missileAC",
     label: "Missile AC",
+    span: 2,
     children: item.missileAC,
   };
   const rangeItem = {
     key: "range",
     label: "Range",
+    span: 2,
     children: item.range?.join(" / "),
   };
   const ammoItem = {
     key: "ammo",
     label: "Ammo",
+    span: 2,
     children: <span className="text-xs">{item.ammo?.join(", ")}</span>,
   };
   const items: DescriptionsProps["items"] = [
     {
       key: "name",
       label: "Name",
+      span: 3,
       children: <span className="font-bold">{item.name}</span>,
     },
     {
       key: "cost",
       label: "Cost",
+      span: 2,
       children: item.costValue + " " + item.costCurrency,
     },
   ];
@@ -76,7 +82,13 @@ const EquipmentStoreItem: React.FC<
   });
 
   return (
-    <Descriptions size="small" className={className} items={items} bordered />
+    <Descriptions
+      size="small"
+      className={className}
+      items={items}
+      column={3}
+      bordered
+    />
   );
 };
 
