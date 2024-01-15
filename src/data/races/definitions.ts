@@ -21,6 +21,6 @@ export interface RaceSetup {
   noLargeEquipment?: boolean;
   rangedBonus?: number;
   savingThrows?: Partial<SavingThrowsType>;
-  specialAbilitiesOverride?: any;
+  specialAbilitiesOverride?: unknown;
   uniqueAttacks?: EquipmentItem[];
 }
