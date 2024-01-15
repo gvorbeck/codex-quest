@@ -1,5 +1,9 @@
 import React from "react";
-import { EquipmentCategories, EquipmentItem } from "@/data/definitions";
+import {
+  CharData,
+  EquipmentCategories,
+  EquipmentItem,
+} from "@/data/definitions";
 import {
   Alert,
   Collapse,
@@ -12,11 +16,17 @@ import {
   equipmentCategoryMap,
   equipmentSubCategoryMap,
 } from "@/support/equipmentSupport";
-import { slugToTitleCase } from "@/support/stringSupport";
+import { slugToTitleCase, toSlugCase } from "@/support/stringSupport";
 import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
-import { getItemCost } from "@/support/characterSupport";
+import {
+  classSplit,
+  getClassType,
+  getItemCost,
+} from "@/support/characterSupport";
+import { classes } from "@/data/classes";
 
 interface EquipmentStoreProps {
+  character?: CharData;
   equipment: EquipmentItem[];
   setEquipment: (equipment: EquipmentItem[]) => void;
   gold: number;
@@ -41,9 +51,23 @@ const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
   },
 ];
 
+const getFilteredEquipmentCategories = (characterClass: string | string[]) => {
+  const equipmentCategories = new Set<string>();
+
+  classSplit(characterClass).forEach((classItem) => {
+    const availableCategories =
+      classes[classItem as keyof typeof classes].availableEquipmentCategories;
+    availableCategories.forEach((category) =>
+      equipmentCategories.add(category),
+    );
+  });
+
+  return Array.from(equipmentCategories);
+};
+
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
-> = ({ className, equipment, setEquipment, gold, setGold }) => {
+> = ({ className, character, equipment, setEquipment, gold, setGold }) => {
   const onChange = (value: number | null, item: EquipmentItem) => {
     const newEquipment = equipment.filter((e) => e.name !== item.name);
     if (!!value && value > 0) {
@@ -112,9 +136,26 @@ const EquipmentStore: React.FC<
         </Flex>
       ),
     }));
+
+  let filteredItems = items;
+
+  if (character && getClassType(character.class) !== "custom") {
+    const filteredCategories = getFilteredEquipmentCategories(
+      character.class,
+    ).map(toSlugCase);
+
+    filteredItems = items.filter((item) => {
+      const itemCategory = toSlugCase(item.label as string); // Ensure same format for comparison
+      return filteredCategories.includes(itemCategory);
+    });
+  }
+
   return (
     <Flex vertical gap={16} className={className}>
-      <Collapse items={items} collapsible={!gold ? "disabled" : undefined} />
+      <Collapse
+        items={filteredItems}
+        collapsible={!gold ? "disabled" : undefined}
+      />
       <Alert
         type="info"
         message={<Descriptions size="small" items={equipmentSymbolKeyItems} />}

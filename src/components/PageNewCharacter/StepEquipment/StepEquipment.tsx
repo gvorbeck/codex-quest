@@ -42,6 +42,7 @@ const StepEquipment: React.FC<
       {!hideDiceButton && <GoldRoller gold={gold} setGold={setGold} />}
       <Flex gap={16} className={flexClassNames} vertical={isMobile}>
         <EquipmentStore
+          character={character}
           equipment={equipment}
           setEquipment={setEquipment}
           gold={gold}
