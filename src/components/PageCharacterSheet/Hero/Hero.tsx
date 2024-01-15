@@ -4,7 +4,7 @@ import {
   SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { avatarClassNames } from "@/support/classNameSupport";
+import { avatarClassNames } from "@/support/cssSupport";
 import {
   Avatar,
   Badge,

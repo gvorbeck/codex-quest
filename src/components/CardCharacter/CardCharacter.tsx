@@ -16,7 +16,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import { avatarClassNames } from "@/support/classNameSupport";
+import { avatarClassNames } from "@/support/cssSupport";
 import { deleteDocument } from "@/support/accountSupport";
 
 interface CardCharacterProps {

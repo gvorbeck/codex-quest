@@ -2,7 +2,7 @@ import { Divider, Flex, Typography } from "antd";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { marked } from "marked";
-import { newGameCharacterPageTitleClassNames } from "@/support/classNameSupport";
+import { newGameCharacterPageTitleClassNames } from "@/support/cssSupport";
 
 interface NewContentWrapperProps {
   title: string;
