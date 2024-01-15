@@ -1,7 +1,7 @@
-import { Flex, SelectProps } from "antd";
+import { Flex } from "antd";
 import React from "react";
 import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
-import { CharData, ClassNames, DiceTypes } from "@/data/definitions";
+import { CharData, ClassNames, DiceTypes, RaceNames } from "@/data/definitions";
 import { classes } from "@/data/classes";
 import SpellOptions from "./SpellOptions/SpellOptions";
 import ComboClassOptions from "./ComboClassOptions/ComboClassOptions";
@@ -9,6 +9,8 @@ import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
 import spellsData from "@/data/spells.json";
 import Options from "./Options/Options";
 import { getClassSelectOptions } from "@/support/classSupport";
+import { useStepClass } from "./useStepClass";
+import { races } from "@/data/races";
 
 interface StepClassProps {
   character: CharData;
@@ -28,20 +30,22 @@ const StepClass: React.FC<
   comboClassSwitch,
   setComboClassSwitch,
 }) => {
-  const [customClassInput, setCustomClassInput] = React.useState<string>("");
-  const [classSelector, setClassSelector] = React.useState<string>(
-    character.class[0],
-  );
-  const [startingSpells, setStartingSpells] = React.useState<string[]>([]);
-  const [secondClass, setSecondClass] = React.useState<ClassNames | undefined>(
-    undefined,
-  );
-  const [supplementalContentSwitch, setSupplementalContentSwitch] =
-    React.useState<boolean>(false);
-  const [classSelectOptions, setClassSelectOptions] = React.useState<
-    SelectProps["options"]
-  >([]);
-  const firstClass = ClassNames.MAGICUSER;
+  const {
+    classSelector,
+    setClassSelector,
+    customClassInput,
+    setCustomClassInput,
+    firstClass,
+    secondClass,
+    setSecondClass,
+    startingSpells,
+    setStartingSpells,
+    supplementalContentSwitch,
+    setSupplementalContentSwitch,
+    classSelectOptions,
+    setClassSelectOptions,
+    adjustHitDice,
+  } = useStepClass(character);
 
   const handleCustomClassInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -56,13 +60,18 @@ const StepClass: React.FC<
   React.useEffect(() => {
     setStartingSpells([]);
     if (classSelector !== "custom" && classSelector !== "") {
+      let newHitDie = classes[classSelector as ClassNames]?.hitDice;
+      const raceSetup = races[character.race as RaceNames];
+      if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
+        newHitDie = adjustHitDice(newHitDie, raceSetup);
+      }
       setCharacter({
         ...character,
         class: [classSelector],
         spells: [],
         hp: {
           ...character.hp,
-          dice: classes[classSelector as ClassNames]?.hitDice,
+          dice: newHitDie,
         },
       });
     }
@@ -77,6 +86,11 @@ const StepClass: React.FC<
     } else {
       newHP = classes[character.class[0] as ClassNames]?.hitDice;
     }
+    const raceSetup = races[character.race as RaceNames];
+    if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
+      newHP = adjustHitDice(newHP, raceSetup);
+    }
+
     setCharacter({
       ...character,
       hp: { ...character.hp, dice: newHP },
@@ -126,6 +140,7 @@ const StepClass: React.FC<
       !supplementalContentSwitch,
     );
     setClassSelectOptions(options);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supplementalContentSwitch, character]);
 
   return (
