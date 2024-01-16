@@ -16,7 +16,7 @@ import {
   getClassSelectOptions,
   getClassType,
 } from "@/support/classSupport";
-import { CharData, ClassNames, Spell } from "@/data/definitions";
+import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
 import { useMarkdown } from "@/hooks/useMarkdown";
 import { getSpellFromName, getSpellsAtLevel } from "@/support/spellSupport";
@@ -24,6 +24,7 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
 import WRaceClassDescription from "./WRaceClassDescription/WRaceClassDescription";
+import { races } from "@/data/races";
 
 interface StepClassProps {
   character: CharData;
@@ -76,6 +77,9 @@ const StepClass: React.FC<
   const [combinationClass, setCombinationClass] = React.useState<boolean>(
     classSplit(character.class).length === 2 ? true : false,
   );
+  const [combinationClassOptions, setCombinationClassOptions] = React.useState<
+    [SelectProps["options"], SelectProps["options"]] | []
+  >([]);
   // VARS
   const classDescription = useMarkdown(
     `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
@@ -98,6 +102,7 @@ const StepClass: React.FC<
   };
   const onSupplementalContentChange = (checked: boolean) => {
     setSupplementalContent(checked);
+    setCombinationClass(false);
   };
   const onStartingSpellChange = (value: string) => {
     const readMagicSpell = getSpellFromName("Read Magic");
@@ -114,6 +119,36 @@ const StepClass: React.FC<
     setCustomClass(undefined);
     setSupplementalContent(false);
     setStandardClass(undefined);
+    if (checked) {
+      setCombinationClassOptions(
+        getComboClasses(
+          races[character.race as RaceNames]?.allowedCombinationClasses ?? [],
+        ),
+      );
+    }
+  };
+  // FUNCTIONS
+  const getComboClasses = (
+    comboList: ClassNames[],
+  ): [SelectProps["options"], SelectProps["options"]] => {
+    return comboList.reduce<[SelectProps["options"], SelectProps["options"]]>(
+      (
+        [firstCombo, secondCombo]: [
+          SelectProps["options"],
+          SelectProps["options"],
+        ],
+        item,
+      ) => {
+        const option = { label: item, value: item };
+        if (item === ClassNames.MAGICUSER) {
+          firstCombo!.push(option);
+        } else {
+          secondCombo!.push(option);
+        }
+        return [firstCombo, secondCombo];
+      },
+      [[], []],
+    );
   };
 
   // TODO: Many of these useEffects can be handled in their respective handlers ^^^ (see onCombinationClassChange)
@@ -205,8 +240,14 @@ const StepClass: React.FC<
         />
       ) : (
         <Flex gap={16} vertical>
-          <Select placeholder="Choose the first combination class" />
-          <Select placeholder="Choose the second combination class" />
+          <Select
+            placeholder="Choose the first combination class"
+            options={combinationClassOptions[0]}
+          />
+          <Select
+            placeholder="Choose the second combination class"
+            options={combinationClassOptions[1]}
+          />
         </Flex>
       )}
       {classArr[0] === "Custom" && (
@@ -238,12 +279,7 @@ const StepClass: React.FC<
                 }
                 className="shadow-md"
               >
-                <Flex
-                  gap={16}
-                  align="flex-start"
-                  vertical={isMobile}
-                  // className={descriptionClassNames}
-                >
+                <Flex gap={16} align="flex-start" vertical={isMobile}>
                   <Image src={spellImage} className="w-40" preview={false} />
                   <div>
                     <Descriptions
