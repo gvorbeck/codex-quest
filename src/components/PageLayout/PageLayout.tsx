@@ -1,5 +1,4 @@
 import { Alert, Flex, FloatButton, Layout } from "antd";
-import { Alert, Flex, FloatButton, Layout } from "antd";
 import React from "react";
 import PageHeader from "./PageHeader/PageHeader";
 import PageFooter from "./PageFooter/PageFooter";
