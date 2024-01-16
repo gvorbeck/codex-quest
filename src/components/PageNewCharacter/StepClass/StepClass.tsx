@@ -80,6 +80,20 @@ const StepClass: React.FC<
   const [combinationClassOptions, setCombinationClassOptions] = React.useState<
     [SelectProps["options"], SelectProps["options"]] | []
   >([]);
+  const [firstCombinationClass, setFirstCombinationClass] = React.useState<
+    ClassNames | undefined
+  >(
+    classSplit(character.class).length === 2
+      ? (classSplit(character.class)[0] as ClassNames)
+      : undefined,
+  );
+  const [secondCombinationClass, setSecondCombinationClass] = React.useState<
+    ClassNames | undefined
+  >(
+    classSplit(character.class).length === 2
+      ? (classSplit(character.class)[1] as ClassNames)
+      : undefined,
+  );
   // VARS
   const classDescription = useMarkdown(
     `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
@@ -243,10 +257,12 @@ const StepClass: React.FC<
           <Select
             placeholder="Choose the first combination class"
             options={combinationClassOptions[0]}
+            value={firstCombinationClass}
           />
           <Select
             placeholder="Choose the second combination class"
             options={combinationClassOptions[1]}
+            value={secondCombinationClass}
           />
         </Flex>
       )}
