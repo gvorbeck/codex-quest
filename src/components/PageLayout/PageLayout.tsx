@@ -1,4 +1,5 @@
 import { Alert, Flex, FloatButton, Layout } from "antd";
+import { Alert, Flex, FloatButton, Layout } from "antd";
 import React from "react";
 import PageHeader from "./PageHeader/PageHeader";
 import PageFooter from "./PageFooter/PageFooter";
@@ -28,9 +29,19 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
       </Layout.Header>
       <Alert
         banner
-        message="Welcome to v2.0! If you see something isn't working, comment HERE, create an issue, or make a PR in my github."
-        type="success"
-        className="hidden"
+        message={
+          <span>
+            Welcome to v2.0! If you see something isn't working, comment{" "}
+            <a
+              target="_blank"
+              href="https://github.com/gvorbeck/codex-quest/issues/216"
+            >
+              HERE
+            </a>
+            , create an issue, or make a Pull Request in my GitHub.
+          </span>
+        }
+        type="info"
       />
       <Layout.Content className={layoutContentClassName}>
         <Flex vertical gap={16}>
