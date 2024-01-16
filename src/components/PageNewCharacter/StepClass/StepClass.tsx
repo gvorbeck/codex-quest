@@ -1,7 +1,8 @@
 import {
   Card,
+  Descriptions,
   Flex,
-  Input,
+  Image,
   Select,
   SelectProps,
   Switch,
@@ -14,12 +15,13 @@ import {
   getClassSelectOptions,
   getClassType,
 } from "@/support/classSupport";
-import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
+import { CharData, ClassNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
-import { races } from "@/data/races";
-import { set } from "firebase/database";
 import { useMarkdown } from "@/hooks/useMarkdown";
-import { getSpellsAtLevel } from "@/support/spellSupport";
+import { getSpellFromName, getSpellsAtLevel } from "@/support/spellSupport";
+import { useDeviceType } from "@/hooks/useDeviceType";
+import { useImages } from "@/hooks/useImages";
+import { toSlugCase } from "@/support/stringSupport";
 
 interface StepClassProps {
   character: CharData;
@@ -39,6 +41,7 @@ const StepClass: React.FC<
   comboClassSwitch,
   setComboClassSwitch,
 }) => {
+  const { isMobile } = useDeviceType();
   // STATE
   const [standardClass, setStandardClass] = React.useState<string | undefined>(
     getClassType(character.class) === "standard"
@@ -71,6 +74,11 @@ const StepClass: React.FC<
   const spellSelectOptions: SelectProps["options"] = levelOneSpells
     .map((spell: Spell) => ({ value: spell.name, label: spell.name }))
     .sort((a, b) => a.label.localeCompare(b.label));
+  const descriptionMarkdown = useMarkdown(
+    startingSpells?.[1].description ?? "",
+  );
+  const { getSpellImage } = useImages();
+  const spellImage = getSpellImage(toSlugCase(startingSpells?.[1].name || ""));
   // HANDLERS
   const onStandardClassChange = (value: string) => {
     setStandardClass(value);
@@ -79,9 +87,16 @@ const StepClass: React.FC<
   const onSupplementalContentChange = (checked: boolean) => {
     setSupplementalContent(checked);
   };
+  const onStartingSpellChange = (value: string) => {
+    const readMagicSpell = getSpellFromName("Read Magic");
+    const selectedSpell = getSpellFromName(value);
+    const spells = [readMagicSpell, selectedSpell].filter(Boolean) as Spell[];
+    setStartingSpells(spells);
+  };
 
   React.useEffect(() => {
     console.log("standardClass changed", standardClass);
+    setStartingSpells(undefined);
     if (standardClass) {
       setClassArr([standardClass]);
     } else {
@@ -93,17 +108,17 @@ const StepClass: React.FC<
     console.log("supplementalContent changed", supplementalContent);
     setClassArr([]);
     setStandardClass(undefined);
+    setStartingSpells(undefined);
   }, [supplementalContent]);
 
   React.useEffect(() => {
     console.log("classArr changed", classArr);
     if (classArr.length) {
       setHasMagicCharacterClass(
-        classArr.some(
-          (className) =>
-            classes[className as ClassNames]?.spellBudget?.[
-              character.level - 1
-            ].some((spellBudget) => spellBudget > 0),
+        classArr.some((className) =>
+          classes[className as ClassNames]?.spellBudget?.[
+            character.level - 1
+          ].some((spellBudget) => spellBudget > 0),
         ),
       );
     } else {
@@ -124,10 +139,17 @@ const StepClass: React.FC<
     }
   }, [hasMagicCharacterClass]);
 
+  console.log(character);
   return (
     <Flex gap={16} vertical>
       <div>classArr: {...classArr}</div> {/* TODO: delete */}
       <div>magicCharacter: {hasMagicCharacterClass ? "true" : "false"}</div>
+      <div>
+        spells:{" "}
+        {startingSpells
+          ? startingSpells.map((spell) => spell.name).join(", ")
+          : ""}
+      </div>
       {/* TODO: delete */}
       <Flex gap={16}>
         <Flex gap={8}>
@@ -160,7 +182,52 @@ const StepClass: React.FC<
             <Typography.Text className="[&_p]:m-0">
               <div dangerouslySetInnerHTML={{ __html: classDescription }} />
             </Typography.Text>
-            <Select options={spellSelectOptions} value={startingSpells?.[0]} />
+            <Select
+              options={spellSelectOptions}
+              value={startingSpells?.[0].name}
+              onChange={onStartingSpellChange}
+            />
+            {!!startingSpells?.length && (
+              <Card
+                title={
+                  <span className="font-enchant text-3xl tracking-wide">
+                    {startingSpells[1].name}
+                  </span>
+                }
+                className="shadow-md"
+              >
+                <Flex
+                  gap={16}
+                  align="flex-start"
+                  vertical={isMobile}
+                  // className={descriptionClassNames}
+                >
+                  <Image src={spellImage} className="w-40" preview={false} />
+                  <div>
+                    <Descriptions
+                      items={[
+                        {
+                          key: "1",
+                          label: "Range",
+                          children: startingSpells[1].range,
+                        },
+                        {
+                          key: "2",
+                          label: "Duration",
+                          children: startingSpells[1].duration,
+                        },
+                      ]}
+                    />
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: descriptionMarkdown,
+                      }}
+                      className="text-justify"
+                    />
+                  </div>
+                </Flex>
+              </Card>
+            )}
           </Flex>
         </Card>
       )}
