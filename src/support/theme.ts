@@ -29,7 +29,7 @@ export const cqTheme = {
   },
   components: {
     Alert: {
-      colorInfoBg: ColorScheme.SPRINGWOOD,
+      colorInfoBg: darkenHexColor(ColorScheme.SPRINGWOOD, 15),
     },
     Badge: {
       colorBgContainer: ColorScheme.SPRINGWOOD,
