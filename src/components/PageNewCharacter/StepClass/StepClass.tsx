@@ -1,4 +1,12 @@
-import { Flex, Input, Select, Switch, Typography } from "antd";
+import {
+  Card,
+  Flex,
+  Input,
+  Select,
+  SelectProps,
+  Switch,
+  Typography,
+} from "antd";
 import React from "react";
 import {
   baseClasses,
@@ -6,9 +14,12 @@ import {
   getClassSelectOptions,
   getClassType,
 } from "@/support/classSupport";
-import { CharData, ClassNames, RaceNames } from "@/data/definitions";
+import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
 import { races } from "@/data/races";
+import { set } from "firebase/database";
+import { useMarkdown } from "@/hooks/useMarkdown";
+import { getSpellsAtLevel } from "@/support/spellSupport";
 
 interface StepClassProps {
   character: CharData;
@@ -28,384 +39,133 @@ const StepClass: React.FC<
   comboClassSwitch,
   setComboClassSwitch,
 }) => {
-  const selectClassNames = "w-full";
-  const defaultStandardClassSelectValue = "Choose a class";
-  const defaultCustomClassInputPlaceholder = "Enter a custom class";
-  const firstComboClassOptions =
-    races[character.race as RaceNames]?.allowedCombinationClasses
-      ?.filter((className) => className === ClassNames.MAGICUSER)
-      .map((className) => ({
-        value: className,
-        label: className,
-      })) || [];
-  const secondComboClassOptions =
-    races[character.race as RaceNames]?.allowedCombinationClasses
-      ?.filter((className) => className !== ClassNames.MAGICUSER)
-      .map((className) => ({
-        value: className,
-        label: className,
-      })) || [];
-  const findCharacterStandardClass = (character: CharData) => {
-    if (
-      character.class.length &&
-      getClassType(character.class) === "standard"
-    ) {
-      return classSplit(character.class)[0] as ClassNames;
-    }
-    return undefined;
-  };
-  const findCharacterIsMagical = (classNames: string[]) => {
-    const classType = getClassType(classNames);
-    console.log("wiow2", classType);
-    if (classType === "custom" || classType === "combination") {
-      return true;
-    } else {
-      const classArr = classSplit(character.class) ?? [];
-      if (
-        classes[classArr[0] as ClassNames]?.spellBudget?.[
-          character.level - 1
-        ].some((number) => number > 0)
-      ) {
-        return true;
-      }
-    }
-    return false;
-  };
-  const onSupplementalContentSwitchChange = (checked: boolean) => {
-    setSupplementalContentSwitch(checked);
-  };
-  const onCombinationClassSwitchChange = (checked: boolean) => {
-    setComboClassSwitch(checked);
-  };
-  const onStandardClassSelectChange = (value: string) => {
-    setStandardClassSelector(value as ClassNames);
-  };
-  const onCustomClassInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCustomClassInput(e.target.value);
-  };
-  const onFirstComboClassSelectChange = (value: string) => {
-    setFirstComboClass(value as ClassNames);
-  };
-  const onSecondComboClassSelectChange = (value: string) => {
-    setSecondComboClass(value as ClassNames);
-  };
-  // STATE start
-  const [customClassInput, setCustomClassInput] = React.useState<
-    string | undefined
-  >();
-  const [isMagicCharacter, setIsMagicCharacter] = React.useState<boolean>(
-    findCharacterIsMagical(character.class),
+  // STATE
+  const [standardClass, setStandardClass] = React.useState<string | undefined>(
+    getClassType(character.class) === "standard"
+      ? classSplit(character.class)[0]
+      : undefined,
   );
-  // If a character has a class, and it is 'standard' (and therefore not custom), then it is the value here.
-  const [standardClassSelector, setStandardClassSelector] = React.useState<
-    string | undefined
-  >(findCharacterStandardClass(character));
-  // If a user has a class, it is 'standard', and is not part of the base classes, then it is using supplemental content.
-  const [supplementalContentSwitch, setSupplementalContentSwitch] =
+  const [classArr, setClassArr] = React.useState<string[]>(
+    classSplit(character.class) ?? [],
+  );
+  const [supplementalContent, setSupplementalContent] = React.useState<boolean>(
+    classSplit(character.class).some(
+      (className) => !baseClasses.includes(className as ClassNames),
+    ),
+  );
+  const [hasMagicCharacterClass, setHasMagicCharacterClass] =
     React.useState<boolean>(
-      getClassType(character.class) === "standard" &&
-        !baseClasses.includes(character.class[0] as ClassNames),
+      classSplit(character.class).some(
+        (className) =>
+          classes[className as ClassNames]?.spellBudget?.[character.level - 1],
+      ),
     );
-  // If a user has selected the 'custom' option from the standard class select
-  const [usingCustomClass, setUsingCustomClass] = React.useState<boolean>(
-    getClassType(character.class) === "custom",
+  const [magicCharacterClass, setMagicCharacterClass] =
+    React.useState<string>();
+  const [startingSpells, setStartingSpells] = React.useState<Spell[]>();
+  // VARS
+  const classDescription = useMarkdown(
+    `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
   );
-  const [firstComboClass, setFirstComboClass] = React.useState<
-    ClassNames | undefined
-  >(
-    getClassType(character.class) === "combination"
-      ? (classSplit(character.class)[0] as ClassNames)
-      : undefined,
-  );
-  const [secondComboClass, setSecondComboClass] = React.useState<
-    ClassNames | undefined
-  >(
-    getClassType(character.class) === "combination"
-      ? (classSplit(character.class)[1] as ClassNames)
-      : undefined,
-  );
-  const [classSelections, setClassSelections] = React.useState<string[]>([]);
-  // STATE end
+  const levelOneSpells = getSpellsAtLevel(classArr, character.level);
+  const spellSelectOptions: SelectProps["options"] = levelOneSpells
+    .map((spell: Spell) => ({ value: spell.name, label: spell.name }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+  // HANDLERS
+  const onStandardClassChange = (value: string) => {
+    setStandardClass(value);
+    setClassArr([value]);
+  };
+  const onSupplementalContentChange = (checked: boolean) => {
+    setSupplementalContent(checked);
+  };
 
   React.useEffect(() => {
-    // console.log("combination class switch changed", comboClassSwitch);
-    setStandardClassSelector(undefined);
-    setUsingCustomClass(false);
-    setCustomClassInput(undefined);
-    setFirstComboClass(undefined);
-    setSecondComboClass(undefined);
-    setClassSelections([]);
-  }, [comboClassSwitch]);
-
-  React.useEffect(() => {
-    // console.log(
-    //   "supplemental content switch changed",
-    //   supplementalContentSwitch,
-    // );
-    setStandardClassSelector(undefined);
-    setFirstComboClass(undefined);
-    setSecondComboClass(undefined);
-    setClassSelections([]);
-  }, [supplementalContentSwitch]);
-
-  React.useEffect(() => {
-    // console.log("standard class selector changed", standardClassSelector);
-    if (standardClassSelector === "Custom") {
-      setUsingCustomClass(true);
+    console.log("standardClass changed", standardClass);
+    if (standardClass) {
+      setClassArr([standardClass]);
     } else {
-      setUsingCustomClass(false);
+      setClassArr([]);
     }
-  }, [standardClassSelector]);
+  }, [standardClass]);
 
   React.useEffect(() => {
-    // console.log("==a value has been selected, somewhere");
-    if (standardClassSelector === "Custom") {
-      // console.log("==custom class selected");
-      setClassSelections([customClassInput || ""]);
-      // spell selector enabled
-      // default class selection description
-    } else if (standardClassSelector !== undefined) {
-      // console.log("==standard class selected");
-      setClassSelections([standardClassSelector]);
-      setCustomClassInput(undefined);
-    } else if (firstComboClass && secondComboClass) {
-      // console.log("==combination class selected");
-      setClassSelections([firstComboClass, secondComboClass]);
-    }
-  }, [
-    standardClassSelector,
-    firstComboClass,
-    secondComboClass,
-    customClassInput,
-  ]);
+    console.log("supplementalContent changed", supplementalContent);
+    setClassArr([]);
+    setStandardClass(undefined);
+  }, [supplementalContent]);
 
   React.useEffect(() => {
-    console.log("wow", findCharacterIsMagical(classSelections));
-    setIsMagicCharacter(findCharacterIsMagical(classSelections));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [classSelections]);
+    console.log("classArr changed", classArr);
+    if (classArr.length) {
+      setHasMagicCharacterClass(
+        classArr.some(
+          (className) =>
+            classes[className as ClassNames]?.spellBudget?.[
+              character.level - 1
+            ].some((spellBudget) => spellBudget > 0),
+        ),
+      );
+    } else {
+      setHasMagicCharacterClass(false);
+    }
+  }, [classArr]);
 
-  React.useEffect(
-    () => console.log("cklass selections changed", classSelections),
-    [isMagicCharacter],
-  );
+  React.useEffect(() => {
+    console.log("hasMagicCharacterClass changed", hasMagicCharacterClass);
+    if (hasMagicCharacterClass) {
+      setMagicCharacterClass(
+        classArr.find(
+          (className) => classes[className as ClassNames]?.spellBudget,
+        ),
+      );
+    } else {
+      setMagicCharacterClass(undefined);
+    }
+  }, [hasMagicCharacterClass]);
 
   return (
-    <Flex gap={16} vertical className={className}>
-      <div>class selections: {...classSelections}</div>
+    <Flex gap={16} vertical>
+      <div>classArr: {...classArr}</div> {/* TODO: delete */}
+      <div>magicCharacter: {hasMagicCharacterClass ? "true" : "false"}</div>
+      {/* TODO: delete */}
       <Flex gap={16}>
         <Flex gap={8}>
-          <Typography.Text>Enable SupplementalContent</Typography.Text>
+          <Typography.Text>Enable Supplemental Content</Typography.Text>
           <Switch
-            checked={supplementalContentSwitch}
-            onChange={onSupplementalContentSwitchChange}
+            checked={supplementalContent}
+            onChange={onSupplementalContentChange}
           />
         </Flex>
-        {comboClass && (
-          <Flex gap={8}>
-            <Typography.Text>Use Combination Class</Typography.Text>
-            <Switch
-              checked={comboClassSwitch}
-              onChange={onCombinationClassSwitchChange}
-            />
-          </Flex>
-        )}
+        <Flex gap={8}>
+          <Typography.Text>Use Combination Class</Typography.Text>
+          <Switch />
+        </Flex>
       </Flex>
-      <Flex gap={16} vertical>
-        {!comboClassSwitch ? (
-          <Select
-            className={selectClassNames}
-            placeholder={defaultStandardClassSelectValue}
-            onChange={onStandardClassSelectChange}
-            options={getClassSelectOptions(
-              character,
-              !supplementalContentSwitch,
-            )}
-            value={standardClassSelector}
-          />
-        ) : (
-          <Flex gap={16} vertical>
-            <Select
-              className={selectClassNames}
-              value={firstComboClass}
-              placeholder="Choose a first class"
-              options={firstComboClassOptions}
-              onChange={onFirstComboClassSelectChange}
-            />
-            <Select
-              className={selectClassNames}
-              value={secondComboClass}
-              placeholder="Choose a second class"
-              options={secondComboClassOptions}
-              onChange={onSecondComboClassSelectChange}
-            />
+      <Select
+        options={getClassSelectOptions(character)}
+        value={standardClass}
+        onChange={onStandardClassChange}
+        placeholder="Select a class"
+      />
+      {hasMagicCharacterClass && (
+        <Card
+          title={
+            <span className="font-enchant text-3xl tracking-wide">
+              Choose a spell
+            </span>
+          }
+        >
+          <Flex vertical gap={16}>
+            <Typography.Text className="[&_p]:m-0">
+              <div dangerouslySetInnerHTML={{ __html: classDescription }} />
+            </Typography.Text>
+            <Select options={spellSelectOptions} value={startingSpells?.[0]} />
           </Flex>
-        )}
-        {usingCustomClass && (
-          <Input
-            placeholder={defaultCustomClassInputPlaceholder}
-            value={customClassInput}
-            onChange={onCustomClassInputChange}
-          />
-        )}
-        {isMagicCharacter && <div>spell select/description</div>}
-        {/* {hasClassSelections && <div>class selections</div>} */}
-      </Flex>
+        </Card>
+      )}
     </Flex>
   );
 };
 
 export default StepClass;
-
-// const handleCustomClassInputChange = (
-//   e: React.ChangeEvent<HTMLInputElement>,
-// ) => {
-//   setCustomClassInput(e.target.value);
-//   setCharacter({ ...character, class: [e.target.value] });
-// };
-// const handleSelectChange = (value: string) => {
-//   setClassSelector(value);
-// };
-
-// React.useEffect(() => {
-//   setStartingSpells([]);
-//   if (classSelector !== "custom" && classSelector !== "") {
-//     let newHitDie = classes[classSelector as ClassNames]?.hitDice;
-//     const raceSetup = races[character.race as RaceNames];
-//     if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
-//       newHitDie = adjustHitDice(newHitDie, raceSetup);
-//     }
-//     setCharacter({
-//       ...character,
-//       class: [classSelector],
-//       spells: [],
-//       hp: {
-//         ...character.hp,
-//         dice: newHitDie,
-//       },
-//     });
-//   }
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [classSelector]);
-
-// React.useEffect(() => {
-//   let newHP = "0";
-//   if (character.class.length > 1) {
-//     if (character.class.includes(ClassNames.FIGHTER)) newHP = DiceTypes.D6;
-//     if (character.class.includes(ClassNames.THIEF)) newHP = DiceTypes.D4;
-//   } else {
-//     newHP = classes[character.class[0] as ClassNames]?.hitDice;
-//   }
-//   const raceSetup = races[character.race as RaceNames];
-//   if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
-//     newHP = adjustHitDice(newHP, raceSetup);
-//   }
-
-//   setCharacter({
-//     ...character,
-//     hp: { ...character.hp, dice: newHP },
-//   });
-//   if (firstClass && !secondClass) {
-//     comboClassSwitch
-//       ? setCharacter({ ...character, class: [firstClass] })
-//       : setCharacter({ ...character, class: [] });
-//   }
-//   if (secondClass && !firstClass)
-//     setCharacter({ ...character, class: [secondClass] });
-//   if (secondClass && firstClass)
-//     setCharacter({ ...character, class: [firstClass, secondClass] });
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [secondClass]);
-
-// React.useEffect(() => {
-//   const newSpells = spellsData.filter(
-//     (spell) =>
-//       startingSpells.includes(spell.name) || spell.name === "Read Magic",
-//   );
-//   setCharacter({
-//     ...character,
-//     spells: newSpells,
-//   });
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [startingSpells]);
-
-// React.useEffect(() => {
-//   console.info(comboClassSwitch);
-//   if (!comboClassSwitch) {
-//     // uncommenting this code removes your class selection upon returning to this step.
-//     // setClassSelector("");
-//     // setSecondClass(undefined);
-//     // setCharacter({
-//     //   ...character,
-//     //   class: [],
-//     //   spells: [],
-//     // });
-//   }
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [comboClassSwitch]);
-
-// React.useEffect(() => {
-//   const options = getClassSelectOptions(
-//     character,
-//     !supplementalContentSwitch,
-//   );
-//   setClassSelectOptions(options);
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [supplementalContentSwitch, character]);
-
-// return (
-//   <Flex vertical gap={16} className={className}>
-//     <Options
-//       comboClass={comboClass}
-//       comboClassSwitch={comboClassSwitch}
-//       setComboClassSwitch={setComboClassSwitch}
-//       setSupplementalContentSwitch={setSupplementalContentSwitch}
-//       supplementalContentSwitch={supplementalContentSwitch}
-//     />
-//     {comboClass && comboClassSwitch ? (
-//       <ComboClassOptions
-//         character={character}
-//         setCharacter={setCharacter}
-//         firstClass={firstClass}
-//         secondClass={secondClass}
-//         setSecondClass={setSecondClass}
-//       />
-//     ) : (
-//       <RaceClassSelector
-//         customInput={customClassInput}
-//         handleCustomInputChange={handleCustomClassInputChange}
-//         handleSelectChange={handleSelectChange}
-//         selectOptions={classSelectOptions}
-//         selector={classSelector}
-//         type="class"
-//       />
-//     )}
-//     {character.class
-//       .filter(
-//         (className) =>
-//           !!classes[className as ClassNames]?.spellBudget?.[0][0],
-//       )
-//       .map((className) => (
-//         <SpellOptions
-//           key={className}
-//           character={character}
-//           characterClass={className}
-//           startingSpells={startingSpells}
-//           setStartingSpells={setStartingSpells}
-//         />
-//       ))}
-//     {!character.class.includes("Custom") &&
-//       !!character.class.length &&
-//       character.class.map(
-//         (className) =>
-//           classes[className as ClassNames] && (
-//             <RaceClassDescription
-//               key={className}
-//               name={className}
-//               description={`${classes[className as ClassNames]?.details
-//                 ?.description}`}
-//             />
-//           ),
-//       )}
-//   </Flex>
-// );

@@ -24,9 +24,13 @@ export const getSelectedSpellsByLevel = (
 };
 
 // Get all the spells available to a Character at a given level
-export const getSpellsAtLevel = (character: CharData, level?: number) => {
-  const characterClass = classSplit(character?.class || []);
-  const characterLevel = character?.level || 1;
+export const getSpellsAtLevel = (
+  classNames: string[],
+  charLevel: number,
+  level?: number,
+) => {
+  const characterClass = classSplit(classNames || []);
+  const characterLevel = charLevel || 1;
   const filteredSpells: Spell[] = [];
   characterClass.forEach((className) => {
     filteredSpells.push(
