@@ -3,12 +3,13 @@ import {
   Descriptions,
   Flex,
   Image,
+  Input,
   Select,
   SelectProps,
   Switch,
   Typography,
 } from "antd";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import {
   baseClasses,
   classSplit,
@@ -22,6 +23,7 @@ import { getSpellFromName, getSpellsAtLevel } from "@/support/spellSupport";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
+import WRaceClassDescription from "./WRaceClassDescription/WRaceClassDescription";
 
 interface StepClassProps {
   character: CharData;
@@ -66,6 +68,7 @@ const StepClass: React.FC<
   const [magicCharacterClass, setMagicCharacterClass] =
     React.useState<string>();
   const [startingSpells, setStartingSpells] = React.useState<Spell[]>();
+  const [customClass, setCustomClass] = React.useState<string>();
   // VARS
   const classDescription = useMarkdown(
     `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
@@ -74,11 +77,13 @@ const StepClass: React.FC<
   const spellSelectOptions: SelectProps["options"] = levelOneSpells
     .map((spell: Spell) => ({ value: spell.name, label: spell.name }))
     .sort((a, b) => a.label.localeCompare(b.label));
-  const descriptionMarkdown = useMarkdown(
+  const spellDescriptionMarkdown = useMarkdown(
     startingSpells?.[1].description ?? "",
   );
-  const { getSpellImage } = useImages();
+  const { getSpellImage, getRaceClassImage } = useImages();
   const spellImage = getSpellImage(toSlugCase(startingSpells?.[1].name || ""));
+  const classImage = (className: ClassNames) =>
+    getRaceClassImage(toSlugCase(className));
   // HANDLERS
   const onStandardClassChange = (value: string) => {
     setStandardClass(value);
@@ -93,10 +98,14 @@ const StepClass: React.FC<
     const spells = [readMagicSpell, selectedSpell].filter(Boolean) as Spell[];
     setStartingSpells(spells);
   };
+  const onCustomClassChange = (value: ChangeEvent<HTMLInputElement>) => {
+    setCustomClass(value.target.value);
+  };
 
   React.useEffect(() => {
     console.log("standardClass changed", standardClass);
     setStartingSpells(undefined);
+    setCustomClass(undefined);
     if (standardClass) {
       setClassArr([standardClass]);
     } else {
@@ -109,6 +118,7 @@ const StepClass: React.FC<
     setClassArr([]);
     setStandardClass(undefined);
     setStartingSpells(undefined);
+    setCustomClass(undefined);
   }, [supplementalContent]);
 
   React.useEffect(() => {
@@ -150,7 +160,7 @@ const StepClass: React.FC<
           ? startingSpells.map((spell) => spell.name).join(", ")
           : ""}
       </div>
-      {/* TODO: delete */}
+      {/* TODO: delete above */}
       <Flex gap={16}>
         <Flex gap={8}>
           <Typography.Text>Enable Supplemental Content</Typography.Text>
@@ -165,11 +175,18 @@ const StepClass: React.FC<
         </Flex>
       </Flex>
       <Select
-        options={getClassSelectOptions(character)}
+        options={
+          supplementalContent
+            ? getClassSelectOptions(character, false)
+            : getClassSelectOptions(character)
+        }
         value={standardClass}
         onChange={onStandardClassChange}
         placeholder="Select a class"
       />
+      {classArr[0] === "Custom" && (
+        <Input value={customClass} onChange={(e) => onCustomClassChange(e)} />
+      )}
       {hasMagicCharacterClass && (
         <Card
           title={
@@ -220,7 +237,7 @@ const StepClass: React.FC<
                     />
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: descriptionMarkdown,
+                        __html: spellDescriptionMarkdown,
                       }}
                       className="text-justify"
                     />
@@ -231,6 +248,14 @@ const StepClass: React.FC<
           </Flex>
         </Card>
       )}
+      {!!classArr.length &&
+        classArr[0] !== "Custom" &&
+        classArr.map((className) => (
+          <WRaceClassDescription
+            subject={className === "Custom" ? "doog" : className}
+            image={classImage(className as ClassNames)}
+          />
+        ))}
     </Flex>
   );
 };
