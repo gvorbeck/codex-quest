@@ -54,8 +54,9 @@ const StepClass: React.FC<
     }
     return undefined;
   };
-  const findCharacterIsMagical = (character: CharData) => {
-    const classType = getClassType(character.class);
+  const findCharacterIsMagical = (classNames: string[]) => {
+    const classType = getClassType(classNames);
+    console.log("wiow2", classType);
     if (classType === "custom" || classType === "combination") {
       return true;
     } else {
@@ -93,7 +94,7 @@ const StepClass: React.FC<
     string | undefined
   >();
   const [isMagicCharacter, setIsMagicCharacter] = React.useState<boolean>(
-    findCharacterIsMagical(character),
+    findCharacterIsMagical(character.class),
   );
   // If a character has a class, and it is 'standard' (and therefore not custom), then it is the value here.
   const [standardClassSelector, setStandardClassSelector] = React.useState<
@@ -166,6 +167,7 @@ const StepClass: React.FC<
     } else if (standardClassSelector !== undefined) {
       // console.log("==standard class selected");
       setClassSelections([standardClassSelector]);
+      setCustomClassInput(undefined);
     } else if (firstComboClass && secondComboClass) {
       // console.log("==combination class selected");
       setClassSelections([firstComboClass, secondComboClass]);
@@ -176,6 +178,17 @@ const StepClass: React.FC<
     secondComboClass,
     customClassInput,
   ]);
+
+  React.useEffect(() => {
+    console.log("wow", findCharacterIsMagical(classSelections));
+    setIsMagicCharacter(findCharacterIsMagical(classSelections));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [classSelections]);
+
+  React.useEffect(
+    () => console.log("cklass selections changed", classSelections),
+    [isMagicCharacter],
+  );
 
   return (
     <Flex gap={16} vertical className={className}>
