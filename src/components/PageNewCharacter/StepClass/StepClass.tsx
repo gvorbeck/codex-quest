@@ -67,8 +67,15 @@ const StepClass: React.FC<
     );
   const [magicCharacterClass, setMagicCharacterClass] =
     React.useState<string>();
-  const [startingSpells, setStartingSpells] = React.useState<Spell[]>();
-  const [customClass, setCustomClass] = React.useState<string>();
+  const [startingSpells, setStartingSpells] = React.useState<Spell[]>([
+    character.spells?.filter((spell) => spell.name !== "Read Magic")[0] || [],
+  ]);
+  const [customClass, setCustomClass] = React.useState<string | undefined>(
+    getClassType(character.class) === "custom" ? character.class[0] : undefined,
+  );
+  const [combinationClass, setCombinationClass] = React.useState<boolean>(
+    classSplit(character.class).length === 2 ? true : false,
+  );
   // VARS
   const classDescription = useMarkdown(
     `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
@@ -78,10 +85,10 @@ const StepClass: React.FC<
     .map((spell: Spell) => ({ value: spell.name, label: spell.name }))
     .sort((a, b) => a.label.localeCompare(b.label));
   const spellDescriptionMarkdown = useMarkdown(
-    startingSpells?.[1].description ?? "",
+    startingSpells?.[1]?.description ?? "",
   );
   const { getSpellImage, getRaceClassImage } = useImages();
-  const spellImage = getSpellImage(toSlugCase(startingSpells?.[1].name || ""));
+  const spellImage = getSpellImage(toSlugCase(startingSpells?.[1]?.name || ""));
   const classImage = (className: ClassNames) =>
     getRaceClassImage(toSlugCase(className));
   // HANDLERS
@@ -101,10 +108,18 @@ const StepClass: React.FC<
   const onCustomClassChange = (value: ChangeEvent<HTMLInputElement>) => {
     setCustomClass(value.target.value);
   };
+  const onCombinationClassChange = (checked: boolean) => {
+    setCombinationClass(checked);
+    setClassArr([]);
+    setCustomClass(undefined);
+    setSupplementalContent(false);
+    setStandardClass(undefined);
+  };
 
+  // TODO: Many of these useEffects can be handled in their respective handlers ^^^ (see onCombinationClassChange)
   React.useEffect(() => {
     console.log("standardClass changed", standardClass);
-    setStartingSpells(undefined);
+    setStartingSpells([]);
     setCustomClass(undefined);
     if (standardClass) {
       setClassArr([standardClass]);
@@ -117,7 +132,7 @@ const StepClass: React.FC<
     console.log("supplementalContent changed", supplementalContent);
     setClassArr([]);
     setStandardClass(undefined);
-    setStartingSpells(undefined);
+    setStartingSpells([]);
     setCustomClass(undefined);
   }, [supplementalContent]);
 
@@ -171,19 +186,29 @@ const StepClass: React.FC<
         </Flex>
         <Flex gap={8}>
           <Typography.Text>Use Combination Class</Typography.Text>
-          <Switch />
+          <Switch
+            checked={combinationClass}
+            onChange={onCombinationClassChange}
+          />
         </Flex>
       </Flex>
-      <Select
-        options={
-          supplementalContent
-            ? getClassSelectOptions(character, false)
-            : getClassSelectOptions(character)
-        }
-        value={standardClass}
-        onChange={onStandardClassChange}
-        placeholder="Select a class"
-      />
+      {!combinationClass ? (
+        <Select
+          options={
+            supplementalContent
+              ? getClassSelectOptions(character, false)
+              : getClassSelectOptions(character)
+          }
+          value={standardClass}
+          onChange={onStandardClassChange}
+          placeholder="Select a class"
+        />
+      ) : (
+        <Flex gap={16} vertical>
+          <Select placeholder="Choose the first combination class" />
+          <Select placeholder="Choose the second combination class" />
+        </Flex>
+      )}
       {classArr[0] === "Custom" && (
         <Input value={customClass} onChange={(e) => onCustomClassChange(e)} />
       )}
@@ -201,7 +226,7 @@ const StepClass: React.FC<
             </Typography.Text>
             <Select
               options={spellSelectOptions}
-              value={startingSpells?.[0].name}
+              value={startingSpells?.[0]?.name}
               onChange={onStartingSpellChange}
             />
             {!!startingSpells?.length && (

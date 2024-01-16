@@ -1,4 +1,4 @@
-import { Flex, FloatButton, Layout } from "antd";
+import { Alert, Flex, FloatButton, Layout } from "antd";
 import React from "react";
 import PageHeader from "./PageHeader/PageHeader";
 import PageFooter from "./PageFooter/PageFooter";
@@ -26,6 +26,12 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
       <Layout.Header className="flex items-center">
         <PageHeader user={user} className={contentWidthClassName} />
       </Layout.Header>
+      <Alert
+        banner
+        message="Welcome to v2.0! If you see something isn't working, comment HERE, create an issue, or make a PR in my github."
+        type="success"
+        className="hidden"
+      />
       <Layout.Content className={layoutContentClassName}>
         <Flex vertical gap={16}>
           {isHomePage && (
