@@ -219,6 +219,7 @@ const StepClass: React.FC<
     setClassArr([]);
     setFirstCombinationClass(undefined);
     setSecondCombinationClass(undefined);
+    setCustomClass(undefined);
   }, [combinationClass]);
 
   console.log(character);
