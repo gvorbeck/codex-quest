@@ -80,20 +80,17 @@ const StepClass: React.FC<
   const [combinationClassOptions, setCombinationClassOptions] = React.useState<
     [SelectProps["options"], SelectProps["options"]] | []
   >([]);
-  const [firstCombinationClass, setFirstCombinationClass] = React.useState<
-    ClassNames | undefined
-  >(
+  const [firstCombinationClass, setFirstCombinationClass] = React.useState<any>(
     classSplit(character.class).length === 2
       ? (classSplit(character.class)[0] as ClassNames)
       : undefined,
   );
-  const [secondCombinationClass, setSecondCombinationClass] = React.useState<
-    ClassNames | undefined
-  >(
-    classSplit(character.class).length === 2
-      ? (classSplit(character.class)[1] as ClassNames)
-      : undefined,
-  );
+  const [secondCombinationClass, setSecondCombinationClass] =
+    React.useState<any>(
+      classSplit(character.class).length === 2
+        ? (classSplit(character.class)[1] as ClassNames)
+        : undefined,
+    );
   // VARS
   const classDescription = useMarkdown(
     `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
@@ -141,6 +138,10 @@ const StepClass: React.FC<
       );
     }
   };
+  const onFirstCombinationClassSelectChange = (value: string) =>
+    setFirstCombinationClass(value);
+  const onSecondCombinationClassSelectChange = (value: string) =>
+    setSecondCombinationClass(value);
   // FUNCTIONS
   const getComboClasses = (
     comboList: ClassNames[],
@@ -189,10 +190,11 @@ const StepClass: React.FC<
     console.log("classArr changed", classArr);
     if (classArr.length) {
       setHasMagicCharacterClass(
-        classArr.some((className) =>
-          classes[className as ClassNames]?.spellBudget?.[
-            character.level - 1
-          ].some((spellBudget) => spellBudget > 0),
+        classArr.some(
+          (className) =>
+            classes[className as ClassNames]?.spellBudget?.[
+              character.level - 1
+            ].some((spellBudget) => spellBudget > 0),
         ),
       );
     } else {
@@ -212,6 +214,12 @@ const StepClass: React.FC<
       setMagicCharacterClass(undefined);
     }
   }, [hasMagicCharacterClass]);
+
+  React.useEffect(() => {
+    setClassArr([]);
+    setFirstCombinationClass(undefined);
+    setSecondCombinationClass(undefined);
+  }, [combinationClass]);
 
   console.log(character);
   return (
@@ -233,13 +241,15 @@ const StepClass: React.FC<
             onChange={onSupplementalContentChange}
           />
         </Flex>
-        <Flex gap={8}>
-          <Typography.Text>Use Combination Class</Typography.Text>
-          <Switch
-            checked={combinationClass}
-            onChange={onCombinationClassChange}
-          />
-        </Flex>
+        {races[character.race as RaceNames]?.allowedCombinationClasses && (
+          <Flex gap={8}>
+            <Typography.Text>Use Combination Class</Typography.Text>
+            <Switch
+              checked={combinationClass}
+              onChange={onCombinationClassChange}
+            />
+          </Flex>
+        )}
       </Flex>
       {!combinationClass ? (
         <Select
@@ -258,11 +268,13 @@ const StepClass: React.FC<
             placeholder="Choose the first combination class"
             options={combinationClassOptions[0]}
             value={firstCombinationClass}
+            onChange={onFirstCombinationClassSelectChange}
           />
           <Select
             placeholder="Choose the second combination class"
             options={combinationClassOptions[1]}
             value={secondCombinationClass}
+            onChange={onSecondCombinationClassSelectChange}
           />
         </Flex>
       )}
