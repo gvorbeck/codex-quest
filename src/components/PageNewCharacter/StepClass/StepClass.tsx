@@ -190,11 +190,10 @@ const StepClass: React.FC<
     console.log("classArr changed", classArr);
     if (classArr.length) {
       setHasMagicCharacterClass(
-        classArr.some(
-          (className) =>
-            classes[className as ClassNames]?.spellBudget?.[
-              character.level - 1
-            ].some((spellBudget) => spellBudget > 0),
+        classArr.some((className) =>
+          classes[className as ClassNames]?.spellBudget?.[
+            character.level - 1
+          ].some((spellBudget) => spellBudget > 0),
         ),
       );
     } else {
@@ -221,6 +220,12 @@ const StepClass: React.FC<
     setSecondCombinationClass(undefined);
     setCustomClass(undefined);
   }, [combinationClass]);
+
+  React.useEffect(() => {
+    setClassArr(
+      [firstCombinationClass, secondCombinationClass].filter(Boolean),
+    );
+  }, [firstCombinationClass, secondCombinationClass]);
 
   console.log(character);
   return (
