@@ -8,6 +8,8 @@
 
 Repo for website [CODEX.QUEST](https://codex.quest)
 
+Backup URL: https://codex-quest.firebaseapp.com/
+
 ## Deploying
 
 Github Actions deploys the site when pushes are made to `main` branch.
