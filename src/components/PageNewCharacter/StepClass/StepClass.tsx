@@ -227,9 +227,8 @@ const StepClass: React.FC<
     );
   }, [firstCombinationClass, secondCombinationClass]);
 
-  console.log(character);
   return (
-    <Flex gap={16} vertical>
+    <Flex gap={16} vertical className={className}>
       <div>classArr: {...classArr}</div> {/* TODO: delete */}
       <div>magicCharacter: {hasMagicCharacterClass ? "true" : "false"}</div>
       <div>
