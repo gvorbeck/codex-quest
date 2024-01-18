@@ -114,6 +114,10 @@ const StepClass: React.FC<
   const onSupplementalContentChange = (checked: boolean) => {
     setSupplementalContent(checked);
     setCombinationClass(false);
+    setClassArr([]);
+    setStandardClass(undefined);
+    setStartingSpells([]);
+    setCustomClass(undefined);
   };
   const onStartingSpellChange = (value: string) => {
     const readMagicSpell = getSpellFromName("Read Magic");
@@ -130,6 +134,9 @@ const StepClass: React.FC<
     setCustomClass(undefined);
     setSupplementalContent(false);
     setStandardClass(undefined);
+    setStartingSpells([]);
+    setFirstCombinationClass(undefined);
+    setSecondCombinationClass(undefined);
     if (checked) {
       setCombinationClassOptions(
         getComboClasses(
@@ -168,7 +175,7 @@ const StepClass: React.FC<
 
   // TODO: Many of these useEffects can be handled in their respective handlers ^^^ (see onCombinationClassChange)
   React.useEffect(() => {
-    console.log("standardClass changed", standardClass);
+    // console.log("standardClass changed", standardClass);
     setStartingSpells([]);
     setCustomClass(undefined);
     if (standardClass) {
@@ -176,18 +183,40 @@ const StepClass: React.FC<
     } else {
       setClassArr([]);
     }
+    // Set a standard, non-magical character's class
+    // if (
+    //   standardClass &&
+    //   classArr.length &&
+    //   !combinationClass &&
+    //   !hasMagicCharacterClass
+    // ) {
+    //   updateCharacter();
+    // }
   }, [standardClass]);
 
-  React.useEffect(() => {
-    console.log("supplementalContent changed", supplementalContent);
-    setClassArr([]);
-    setStandardClass(undefined);
-    setStartingSpells([]);
-    setCustomClass(undefined);
-  }, [supplementalContent]);
+  // React.useEffect(() => {
+  // // console.log("supplementalContent changed", supplementalContent);
+  // setClassArr([]);
+  // setStandardClass(undefined);
+  // setStartingSpells([]);
+  // setCustomClass(undefined);
+  // }, [supplementalContent]);
 
   React.useEffect(() => {
-    console.log("classArr changed", classArr);
+    // console.log("hasMagicCharacterClass changed", hasMagicCharacterClass);
+    if (hasMagicCharacterClass) {
+      setMagicCharacterClass(
+        classArr.find(
+          (className) => classes[className as ClassNames]?.spellBudget,
+        ),
+      );
+    } else {
+      setMagicCharacterClass(undefined);
+    }
+  }, [hasMagicCharacterClass]);
+
+  React.useEffect(() => {
+    // console.log("classArr changed", classArr);
     if (classArr.length) {
       setHasMagicCharacterClass(
         classArr.some((className) =>
@@ -201,31 +230,35 @@ const StepClass: React.FC<
     }
   }, [classArr]);
 
-  React.useEffect(() => {
-    console.log("hasMagicCharacterClass changed", hasMagicCharacterClass);
-    if (hasMagicCharacterClass) {
-      setMagicCharacterClass(
-        classArr.find(
-          (className) => classes[className as ClassNames]?.spellBudget,
-        ),
-      );
-    } else {
-      setMagicCharacterClass(undefined);
-    }
-  }, [hasMagicCharacterClass]);
-
-  React.useEffect(() => {
-    setClassArr([]);
-    setFirstCombinationClass(undefined);
-    setSecondCombinationClass(undefined);
-    setCustomClass(undefined);
-  }, [combinationClass]);
+  // React.useEffect(() => {
+  //   setClassArr([]);
+  //   setFirstCombinationClass(undefined);
+  //   setSecondCombinationClass(undefined);
+  //   setCustomClass(undefined);
+  // }, [combinationClass]);
 
   React.useEffect(() => {
     setClassArr(
       [firstCombinationClass, secondCombinationClass].filter(Boolean),
     );
   }, [firstCombinationClass, secondCombinationClass]);
+
+  // const updateCharacterIfConditionsMet = () => {
+  //   if (
+  //     standardClass &&
+  //     classArr.length &&
+  //     !combinationClass &&
+  //     !hasMagicCharacterClass
+  //   ) {
+  //     // Update the character only if all conditions are met
+  //     // setCharacter(/* updated character object */);
+  //     console.log("floop");
+  //   }
+  // };
+
+  // React.useEffect(() => {
+  //   updateCharacterIfConditionsMet();
+  // }, [standardClass, classArr, combinationClass, hasMagicCharacterClass]);
 
   return (
     <Flex gap={16} vertical className={className}>
@@ -348,6 +381,7 @@ const StepClass: React.FC<
           <WRaceClassDescription
             subject={className === "Custom" ? "doog" : className}
             image={classImage(className as ClassNames)}
+            key={className}
           />
         ))}
     </Flex>
