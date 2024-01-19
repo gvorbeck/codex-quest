@@ -58,6 +58,7 @@ const StepClass: React.FC<
   };
 
   React.useEffect(() => {
+    console.log("foo");
     setStartingSpells([]);
     if (classSelector !== "custom" && classSelector !== "") {
       let newHitDie = classes[classSelector as ClassNames]?.hitDice;
@@ -90,20 +91,31 @@ const StepClass: React.FC<
     if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
       newHP = adjustHitDice(newHP, raceSetup);
     }
-
-    setCharacter({
-      ...character,
-      hp: { ...character.hp, dice: newHP },
-    });
     if (firstClass && !secondClass) {
       comboClassSwitch
-        ? setCharacter({ ...character, class: [firstClass] })
-        : setCharacter({ ...character, class: [] });
+        ? setCharacter({
+            ...character,
+            class: [firstClass],
+            hp: { ...character.hp, dice: newHP },
+          })
+        : setCharacter({
+            ...character,
+            class: [],
+            hp: { ...character.hp, dice: newHP },
+          });
     }
     if (secondClass && !firstClass)
-      setCharacter({ ...character, class: [secondClass] });
+      setCharacter({
+        ...character,
+        class: [secondClass],
+        hp: { ...character.hp, dice: newHP },
+      });
     if (secondClass && firstClass)
-      setCharacter({ ...character, class: [firstClass, secondClass] });
+      setCharacter({
+        ...character,
+        class: [firstClass, secondClass],
+        hp: { ...character.hp, dice: newHP },
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [secondClass]);
 
@@ -120,7 +132,6 @@ const StepClass: React.FC<
   }, [startingSpells]);
 
   React.useEffect(() => {
-    console.info(comboClassSwitch);
     if (!comboClassSwitch) {
       // uncommenting this code removes your class selection upon returning to this step.
       // setClassSelector("");
@@ -135,6 +146,7 @@ const StepClass: React.FC<
   }, [comboClassSwitch]);
 
   React.useEffect(() => {
+    console.log(character);
     const options = getClassSelectOptions(
       character,
       !supplementalContentSwitch,
@@ -192,8 +204,9 @@ const StepClass: React.FC<
               <RaceClassDescription
                 key={className}
                 name={className}
-                description={`${classes[className as ClassNames]?.details
-                  ?.description}`}
+                description={`${
+                  classes[className as ClassNames]?.details?.description
+                }`}
               />
             ),
         )}
