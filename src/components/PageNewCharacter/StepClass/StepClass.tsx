@@ -247,15 +247,6 @@ const StepClass: React.FC<
 
   return (
     <Flex gap={16} vertical className={className}>
-      <div>classArr: {...classArr}</div> {/* TODO: delete */}
-      <div>magicCharacter: {hasMagicCharacterClass ? "true" : "false"}</div>
-      <div>
-        spells:{" "}
-        {startingSpells
-          ? startingSpells.map((spell) => spell.name).join(", ")
-          : ""}
-      </div>
-      {/* TODO: delete above */}
       <Flex gap={16}>
         <Flex gap={8}>
           <Typography.Text>Enable Supplemental Content</Typography.Text>
