@@ -1,4 +1,4 @@
-import { EquipmentItem, SavingThrowsType } from "../definitions";
+import { DiceTypes, EquipmentItem, SavingThrowsType } from "../definitions";
 
 export type ClassSetup = {
   attackBonus: number[];
@@ -11,7 +11,7 @@ export type ClassSetup = {
   experiencePoints: number[];
   equipmentAttackBonuses?: [string, string][];
   customRules?: { title: string; description: string }[];
-  hitDice: string;
+  hitDice: DiceTypes;
   hitDiceModifier: number;
   minimumAbilityRequirements?: Partial<
     Record<

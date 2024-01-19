@@ -67,6 +67,7 @@ export enum RaceNames {
 }
 
 export enum DiceTypes {
+  D3 = "d3",
   D4 = "d4",
   D6 = "d6",
   D8 = "d8",
@@ -143,7 +144,7 @@ export type CharData = {
   equipment: EquipmentItem[];
   gold: number;
   hp: {
-    dice: string;
+    dice: DiceTypes;
     points: number;
     max: number;
     desc: string;

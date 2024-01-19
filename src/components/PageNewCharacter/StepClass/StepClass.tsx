@@ -176,9 +176,8 @@ const StepClass: React.FC<
     );
   };
 
-  // TODO: Many of these useEffects can be handled in their respective handlers ^^^ (see onCombinationClassChange)
+  // EFFECTS
   React.useEffect(() => {
-    // console.log("standardClass changed", standardClass);
     setStartingSpells([]);
     setCustomClass(undefined);
     if (standardClass) {
@@ -186,25 +185,18 @@ const StepClass: React.FC<
     } else {
       setClassArr([]);
     }
-    // Set a standard, non-magical character's class
-    // if (
-    //   standardClass &&
-    //   classArr.length &&
-    //   !combinationClass &&
-    //   !hasMagicCharacterClass
-    // ) {
-    //   updateCharacter();
-    // }
   }, [standardClass]);
 
   const getFinalClass = () => {
-    if (standardClass) {
+    console.log("glomp", classArr[0] === "Custom", standardClass);
+    if (standardClass && standardClass !== "Custom") {
       return [standardClass];
     }
     if (combinationClass && firstCombinationClass && secondCombinationClass) {
       return [firstCombinationClass, secondCombinationClass];
     }
     if (classArr[0] === "Custom" && customClass) {
+      console.log("blooo");
       return [customClass];
     }
     return [];
@@ -212,6 +204,7 @@ const StepClass: React.FC<
 
   React.useEffect(() => {
     if ((combinationClass && classArr.length === 2) || !combinationClass) {
+      console.log(getFinalClass());
       setCharacter({
         ...character,
         class: getFinalClass(),
@@ -220,16 +213,7 @@ const StepClass: React.FC<
     }
   }, [classArr, customClass, startingSpells]);
 
-  // React.useEffect(() => {
-  // // console.log("supplementalContent changed", supplementalContent);
-  // setClassArr([]);
-  // setStandardClass(undefined);
-  // setStartingSpells([]);
-  // setCustomClass(undefined);
-  // }, [supplementalContent]);
-
   React.useEffect(() => {
-    // console.log("hasMagicCharacterClass changed", hasMagicCharacterClass);
     if (hasMagicCharacterClass) {
       setMagicCharacterClass(
         classArr.find(
@@ -242,7 +226,6 @@ const StepClass: React.FC<
   }, [hasMagicCharacterClass]);
 
   React.useEffect(() => {
-    // console.log("classArr changed", classArr);
     if (classArr.length) {
       setHasMagicCharacterClass(
         classArr.some((className) =>
@@ -256,41 +239,11 @@ const StepClass: React.FC<
     }
   }, [classArr]);
 
-  // React.useEffect(() => {
-  //   setClassArr([]);
-  //   setFirstCombinationClass(undefined);
-  //   setSecondCombinationClass(undefined);
-  //   setCustomClass(undefined);
-  // }, [combinationClass]);
-
   React.useEffect(() => {
     if (firstCombinationClass && secondCombinationClass) {
       setClassArr([firstCombinationClass, secondCombinationClass]);
     }
   }, [firstCombinationClass, secondCombinationClass]);
-
-  // const updateCharacterIfConditionsMet = () => {
-  //   if (
-  //     standardClass &&
-  //     classArr.length &&
-  //     !combinationClass &&
-  //     !hasMagicCharacterClass
-  //   ) {
-  //     // Update the character only if all conditions are met
-  //     // setCharacter(/* updated character object */);
-  //     console.log("floop");
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   updateCharacterIfConditionsMet();
-  // }, [standardClass, classArr, combinationClass, hasMagicCharacterClass]);
-  console.log(
-    classArr.length,
-    classArr[0] !== "Custom",
-    character.class,
-    character,
-  );
 
   return (
     <Flex gap={16} vertical className={className}>
