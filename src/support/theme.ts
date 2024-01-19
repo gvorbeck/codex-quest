@@ -29,7 +29,8 @@ export const cqTheme = {
   },
   components: {
     Alert: {
-      colorInfoBg: darkenHexColor(ColorScheme.SPRINGWOOD, 15),
+      colorInfoBg: lightenHexColor(ColorScheme.SEABUCKTHORN, 75),
+      colorInfoBorder: lightenHexColor(ColorScheme.SEABUCKTHORN, 50),
     },
     Badge: {
       colorBgContainer: ColorScheme.SPRINGWOOD,
