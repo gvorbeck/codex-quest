@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
 import { avatarClassNames } from "@/support/cssSupport";
 import { deleteDocument } from "@/support/accountSupport";
+import { classSplit } from "@/support/classSupport";
 
 interface CardCharacterProps {
   item: CharData;
@@ -49,7 +50,7 @@ const CardCharacter: React.FC<
   const descriptionItems: DescriptionsProps["items"] = [
     { key: "1", label: "Level", children: item.level },
     { key: "2", label: "Race", children: item.race },
-    { key: "3", label: "Class", children: item.class },
+    { key: "3", label: "Class", children: classSplit(item.class).join(" | ") },
   ];
   return (
     item &&
