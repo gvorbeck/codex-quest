@@ -29,21 +29,14 @@ import { races } from "@/data/races";
 interface StepClassProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
-  comboClass: boolean;
-  comboClassSwitch: boolean;
-  setComboClassSwitch: (comboClassSwitch: boolean) => void;
+  comboClass: boolean; // REMOVE
+  comboClassSwitch: boolean; // REMOVE
+  setComboClassSwitch: (comboClassSwitch: boolean) => void; // REMOVE
 }
 
 const StepClass: React.FC<
   StepClassProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  setCharacter,
-  comboClass, // whether or not a character is able to use a combo class
-  comboClassSwitch,
-  setComboClassSwitch,
-}) => {
+> = ({ className, character, setCharacter }) => {
   const { isMobile } = useDeviceType();
   // STATE
   const [standardClass, setStandardClass] = React.useState<string | undefined>(
