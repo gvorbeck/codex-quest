@@ -132,16 +132,13 @@ const StepClass: React.FC<
   }, [startingSpells]);
 
   React.useEffect(() => {
-    if (!comboClassSwitch) {
-      // uncommenting this code removes your class selection upon returning to this step.
-      // setClassSelector("");
-      // setSecondClass(undefined);
-      // setCharacter({
-      //   ...character,
-      //   class: [],
-      //   spells: [],
-      // });
-    }
+    setSecondClass(undefined);
+    setStartingSpells([]);
+    setCharacter({
+      ...character,
+      class: [],
+    });
+    setClassSelector("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comboClassSwitch]);
 
