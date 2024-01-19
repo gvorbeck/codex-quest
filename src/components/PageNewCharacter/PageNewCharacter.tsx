@@ -53,7 +53,10 @@ const PageNewCharacter: React.FC<
   );
   const [messageApi, contextHolder] = message.useMessage();
   // VARS
-  const next = () => setCurrentStep(currentStep + 1);
+  const next = () => {
+    console.log(character);
+    setCurrentStep(currentStep + 1);
+  };
   const prev = () => setCurrentStep(currentStep - 1);
   const stepsItems = getStepsItems(
     character,

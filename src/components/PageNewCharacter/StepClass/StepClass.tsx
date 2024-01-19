@@ -52,7 +52,7 @@ const StepClass: React.FC<
       : undefined,
   );
   const [classArr, setClassArr] = React.useState<string[]>(
-    classSplit(character.class) ?? [],
+    classSplit(character.class) || [],
   );
   const [supplementalContent, setSupplementalContent] = React.useState<boolean>(
     classSplit(character.class).some(
@@ -80,17 +80,20 @@ const StepClass: React.FC<
   const [combinationClassOptions, setCombinationClassOptions] = React.useState<
     [SelectProps["options"], SelectProps["options"]] | []
   >([]);
-  const [firstCombinationClass, setFirstCombinationClass] = React.useState<any>(
+  const [firstCombinationClass, setFirstCombinationClass] = React.useState<
+    string | undefined
+  >(
     classSplit(character.class).length === 2
       ? (classSplit(character.class)[0] as ClassNames)
       : undefined,
   );
-  const [secondCombinationClass, setSecondCombinationClass] =
-    React.useState<any>(
-      classSplit(character.class).length === 2
-        ? (classSplit(character.class)[1] as ClassNames)
-        : undefined,
-    );
+  const [secondCombinationClass, setSecondCombinationClass] = React.useState<
+    string | undefined
+  >(
+    classSplit(character.class).length === 2
+      ? (classSplit(character.class)[1] as ClassNames)
+      : undefined,
+  );
   // VARS
   const classDescription = useMarkdown(
     `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
@@ -194,6 +197,29 @@ const StepClass: React.FC<
     // }
   }, [standardClass]);
 
+  const getFinalClass = () => {
+    if (standardClass) {
+      return [standardClass];
+    }
+    if (combinationClass && firstCombinationClass && secondCombinationClass) {
+      return [firstCombinationClass, secondCombinationClass];
+    }
+    if (classArr[0] === "Custom" && customClass) {
+      return [customClass];
+    }
+    return [];
+  };
+
+  React.useEffect(() => {
+    if ((combinationClass && classArr.length === 2) || !combinationClass) {
+      setCharacter({
+        ...character,
+        class: getFinalClass(),
+        spells: startingSpells,
+      });
+    }
+  }, [classArr, customClass, startingSpells]);
+
   // React.useEffect(() => {
   // // console.log("supplementalContent changed", supplementalContent);
   // setClassArr([]);
@@ -238,9 +264,9 @@ const StepClass: React.FC<
   // }, [combinationClass]);
 
   React.useEffect(() => {
-    setClassArr(
-      [firstCombinationClass, secondCombinationClass].filter(Boolean),
-    );
+    if (firstCombinationClass && secondCombinationClass) {
+      setClassArr([firstCombinationClass, secondCombinationClass]);
+    }
   }, [firstCombinationClass, secondCombinationClass]);
 
   // const updateCharacterIfConditionsMet = () => {
@@ -259,6 +285,12 @@ const StepClass: React.FC<
   // React.useEffect(() => {
   //   updateCharacterIfConditionsMet();
   // }, [standardClass, classArr, combinationClass, hasMagicCharacterClass]);
+  console.log(
+    classArr.length,
+    classArr[0] !== "Custom",
+    character.class,
+    character,
+  );
 
   return (
     <Flex gap={16} vertical className={className}>
@@ -340,7 +372,7 @@ const StepClass: React.FC<
               <Card
                 title={
                   <span className="font-enchant text-3xl tracking-wide">
-                    {startingSpells[1].name}
+                    {startingSpells[1]?.name}
                   </span>
                 }
                 className="shadow-md"
@@ -353,12 +385,12 @@ const StepClass: React.FC<
                         {
                           key: "1",
                           label: "Range",
-                          children: startingSpells[1].range,
+                          children: startingSpells[1]?.range,
                         },
                         {
                           key: "2",
                           label: "Duration",
-                          children: startingSpells[1].duration,
+                          children: startingSpells[1]?.duration,
                         },
                       ]}
                     />
