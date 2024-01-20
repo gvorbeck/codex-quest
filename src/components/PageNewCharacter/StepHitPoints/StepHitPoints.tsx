@@ -1,16 +1,8 @@
 import React from "react";
 import { CharData, DiceTypes } from "@/data/definitions";
-import {
-  Button,
-  Flex,
-  InputNumber,
-  Radio,
-  RadioChangeEvent,
-  Space,
-} from "antd";
+import { Button, Flex, InputNumber, Select, SelectProps, Space } from "antd";
 import { rollDice } from "@/support/diceSupport";
 import { getCharacterHitDiceFromClass } from "./StepHitPointsSupport";
-import { useDeviceType } from "@/hooks/useDeviceType";
 
 interface StepHitPointsProps {
   character: CharData;
@@ -20,11 +12,14 @@ interface StepHitPointsProps {
 const StepHitPoints: React.FC<
   StepHitPointsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
-  const { isMobile } = useDeviceType();
   const [max, setMax] = React.useState<number>(character.hp.max || 0);
   const [useCustomDice, setUseCustomDice] = React.useState<boolean>(false);
   const [die, setDie] = React.useState<DiceTypes | undefined>(
-    getCharacterHitDiceFromClass(character),
+    getCharacterHitDiceFromClass(character) || (character.hp.dice as DiceTypes),
+  );
+
+  const options: SelectProps["options"] = Object.values(DiceTypes).map(
+    (die: string) => ({ label: die, value: die }),
   );
 
   const handleButtonClick = () => {
@@ -34,8 +29,8 @@ const StepHitPoints: React.FC<
     roll = roll < 1 ? 1 : roll;
     setMax(roll);
   };
-  const onRadioGroupChange = (e: RadioChangeEvent) => {
-    setDie(e.target.value);
+  const onSelectChange = (value: DiceTypes) => {
+    setDie(value);
   };
 
   React.useEffect(() => {
@@ -57,15 +52,7 @@ const StepHitPoints: React.FC<
   return (
     <Flex vertical className={className} gap={16}>
       {useCustomDice && (
-        <Radio.Group
-          defaultValue={DiceTypes.D6}
-          onChange={onRadioGroupChange}
-          size={isMobile ? "small" : "middle"}
-        >
-          {Object.values(DiceTypes).map((die: string) => (
-            <Radio.Button value={die}>{die}</Radio.Button>
-          ))}
-        </Radio.Group>
+        <Select options={options} onChange={onSelectChange} value={die} />
       )}
       <Space.Compact>
         <InputNumber value={max} />

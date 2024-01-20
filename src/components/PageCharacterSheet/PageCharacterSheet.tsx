@@ -212,7 +212,7 @@ const PageCharacterSheet: React.FC<
               />
               <Section title="Weight" component={<Weight />} />
             </Flex>
-            {isSpellCaster(character.class) && (
+            {isSpellCaster(character) && (
               <Section title="Spells" component={<Spells />} />
             )}
           </Col>

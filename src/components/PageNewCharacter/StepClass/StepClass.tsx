@@ -1,5 +1,5 @@
 import { Flex, Input, Select, SelectProps } from "antd";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, Suspense } from "react";
 import {
   baseClasses,
   classSplit,
@@ -15,6 +15,12 @@ import { races } from "@/data/races";
 import WSpellSelect from "./WSpellSelect/WSpellSelect";
 import WCombinationClassSelect from "./WCombinationClassSelect/WCombinationClassSelect";
 import WClassSettings from "./WClassSettings/WClassSettings";
+import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
+
+// Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
+const WAllSpellsSelection = React.lazy(
+  () => import("./WAllSpellsSelection/WAllSpellsSelection"),
+);
 
 interface StepClassProps {
   character: CharData;
@@ -234,7 +240,6 @@ const StepClass: React.FC<
               ? "Custom"
               : standardClass
           }
-          // value={classType === "custom" ? "Custom" : standardClass}
           onChange={onStandardClassChange}
           placeholder="Select a class"
         />
@@ -251,10 +256,19 @@ const StepClass: React.FC<
       {(getClassType(character.class) === "custom" ||
         classArr[0] === "Custom") &&
         !combinationClass && (
-          <Input
-            value={customClass ?? character.class}
-            onChange={(e) => onCustomClassChange(e)}
-          />
+          <>
+            <HomebrewWarning homebrew="class" />
+            <Input
+              value={customClass ?? character.class}
+              onChange={(e) => onCustomClassChange(e)}
+            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <WAllSpellsSelection
+                character={character}
+                setCharacter={setCharacter}
+              />
+            </Suspense>
+          </>
         )}
       {hasMagicCharacterClass && (
         // Spell dropdown and spell description
