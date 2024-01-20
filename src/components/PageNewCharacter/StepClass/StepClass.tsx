@@ -1,8 +1,6 @@
 import {
   Card,
-  Descriptions,
   Flex,
-  Image,
   Input,
   Select,
   SelectProps,
@@ -25,6 +23,7 @@ import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
 import WRaceClassDescription from "./WRaceClassDescription/WRaceClassDescription";
 import { races } from "@/data/races";
+import WSpellCard from "./WSpellCard/WSpellCard";
 
 interface StepClassProps {
   character: CharData;
@@ -102,11 +101,7 @@ const StepClass: React.FC<
   const spellSelectOptions: SelectProps["options"] = levelOneSpells
     .map((spell: Spell) => ({ value: spell.name, label: spell.name }))
     .sort((a, b) => a.label.localeCompare(b.label));
-  const spellDescriptionMarkdown = useMarkdown(
-    startingSpells?.[1]?.description ?? "",
-  );
-  const { getSpellImage, getRaceClassImage } = useImages();
-  const spellImage = getSpellImage(toSlugCase(startingSpells?.[1]?.name || ""));
+  const { getRaceClassImage } = useImages();
   const classImage = (className: ClassNames) =>
     getRaceClassImage(toSlugCase(className));
   // HANDLERS
@@ -322,40 +317,7 @@ const StepClass: React.FC<
               onChange={onStartingSpellChange}
             />
             {!!startingSpells?.length && (
-              <Card
-                title={
-                  <span className="font-enchant text-3xl tracking-wide">
-                    {startingSpells[1]?.name}
-                  </span>
-                }
-                className="shadow-md"
-              >
-                <Flex gap={16} align="flex-start" vertical={isMobile}>
-                  <Image src={spellImage} className="w-40" preview={false} />
-                  <div>
-                    <Descriptions
-                      items={[
-                        {
-                          key: "1",
-                          label: "Range",
-                          children: startingSpells[1]?.range,
-                        },
-                        {
-                          key: "2",
-                          label: "Duration",
-                          children: startingSpells[1]?.duration,
-                        },
-                      ]}
-                    />
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: spellDescriptionMarkdown,
-                      }}
-                      className="text-justify"
-                    />
-                  </div>
-                </Flex>
-              </Card>
+              <WSpellCard startingSpells={startingSpells} />
             )}
           </Flex>
         </Card>
