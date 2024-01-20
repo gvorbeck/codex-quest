@@ -6,7 +6,7 @@
 
 <img src="https://github.com/gvorbeck/codex-quest/blob/main/src/assets/images/dragon-head.png" width="200" alt="logo" />
 
-# CODEX.QUEST for BFRPG
+# CODEX.QUEST for Basic Fantasy Role-Playing Game
 
 Repo for website [CODEX.QUEST](https://codex.quest)
 
