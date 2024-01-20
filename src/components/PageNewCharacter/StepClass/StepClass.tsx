@@ -28,21 +28,14 @@ import WSpellCard from "./WSpellCard/WSpellCard";
 interface StepClassProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
-  comboClass: boolean;
-  comboClassSwitch: boolean;
-  setComboClassSwitch: (comboClassSwitch: boolean) => void;
+  comboClass: boolean; // REMOVE
+  comboClassSwitch: boolean; // REMOVE
+  setComboClassSwitch: (comboClassSwitch: boolean) => void; // REMOVE
 }
 
 const StepClass: React.FC<
   StepClassProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  setCharacter,
-  comboClass, // whether or not a character is able to use a combo class
-  comboClassSwitch,
-  setComboClassSwitch,
-}) => {
+> = ({ className, character, setCharacter }) => {
   const { isMobile } = useDeviceType();
   // STATE
   const [standardClass, setStandardClass] = React.useState<string | undefined>(
@@ -242,15 +235,6 @@ const StepClass: React.FC<
 
   return (
     <Flex gap={16} vertical className={className}>
-      <div>classArr: {...classArr}</div> {/* TODO: delete */}
-      <div>magicCharacter: {hasMagicCharacterClass ? "true" : "false"}</div>
-      <div>
-        spells:{" "}
-        {startingSpells
-          ? startingSpells.map((spell) => spell.name).join(", ")
-          : ""}
-      </div>
-      {/* TODO: delete above */}
       <Flex gap={16}>
         <Flex gap={8}>
           <Typography.Text>Enable Supplemental Content</Typography.Text>
