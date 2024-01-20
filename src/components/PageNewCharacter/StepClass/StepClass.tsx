@@ -139,6 +139,7 @@ const StepClass: React.FC<
 
   // EFFECTS
   React.useEffect(() => {
+    console.log("foo");
     setStartingSpells([]);
     setCustomClass(undefined);
     if (standardClass) {
@@ -275,6 +276,20 @@ const StepClass: React.FC<
             key={className}
           />
         ))}
+      {!character.class.includes("Custom") &&
+        !!character.class.length &&
+        character.class.map(
+          (className) =>
+            classes[className as ClassNames] && (
+              <RaceClassDescription
+                key={className}
+                name={className}
+                description={`${
+                  classes[className as ClassNames]?.details?.description
+                }`}
+              />
+            ),
+        )}
     </Flex>
   );
 };
