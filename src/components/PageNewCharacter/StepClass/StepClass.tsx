@@ -276,18 +276,6 @@ const StepClass: React.FC<
             key={className}
           />
         ))}
-      {!character.class.includes("Custom") &&
-        !!character.class.length &&
-        character.class.map(
-          (className) =>
-            classes[className as ClassNames] && (
-              <WRaceClassDescription
-                subject={className}
-                image={classImage(className as ClassNames)}
-                key={className}
-              />
-            ),
-        )}
     </Flex>
   );
 };

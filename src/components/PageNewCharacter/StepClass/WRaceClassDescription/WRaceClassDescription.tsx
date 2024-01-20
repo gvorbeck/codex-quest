@@ -1,8 +1,10 @@
 import { classes } from "@/data/classes";
 import { ClassNames, RaceNames } from "@/data/definitions";
 import { races } from "@/data/races";
+import { useDeviceType } from "@/hooks/useDeviceType";
 import { useMarkdown } from "@/hooks/useMarkdown";
 import { Card, Flex, Image } from "antd";
+import classNames from "classnames";
 import React from "react";
 
 interface WRaceClassDescriptionProps {
@@ -13,6 +15,8 @@ interface WRaceClassDescriptionProps {
 const WRaceClassDescription: React.FC<
   WRaceClassDescriptionProps & React.ComponentPropsWithRef<"div">
 > = ({ className, subject, image }) => {
+  const { isMobile } = useDeviceType();
+  const flexClassNames = classNames({ "flex-col-reverse": isMobile });
   const raceDescription = useMarkdown(
     races[subject as RaceNames]?.details?.description ?? "",
   );
@@ -27,7 +31,7 @@ const WRaceClassDescription: React.FC<
       }
       className={className}
     >
-      <Flex gap={16}>
+      <Flex gap={16} vertical={isMobile} className={flexClassNames}>
         <div
           dangerouslySetInnerHTML={{
             __html: cardDescription,
