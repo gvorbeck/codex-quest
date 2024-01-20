@@ -281,12 +281,10 @@ const StepClass: React.FC<
         character.class.map(
           (className) =>
             classes[className as ClassNames] && (
-              <RaceClassDescription
+              <WRaceClassDescription
+                subject={className}
+                image={classImage(className as ClassNames)}
                 key={className}
-                name={className}
-                description={`${
-                  classes[className as ClassNames]?.details?.description
-                }`}
               />
             ),
         )}
