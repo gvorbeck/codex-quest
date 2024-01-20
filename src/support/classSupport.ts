@@ -13,7 +13,7 @@ export const classSplit = (characterClass: string | string[]) => {
   return characterClass;
 };
 
-export const getClassType = (characterClass: string[]) => {
+export const getClassType = (characterClass: string[] | string) => {
   const classArr = classSplit(characterClass);
 
   // NONE
@@ -43,6 +43,13 @@ export const getClassType = (characterClass: string[]) => {
   return "custom";
 };
 
+export const baseClasses = [
+  ClassNames.CLERIC,
+  ClassNames.FIGHTER,
+  ClassNames.MAGICUSER,
+  ClassNames.THIEF,
+];
+
 export const getClassSelectOptions = (
   character: CharData,
   useBase: boolean = true,
@@ -52,12 +59,6 @@ export const getClassSelectOptions = (
   const abilityScores = character.abilities?.scores;
 
   // Get the list of enabled classes
-  const baseClasses = [
-    ClassNames.CLERIC,
-    ClassNames.FIGHTER,
-    ClassNames.MAGICUSER,
-    ClassNames.THIEF,
-  ];
   const enabledClasses = getEnabledClasses(
     raceKey as RaceNames,
     abilityScores,

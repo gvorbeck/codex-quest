@@ -1,5 +1,7 @@
+import { classes } from "@/data/classes";
 import { CharData, ClassNames } from "@/data/definitions";
 import { RaceSetup } from "@/data/races/definitions";
+import { classSplit } from "@/support/classSupport";
 import { SelectProps } from "antd";
 import React from "react";
 
@@ -18,6 +20,20 @@ export function useStepClass(character: CharData) {
     SelectProps["options"]
   >([]);
   const firstClass = ClassNames.MAGICUSER;
+
+  const characterHasSpells = (character: CharData) => {
+    const classArr = classSplit(character.class) ?? [];
+    classArr.forEach((cls) => {
+      if (
+        classes[cls as ClassNames]?.spellBudget?.[character.level - 1].some(
+          (number) => number > 0,
+        )
+      ) {
+        return true;
+      }
+    });
+    return false;
+  };
 
   const adjustHitDice = (hitDie: string, raceSetup: RaceSetup) => {
     const diceSizes = ["d4", "d6", "d8", "d10", "d12", "d20"];
@@ -42,5 +58,6 @@ export function useStepClass(character: CharData) {
     setClassSelectOptions,
     firstClass,
     adjustHitDice,
+    characterHasSpells,
   };
 }

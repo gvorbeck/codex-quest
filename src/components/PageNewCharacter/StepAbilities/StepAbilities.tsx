@@ -155,7 +155,11 @@ const StepAbilities: React.FC<
   return (
     <Flex vertical className={className} gap={16}>
       {!hideRollAll && (
-        <Button type="primary" onClick={rollAllAbilities}>
+        <Button
+          type="primary"
+          onClick={rollAllAbilities}
+          className="self-start"
+        >
           Roll All Abilities
         </Button>
       )}

@@ -67,7 +67,7 @@ const PageCharacterSheet: React.FC<
   const abilitiesTableHelpText = useMarkdown(
     `A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`,
   );
-  const customClassAlertMessage = useMarkdown(customClassString);
+  const customClassAlertMessage = customClassString;
   const { isMobile, isTablet, isDesktop } = useDeviceType();
   const { isSpellCaster } = useSpellData();
   const classArr = character ? classSplit(character.class) : [];

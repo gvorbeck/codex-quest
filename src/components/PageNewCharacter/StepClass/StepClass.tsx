@@ -1,212 +1,281 @@
-import { Flex } from "antd";
-import React from "react";
-import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
-import { CharData, ClassNames, DiceTypes, RaceNames } from "@/data/definitions";
+import { Flex, Input, Select, SelectProps } from "antd";
+import React, { ChangeEvent } from "react";
+import {
+  baseClasses,
+  classSplit,
+  getClassSelectOptions,
+  getClassType,
+} from "@/support/classSupport";
+import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
-import SpellOptions from "./SpellOptions/SpellOptions";
-import ComboClassOptions from "./ComboClassOptions/ComboClassOptions";
-import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
-import spellsData from "@/data/spells.json";
-import Options from "./Options/Options";
-import { getClassSelectOptions } from "@/support/classSupport";
-import { useStepClass } from "./useStepClass";
+import { useImages } from "@/hooks/useImages";
+import { toSlugCase } from "@/support/stringSupport";
+import WRaceClassDescription from "./WRaceClassDescription/WRaceClassDescription";
 import { races } from "@/data/races";
+import WSpellSelect from "./WSpellSelect/WSpellSelect";
+import WCombinationClassSelect from "./WCombinationClassSelect/WCombinationClassSelect";
+import WClassSettings from "./WClassSettings/WClassSettings";
 
 interface StepClassProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
-  comboClass: boolean;
-  comboClassSwitch: boolean;
-  setComboClassSwitch: (comboClassSwitch: boolean) => void;
+  comboClass: boolean; // REMOVE
+  comboClassSwitch: boolean; // REMOVE
+  setComboClassSwitch: (comboClassSwitch: boolean) => void; // REMOVE
 }
 
 const StepClass: React.FC<
   StepClassProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  setCharacter,
-  comboClass,
-  comboClassSwitch,
-  setComboClassSwitch,
-}) => {
-  const {
-    classSelector,
-    setClassSelector,
-    customClassInput,
-    setCustomClassInput,
-    firstClass,
-    secondClass,
-    setSecondClass,
-    startingSpells,
-    setStartingSpells,
-    supplementalContentSwitch,
-    setSupplementalContentSwitch,
-    classSelectOptions,
-    setClassSelectOptions,
-    adjustHitDice,
-  } = useStepClass(character);
-
-  const handleCustomClassInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setCustomClassInput(e.target.value);
-    setCharacter({ ...character, class: [e.target.value] });
+> = ({ className, character, setCharacter }) => {
+  // STATE
+  const [standardClass, setStandardClass] = React.useState<string | undefined>(
+    getClassType(character.class) === "standard"
+      ? classSplit(character.class)[0]
+      : undefined,
+  );
+  const [classArr, setClassArr] = React.useState<string[]>(
+    classSplit(character.class) || [],
+  );
+  const [supplementalContent, setSupplementalContent] = React.useState<boolean>(
+    classSplit(character.class).some(
+      (className) => !baseClasses.includes(className as ClassNames),
+    ),
+  );
+  const [hasMagicCharacterClass, setHasMagicCharacterClass] =
+    React.useState<boolean>(
+      classSplit(character.class).some(
+        (className) =>
+          classes[className as ClassNames]?.spellBudget?.[character.level - 1],
+      ),
+    );
+  const [magicCharacterClass, setMagicCharacterClass] =
+    React.useState<string>();
+  const [startingSpells, setStartingSpells] = React.useState<Spell[]>([
+    character.spells?.filter((spell) => spell.name !== "Read Magic")[0] || [],
+  ]);
+  const [customClass, setCustomClass] = React.useState<string | undefined>(
+    getClassType(character.class) === "custom" ? character.class[0] : undefined,
+  );
+  const [combinationClass, setCombinationClass] = React.useState<boolean>(
+    classSplit(character.class).length === 2 ? true : false,
+  );
+  const [combinationClassOptions, setCombinationClassOptions] = React.useState<
+    [SelectProps["options"], SelectProps["options"]] | []
+  >([]);
+  const [firstCombinationClass, setFirstCombinationClass] = React.useState<
+    string | undefined
+  >(
+    classSplit(character.class).length === 2
+      ? (classSplit(character.class)[0] as ClassNames)
+      : undefined,
+  );
+  const [secondCombinationClass, setSecondCombinationClass] = React.useState<
+    string | undefined
+  >(
+    classSplit(character.class).length === 2
+      ? (classSplit(character.class)[1] as ClassNames)
+      : undefined,
+  );
+  // VARS
+  const { getRaceClassImage } = useImages();
+  const classImage = (className: ClassNames) =>
+    getRaceClassImage(toSlugCase(className));
+  // HANDLERS
+  const onStandardClassChange = (value: string) => {
+    setStandardClass(value);
+    setClassArr([value]);
   };
-  const handleSelectChange = (value: string) => {
-    setClassSelector(value);
+  const onSupplementalContentChange = (checked: boolean) => {
+    setSupplementalContent(checked);
+    setCombinationClass(false);
+    setClassArr([]);
+    setStandardClass(undefined);
+    setStartingSpells([]);
+    setCustomClass(undefined);
+  };
+  const onCustomClassChange = (value: ChangeEvent<HTMLInputElement>) => {
+    setCustomClass(value.target.value);
+  };
+  const onCombinationClassChange = (checked: boolean) => {
+    setCombinationClass(checked);
+    setClassArr([]);
+    setCustomClass(undefined);
+    setSupplementalContent(false);
+    setStandardClass(undefined);
+    setStartingSpells([]);
+    setFirstCombinationClass(undefined);
+    setSecondCombinationClass(undefined);
+    if (checked) {
+      setCombinationClassOptions(
+        getComboClasses(
+          races[character.race as RaceNames]?.allowedCombinationClasses ?? [],
+        ),
+      );
+    }
+  };
+  // FUNCTIONS
+  const getComboClasses = (
+    comboList: ClassNames[],
+  ): [SelectProps["options"], SelectProps["options"]] => {
+    return comboList.reduce<[SelectProps["options"], SelectProps["options"]]>(
+      (
+        [firstCombo, secondCombo]: [
+          SelectProps["options"],
+          SelectProps["options"],
+        ],
+        item,
+      ) => {
+        const option = { label: item, value: item };
+        if (item === ClassNames.MAGICUSER) {
+          firstCombo!.push(option);
+        } else {
+          secondCombo!.push(option);
+        }
+        return [firstCombo, secondCombo];
+      },
+      [[], []],
+    );
   };
 
+  // EFFECTS
   React.useEffect(() => {
     console.log("foo");
     setStartingSpells([]);
-    if (classSelector !== "custom" && classSelector !== "") {
-      let newHitDie = classes[classSelector as ClassNames]?.hitDice;
-      const raceSetup = races[character.race as RaceNames];
-      if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
-        newHitDie = adjustHitDice(newHitDie, raceSetup);
-      }
-      setCharacter({
-        ...character,
-        class: [classSelector],
-        spells: [],
-        hp: {
-          ...character.hp,
-          dice: newHitDie,
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [classSelector]);
-
-  React.useEffect(() => {
-    let newHP = "0";
-    if (character.class.length > 1) {
-      if (character.class.includes(ClassNames.FIGHTER)) newHP = DiceTypes.D6;
-      if (character.class.includes(ClassNames.THIEF)) newHP = DiceTypes.D4;
+    setCustomClass(undefined);
+    if (standardClass) {
+      setClassArr([standardClass]);
     } else {
-      newHP = classes[character.class[0] as ClassNames]?.hitDice;
+      setClassArr([]);
     }
-    const raceSetup = races[character.race as RaceNames];
-    if (raceSetup?.incrementHitDie || raceSetup?.decrementHitDie) {
-      newHP = adjustHitDice(newHP, raceSetup);
+  }, [standardClass]);
+
+  const getFinalClass = () => {
+    if (standardClass && standardClass !== "Custom") {
+      return [standardClass];
     }
-    if (firstClass && !secondClass) {
-      comboClassSwitch
-        ? setCharacter({
-            ...character,
-            class: [firstClass],
-            hp: { ...character.hp, dice: newHP },
-          })
-        : setCharacter({
-            ...character,
-            class: [],
-            hp: { ...character.hp, dice: newHP },
-          });
+    if (combinationClass && firstCombinationClass && secondCombinationClass) {
+      return [firstCombinationClass, secondCombinationClass];
     }
-    if (secondClass && !firstClass)
+    if (classArr[0] === "Custom" && customClass) {
+      return [customClass];
+    }
+    if (getClassType(character.class) === "custom") {
+      return classSplit(character.class);
+    }
+    return [];
+  };
+
+  React.useEffect(() => {
+    if ((combinationClass && classArr.length === 2) || !combinationClass) {
       setCharacter({
         ...character,
-        class: [secondClass],
-        hp: { ...character.hp, dice: newHP },
+        class: getFinalClass(),
+        spells: startingSpells,
       });
-    if (secondClass && firstClass)
-      setCharacter({
-        ...character,
-        class: [firstClass, secondClass],
-        hp: { ...character.hp, dice: newHP },
-      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [secondClass]);
+  }, [classArr, customClass, startingSpells]);
 
   React.useEffect(() => {
-    const newSpells = spellsData.filter(
-      (spell) =>
-        startingSpells.includes(spell.name) || spell.name === "Read Magic",
-    );
-    setCharacter({
-      ...character,
-      spells: newSpells,
-    });
+    if (hasMagicCharacterClass) {
+      setMagicCharacterClass(
+        classArr.find(
+          (className) => classes[className as ClassNames]?.spellBudget,
+        ),
+      );
+    } else {
+      setMagicCharacterClass(undefined);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startingSpells]);
+  }, [hasMagicCharacterClass]);
 
   React.useEffect(() => {
-    setSecondClass(undefined);
-    setStartingSpells([]);
-    setCharacter({
-      ...character,
-      class: [],
-    });
-    setClassSelector("");
+    if (classArr.length) {
+      setHasMagicCharacterClass(
+        classArr.some((className) =>
+          classes[className as ClassNames]?.spellBudget?.[
+            character.level - 1
+          ].some((spellBudget) => spellBudget > 0),
+        ),
+      );
+    } else {
+      setHasMagicCharacterClass(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comboClassSwitch]);
+  }, [classArr]);
 
   React.useEffect(() => {
-    console.log(character);
-    const options = getClassSelectOptions(
-      character,
-      !supplementalContentSwitch,
-    );
-    setClassSelectOptions(options);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supplementalContentSwitch, character]);
+    if (firstCombinationClass && secondCombinationClass) {
+      setClassArr([firstCombinationClass, secondCombinationClass]);
+    }
+  }, [firstCombinationClass, secondCombinationClass]);
 
   return (
-    <Flex vertical gap={16} className={className}>
-      <Options
-        comboClass={comboClass}
-        comboClassSwitch={comboClassSwitch}
-        setComboClassSwitch={setComboClassSwitch}
-        setSupplementalContentSwitch={setSupplementalContentSwitch}
-        supplementalContentSwitch={supplementalContentSwitch}
+    <Flex gap={16} vertical className={className}>
+      {/* switches for class options */}
+      <WClassSettings
+        character={character}
+        supplementalContent={supplementalContent}
+        onCombinationClassChange={onCombinationClassChange}
+        onSupplementalContentChange={onSupplementalContentChange}
+        combinationClass={combinationClass}
       />
-      {comboClass && comboClassSwitch ? (
-        <ComboClassOptions
-          character={character}
-          setCharacter={setCharacter}
-          firstClass={firstClass}
-          secondClass={secondClass}
-          setSecondClass={setSecondClass}
+      {!combinationClass ? (
+        // standard class dropdown
+        <Select
+          options={
+            supplementalContent
+              ? getClassSelectOptions(character, false)
+              : getClassSelectOptions(character)
+          }
+          value={
+            standardClass === undefined &&
+            getClassType(character.class) === "custom"
+              ? "Custom"
+              : standardClass
+          }
+          // value={classType === "custom" ? "Custom" : standardClass}
+          onChange={onStandardClassChange}
+          placeholder="Select a class"
         />
       ) : (
-        <RaceClassSelector
-          customInput={customClassInput}
-          handleCustomInputChange={handleCustomClassInputChange}
-          handleSelectChange={handleSelectChange}
-          selectOptions={classSelectOptions}
-          selector={classSelector}
-          type="class"
+        // two combination class dropdowns
+        <WCombinationClassSelect
+          combinationClassOptions={combinationClassOptions}
+          setFirstCombinationClass={setFirstCombinationClass}
+          setSecondCombinationClass={setSecondCombinationClass}
+          firstCombinationClass={firstCombinationClass}
+          secondCombinationClass={secondCombinationClass}
         />
       )}
-      {character.class
-        .filter(
-          (className) =>
-            !!classes[className as ClassNames]?.spellBudget?.[0][0],
-        )
-        .map((className) => (
-          <SpellOptions
+      {(getClassType(character.class) === "custom" ||
+        classArr[0] === "Custom") &&
+        !combinationClass && (
+          <Input
+            value={customClass ?? character.class}
+            onChange={(e) => onCustomClassChange(e)}
+          />
+        )}
+      {hasMagicCharacterClass && (
+        // Spell dropdown and spell description
+        <WSpellSelect
+          startingSpells={startingSpells}
+          setStartingSpells={setStartingSpells}
+          magicCharacterClass={magicCharacterClass}
+          character={character}
+          classArr={classArr}
+        />
+      )}
+      {!!classArr.length &&
+        classArr[0] !== "Custom" &&
+        classArr.map((className) => (
+          // Description of selected classes
+          <WRaceClassDescription
+            subject={className}
+            image={classImage(className as ClassNames)}
             key={className}
-            character={character}
-            characterClass={className}
-            startingSpells={startingSpells}
-            setStartingSpells={setStartingSpells}
           />
         ))}
-      {!character.class.includes("Custom") &&
-        !!character.class.length &&
-        character.class.map(
-          (className) =>
-            classes[className as ClassNames] && (
-              <RaceClassDescription
-                key={className}
-                name={className}
-                description={`${
-                  classes[className as ClassNames]?.details?.description
-                }`}
-              />
-            ),
-        )}
     </Flex>
   );
 };

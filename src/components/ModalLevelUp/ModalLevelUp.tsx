@@ -44,6 +44,7 @@ const ModalLevelUp: React.FC<
   React.useEffect(() => {
     // Set magicClass when character changes
     const classArr = classSplit(character.class);
+    // NOTE: do this with some() instead:
     for (const cls of classArr) {
       const key = cls as keyof typeof classes;
       if (classes[key]?.spellBudget) {

@@ -50,7 +50,7 @@ const SpellOptions: React.FC<
   const selectedSpell =
     spells.find((spell: Spell) => spell.name === startingSpells[0]) ||
     ({ description: "", duration: "", range: "" } as Spell);
-  const levelOneSpells = getSpellsAtLevel(character);
+  const levelOneSpells = getSpellsAtLevel(character.class, character.level);
   const spellImage = getSpellImage(toSlugCase(startingSpells[0] || ""));
   const descriptionClassNames = classNames({ "flex-col": isMobile });
   const selectOptions: SelectProps["options"] = levelOneSpells

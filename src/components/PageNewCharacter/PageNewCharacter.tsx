@@ -48,10 +48,15 @@ const PageNewCharacter: React.FC<
     xp: 0,
   } as CharData);
   const [comboClass, setComboClass] = React.useState(false);
-  const [comboClassSwitch, setComboClassSwitch] = React.useState(false);
+  const [comboClassSwitch, setComboClassSwitch] = React.useState(
+    character.class?.length > 1,
+  );
   const [messageApi, contextHolder] = message.useMessage();
   // VARS
-  const next = () => setCurrentStep(currentStep + 1);
+  const next = () => {
+    console.log(character);
+    setCurrentStep(currentStep + 1);
+  };
   const prev = () => setCurrentStep(currentStep - 1);
   const stepsItems = getStepsItems(
     character,
