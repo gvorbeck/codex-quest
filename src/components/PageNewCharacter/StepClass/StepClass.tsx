@@ -1,4 +1,4 @@
-import { Flex, Input, Select, SelectProps, Switch, Typography } from "antd";
+import { Flex, Input, Select, SelectProps } from "antd";
 import React, { ChangeEvent } from "react";
 import {
   baseClasses,
@@ -212,7 +212,13 @@ const StepClass: React.FC<
   return (
     <Flex gap={16} vertical className={className}>
       {/* switches for class options */}
-      <WClassSettings />
+      <WClassSettings
+        character={character}
+        supplementalContent={supplementalContent}
+        onCombinationClassChange={onCombinationClassChange}
+        onSupplementalContentChange={onSupplementalContentChange}
+        combinationClass={combinationClass}
+      />
       {!combinationClass ? (
         <Select
           options={
