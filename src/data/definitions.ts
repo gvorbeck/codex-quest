@@ -144,7 +144,7 @@ export type CharData = {
   equipment: EquipmentItem[];
   gold: number;
   hp: {
-    dice: DiceTypes;
+    dice: DiceTypes | string;
     points: number;
     max: number;
     desc: string;
