@@ -15,11 +15,10 @@ import { races } from "@/data/races";
 import WSpellSelect from "./WSpellSelect/WSpellSelect";
 import WCombinationClassSelect from "./WCombinationClassSelect/WCombinationClassSelect";
 import WClassSettings from "./WClassSettings/WClassSettings";
-import WAllSpellsSelection from "./WAllSpellsSelection/WAllSpellsSelection";
 import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
-const AllSpellsSelection = React.lazy(
+const WAllSpellsSelection = React.lazy(
   () => import("./WAllSpellsSelection/WAllSpellsSelection"),
 );
 
@@ -264,7 +263,10 @@ const StepClass: React.FC<
               onChange={(e) => onCustomClassChange(e)}
             />
             <Suspense fallback={<div>Loading...</div>}>
-              <WAllSpellsSelection character={character} />
+              <WAllSpellsSelection
+                character={character}
+                setCharacter={setCharacter}
+              />
             </Suspense>
           </>
         )}

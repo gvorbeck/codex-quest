@@ -1,24 +1,27 @@
 import { classes } from "@/data/classes";
 import React from "react";
-import { ClassNames } from "@/data/definitions";
-import { classSplit } from "@/support/classSupport";
+import { CharData, ClassNames } from "@/data/definitions";
+import { classSplit, getClassType } from "@/support/classSupport";
 
 export function useSpellData() {
   const [hasSpellBudget, setHasSpellBudget] = React.useState(false);
 
-  const checkSpellCaster = (charClass: string | string[]) => {
-    const classArr = classSplit(charClass);
+  const checkSpellCaster = (character: CharData) => {
+    const classArr = classSplit(character.class);
     return classArr.some((c) => {
       const classData = classes[c as ClassNames];
       return (
-        classData && classData.spellBudget && classData.spellBudget.length > 0
+        (classData &&
+          classData.spellBudget &&
+          classData.spellBudget.length > 0) ||
+        (getClassType(character.class) === "custom" && character.spells.length)
       );
     });
   };
 
   const isSpellCaster = React.useCallback(
-    (charClass: string | string[]) => {
-      const result = checkSpellCaster(charClass);
+    (character: CharData) => {
+      const result = checkSpellCaster(character);
       if (result !== hasSpellBudget) {
         setHasSpellBudget(result);
       }

@@ -57,7 +57,10 @@ const PageNewCharacter: React.FC<
     console.log(character);
     setCurrentStep(currentStep + 1);
   };
-  const prev = () => setCurrentStep(currentStep - 1);
+  const prev = () => {
+    console.log(character);
+    setCurrentStep(currentStep - 1);
+  };
   const stepsItems = getStepsItems(
     character,
     setCharacter,

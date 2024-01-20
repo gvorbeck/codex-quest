@@ -7,11 +7,12 @@ import { CharData, Spell } from "@/data/definitions";
 
 interface WAllSpellsSelectionProps {
   character: CharData;
+  setCharacter: (character: CharData) => void;
 }
 
 const WAllSpellsSelection: React.FC<
   WAllSpellsSelectionProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character }) => {
+> = ({ className, character, setCharacter }) => {
   const { isDesktop, isMobile, isTablet } = useDeviceType();
   const checkboxGroupClassNames = classNames(
     "grid",
@@ -27,6 +28,17 @@ const WAllSpellsSelection: React.FC<
   const [startingSpells, setStartingSpells] = React.useState<Spell[]>(
     character.spells || [],
   );
+  const onChange = (checkedValues: string[]) => {
+    const newStartingSpells = spells.filter((spell) =>
+      checkedValues.includes(spell.name),
+    );
+    setStartingSpells(newStartingSpells);
+  };
+
+  React.useEffect(() => {
+    setCharacter({ ...character, spells: startingSpells });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startingSpells]);
   return (
     <>
       <Divider plain className="font-enchant text-2xl">
@@ -35,7 +47,11 @@ const WAllSpellsSelection: React.FC<
       <Typography.Text>
         Choose the spells your custom class starts level 1 with, if any.
       </Typography.Text>
-      <Checkbox.Group className={checkboxGroupClassNames} options={options} />
+      <Checkbox.Group
+        className={checkboxGroupClassNames}
+        options={options}
+        onChange={onChange}
+      />
     </>
   );
 };
