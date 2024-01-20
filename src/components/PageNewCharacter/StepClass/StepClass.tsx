@@ -16,6 +16,7 @@ import WSpellSelect from "./WSpellSelect/WSpellSelect";
 import WCombinationClassSelect from "./WCombinationClassSelect/WCombinationClassSelect";
 import WClassSettings from "./WClassSettings/WClassSettings";
 import WAllSpellsSelection from "./WAllSpellsSelection/WAllSpellsSelection";
+import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -240,7 +241,6 @@ const StepClass: React.FC<
               ? "Custom"
               : standardClass
           }
-          // value={classType === "custom" ? "Custom" : standardClass}
           onChange={onStandardClassChange}
           placeholder="Select a class"
         />
@@ -258,12 +258,13 @@ const StepClass: React.FC<
         classArr[0] === "Custom") &&
         !combinationClass && (
           <>
+            <HomebrewWarning homebrew="class" />
             <Input
               value={customClass ?? character.class}
               onChange={(e) => onCustomClassChange(e)}
             />
             <Suspense fallback={<div>Loading...</div>}>
-              <WAllSpellsSelection />
+              <WAllSpellsSelection character={character} />
             </Suspense>
           </>
         )}
