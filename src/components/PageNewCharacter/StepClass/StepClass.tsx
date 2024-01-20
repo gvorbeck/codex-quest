@@ -1,4 +1,4 @@
-import { Flex, Input, Select, SelectProps, Switch, Typography } from "antd";
+import { Flex, Input, Select, SelectProps } from "antd";
 import React, { ChangeEvent } from "react";
 import {
   baseClasses,
@@ -149,7 +149,6 @@ const StepClass: React.FC<
   }, [standardClass]);
 
   const getFinalClass = () => {
-    console.log("glomp", classArr[0] === "Custom", standardClass);
     if (standardClass && standardClass !== "Custom") {
       return [standardClass];
     }
@@ -157,15 +156,16 @@ const StepClass: React.FC<
       return [firstCombinationClass, secondCombinationClass];
     }
     if (classArr[0] === "Custom" && customClass) {
-      console.log("blooo");
       return [customClass];
+    }
+    if (getClassType(character.class) === "custom") {
+      return classSplit(character.class);
     }
     return [];
   };
 
   React.useEffect(() => {
     if ((combinationClass && classArr.length === 2) || !combinationClass) {
-      console.log(getFinalClass());
       setCharacter({
         ...character,
         class: getFinalClass(),
@@ -212,15 +212,28 @@ const StepClass: React.FC<
   return (
     <Flex gap={16} vertical className={className}>
       {/* switches for class options */}
-      <WClassSettings />
+      <WClassSettings
+        character={character}
+        supplementalContent={supplementalContent}
+        onCombinationClassChange={onCombinationClassChange}
+        onSupplementalContentChange={onSupplementalContentChange}
+        combinationClass={combinationClass}
+      />
       {!combinationClass ? (
+        // standard class dropdown
         <Select
           options={
             supplementalContent
               ? getClassSelectOptions(character, false)
               : getClassSelectOptions(character)
           }
-          value={standardClass}
+          value={
+            standardClass === undefined &&
+            getClassType(character.class) === "custom"
+              ? "Custom"
+              : standardClass
+          }
+          // value={classType === "custom" ? "Custom" : standardClass}
           onChange={onStandardClassChange}
           placeholder="Select a class"
         />
@@ -234,9 +247,14 @@ const StepClass: React.FC<
           secondCombinationClass={secondCombinationClass}
         />
       )}
-      {classArr[0] === "Custom" && (
-        <Input value={customClass} onChange={(e) => onCustomClassChange(e)} />
-      )}
+      {(getClassType(character.class) === "custom" ||
+        classArr[0] === "Custom") &&
+        !combinationClass && (
+          <Input
+            value={customClass ?? character.class}
+            onChange={(e) => onCustomClassChange(e)}
+          />
+        )}
       {hasMagicCharacterClass && (
         // Spell dropdown and spell description
         <WSpellSelect

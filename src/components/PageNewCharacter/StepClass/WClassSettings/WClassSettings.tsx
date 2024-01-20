@@ -1,11 +1,26 @@
+import { CharData, RaceNames } from "@/data/definitions";
+import { races } from "@/data/races";
 import { Flex, Switch, Typography } from "antd";
 import React from "react";
 
-interface WClassSettingsProps {}
+interface WClassSettingsProps {
+  character: CharData;
+  combinationClass: boolean;
+  supplementalContent: boolean;
+  onCombinationClassChange: (checked: boolean) => void;
+  onSupplementalContentChange: (checked: boolean) => void;
+}
 
 const WClassSettings: React.FC<
   WClassSettingsProps & React.ComponentPropsWithRef<"div">
-> = ({ className }) => {
+> = ({
+  className,
+  onCombinationClassChange,
+  onSupplementalContentChange,
+  character,
+  supplementalContent,
+  combinationClass,
+}) => {
   return (
     <Flex gap={16} className={className}>
       <Flex gap={8}>

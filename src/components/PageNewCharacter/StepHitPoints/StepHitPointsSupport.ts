@@ -26,7 +26,6 @@ export const getCharacterHitDiceFromClass = (character: CharData) => {
     }
     return diceArr[diceIndex];
   };
-  console.log("sdwkjcbs", classType, character.class);
   if (classType === "combination") {
     if (classArr.includes(ClassNames.FIGHTER)) {
       return incrementChecker(DiceTypes.D6);
