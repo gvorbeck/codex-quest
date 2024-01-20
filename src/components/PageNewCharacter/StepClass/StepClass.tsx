@@ -1,12 +1,4 @@
-import {
-  Card,
-  Flex,
-  Input,
-  Select,
-  SelectProps,
-  Switch,
-  Typography,
-} from "antd";
+import { Flex, Input, Select, SelectProps, Switch, Typography } from "antd";
 import React, { ChangeEvent } from "react";
 import {
   baseClasses,
@@ -16,14 +8,13 @@ import {
 } from "@/support/classSupport";
 import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
-import { useMarkdown } from "@/hooks/useMarkdown";
-import { getSpellFromName, getSpellsAtLevel } from "@/support/spellSupport";
-import { useDeviceType } from "@/hooks/useDeviceType";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
 import WRaceClassDescription from "./WRaceClassDescription/WRaceClassDescription";
 import { races } from "@/data/races";
-import WSpellCard from "./WSpellCard/WSpellCard";
+import WSpellSelect from "./WSpellSelect/WSpellSelect";
+import WCombinationClassSelect from "./WCombinationClassSelect/WCombinationClassSelect";
+import WClassSettings from "./WClassSettings/WClassSettings";
 
 interface StepClassProps {
   character: CharData;
@@ -36,7 +27,6 @@ interface StepClassProps {
 const StepClass: React.FC<
   StepClassProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
-  const { isMobile } = useDeviceType();
   // STATE
   const [standardClass, setStandardClass] = React.useState<string | undefined>(
     getClassType(character.class) === "standard"
@@ -87,13 +77,6 @@ const StepClass: React.FC<
       : undefined,
   );
   // VARS
-  const classDescription = useMarkdown(
-    `Characters with the **${magicCharacterClass}** class start with **Read Magic** and one other spell:`,
-  );
-  const levelOneSpells = getSpellsAtLevel(classArr, character.level);
-  const spellSelectOptions: SelectProps["options"] = levelOneSpells
-    .map((spell: Spell) => ({ value: spell.name, label: spell.name }))
-    .sort((a, b) => a.label.localeCompare(b.label));
   const { getRaceClassImage } = useImages();
   const classImage = (className: ClassNames) =>
     getRaceClassImage(toSlugCase(className));
@@ -109,12 +92,6 @@ const StepClass: React.FC<
     setStandardClass(undefined);
     setStartingSpells([]);
     setCustomClass(undefined);
-  };
-  const onStartingSpellChange = (value: string) => {
-    const readMagicSpell = getSpellFromName("Read Magic");
-    const selectedSpell = getSpellFromName(value);
-    const spells = [readMagicSpell, selectedSpell].filter(Boolean) as Spell[];
-    setStartingSpells(spells);
   };
   const onCustomClassChange = (value: ChangeEvent<HTMLInputElement>) => {
     setCustomClass(value.target.value);
@@ -136,10 +113,6 @@ const StepClass: React.FC<
       );
     }
   };
-  const onFirstCombinationClassSelectChange = (value: string) =>
-    setFirstCombinationClass(value);
-  const onSecondCombinationClassSelectChange = (value: string) =>
-    setSecondCombinationClass(value);
   // FUNCTIONS
   const getComboClasses = (
     comboList: ClassNames[],
@@ -199,6 +172,7 @@ const StepClass: React.FC<
         spells: startingSpells,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [classArr, customClass, startingSpells]);
 
   React.useEffect(() => {
@@ -211,6 +185,7 @@ const StepClass: React.FC<
     } else {
       setMagicCharacterClass(undefined);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasMagicCharacterClass]);
 
   React.useEffect(() => {
@@ -225,6 +200,7 @@ const StepClass: React.FC<
     } else {
       setHasMagicCharacterClass(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [classArr]);
 
   React.useEffect(() => {
@@ -235,24 +211,8 @@ const StepClass: React.FC<
 
   return (
     <Flex gap={16} vertical className={className}>
-      <Flex gap={16}>
-        <Flex gap={8}>
-          <Typography.Text>Enable Supplemental Content</Typography.Text>
-          <Switch
-            checked={supplementalContent}
-            onChange={onSupplementalContentChange}
-          />
-        </Flex>
-        {races[character.race as RaceNames]?.allowedCombinationClasses && (
-          <Flex gap={8}>
-            <Typography.Text>Use Combination Class</Typography.Text>
-            <Switch
-              checked={combinationClass}
-              onChange={onCombinationClassChange}
-            />
-          </Flex>
-        )}
-      </Flex>
+      {/* switches for class options */}
+      <WClassSettings />
       {!combinationClass ? (
         <Select
           options={
@@ -265,52 +225,34 @@ const StepClass: React.FC<
           placeholder="Select a class"
         />
       ) : (
-        <Flex gap={16} vertical>
-          <Select
-            placeholder="Choose the first combination class"
-            options={combinationClassOptions[0]}
-            value={firstCombinationClass}
-            onChange={onFirstCombinationClassSelectChange}
-          />
-          <Select
-            placeholder="Choose the second combination class"
-            options={combinationClassOptions[1]}
-            value={secondCombinationClass}
-            onChange={onSecondCombinationClassSelectChange}
-          />
-        </Flex>
+        // two combination class dropdowns
+        <WCombinationClassSelect
+          combinationClassOptions={combinationClassOptions}
+          setFirstCombinationClass={setFirstCombinationClass}
+          setSecondCombinationClass={setSecondCombinationClass}
+          firstCombinationClass={firstCombinationClass}
+          secondCombinationClass={secondCombinationClass}
+        />
       )}
       {classArr[0] === "Custom" && (
         <Input value={customClass} onChange={(e) => onCustomClassChange(e)} />
       )}
       {hasMagicCharacterClass && (
-        <Card
-          title={
-            <span className="font-enchant text-3xl tracking-wide">
-              Choose a spell
-            </span>
-          }
-        >
-          <Flex vertical gap={16}>
-            <Typography.Text className="[&_p]:m-0">
-              <div dangerouslySetInnerHTML={{ __html: classDescription }} />
-            </Typography.Text>
-            <Select
-              options={spellSelectOptions}
-              value={startingSpells?.[0]?.name}
-              onChange={onStartingSpellChange}
-            />
-            {!!startingSpells?.length && (
-              <WSpellCard startingSpells={startingSpells} />
-            )}
-          </Flex>
-        </Card>
+        // Spell dropdown and spell description
+        <WSpellSelect
+          startingSpells={startingSpells}
+          setStartingSpells={setStartingSpells}
+          magicCharacterClass={magicCharacterClass}
+          character={character}
+          classArr={classArr}
+        />
       )}
       {!!classArr.length &&
         classArr[0] !== "Custom" &&
         classArr.map((className) => (
+          // Description of selected classes
           <WRaceClassDescription
-            subject={className === "Custom" ? "doog" : className}
+            subject={className}
             image={classImage(className as ClassNames)}
             key={className}
           />
