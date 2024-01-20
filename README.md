@@ -4,6 +4,8 @@
 [cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
 
+<img src="https://github.com/gvorbeck/codex-quest/blob/main/src/assets/images/dragon-head.png" width="200" alt="logo" />
+
 # CODEX.QUEST for BFRPG
 
 Repo for website [CODEX.QUEST](https://codex.quest)
