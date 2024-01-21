@@ -57,6 +57,9 @@ const Equipment: React.FC<
           showAttackButton
           setModalIsOpen={setModalIsOpen}
           setModalTitle={setModalTitle}
+          character={character}
+          setCharacter={setCharacter}
+          setModalContent={setModalContent}
         />
         <EquipmentItemDescription
           item={punchItem}
@@ -64,6 +67,8 @@ const Equipment: React.FC<
           setModalIsOpen={setModalIsOpen}
           setModalTitle={setModalTitle}
           setModalContent={setModalContent}
+          character={character}
+          setCharacter={setCharacter}
         />
       </Flex>
       <CollapseEquipment
