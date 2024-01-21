@@ -4,7 +4,6 @@ import { Button, Card, Descriptions, Flex, Spin, Tooltip } from "antd";
 import { openInNewTab } from "@/support/characterSupport";
 import classNames from "classnames";
 import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import AddPlayerForm from "./AddPlayerForm/AddPlayerForm";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 
 interface PlayerListProps {
@@ -13,7 +12,6 @@ interface PlayerListProps {
   setShowAssassinAbilities: (showAssassinAbilities: boolean) => void;
   setShowRangerAbilities: (showRangerAbilities: boolean) => void;
   setShowScoutAbilities: (showScoutAbilities: boolean) => void;
-  gmId: string;
   gameId: string;
   userIsOwner: boolean;
 }
@@ -27,7 +25,6 @@ const PlayerList: React.FC<
   setShowAssassinAbilities,
   setShowRangerAbilities,
   setShowScoutAbilities,
-  gmId,
   gameId,
   userIsOwner,
 }) => {
@@ -56,7 +53,6 @@ const PlayerList: React.FC<
 
   return characterList.length ? (
     <Flex vertical gap={16} className={playerListClassNames}>
-      <AddPlayerForm gmId={gmId} gameId={gameId} userIsOwner={userIsOwner} />
       {characterList
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((character) => {

@@ -11,6 +11,7 @@ import { mobileBreakpoint } from "@/support/stringSupport";
 import classNames from "classnames";
 import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
 import { TeamOutlined } from "@ant-design/icons";
+import AddPlayerForm from "./PlayerList/AddPlayerForm/AddPlayerForm";
 
 interface PageGameSheetProps {
   user: User | null;
@@ -29,7 +30,9 @@ const PageGameSheet: React.FC<
   const [showRangerAbilities, setShowRangerAbilities] = React.useState(false);
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
-
+  const addPlayerFormClassNames = classNames({
+    "w-1/2": !game?.players.length,
+  });
   const gameBinderClassNames = classNames({ "w-1/2 shrink-0": !isMobile });
 
   const breadcrumbItems: BreadcrumbProps["items"] = [
@@ -60,29 +63,40 @@ const PageGameSheet: React.FC<
         className={className}
         justify="flex-end"
       >
-        {game.players && uid && id && (
+        {uid && id && (
           <>
-            <PlayerList
-              players={game.players}
-              setShowThiefAbilities={setShowThiefAbilities}
-              setShowAssassinAbilities={setShowAssassinAbilities}
-              setShowRangerAbilities={setShowRangerAbilities}
-              setShowScoutAbilities={setShowScoutAbilities}
-              gmId={uid}
-              gameId={id}
-              userIsOwner={userIsOwner}
-            />
-            <GameBinder
-              players={game.players}
-              showThiefAbilities={showThiefAbilities}
-              showAssassinAbilities={showAssassinAbilities}
-              showRangerAbilities={showRangerAbilities}
-              showScoutAbilities={showScoutAbilities}
-              className={gameBinderClassNames}
-              gameId={id}
-              uid={uid}
-              notes={game.notes}
-            />
+            <div className={addPlayerFormClassNames}>
+              <AddPlayerForm
+                gmId={uid}
+                gameId={id}
+                userIsOwner={userIsOwner}
+                className="mb-4"
+              />
+              {!!game.players.length && (
+                <PlayerList
+                  players={game.players}
+                  setShowThiefAbilities={setShowThiefAbilities}
+                  setShowAssassinAbilities={setShowAssassinAbilities}
+                  setShowRangerAbilities={setShowRangerAbilities}
+                  setShowScoutAbilities={setShowScoutAbilities}
+                  gameId={id}
+                  userIsOwner={userIsOwner}
+                />
+              )}
+            </div>
+            {!!game.players.length && (
+              <GameBinder
+                players={game.players}
+                showThiefAbilities={showThiefAbilities}
+                showAssassinAbilities={showAssassinAbilities}
+                showRangerAbilities={showRangerAbilities}
+                showScoutAbilities={showScoutAbilities}
+                className={gameBinderClassNames}
+                gameId={id}
+                uid={uid}
+                notes={game.notes}
+              />
+            )}
           </>
         )}
       </Flex>
