@@ -16,21 +16,21 @@ const newCharacterStepDescriptions = {
   abilities:
     marked(`Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
   
-  <a href="https://basicfantasy.org/srd/abilities.html" target="_blank">BFRPG Character Ability documentation</a>`),
+  <a href="https://basicfantasy.org/srd/abilities.html" target="_blank">BFRPG Official Character Ability documentation</a>`),
   race: marked(`Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely. **Races included in the base game rules are in bold**.
   
-  <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Character Race documentation</a>`),
+  <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Official Character Race documentation</a>`),
   class:
     marked(`Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up. **Classes included in the base game rules are in bold**.
   
-  <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Character Class documentation</a>`),
+  <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Official Character Class documentation</a>`),
   hp: marked(`Roll for your character's Hit Points. **Your character's Race may place restrictions on the Hit Dice available to them, but generally this is determined by their chosen Class**. Additionally, your character's Constitution modifier is added/subtracted from this value with a minimum value of 1. The end result is the amount of Hit Points your character will start with and determines how much damage your character can take in battle.
   
-  <a href="https://basicfantasy.org/srd/abilities.html#hit-points-and-hit-dice" target="_blank">BFRPG Character Hit Points documentation</a>`),
+  <a href="https://basicfantasy.org/srd/abilities.html#hit-points-and-hit-dice" target="_blank">BFRPG Official Character Hit Points documentation</a>`),
   equipment: marked(
     `Roll for your character's starting gold and purchase their equipment. **Keep in mind that your character's Race and Class selections may limit types and amounts of equipment they can have**.
   
-  <a href="https://basicfantasy.org/srd/equipment.html" target="_blank">BFRPG Character Equipment documentation</a>`,
+  <a href="https://basicfantasy.org/srd/equipment.html" target="_blank">BFRPG Official Character Equipment documentation</a>`,
   ),
   name: marked(
     `You're almost done! Personalize your newly minted character by giving them an identity. Optionally, upload a portrait image if you'd like. Image must be PNG/JPG and <= 1mb`,
@@ -66,8 +66,8 @@ export const getStepsItems = (
       <StepRace
         character={character}
         setCharacter={setCharacter}
-        setComboClass={setComboClass}
-        setComboClassSwitch={setComboClassSwitch}
+        // setComboClass={setComboClass}
+        // setComboClassSwitch={setComboClassSwitch}
       />
     ),
   },

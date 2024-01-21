@@ -45,5 +45,15 @@ export const getRaceSelectOptions = (
     }));
 };
 
-export const isStandardRace = (raceName: string) =>
-  Object.values(RaceNames).includes(raceName as RaceNames);
+export const baseClasses = [
+  RaceNames.DWARF,
+  RaceNames.ELF,
+  RaceNames.HALFLING,
+  RaceNames.HUMAN,
+];
+
+export const isStandardRace = (raceName: string, isBase = false) => {
+  if (!raceName) return false;
+  if (isBase) return Object.values(baseClasses).includes(raceName as RaceNames);
+  return Object.values(RaceNames).includes(raceName as RaceNames);
+};

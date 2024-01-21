@@ -1,91 +1,117 @@
-import React from "react";
+import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 import { CharData, RaceNames } from "@/data/definitions";
-import { Flex, SelectProps } from "antd";
-import { races } from "@/data/races";
-import RaceClassSelector from "../RaceClassSelector/RaceClassSelector";
-import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
-import Options from "../StepClass/Options/Options";
-import { getRaceSelectOptions } from "@/support/raceSupport";
+import { useDeviceType } from "@/hooks/useDeviceType";
+import { getRaceSelectOptions, isStandardRace } from "@/support/raceSupport";
+import { Flex, Input, Select, Switch, Typography } from "antd";
+import classNames from "classnames";
+import React, { ChangeEvent } from "react";
+import WRaceClassDescription from "../StepClass/WRaceClassDescription/WRaceClassDescription";
+import { useImages } from "@/hooks/useImages";
+import { toSlugCase } from "@/support/stringSupport";
 
 interface StepRaceProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
-  setComboClass: (comboClass: boolean) => void;
-  setComboClassSwitch: (comboClassSwitch: boolean) => void;
 }
 
 const StepRace: React.FC<
   StepRaceProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  setCharacter,
-  setComboClass,
-  setComboClassSwitch,
-}) => {
-  const [raceSelector, setRaceSelector] = React.useState<string>(
-    character.race,
+> = ({ className, character, setCharacter }) => {
+  // STATE
+  const [supplementalContent, setSupplementalContent] = React.useState<boolean>(
+    character.race ? !isStandardRace(character.race, true) : false,
   );
-  const [customRaceInput, setCustomRaceInput] = React.useState<string>("");
-  const [supplementalContentSwitch, setSupplementalContentSwitch] =
-    React.useState<boolean>(false);
-
-  const raceSelectOptions: SelectProps["options"] = getRaceSelectOptions(
-    character,
-    !supplementalContentSwitch,
+  const [race, setRace] = React.useState<string | undefined>(
+    character.race as string | undefined,
   );
-
-  const handleSelectChange = (value: string) => {
-    setRaceSelector(value);
-    setComboClassSwitch(false);
+  // if the character has a non-custom race
+  const [standardRace, setStandardRace] = React.useState<string | undefined>(
+    !!character.race && isStandardRace(character.race)
+      ? character.race
+      : undefined,
+  );
+  //
+  const [customRace, setCustomRace] = React.useState<string | undefined>(
+    !!character.race && !isStandardRace(character.race)
+      ? character.race
+      : undefined,
+  );
+  // HOOKS
+  const { isMobile } = useDeviceType();
+  // VARS
+  const { getRaceClassImage } = useImages();
+  const innerFlexClassNames = classNames({ "justify-between": isMobile });
+  const raceImage = (className: RaceNames) =>
+    getRaceClassImage(toSlugCase(className));
+  // METHODS
+  const onSupplementalContentChange = (checked: boolean) => {
+    setSupplementalContent(checked);
+    setRace(undefined);
+    setStandardRace(undefined);
+    setCustomRace(undefined);
   };
-
-  const handleCustomRaceInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setCustomRaceInput(e.target.value);
-    setCharacter({ ...character, race: e.target.value });
+  const onStandardRaceChange = (value: string) => {
+    setCustomRace(undefined);
+    setStandardRace(value);
+    setRace(value);
   };
-
+  const onCustomRaceChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCustomRace(value);
+    setRace(value);
+  };
+  // EFFECTS
   React.useEffect(() => {
-    if (raceSelector !== "custom" && raceSelector !== "") {
-      setCharacter({ ...character, race: raceSelector });
-    }
+    // setCharacter({}) // race and class, dice, equipment, spells, hp, etc
+    if (race)
+      setCharacter({
+        ...character,
+        race,
+        class: [],
+        spells: [],
+        hp: { dice: "", points: 0, desc: "", max: 0 },
+        equipment: [],
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [raceSelector]);
-
-  React.useEffect(
-    () => {
-      setComboClass(
-        !!races[character.race as keyof typeof races]?.allowedCombinationClasses
-          ?.length || false,
-      );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character],
-  );
-
+  }, [race]);
   return (
-    <Flex vertical className={className} gap={16}>
-      <Options
-        setComboClassSwitch={setComboClassSwitch}
-        setSupplementalContentSwitch={setSupplementalContentSwitch}
-        supplementalContentSwitch={supplementalContentSwitch}
-      />
-      <RaceClassSelector
-        customInput={customRaceInput}
-        handleCustomInputChange={handleCustomRaceInputChange}
-        handleSelectChange={handleSelectChange}
-        selectOptions={raceSelectOptions}
-        selector={raceSelector}
-        type="race"
-      />
-      {!!raceSelector && (
-        <RaceClassDescription
-          name={raceSelector}
-          description={`${races[raceSelector as RaceNames]?.details
-            ?.description}`}
+    <Flex gap={16} vertical className={className}>
+      <Flex gap={8} className={innerFlexClassNames}>
+        <Typography.Text>Enable Supplemental Content</Typography.Text>
+        <Switch
+          checked={supplementalContent}
+          onChange={onSupplementalContentChange}
         />
+      </Flex>
+      <Select
+        options={
+          supplementalContent
+            ? getRaceSelectOptions(character, false)
+            : getRaceSelectOptions(character)
+        }
+        value={
+          standardRace === undefined && isStandardRace(character.race)
+            ? "Custom"
+            : standardRace
+        }
+        onChange={onStandardRaceChange}
+        placeholder="Select a race"
+      />
+      {customRace || standardRace === "Custom" ? (
+        <>
+          <HomebrewWarning homebrew="race" />
+          <Input
+            value={customRace ?? character.race}
+            onChange={(e) => onCustomRaceChange(e)}
+          />
+        </>
+      ) : (
+        standardRace && (
+          <WRaceClassDescription
+            subject={race ?? ""}
+            image={raceImage(race as RaceNames)}
+          />
+        )
       )}
     </Flex>
   );

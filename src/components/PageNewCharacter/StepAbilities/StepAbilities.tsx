@@ -117,18 +117,16 @@ const StepAbilities: React.FC<
         scores: { ...character.abilities?.scores, ...scores },
         modifiers: { ...character.abilities?.modifiers, ...modifiers },
       },
-      class: character.class || [],
-      race: character.race || "",
+      class: [],
+      race: "",
       hp: {
-        dice: character.hp?.dice || "",
-        points: character.hp?.points || 0,
-        max: character.hp?.max || 0,
-        desc: character.hp?.desc || "",
+        dice: "",
+        points: 0,
+        max: 0,
+        desc: "",
       },
-      equipment: character.equipment || [],
+      equipment: [],
     });
-    setComboClass && setComboClass(false);
-    setComboClassSwitch && setComboClassSwitch(false);
   };
 
   const rollAllAbilities = () => {

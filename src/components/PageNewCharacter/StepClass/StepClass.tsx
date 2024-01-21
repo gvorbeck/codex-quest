@@ -145,7 +145,6 @@ const StepClass: React.FC<
 
   // EFFECTS
   React.useEffect(() => {
-    console.log("foo");
     setStartingSpells([]);
     setCustomClass(undefined);
     if (standardClass) {
@@ -177,6 +176,8 @@ const StepClass: React.FC<
         ...character,
         class: getFinalClass(),
         spells: startingSpells,
+        hp: { dice: "", points: 0, desc: "", max: 0 },
+        equipment: [],
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
