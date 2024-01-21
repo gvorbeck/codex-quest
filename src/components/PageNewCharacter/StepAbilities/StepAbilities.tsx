@@ -15,14 +15,7 @@ interface StepAbilitiesProps {
 
 const StepAbilities: React.FC<
   StepAbilitiesProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  setCharacter,
-  setComboClass,
-  hideRollAll,
-  setComboClassSwitch,
-}) => {
+> = ({ className, character, setCharacter, hideRollAll }) => {
   const dataSource = [
     {
       key: "1",

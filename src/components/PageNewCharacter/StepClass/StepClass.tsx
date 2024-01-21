@@ -25,9 +25,6 @@ const WAllSpellsSelection = React.lazy(
 interface StepClassProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
-  comboClass: boolean; // REMOVE
-  comboClassSwitch: boolean; // REMOVE
-  setComboClassSwitch: (comboClassSwitch: boolean) => void; // REMOVE
 }
 
 const StepClass: React.FC<

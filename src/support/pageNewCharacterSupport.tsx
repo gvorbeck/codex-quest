@@ -40,50 +40,26 @@ const newCharacterStepDescriptions = {
 export const getStepsItems = (
   character: CharData,
   setCharacter: (character: CharData) => void,
-  setComboClass: (comboClass: boolean) => void,
-  setComboClassSwitch: (comboClassSwitch: boolean) => void,
-  comboClass: boolean,
-  comboClassSwitch: boolean,
 ) => [
   {
     title: "Abilities",
     fulltitle: "Roll for Ability Scores",
     description: newCharacterStepDescriptions.abilities,
     content: (
-      <StepAbilities
-        character={character}
-        setCharacter={setCharacter}
-        setComboClass={setComboClass}
-        setComboClassSwitch={setComboClassSwitch}
-      />
+      <StepAbilities character={character} setCharacter={setCharacter} />
     ),
   },
   {
     title: "Race",
     fulltitle: "Choose a Race",
     description: newCharacterStepDescriptions.race,
-    content: (
-      <StepRace
-        character={character}
-        setCharacter={setCharacter}
-        // setComboClass={setComboClass}
-        // setComboClassSwitch={setComboClassSwitch}
-      />
-    ),
+    content: <StepRace character={character} setCharacter={setCharacter} />,
   },
   {
     title: "Class",
     fulltitle: "Choose a Class",
     description: newCharacterStepDescriptions.class,
-    content: (
-      <StepClass
-        character={character}
-        setCharacter={setCharacter}
-        comboClass={comboClass}
-        comboClassSwitch={comboClassSwitch}
-        setComboClassSwitch={setComboClassSwitch}
-      />
-    ),
+    content: <StepClass character={character} setCharacter={setCharacter} />,
   },
   {
     title: "Hit Points",
