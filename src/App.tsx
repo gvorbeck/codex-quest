@@ -35,11 +35,6 @@ const App: React.FC = () => {
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // TODO: Verify race class filtering works when creating new character.
-  // TODO: There are race/class specific special parameters (like incrementing hit dice), that need to be checked.
-  // TODO: Edit character name
-  // TODO: Edquipment filtering
-  console.error("REMAINING TODOS!");
   return (
     <ConfigProvider theme={cqTheme}>
       <Suspense fallback={<Spin />}>
