@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  EditOutlined,
-  SolutionOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { avatarClassNames } from "@/support/cssSupport";
+import { SolutionOutlined } from "@ant-design/icons";
 import {
   Flex,
-  Badge,
-  Avatar,
   Divider,
   Breadcrumb,
   Typography,
@@ -16,13 +9,12 @@ import {
   BreadcrumbProps,
   DescriptionsProps,
 } from "antd";
-import { getAvatar } from "@/support/characterSupport";
 import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
 import classNames from "classnames";
-import AvatarPicker from "@/components/AvatarPicker/AvatarPicker";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { classSplit } from "@/support/classSupport";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
+import HeroAvatar from "./HeroAvatar/HeroAvatar";
 
 interface HeroProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;
@@ -40,17 +32,10 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const { character, setCharacter, userIsOwner, uid, id } =
     React.useContext(CharacterDataContext);
+
   const heroClassNames = classNames("w-full", className);
 
   const classArr = classSplit(character.class);
-
-  const showAvatarModal = () => {
-    setModalIsOpen(true);
-    setModalTitle("Change Avatar");
-    setModalContent(
-      <AvatarPicker character={character} setCharacter={setCharacter} />,
-    );
-  };
 
   const breadcrumbItems: BreadcrumbProps["items"] = [
     {
@@ -76,28 +61,14 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
     <>
       <Flex className={heroClassNames} gap={16} vertical>
         <Breadcrumb items={breadcrumbItems} />
-        {/* Avatar */}
-        <div
-          className="[&>span:hover>span:last-child]:opacity-100 mx-auto cursor-pointer"
-          onClick={
-            userIsOwner
-              ? showAvatarModal
-              : () => {
-                  console.error(
-                    "You are not logged in as the owner of this character",
-                  );
-                }
-          }
-        >
-          <Badge count={<EditOutlined className="opacity-25" />}>
-            <Avatar
-              size={64}
-              className={avatarClassNames}
-              icon={!character.avatar ? <UserOutlined /> : undefined}
-              src={character.avatar ? getAvatar(character.avatar) : undefined}
-            />
-          </Badge>
-        </div>
+        <HeroAvatar
+          setModalIsOpen={setModalIsOpen}
+          setModalContent={setModalContent}
+          setModalTitle={setModalTitle}
+          userIsOwner={userIsOwner}
+          character={character}
+          setCharacter={setCharacter}
+        />
         {/* Name */}
         <Typography.Title
           level={2}
