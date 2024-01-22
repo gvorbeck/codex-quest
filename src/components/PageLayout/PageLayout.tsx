@@ -13,16 +13,12 @@ interface PageLayoutProps {
 
 const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
   const contentWidthClassName = "max-w-[1200px] mx-auto w-full";
-  const layoutContentClassName = classNames(
-    contentWidthClassName,
-    "p-4",
-    "flex-[1_0_auto]",
-  );
+  const layoutContentClassName = classNames(contentWidthClassName, "p-4");
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const navigate = useNavigate();
   return (
-    <Layout className="bg-noise flex flex-col">
+    <Layout className="flex flex-col min-h-[100vh]">
       <Layout.Header className="flex items-center">
         <PageHeader user={user} className={contentWidthClassName} />
       </Layout.Header>
@@ -61,7 +57,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
           <Outlet context={{ user, className: "" }} />
         </Flex>
       </Layout.Content>
-      <Layout.Footer className="shrink-0">
+      <Layout.Footer>
         <PageFooter className={contentWidthClassName} />
       </Layout.Footer>
     </Layout>
