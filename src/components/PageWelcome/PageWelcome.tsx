@@ -1,6 +1,6 @@
 import { Flex, Image, Typography } from "antd";
 import React from "react";
-import CharacterSheet from "@/assets/images/char-sheet-v2.png";
+import CharacterSheet from "@/assets/images/screenshot.jpg";
 import SiteLogo from "@/assets/images/dragon-head.png";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
