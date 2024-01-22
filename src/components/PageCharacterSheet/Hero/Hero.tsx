@@ -1,5 +1,5 @@
 import React from "react";
-import { SolutionOutlined } from "@ant-design/icons";
+import { EditOutlined, SolutionOutlined } from "@ant-design/icons";
 import {
   Flex,
   Divider,
@@ -8,6 +8,8 @@ import {
   Descriptions,
   BreadcrumbProps,
   DescriptionsProps,
+  Badge,
+  Input,
 } from "antd";
 import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
 import classNames from "classnames";
@@ -32,6 +34,9 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const { character, setCharacter, userIsOwner, uid, id } =
     React.useContext(CharacterDataContext);
+  const [newNameInput, setNewNameInput] = React.useState<string>(
+    character.name,
+  );
 
   const heroClassNames = classNames("w-full", className);
 
@@ -57,6 +62,26 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
     { key: "3", label: "Class", children: classArr.join(", ") },
   ];
 
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+    setNewNameInput(event.target.value);
+  };
+
+  const onNameClick = () => {
+    if (!userIsOwner) return;
+    setModalIsOpen(true);
+    setModalTitle("Change Character Name");
+    setModalContent(
+      <Input
+        type="text"
+        className="w-full"
+        value={newNameInput}
+        onChange={handleNameChange}
+        // onChange={(e) => setCharacter({ ...character, name: e.target.value })}
+      />,
+    );
+  };
+
   return (
     <>
       <Flex className={heroClassNames} gap={16} vertical>
@@ -72,9 +97,11 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         {/* Name */}
         <Typography.Title
           level={2}
-          className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full"
+          className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
+          onClick={onNameClick}
         >
           {character.name}
+          <Badge count={<EditOutlined />} />
         </Typography.Title>
         <Divider />
         <Flex
