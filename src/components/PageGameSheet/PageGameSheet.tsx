@@ -31,7 +31,7 @@ const PageGameSheet: React.FC<
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
   const addPlayerFormClassNames = classNames({
-    "w-1/2": !game?.players.length,
+    "w-1/2": !game?.players?.length,
   });
   const gameBinderClassNames = classNames({ "w-1/2 shrink-0": !isMobile });
 
@@ -72,7 +72,7 @@ const PageGameSheet: React.FC<
                 userIsOwner={userIsOwner}
                 className="mb-4"
               />
-              {!!game.players.length && (
+              {!!game.players?.length && (
                 <PlayerList
                   players={game.players}
                   setShowThiefAbilities={setShowThiefAbilities}
@@ -84,7 +84,7 @@ const PageGameSheet: React.FC<
                 />
               )}
             </div>
-            {!!game.players.length && (
+            {!!game.players?.length && (
               <GameBinder
                 players={game.players}
                 showThiefAbilities={showThiefAbilities}
