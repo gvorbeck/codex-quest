@@ -44,17 +44,19 @@ const PageHeader: React.FC<
               shape="circle"
               icon={<LogoutOutlined />}
               onClick={() => auth.signOut()}
-              className="shadow-none"
+              className="shadow-none logout"
             />
           </Tooltip>
         ) : (
-          <Button
-            type="primary"
-            onClick={() => setIsLoginSignupModalOpen(true)}
-            className="[&:hover]:text-shipGray shadow-none"
-            shape="circle"
-            icon={<LoginOutlined />}
-          />
+          <Tooltip title="Login to CODEX.QUEST" color="#3E3643">
+            <Button
+              type="primary"
+              onClick={() => setIsLoginSignupModalOpen(true)}
+              className="[&:hover]:text-shipGray shadow-none login"
+              shape="circle"
+              icon={<LoginOutlined />}
+            />
+          </Tooltip>
         )}
       </div>
       <LoginSignupModal
