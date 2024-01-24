@@ -60,19 +60,31 @@ const PageFooter: React.FC<
           </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
-          <Link to="https://www.freeprivacypolicy.com/live/fbe666aa-8172-4c25-86b3-f8b190191f9c">
+          <a
+            href="https://www.freeprivacypolicy.com/live/fbe666aa-8172-4c25-86b3-f8b190191f9c"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Privacy Policy
-          </Link>
+          </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
-          <Link to="https://www.paypal.com/donate/?business=4BW6AR5BGQZYW&no_recurring=0&item_name=for+CODEX.QUEST+database+fees&currency_code=USD">
+          <a
+            href="https://www.paypal.com/donate/?business=4BW6AR5BGQZYW&no_recurring=0&item_name=for+CODEX.QUEST+database+fees&currency_code=USD"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Donate
-          </Link>
+          </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
-          <Link to="https://basicfantasy.org/forums/viewtopic.php?t=4840">
+          <a
+            href="https://basicfantasy.org/forums/viewtopic.php?t=4840"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Forum
-          </Link>
+          </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
           <Link to="/sources">Sources</Link>
