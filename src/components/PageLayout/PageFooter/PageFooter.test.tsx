@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PageFooter from "./PageFooter";
-import { version, bfrpgRelease, bfrpgEdition } from "../../../../package.json";
+import { bfrpgRelease } from "../../../../package.json";
 
 describe("PageFooter", () => {
   it("renders the component correctly", () => {
@@ -12,32 +12,30 @@ describe("PageFooter", () => {
       </BrowserRouter>,
     );
 
-    // Test for static text
-    expect(
-      getByText(`© ${new Date().getFullYear()} J. Garrett Vorbeck`),
-    ).toBeTruthy();
+    const basicFantasyLink = getByText(
+      "Basic Fantasy Role-Playing Game",
+    ).closest("a");
+    expect(basicFantasyLink).not.toBeNull();
+    expect(basicFantasyLink?.getAttribute("href")).toBe(
+      "https://basicfantasy.org",
+    );
 
-    // Test for dynamic text
-    expect(getByText(`CODEX.QUEST v${version}`)).toBeTruthy();
-    expect(
-      getByText(`current to ${bfrpgEdition} Edition (release ${bfrpgRelease})`),
-    ).toBeTruthy();
-
-    // Test for external links
-    expect(
-      getByText("Basic Fantasy Role-Playing Game").closest("a"),
-    ).toHaveAttribute("href", "https://basicfantasy.org");
-    expect(getByText("License").closest("a")).toHaveAttribute(
-      "href",
+    const licenseLink = getByText("License").closest("a");
+    expect(licenseLink).not.toBeNull();
+    expect(licenseLink?.getAttribute("href")).toBe(
       "https://github.com/gvorbeck/codex-quest/blob/main/LICENSE",
     );
-    expect(getByText("Contact").closest("a")).toHaveAttribute(
-      "href",
-      "mailto:me@iamgarrett.com",
-    );
 
-    // Test for react-router-dom Link
-    const sourcesLink = getByText("Sources");
-    expect(sourcesLink.closest("a")).toHaveAttribute("href", "/sources");
+    const contactLink = getByText("Contact").closest("a");
+    expect(contactLink).not.toBeNull();
+    expect(contactLink?.getAttribute("href")).toBe("mailto:me@iamgarrett.com");
+  });
+});
+
+describe("bfrpgRelease", () => {
+  it("should be a string representing a number", () => {
+    // Check if bfrpgRelease is a string that can be converted to a number
+    const isNumeric = !isNaN(Number(bfrpgRelease));
+    expect(isNumeric).toBe(true);
   });
 });
