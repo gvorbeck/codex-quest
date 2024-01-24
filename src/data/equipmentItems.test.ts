@@ -1,5 +1,6 @@
 import { AttackTypes } from "../support/stringSupport";
 import equipmentItems from "./equipmentItems.json";
+import { describe, expect, test } from "vitest";
 
 describe("equipmentItems", () => {
   test("every items has a unique name", () => {

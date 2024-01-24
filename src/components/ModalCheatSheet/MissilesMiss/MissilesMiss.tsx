@@ -6,7 +6,7 @@ export default function MissilesMiss() {
     "grid",
     "grid-cols-3",
     "grid-rows-5",
-    "gap-[1px]"
+    "gap-[1px]",
   );
   const gridItem = classNames(
     "[&>div]:bg-shipGray",
@@ -15,7 +15,7 @@ export default function MissilesMiss() {
     "[&>div]:border",
     "[&>div]:border-seaBuckthorn",
     "[&>div]:border-solid",
-    "[&>div]:py-1"
+    "[&>div]:py-1",
   );
   return (
     <>
