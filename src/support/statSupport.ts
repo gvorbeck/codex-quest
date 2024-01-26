@@ -52,6 +52,16 @@ const findACValue = (
   return Number(foundItem?.[acType] || 0);
 };
 
+export const getCharacterWeight = (character: CharData) => {
+  const equipmentWeight = character.equipment.reduce(
+    (accumulator: number, currentValue: EquipmentItem) =>
+      accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
+    0,
+  );
+  const coinsWeight = character.gold * 0.05;
+  return equipmentWeight + coinsWeight;
+};
+
 export const getMovement = (characterData: CharData) => {
   if (!characterData) return;
 
@@ -90,10 +100,9 @@ export const getMovement = (characterData: CharData) => {
   const currentCategory = armorCategoryMap[currentArmor];
   const [lightSpeed, heavySpeed] =
     armorSpeedMap[currentCategory || "lightArmor"];
+  const weight = getCharacterWeight(characterData);
 
-  return characterData.weight <= carryingCapacity.light
-    ? lightSpeed
-    : heavySpeed;
+  return weight <= carryingCapacity.light ? lightSpeed : heavySpeed;
 };
 
 // Helper function to get the strength range
@@ -244,14 +253,4 @@ export const getModifier = (score: number): string => {
     }
   }
   return "+0"; // Default value
-};
-
-export const getCharacterWeight = (character: CharData) => {
-  const equipmentWeight = character.equipment.reduce(
-    (accumulator: number, currentValue: EquipmentItem) =>
-      accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
-    0,
-  );
-  const coinsWeight = character.gold * 0.05;
-  return equipmentWeight + coinsWeight;
 };

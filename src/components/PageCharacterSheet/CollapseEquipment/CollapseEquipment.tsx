@@ -58,7 +58,7 @@ const CollapseEquipment: React.FC<
   setModalTitle,
   setModalContent,
 }) => {
-  const onChangeWearing = (e: RadioChangeEvent, type: "armor" | "shield") => {
+  const onChangeWearing = (e: RadioChangeEvent, type: "armor" | "shields") => {
     setCharacter({
       ...character,
       wearing: {
@@ -67,7 +67,7 @@ const CollapseEquipment: React.FC<
             ? e.target.value || ""
             : character.wearing?.armor || "",
         shield:
-          type === "shield"
+          type === "shields"
             ? e.target.value || ""
             : character.wearing?.shield || "",
       },
@@ -93,11 +93,13 @@ const CollapseEquipment: React.FC<
                   : character.wearing?.shield
               }
               onChangeWearing={(e) => {
+                console.log(category, character);
                 if (
                   category[0] === EquipmentCategories.ARMOR ||
                   category[0] === EquipmentCategories.SHIELDS
                 ) {
-                  onChangeWearing(e, category[0] as "armor" | "shield");
+                  console.log("foofoo");
+                  onChangeWearing(e, category[0] as "armor" | "shields");
                 }
               }}
             >
