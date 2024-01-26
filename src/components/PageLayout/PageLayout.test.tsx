@@ -2,10 +2,10 @@ import { describe, it, expect, vi } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageLayout from "./PageLayout";
 import { render } from "@testing-library/react";
-import { User } from "firebase/auth";
+// import { User } from "firebase/auth";
 
 // Mock User
-const user: User = true as unknown as User;
+// const user: User = true as unknown as User;
 
 describe("PageLayout", () => {
   it("displays the welcome message", () => {
