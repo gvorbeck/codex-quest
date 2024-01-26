@@ -29,6 +29,9 @@ const StepHitPoints: React.FC<
     roll = roll < 1 ? 1 : roll;
     setMax(roll);
   };
+  const handleInputChange = (value: number | null) => {
+    if (value) setMax(value);
+  };
   const onSelectChange = (value: DiceTypes) => {
     setDie(value);
   };
@@ -55,7 +58,7 @@ const StepHitPoints: React.FC<
         <Select options={options} onChange={onSelectChange} value={die} />
       )}
       <Space.Compact>
-        <InputNumber value={max} />
+        <InputNumber value={max} onChange={handleInputChange} />
         <Button onClick={handleButtonClick} disabled={!die}>
           Roll&nbsp;{character.level === 1 && "1"}
           {die}

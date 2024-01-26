@@ -46,7 +46,11 @@ export const getStepsItems = (
     fulltitle: "Roll for Ability Scores",
     description: newCharacterStepDescriptions.abilities,
     content: (
-      <StepAbilities character={character} setCharacter={setCharacter} />
+      <StepAbilities
+        character={character}
+        setCharacter={setCharacter}
+        newCharacter
+      />
     ),
   },
   {
