@@ -29,6 +29,7 @@ interface EquipmentStoreProps {
   setEquipment: (equipment: EquipmentItem[]) => void;
   gold: number;
   setGold: (gold: number) => void;
+  newCharacter?: boolean;
 }
 
 const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
@@ -65,7 +66,15 @@ const getFilteredEquipmentCategories = (characterClass: string | string[]) => {
 
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, equipment, setEquipment, gold, setGold }) => {
+> = ({
+  className,
+  character,
+  equipment,
+  setEquipment,
+  gold,
+  setGold,
+  newCharacter,
+}) => {
   if (!character) return null;
   const noLargeEquipment =
     races[character.race as keyof typeof races]?.noLargeEquipment ?? false;
@@ -160,7 +169,7 @@ const EquipmentStore: React.FC<
     <Flex vertical gap={16} className={className}>
       <Collapse
         items={filteredItems}
-        collapsible={!gold ? "disabled" : undefined}
+        collapsible={!gold && newCharacter ? "disabled" : undefined}
       />
       <Alert
         type="info"

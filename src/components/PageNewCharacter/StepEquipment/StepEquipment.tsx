@@ -12,6 +12,7 @@ interface StepEquipmentProps {
   setCharacter: (character: CharData) => void;
   hideDiceButton?: boolean;
   hideInventory?: boolean;
+  newCharacter?: boolean;
 }
 
 // TODO: RACE/CLASS RESTRICTIONS
@@ -19,7 +20,14 @@ console.error("race/class equipment restrictions not implemented yet");
 
 const StepEquipment: React.FC<
   StepEquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, hideDiceButton, hideInventory }) => {
+> = ({
+  className,
+  character,
+  setCharacter,
+  hideDiceButton,
+  hideInventory,
+  newCharacter,
+}) => {
   const [gold, setGold] = React.useState<number>(character.gold || 0);
   const [equipment, setEquipment] = React.useState<EquipmentItem[]>(
     character.equipment || [],
@@ -47,6 +55,7 @@ const StepEquipment: React.FC<
           setEquipment={setEquipment}
           gold={gold}
           setGold={setGold}
+          newCharacter={newCharacter}
         />
         {!hideInventory && (
           <CharacterInventory equipment={character.equipment} />

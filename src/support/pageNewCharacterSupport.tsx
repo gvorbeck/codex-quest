@@ -46,7 +46,11 @@ export const getStepsItems = (
     fulltitle: "Roll for Ability Scores",
     description: newCharacterStepDescriptions.abilities,
     content: (
-      <StepAbilities character={character} setCharacter={setCharacter} />
+      <StepAbilities
+        character={character}
+        setCharacter={setCharacter}
+        newCharacter
+      />
     ),
   },
   {
@@ -74,7 +78,11 @@ export const getStepsItems = (
     fulltitle: "Buy Equipment",
     description: newCharacterStepDescriptions.equipment,
     content: (
-      <StepEquipment character={character} setCharacter={setCharacter} />
+      <StepEquipment
+        character={character}
+        setCharacter={setCharacter}
+        newCharacter
+      />
     ),
   },
   {
