@@ -1,11 +1,51 @@
 import equipmentItems from "../data/equipmentItems.json";
 import {
+  CharData,
   CostCurrency,
   EquipmentCategories,
   EquipmentItem,
 } from "../data/definitions";
 import { AttackTypes } from "./stringSupport";
-import { SelectProps } from "antd";
+import { DescriptionsProps, RadioChangeEvent, SelectProps } from "antd";
+
+export const onChangeWearing = (
+  e: RadioChangeEvent,
+  type: "armor" | "shields",
+  character: CharData,
+  setCharacter: (character: CharData) => void,
+) => {
+  setCharacter({
+    ...character,
+    wearing: {
+      armor:
+        type === "armor"
+          ? e.target.value || ""
+          : character.wearing?.armor || "",
+      shield:
+        type === "shields"
+          ? e.target.value || ""
+          : character.wearing?.shield || "",
+    },
+  });
+};
+
+export const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
+  {
+    key: "1",
+    label: "**",
+    children: "This weapon only does subduing damage",
+  },
+  {
+    key: "2",
+    label: "(E)",
+    children: "Entangling: This weapon may be used to snare or hold opponents.",
+  },
+  {
+    key: "3",
+    label: "†",
+    children: "Silver tip or blade, for use against lycanthropes.",
+  },
+];
 
 // Get an object with properties for every equipment category. Those properties are arrays of equipment items.
 // If no equipment list is provided, the default equipment list is used.
