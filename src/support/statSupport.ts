@@ -14,17 +14,17 @@ import { classSplit, getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 
 export const getArmorClass = (
-  characterData: CharData,
-  setCharacterData: SetCharData,
+  character: CharData,
+  setCharacter: SetCharData,
   type: AttackTypes.MISSILE | AttackTypes.MELEE = AttackTypes.MELEE,
 ) => {
-  if (!characterData) return;
+  if (!character) return;
 
-  const { race, wearing, equipment } = characterData;
+  const { race, wearing, equipment } = character;
   const armorClass = races[race as RaceNames]?.altBaseAC || 11;
 
   if (!wearing) {
-    setCharacterData({ ...characterData, wearing: { armor: "", shield: "" } });
+    setCharacter({ ...character, wearing: { armor: "", shield: "" } });
     return armorClass;
   }
 
@@ -37,7 +37,10 @@ export const getArmorClass = (
     findACValue(equipmentItems as EquipmentItem[], wearing.shield, acType) ||
     findACValue(equipment, wearing.shield, acType);
 
-  return Math.max(armorClass + shieldAC, armorAC + shieldAC);
+  return (
+    Math.max(armorClass + shieldAC, armorAC + shieldAC) +
+    +character.abilities.modifiers.dexterity
+  );
 };
 
 const findACValue = (
