@@ -74,7 +74,11 @@ export const getStepsItems = (
     fulltitle: "Buy Equipment",
     description: newCharacterStepDescriptions.equipment,
     content: (
-      <StepEquipment character={character} setCharacter={setCharacter} />
+      <StepEquipment
+        character={character}
+        setCharacter={setCharacter}
+        newCharacter
+      />
     ),
   },
   {
