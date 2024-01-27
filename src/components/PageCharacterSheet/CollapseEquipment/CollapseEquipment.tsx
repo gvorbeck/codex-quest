@@ -80,7 +80,12 @@ const CollapseEquipment: React.FC<
                   key={index}
                   value={item.name}
                 >
-                  <EquipmentItemDescription item={item} className="flex-grow" />
+                  <EquipmentItemDescription
+                    item={item}
+                    className="flex-grow"
+                    character={character}
+                    setCharacter={setCharacter}
+                  />
                 </Radio>
               ))}
             </WearingRadioGroup>
