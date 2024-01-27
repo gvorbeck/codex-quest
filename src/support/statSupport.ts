@@ -97,7 +97,12 @@ export const getMovement = (characterData: CharData) => {
   };
 
   const currentArmor = characterData?.wearing?.armor || "";
-  const currentCategory = armorCategoryMap[currentArmor];
+  const currentCategory =
+    armorCategoryMap[currentArmor] ||
+    characterData?.equipment.filter((item) => item.name === currentArmor)[0]
+      ?.type
+      ? "lightArmor"
+      : "heavyArmor";
   const [lightSpeed, heavySpeed] =
     armorSpeedMap[currentCategory || "lightArmor"];
   const weight = getCharacterWeight(characterData);

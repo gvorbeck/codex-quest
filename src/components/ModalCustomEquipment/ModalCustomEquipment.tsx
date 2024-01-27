@@ -20,6 +20,7 @@ import {
   EquipmentItem,
 } from "@/data/definitions";
 import SubCategory from "./SubCategory/SubCategory";
+import ArmorType from "./ArmorType/ArmorType";
 
 interface ModalCustomEquipmentProps {
   character: CharData;
@@ -33,7 +34,7 @@ type CategoryFieldMappings = {
 
 const categoryFieldMapping: CategoryFieldMappings = {
   [EquipmentCategories.AMMUNITION]: ["Damage"],
-  [EquipmentCategories.ARMOR]: ["ArmorClass"],
+  [EquipmentCategories.ARMOR]: ["ArmorClass", "ArmorType"],
   [EquipmentCategories.AXES]: ["Size", "Damage", "AttackType", "Range"],
   [EquipmentCategories.BARDING]: ["AnimalWeight", "ArmorClass"],
   [EquipmentCategories.BOWS]: ["Size", "Ammo", "AttackType", "Range"],
@@ -152,6 +153,8 @@ const ModalCustomEquipment: React.FC<
           return <Damage key={index} />;
         case "ArmorClass":
           return <ArmorClass key={index} />;
+        case "ArmorType":
+          return <ArmorType key={index} />;
         case "AttackType":
           return <AttackType key={index} disabled={attackTypeDisabled} />;
         case "Range":
