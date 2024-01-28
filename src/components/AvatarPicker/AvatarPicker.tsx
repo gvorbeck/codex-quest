@@ -1,6 +1,6 @@
 import React from "react";
 import { CharData } from "@/data/definitions";
-import { Radio, Typography, RadioChangeEvent, UploadFile, Modal } from "antd";
+import { Radio, RadioChangeEvent, UploadFile, Modal, Divider } from "antd";
 import { getBase64 } from "@/support/accountSupport";
 import Upload, { RcFile, UploadProps } from "antd/es/upload";
 import { getDownloadURL } from "firebase/storage";
@@ -96,9 +96,9 @@ export default function AvatarPicker({
 
   return (
     <>
-      <Typography.Title level={5} className="text-shipGray">
+      <Divider plain className="font-enchant text-2xl my-4">
         Avatar
-      </Typography.Title>
+      </Divider>
       <Radio.Group
         value={imageSource}
         onChange={handleChangeImageSource}
@@ -115,7 +115,7 @@ export default function AvatarPicker({
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
-            className="mt-4"
+            className="mt-4 cursor-pointer"
           >
             {fileList.length >= 1 ? null : uploadButton}
           </Upload>
