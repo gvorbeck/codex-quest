@@ -77,6 +77,7 @@ const EquipmentStoreItem: React.FC<
         max={maxItemsAffordable}
         onChange={(value) => onChange && onChange(value)}
         disabled={disabled}
+        className="w-fit"
       />
     ),
   });

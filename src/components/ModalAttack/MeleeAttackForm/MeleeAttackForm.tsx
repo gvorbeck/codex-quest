@@ -17,10 +17,13 @@ const MeleeAttackForm: React.FC<
   const { contextHolder, openNotification } = useAttack();
 
   const onFinish = () => {
+    if (!item.damage) return;
     // Melee to-hit roll: 1d20 + attack bonus + strength modifier
     const rollToHit = getRollToHitResult(character);
     // Assuming melee damage is on the item and includes the character's strength modifier
-    const rollToDamage = rollDice(item.damage || "");
+    const rollToDamage = rollDice(
+      item.damage + character.abilities.modifiers.strength,
+    );
 
     // Handle notifications
     openNotification(
