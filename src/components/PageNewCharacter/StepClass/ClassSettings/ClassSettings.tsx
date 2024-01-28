@@ -5,7 +5,7 @@ import { Flex, Switch, Typography } from "antd";
 import classNames from "classnames";
 import React from "react";
 
-interface WClassSettingsProps {
+interface ClassSettingsProps {
   character: CharData;
   combinationClass: boolean;
   supplementalContent: boolean;
@@ -13,8 +13,8 @@ interface WClassSettingsProps {
   onSupplementalContentChange: (checked: boolean) => void;
 }
 
-const WClassSettings: React.FC<
-  WClassSettingsProps & React.ComponentPropsWithRef<"div">
+const ClassSettings: React.FC<
+  ClassSettingsProps & React.ComponentPropsWithRef<"div">
 > = ({
   className,
   onCombinationClassChange,
@@ -52,4 +52,4 @@ const WClassSettings: React.FC<
   );
 };
 
-export default WClassSettings;
+export default ClassSettings;

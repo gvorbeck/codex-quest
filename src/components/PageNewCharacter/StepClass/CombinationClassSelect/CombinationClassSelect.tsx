@@ -1,7 +1,7 @@
 import { Flex, Select, SelectProps } from "antd";
 import React from "react";
 
-interface WCombinationClassSelectProps {
+interface CombinationClassSelectProps {
   combinationClassOptions:
     | [SelectProps["options"], SelectProps["options"]]
     | [];
@@ -11,8 +11,8 @@ interface WCombinationClassSelectProps {
   secondCombinationClass: string | undefined;
 }
 
-const WCombinationClassSelect: React.FC<
-  WCombinationClassSelectProps & React.ComponentPropsWithRef<"div">
+const CombinationClassSelect: React.FC<
+  CombinationClassSelectProps & React.ComponentPropsWithRef<"div">
 > = ({
   className,
   combinationClassOptions,
@@ -43,4 +43,4 @@ const WCombinationClassSelect: React.FC<
   );
 };
 
-export default WCombinationClassSelect;
+export default CombinationClassSelect;

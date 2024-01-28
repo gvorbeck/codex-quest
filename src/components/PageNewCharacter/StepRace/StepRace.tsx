@@ -5,7 +5,7 @@ import { getRaceSelectOptions, isStandardRace } from "@/support/raceSupport";
 import { Flex, Input, Select, Switch, Typography } from "antd";
 import classNames from "classnames";
 import React, { ChangeEvent } from "react";
-import WRaceClassDescription from "../StepClass/WRaceClassDescription/WRaceClassDescription";
+import RaceClassDescription from "../StepClass/RaceClassDescription/RaceClassDescription";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
 
@@ -107,7 +107,7 @@ const StepRace: React.FC<
         </>
       ) : (
         standardRace && (
-          <WRaceClassDescription
+          <RaceClassDescription
             subject={race ?? ""}
             image={raceImage(race as RaceNames)}
           />

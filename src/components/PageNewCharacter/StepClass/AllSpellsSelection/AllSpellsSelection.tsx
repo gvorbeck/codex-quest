@@ -5,13 +5,13 @@ import classNames from "classnames";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { CharData, Spell } from "@/data/definitions";
 
-interface WAllSpellsSelectionProps {
+interface AllSpellsSelectionProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
 }
 
-const WAllSpellsSelection: React.FC<
-  WAllSpellsSelectionProps & React.ComponentPropsWithRef<"div">
+const AllSpellsSelection: React.FC<
+  AllSpellsSelectionProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
   const { isDesktop, isMobile, isTablet } = useDeviceType();
   const checkboxGroupClassNames = classNames(
@@ -56,4 +56,4 @@ const WAllSpellsSelection: React.FC<
   );
 };
 
-export default WAllSpellsSelection;
+export default AllSpellsSelection;

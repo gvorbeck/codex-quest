@@ -7,12 +7,12 @@ import { Card, Descriptions, Flex, Image } from "antd";
 import classNames from "classnames";
 import React from "react";
 
-interface WSpellCardProps {
+interface SpellCardProps {
   startingSpells: Spell[];
 }
 
-const WSpellCard: React.FC<
-  WSpellCardProps & React.ComponentPropsWithRef<"div">
+const SpellCard: React.FC<
+  SpellCardProps & React.ComponentPropsWithRef<"div">
 > = ({ className, startingSpells }) => {
   const cardClassNames = classNames("shadow-md", className);
   const { isMobile } = useDeviceType();
@@ -59,4 +59,4 @@ const WSpellCard: React.FC<
   );
 };
 
-export default WSpellCard;
+export default SpellCard;

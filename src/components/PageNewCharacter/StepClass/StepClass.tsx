@@ -10,16 +10,16 @@ import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
-import WRaceClassDescription from "./WRaceClassDescription/WRaceClassDescription";
+import RaceClassDescription from "./RaceClassDescription/RaceClassDescription";
 import { races } from "@/data/races";
-import WSpellSelect from "./WSpellSelect/WSpellSelect";
-import WCombinationClassSelect from "./WCombinationClassSelect/WCombinationClassSelect";
-import WClassSettings from "./WClassSettings/WClassSettings";
+import SpellSelect from "./SpellSelect/SpellSelect";
+import CombinationClassSelect from "./CombinationClassSelect/CombinationClassSelect";
+import ClassSettings from "./ClassSettings/ClassSettings";
 import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
-const WAllSpellsSelection = React.lazy(
-  () => import("./WAllSpellsSelection/WAllSpellsSelection"),
+const AllSpellsSelection = React.lazy(
+  () => import("./AllSpellsSelection/AllSpellsSelection"),
 );
 
 interface StepClassProps {
@@ -217,7 +217,7 @@ const StepClass: React.FC<
   return (
     <Flex gap={16} vertical className={className}>
       {/* switches for class options */}
-      <WClassSettings
+      <ClassSettings
         character={character}
         supplementalContent={supplementalContent}
         onCombinationClassChange={onCombinationClassChange}
@@ -243,7 +243,7 @@ const StepClass: React.FC<
         />
       ) : (
         // two combination class dropdowns
-        <WCombinationClassSelect
+        <CombinationClassSelect
           combinationClassOptions={combinationClassOptions}
           setFirstCombinationClass={setFirstCombinationClass}
           setSecondCombinationClass={setSecondCombinationClass}
@@ -261,7 +261,7 @@ const StepClass: React.FC<
               onChange={(e) => onCustomClassChange(e)}
             />
             <Suspense fallback={<div>Loading...</div>}>
-              <WAllSpellsSelection
+              <AllSpellsSelection
                 character={character}
                 setCharacter={setCharacter}
               />
@@ -270,7 +270,7 @@ const StepClass: React.FC<
         )}
       {hasMagicCharacterClass && (
         // Spell dropdown and spell description
-        <WSpellSelect
+        <SpellSelect
           startingSpells={startingSpells}
           setStartingSpells={setStartingSpells}
           magicCharacterClass={magicCharacterClass}
@@ -282,7 +282,7 @@ const StepClass: React.FC<
         classArr[0] !== "Custom" &&
         classArr.map((className) => (
           // Description of selected classes
-          <WRaceClassDescription
+          <RaceClassDescription
             subject={className}
             image={classImage(className as ClassNames)}
             key={className}
