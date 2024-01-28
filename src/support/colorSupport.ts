@@ -9,28 +9,6 @@ export enum ColorScheme {
   RUST = "#965247",
 }
 
-export const hexToRgba = (hex: string, alpha = 1) => {
-  // Ensure the hex value starts with a hash symbol
-  const sanitizedHex = hex.startsWith("#") ? hex : "#" + hex;
-
-  // Extract red, green, and blue values
-  const [r, g, b] =
-    sanitizedHex.length === 7
-      ? [
-          parseInt(sanitizedHex.slice(1, 3), 16),
-          parseInt(sanitizedHex.slice(3, 5), 16),
-          parseInt(sanitizedHex.slice(5, 7), 16),
-        ]
-      : [
-          parseInt(sanitizedHex.slice(1, 2).repeat(2), 16),
-          parseInt(sanitizedHex.slice(2, 3).repeat(2), 16),
-          parseInt(sanitizedHex.slice(3, 4).repeat(2), 16),
-        ];
-
-  // Return the RGBA string
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
-
 export const darkenHexColor = (hex: string, percent: number): string => {
   // Convert hex to RGB first
   let r = parseInt(hex.substring(1, 3), 16);

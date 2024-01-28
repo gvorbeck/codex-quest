@@ -83,9 +83,6 @@ export const equipmentSubCategoryMap = () => {
   return equipmentSubCategories;
 };
 
-export const getItemsByCategory = (category: string) =>
-  equipmentCategoryMap()[category];
-
 export const punchItem: EquipmentItem = {
   name: "Punch**",
   costValue: 0,

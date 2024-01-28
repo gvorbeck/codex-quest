@@ -2,7 +2,6 @@ import { Divider, Flex, Typography } from "antd";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { marked } from "marked";
-import { newGameCharacterPageTitleClassNames } from "@/support/cssSupport";
 
 interface NewContentWrapperProps {
   title: string;
@@ -18,7 +17,8 @@ const NewContentWrapper: React.FC<
 > = ({ className, title, markedDesc, children }) => {
   const [htmlContent, setHtmlContent] = useState("");
   const newContentWrapperClassNames = classNames(className, "mt-4");
-
+  const newGameCharacterPageTitleClassNames =
+    "m-0 font-enchant leading-none tracking-wide";
   useEffect(() => {
     const parseMarkdown = async () => {
       try {
