@@ -1,5 +1,5 @@
 import React from "react";
-import { EditOutlined, SolutionOutlined } from "@ant-design/icons";
+import { SolutionOutlined } from "@ant-design/icons";
 import {
   Flex,
   Divider,
@@ -8,8 +8,6 @@ import {
   Descriptions,
   BreadcrumbProps,
   DescriptionsProps,
-  Badge,
-  Input,
 } from "antd";
 import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
 import classNames from "classnames";
@@ -17,6 +15,8 @@ import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { classSplit } from "@/support/classSupport";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import HeroAvatar from "./HeroAvatar/HeroAvatar";
+import Section from "../Section/Section";
+import StepDetails from "@/components/PageNewCharacter/StepDetails/StepDetails";
 
 interface HeroProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;
@@ -34,9 +34,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const { character, setCharacter, userIsOwner, uid, id } =
     React.useContext(CharacterDataContext);
-  const [newNameInput, setNewNameInput] = React.useState<string>(
-    character.name,
-  );
+  const [newNameInput, setNewNameInput] = React.useState(character.name);
 
   const heroClassNames = classNames("w-full", className);
 
@@ -62,25 +60,15 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
     { key: "3", label: "Class", children: classArr.join(", ") },
   ];
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-    setNewNameInput(event.target.value);
-  };
+  React.useEffect(() => {
+    setNewNameInput(character.name);
+  }, [character.name]);
 
-  const onNameClick = () => {
-    if (!userIsOwner) return;
-    setModalIsOpen(true);
-    setModalTitle("Change Character Name");
-    setModalContent(
-      <Input
-        type="text"
-        className="w-full"
-        value={newNameInput}
-        onChange={handleNameChange}
-        // onChange={(e) => setCharacter({ ...character, name: e.target.value })}
-      />,
-    );
-  };
+  React.useEffect(
+    () => setCharacter({ ...character, name: newNameInput }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [newNameInput],
+  );
 
   return (
     <>
@@ -95,14 +83,26 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           setCharacter={setCharacter}
         />
         {/* Name */}
-        <Typography.Title
-          level={2}
-          className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
-          onClick={onNameClick}
-        >
-          {character.name}
-          <Badge count={<EditOutlined />} />
-        </Typography.Title>
+        <Section
+          component={
+            <Typography.Title
+              level={2}
+              className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
+            >
+              {character.name}
+            </Typography.Title>
+          }
+          editable
+          editableComponent={
+            <StepDetails
+              character={character}
+              setCharacter={setCharacter}
+              className="mr-4"
+            />
+          }
+          className="relative"
+          editableClassName="absolute left-full"
+        />
         <Divider />
         <Flex
           gap={16}

@@ -7,24 +7,27 @@ import { CharData } from "@/data/definitions";
 interface StepDetailsProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
+  newCharacter?: boolean;
 }
 
 const StepDetails: React.FC<
   StepDetailsProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, setCharacter, newCharacter }) => {
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const cleanInput = DOMPurify.sanitize(event.target.value);
     setCharacter({ ...character, name: cleanInput });
   };
 
   return (
-    <Flex vertical className={className}>
+    <Flex vertical className={className} gap={16}>
       <Input
         value={character.name}
         onChange={handleNameChange}
         placeholder="Name"
       />
-      <AvatarPicker character={character} setCharacter={setCharacter} />
+      {newCharacter && (
+        <AvatarPicker character={character} setCharacter={setCharacter} />
+      )}
     </Flex>
   );
 };
