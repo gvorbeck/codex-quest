@@ -89,7 +89,13 @@ export const getStepsItems = (
     title: "Name",
     fulltitle: "Name Your Character",
     description: newCharacterStepDescriptions.name,
-    content: <StepDetails character={character} setCharacter={setCharacter} />,
+    content: (
+      <StepDetails
+        character={character}
+        setCharacter={setCharacter}
+        newCharacter
+      />
+    ),
   },
 ];
 

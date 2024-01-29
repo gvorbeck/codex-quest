@@ -115,7 +115,7 @@ export default function AvatarPicker({
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
-            className="mt-4 cursor-pointer"
+            className="cursor-pointer"
           >
             {fileList.length >= 1 ? null : uploadButton}
           </Upload>

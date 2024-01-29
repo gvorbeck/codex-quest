@@ -15,6 +15,8 @@ import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { classSplit } from "@/support/classSupport";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import HeroAvatar from "./HeroAvatar/HeroAvatar";
+import Section from "../Section/Section";
+import StepDetails from "@/components/PageNewCharacter/StepDetails/StepDetails";
 
 interface HeroProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;
@@ -32,6 +34,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const { character, setCharacter, userIsOwner, uid, id } =
     React.useContext(CharacterDataContext);
+  const [newNameInput, setNewNameInput] = React.useState(character.name);
 
   const heroClassNames = classNames("w-full", className);
 
@@ -57,6 +60,16 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
     { key: "3", label: "Class", children: classArr.join(", ") },
   ];
 
+  React.useEffect(() => {
+    setNewNameInput(character.name);
+  }, [character.name]);
+
+  React.useEffect(
+    () => setCharacter({ ...character, name: newNameInput }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [newNameInput],
+  );
+
   return (
     <>
       <Flex className={heroClassNames} gap={16} vertical>
@@ -70,12 +83,26 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           setCharacter={setCharacter}
         />
         {/* Name */}
-        <Typography.Title
-          level={2}
-          className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full"
-        >
-          {character.name}
-        </Typography.Title>
+        <Section
+          component={
+            <Typography.Title
+              level={2}
+              className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
+            >
+              {character.name}
+            </Typography.Title>
+          }
+          editable
+          editableComponent={
+            <StepDetails
+              character={character}
+              setCharacter={setCharacter}
+              className="mr-4"
+            />
+          }
+          className="relative"
+          editableClassName="absolute left-full"
+        />
         <Divider />
         <Flex
           gap={16}
