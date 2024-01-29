@@ -100,7 +100,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
               className="mr-4"
             />
           }
-          className="relative"
+          className="relative self-center"
           editableClassName="absolute left-full"
         />
         <Divider />
