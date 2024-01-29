@@ -7,7 +7,7 @@ const ArmorClass: React.FC<React.ComponentPropsWithRef<"div">> = ({
   return (
     <Form.Item
       label="Armor Class"
-      name="armor-class"
+      name="AC"
       className={className}
       rules={[{ required: true }]}
     >

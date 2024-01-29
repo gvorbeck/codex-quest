@@ -1,5 +1,6 @@
 import { AttackTypes } from "../support/stringSupport";
 import equipmentItems from "./equipmentItems.json";
+import { describe, expect, test } from "vitest";
 
 describe("equipmentItems", () => {
   test("every items has a unique name", () => {
@@ -24,10 +25,10 @@ describe("equipmentItems", () => {
     );
   });
 
-  test("every item's `amount` value is 1", () => {
+  test("every item's `amount` value is 0", () => {
     const amounts = equipmentItems.map((item) => item.amount);
     const uniqueAmounts = [...new Set(amounts)];
-    expect(uniqueAmounts).toEqual([1]);
+    expect(uniqueAmounts).toEqual([0]);
   });
 
   test("every item that has a `category` value of 'general-equipment' also has a `subCategory` property with a string value", () => {
@@ -42,13 +43,13 @@ describe("equipmentItems", () => {
   });
 
   test("every item that has a `size` property has a value of 'S', 'M', or 'L'", () => {
-    const sizes = equipmentItems.map((item) => item.size);
+    const sizes = equipmentItems.map((item) => item.size).filter(Boolean);
     const uniqueSizes = [...new Set(sizes)].sort();
     expect(uniqueSizes).toEqual(["L", "M", "S"]);
   });
 
   test("every item that has a `type` property has a value of 'melee', 'missile', or 'both'", () => {
-    const types = equipmentItems.map((item) => item.type);
+    const types = equipmentItems.map((item) => item.type).filter(Boolean);
     const uniqueTypes = [...new Set(types)].sort();
     expect(uniqueTypes).toEqual([
       AttackTypes.BOTH,

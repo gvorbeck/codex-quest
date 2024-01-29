@@ -7,13 +7,13 @@ import { Card, Flex, Image } from "antd";
 import classNames from "classnames";
 import React from "react";
 
-interface WRaceClassDescriptionProps {
+interface RaceClassDescriptionProps {
   subject: string;
   image?: string;
 }
 
-const WRaceClassDescription: React.FC<
-  WRaceClassDescriptionProps & React.ComponentPropsWithRef<"div">
+const RaceClassDescription: React.FC<
+  RaceClassDescriptionProps & React.ComponentPropsWithRef<"div">
 > = ({ className, subject, image }) => {
   const { isMobile } = useDeviceType();
   const flexClassNames = classNames({ "flex-col-reverse": isMobile });
@@ -44,4 +44,4 @@ const WRaceClassDescription: React.FC<
   );
 };
 
-export default WRaceClassDescription;
+export default RaceClassDescription;

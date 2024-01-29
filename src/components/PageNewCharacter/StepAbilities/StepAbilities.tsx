@@ -11,11 +11,12 @@ interface StepAbilitiesProps {
   setComboClass?: (comboClass: boolean) => void;
   setComboClassSwitch?: (comboClassSwitch: boolean) => void;
   hideRollAll?: boolean;
+  newCharacter?: boolean;
 }
 
 const StepAbilities: React.FC<
   StepAbilitiesProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, hideRollAll }) => {
+> = ({ className, character, setCharacter, hideRollAll, newCharacter }) => {
   const dataSource = [
     {
       key: "1",
@@ -104,22 +105,32 @@ const StepAbilities: React.FC<
     scores: Record<string, number>,
     modifiers: Record<string, string>,
   ) => {
-    setCharacter({
-      ...character,
-      abilities: {
-        scores: { ...character.abilities?.scores, ...scores },
-        modifiers: { ...character.abilities?.modifiers, ...modifiers },
-      },
-      class: [],
-      race: "",
-      hp: {
-        dice: "",
-        points: 0,
-        max: 0,
-        desc: "",
-      },
-      equipment: [],
-    });
+    if (newCharacter) {
+      setCharacter({
+        ...character,
+        abilities: {
+          scores: { ...character.abilities?.scores, ...scores },
+          modifiers: { ...character.abilities?.modifiers, ...modifiers },
+        },
+        class: [],
+        race: "",
+        hp: {
+          dice: "",
+          points: 0,
+          max: 0,
+          desc: "",
+        },
+        equipment: [],
+      });
+    } else {
+      setCharacter({
+        ...character,
+        abilities: {
+          scores: { ...character.abilities?.scores, ...scores },
+          modifiers: { ...character.abilities?.modifiers, ...modifiers },
+        },
+      });
+    }
   };
 
   const rollAllAbilities = () => {

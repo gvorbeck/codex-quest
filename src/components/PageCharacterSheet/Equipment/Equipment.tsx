@@ -6,6 +6,8 @@ import { kickItem, punchItem } from "@/support/equipmentSupport";
 import ModalCustomEquipment from "@/components/ModalCustomEquipment/ModalCustomEquipment";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { useDeviceType } from "@/hooks/useDeviceType";
+import classNames from "classnames";
 
 interface EquipmentProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;
@@ -16,6 +18,7 @@ interface EquipmentProps {
 const Equipment: React.FC<
   EquipmentProps & React.ComponentPropsWithRef<"div">
 > = ({ className, setModalIsOpen, setModalTitle, setModalContent }) => {
+  const { isMobile } = useDeviceType();
   const { character, setCharacter, userIsOwner } =
     React.useContext(CharacterDataContext);
   const handleEditEquipmentClick = () => {
@@ -41,13 +44,25 @@ const Equipment: React.FC<
       />,
     );
   };
+  const addEquipmentClassNames = classNames(
+    { "w-1/2": !isMobile },
+    "flex-grow",
+  );
   return (
     <Flex vertical gap={16} className={className}>
-      <Flex vertical gap={16}>
-        <Button disabled={!userIsOwner} onClick={handleEditEquipmentClick}>
+      <Flex gap={16} vertical={isMobile}>
+        <Button
+          disabled={!userIsOwner}
+          onClick={handleEditEquipmentClick}
+          className={addEquipmentClassNames}
+        >
           Add/Edit Equipment
         </Button>
-        <Button disabled={!userIsOwner} onClick={handleCustomEquipmentClick}>
+        <Button
+          disabled={!userIsOwner}
+          onClick={handleCustomEquipmentClick}
+          className={addEquipmentClassNames}
+        >
           Add Custom Equipment
         </Button>
       </Flex>

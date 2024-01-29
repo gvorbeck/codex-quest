@@ -1,11 +1,11 @@
 import { Card, Flex, Select, SelectProps, Typography } from "antd";
 import React from "react";
-import WSpellCard from "../WSpellCard/WSpellCard";
+import SpellCard from "../SpellCard/SpellCard";
 import { getSpellFromName, getSpellsAtLevel } from "@/support/spellSupport";
 import { CharData, Spell } from "@/data/definitions";
 import { useMarkdown } from "@/hooks/useMarkdown";
 
-interface WSpellSelectProps {
+interface SpellSelectProps {
   setStartingSpells: (spells: Spell[]) => void;
   magicCharacterClass: string | undefined;
   startingSpells: Spell[];
@@ -13,8 +13,8 @@ interface WSpellSelectProps {
   classArr: string[];
 }
 
-const WSpellSelect: React.FC<
-  WSpellSelectProps & React.ComponentPropsWithRef<"div">
+const SpellSelect: React.FC<
+  SpellSelectProps & React.ComponentPropsWithRef<"div">
 > = ({
   classArr,
   className,
@@ -55,11 +55,11 @@ const WSpellSelect: React.FC<
           onChange={onStartingSpellChange}
         />
         {!!startingSpells?.length && (
-          <WSpellCard startingSpells={startingSpells} />
+          <SpellCard startingSpells={startingSpells} />
         )}
       </Flex>
     </Card>
   );
 };
 
-export default WSpellSelect;
+export default SpellSelect;

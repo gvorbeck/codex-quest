@@ -24,7 +24,7 @@ const StockAvatars: React.FC<
 
   const stockAvatarClassNames = classNames(
     className,
-    "mt-4 grid grid-cols-4 gap-2 md:grid-cols-5 lg:w-[75%]",
+    "mt-4 mx-auto grid grid-cols-4 gap-2 md:grid-cols-5 lg:w-[75%]",
   );
 
   return (
@@ -33,7 +33,7 @@ const StockAvatars: React.FC<
         <Button
           key={image}
           type="link"
-          className="h-auto w-auto leading-none p-0 border-none"
+          className="h-auto w-auto leading-none p-0"
           onClick={() => {
             setCharacter({ ...character, avatar: image });
             setSelectedAvatar(image);
@@ -42,10 +42,10 @@ const StockAvatars: React.FC<
           <img
             alt="Avatar"
             src={image}
-            className={`w-16 rounded-[50%] border-2 border-solid ${
+            className={`w-16 rounded-[50%] border-4 border-solid ${
               image === selectedAvatar
-                ? "border-seaBuckthorn"
-                : "border-transparent"
+                ? "border-seaBuckthorn shadow-md"
+                : "border-springWood"
             }`}
           />
         </Button>

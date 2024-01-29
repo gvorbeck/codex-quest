@@ -14,17 +14,17 @@ import { classSplit, getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 
 export const getArmorClass = (
-  characterData: CharData,
-  setCharacterData: SetCharData,
+  character: CharData,
+  setCharacter: SetCharData,
   type: AttackTypes.MISSILE | AttackTypes.MELEE = AttackTypes.MELEE,
 ) => {
-  if (!characterData) return;
+  if (!character) return;
 
-  const { race, wearing, equipment } = characterData;
+  const { race, wearing, equipment } = character;
   const armorClass = races[race as RaceNames]?.altBaseAC || 11;
 
   if (!wearing) {
-    setCharacterData({ ...characterData, wearing: { armor: "", shield: "" } });
+    setCharacter({ ...character, wearing: { armor: "", shield: "" } });
     return armorClass;
   }
 
@@ -37,7 +37,10 @@ export const getArmorClass = (
     findACValue(equipmentItems as EquipmentItem[], wearing.shield, acType) ||
     findACValue(equipment, wearing.shield, acType);
 
-  return Math.max(armorClass + shieldAC, armorAC + shieldAC);
+  return (
+    Math.max(armorClass + shieldAC, armorAC + shieldAC) +
+    +character.abilities.modifiers.dexterity
+  );
 };
 
 const findACValue = (
@@ -47,6 +50,16 @@ const findACValue = (
 ) => {
   const foundItem = itemList.find((item) => item.name === itemName);
   return Number(foundItem?.[acType] || 0);
+};
+
+export const getCharacterWeight = (character: CharData) => {
+  const equipmentWeight = character.equipment.reduce(
+    (accumulator: number, currentValue: EquipmentItem) =>
+      accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
+    0,
+  );
+  const coinsWeight = character.gold * 0.05;
+  return equipmentWeight + coinsWeight;
 };
 
 export const getMovement = (characterData: CharData) => {
@@ -84,13 +97,17 @@ export const getMovement = (characterData: CharData) => {
   };
 
   const currentArmor = characterData?.wearing?.armor || "";
-  const currentCategory = armorCategoryMap[currentArmor];
+  const currentCategory =
+    armorCategoryMap[currentArmor] ||
+    characterData?.equipment.filter((item) => item.name === currentArmor)[0]
+      ?.type
+      ? "lightArmor"
+      : "heavyArmor";
   const [lightSpeed, heavySpeed] =
     armorSpeedMap[currentCategory || "lightArmor"];
+  const weight = getCharacterWeight(characterData);
 
-  return characterData.weight <= carryingCapacity.light
-    ? lightSpeed
-    : heavySpeed;
+  return weight <= carryingCapacity.light ? lightSpeed : heavySpeed;
 };
 
 // Helper function to get the strength range
@@ -241,14 +258,4 @@ export const getModifier = (score: number): string => {
     }
   }
   return "+0"; // Default value
-};
-
-export const getCharacterWeight = (character: CharData) => {
-  const equipmentWeight = character.equipment.reduce(
-    (accumulator: number, currentValue: EquipmentItem) =>
-      accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
-    0,
-  );
-  const coinsWeight = character.gold * 0.05;
-  return equipmentWeight + coinsWeight;
 };

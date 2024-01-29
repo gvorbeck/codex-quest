@@ -109,5 +109,10 @@ export const cqTheme = {
       colorBgSpotlight: ColorScheme.SHIPGRAY,
       colorText: ColorScheme.SEABUCKTHORN,
     },
+    Upload: {
+      colorBorder: ColorScheme.STONE,
+      colorText: ColorScheme.SHIPGRAY,
+      colorFillAlter: ColorScheme.SEABUCKTHORN,
+    },
   },
 };
