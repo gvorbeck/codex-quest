@@ -10,7 +10,7 @@ export default function Charging() {
         be clear, and the attacker should use a weapon like a spear, lance, or
         polearm suitable for charging. Monsters with horns can use natural
         attacks. If the attacker lacks line of sight at the start, the opponent
-        can't be charged.
+        can't be charged.bl;oo
       </Typography.Paragraph>
       <Typography.Paragraph>
         The post-charge attack gets a +2 on the attack roll, but the charger
