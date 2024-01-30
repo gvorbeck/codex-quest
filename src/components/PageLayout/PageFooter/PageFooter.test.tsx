@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PageFooter from "./PageFooter";
 import { bfrpgRelease } from "../../../../package.json";
+import "@/support/setupTests.js";
 
 describe("PageFooter", () => {
   it("renders the component correctly", () => {

@@ -3,6 +3,7 @@ import { describe, it, expect } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageHeader from "./PageHeader";
 import { User } from "firebase/auth";
+import "@/support/setupTests.js";
 
 // PageHeader only checks for user null or not null, so we can pass in a boolean as a User.
 const loggedInUser: User = true as unknown as User;

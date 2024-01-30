@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageLayout from "./PageLayout";
 import { render } from "@testing-library/react";
+import "@/support/setupTests.js";
 
 describe("PageLayout", () => {
   const { getByText } = render(
