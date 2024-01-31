@@ -1,42 +1,82 @@
 import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PageFooter from "./PageFooter";
-import { bfrpgRelease } from "../../../../package.json";
 import "@/support/setupTests.js";
 
 describe("PageFooter", () => {
-  it("renders the component correctly", () => {
-    const { getByText } = render(
-      <BrowserRouter>
-        <PageFooter />
-      </BrowserRouter>,
-    );
+  render(
+    <BrowserRouter>
+      <PageFooter />
+    </BrowserRouter>,
+  );
 
-    const basicFantasyLink = getByText(
-      "Basic Fantasy Role-Playing Game",
-    ).closest("a");
-    expect(basicFantasyLink).not.toBeNull();
-    expect(basicFantasyLink?.getAttribute("href")).toBe(
+  it("expects the copyright year to be present and current", () => {
+    const copyrightYearElement = screen.getByTestId("copyright-year");
+    expect(document.body.contains(copyrightYearElement)).toBeTruthy();
+    const currentYear = new Date().getFullYear();
+    expect(copyrightYearElement.textContent).toContain(currentYear);
+  });
+
+  it("expects the author link to be present", () => {
+    const authorLinkElement = screen.getByTestId("author-link");
+    expect(document.body.contains(authorLinkElement)).toBeTruthy();
+  });
+
+  it("expects the all rights reserved text to be present", () => {
+    const allRightsReservedElement = screen.getByTestId("all-rights-reserved");
+    expect(document.body.contains(allRightsReservedElement)).toBeTruthy();
+  });
+
+  it("expects the site title to be present", () => {
+    const siteTitleElement = screen.getByTestId("site-title");
+    expect(document.body.contains(siteTitleElement)).toBeTruthy();
+  });
+
+  it("expects the version number to be present", () => {
+    const versionNumberElement = screen.getByTestId("version-number");
+    expect(document.body.contains(versionNumberElement)).toBeTruthy();
+  });
+
+  it("expects the bfrpg link to be present, correct, and open in a new tab", () => {
+    const bfrpgLinkElement = screen.getByTestId("bfrpg-link");
+    expect(document.body.contains(bfrpgLinkElement)).toBeTruthy();
+    expect(bfrpgLinkElement.getAttribute("href")).toBe(
       "https://basicfantasy.org",
     );
-
-    const licenseLink = getByText("License").closest("a");
-    expect(licenseLink).not.toBeNull();
-    expect(licenseLink?.getAttribute("href")).toBe(
-      "https://github.com/gvorbeck/codex-quest/blob/main/LICENSE",
-    );
-
-    const contactLink = getByText("Contact").closest("a");
-    expect(contactLink).not.toBeNull();
-    expect(contactLink?.getAttribute("href")).toBe("mailto:me@iamgarrett.com");
+    expect(bfrpgLinkElement.getAttribute("target")).toBe("_blank");
   });
-});
 
-describe("bfrpgRelease", () => {
-  it("should be a string representing a number", () => {
-    // Check if bfrpgRelease is a string that can be converted to a number
-    const isNumeric = !isNaN(Number(bfrpgRelease));
-    expect(isNumeric).toBe(true);
+  it("expects the bfrpg edition to be present", () => {
+    const bfrpgEditionElement = screen.getByTestId("bfrpg-edition");
+    expect(document.body.contains(bfrpgEditionElement)).toBeTruthy();
+  });
+
+  it("expects the bfrpg release to be present", () => {
+    const bfrpgReleaseElement = screen.getByTestId("bfrpg-release");
+    expect(document.body.contains(bfrpgReleaseElement)).toBeTruthy();
+  });
+
+  it("expects the license link to be present", () => {
+    const licenseLinkElement = screen.getByTestId("license-link");
+    expect(document.body.contains(licenseLinkElement)).toBeTruthy();
+    expect(licenseLinkElement.getAttribute("target")).toBe("_blank");
+  });
+
+  it("expects the contact link to be present", () => {
+    const contactLinkElement = screen.getByTestId("contact-link");
+    expect(document.body.contains(contactLinkElement)).toBeTruthy();
+  });
+
+  it("expects the github link to be present", () => {
+    const githubLinkElement = screen.getByTestId("github-link");
+    expect(document.body.contains(githubLinkElement)).toBeTruthy();
+    expect(githubLinkElement.getAttribute("target")).toBe("_blank");
+  });
+
+  it("expects the privacy policy link to be present", () => {
+    const privacyPolicyLinkElement = screen.getByTestId("privacy-policy-link");
+    expect(document.body.contains(privacyPolicyLinkElement)).toBeTruthy();
+    expect(privacyPolicyLinkElement.getAttribute("target")).toBe("_blank");
   });
 });

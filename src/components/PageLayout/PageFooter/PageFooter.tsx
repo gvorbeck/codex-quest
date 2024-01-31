@@ -16,15 +16,18 @@ const PageFooter: React.FC<
   return (
     <Flex className={footerClassNames} vertical>
       <Typography.Paragraph>
-        © {new Date().getFullYear()}{" "}
+        <span data-testid="copyright-year">© {new Date().getFullYear()} </span>
         <a
           href="https://iamgarrett.com"
           rel="noreferrer noopener"
           target="_blank"
+          data-testid="author-link"
         >
           J. Garrett Vorbeck
         </a>
-        . All rights reserved. CODEX.QUEST v{version}
+        . <span data-testid="all-rights-reserved">All rights reserved.</span>{" "}
+        <span data-testid="site-title">CODEX.QUEST</span>{" "}
+        <span data-testid="version-number">v{version}</span>
       </Typography.Paragraph>
       <Typography.Paragraph>
         This site is based on the&nbsp;
@@ -32,10 +35,13 @@ const PageFooter: React.FC<
           href="https://basicfantasy.org"
           rel="noreferrer noopener"
           target="_blank"
+          data-testid="bfrpg-link"
         >
           Basic Fantasy Role-Playing Game
         </a>{" "}
-        and is current to {bfrpgEdition} Edition (release {bfrpgRelease}).
+        and is current to{" "}
+        <span data-testid="bfrpg-edition">{bfrpgEdition}</span> Edition (release{" "}
+        <span data-testid="bfrpg-release">{bfrpgRelease}</span>).
       </Typography.Paragraph>
       <Flex wrap="wrap" className="[&_a]:text-seaBuckthorn [&_*]:m-0" gap={16}>
         <Typography.Paragraph>
@@ -43,18 +49,22 @@ const PageFooter: React.FC<
             href="https://github.com/gvorbeck/codex-quest/blob/main/LICENSE"
             target="_blank"
             rel="noreferrer noopener"
+            data-testid="license-link"
           >
             License
           </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
-          <a href="mailto:me@iamgarrett.com">Contact</a>
+          <a href="mailto:me@iamgarrett.com" data-testid="contact-link">
+            Contact
+          </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
           <a
             href="https://github.com/gvorbeck/codex-quest"
             target="_blank"
             rel="noopener noreferrer"
+            data-testid="github-link"
           >
             GitHub
           </a>
@@ -64,6 +74,7 @@ const PageFooter: React.FC<
             href="https://www.freeprivacypolicy.com/live/fbe666aa-8172-4c25-86b3-f8b190191f9c"
             target="_blank"
             rel="noopener noreferrer"
+            data-testid="privacy-policy-link"
           >
             Privacy Policy
           </a>

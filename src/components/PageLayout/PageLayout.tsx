@@ -20,11 +20,14 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
   const navigate = useNavigate();
   return (
     <Layout className="flex flex-col min-h-[100vh]">
-      <Layout.Header className="flex items-center">
+      <Layout.Header className="flex items-center" data-testid="site-header">
         <PageHeader user={user} className={contentWidthClassName} />
       </Layout.Header>
       {alert && <Alert banner message={alert} type="info" closable />}
-      <Layout.Content className={layoutContentClassName}>
+      <Layout.Content
+        className={layoutContentClassName}
+        data-testid="site-content"
+      >
         <Flex vertical gap={16}>
           {isHomePage && (
             <FloatButton.Group shape="square">
@@ -43,7 +46,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
           <Outlet context={{ user, className: "" }} />
         </Flex>
       </Layout.Content>
-      <Layout.Footer>
+      <Layout.Footer data-testid="site-footer">
         <PageFooter className={contentWidthClassName} />
       </Layout.Footer>
     </Layout>

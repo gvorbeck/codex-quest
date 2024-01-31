@@ -1,41 +1,53 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageHeader from "./PageHeader";
 import { User } from "firebase/auth";
-import "@/support/setupTests.js";
 
 // PageHeader only checks for user null or not null, so we can pass in a boolean as a User.
 const loggedInUser: User = true as unknown as User;
 
 describe("PageHeader", () => {
-  const { getByText, container } = render(
+  render(
     <BrowserRouter>
       <PageHeader user={loggedInUser} />
     </BrowserRouter>,
   );
 
-  it("renders the component with a site title separated", () => {
-    expect(getByText("Codex")).toBeTruthy();
-    expect(getByText("Quest")).toBeTruthy();
+  it("expects the site title to be present", () => {
+    const siteTitleElement = screen.getByTestId("site-title");
+    expect(document.body.contains(siteTitleElement)).toBeTruthy();
   });
 
-  it("renders the logout button when the user is logged in", () => {
-    const logoutButton = container.querySelector("button.logout");
-    expect(logoutButton).toBeTruthy();
+  it("expects the home link to be present", () => {
+    const homeLinkElement = screen.getByTestId("home-link");
+    expect(document.body.contains(homeLinkElement)).toBeTruthy();
+    expect(homeLinkElement.getAttribute("href")).toBe("/");
   });
 
-  it("renders the login button when the user is logged out", () => {
+  it("expects the site title to be broken into two nodes", () => {
+    const codex = screen.getByText("Codex");
+    const quest = screen.getByText("Quest");
+    expect(document.body.contains(codex)).toBeTruthy();
+    expect(document.body.contains(quest)).toBeTruthy();
+  });
+
+  it("expects the logout button to be present when the user is logged in", () => {
+    const logoutButton = screen.getByTestId("logout-button");
+    expect(document.body.contains(logoutButton)).toBeTruthy();
+  });
+
+  it("expects the login button to be present when the user is logged out", () => {
     // PageHeader only checks for user null or not null, so we can pass in a boolean as a User.
     const loggedOutUser: User = null as unknown as User;
 
-    const { container } = render(
+    render(
       <BrowserRouter>
         <PageHeader user={loggedOutUser} />
       </BrowserRouter>,
     );
 
-    const loginButton = container.querySelector("button.login");
-    expect(loginButton).toBeTruthy();
+    const loginButton = screen.getByTestId("login-button");
+    expect(document.body.contains(loginButton)).toBeTruthy();
   });
 });
