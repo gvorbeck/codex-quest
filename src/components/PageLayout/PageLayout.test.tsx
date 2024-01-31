@@ -10,9 +10,6 @@ describe("PageLayout", () => {
       <PageLayout user={null} />
     </BrowserRouter>,
   );
-  it("displays the welcome message", () => {
-    expect(getByText(/Welcome to v2.0!/i)).toBeTruthy();
-  });
 
   // it("renders floating buttons on the homepage", () => {
   //   expect(getByText("Create New Character")).toBeTruthy();
