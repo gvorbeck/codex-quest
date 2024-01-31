@@ -11,6 +11,7 @@ import { marked } from "marked";
 import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { NavigateFunction } from "react-router-dom";
+import { getModifier } from "./statSupport";
 
 const newCharacterStepDescriptions = {
   abilities:
@@ -99,7 +100,7 @@ export const getStepsItems = (
   },
 ];
 
-const areAllAbilitiesSet = (abilities: Abilities) => {
+export const areAllAbilitiesSet = (abilities: Abilities) => {
   if (!abilities) return false;
   for (const key in abilities) {
     const value = +abilities[key as keyof typeof abilities];
@@ -183,4 +184,129 @@ export const addCharacterData = async (
       navigate("/");
     },
   );
+};
+
+export const getAbilitiesDataSource = (character: CharData) => [
+  {
+    key: "1",
+    label: "STR",
+    ability: "Strength",
+    score: Number(character.abilities?.scores.strength) || 0,
+    modifier: character.abilities?.modifiers?.strength || "",
+  },
+  {
+    key: "2",
+    label: "INT",
+    ability: "Intelligence",
+    score: Number(character.abilities?.scores.intelligence) || 0,
+    modifier: character.abilities?.modifiers?.intelligence || "",
+  },
+  {
+    key: "3",
+    label: "WIS",
+    ability: "Wisdom",
+    score: Number(character.abilities?.scores.wisdom) || 0,
+    modifier: character.abilities?.modifiers?.wisdom || "",
+  },
+  {
+    key: "4",
+    label: "DEX",
+    ability: "Dexterity",
+    score: Number(character.abilities?.scores.dexterity) || 0,
+    modifier: character.abilities?.modifiers?.dexterity || "",
+  },
+  {
+    key: "5",
+    label: "CON",
+    ability: "Constitution",
+    score: Number(character.abilities?.scores.constitution) || 0,
+    modifier: character.abilities?.modifiers?.constitution || "",
+  },
+  {
+    key: "6",
+    label: "CHA",
+    ability: "Charisma",
+    score: Number(character.abilities?.scores.charisma) || 0,
+    modifier: character.abilities?.modifiers?.charisma || "",
+  },
+];
+
+export const updateCharacter = (
+  scores: Record<string, number>,
+  modifiers: Record<string, string>,
+  character: CharData,
+  setCharacter: (character: CharData) => void,
+  newCharacter?: boolean,
+) => {
+  if (newCharacter) {
+    setCharacter({
+      ...character,
+      abilities: {
+        scores: { ...character.abilities?.scores, ...scores },
+        modifiers: { ...character.abilities?.modifiers, ...modifiers },
+      },
+      class: [],
+      race: "",
+      hp: {
+        dice: "",
+        points: 0,
+        max: 0,
+        desc: "",
+      },
+      equipment: [],
+    });
+  } else {
+    setCharacter({
+      ...character,
+      abilities: {
+        scores: { ...character.abilities?.scores, ...scores },
+        modifiers: { ...character.abilities?.modifiers, ...modifiers },
+      },
+    });
+  }
+};
+
+export const getAbilityTotal = (character: CharData | undefined) => {
+  if (!character || !character.abilities) return 0;
+  const { modifiers } = character.abilities || {};
+  const total = Object.values(modifiers).reduce((acc, score) => {
+    return +acc + +score;
+  }, 0);
+  return total;
+};
+
+export const getAbilityTotalItems = (character: CharData) => {
+  const total = getAbilityTotal(character);
+  return [
+    {
+      key: "1",
+      label: "Modifier Total",
+      children: <span>{+total >= 0 ? `+${total}` : total}</span>,
+    },
+  ];
+};
+
+export const flipAbilityScores = (
+  character: CharData,
+  setCharacter: (character: CharData) => void,
+) => {
+  const flippedScores = Object.fromEntries(
+    Object.entries(character.abilities.scores).map(([key, value]) => [
+      key,
+      21 - +value,
+    ]),
+  );
+  const flippedModifiers = Object.fromEntries(
+    Object.entries(flippedScores).map(([key, value]) => [
+      key,
+      getModifier(value),
+    ]),
+  );
+  setCharacter({
+    ...character,
+    abilities: {
+      scores: flippedScores as Abilities,
+      modifiers: flippedModifiers as Abilities,
+    },
+  });
 };

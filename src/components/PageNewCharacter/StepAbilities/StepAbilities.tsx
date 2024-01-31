@@ -1,9 +1,16 @@
-import { Button, Flex, Table } from "antd";
+import { Button, Descriptions, DescriptionsProps, Flex, Table } from "antd";
 import React from "react";
 import { AbilityRecord, CharData } from "@/data/definitions";
 import AbilityRoller from "./AbilityRoller/AbilityRoller";
 import { rollDice } from "@/support/diceSupport";
 import { getModifier, isAbilityKey } from "@/support/statSupport";
+import {
+  areAllAbilitiesSet,
+  flipAbilityScores,
+  getAbilitiesDataSource,
+  getAbilityTotalItems,
+  updateCharacter,
+} from "@/support/pageNewCharacterSupport";
 
 interface StepAbilitiesProps {
   character: CharData;
@@ -17,51 +24,7 @@ interface StepAbilitiesProps {
 const StepAbilities: React.FC<
   StepAbilitiesProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter, hideRollAll, newCharacter }) => {
-  const dataSource = [
-    {
-      key: "1",
-      label: "STR",
-      ability: "Strength",
-      score: Number(character.abilities?.scores.strength) || 0,
-      modifier: character.abilities?.modifiers?.strength || "",
-    },
-    {
-      key: "2",
-      label: "INT",
-      ability: "Intelligence",
-      score: Number(character.abilities?.scores.intelligence) || 0,
-      modifier: character.abilities?.modifiers?.intelligence || "",
-    },
-    {
-      key: "3",
-      label: "WIS",
-      ability: "Wisdom",
-      score: Number(character.abilities?.scores.wisdom) || 0,
-      modifier: character.abilities?.modifiers?.wisdom || "",
-    },
-    {
-      key: "4",
-      label: "DEX",
-      ability: "Dexterity",
-      score: Number(character.abilities?.scores.dexterity) || 0,
-      modifier: character.abilities?.modifiers?.dexterity || "",
-    },
-    {
-      key: "5",
-      label: "CON",
-      ability: "Constitution",
-      score: Number(character.abilities?.scores.constitution) || 0,
-      modifier: character.abilities?.modifiers?.constitution || "",
-    },
-    {
-      key: "6",
-      label: "CHA",
-      ability: "Charisma",
-      score: Number(character.abilities?.scores.charisma) || 0,
-      modifier: character.abilities?.modifiers?.charisma || "",
-    },
-  ];
-
+  const dataSource = getAbilitiesDataSource(character);
   const columns = [
     {
       title: "Ability",
@@ -85,11 +48,11 @@ const StepAbilities: React.FC<
 
         return (
           <AbilityRoller
-            rollDice={rollDice}
             abilityValue={abilityValue}
-            getModifier={getModifier}
-            updateCharacterData={updateCharacter}
             record={record}
+            character={character}
+            setCharacter={setCharacter}
+            newCharacter
           />
         );
       },
@@ -100,38 +63,6 @@ const StepAbilities: React.FC<
       key: "modifier",
     },
   ];
-
-  const updateCharacter = (
-    scores: Record<string, number>,
-    modifiers: Record<string, string>,
-  ) => {
-    if (newCharacter) {
-      setCharacter({
-        ...character,
-        abilities: {
-          scores: { ...character.abilities?.scores, ...scores },
-          modifiers: { ...character.abilities?.modifiers, ...modifiers },
-        },
-        class: [],
-        race: "",
-        hp: {
-          dice: "",
-          points: 0,
-          max: 0,
-          desc: "",
-        },
-        equipment: [],
-      });
-    } else {
-      setCharacter({
-        ...character,
-        abilities: {
-          scores: { ...character.abilities?.scores, ...scores },
-          modifiers: { ...character.abilities?.modifiers, ...modifiers },
-        },
-      });
-    }
-  };
 
   const rollAllAbilities = () => {
     const abilities = [
@@ -144,26 +75,48 @@ const StepAbilities: React.FC<
     ];
     const newScores: Record<string, number> = {};
     const newModifiers: Record<string, string> = {};
-
     abilities.forEach((ability) => {
       const score = rollDice("3d6");
       newScores[ability] = score;
       newModifiers[ability] = getModifier(score);
     });
-
-    updateCharacter(newScores, newModifiers);
+    updateCharacter(
+      newScores,
+      newModifiers,
+      character,
+      setCharacter,
+      newCharacter,
+    );
   };
+
+  const abilityTotalItems: DescriptionsProps["items"] =
+    getAbilityTotalItems(character);
 
   return (
     <Flex vertical className={className} gap={16}>
       {!hideRollAll && (
-        <Button
-          type="primary"
-          onClick={rollAllAbilities}
-          className="self-start"
-        >
-          Roll All Abilities
-        </Button>
+        <Flex gap={16} align="center" justify="flex-start">
+          <Button
+            type="primary"
+            onClick={rollAllAbilities}
+            className="self-start"
+          >
+            Roll All Abilities
+          </Button>
+          {areAllAbilitiesSet(character?.abilities?.scores) && (
+            <>
+              <Descriptions
+                className="[&_td]:p-0 inline-block"
+                items={abilityTotalItems}
+              />
+              <Button
+                onClick={() => flipAbilityScores(character, setCharacter)}
+              >
+                Flip 'Em
+              </Button>
+            </>
+          )}
+        </Flex>
       )}
       <Table
         dataSource={dataSource}

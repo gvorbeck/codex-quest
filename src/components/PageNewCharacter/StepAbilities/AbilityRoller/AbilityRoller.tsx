@@ -1,28 +1,34 @@
 import { Space, InputNumber, Button } from "antd";
-import { AbilityRecord } from "@/data/definitions";
+import { AbilityRecord, CharData } from "@/data/definitions";
+import { rollDice } from "@/support/diceSupport";
+import { getModifier } from "@/support/statSupport";
+import { updateCharacter } from "@/support/pageNewCharacterSupport";
 
 type AbilityRollerProps = {
-  rollDice: (dice: string) => any;
   abilityValue: number;
-  getModifier: (score: number) => string;
-  updateCharacterData: (
-    scores: Record<string, number>,
-    modifiers: Record<string, string>,
-  ) => void;
+  character: CharData;
+  setCharacter: (character: CharData) => void;
   record: AbilityRecord;
+  newCharacter?: boolean;
 };
 
 export default function AbilityRoller({
-  rollDice,
   abilityValue,
-  getModifier,
-  updateCharacterData,
   record,
+  character,
+  setCharacter,
+  newCharacter,
 }: AbilityRollerProps) {
   const rollAbilityScore = (ability: string, score?: number) => {
     const newScore = score || rollDice("3d6");
     const modifier = getModifier(newScore);
-    updateCharacterData({ [ability]: newScore }, { [ability]: modifier });
+    updateCharacter(
+      { [ability]: newScore },
+      { [ability]: modifier },
+      character,
+      setCharacter,
+      newCharacter,
+    );
   };
 
   const onChange = (value: number | null) => {
@@ -43,7 +49,7 @@ export default function AbilityRoller({
         max={18}
         min={3}
         defaultValue={0}
-        onChange={(event: any) => onChange(event)}
+        onChange={(event) => onChange(event)}
         onFocus={handleFocus}
         type="number"
         value={abilityValue}
