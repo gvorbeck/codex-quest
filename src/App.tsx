@@ -39,7 +39,15 @@ const App: React.FC = () => {
     <ConfigProvider theme={cqTheme}>
       <Suspense fallback={<Spin />}>
         <Routes>
-          <Route path="/" element={<PageLayout user={user} />}>
+          <Route
+            path="/"
+            element={
+              <PageLayout
+                user={user}
+                // alert={"foo"}
+              />
+            }
+          >
             <Route
               index
               element={

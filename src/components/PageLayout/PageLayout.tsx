@@ -9,9 +9,10 @@ import { UserAddOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 
 interface PageLayoutProps {
   user: User | null;
+  alert?: React.ReactNode;
 }
 
-const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
   const contentWidthClassName = "max-w-[1200px] mx-auto w-full";
   const layoutContentClassName = classNames(contentWidthClassName, "p-4");
   const location = useLocation();
@@ -22,22 +23,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user }) => {
       <Layout.Header className="flex items-center">
         <PageHeader user={user} className={contentWidthClassName} />
       </Layout.Header>
-      <Alert
-        banner
-        message={
-          <span>
-            Welcome to v2.0! If you see something isn't working, comment{" "}
-            <a
-              target="_blank"
-              href="https://github.com/gvorbeck/codex-quest/issues/216"
-            >
-              HERE
-            </a>
-            , create an issue, or make a Pull Request in my GitHub.
-          </span>
-        }
-        type="info"
-      />
+      {alert && <Alert banner message={alert} type="info" closable />}
       <Layout.Content className={layoutContentClassName}>
         <Flex vertical gap={16}>
           {isHomePage && (
