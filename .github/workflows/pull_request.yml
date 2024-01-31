@@ -1,4 +1,4 @@
-name: Deploy to Firebase Hosting on merge
+name: Pull Request CI
 on:
   pull_request:
     branches: ["main"]
@@ -17,5 +17,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build and Deploy
+      - name: Build and Test
         run: npm ci && npm run build && npm run test
