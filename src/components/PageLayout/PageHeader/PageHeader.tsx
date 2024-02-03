@@ -5,7 +5,7 @@ import { title } from "../../../../package.json";
 import DragonIcon from "@/assets/images/dragon-head.png";
 import { Button, Flex, Tooltip, Typography } from "antd";
 import classNames from "classnames";
-import LoginSignupModal from "@/components/ModalLoginSignup/ModalLoginSignup";
+import ModalLoginSignup from "@/components/ModalLoginSignup/ModalLoginSignup";
 import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { auth } from "@/firebase";
 import { Link } from "react-router-dom";
@@ -66,7 +66,7 @@ const PageHeader: React.FC<
           </Tooltip>
         )}
       </div>
-      <LoginSignupModal
+      <ModalLoginSignup
         handleCancel={handleCancel}
         isLoginSignupModalOpen={isLoginSignupModalOpen}
         handleLogin={handleLogin}
