@@ -6,6 +6,7 @@ import { classes } from "@/data/classes";
 import { toSlugCase } from "@/support/stringSupport";
 import { ColumnType } from "antd/es/table";
 import Notes from "./Notes/Notes";
+import Monsters from "./Monsters/Monsters";
 
 interface GameBinderProps {
   players: GamePlayer[];
@@ -99,12 +100,7 @@ const GameBinder: React.FC<
     {
       label: "Monsters",
       key: "monsters",
-      children: (
-        <Alert
-          type="info"
-          message="Monster stats/search coming in a future release!"
-        />
-      ),
+      children: <Monsters />,
     },
   ];
   const assassinData = generateClassAbilities(ClassNames.ASSASSIN);
