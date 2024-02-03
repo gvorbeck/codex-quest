@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Ant, Giant (and Huge, Large)",
+    "variants": [
+      [
+        "Giant",
+        {
+          "ac": "17",
+          "hitDice": "4",
+          "numAttacks": "1 bite",
+          "damage": "2d6 bite",
+          "movement": "60' (10')",
+          "numAppear": "2d6, Lair 4d6",
+          "saveAs": "Fighter: 4",
+          "morale": "7 on first sighting, 12 after engaged",
+          "treasure": "U or special",
+          "xp": "240"
+        }
+      ],
+      [
+        "Huge",
+        {
+          "ac": "15",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d10 bite",
+          "movement": "50'",
+          "numAppear": "3d6, Lair 4d8",
+          "saveAs": "Fighter: 2",
+          "morale": "7 on first sighting, 12 after engaged",
+          "treasure": "U or special",
+          "xp": "75"
+        }
+      ],
+      [
+        "Large",
+        {
+          "ac": "13",
+          "hitDice": "1",
+          "numttacks": "1 bite",
+          "damage": "1d6 bite",
+          "movement": "40'",
+          "numAppear": "4d6, Lair 4d10",
+          "saveAs": "Fighter: 1",
+          "morale": "7 on first sighting, 12 after engaged",
+          "treasure": "U or special",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Giant ants are fantastically enlarged versions of the more common variety of ants. Normal workers are 5 to 6 feet long; queens are larger, growing up to 9 feet in length. Giant ants may be red or black; there is no statistical difference between them. Though relatively shy when first encountered, once combat begins they will fight to the death. They are known to collect shiny things, and so will sometimes have a small amount of treasure in their lair. \n\nGiant ants may occasionally mine shiny metals such as gold or silver; one in three (1-2 on 1d6) giant ant lairs will contain 1d100 x 1d100 gp value in relatively pure nuggets. \n\nLarge and huge ants are similar to giant ants in all ways except for size; large ants are 1 to 2 feet long, while huge ants are 3 to 4 feet in length. Though smaller, their colonies have more members, and so their lair treasures are of similar size to those found in the lairs of giant ants."
+  }
+]
