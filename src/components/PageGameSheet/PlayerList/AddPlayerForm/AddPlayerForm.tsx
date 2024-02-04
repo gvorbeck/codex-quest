@@ -32,6 +32,9 @@ const AddPlayerForm: React.FC<
 
   return (
     <Flex vertical className={className}>
+      <Typography.Text type="secondary" className="text-xs ml-3">
+        Enter a character's codex.quest URL
+      </Typography.Text>
       <Space.Compact>
         <Input
           value={playerUrl}
@@ -49,9 +52,6 @@ const AddPlayerForm: React.FC<
           Add Character
         </Button>
       </Space.Compact>
-      <Typography.Text type="secondary" className="text-xs ml-3">
-        Enter a character's codex.quest URL
-      </Typography.Text>
     </Flex>
   );
 };
