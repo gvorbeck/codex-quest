@@ -115,7 +115,7 @@ const PageGameSheet: React.FC<
                   setShowScoutAbilities={setShowScoutAbilities}
                   gameId={id}
                   userIsOwner={userIsOwner}
-                  className={!hidePlayers ? "block" : "hidden"}
+                  className={!hidePlayers ? "" : "hidden"}
                 />
               )}
             </div>
