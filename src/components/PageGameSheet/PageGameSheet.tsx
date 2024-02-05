@@ -38,9 +38,9 @@ const PageGameSheet: React.FC<
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const [hidePlayers, setHidePlayers] = React.useState(false);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
-  const addPlayerFormClassNames = classNames({
-    "w-1/2": !game?.players?.length,
-  });
+  // const addPlayerFormClassNames = classNames({
+  //   "w-1/2": !game?.players?.length,
+  // });
   const gameBinderClassNames = classNames(
     { "shrink-0": !isMobile },
     { "w-1/2 ": !isMobile && !hidePlayers },
@@ -105,7 +105,8 @@ const PageGameSheet: React.FC<
       >
         {uid && id && (
           <>
-            <div className={addPlayerFormClassNames}>
+            <div>
+              {/* <div className={addPlayerFormClassNames}> */}
               {!!game.players?.length && (
                 <PlayerList
                   players={game.players}
@@ -119,7 +120,7 @@ const PageGameSheet: React.FC<
                 />
               )}
             </div>
-            {!!game.players?.length && (
+            {!!game && (
               <GameBinder
                 players={game.players}
                 showThiefAbilities={showThiefAbilities}

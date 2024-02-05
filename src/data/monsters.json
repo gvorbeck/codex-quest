@@ -204,7 +204,7 @@
         }
       ]
     ],
-    "description": "Black bears are omnivorous, and despite their formidable size and strength are not particularly aggressive, though a female will fight fiercely if her cubs are threatened."
+    "description": "Black bears are omnivorous, and despite their formidable size and strength are not particularly aggressive, though a female will fight fiercely if her cubs are threatened.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
   },
   {
     "name": "Bear, Grizzly (or Brown)",
@@ -225,7 +225,7 @@
         }
       ]
     ],
-    "description": "Brown bears are huge, carnivorous, and aggressive. An adult male weighs 400 to 800 pounds and four feet high at the shoulder; females are slightly smaller, but just as bloodthirsty."
+    "description": "Brown bears are huge, carnivorous, and aggressive. An adult male weighs 400 to 800 pounds and four feet high at the shoulder; females are slightly smaller, but just as bloodthirsty.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
   },
   {
     "name": "Bear, Polar",
@@ -246,7 +246,7 @@
         }
       ]
     ],
-    "description": "Polar bears are found in far northern regions. They are larger and more powerful than brown bears, and just as hostile."
+    "description": "Polar bears are found in far northern regions. They are larger and more powerful than brown bears, and just as hostile.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
   },
   {
     "name": "Bear, Cave",
@@ -267,7 +267,7 @@
         }
       ]
     ],
-    "description": "These monstrous bears are even larger than brown bears, with one weighing up to 1,800 pounds and standing up to six feet high at the shoulder."
+    "description": "These monstrous bears are even larger than brown bears, with one weighing up to 1,800 pounds and standing up to six feet high at the shoulder. They are ferocious killers, attacking almost anything of equal or smaller size.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
   },
   {
     "name": "Bee, Giant",
@@ -288,7 +288,7 @@
         }
       ]
     ],
-    "description": "Giant bees live in hives, generally in underground areas. In each such hive will be a queen who has 2 hit dice and inflicts only a bite doing 1d8 points of damage. She is immobile, and if she is threatened all bees in the hive will fight without checking morale. The queen is worth 75 XP if defeated. Those stung by a giant bee must save vs. Poison or die. A giant bee that successfully stings another creature pulls away, leaving its stinger in the creature; the bee then dies."
+    "description": "Giant bees live in hives, generally in underground areas. In each such hive will be a queen who has 2 hit dice and inflicts only a bite doing 1d8 points of damage. She is immobile, and if she is threatened all bees in the hive will fight without checking morale. The queen is worth 75 XP if defeated.\n\nThose stung by a giant bee must save vs. Poison or die. A giant bee that successfully stings another creature pulls away, leaving its stinger in the creature; the bee then dies.\n\nEach giant bee hive will contain honeycomb filled with honey, which is entirely safe to eat and is worth 10 GP per gallon if carefully removed. Generally 2d10+10 gallons of honey will be present in any given hive. There is also a 15% chance that one of the cells in the honeycomb will contain special honey which acts as 1d6+1 Potions of Healing if consumed. This honey can be discovered by chance, or through the use of detect magic."
   },
   {
     "name": "Beetle, Giant Bombardier",
@@ -309,7 +309,7 @@
         }
       ]
     ],
-    "description": "Giant bombardier beetles have red head and thorax sections and black abdomens. They are 3 to 4 feet long. In combat, a giant bombardier beetle bites opponents in front of it, and sprays a cone of very hot and noxious gases from a nozzle in the rearmost tip of the abdomen. This toxic blast causes 2d6 points of damage to all within a cone 10' long and 10' wide at the far end (a save vs. Death Ray for half damage is allowed). A giant bombardier beetle can use this spray attack up to five times per day, but no more than once per three rounds."
+    "description": "Giant bombardier beetles have red head and thorax sections and black abdomens. They are 3 to 4 feet long. In combat, a giant bombardier beetle bites opponents in front of it, and sprays a cone of very hot and noxious gases from a nozzle in the rearmost tip of the abdomen. This toxic blast causes 2d6 points of damage to all within a cone 10' long and 10' wide at the far end (a save vs. Death Ray for half damage is allowed). A giant bombardier beetle can use this spray attack up to five times per day, but no more than once per three rounds. Faced with enemies attacking from one direction, a giant bombardier beetle may choose to turn away and use the spray attack rather than biting.\n\nGiant bombardier beetles, like most beetles, have about the same visual acuity in all directions, and thus suffer no penalty to Armor Class when attacked from behind."
   },
   {
     "name": "Beetle, Giant Fire",
@@ -330,6 +330,153 @@
         }
       ]
     ],
-    "description": "Giant fire beetles are huge, being 18 to 30 inches long, and have shiny black carapaces. Each has a pair of glowing red organs located just below their eyes which illuminate a radius of 10 feet around the creature. These glands continue to glow for 1d6 days after one is killed, and may be removed and used for illumination by any adventurers not too squeamish to do so."
+    "description": "Giant fire beetles are huge, being 18 to 30 inches long, and have shiny black carapaces. Each has a pair of glowing red organs located just below their eyes which illuminate a radius of 10 feet around the creature. These glands continue to glow for 1d6 days after one is killed, and may be removed and used for illumination by any adventurers not too squeamish to do so.\n\nThey are normally timid but will fight if cornered. Like most beetles, they have more or less the same visual acuity in all directions, and thus those who attack them from behind receive no bonus to do so."
+  },
+  {
+    "name": "Beetle, Giant Oil",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "2*",
+          "numAttacks": "1 bite, 1 spray (special, see below)",
+          "damage": "2d4 bite, special spray (see below)",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Giant oil beetles are about 3 feet long, and are often found burrowing in soil or roaming dungeon corridors. Their eyes are arranged on the sides of their heads such that they can see perfectly well behind them as well as in front, negating any normal bonus for attacking from behind.\n\nIn addition to its bite, a giant oil beetle can attack with a spray of oil from its abdomen; this can only be applied to opponents within 5 feet of the back of the beetle, and an attack roll is needed to hit. Living creatures hit by this spray suffer a penalty of -2 on all attack rolls for 24 hours due to painful blisters inflicted by the irritating oil. A cure light wounds spell may be used to remove this effect, but if so used the spell does not also restore hit points to the victim."
+  },
+  {
+    "name": "Beetle, Giant Tiger",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "3+1",
+          "numAttacks": "1 bite",
+          "damage": "2d6 bite",
+          "movement": "60' (10')",
+          "numAppear": "1d6, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "U",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Giant tiger beetles are predatory monsters around 5 feet long. Their carapaces tend to be dark brown with lighter brown striped or spotted patterns, but there are many variations.\n\nThey are fast runners, depending on their speed to run down prey, and they willingly prey on any creature of man size or smaller. Like most beetles, they have more or less the same visual acuity in all directions, and thus suffer no penalty to Armor Class when attacked from behind."
+  },
+  {
+    "name": "Blink Dog (Flicker Beast)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4*",
+          "numAttacks": "1 bite",
+          "damage": "1d6 bite",
+          "movement": "40'",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": "6",
+          "treasure": "C",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Blink dogs, also known as flicker beasts, are strange creatures which resemble wolves or hyenas who can teleport up to 120 feet at will. Teleportation is so easy for them that they can sometimes teleport away before being attacked. When one knows of the attacker's presence, it is allowed a saving throw vs. Death Ray, and on a successful roll teleports 1d6 x 10 feet in a random direction (but never into solid matter, nor into any dangerous area the creature knows about). \n\nThese creatures are pack hunters, using their teleportation to confuse their prey until they are able to surround it. In this way, some members of the pack will be able to attack from behind, a trick they are so good at that they receive the same benefits as a thief: +4 to hit and double damage if the hit is successful.\n\nBlink dogs are large canines, typically light brown in color with short bristly hair; some varieties are striped or spotted. They communicate using a language of barks, growls, and yips which is somewhat limited but can convey useful tactical information. They are shy, generally avoiding a fight if possible, but they hate deceivers and will generally attack them on sight."
+  },
+  {
+    "name": "Blood Rose",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2* to 4*",
+          "numAttacks": "1 to 3 canes, each + blood drain",
+          "damage": "1d6 cane, 1d6/round blood drain",
+          "movement": "1'",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 2",
+          "morale": "12",
+          "treasure": "None",
+          "xp": "100 – 280"
+        }
+      ]
+    ],
+    "description": "Blood roses appear to be normal rose bushes, but are actually animated plants, dismally aware of their surroundings. These plants are always in bloom, bearing beautiful flowers that are normally white (or rarely, yellow) in color.\n\nThe fragrance of the flowers is detectable up to 30' from the plant in ideal conditions. Blood roses can move about slowly, and will try to find locations sheltered from the wind in order to achieve those ideal conditions. Living creatures who smell the fragrance must save vs. Poison or become befuddled; such a victim will drop anything carried and try to approach the plant. Each round an unaffected living creature can smell the fragrance it must make this save. Befuddled creatures will not resist the attacks of the blood rose; if affected creatures are removed from the area, the effect of the fragrance will expire 2d4 rounds later. Undead monsters, constructs, etc. are not affected.\n\nEach blood rose plant will have 1, 2 or 3 whip-like canes studded with thorns with which it can attack. When a cane hits, it wraps around the victim and begins to drain blood, doing 1d6 points of damage per round. A blood rose which has recently (within one day) \"eaten\" in this way will have flowers ranging from pink to deep wine red in color, which will fade slowly back to white or yellow as the plant digests the blood it has consumed."
+  },
+  {
+    "name": "Boar",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "3",
+          "numAttacks": "1 tusk",
+          "damage": "2d4 tusk",
+          "movement": "50' (10')",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Wild boars are the natural variety of swine. They are surly and aggressive, prone to attacking characters just because they are present. Note that \"boar\" refers specifically to the male of the species, but females are equally large and fierce, more so if they have offspring.\n\nWild boars have stocky and muscular bodies, covered with bristly hair which may be black, brown, or gray in color. Those in colder climates will have an under-layer of warm fur, while those found in warmer areas will not."
+  },
+  {
+    "name": "Bugbear",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "3+1",
+          "numAttacks": "1 weapon",
+          "damage": "1d8+1 or by weapon +1",
+          "movement": "30'",
+          "numAppear": "2d4, Wild 5d4, Lair 5d4",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "Q, R each; B, L, M in lair",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Bugbears look like huge, hairy goblins, standing about 6 feet tall. Their eyes are usually a darkish brown color and they move very quietly. They are wild and cruel, and bully smaller humanoids whenever possible.\n\nBugbear attacks are coordinated, and their tactics are sound if not brilliant. They are able to move on nearly complete silence, surprising opponents on 1-3 on 1d6. In order to remain silent, they must wear only leather or hide armor, as indicated in the Armor Class scores above. Bugbears receive a +1 bonus on damage due to their great Strength. As with most goblinoid monsters, they have Darkvision with a 30' range.\n\nOne out of every eight bugbears will be a hardened warrior of 4+4 Hit Dice (240 XP), with a +2 bonus to damage. In lairs of 16 or more bugbears, there will be a chieftain of 6+6 Hit Dice (500 XP), with a +3 bonus to damage. Bugbears gain a +1 bonus to their morale if they are led by a hardened warrior or chieftain. In the lair, bugbears never fail a morale check as long as the chieftain is alive. In addition, there is a 2 in 6 chance that a shaman will be present in a lair. A shaman is equal to an ordinary bugbear statistically, but possesses 1d4+1 levels of Clerical abilities."
+  },
+  {
+    "name": "Caecilia, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "6*",
+          "numAttacks": "1 bite + swallow on natural 19 or 20",
+          "damage": "1d8 bite + 1d8/round if swallowed",
+          "movement": "20' (10')",
+          "numAppear": "1d3, Lair 1d3",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "B",
+          "xp": "555"
+        }
+      ]
+    ],
+    "description": "Caecilia are carnivorous, legless amphibians; they strongly resemble earthworms, but they have bony skeletons and sharp teeth. Caecilia live entirely underground. The giant variety can grow up to 30' long and frequently are found in caverns or dungeons. They are nearly blind, but caecilia are very sensitive to sound and vibrations, and are able to find their prey regardless of light or the absence thereof.\n\nA giant caecilia can swallow a single small humanoid (such as a goblin or halfling) whole. On a natural attack roll of 19 or 20, such a victim is swallowed whole (assuming that roll does actually hit the victim). A swallowed victim suffers 1d8 damage per round, and may only attack from the inside with a small cutting or stabbing weapon such as a dagger. While the inside of the caecilia is easier for the victim to hit, fighting while swallowed is more difficult, so no modifiers to the attack roll are applied.\n\nOnce a caecilia has swallowed an opponent, it will generally attempt to disengage from combat, going to its lair to rest and digest its meal."
   }
 ]

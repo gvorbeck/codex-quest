@@ -26,7 +26,9 @@ const Monsters: React.FC<
       children: <MonsterInfo monster={monster} />,
     }),
   );
-  console.info("monsters skipped: Assassin Vine, Aurochs");
+  console.info(
+    "monsters skipped: Assassin Vine, Aurochs, Bison, Black Pudding",
+  );
   return (
     <Flex vertical gap={16} className={className}>
       <Input
