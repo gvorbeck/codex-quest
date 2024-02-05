@@ -100,7 +100,7 @@ export type Monster = {
 };
 
 export type MonsterStats = {
-  as: string;
+  ac: string;
   hitDice: string;
   numAttacks: string;
   damage: string;

@@ -91,5 +91,245 @@
       ]
     ],
     "description": "Carnivorous apes appear much like ordinary gorillas, but are bad-tempered and aggressive. They are actually omnivores, but have a marked preference for meat. Adult females are 4½ to 5 feet tall and weigh up to 300 pounds, while males are larger, being 5½ to 6 feet tall and weighing up to 400 pounds."
+  },
+  {
+    "name": "Barkling",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (11)",
+          "hitDice": "1/4 (1d4 hit points)",
+          "numAttacks": "1 bite or 1 weapon",
+          "damage": "1d4 bite, 1d4 or by weapon",
+          "movement": "20' Unarmored 40'",
+          "numAppear": "3d4, Wild 4d6, Lair 5d10",
+          "saveAs": "Normal Man",
+          "morale": "7 (9)",
+          "treasure": "P, Q each; C, K in lair",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "Barklings are diminutive furry humanoids with very dog-like faces. They stand between 2½ and 3½ feet tall and typically weigh around 45 pounds. They are pack hunters by nature, but when encountered singly or in small groups pose shyly when their numbers are overwhelming. Use the higher morale figure when a barkling group outnumbers their enemies by 3 combatants to 1 or more.\n\nBarklings can deliver a nasty bite but prefer to fight with weapons, favoring small weapons made for their stature and relative lack of strength; all such  weapons do 1d4 points of damage on a hit.\n\nBarklings see well in the dark, having Darkvision with a range of 30 feet, but their sense of smell is where they excel; a barkling can track almost any living or corporeal undead creature by scent, even if it has been as much as a day since it passed.\n\nIn combat barklings usually wear chainmail armor which they craft themselves (as shown in the Armor Class given above).\n\nOne out of every ten barklings will be a warrior with 1 hit die (25 XP). In barkling encampments, one out of every twenty will be a chieftain of 2 hit dice (75 XP) having a +1 bonus to damage due to strength. In villages of 50 or more  there will be a barkling lord of 3 hit dice (145 XP) who has +1 bonus to damage. Barklings gain a +1 bonus to  their morale as long as they are led by any of their leaders.\n\nIn addition, a lair has a chance equal to 1-2 on 1d6 of a wizard being present (or 1-3 on 1d6 if a chieftain is present). A wizard is equivalent to a 1 hit die warrior barkling statistically, but has Magic-User abilities at level 1d4+1. For XP purposes, treat the wizard barkling as if it has a number of hit dice equal to its magic-user level -1, and assign one special ability bonus asterisk.\n\nBarklings are sometimes confused with kobolds, for whom they have a particular hatred; calling a barkling a kobold or suggesting that the two species are related is considered a terrible insult."
+  },
+  {
+    "name": "Basilisk",
+    "variants": [
+      [
+        "Common",
+        {
+          "ac": "16",
+          "hitDice": "6",
+          "numAttacks": "1 bite, 1 gaze",
+          "damage": "1d10 bite, petrification gaze",
+          "movement": "20'",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 6",
+          "morale": "9",
+          "treasure": "F",
+          "xp": "610"
+        }
+      ],
+      [
+        "Greater",
+        {
+          "ac": "17",
+          "hitDice": "8",
+          "numAttacks": "1 bite, 1 gaze",
+          "damage": "1d12+2 poison bite, petrification gaze",
+          "movement": "20'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "F, K",
+          "xp": "1,085"
+        }
+      ]
+    ],
+    "description": "A basilisk is a giant six-legged lizard-like monster that petrifies living creatures with its gaze. A basilisk has dark brown, green, or black skin on its back and a pale yellow or white belly. Adults reach a body length of 5 to 7 feet with a tail of roughly equal length, and a weight of 250 to 400 pounds. There is no particular difference in size between males and females.\n\nAny living creature meeting the gaze of a basilisk must save vs. Petrify or be turned to stone instantly. In general, any creature surprised by the basilisk will meet its gaze. Those who attempt to fight the monster while averting their eyes suffer penalties of -4 to attack and -2 to AC. It is possible to use a mirror to fight the monster, in which case the penalties are -2 to attack and no penalty to AC. If a basilisk sees its own reflection in a mirror it must save vs. Petrify or be turned to stone; a petrified basilisk loses its power to petrify. Basilisks instinctively avoid mirrors or other reflective surfaces, even drinking with their eyes closed, but if an attacker can manage to surprise the monster with a mirror it may see its reflection.\n\nThe greater basilisk appears identical to the common variety, save that it is larger, having a body length of about 8 feet with a 7 to 9 foot long tail and weighing between 400 and 750 pounds. The skin of the greater basilisk is toxic to the touch, such that any living creature bitten by one or who touches one with bare skin must save vs. Poison or die. This effect persists even after the monster is dead, typically for about 2d20 hours; the only way to tell if the effect has subsided is to touch the corpse, an obviously bad idea."
+  },
+  {
+    "name": "Bat (and Bat, Giant)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "1 Hit Point",
+          "numAttacks": "1 special",
+          "damage": "Confusion",
+          "movement": "30' Fly 40' or 10' Fly 60' (10')",
+          "numAppear": "1d100, Wild 1d100, Lair 1d100",
+          "saveAs": "Normal Man",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "10"
+        }
+      ],
+      [
+        "Giant Bat",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d4",
+          "movement": "10' Fly 60' (10')",
+          "numAppear": "1d10, Wild 1d10, Lair 1d10",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Bats have a natural sonar that allows them to operate in total darkness; for game purposes, treat this ability as equivalent to Darkvision.\n\nA group of normal-sized bats has no effective attack but can confuse least in terms of inflicting damage, but can confuse those in the area, flying around apparently randomly. For every ten bats in the area, one creature can be confused; such a creature will suffer a penalty of -2 on all attack and saving throw rolls while the bats remain in the area.\n\nA giant bat has a wingspan of 15 feet and weighs about 200 pounds. They have the same sensory abilities as normal-sized bats, but being much larger, they are able to attack adventurers; many are carnivorous, making such attacks likely."
+  },
+  {
+    "name": "Bear, Black",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "4",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d4 claw, 1d6 bite, 2d6 hug",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 4",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Black bears are omnivorous, and despite their formidable size and strength are not particularly aggressive, though a female will fight fiercely if her cubs are threatened."
+  },
+  {
+    "name": "Bear, Grizzly (or Brown)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "5",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d4 claw, 1d8 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Brown bears are huge, carnivorous, and aggressive. An adult male weighs 400 to 800 pounds and four feet high at the shoulder; females are slightly smaller, but just as bloodthirsty."
+  },
+  {
+    "name": "Bear, Polar",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "6",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d6 claw, 1d10 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1, Wild 1d2, Lair 1d2",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Polar bears are found in far northern regions. They are larger and more powerful than brown bears, and just as hostile."
+  },
+  {
+    "name": "Bear, Cave",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "7",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d8 claw, 2d6 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1d2, Wild 1d2, Lair 1d2",
+          "saveAs": "Fighter: 7",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "670"
+        }
+      ]
+    ],
+    "description": "These monstrous bears are even larger than brown bears, with one weighing up to 1,800 pounds and standing up to six feet high at the shoulder."
+  },
+  {
+    "name": "Bee, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "1 sting",
+          "damage": "1d4+ poison sting",
+          "movement": "10' Fly 50'",
+          "numAppear": "1d6, Wild 1d6, Lair 5d6",
+          "saveAs": "Fighter: 1",
+          "morale": "9 (12 if queen is threatened)",
+          "treasure": "Special",
+          "xp": "13"
+        }
+      ]
+    ],
+    "description": "Giant bees live in hives, generally in underground areas. In each such hive will be a queen who has 2 hit dice and inflicts only a bite doing 1d8 points of damage. She is immobile, and if she is threatened all bees in the hive will fight without checking morale. The queen is worth 75 XP if defeated. Those stung by a giant bee must save vs. Poison or die. A giant bee that successfully stings another creature pulls away, leaving its stinger in the creature; the bee then dies."
+  },
+  {
+    "name": "Beetle, Giant Bombardier",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "2*",
+          "numAttacks": "1 bite, 1 spray (special, see below)",
+          "damage": "1d6 bite, 2d6 spray",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Giant bombardier beetles have red head and thorax sections and black abdomens. They are 3 to 4 feet long. In combat, a giant bombardier beetle bites opponents in front of it, and sprays a cone of very hot and noxious gases from a nozzle in the rearmost tip of the abdomen. This toxic blast causes 2d6 points of damage to all within a cone 10' long and 10' wide at the far end (a save vs. Death Ray for half damage is allowed). A giant bombardier beetle can use this spray attack up to five times per day, but no more than once per three rounds."
+  },
+  {
+    "name": "Beetle, Giant Fire",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "1+2",
+          "numAttacks": "1 bite",
+          "damage": "2d4 bite",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Giant fire beetles are huge, being 18 to 30 inches long, and have shiny black carapaces. Each has a pair of glowing red organs located just below their eyes which illuminate a radius of 10 feet around the creature. These glands continue to glow for 1d6 days after one is killed, and may be removed and used for illumination by any adventurers not too squeamish to do so."
   }
 ]

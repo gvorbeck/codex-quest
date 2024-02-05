@@ -1,7 +1,7 @@
 import { Collapse, CollapseProps, Flex, Input } from "antd";
 import monsters from "@/data/monsters.json";
 import React from "react";
-import MonsterDescription from "./MonsterDescription/MonsterDescription";
+import MonsterInfo from "./MonsterInfo/MonsterInfo";
 import { Monster } from "@/data/definitions";
 
 interface MonstersProps {}
@@ -23,9 +23,10 @@ const Monsters: React.FC<
     (monster: Monster) => ({
       key: monster.name,
       label: monster.name,
-      children: <MonsterDescription monster={monster} />,
+      children: <MonsterInfo monster={monster} />,
     }),
   );
+  console.info("monsters skipped: Assassin Vine, Aurochs");
   return (
     <Flex vertical gap={16} className={className}>
       <Input
