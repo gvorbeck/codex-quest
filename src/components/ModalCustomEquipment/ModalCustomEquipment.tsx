@@ -198,7 +198,7 @@ const ModalCustomEquipment: React.FC<
 
   React.useEffect(() => {
     if (categorySelect === EquipmentCategories.BOWS) {
-      form.setFieldsValue({ range: "Missile" });
+      form.setFieldsValue({ attack: "Missile" });
       setAttackTypeDisabled(true);
     } else {
       setAttackTypeDisabled(false);
