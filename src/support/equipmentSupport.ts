@@ -8,6 +8,10 @@ import {
 import { AttackTypes } from "./stringSupport";
 import { DescriptionsProps, RadioChangeEvent, SelectProps } from "antd";
 
+export const getEquipmentItemFromName = (name: string) => {
+  return equipmentItems.find((item) => item.name === name);
+};
+
 export const onChangeWearing = (
   e: RadioChangeEvent,
   type: "armor" | "shields",

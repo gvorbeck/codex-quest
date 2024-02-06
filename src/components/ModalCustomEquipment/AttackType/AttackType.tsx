@@ -32,7 +32,7 @@ const AttackType: React.FC<
       label="Attack"
       name="attack"
       className={className}
-      rules={[{ required: true }]}
+      rules={[{ required: disabled ? false : true }]}
     >
       <Select
         options={attackOptions}
