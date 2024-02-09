@@ -1051,6 +1051,111 @@
         }
       ]
     ],
-    "description": "Mountain dragons are red in color, ranging from the brilliant blood red of a hatchling to the dull terracotta color of an ancient individual. These dragons are powerfully built, with heavy-jawed heads and thick muscular bodies, yet their necks are still long enough to give them the legendary flexibility of a true dragon.\n\nThey are cruel monsters, actively seeking to hunt, torment, kill and consume intelligent creatures. They are often said to prefer women and elves, but in truth a mountain dragon will attack almost any creature less powerful than itself.\n\nThey are intelligent and self-assured, but also impatient and overconfident. One will often plan strategies in advance and then choose one at random when facing unknown opponents, without regard to whether or not the strategy is likely to work. The sheer power of a mountain dragon is often the only reason one is still alive.\n\nMountain dragons are immune to normal fire, and suffer only half damage from magical fire.\n\n**Mountain Dragon Age Table**\n\n  | Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level  |\n  |--------------|----------|--------------|---------------|--------|-------|----------------|-----------------|\n  | 1            | 7        | +7           | Fire (Cone)   | 70'    | 30'   | 0%             | - - - - -       |\n  | 2            | 8        | +8           | Fire (Cone)   | 80'    | 35'   | 15%            | 1 - - - -       |\n  | 3            | 9        | +9           | Fire (Cone)   | 90'    | 45'   | 30%            | 2 1 - - -       |\n  | 4            | 10       | +9           | Fire (Cone)   | 95'    | 50'   | 50%            | 3 2 1 - -       |\n  | 5            | 11       | +10          | Fire (Cone)   | 100'   | 55'   | 60%            | 4 3 2 1 -         |\n  | 6            | 12       | +11          | Fire (Cone)   | 110'   | 60'   | 70%            | 5 4 3 2 1       |\n  | 7            | 13       | +11          | Fire (Cone)   | 110'   | 60'   | 85%            | 5 5 3 2 2       |\n"
+    "description": "Mountain dragons are red in color, ranging from the brilliant blood red of a hatchling to the dull terracotta color of an ancient individual. These dragons are powerfully built, with heavy-jawed heads and thick muscular bodies, yet their necks are still long enough to give them the legendary flexibility of a true dragon.\n\nThey are cruel monsters, actively seeking to hunt, torment, kill and consume intelligent creatures. They are often said to prefer women and elves, but in truth a mountain dragon will attack almost any creature less powerful than itself.\n\nThey are intelligent and self-assured, but also impatient and overconfident. One will often plan strategies in advance and then choose one at random when facing unknown opponents, without regard to whether or not the strategy is likely to work. The sheer power of a mountain dragon is often the only reason one is still alive.\n\nMountain dragons are immune to normal fire, and suffer only half damage from magical fire.\n\n**Mountain Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level  |\n  |--------------|----------|--------------|---------------|--------|-------|----------------|-----------------|\n  | 1            | 7        | +7           | Fire (Cone)   | 70'    | 30'   | 0%             | - - - - -       |\n  | 2            | 8        | +8           | Fire (Cone)   | 80'    | 35'   | 15%            | 1 - - - -       |\n  | 3            | 9        | +9           | Fire (Cone)   | 90'    | 45'   | 30%            | 2 1 - - -       |\n  | 4            | 10       | +9           | Fire (Cone)   | 95'    | 50'   | 50%            | 3 2 1 - -       |\n  | 5            | 11       | +10          | Fire (Cone)   | 100'   | 55'   | 60%            | 4 3 2 1 -         |\n  | 6            | 12       | +11          | Fire (Cone)   | 110'   | 60'   | 70%            | 5 4 3 2 1       |\n  | 7            | 13       | +11          | Fire (Cone)   | 110'   | 60'   | 85%            | 5 5 3 2 2       |"
+  },
+  {
+    "name": "Dragon, Plains (Yellow Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "5**",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d6 claw, 2d10 or breath, 1d8 tail",
+          "movement": "50' Fly 80' (10')",
+          "numAppear": "1, Wild 1, Lair 1d6",
+          "saveAs": "Fighter: 5 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "450"
+        }
+      ]
+    ],
+    "description": "Plains dragons are the smallest of the true dragons. They have yellow skin dappled with light green patches, spots, or sometimes thin stripes. The color dulls and darkens with age until it reaches an almost uniform tan color at the oldest age category. They have long sinuous bodies and unusually long legs, giving them the fastest land movement rate of any dragon, but they are also accomplished fliers, as fast and maneuverable as any dragon.\n\nPlains dragons may hunt on the wing, attacking suddenly from above and surprising on 1-3 on 1d6; or, they may lie in wait in tall grass or a copse of trees, using their coloration as camouflage. As one ages and its colors dull, this ability improves; when lying in wait, they gain surprise on 1-3 on 1d6 at age categories 2 and 3, on 1-4 in age categories 4 through 6, and on 1-5 at age category 7.\n\nThe breath weapon of the plains dragon is a scorching, shimmering cone of heat, barely visible to the naked eye; at night, however, a glow like steel being forged can be seen streaming from the dragon's open mouth.\n\n**Plains Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n |----------|----------|--------------|---------------|------|------|--------|-----------------|\n | 1        | 2        | +2           | Heat (Cone)   | -    | -    | 0%     | - - - |\n | 2        | 3        | +3           | Heat (Cone)   | 50'  | 25'  | 10%    | 1 - - |\n | 3        | 4        | +4           | Heat (Cone)   | 60'  | 30'  | 15%    | 2 - - |\n | 4        | 5        | +5           | Heat (Cone)   | 70'  | 35'  | 20%    | 3 - - |\n | 5        | 6        | +6           | Heat (Cone)   | 80'  | 40'  | 30%    | 3 1 - |\n | 6        | 7        | +7           | Heat (Cone)   | 85'  | 45'  | 40%    | 3 2 - |\n | 7        | 8        | +8           | Heat (Cone)   | 90'  | 50'  | 50%    | 3 3 1 |\n"
+  },
+  {
+    "name": "Dragon, Sea (Gray Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8**",
+          "numAttacks": "2 claws, 1 bite or breath",
+          "damage": "1d6 claw, 3d8 bite or breath",
+          "movement": "10' Fly 60' (20') Swim 60' (15')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 8 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "1,015"
+        }
+      ]
+    ],
+    "description": "Young sea dragons are light bluish-gray in color (similar to dolphins), darkening to a deep slate color in older individuals. Their skin is smooth and sleek, and their bodies are more compact than most dragons, though their long neck gives them the same flexibility.\n\nThough they live in the water and are somewhat adapted to it, sea dragons still must breathe air, similar to dolphins or whales. A sea dragon may hold its breath up to three turns while swimming or performing other moderate activity.\n\nThese dragons have much the same physical structure as other dragons, but their feet are webbed and their tails are short, flat and broad; these adaptations help the sea dragon swim efficiently, but severely limit their ability to walk on dry land. Unlike other dragons, sea dragons do not have a tail attack. The breath weapon of a sea dragon is a cloud of steam; they are immune to damage from non-magical steam (including the breath weapon of another sea dragon), and suffer only half damage from magical steam attacks.\n\nSea dragons are neutral in outlook, in much the same way as ice dragons. They often maintain lairs in air-filled undersea caverns.\n\n**Sea Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n|----------|----------|--------------|---------------|------|------|--------|-----------------|\n| 1        | 5        | +5           | Steam (Cloud) | 70'  | 25'  | 0%     | - - -           |\n| 2        | 6        | +6           | Steam (Cloud) | 80'  | 30'  | 15%    | 1 - -           |\n| 3        | 7        | +7           | Steam (Cloud) | 90'  | 40'  | 20%    | 2 1 -           |\n| 4        | 8        | +8           | Steam (Cloud) | 95'  | 45'  | 30%    | 3 2 1           |\n| 5        | 9        | +9           | Steam (Cloud) | 100' | 50'  | 45%    | 3 3 2           |\n| 6        | 10       | +9           | Steam (Cloud) | 100' | 55'  | 55%    | 4 3 3           |\n| 7        | 11       | +9           | Steam (Cloud) | 100' | 55'  | 65%    | 4 4 1           |"
+  },
+  {
+    "name": "Dragon, Swamp (Black Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "7**",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d6 claw, 2d10 bite or breath, 1d6 tail",
+          "movement": "30' Fly 80' (15')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 7 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "800"
+        }
+      ]
+    ],
+    "description": "Swamp dragons have green skin so dark as to appear to be black, especially in uncertain light or while wet. They often choose to hide underwater, leaving only part of the head above the waterline, and leap up suddenly when prey comes within 100' (surprising on a roll of 1-4 on 1d6 in this case).\n\nThough swamp dragons are more cruel than ice dragons, they are still motivated mostly by the urge to live, breed and collect valuable items. Swamp dragons are immune to all forms of acid. A swamp dragon may hold its breath up to three turns while lying in wait underwater.\n\n**Swamp Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n|----------|----------|--------------|---------------|------|------|--------|-----------------|\n| 1        | 4        | +4           | Acid (Line)   | 70'  | 25'  | 0%     | - - -           |\n| 2        | 5        | +5           | Acid (Line)   | 80'  | 30'  | 15%    | 1 - -           |\n| 3        | 6        | +6           | Acid (Line)   | 90'  | 40'  | 20%    | 2 1 -           |\n| 4        | 7        | +7           | Acid (Line)   | 95'  | 45'  | 25%    | 4 1 -           |\n| 5        | 8        | +8           | Acid (Line)   | 100' | 50'  | 35%    | 4 2 1           |\n| 6        | 9        | +8           | Acid (Line)   | 100' | 50'  | 50%    | 4 3 2           |\n| 7        | 10       | +9           | Acid (Line)   | 100' | 55'  | 60%    | 4 4 1           |"
+  },
+  {
+    "name": "Dragon Turtle",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "22",
+          "hitDice": "30** (AB +15)",
+          "numAttacks": "2 claws, 1 bite or breath",
+          "damage": "2d8 claw, 1d6 bite or 30d8 breath",
+          "movement": "10' (10') Swim 30' (15')",
+          "numAppear": "Wild 1",
+          "saveAs": "Fighter: 20 (as Hit Dice)",
+          "morale": "10",
+          "treasure": "H (calculated at one-quarter hit dice)",
+          "xp": "13,650"
+        }
+      ]
+    ],
+    "description": "Dragon turtles are so large, up to 200 feet long, that they are occasionally mistaken for rocky outcroppings or even small islands. Though they are not true dragons, they do advance through some sort of age categories as the true dragons do; however, each age category changes the dragon turtle's Hit Dice by 5. Due to their massive size, dragon turtles are immune to virtually all poisons.\n\n**Dragon Turtle Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n|----------|----------|--------------|---------------|------|------|--------|-----------------|\n| 1        | 15       | +11          | Steam (Cloud) | 50'  | 25'  | 0%     | - - -           |\n| 2        | 20       | +13          | Steam (Cloud) | 75'  | 50'  | 15%    | 1 - -           |\n| 3        | 25       | +14          | Steam (Cloud) | 100' | 75'  | 20%    | 2 1 -           |\n| 4        | 30       | +15          | Steam (Cloud) | 125' | 100' | 30%    | 2 2 -           |\n| 5        | 35       | +16          | Steam (Cloud) | 150' | 125' | 45%    | 3 2 1           |\n| 6        | 40       | +16          | Steam (Cloud) | 175' | 150' | 55%    | 3 3 2           |\n| 7        | 45       | +16          | Steam (Cloud) | 175' | 150' | 65%    | 3 3 3           |"
+  },
+  {
+    "name": "Dryad",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "2*",
+          "numAttacks": "1 dagger or 1 fist",
+          "damage": "1d4 dagger or 1d4 fist",
+          "movement": "40'",
+          "numAppear": "Lair 1d6",
+          "saveAs": "Magic-User: 4",
+          "morale": "6",
+          "treasure": "D",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Dryads are female nature spirits; each is mystically bound to a single, enormous oak tree and must never stray more than 300 yards from it. Any who do become ill and die within 4d6 hours. A dryad's oak does not radiate magic. A dryad lives as long as her tree, and dies when the tree dies; likewise, if the dryad is killed, her tree dies also.\n\nA dryad resembles an elf woman, with skin that resembles fine polished wood or smooth bark and hair like leaves; the hair color of a dryad usually changes with the seasons, being brown in the winter, pale green in the spring, darker green in the summer, and yellow, orange, or red in the fall.\n\nThough they are usually content to live alone, dryads are often friends with creatures such as treant or other nature spirits who might live nearby. Once per day a dryad can cast a charm similar to the spell charm person, and one may choose to use this ability to compel an interesting human or elf to remain with her as a companion for a period of up to a year. The companion can be taken into and brought out of the dryad's tree so long as the charm is still in effect."
   }
 ]

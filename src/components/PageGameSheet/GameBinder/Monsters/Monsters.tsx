@@ -1,4 +1,4 @@
-import { Collapse, CollapseProps, Flex, Input } from "antd";
+import { Alert, Collapse, CollapseProps, Flex, Input } from "antd";
 import monsters from "@/data/monsters.json";
 import React from "react";
 import MonsterInfo from "./MonsterInfo/MonsterInfo";
@@ -31,6 +31,7 @@ const Monsters: React.FC<
   );
   return (
     <Flex vertical gap={16} className={className}>
+      <Alert message="Letters A-D. More to come in the next couple of weeks. -admin" />
       <Input
         value={monsterQuery}
         onChange={handleInputChange}
