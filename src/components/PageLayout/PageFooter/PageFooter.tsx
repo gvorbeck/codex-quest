@@ -90,11 +90,11 @@ const PageFooter: React.FC<
         </Typography.Paragraph>
         <Typography.Paragraph>
           <a
-            href="https://basicfantasy.org/forums/viewtopic.php?t=4840"
+            href="https://bsky.app/profile/codex.quest"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Forum
+            Bluesky
           </a>
         </Typography.Paragraph>
         <Typography.Paragraph>
