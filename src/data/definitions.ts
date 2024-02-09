@@ -93,6 +93,25 @@ export type Spell = {
   range: string;
 };
 
+export type Monster = {
+  name: string;
+  variants: [string, MonsterStats][];
+  description: string;
+};
+
+export type MonsterStats = {
+  ac: string;
+  hitDice: string;
+  numAttacks: string;
+  damage: string;
+  movement: string;
+  numAppear: string;
+  saveAs: string;
+  morale: string;
+  treasure: string;
+  xp: string;
+};
+
 export type Abilities = {
   strength: number | string;
   intelligence: number | string;

@@ -1,0 +1,1161 @@
+[
+  {
+    "name": "Ant, Giant (and Huge, Large)",
+    "variants": [
+      [
+        "Giant",
+        {
+          "ac": "17",
+          "hitDice": "4",
+          "numAttacks": "1 bite",
+          "damage": "2d6 bite",
+          "movement": "60' (10')",
+          "numAppear": "2d6, Lair 4d6",
+          "saveAs": "Fighter: 4",
+          "morale": "7 on first sighting, 12 after engaged",
+          "treasure": "U or special",
+          "xp": "240"
+        }
+      ],
+      [
+        "Huge",
+        {
+          "ac": "15",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d10 bite",
+          "movement": "50'",
+          "numAppear": "3d6, Lair 4d8",
+          "saveAs": "Fighter: 2",
+          "morale": "7 on first sighting, 12 after engaged",
+          "treasure": "U or special",
+          "xp": "75"
+        }
+      ],
+      [
+        "Large",
+        {
+          "ac": "13",
+          "hitDice": "1",
+          "numAttacks": "1 bite",
+          "damage": "1d6 bite",
+          "movement": "40'",
+          "numAppear": "4d6, Lair 4d10",
+          "saveAs": "Fighter: 1",
+          "morale": "7 on first sighting, 12 after engaged",
+          "treasure": "U or special",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Giant ants are fantastically enlarged versions of the more common variety of ants. Normal workers are 5 to 6 feet long; queens are larger, growing up to 9 feet in length. Giant ants may be red or black; there is no statistical difference between them. Though relatively shy when first encountered, once combat begins they will fight to the death. They are known to collect shiny things, and so will sometimes have a small amount of treasure in their lair. \n\nGiant ants may occasionally mine shiny metals such as gold or silver; one in three (1-2 on 1d6) giant ant lairs will contain 1d100 x 1d100 gp value in relatively pure nuggets. \n\nLarge and huge ants are similar to giant ants in all ways except for size; large ants are 1 to 2 feet long, while huge ants are 3 to 4 feet in length. Though smaller, their colonies have more members, and so their lair treasures are of similar size to those found in the lairs of giant ants."
+  },
+  {
+    "name": "Antelope (Herd Animals)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "1 to 4",
+          "numAttacks": "1 butt",
+          "damage": "1d4 or 1d8 (see below)",
+          "movement": "80' (10')",
+          "numAppear": "Wild 3d10",
+          "saveAs": "Fighter: 1 to 4 (as Hit Dice)",
+          "morale": "5 (7)",
+          "treasure": "None",
+          "xp": "25 - 240"
+        }
+      ]
+    ],
+    "description": "The statistics above represent the swifter sorts of wild herd animals, including deer (1 hit die, usually), antelope (2 hit dice), elk (3 hit dice), and moose (4 hit dice). They are skittish and will flee if provoked, but males are more aggressive in the presence of females (use the parenthesized morale in this case).\n\nCattle, aurochs, and bison are not included in this category but rather can be found on page 72. Generally, a hit die herd animals inflict 1d4 points of damage on a hit, 2 and 3 hit die animals inflict 1d6, and 4 hit die animals inflict 1d8. The GM should feel free to vary from these figures as he or she sees fit; there are many types of herd animals in the world, and some are better armed than others."
+  },
+  {
+    "name": "Ape, Carnivorous",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "4",
+          "numAttacks": "2 claws",
+          "damage": "1d4 claw",
+          "movement": "40'",
+          "numAppear": "1d6, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 4",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Carnivorous apes appear much like ordinary gorillas, but are bad-tempered and aggressive. They are actually omnivores, but have a marked preference for meat. Adult females are 4½ to 5 feet tall and weigh up to 300 pounds, while males are larger, being 5½ to 6 feet tall and weighing up to 400 pounds."
+  },
+  {
+    "name": "Barkling",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (11)",
+          "hitDice": "1/4 (1d4 hit points)",
+          "numAttacks": "1 bite or 1 weapon",
+          "damage": "1d4 bite, 1d4 or by weapon",
+          "movement": "20' Unarmored 40'",
+          "numAppear": "3d4, Wild 4d6, Lair 5d10",
+          "saveAs": "Normal Man",
+          "morale": "7 (9)",
+          "treasure": "P, Q each; C, K in lair",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "Barklings are diminutive furry humanoids with very dog-like faces. They stand between 2½ and 3½ feet tall and typically weigh around 45 pounds. They are pack hunters by nature, but when encountered singly or in small groups pose shyly when their numbers are overwhelming. Use the higher morale figure when a barkling group outnumbers their enemies by 3 combatants to 1 or more.\n\nBarklings can deliver a nasty bite but prefer to fight with weapons, favoring small weapons made for their stature and relative lack of strength; all such  weapons do 1d4 points of damage on a hit.\n\nBarklings see well in the dark, having Darkvision with a range of 30 feet, but their sense of smell is where they excel; a barkling can track almost any living or corporeal undead creature by scent, even if it has been as much as a day since it passed.\n\nIn combat barklings usually wear chainmail armor which they craft themselves (as shown in the Armor Class given above).\n\nOne out of every ten barklings will be a warrior with 1 hit die (25 XP). In barkling encampments, one out of every twenty will be a chieftain of 2 hit dice (75 XP) having a +1 bonus to damage due to strength. In villages of 50 or more  there will be a barkling lord of 3 hit dice (145 XP) who has +1 bonus to damage. Barklings gain a +1 bonus to  their morale as long as they are led by any of their leaders.\n\nIn addition, a lair has a chance equal to 1-2 on 1d6 of a wizard being present (or 1-3 on 1d6 if a chieftain is present). A wizard is equivalent to a 1 hit die warrior barkling statistically, but has Magic-User abilities at level 1d4+1. For XP purposes, treat the wizard barkling as if it has a number of hit dice equal to its magic-user level -1, and assign one special ability bonus asterisk.\n\nBarklings are sometimes confused with kobolds, for whom they have a particular hatred; calling a barkling a kobold or suggesting that the two species are related is considered a terrible insult."
+  },
+  {
+    "name": "Basilisk",
+    "variants": [
+      [
+        "Common",
+        {
+          "ac": "16",
+          "hitDice": "6",
+          "numAttacks": "1 bite, 1 gaze",
+          "damage": "1d10 bite, petrification gaze",
+          "movement": "20'",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 6",
+          "morale": "9",
+          "treasure": "F",
+          "xp": "610"
+        }
+      ],
+      [
+        "Greater",
+        {
+          "ac": "17",
+          "hitDice": "8",
+          "numAttacks": "1 bite, 1 gaze",
+          "damage": "1d12+2 poison bite, petrification gaze",
+          "movement": "20'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "F, K",
+          "xp": "1,085"
+        }
+      ]
+    ],
+    "description": "A basilisk is a giant six-legged lizard-like monster that petrifies living creatures with its gaze. A basilisk has dark brown, green, or black skin on its back and a pale yellow or white belly. Adults reach a body length of 5 to 7 feet with a tail of roughly equal length, and a weight of 250 to 400 pounds. There is no particular difference in size between males and females.\n\nAny living creature meeting the gaze of a basilisk must save vs. Petrify or be turned to stone instantly. In general, any creature surprised by the basilisk will meet its gaze. Those who attempt to fight the monster while averting their eyes suffer penalties of -4 to attack and -2 to AC. It is possible to use a mirror to fight the monster, in which case the penalties are -2 to attack and no penalty to AC. If a basilisk sees its own reflection in a mirror it must save vs. Petrify or be turned to stone; a petrified basilisk loses its power to petrify. Basilisks instinctively avoid mirrors or other reflective surfaces, even drinking with their eyes closed, but if an attacker can manage to surprise the monster with a mirror it may see its reflection.\n\nThe greater basilisk appears identical to the common variety, save that it is larger, having a body length of about 8 feet with a 7 to 9 foot long tail and weighing between 400 and 750 pounds. The skin of the greater basilisk is toxic to the touch, such that any living creature bitten by one or who touches one with bare skin must save vs. Poison or die. This effect persists even after the monster is dead, typically for about 2d20 hours; the only way to tell if the effect has subsided is to touch the corpse, an obviously bad idea."
+  },
+  {
+    "name": "Bat (and Bat, Giant)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "1 Hit Point",
+          "numAttacks": "1 special",
+          "damage": "Confusion",
+          "movement": "30' Fly 40' or 10' Fly 60' (10')",
+          "numAppear": "1d100, Wild 1d100, Lair 1d100",
+          "saveAs": "Normal Man",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "10"
+        }
+      ],
+      [
+        "Giant Bat",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d4",
+          "movement": "10' Fly 60' (10')",
+          "numAppear": "1d10, Wild 1d10, Lair 1d10",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Bats have a natural sonar that allows them to operate in total darkness; for game purposes, treat this ability as equivalent to Darkvision.\n\nA group of normal-sized bats has no effective attack but can confuse least in terms of inflicting damage, but can confuse those in the area, flying around apparently randomly. For every ten bats in the area, one creature can be confused; such a creature will suffer a penalty of -2 on all attack and saving throw rolls while the bats remain in the area.\n\nA giant bat has a wingspan of 15 feet and weighs about 200 pounds. They have the same sensory abilities as normal-sized bats, but being much larger, they are able to attack adventurers; many are carnivorous, making such attacks likely."
+  },
+  {
+    "name": "Bear, Black",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "4",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d4 claw, 1d6 bite, 2d6 hug",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 4",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Black bears are omnivorous, and despite their formidable size and strength are not particularly aggressive, though a female will fight fiercely if her cubs are threatened.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
+  },
+  {
+    "name": "Bear, Grizzly (or Brown)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "5",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d4 claw, 1d8 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Brown bears are huge, carnivorous, and aggressive. An adult male weighs 400 to 800 pounds and four feet high at the shoulder; females are slightly smaller, but just as bloodthirsty.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
+  },
+  {
+    "name": "Bear, Polar",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "6",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d6 claw, 1d10 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1, Wild 1d2, Lair 1d2",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Polar bears are found in far northern regions. They are larger and more powerful than brown bears, and just as hostile.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
+  },
+  {
+    "name": "Bear, Cave",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "7",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "1d8 claw, 2d6 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1d2, Wild 1d2, Lair 1d2",
+          "saveAs": "Fighter: 7",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "670"
+        }
+      ]
+    ],
+    "description": "These monstrous bears are even larger than brown bears, with one weighing up to 1,800 pounds and standing up to six feet high at the shoulder. They are ferocious killers, attacking almost anything of equal or smaller size.\n\nBears attack by rending opponents with their claws, dragging them in and biting them. A successful hit with both paws indicates a hug attack for additional damage (as given for each specific bear type). All bears are very tough to kill, and are able to move and attack for one round after losing all hit points."
+  },
+  {
+    "name": "Bee, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "1 sting",
+          "damage": "1d4+ poison sting",
+          "movement": "10' Fly 50'",
+          "numAppear": "1d6, Wild 1d6, Lair 5d6",
+          "saveAs": "Fighter: 1",
+          "morale": "9 (12 if queen is threatened)",
+          "treasure": "Special",
+          "xp": "13"
+        }
+      ]
+    ],
+    "description": "Giant bees live in hives, generally in underground areas. In each such hive will be a queen who has 2 hit dice and inflicts only a bite doing 1d8 points of damage. She is immobile, and if she is threatened all bees in the hive will fight without checking morale. The queen is worth 75 XP if defeated.\n\nThose stung by a giant bee must save vs. Poison or die. A giant bee that successfully stings another creature pulls away, leaving its stinger in the creature; the bee then dies.\n\nEach giant bee hive will contain honeycomb filled with honey, which is entirely safe to eat and is worth 10 GP per gallon if carefully removed. Generally 2d10+10 gallons of honey will be present in any given hive. There is also a 15% chance that one of the cells in the honeycomb will contain special honey which acts as 1d6+1 Potions of Healing if consumed. This honey can be discovered by chance, or through the use of detect magic."
+  },
+  {
+    "name": "Beetle, Giant Bombardier",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "2*",
+          "numAttacks": "1 bite, 1 spray (special, see below)",
+          "damage": "1d6 bite, 2d6 spray",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Giant bombardier beetles have red head and thorax sections and black abdomens. They are 3 to 4 feet long. In combat, a giant bombardier beetle bites opponents in front of it, and sprays a cone of very hot and noxious gases from a nozzle in the rearmost tip of the abdomen. This toxic blast causes 2d6 points of damage to all within a cone 10' long and 10' wide at the far end (a save vs. Death Ray for half damage is allowed). A giant bombardier beetle can use this spray attack up to five times per day, but no more than once per three rounds. Faced with enemies attacking from one direction, a giant bombardier beetle may choose to turn away and use the spray attack rather than biting.\n\nGiant bombardier beetles, like most beetles, have about the same visual acuity in all directions, and thus suffer no penalty to Armor Class when attacked from behind."
+  },
+  {
+    "name": "Beetle, Giant Fire",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "1+2",
+          "numAttacks": "1 bite",
+          "damage": "2d4 bite",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Giant fire beetles are huge, being 18 to 30 inches long, and have shiny black carapaces. Each has a pair of glowing red organs located just below their eyes which illuminate a radius of 10 feet around the creature. These glands continue to glow for 1d6 days after one is killed, and may be removed and used for illumination by any adventurers not too squeamish to do so.\n\nThey are normally timid but will fight if cornered. Like most beetles, they have more or less the same visual acuity in all directions, and thus those who attack them from behind receive no bonus to do so."
+  },
+  {
+    "name": "Beetle, Giant Oil",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "2*",
+          "numAttacks": "1 bite, 1 spray (special, see below)",
+          "damage": "2d4 bite, special spray (see below)",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Giant oil beetles are about 3 feet long, and are often found burrowing in soil or roaming dungeon corridors. Their eyes are arranged on the sides of their heads such that they can see perfectly well behind them as well as in front, negating any normal bonus for attacking from behind.\n\nIn addition to its bite, a giant oil beetle can attack with a spray of oil from its abdomen; this can only be applied to opponents within 5 feet of the back of the beetle, and an attack roll is needed to hit. Living creatures hit by this spray suffer a penalty of -2 on all attack rolls for 24 hours due to painful blisters inflicted by the irritating oil. A cure light wounds spell may be used to remove this effect, but if so used the spell does not also restore hit points to the victim."
+  },
+  {
+    "name": "Beetle, Giant Tiger",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "3+1",
+          "numAttacks": "1 bite",
+          "damage": "2d6 bite",
+          "movement": "60' (10')",
+          "numAppear": "1d6, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "U",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Giant tiger beetles are predatory monsters around 5 feet long. Their carapaces tend to be dark brown with lighter brown striped or spotted patterns, but there are many variations.\n\nThey are fast runners, depending on their speed to run down prey, and they willingly prey on any creature of man size or smaller. Like most beetles, they have more or less the same visual acuity in all directions, and thus suffer no penalty to Armor Class when attacked from behind."
+  },
+  {
+    "name": "Blink Dog (Flicker Beast)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4*",
+          "numAttacks": "1 bite",
+          "damage": "1d6 bite",
+          "movement": "40'",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": "6",
+          "treasure": "C",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Blink dogs, also known as flicker beasts, are strange creatures which resemble wolves or hyenas who can teleport up to 120 feet at will. Teleportation is so easy for them that they can sometimes teleport away before being attacked. When one knows of the attacker's presence, it is allowed a saving throw vs. Death Ray, and on a successful roll teleports 1d6 x 10 feet in a random direction (but never into solid matter, nor into any dangerous area the creature knows about). \n\nThese creatures are pack hunters, using their teleportation to confuse their prey until they are able to surround it. In this way, some members of the pack will be able to attack from behind, a trick they are so good at that they receive the same benefits as a thief: +4 to hit and double damage if the hit is successful.\n\nBlink dogs are large canines, typically light brown in color with short bristly hair; some varieties are striped or spotted. They communicate using a language of barks, growls, and yips which is somewhat limited but can convey useful tactical information. They are shy, generally avoiding a fight if possible, but they hate deceivers and will generally attack them on sight."
+  },
+  {
+    "name": "Blood Rose",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2* to 4*",
+          "numAttacks": "1 to 3 canes, each + blood drain",
+          "damage": "1d6 cane, 1d6/round blood drain",
+          "movement": "1'",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 2",
+          "morale": "12",
+          "treasure": "None",
+          "xp": "100 – 280"
+        }
+      ]
+    ],
+    "description": "Blood roses appear to be normal rose bushes, but are actually animated plants, dismally aware of their surroundings. These plants are always in bloom, bearing beautiful flowers that are normally white (or rarely, yellow) in color.\n\nThe fragrance of the flowers is detectable up to 30' from the plant in ideal conditions. Blood roses can move about slowly, and will try to find locations sheltered from the wind in order to achieve those ideal conditions. Living creatures who smell the fragrance must save vs. Poison or become befuddled; such a victim will drop anything carried and try to approach the plant. Each round an unaffected living creature can smell the fragrance it must make this save. Befuddled creatures will not resist the attacks of the blood rose; if affected creatures are removed from the area, the effect of the fragrance will expire 2d4 rounds later. Undead monsters, constructs, etc. are not affected.\n\nEach blood rose plant will have 1, 2 or 3 whip-like canes studded with thorns with which it can attack. When a cane hits, it wraps around the victim and begins to drain blood, doing 1d6 points of damage per round. A blood rose which has recently (within one day) \"eaten\" in this way will have flowers ranging from pink to deep wine red in color, which will fade slowly back to white or yellow as the plant digests the blood it has consumed."
+  },
+  {
+    "name": "Boar",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "3",
+          "numAttacks": "1 tusk",
+          "damage": "2d4 tusk",
+          "movement": "50' (10')",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Wild boars are the natural variety of swine. They are surly and aggressive, prone to attacking characters just because they are present. Note that \"boar\" refers specifically to the male of the species, but females are equally large and fierce, more so if they have offspring.\n\nWild boars have stocky and muscular bodies, covered with bristly hair which may be black, brown, or gray in color. Those in colder climates will have an under-layer of warm fur, while those found in warmer areas will not."
+  },
+  {
+    "name": "Bugbear",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "3+1",
+          "numAttacks": "1 weapon",
+          "damage": "1d8+1 or by weapon +1",
+          "movement": "30'",
+          "numAppear": "2d4, Wild 5d4, Lair 5d4",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "Q, R each; B, L, M in lair",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Bugbears look like huge, hairy goblins, standing about 6 feet tall. Their eyes are usually a darkish brown color and they move very quietly. They are wild and cruel, and bully smaller humanoids whenever possible.\n\nBugbear attacks are coordinated, and their tactics are sound if not brilliant. They are able to move on nearly complete silence, surprising opponents on 1-3 on 1d6. In order to remain silent, they must wear only leather or hide armor, as indicated in the Armor Class scores above. Bugbears receive a +1 bonus on damage due to their great Strength. As with most goblinoid monsters, they have Darkvision with a 30' range.\n\nOne out of every eight bugbears will be a hardened warrior of 4+4 Hit Dice (240 XP), with a +2 bonus to damage. In lairs of 16 or more bugbears, there will be a chieftain of 6+6 Hit Dice (500 XP), with a +3 bonus to damage. Bugbears gain a +1 bonus to their morale if they are led by a hardened warrior or chieftain. In the lair, bugbears never fail a morale check as long as the chieftain is alive. In addition, there is a 2 in 6 chance that a shaman will be present in a lair. A shaman is equal to an ordinary bugbear statistically, but possesses 1d4+1 levels of Clerical abilities."
+  },
+  {
+    "name": "Caecilia, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "6*",
+          "numAttacks": "1 bite + swallow on natural 19 or 20",
+          "damage": "1d8 bite + 1d8/round if swallowed",
+          "movement": "20' (10')",
+          "numAppear": "1d3, Lair 1d3",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "B",
+          "xp": "555"
+        }
+      ]
+    ],
+    "description": "Caecilia are carnivorous, legless amphibians; they strongly resemble earthworms, but they have bony skeletons and sharp teeth. Caecilia live entirely underground. The giant variety can grow up to 30' long and frequently are found in caverns or dungeons. They are nearly blind, but caecilia are very sensitive to sound and vibrations, and are able to find their prey regardless of light or the absence thereof.\n\nA giant caecilia can swallow a single small humanoid (such as a goblin or halfling) whole. On a natural attack roll of 19 or 20, such a victim is swallowed whole (assuming that roll does actually hit the victim). A swallowed victim suffers 1d8 damage per round, and may only attack from the inside with a small cutting or stabbing weapon such as a dagger. While the inside of the caecilia is easier for the victim to hit, fighting while swallowed is more difficult, so no modifiers to the attack roll are applied.\n\nOnce a caecilia has swallowed an opponent, it will generally attempt to disengage from combat, going to its lair to rest and digest its meal."
+  },
+  {
+    "name": "Cattle (including Aurochs and Bison)",
+    "variants": [
+      [
+        "Cattle",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "1 horn/head butt or trample",
+          "damage": "1d4 butt or 2d4 trample",
+          "movement": "50' (10')",
+          "numAppear": "Special",
+          "saveAs": "Fighter: 3",
+          "morale": "5 (8)",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ],
+      [
+        "Aurochs",
+        {
+          "ac": "16",
+          "hitDice": "3",
+          "numAttacks": "1 horn/head butt or trample",
+          "damage": "1d6 butt or 2d6 trample",
+          "movement": "50' (10')",
+          "numAppear": "Wild 1d12",
+          "saveAs": "Fighter: 4",
+          "morale": "7 (9)",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ],
+      [
+        "Bison",
+        {
+          "ac": "16",
+          "hitDice": "4",
+          "numAttacks": "1 horn/head butt or trample",
+          "damage": "2d4 butt or 2d6 trample",
+          "movement": "50' (10')",
+          "numAppear": "Wild 3d4",
+          "saveAs": "Fighter: 4",
+          "morale": "7 (9)",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Cattle are large mammals with cloven hooves and horned heads. Cattle are raised mostly for their meat (beef), leather, and milk. Cattle eat grass and are fairly gentle unless spooked, in which case they will stampede (run in a group). Anyone caught in the path of the stampede will suffer at least one trampling attack, as determined by the GM. Male cattle are called bulls, females are cows, and young are calves (calf is singular). If attacked, cattle will charge, generally using their horns to attack. Bulls are larger (+1 hit die), less easily frightened (use the second listed morale figure), and are quite aggressive in defense of the herd. A bull will likely attack if he sees quick movements from creatures he might be able to reach with a charge. Meanwhile, if unable to flee cows will usually assume a roughly circular formation with their heads outward, while calves will be kept in the center, though if the opponents are small enough they may instead charge en masse, trampling all creatures in their path.\n\nA typical small farm with cattle will have a bull, 5d4 cows, and 2d10 calves (but not more than the number of cows).\n\nAurochs are wild cattle; they are shaggy and rough-looking. Bison are the largest species of wild bovines. All types of bovines tend to behave in the same general way, as described above.\n\nAn ox is typically a castrated bull used as a draft animal; females may be used, rarely, but males are preferred due to their greater size and strength. Oxen are usually paired as a team to pull a fully-loaded wagon (or the equivalent of 3,000 lb). Oxen require less food and water, being able to eat rough grasses better than draft horses, which makes them valuable to merchants with large caravans going over semi-arid prairie."
+  },
+  {
+    "name": "Cave Locust, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "2*",
+          "numAttacks": "1 bite or 1 bump or 1 spit",
+          "damage": "1d2 bite or 1d4* bump or special",
+          "movement": "20' Fly (60')",
+          "numAppear": "2d10, Wild 1d10",
+          "saveAs": "Fighter: 2",
+          "morale": "5",
+          "treasure": "None",
+          "xp": "125"
+        }
+      ]
+    ],
+    "description": "Giant cave locusts are pale, cricket-like creatures that live underground. An average giant cave locust is 2 to 4 feet long. They are eyeless, depending on their sound-sensitive antennae, vibration-sensitive feet and a variety of touch-sensitive 'hairs' on their legs to sense the environment around them.\n\nThese creatures eat subterranean fungus (including shriekers) as well as carrion; they are not predators, but if disturbed they will attack, shrieking loudly, biting, jumping wildly around, or spitting nasty goo.\n\nAll giant cave locusts in a group will shriek when disturbed, attracting wandering monsters. The GM should roll a wandering monster check each round that one or more cave locusts are attacking; if wandering monsters are indicated, they will arrive in 1d4 rounds.\n\nAny giant cave locust that is engaged (adjacent to an opponent) will attempt to bite, doing 1d2 damage on a successful hit. This does not interrupt the monster's shrieking.\n\nA giant cave locust can leap up to 60' horizontally, or up to 30' up. If one of these creatures is not engaged at the beginning of the round, it will leap toward one of the opponent creatures; roll a normal attack roll, and if the attack hits, the target creature takes 1d4 points of non-lethal damage from the impact.\n\nFinally, a giant cave locust can spray a greenish-brown goo (its digestive juices) up to 10' away. Each giant cave locust can perform this attack just once per encounter. This spit attack will usually be reserved until they fail a morale check, in which case all remaining giant cave locusts will spit at their nearest opponent, and then all will attempt to flee in the next round. To spit on an opponent, the giant cave locust rolls an attack against Armor Class 11 (plus Dexterity and magical bonuses, but no normal armor value applies). If the attack hits, the target must save vs. Poison or be unable to do anything for 3d6 rounds due to the horrible smell."
+  },
+  {
+    "name": "Centaur",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "4",
+          "numAttacks": "2 hooves, 1 weapon",
+          "damage": "1d6 hoof, 1d6 or by weapon",
+          "movement": "50' Unarmored 60' (10')",
+          "numAppear": "Wild 2d10",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasure": "A",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Centaurs appear to be half man, half horse, having the torso, arms and tion a horse's head would othpart of a centaur is as large e; males average 7 fbout a ton (2,000 pounds), bit shorter and very close trsor lance just as a man on horsses. They typically wear leafor combat. \n\nCentaurs are generally haughty and aloof, but very honorable. Most would rather die than allow any sort of humanoid to ride on their backs."
+  },
+  {
+    "name": "Centipede, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "11",
+          "hitDice": "1* (1d4 hit points)",
+          "numAttacks": "1 bite",
+          "damage": "poison bite",
+          "movement": "40'",
+          "numAppear": "2d4, Wild 2d4, Lair 2d4",
+          "saveAs": "Normal Man",
+          "morale": "7 (see below)",
+          "treasure": "None",
+          "xp": "13"
+        }
+      ]
+    ],
+    "description": "Giant centipedes are larger versions of the normal sort, being 2 to 3 feet long. Centipedes are fast-moving, predatory, venomous arthropods, having long segmented bodies with exoskeletons. They prefer to live in underground areas, shadowy forested areas, and other places out of direct sunlight; however, there are desert-dwelling varieties that hide under the sand waiting for prey to wander by. \n\nThese creatures are aggressive and always hungry, attacking any living creature and only checking morale if injured. Giant centipedes attack with a poisonous bite, and those bitten must save vs. Poison or die; however, the poison is somewhat weak and thus grants a bonus of +2 on the saving throw."
+  },
+  {
+    "name": "Cheetah",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 2d4 bite",
+          "movement": "100'",
+          "numAppear": "Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "A Cheetah is one of the fastest land animals; a large (about 100 pounds) cat capable of reaching up to 75 miles per hour when running. It hunts alone or in small groups (usually composed of siblings). It will rarely attack humans unless compelled to do so, but a female will ferociously defend her young."
+  },
+  {
+    "name": "Chimera",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "9** (+8)",
+          "numAttacks": "2 claws, 1 lion bite, 1 goat horns, 1 dragon bite or breath",
+          "damage": "1d4 claw, 2d4 bite (lion or dragon), 1d8 horns (goat), 3d4 dragon breath",
+          "movement": "40' (10') Fly 60' (15')",
+          "numAppear": "1d2, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 9",
+          "morale": "9",
+          "treasure": "F",
+          "xp": "1,225"
+        }
+      ]
+    ],
+    "description": "Chimeras are strange creatures having a lion's body with the heads of a lion, a goat, and a dragon, and the wings of a dragon. The dragon head of a chimera could be any common dragon except cloud (i.e. desert, forest, ice, mountain, plains, or sea), and has the same type of breath weapon as that sort of dragon. Regardless of type, the dragon's head breathes a 50' long cone with a 10' wide end which inflicts 3d6 points of damage; victims may save vs. Dragon Breath for one-half damage.\n\nChimeras are cruel and voracious. They can speak Dragon but seldom bother to do so, except when toadying to more powerful creatures."
+  },
+  {
+    "name": "Cockatrice",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "5**",
+          "numAttacks": "1 beak",
+          "damage": "1d6 + petrification beak",
+          "movement": "30' Fly 60' (10')",
+          "numAppear": "1d4, Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 5",
+          "morale": "7",
+          "treasure": "D",
+          "xp": "450"
+        }
+      ]
+    ],
+    "description": "A cockatrice is a strange creature, appearing to be a chicken (hen or rooster) with a long serpentine neck and tail; the neck is topped by a more or less normal looking chicken head. Like a common rooster, a male cockatrice has wattles and a full comb, while the much rarer female has neither. An individual cockatrice weighs more than a chicken, averaging about 20 pounds. A cockatrice is no more intelligent than any animal, but they are bad-tempered and prone to attack if disturbed.\n\nAnyone touched by a cockatrice, or who touches one (even if gloved), must save vs. Petrify or be turned to stone, as the poison in the beak and claws has the same effect."
+  },
+  {
+    "name": "Crab, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "3",
+          "numAttacks": "2 pincers",
+          "damage": "2d6 pincer",
+          "movement": "20' Swim 20'",
+          "numAppear": "1d2, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Giant crabs naturally resemble the ordinary variety, but are much larger, averaging 5' in diameter (not counting their legs). These creatures are often found in water-filled caves, particularly those connected to a river, lake, or sea, and are tolerant of both fresh and salt water. Also, they are able to live in stagnant water, though they prefer a better environment.\n\nGiant crabs carry their eyes on armored stalks, which means that no bonus is awarded for attacking them from behind."
+  },
+  {
+    "name": "Crocodile",
+    "variants": [
+      [
+        "Normal",
+        {
+          "ac": "15",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d8 bite",
+          "movement": "10' Swim 30'",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ],
+      [
+        "Large",
+        {
+          "ac": "17",
+          "hitDice": "5 (+11)",
+          "numAttacks": "1 bite",
+          "damage": "2d8 bite",
+          "movement": "10' Swim 30'",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "19",
+          "hitDice": "7",
+          "numAttacks": "1 bite",
+          "damage": "3d8 bite",
+          "movement": "10' Swim 30'",
+          "numAppear": "Wild 1d3",
+          "saveAs": "Fighter: 9",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "2,850"
+        }
+      ]
+    ],
+    "description": "Crocodiles are large semiaquatic reptiles that live throughout the tropics. They are ambush predators, waiting for fish or land animals to come close, then rushing out to attack. When in their natural element, they surprise on 1-4 on 1d6.\n\nLarge Crocodiles: These huge creatures are from 12-20 feet long. Large crocodiles fight and behave like their smaller cousins.\n\nGiant Crocodiles: These gigantic creatures usually live in salt water and are generally more than 20 feet long. Giant crocodiles fight and behave like their smaller cousins."
+  },
+  {
+    "name": "Deceiver (Panther-Hydra)",
+    "variants": [
+      [
+        "Common",
+        {
+          "ac": "16",
+          "hitDice": "6*",
+          "numAttacks": "3 bites",
+          "damage": "1d6 snake bite, 1d8 panther bite",
+          "movement": "50'",
+          "numAppear": "1d4, Wild 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "D",
+          "xp": "450"
+        }
+      ],
+      [
+        "Greater",
+        {
+          "ac": "16",
+          "hitDice": "7+*",
+          "numAttacks": "3 bites",
+          "damage": "1d6 snake bite, 2d6 panther bite",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 1d4",
+          "saveAs": "Fighter: 7",
+          "morale": "9",
+          "treasure": "D",
+          "xp": "800"
+        }
+      ]
+    ],
+    "description": "Deceivers are greenish-black catlike monsters with thick serpent's extending from their shoulders. All three of the monster's mouths can bite, though the smaller serpent heads do not do as much damage.\n\nThe real power and danger of the deceiver is its power of deception, a mental ability which causes those attacking the monster to believe the creature is about 3 feet from its true location. Any character fighting a deceiver for the first time will miss their first strike regardless of the die roll. Thereafter, all attacks against deceivers will be at a penalty of -2 to the attack roll. This is not cumulative with the penalty for fighting blind. As a mental power, this ability does not affect mindless creatures, constructs such as golems or living statues, or any sort of undead. Living creatures which are not mindless will be affected even if they do not use sight to target the deceiver.\n\nGreater Deceivers are larger and more fierce than common Deceivers, and on top of that, their serpent heads have a deadly venomous bite; victims must save vs. Poison or die."
+  },
+  {
+    "name": "Dinosaur, Deinonychus",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "3",
+          "numAttacks": "1 bite",
+          "damage": "1d8",
+          "movement": "50'",
+          "numAppear": "1d3, Wild 2d3, Lair 2d6",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "The Deinonychus (sometimes mistakenly called a \"Velociraptor\") is a medium-sized feathered dinosaur weighing approximately 150 pounds and reaching about 11 feet of length (tail included). It is an avid predator and a skilled pack-hunter; its warm blood, aerodynamic build and vicious maw allow it to feed on larger but more primitive dinosaurs."
+  },
+  {
+    "name": "Dinosaur, Pterodactyl (and Pteranodon)",
+    "variants": [
+      [
+        "Pterodactyl",
+        {
+          "ac": "12",
+          "hitDice": "1",
+          "numAttacks": "1 bite",
+          "damage": "1d4 bite",
+          "movement": "Fly 60' (10')",
+          "numAppear": "Wild 2d4",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ],
+      [
+        "Pteranodon",
+        {
+          "ac": "13",
+          "hitDice": "5",
+          "numAttacks": "1 bite",
+          "damage": "2d6 bite",
+          "movement": "Fly 60' (15')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Pterodactyls are prehistoric winged reptilian creatures, having a wingspan of around 25 to 30 inches. Though they eat mostly fish, they may attack smaller characters or scavenge unguarded packs.\n\nPteranodons are essentially giant-sized pterodactyls, having wingspans of 25 feet or more. They are predators, and may attack adventuring parties."
+  },
+  {
+    "name": "Dinosaur, Stegosaurus",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "11 (+9)",
+          "numAttacks": "1 bite, 1 tail or 1 trample",
+          "damage": "1d6 bite, 2d8 tail, 2d8 trample",
+          "movement": "20' (15')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "1,575"
+        }
+      ]
+    ],
+    "description": "Although fearsome-looking, the stegosaurus is actually a peaceable creature and will only fight in self-defense, either biting, trampling, or using its spiked tail, depending on where the opponent is standing in relation to the dinosaur. A stegosaurus can’t use its tail and bite attacks against the same creature in the same round, and cannot use either bite or tail on any round where it tramples."
+  },
+  {
+    "name": "Dinosaur, Triceratops",
+    "stats": {
+      "Armor Class": 19,
+      "Hit Dice": "11 (+9)",
+      "No. of Attacks": "1 gore or 1 trample",
+      "Damage": "3d6 gore or 3d6 trample",
+      "Movement": "30' (15')",
+      "No. Appearing": "Wild 1d4",
+      "Save As": "Fighter: 7",
+      "Morale": 8,
+      "Treasure Type": "None",
+      "XP": 1575
+    },
+    "description": "A triceratops is a three-horned herbivorous dinosaur. They are aggressive toward interlopers, attacking anyone who might appear to be a threat. Individuals are quite large, weighing 11,000 to 20,000 pounds and ranging from 26 to 30 feet in length.\n\nWhen facing opponents of smaller size, a triceratops will usually attempt to trample them, reserving the gore attack for larger opponents. Up to two adjacent man-sized or up to four smaller opponents may be trampled simultaneously; the triceratops rolls a single attack roll which is compared to the Armor Class of each of the potential victims, and then rolls a separate damage roll for each one successfully hit. The gore attack may only be used against a single man-sized or larger creature, but may be used in the same round as the trample if the creature being gored is larger than man sized. Also note that a charging bonus may be applied to the gore attack."
+  },
+  {
+    "name": "Dinosaur, Tyrannosaurus Rex",
+    "stats": {
+      "Armor Class": 23,
+      "Hit Dice": "18 (+12)",
+      "No. of Attacks": "1 bite",
+      "Damage": "6d6 bite",
+      "Movement": "40' (10')",
+      "No. Appearing": "Wild 1d4",
+      "Save As": "Fighter: 18",
+      "Morale": 11,
+      "Treasure Type": "None",
+      "XP": 4000
+    },
+    "description": "The tyrannosaurus rex is a bipedal carnivorous dinosaur with a massive skull balanced by a long, heavy tail. Relative to its large and powerful hind limbs, its forelimbs are short but unusually powerful for their size, with two clawed digits. Despite this, they are not used to attack, as the tyrannosaur's powerful bite is its preferred weapon.\n\nIndividuals can grow to lengths of over 40 feet and can weigh up to 20,000 pounds, though most are a bit smaller than this, averaging around 35 feet in length and 17,000 pounds in weight.\n\nThe statistics above can also be used to represent other large bipedal carnosaurs, such as the allosaurus."
+  },
+  {
+    "name": "Djinn",
+    "stats": {
+      "Armor Class": 15,
+      "Hit Dice": "7+1**",
+      "No. of Attacks": "1 fist or 1 whirlwind",
+      "Damage": "2d8 fist, 2d6 whirlwind",
+      "Movement": "30' Fly 80'",
+      "No. Appearing": "1",
+      "Save As": "Fighter: 12",
+      "Morale": "12 (8)",
+      "Treasure Type": "None",
+      "XP": 800
+    },
+    "description": "Djinn (singular djinni) are a race of manlike creatures believed to be from the Elemental Plane of Air. They are large beings, 10 to 11 feet in height and weighing around 1,000 pounds, though their weight is generally immaterial due to their ability to fly by magical means.\n\nThe djinni's morale score of 12 reflects its absolute control over its own fear, but does not indicate that the creature will throw its life away easily. Use the \"8\" figure to determine whether an outmatched djinni decides to leave a combat.\n\nDjinn have a number of magical powers, which can be used at will (that is, without needing magic words or gestures): create food and drink, creating tasty and nourishing food for up to 2d6 humans or similar creatures, once per day; become invisible, with unlimited uses per day; create normal items, creating up to 1,000 pounds of soft goods or wooden items of permanent nature or metal goods lasting at most a day, once per day; assume gaseous form, as the potion, up to one hour per day; and create illusions, as the spell phantasmal force but including sound as well as visual elements, three times per day.\n\nDjinn may assume the form of a whirlwind at will, with no limit as to the number of times per day this power may be used; a djinni in whirlwind form fights as if it were an air elemental."
+  },
+  {
+    "name": "Dog",
+    "variants": [
+      {
+        "type": "Normal",
+        "stats": {
+          "Armor Class": 14,
+          "Hit Dice": "1+1",
+          "No. of Attacks": "1 bite",
+          "Damage": "1d4 + hold",
+          "Movement": "50'",
+          "No. Appearing": "Wild 3d4",
+          "Save As": "Fighter: 1",
+          "Morale": 9,
+          "Treasure Type": "None",
+          "XP": 25
+        },
+        "description": "Normal dogs include most medium and large breeds, including wild dogs. After biting an opponent, a dog can hold on, doing 1d4 damage automatically every round, until killed or until the victim spends an attack breaking free (which requires a save vs. Death Ray, adjusted by the character’s Strength bonus)."
+      },
+      {
+        "type": "Riding",
+        "stats": {
+          "Armor Class": 14,
+          "Hit Dice": "2",
+          "No. of Attacks": "1 bite",
+          "Damage": "1d4+1 + hold",
+          "Movement": "50'",
+          "No. Appearing": "domestic only",
+          "Save As": "Fighter: 2",
+          "Morale": 9,
+          "Treasure Type": "None",
+          "XP": 75
+        },
+        "description": "Riding dogs are a large breed, used primarily by Halflings for transport. They may be trained for war, and equipped with barding to improve their Armor Class. They can maintain a hold in the same way that normal dogs do. A light load for a riding dog is up to 150 pounds; a heavy load, up to 300 pounds."
+      }
+    ]
+  },
+  {
+    "name": "Doppelganger",
+    "stats": {
+      "Armor Class": 15,
+      "Hit Dice": "4*",
+      "No. of Attacks": "1 fist or by weapon",
+      "Damage": "1d12 fist, 1d6 or by weapon",
+      "Movement": "30' Fly 80'",
+      "No. Appearing": "1d6, Wild 1d6, Lair 1d6",
+      "Save As": "Fighter: 4",
+      "Morale": 10,
+      "Treasure Type": "E",
+      "XP": 280
+    },
+    "description": "Doppelgangers are weird humanoid creatures who are able to take on the appearance of nearly any other humanoid ranging from 3 feet up to 7 feet in height. They can also read minds (as the spell, mind reading, but with unlimited duration), an ability that can even be used to speak any language known to the creature whose mind is being read. In their natural form (which few creatures ever see) they are pale and pasty looking, slim, around 5½ feet tall and weighing about 150 pounds. Their features look unformed and incomplete.\n\nDoppelgangers wish to live a life of ease, and in pursuit of that goal they will seek to take the place of any character they meet who they believe can help them get that kind of life. This usually means separating the victim from any allies and quietly killing them. While a doppelganger can duplicate the appearance of the clothing and equipment worn by a creature, such items are part of the creature and cannot, for example, be laid down or handed to someone. Taking the clothing and equipment of a victim is thus the preferred tactic.\n\nA doppelganger can mimic the sound of the voice of any living creature as well as the appearance of any humanoid. Their mind reading ability will be used to help them behave like the person they have replaced."
+  },
+  {
+    "name": "Dragon",
+    "stats": null,
+    "description": "Dragons are large (sometimes very large) winged reptilian monsters. Unlike wyverns, dragons have four legs as well as two wings; this is how experts distinguish \"true\" dragons from other large reptilian monsters. All dragons are long-lived, and they grow slowly for as long as they live. For this reason, they are described as having seven\"age categories,\" ranging from 3 less to 3 more hit dice than the average. For convenience, a table is provided following the description of each dragon type; this table shows the variation in hit dice, damage from their various attacks, and other features peculiar to dragons. \n\nIf one dragon is encountered, it is equally likely to be a male or female ranging from -2 to +3 hit dice (1d6-3); two are a mated pair ranging from -1 to +2 hit dice (1d4-2). If three or four are  encountered, they consist of a mated pair plus one or two young of -3 hit dice in size. If this is the case, the parents receive a Morale of \n\n12 in combat since they are protecting their young. In combat dragons use a powerful bite, slashing claws, a long, whiplike tail, and most famously some form of breath weapon. Tactically, dragons prefer to fight whileflying, making passes over ground-based enemies to strike or breathe on them. Smarter and older dragons will look for the toughest or most dangerous foe to strike down first, particularly preferring to eliminate magic-users as early in a fight as possible. \n\nEach dragon can use its breath weapon as many times per day as it has hit dice, except that dragons of the lowest age category do not yet have a breath weapon. The breath may be used no more often than every other round, and the dragon may use its claws and tail in the same round. The tail swipe attack may only be used if there are opponents behind the dragon, while the claws may be used only on those opponents in front of the creature. Due to their serpentine necks, dragons may bite in any direction, even behind them. \n\nThe breath weapon of a dragon does 1d8 points of damage per hit die (so, a 7 hit die dragon does 7d8 points of damage with its breath). Victims may make a save vs. Dragon Breath for half damage. The breath weapon may be projected in any direction around the dragon, even behind, for the same reason that the dragon can bite those behind it. \n\nThere are three shapes (or areas of effect) which a dragon's breath weapon can cover. Each variety has a \"normal\" shape, which that type of dragon can use from the second age category (-2 hit dice) onward. Upon reaching the sixth age category (+2 hit dice), a dragon learns to shape its breath weapon into one of the other shapes (GM's option); at the seventh age category (+3 hit dice), the dragon can produce all three shapes. \n\nThe shapes are: \n\n**Cone Shaped**: The breath weapon begins at the dragon's mouth, and is about 2' wide at that point; it extends up to the maximum length (based on the dragon type and age) and is the maximum width at that point (again, as given for the dragon's type and age). \n\n**Line Shaped**: The breath weapon is 5' wide (regardless of the given width figure) and extends the given length in a straight line. \n\n**Cloud Shaped**: The breath weapon covers an area up to the maximum given width (based on the dragon type and age) in both length and width (that is, any length figure given for the dragon type and age is ignored). A cloud-shaped breath weapon is, at most, 20' deep or high. \n\nAll dragons save for those of the lowest age category are able to speak Dragon. Each type has a given chance of \"talking;\" this is the chance that the dragon will know Common or some other humanoid language. Many who talk choose to learn Elvish. If the first roll for \"talking\" is successful, the GM may roll again, with each additional roll adding another language which the dragon may speak. \n\nSome dragons learn to cast spells; the odds that a dragon can cast spells are the same as the odds that a dragon will learn to speak to lesser creatures, but each is rolled for separately. \n\nAll dragons crave wealth, hoarding as many coins, gems, items of jewelry, and best of all magic items in their lair as possible. The greater a dragon's hoard, the less it will seek to leave its lair, though of course it must hunt for food from time to time. Dragons rarely trust any other creature to defend their hoard, though some will entice aggressive but unintelligent creatures to live nearby in the hopes that they will kill and eat any thieves who might come nosing around. \n\nUnlike other monsters, multiple dragons encountered in a lair together do not share treasure; generate a full treasure for each dragon individually. Treasure for dragons is special, as noted on the table on page 163. The odds of monetary treasure increase with the monster's age category, while the chances of gems, jewelry, and magic items are based upon its hit dice. \n\nYoung dragons typically have brightly colored, glossy skin; as a dragon ages, both the color and the sheen slowly become dull. \n\n**Experience Points (XP)** given for dragons on the following pages are for non-spell-casting dragons of age category 4. The GM must calculate the XP award for any specific dragon as given on page 49, adding a special ability bonus (i.e. a \"star\") if the dragon casts spells."
+  },
+  {
+    "name": "Dragon, Cloud",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "22",
+          "hitDice": "11 (+9)",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "2d4 claw, 6d6 bite or breath, 2d4 tail",
+          "movement": "30' Fly 80' (20')",
+          "numAppear": "1 Wild, 1d4 Lair",
+          "saveAs": "Fighter: 11 (as Hit Dice)",
+          "morale": "10",
+          "treasure": "H",
+          "xp": "1,765"
+        }
+      ]
+    ],
+    "description": "Cloud dragons have the most varied appearance of all the true dragons. In an indoor environment or when underground, a cloud dragon appears to be a bright metallic color while outdoors their coloration is brighter and less metallic, and may take on a reddish or bluish cast reminiscent of a sunrise or sunset. Hatchlings have a coppery skin tone, brightening to silver at the second age category, then to gold at the fourth before fading to a platinum tone by age category 6. While most true dragons become duller in color and sheen as they age, cloud dragons do not.\n\nCloud dragons are not cruel and do not seek to kill for pleasure. Many tales are told of cloud dragons offering assistance to adventurers, though they are every bit as avaricious as any dragon; adventurers in need of gold need not bother asking for a loan.\n\nAnother way in which cloud dragons differ from other types is that they do not have fixed breath weapons. Upon reaching the second age category, a cloud dragon acquires the breath weapon of a randomly chosen (or GM assigned) dragon type; upon reaching the fourth age category, they acquire a second breath weapons type. Cloud dragons possess the same immunities as the dragons whose breath weapons they reproduce.\n\nAll cloud dragons have the power to assume the form of any type of humanoid (as described in the spell charm person) at will in a manner otherwise equivalent to the spell polymorph self.\n\n**Cloud Dragon Age Table**\n\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | 8 | +8 | Special | - | - | 0% | 1 0 0 0 0 0 |\n| 2 | 9 | +9 | Special | 70' | 30' | 35% | 2 0 0 0 0 0 |\n| 3 | 10 | +9 | Special | 80' | 35' | 70% | 3 1 0 0 0 0 |\n| 4 | 11 | +10 | Special | 90' | 45' | 85% | 4 2 1 0 0 0 |\n| 5 | 12 | +10 | Special | 95' | 50' | 90% | 5 3 2 1 0 0 |\n| 6 | 13 | +11 | Special | 100' | 55' | 95% | 6 4 2 1 0 0 |\n| 7 | 14 | +11 | Special | 110' | 60' | 95% | 7 5 3 2 1 0 |"
+  },
+  {
+    "name": "Dragon, Desert (Blue Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "20",
+          "hitDice": "9* (+8)",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d8 claw, 3d8 bite or breath, 1d8 tail",
+          "movement": "30' Fly 80' (15')",
+          "numAppear": "1 Wild, 1 Lair 1d4",
+          "saveAs": "Fighter: 9 (as Hit Dice)",
+          "morale": "9",
+          "treasure": "H",
+          "xp": "1,225"
+        }
+      ]
+    ],
+    "description": "Desert dragons have rough, gritty-feeling hide which is a dark steel blue color with a smoother, streaky brown underbelly. Their bodies are wiry and serpentine.\n\nThey hunt by day in the heat of the sun, sometimes flying high overhead looking for prey, and sometimes choosing to bury themselves in the sand or lie in wait with only eyes and nostrils exposed. One will wait in this fashion until victims come within 100 feet, then spring out and attack (surprising on a roll of 1-4 on 1d6 in this case).\n\nA desert dragon will usually choose to lair in an underground cavern, or perhaps in a ruined castle or desert outpost. They are evil monsters, though not so fierce as mountain dragons. They particularly enjoy tricking intelligent prey into entering their lairs or passing by their hiding places to be ambushed and killed; usually one member of a party attacked by a desert dragon will be left alive for a while, and the dragon will play with that person as a cat plays with a mouse.\n\nDesert dragons are immune to normal lightning, and suffer only half damage from magical lightning.\n\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | 6 | +7 | Lightning (Line) | 80' | - | 0% | - - - - - - |\n| 2 | 7 | +8 | Lightning (Line) | 90' | - | 15% | 1 - - - - - |\n| 3 | 8 | +9 | Lightning (Line) | 100' | - | 20% | 2 1 - - - - |\n| 4            | 9        | +9           | Lightning (Line) | 110'   | -     | 40%            | 3 2 - - - -      |\n| 5            | 10       | +10          | Lightning (Line) | 120'   | 55'   | 50%            | 4 2 1 - - -      |\n| 6            | 11       | +10          | Lightning (Line) | 110'   | 60'   | 60%            | 4 2 1 - - -      |\n| 7            | 12       | +11          | Lightning (Line) | 120'   | 60'   | 70%            | 4 3 2 1 - -      |"
+  },
+  {
+    "name": "Dragon, Forest (Green Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8*",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d6 claw, 3d8 bite or breath, 1d6 tail",
+          "movement": "30' Fly 80' (15')",
+          "numAppear": "1 Wild, 1 Lair 1d4",
+          "saveAs": "Fighter: 8 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "1,015"
+        }
+      ]
+    ],
+    "description": "Forest dragons are bright leaf green in color, with a tan underbelly. They have long sinuous bodies and move with catlike grace. They are cruel monsters, but they are renowned for their curiosity. They especially like to question adventurers to learn more about their society and abilities, what is going on in the countryside, and if there is treasure nearby. Adventurers may be allowed to live so long as they remain interesting... but woe to them when the dragon becomes bored.\n\nForest dragons are immune to all poisons. Note that, despite their breath weapon being described as 'poison gas,' damage done by it is exactly the same as with other dragons. More specifically, those in the area of effect do not have to 'save or die' as with ordinary poison, but rather save vs. Dragon Breath for half damage.\n\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level  |\n|--------------|----------|--------------|---------------|--------|-------|----------------|------------------|\n| 1            | 5        | +5           | Gas (Cloud)    | 70'    | 25'   | 0%             | - - - - - -      |\n| 2            | 6        | +6           | Gas (Cloud)    | 80'    | 30'   | 15%            | 1 - - - - -      |\n| 3            | 7        | +7           | Gas (Cloud)    | 90'    | 40'   | 20%            | 2 1 - - - -      |\n| 4            | 8        | +8           | Gas (Cloud)    | 95'    | 45'   | 30%            | 3 2 1 - - -      |\n| 5            | 9        | +9           | Gas (Cloud)    | 100'   | 50'   | 45%            | 4 2 1 - - -      |\n| 6            | 10       | +9           | Gas (Cloud)    | 105'   | 55'   | 55%            | 4 3 2 1 - -      |\n| 7            | 11       | +10          | Gas (Cloud)    | 110'   | 55'   | 65%            | 4 3 2 1 - -      |"
+  },
+  {
+    "name": "Dragon, Ice (White Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "6**",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d4 claw, 2d8 bite or breath, 1d4 tail",
+          "movement": "30' Fly 80' (10')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 6 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "610"
+        }
+      ]
+    ],
+    "description": "Ice dragons have pale blue-white skin, ranging from sky blue for a hatchling to the stark pure white of an ancient individual. They are the same color all over, having no contrasting underbelly color.\n\nThey prefer to live in cold regions, whether in the highest mountains or in the cold northern lands. They are the least intelligent of dragons, though this does not mean that they are stupid by any stretch of the imagination. They are motivated completely by a drive to live, to reproduce, and (of course) to accumulate treasure; they kill to live, not for pleasure.\n\nIn a fashion similar to swamp and desert dragons, an ice dragon will sometimes choose to bury itself in snow and wait, with only its eyes and nostrils exposed, in a place where prey is likely to pass by. The ice dragon will then burst out when likely prey approaches within 100', surprising on a roll of 1-4 on 1d6.\n\nIce dragons are immune to normal cold, and take only half damage from magical cold or ice.\n\n**Ice Dragon Age Table**\n\n| Age Category | Hit Dice | Attack Bonus | Breath Weapon  | L | W | Talk % | Spells by Level | Claw | Bite | Tail |\n|--------------|----------|--------------|----------------|--------|-------|----------------|-----------------|------|------|------|\n| 1            | 3        | +3           | Cold (Cone)    | -      | -     | 0%             | -  -  -         | 1d4  | 2d4  | 1d4  |\n| 2            | 4        | +4           | Cold (Cone)    | 60'    | 25'   | 10%            | 1  -  -         | 1d4  | 2d6  | 1d4  |\n| 3            | 5        | +5           | Cold (Cone)    | 70'    | 30'   | 15%            | 2  -  -         | 1d4  | 2d6  | 1d4  |\n| 4            | 6        | +6           | Cold (Cone)    | 80'    | 30'   | 20%            | 3  -  -         | 1d4  | 2d8  | 1d4  |\n| 5            | 7        | +7           | Cold (Cone)    | 85'    | 35'   | 30%            | 3  1  -         | 1d4  | 2d8  | 1d4  |\n| 6            | 8        | +8           | Cold (Cone)    | 90'    | 40'   | 40%            | 3  2  -         | 1d6  | 2d10 | 1d6  |\n| 7            | 9        | +8           | Cold (Cone)    | 95'    | 45'   | 50%            | 3  3  1         | 1d8  | 2d10 | 1d6  |"
+  },
+  {
+    "name": "Dragon, Mountain (Red Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "21",
+          "hitDice": "10** (+9)",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d8 claw, 4d8 bite or breath, 1d8 tail",
+          "movement": "30' Fly 80' (20')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 10 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "1,480"
+        }
+      ]
+    ],
+    "description": "Mountain dragons are red in color, ranging from the brilliant blood red of a hatchling to the dull terracotta color of an ancient individual. These dragons are powerfully built, with heavy-jawed heads and thick muscular bodies, yet their necks are still long enough to give them the legendary flexibility of a true dragon.\n\nThey are cruel monsters, actively seeking to hunt, torment, kill and consume intelligent creatures. They are often said to prefer women and elves, but in truth a mountain dragon will attack almost any creature less powerful than itself.\n\nThey are intelligent and self-assured, but also impatient and overconfident. One will often plan strategies in advance and then choose one at random when facing unknown opponents, without regard to whether or not the strategy is likely to work. The sheer power of a mountain dragon is often the only reason one is still alive.\n\nMountain dragons are immune to normal fire, and suffer only half damage from magical fire.\n\n**Mountain Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level  |\n  |--------------|----------|--------------|---------------|--------|-------|----------------|-----------------|\n  | 1            | 7        | +7           | Fire (Cone)   | 70'    | 30'   | 0%             | - - - - -       |\n  | 2            | 8        | +8           | Fire (Cone)   | 80'    | 35'   | 15%            | 1 - - - -       |\n  | 3            | 9        | +9           | Fire (Cone)   | 90'    | 45'   | 30%            | 2 1 - - -       |\n  | 4            | 10       | +9           | Fire (Cone)   | 95'    | 50'   | 50%            | 3 2 1 - -       |\n  | 5            | 11       | +10          | Fire (Cone)   | 100'   | 55'   | 60%            | 4 3 2 1 -         |\n  | 6            | 12       | +11          | Fire (Cone)   | 110'   | 60'   | 70%            | 5 4 3 2 1       |\n  | 7            | 13       | +11          | Fire (Cone)   | 110'   | 60'   | 85%            | 5 5 3 2 2       |"
+  },
+  {
+    "name": "Dragon, Plains (Yellow Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "5**",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d6 claw, 2d10 or breath, 1d8 tail",
+          "movement": "50' Fly 80' (10')",
+          "numAppear": "1, Wild 1, Lair 1d6",
+          "saveAs": "Fighter: 5 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "450"
+        }
+      ]
+    ],
+    "description": "Plains dragons are the smallest of the true dragons. They have yellow skin dappled with light green patches, spots, or sometimes thin stripes. The color dulls and darkens with age until it reaches an almost uniform tan color at the oldest age category. They have long sinuous bodies and unusually long legs, giving them the fastest land movement rate of any dragon, but they are also accomplished fliers, as fast and maneuverable as any dragon.\n\nPlains dragons may hunt on the wing, attacking suddenly from above and surprising on 1-3 on 1d6; or, they may lie in wait in tall grass or a copse of trees, using their coloration as camouflage. As one ages and its colors dull, this ability improves; when lying in wait, they gain surprise on 1-3 on 1d6 at age categories 2 and 3, on 1-4 in age categories 4 through 6, and on 1-5 at age category 7.\n\nThe breath weapon of the plains dragon is a scorching, shimmering cone of heat, barely visible to the naked eye; at night, however, a glow like steel being forged can be seen streaming from the dragon's open mouth.\n\n**Plains Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n |----------|----------|--------------|---------------|------|------|--------|-----------------|\n | 1        | 2        | +2           | Heat (Cone)   | -    | -    | 0%     | - - - |\n | 2        | 3        | +3           | Heat (Cone)   | 50'  | 25'  | 10%    | 1 - - |\n | 3        | 4        | +4           | Heat (Cone)   | 60'  | 30'  | 15%    | 2 - - |\n | 4        | 5        | +5           | Heat (Cone)   | 70'  | 35'  | 20%    | 3 - - |\n | 5        | 6        | +6           | Heat (Cone)   | 80'  | 40'  | 30%    | 3 1 - |\n | 6        | 7        | +7           | Heat (Cone)   | 85'  | 45'  | 40%    | 3 2 - |\n | 7        | 8        | +8           | Heat (Cone)   | 90'  | 50'  | 50%    | 3 3 1 |\n"
+  },
+  {
+    "name": "Dragon, Sea (Gray Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8**",
+          "numAttacks": "2 claws, 1 bite or breath",
+          "damage": "1d6 claw, 3d8 bite or breath",
+          "movement": "10' Fly 60' (20') Swim 60' (15')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 8 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "1,015"
+        }
+      ]
+    ],
+    "description": "Young sea dragons are light bluish-gray in color (similar to dolphins), darkening to a deep slate color in older individuals. Their skin is smooth and sleek, and their bodies are more compact than most dragons, though their long neck gives them the same flexibility.\n\nThough they live in the water and are somewhat adapted to it, sea dragons still must breathe air, similar to dolphins or whales. A sea dragon may hold its breath up to three turns while swimming or performing other moderate activity.\n\nThese dragons have much the same physical structure as other dragons, but their feet are webbed and their tails are short, flat and broad; these adaptations help the sea dragon swim efficiently, but severely limit their ability to walk on dry land. Unlike other dragons, sea dragons do not have a tail attack. The breath weapon of a sea dragon is a cloud of steam; they are immune to damage from non-magical steam (including the breath weapon of another sea dragon), and suffer only half damage from magical steam attacks.\n\nSea dragons are neutral in outlook, in much the same way as ice dragons. They often maintain lairs in air-filled undersea caverns.\n\n**Sea Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n|----------|----------|--------------|---------------|------|------|--------|-----------------|\n| 1        | 5        | +5           | Steam (Cloud) | 70'  | 25'  | 0%     | - - -           |\n| 2        | 6        | +6           | Steam (Cloud) | 80'  | 30'  | 15%    | 1 - -           |\n| 3        | 7        | +7           | Steam (Cloud) | 90'  | 40'  | 20%    | 2 1 -           |\n| 4        | 8        | +8           | Steam (Cloud) | 95'  | 45'  | 30%    | 3 2 1           |\n| 5        | 9        | +9           | Steam (Cloud) | 100' | 50'  | 45%    | 3 3 2           |\n| 6        | 10       | +9           | Steam (Cloud) | 100' | 55'  | 55%    | 4 3 3           |\n| 7        | 11       | +9           | Steam (Cloud) | 100' | 55'  | 65%    | 4 4 1           |"
+  },
+  {
+    "name": "Dragon, Swamp (Black Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "7**",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d6 claw, 2d10 bite or breath, 1d6 tail",
+          "movement": "30' Fly 80' (15')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 7 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "800"
+        }
+      ]
+    ],
+    "description": "Swamp dragons have green skin so dark as to appear to be black, especially in uncertain light or while wet. They often choose to hide underwater, leaving only part of the head above the waterline, and leap up suddenly when prey comes within 100' (surprising on a roll of 1-4 on 1d6 in this case).\n\nThough swamp dragons are more cruel than ice dragons, they are still motivated mostly by the urge to live, breed and collect valuable items. Swamp dragons are immune to all forms of acid. A swamp dragon may hold its breath up to three turns while lying in wait underwater.\n\n**Swamp Dragon Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n|----------|----------|--------------|---------------|------|------|--------|-----------------|\n| 1        | 4        | +4           | Acid (Line)   | 70'  | 25'  | 0%     | - - -           |\n| 2        | 5        | +5           | Acid (Line)   | 80'  | 30'  | 15%    | 1 - -           |\n| 3        | 6        | +6           | Acid (Line)   | 90'  | 40'  | 20%    | 2 1 -           |\n| 4        | 7        | +7           | Acid (Line)   | 95'  | 45'  | 25%    | 4 1 -           |\n| 5        | 8        | +8           | Acid (Line)   | 100' | 50'  | 35%    | 4 2 1           |\n| 6        | 9        | +8           | Acid (Line)   | 100' | 50'  | 50%    | 4 3 2           |\n| 7        | 10       | +9           | Acid (Line)   | 100' | 55'  | 60%    | 4 4 1           |"
+  },
+  {
+    "name": "Dragon Turtle",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "22",
+          "hitDice": "30** (AB +15)",
+          "numAttacks": "2 claws, 1 bite or breath",
+          "damage": "2d8 claw, 1d6 bite or 30d8 breath",
+          "movement": "10' (10') Swim 30' (15')",
+          "numAppear": "Wild 1",
+          "saveAs": "Fighter: 20 (as Hit Dice)",
+          "morale": "10",
+          "treasure": "H (calculated at one-quarter hit dice)",
+          "xp": "13,650"
+        }
+      ]
+    ],
+    "description": "Dragon turtles are so large, up to 200 feet long, that they are occasionally mistaken for rocky outcroppings or even small islands. Though they are not true dragons, they do advance through some sort of age categories as the true dragons do; however, each age category changes the dragon turtle's Hit Dice by 5. Due to their massive size, dragon turtles are immune to virtually all poisons.\n\n**Dragon Turtle Age Table**\n| Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L    | W    | Talk % | Spells by Level  |\n|----------|----------|--------------|---------------|------|------|--------|-----------------|\n| 1        | 15       | +11          | Steam (Cloud) | 50'  | 25'  | 0%     | - - -           |\n| 2        | 20       | +13          | Steam (Cloud) | 75'  | 50'  | 15%    | 1 - -           |\n| 3        | 25       | +14          | Steam (Cloud) | 100' | 75'  | 20%    | 2 1 -           |\n| 4        | 30       | +15          | Steam (Cloud) | 125' | 100' | 30%    | 2 2 -           |\n| 5        | 35       | +16          | Steam (Cloud) | 150' | 125' | 45%    | 3 2 1           |\n| 6        | 40       | +16          | Steam (Cloud) | 175' | 150' | 55%    | 3 3 2           |\n| 7        | 45       | +16          | Steam (Cloud) | 175' | 150' | 65%    | 3 3 3           |"
+  },
+  {
+    "name": "Dryad",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "2*",
+          "numAttacks": "1 dagger or 1 fist",
+          "damage": "1d4 dagger or 1d4 fist",
+          "movement": "40'",
+          "numAppear": "Lair 1d6",
+          "saveAs": "Magic-User: 4",
+          "morale": "6",
+          "treasure": "D",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Dryads are female nature spirits; each is mystically bound to a single, enormous oak tree and must never stray more than 300 yards from it. Any who do become ill and die within 4d6 hours. A dryad's oak does not radiate magic. A dryad lives as long as her tree, and dies when the tree dies; likewise, if the dryad is killed, her tree dies also.\n\nA dryad resembles an elf woman, with skin that resembles fine polished wood or smooth bark and hair like leaves; the hair color of a dryad usually changes with the seasons, being brown in the winter, pale green in the spring, darker green in the summer, and yellow, orange, or red in the fall.\n\nThough they are usually content to live alone, dryads are often friends with creatures such as treant or other nature spirits who might live nearby. Once per day a dryad can cast a charm similar to the spell charm person, and one may choose to use this ability to compel an interesting human or elf to remain with her as a companion for a period of up to a year. The companion can be taken into and brought out of the dryad's tree so long as the charm is still in effect."
+  }
+]
