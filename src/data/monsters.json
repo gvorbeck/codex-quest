@@ -1031,5 +1031,26 @@
       ]
     ],
     "description": "Ice dragons have pale blue-white skin, ranging from sky blue for a hatchling to the stark pure white of an ancient individual. They are the same color all over, having no contrasting underbelly color.\n\nThey prefer to live in cold regions, whether in the highest mountains or in the cold northern lands. They are the least intelligent of dragons, though this does not mean that they are stupid by any stretch of the imagination. They are motivated completely by a drive to live, to reproduce, and (of course) to accumulate treasure; they kill to live, not for pleasure.\n\nIn a fashion similar to swamp and desert dragons, an ice dragon will sometimes choose to bury itself in snow and wait, with only its eyes and nostrils exposed, in a place where prey is likely to pass by. The ice dragon will then burst out when likely prey approaches within 100', surprising on a roll of 1-4 on 1d6.\n\nIce dragons are immune to normal cold, and take only half damage from magical cold or ice.\n\n**Ice Dragon Age Table**\n\n| Age Category | Hit Dice | Attack Bonus | Breath Weapon  | L | W | Talk % | Spells by Level | Claw | Bite | Tail |\n|--------------|----------|--------------|----------------|--------|-------|----------------|-----------------|------|------|------|\n| 1            | 3        | +3           | Cold (Cone)    | -      | -     | 0%             | -  -  -         | 1d4  | 2d4  | 1d4  |\n| 2            | 4        | +4           | Cold (Cone)    | 60'    | 25'   | 10%            | 1  -  -         | 1d4  | 2d6  | 1d4  |\n| 3            | 5        | +5           | Cold (Cone)    | 70'    | 30'   | 15%            | 2  -  -         | 1d4  | 2d6  | 1d4  |\n| 4            | 6        | +6           | Cold (Cone)    | 80'    | 30'   | 20%            | 3  -  -         | 1d4  | 2d8  | 1d4  |\n| 5            | 7        | +7           | Cold (Cone)    | 85'    | 35'   | 30%            | 3  1  -         | 1d4  | 2d8  | 1d4  |\n| 6            | 8        | +8           | Cold (Cone)    | 90'    | 40'   | 40%            | 3  2  -         | 1d6  | 2d10 | 1d6  |\n| 7            | 9        | +8           | Cold (Cone)    | 95'    | 45'   | 50%            | 3  3  1         | 1d8  | 2d10 | 1d6  |"
+  },
+  {
+    "name": "Dragon, Mountain (Red Dragon)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "21",
+          "hitDice": "10** (+9)",
+          "numAttacks": "2 claws, 1 bite or breath, 1 tail",
+          "damage": "1d8 claw, 4d8 bite or breath, 1d8 tail",
+          "movement": "30' Fly 80' (20')",
+          "numAppear": "1, Wild 1, Lair 1d4",
+          "saveAs": "Fighter: 10 (as Hit Dice)",
+          "morale": "8",
+          "treasure": "H",
+          "xp": "1,480"
+        }
+      ]
+    ],
+    "description": "Mountain dragons are red in color, ranging from the brilliant blood red of a hatchling to the dull terracotta color of an ancient individual. These dragons are powerfully built, with heavy-jawed heads and thick muscular bodies, yet their necks are still long enough to give them the legendary flexibility of a true dragon.\n\nThey are cruel monsters, actively seeking to hunt, torment, kill and consume intelligent creatures. They are often said to prefer women and elves, but in truth a mountain dragon will attack almost any creature less powerful than itself.\n\nThey are intelligent and self-assured, but also impatient and overconfident. One will often plan strategies in advance and then choose one at random when facing unknown opponents, without regard to whether or not the strategy is likely to work. The sheer power of a mountain dragon is often the only reason one is still alive.\n\nMountain dragons are immune to normal fire, and suffer only half damage from magical fire.\n\n**Mountain Dragon Age Table**\n\n  | Age Cat. | Hit Dice | Attack Bonus | Breath Weapon | L | W | Talk % | Spells by Level  |\n  |--------------|----------|--------------|---------------|--------|-------|----------------|-----------------|\n  | 1            | 7        | +7           | Fire (Cone)   | 70'    | 30'   | 0%             | - - - - -       |\n  | 2            | 8        | +8           | Fire (Cone)   | 80'    | 35'   | 15%            | 1 - - - -       |\n  | 3            | 9        | +9           | Fire (Cone)   | 90'    | 45'   | 30%            | 2 1 - - -       |\n  | 4            | 10       | +9           | Fire (Cone)   | 95'    | 50'   | 50%            | 3 2 1 - -       |\n  | 5            | 11       | +10          | Fire (Cone)   | 100'   | 55'   | 60%            | 4 3 2 1 -         |\n  | 6            | 12       | +11          | Fire (Cone)   | 110'   | 60'   | 70%            | 5 4 3 2 1       |\n  | 7            | 13       | +11          | Fire (Cone)   | 110'   | 60'   | 85%            | 5 5 3 2 2       |\n"
   }
 ]
