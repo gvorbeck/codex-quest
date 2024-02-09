@@ -12,8 +12,8 @@ const MonsterInfo: React.FC<
   MonsterDescriptionProps & React.ComponentPropsWithRef<"div">
 > = ({ className, monster }) => {
   const { variants } = monster;
-  let stats = <div>No Data for Monster</div>;
-  if (variants.length > 0) {
+  let stats = null;
+  if (variants) {
     if (variants.length === 1) {
       stats = <MonsterStats stats={variants[0][1]} />;
     } else {
