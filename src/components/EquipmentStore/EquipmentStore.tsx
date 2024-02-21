@@ -107,16 +107,25 @@ const EquipmentStore: React.FC<
       label: slugToTitleCase(category[0]),
       children: (
         <Flex vertical gap={16}>
-          {category[1].map((item: EquipmentItem, itemIndex: number) => (
-            <EquipmentStoreItem
-              key={itemIndex}
-              item={item}
-              onChange={(e) => onChange(e ? +e : 0, item)}
-              // disabled={item.amount === 0 && getItemCost(item) >= gold}
-              // max={getItemCost(item) >= gold}
-              gold={gold}
-            />
-          ))}
+          {category[1].map((item: EquipmentItem, itemIndex: number) => {
+            let characterInventoryAmount = undefined;
+            if (character) {
+              characterInventoryAmount = equipment.find(
+                (charItem) => charItem.name === item.name,
+              )?.amount;
+            }
+            return (
+              <EquipmentStoreItem
+                key={itemIndex}
+                item={item}
+                characterAmount={characterInventoryAmount}
+                onChange={(e) => onChange(e ? +e : 0, item)}
+                // disabled={item.amount === 0 && getItemCost(item) >= gold}
+                // max={getItemCost(item) >= gold}
+                gold={gold}
+              />
+            );
+          })}
         </Flex>
       ),
     };
@@ -136,10 +145,17 @@ const EquipmentStore: React.FC<
               if (noLargeEquipment && item.size === "L") {
                 return null;
               }
+              let characterInventoryAmount = undefined;
+              if (character) {
+                characterInventoryAmount = equipment.find(
+                  (charItem) => charItem.name === item.name,
+                )?.amount;
+              }
               return (
                 <EquipmentStoreItem
                   key={index}
                   item={item}
+                  characterAmount={characterInventoryAmount}
                   onChange={(e) => onChange(e ? +e : 0, item)}
                   // disabled={item.amount === 0 && getItemCost(item) >= gold}
                   // max={getItemCost(item) >= gold}
