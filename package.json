@@ -2,9 +2,9 @@
   "name": "codex-quest",
   "title": "Codex Quest",
   "bfrpgEdition": "4th",
-  "bfrpgRelease": "137",
+  "bfrpgRelease": "139",
   "license": "CC BY-SA 4.0",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "private": true,
   "type": "module",
   "scripts": {
