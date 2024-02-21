@@ -2,6 +2,7 @@ import { classes } from "@/data/classes";
 import React from "react";
 import { CharData, ClassNames } from "@/data/definitions";
 import { classSplit, getClassType } from "@/support/classSupport";
+import spells from "@/data/spells.json";
 
 export function useSpellData() {
   const [hasSpellBudget, setHasSpellBudget] = React.useState(false);
@@ -19,6 +20,7 @@ export function useSpellData() {
     });
   };
 
+  // Return true/false if the character has a spell budget
   const isSpellCaster = React.useCallback(
     (character: CharData) => {
       const result = checkSpellCaster(character);
@@ -30,5 +32,10 @@ export function useSpellData() {
     [hasSpellBudget],
   );
 
-  return { isSpellCaster };
+  // Return true/false if the spell name appears in the spells.json
+  const isCustomSpell = (spellName: string) => {
+    return !spells.some((spell) => spell.name === spellName);
+  };
+
+  return { isSpellCaster, isCustomSpell };
 }
