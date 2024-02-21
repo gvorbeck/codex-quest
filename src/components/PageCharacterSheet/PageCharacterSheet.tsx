@@ -213,7 +213,16 @@ const PageCharacterSheet: React.FC<
               <Section title="Weight" component={<Weight />} />
             </Flex>
             {isSpellCaster(character) && (
-              <Section title="Spells" component={<Spells />} />
+              <Section
+                title="Spells"
+                component={
+                  <Spells
+                    setModalIsOpen={setModalIsOpen}
+                    setModalTitle={setModalTitle}
+                    setModalContent={setModalContent}
+                  />
+                }
+              />
             )}
           </Col>
           <Col xs={24} sm={12}>
