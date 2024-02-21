@@ -15,14 +15,24 @@ export const getCharacterHitDiceFromClass = (character: CharData) => {
   ];
   const classArr = classSplit(character.class);
   const classType = getClassType(classArr);
+  const { race } = character;
   // Some races require the character's hit dice to be incremented or decremented
   const incrementChecker = (dice: DiceTypes) => {
+    // The index of the character's hit die in the diceArr
     let diceIndex = diceArr.indexOf(dice);
-    if (races[character.race as RaceNames]?.incrementHitDie) {
+    // The max index a character's hit die is allowed to be in the diceArr
+    const diceMaxIndex = diceArr.indexOf(
+      races[race as RaceNames]?.maximumHitDice ?? DiceTypes.D20,
+    );
+    if (races[race as RaceNames]?.incrementHitDie) {
       diceIndex++;
     }
-    if (races[character.race as RaceNames]?.decrementHitDie) {
+    if (races[race as RaceNames]?.decrementHitDie) {
       diceIndex--;
+    }
+    // If a character's hit die is greater than the max allowed hit die, set it to the max allowed hit die
+    if (diceIndex > diceMaxIndex) {
+      diceIndex = diceMaxIndex;
     }
     return diceArr[diceIndex];
   };
