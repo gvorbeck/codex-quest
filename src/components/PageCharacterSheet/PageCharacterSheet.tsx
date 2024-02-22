@@ -194,7 +194,11 @@ const PageCharacterSheet: React.FC<
                     );
                   }
                 })}
-                <Section title="Saving Throws" component={<SavingThrows />} />
+                <Section
+                  title="Saving Throws"
+                  component={<SavingThrows />}
+                  className="[@media(width<=640px)]:mt-4"
+                />
               </Flex>
             </Col>
           </Row>
@@ -202,7 +206,7 @@ const PageCharacterSheet: React.FC<
           <Alert type="info" message={customClassAlertMessage} />
         )}
         <Divider />
-        <Row gutter={16}>
+        <Row gutter={32}>
           <Col xs={24} sm={12}>
             <Flex gap={16} vertical={isMobile} justify="space-between">
               <Section
@@ -210,19 +214,26 @@ const PageCharacterSheet: React.FC<
                 className={moneyClassNames}
                 component={<Money />}
               />
+              <Divider className="[@media(width>=640px)]:hidden" />
               <Section title="Weight" component={<Weight />} />
+              <Divider className="[@media(width>=640px)]:hidden" />
             </Flex>
             {isSpellCaster(character) && (
-              <Section
-                title="Spells"
-                component={
-                  <Spells
-                    setModalIsOpen={setModalIsOpen}
-                    setModalTitle={setModalTitle}
-                    setModalContent={setModalContent}
-                  />
-                }
-              />
+              <>
+                <Section
+                  title="Spells"
+                  className="[@media(width<=640px)]:mt-4"
+                  component={
+                    <Spells
+                      setModalIsOpen={setModalIsOpen}
+                      setModalTitle={setModalTitle}
+                      setModalContent={setModalContent}
+                    />
+                  }
+                />
+
+                <Divider className="[@media(width>=640px)]:hidden" />
+              </>
             )}
           </Col>
           <Col xs={24} sm={12}>

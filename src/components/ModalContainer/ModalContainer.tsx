@@ -35,7 +35,7 @@ const ModalContainer: React.FC<
       onCancel={handleCancel}
       className={className}
       footer={false}
-      width={600}
+      width={900}
     >
       {modalContent}
     </Modal>

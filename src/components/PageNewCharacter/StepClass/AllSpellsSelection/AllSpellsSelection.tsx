@@ -8,11 +8,12 @@ import { CharData, Spell } from "@/data/definitions";
 interface AllSpellsSelectionProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
+  hideStartingText?: boolean;
 }
 
 const AllSpellsSelection: React.FC<
   AllSpellsSelectionProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, setCharacter, hideStartingText }) => {
   const { isDesktop, isMobile, isTablet } = useDeviceType();
   const checkboxGroupClassNames = classNames(
     "grid",
@@ -24,6 +25,7 @@ const AllSpellsSelection: React.FC<
   const options = spells.map((spell) => ({
     label: spell.name,
     value: spell.name,
+    checked: character.spells?.some((s) => s.name === spell.name),
   }));
   const [startingSpells, setStartingSpells] = React.useState<Spell[]>(
     character.spells || [],
@@ -41,12 +43,16 @@ const AllSpellsSelection: React.FC<
   }, [startingSpells]);
   return (
     <>
-      <Divider plain className="font-enchant text-2xl">
-        Starting Spells
-      </Divider>
-      <Typography.Text>
-        Choose the spells your custom class starts level 1 with, if any.
-      </Typography.Text>
+      {!hideStartingText && (
+        <>
+          <Divider plain className="font-enchant text-2xl">
+            Starting Spells
+          </Divider>
+          <Typography.Text>
+            Choose the spells your custom class starts level 1 with, if any.
+          </Typography.Text>
+        </>
+      )}
       <Checkbox.Group
         className={checkboxGroupClassNames}
         options={options}
