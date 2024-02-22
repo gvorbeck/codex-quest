@@ -15,6 +15,7 @@ export const druid: ClassSetup = {
     EquipmentCategories.BOWS,
     EquipmentCategories.BEASTS,
     EquipmentCategories.BARDING,
+    EquipmentCategories.DAGGERS,
     EquipmentCategories.HAMMERMACE,
     EquipmentCategories.GENERAL,
     EquipmentCategories.OTHERWEAPONS,
