@@ -64,17 +64,17 @@ const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({
       <Flex gap={16} vertical={isMobile}>
         <Button
           disabled={!userIsOwner}
-          onClick={handleCustomSpellClick}
-          className={addSpellClassNames}
-        >
-          Add Custom Spell
-        </Button>
-        <Button
-          disabled={!userIsOwner}
           onClick={handleAddEditSpellClick}
           className={addSpellClassNames}
         >
           Add/Edit Spells
+        </Button>
+        <Button
+          disabled={!userIsOwner}
+          onClick={handleCustomSpellClick}
+          className={addSpellClassNames}
+        >
+          Add Custom Spell
         </Button>
       </Flex>
       <Collapse items={items} className={className} />
