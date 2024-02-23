@@ -1157,5 +1157,277 @@
       ]
     ],
     "description": "Dryads are female nature spirits; each is mystically bound to a single, enormous oak tree and must never stray more than 300 yards from it. Any who do become ill and die within 4d6 hours. A dryad's oak does not radiate magic. A dryad lives as long as her tree, and dies when the tree dies; likewise, if the dryad is killed, her tree dies also.\n\nA dryad resembles an elf woman, with skin that resembles fine polished wood or smooth bark and hair like leaves; the hair color of a dryad usually changes with the seasons, being brown in the winter, pale green in the spring, darker green in the summer, and yellow, orange, or red in the fall.\n\nThough they are usually content to live alone, dryads are often friends with creatures such as treant or other nature spirits who might live nearby. Once per day a dryad can cast a charm similar to the spell charm person, and one may choose to use this ability to compel an interesting human or elf to remain with her as a companion for a period of up to a year. The companion can be taken into and brought out of the dryad's tree so long as the charm is still in effect."
+  },
+  {
+    "name": "Eagle",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2",
+          "numAttacks": "2 talons, 1 beak",
+          "damage": "1d6 talon, 1d4 beak",
+          "movement": "10' Fly 160' (10')",
+          "numAppear": "1, Wild 1d4",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Eagles are large birds with wingspans 6½ to 7½ feet in width. They stand about 2½ to 3 feet tall and weigh about 13 lbs. These birds have heavy talons and large beaks with a sharp hooked end. Eagles are known to carry prey up to 15 lbs. An eagle will also kill and start to eat animals that are 5 times the eagle's size, up to 80 lbs. Fish-eating eagles are usually the largest varieties, while other types hunt small animals such as rodents or snakes. Coloring is dependent on the species of eagle, and should be chosen by the GM; various brown, gray, black, or white markings are most common, though solid darker colors are sometimes seen. The beaks may range from bright yellowish orange to black. Eagles will dive at a prey and attack with both sets of talons, then attack with the beak."
+  },
+  {
+    "name": "Eagle, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 1d8 bite",
+          "movement": "10' fly 90'",
+          "numAppear": "2d6",
+          "saveAs": "Fighter: 4",
+          "morale": "7 (12 if defending a nest)",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "An average giant eagle has a wingspan of 15 to 20 feet and stands 8 to 12 feet tall. They are intelligent creatures, and many speak Common or another language common in their home territory.\n\nIndividual giant eagles are rarely encountered alone, as they prefer to live in loose communities. However, when they hunt they do so in a solitary fashion, with each eagle choosing a single creature as prey. As they can communicate with each other, it is extremely rare for two of them to make the mistake of attacking the same prey; in fact, it is not uncommon for one to attack alone to scatter a group of prey so they can each more easily choose a victim.\n\nGiant eagles mate for life. If a nest with eggs or hatchlings is threatened, both parents will fight without checking morale, and other giant eagles in their community may come to their defense but will still seek to scatter any opponents so as to attack them one on one."
+  },
+  {
+    "name": "Efreeti",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "21 (m)",
+          "hitDice": "10* (+9)",
+          "numAttacks": "1 huge weapon",
+          "damage": "2d8 huge weapon or special",
+          "movement": "30' Fly 80' (10')",
+          "numAppear": "1",
+          "saveAs": "Fighter: 15",
+          "morale": "12 (9)",
+          "treasure": "None",
+          "xp": "1,390"
+        }
+      ]
+    ],
+    "description": "Efreet (singular efreeti) are a race of manlike creatures believed to be from the Elemental Plane of Fire. They are large beings, 11 to 12 feet in height and weighing around 2,000 pounds, though their weight is generally immaterial due to their ability to fly by magical means.\n\nNote that the 12 morale reflects an efreeti's absolute control over its own fear, but does not indicate that the creature will throw its life away easily. Use the \"9\" figure to determine whether an outmatched efreeti decides to leave a combat.\n\nEfreet have a number of magical powers, which can be used at will (that is, without needing magic words or gestures): become **invisible**, with unlimited uses per day; assume **gaseous form**, as the potion, up to one hour per day; **create illusions**, as the spell **phantasmal force** but including sound as well as visual elements, three times per day; **create flame**, with unlimited uses; and create a **wall of fire** (as the spell), once per day. Create flame allows the efreet to cause a flame to appear in its hand or otherwise on its person at will; it behaves as desired by the efreet, becoming as large as a torch flame or as small as a candle, and ignites flammable material just as any ordinary flame does. The flame can be thrown as a weapon with a range of up to 60', causing 1d8 points of damage on a successful hit. The efreet can create another flame, and throw it as well if desired, once per round.\n\nEfreet may assume the form of a column of fire at will, with no limit as to the number of times per day this power may be used; an efreeti in flame-form fights as if it were a fire elemental.\n\nDue to their highly magical nature,  efreet cannot be harmed by non-magical weapons. They are immune to normal fire, and suffer only half damage from magical fire attacks."
+  },
+  {
+    "name": "Elemental*",
+    "stats": null,
+    "description": "An elemental is a being formed from one of the foundational elements of reality. In Western traditions, the classical elements are air, earth, fire, and water; Asian traditions include a different group: fire, earth, metal, water, and wood. This book presents the full range needed for either tradition, and to those types are added cold and lightning elementals for those who wish to be less traditional. As always, the Game Master decides what sort of monsters appear in their world, and so not all of the following creatures may be encountered.\n\nEach type of elemental may be summoned to the material plane by means of one of three different methods:\n- Conjured by the 5th level Magic-User spell *conjure elemental*; or,\n- Summoned by means of a magical staff; or,\n- Summoned by a device, as given in the Miscellaneous Magic subsection of the Treasure section of this book.\n\nThese three types of elementals are quite reasonably called staff, device, and conjured elementals. The hit dice of an elemental depends on the type, as follows:\n| Type     | Hit Dice |\n|----------|----------|\n| Staff    | 8        |\n| Device   | 12       |\n| Conjured | 16       |\n\nThe summoner of an elemental must concentrate on it to control it, and may take no other action, including attacking, being attacked, or moving, or control will be lost. Once control is lost it cannot be regained, and the uncontrolled elemental will move directly toward the summoner and attack.\n\nElementals must be summoned from a large quantity of the appropriate natural material. For example, air elementals require a large quantity of air (so small underground spaces will not support the summoning of one); earth elementals require access to natural earth or stone (and worked stone such as the stone walls of a castle will not work); fire elementals require a large fire such as a bonfire; and water elementals require access to a substantial body of water, at the very least a river or lake (small streams and artificial pools will not work). Finally, when an elemental is summoned, no other elemental of the same type may be summoned in the same day within a radius of 100 miles of the location.\n\nNon-magical weapons cannot harm an elemental. Attacks made by an elemental should be considered non-magical when determining harm of the elemental."
+  },
+  {
+    "name": "Elemental, Air",
+    "variants": [
+      [
+        "Staff",
+        {
+          "ac": "18 (m)",
+          "hitDice": "8*",
+          "numAttacks": "special, see below",
+          "damage": "1d12",
+          "movement": "Fly 120'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "945"
+        }
+      ],
+      [
+        "Device",
+        {
+          "ac": "20 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "special, see below",
+          "damage": "2d8",
+          "movement": "Fly 120'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,975"
+        }
+      ],
+      [
+        "Spell",
+        {
+          "ac": "22 (m)",
+          "hitDice": "16* (+12)",
+          "numAttacks": "special, see below",
+          "damage": "3d6",
+          "movement": "Fly 120'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "3,385"
+        }
+      ]
+    ],
+    "description": "Air elementals resemble \"dust devils\", that is, small whirlwinds, but they are much more powerful. Air elementals take double damage when attacked by earth-based attacks (including by earth elementals). An air elemental may choose either to attack a single opponent, thus receiving one attack per round at the listed damage, or may choose to knock all opponents in a 5' radius to the ground; if the latter attack is used, all creatures of 2 hit dice or less must save vs. Death Ray or fall prone. Creatures of 3 or more levels or hit dice are not so affected. Air elementals do an additional 1d8 points of damage against creatures or vehicles which are airborne.\n\n"
+  },
+  {
+    "name": "Elemental, Cold",
+    "variants": [
+      [
+        "Staff",
+        {
+          "ac": "18 (m)",
+          "hitDice": "8*",
+          "numAttacks": "1",
+          "damage": "1d12",
+          "movement": "40'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "945"
+        }
+      ],
+      [
+        "Device",
+        {
+          "ac": "20 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "1",
+          "damage": "2d8",
+          "movement": "40'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,975"
+        }
+      ],
+      [
+        "Spell",
+        {
+          "ac": "22 (m)",
+          "hitDice": "16* (+12)",
+          "numAttacks": "1",
+          "damage": "3d6",
+          "movement": "40'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "3,385"
+        }
+      ]
+    ],
+    "description": "A cold elemental resembles a crude, headless ice statue with long sharp icicles in place of hands. A cold elemental suffers double damage from fire attacks, including the attacks of fire elementals. It deals an additional 1d8 points of damage against creatures that are hot or flaming in nature, as well as creatures made of liquids or jelly. A cold elemental's body is so bitterly cold that creatures within 5 feet take 1d6 points of damage automatically, unless they are immune to the effects of cold. Any liquids the cold elemental touches immediately freeze solid. A cold elemental cannot enter places where the temperature is above 50 degrees Fahrenheit, and if forced to do so will suffer 1d6 points of damage each round."
+  },
+  {
+    "name": "Elemental, Earth",
+    "variants": [
+      [
+        "Staff",
+        {
+          "ac": "18 (m)",
+          "hitDice": "8*",
+          "numAttacks": "1",
+          "damage": "1d12",
+          "movement": "20' (10')",
+          "numAppear": "special",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "945"
+        }
+      ],
+      [
+        "Device",
+        {
+          "ac": "20 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "1",
+          "damage": "2d8",
+          "movement": "20' (10')",
+          "numAppear": "special",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,975"
+        }
+      ],
+      [
+        "Spell",
+        {
+          "ac": "22 (m)",
+          "hitDice": "16* (+12)",
+          "numAttacks": "1",
+          "damage": "3d6",
+          "movement": "20' (10')",
+          "numAppear": "special",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "3,385"
+        }
+      ]
+    ],
+    "description": "Earth elementals resemble crude, sometimes headless humanoid statues, with clublike hands and feet. They cannot cross a body of water wider than their own height. Earth elementals take double damage when attacked by fire (including fire elementals). They do an additional 1d8 points of damage against creatures, vehicles, or structures which rest on the ground."
+  },
+  {
+    "name": "Elemental, Fire",
+    "variants": [
+      [
+        "Staff",
+        {
+          "ac": "18 (m)",
+          "hitDice": "8*",
+          "numAttacks": "1",
+          "damage": "1d12",
+          "movement": "40' Fly 30'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "945"
+        }
+      ],
+      [
+        "Device",
+        {
+          "ac": "20 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "1",
+          "damage": "2d8",
+          "movement": "40' Fly 30'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,975"
+        }
+      ],
+      [
+        "Spell",
+        {
+          "ac": "22 (m)",
+          "hitDice": "16* (+12)",
+          "numAttacks": "1",
+          "damage": "3d6",
+          "movement": "40' Fly 30'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "3,385"
+        }
+      ]
+    ],
+    "description": "Fire elementals are simply flames, which may appear generally humanoid for brief moments when they attack. Fire elementals take double damage when attacked by water (including water elementals). They cannot cross a body of water wider than their own diameter. They do an additional 1d8 points of damage against creatures which are cold or icy in nature.\n\nRemember that a fire elemental is constantly burning; such a creature may easily start fires if it moves into an area containing items which burn easily, such as dry wood, paper, or oil. No specific rules are given for such fires, but the GM is directed to the rules for burning oil for an example of fire damage."
   }
 ]
