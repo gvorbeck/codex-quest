@@ -44,7 +44,7 @@ const App: React.FC = () => {
             element={
               <PageLayout
                 user={user}
-                // alert={"foo"}
+                // alert={"Site-Wide Message Goes Here"}
               />
             }
           >
