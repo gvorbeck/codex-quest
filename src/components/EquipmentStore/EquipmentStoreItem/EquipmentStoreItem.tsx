@@ -8,11 +8,12 @@ interface EquipmentStoreItemProps {
   onChange: ((value: number | null) => void) | undefined;
   disabled?: boolean;
   gold: number;
+  characterAmount?: number;
 }
 
 const EquipmentStoreItem: React.FC<
   EquipmentStoreItemProps & React.ComponentPropsWithRef<"div">
-> = ({ className, item, onChange, disabled, gold }) => {
+> = ({ className, item, onChange, disabled, gold, characterAmount }) => {
   const maxItemsAffordable = Math.floor(gold / getItemCost(item));
   const damageItem = {
     key: "damage",
@@ -72,7 +73,7 @@ const EquipmentStoreItem: React.FC<
     label: "Amount",
     children: (
       <InputNumber
-        defaultValue={item.amount}
+        defaultValue={characterAmount ?? item.amount}
         min={0}
         max={maxItemsAffordable}
         onChange={(value) => onChange && onChange(value)}
