@@ -31,7 +31,7 @@ const Monsters: React.FC<
   );
   return (
     <Flex vertical gap={16} className={className}>
-      <Alert message="Letters A-D. More to come in the next couple of weeks. -admin" />
+      <Alert message="Incomplete. I'm adding a few at a time. It'll get done. -admin" />
       <Input
         value={monsterQuery}
         onChange={handleInputChange}
