@@ -20,7 +20,7 @@ interface HeroProps {
   uid: string | undefined;
   gameId: string | undefined;
   userIsOwner: boolean;
-  setCombatTrackerExpanded: (expanded: boolean) => void;
+  setTurnTrackerExpanded: (expanded: boolean) => void;
 }
 
 const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
@@ -30,7 +30,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
   uid,
   gameId: id,
   userIsOwner,
-  setCombatTrackerExpanded,
+  setTurnTrackerExpanded,
 }) => {
   const { isMobile } = useDeviceType();
   const breadcrumbItems: BreadcrumbProps["items"] = [
@@ -64,10 +64,10 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           <Typography.Text>Hide PCs</Typography.Text>
           <Switch onChange={handlePlayersSwitch} />
         </Flex>
-        <Tooltip title="Open Combat Tracker">
+        <Tooltip title="Open Turn Tracker">
           <Button
             icon={<ExclamationCircleOutlined />}
-            onClick={() => setCombatTrackerExpanded(true)}
+            onClick={() => setTurnTrackerExpanded(true)}
           />
         </Tooltip>
         {uid && id && (

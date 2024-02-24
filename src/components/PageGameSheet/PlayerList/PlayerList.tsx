@@ -14,6 +14,8 @@ interface PlayerListProps {
   setShowScoutAbilities: (showScoutAbilities: boolean) => void;
   gameId: string;
   userIsOwner: boolean;
+  setCombatants: (combatants: any[]) => void;
+  addToTurnTracker: (data: any, type: "player" | "monster") => void;
 }
 
 const PlayerList: React.FC<
@@ -27,6 +29,7 @@ const PlayerList: React.FC<
   setShowScoutAbilities,
   gameId,
   userIsOwner,
+  addToTurnTracker,
 }) => {
   const [
     characterList,
@@ -75,22 +78,24 @@ const PlayerList: React.FC<
                   items={subItems}
                   size="small"
                 />
-                <Flex justify="space-between">
-                  <Button
-                    type="primary"
-                    icon={<SolutionOutlined />}
-                    onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
-                  >
-                    Character Sheet
-                  </Button>
-                  <Tooltip title={`Remove ${name}`}>
+                <Flex gap={16}>
+                  <Tooltip title={`Open Character Sheet`}>
+                    <Button
+                      icon={<SolutionOutlined />}
+                      onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
+                    />
+                  </Tooltip>
+                  <Tooltip title={`Remove Character`}>
                     <Button
                       onClick={() => onRemoveButtonClick(userId, charId)}
                       icon={<UserDeleteOutlined />}
                       disabled={!userIsOwner}
-                    >
-                      Remove
-                    </Button>
+                    />
+                  </Tooltip>
+                  <Tooltip title="Add to Turn Tracker">
+                    <Button
+                      onClick={() => addToTurnTracker(character, "player")}
+                    />
                   </Tooltip>
                 </Flex>
               </Flex>
