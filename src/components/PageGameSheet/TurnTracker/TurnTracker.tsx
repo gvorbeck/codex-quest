@@ -132,15 +132,17 @@ const TurnTracker: React.FC<
               justify="space-between"
               className="w-full"
             >
-              <Flex gap={16} align="center">
+              <Flex
+                gap={16}
+                align="center"
+                className="flex-grow truncate text-elipsis text-clip"
+              >
                 {item.avatar && (
                   <span className="rounded-full bg-rust w-8 h-8 block"></span>
                 )}
-                <Typography.Text className="truncate">
-                  {item.name}
-                </Typography.Text>
-                <Button />
+                <Typography.Text>{item.name}</Typography.Text>
               </Flex>
+              <Button />
               <Tooltip title="Initiative">
                 <InputNumber
                   className="w-[60px] box-content"

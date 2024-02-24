@@ -3,7 +3,11 @@ import { GamePlayerList } from "@/data/definitions";
 import { Button, Card, Descriptions, Flex, Spin, Tooltip } from "antd";
 import { openInNewTab } from "@/support/characterSupport";
 import classNames from "classnames";
-import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import {
+  SolutionOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
+} from "@ant-design/icons";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 
 interface PlayerListProps {
@@ -95,6 +99,7 @@ const PlayerList: React.FC<
                   <Tooltip title="Add to Turn Tracker">
                     <Button
                       onClick={() => addToTurnTracker(character, "player")}
+                      icon={<UserAddOutlined />}
                     />
                   </Tooltip>
                 </Flex>
