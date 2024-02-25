@@ -1,7 +1,7 @@
 import { User } from "firebase/auth";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { GameData } from "@/data/definitions";
+import { CombatantType, GameData } from "@/data/definitions";
 import { fetchDocument } from "@/support/accountSupport";
 import { Flex, Skeleton, message } from "antd";
 import PlayerList from "./PlayerList/PlayerList";
@@ -19,6 +19,7 @@ interface PageGameSheetProps {
 const PageGameSheet: React.FC<
   PageGameSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
+  const [, contextHolder] = message.useMessage();
   const { uid, id } = useParams();
   const userLoggedIn: User | null = user;
   const userIsOwner = userLoggedIn?.uid === uid;
@@ -30,7 +31,7 @@ const PageGameSheet: React.FC<
   const [showRangerAbilities, setShowRangerAbilities] = React.useState(false);
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const [hidePlayers, setHidePlayers] = React.useState(false);
-  const [combatants, setCombatants] = React.useState<any[]>([]);
+  const [combatants, setCombatants] = React.useState<CombatantType[]>([]);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
   const gameBinderClassNames = classNames(
     { "shrink-0": !isMobile },
@@ -42,7 +43,10 @@ const PageGameSheet: React.FC<
     setHidePlayers(checked);
   };
 
-  const addToTurnTracker = (data: any, type: "player" | "monster") => {
+  const addToTurnTracker = (
+    data: CombatantType,
+    type: "player" | "monster",
+  ) => {
     if (!data) {
       message.error("addToTurnTracker data is required");
       return;
@@ -78,6 +82,7 @@ const PageGameSheet: React.FC<
 
   return game ? (
     <>
+      {contextHolder}
       <TurnTracker
         className="absolute bottom-0 right-0 z-10"
         turnTrackerExpanded={turnTrackerExpanded}

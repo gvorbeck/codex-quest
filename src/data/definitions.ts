@@ -207,3 +207,9 @@ export type GamePlayer = {
 export type GamePlayerList = GamePlayer[];
 
 export type AvatarTypes = "none" | "stock" | "upload";
+
+export type CombatantType = {
+  name: string;
+  initiative: number;
+  avatar?: string;
+};

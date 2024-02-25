@@ -15,6 +15,7 @@ import Icon, {
   CustomIconComponentProps,
 } from "@ant-design/icons/lib/components/Icon";
 import { RedoOutlined } from "@ant-design/icons";
+import { CombatantType } from "@/data/definitions";
 
 const PerspectiveDiceSvg = () => (
   <svg
@@ -33,8 +34,8 @@ const PerspectiveDiceIcon = (props: Partial<CustomIconComponentProps>) => (
 interface TurnTrackerProps {
   turnTrackerExpanded: boolean;
   setTurnTrackerExpanded: (expanded: boolean) => void;
-  combatants: any[];
-  setCombatants: (combatants: any[]) => void;
+  combatants: CombatantType[];
+  setCombatants: (combatants: CombatantType[]) => void;
 }
 
 const TurnTracker: React.FC<
@@ -51,12 +52,6 @@ const TurnTracker: React.FC<
   const onClose = () => {
     setTurnTrackerExpanded(false);
   };
-  // This will likely need to be moved to game sheet so that setting it can be done from there
-  // const data = [
-  //   { name: "Amanda", avatar: "foo" },
-  //   { name: "George", avatar: "foo" },
-  //   { name: "Goblin" },
-  // ];
   const advanceTurn = (reverse: boolean) => {
     // refactor needed when data is moved to game sheet?
     if (!reverse) {
@@ -72,6 +67,20 @@ const TurnTracker: React.FC<
         setTurn(combatants.length - 1);
       }
     }
+  };
+  const handleInitiaveChange = (
+    item: CombatantType,
+    newValue: number | null,
+  ) => {
+    const newInitiative = newValue ?? 0;
+    const updatedCombatants = combatants.map((combatant) => {
+      if (combatant.name === item.name) {
+        return { ...combatant, initiative: newInitiative };
+      }
+      return combatant;
+    });
+    updatedCombatants.sort((a, b) => b.initiative - a.initiative);
+    setCombatants(updatedCombatants);
   };
   return (
     <Drawer
@@ -147,7 +156,8 @@ const TurnTracker: React.FC<
                 <InputNumber
                   className="w-[60px] box-content"
                   min={0}
-                  defaultValue={0}
+                  value={item.initiative}
+                  onChange={(e) => handleInitiaveChange(item, e)}
                 />
               </Tooltip>
             </Flex>
