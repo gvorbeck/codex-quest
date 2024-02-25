@@ -29,6 +29,7 @@ interface CollapseEquipmentProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   setModalTitle: (modalTitle: string) => void;
   setModalContent: (modalContent: React.ReactNode) => void;
+  userIsOwner?: boolean;
 }
 
 const CollapseEquipment: React.FC<
@@ -41,6 +42,7 @@ const CollapseEquipment: React.FC<
   setModalIsOpen,
   setModalTitle,
   setModalContent,
+  userIsOwner,
 }) => {
   const items: CollapseProps["items"] = Object.entries(
     equipmentCategoryMap(character.equipment),
@@ -85,6 +87,7 @@ const CollapseEquipment: React.FC<
                     className="flex-grow"
                     character={character}
                     setCharacter={setCharacter}
+                    userIsOwner={userIsOwner}
                   />
                 </Radio>
               ))}
@@ -104,6 +107,7 @@ const CollapseEquipment: React.FC<
                 setModalContent={setModalContent}
                 character={character}
                 setCharacter={setCharacter}
+                userIsOwner={userIsOwner}
               />
             ))
           )}

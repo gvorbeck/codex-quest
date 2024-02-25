@@ -20,6 +20,7 @@ interface EquipmentItemDescriptionProps {
   setModalIsOpen?: (modalIsOpen: boolean) => void;
   setModalTitle?: (modalTitle: string) => void;
   setModalContent?: (modalContent: React.ReactNode) => void;
+  userIsOwner?: boolean;
 }
 
 const confirm = (
@@ -47,6 +48,7 @@ const EquipmentItemDescription: React.FC<
   character,
   setCharacter,
   setModalContent,
+  userIsOwner,
 }) => {
   const [, contextHolder] = message.useMessage();
 
@@ -151,11 +153,15 @@ const EquipmentItemDescription: React.FC<
                 okText="Yes"
                 cancelText="No"
               >
-                <Button icon={<DeleteOutlined />}>Delete</Button>
+                <Button icon={<DeleteOutlined />} disabled={!userIsOwner}>
+                  Delete
+                </Button>
               </Popconfirm>
             )}
           {showAttackButton && (
-            <Button onClick={handleAttackClick}>Attack</Button>
+            <Button onClick={handleAttackClick} disabled={!userIsOwner}>
+              Attack
+            </Button>
           )}
         </Flex>
       </Flex>

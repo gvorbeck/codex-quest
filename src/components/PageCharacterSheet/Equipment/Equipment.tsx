@@ -75,6 +75,7 @@ const Equipment: React.FC<
           character={character}
           setCharacter={setCharacter}
           setModalContent={setModalContent}
+          userIsOwner={userIsOwner}
         />
         <EquipmentItemDescription
           item={punchItem}
@@ -84,6 +85,7 @@ const Equipment: React.FC<
           setModalContent={setModalContent}
           character={character}
           setCharacter={setCharacter}
+          userIsOwner={userIsOwner}
         />
       </Flex>
       <CollapseEquipment
@@ -93,6 +95,7 @@ const Equipment: React.FC<
         setModalIsOpen={setModalIsOpen}
         setModalTitle={setModalTitle}
         setModalContent={setModalContent}
+        userIsOwner={userIsOwner}
       />
     </Flex>
   );
