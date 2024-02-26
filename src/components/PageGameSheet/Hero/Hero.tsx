@@ -10,7 +10,7 @@ import {
 import React from "react";
 import AddPlayerForm from "../PlayerList/AddPlayerForm/AddPlayerForm";
 import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
-import { ExclamationCircleOutlined, TeamOutlined } from "@ant-design/icons";
+import { HourglassOutlined, TeamOutlined } from "@ant-design/icons";
 import { GameData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
@@ -66,7 +66,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         </Flex>
         <Tooltip title="Open Turn Tracker">
           <Button
-            icon={<ExclamationCircleOutlined />}
+            icon={<HourglassOutlined />}
             onClick={() => setTurnTrackerExpanded(true)}
           />
         </Tooltip>
