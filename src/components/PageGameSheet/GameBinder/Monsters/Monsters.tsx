@@ -1,4 +1,4 @@
-import { Alert, Button, Collapse, CollapseProps, Flex, Input } from "antd";
+import { Alert, Collapse, CollapseProps, Flex, Input } from "antd";
 import monsters from "@/data/monsters.json";
 import React from "react";
 import MonsterInfo from "./MonsterInfo/MonsterInfo";
