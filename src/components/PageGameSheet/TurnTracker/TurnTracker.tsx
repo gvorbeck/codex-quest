@@ -197,9 +197,9 @@ const TurnTracker: React.FC<
                 )}
                 <Typography.Text>{item.name}</Typography.Text>
               </Flex>
-              {!!item.tags.length && (
+              {item.tags.length && (
                 <Flex gap={8}>
-                  {tags.map((tag) => (
+                  {item.tags.map((tag) => (
                     <Tag
                       closable
                       onClose={(e) => {
