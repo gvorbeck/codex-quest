@@ -117,9 +117,17 @@ const TurnTracker: React.FC<
     setInputVisible(null); // Hide the input
     setInputValue("");
   };
-  const handleClose = (removedTag: string) => {
-    const newTags = tags.filter((tag) => tag !== removedTag);
-    setTags(newTags);
+  const handleClose = (removedTag: string, combatant: string) => {
+    const updatedCombatants = combatants.map((item) => {
+      if (item.name === combatant) {
+        return {
+          ...item,
+          tags: item.tags.filter((tag) => tag !== removedTag),
+        };
+      }
+      return item;
+    });
+    setCombatants(updatedCombatants);
   };
   const showInput = (name: string) => {
     setInputVisible(name);
@@ -197,14 +205,14 @@ const TurnTracker: React.FC<
                 )}
                 <Typography.Text>{item.name}</Typography.Text>
               </Flex>
-              {item.tags.length && (
+              {!!item.tags.length && (
                 <Flex gap={8}>
                   {item.tags.map((tag) => (
                     <Tag
                       closable
                       onClose={(e) => {
                         e.preventDefault();
-                        handleClose(tag);
+                        handleClose(tag, item.name);
                       }}
                     >
                       {tag}
