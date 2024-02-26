@@ -52,7 +52,6 @@ const TurnTracker: React.FC<
   const [turn, setTurn] = React.useState(0);
   const [inputVisible, setInputVisible] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState("");
-  const [tags, setTags] = React.useState<string[]>([]);
   const inputRef = React.useRef<InputRef>(null);
   const turnTrackerClassNames = classNames(className);
   const { token } = theme.useToken();
