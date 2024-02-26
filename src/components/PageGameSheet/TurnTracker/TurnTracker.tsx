@@ -50,7 +50,7 @@ const TurnTracker: React.FC<
   setCombatants,
 }) => {
   const [turn, setTurn] = React.useState(0);
-  const [inputVisible, setInputVisible] = React.useState(false);
+  const [inputVisible, setInputVisible] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState("");
   const [tags, setTags] = React.useState<string[]>([]);
   const inputRef = React.useRef<InputRef>(null);
@@ -103,26 +103,26 @@ const TurnTracker: React.FC<
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  const handleInputConfirm = (item: CombatantType) => {
-    console.log("item:", item);
-    if (inputValue && item.tags.indexOf(inputValue) === -1) {
+  const handleInputConfirm = () => {
+    if (inputValue) {
       const updatedCombatants = combatants.map((combatant) => {
-        if (combatant.name === item.name) {
+        if (combatant.name === inputVisible) {
+          // Compare with inputVisible which now holds the name
           return { ...combatant, tags: [...combatant.tags, inputValue] };
         }
         return combatant;
       });
       setCombatants(updatedCombatants);
     }
-    setInputVisible(false);
+    setInputVisible(null); // Hide the input
     setInputValue("");
   };
   const handleClose = (removedTag: string) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
   };
-  const showInput = () => {
-    setInputVisible(true);
+  const showInput = (name: string) => {
+    setInputVisible(name);
   };
 
   React.useEffect(() => {
@@ -197,7 +197,7 @@ const TurnTracker: React.FC<
                 )}
                 <Typography.Text>{item.name}</Typography.Text>
               </Flex>
-              {tags.length && (
+              {!!item.tags.length && (
                 <Flex gap={8}>
                   {tags.map((tag) => (
                     <Tag
@@ -228,7 +228,7 @@ const TurnTracker: React.FC<
                     onClick={() => handleCombatantRemove(item)}
                   />
                 </Tooltip>
-                {inputVisible ? (
+                {inputVisible === item.name ? (
                   <Input
                     ref={inputRef}
                     type="text"
@@ -236,11 +236,14 @@ const TurnTracker: React.FC<
                     style={{ width: 78 }}
                     value={inputValue}
                     onChange={handleInputChange}
-                    onBlur={() => handleInputConfirm(item)}
-                    onPressEnter={() => handleInputConfirm(item)}
+                    onBlur={handleInputConfirm}
+                    onPressEnter={handleInputConfirm}
                   />
                 ) : (
-                  <Tag onClick={showInput} style={tagPlusStyle}>
+                  <Tag
+                    onClick={() => showInput(item.name)}
+                    style={tagPlusStyle}
+                  >
                     <PlusOutlined /> New Tag
                   </Tag>
                 )}
