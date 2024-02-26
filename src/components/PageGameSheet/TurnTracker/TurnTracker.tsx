@@ -103,12 +103,23 @@ const TurnTracker: React.FC<
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      setTags([...tags, inputValue]);
+  const handleInputConfirm = (item: CombatantType) => {
+    console.log("item:", item);
+    if (inputValue && item.tags.indexOf(inputValue) === -1) {
+      const updatedCombatants = combatants.map((combatant) => {
+        if (combatant.name === item.name) {
+          return { ...combatant, tags: [...combatant.tags, inputValue] };
+        }
+        return combatant;
+      });
+      setCombatants(updatedCombatants);
     }
     setInputVisible(false);
     setInputValue("");
+  };
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter((tag) => tag !== removedTag);
+    setTags(newTags);
   };
   const showInput = () => {
     setInputVisible(true);
@@ -186,6 +197,21 @@ const TurnTracker: React.FC<
                 )}
                 <Typography.Text>{item.name}</Typography.Text>
               </Flex>
+              {tags.length && (
+                <Flex gap={8}>
+                  {tags.map((tag) => (
+                    <Tag
+                      closable
+                      onClose={(e) => {
+                        e.preventDefault();
+                        handleClose(tag);
+                      }}
+                    >
+                      {tag}
+                    </Tag>
+                  ))}
+                </Flex>
+              )}
               <Flex gap={16} align="center">
                 <Tooltip title="Initiative">
                   <InputNumber
@@ -210,8 +236,8 @@ const TurnTracker: React.FC<
                     style={{ width: 78 }}
                     value={inputValue}
                     onChange={handleInputChange}
-                    onBlur={handleInputConfirm}
-                    onPressEnter={handleInputConfirm}
+                    onBlur={() => handleInputConfirm(item)}
+                    onPressEnter={() => handleInputConfirm(item)}
                   />
                 ) : (
                   <Tag onClick={showInput} style={tagPlusStyle}>

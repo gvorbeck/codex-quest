@@ -211,6 +211,7 @@ export type AvatarTypes = "none" | "stock" | "upload";
 export type CombatantType = {
   name: string;
   initiative: number;
+  tags: string[];
   avatar?: string;
 };
 

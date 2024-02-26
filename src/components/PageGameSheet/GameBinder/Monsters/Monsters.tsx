@@ -22,7 +22,10 @@ const Monsters: React.FC<
     <UserAddOutlined
       onClick={(e) => {
         e.stopPropagation();
-        addToTurnTracker({ name: monster.name, initiative: 0 }, "monster");
+        addToTurnTracker(
+          { name: monster.name, initiative: 0, tags: [] },
+          "monster",
+        );
       }}
     />
   );
