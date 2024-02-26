@@ -9,6 +9,10 @@ import {
   InputNumber,
   Divider,
   message,
+  Tag,
+  Input,
+  InputRef,
+  theme,
 } from "antd";
 import classNames from "classnames";
 import React from "react";
@@ -18,6 +22,7 @@ import Icon, {
 import {
   ClearOutlined,
   LeftOutlined,
+  PlusOutlined,
   RightOutlined,
   UserDeleteOutlined,
 } from "@ant-design/icons";
@@ -45,7 +50,16 @@ const TurnTracker: React.FC<
   setCombatants,
 }) => {
   const [turn, setTurn] = React.useState(0);
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [tags, setTags] = React.useState<string[]>([]);
+  const inputRef = React.useRef<InputRef>(null);
   const turnTrackerClassNames = classNames(className);
+  const { token } = theme.useToken();
+  const tagPlusStyle: React.CSSProperties = {
+    background: token.colorBgContainer,
+    borderStyle: "dashed",
+  };
   const onClose = () => {
     setTurnTrackerExpanded(false);
   };
@@ -86,6 +100,25 @@ const TurnTracker: React.FC<
     message.success(`${item.name} removed from Turn Tracker`);
     setCombatants(updatedCombatants);
   };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+  const handleInputConfirm = () => {
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      setTags([...tags, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue("");
+  };
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  React.useEffect(() => {
+    if (inputVisible) {
+      inputRef.current?.focus();
+    }
+  }, [inputVisible]);
   return (
     <Drawer
       className={turnTrackerClassNames}
@@ -140,14 +173,9 @@ const TurnTracker: React.FC<
         renderItem={(item, index) => (
           <List.Item className="relative">
             {turn === index && (
-              <div className="w-2 h-2 bg-sushi rounded-full absolute -left-4" />
+              <div className="w-2 h-2 bg-sushi rounded-full absolute -left-4 top-5" />
             )}
-            <Flex
-              gap={16}
-              align="center"
-              justify="space-between"
-              className="w-full"
-            >
+            <Flex gap={8} justify="space-between" className="w-full" vertical>
               <Flex
                 gap={16}
                 align="center"
@@ -158,21 +186,39 @@ const TurnTracker: React.FC<
                 )}
                 <Typography.Text>{item.name}</Typography.Text>
               </Flex>
-              <Tooltip title="Remove">
-                <Button
-                  type="text"
-                  icon={<UserDeleteOutlined />}
-                  onClick={() => handleCombatantRemove(item)}
-                />
-              </Tooltip>
-              <Tooltip title="Initiative">
-                <InputNumber
-                  className="w-[60px] box-content"
-                  min={0}
-                  value={item.initiative}
-                  onChange={(e) => handleInitiaveChange(item, e)}
-                />
-              </Tooltip>
+              <Flex gap={16} align="center">
+                <Tooltip title="Initiative">
+                  <InputNumber
+                    className="w-[60px] box-content"
+                    min={0}
+                    value={item.initiative}
+                    onChange={(e) => handleInitiaveChange(item, e)}
+                  />
+                </Tooltip>
+                <Tooltip title="Remove">
+                  <Button
+                    type="text"
+                    icon={<UserDeleteOutlined />}
+                    onClick={() => handleCombatantRemove(item)}
+                  />
+                </Tooltip>
+                {inputVisible ? (
+                  <Input
+                    ref={inputRef}
+                    type="text"
+                    size="small"
+                    style={{ width: 78 }}
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onBlur={handleInputConfirm}
+                    onPressEnter={handleInputConfirm}
+                  />
+                ) : (
+                  <Tag onClick={showInput} style={tagPlusStyle}>
+                    <PlusOutlined /> New Tag
+                  </Tag>
+                )}
+              </Flex>
             </Flex>
           </List.Item>
         )}
