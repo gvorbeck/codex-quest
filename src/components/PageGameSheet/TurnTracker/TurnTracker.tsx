@@ -192,7 +192,7 @@ const TurnTracker: React.FC<
         renderItem={(item, index) => (
           <List.Item className="relative">
             {turn === index && (
-              <div className="w-2 h-2 bg-sushi rounded-full absolute -left-4 top-5" />
+              <div className="w-2 h-2 bg-sushi rounded-full absolute -left-4 top-6" />
             )}
             <Flex gap={8} justify="space-between" className="w-full" vertical>
               <Flex
@@ -203,7 +203,9 @@ const TurnTracker: React.FC<
                 {item.avatar && (
                   <span className="rounded-full bg-rust w-8 h-8 block"></span>
                 )}
-                <Typography.Text>{item.name}</Typography.Text>
+                <Typography.Text className="leading-8">
+                  {item.name}
+                </Typography.Text>
               </Flex>
               {!!item.tags.length && (
                 <Flex gap={8}>
