@@ -1,5 +1,10 @@
 import React from "react";
-import { GamePlayerList } from "@/data/definitions";
+import {
+  CharData,
+  CombatantType,
+  CombatantTypes,
+  GamePlayerList,
+} from "@/data/definitions";
 import { Button, Card, Descriptions, Flex, Spin, Tooltip } from "antd";
 import { openInNewTab } from "@/support/characterSupport";
 import classNames from "classnames";
@@ -18,8 +23,10 @@ interface PlayerListProps {
   setShowScoutAbilities: (showScoutAbilities: boolean) => void;
   gameId: string;
   userIsOwner: boolean;
-  setCombatants: (combatants: any[]) => void;
-  addToTurnTracker: (data: any, type: "player" | "monster") => void;
+  addToTurnTracker: (
+    data: CombatantType | CharData,
+    type: CombatantTypes,
+  ) => void;
 }
 
 const PlayerList: React.FC<

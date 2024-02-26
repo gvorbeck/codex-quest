@@ -1,7 +1,12 @@
 import { Alert, Flex, Table, Tabs, TabsProps } from "antd";
 import React from "react";
 import SpellList from "./SpellList/SpellList";
-import { ClassNames, GamePlayer } from "@/data/definitions";
+import {
+  ClassNames,
+  CombatantType,
+  CombatantTypes,
+  GamePlayer,
+} from "@/data/definitions";
 import { classes } from "@/data/classes";
 import { toSlugCase } from "@/support/stringSupport";
 import { ColumnType } from "antd/es/table";
@@ -16,6 +21,7 @@ interface GameBinderProps {
   showScoutAbilities: boolean;
   gameId: string;
   uid: string;
+  addToTurnTracker: (data: CombatantType, type: CombatantTypes) => void;
   notes?: string;
 }
 
@@ -85,6 +91,7 @@ const GameBinder: React.FC<
   showAssassinAbilities,
   showRangerAbilities,
   showScoutAbilities,
+  addToTurnTracker,
 }) => {
   const items: TabsProps["items"] = [
     {
@@ -100,7 +107,7 @@ const GameBinder: React.FC<
     {
       label: "Monsters",
       key: "monsters",
-      children: <Monsters />,
+      children: <Monsters addToTurnTracker={addToTurnTracker} />,
     },
   ];
   const assassinData = generateClassAbilities(ClassNames.ASSASSIN);

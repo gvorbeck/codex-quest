@@ -1,7 +1,12 @@
 import { User } from "firebase/auth";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { CombatantType, GameData } from "@/data/definitions";
+import {
+  CharData,
+  CombatantType,
+  CombatantTypes,
+  GameData,
+} from "@/data/definitions";
 import { fetchDocument } from "@/support/accountSupport";
 import { Flex, Skeleton, message } from "antd";
 import PlayerList from "./PlayerList/PlayerList";
@@ -44,8 +49,8 @@ const PageGameSheet: React.FC<
   };
 
   const addToTurnTracker = (
-    data: CombatantType,
-    type: "player" | "monster",
+    data: CombatantType | CharData,
+    type: CombatantTypes,
   ) => {
     if (!data) {
       message.error("addToTurnTracker data is required");
@@ -117,7 +122,6 @@ const PageGameSheet: React.FC<
                   gameId={id}
                   userIsOwner={userIsOwner}
                   className={!hidePlayers ? "" : "hidden"}
-                  setCombatants={setCombatants}
                   addToTurnTracker={addToTurnTracker}
                 />
               )}
@@ -133,6 +137,7 @@ const PageGameSheet: React.FC<
                 gameId={id}
                 uid={uid}
                 notes={game.notes}
+                addToTurnTracker={addToTurnTracker}
               />
             )}
           </>

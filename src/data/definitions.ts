@@ -213,3 +213,5 @@ export type CombatantType = {
   initiative: number;
   avatar?: string;
 };
+
+export type CombatantTypes = "player" | "monster";

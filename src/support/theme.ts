@@ -39,7 +39,7 @@ export const cqTheme = {
     },
     Button: {
       primaryColor: ColorScheme.SHIPGRAY,
-      textHoverBg: ColorScheme.SHIPGRAY,
+      textHoverBg: ColorScheme.SEABUCKTHORN,
       borderColorDisabled: lightenHexColor(ColorScheme.STONE, 50),
       defaultBg: lightenHexColor(ColorScheme.SHIPGRAY, 90),
       defaultBorderColor: lightenHexColor(ColorScheme.SHIPGRAY, 50),
