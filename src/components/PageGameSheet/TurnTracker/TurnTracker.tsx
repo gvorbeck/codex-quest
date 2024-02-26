@@ -63,7 +63,6 @@ const TurnTracker: React.FC<
     setTurnTrackerExpanded(false);
   };
   const advanceTurn = (reverse: boolean) => {
-    // refactor needed when data is moved to game sheet?
     if (reverse) {
       if (turn < combatants.length - 1) {
         setTurn(turn + 1);
@@ -83,13 +82,13 @@ const TurnTracker: React.FC<
     newValue: number | null,
   ) => {
     const newInitiative = newValue ?? 0;
+    // Update the combatant's initiative without sorting immediately
     const updatedCombatants = combatants.map((combatant) => {
       if (combatant.name === item.name) {
         return { ...combatant, initiative: newInitiative };
       }
       return combatant;
     });
-    updatedCombatants.sort((a, b) => b.initiative - a.initiative);
     setCombatants(updatedCombatants);
   };
   const handleCombatantRemove = (item: CombatantType) => {
@@ -130,6 +129,9 @@ const TurnTracker: React.FC<
   };
   const showInput = (name: string) => {
     setInputVisible(name);
+  };
+  const sortCombatants = () => {
+    setCombatants([...combatants].sort((a, b) => b.initiative - a.initiative));
   };
 
   React.useEffect(() => {
@@ -189,7 +191,7 @@ const TurnTracker: React.FC<
         }
         dataSource={combatants}
         renderItem={(item, index) => (
-          <List.Item className="relative">
+          <List.Item key={item.name} className="relative">
             {turn === index && (
               <div className="w-2 h-2 bg-sushi rounded-full absolute -left-4 top-6" />
             )}
@@ -210,6 +212,7 @@ const TurnTracker: React.FC<
                 <Flex gap={8}>
                   {item.tags.map((tag) => (
                     <Tag
+                      key={tag}
                       closable
                       onClose={(e) => {
                         e.preventDefault();
@@ -228,6 +231,8 @@ const TurnTracker: React.FC<
                     min={0}
                     value={item.initiative}
                     onChange={(e) => handleInitiaveChange(item, e)}
+                    onBlur={sortCombatants}
+                    onPressEnter={sortCombatants}
                   />
                 </Tooltip>
                 <Tooltip title="Remove">
