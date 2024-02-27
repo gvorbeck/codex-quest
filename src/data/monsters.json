@@ -1433,9 +1433,9 @@
   {
     "name": "Elemental, Lightning",
     "variants": [
-      {
-        "type": "Staff",
-        "attributes": {
+      [
+        "Staff",
+        {
           "ac": "19 (m)",
           "hitDice": "8*",
           "numAttacks": "special",
@@ -1447,10 +1447,10 @@
           "treasure": "None",
           "xp": "945"
         }
-      },
-      {
-        "type": "Device",
-        "attributes": {
+      ],
+      [
+        "Device",
+        {
           "ac": "21 (m)",
           "hitDice": "12* (+10)",
           "numAttacks": "special",
@@ -1462,10 +1462,10 @@
           "treasure": "None",
           "xp": "1,975"
         }
-      },
-      {
-        "type": "Spell",
-        "attributes": {
+      ],
+      [
+        "Spell",
+        {
           "ac": "23 (m)",
           "hitDice": "16* (+12)",
           "numAttacks": "special",
@@ -1477,16 +1477,16 @@
           "treasure": "None",
           "xp": "3,385"
         }
-      }
+      ]
     ],
     "description": "A lightning elemental resembles dark clouds lit from within by flashes of lightning. One can magnetically draw metal items towards itself as if using **telekinesis**. It deals 1d8 extra points of damage to creatures that are in contact with water or metal but not touching solid ground. A lightning elemental takes double damage when attacked by air or wind attacks (including air elementals), and from the attacks of wood elementals as well. A lightning elemental can choose either to strike a single creature or create a mighty thunderclap. If the latter attack is used, all creatures within a 30 foot radius must save vs. Paralysis or be deafened for 1d8 turns."
   },
   {
     "name": "Elemental, Metal",
     "variants": [
-      {
-        "type": "Staff",
-        "attributes": {
+      [
+        "Staff",
+        {
           "ac": "19 (m)",
           "hitDice": "8*",
           "numAttacks": "1",
@@ -1498,10 +1498,10 @@
           "treasure": "None",
           "xp": "945"
         }
-      },
-      {
-        "type": "Device",
-        "attributes": {
+      ],
+      [
+        "Device",
+        {
           "ac": "21 (m)",
           "hitDice": "12* (+10)",
           "numAttacks": "1",
@@ -1513,10 +1513,10 @@
           "treasure": "None",
           "xp": "1,975"
         }
-      },
-      {
-        "type": "Spell",
-        "attributes": {
+      ],
+      [
+        "Spell",
+        {
           "ac": "23 (m)",
           "hitDice": "16* (+12)",
           "numAttacks": "1",
@@ -1528,8 +1528,167 @@
           "treasure": "None",
           "xp": "3,385"
         }
-      }
+      ]
     ],
     "description": "Metal elementals appear to be somewhat abstract humanoid figures formed from metal. They are able to move as if liquid, though they are cool and hard to the touch. Their semi-liquid form permits them to form their extremities into wickedly sharp blades, which is their preferred means of attack. Those wearing metal armor receive no protection against a metal elemental (except for magical bonuses, if any); indeed, on a successful hit one deals an additional 1d8 points of damage to creatures, vehicles, or structures that are made of or in direct contact with some form of metal. Lightning attacks deal double damage to a metal elemental. Like an earth elemental, a metal elemental cannot cross a body of water greater than its own height."
+  },
+  {
+    "name": "Elemental, Water",
+    "variants": [
+      [
+        "Staff",
+        {
+          "ac": "18 (m)",
+          "hitDice": "8*",
+          "numAttacks": "1",
+          "damage": "1d12",
+          "movement": "20' (15') Swim 60'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "945"
+        }
+      ],
+      [
+        "Device",
+        {
+          "ac": "20 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "1",
+          "damage": "2d8",
+          "movement": "20' (15') Swim 60'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,975"
+        }
+      ],
+      [
+        "Spell",
+        {
+          "ac": "22 (m)",
+          "hitDice": "16* (+12)",
+          "numAttacks": "1",
+          "damage": "3d6",
+          "movement": "20' (15') Swim 60'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "3,385"
+        }
+      ]
+    ],
+    "description": "Water elementals resemble roiling waves of water, which seem to fall upon any creature they attack, only to reform the next round.  They take double damage when attacked with air or wind attacks (including air elementals).  A water elemental cannot move more than 60' from a body of water.  They do an extra 1d8 points of damage against creatures, vehicles, or structures which are in the water."
+  },
+  {
+    "name": "Elemental, Wood",
+    "variants": [
+      [
+        "Staff",
+        {
+          "ac": "17 (m)",
+          "hitDice": "8*",
+          "numAttacks": "1",
+          "damage": "1d12",
+          "movement": "40'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "945"
+        }
+      ],
+      [
+        "Device",
+        {
+          "ac": "19 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "1",
+          "damage": "2d8",
+          "movement": "40'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,975"
+        }
+      ],
+      [
+        "Spell",
+        {
+          "ac": "21 (m)",
+          "hitDice": "16* (+12)",
+          "numAttacks": "1",
+          "damage": "3d6",
+          "movement": "40'",
+          "numAppear": "special",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "3,385"
+        }
+      ]
+    ],
+    "description": "Wood elementals appears to be large, leafless trees. They deal 1d8 points of extra damage to creatures in contact with any woody materials, living or dead (including weapons or shields made mainly of wood). On the other hand, they suffer double damage from fire or lightning attacks of any kind, including the attacks of fire or lightning elementals."
+  },
+  {
+    "name": "Elephant",
+    "variants": [
+      [
+        "Asiatic",
+        {
+          "armorClass": "16",
+          "hitDice": "9 (+8)",
+          "numAttacks": "2 tusks, 1 trunk grab, 2 tramples",
+          "damage": "2d4 tusk, 2d6 grab, 2d8 trample",
+          "movement": "40' (10')",
+          "numAppear": "Wild 1d20",
+          "saveAs": "Fighter: 9",
+          "morale": "8",
+          "treasureType": "special",
+          "xp": "1,075"
+        }
+      ],
+      [
+        "African",
+        {
+          "armorClass": "18",
+          "hitDice": "10 (+9)",
+          "numAttacks": "2 tusks, 1 trunk grab, 2 tramples",
+          "damage": "2d6 tusk, 2d6 grab, 2d8 trample",
+          "movement": "50' (15')",
+          "numAppear": "Wild 1d12",
+          "saveAs": "Fighter: 10",
+          "morale": "8",
+          "treasureType": "special",
+          "xp": "1,300"
+        }
+      ]
+    ],
+    "description": "A light load for an African elephant is 7,500 pounds; a heavy load, up to 15,000 pounds. For an Asiatic elephant, a light load is up to 7,000 pounds, and a heavy load up to 14,000 pounds.\n\nThough elephants have five distinct attack modes (two tusks, a trunk grab, and two tramples with the front feet), a single elephant can apply no more than two of these attacks to any single opponent of small or medium size; large opponents may be targeted by three of these attacks in a round. However, an elephant can attack multiple opponents in its immediate area at the same time.\n\nAn elephant has no treasure as such, but the tusks of an elephant are worth 1d8 x 100 gp each."
+  },
+  {
+    "name": "Falcon",
+    "variants": [
+      [
+        "Standard",
+        {
+          "armorClass": "11",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "2 talons, 1 beak",
+          "damage": "1d4 talon, 1d4 beak",
+          "movement": "10’ Fly 160’(10’)",
+          "numAppear": "1, Wild 1d4",
+          "saveAs": "Fighter: 1",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "Falcons are birds with wingspans of 16 to 20 inches; they stand about 1.5 to 2 feet tall and weigh about 3 pounds. These are the most popular of the hunting birds used by royalty. Falcons can only carry prey up to 1 pound. They will hunt snakes, small rodents, and even other birds such as wild ducks. Falcons appear in a variety of colors, typically ranging from dark gray on top to white with dark stripes on the bottom; kestrels, a variety of falcon, have reddish brown to dark brown feathers with dark stripes. A falcon typically attacks prey by diving, striking first with the talons before making the kill with its sharp beak."
   }
 ]
