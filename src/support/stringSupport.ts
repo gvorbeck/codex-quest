@@ -108,3 +108,16 @@ export enum AttackTypes {
 
 export const customClassString =
   'You are using a custom class. Use the "Bio & Notes" field below to calculate your character\'s Saving Throws, Special Abilities, and Restrictions. For standard classes, these values will be calculated here automatically.';
+
+export const getRandomString = (length: number) => {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+};

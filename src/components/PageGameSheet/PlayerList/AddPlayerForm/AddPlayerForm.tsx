@@ -41,6 +41,7 @@ const AddPlayerForm: React.FC<
           onChange={(e) => handleUrlChange(e.target.value)}
           placeholder="http://codex.quest/u/AsxtzoU61db5IAA6d9IrEFFjh6a2/c/qK3N1Oe0JChp1iWLduqW"
           disabled={!userIsOwner}
+          onPressEnter={onFinish}
         />
         <Button
           type="primary"

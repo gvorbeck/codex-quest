@@ -14,7 +14,11 @@ interface PageLayoutProps {
 
 const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
   const contentWidthClassName = "max-w-[1200px] mx-auto w-full";
-  const layoutContentClassName = classNames(contentWidthClassName, "p-4");
+  const layoutContentClassName = classNames(
+    contentWidthClassName,
+    "p-4",
+    "relative",
+  );
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const navigate = useNavigate();

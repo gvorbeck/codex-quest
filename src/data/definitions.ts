@@ -196,6 +196,7 @@ export type GameData = {
   id?: string;
   players: PlayerListObject[];
   notes?: string;
+  combatants: CombatantType[];
 };
 
 export type PlayerListObject = { user: string; character: string };
@@ -207,3 +208,13 @@ export type GamePlayer = {
 export type GamePlayerList = GamePlayer[];
 
 export type AvatarTypes = "none" | "stock" | "upload";
+
+export type CombatantType = {
+  name: string;
+  initiative: number;
+  tags: string[];
+  type: CombatantTypes;
+  avatar?: string;
+};
+
+export type CombatantTypes = "player" | "monster";

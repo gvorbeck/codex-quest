@@ -1,9 +1,18 @@
 import React from "react";
-import { GamePlayerList } from "@/data/definitions";
+import {
+  CharData,
+  CombatantType,
+  CombatantTypes,
+  GamePlayerList,
+} from "@/data/definitions";
 import { Button, Card, Descriptions, Flex, Spin, Tooltip } from "antd";
 import { openInNewTab } from "@/support/characterSupport";
 import classNames from "classnames";
-import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import {
+  SolutionOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
+} from "@ant-design/icons";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 
 interface PlayerListProps {
@@ -14,6 +23,10 @@ interface PlayerListProps {
   setShowScoutAbilities: (showScoutAbilities: boolean) => void;
   gameId: string;
   userIsOwner: boolean;
+  addToTurnTracker: (
+    data: CombatantType | CharData,
+    type: CombatantTypes,
+  ) => void;
 }
 
 const PlayerList: React.FC<
@@ -27,6 +40,7 @@ const PlayerList: React.FC<
   setShowScoutAbilities,
   gameId,
   userIsOwner,
+  addToTurnTracker,
 }) => {
   const [
     characterList,
@@ -75,22 +89,25 @@ const PlayerList: React.FC<
                   items={subItems}
                   size="small"
                 />
-                <Flex justify="space-between">
-                  <Button
-                    type="primary"
-                    icon={<SolutionOutlined />}
-                    onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
-                  >
-                    Character Sheet
-                  </Button>
-                  <Tooltip title={`Remove ${name}`}>
+                <Flex gap={16}>
+                  <Tooltip title={`Open Character Sheet`}>
+                    <Button
+                      icon={<SolutionOutlined />}
+                      onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
+                    />
+                  </Tooltip>
+                  <Tooltip title={`Remove Character`}>
                     <Button
                       onClick={() => onRemoveButtonClick(userId, charId)}
                       icon={<UserDeleteOutlined />}
                       disabled={!userIsOwner}
-                    >
-                      Remove
-                    </Button>
+                    />
+                  </Tooltip>
+                  <Tooltip title="Add to Turn Tracker">
+                    <Button
+                      onClick={() => addToTurnTracker(character, "player")}
+                      icon={<UserAddOutlined />}
+                    />
                   </Tooltip>
                 </Flex>
               </Flex>
