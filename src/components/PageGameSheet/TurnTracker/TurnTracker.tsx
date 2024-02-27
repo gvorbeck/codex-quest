@@ -13,6 +13,7 @@ import {
   Input,
   InputRef,
   theme,
+  Image,
 } from "antd";
 import classNames from "classnames";
 import React from "react";
@@ -21,6 +22,7 @@ import Icon, {
 } from "@ant-design/icons/lib/components/Icon";
 import {
   ClearOutlined,
+  EditOutlined,
   LeftOutlined,
   PlusOutlined,
   RightOutlined,
@@ -213,12 +215,24 @@ const TurnTracker: React.FC<
             )}
             <Flex gap={8} justify="space-between" className="w-full" vertical>
               <Flex
-                gap={16}
+                gap={8}
                 align="center"
                 className="flex-grow truncate text-elipsis text-clip"
               >
                 {item.avatar && (
-                  <span className="rounded-full bg-rust w-8 h-8 block"></span>
+                  <Image
+                    src={item.avatar}
+                    alt={item.name}
+                    preview={false}
+                    width={32}
+                    height={32}
+                    className="rounded-full border-2 border-seaBuckthorn border-solid shadow-md"
+                  />
+                )}
+                {item.type === "monster" && (
+                  <Tooltip title="Rename monster">
+                    <Button type="text" icon={<EditOutlined />} />
+                  </Tooltip>
                 )}
                 <Typography.Text className="leading-8">
                   {item.name}
