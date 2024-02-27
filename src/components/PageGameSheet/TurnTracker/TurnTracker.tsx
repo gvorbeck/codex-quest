@@ -54,6 +54,9 @@ const TurnTracker: React.FC<
   const [turn, setTurn] = React.useState(0);
   const [inputVisible, setInputVisible] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState("");
+  const [editingCombatant, setEditingCombatant] = React.useState<string | null>(
+    null,
+  );
   const inputRef = React.useRef<InputRef>(null);
   const turnTrackerClassNames = classNames(className);
   const { token } = theme.useToken();
@@ -136,13 +139,21 @@ const TurnTracker: React.FC<
           if (combatant.type === "monster") {
             return {
               ...combatant,
-              initiative: Math.floor(Math.random() * 6),
+              initiative: Math.floor(Math.random() * 6 + 1),
             };
           }
           return combatant;
         })
         .sort((a, b) => b.initiative - a.initiative),
     );
+  };
+  const handleRenameConfirm = (combatant: CombatantType, newName: string) => {
+    setCombatants(
+      combatants.map((item) =>
+        item.name === combatant.name ? { ...item, name: newName } : item,
+      ),
+    );
+    setEditingCombatant(null);
   };
   const showInput = (name: string) => {
     setInputVisible(name);
@@ -231,12 +242,32 @@ const TurnTracker: React.FC<
                 )}
                 {item.type === "monster" && (
                   <Tooltip title="Rename monster">
-                    <Button type="text" icon={<EditOutlined />} />
+                    <Button
+                      type="text"
+                      icon={<EditOutlined />}
+                      onClick={() => setEditingCombatant(item.name)}
+                    />
                   </Tooltip>
                 )}
-                <Typography.Text className="leading-8">
-                  {item.name}
-                </Typography.Text>
+                {editingCombatant === item.name ? (
+                  <Input
+                    defaultValue={item.name}
+                    onPressEnter={(e) => {
+                      handleRenameConfirm(
+                        item,
+                        (e.target as HTMLInputElement).value,
+                      );
+                    }}
+                    size="small"
+                    className="mr-1"
+                    onBlur={() => setEditingCombatant(null)}
+                    autoFocus
+                  />
+                ) : (
+                  <Typography.Text className="leading-8">
+                    {item.name}
+                  </Typography.Text>
+                )}
               </Flex>
               {!!item.tags.length && (
                 <Flex gap={8}>
