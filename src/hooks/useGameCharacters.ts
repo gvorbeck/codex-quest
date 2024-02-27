@@ -10,12 +10,16 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { DescriptionsProps } from "antd";
 import { classSplit } from "@/support/classSupport";
+import { getArmorClass, getMovement } from "@/support/statSupport";
 
 export function useGameCharacters(players: GamePlayerList): [
   CharData[],
   (gameId: string, userId: string, characterId: string) => Promise<void>,
   (scores: Abilities) => DescriptionsProps["items"],
-  (character: CharData) => DescriptionsProps["items"],
+  (
+    character: CharData,
+    setCharacter: (character: CharData) => void,
+  ) => DescriptionsProps["items"],
   (characters: CharData[]) => {
     showThief: boolean;
     showAssassin: boolean;
@@ -69,6 +73,7 @@ export function useGameCharacters(players: GamePlayerList): [
 
   const generateDetailItems = (
     character: CharData,
+    setCharacter: (character: CharData) => void,
   ): DescriptionsProps["items"] => {
     const { level, hp, class: charClass, race } = character;
     return [
@@ -91,6 +96,18 @@ export function useGameCharacters(players: GamePlayerList): [
         span: 1,
       },
       { key: "race", label: "Race", children: race, span: 1 },
+      {
+        key: "ac",
+        label: "AC",
+        children: getArmorClass(character, setCharacter),
+        span: 1,
+      },
+      {
+        key: "movement",
+        label: "Movement",
+        children: getMovement(character),
+        span: 1,
+      },
     ];
   };
 

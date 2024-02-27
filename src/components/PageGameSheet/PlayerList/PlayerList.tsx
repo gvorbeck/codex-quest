@@ -14,6 +14,8 @@ import {
   UserDeleteOutlined,
 } from "@ant-design/icons";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
+import { useCharacterData } from "@/hooks/useCharacterData";
+import { User } from "firebase/auth";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -27,6 +29,7 @@ interface PlayerListProps {
     data: CombatantType | CharData,
     type: CombatantTypes,
   ) => void;
+  user: User | null;
 }
 
 const PlayerList: React.FC<
@@ -41,6 +44,7 @@ const PlayerList: React.FC<
   gameId,
   userIsOwner,
   addToTurnTracker,
+  user,
 }) => {
   const [
     characterList,
@@ -49,7 +53,12 @@ const PlayerList: React.FC<
     generateDetailItems,
     calculateClassAbilitiesToShow,
   ] = useGameCharacters(players);
+  const { setCharacter } = useCharacterData(user);
   const playerListClassNames = classNames(className);
+
+  const onRemoveButtonClick = (userId?: string, characterId?: string) => {
+    userId && characterId && removePlayer(gameId, userId, characterId);
+  };
 
   React.useEffect(() => {
     const { showThief, showAssassin, showRanger, showScout } =
@@ -61,10 +70,6 @@ const PlayerList: React.FC<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characterList]);
 
-  const onRemoveButtonClick = (userId?: string, characterId?: string) => {
-    userId && characterId && removePlayer(gameId, userId, characterId);
-  };
-
   return characterList.length ? (
     <Flex vertical gap={16} className={playerListClassNames}>
       {characterList
@@ -72,7 +77,7 @@ const PlayerList: React.FC<
         .map((character) => {
           const { abilities, name, userId, charId } = character;
           const items = generateAbilityItems(abilities.scores);
-          const subItems = generateDetailItems(character);
+          const subItems = generateDetailItems(character, setCharacter);
           return (
             <Card size="small" title={name} key={name}>
               <Flex vertical gap={16}>

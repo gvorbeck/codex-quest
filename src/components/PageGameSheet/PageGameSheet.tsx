@@ -162,6 +162,7 @@ const PageGameSheet: React.FC<
                   userIsOwner={userIsOwner}
                   className={!hidePlayers ? "" : "hidden"}
                   addToTurnTracker={addToTurnTracker}
+                  user={user}
                 />
               )}
             </div>
