@@ -1,39 +1,11 @@
 import { ColorScheme } from "@/support/colorSupport";
-import {
-  Drawer,
-  Flex,
-  List,
-  Typography,
-  Button,
-  Tooltip,
-  InputNumber,
-  Divider,
-  message,
-  Tag,
-  Input,
-  InputRef,
-  theme,
-  Image,
-} from "antd";
+import { Drawer, Divider } from "antd";
 import classNames from "classnames";
 import React from "react";
-import Icon, {
-  CustomIconComponentProps,
-} from "@ant-design/icons/lib/components/Icon";
-import {
-  ClearOutlined,
-  EditOutlined,
-  LeftOutlined,
-  PlusOutlined,
-  RightOutlined,
-  UserDeleteOutlined,
-} from "@ant-design/icons";
 import { CombatantType } from "@/data/definitions";
-import { DiceSvg } from "@/support/svgSupport";
-
-const DiceIcon = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={DiceSvg} {...props} />
-);
+import { useTurnTracker } from "@/hooks/useTurnTacker";
+import CombatantList from "./CombatantList/CombatantList";
+import TurnControls from "./TurnControls/TurnControls";
 
 interface TurnTrackerProps {
   turnTrackerExpanded: boolean;
@@ -51,122 +23,11 @@ const TurnTracker: React.FC<
   combatants,
   setCombatants,
 }) => {
-  const [turn, setTurn] = React.useState(0);
-  const [inputVisible, setInputVisible] = React.useState<string | null>(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [editingCombatant, setEditingCombatant] = React.useState<string | null>(
-    null,
-  );
-  const inputRef = React.useRef<InputRef>(null);
+  const { setTurn, turn } = useTurnTracker(combatants, setCombatants);
   const turnTrackerClassNames = classNames(className);
-  const { token } = theme.useToken();
-  const tagPlusStyle: React.CSSProperties = {
-    background: token.colorBgContainer,
-    borderStyle: "dashed",
-  };
   const onClose = () => {
     setTurnTrackerExpanded(false);
   };
-  const advanceTurn = (reverse: boolean) => {
-    if (reverse) {
-      if (turn < combatants.length - 1) {
-        setTurn(turn + 1);
-      } else {
-        setTurn(0);
-      }
-    } else {
-      if (turn > 0) {
-        setTurn(turn - 1);
-      } else {
-        setTurn(combatants.length - 1);
-      }
-    }
-  };
-  const handleInitiaveChange = (
-    item: CombatantType,
-    newValue: number | null,
-  ) => {
-    const newInitiative = newValue ?? 0;
-    // Update the combatant's initiative without sorting immediately
-    const updatedCombatants = combatants.map((combatant) => {
-      if (combatant.name === item.name) {
-        return { ...combatant, initiative: newInitiative };
-      }
-      return combatant;
-    });
-    setCombatants(updatedCombatants);
-  };
-  const handleCombatantRemove = (item: CombatantType) => {
-    const updatedCombatants = combatants.filter(
-      (combatant) => combatant.name !== item.name,
-    );
-    message.success(`${item.name} removed from Turn Tracker`);
-    setCombatants(updatedCombatants);
-  };
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-  const handleInputConfirm = () => {
-    if (inputValue) {
-      const updatedCombatants = combatants.map((combatant) => {
-        if (combatant.name === inputVisible) {
-          // Compare with inputVisible which now holds the name
-          return { ...combatant, tags: [...combatant.tags, inputValue] };
-        }
-        return combatant;
-      });
-      setCombatants(updatedCombatants);
-    }
-    setInputVisible(null); // Hide the input
-    setInputValue("");
-  };
-  const handleClose = (removedTag: string, combatant: string) => {
-    const updatedCombatants = combatants.map((item) => {
-      if (item.name === combatant) {
-        return {
-          ...item,
-          tags: item.tags.filter((tag) => tag !== removedTag),
-        };
-      }
-      return item;
-    });
-    setCombatants(updatedCombatants);
-  };
-  const handleBatchMonsterInitiative = () => {
-    setCombatants(
-      combatants
-        .map((combatant) => {
-          if (combatant.type === "monster") {
-            return {
-              ...combatant,
-              initiative: Math.floor(Math.random() * 6 + 1),
-            };
-          }
-          return combatant;
-        })
-        .sort((a, b) => b.initiative - a.initiative),
-    );
-  };
-  const handleRenameConfirm = (combatant: CombatantType, newName: string) => {
-    setCombatants(
-      combatants.map((item) =>
-        item.name === combatant.name ? { ...item, name: newName } : item,
-      ),
-    );
-    setEditingCombatant(null);
-  };
-  const showInput = (name: string) => {
-    setInputVisible(name);
-  };
-  const sortCombatants = () => {
-    setCombatants([...combatants].sort((a, b) => b.initiative - a.initiative));
-  };
-
-  React.useEffect(() => {
-    if (inputVisible) {
-      inputRef.current?.focus();
-    }
-  }, [inputVisible]);
   return (
     <Drawer
       className={turnTrackerClassNames}
@@ -175,160 +36,13 @@ const TurnTracker: React.FC<
       title="Turn Tracker"
       styles={{ header: { background: ColorScheme.SEABUCKTHORN } }}
     >
-      <Flex gap={16} justify="space-between" align="center">
-        <Tooltip title="Rewind Turn">
-          <Button
-            onClick={() => advanceTurn(false)}
-            disabled={!combatants.length}
-            icon={<LeftOutlined />}
-          />
-        </Tooltip>
-        <Tooltip title="Advance Turn">
-          <Button
-            onClick={() => advanceTurn(true)}
-            disabled={!combatants.length}
-            icon={<RightOutlined />}
-            type="primary"
-          />
-        </Tooltip>
-      </Flex>
+      <TurnControls turn={turn} setTurn={setTurn} combatants={combatants} />
       <Divider className="mt-3" />
-      <List
-        header={
-          <Flex justify="space-between" gap={16} align="center">
-            <Typography.Text>Combatants</Typography.Text>
-            <Flex gap={16}>
-              <Tooltip title="Roll Monster Initiative">
-                <Button
-                  icon={<DiceIcon />}
-                  type="text"
-                  disabled={!combatants.length}
-                  className="[&:disabled_svg]:fill-stone"
-                  onClick={handleBatchMonsterInitiative}
-                />
-              </Tooltip>
-              <Tooltip title="Clear combatants">
-                <Button
-                  icon={<ClearOutlined />}
-                  type="text"
-                  disabled={!combatants.length}
-                  onClick={() => setCombatants([])}
-                />
-              </Tooltip>
-            </Flex>
-          </Flex>
-        }
-        dataSource={combatants}
-        renderItem={(item, index) => (
-          <List.Item key={item.name} className="relative">
-            {turn === index && (
-              <div className="w-2 h-2 bg-sushi rounded-full absolute -left-4 top-6" />
-            )}
-            <Flex gap={8} justify="space-between" className="w-full" vertical>
-              <Flex
-                gap={8}
-                align="center"
-                className="flex-grow truncate text-elipsis text-clip"
-              >
-                {item.avatar && (
-                  <Image
-                    src={item.avatar}
-                    alt={item.name}
-                    preview={false}
-                    width={32}
-                    height={32}
-                    className="rounded-full border-2 border-seaBuckthorn border-solid shadow-md"
-                  />
-                )}
-                {item.type === "monster" && (
-                  <Tooltip title="Rename monster">
-                    <Button
-                      type="text"
-                      icon={<EditOutlined />}
-                      onClick={() => setEditingCombatant(item.name)}
-                    />
-                  </Tooltip>
-                )}
-                {editingCombatant === item.name ? (
-                  <Input
-                    defaultValue={item.name}
-                    onPressEnter={(e) => {
-                      handleRenameConfirm(
-                        item,
-                        (e.target as HTMLInputElement).value,
-                      );
-                    }}
-                    size="small"
-                    className="mr-1"
-                    onBlur={() => setEditingCombatant(null)}
-                    autoFocus
-                  />
-                ) : (
-                  <Typography.Text className="leading-8">
-                    {item.name}
-                  </Typography.Text>
-                )}
-              </Flex>
-              {!!item.tags.length && (
-                <Flex gap={8}>
-                  {item.tags.map((tag) => (
-                    <Tag
-                      key={tag}
-                      closable
-                      onClose={(e) => {
-                        e.preventDefault();
-                        handleClose(tag, item.name);
-                      }}
-                    >
-                      {tag}
-                    </Tag>
-                  ))}
-                </Flex>
-              )}
-              <Flex gap={16} align="center">
-                <Tooltip title="Initiative">
-                  <InputNumber
-                    className="w-[60px] box-content"
-                    min={0}
-                    value={item.initiative}
-                    onChange={(newValue) =>
-                      handleInitiaveChange(item, newValue)
-                    }
-                    onBlur={sortCombatants}
-                    onPressEnter={sortCombatants}
-                  />
-                </Tooltip>
-                <Tooltip title="Remove">
-                  <Button
-                    type="text"
-                    icon={<UserDeleteOutlined />}
-                    onClick={() => handleCombatantRemove(item)}
-                  />
-                </Tooltip>
-                {inputVisible === item.name ? (
-                  <Input
-                    ref={inputRef}
-                    type="text"
-                    size="small"
-                    style={{ width: 78 }}
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onBlur={handleInputConfirm}
-                    onPressEnter={handleInputConfirm}
-                  />
-                ) : (
-                  <Tag
-                    onClick={() => showInput(item.name)}
-                    style={tagPlusStyle}
-                  >
-                    <PlusOutlined /> New Tag
-                  </Tag>
-                )}
-              </Flex>
-            </Flex>
-          </List.Item>
-        )}
-      ></List>
+      <CombatantList
+        combatants={combatants}
+        setCombatants={setCombatants}
+        turn={turn}
+      />
     </Drawer>
   );
 };
