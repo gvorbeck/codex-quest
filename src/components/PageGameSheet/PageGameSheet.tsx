@@ -64,6 +64,7 @@ const PageGameSheet: React.FC<
       name: data.name,
       avatar: data.avatar ?? undefined,
       initiative: 0,
+      type,
       tags: [],
     };
     if (type === "player") {

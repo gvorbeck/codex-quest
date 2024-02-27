@@ -127,6 +127,21 @@ const TurnTracker: React.FC<
     });
     setCombatants(updatedCombatants);
   };
+  const handleBatchMonsterInitiative = () => {
+    setCombatants(
+      combatants
+        .map((combatant) => {
+          if (combatant.type === "monster") {
+            return {
+              ...combatant,
+              initiative: Math.floor(Math.random() * 6),
+            };
+          }
+          return combatant;
+        })
+        .sort((a, b) => b.initiative - a.initiative),
+    );
+  };
   const showInput = (name: string) => {
     setInputVisible(name);
   };
@@ -176,6 +191,7 @@ const TurnTracker: React.FC<
                   type="text"
                   disabled={!combatants.length}
                   className="[&:disabled_svg]:fill-stone"
+                  onClick={handleBatchMonsterInitiative}
                 />
               </Tooltip>
               <Tooltip title="Clear combatants">
@@ -230,7 +246,9 @@ const TurnTracker: React.FC<
                     className="w-[60px] box-content"
                     min={0}
                     value={item.initiative}
-                    onChange={(e) => handleInitiaveChange(item, e)}
+                    onChange={(newValue) =>
+                      handleInitiaveChange(item, newValue)
+                    }
                     onBlur={sortCombatants}
                     onPressEnter={sortCombatants}
                   />

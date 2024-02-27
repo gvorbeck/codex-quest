@@ -212,6 +212,7 @@ export type CombatantType = {
   name: string;
   initiative: number;
   tags: string[];
+  type: CombatantTypes;
   avatar?: string;
 };
 
