@@ -36,6 +36,7 @@ const CombatantList: React.FC<
             combatant={combatant}
             combatants={combatants}
             setCombatants={setCombatants}
+            index={index}
           />
         </List.Item>
       )}

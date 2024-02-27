@@ -73,15 +73,6 @@ export function useTurnTracker(
     });
     setCombatants(updatedCombatants);
   };
-
-  const handleRenameConfirm = (combatant: CombatantType, newName: string) => {
-    setCombatants(
-      combatants.map((item) =>
-        item.name === combatant.name ? { ...item, name: newName } : item,
-      ),
-    );
-    setEditingCombatant(null);
-  };
   // Funnctions
   const sortCombatants = () => {
     setCombatants([...combatants].sort((a, b) => b.initiative - a.initiative));
@@ -100,7 +91,6 @@ export function useTurnTracker(
     editingCombatant,
     handleInputChange,
     handleInputConfirm,
-    handleRenameConfirm,
     setEditingCombatant,
     handleInitiaveChange,
     handleCombatantRemove,

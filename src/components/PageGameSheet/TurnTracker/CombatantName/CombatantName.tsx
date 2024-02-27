@@ -9,19 +9,30 @@ interface CombatantNameProps {
   combatants: CombatantType[];
   setCombatants: (combatants: CombatantType[]) => void;
   editingCombatant: string | null;
+  index: number;
 }
 
 const CombatantName: React.FC<
   CombatantNameProps & React.ComponentPropsWithRef<"div">
-> = ({ className, combatant, combatants, setCombatants, editingCombatant }) => {
-  const { setEditingCombatant, handleRenameConfirm } = useTurnTracker(
-    combatants,
-    setCombatants,
-  );
+> = ({
+  className,
+  combatant,
+  combatants,
+  setCombatants,
+  editingCombatant,
+  index,
+}) => {
+  const { setEditingCombatant } = useTurnTracker(combatants, setCombatants);
   const combatantNameClassNames = classNames(
     "flex-grow truncate text-elipsis text-clip",
     className,
   );
+  const handleRenameConfirm = (newName: string) => {
+    const newCombatants = [...combatants];
+    newCombatants.splice(index, 1, { ...combatant, name: newName });
+    setCombatants(newCombatants);
+    setEditingCombatant(null);
+  };
   return (
     <Flex gap={8} align="center" className={combatantNameClassNames}>
       {combatant.avatar && (
@@ -38,10 +49,7 @@ const CombatantName: React.FC<
         <Input
           defaultValue={combatant.name}
           onPressEnter={(e) => {
-            handleRenameConfirm(
-              combatant,
-              (e.target as HTMLInputElement).value,
-            );
+            handleRenameConfirm((e.target as HTMLInputElement).value);
           }}
           size="small"
           className="mr-1"

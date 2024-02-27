@@ -12,11 +12,12 @@ interface CombatantCardProps {
   combatant: CombatantType;
   combatants: CombatantType[];
   setCombatants: (combatants: CombatantType[]) => void;
+  index: number;
 }
 
 const CombatantCard: React.FC<
   CombatantCardProps & React.ComponentPropsWithRef<"div">
-> = ({ className, combatant, combatants, setCombatants }) => {
+> = ({ className, combatant, combatants, setCombatants, index }) => {
   const { editingCombatant, setEditingCombatant, handleClose } = useTurnTracker(
     combatants,
     setCombatants,
@@ -36,6 +37,7 @@ const CombatantCard: React.FC<
             combatants={combatants}
             setCombatants={setCombatants}
             editingCombatant={editingCombatant}
+            index={index}
           />
         }
         extra={

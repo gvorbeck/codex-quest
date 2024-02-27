@@ -68,16 +68,13 @@ const PageGameSheet: React.FC<
       tags: [],
     };
     if (type === "player") {
-      console.log("player click");
       // If combatant is a player, and they are already in the combatants array, return
       if (combatants.some((c) => c.name === newCombatant.name)) {
         message.warning(`${data.name} is already in the Turn Tracker`);
         return;
       }
     }
-    if (type === "monster") {
-      console.log("monster click");
-    }
+    // if (type === "monster") {}
     setCombatants((prev) => [...prev, newCombatant]);
     message.success(`${data.name} added to Turn Tracker`);
   };
