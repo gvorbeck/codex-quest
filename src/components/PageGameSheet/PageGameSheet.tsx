@@ -7,7 +7,7 @@ import {
   CombatantTypes,
   GameData,
 } from "@/data/definitions";
-import { fetchDocument } from "@/support/accountSupport";
+import { fetchDocument, updateDocument } from "@/support/accountSupport";
 import { Flex, Skeleton, message } from "antd";
 import PlayerList from "./PlayerList/PlayerList";
 import GameBinder from "./GameBinder/GameBinder";
@@ -36,13 +36,27 @@ const PageGameSheet: React.FC<
   const [showRangerAbilities, setShowRangerAbilities] = React.useState(false);
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const [hidePlayers, setHidePlayers] = React.useState(false);
-  const [combatants, setCombatants] = React.useState<CombatantType[]>([]);
+  const [combatants, setCombatants] = React.useState<CombatantType[]>(
+    game?.combatants || [],
+  );
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
   const gameBinderClassNames = classNames(
     { "shrink-0": !isMobile },
     { "w-1/2 ": !isMobile && !hidePlayers },
     { "w-full": !isMobile && hidePlayers },
   );
+
+  const saveCombatants = async () => {
+    if (uid) {
+      await updateDocument({
+        collection: "users",
+        docId: uid,
+        subCollection: "games",
+        subDocId: id,
+        data: { combatants },
+      });
+    }
+  };
 
   const handlePlayersSwitch = (checked: boolean) => {
     setHidePlayers(checked);
@@ -80,9 +94,31 @@ const PageGameSheet: React.FC<
   };
 
   React.useEffect(() => {
-    const unsubscribe = fetchDocument(uid, id, setGame, "games");
+    const unsubscribe = fetchDocument(
+      uid,
+      id,
+      (fetchedGame) => {
+        setGame(fetchedGame);
+      },
+      "games",
+    );
+
     return () => unsubscribe();
   }, [uid, id]);
+
+  // Effect to set combatants from game data
+  React.useEffect(() => {
+    if (game && game.combatants) {
+      setCombatants(game.combatants);
+    }
+  }, [game]);
+
+  React.useEffect(() => {
+    if (combatants.length > 0) {
+      saveCombatants().catch(console.error);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [combatants, uid, id]);
 
   return game ? (
     <>

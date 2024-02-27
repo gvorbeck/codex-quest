@@ -196,6 +196,7 @@ export type GameData = {
   id?: string;
   players: PlayerListObject[];
   notes?: string;
+  combatants: CombatantType[];
 };
 
 export type PlayerListObject = { user: string; character: string };
