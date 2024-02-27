@@ -215,6 +215,7 @@ export type CombatantType = {
   tags: string[];
   type: CombatantTypes;
   avatar?: string;
+  ac?: number;
 };
 
 export type CombatantTypes = "player" | "monster";

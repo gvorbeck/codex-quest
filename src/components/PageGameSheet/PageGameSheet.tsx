@@ -16,6 +16,8 @@ import { mobileBreakpoint } from "@/support/stringSupport";
 import classNames from "classnames";
 import TurnTracker from "./TurnTracker/TurnTracker";
 import Hero from "./Hero/Hero";
+import { getArmorClass } from "@/support/statSupport";
+import { useCharacterData } from "@/hooks/useCharacterData";
 
 interface PageGameSheetProps {
   user: User | null;
@@ -40,6 +42,7 @@ const PageGameSheet: React.FC<
     game?.combatants || [],
   );
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
+  const { setCharacter } = useCharacterData(user);
   const gameBinderClassNames = classNames(
     { "shrink-0": !isMobile },
     { "w-1/2 ": !isMobile && !hidePlayers },
@@ -74,7 +77,7 @@ const PageGameSheet: React.FC<
       message.error('addToTurnTracker type must be "player" or "monster"');
       return;
     }
-    const newCombatant = {
+    const newCombatant: CombatantType = {
       name: data.name,
       avatar: data.avatar ?? undefined,
       initiative: 0,
@@ -87,6 +90,7 @@ const PageGameSheet: React.FC<
         message.warning(`${data.name} is already in the Turn Tracker`);
         return;
       }
+      newCombatant.ac = getArmorClass(data as CharData, setCharacter);
     }
     // if (type === "monster") {}
     setCombatants((prev) => [...prev, newCombatant]);

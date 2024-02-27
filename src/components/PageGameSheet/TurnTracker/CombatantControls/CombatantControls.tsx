@@ -1,7 +1,16 @@
 import { CombatantType } from "@/data/definitions";
 import { useTurnTracker } from "@/hooks/useTurnTacker";
 import { PlusOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { Button, Flex, Input, InputNumber, Tag, Tooltip, theme } from "antd";
+import {
+  Button,
+  Flex,
+  Input,
+  InputNumber,
+  Tag,
+  Tooltip,
+  Typography,
+  theme,
+} from "antd";
 import React from "react";
 
 interface CombatantControlsProps {
@@ -73,6 +82,9 @@ const CombatantControls: React.FC<
         >
           <PlusOutlined /> New Tag
         </Tag>
+      )}
+      {combatant.ac && (
+        <Typography.Text type="secondary">AC: {combatant.ac}</Typography.Text>
       )}
     </Flex>
   );
