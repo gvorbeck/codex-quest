@@ -118,6 +118,6 @@ export const sendAmmoAttackNotifications = (
   }
   openNotification(
     `Attack with ${item.name}`,
-    `To-hit: ${rollToHit.total} Damage: ${rollToDamage}`,
+    `To-hit: ${rollToHit.total} Damage: ${rollToDamage} (${rollToHit.notation.split("cfcs").join("")})`,
   );
 };
