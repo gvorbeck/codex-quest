@@ -40,10 +40,10 @@ export function useTurnTracker(
     setInputValue(e.target.value);
   };
 
-  const handleInputConfirm = () => {
+  const handleInputConfirm = (index: number) => {
     if (inputValue) {
-      const updatedCombatants = combatants.map((combatant) => {
-        if (combatant.name === inputVisible) {
+      const updatedCombatants = combatants.map((combatant, i) => {
+        if (i === index) {
           // Compare with inputVisible which now holds the name
           return { ...combatant, tags: [...combatant.tags, inputValue] };
         }

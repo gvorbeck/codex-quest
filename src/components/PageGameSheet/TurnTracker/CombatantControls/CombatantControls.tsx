@@ -18,11 +18,12 @@ interface CombatantControlsProps {
   combatant: CombatantType;
   combatants: CombatantType[];
   setCombatants: (combatants: CombatantType[]) => void;
+  index: number;
 }
 
 const CombatantControls: React.FC<
   CombatantControlsProps & React.ComponentPropsWithRef<"div">
-> = ({ className, combatant, combatants, setCombatants }) => {
+> = ({ className, combatant, combatants, setCombatants, index }) => {
   const {
     handleInitiaveChange,
     handleShowInput,
@@ -85,8 +86,8 @@ const CombatantControls: React.FC<
             style={{ width: 78 }}
             value={inputValue}
             onChange={handleInputChange}
-            onBlur={handleInputConfirm}
-            onPressEnter={handleInputConfirm}
+            onBlur={() => handleInputConfirm(index)}
+            onPressEnter={() => handleInputConfirm(index)}
           />
         ) : (
           <Tag

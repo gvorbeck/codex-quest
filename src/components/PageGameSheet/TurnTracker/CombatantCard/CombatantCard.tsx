@@ -62,6 +62,7 @@ const CombatantCard: React.FC<
             combatant={combatant}
             combatants={combatants}
             setCombatants={setCombatants}
+            index={index}
           />
         </Flex>
       </Card>
