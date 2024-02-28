@@ -38,9 +38,9 @@ const PageGameSheet: React.FC<
   const [showRangerAbilities, setShowRangerAbilities] = React.useState(false);
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const [hidePlayers, setHidePlayers] = React.useState(false);
-  const [combatants, setCombatants] = React.useState<CombatantType[]>(
-    game?.combatants || [],
-  );
+  const [combatants, setCombatants] = React.useState<
+    CombatantType[] | undefined
+  >(game?.combatants);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
   const { setCharacter } = useCharacterData(user);
   const gameBinderClassNames = classNames(
@@ -86,14 +86,14 @@ const PageGameSheet: React.FC<
     };
     if (type === "player") {
       // If combatant is a player, and they are already in the combatants array, return
-      if (combatants.some((c) => c.name === newCombatant.name)) {
+      if (combatants?.some((c) => c.name === newCombatant.name)) {
         message.warning(`${data.name} is already in the Turn Tracker`);
         return;
       }
       newCombatant.ac = getArmorClass(data as CharData, setCharacter);
     }
     // if (type === "monster") {}
-    setCombatants((prev) => [...prev, newCombatant]);
+    if (combatants) setCombatants([...combatants, newCombatant]);
     message.success(`${data.name} added to Turn Tracker`);
   };
 
@@ -118,7 +118,7 @@ const PageGameSheet: React.FC<
   }, [game]);
 
   React.useEffect(() => {
-    if (combatants.length >= 0) {
+    if (combatants) {
       saveCombatants().catch(console.error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,7 +131,7 @@ const PageGameSheet: React.FC<
         className="absolute bottom-0 right-0 z-10"
         turnTrackerExpanded={turnTrackerExpanded}
         setTurnTrackerExpanded={setTurnTrackerExpanded}
-        combatants={combatants}
+        combatants={combatants ?? []}
         setCombatants={setCombatants}
       />
       <Hero
