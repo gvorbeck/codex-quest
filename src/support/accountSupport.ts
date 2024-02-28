@@ -127,7 +127,6 @@ export const updateDocument = async ({
   subDocId,
   data,
 }: UpdatePayload) => {
-  console.log("fooooooo");
   if (!docId) {
     console.error("Document ID is undefined");
     return;

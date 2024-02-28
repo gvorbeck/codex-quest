@@ -23,7 +23,13 @@ const Monsters: React.FC<
       onClick={(e) => {
         e.stopPropagation();
         addToTurnTracker(
-          { name: monster.name, initiative: 0, type: "monster", tags: [] },
+          {
+            name: monster.name,
+            initiative: 0,
+            type: "monster",
+            tags: [],
+            avatar: "",
+          } as CombatantType,
           "monster",
         );
       }}
