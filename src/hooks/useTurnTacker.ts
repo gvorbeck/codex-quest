@@ -1,5 +1,5 @@
 import { CombatantType } from "@/data/definitions";
-import { InputRef, message } from "antd";
+import { InputRef } from "antd";
 import React from "react";
 
 export function useTurnTracker(
@@ -16,13 +16,6 @@ export function useTurnTracker(
   // Refs
   const inputRef = React.useRef<InputRef>(null);
   // Handlers
-  const handleCombatantRemove = (item: CombatantType) => {
-    const updatedCombatants = combatants.filter(
-      (combatant) => combatant.name !== item.name,
-    );
-    message.success(`${item.name} removed from Turn Tracker`);
-    setCombatants(updatedCombatants);
-  };
 
   const handleInitiaveChange = (
     item: CombatantType,
@@ -93,6 +86,5 @@ export function useTurnTracker(
     handleInputConfirm,
     setEditingCombatant,
     handleInitiaveChange,
-    handleCombatantRemove,
   };
 }

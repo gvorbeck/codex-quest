@@ -118,7 +118,7 @@ const PageGameSheet: React.FC<
   }, [game]);
 
   React.useEffect(() => {
-    if (combatants.length > 0) {
+    if (combatants.length >= 0) {
       saveCombatants().catch(console.error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

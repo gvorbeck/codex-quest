@@ -6,9 +6,10 @@ import {
   Flex,
   Input,
   InputNumber,
+  Popconfirm,
   Tag,
   Tooltip,
-  Typography,
+  message,
   theme,
 } from "antd";
 import React from "react";
@@ -23,7 +24,6 @@ const CombatantControls: React.FC<
   CombatantControlsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, combatant, combatants, setCombatants }) => {
   const {
-    handleCombatantRemove,
     handleInitiaveChange,
     handleShowInput,
     handleInputChange,
@@ -33,11 +33,20 @@ const CombatantControls: React.FC<
     inputVisible,
     inputRef,
   } = useTurnTracker(combatants, setCombatants);
+  const [, contextHolder] = message.useMessage();
   const { token } = theme.useToken();
   const tagPlusStyle: React.CSSProperties = {
     background: token.colorBgContainer,
     borderStyle: "dashed",
     borderColor: token.colorFill,
+  };
+  const handleCombatantRemove = (item: CombatantType) => {
+    const updatedCombatants = combatants.filter(
+      (combatant) => combatant.name !== item.name,
+    );
+    console.log("updatedCombatants", updatedCombatants);
+    message.success(`${item.name} removed from Turn Tracker`);
+    setCombatants(updatedCombatants);
   };
 
   React.useEffect(() => {
@@ -47,46 +56,48 @@ const CombatantControls: React.FC<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputVisible]);
   return (
-    <Flex gap={16} align="center" className={className}>
-      <Tooltip title="Initiative">
-        <InputNumber
-          className="w-[60px] box-content"
-          min={0}
-          value={combatant.initiative}
-          onChange={(newValue) => handleInitiaveChange(combatant, newValue)}
-          onBlur={sortCombatants}
-          onPressEnter={sortCombatants}
-        />
-      </Tooltip>
-      <Tooltip title="Remove">
-        <Button
-          icon={<UserDeleteOutlined />}
-          onClick={() => handleCombatantRemove(combatant)}
-        />
-      </Tooltip>
-      {inputVisible === combatant.name ? (
-        <Input
-          ref={inputRef}
-          type="text"
-          size="small"
-          style={{ width: 78 }}
-          value={inputValue}
-          onChange={handleInputChange}
-          onBlur={handleInputConfirm}
-          onPressEnter={handleInputConfirm}
-        />
-      ) : (
-        <Tag
-          onClick={() => handleShowInput(combatant.name)}
-          style={tagPlusStyle}
+    <>
+      {contextHolder}
+      <Flex gap={16} align="center" className={className}>
+        <Tooltip title="Initiative">
+          <InputNumber
+            className="w-[60px] box-content"
+            min={0}
+            value={combatant.initiative}
+            onChange={(newValue) => handleInitiaveChange(combatant, newValue)}
+            onBlur={sortCombatants}
+            onPressEnter={sortCombatants}
+          />
+        </Tooltip>
+        <Popconfirm
+          title="Remove this character?"
+          onConfirm={() => handleCombatantRemove(combatant)}
+          okText="Yes"
+          cancelText="No"
         >
-          <PlusOutlined /> New Tag
-        </Tag>
-      )}
-      {combatant.ac && (
-        <Typography.Text type="secondary">AC: {combatant.ac}</Typography.Text>
-      )}
-    </Flex>
+          <Button icon={<UserDeleteOutlined />} />
+        </Popconfirm>
+        {inputVisible === combatant.name ? (
+          <Input
+            ref={inputRef}
+            type="text"
+            size="small"
+            style={{ width: 78 }}
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputConfirm}
+            onPressEnter={handleInputConfirm}
+          />
+        ) : (
+          <Tag
+            onClick={() => handleShowInput(combatant.name)}
+            style={tagPlusStyle}
+          >
+            <PlusOutlined /> New Tag
+          </Tag>
+        )}
+      </Flex>
+    </>
   );
 };
 
