@@ -38,9 +38,7 @@ const PageGameSheet: React.FC<
   const [showRangerAbilities, setShowRangerAbilities] = React.useState(false);
   const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
   const [hidePlayers, setHidePlayers] = React.useState(false);
-  const [combatants, setCombatants] = React.useState<
-    CombatantType[] | undefined
-  >(game?.combatants);
+  const [combatants, setCombatants] = React.useState<CombatantType[]>([]);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
   const { setCharacter } = useCharacterData(user);
   const gameBinderClassNames = classNames(
