@@ -1640,7 +1640,7 @@
       [
         "Asiatic",
         {
-          "armorClass": "16",
+          "ac": "16",
           "hitDice": "9 (+8)",
           "numAttacks": "2 tusks, 1 trunk grab, 2 tramples",
           "damage": "2d4 tusk, 2d6 grab, 2d8 trample",
@@ -1655,7 +1655,7 @@
       [
         "African",
         {
-          "armorClass": "18",
+          "ac": "18",
           "hitDice": "10 (+9)",
           "numAttacks": "2 tusks, 1 trunk grab, 2 tramples",
           "damage": "2d6 tusk, 2d6 grab, 2d8 trample",
@@ -1676,7 +1676,7 @@
       [
         "Standard",
         {
-          "armorClass": "11",
+          "ac": "11",
           "hitDice": "½ (1d4 hit points)",
           "numAttacks": "2 talons, 1 beak",
           "damage": "1d4 talon, 1d4 beak",
@@ -1690,5 +1690,167 @@
       ]
     ],
     "description": "Falcons are birds with wingspans of 16 to 20 inches; they stand about 1.5 to 2 feet tall and weigh about 3 pounds. These are the most popular of the hunting birds used by royalty. Falcons can only carry prey up to 1 pound. They will hunt snakes, small rodents, and even other birds such as wild ducks. Falcons appear in a variety of colors, typically ranging from dark gray on top to white with dark stripes on the bottom; kestrels, a variety of falcon, have reddish brown to dark brown feathers with dark stripes. A falcon typically attacks prey by diving, striking first with the talons before making the kill with its sharp beak."
+  },
+  {
+    "name": "Fish,  Giant Barracuda",
+    "variants": [
+      [
+        "Huge",
+        {
+          "ac": "16",
+          "hitDice": "5",
+          "numAttacks": "1 bite",
+          "damage": "2d6 bite",
+          "movement": "Swim 60'",
+          "numAppear": "Wild 2d4",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "360"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "15",
+          "hitDice": "9 (+8)",
+          "numAttacks": "1 bite",
+          "damage": "2d8+1 bite",
+          "movement": "Swim 60' (10')",
+          "numAppear": "Wild 1",
+          "saveAs": "Fighter: 9",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1,075"
+        }
+      ]
+    ],
+    "description": "Barracuda are predatory fish found in salt water. Huge barracudas are about 12' long, while giant specimens can exceed 20'. They have elongated bodies, pointed heads and prominent jaws. Their bodies are covered with smooth scales, typically blue, gray or silver in color. They have extremely keen eyesight and are surprised only on a 1 on 1d6. Due to the quickness of their attack, barracudas are capable of surprising on 1-3 on 1d6 and gain a +2 bonus to Initiative.\n\nGiant barracuda always appear singly and are 50% likely to break off the attack after 1d4 rounds if they haven't killed their prey. Both kinds are attracted to shiny objects."
+  },
+  {
+    "name": "Fish,  Giant Bass",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d6",
+          "movement": "Swim 40' (10')",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Giant bass are generally between 10' and 25' long. Most are greenish-grey marked with dark lateral stripes, though some are almost completely black. They are generally found in lakes or rivers, as they are not adapted for salt water.\n\nGiant bass are predatory, and on a natural attack roll of 20 a giant bass will swallow whole a dwarf-sized or smaller creature, which then takes 2d4 damage per round until it is dead. Swallowed characters can attack only with daggers or similar short weapons. Note that a giant bass can swallow at most one character, and each giant bass which has swallowed a character will attempt to retreat (having achieved its goal)."
+  },
+  {
+    "name": "Fish,  Giant Catfish",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "8",
+          "numAttacks": "1 bite, 2 fins",
+          "damage": "2d8 bite, 1d4+poison fin",
+          "movement": "Swim 30' (10')",
+          "numAppear": "Wild 1d2",
+          "saveAs": "Fighter: 8",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "875"
+        }
+      ]
+    ],
+    "description": "Giant catfish fins are edged with a natural poison that causes a painful burning sensation for 3d10 rounds if a save vs. Poison is failed. The pain causes the affected character or creature to suffer a -1 penalty on all attack rolls and saving throws; further poisonings will increase this penalty by -1 each, down to a maximum penalty of -5 as well as adding 6 rounds to the duration of the poison effect.\n\nBecause of its large size (15 to 20 feet long) and body design, a giant catfish cannot target more than one of its attacks on any single creature; that is, it cannot bite and use both fins on one victim."
+  },
+  {
+    "name": "Fish,  Giant Piranha",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4",
+          "numAttacks": "1 bite",
+          "damage": "1d8",
+          "movement": "Swim 50'",
+          "numAppear": "Wild 2d4",
+          "saveAs": "Fighter: 4",
+          "morale": "7 (11)",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Giant piranha average 5' in length at adulthood, and are aggressive carnivores. They are able to sense blood in the water just as sharks do, and once they smell or taste blood in the water, their morale rises to the parenthesized figure.\n\nGiant piranha attack in the same manner as normal piranha but are much larger and much more dangerous. They are known to strip a cow to the bone in less than a minute in a feeding frenzy."
+  },
+  {
+    "name": "Fly,  Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d8",
+          "movement": "30' Fly 60'",
+          "numAppear": "1d6, Wild 2d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Giant flies look much like ordinary houseflies, but are about 3' long. Some are banded yellow and black, and are thus mistaken for giant bees. Giant flies are predators; after killing prey, they will sometimes lay eggs in the remains."
+  },
+  {
+    "name": "Frog,  Giant (and Toad, Giant)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2",
+          "numAttacks": "1 tongue or 1 bite",
+          "damage": "tongue grab or 1d4+1 bite",
+          "movement": "30' Swim 30'",
+          "numAppear": "1d4, Wild 1d4",
+          "saveAs": "Fighter: 2",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Giant frogs are enlarged versions of the common frog; most resemble bullfrogs in appearance, but an adult giant frog is 3' long and weighs about 250 pounds. They are predators, but will normally only attack creatures smaller than themselves. Giant toads are statistically just like giant frogs; however, they are often found in \"drier\" areas as they do not have to maintain a wet skin surface.\n\nA giant frog can stretch its tongue out up to 15' and drag up to dwarf-sized prey to its mouth; on every subsequent round, the victim is hit automatically. On a natural 20 attack roll, the victim is swallowed whole, taking 1d6 points of damage per round thereafter. Each giant frog can swallow only one such victim."
+  },
+  {
+    "name": "Gargoyle*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (m)",
+          "hitDice": "4**",
+          "numAttacks": "2 claws, 1 bite, 1 horn",
+          "damage": "1d4 claw, 1d6 bite, 1d4 horn",
+          "movement": "30' Fly 50' (15')",
+          "numAppear": "1d6, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 6",
+          "morale": "11",
+          "treasureType": "C",
+          "xp": "320"
+        }
+      ]
+    ],
+    "description": "Gargoyles are demonic-looking winged humanoid monsters with gray stone-like skin. They can remain still for an extended period, and are thus often mistaken for stone statues. Gargoyles use this disguise to ambush their foes, surprising on 1-4 on 1d6 if their foes do not otherwise suspect them. They are cruel monsters, inflicting pain on other creatures for the sole purpose of enjoyment.\n\nGargoyles can go for very long periods of time, on the order of decades, without air or sustenance. Due to their highly magical nature, they can only be harmed by magical weapons."
   }
 ]
