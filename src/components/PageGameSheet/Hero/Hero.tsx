@@ -2,6 +2,7 @@ import {
   Breadcrumb,
   BreadcrumbProps,
   Button,
+  Divider,
   Flex,
   Switch,
   Tooltip,
@@ -51,25 +52,26 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
       <Breadcrumb items={breadcrumbItems} />
       <Typography.Title
         level={2}
-        className="m-0 font-enchant text-5xl tracking-wide text-center"
+        className="my-5 font-enchant text-5xl tracking-wide text-center"
       >
         {game.name}
       </Typography.Title>
+      <Divider className="my-2" />
       <Flex
         vertical={isMobile}
         align={isMobile ? "flex-start" : "center"}
-        gap={16}
+        gap={8}
       >
-        <Flex gap={8}>
+        <Flex gap={8} align="center">
           <Typography.Text>Hide PCs</Typography.Text>
-          <Switch onChange={handlePlayersSwitch} />
+          <Switch className="mr-2" onChange={handlePlayersSwitch} />
+          <Tooltip title="Open Turn Tracker">
+            <Button
+              icon={<HourglassOutlined />}
+              onClick={() => setTurnTrackerExpanded(true)}
+            />
+          </Tooltip>
         </Flex>
-        <Tooltip title="Open Turn Tracker">
-          <Button
-            icon={<HourglassOutlined />}
-            onClick={() => setTurnTrackerExpanded(true)}
-          />
-        </Tooltip>
         {uid && id && (
           <AddPlayerForm
             gmId={uid}
