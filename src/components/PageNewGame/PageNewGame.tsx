@@ -8,6 +8,7 @@ import { UsergroupAddOutlined } from "@ant-design/icons";
 import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { useNavigate } from "react-router-dom";
+import { GameData } from "@/data/definitions";
 
 interface PageNewGameProps {
   user: User | null;
@@ -30,12 +31,13 @@ const PageNewGame: React.FC<
 > = ({ className }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: GameData) => {
+    const newGame: GameData = { ...values, combatants: [] };
     // Call createDocument to create a new game document
     await createDocument(
       auth.currentUser,
       "games", // Assuming "games" is the collection name for games
-      values, // The form data
+      newGame, // The form data
       (name) => {
         console.info(`Game '${name}' created successfully.`);
         // You can add any additional logic after successful creation

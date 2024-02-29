@@ -110,17 +110,17 @@ const PageGameSheet: React.FC<
 
   // Effect to set combatants from game data
   React.useEffect(() => {
-    if (game && game.combatants) {
+    if (game) {
       setCombatants(game.combatants);
     }
   }, [game]);
 
   React.useEffect(() => {
-    if (combatants) {
+    if (game) {
       saveCombatants().catch(console.error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [combatants, uid, id]);
+  }, [combatants]);
 
   return game ? (
     <>

@@ -45,7 +45,6 @@ const CombatantControls: React.FC<
     const updatedCombatants = combatants.filter(
       (combatant) => combatant.name !== item.name,
     );
-    console.log("updatedCombatants", updatedCombatants);
     message.success(`${item.name} removed from Turn Tracker`);
     setCombatants(updatedCombatants);
   };
