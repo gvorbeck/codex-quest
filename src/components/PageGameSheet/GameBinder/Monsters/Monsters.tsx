@@ -60,7 +60,11 @@ const Monsters: React.FC<
         onChange={handleInputChange}
         placeholder="Search Monsters"
       />
-      <Collapse items={items} destroyInactivePanel />
+      <Collapse
+        items={items}
+        className="max-h-[1000px] overflow-scroll"
+        destroyInactivePanel
+      />
     </Flex>
   );
 };
