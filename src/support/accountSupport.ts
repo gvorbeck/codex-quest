@@ -19,6 +19,7 @@ import { db } from "../firebase";
 import DOMPurify from "dompurify";
 import { GamePlayer, PlayerListObject } from "../data/definitions";
 import { RcFile } from "antd/es/upload";
+import { mockCharacters } from "@/mocks/characters";
 
 type DocumentType = "characters" | "games";
 
@@ -69,6 +70,28 @@ export const fetchCollection = async (
   pageTitle?: string,
 ) => {
   try {
+    setLoading(true);
+    if (import.meta.env.VITE_USE_MOCK_DATA) {
+      // Using setTimeout to mimic async operation
+      setTimeout(() => {
+        let mockData: any;
+        switch (collectionName) {
+          case "characters":
+            mockData = mockCharacters;
+            break;
+          // Add cases for other collections and their respective mock data
+          default:
+            mockData = [];
+        }
+
+        setContent(
+          mockData.sort((a: any, b: any) => a.name.localeCompare(b.name)),
+        );
+        document.title = `CODEX.QUEST${pageTitle ? ` | ${pageTitle}` : ""}`;
+        setLoading(false);
+      }, 500); // Mimic network delay
+      return () => {};
+    }
     if (user) {
       const uid = user.uid;
       const contentCollectionRef = collection(
