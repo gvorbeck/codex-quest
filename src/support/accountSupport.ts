@@ -20,6 +20,7 @@ import DOMPurify from "dompurify";
 import { GamePlayer, PlayerListObject } from "../data/definitions";
 import { RcFile } from "antd/es/upload";
 import { mockCharacters } from "@/mocks/characters";
+import { mockGames } from "@/mocks/games";
 
 type DocumentType = "characters" | "games";
 
@@ -30,6 +31,8 @@ type UpdatePayload = {
   subDocId?: string;
   data: any;
 };
+
+const isLocalhost = import.meta.env.VITE_USE_MOCK_DATA === "true";
 
 export const handleLogin = async () => {
   const auth = getAuth();
@@ -71,7 +74,7 @@ export const fetchCollection = async (
 ) => {
   try {
     setLoading(true);
-    if (import.meta.env.VITE_USE_MOCK_DATA) {
+    if (isLocalhost) {
       // Using setTimeout to mimic async operation
       setTimeout(() => {
         let mockData: any;
@@ -79,7 +82,9 @@ export const fetchCollection = async (
           case "characters":
             mockData = mockCharacters;
             break;
-          // Add cases for other collections and their respective mock data
+          case "games":
+            mockData = mockGames;
+            break;
           default:
             mockData = [];
         }
