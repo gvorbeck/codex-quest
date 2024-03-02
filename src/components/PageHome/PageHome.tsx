@@ -19,17 +19,6 @@ const PageHome: React.FC<PageHomeProps> = ({ user }) => {
     React.useState<boolean>(true);
   const [gamesLoading, setGamesLoading] = React.useState<boolean>(true);
 
-  React.useEffect(() => {
-    fetchCollection(
-      user,
-      "characters",
-      setCharacters,
-      setCharactersLoading,
-      "Home",
-    );
-    fetchCollection(user, "games", setGames, setGamesLoading, "Home");
-  }, [user]);
-
   const handleTabChange = (key: string) => {
     setSelectedKey(key);
   };
@@ -61,6 +50,17 @@ const PageHome: React.FC<PageHomeProps> = ({ user }) => {
     { key: "1", label: "Characters", children: childrenCharacterList },
     { key: "2", label: "Games", children: childrenGameList },
   ];
+
+  React.useEffect(() => {
+    fetchCollection(
+      user,
+      "characters",
+      setCharacters,
+      setCharactersLoading,
+      "Home",
+    );
+    fetchCollection(user, "games", setGames, setGamesLoading, "Home");
+  }, [user]);
 
   return (
     <Tabs
