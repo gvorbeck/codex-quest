@@ -1852,5 +1852,251 @@
       ]
     ],
     "description": "Gargoyles are demonic-looking winged humanoid monsters with gray stone-like skin. They can remain still for an extended period, and are thus often mistaken for stone statues. Gargoyles use this disguise to ambush their foes, surprising on 1-4 on 1d6 if their foes do not otherwise suspect them. They are cruel monsters, inflicting pain on other creatures for the sole purpose of enjoyment.\n\nGargoyles can go for very long periods of time, on the order of decades, without air or sustenance. Due to their highly magical nature, they can only be harmed by magical weapons."
+  },
+  {
+    "name": "Ghost*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "20 (m)",
+          "hitDice": "10* (+9)",
+          "numAttacks": "1 touch or possession + fear",
+          "damage": "1d8 + special touch and see below",
+          "movement": "30'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 10",
+          "morale": "10",
+          "treasureType": "E, N, O",
+          "xp": "1,390"
+        }
+      ]
+    ],
+    "description": "A ghost is the soul or spirit of a deceased sentient creature that has for some reason remained on the material plane. They usually appear as they did in life, but sometimes the appearance of a ghost is altered by its original personality; for instance, the ghost of an angry person might have a threatening or even demonic visage. Ghosts are undead, and as such are immune to **sleep**, **charm**, and **hold magic**.\n\nSeeing a ghost is so terrible that any living creature who does so must save vs. Spells or flee for 2d6 rounds. Anyone who successfully makes this save may not be so affected by that ghost again.\n\nA ghost that hits a living target with its touch attack does 1d8 points of damage, and at the same time regenerates the same number of hit points. In addition, the victim loses 1 Constitution point. Elves and dwarves (and other long-lived creatures such as dragons) are allowed a saving throw vs. Death Ray to resist this effect, which must be rolled on each hit. Characters who lose Constitution appear to have aged. If a ghost is fighting a living creature which does not have a Constitution score, the GM should assign whatever score they see fit.\n\nLike most incorporeal creatures, ghosts may normally be hit only by magical weapons. However, if a ghost makes use of its touch attack, it becomes vulnerable to non-magical weapons until the beginning of the next round of combat.\n\nLost Constitution can be regained at a rate of one point per casting of restoration; nothing else (except a wish) can restore Constitution lost to a ghost. If a character's Constitution falls to 0, they die permanently and cannot be raised (but still may be reincarnated).\n\nOnce per turn, a ghost can use telekinesis (as the spell) as if it were a 10th level Magic-User.\n\nInstead of attacking, a ghost may attempt to possess a living creature. This ability is similar to a magic jar spell (as if cast by a 10th level Magic-User), except that it does not require a receptacle. To use this ability, the ghost must be able to move into the target (so it is possible to avoid this attack by outrunning the ghost). The target can resist the attack with a successful save vs. Spells. A creature that successfully saves is immune to being possessed by that ghost for 24 hours. If the save fails, the ghost enters the target's body and controls it; control may be maintained until the ghost chooses to leave the victim's body, or until it is driven out by means of a remove curse or dispel evil spell.While it is possessing a living creature, a ghost may not use any of its special abilities."
+  },
+  {
+    "name": "Ghoul (and Ghast)",
+    "variants": [
+      [
+        "Ghoul",
+        {
+          "ac": "14",
+          "hitDice": "2*",
+          "numAttacks": "-",
+          "damage": "1d4 claw, 1d4 bite, all plus paralysis",
+          "movement": "30'",
+          "numAppear": "1d6, Wild 2d8, Lair 2d8",
+          "saveAs": "Fighter: 2",
+          "morale": "9",
+          "treasureType": "B",
+          "xp": "100"
+        }
+      ],
+      [
+        "Ghast",
+        {
+          "ac": "15",
+          "hitDice": "2**",
+          "numAttacks": "-",
+          "damage": "1d4 claw, 1d4 bite, + paralysis + stench",
+          "movement": "30'",
+          "numAppear": "1d4, Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 2",
+          "morale": "9",
+          "treasureType": "B",
+          "xp": "125"
+        }
+      ]
+    ],
+    "description": "**Ghouls** are **undead** monsters which eat the flesh of dead humanoids to survive. They are vile, disgusting carrion-eaters, but are more than willing to kill for food. Those slain by ghouls will generally be stored until they begin to rot before the ghouls will actually eat them.\n\nLiving creatures hit by a ghoul’s bite or claw attack must save vs. Paralysis or be paralyzed for 2d8 turns. Elves are immune to this paralysis. Ghouls try to attack with surprise whenever possible, striking from behind tombstones or bursting from shallow graves; when they attack in this way, they are able to surprise opponents on 1-3 on 1d6. Like all undead, they may be Turned by Clerics and are immune to **sleep**, **charm**, and **hold** magics.\n\nHumanoids bitten by ghouls may be infected with ghoul fever. Each time a humanoid is bitten, there is a 5% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghoul fever rises as a ghoul at the next midnight. A humanoid who becomes a ghoul in this way retains none of the knowledge or abilities they possessed in life. The newly-risen ghoul is not under the control of any other ghouls, but hungers for the flesh of the dead and behaves like any other ghoul in all respects.\n\n**Ghasts** look and fight almost exactly like ghouls, but they are smarter and just a bit more powerful. Refer to the previous paragraphs for information about their claw attacks and other abilities.\n\nThe stink of death and corruption surrounding these creatures is overwhelming. Living creatures within 10 feet must succeed on a save vs. Poison or be sickened for 2d6 rounds (-2 to attack rolls). A creature that successfully saves cannot be affected again by the same ghast’s stench for 24 hours. A **neutralize poison** spell removes the effect from a sickened creature.\n\nThey may be Turned by Clerics using the same column as the ghoul, but as they are superior to ghouls, in a mixed group of ghasts and ghouls the GM should apply Turning effects to the ordinary ghouls first.\n\nHumanoids bitten by ghasts may be infected with ghast fever. Each time a humanoid is bitten, there is a 10% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghast fever rises as a ghast at the next midnight, in a similar fashion to the ghoul. However, a humanoid who becomes a ghast in this way retains all of the knowledge and abilities they possessed in life, unless those abilities are directly incompatible with the creature's new form (as decided by the GM). For such ghasts, the GM should also adjust XP values to include any such abilities. The newly-risen ghast is not under the control of any other ghasts, but hungers for the flesh of the living and behaves like any other ghast in all respects."
+  },
+  {
+    "name": "Giant,  Cloud",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19 (13)",
+          "hitDice": "12+3* (+10)",
+          "numAttacks": "1 giant weapon or 1 thrown rock",
+          "damage": "6d6 giant weapon or 3d6 rock",
+          "movement": "20' Unarmored 40' (10')",
+          "numAppear": "1d2, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 12",
+          "morale": "10",
+          "treasureType": "E + 1d12x1,000 gp",
+          "xp": "1,975"
+        }
+      ]
+    ],
+    "description": "Cloud giants are huge, with males averaging 18 feet tall and females 17 feet tall; an adult cloud giant will normally weigh more than 4,750 pounds. They have very pale skin, sometimes with a slight bluish tint, and their hair is bright metallic colors such as silver, brass, or even gold. They have long lives, with most surviving to 400 years barring disease or misadventure.\n\nCloud giants are often vain, convinced they are the highest form of creation. They wear the finest clothing, make and eat the best food and drink, and live in castles built on high mountains or even in the clouds themselves. Like most giants, they are suspicious of the smaller races, but cloud giants do not usually prey upon them, preferring instead to demand tribute from smaller humanoids living nearby.\n\nDespite being self-centered, they fight in highly trained units that use sound tactics; their belief in their own superiority allows no less. Attacking from above is preferred, and ranged attacks are always considered better than melee. To that end, cloud giants can throw large stones up to 200' for 3d6 points of damage each. Also, 5% of cloud giants have the abilities of a Magic-User of level 2 to 8 (2d4). A favorite tactic is to encircle enemies, barraging them with rocks while the giants with magical abilities confound them with spells. In battle, cloud giants wear finely crafted, intricately engraved plate mail."
+  },
+  {
+    "name": "Giant,  Cyclops",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "13* (+10)",
+          "numAttacks": "1 giant club or 1 rock (thrown)",
+          "damage": "3d10 giant club or 3d6 rock",
+          "movement": "20' Unarmored 30'",
+          "numAppear": "1, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 13",
+          "morale": "9",
+          "treasureType": "E + 1d8x1,000 gp",
+          "xp": "2,285"
+        }
+      ]
+    ],
+    "description": "A cyclops is a one-eyed giant. Huge and brutish, they most resemble hill giants, and even dress in the same \"style,\" layers of crudely prepared hides with the fur left on, unwashed and unrepaired. They are reclusive and unfriendly to almost all of the smaller races.\n\nA cyclops can throw a large rock up to 200' for 3d6 points of damage, but they aim poorly and thus suffer an attack penalty of -2. Once per year, a cyclops can cast the spell bestow curse (the reverse of the spell remove curse)."
+  },
+  {
+    "name": "Giant,  Fire",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17 (13)",
+          "hitDice": "11+2* (+9)",
+          "numAttacks": "1 giant weapon or 1 thrown rock",
+          "damage": "5d6 giant weapon or 3d6 rock",
+          "movement": "20' Unarmored 40' (10')",
+          "numAppear": "1d2, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 11",
+          "morale": "9",
+          "treasureType": "E + 1d10x1,000 gp",
+          "xp": "1,670"
+        }
+      ]
+    ],
+    "description": "Despite their great size, fire giants have a Dwarf-like appearance, being barrel-chested with thick arms and legs; average males stand 14 feet tall and weigh around 3,200 pounds, while females average 13 feet tall and around 3,000 pounds. Their skin is ruddy, their hair is black, and their eyes are a very dark red that is almost black (and looks that color in poor lighting).\n\nFire giants are unfriendly to almost all other humanoid races, though they sometimes subjugate those living nearby to act as their servants.\n\nIn combat they favor heavy plate steel armor (the first AC given above) made of steel blackened by quenching in oil. They arm themselves with massive weapons made of the same material. A fire giant can throw large stones up to 200' for 3d6 points of damage.\n\nFire giants are immune to all fire-based attacks."
+  },
+  {
+    "name": "Giant,  Frost",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17 (13)",
+          "hitDice": "10+1* (+9)",
+          "numAttacks": "1 giant weapon or 1 thrown rock",
+          "damage": "4d6 giant weapon or 3d6 rock",
+          "movement": "20' Unarmored 40' (10')",
+          "numAppear": "1d2, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 10",
+          "morale": "9",
+          "treasureType": "E + 1d10x1,000 gp",
+          "xp": "1,390"
+        }
+      ]
+    ],
+    "description": "Frost giants have pale, almost white skin, blonde or pale blue hair, and bright blue eyes. Average males stand 15 feet tall and weigh around 2,800 pounds, while females average 14 feet tall and 2,500 pounds.\n\nFrost giants are, first and foremost, cunning. They dislike the smaller races as much as any giant, but rather than attacking outright they will try to use their advantages to convince those weaker than them to submit. If faced with a stronger force, frost giants will parley or withdraw if possible, attacking only if victory seems assured.\n\nIn combat frost giants prefer brightly-polished steel chainmail worn over their customary clothing of leather and fur (the first AC given above), and weapons of the same material. A frost giant can throw large stones up to 200' for 3d6 points of damage. Frost giants are immune to all ice or cold-based attacks."
+  },
+  {
+    "name": "Giant,  Hill",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "8",
+          "numAttacks": "1 giant weapon (club)",
+          "damage": "2d8 giant weapon",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "1d4, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 8",
+          "morale": "8",
+          "treasureType": "E + 1d8x1,000 gp",
+          "xp": "875"
+        }
+      ]
+    ],
+    "description": "The smallest of giants, adult hill giants stand between 10 and 12 feet in height and weigh about 1,100 pounds. They have medium brown skin, though they are often so dirty as to hide their true skin color; their hair is dark, lank, and greasy, and their eyes are dark as well. They wear crude clothing made of leather; the lack of livestock or game of great enough size often results in whole pelts being stitched together.\n\nWhether attacking with a weapon or fist, hill giants deal 2d8 damage. Hill giants are brutish and aggressive. They are sometimes found leading groups of ogres or bugbears. Hill giants often keep **dire wolves** as pets."
+  },
+  {
+    "name": "Giant,  Mountain",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "16 (+12)",
+          "numAttacks": "1 giant weapon or 1 thrown rock",
+          "damage": "7d6 (8d6) giant weapon, 4d6 rock",
+          "movement": "40' Unarmored 50' (10')",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4+1",
+          "saveAs": "Fighter: 16",
+          "morale": "10",
+          "treasureType": "E + 1d12x1,000 gp",
+          "xp": "3,250"
+        }
+      ]
+    ],
+    "description": "Mountain giants are the largest of all giants, with adult males averaging 24 feet in height and weighing around 16,000 pounds. Females are slightly smaller, standing 22 feet tall on the average and weighing around 14,000 pounds. They look very much like enormous, thickly built hill giants, and among humans they are often seen as little more than that. This is underselling the mountain giants, however, for though their crafting is primitive they have an intricately detailed social structure.\n\nMountain giants live in clans, led by the oldest male and female (or by their oldest offspring if the elders choose to delegate leadership due to advanced age). Each clan rules over and controls a group of 1d6 mountain peaks, generally spanning an area with a 5-6 mile diameter. They prefer peaks connected by high ridges so that they do not have to descend too far when walking their territory. Clan members who are mated establish households within the territory; unmarried members typically live with their parents until they are wed. The \"lair\" encounter figures above are for a single household, but if one household is attacked and the attackers subsequently retreat, upon their return they will usually find much of the rest of the clan waiting for them in ambush.\n\nThey wear armor made of wood held together with heavy rope, and wield giant clubs or staves carved from fully grown trees harvested from the lower reaches of their territory. If they live near storm giants, they may trade for better weapons (the second damage rating given above) but usually cannot afford storm giant armor.\n\nA mountain giant can throw large stones up to 240' for 4d6 points of damage each."
+  },
+  {
+    "name": "Giant,  Stone",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17 (15)",
+          "hitDice": "9 (+8)",
+          "numAttacks": "1 stone club or 1 thrown rock",
+          "damage": "3d6 stone club or 3d6 rock",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "1d2, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 9",
+          "morale": "9",
+          "treasureType": "E + 1d8x1,000 gp",
+          "xp": "1,075"
+        }
+      ]
+    ],
+    "description": "Stone giants are not the largest of giants, but with an average adult standing 12 feet tall and weighing roughly 1,500 pounds they are still formidable. There is no substantial difference in height between males and females. They usually dress in heavy leather clothing with sections having been boiled to stiffen them; these outfits serve as armor and give them the first AC above.\n\nStone giants are reclusive, but they will defend their territory (typically in rocky mountainous terrain) against any who trespass therein.\n\nA stone giant can throw large stones up to 300' for 3d6 points of damage. They will fight in groups to defend their territory but use only simple, basic tactics and strategy."
+  },
+  {
+    "name": "Giant,  Storm",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19 (13)",
+          "hitDice": "15** (+11)",
+          "numAttacks": "1 giant weapon or 1 lightning bolt",
+          "damage": "8d6 giant weapon or 15d6 lightning",
+          "movement": "30' Unarmored 50' (10')",
+          "numAppear": "1, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 15",
+          "morale": "10",
+          "treasureType": "E + 1d20x1,000 gp",
+          "xp": "3,100"
+        }
+      ]
+    ],
+    "description": "Storm giants are nearly the largest of the giants, with adult males standing 21 feet tall and weighing around 12,000 pounds; adult females average 20 feet and typically weigh around 11,000 pounds. Most storm giants have pale skin and dark hair, but some individuals have skin of a lavender color, and some have pale white or silver hair. Their eyes range from bright blue to deep gray in color.\n\nThey prefer to dress in light clothing, such as tunics, sandals, and so on, but in battle they wear finely-crafted plate mail armor of bright metal and wield weapons of the same sort. Their equipment usually appears to be silver but those of the highest class or rank wear armor and bear arms of a bright and shining golden color.\n\nUnlike most other giants, storm giants have been known to befriend humans, elves, or dwarves.\n\nStorm giants have the ability to throw lightning bolts as if they were spears (which work just as the spell does, and can be used once per five rounds; a save vs. Spells reduces damage to half). They prefer to attack first with lightning before moving on to other attack forms. Not surprisingly, storm giants are resistant to all forms of lightning or electrical attack, suffering only half damage normal when so attacked.\n\nAlso note that 10% of storm giants have the abilities of a Magic-User of level 2 to 12 (2d6)."
+  },
+  {
+    "name": "Gnoll",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (13)",
+          "hitDice": "2",
+          "numAttacks": "1 weapon",
+          "damage": "2d4 or by weapon +1",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "1d6, Wild 3d6, Lair 3d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasureType": "Q, S each; D, K in lair",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Gnolls are large fur-covered humanoids, averaging 7½ feet in height and weighing about 300 pounds. They are best recognized by their heads, which resemble those of hyenas (or perhaps wolves) but with shorter muzzles than either.\n\nGnolls are nocturnal and have Darkvision with a 30' range. They are cruel carnivores, preferring intelligent creatures for food because they scream more. They show little discipline when fighting unless they have a strong leader.\n\nOne out of every six gnolls will be a hardened warrior of 4 Hit Dice (240 XP) having a +1 bonus to damage due to strength. Gnolls gain a +1 bonus to their morale if they are led by such a warrior. In lairs of 12 or greater, there will be a pack leader of 6 Hit Dice (500 XP) having a +2 bonus to damage. In the lair, gnolls never fail a morale check as long as the pack leader is alive. In addition, a lair has a chance equal to 1-2 on 1d6 of a shaman being present, and 1 on 1d6 of a witch or warlock. A shaman is equivalent to a hardened warrior statistically, and in addition has Clerical abilities at level 1d4+1. A witch or warlock is equivalent to a regular gnoll, and has Magic-User abilities of level 1d4."
   }
 ]
