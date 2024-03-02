@@ -2131,7 +2131,7 @@
           "numAttacks": "1 weapon",
           "damage": "1d6 or by weapon",
           "movement": "20' Unarmored 30'",
-          "numAppear": "2d4,Wild 6d10, Lair 6d10",
+          "numAppear": "2d4, Wild 6d10, Lair 6d10",
           "saveAs": "Fighter: 1",
           "morale": "7 or see below",
           "treasureType": "R each; C in lair",
