@@ -25,27 +25,3 @@ export const openInNewTab = (url: string) => {
   const newWindow = window.open(url, "_blank", "noopener,noreferrer");
   if (newWindow) newWindow.opener = null;
 };
-
-// export const getMockCharacter: CharData = () => ({
-//   name: "Test Character",
-//   abilities: {
-//     scores: {
-//       strength: 10,
-//       intelligence: 10,
-//       wisdom: 10,
-//       dexterity: 10,
-//       constitution: 10,
-//       charisma: 10,
-//     },
-//     modifiers: {
-//       strength: 0,
-//       intelligence: 0,
-//       wisdom: 0,
-//       dexterity: 0,
-//       constitution: 0,
-//       charisma: 0,
-//     },
-//   },
-//   avatar: "",
-//   class: [],
-// });
