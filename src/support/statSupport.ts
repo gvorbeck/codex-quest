@@ -52,10 +52,26 @@ const findACValue = (
   return Number(foundItem?.[acType] || 0);
 };
 
-export const getCharacterWeight = (character: CharData) => {
+export const getWeight = (character: CharData) => {
+  const weightModifier = (item: EquipmentItem) => {
+    if (
+      races[character.race as RaceNames]?.equipmentWeightModifier?.[0] ===
+      item.category
+    ) {
+      return (
+        (item.weight ?? 0) *
+        (races[character.race as RaceNames]?.equipmentWeightModifier?.[1] ?? 1)
+      );
+    }
+    return item.weight ?? 0;
+  };
   const equipmentWeight = character.equipment.reduce(
-    (accumulator: number, currentValue: EquipmentItem) =>
-      accumulator + (currentValue.weight ?? 0) * (currentValue.amount ?? 0),
+    (accumulator: number, currentValue: EquipmentItem) => {
+      return (
+        accumulator +
+        (weightModifier(currentValue) ?? 0) * (currentValue.amount ?? 0)
+      );
+    },
     0,
   );
   const coinsWeight = character.gold * 0.05;
@@ -105,7 +121,7 @@ export const getMovement = (characterData: CharData) => {
       : "heavyArmor";
   const [lightSpeed, heavySpeed] =
     armorSpeedMap[currentCategory || "lightArmor"];
-  const weight = getCharacterWeight(characterData);
+  const weight = getWeight(characterData);
 
   return weight <= carryingCapacity.light ? lightSpeed : heavySpeed;
 };
