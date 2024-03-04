@@ -840,7 +840,7 @@
         }
       ]
     ],
-    "description": "Although fearsome-looking, the stegosaurus is actually a peaceable creature and will only fight in self-defense, either biting, trampling, or using its spiked tail, depending on where the opponent is standing in relation to the dinosaur. A stegosaurus can’t use its tail and bite attacks against the same creature in the same round, and cannot use either bite or tail on any round where it tramples."
+    "description": "Although fearsome-looking, the stegosaurus is actually a peaceable creature and will only fight in self-defense, either biting, trampling, or using its spiked tail, depending on where the opponent is standing in relation to the dinosaur. A stegosaurus can't use its tail and bite attacks against the same creature in the same round, and cannot use either bite or tail on any round where it tramples."
   },
   {
     "name": "Dinosaur, Triceratops",
@@ -907,7 +907,7 @@
           "Treasure Type": "None",
           "XP": 25
         },
-        "description": "Normal dogs include most medium and large breeds, including wild dogs. After biting an opponent, a dog can hold on, doing 1d4 damage automatically every round, until killed or until the victim spends an attack breaking free (which requires a save vs. Death Ray, adjusted by the character’s Strength bonus)."
+        "description": "Normal dogs include most medium and large breeds, including wild dogs. After biting an opponent, a dog can hold on, doing 1d4 damage automatically every round, until killed or until the victim spends an attack breaking free (which requires a save vs. Death Ray, adjusted by the character's Strength bonus)."
       },
       {
         "type": "Riding",
@@ -1680,7 +1680,7 @@
           "hitDice": "½ (1d4 hit points)",
           "numAttacks": "2 talons, 1 beak",
           "damage": "1d4 talon, 1d4 beak",
-          "movement": "10’ Fly 160’(10’)",
+          "movement": "10' Fly 160'(10')",
           "numAppear": "1, Wild 1d4",
           "saveAs": "Fighter: 1",
           "morale": "8",
@@ -1908,7 +1908,7 @@
         }
       ]
     ],
-    "description": "**Ghouls** are **undead** monsters which eat the flesh of dead humanoids to survive. They are vile, disgusting carrion-eaters, but are more than willing to kill for food. Those slain by ghouls will generally be stored until they begin to rot before the ghouls will actually eat them.\n\nLiving creatures hit by a ghoul’s bite or claw attack must save vs. Paralysis or be paralyzed for 2d8 turns. Elves are immune to this paralysis. Ghouls try to attack with surprise whenever possible, striking from behind tombstones or bursting from shallow graves; when they attack in this way, they are able to surprise opponents on 1-3 on 1d6. Like all undead, they may be Turned by Clerics and are immune to **sleep**, **charm**, and **hold** magics.\n\nHumanoids bitten by ghouls may be infected with ghoul fever. Each time a humanoid is bitten, there is a 5% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghoul fever rises as a ghoul at the next midnight. A humanoid who becomes a ghoul in this way retains none of the knowledge or abilities they possessed in life. The newly-risen ghoul is not under the control of any other ghouls, but hungers for the flesh of the dead and behaves like any other ghoul in all respects.\n\n**Ghasts** look and fight almost exactly like ghouls, but they are smarter and just a bit more powerful. Refer to the previous paragraphs for information about their claw attacks and other abilities.\n\nThe stink of death and corruption surrounding these creatures is overwhelming. Living creatures within 10 feet must succeed on a save vs. Poison or be sickened for 2d6 rounds (-2 to attack rolls). A creature that successfully saves cannot be affected again by the same ghast’s stench for 24 hours. A **neutralize poison** spell removes the effect from a sickened creature.\n\nThey may be Turned by Clerics using the same column as the ghoul, but as they are superior to ghouls, in a mixed group of ghasts and ghouls the GM should apply Turning effects to the ordinary ghouls first.\n\nHumanoids bitten by ghasts may be infected with ghast fever. Each time a humanoid is bitten, there is a 10% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghast fever rises as a ghast at the next midnight, in a similar fashion to the ghoul. However, a humanoid who becomes a ghast in this way retains all of the knowledge and abilities they possessed in life, unless those abilities are directly incompatible with the creature's new form (as decided by the GM). For such ghasts, the GM should also adjust XP values to include any such abilities. The newly-risen ghast is not under the control of any other ghasts, but hungers for the flesh of the living and behaves like any other ghast in all respects."
+    "description": "**Ghouls** are **undead** monsters which eat the flesh of dead humanoids to survive. They are vile, disgusting carrion-eaters, but are more than willing to kill for food. Those slain by ghouls will generally be stored until they begin to rot before the ghouls will actually eat them.\n\nLiving creatures hit by a ghoul's bite or claw attack must save vs. Paralysis or be paralyzed for 2d8 turns. Elves are immune to this paralysis. Ghouls try to attack with surprise whenever possible, striking from behind tombstones or bursting from shallow graves; when they attack in this way, they are able to surprise opponents on 1-3 on 1d6. Like all undead, they may be Turned by Clerics and are immune to **sleep**, **charm**, and **hold** magics.\n\nHumanoids bitten by ghouls may be infected with ghoul fever. Each time a humanoid is bitten, there is a 5% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghoul fever rises as a ghoul at the next midnight. A humanoid who becomes a ghoul in this way retains none of the knowledge or abilities they possessed in life. The newly-risen ghoul is not under the control of any other ghouls, but hungers for the flesh of the dead and behaves like any other ghoul in all respects.\n\n**Ghasts** look and fight almost exactly like ghouls, but they are smarter and just a bit more powerful. Refer to the previous paragraphs for information about their claw attacks and other abilities.\n\nThe stink of death and corruption surrounding these creatures is overwhelming. Living creatures within 10 feet must succeed on a save vs. Poison or be sickened for 2d6 rounds (-2 to attack rolls). A creature that successfully saves cannot be affected again by the same ghast's stench for 24 hours. A **neutralize poison** spell removes the effect from a sickened creature.\n\nThey may be Turned by Clerics using the same column as the ghoul, but as they are superior to ghouls, in a mixed group of ghasts and ghouls the GM should apply Turning effects to the ordinary ghouls first.\n\nHumanoids bitten by ghasts may be infected with ghast fever. Each time a humanoid is bitten, there is a 10% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghast fever rises as a ghast at the next midnight, in a similar fashion to the ghoul. However, a humanoid who becomes a ghast in this way retains all of the knowledge and abilities they possessed in life, unless those abilities are directly incompatible with the creature's new form (as decided by the GM). For such ghasts, the GM should also adjust XP values to include any such abilities. The newly-risen ghast is not under the control of any other ghasts, but hungers for the flesh of the living and behaves like any other ghast in all respects."
   },
   {
     "name": "Giant,  Cloud",
@@ -2140,5 +2140,325 @@
       ]
     ],
     "description": "Goblins are small, reputedly wicked humanoids. They are cunning and vicious, and very sneaky. Adult goblins are 3 to 3½ feet tall and weigh 40 to 45 pounds, with very little difference between males and females. Their skin color ranges from gray to green, and their eyes are usually bright and crafty-looking, varying in color from red to yellow.\n\nAll goblins have Darkvision with a 30' range.\n\nThe statistics given above are for a standard Goblin in leather armor with a shield; they have a natural Movement rate of 30' and a natural Armor Class of 11. Some goblins ride dire wolves into combat, and large groups of goblins will often employ them to track and attack their foes.\n\nOne out of every eight goblins will be a warrior of 3-3 Hit Dice (145 XP). Goblins gain a +1 bonus to their morale if they are led by a warrior. In a lair or other settlement, one out of every fifteen will be a chieftain of 5-5 Hit Dice (360 XP) in chainmail with an Armor Class of 15 (11) and movement of 10' that gains a +1 bonus to damage due to strength. In lairs or settlements of 30 or more goblins, there will be a goblin king of 7-7 Hit Dice (670 XP), with an Armor Class of 16 (11), wearing chainmail and carrying a shield, with a movement of 10', and having a +1 bonus to damage. Goblins have a +2 bonus to morale while their king is present (this is not cumulative with the bonus given by a warrior leader). In addition, a lair has a chance equal to 1 on 1d6 of a shaman being present (or 1-2 on 1d6 if a goblin king is present). A shaman is equivalent to a regular goblin statistically, but has Clerical abilities at level 1d4+1."
+  },
+  {
+    "name": "Golem*",
+    "stats": null,
+    "description": "Golems are a kind of construct, a creature created from non-living matter and animated by application of magic. The powers required to animate a golem are prodigious, and involve summoning, capturing, and binding an elemental spirit to the constructed body. This process also binds the golem to the will of its creator.\n\n They are mindless, and thus immune to magics affecting the mind such as sleep, charm, hold, and any form of mind reading or telepathy. They must be given explicit, detailed instructions verbally, and the controller must be within 60 feet of the golem to do so. If not actively being commanded, a golem will follow the last instructions given to it until the controller returns. If such a golem is attacked, it will fight in its own defense but will usually not pursue the attackers if they flee. The controller can order the golem to follow the commands of another, but can always resume control if desired (i.e. the controller's commands always take precedence).\n\n Employing a golem in combat is tricky, for once one attacks an opponent there is a cumulative 1% chance each round (so 1% the first round, 2% the second, 3% the third, and so on) that the golem will stop following commands and become berserk. Once this happens the golem will attack any creature in range, choosing targets randomly when there are more than one. If all targets are killed or driven away the golem will move on, looking for more creatures to kill and breaking down any barrier that stands in its way if it is at all possible.\n\n The berserk chance for a golem that is still under control is reset to 0% only when the golem is inactive, neither attacking nor being attacked, for one full round.\n\n The creator of the golem (but not any other person who might have been delegated control) may try to calm the golem, speaking firmly to it to convince it to stop. The creator needs to succeed at a saving throw vs. Spells to do this, after spending a round talking to the golem. If this roll fails the golem turns its attention to the creator and pursues them with single-minded hatred.\n\n If a berserk golem is unable to attack anyone for 5 rounds it resumes its inactive state, and the controller can again give it commands. If it begins to pursue its creator, though, it will never stop no matter how long it takes, and must normally be trapped or destroyed to stop it. It has no special way to find the creator, however, and will become inactive if it loses sight of the creator for a minimum of 1 day. If the golem is successfully calmed, it can be given commands again on the very next round of combat.\n\n As their bodies are made of non-living matter, golems can only be hit by magical weapons. Conversely, they are less resistant to various effects due to the fact that they are not living creatures; in general, golems save as if they were Fighters of ½ their hit dice in levels. For example, a Bone Golem has 8 hit dice, but saves as a Fighter of 4th level."
+  },
+  {
+    "name": "Golem,  Amber*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "21 (m)",
+          "hitDice": "10* (+9)",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "2d6 claw, 2d10 bite",
+          "movement": "60'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 5",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "1,390"
+        }
+      ]
+    ],
+    "description": "Amber golems are generally built to resemble lions or other great cats. They are able to detect invisible creatures or objects within 60', and can track with 95% accuracy through any terrain type.\n\nA magical attack that deals electricity damage heals 1 point of damage for every 3 full points of damage the attack would otherwise deal. For example, an amber golem hit by a **lightning bolt** for 20 points of damage is instead healed up to 6 points. If the amount of healing would cause the golem to exceed its full normal hit points, the excess is ignored."
+  },
+  {
+    "name": "Golem,  Bone*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19 (m)",
+          "hitDice": "8*",
+          "numAttacks": "4 weapons",
+          "damage": "1d6 or by weapon (each)",
+          "movement": "40' (10')",
+          "numAppear": "1",
+          "saveAs": "Fighter: 4",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "945"
+        }
+      ]
+    ],
+    "description": "Bone golems are huge four-armed monsters created from the skeletons of at least two dead humanoids. Though made of bone, they are not undead and cannot be turned.\n\nInstead of four one-handed weapons, a bone golem can be armed with two two-handed weapons, giving 2 attacks per round and a damage figure of 1d10 or by weapon (each)."
+  },
+  {
+    "name": "Golem,  Brass*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "20 (m)",
+          "hitDice": "20** (+13)",
+          "numAttacks": "1 fist + special",
+          "damage": "3d10 fist + special",
+          "movement": "80' (10')",
+          "numAppear": "1",
+          "saveAs": "Fighter: 10",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "5,650"
+        }
+      ]
+    ],
+    "description": "These golems resemble statues made of bronze; unlike natural bronze statues, they never turn green from verdigris. A bronze golem is 10 feet tall and weighs about 4,500 pounds. A bronze golem cannot speak or make any vocal noise, nor does it have any distinguishable odor. It moves with a ponderous but smooth gait. Each step causes the floor to tremble unless it is on a thick, solid foundation.\n\nThe interior of a bronze golem is molten metal. Creatures hit by one in combat suffer an additional 1d10 points of damage from the heat (unless resistant to heat or fire). If one is hit in combat, molten metal spurts out, spraying the attacker for 2d6 damage. A save vs. Death Ray is allowed to avoid the metal spray."
+  },
+  {
+    "name": "Golem,  Clay*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "22 (m)",
+          "hitDice": "11** (+9)",
+          "numAttacks": "1 fist",
+          "damage": "3d10 fist",
+          "movement": "20'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 6",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "1,765"
+        }
+      ]
+    ],
+    "description": "Clay golems are made of clay, naturally, and thus may be any natural clay color; generally, one will be grayish in color, but common clay containing iron oxide may be used which results in a red, brown, or even orange clay golem. They are usually unclad, but some golem-makers choose to put a leather belt, girdle, or apron on their creation. A clay golem weighs about 600 pounds.\n\nWounds inflicted by a clay golem do not heal normally; worse, magical healing cures only 1 point per die rolled (but add all bonuses normally). Thus, a cure light wounds spell heals just 2 points."
+  },
+  {
+    "name": "Golem,  Flesh*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "20 (m)",
+          "hitDice": "9** (+8)",
+          "numAttacks": "2 fists",
+          "damage": "2d8 fist",
+          "movement": "30'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 5",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "1,225"
+        }
+      ]
+    ],
+    "description": "Flesh golems are horrible creations made of body parts from deceased humanoids (including all character races as well as humanoid monsters), crudely stitched together and animated by magic. A flesh golem is 8 feet tall and weighs about 450 pounds.\n\nA magical attack that deals cold or fire damage slows a flesh golem (as the reverse of the haste spell) for 2d6 rounds, with no saving throw. Attacks using lightning or electricity heal 1 point of damage per every 3 points the attack would normally inflict, rounded down; further, such an attack breaks any ongoing slow effect on the golem. As usual, healing will not increase the monster above its normal hit points. For example, a flesh golem hit by a lightning bolt which should deal 14 points of damage instead receives up to 4 points of healing."
+  },
+  {
+    "name": "Golem,  Iron*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "25 (m)",
+          "hitDice": "17** (+12)",
+          "numAttacks": "1 strike + special",
+          "damage": "4d10 strike + special",
+          "movement": "20' (10')",
+          "numAppear": "1",
+          "saveAs": "Fighter: 9",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "3,890"
+        }
+      ]
+    ],
+    "description": "Iron golems are huge, generally 11 to 12 feet in height with a weight of 4,500 to 5,500 pounds. Such golems are usually fashioned like statues, and may appear to be wearing armor and armed with a shortsword or mace; the sculpting will often be simpler and cruder than that done by a real sculptor. Though an iron golem has no voice, it is hardly silent when in motion, as its gentlest footstep on any hard surface shakes the floor and walls. Note that, while an iron golem has little if any odor normally, when wet they have a strong metallic smell detectable up to 60 feet away.\n\nIron golems can exhale a cloud of poisonous gas which fills a 10-foot cube and persists for 1 round. Those within the area of effect must save vs. Dragon Breath or die. This ability can be used up to 3 times per day.\n\nA magical attack that deals lightning or electrical damage slows an iron golem (as the reverse of the haste spell) for 1d6 rounds, with no saving throw. Attacks using fire heal 1 point of damage per every 3 points the attack would normally inflict, rounded down; further, such an attack breaks any ongoing slow effect on the golem. As usual, healing will not increase the monster above its normal hit points. For example, an iron golem hit by a fireball which should deal 17 points of damage instead receives up to 5 points of healing.\n\nAn iron golem is affected by rust attacks such as that of a rust monster, suffering 2d6 points of damage for each hit (with no saving throw normally allowed)."
+  },
+  {
+    "name": "Golem,  Stone*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "25 (m)",
+          "hitDice": "14** (+11)",
+          "numAttacks": "1 strike + special",
+          "damage": "3d8 strike + special",
+          "movement": "20' (10')",
+          "numAppear": "1",
+          "saveAs": "Fighter: 7",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "2,730"
+        }
+      ]
+    ],
+    "description": "Stone golems are quite large, normally being about 8 to 10 feet in height with a weight of around 2,000 pounds. These golems are usually fashioned like statues, and may appear to be wearing armor and armed with a shortsword or mace; the sculpting will often be simpler and cruder than that done by a real sculptor.\n\nOnce every other round a stone golem has the ability to cast a slow effect, as the reverse of the haste spell; a save vs. Spells is allowed to resist. This effect lasts for 2d6 rounds and has an effective range of just 10 feet.\n\nA stone to flesh spell may be used to weaken the monster. The spell does not actually change the golem's structure, but for one full round after being affected, the golem is vulnerable to normal weapons. The stone golem is allowed a save vs. Spells to resist this effect."
+  },
+  {
+    "name": "Golem,  Wood*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13 (m)",
+          "hitDice": "2+2*",
+          "numAttacks": "1 fist",
+          "damage": "1d8 fist",
+          "movement": "40'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 1",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Wood golems are small constructs, not more than 4' in height, and are crudely made. Being made of wood makes them vulnerable to fire-based attacks; thus, wood golems suffer one extra point of damage per die from fire; any saving throws against such effects are at a penalty of -2. They move stiffly, suffering a -1 penalty to Initiative."
+  },
+  {
+    "name": "Gorgon",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8*",
+          "numAttacks": "1 gore or 1 breath",
+          "damage": "2d6 gore, petrification breath",
+          "movement": "40' (10')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 8",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "945"
+        }
+      ]
+    ],
+    "description": "Gorgons are magical monsters resembling cattle made of iron. Their breath can turn living creatures to stone; it covers an area 60' long by 10' wide, and can be used as many times per day as the monster has hit dice, but no more often than every other round. A save vs. Petrify is allowed to resist.\n\nAn adult (bull) gorgon weighs up to 4,500 pounds and can be as much as 7 feet tall at the shoulder and up to 9 feet long. Females (cows) will be a bit smaller, perhaps no more than 6 feet at the shoulder and 8 feet long with a weight of around 4,000 pounds. However, their combat statistics are much the same as males. Any group of more than one gorgon will consist of one bull with the rest being cows."
+  },
+  {
+    "name": "Griffon",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "7",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 2d8 bite",
+          "movement": "40' (10') Fly 120' (10')",
+          "numAppear": "Wild 2d8, Lair 2d8",
+          "saveAs": "Fighter: 7",
+          "morale": "8",
+          "treasureType": "E",
+          "xp": "670"
+        }
+      ]
+    ],
+    "description": "Griffons are large carnivorous creatures resembling lions with the head, foreclaws and wings of eagles. Average adults (male or female) have a wingspan of around 22 feet and weigh around 500 pounds.\n\nGriffons nest on high mountaintops, soaring down to feed on horses, the beast's preferred prey. Indeed, a griffon will attack a horse over anything else. They hunt and travel in flocks, diving low when attacking to swipe with their claws. They are not above retreating and then returning when they may be unexpected.\n\nGriffons can be trained as mounts if raised in captivity, but even in this case they may try to attack horses if any come within about 120'. Roll a morale check in this case; if the check is failed, the griffon will try to attack immediately. A light load for a griffon is up to 400 pounds; a heavy load, up to 900 pounds."
+  },
+  {
+    "name": "Hangman Tree",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "5",
+          "numAttacks": "4 limbs",
+          "damage": "1d6 limb +1d6/round strangle each",
+          "movement": "0",
+          "numAppear": "Wild 1",
+          "saveAs": "Fighter: 4",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Hangman trees are horrible, semi-animate creatures that fertilize themselves with dead bodies. A hangman tree has four animated limbs that can wrap around the necks of living creatures that pass beneath, strangling for 1d6 points of damage per round. These limbs are arranged evenly around the tree in most cases, and generally no more than one limb can attack any single creature at a time.\n\nThe roots of this tree are also animated; they do not attack, but they do pull dead bodies below the surface of the ground for \"digestion.\""
+  },
+  {
+    "name": "Harpy",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2*",
+          "numAttacks": "2 claws, 1 weapon + special",
+          "damage": "1d4 claw, 1d6 or by weapon + special",
+          "movement": "20' Fly 50' (10')",
+          "numAppear": "1d6, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasureType": "C",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "A harpy looks like a giant vulture bearing the torso and face of a human female. They are able to attack with their claws as well as with a normal weapon, but they are most feared for the power of their song by which they are able to charm living creatures, and, having charmed them, tear them to pieces at their leisure.\n\nAll living creatures within a 300' range of one or more singing harpies must make a save vs. Spells or become **charmed**. The same harpy's song cannot affect a creature that successfully saves again for 24 hours. This charm is very powerful, such that a victim will approach the harpy or harpies without fear with a dazed expression on its face. If the victim is led toward some danger, such as a ravine, fire, or the like, a second saving throw is allowed immediately; however, if this save fails the victim will proceed directly into danger.\n\nOnce in reach of a harpy, a charmed victim will surrender completely, even allowing the harpy to attack and kill it without putting up any sort of resistance. The charm effect lasts one full round after all harpies have ceased singing."
+  },
+  {
+    "name": "Hawk",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "1 claw or bite",
+          "damage": "1d2 claw or bite",
+          "movement": "Fly 160'",
+          "numAppear": "Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasureType": "None",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "Normal hawks (or falcons) are raptors, predatory birds that typically subsist on small snakes and other vermin. Most have wingspans of less than 5 feet and a body length of no more than 2 feet.\n\nGiant hawks are 4 to 6 feet long, with wingspans of 12 feet or more; they can carry off creatures of Halfling size or smaller.\n\nAll hawks will shy away from combat with any creature of equal or greater size, unless forced or cornered or their eggs or offspring are threatened."
+  },
+  {
+    "name": "Hellhound",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14 to 18",
+          "hitDice": "3** to 7**",
+          "numAttacks": "1 bite or 1 breath",
+          "damage": "1d6 bite, 1d6 per Hit Die breath",
+          "movement": "40'",
+          "numAppear": "2d4, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 3 to 7 (same as Hit Dice)",
+          "morale": "9",
+          "treasureType": "C",
+          "xp": "3 HD 205, 4 HD 320, 5 HD 450,\n6 HD 610, 7 HD 800"
+        }
+      ]
+    ],
+    "description": "Hellhounds are large canine creatures sheathed in hellish flame; they range in size from 3 to 5 feet at the shoulder (3 feet for a 3 hit die monster, plus ½ foot for each additional hit die) with a weight ranging from 100 to 200 pounds (100 pounds at 3 hit dice plus 25 pounds per additional hit die). These monsters are native to another plane where they hunt in packs; sometimes powerful wizards or evil priests summon them for use as watchdogs. In addition to biting, each hellhound may breathe fire a number of times per day equal to its hit dice. In combat, one-third of the time (1-2 on 1d6) a hellhound will choose to breathe fire; otherwise it will attempt to bite. Roll each round to determine which attack form will be used.\n\nA hellhound's breath weapon is a cone of flame 10' wide at the far end which is 10' long for those with 3 or 4 hit dice, 20' long for those with 5 or 6 hit dice, and 30' long for the largest hellhounds. This breath weapon does 1d6 points of damage per each hit die of the hellhound to all within the area of effect; a successful saving throw vs. Dragon Breath reduces damage to half normal.\n\nNote that hellhounds vary with regard to the number of hit dice each has. If generating a group randomly, roll 1d6+1 for the hit dice of each, reading a total of 2 as 3.\n\nA hellhound has an Armor Class equal to 11 plus its hit dice."
+  },
+  {
+    "name": "Hippogriff",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "3",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 1d10 bite",
+          "movement": "60' (10') Fly 120' (10')",
+          "numAppear": "Wild 2d8",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Hippogriffs resemble large flying horses with the forefront of a bird of prey; they have wingspans of around 20 feet and an overall body length up to 9 feet, and weigh 900 to 1,200 pounds. They are found in a variety of colors and patterns, including white, black, tan, brown, and reddish brown with markings such as blazes, stripes, stars, \"bald\" faces, and so on.\n\nA hippogriff avoids the territories and civilizations of other creatures, dwelling in extreme altitudes. Griffons sometimes prey upon them, and hippogriffs will generally attack griffons on sight if they have a numerical advantage.\n\nHippogriffs are omnivorous, entering combat only as defense, save for those times a griffon is met. They are prized as flying mounts since, unlike griffons, they are relatively safe around horses; note that it is still necessary to raise one in captivity in order to use it as a mount. A light load for a hippogriff is up to 400 pounds; a heavy load, up to 900 pounds."
   }
 ]
