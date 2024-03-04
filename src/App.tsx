@@ -35,6 +35,8 @@ const App: React.FC = () => {
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const date = new Date();
+  console.log("date:", date.getMonth(), date.getDate());
   return (
     <ConfigProvider theme={cqTheme}>
       <Suspense fallback={<Spin />}>
@@ -44,6 +46,12 @@ const App: React.FC = () => {
             element={
               <PageLayout
                 user={user}
+                // If the date is March 4th
+                alert={
+                  date.getMonth() === 2 && date.getDate() === 4
+                    ? "Happy International GM's Day!"
+                    : undefined
+                }
                 // alert={"Site-Wide Message Goes Here"}
               />
             }

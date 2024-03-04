@@ -410,7 +410,7 @@
           "saveAs": "Fighter: 2",
           "morale": "12",
           "treasure": "None",
-          "xp": "100 – 280"
+          "xp": "100 - 280"
         }
       ]
     ],
@@ -2991,7 +2991,7 @@
         {
           "ac": "12",
           "hitDice": "3*",
-          "numAttacks": "–",
+          "numAttacks": "-",
           "damage": "1 bite",
           "movement": "40' (special)",
           "numAppear": "1d4, Wild 1d6",
@@ -3021,7 +3021,7 @@
         {
           "ac": "16",
           "hitDice": "7*",
-          "numAttacks": "–",
+          "numAttacks": "-",
           "damage": "1 bite",
           "movement": "40' (special)",
           "numAppear": "1d6",
