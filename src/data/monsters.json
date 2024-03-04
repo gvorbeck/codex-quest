@@ -1665,7 +1665,7 @@
           "numAppear": "Wild 1d20",
           "saveAs": "Fighter: 9",
           "morale": "8",
-          "treasureType": "special",
+          "treasure": "special",
           "xp": "1,075"
         }
       ],
@@ -1680,7 +1680,7 @@
           "numAppear": "Wild 1d12",
           "saveAs": "Fighter: 10",
           "morale": "8",
-          "treasureType": "special",
+          "treasure": "special",
           "xp": "1,300"
         }
       ]
@@ -1701,7 +1701,7 @@
           "numAppear": "1, Wild 1d4",
           "saveAs": "Fighter: 1",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "10"
         }
       ]
@@ -1863,7 +1863,7 @@
           "numAppear": "1d6, Wild 2d4, Lair 2d4",
           "saveAs": "Fighter: 6",
           "morale": "11",
-          "treasureType": "C",
+          "treasure": "C",
           "xp": "320"
         }
       ]
@@ -1884,7 +1884,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 10",
           "morale": "10",
-          "treasureType": "E, N, O",
+          "treasure": "E, N, O",
           "xp": "1,390"
         }
       ]
@@ -1905,7 +1905,7 @@
           "numAppear": "1d6, Wild 2d8, Lair 2d8",
           "saveAs": "Fighter: 2",
           "morale": "9",
-          "treasureType": "B",
+          "treasure": "B",
           "xp": "100"
         }
       ],
@@ -1920,7 +1920,7 @@
           "numAppear": "1d4, Wild 1d8, Lair 1d8",
           "saveAs": "Fighter: 2",
           "morale": "9",
-          "treasureType": "B",
+          "treasure": "B",
           "xp": "125"
         }
       ]
@@ -1941,7 +1941,7 @@
           "numAppear": "1d2, Wild 1d3, Lair 1d3",
           "saveAs": "Fighter: 12",
           "morale": "10",
-          "treasureType": "E + 1d12x1,000 gp",
+          "treasure": "E + 1d12x1,000 gp",
           "xp": "1,975"
         }
       ]
@@ -1962,7 +1962,7 @@
           "numAppear": "1, Wild 1d4, Lair 1d4",
           "saveAs": "Fighter: 13",
           "morale": "9",
-          "treasureType": "E + 1d8x1,000 gp",
+          "treasure": "E + 1d8x1,000 gp",
           "xp": "2,285"
         }
       ]
@@ -1983,7 +1983,7 @@
           "numAppear": "1d2, Wild 1d3, Lair 1d3",
           "saveAs": "Fighter: 11",
           "morale": "9",
-          "treasureType": "E + 1d10x1,000 gp",
+          "treasure": "E + 1d10x1,000 gp",
           "xp": "1,670"
         }
       ]
@@ -2004,7 +2004,7 @@
           "numAppear": "1d2, Wild 1d4, Lair 1d4",
           "saveAs": "Fighter: 10",
           "morale": "9",
-          "treasureType": "E + 1d10x1,000 gp",
+          "treasure": "E + 1d10x1,000 gp",
           "xp": "1,390"
         }
       ]
@@ -2025,7 +2025,7 @@
           "numAppear": "1d4, Wild 2d4, Lair 2d4",
           "saveAs": "Fighter: 8",
           "morale": "8",
-          "treasureType": "E + 1d8x1,000 gp",
+          "treasure": "E + 1d8x1,000 gp",
           "xp": "875"
         }
       ]
@@ -2046,7 +2046,7 @@
           "numAppear": "1d4, Wild 1d4, Lair 1d4+1",
           "saveAs": "Fighter: 16",
           "morale": "10",
-          "treasureType": "E + 1d12x1,000 gp",
+          "treasure": "E + 1d12x1,000 gp",
           "xp": "3,250"
         }
       ]
@@ -2067,7 +2067,7 @@
           "numAppear": "1d2, Wild 1d6, Lair 1d6",
           "saveAs": "Fighter: 9",
           "morale": "9",
-          "treasureType": "E + 1d8x1,000 gp",
+          "treasure": "E + 1d8x1,000 gp",
           "xp": "1,075"
         }
       ]
@@ -2088,7 +2088,7 @@
           "numAppear": "1, Wild 1d3, Lair 1d3",
           "saveAs": "Fighter: 15",
           "morale": "10",
-          "treasureType": "E + 1d20x1,000 gp",
+          "treasure": "E + 1d20x1,000 gp",
           "xp": "3,100"
         }
       ]
@@ -2109,7 +2109,7 @@
           "numAppear": "1d6, Wild 3d6, Lair 3d6",
           "saveAs": "Fighter: 2",
           "morale": "8",
-          "treasureType": "Q, S each; D, K in lair",
+          "treasure": "Q, S each; D, K in lair",
           "xp": "75"
         }
       ]
@@ -2130,7 +2130,7 @@
           "numAppear": "1d8, Wild 5d8, Lair 5d8",
           "saveAs": "Fighter: 1 (with Dwarf bonuses)",
           "morale": "8",
-          "treasureType": "D",
+          "treasure": "D",
           "xp": "25"
         }
       ]
@@ -2151,7 +2151,7 @@
           "numAppear": "2d4, Wild 6d10, Lair 6d10",
           "saveAs": "Fighter: 1",
           "morale": "7 or see below",
-          "treasureType": "R each; C in lair",
+          "treasure": "R each; C in lair",
           "xp": "10"
         }
       ]
@@ -2176,7 +2176,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 5",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "1,390"
         }
       ]
@@ -2197,7 +2197,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 4",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "945"
         }
       ]
@@ -2218,7 +2218,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 10",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "5,650"
         }
       ]
@@ -2239,7 +2239,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 6",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "1,765"
         }
       ]
@@ -2260,7 +2260,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 5",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "1,225"
         }
       ]
@@ -2281,7 +2281,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 9",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "3,890"
         }
       ]
@@ -2302,7 +2302,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 7",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "2,730"
         }
       ]
@@ -2323,7 +2323,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 1",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "100"
         }
       ]
@@ -2344,7 +2344,7 @@
           "numAppear": "Wild 1d4",
           "saveAs": "Fighter: 8",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "945"
         }
       ]
@@ -2365,7 +2365,7 @@
           "numAppear": "Wild 2d8, Lair 2d8",
           "saveAs": "Fighter: 7",
           "morale": "8",
-          "treasureType": "E",
+          "treasure": "E",
           "xp": "670"
         }
       ]
@@ -2386,7 +2386,7 @@
           "numAppear": "Wild 1",
           "saveAs": "Fighter: 4",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "360"
         }
       ]
@@ -2407,7 +2407,7 @@
           "numAppear": "1d6, Wild 2d4, Lair 2d4",
           "saveAs": "Fighter: 2",
           "morale": "7",
-          "treasureType": "C",
+          "treasure": "C",
           "xp": "100"
         }
       ]
@@ -2428,7 +2428,7 @@
           "numAppear": "Wild 1d6, Lair 1d6",
           "saveAs": "Fighter: 1",
           "morale": "7",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "10"
         }
       ]
@@ -2449,7 +2449,7 @@
           "numAppear": "2d4, Wild 2d4, Lair 2d4",
           "saveAs": "Fighter: 3 to 7 (same as Hit Dice)",
           "morale": "9",
-          "treasureType": "C",
+          "treasure": "C",
           "xp": "3 HD 205, 4 HD 320, 5 HD 450,\n6 HD 610, 7 HD 800"
         }
       ]
@@ -2470,7 +2470,7 @@
           "numAppear": "Wild 2d8",
           "saveAs": "Fighter: 3",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "145"
         }
       ]
@@ -2491,7 +2491,7 @@
           "numAppear": "1d6, Wild 2d4, Lair 4d8",
           "saveAs": "Fighter: 1",
           "morale": "8",
-          "treasureType": "Q, R each; D, K in lair",
+          "treasure": "Q, R each; D, K in lair",
           "xp": "25"
         }
       ]
@@ -2512,7 +2512,7 @@
           "numAppear": "1, Wild 1, Lair 1",
           "saveAs": "Fighter: 5 to 12",
           "morale": "9",
-          "treasureType": "B",
+          "treasure": "B",
           "xp": "5 HD 360, 6 HD 500, 7 HD 670,\n8 HD 875, 9 HD 1,075, 10 HD 1,300,\n11 HD 1,575, 12 HD 1,875"
         }
       ]
@@ -2533,7 +2533,7 @@
           "numAppear": "1d8",
           "saveAs": "Fighter: 2",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "75"
         }
       ],
@@ -2548,7 +2548,7 @@
           "numAppear": "1d6 Wild/Lair 1d8",
           "saveAs": "Fighter: 3",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "145"
         }
       ]
@@ -2569,7 +2569,7 @@
           "numAppear": "1 swarm, Wild 1d3 swarms",
           "saveAs": "N/A",
           "morale": "11",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "2 HD 100, 3 HD 175, 4 HD 280"
         }
       ]
@@ -2590,7 +2590,7 @@
           "numAppear": "1 (special)",
           "saveAs": "Fighter: 8",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "945"
         }
       ]
@@ -2611,7 +2611,7 @@
           "numAppear": "1d4",
           "saveAs": "Fighter: 4",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "175"
         }
       ]
@@ -2632,7 +2632,7 @@
           "numAppear": "1d2, Wild 1d6",
           "saveAs": "Fighter: 4",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "240"
         }
       ]
@@ -2657,7 +2657,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 10",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "1,390"
         }
       ]
@@ -2678,7 +2678,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 2",
           "morale": "12",
-          "treasureType": "V",
+          "treasure": "V",
           "xp": "280"
         }
       ]
@@ -2699,7 +2699,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 3",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "175"
         }
       ]
@@ -2720,7 +2720,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 2",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "125"
         }
       ]
@@ -2741,7 +2741,7 @@
           "numAppear": "1",
           "saveAs": "Fighter: 5",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "405"
         }
       ]
@@ -2762,7 +2762,7 @@
           "numAppear": "4d4, Wild 6d10, Lair 6d10",
           "saveAs": "Normal Man",
           "morale": "6",
-          "treasureType": "P, Q each; C in lair",
+          "treasure": "P, Q each; C in lair",
           "xp": "10"
         }
       ]
@@ -2783,7 +2783,7 @@
           "numAppear": "Wild 1d4",
           "saveAs": "Fighter: 6",
           "morale": "10",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "500"
         }
       ]
@@ -2804,7 +2804,7 @@
           "numAppear": "1, Wild 1d4",
           "saveAs": "Fighter: 4",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "240"
         }
       ]
@@ -2825,7 +2825,7 @@
           "numAppear": "Wild 1d8",
           "saveAs": "Fighter: 5",
           "morale": "9",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "360"
         }
       ]
@@ -2850,7 +2850,7 @@
           "numAppear": "1d6",
           "saveAs": "Fighter: 3",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "145"
         }
       ]
@@ -2871,7 +2871,7 @@
           "numAppear": "1d4",
           "saveAs": "Fighter: 4",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "280"
         }
       ]
@@ -2892,7 +2892,7 @@
           "numAppear": "1d3",
           "saveAs": "Fighter: 5",
           "morale": "12",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "405"
         }
       ]
@@ -2913,7 +2913,7 @@
           "numAppear": "1d4, Wild 1d8",
           "saveAs": "Fighter: 3",
           "morale": "7",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "240"
         }
       ]
@@ -2934,7 +2934,7 @@
           "numAppear": "1d6, Wild 1d10",
           "saveAs": "Fighter: 2",
           "morale": "7",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "145"
         }
       ]
@@ -2955,7 +2955,7 @@
           "numAppear": "1d3, Wild 1d6",
           "saveAs": "Fighter: 4",
           "morale": "7",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "360"
         }
       ]
@@ -2976,7 +2976,7 @@
           "numAppear": "1d2, Wild 1d4",
           "saveAs": "Fighter: 5",
           "morale": "6",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "500"
         }
       ]
@@ -2997,7 +2997,7 @@
           "numAppear": "1d4, Wild 1d6",
           "saveAs": "Fighter: 3",
           "morale": "7",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "175"
         }
       ],
@@ -3012,7 +3012,7 @@
           "numAppear": "1d6",
           "saveAs": "Fighter: 5",
           "morale": "8",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "405"
         }
       ],
@@ -3027,7 +3027,7 @@
           "numAppear": "1d6",
           "saveAs": "Fighter: 7",
           "morale": "9",
-          "treasureType": "None",
+          "treasure": "None",
           "xp": "735"
         }
       ]
@@ -3048,7 +3048,7 @@
           "numAppear": "2d4, Wild 2d4, Lair 6d6",
           "saveAs": "Fighter: 2",
           "morale": "11",
-          "treasureType": "D",
+          "treasure": "D",
           "xp": "75"
         }
       ],
@@ -3063,7 +3063,7 @@
           "numAppear": "1d8, Lair 5d8",
           "saveAs": "Fighter: 2",
           "morale": "9",
-          "treasureType": "D",
+          "treasure": "D",
           "xp": "75"
         }
       ]
@@ -3088,11 +3088,662 @@
           "numAppear": "1d4, Wild 1d4, Lair 1d4",
           "saveAs": "Fighter: 6",
           "morale": "10",
-          "treasureType": "C",
+          "treasure": "C",
           "xp": "555"
         }
       ]
     ],
     "description": "Werebears are humans that can transform into large bears. When in human form, they typically appear as well-muscled, imposing figures, with an abundance of thick hair. Werebears typically dwell in deep forests, far from civilization. They are distrustful of those that they do not know, but will ferociously defend those that they have befriended."
+  },
+  {
+    "name": "Lycanthrope, Wereboar*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16 (s)",
+          "hitDice": "4*",
+          "numAttacks": "1 bite",
+          "damage": "2d6",
+          "movement": "50' Human Form 40'",
+          "numAppear": "1d4, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 4",
+          "morale": "9",
+          "treasure": "C",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Wereboars gain full control of their transformations quickly, needing only about a year to achieve mastery. They have just two forms, that of a human and that of a particularly large wild boar or sow.\n\nIn human form they tend to have \"piggish\" features such as gluttony and cunning, as well as an often strong physical resemblance to swine. Wereboars usually dislike both hard work and responsibility, but they are bullies who enjoy being in charge. They are easily bored with mundane things but are excited by violence (whether witnessing it or participating in it)."
+  },
+  {
+    "name": "Lycanthrope, Wererat*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13 (s)",
+          "hitDice": "3*",
+          "numAttacks": "1 bite or 1 weapon",
+          "damage": "1d4 bite or 1d6 or by weapon",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 2d8, Lair 2d8",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasure": "C",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "In addition to assuming the form of a giant rat, wererats can assume a hybrid form. This ratman form shares the animal form's immunity to normal weapons and can deliver an identical bite, but in this form the wererat may use a normal weapon instead of biting. Note that the wererat in ratman form cannot bite and use a weapon in the same round.\n\nIn human form, wererats tend to be skinny, nervous-looking individuals with pointed noses and lank hair. Their hair is almost always a rat-like brown color; those with different hair color who become wererats usually undergo a slow change to this color.\n\nUnlike most lycanthropes, wererats prefer to inhabit civilized areas, particularly cities. They frequently lair in sewers or other underground areas, coming out by night to steal from or kill city folk. The common stereotype of wererats as thieves is not unfounded; in fact, in many cities wererats lead the guild of thieves, sometimes secretly, sometimes not so much."
+  },
+  {
+    "name": "Lycanthrope, Weretiger*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17 (s)",
+          "hitDice": "5*",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 2d6 bite",
+          "movement": "50' Human Form 40'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "9",
+          "treasure": "C",
+          "xp": "405"
+        }
+      ]
+    ],
+    "description": "Weretigers are humans that can transform into tigers.\n\nIn human form, they are generally tall, trim, and very agile. They tend to live and hunt close to human settlements and are excellent trackers (5 in 6 chance to track prey in either form). Weretigers will typically only attack if provoked. They are capricious and arbitrary to deal with unless whatever offer is made to them is very attractive to them."
+  },
+  {
+    "name": "Lycanthrope, Werewolf*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (s)",
+          "hitDice": "4*",
+          "numAttacks": "1 bite (or 1 weapon, as given below)",
+          "damage": "2d4 bite, 1d6 or by weapon",
+          "movement": "60' Human Form 40'",
+          "numAppear": "1d6, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasure": "C",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Werewolves may be found anywhere humans are found. They are ferocious predators, equally willing to eat animal or human flesh. Unlike most lycanthropes, werewolves have no distinguishing features in human form, making them very hard indeed to identify.\n\nThough they usually have only the usual human and animal forms, there are rumors of some who are also able to assume a wolfman form. In this form they may choose to either bite or use a weapon, and may change back and forth each round. As with the animal form, the wolfman form is hit only by silver or magical weapons."
+  },
+  {
+    "name": "Mammoth (and Mastodon)",
+    "variants": [
+      [
+        "Mammoth",
+        {
+          "ac": "17",
+          "hitDice": "15 (+11)",
+          "numAttacks": "-",
+          "damage": "3d6 tusk, 2d6 trunk, 2d8 trample",
+          "movement": "40' (15')",
+          "numAppear": "Wild 1d12",
+          "saveAs": "Fighter: 15",
+          "morale": "8",
+          "treasure": "special",
+          "xp": "2,850"
+        }
+      ],
+      [
+        "Mastodon",
+        {
+          "ac": "18",
+          "hitDice": "13 (+10)",
+          "numAttacks": "2 tusks, 1 trunk grab, 2 tramples",
+          "damage": "2d6 tusk, 2d4 trunk, 2d8 trample",
+          "movement": "50' (15')",
+          "numAppear": "Wild 2d8",
+          "saveAs": "Fighter: 13",
+          "morale": "8",
+          "treasure": "special",
+          "xp": "2,175"
+        }
+      ]
+    ],
+    "description": "Mammoths are huge, shaggy prehistoric relatives of the elephant. Though found in a variety of climates, they are most common in colder territories.\n\nLike elephants, mammoths have five distinct attack modes (two tusks, a trunk grab, and two tramples with the front feet), but a single individual can apply no more than two of these attacks to any single opponent of small or medium size; large opponents may be targeted by three of these attacks in a round. However, one can attack multiple opponents in its immediate area at the same time.\n\nA light load for a mammoth is 8,500 pounds; a heavy load, up to 17,000 pounds.\n\nA mammoth has no treasure as such, but its tusks are worth 2d6 x 100 gp.\n\nMastodons are a related species found in more temperate climates. These prehistoric relatives of the elephant are intelligent and able to communicate with each other in a rudimentary way. They are more aggressive than the common elephant and will attack any creature they see as a threat.\n\nThey have the same basic attack modes as mammoths, with the same limitations as given above.\n\nA light load for a mastodon is 8,000 pounds; a heavy load, up to 16,000 pounds.\n\nA mastodon has no treasure as such, but its tusks are worth 1d10 x 100 gp."
+  },
+  {
+    "name": "Manticore",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "6+1*",
+          "numAttacks": "2 claws, 1 bite or 1d8 spikes (180' range)",
+          "damage": "1d4 claw, 2d4 bite, 1d6 spike",
+          "movement": "40' Fly 60' (10')",
+          "numAppear": "1d2, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "9",
+          "treasure": "D",
+          "xp": "555"
+        }
+      ]
+    ],
+    "description": "Manticores look like an overgrown lion with thick leathery wings and an ugly bearded humanoid face, often like that of a human or dwarf. Their tail ends in an assortment of spikes, which the beast may fire as projectiles; a maximum of 24 are available, and the manticore will launch a random number (1d8, as shown above) each time it chooses to use this attack. The creature will regrow just 1d6 spikes per day after expending them, so they will often delay using them against weaker opponents who they think they can easily dispatch.\n\nAn adult manticore is big, with an average weight of 1,000 pounds and a length (not including tail) of around 8 feet.\n\nManticores are vicious carnivores with a preference for human flesh. They will use their ranged attacks to \"soften up\" larger or more dangerous-looking prey before closing to melee range."
+  },
+  {
+    "name": "Medusa",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12",
+          "hitDice": "4**",
+          "numAttacks": "1 snakebite, gaze",
+          "damage": "1d6+poison bite, petrification gaze",
+          "movement": "30'",
+          "numAppear": "1d3, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasure": "F",
+          "xp": "320"
+        }
+      ]
+    ],
+    "description": "A medusa appears to be a human female with vipers growing from her head instead of hair. The gaze of a medusa will petrify any creature who meets it unless a save vs. Petrify is made. In general, any creature surprised by the medusa will meet its gaze. Those who attempt to fight the monster while averting their eyes suffer penalties of -4 on attack rolls and -2 to AC. It is safe to view a medusa's reflection in a mirror or other reflective surface; anyone using a mirror to fight a medusa suffers a penalty of -2 to attack and no penalty to AC. If a medusa sees its own reflection, it must save vs. Petrify itself; a petrified medusa is no longer able to petrify others, but the face of a medusa continues to possess the power to petrify even after death otherwise.\n\nMedusae instinctively avoid mirrors or other reflective surfaces, even drinking with their eyes closed, but if an attacker can manage to surprise the monster with a mirror she may see her reflection.\n\nFurther, the snakes growing from her head are poisonous (save vs. Poison or die in one turn). They attack as a group, not individually, once per round for 1d6 points of damage (plus the poison).\n\nThese creatures are well aware that, from the neck down anyway, they are quite visually pleasing to most humanoid males; they will thus often seek to show off their bodies in clinging clothes while wearing veils, hoods, scarves, and so on to hide their true nature. In this way they hope to get closer to potential victims and more easily surprise them.\n\nMedusae are shy and reclusive, owing no doubt to the fact that, once the lair of one is found, any humans living nearby will not rest until she is slain. They are hateful creatures, however, and will seek to destroy as many humans as they can without being discovered."
+  },
+  {
+    "name": "Mermaid",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12",
+          "hitDice": "1*",
+          "numAttacks": "1 weapon",
+          "damage": "1d6 or by weapon",
+          "movement": "Swim 40'",
+          "numAppear": "Wild 1d2 or 3d6 (see below)",
+          "saveAs": "Fighter: 1",
+          "morale": "8",
+          "treasure": "A",
+          "xp": "37"
+        }
+      ]
+    ],
+    "description": "Mermaids have the upper bodies of women and the lower bodies of dolphins. Also called \"sirens,\" mermaids often attempt to lure sailors or other men found near the sea. They accomplish this by means of their enchanting songs.\n\nA mermaid's song will attract any man within 100 yards, but generally has no effect on women. Men within the area of effect must save vs. Spells to resist, or else they will move toward the mermaid with amorous intent as directly as possible. If two mermaids are singing, apply a penalty of -4 to the save; more than two gives no extra benefit. Affected men will submit to anything the mermaid desires. When she tires of him, he might be freed or slain, depending on the mermaid's temperament.\n\nContrary to popular belief, mermaids are not fish (nor even half fish) and do not breathe water. They can hold their breath for up to an hour of light activity, or two turns (20 minutes) of strenuous action. However, being out of water more than two turns (20 minutes) causes the mermaid 1d4 points of damage per turn.\n\nMermaids can hear as well as dolphins, and can produce sounds ranging from the lowest frequency a normal human woman can produce up to the highest frequency of a dolphin. This means that mermaids can learn to communicate with dolphins and whales; at least 35% of mermaids will know the language of one or the other, and 10% can communicate with any such creature.\n\nThree-quarters of mermaid births are female. Of the quarter which are male, most have legs rather than tails. Such will either be slain or put ashore to be adopted by humans, depending on the temperament of the mother.\n\nMermen (those born with tails) are raised to be subservient to the females. A small mermaid community (3d6 including the male) will often form around such a merman and his mother, who becomes their leader. Such a group is called a pod.\n\nA mermaid with a child will not generally be encountered, as they remain in the deeper parts of the ocean and avoid the attention of men. Pods of mermaids do likewise, and in fact any pod includes 2d4-2 children or juveniles (over and above the number rolled for Number Appearing). Adventurers generally meet mermaids only in groups of one or two.\n\nMermaids arm themselves with spears or daggers. They hunt fish and harvest kelp for food. Mermaids sometimes possess more than 1 hit die, and about 3% have some Clerical abilities."
+  },
+  {
+    "name": "Minotaur",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14 (12)",
+          "hitDice": "6",
+          "numAttacks": "1 gore, 1 bite or 1 weapon",
+          "damage": "1d6 gore, 1d6 bite, 1d6+2 or by weapon +2",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "1d6, Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 6",
+          "morale": "11",
+          "treasure": "C",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Minotaurs are huge bull-headed humanoid monsters, standing more than 7 feet tall and weighing nearly 500 pounds. Most minotaurs are very aggressive, and fly into a murderous rage if provoked or hungry. Although minotaurs are not especially intelligent, they possess innate cunning and logical ability. They never become lost (even in mazes), and can track enemies with 85% accuracy. They gain +2 to damage when using melee weapons due to their great Strength. Minotaurs often wear toughened hides for armor."
+  },
+  {
+    "name": "Mountain Lion",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "3+2",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 1d6 bite",
+          "movement": "50'",
+          "numAppear": "Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "These great cats are about 7 feet long (from nose to tail-tip) and weigh about 140 pounds. They see well in darkness and may be found hunting day or night."
+  },
+  {
+    "name": "Mummy*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17 (m) (see below)",
+          "hitDice": "5**",
+          "numAttacks": "1 touch",
+          "damage": "1d12 + disease",
+          "movement": "20'",
+          "numAppear": "1d4, Lair 1d12",
+          "saveAs": "Fighter: 5",
+          "morale": "12",
+          "treasure": "D",
+          "xp": "450"
+        }
+      ]
+    ],
+    "description": "Mummies are undead monsters, linen-wrapped preserved corpses animated through the auspices of dark desert gods best forgotten. Mummies are normally man-sized, but due to their desiccation one will normally not weigh more than about 100 pounds.\n\nAs they are undead, mummies are immune to **sleep**, **charm**, and **hold magic**. They can only be injured by spells, fire, or magical weapons; furthermore, magic weapons do only half damage, while any sort of fire-based attack does double damage. Those injured by mummy attacks will contract **mummy rot**, a disease that prevents normal or magical healing; a **cure disease** spell must be applied to the victim before they may again regain hit points."
+  },
+  {
+    "name": "Nixie",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "1*",
+          "numAttacks": "1 dagger",
+          "damage": "1d4",
+          "movement": "40' Swim 40'",
+          "numAppear": "Wild 2d20, Lair 2d20",
+          "saveAs": "Fighter: 2",
+          "morale": "6",
+          "treasure": "B",
+          "xp": "37"
+        }
+      ]
+    ],
+    "description": "Nixies are small water fairies, just 4 feet tall and about 40 pounds at most. As far as anyone knows, all nixies are female. Most nixies are slim and comely, with lightly scaled, pale green skin and dark green hair. They often twine shells and pearl strings in their hair and dress in wraps woven from colorful seaweed.\n\nTen or more nixies can work together to cast a powerful charm (similar to **charm person**). The charm lasts one year (unless dispelled). A save vs. Spells is allowed to resist. Each nixie can cast **water breathing** once per day, with a duration of one day. Finally, a group of nixies will often have a school of giant bass living nearby who can be called to their aid (see Fish, Giant Bass for details).\n\nNixies are fey creatures, and thus unpredictable. However, they are rarely malicious, attacking only when they feel threatened. They do not like leaving their safe, comfortable river or lake and will do so only in the most dire need."
+  },
+  {
+    "name": "Octopus, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8",
+          "numAttacks": "8 tentacles, 1 bite (see below)",
+          "damage": "1d4 tentacle, 1d6 bite",
+          "movement": "Swim 30'",
+          "numAppear": "Wild 1d2",
+          "saveAs": "Fighter: 8",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "875"
+        }
+      ]
+    ],
+    "description": "The giant octopus is, obviously, an enormous version of the normal creature. They are physically powerful as well as being clever, which makes them a serious threat to seagoing vessels.\n\nIn order to bite a creature, the giant octopus must hit with at least two tentacles first. Further, any time a giant octopus hits with at least one tentacle per each 100 pounds of weight of its prey, it has grabbed it; unless the victim can find a way to resist (using whatever method the player might think of and whatever rolls the GM may choose), they will be pulled into the water and thus be in danger of drowning.\n\nDon't forget to account for the weight of armor worn!\n\nIf a giant octopus fails a morale check, it will squirt out a cloud of black \"ink\" 40' in diameter and then jet away at twice normal speed for 2d6 rounds. Any characters being held will normally be released at this point."
+  },
+  {
+    "name": "Ogre",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (12)",
+          "hitDice": "4+1",
+          "numAttacks": "1 huge weapon",
+          "damage": "2d6 huge weapon",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "1d6, Wild 2d6, Lair 2d6",
+          "saveAs": "Fighter: 4",
+          "morale": "10",
+          "treasure": "C",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Ogres appear as large, very ugly humans. They are brutish and aggressive, but inherently lazy. They employ direct attacks in combat, typically using large clubs, axes, or pole arms, generally causing 2d6 damage. If normal weapons are employed, an ogre has a +3 bonus to damage due to strength. If an ogre fights bare-handed, it does 1d8 subduing damage per hit.\n\nOne out of every six ogres will be a pack leader of 6+1 Hit Dice (500 XP). Ogres gain a +1 bonus to their morale if they are led by a pack leader. In ogre lairs of 10 or greater, there will also be an ogre bully of 8+2 Hit Dice (875 XP), with an Armor Class of 17 (13) (movement 20') and having a +4 bonus to damage due to strength. Ogre bullies generally wire together pieces of chainmail to wear over their hides. Ogres gain +2 to morale so long as the ogre bully leads them."
+  },
+  {
+    "name": "Orc",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14 (11)",
+          "hitDice": "1",
+          "numAttacks": "1 weapon",
+          "damage": "1d8 or by weapon",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "2d4, Wild 3d6, Lair 10d6",
+          "saveAs": "Fighter: 1",
+          "morale": "8",
+          "treasure": "Q, R each; D in lair",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Orcs are short humanoids (around 5' tall) with solidly-built bodies. Their upturned noses, wide pointed ears, and beady eyes give their faces a piglike appearance. An adult weighs about 200 pounds, and this weight does not differ much between males and females. Orcs utilize all manner of weapons and armor scavenged from battlefields.\n\nOrcs have Darkvision to a range of 60'. They suffer an attack penalty of -1 in bright sunlight or within the radius of a spell causing magical light. They speak their own rough and simple language, but many also speak some Common or Goblin.\n\nOne out of every eight orcs will be a warrior of 2 Hit Dice (75 XP). Orcs gain a +1 bonus to their morale if they are led by a warrior. In orc lairs, one out of every twelve will be a chieftain of 4 Hit Dice (240 XP) in chainmail with an Armor Class of 15 (11), a movement 20', and having a +1 bonus to damage due to strength.\n\nIn lairs of 30 or more, there will be an orc king of 6 Hit Dice (500 XP), with an Armor Class of 16 (11), in chainmail with a shield, movement 20', and having a +2 bonus to damage. In the lair, orcs never fail a morale check as long as the orc king is alive. In addition, a lair has a chance equal to 1-2 on 1d6 of a shaman being present. A shaman is equivalent to a warrior orc statistically, but has Clerical abilities at level 1d4+1."
+  },
+  {
+    "name": "Ostrich (and Emu)",
+    "variants": [
+      [
+        "Ostrich",
+        {
+          "ac": "14",
+          "hitDice": "3",
+          "numAttacks": "1 kick",
+          "damage": "1d6",
+          "movement": "60'",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ],
+      [
+        "Emu",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "1 kick",
+          "damage": "1d4",
+          "movement": "50'",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "These birds are sometimes raised (or hunted) as food.\n\nIn addition, the large, decorative quills of ostriches are in demand in some social circles.\n\nEmus will not be found in most campaigns. Unlike ostriches, they have no particular value to humans except as meat."
+  },
+  {
+    "name": "Owl",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "1",
+          "numAttacks": "2 talons, 1 beak",
+          "damage": "1d4 talon, 1d4 beak",
+          "movement": "10' Fly 160' (10')",
+          "numAppear": "1, Wild 1d4",
+          "saveAs": "Fighter: 1",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Owls are birds of prey with large eyes and the ability to fly without making a sound. They are nocturnal, and have superior Darkvision of 120' range. An owl will stand about 6 to 18 inches tall with a wingspan of 20 inches. An owl’s vision is very sharp and comparable to that of a falcon. It can also hear very well, even to the point that a rodent creeping through grass will draw attention. The owl will fly over a field and listen and watch for movement and then dive for a kill with its talons."
+  },
+  {
+    "name": "Owlbear",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "5",
+          "numAttacks": "2 claws, 1 bite + 1 hug",
+          "damage": "1d8 claw, 1d8 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "9",
+          "treasure": "C",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Owlbear are among the most feared of the nocturnal forest dwelling monsters, and for good reason for they are always hungry and always aggressive. They appear to be bears with owlish faces, including a large, sharp beak. They fight much as do bears, and as with normal bears an owlbear must hit with both claws in order to do the listed \"hug\" damage.\n\nThese monsters are known to hunt by day when particularly hungry, but they prefer to live nocturnally. They have superior Darkvision with a range of 120 feet, without the usual penalties for being in full sunlight. They are also very quiet, surprising on 1-4 on 1d6 in their native territory."
+  },
+  {
+    "name": "Parrot (or Cockatoo)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "11",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "1 talon or 1 beak",
+          "damage": "1d4 talon or 1d4 beak",
+          "movement": "10' Fly 100' (10')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Normal Man",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "These are decorative birds about the size of a falcon, known for their ability to learn to mimic speech and other sounds. Parrots usually have green or blue feathers with multi-colored tail feathers. Cockatoos are white with crested heads. While these birds can learn to imitate human speech when raised in captivity, most cannot actually carry on a conversation."
+  },
+  {
+    "name": "Pegasus",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4",
+          "numAttacks": "2 hooves",
+          "damage": "1d6 hoof",
+          "movement": "80' (10') Fly 160' (10')",
+          "numAppear": "Wild 1d12",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "The pegasus is the winged horse of legend. They are prized as aerial steeds as they are the swiftest of fliers, but they are shy creatures who live in the highest mountains, making them rare indeed in captivity. An average female pegasus stands 5 feet high at the shoulder, weighs 1,200 pounds, and has a wingspan of 20 feet; males are somewhat larger, averaging 6 feet in height and weighing 1,400 pounds, with a wingspan of 22 feet. A light load for a pegasus is up to 400 pounds; a heavy load, up to 900 pounds."
+  },
+  {
+    "name": "Pixie",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "1*",
+          "numAttacks": "1 dagger",
+          "damage": "1d4",
+          "movement": "30' Fly 60'",
+          "numAppear": "2d4, Wild 10d4, Lair 10d4",
+          "saveAs": "Fighter: 1 (with Elf bonuses)",
+          "morale": "7",
+          "treasure": "R, S",
+          "xp": "37"
+        }
+      ]
+    ],
+    "description": "Pixies are winged fairies often found in forested areas. Like sprites, pixies love beauty. They dress in bright colors and favor clothing with flourishes like feathered caps, curly-tipped shoes, scarves, and so on. They are quite small, just 2½ feet in height and weighing no more than 30 pounds. Pixies can only fly for 3 turns maximum before requiring rest of at least one turn, during which time the pixie may walk at normal speed but may not fly.\n\nA pixie can become **invisible** at will, as many times per day as it wishes, and can attack while remaining invisible. Anyone attacking an invisible pixie does so with an attack penalty of -4 unless the attacker can somehow detect invisible creatures. Pixies may ambush their foes while invisible; if they do so, they surprise on 1-5 on 1d6.\n\nPixies are whimsical, enjoying nothing so much as a good joke or prank, especially at the expense of a \"big person.\""
+  },
+  {
+    "name": "Purple Worm",
+    "variants": [
+      [
+        "Type 1",
+        {
+          "ac": "16",
+          "hitDice": "11* (+9) to\n15* (+11)",
+          "numAttacks": "-",
+          "damage": "2d8 bite, 1d8+poison sting",
+          "movement": "-",
+          "numAppear": "1d2, Wild 1d4",
+          "saveAs": "Fighter: 6 to 10 (½ of Hit Dice)",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "11 HD 1,670,\n12 HD 1,975,\n13 HD 2,285,\n14 HD 2,615,\n15 HD 2,975"
+        }
+      ],
+      [
+        "Type 2",
+        {
+          "ac": "17",
+          "hitDice": "16* (+12) to\n20* (+13)",
+          "numAttacks": "-",
+          "damage": "3d8 bite, 1d10+poison sting",
+          "movement": "-",
+          "numAppear": "1d4",
+          "saveAs": "Fighter: 6 to 10 (½ of Hit Dice)",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "\n16 HD 3,385,\n17 HD 3,745,\n18 HD 4,160,\n19 HD 4,675,\n20 HD 5,450"
+        }
+      ]
+    ],
+    "description": "Purple worms are gigantic subterranean monsters; they are rarely found above ground. Adult purple worms range from 5-9 feet in diameter and 50-100 feet long, with an average weight of about 40,000 pounds.\n\nThe creature's tail ends in a narrow point tipped with a poisonous stinger; those injured by it must save vs. Poison or die. Note that the purple worm's movement is less than the monster's length, so that, if attacking from out of a tunnel, it might not be able to use the stinger for several rounds.\n\nAny time a purple worm successfully bites a man-sized or smaller opponent with a natural roll of 19 or 20, the opponent has been swallowed and will suffer 3d6 damage per round afterward due to being digested. A character who has been swallowed can only effectively attack with small cutting or stabbing weapons such as dagger or shortsword."
+  },
+  {
+    "name": "Rat (and Ra, Giant)",
+    "variants": [
+      [
+        "Normal",
+        {
+          "ac": "11",
+          "hitDice": "1 Hit Point ½ (1d4 hit points)",
+          "numAttacks": "1 bite per pack",
+          "damage": "1d6 + disease",
+          "movement": "20' Swim 10'",
+          "numAppear": "5d10, Wild 5d10, Lair 5d10",
+          "saveAs": "Normal Man",
+          "morale": "5",
+          "treasure": "None",
+          "xp": "360*"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "13",
+          "hitDice": "1",
+          "numAttacks": "1 bite",
+          "damage": "1d4 + disease",
+          "movement": "40' Swim 20'",
+          "numAppear": "3d6, Wild 3d10, Lair 3d10",
+          "saveAs": "Fighter: 1",
+          "morale": "8",
+          "treasure": "C",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "Rats are omnivorous pests found in all climates where humans live.\n\nNormal rats attack as a swarm; each point of damage done to the swarm reduces their numbers by one animal.\n\nGiant rats are scavengers, but will attack to defend their nests and territories. A giant rat can grow to be up to 4 feet long and weigh over 50 pounds. A single giant rat, or a small group of up to four, will generally be shy, but larger packs attack fearlessly, biting and chewing with their sharp incisors.\n\nAny rat bite has a 5% chance of causing a disease. A character who suffers one or more rat bites where the die roll indicates disease will sicken in 3d6 hours.\n\nThe infected character will lose one point of Constitution per hour; after losing each point,the character is allowed a save vs. Death Ray (adjusted by the current Constitution bonus or penalty) to break the fever and end the disease. Any character reduced to zero Constitution is dead. See Constitution Point Losses in the Encounter section for details on regaining lost Constitution.\n\n* Note: The XP award for normal rats is for driving away or killing an entire pack of normal size. If the adventurers are forced to flee, the GM should award 3 XP per rat slain."
+  },
+  {
+    "name": "Rhagodessa, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "4",
+          "numAttacks": "2 legs, 1 bite",
+          "damage": "leg grab, 2d8 bite",
+          "movement": "50'",
+          "numAppear": "1d4, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": "9",
+          "treasure": "U",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "The rhagodessa is related to both spiders and scorpions, though it is not properly either. Rhagodessas have \"pedipalps,\" an elongated pair of forelegs with sticky pads on them for capturing prey.\n\nGiant rhagodessas are the size of a pony. Those found in desert terrain are generally marked in yellow, red, and brown, while those found underground may be black or white in color (those found in the deepest caverns are always white). Like spiders, they can climb walls, but they are unable to cross ceilings or otherwise climb entirely upside down.\n\nA hit by a leg does no damage, but the victim is stuck fast and will be drawn to the rhagodessa's mouth on the next round and automatically hit for 2d8 points of damage; this repeats each round, so long as the victim is held. Escaping from the sticky hold requires a successful roll to open doors. If both legs hit, this roll frees the victim from just one of them; a second roll is needed to fully escape, and of course the rhagodessa can simply attack again with the free leg on the next round. Alternately, victims may attack with small or medium melee weapons, and in fact gain a bonus of +2 is added to the attack roll if a small weapon is used. If the giant rhagodessa is slain, any held victim can be freed with the open doors roll mentioned above (and in this case another character can help, making the roll for the victim).\n\nThe rhagodessa seems unable to use its bite attack against a foe it has not captured in this way, and neither will it attack more than one foe with its legs. If threatened, a rhagodessa which has captured a victim will attempt to withdraw to consume its prey in peace."
+  },
+  {
+    "name": "Rhinoceros",
+    "variants": [
+      [
+        "Black",
+        {
+          "ac": "17",
+          "hitDice": "8",
+          "numAttacks": "1 butt or 1 trample",
+          "damage": "2d6 butt, 2d8 trample",
+          "movement": "40' (15')",
+          "numAppear": "Wild 1d12",
+          "saveAs": "Fighter: 6",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "875"
+        }
+      ],
+      [
+        "Woolly",
+        {
+          "ac": "19",
+          "hitDice": "12 (+10)",
+          "numAttacks": "1 butt or 1 trample",
+          "damage": "2d8 butt, 2d12 trample",
+          "movement": "40' (15')",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 8",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "1,875"
+        }
+      ]
+    ],
+    "description": "A rhinoceros (or \"rhino\") is a member of any of several species (including numerous supposedly extinct species) of odd-toed hooved mammals. They are found primarily in tropical and temperate grasslands. The woolly rhinoceros is a prehistoric beast with long fur, found in primitive \"lost world\" areas in colder territories. They behave much as the black rhino does."
+  },
+  {
+    "name": "Roc",
+    "variants": [
+      [
+        "Normal",
+        {
+          "ac": "18",
+          "hitDice": "6",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 2d6 bite",
+          "movement": "20' Fly 160' (10')",
+          "numAppear": "Wild 1d12",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "I",
+          "xp": "500"
+        }
+      ],
+      [
+        "Large",
+        {
+          "ac": "18",
+          "hitDice": "12 (+10)",
+          "numAttacks": "1d8 claw, 2d10 bite",
+          "damage": "3d6 claw, 6d6 bite",
+          "movement": "20' Fly 160' (10')",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 12",
+          "morale": "9",
+          "treasure": "I",
+          "xp": "1,875"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "18",
+          "hitDice": "32 (+16)",
+          "numAttacks": "3d6 claw, 6d6 bite",
+          "damage": "3d6 claw, 6d6 bite",
+          "movement": "20' Fly 160' (10')",
+          "numAppear": "Wild 1",
+          "saveAs": "Fighter: 20",
+          "morale": "10",
+          "treasure": "I",
+          "xp": "14,250"
+        }
+      ]
+    ],
+    "description": "Rocs are birds similar to eagles, but even a \"normal\" roc is huge, being about 9 feet long and having a wingspan of 24 feet. Large rocs are about 18 feet long and have wingspans of around 48 feet; giant rocs average 30 feet long and have massive wingspans of around 80 feet. A roc’s plumage is either dark brown or golden from head to tail. Like most birds, the males have the brighter plumage, with females being duller in color and thus more easily hidden (if anything so large can even be hidden, that is).\n\nA light load for a normal roc is 150 pounds, while a heavy load is 300 pounds. Obviously only the smallest characters can hope to ride upon a normal roc. For a large roc, a light load is up to 600 pounds and a heavy load up to 1,200. Giant rocs can easily lift up to 3,000 pounds, and are heavily loaded when carrying up to 6,000 pounds. Tales of giant rocs carrying off full-grown elephants are somewhat exaggerated, but note that a young elephant would be reasonable prey for these monstrous birds.\n\nA roc attacks from the air, swooping earthward to snatch prey in its powerful talons and carry it off for itself and its young to devour. Any successful hit with both claw (talon) attacks against a single creature results in that creature being carried off, unless of course the creature is too large for the roc to carry. While being carried, the victim will not be further attacked, so as to be as \"fresh\" as possible when given to the hatchlings (or consumed by the roc itself if it is solitary).\n\nWhen rocs are encountered they are almost certainly hunting, and will generally attack creatures of horse size or less. If facing a large group the rocs may make passes close overhead to scatter them first before each chooses a single target to prey upon. Mated pairs found in their nests will fight to the death to protect their eggs or offspring (morale of 12 in this case)."
   }
 ]
