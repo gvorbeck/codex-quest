@@ -844,108 +844,126 @@
   },
   {
     "name": "Dinosaur, Triceratops",
-    "stats": {
-      "Armor Class": 19,
-      "Hit Dice": "11 (+9)",
-      "No. of Attacks": "1 gore or 1 trample",
-      "Damage": "3d6 gore or 3d6 trample",
-      "Movement": "30' (15')",
-      "No. Appearing": "Wild 1d4",
-      "Save As": "Fighter: 7",
-      "Morale": 8,
-      "Treasure Type": "None",
-      "XP": 1575
-    },
+    "variants": [
+      [
+        "",
+        {
+          "ac": 19,
+          "hitDice": "11 (+9)",
+          "numAttacks": "1 gore or 1 trample",
+          "damage": "3d6 gore or 3d6 trample",
+          "movement": "30' (15')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 7",
+          "morale": 8,
+          "treasure": "None",
+          "xp": 1575
+        }
+      ]
+    ],
     "description": "A triceratops is a three-horned herbivorous dinosaur. They are aggressive toward interlopers, attacking anyone who might appear to be a threat. Individuals are quite large, weighing 11,000 to 20,000 pounds and ranging from 26 to 30 feet in length.\n\nWhen facing opponents of smaller size, a triceratops will usually attempt to trample them, reserving the gore attack for larger opponents. Up to two adjacent man-sized or up to four smaller opponents may be trampled simultaneously; the triceratops rolls a single attack roll which is compared to the Armor Class of each of the potential victims, and then rolls a separate damage roll for each one successfully hit. The gore attack may only be used against a single man-sized or larger creature, but may be used in the same round as the trample if the creature being gored is larger than man sized. Also note that a charging bonus may be applied to the gore attack."
   },
   {
     "name": "Dinosaur, Tyrannosaurus Rex",
-    "stats": {
-      "Armor Class": 23,
-      "Hit Dice": "18 (+12)",
-      "No. of Attacks": "1 bite",
-      "Damage": "6d6 bite",
-      "Movement": "40' (10')",
-      "No. Appearing": "Wild 1d4",
-      "Save As": "Fighter: 18",
-      "Morale": 11,
-      "Treasure Type": "None",
-      "XP": 4000
-    },
+    "variants": [
+      [
+        "",
+        {
+          "ac": 23,
+          "hitDice": "18 (+12)",
+          "numAttacks": "1 bite",
+          "damage": "6d6 bite",
+          "movement": "40' (10')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 18",
+          "morale": 11,
+          "treasure": "None",
+          "xp": 4000
+        }
+      ]
+    ],
     "description": "The tyrannosaurus rex is a bipedal carnivorous dinosaur with a massive skull balanced by a long, heavy tail. Relative to its large and powerful hind limbs, its forelimbs are short but unusually powerful for their size, with two clawed digits. Despite this, they are not used to attack, as the tyrannosaur's powerful bite is its preferred weapon.\n\nIndividuals can grow to lengths of over 40 feet and can weigh up to 20,000 pounds, though most are a bit smaller than this, averaging around 35 feet in length and 17,000 pounds in weight.\n\nThe statistics above can also be used to represent other large bipedal carnosaurs, such as the allosaurus."
   },
   {
     "name": "Djinn",
-    "stats": {
-      "Armor Class": 15,
-      "Hit Dice": "7+1**",
-      "No. of Attacks": "1 fist or 1 whirlwind",
-      "Damage": "2d8 fist, 2d6 whirlwind",
-      "Movement": "30' Fly 80'",
-      "No. Appearing": "1",
-      "Save As": "Fighter: 12",
-      "Morale": "12 (8)",
-      "Treasure Type": "None",
-      "XP": 800
-    },
+    "variants": [
+      [
+        "",
+        {
+          "ac": 15,
+          "hitDice": "7+1**",
+          "numAttacks": "1 fist or 1 whirlwind",
+          "damage": "2d8 fist, 2d6 whirlwind",
+          "movement": "30' Fly 80'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 12",
+          "morale": "12 (8)",
+          "treasure": "None",
+          "xp": 800
+        }
+      ]
+    ],
     "description": "Djinn (singular djinni) are a race of manlike creatures believed to be from the Elemental Plane of Air. They are large beings, 10 to 11 feet in height and weighing around 1,000 pounds, though their weight is generally immaterial due to their ability to fly by magical means.\n\nThe djinni's morale score of 12 reflects its absolute control over its own fear, but does not indicate that the creature will throw its life away easily. Use the \"8\" figure to determine whether an outmatched djinni decides to leave a combat.\n\nDjinn have a number of magical powers, which can be used at will (that is, without needing magic words or gestures): create food and drink, creating tasty and nourishing food for up to 2d6 humans or similar creatures, once per day; become invisible, with unlimited uses per day; create normal items, creating up to 1,000 pounds of soft goods or wooden items of permanent nature or metal goods lasting at most a day, once per day; assume gaseous form, as the potion, up to one hour per day; and create illusions, as the spell phantasmal force but including sound as well as visual elements, three times per day.\n\nDjinn may assume the form of a whirlwind at will, with no limit as to the number of times per day this power may be used; a djinni in whirlwind form fights as if it were an air elemental."
   },
   {
     "name": "Dog",
     "variants": [
-      {
-        "type": "Normal",
-        "stats": {
-          "Armor Class": 14,
-          "Hit Dice": "1+1",
-          "No. of Attacks": "1 bite",
-          "Damage": "1d4 + hold",
-          "Movement": "50'",
-          "No. Appearing": "Wild 3d4",
-          "Save As": "Fighter: 1",
-          "Morale": 9,
-          "Treasure Type": "None",
-          "XP": 25
-        },
-        "description": "Normal dogs include most medium and large breeds, including wild dogs. After biting an opponent, a dog can hold on, doing 1d4 damage automatically every round, until killed or until the victim spends an attack breaking free (which requires a save vs. Death Ray, adjusted by the character's Strength bonus)."
-      },
-      {
-        "type": "Riding",
-        "stats": {
-          "Armor Class": 14,
-          "Hit Dice": "2",
-          "No. of Attacks": "1 bite",
-          "Damage": "1d4+1 + hold",
-          "Movement": "50'",
-          "No. Appearing": "domestic only",
-          "Save As": "Fighter: 2",
-          "Morale": 9,
-          "Treasure Type": "None",
-          "XP": 75
-        },
-        "description": "Riding dogs are a large breed, used primarily by Halflings for transport. They may be trained for war, and equipped with barding to improve their Armor Class. They can maintain a hold in the same way that normal dogs do. A light load for a riding dog is up to 150 pounds; a heavy load, up to 300 pounds."
-      }
-    ]
+      [
+        "Normal",
+        {
+          "ac": 14,
+          "hitDice": "1+1",
+          "numAttacks": "1 bite",
+          "damage": "1d4 + hold",
+          "movement": "50'",
+          "numAppear": "Wild 3d4",
+          "saveAs": "Fighter: 1",
+          "morale": 9,
+          "treasure": "None",
+          "xp": 25
+        }
+      ],
+      [
+        "Riding",
+        {
+          "ac": 14,
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d4+1 + hold",
+          "movement": "50'",
+          "numAppear": "domestic only",
+          "saveAs": "Fighter: 2",
+          "morale": 9,
+          "treasure": "None",
+          "xp": 75
+        }
+      ]
+    ],
+    "description": "Normal dogs include most medium and large breeds, including wild dogs. After biting an opponent, a dog can hold on, doing 1d4 damage automatically every round, until killed or until the victim spends an attack breaking free (which requires a save vs. Death Ray, adjusted by the character's Strength bonus).\n\nRiding dogs are a large breed, used primarily by Halflings for transport. They may be trained for war, and equipped with barding to improve their Armor Class. They can maintain a hold in the same way that normal dogs do. A light load for a riding dog is up to 150 pounds; a heavy load, up to 300 pounds."
   },
   {
     "name": "Doppelganger",
-    "stats": {
-      "Armor Class": 15,
-      "Hit Dice": "4*",
-      "No. of Attacks": "1 fist or by weapon",
-      "Damage": "1d12 fist, 1d6 or by weapon",
-      "Movement": "30' Fly 80'",
-      "No. Appearing": "1d6, Wild 1d6, Lair 1d6",
-      "Save As": "Fighter: 4",
-      "Morale": 10,
-      "Treasure Type": "E",
-      "XP": 280
-    },
+    "variants": [
+      [
+        "",
+        {
+          "ac": 15,
+          "hitDice": "4*",
+          "numAttacks": "1 fist or by weapon",
+          "damage": "1d12 fist, 1d6 or by weapon",
+          "movement": "30' Fly 80'",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": 10,
+          "treasure": "E",
+          "xp": 280
+        }
+      ]
+    ],
     "description": "Doppelgangers are weird humanoid creatures who are able to take on the appearance of nearly any other humanoid ranging from 3 feet up to 7 feet in height. They can also read minds (as the spell, mind reading, but with unlimited duration), an ability that can even be used to speak any language known to the creature whose mind is being read. In their natural form (which few creatures ever see) they are pale and pasty looking, slim, around 5½ feet tall and weighing about 150 pounds. Their features look unformed and incomplete.\n\nDoppelgangers wish to live a life of ease, and in pursuit of that goal they will seek to take the place of any character they meet who they believe can help them get that kind of life. This usually means separating the victim from any allies and quietly killing them. While a doppelganger can duplicate the appearance of the clothing and equipment worn by a creature, such items are part of the creature and cannot, for example, be laid down or handed to someone. Taking the clothing and equipment of a victim is thus the preferred tactic.\n\nA doppelganger can mimic the sound of the voice of any living creature as well as the appearance of any humanoid. Their mind reading ability will be used to help them behave like the person they have replaced."
   },
   {
     "name": "Dragon",
-    "stats": null,
     "description": "Dragons are large (sometimes very large) winged reptilian monsters. Unlike wyverns, dragons have four legs as well as two wings; this is how experts distinguish \"true\" dragons from other large reptilian monsters. All dragons are long-lived, and they grow slowly for as long as they live. For this reason, they are described as having seven\"age categories,\" ranging from 3 less to 3 more hit dice than the average. For convenience, a table is provided following the description of each dragon type; this table shows the variation in hit dice, damage from their various attacks, and other features peculiar to dragons. \n\nIf one dragon is encountered, it is equally likely to be a male or female ranging from -2 to +3 hit dice (1d6-3); two are a mated pair ranging from -1 to +2 hit dice (1d4-2). If three or four are encountered, they consist of a mated pair plus one or two young of -3 hit dice in size. If this is the case, the parents receive a Morale of \n\n12 in combat since they are protecting their young. In combat dragons use a powerful bite, slashing claws, a long, whiplike tail, and most famously some form of breath weapon. Tactically, dragons prefer to fight whileflying, making passes over ground-based enemies to strike or breathe on them. Smarter and older dragons will look for the toughest or most dangerous foe to strike down first, particularly preferring to eliminate magic-users as early in a fight as possible. \n\nEach dragon can use its breath weapon as many times per day as it has hit dice, except that dragons of the lowest age category do not yet have a breath weapon. The breath may be used no more often than every other round, and the dragon may use its claws and tail in the same round. The tail swipe attack may only be used if there are opponents behind the dragon, while the claws may be used only on those opponents in front of the creature. Due to their serpentine necks, dragons may bite in any direction, even behind them. \n\nThe breath weapon of a dragon does 1d8 points of damage per hit die (so, a 7 hit die dragon does 7d8 points of damage with its breath). Victims may make a save vs. Dragon Breath for half damage. The breath weapon may be projected in any direction around the dragon, even behind, for the same reason that the dragon can bite those behind it. \n\nThere are three shapes (or areas of effect) which a dragon's breath weapon can cover. Each variety has a \"normal\" shape, which that type of dragon can use from the second age category (-2 hit dice) onward. Upon reaching the sixth age category (+2 hit dice), a dragon learns to shape its breath weapon into one of the other shapes (GM's option); at the seventh age category (+3 hit dice), the dragon can produce all three shapes. \n\nThe shapes are: \n\n**Cone Shaped**: The breath weapon begins at the dragon's mouth, and is about 2' wide at that point; it extends up to the maximum length (based on the dragon type and age) and is the maximum width at that point (again, as given for the dragon's type and age). \n\n**Line Shaped**: The breath weapon is 5' wide (regardless of the given width figure) and extends the given length in a straight line. \n\n**Cloud Shaped**: The breath weapon covers an area up to the maximum given width (based on the dragon type and age) in both length and width (that is, any length figure given for the dragon type and age is ignored). A cloud-shaped breath weapon is, at most, 20' deep or high. \n\nAll dragons save for those of the lowest age category are able to speak Dragon. Each type has a given chance of \"talking;\" this is the chance that the dragon will know Common or some other humanoid language. Many who talk choose to learn Elvish. If the first roll for \"talking\" is successful, the GM may roll again, with each additional roll adding another language which the dragon may speak. \n\nSome dragons learn to cast spells; the odds that a dragon can cast spells are the same as the odds that a dragon will learn to speak to lesser creatures, but each is rolled for separately. \n\nAll dragons crave wealth, hoarding as many coins, gems, items of jewelry, and best of all magic items in their lair as possible. The greater a dragon's hoard, the less it will seek to leave its lair, though of course it must hunt for food from time to time. Dragons rarely trust any other creature to defend their hoard, though some will entice aggressive but unintelligent creatures to live nearby in the hopes that they will kill and eat any thieves who might come nosing around. \n\nUnlike other monsters, multiple dragons encountered in a lair together do not share treasure; generate a full treasure for each dragon individually. Treasure for dragons is special, as noted on the table on page 163. The odds of monetary treasure increase with the monster's age category, while the chances of gems, jewelry, and magic items are based upon its hit dice. \n\nYoung dragons typically have brightly colored, glossy skin; as a dragon ages, both the color and the sheen slowly become dull. \n\n**Experience Points (XP)** given for dragons on the following pages are for non-spell-casting dragons of age category 4. The GM must calculate the XP award for any specific dragon as given on page 49, adding a special ability bonus (i.e. a \"star\") if the dragon casts spells."
   },
   {
@@ -1223,7 +1241,6 @@
   },
   {
     "name": "Elemental*",
-    "stats": null,
     "description": "An elemental is a being formed from one of the foundational elements of reality. In Western traditions, the classical elements are air, earth, fire, and water; Asian traditions include a different group: fire, earth, metal, water, and wood. This book presents the full range needed for either tradition, and to those types are added cold and lightning elementals for those who wish to be less traditional. As always, the Game Master decides what sort of monsters appear in their world, and so not all of the following creatures may be encountered.\n\nEach type of elemental may be summoned to the material plane by means of one of three different methods:\n- Conjured by the 5th level Magic-User spell *conjure elemental*; or,\n- Summoned by means of a magical staff; or,\n- Summoned by a device, as given in the Miscellaneous Magic subsection of the Treasure section of this book.\n\nThese three types of elementals are quite reasonably called staff, device, and conjured elementals. The hit dice of an elemental depends on the type, as follows:\n| Type   | Hit Dice |\n|----------|----------|\n| Staff  | 8    |\n| Device  | 12    |\n| Conjured | 16    |\n\nThe summoner of an elemental must concentrate on it to control it, and may take no other action, including attacking, being attacked, or moving, or control will be lost. Once control is lost it cannot be regained, and the uncontrolled elemental will move directly toward the summoner and attack.\n\nElementals must be summoned from a large quantity of the appropriate natural material. For example, air elementals require a large quantity of air (so small underground spaces will not support the summoning of one); earth elementals require access to natural earth or stone (and worked stone such as the stone walls of a castle will not work); fire elementals require a large fire such as a bonfire; and water elementals require access to a substantial body of water, at the very least a river or lake (small streams and artificial pools will not work). Finally, when an elemental is summoned, no other elemental of the same type may be summoned in the same day within a radius of 100 miles of the location.\n\nNon-magical weapons cannot harm an elemental. Attacks made by an elemental should be considered non-magical when determining harm of the elemental."
   },
   {
@@ -2143,7 +2160,6 @@
   },
   {
     "name": "Golem*",
-    "stats": null,
     "description": "Golems are a kind of construct, a creature created from non-living matter and animated by application of magic. The powers required to animate a golem are prodigious, and involve summoning, capturing, and binding an elemental spirit to the constructed body. This process also binds the golem to the will of its creator.\n\n They are mindless, and thus immune to magics affecting the mind such as sleep, charm, hold, and any form of mind reading or telepathy. They must be given explicit, detailed instructions verbally, and the controller must be within 60 feet of the golem to do so. If not actively being commanded, a golem will follow the last instructions given to it until the controller returns. If such a golem is attacked, it will fight in its own defense but will usually not pursue the attackers if they flee. The controller can order the golem to follow the commands of another, but can always resume control if desired (i.e. the controller's commands always take precedence).\n\n Employing a golem in combat is tricky, for once one attacks an opponent there is a cumulative 1% chance each round (so 1% the first round, 2% the second, 3% the third, and so on) that the golem will stop following commands and become berserk. Once this happens the golem will attack any creature in range, choosing targets randomly when there are more than one. If all targets are killed or driven away the golem will move on, looking for more creatures to kill and breaking down any barrier that stands in its way if it is at all possible.\n\n The berserk chance for a golem that is still under control is reset to 0% only when the golem is inactive, neither attacking nor being attacked, for one full round.\n\n The creator of the golem (but not any other person who might have been delegated control) may try to calm the golem, speaking firmly to it to convince it to stop. The creator needs to succeed at a saving throw vs. Spells to do this, after spending a round talking to the golem. If this roll fails the golem turns its attention to the creator and pursues them with single-minded hatred.\n\n If a berserk golem is unable to attack anyone for 5 rounds it resumes its inactive state, and the controller can again give it commands. If it begins to pursue its creator, though, it will never stop no matter how long it takes, and must normally be trapped or destroyed to stop it. It has no special way to find the creator, however, and will become inactive if it loses sight of the creator for a minimum of 1 day. If the golem is successfully calmed, it can be given commands again on the very next round of combat.\n\n As their bodies are made of non-living matter, golems can only be hit by magical weapons. Conversely, they are less resistant to various effects due to the fact that they are not living creatures; in general, golems save as if they were Fighters of ½ their hit dice in levels. For example, a Bone Golem has 8 hit dice, but saves as a Fighter of 4th level."
   },
   {
@@ -2460,5 +2476,623 @@
       ]
     ],
     "description": "Hippogriffs resemble large flying horses with the forefront of a bird of prey; they have wingspans of around 20 feet and an overall body length up to 9 feet, and weigh 900 to 1,200 pounds. They are found in a variety of colors and patterns, including white, black, tan, brown, and reddish brown with markings such as blazes, stripes, stars, \"bald\" faces, and so on.\n\nA hippogriff avoids the territories and civilizations of other creatures, dwelling in extreme altitudes. Griffons sometimes prey upon them, and hippogriffs will generally attack griffons on sight if they have a numerical advantage.\n\nHippogriffs are omnivorous, entering combat only as defense, save for those times a griffon is met. They are prized as flying mounts since, unlike griffons, they are relatively safe around horses; note that it is still necessary to raise one in captivity in order to use it as a mount. A light load for a hippogriff is up to 400 pounds; a heavy load, up to 900 pounds."
+  },
+  {
+    "name": "Hobgoblin",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14 (11)",
+          "hitDice": "1",
+          "numAttacks": "1 weapon",
+          "damage": "1d8 or by weapon",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "1d6, Wild 2d4, Lair 4d8",
+          "saveAs": "Fighter: 1",
+          "morale": "8",
+          "treasureType": "Q, R each; D, K in lair",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Hobgoblins are, basically, man-sized goblins. They are better organized than their smaller kin, and are also better adapted to life in the sun. Their skin tone ranges from a greenish tan to a grayish brown, and their hair and eyes are usually dark. Most wear toughened hides and carry wooden shields for armor. As with most goblinoids, they have Darkvision with a 30' range.\n\nTribes of hobgoblins prefer to live in walled villages, or preferably in castles, and are quite willing to overrun villages or castles built by other races rather than build their own. Some tribes do choose to live underground.\n\nHobgoblins have a well-known hatred of elves, and will attack them whenever they think they can win.\n\nOne out of every six hobgoblins will be a warrior of 3 Hit Dice (145 XP). Regular hobgoblins gain a +1 bonus to their morale if they are led by a warrior. In hobgoblin lairs, one out of every twelve will be a chieftain of 5 Hit Dice (360 XP) in chainmail with an Armor Class of 15 (11) and a movement of 20', having a +1 bonus to damage due to strength. In lairs of 30 or more there will be a hobgoblin king of 7 Hit Dice (670 XP), with a shield for an Armor Class of 16 (11) having a +2 bonus to damage. In the lair, hobgoblins never fail a morale check as long as the king is alive. In addition, a lair has a chance equal to 1-2 on 1d6 of a shaman being present (or 1-3 on 1d6 if a hobgoblin king is present), and 1 on 1d6 of a witch or warlock. A shaman is equivalent to a hobgoblin warrior statistically, but has Clerical abilities at level 1d6+1.\nA witch or warlock is equivalent to a regular hobgoblin, but has Magic-User abilities of level 1d6."
+  },
+  {
+    "name": "Hydra",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16 to 23",
+          "hitDice": "5 to 12 (+10)",
+          "numAttacks": "5 to 12 bites",
+          "damage": "1d10 per bite",
+          "movement": "40' (10')",
+          "numAppear": "1, Wild 1, Lair 1",
+          "saveAs": "Fighter: 5 to 12",
+          "morale": "9",
+          "treasureType": "B",
+          "xp": "5 HD 360, 6 HD 500, 7 HD 670,\n8 HD 875, 9 HD 1,075, 10 HD 1,300,\n11 HD 1,575, 12 HD 1,875"
+        }
+      ]
+    ],
+    "description": "Hydras are reptilian creatures with multiple heads. They are bad-tempered and territorial, but not particularly cunning.\n\nThe Armor Class and Hit Dice of a hydra are keyed to the number of heads; specifically, a hydra has a number of Hit Dice exactly equal to the number of heads, and an Armor Class equal to the number of heads plus 11. Note that these statistics do not change if an individual loses heads, as described below.\n\nA hydra may be slain by damage in the normal fashion; however, most who fight them choose to strike at their heads. If a character using a melee weapon chooses to strike at a particular head (i.e. states such intent to the GM) and succeeds in doing 8 points of damage, that head is disabled (severed or severely damaged) and will not be able to attack anymore. Such damage also applies to the monster's total hit points, of course.\n\nSome hydras live in the ocean; use the given movement as a swimming rate rather than walking in this case. A very few hydras can breathe fire; those that have this ability can emit a flame 10' wide and 20' long one time per head per day. This attack will be used about one time in three (1-2 on 1d6) if it is available; roll for each head which is attacking. Each such attack does 3d6 damage, with a save vs. Dragon Breath reducing the amount by half. Note that the XP value of a fire-breathing hydra should be higher; treat them as if they have a single asterisk (i.e. add the special ability bonus to the base XP for the monster)."
+  },
+  {
+    "name": "Hyena (and Hyenodon)",
+    "variants": [
+      [
+        "Hyena",
+        {
+          "ac": "13",
+          "hitDice": "2+1",
+          "numAttacks": "1 bite",
+          "damage": "1d6 bite",
+          "movement": "60'",
+          "numAppear": "1d8",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "75"
+        }
+      ],
+      [
+        "Hyenodon",
+        {
+          "ac": "13",
+          "hitDice": "3+1",
+          "numAttacks": "1 bite",
+          "damage": "1d8 bite",
+          "movement": "40'",
+          "numAppear": "1d6 Wild/Lair 1d8",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Hyenas are doglike carnivores who exhibit some of the behaviors of canines but are not related. They not only hunt but also scavenge and steal meals. A hungry hyena will chew on anything that is even remotely tainted by blood, meat or other food traces. They will mostly be found in the same savanna-like environments where lions and zebras may be found. They can live in clans of up to a hundred individuals, though smaller groups are more common. They are among the favorite pets of gnolls, who may take them into regions where they are not normally found.\n\nHyenodon refers to ancient four-legged predators whose name means \"hyena tooth.\" While they are not technically hyenas, the statistics given may be used for the giant prehistoric hyena varieties as well; likewise, some varieties of hyenodon were smaller, and the statistics for standard hyenas may be used for them."
+  },
+  {
+    "name": "Insect Swarm",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "Immune to normal weapons, including most magical types",
+          "hitDice": "2* to 4*",
+          "numAttacks": "1 swarm",
+          "damage": "1d3 (double against no armor)",
+          "movement": "10' Fly 20'",
+          "numAppear": "1 swarm, Wild 1d3 swarms",
+          "saveAs": "N/A",
+          "morale": "11",
+          "treasureType": "None",
+          "xp": "2 HD 100, 3 HD 175, 4 HD 280"
+        }
+      ]
+    ],
+    "description": "An insect swarm is not a single creature; rather, it is a large group of ordinary flying or crawling insects moving as a unit. In general, a swarm fills a volume equal to three 10' cubes, though it is possible for a swarm to become more compact in order to move through a small doorway or narrow corridor. If the swarm consists of crawling insects, it covers three 10' squares and the flying movement above is ignored.\n\nAny living creature within the volume or area of the swarm suffers 1d3 points of damage each round. Damage rolls are doubled if the victim is unarmored (for creatures which do not wear armor, any creature having less than AC 15 is considered unarmored). Damage is reduced to a single point per round for three rounds if the character manages to exit the swarm. It is possible to \"ward off\" the insects by swinging a weapon, shield, or other similar-sized object around, and in this case damage is likewise reduced to 1 point per round.\n\nIf a lit torch is used in this way, the swarm takes 1d4 points of damage per round. Weapons, even magic weapons, do not harm an insect swarm. An entire swarm can be affected by a sleep spell. Smoke can be used to drive a swarm away (if the swarm moves away from any victims due to smoke, the damage stops immediately). Finally, a victim who dives into water will take damage for only one more round."
+  },
+  {
+    "name": "Invisible Stalker",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8*",
+          "numAttacks": "1",
+          "damage": "4d4",
+          "movement": "40'",
+          "numAppear": "1 (special)",
+          "saveAs": "Fighter: 8",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "945"
+        }
+      ]
+    ],
+    "description": "Invisible stalkers are monsters from another plane of existence who may be summoned to slay the enemies of a wizard or to perform some other simple task. They are naturally invisible, and remain so even after attacking.\n\nA summoned invisible stalker does whatever the summoner commands, even if the task takes days or weeks to perform. The creature is compelled to complete the task regardless of time required. Invisible stalkers don't like tasks that take too long or are too complicated, and if assigned an unwanted task will try to find a loophole or otherwise subvert the summoner's command.\n\nAn invisible stalker's form is amorphous, such that a detect invisible spell shows only an undulating blob-shaped outline. Don't forget to apply the standard penalty of -4 on the attack die when an invisible stalker is attacked by a creature which is unable to see it."
+  },
+  {
+    "name": "Ironbane*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "3*",
+          "numAttacks": "1 touch",
+          "damage": "special",
+          "movement": "50'",
+          "numAppear": "1d4",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "An ironbane resembles a large armadillo in its overall body plan, but has an anteater-like snout with a long flicking tongue, and long, strangely hare-like back legs which allow it to hop from place to place. When attacking or pursuing, the ironbane stands up on its hind legs, but when resting or moving slowly it folds them and walks on all four feet.\n\nLike the more common rust monster (as found on page 138), the touch of any part of an ironbane's body transforms metal objects into rust (or verdigris, or other oxides as appropriate). Non-magical metal attacked by an ironbane, or that touches the monster (such as a sword used to attack it), is instantly ruined. A non-magical metal weapon used to attack the monster does half damage before being destroyed. Magic weapons or armor lose one \"plus\" each time they make contact with the ironbane; this loss is permanent.\n\nThe metal oxides created by this monster are its food; thus, a substantial amount of metal dropped in its path may cause it to cease pursuit of metal-armored characters. Use a morale check to determine this.\n\nMetals that do not normally oxidize, such as gold, are of no interest to an ironbane and will be ignored. Silver and copper on the other hand are candy for this creature and one will pursue the tastiest-smelling adventurer in any party."
+  },
+  {
+    "name": "Jaguar",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "4",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 2d4 bite",
+          "movement": "70' Swim 30'",
+          "numAppear": "1d2, Wild 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "These great cats are about 8 to 9 feet long (from nose to tail-tip) and weigh about 165 pounds. Unlike other great cats, they enjoy swimming and often hunt near rivers or lakes. Jaguars kill with their powerful bite, preferring to deliver a fatal wound to the skull of their prey."
+  },
+  {
+    "name": "Jelly",
+    "description": "Jellies are strange creatures made of amorphous protoplasm. They are similar to tiny single-celled creatures such as a few wizards may have studied using magic, but far larger. Jellies are always completely non-intelligent, and are thus immune to **sleep** or **charm magic** as well as any form or **mind reading** or telepathy. Generally they also do not check morale, but simply move toward any potential meal and attack automatically."
+  },
+  {
+    "name": "Jelly,  Black* (Black Pudding)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "10* (+9)",
+          "numAttacks": "1 pseudopod",
+          "damage": "3d8",
+          "movement": "20'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 10",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "1,390"
+        }
+      ]
+    ],
+    "description": "Black jellies are amorphous creatures that live only to eat. They inhabit underground areas throughout the world, scouring caverns, ruins, and dungeons in search of organic matter, living or dead. They attack any creatures they encounter, lashing out with pseudopods or simply engulfing opponents with their bodies, which secrete acids that help them catch and digest their prey.\n\nIf attacked with normal or magical weapons, or with lightning or electricity, a black jelly suffers no injury, but will be split into two jellies; the GM should divide the original creature's hit dice between the two however they see fit, with the limitation that neither pudding may have less than two hit dice. A two hit die black jelly is simply unharmed by such attacks, but cannot be split further.\n\nCold or ice based attacks do not harm a black jelly, but such an attack will paralyze the jelly for one round per die of damage the attack would normally cause. Other attack forms will affect a black jelly normally; the preferred method of killing one usually involves fire.\n\nThe typical black jelly measures 10 feet across and 2 feet thick, and weighs about 10,000 pounds. Black jellies of smaller sizes may be encountered, possibly as a result of the splitting described above."
+  },
+  {
+    "name": "Jelly,  Glass (Gelatinous Cube)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12",
+          "hitDice": "4*",
+          "numAttacks": "1",
+          "damage": "2d4 + paralysis",
+          "movement": "20'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 2",
+          "morale": "12",
+          "treasureType": "V",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "The glass jelly travels slowly along dungeon corridors and cave floors, absorbing carrion, creatures, and trash. Inorganic material remains trapped and visible inside the jelly's body. Glass jellies are huge, averaging 1,000 cubic feet and weighing as much as 20,000 pounds.\n\nThe body of a glass jelly is more viscous than that of other jellies, and it tends to take on the shape of its surroundings such that one in a dungeon with 10' wide corridors might have a shape similar to that of a cube, while one living in round sewer drains under a city would have a cylindrical or half-cylindrical shape.\n\nIf a glass jelly encounters a narrow place (a doorway, for example) it will need 2d4 rounds to push through the constriction and will have assumed a new shape after doing so; such a new shape will persist for twice as long as it took to pass the constriction before the monster begins to flow into a shape that fills the available space again.\n\nGlass jellies move quietly, making a faint sucking or slurping sound if anyone thinks to listen. Combined with their transparency, they are able to surprise prey on a roll of 1-3 on 1d6. Worse, any living creature hit by a glass jelly must save vs. Paralysis or be paralyzed for 2d4 turns in addition to suffering damage from its acid secretions.\n\nAny treasure indicated will be visible inside the creature, which must be slain if the treasure is to be recovered."
+  },
+  {
+    "name": "Jelly,  Gray (Gray Ooze)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12",
+          "hitDice": "3*",
+          "numAttacks": "1 pseudopod",
+          "damage": "2d8",
+          "movement": "1'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 3",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "Gray jellies are amorphous creatures that live only to eat. They inhabit underground areas, scouring caverns, ruins, and dungeons in search of organic matter, living or dead. Average individuals will be up to 10 feet in diameter, about 6 inches thick (high), and weigh up to 2,500 pounds.\n\nThe acid secretions of the gray jelly can dissolve most organic matter and most metals; stone and glass are not affected, however. After a successful hit, the jelly will stick to the creature attacked, dealing 2d8 damage per round automatically. Normal (non-magical) armor or clothing dissolves and becomes useless immediately. Any non-magical weapon made of metal or wood which hits a gray jelly will be similarly destroyed.\n\nMagical weapons, armor, and clothing are allowed a saving throw (use the wearer's save vs. Death Ray, adding any magical \"plus\" value to the roll if applicable)."
+  },
+  {
+    "name": "Jelly,  Green* (Green Slime)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12 (only hit by fire or cold)",
+          "hitDice": "2**",
+          "numAttacks": "1 special",
+          "damage": "special",
+          "movement": "1'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 2",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "125"
+        }
+      ]
+    ],
+    "description": "Green jelly devours flesh and organic materials on contact and is even capable of dissolving metal given enough time. Bright green, wet, and sticky, it clings to walls, floors, and ceilings in patches, reproducing as it consumes organic matter. Green jelly cannot grow in sunlight; even the indirect sunlight of a dense forest will stunt it and prevent it from spreading, and direct sunlight will kill it outright within a turn.\n\nOn the first round of contact, the jelly can be scraped off a creature (most likely destroying the scraping device), but after that it must be frozen, burned, or cut away (dealing the same damage to both the victim and the jelly). A cure disease spell will destroy a patch of green jelly. It does not harm stone or enchanted metal, but can dissolve normal metal or enchanted wood in a turn and normal wood in 2d4 rounds.\n\nIf not destroyed or scraped off within 6+1d4 rounds, the victim will be completely transformed into more green jelly; such a character or creature cannot be retrieved by any magic short of a wish."
+  },
+  {
+    "name": "Jelly,  Ochre*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12 (only hit by fire or cold)",
+          "hitDice": "5*",
+          "numAttacks": "1 pseudopod",
+          "damage": "2d6",
+          "movement": "10'",
+          "numAppear": "1",
+          "saveAs": "Fighter: 5",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "405"
+        }
+      ]
+    ],
+    "description": "Ochre jellies are yellowish-brown amorphous monsters. Average individuals will be up to 10 feet in diameter, about 6 inches thick (high), and weigh up to 2,500 pounds.\n\nOchre jellies can only be hit (damaged) by fire or cold. Attacks with weapons or electricity/lightning cause the creature to divide into 1d4+1 smaller jellies of 2 hit dice apiece. If divided, the resulting smaller jellies do 1d6 points of damage with each hit. Other attack forms simply have no effect on the monster."
+  },
+  {
+    "name": "Kobold",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13 (11)",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "1 weapon",
+          "damage": "1d4 or by weapon",
+          "movement": "20' Unarmored 30'",
+          "numAppear": "4d4, Wild 6d10, Lair 6d10",
+          "saveAs": "Normal Man",
+          "morale": "6",
+          "treasureType": "P, Q each; C in lair",
+          "xp": "10"
+        }
+      ]
+    ],
+    "description": "Kobolds are diminutive, dog-faced humanoids with reptilian skin. They stand between 2½ and 3½ feet tall and typically weigh around 40 pounds. They are cowardly by nature, and in combat they prefer ambushing their foes and constructing traps both clever and deadly; to simply stand and fight is considered the worst possible strategy, and kobolds may fake withdrawing in fear in order to draw enemies into a trap.\n\nKobolds prefer to rely on ranged combat whenever possible. They tend to favor daggers and short spears since both can be used in close quarters or thrown at foes at range. Some may be armed with diminutive bows or crossbows which inflict 1d4 points of damage on a hit.\n\nKobolds normally dwell underground, while those who choose to dwell above ground may adopt a nocturnal lifestyle. All possess Darkvision with a range of 60 feet, and generally avoid exposure to daylight. When they are exposed to sunlight or the effect of continual light they suffer a penalty of -1 to all attack rolls. Most kobolds wear leather armor in combat.\n\nOne out of every six kobolds in any group is a warrior with 1 hit die (25 XP). Kobolds gain a +1 bonus to their morale if they are led by a warrior. In kobold lairs, one out of every twelve is a chieftain of 2 hit dice (75 XP) with an armor class of 14 (11) and having a +1 bonus to damage due to strength. In lairs of 30 or greater, there will be a kobold king of 3 hit dice (145 XP) who wears chain mail with an armor class of 15 (11) and has a movement rate of 10' and a +1 bonus to damage. In the lair, kobolds never fail a morale check as long as the kobold king is alive. In addition, a lair has a chance equal to 1 on 1d6 of a shaman being present (or 1-2 on 1d6 if a kobold king is present). A shaman is equivalent to a 1 hit die warrior kobold statistically, but has Clerical abilities at level 1d4+1. For XP purposes, treat the shaman as if it has a number of hit dice equal to its clerical level -1, and assign one special ability bonus asterisk.\n\nKobolds are sometimes confused with barklings, for whom they have a particular hatred; calling a kobold a barkling or suggesting that the two species are related is considered a terrible insult."
+  },
+  {
+    "name": "Leech, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "6",
+          "numAttacks": "1 bite + hold",
+          "damage": "1d6 bite + 1d6/round hold",
+          "movement": "30'",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "10",
+          "treasureType": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Giant leeches are slimy, segmented wormlike creatures which live in water. Salt or fresh, clean or stagnant, there are giant leech varieties for all wet environments. However, only a true leech expert can tell the various types apart. An average giant leech will be 4 to 6 feet long.\n\nOnce a giant leech hits in combat, it attaches to the victim and sucks blood, causing an additional 1d6 points of damage each round until the victim or the leech is dead. There is no way to remove the leech other than to kill it."
+  },
+  {
+    "name": "Leopard (Panther)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "4",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 2d4 bite",
+          "movement": "60' (10')",
+          "numAppear": "1, Wild 1d4",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Leopards are large cats that are 7 to 8 feet long including tail, and weigh about 175 lb. These cats have four black spots that form a large circle (rosette). The center of the circle and around the rosette spots range from yellow tan to white on the underside. An all-black leopard is called a panther. The tail has a white tip.\n\nThey don't like to swim as much as jaguars, preferring instead to climb trees. A leopard will drag prey into a tree."
+  },
+  {
+    "name": "Lion",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "5",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 1d10 bite",
+          "movement": "50'",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 5",
+          "morale": "9",
+          "treasureType": "None",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "The lion is a large cat found in grasslands and savannas. They have muscular, broad-chested bodies, short, rounded heads, round ears, and a hairy tuft at the end of its tail. Adult male lions are larger are larger than females, and in most varieties have a prominent mane. They live in social groups called prides consisting of a few adult males, several related females, and their cubs. Groups of female lions usually hunt together, preying mostly on large ungulates; any hunting group of 1 or 2 is 80% likely to be females, and any group of 3 or more almost certainly are. Sometimes male lions are rogues, living outside a pride, and in those cases they may hunt as individuals or in pairs.\n\nLions typically do not actively seek out and prey on humans. Injured or obviously vulnerable humans may be too much of a temptation though."
+  },
+  {
+    "name": "Living Statue",
+    "description": "Living statues are magically animated. They are true automatons, unlike golems, which are animated by elemental spirits. While this means that living statues have no chance of going \"berserk,\" it also means that they may only perform simple programmed activities. They may not be commanded in any meaningful fashion. They make very effective guards for tombs, treasure rooms, and similar places.\n\nLiving statues can be crafted to resemble any sort of living creature, but most commonly are made to look like the type of humanoid which crafted them."
+  },
+  {
+    "name": "Living Statue,  Crystal",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "3",
+          "numAttacks": "2 fists",
+          "damage": "1d6 fist",
+          "movement": "30'",
+          "numAppear": "1d6",
+          "saveAs": "Fighter: 3",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Crystal living statues have no particular special powers, unlike those made of iron or stone."
+  },
+  {
+    "name": "Living Statue,  Iron",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "4*",
+          "numAttacks": "2 fists",
+          "damage": "1d8 fist + special",
+          "movement": "10'",
+          "numAppear": "1d4",
+          "saveAs": "Fighter: 4",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "If struck by a non-magical metal (even partially metal) weapon, the wielder must make a successful save vs. Spells or the weapon will become stuck in the monster. If this happens, it cannot be removed until the statue is \"killed.\""
+  },
+  {
+    "name": "Living Statue,  Stone",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "5*",
+          "numAttacks": "2 lava sprays",
+          "damage": "2d6 lava spray",
+          "movement": "20'",
+          "numAppear": "1d3",
+          "saveAs": "Fighter: 5",
+          "morale": "12",
+          "treasureType": "None",
+          "xp": "405"
+        }
+      ]
+    ],
+    "description": "A stone living statue attacks by spraying molten rock from its fingertips. The range of the spray is 5'."
+  },
+  {
+    "name": "Lizard, Giant Draco",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4+2",
+          "numAttacks": "1 bite",
+          "damage": "1d10",
+          "movement": "40' Fly 70' (20', and see below)",
+          "numAppear": "1d4, Wild 1d8",
+          "saveAs": "Fighter: 3",
+          "morale": "7",
+          "treasureType": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Giant draco lizards are able to extend their ribs and connected skin to form a sort of wing, allowing them to glide for short distances (no more than three rounds, and ascending is impossible). An average giant draco lizard is 8' long, including its nearly 3' long tail."
+  },
+  {
+    "name": "Lizard, Giant Gecko",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "3+1",
+          "numAttacks": "1 bite",
+          "damage": "1d8",
+          "movement": "40' (special)",
+          "numAppear": "1d6, Wild 1d10",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasureType": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "Giant gecko lizards range from 4' to 6' in length, and are generally green in color, though grey or white versions can be found underground. They can climb walls and even walk across ceilings at full movement rate due to their specialized toe pads. They are carnivores, typically attacking weaker prey from above."
+  },
+  {
+    "name": "Lizard, Giant Horned Chameleon",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "5",
+          "numAttacks": "1 tongue or 1 bite",
+          "damage": "tongue grab or 2d6 bite",
+          "movement": "40' (10')",
+          "numAppear": "1d3, Wild 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": "7",
+          "treasureType": "None",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Giant horned chameleons average 8' to 10' in length. They are typically green, but can change color to blend into their surroundings, allowing them to surprise prey on 1-4 on 1d6. Giant horned chameleon have very long tongues, able to spring out up to 20' forward; the sticky muscular ball on the end grabs on to the chameleon's prey, and the chameleon then drags the prey to its mouth, doing bite damage automatically on the following round (and all subsequent rounds, until the chameleon is killed or fails a morale check, or until the prey is dead).\n\nThe horns of the giant horned chameleon are used only in mating rituals, not in combat."
+  },
+  {
+    "name": "Lizard, Giant Tuatara",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "16",
+          "hitDice": "6",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 2d6 bite",
+          "movement": "40' (10')",
+          "numAppear": "1d2, Wild 1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "6",
+          "treasureType": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Giant tuataras are large, being 10 to 12 feet long, and heavily built. They are predators with a powerful shearing bite. Giant tuataras are more resistant to cold than most lizards, and are thus sometimes found hunting deep underground. They are also known to hibernate in cold weather. Sages argue as to whether or not they are actually members of the lizard family, but the giant tuatara does not care about such things."
+  },
+  {
+    "name": "Lizard, Giant Monitor",
+    "variants": [
+      [
+        "Large",
+        {
+          "ac": "12",
+          "hitDice": "3*",
+          "numAttacks": "–",
+          "damage": "1 bite",
+          "movement": "40' (special)",
+          "numAppear": "1d4, Wild 1d6",
+          "saveAs": "Fighter: 3",
+          "morale": "7",
+          "treasureType": "None",
+          "xp": "175"
+        }
+      ],
+      [
+        "Huge",
+        {
+          "ac": "14",
+          "hitDice": "5*",
+          "numAttacks": "1 bite",
+          "damage": "1d6 bite",
+          "movement": "40' (special)",
+          "numAppear": "1d6",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasureType": "None",
+          "xp": "405"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "16",
+          "hitDice": "7*",
+          "numAttacks": "–",
+          "damage": "1 bite",
+          "movement": "40' (special)",
+          "numAppear": "1d6",
+          "saveAs": "Fighter: 7",
+          "morale": "9",
+          "treasureType": "None",
+          "xp": "735"
+        }
+      ]
+    ],
+    "description": "Monitor lizards are generally dark in color, but often have bright, colorful, lace-like patterns covering their skin. A monitor may rise up onto its hind legs to run at a rate of 60 feet per round; such movement must be in a straight line, ending with the creature on all fours again. However, unlike a \"double move\" running movement, the monitor may still attack after moving.\n\nLarge monitor lizards range from 4 to 7 feet in length, and include such creatures as the so-called Komodo Dragon. Their venom is slow; those who are bitten must save vs. Poison at +2, with failure resulting in the victim suffering 1d6 points of damage each turn for 2d4 turns.\n\nHuge monitors range from 8 to 11 feet in length. Their venom works faster than that of their smaller brethren; those bitten must save vs. Poison at +2 or suffer 1d6 points of damage each round for 2d4 rounds.\n\nGiant monitor lizards range from 12 to 15 feet in length. Those bitten by a giant monitor must save vs. Poison at +2 or die.\n\nAll monitors are carnivores who hunt by running down their prey, and anything smaller than a monitor is considered prey."
+  },
+  {
+    "name": "Lizard Man",
+    "variants": [
+      [
+        "Common",
+        {
+          "ac": "15 (12)",
+          "hitDice": "2",
+          "numAttacks": "1 weapon",
+          "damage": "1d6+1 or by weapon +1",
+          "movement": "20'",
+          "numAppear": "2d4, Wild 2d4, Lair 6d6",
+          "saveAs": "Fighter: 2",
+          "morale": "11",
+          "treasureType": "D",
+          "xp": "75"
+        }
+      ],
+      [
+        "Subterranean",
+        {
+          "ac": "15",
+          "hitDice": "2",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 1d4 bite",
+          "movement": "30'",
+          "numAppear": "1d8, Lair 5d8",
+          "saveAs": "Fighter: 2",
+          "morale": "9",
+          "treasureType": "D",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Common lizard men are tall, generally 6 to 7 feet tall at adulthood and weighing up to 250 pounds. Males and females are basically the same size, and it is quite difficult for other races to tell them apart. Due to their great Strength they always receive a +1 to damage done with melee weapons. They wear leather armor and carry shields in battle.\n\nLizard men are excellent swimmers and can hold their breath for an extended period of time (up to a full turn). They cannot swim while wearing armor; however, they often hide in the water even while armored, standing on the bottom with just nose and eyes exposed (similar to a crocodile). When they are able to employ this maneuver, lizard men surprise on 1-4 on 1d6.\n\nLizard men are largely indifferent to other races, being primarily interested in their own survival. If aroused, however, they are fearsome warriors, using simple but sound tactics.\n\nSubterranean lizard, also called troglodytes, are superficially very similar to the common variety. Their skin is paler, and their eyes are red and seem to glow in low light conditions. Individuals are shorter than the common variety, standing just 5 to 6 feet tall, due in part to their somewhat \"hunched\" stance. They weigh about as much as the common type.\n\nThese monsters can change color at will, allowing them to blend into underground environments so well that they gain surprise on a roll of 1-5 on 1d6.\n\nFurthermore, they gain a +2 attack bonus during any surprise round due to their excellent ambush skills.\n\nSubterranean lizard men secrete a smelly oil that keeps their scaly skin supple. All mammals (including, of course, all the standard character races) find the scent repulsive, and those within 10 feet of one must make a saving throw versus poison. Those failing the save suffer a -2 penalty to attack rolls while they remain within 10 feet of the creature. Getting out of range negates the penalty, but renewed exposure reinstates the penalty without an additional saving throw. The results of the original save last a full 24 hours, after which a new save must be rolled."
+  },
+  {
+    "name": "Lycanthrope*",
+    "description": "Lycanthropes are humans who transform into animals or animal-human hybrid forms; the exact nature of the transformation varies between specific types. They look like ordinary humans when not transformed, though lycanthropes who have been afflicted for a long time sometimes begin to resemble their animal form even when not transformed. An animal form will usually appear larger and stronger than normal animals of the same type, and some say you can see the intelligence of a human in their eyes, if you dare to get close enough. \n\nThis affliction is in fact a kind of magical disease, though it is not susceptible to the cure disease spell. Any human who loses half or more of their hit points due to lycanthrope bite and/or claw attacks will subsequently contract the same form of lycanthropy in 3d6 days. For non-Human characters or creatures, contracting the disease is fatal in the same time period. A cure disease cast before the onset is complete will stop the progress of the disease, but once the time has elapsed, the transformation is permanent. \n\nWhen first infected, most lycanthropes cannot control their changes and will transform when stressed or under some other type-specific circumstances. After around two to three years, they gain the ability to change at will, and may attempt to resist involuntary transformation by means of a saving throw vs. Paralysis. \n\nIn animal or hybrid form lycanthropes may be hit only by silver or magical weapons."
+  },
+  {
+    "name": "Lycanthrope, Werebear*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18 (s)",
+          "hitDice": "6*",
+          "numAttacks": "2 claws, 1 bite + hug",
+          "damage": "2d4 claw, 2d8 bite, 2d8 hug",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "10",
+          "treasureType": "C",
+          "xp": "555"
+        }
+      ]
+    ],
+    "description": "Werebears are humans that can transform into large bears. When in human form, they typically appear as well-muscled, imposing figures, with an abundance of thick hair. Werebears typically dwell in deep forests, far from civilization. They are distrustful of those that they do not know, but will ferociously defend those that they have befriended."
   }
 ]
