@@ -4402,5 +4402,587 @@
       ]
     ],
     "description": "A strangle vine (sometimes called an assassin vine) is a strange animated plant found in temperate and tropical forests, particularly in areas with poor-quality soil. They fertilize their soil by entangling, constricting, and killing living creatures, then depositing the bodies in loose soil around the plant's base.\n\nBecause it can lie very still indeed, a strangle vine surprises on a roll of 1-4 on 1d6. A successful hit inflicts 1d8 points of damage, and the victim becomes entangled, suffering an additional 1d8 points of damage thereafter. A victim may attempt to escape by rolling a saving throw vs. Death Ray with Strength bonus added; this is a full action, so the victim may not attempt this and also perform an attack. The plant will continue to crush its victim until one or the other is dead or the victim manages to escape.\n\nStrangle vines are actually mobile, able to uproot themselves and move slowly from place to place; one generally only does so to seek new hunting grounds. They have no visual organs but can sense foes within 30 feet by sound and vibration.\n\nEach plant consists of a single long vine of up to 20 feet in length, with many smaller vines 5 feet or so in length packed closely, two vines per foot or thereabouts. The smaller vines are covered in leaves, and in the fall they bear clusters of reddish-purple berries which are tough and bitter but not poisonous.\n\nThere is a similar plant found in underground environments which has leaves the color of iron with pale shiny metallic veins. They grow near geothermal vents or springs, and the rotting flesh that surrounds them often supports mushrooms of various sizes and types. This fungal growth conceals the strangle vine, allowing it to surprise on 1-5 on 1d6 as does the above-ground variety of the plant."
+  },
+  {
+    "name": "Tentacle Worm",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "3*",
+          "numAttacks": "6 tentacles",
+          "damage": "paralysis",
+          "movement": "40'",
+          "numAppear": "1d3, Lair 1d3",
+          "saveAs": "Fighter: 3",
+          "morale": "9",
+          "treasure": "B",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "Tentacle worms appear to be giant worms of some sort, averaging 6 to 8 feet long. Their heads are pasty white or grey, but their bodies vary from livid pink or purple to deep green in color. Their tentacles splay out from around the creature's \"neck.\" Some sages believe they are the larval form of some other monster, but this has never been proven.\n\nA tentacle worm can attack as many as three adjacent opponents. Those hit must save vs. Paralysis or be paralyzed 2d4 turns. No matter how many of a tentacle worm's attacks hit an opponent in a given round, only one saving throw is required in each such round.\n\nIf all opponents of a tentacle worm are paralyzed, it will begin to feed upon the victims, doing 1 point of damage every 1d8 rounds until the victim is dead; if other paralyzed victims are still alive, the worm is 50% likely to move on immediately to another still-living victim. Otherwise, it continues to eat the corpse of the slain victim for 1d4 turns."
+  },
+  {
+    "name": "Tiger",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "6",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 2d6 bite",
+          "movement": "50'",
+          "numAppear": "Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 6",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "The tiger is among the largest great cat species, with male specimens averaging 10 feet in length (including about 2½ feet of tail) and weighing over 400 pounds. Females are smaller, averaging about 8 feet long and an average of about 275 pounds. Tigers are most recognizable for their dark vertical stripes on orange fur with a white underside.\n\nTigers are apex predators and prefer prey such as deer and wild boar. They are territorial and generally solitary but social predators, requiring large contiguous areas of habitat to support their requirements for prey."
+  },
+  {
+    "name": "Titanothere",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "12 (+10)",
+          "numAttacks": "1 butt or 1 trample",
+          "damage": "2d6 butt, 3d8 trample",
+          "movement": "40' (10')",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 8",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "1,875"
+        }
+      ]
+    ],
+    "description": "A titanothere is a huge prehistoric animal that resembles the rhinoceros; adults average 10' tall and 13' long. They have large, forked horns rather than the pointed horns of rhinos. Like rhinos, they are herd animals, and males aggressively defend the herd; females only enter combat if all males are defeated or the attackers are very numerous. If a single titanothere is encountered, it will be a rogue male; they are bad tempered and prone to attacking smaller creatures that enter their territory."
+  },
+  {
+    "name": "Treant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8*",
+          "numAttacks": "2 fists",
+          "damage": "2d6 fist",
+          "movement": "20'",
+          "numAppear": "Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 8",
+          "morale": "9",
+          "treasure": "C",
+          "xp": "945"
+        }
+      ]
+    ],
+    "description": "Treants are a race of large, roughly humanoid tree-people. When one stands still with its legs together it cannot be easily distinguished from a normal oak tree. Their leaves are nearly identical to oak leaves, and are green in spring and summer, turning orange, red, or yellow in the fall and winter. A treant's leaves do not normally fall out in the winter, but as some oaks also retain their leaves into cold weather this may not help in identifying one.\n\nBeing actual trees, treants are big, averaging 25 to 35 feet in height and weighing 4,000 to 5,000 pounds. Their language is difficult for most other races to learn, though Elves are known to have an advantage in mastering it. Many treants know Elvish, and some who live near humans learn Common as well.\n\nTreants are slow to act when potential enemies are nearby, preferring watch them carefully before taking any action. Because of their excellent camouflage treants gain surprise on 1-4 on 1d6.\n\nAll treants have the power to animate other normal trees in their area; up to two trees can be animated at once, but the treant can release one and animate another if needed. Trees to be animated must be within 180 feet of the treant, and must remain within that range or they will return to their normal state. An animated tree requires a full round to uproot itself before it can move around, and then can move at a rate of just 10' per round. Of course, if enemies are within reach the animated tree need not be uprooted.\n\nIf the treant controlling an animated tree is slain or incapacitated, the tree returns to its normal state.\n\nNote that animated trees will automatically root themselves when returning to their normal, dormant state; if such a tree finds itself on stone or some other surface it cannot penetrate, it will move around randomly for 1d6 rounds until it accidentally finds a suitable area, or failing that, until it topples and falls.\n\nAny character or creature nearby when this happens must save vs. Death Ray to scamper away; those who fail will suffer 2d6 points of damage and will be trapped under the fallen tree. The GM should consider battlefield conditions when deciding on the exact results of such an event."
+  },
+  {
+    "name": "Troll (and Trollwife)",
+    "variants": [
+      [
+        "Troll",
+        {
+          "ac": "16",
+          "hitDice": "6*",
+          "numAttacks": "–",
+          "damage": "1d6 claw, 1d10 bite",
+          "movement": "40'",
+          "numAppear": "1d8, Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 6",
+          "morale": "10 (8)",
+          "treasure": "D",
+          "xp": "555"
+        }
+      ],
+      [
+        "Trollwife",
+        {
+          "ac": "17",
+          "hitDice": "7*",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d8 claw, 2d6 bite",
+          "movement": "40'",
+          "numAppear": "1 (special, see below)",
+          "saveAs": "Fighter: 7",
+          "morale": "10 (8), see below",
+          "treasure": "D",
+          "xp": "735"
+        }
+      ]
+    ],
+    "description": "Trolls are huge, rangy humanoids with lumpy skin that is a dull grayish green in color. They stand up to 9 feet tall despite having a rather hunched posture, and may weigh as much as 600 pounds. Their skin is rubbery and slightly damp to the touch, and they have long sharp black claws and long sharp white teeth. Trolls have a disconcerting tendency to smile toothily most of the time, as if their brutal lives are the most entertaining thing imaginable.\n\nTrolls have the power of regeneration; they heal 1 hit point of damage each round after being injured. A troll reduced to 0 hit points is not dead, but only disabled for 2d6 rounds, at which point it will regain 1 hit point. Note that the troll may \"play dead\" until it has regenerated further. Damage from fire and acid cannot be regenerated, and must heal at the normal rate; a troll can only be killed by this sort of damage. The lower morale rating (in parentheses) is used when the troll faces attackers armed with fire or acid.\n\nThe regenerative power of trolls is so great that limbs or other body parts (even a head!) can be reattached if severed simply by pressing the severed ends back together for a moment. Trolls in a group will generally help dismembered fellows to reassemble themselves, but only if it's convenient. If the severed part is not restored, a new one will grow in its place in 1d4 turns.\n\nNote that a troll with a new head will not remember its former life, nor will it yet know how to speak; it will behave as would any confused and hostile animal.\n\nTrolls speak a primitive language, and are often fluent in Goblin, Hobgoblin, Orc, Ogre, or Giant depending on which of these species live nearest them. A few (20% or so) speak Common.\n\nTrolls are hateful creatures, reveling in combat and bloodshed. Though trolls could easily use a variety of weapons, they much prefer the sensation of flesh being rent by their teeth and claws. \n\nA **trollwife** is a female troll; despite the name, there is no requirement that she be married (nor, in fact, do trolls normally engage in formal marriages). A typical adult trollwife stands 11 feet tall and weighs 700 pounds. They have no outward appearance of femininity, at least according to the standards of humans, elves, or even orcs; rather, a trollwife simply looks like an extraordinarily large troll. Like a normal male troll, a trollwife has lumpy skin that is a dull grayish green in color.\n\nTrollwives have all the abilities and weaknesses of the males of the species; in particular, they regenerate exactly as do the males.\n\nWhen encountered, a trollwife may be alone, cohabitating with a male (her \"husband\"), or raising a brood of trollkin. Roll 1d10; on a result of 1, she is living alone; on a roll of 2-3, she is raising her young; on 4 or higher, she is living with a male. If one has a mate or offspring, there is a 1-3 on 1d10 chance she is encountered alone, 4-7 that her mate or young are encountered in her absence, or 8-10 that all are present.\n\nAdd 1 to the trollwife's morale score if she is with her mate, or 2 if she has young present. This means that, unless threatened with fire or acid, a trollwife will fight without checking morale while her offspring are present. If a trollwife's mate or offspring are slain in her absence, she will track the killers unerringly, and upon finding them will attack with the same morale bonus.\n\nTrollwives are solitary with respect to other adult trollwives, for they hate each other with a fierce passion. If forced together they will put aside their enmity until all non-troll enemies are dead (at which point they may well fight over who will eat the choicest of the remains)."
+  },
+  {
+    "name": "Trollkin",
+    "variants": [
+      [
+        "Infant",
+        {
+          "ac": "14",
+          "hitDice": "1*-2*",
+          "numAttacks": "–",
+          "damage": "1d4 claw, 1d4 bite",
+          "movement": "30'",
+          "numAppear": "special, see below",
+          "saveAs": "Fighter: 1-2",
+          "morale": "–",
+          "treasure": "None",
+          "xp": "37"
+        }
+      ],
+      [
+        "Juvenile",
+        {
+          "ac": "15",
+          "hitDice": "3*-4*",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d4 claw, 1d6 bite",
+          "movement": "50'",
+          "numAppear": "special, see below",
+          "saveAs": "Fighter: 3-4",
+          "morale": "9 (7)",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ],
+      [
+        "Adolescent",
+        {
+          "ac": "16",
+          "hitDice": "5*-6*",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 1d6 bite",
+          "movement": "40'",
+          "numAppear": "special, see below",
+          "saveAs": "Fighter: 5-6",
+          "morale": "–",
+          "treasure": "None",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "Trollkin are young trolls. They have all the powers and weaknesses of trolls, and look exactly like smaller than normal adult trolls. Even an infant has the same ability to regenerate as an adult troll.\n\nWhen you encounter trollkin, you can rest assured that there is a trollwife nearby (unless, of course, you've already slain her). They are as bloodthirsty as their parents; as such, determining the number appearing is done in a particularly unusual fashion:\n\nRoll 1d6 for the number of individuals, and 2d6 for the number of hit dice. Divide the number of hit dice by the number of individuals to arrive at the hit dice of each individual. Note that a trollkin won't be encountered having more than 6 hit dice, so if only one individual is indicated by the 1d6 roll but the 2d6 roll totals more than 6, you must increase the number of individuals. The referee should feel free to round the number of hit dice up or down as they see fit, or to allocate them in an approximately equal fashion if desired. Trollkin broods are rolled in this way owing to the fact that bigger or tougher individuals are likely to kill and eat the weaker ones, generally when their mother is out hunting.\n\nRefer to the entry for trolls for details regarding regeneration, morale checks, and so on; except as noted above, trollkins share all these features with the adults."
+  },
+  {
+    "name": "Turtle or Tortoise",
+    "variants": [
+      [
+        "Box Turtle",
+        {
+          "ac": "15",
+          "hitDice": "½ (1d4 hit points)",
+          "numAttacks": "1 bite",
+          "damage": "1d2",
+          "movement": "5' Swim 20'",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Normal Man",
+          "morale": "5",
+          "treasure": "None",
+          "xp": "10"
+        }
+      ],
+      [
+        "Snapping Turtle",
+        {
+          "ac": "16",
+          "hitDice": "1",
+          "numAttacks": "1 bite",
+          "damage": "1d6",
+          "movement": "5' Swim 20'",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 1",
+          "morale": "6",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Turtles and tortoises are reptiles with a hard shell into which the animal can pull its head and legs if threatened. Turtles will be found in marshes and near rivers or ponds, while tortoises are terrestrial and typically found in arid regions. (The specific names given to these animals are often misleading, as a tortoise might be called a turtle and vice versa.) The statistics given above are representative, and can be used for other species as needed. These animals are well-camouflaged, gaining surprise on a roll of 1-3 on 1d6 in their natural habitat."
+  },
+  {
+    "name": "Unicorn (and Alicorn)",
+    "variants": [
+      [
+        "Unicorn",
+        {
+          "ac": "19",
+          "hitDice": "4*",
+          "numAttacks": "2 hooves, 1 horn (+3 attack bonus)",
+          "damage": "1d8 hoof, 1d6+3 horn",
+          "movement": "80'",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 8",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "280"
+        }
+      ],
+      [
+        "Alicorn",
+        {
+          "ac": "19",
+          "hitDice": "4*",
+          "numAttacks": "2 hooves, 1 horn",
+          "damage": "2d4 hoof, 2d6 horn",
+          "movement": "70'",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 6",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Unicorns are horse-like creatures having a single spirally-twisted horn in the middle of the forehead. This horn is in fact a magic weapon with an added attack and damage bonus of +3; if removed from the unicorn or the unicorn dies the horn loses this effect. A unicorn may perform a charging attack with its horn, but it cannot also attack with its hooves in the same round. Most unicorns are white, sometimes with the faintest tinge of lavender, pink, or gold visible in sunlight. Adult male unicorns have beards similar to those of goats. The eyes of a unicorn are almost always a bright, often unlikely color such as gold, sea-blue, deep green, violet, or even a luminous-looking magenta. Adult male unicorns stand an average of 5 feet at the shoulder and weigh 1,100 to 1,300 pounds. Females are slightly smaller, generally 4¾ feet at the shoulder with a weight from 950 to 1,200 pounds.\n\nThree times per day a unicorn can cast **cure light wounds** by a touch of its horn. Once per day a unicorn can transport itself 360' (as the spell **dimension door**), and can carry a full load (possibly including a rider) while doing so. A light load for a unicorn is up to 300 pounds; a heavy load, up to 550 pounds.\n\nAn alicorn resembles a unicorn in all details, save that they always have yellow, orange or red eyes, and (if one gets close enough to see) pronounced, sharp canine teeth. Alicorns are as evil as unicorns are good, using their razor-sharp horns and clawlike hooves as weapons. They attack weaker creatures for the sheer pleasure of killing, but will try to avoid stronger parties. They may make charging attacks just as unicorns do.\n\nAlicorns cannot heal or transport themselves by magic as unicorns do. However, alicorns may become invisible at will, exactly as if wearing a **Ring of Invisibility**."
+  },
+  {
+    "name": "Urgoblin",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14 (11)",
+          "hitDice": "2*",
+          "numAttacks": "1 weapon",
+          "damage": "1d8 or by weapon",
+          "movement": "30' Unarmored 40'",
+          "numAppear": "Special",
+          "saveAs": "Fighter: 2",
+          "morale": "9",
+          "treasure": "Q, R, S each; special in lair",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "These creatures appear to be normal hobgoblins, but urgoblins are actually a mutant subspecies. Urgoblins are able to regenerate much as do trolls (with the same limitations). All urgoblins are male; if an urgoblin mates with a female hobgoblin, any offspring will also be male, but only one in four such offspring will share their father's gifts. Like hobgoblins, urgoblins wear toughened hides and carry wooden shields into battle, blending in perfectly.\n\nSome hobgoblin tribes consider urgoblins an abomination, and kill them whenever they can be identified. Other hobgoblin tribes employ them as bodyguards for the chieftain, and accord them great honor. There are even rumors of a tribe entirely made up of urgoblins, with kidnapped hobgoblin females as their mates; reportedly they slit the throats of all infants born to their mates, so that only those who have the power of regeneration survive."
+  },
+  {
+    "name": "Vampire",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18 to 20 (m)",
+          "hitDice": "7** to 9** (+8)",
+          "numAttacks": "1 weapon or special",
+          "damage": "1d8 or by weapon or special",
+          "movement": "40' Fly 60' (as giant bat, see below)",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 7 to 9 (as Hit Dice)",
+          "morale": "11",
+          "treasure": "F",
+          "xp": "800 - 1,225"
+        }
+      ]
+    ],
+    "description": "Vampires are undead monsters. Though they may look just a bit more pale than when they were alive, they do appear to live and even breathe as mortals do. A vampire has all the memories and abilities it had in life, and is effectively immortal. Living forever in the shadows often leads to vampires being decadent, while their hunger for blood makes them cruel.\n\nVampires cast no reflections in silvered mirrors or water, though despite conventional wisdom to the contrary they do reflect in shiny base metals; the innate purity of silver and water simply will not reflect them. A vampire can charm anyone who meets its gaze; a save vs. Spells is allowed to resist, but at a penalty of -2 due to the power of the charm. This charm is so powerful that the victim will not resist being bitten by the vampire.\n\nThe bite inflicts 1d3 points of damage, then each round thereafter one energy level is drained from the victim. The vampire regenerates (i.e. is healed) for up to 1d6 hit points for each energy level drained. If the victim dies from the energy drain, they will arise as a vampire at the next sunset (but not less than 12 hours later) and thereafter will be under the complete control of the \"parent\" vampire (but is freed if that vampire is ever destroyed).\n\nIf using the bite attack, the vampire suffers a penalty of -5 to Armor Class due to the vulnerable position it must assume. For this reason, the bite is rarely used in combat. Vampires have great Strength, gaining a bonus of +3 to damage when using melee weapons, and thus a vampire will generally choose to use a melee weapon (or even its bare hands) in combat rather than attempting to bite.\n\nVampires are unharmed by non-magical weapons, and like all undead are immune to sleep, charm, and hold spells. If reduced to 0 hit points in combat, the vampire is not destroyed, though it may appear to be. The vampire will begin to regenerate 1d8 hours later, recovering 1 hit point per turn, and resuming normal activity as soon as the first point is restored.\n\nCreatures of the night obey vampires. Once per day a vampire can call forth 10d10 rats, 5d4 giant rats, 10d10 bats, 3d6 giant bats, or a pack of 3d6 wolves (assuming any such creatures are nearby). The creatures summoned arrive 2d6 rounds later and will obey the vampire for up to an hour before leaving.\n\nVampires can also transform into the form of these creatures, assuming the shape of a giant bat (page 66), giant rat (page 135), or a dire wolf (page 158) at will. The transformation requires a single round during which the vampire cannot attack. The flying movement given above is for the giant bat form; the vampire can use the attack forms of the animal shape assumed, as given on the indicated pages. The vampire cannot activate any of its other powers while in animal form, but effects already active will remain so.\n\nVampires are powerful indeed, but they do have several specific weaknesses.\n\nFirst, a vampire can be held at bay by several things, including the smell of garlic, a silver or silvered mirror, or a holy symbol presented by a believer (GM's discretion is advised here, but in general someone threatened by a vampire may be more devout than usual). In such a situation the vampire cannot approach within 5 feet of the repellent item or character, nor can it make any melee attacks or otherwise touch those within the warded area.\n\nRunning water (such as a stream or river) acts as a barrier to a vampire; one cannot cross over any such waterway, neither by bridge or by waterway or even by flying. It is possible for a vampire to be carried across while lying in its own coffin with the lid closed; the presence of the water flowing beneath the coffin will force the vampire to remain dormant.\n\nFinally, a vampire may not enter any private dwelling without being invited by someone who resides there, and then only if invited while the resident is actually inside the structure. Public buildings of any sort do not present this problem; even inns are fully accessible to a vampire.\n\nDestroying a vampire is not an easy task. When reduced to zero hit points or less a vampire becomes incapacitated but is not slain (as previously explained). If exposed to direct sunlight, the vampire will be utterly destroyed in a single round if it cannot find a way to escape in that time. Being immersed in running water (as defined above) causes 3d8 points of damage each round, and if reduced to zero or fewer hit points in this way the vampire is destroyed. If the vampire is cremated in a funeral pyre while in any dormant state it will be destroyed.\n\nThe most dramatic method of defeating a vampire is actually the least reliable: driving a wooden stake through its heart. Doing this will instantly reduce the vampire to zero hit points, and it will remain \"dead\" for so long as the stake is present. Removal of the stake, however, allows the vampire to begin regenerating as described above. It is not normally possible to drive a stake through a vampire's heart while it is actively resisting, but this can be done after reducing the monster to zero hit points in the usual way. Of course, after staking a vampire it is possible to use sunlight, running water, or a funeral pyre as described above to complete its destruction."
+  },
+  {
+    "name": "Water Termite, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "1 to 4",
+          "numAttacks": "1 spray",
+          "damage": "Stun",
+          "movement": "Swim 30'",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 1 to 4 (as Hit Dice)",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "1 HD 25, 2 HD 75\n3 HD 145, 4 HD 240"
+        }
+      ]
+    ],
+    "description": "Giant water termites vary from 1' to 5' in length. They attack using a noxious spray with a range of 5' which stuns the target for a full turn on a hit; a save vs. Poison is allowed to avoid the effect. A stunned character can neither move nor take action for the remainder of the current round and all of the next one.\n\nHowever, the primary concern regarding these monsters is the damage they can do to boats and ships. Each creature can do 2d4 points of damage to a ship's hull per round (no roll required) for a number of rounds equal to 1d4 plus the creature's hit dice total; after this time, the monster is full. They eat noisily.\n\nThese creatures are found in fresh and salt water as well as in swamps. The freshwater variety tend to be smaller, 1-2 hit dice, the saltwater variety 3-4 hit dice, and those found in swamps range from 2-3 hit dice."
+  },
+  {
+    "name": "Weasel, Normal and Giant (or Ferret)",
+    "variants": [
+      [
+        "Normal",
+        {
+          "ac": "14",
+          "hitDice": "1d2 hit points",
+          "numAttacks": "1 bite + hold",
+          "damage": "1d4 + 1d4/round",
+          "movement": "40'",
+          "numAppear": "1d6, Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "10"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "17",
+          "hitDice": "5",
+          "numAttacks": "1 bite + hold",
+          "damage": "2d4 + 2d4/round",
+          "movement": "50'",
+          "numAppear": "1d4, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasure": "V",
+          "xp": "360"
+        }
+      ]
+    ],
+    "description": "Normal weasels (or ferrets, see below) are small mammals with long bodies, short legs, and pointed, toothy snouts. They are predatory animals, hunting those creatures smaller than themselves. They are cunning, crafty hunters, and gain surprise on 1-3 on 1d6. Once one bites prey (i.e. a living creature smaller than itself), it hangs on, rending with its teeth each round until the victim or the weasel is dead. Should one fail a morale check it will release its victim and flee.\n\nThere are many varieties of normal-sized weasel, including several which are called ferrets; in some territories, the giant weasel is thus called a giant ferret. The only distinction is that those which are tamed are always called ferrets, though not all giant ferrets are tame. Various humanoid races as well as some fairy creatures are known to tame giant ferrets for use as guards or war-animals.\n\nGiant weasels resemble their more normally sized cousins, and other than their greater size they behave in exactly the same fashion."
+  },
+  {
+    "name": "Whale, Killer",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "6",
+          "numAttacks": "1 bite",
+          "damage": "2d10",
+          "movement": "Swim 80' (10')",
+          "numAppear": "Wild 1d6",
+          "saveAs": "Fighter: 6",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Killer whales, also called \"orca\" (both singular and plural), are large predatory cetaceans related to both dolphins and true whales. Adult males range from 20 to 26 feet long, while females are smaller at 16 to 23 feet in length. All are strikingly marked in black and white, with prominent white patches that resemble eyes. Their real eyes are much smaller and located away from the fake eye-spots.\n\nKiller whales are apex predators, meaning that they themselves have no natural predators. They hunt in groups like wolf packs, subsisting primarily on fish, cephalopods, mammals, seabirds, and sea turtles. However, they are not above consuming a meal of humanoid nature if such becomes available."
+  },
+  {
+    "name": "Whale, Narwhal",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "12 (+10)",
+          "numAttacks": "1 horn",
+          "damage": "2d6",
+          "movement": "Swim 60'",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "Special",
+          "xp": "1,875"
+        }
+      ]
+    ],
+    "description": "Narwhals are aquatic mammals resembling large dolphins with a single (or rarely, double) tusk protruding straight forward from the mouth. The tusk is helical in shape, and they are sometimes cut short and sold as \"unicorn horns.\" However, they have no particular magical value. Narwhals are found in cold northern seas. They are not particularly aggressive."
+  },
+  {
+    "name": "Whale, Sperm",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "22",
+          "hitDice": "36* (+16)",
+          "numAttacks": "1 bite or special",
+          "damage": "3d20",
+          "movement": "Swim 60' (20')",
+          "numAppear": "Wild 1d3",
+          "saveAs": "Fighter: 8",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "17,850"
+        }
+      ]
+    ],
+    "description": "Sperm whales are huge creatures, with males averaging 52 feet long at adulthood while females typically reach a length of around 36 feet. They are predators, hunting primarily giant squid. Sperm whales can emit an invisible focused beam of sound 5' wide up to a 50' range underwater. This blast of sound disorients target creatures, leaving them effectively stunned for 1d4 rounds. A stunned character can neither move nor take action for the indicated duration. No attack roll is required, but a save vs. Death Ray is allowed to resist. A sperm whale can emit as many such blasts of sound as it desires, once per round, instead of biting."
+  },
+  {
+    "name": "Wight",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (s)",
+          "hitDice": "3*",
+          "numAttacks": "1 touch",
+          "damage": "Energy drain (1 level)",
+          "movement": "30'",
+          "numAppear": "1d6, Wild 1d8, Lair 1d8",
+          "saveAs": "Fighter: 3",
+          "morale": "12",
+          "treasure": "B",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "Wights are undead monsters who have been twisted and deformed by their transformation. Their eyes are entirely black, and their bodies radiate a coldness that living creatures can feel from several feet away.\n\nIf a wight touches or is touched by a living creature, that creature suffers one level of energy drain (as described in the Encounter section). No saving throw is allowed. Striking a wight with a weapon does not count as \"touching\" it, but punching or kicking one does.\n\nAny humanoid slain by a wight becomes a wight by the next sunset (but not less than 12 hours later). They are slaves to the wight who created them until and unless that wight is destroyed. Wights remember almost nothing from their previous life, though a few very close friends or loved ones might be recalled (and hated, and possibly hunted by the monster).\n\nLike all undead, wights may be Turned by Clerics and are immune to sleep, charm, and hold magics. Wights are harmed only by silver or magical weapons, and take only half damage from burning oil."
+  },
+  {
+    "name": "Wolf (and Wolf, Dire)",
+    "variants": [
+      [
+        "Normal",
+        {
+          "ac": "13",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "1d6",
+          "movement": "60'",
+          "numAppear": "2d6, Wild 3d6, Lair 3d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ],
+      [
+        "Dire",
+        {
+          "ac": "14",
+          "hitDice": "4",
+          "numAttacks": "1 bite",
+          "damage": "2d4",
+          "movement": "50'",
+          "numAppear": "1d4, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 4",
+          "morale": "9",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "The wolf is a large canine found in a broad range of habitats. They travel in packs consisting of a mated pair accompanied by their offspring. Wolves are also territorial, and fights over territory are among the principal causes of wolf mortality. The wolf is mainly a carnivore and feeds on large wild hoofed mammals as well as smaller animals, livestock, and carrion.\n\nDire wolves are huge relatives of the ordinary wolves, being as large as horses. They live and hunt in packs, and are sometimes tamed by smaller humanoids as battle steeds or by larger ones as pets."
+  },
+  {
+    "name": "Wraith",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15 (m)",
+          "hitDice": "4**",
+          "numAttacks": "1 touch",
+          "damage": "1d6 + energy drain (1 level)",
+          "movement": "Fly 80'",
+          "numAppear": "1d4, Lair 1d6",
+          "saveAs": "Fighter: 4",
+          "morale": "12",
+          "treasure": "E",
+          "xp": "320"
+        }
+      ]
+    ],
+    "description": "Wraiths are fearsome incorporeal monsters who drain the very life energy from their victims. Being incorporeal, they are immune to non-magical weapons and are effectively flying at all times. They are semitransparent and exude the same kind of coldness as wights. Wraiths usually appear as they were in life, including such things as clothing or armor, though such things do not affect the monster's actual armor class or other statistics.\n\nLike all undead, they may be Turned by Clerics and are immune to sleep, charm, and hold magics. Due to their incorporeal nature, they cannot be harmed by non-magical weapons."
+  },
+  {
+    "name": "Wyvern",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18",
+          "hitDice": "7*",
+          "numAttacks": "1 bite, 1 stinger or 2 talons, 1 stinger",
+          "damage": "2d8 bite, 1d6 + poison sting,\n1d10 talon",
+          "movement": "30' (10') Fly 80' (15')",
+          "numAppear": "Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 7",
+          "morale": "9",
+          "treasure": "E",
+          "xp": "735"
+        }
+      ]
+    ],
+    "description": "Wyverns are large dragon-like monsters, though they are built more like bats than lizards, having two legs and two wings; contrast this with true dragons, which have four legs and two wings. They are of animal intelligence, but are excellent predators with good hunting abilities.\n\nWyverns are aggressive and always hungry, and will attack almost anything smaller than themselves. Any living creature hit by the wyvern's stinger must save vs. Poison or die. Wyverns can only use their talons to attack when landing or flying past an enemy; while on the ground they may only bite and sting. Further, a wyvern may not bite when flying past an opponent.\n\nThe only situation in which all attacks can be made is when the monster is landing.\n\nIf a wyvern hits with both its talons, it may attempt to carry off its victim; victims weighing 300 pounds or less can be carried off, and the wyvern can only carry a victim for at most 6 rounds. While flying with a victim, the wyvern cannot make any further attacks against it, but of course if the victim makes a nuisance of itself (such as by injuring the wyvern), it may be dropped."
+  },
+  {
+    "name": "Yellow Mold",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "Can always be hit",
+          "hitDice": "2*",
+          "numAttacks": "Special",
+          "damage": "See below",
+          "movement": "0",
+          "numAppear": "1d8",
+          "saveAs": "Normal Man",
+          "morale": "N/A",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "If disturbed, a patch of this mold bursts forth with a cloud of poisonous spores. Each patch covers from 10 to 25 square feet; several patches may grow adjacent to each other, and will appear to be a single patch in this case. Each patch can emit a cloud of spores once per day. All within 10 feet of the mold will be affected by the spores and must save vs. Death Ray or take 1d8 points of damage per round for 6 rounds. Sunlight renders yellow mold dormant."
+  },
+  {
+    "name": "Zombie",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "12 (see below)",
+          "hitDice": "2",
+          "numAttacks": "1 bludgeon or 1 weapon",
+          "damage": "1d8 or by weapon",
+          "movement": "20'",
+          "numAppear": "2d4, Wild 4d6",
+          "saveAs": "Fighter: 2",
+          "morale": "12",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Zombies are the undead corpses of humanoid creatures. They are deathly slow, but they move silently, are very strong and must be literally hacked to pieces to \"kill\" them. They take only half damage from blunt weapons, and only a single point from arrows, bolts or sling stones (plus any magical bonus). A zombie never has Initiative and always acts last in any given round.\n\nAs zombies are strong and do not feel pain, they can bludgeon enemies with both fists for 1d8 points of damage. However, their creators often arm them, either for greater damage (as with a greatsword or polearm) or simply for effect.\n\nLike all undead, they may be Turned by Clerics and are immune to sleep, charm, and hold magics. As they are mindless, no form of mind reading is of any use against them. Zombies never fail morale checks, and thus always fight until destroyed."
+  },
+  {
+    "name": "Zombraire (and Skeletaire)",
+    "variants": [
+      [
+        "Zombraire",
+        {
+          "ac": "12 (see below)",
+          "hitDice": "2* (variable)",
+          "numAttacks": "1 dagger or 1 spell",
+          "damage": "1d4 or per spell",
+          "movement": "20'",
+          "numAppear": "1",
+          "saveAs": "Magic-User: by HD",
+          "morale": "9 to 12 (see below)",
+          "treasure": "None",
+          "xp": "100 (variable)"
+        }
+      ],
+      [
+        "Skeletaire",
+        {
+          "ac": "13 (see below)",
+          "hitDice": "1* (variable)",
+          "numAttacks": "1 dagger or 1 spell",
+          "damage": "1d4 or per spell",
+          "movement": "40'",
+          "numAppear": "1",
+          "saveAs": "Magic-User: by HD",
+          "morale": "12",
+          "treasure": "None",
+          "xp": "37 (variable)"
+        }
+      ]
+    ],
+    "description": "A Zombraire is a free-willed undead Magic-User. Like the zombie it resembles, a zombraire moves silently, is very strong, and must be literally hacked to pieces to be destroyed. However, it does not suffer the initiative penalty common to ordinary zombies. It takes only half damage from blunt weapons, and only a single point from arrows, bolts, and sling stones (plus any magical bonus). It may be Turned by a Cleric (as a wight), and is immune to sleep, charm, and hold spells.\n\nA zombraire slowly rots away, and as it does it loses its sanity; this is represented by the variable morale listed. An insane zombraire fights to the death in hopes of being slain, thus ending its tortured existence.\n\nThe given statistics are for a zombraire formed from a 2nd-level Magic-user; the HD and saving throws of a zombraire are based on the level it had in life. A zombraire can cast spells as it did when living, but cannot learn new spells.\n\nA Skeletaire is the final form of a zombraire which has rotted away completely. It takes only half damage from edged weapons, and only a single point from arrows, bolts, and sling stones (plus any magical bonus). It can be Turned by a Cleric (as a zombie), and is immune to sleep, charm, and hold spells. A skeletaire never fails morale, and thus always fights until destroyed.\n\nThe statistics above are for a skeletaire formed from a 2nd-level Magic-user. A skeletaire will have HD equal to the character's level minus 1, and will save as a Magic-user of the level equal to its HD. The skeletaire cannot speak, but still retains the ability to prepare and cast spells as it did in life (but like a zombraire, it cannot learn new spells).\n\nThe process of creating or becoming a zombraire are variable, and often involve cursed magic items (especially cursed scrolls)."
   }
 ]
