@@ -3745,5 +3745,662 @@
       ]
     ],
     "description": "Rocs are birds similar to eagles, but even a \"normal\" roc is huge, being about 9 feet long and having a wingspan of 24 feet. Large rocs are about 18 feet long and have wingspans of around 48 feet; giant rocs average 30 feet long and have massive wingspans of around 80 feet. A roc’s plumage is either dark brown or golden from head to tail. Like most birds, the males have the brighter plumage, with females being duller in color and thus more easily hidden (if anything so large can even be hidden, that is).\n\nA light load for a normal roc is 150 pounds, while a heavy load is 300 pounds. Obviously only the smallest characters can hope to ride upon a normal roc. For a large roc, a light load is up to 600 pounds and a heavy load up to 1,200. Giant rocs can easily lift up to 3,000 pounds, and are heavily loaded when carrying up to 6,000 pounds. Tales of giant rocs carrying off full-grown elephants are somewhat exaggerated, but note that a young elephant would be reasonable prey for these monstrous birds.\n\nA roc attacks from the air, swooping earthward to snatch prey in its powerful talons and carry it off for itself and its young to devour. Any successful hit with both claw (talon) attacks against a single creature results in that creature being carried off, unless of course the creature is too large for the roc to carry. While being carried, the victim will not be further attacked, so as to be as \"fresh\" as possible when given to the hatchlings (or consumed by the roc itself if it is solitary).\n\nWhen rocs are encountered they are almost certainly hunting, and will generally attack creatures of horse size or less. If facing a large group the rocs may make passes close overhead to scatter them first before each chooses a single target to prey upon. Mated pairs found in their nests will fight to the death to protect their eggs or offspring (morale of 12 in this case)."
+  },
+  {
+    "name": "Rock Baboon",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "2",
+          "numAttacks": "1 club or 1 fist, 1 bite",
+          "damage": "1d6 club or 1d4 fist, 1d4 bite",
+          "movement": "40'",
+          "numAppear": "2d6, Wild 2d6, Lair 5d6",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Rock baboons are a large, particularly intelligent variety of baboon. An adult male rock baboon is 4' to 5' tall and weighs 200 to 250 pounds, with females being a bit smaller and lighter. Rock baboons are omnivorous, but prefer meat. They are aggressive, naturally cruel creatures. They will prepare ambushes in rocky or forested terrain and attack any party they outnumber."
+  },
+  {
+    "name": "Rot Grub",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "10",
+          "hitDice": "1 hp",
+          "numAttacks": "1 bite",
+          "damage": "special",
+          "movement": "5'",
+          "numAppear": "5d4",
+          "saveAs": "Fighter: 1",
+          "morale": "12",
+          "treasure": "None",
+          "xp": 10
+        }
+      ]
+    ],
+    "description": "Rot grubs are 1-inch long vermin found in carrion, dung, and other such garbage and organic material. Their skin color is white or brown. When a living creature contacts an area (dung heap, offal, etc) infested with rot grubs, the grubs will attack if they can come in contact with the victim’s skin. A rot grub secretes an anesthetic when it bites and will burrow into the flesh. A burrowing grub can be noticed if the victim makes a successful save vs. Death Ray with Wisdom bonus applied in order to notice a strange rippling beneath their skin. Otherwise, the victim does not notice the grubs. During the first two rounds, a burrowing rot grub can be killed by applying fire to the infested skin or by cutting open the infested skin with any slashing weapon. Either method deals 1d8 points of damage to the victim, but kills the grubs. After the second round, only cure disease can kill the grubs before they burrow to the victim’s heart and devour it in 1d3 turns."
+  },
+  {
+    "name": "Rust Monster*",
+    "variants": [
+      [
+        {
+          "Armor Class": "18",
+          "Hit Dice": "5*",
+          "No. of Attacks": "1 touch",
+          "Damage": "special",
+          "Movement": "40'",
+          "No. Appearing": "1d4",
+          "Save As": "Fighter: 5",
+          "Morale": "7",
+          "Treasure Type": "None",
+          "XP": "405"
+        }
+      ]
+    ],
+    "description": "A rust monster (sometimes known as a corroder or corrosion beast) is a strange monster built like a huge turtle, with an insectoid head sporting large feather-like antennae and a thick tail with a hammer-like protrusion at the tip which seems to serve no purpose whatsoever. The touch of any part of a rust monster's body oxidizes metal objects instantly, turning them to rust, verdigris, or other oxides as appropriate. One attacks with its antennae, brushing them over metal items. Non-magical metal attacked by a rust monster, or that touches the monster (such as a sword used to attack it), is instantly ruined. A hit with a non-magical metal weapon inflicts half damage before the weapon is destroyed. Magic weapons or armor permanently lose one \"plus\" each time they make contact with the monster. The metal oxides created by this monster are its food; a substantial amount of metal dropped in its path may cause it to cease pursuit of metal-armored characters. Use a morale check to determine this. Metals that do not normally oxidize, such as gold, are of no interest to a rust monster and will be ignored. While rust monsters will consume oxides of silver or copper, they have a strong preference for ferrous metals (iron or steel), preferring them over any other metal. Whether the rust monster is in any way related to the rarer ironbane (as found on page 115) is unknown, but both monsters seem to have the exact same power."
+  },
+  {
+    "name": "Sabre-Tooth Cat",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "8",
+          "numAttacks": "2 claws, 1 bite",
+          "damage": "1d6 claw, 2d8 bite",
+          "movement": "50'",
+          "numAppear": "Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 8",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "875"
+        }
+      ]
+    ],
+    "description": "The sabre-tooth cat, or smilodon, is a prehistoric great cat with very large canine teeth. They are more robustly built than other great cats, with particularly well-developed forelimbs and exceptionally long upper canine teeth. Sabre-tooth cats are ambush predators, surprising on 1-4 on 1d6 in their natural environment (forests and tall-grass prairies), where they prey primarily upon large herbivores."
+  },
+  {
+    "name": "Salamander*",
+    "description": "Salamanders are large, lizard-like creatures from the elemental planes. They are sometimes found on the material plane; they can arrive through naturally- occurring dimensional rifts, or they may be summoned by high-level Magic-Users. Due to their highly magical nature, they cannot be harmed by non-magical weapons.\n\nFlame, frost, and lightning salamanders hate each other, and each type will attack the others on sight in preference to any other nearby foe."
+  },
+  {
+    "name": "Salamander, Flame*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19 (m)",
+          "hitDice": "8*",
+          "numAttacks": "2 claws, 1 bite + heat",
+          "damage": "1d4 claw, 1d8 bite, 1d8/round heat",
+          "movement": "40'",
+          "numAppear": "1d4+1, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 8",
+          "morale": "8",
+          "treasure": "F",
+          "xp": "945"
+        }
+      ]
+    ],
+    "description": "Flame salamanders come from the Elemental Plane of Fire. They look like giant snakes, more than 12' long, with dragon-like heads and lizard forelimbs. Their scales are all the colors of flame, red and orange and yellow. A flame salamander is flaming hot, and all non-fire-resistant creatures within 20' of the monster suffer 1d8 points of damage per round from the heat. They are immune to damage from any fire or heat attack.\n\nFlame salamanders are intelligent; they speak the language of the Plane of Fire, and many will also know Elvish, Common, and/or Dragon."
+  },
+  {
+    "name": "Salamander, Frost*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "21 (m)",
+          "hitDice": "12* (+10)",
+          "numAttacks": "4 claws, 1 bite + cold",
+          "damage": "1d6 claw, 2d6 bite, 1d8/round cold",
+          "movement": "40'",
+          "numAppear": "1d3, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 12",
+          "morale": "9",
+          "treasure": "E",
+          "xp": "1,975"
+        }
+      ]
+    ],
+    "description": "Frost salamanders come from the Elemental Plane of Water. They look like giant lizards with six legs. Their scales are the colors of ice, white, pale gray and pale blue. Frost salamanders are very cold, and all non-cold-resistant creatures within 20' suffer 1d8 points of damage per round from the cold. Frost salamanders are completely immune to all types of cold-based attacks. They are quite intelligent; all speak the language of the Plane of Water, and many also speak Common, Elvish, and/or Dragon.\n\nFlame and frost salamanders hate each other, and each type will attack the other on sight, in preference over any other foe. If summoned by a Magic-User, a salamander is often assigned to protect a location, doorway, or treasure hoard; in such a case, the salamander will attack anyone attempting to gain unauthorized access to the protected area. Those which arrive through natural rifts may have any goals or motivations the GM wishes, and thus may choose to parley, fight, or even ignore adventurers."
+  },
+  {
+    "name": "Salamander, Lightning*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "20 (m)",
+          "hitDice": "10* (+9)",
+          "numAttacks": "2 bites + lightning",
+          "damage": "2d4 bite, 1d8/round lightning",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 2d4, Lair 2d4",
+          "saveAs": "Fighter: 10",
+          "morale": "8",
+          "treasure": "E",
+          "xp": "1,390"
+        }
+      ]
+    ],
+    "description": "Lightning Salamanders come from the Elemental Plane of Air. A lightning salamander resembles a giant snake more than 12 feet long with two dragon-like heads (on short but flexible necks). Its scales are all the colors of lightning: white, blue, purple, and yellow. A lightning salamander constantly emits little bolts of lightning; all creatures within 20 feet of the salamander that are not lightning-resistant suffer 1d8 points of damage per round. A lightning salamander is immune to damage from any type of electrical or lightning attack. It is intelligent and can speak the language of the Plane of Air, and many will also know Elvish, Common, and/or Dragon.\n\nDespite having two heads a lightning salamander has only one mind; either head may speak or both may, but it is very rare to meet a lightning salamander who can speak different words with each head at the same time (although those who can are known to sing duets with themselves, which may give away one's location to those listening)."
+  },
+  {
+    "name": "Salamander, Sand*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "18 (m)",
+          "hitDice": "7* (+4)",
+          "numAttacks": "1 bite + special, see below",
+          "damage": "1d6 + petrification",
+          "movement": "20'",
+          "numAppear": "1d3, Wild 2d4, Lair 1d6",
+          "saveAs": "Fighter: 7",
+          "morale": "8",
+          "treasure": "L",
+          "xp": "735"
+        }
+      ]
+    ],
+    "description": "Sand salamanders come from the Elemental Plane of Earth. A sand salamander resembles a giant sea turtle with six flippers and a serpentine neck and head, with scales of varying shades of gray or brown.\n\nThe sand salamander's most feared attack is its bite, for any living creature bitten by one must save vs. Petrify or be turned to stone. In addition to attacking, a sand salamander can temporarily transform any stone within a 20 foot radius into sand. Characters in the affected area must save vs. Paralysis each round in order to move through the sand, and if the save is successful, the character is still reduced to half their normal movement. Whenever the sand salamander moves out of range, the sand \"congeals\" back into stone, and any character in the affected area must save vs. Paralysis or become trapped. Extraction of a trapped person may take quite a long time, chipping and hammering at the stone to break it apart.\n\nA sand salamander is immune to piercing attacks (such as spears or arrows) and suffers half damage from cutting attacks. It is intelligent and can speak the language of the Plane of Earth; many may also know Elvish, Common, or Dragon."
+  },
+  {
+    "name": "Scorpion, Giant",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4*",
+          "numAttacks": "2 claws, 1 stinger",
+          "damage": "1d10 claw, 1d6 + poison sting",
+          "movement": "50' (10')",
+          "numAppear": "1d6, Wild 1d6",
+          "saveAs": "Fighter: 2",
+          "morale": "11",
+          "treasure": "None",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Giant scorpions are quite large, sometimes as large as a donkey. They are aggressive predators and generally attack on sight. If a claw attack hits, the giant scorpion receives a +2 attack bonus with its stinger (but two claw hits do not give a double bonus). Those hit by the stinger must save vs. Poison or die. Giant scorpions are most commonly found in desert areas or caverns."
+  },
+  {
+    "name": "Sea Serpent",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17",
+          "hitDice": "6",
+          "numAttacks": "1 bite",
+          "damage": "2d6",
+          "movement": "Swim 50' (10')",
+          "numAppear": "Wild 2d6",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "Sea serpents are, obviously, serpentine monsters which live in the sea. They range from 20' to 40' long. A sea serpent can choose to wrap around a ship and constrict; in this case, roll 2d10 for damage to the vehicle, and reduce any effective Hardness by half."
+  },
+  {
+    "name": "Shadow*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13 (m)",
+          "hitDice": "2*",
+          "numAttacks": "1 touch",
+          "damage": "1d4 + 1 point Strength loss",
+          "movement": "30'",
+          "numAppear": "1d10, Wild 1d10, Lair 1d10",
+          "saveAs": "Fighter: 2",
+          "morale": "12",
+          "treasure": "F",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "A shadow is an incorporeal monster, literally a kind of living shadow. Only magical weapons will harm a shadow. A shadow can be difficult to see in dark or gloomy areas but stands out starkly in brightly illuminated places. They are 5 to 6 feet tall, generally man-shaped, and weightless. Despite their appearance they are not undead monsters and thus do not share those creatures' weaknesses or powers; however, they are immune to charm and sleep magics.\n\nA shadow's attack does 1d4 points of cold damage and drains 1 point of Strength from the victim. Victims reduced to 2 or fewer points of Strength collapse and become unable to move; those reduced to 0 Strength die and rise as shadows a day later (at nightfall). Otherwise, Strength points lost to shadows are recovered at a rate of 1 point per turn."
+  },
+  {
+    "name": "Shark, Bull",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2",
+          "numAttacks": "1 bite",
+          "damage": "2d4",
+          "movement": "Swim 60' (10')",
+          "numAppear": "Wild 3d6",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Bull sharks are so named because of their stocky, broad build. Male bull sharks can grow up to 7' long and weigh around 200 pounds, while females have been known to be up to 12' long, weighing up to 500 pounds. Bull sharks are able to tolerate fresh water, and often travel up rivers in search of prey."
+  },
+  {
+    "name": "Shark, Great White",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "19",
+          "hitDice": "8",
+          "numAttacks": "1 bite",
+          "damage": "2d10",
+          "movement": "Swim 60' (10')",
+          "numAppear": "Wild 1d4",
+          "saveAs": "Fighter: 8",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "875"
+        }
+      ]
+    ],
+    "description": "Great white sharks range from 12' to 15' in length on the average, though specimens ranging up to 30' in length have been reported. They are apex predators. Great white sharks have the ability to sense the electromagnetic fields of living creatures, allowing them to find prey even when light or water clarity are poor, and are able to smell blood at great distances."
+  },
+  {
+    "name": "Shark, Mako",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4",
+          "numAttacks": "1 bite",
+          "damage": "2d6",
+          "movement": "Swim 80'",
+          "numAppear": "Wild 2d6",
+          "saveAs": "Fighter: 4",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "240"
+        }
+      ]
+    ],
+    "description": "Mako sharks are fast-moving predators found in temperate and tropical seas. They average 9' to 13' in length and weigh up to 1,750 pounds. Mako sharks are known for their ability to leap out of the water; they are able to leap up to 20' in the air."
+  },
+  {
+    "name": "Shrew, Giant",
+    "variants": [
+      [
+        "Common",
+        {
+          "ac": "16",
+          "hitDice": "1",
+          "numAttacks": "2 bites",
+          "damage": "1d6 bite",
+          "movement": "60'",
+          "numAppear": "–",
+          "saveAs": "Fighter: 2",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ],
+      [
+        "Venomous",
+        {
+          "ac": "16",
+          "hitDice": "1",
+          "numAttacks": "2 bites",
+          "damage": "1d6 bite + poison",
+          "movement": "60'",
+          "numAppear": "–",
+          "saveAs": "Fighter: 2",
+          "morale": "10",
+          "treasure": "None",
+          "xp": "37"
+        }
+      ]
+    ],
+    "description": "Giant shrews resemble giant rats, but are larger, being up to 6' long, and darker in color. They have a very fast metabolic rate and must eat almost constantly. Giant shrews are omnivorous, and aggressively defend their nests and the immediate territory around them.\n\nGiant shrews move so swiftly that they are able to bite twice per round, and they may attack two different adjacent opponents in this way.\n\nA few giant shrew species (generally no more than 5% of those encountered) are venomous. The bite of such a giant shrew will kill the victim unless a save vs. Poison is made. A victim bitten twice in a round need only save once for that round, but of course will have to save again in subsequent rounds if bitten again."
+  },
+  {
+    "name": "Shrieker (Wailing Morel)",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "3",
+          "numAttacks": "Special",
+          "damage": "None",
+          "movement": "5'",
+          "numAppear": "1d8",
+          "saveAs": "Fighter: 1",
+          "morale": "12",
+          "treasure": "None",
+          "xp": "145"
+        }
+      ]
+    ],
+    "description": "A shrieker, sometimes called a wailing morel, is a large (3' to 5' tall and about the same size across), semi-mobile fungus that wails loudly as a defense mechanism when approached or threatened. Shriekers are found in underground areas such as caverns and dungeons. They are found in a variety of pale colors, most commonly white, gray, lavender, or red.\n\nThis monster does not attack directly; rather, its shrieking tends to attract the attention of other monsters in the nearby area. Movement or light within 10 feet, or causing any damage to one, will cause one to wail for 1d4 rounds.\n\nIn game terms, the GM should generally roll a wandering monster check each round that this monster wails."
+  },
+  {
+    "name": "Skeleton",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13 (special, see below)",
+          "hitDice": "1",
+          "numAttacks": "1 weapon",
+          "damage": "1d6 or by weapon",
+          "movement": "40'",
+          "numAppear": "3d6, Wild 3d10",
+          "saveAs": "Fighter: 1",
+          "morale": "12",
+          "treasure": "None",
+          "xp": "25"
+        }
+      ]
+    ],
+    "description": "Skeletons are mindless undead created by an evil Magic-User or Cleric, generally to guard a tomb or treasure hoard, or to act as guards for their creator. They take only ½ damage from edged weapons, and only a single point from arrows, bolts or sling stones (plus any magical bonus). As with all undead, they can be Turned by a Cleric, and are immune to sleep, charm or hold magic. As they are mindless, no form of mind reading is of any use against them. Skeletons never fail morale, and thus always fight until destroyed."
+  },
+  {
+    "name": "Snake, Pit Viper (and Rattlesnake)",
+    "variants": [
+      [
+        "Normal",
+        {
+          "ac": "14",
+          "hitDice": "1*",
+          "numAttacks": "1 bite",
+          "damage": "1d4 + poison",
+          "movement": "30'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "37"
+        }
+      ],
+      [
+        "Giant",
+        {
+          "ac": "15",
+          "hitDice": "2*",
+          "numAttacks": "1 bite",
+          "damage": "1d8 + poison",
+          "movement": "40'",
+          "numAppear": "1d2, Wild 1d2, Lair 1d2",
+          "saveAs": "Fighter: 2",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Pit vipers are highly venomous snakes. There are many varieties ranging in size from 2' to 12' at adulthood; the statistics above are for an \"average\" variety which reaches about 9' in length. Giant-sized pit vipers are much bigger, and range from 14' to 20' in length at adulthood.\n\nThose bitten by a pit viper must save vs. Poison or die.\n\nPit vipers are named for the thermally sensitive \"pits\" between their eyes and nostrils. These are used to detect birds, mammals, and lizards, the natural prey of these snakes. Even though lizards are cold-blooded, pit vipers can still sense them because their temperature is often slightly higher or lower than their surroundings.\n\nRattlesnakes are a variety of pit viper; in addition to the details given above, a rattlesnake has a rattle (from which it gets its name) at the end of its tail. The rattle is used to warn away larger creatures."
+  },
+  {
+    "name": "Snake, Python",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "5*",
+          "numAttacks": "1 bite, 1 constrict (see below)",
+          "damage": "1d4 bite, 2d4 constrict",
+          "movement": "30'",
+          "numAppear": "1d3, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 5",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "405"
+        }
+      ]
+    ],
+    "description": "After a successful bite attack, a python will wrap itself around the victim (in the same round), constricting for 2d4 points of damage plus an additional 2d4 per round thereafter. The hold may be broken on a roll of 1 on 1d6 (add the victim's Strength bonus to the range, so a Strength of 16 would result in a range of 1-3 on 1d6); breaking the hold takes a full round."
+  },
+  {
+    "name": "Snake, Sea",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "3*",
+          "numAttacks": "1 bite",
+          "damage": "1 + poison",
+          "movement": "10' Swim 30'",
+          "numAppear": "Wild 1d8",
+          "saveAs": "Fighter: 3",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "Sea snakes are relatively small; the largest varieties rarely exceed 6' in length. They have relatively small heads, and are very stealthy in the water. Their bite does so little damage that the creature bitten has only a 50% chance to notice the attack, but their poison is terribly strong, such that any creature bitten must save vs. Poison at a penalty of -4 or die.\n\nFortunately, sea snakes rarely attack; only if molested (grabbed, stepped on, etc.) will they do so. They are very clumsy when out of the water."
+  },
+  {
+    "name": "Snake, Spitting Cobra",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "1*",
+          "numAttacks": "1 bite or 1 spit",
+          "damage": "1d4 + poison bite, blindness spit",
+          "movement": "30'",
+          "numAppear": "1d6, Wild 1d6, Lair 1d6",
+          "saveAs": "Fighter: 1",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "37"
+        }
+      ]
+    ],
+    "description": "Spitting cobras average about 7' in length at adulthood. They use their spreading hood to warn other creatures not to bother them, and generally refrain from attacking if possible to allow larger creatures time to retreat. Failure to retreat from the spitting cobra will likely result in the cobra spitting venom; the cobra can project its venom up to 5', and any living creature hit must roll a save vs. Poison or be blinded permanently (though the cure blindness spell can heal this injury). If the cobra cannot deter a creature by spitting, it will attack using its bite. In this case, those hit must save vs. Poison or die."
+  },
+  {
+    "name": "Spectre*",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "17 (m)",
+          "hitDice": "6**",
+          "numAttacks": "1 touch",
+          "damage": "Energy drain 2 levels/touch",
+          "movement": "Fly 100'",
+          "numAppear": "1d4, Lair 1d8",
+          "saveAs": "Fighter: 6",
+          "morale": "11",
+          "treasure": "E",
+          "xp": "610"
+        }
+      ]
+    ],
+    "description": "Spectres are incorporeal **undead** monsters. On any successful hit against a living creature, a spectre drains two life energy levels in addition to doing normal damage. Any character slain by a spectre will arise at the next sunset (but not sooner than 6 hours after death) as a spectre under the control of its killer.\n\nA spectre will normally resemble the living creature it used to be. Most spectres are formed from humanoid creatures, but some may have other forms and sizes; statistically, most such creatures will be as given above, but of course the GM may create special types.\n\nLike all **undead**, they may be Turned by Clerics and are immune to **sleep, charm**, and **hold** magics. Due to their incorporeal nature, they cannot be harmed by non-magical weapons."
+  },
+  {
+    "name": "Spider, Giant Black Widow",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "14",
+          "hitDice": "3*",
+          "numAttacks": "1 bite",
+          "damage": "2d6 + poison",
+          "movement": "20' Web 40'",
+          "numAppear": "1d3, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 3",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "175"
+        }
+      ]
+    ],
+    "description": "The giant black widow spider is a much enlarged version of the ordinary black widow; a full-grown male has a leg-span of 2 feet, while an adult female will be 3' or more across. Despite the size difference, both genders are statistically equal. Both genders are marked with an orange \"hourglass\" on the abdomen.\n\nThe venom of the giant black widow is strong, such that those bitten must save vs. Poison at a penalty of -2 or die. Giant black widow spiders spin strong, sticky, nearly invisible webs, usually across passageways or cave entrances, or sometimes between trees in the wilderness; those who stumble into these webs become stuck, and must roll to escape just as if opening a door. Any character stuck in such a web cannot effectively cast spells or use a weapon."
+  },
+  {
+    "name": "Spider, Giant Crab",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2*",
+          "numAttacks": "1 bite",
+          "damage": "1d8 + poison",
+          "movement": "40'",
+          "numAppear": "1d4, Wild 1d4, Lair 1d4",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "100"
+        }
+      ]
+    ],
+    "description": "Crab spiders are ambush predators, hiding using various forms of camouflage and leaping out to bite their surprised prey. Giant crab spiders are horribly enlarged, being around 3' in length. They can change color slowly (over the course of a few days), taking on the overall coloration of their preferred lair or ambush location. After this change is complete, the spider is able to surprise potential prey on 1-4 on 1d6 when in that preferred location. Anyone bitten by a giant crab spider must save vs. Poison or die."
+  },
+  {
+    "name": "Spider, Giant Tarantula",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "4*",
+          "numAttacks": "1 bite",
+          "damage": "1d8 + poison",
+          "movement": "50'",
+          "numAppear": "1d3, Wild 1d3, Lair 1d3",
+          "saveAs": "Fighter: 4",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "280"
+        }
+      ]
+    ],
+    "description": "Giant tarantulas are huge, hairy spiders, about the size of a pony. They run down their prey much as wolves do. The bite of the giant tarantula is poisonous; those bitten must save vs. Poison or be forced to dance wildly. The dance lasts 2d10 rounds, during which time the victim has a -4 penalty on attack and saving throw rolls. If the victim is a Thief, they cannot use any Thief abilities while dancing. Onlookers must save vs. Spells or begin dancing themselves; such \"secondary\" victims suffer the same penalties as above, but they will only dance for 2d4 rounds.\n\nEach round the original victim dances, they must save vs. Poison again or take 1d4 points of damage. Secondary victims do not suffer this effect. Neutralize poison will cure the original victim, and dispel magic will stop the dance for all victims in the area of effect, whether they are original or secondary."
+  },
+  {
+    "name": "Sprite",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "½ (1d4 hit points) *",
+          "numAttacks": "1 dagger or 1 spell",
+          "damage": "1d4 dagger or by spell",
+          "movement": "20' Fly 60'",
+          "numAppear": "3d6, Wild 3d6, Lair 5d8",
+          "saveAs": "Magic-User: 4 (with Elf bonuses)",
+          "morale": "7",
+          "treasure": "S",
+          "xp": 13
+        }
+      ]
+    ],
+    "description": "Sprites are reclusive fey creatures which resemble tiny elves just a foot tall with dragonfly-like wings. Though they may act as tricksters on occasion, they hate all forms of evil and ugliness, fighting all such foes with their tiny weapons and their magical abilities. Sprites are clever but they are not deep thinkers, and sometimes can be fooled into helping an evil creature or harming a good one due to their natural belief that evil is ugly and ugly is evil.\n\nFive sprites acting together can cast **remove curse**, or its reversed form **bestow curse**, once per day."
+  },
+  {
+    "name": "Squid, Giant",
+    "variants": [
+      [
+        "Male",
+        {
+          "ac": "16",
+          "hitDice": "6",
+          "numAttacks": "–",
+          "damage": "8 tentacles, 1 bite",
+          "movement": "Swim 40'",
+          "numAppear": "Wild 1d4 (see below)",
+          "saveAs": "Fighter: 6",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "500"
+        }
+      ],
+      [
+        "Female",
+        {
+          "ac": "17",
+          "hitDice": "7",
+          "numAttacks": "–",
+          "damage": "8 tentacles, 1 bite",
+          "movement": "Swim 40'",
+          "numAppear": "Wild 1d4 (see below)",
+          "saveAs": "Fighter: 7",
+          "morale": "8",
+          "treasure": "None",
+          "xp": "670"
+        }
+      ]
+    ],
+    "description": "The giant squid dwells in the deep ocean. One can grow to a tremendous size, to a maximum of around 40 feet for females and 33 feet for males. The mantle of the giant squid is about 6½ feet long (more for females, less for males). Their tentacles are studded with barbs and sharp-edged suckers.\n\nMembers of any group of these creatures encountered are equally likely to be male or female. The GM may roll for this or may assign them as they see fit.\n\nIn order to bite a creature, the giant squid must hit with at least two tentacles first. Further, any time a giant squid hits with at least one tentacle per each 75 pounds of weight of its prey, it has grabbed it; unless the victim can find a way to resist (using whatever method the player might think of and whatever rolls the GM may choose), they will be pulled into the water and thus be in danger of drowning. Don't forget to account for the weight of armor worn!\n\nIf a giant squid fails a morale check, it will squirt out a cloud of black \"ink\" 30' in diameter and then jet away at twice normal speed for 3d8 rounds. If a group fails a morale check they will move away in random directions in hopes that at least one will escape any pursuit."
+  },
+  {
+    "name": "Stirge",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "1*",
+          "numAttacks": "1 bite",
+          "damage": "1d4 bite, 1d4/round blood drain",
+          "movement": "10' Fly 60'",
+          "numAppear": "1d10, Wild 3d12, Lair 3d12",
+          "saveAs": "Fighter: 1",
+          "morale": "9",
+          "treasure": "D",
+          "xp": "37"
+        }
+      ]
+    ],
+    "description": "Stirges are weird winged creatures that some say may have invaded from some other plane of existence. They are relatively small, just about 1 foot long with a wingspan of about 2 feet and an average weight of 1 pound. They vaguely resemble hairless bats with a rubbery tubular proboscis and no back legs (so that their body simply comes to a blunt point at the rear).\n\nIf a stirge hits a living creature, it grabs on with hooked claws on its wing joints and quickly embeds its proboscis in the victim's body. The proboscis has rows of tiny serrated teeth on the inside, and literally turns itself inside out as it carves a way into the victim's body. This causes 1d4 points of damage, and the stirge then proceeds to suck the victim's blood, inflicting an additional 1d4 points of damage each round.\n\nOnce attached, the creature can only be removed by killing it. The victim cannot use weapons larger than a dagger or hand axe to attack the creature, and cannot attack it at all if attacked from behind. Others may attack the creature with a bonus of +2 on the die roll, but any attack that misses hits the victim instead."
+  },
+  {
+    "name": "Strangle Vine",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "15",
+          "hitDice": "6",
+          "numAttacks": "1 entangle + special",
+          "damage": "1d8 entangle + special",
+          "movement": "5'",
+          "numAppear": "1d4+1",
+          "saveAs": "Fighter: 6",
+          "morale": "12",
+          "treasure": "U",
+          "xp": "500"
+        }
+      ]
+    ],
+    "description": "A strangle vine (sometimes called an assassin vine) is a strange animated plant found in temperate and tropical forests, particularly in areas with poor-quality soil. They fertilize their soil by entangling, constricting, and killing living creatures, then depositing the bodies in loose soil around the plant's base.\n\nBecause it can lie very still indeed, a strangle vine surprises on a roll of 1-4 on 1d6. A successful hit inflicts 1d8 points of damage, and the victim becomes entangled, suffering an additional 1d8 points of damage thereafter. A victim may attempt to escape by rolling a saving throw vs. Death Ray with Strength bonus added; this is a full action, so the victim may not attempt this and also perform an attack. The plant will continue to crush its victim until one or the other is dead or the victim manages to escape.\n\nStrangle vines are actually mobile, able to uproot themselves and move slowly from place to place; one generally only does so to seek new hunting grounds. They have no visual organs but can sense foes within 30 feet by sound and vibration.\n\nEach plant consists of a single long vine of up to 20 feet in length, with many smaller vines 5 feet or so in length packed closely, two vines per foot or thereabouts. The smaller vines are covered in leaves, and in the fall they bear clusters of reddish-purple berries which are tough and bitter but not poisonous.\n\nThere is a similar plant found in underground environments which has leaves the color of iron with pale shiny metallic veins. They grow near geothermal vents or springs, and the rotting flesh that surrounds them often supports mushrooms of various sizes and types. This fungal growth conceals the strangle vine, allowing it to surprise on 1-5 on 1d6 as does the above-ground variety of the plant."
   }
 ]
