@@ -65,7 +65,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         <Flex gap={8} align="center">
           <Typography.Text>Hide PCs</Typography.Text>
           <Switch className="mr-2" onChange={handlePlayersSwitch} />
-          <Tooltip title="Open Turn Tracker">
+          <Tooltip title="Open Round Tracker">
             <Button
               icon={<HourglassOutlined />}
               onClick={() => setTurnTrackerExpanded(true)}
