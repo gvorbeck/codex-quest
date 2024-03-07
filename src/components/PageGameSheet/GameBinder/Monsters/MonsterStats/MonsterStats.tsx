@@ -1,9 +1,9 @@
-import { MonsterStats } from "@/data/definitions";
+import { MonsterStatsType } from "@/data/definitions";
 import { Descriptions, DescriptionsProps } from "antd";
 import React from "react";
 
 interface MonsterStatsProps {
-  stats: MonsterStats;
+  stats: MonsterStatsType;
 }
 
 const MonsterStats: React.FC<

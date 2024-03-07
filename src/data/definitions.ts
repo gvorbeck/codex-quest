@@ -95,11 +95,11 @@ export type Spell = {
 
 export type Monster = {
   name: string;
-  variants: [string, MonsterStats][];
+  variants: [string, MonsterStatsType][];
   description: string;
 };
 
-export type MonsterStats = {
+export type MonsterStatsType = {
   ac: string;
   hitDice: string;
   numAttacks: string;
