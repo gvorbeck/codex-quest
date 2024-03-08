@@ -6,11 +6,11 @@ import { isStandardRace } from "./raceSupport";
 export const isStandardClass = (className: string) =>
   Object.values(ClassNames).includes(className as ClassNames);
 
-export const classSplit = (characterClass: string | string[]) => {
-  if (typeof characterClass === "string") {
-    return characterClass.split(" ");
+export const classSplit = (className: string | string[]) => {
+  if (typeof className === "string") {
+    return className.split(" ");
   }
-  return characterClass;
+  return className;
 };
 
 export const getClassType = (characterClass: string[] | string) => {
