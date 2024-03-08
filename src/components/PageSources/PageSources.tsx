@@ -85,6 +85,11 @@ const PageSources: React.FC<
           2. Basic Fantasy Role-Playing Game, 2018,
           basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>
+          Serena, et al. "Dokkalfar: A Basic Fantasy RPG Supplement." Release 1.
+          Basic Fantasy Role-Playing Game, 2023,
+          basicfantasy.org/downloads.html.
+        </List.Item>
       </List>
     </div>
   );
