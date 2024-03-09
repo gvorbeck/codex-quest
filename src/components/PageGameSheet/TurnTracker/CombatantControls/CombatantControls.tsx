@@ -1,6 +1,6 @@
 import { CombatantType } from "@/data/definitions";
 import { useTurnTracker } from "@/hooks/useTurnTacker";
-import { PlusOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Flex,
@@ -13,6 +13,10 @@ import {
   theme,
 } from "antd";
 import React from "react";
+import { TrackerRemoveSvg } from "@/support/svgSupport";
+import Icon, {
+  CustomIconComponentProps,
+} from "@ant-design/icons/lib/components/Icon";
 
 interface CombatantControlsProps {
   combatant: CombatantType;
@@ -20,6 +24,10 @@ interface CombatantControlsProps {
   setCombatants: (combatants: CombatantType[]) => void;
   index: number;
 }
+
+const TrackerRemoveIcon = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={TrackerRemoveSvg} {...props} />
+);
 
 const CombatantControls: React.FC<
   CombatantControlsProps & React.ComponentPropsWithRef<"div">
@@ -45,7 +53,7 @@ const CombatantControls: React.FC<
     const updatedCombatants = combatants.filter(
       (combatant) => combatant.name !== item.name,
     );
-    message.success(`${item.name} removed from Turn Tracker`);
+    message.success(`${item.name} removed from Round Tracker`);
     setCombatants(updatedCombatants);
   };
 
@@ -75,7 +83,12 @@ const CombatantControls: React.FC<
           okText="Yes"
           cancelText="No"
         >
-          <Button icon={<UserDeleteOutlined />} />
+          <Tooltip title="Remove from Round Tracker">
+            <Button
+              className="[&:hover_svg]:fill-seaBuckthorn"
+              icon={<TrackerRemoveIcon />}
+            />
+          </Tooltip>
         </Popconfirm>
         {inputVisible === combatant.name ? (
           <Input

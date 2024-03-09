@@ -1,4 +1,9 @@
-import { DiceTypes, EquipmentItem, SavingThrowsType } from "../definitions";
+import {
+  DiceTypes,
+  EquipmentCategories,
+  EquipmentItem,
+  SavingThrowsType,
+} from "../definitions";
 import { ClassNames } from "../definitions";
 
 export interface RaceSetup {
@@ -12,6 +17,7 @@ export interface RaceSetup {
     restrictions?: string[];
     specials?: string[];
   };
+  equipmentWeightModifier?: [EquipmentCategories, number];
   hasLowCapacity?: boolean;
   incrementHitDie?: boolean; // Use the next highest die type for hit points
   maximumAbilityRequirements?: Record<string, number>;

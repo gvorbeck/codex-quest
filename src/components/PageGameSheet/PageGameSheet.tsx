@@ -85,14 +85,14 @@ const PageGameSheet: React.FC<
     if (type === "player") {
       // If combatant is a player, and they are already in the combatants array, return
       if (combatants?.some((c) => c.name === newCombatant.name)) {
-        message.warning(`${data.name} is already in the Turn Tracker`);
+        message.warning(`${data.name} is already in the Round Tracker`);
         return;
       }
       newCombatant.ac = getArmorClass(data as CharData, setCharacter);
     }
     // if (type === "monster") {}
     if (combatants) setCombatants([...combatants, newCombatant]);
-    message.success(`${data.name} added to Turn Tracker`);
+    message.success(`${data.name} added to Round Tracker`);
   };
 
   React.useEffect(() => {

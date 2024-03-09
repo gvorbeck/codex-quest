@@ -1,4 +1,4 @@
-import { DiceTypes } from "../definitions";
+import { DiceTypes, EquipmentCategories } from "../definitions";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 
@@ -20,6 +20,7 @@ export const halfling: RaceSetup = {
   minimumAbilityRequirements: { dexterity: 9 },
   maximumAbilityRequirements: { strength: 17 },
   maximumHitDice: DiceTypes.D6,
+  equipmentWeightModifier: [EquipmentCategories.ARMOR, 0.25],
   noLargeEquipment: true,
   savingThrows: {
     deathRayOrPoison: 4,

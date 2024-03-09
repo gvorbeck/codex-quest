@@ -33,7 +33,7 @@ const TurnTracker: React.FC<
       className={turnTrackerClassNames}
       open={turnTrackerExpanded}
       onClose={onClose}
-      title="Turn Tracker"
+      title="Round Tracker"
       styles={{ header: { background: ColorScheme.SEABUCKTHORN } }}
     >
       <TurnControls turn={turn} setTurn={setTurn} combatants={combatants} />

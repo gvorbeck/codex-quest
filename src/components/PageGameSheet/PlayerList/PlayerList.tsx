@@ -8,14 +8,14 @@ import {
 import { Button, Card, Descriptions, Flex, Spin, Tooltip } from "antd";
 import { openInNewTab } from "@/support/characterSupport";
 import classNames from "classnames";
-import {
-  SolutionOutlined,
-  UserAddOutlined,
-  UserDeleteOutlined,
-} from "@ant-design/icons";
+import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
 import { User } from "firebase/auth";
+import { TrackerAddSvg } from "@/support/svgSupport";
+import Icon, {
+  CustomIconComponentProps,
+} from "@ant-design/icons/lib/components/Icon";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -31,6 +31,10 @@ interface PlayerListProps {
   ) => void;
   user: User | null;
 }
+
+const TrackerAddIcon = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={TrackerAddSvg} {...props} />
+);
 
 const PlayerList: React.FC<
   PlayerListProps & React.ComponentPropsWithRef<"div">
@@ -108,10 +112,11 @@ const PlayerList: React.FC<
                       disabled={!userIsOwner}
                     />
                   </Tooltip>
-                  <Tooltip title="Add to Turn Tracker">
+                  <Tooltip title="Add to Round Tracker">
                     <Button
                       onClick={() => addToTurnTracker(character, "player")}
-                      icon={<UserAddOutlined />}
+                      className="[&:hover_svg]:fill-seaBuckthorn"
+                      icon={<TrackerAddIcon />}
                     />
                   </Tooltip>
                 </Flex>

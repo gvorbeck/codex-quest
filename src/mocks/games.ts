@@ -1,8 +1,7 @@
 export const mockGames = [
   {
-    name: "The Daybound King",
-    notes:
-      'Red eyed "nobleman" with fangs seen in Wuntuunt during daylight. Named Arin.\n\n"Crypt of Deceit" is related to the "Daybound King"\n\nSmoke seen about a mile from the trail to Kaldaram Pass. 1 day away.\n\nDevlin Mortime, a seer in the Order of The Old. He was hung from a cross and translated for Garecumseh the Mant.\n\nOgden is now leader of the orcs at Kaldaram Gate.\n\nHe points to a spot on the map, a small village at the base of the mountain to the north of the pass. \n\n"In this town, there is a priest by the name of Ologar Montgrave. Have him send word to the Archbishop; we will bring supplies and medicine to the orcs, to help belay their sickness." \n\nTODO:\nx Go to Kaldaram Gate @ Kaldaram Pass\nx Negotiate our passage with Tera the Mant\nx Double back and rejoin Risco\n- Pass Kaldaram Gate and head to Crypt of Deceit',
+    name: "Test Game",
+    notes: "Generic notes\n\nGeneric notes\n\nGeneric notes!",
     players: [
       {
         user: "NIm65p6vr7Qejxld7c6H8J699D23",

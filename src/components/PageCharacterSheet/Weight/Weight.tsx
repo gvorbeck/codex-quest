@@ -2,7 +2,7 @@ import React from "react";
 import { RaceNames } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, Flex } from "antd";
 import CharacterStat from "../CharacterStat/CharacterStat";
-import { getCarryingCapacity, getCharacterWeight } from "@/support/statSupport";
+import { getCarryingCapacity, getWeight } from "@/support/statSupport";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
@@ -26,7 +26,7 @@ const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
   ];
 
   React.useEffect(
-    () => setWeight(getCharacterWeight(character)),
+    () => setWeight(getWeight(character)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [character.gold, character.equipment],
   );
