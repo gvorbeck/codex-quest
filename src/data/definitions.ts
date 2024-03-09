@@ -64,6 +64,7 @@ export enum RaceNames {
   CHELONIAN = "Chelonian",
   FAUN = "Faun",
   PHAERIM = "Phaerim",
+  DOKKALFAR = "Dokkalfar",
 }
 
 export enum DiceTypes {

@@ -12,6 +12,7 @@ import half_orc from "./half-orc.jpg";
 import halfling from "./halfling.jpg";
 import human from "./human.jpg";
 import phaerim from "./phaerim.jpg";
+import dokkalfar from "./dokkalfar.jpg";
 
 const images = {
   bisren,
@@ -28,6 +29,7 @@ const images = {
   halfling,
   human,
   phaerim,
+  dokkalfar,
 };
 
 export { images };
