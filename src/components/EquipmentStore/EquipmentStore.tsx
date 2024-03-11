@@ -114,6 +114,13 @@ const EquipmentStore: React.FC<
       children: (
         <Flex vertical gap={16}>
           {category[1].map((item: EquipmentItem, itemIndex: number) => {
+            // Filter out if item does not match filter text
+            if (
+              filterText &&
+              !item.name.toLowerCase().includes(filterText.toLowerCase())
+            ) {
+              return null;
+            }
             let characterInventoryAmount = undefined;
             if (character) {
               characterInventoryAmount = equipment.find(
@@ -198,7 +205,7 @@ const EquipmentStore: React.FC<
   return (
     <Flex vertical gap={16} className={className}>
       <Input
-        placeholder="Filter"
+        placeholder="Search"
         onChange={(e) => setFilterText(e.target.value)}
       />
       <Collapse
