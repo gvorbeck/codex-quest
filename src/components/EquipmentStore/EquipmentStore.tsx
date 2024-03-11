@@ -11,6 +11,7 @@ import {
   Descriptions,
   DescriptionsProps,
   Flex,
+  Input,
 } from "antd";
 import {
   equipmentCategoryMap,
@@ -75,6 +76,10 @@ const EquipmentStore: React.FC<
   setGold,
   newCharacter,
 }) => {
+  const [filterText, setFilterText] = React.useState("");
+
+  React.useEffect(() => console.log("filterText:", filterText), [filterText]);
+
   if (!character) return null;
   const noLargeEquipment =
     races[character.race as keyof typeof races]?.noLargeEquipment ?? false;
@@ -109,6 +114,13 @@ const EquipmentStore: React.FC<
       children: (
         <Flex vertical gap={16}>
           {category[1].map((item: EquipmentItem, itemIndex: number) => {
+            // Filter out if item does not match filter text
+            if (
+              filterText &&
+              !item.name.toLowerCase().includes(filterText.toLowerCase())
+            ) {
+              return null;
+            }
             let characterInventoryAmount = undefined;
             if (character) {
               characterInventoryAmount = equipment.find(
@@ -143,6 +155,14 @@ const EquipmentStore: React.FC<
             <Collapse items={generalItems} ghost className="flex flex-col" />
           ) : (
             category[1].map((item: EquipmentItem, index: number) => {
+              // Filter out if item does not match filter text
+              if (
+                filterText &&
+                !item.name.toLowerCase().includes(filterText.toLowerCase())
+              ) {
+                return null;
+              }
+              // Filter out large equipment if character cannot use it
               if (noLargeEquipment && item.size === "L") {
                 return null;
               }
@@ -181,10 +201,13 @@ const EquipmentStore: React.FC<
       return filteredCategories.includes(itemCategory);
     });
   }
-  console.log("filteredItems", filteredItems);
 
   return (
     <Flex vertical gap={16} className={className}>
+      <Input
+        placeholder="Search"
+        onChange={(e) => setFilterText(e.target.value)}
+      />
       <Collapse
         items={filteredItems}
         collapsible={!gold && newCharacter ? "disabled" : undefined}
