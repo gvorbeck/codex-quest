@@ -36,7 +36,7 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const date = new Date();
-  console.log("date:", date.getMonth(), date.getDate());
+
   return (
     <ConfigProvider theme={cqTheme}>
       <Suspense fallback={<Spin />}>

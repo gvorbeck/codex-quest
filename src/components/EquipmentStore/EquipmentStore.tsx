@@ -78,6 +78,7 @@ const EquipmentStore: React.FC<
   if (!character) return null;
   const noLargeEquipment =
     races[character.race as keyof typeof races]?.noLargeEquipment ?? false;
+
   const onChange = (value: number | null, item: EquipmentItem) => {
     const newEquipment = equipment.filter((e) => e.name !== item.name);
     if (!!value && value > 0) {
@@ -180,6 +181,7 @@ const EquipmentStore: React.FC<
       return filteredCategories.includes(itemCategory);
     });
   }
+  console.log("filteredItems", filteredItems);
 
   return (
     <Flex vertical gap={16} className={className}>
