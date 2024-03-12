@@ -1,4 +1,6 @@
 import ModalCustomEquipment from "@/components/ModalCustomEquipment/ModalCustomEquipment";
+import ModalCustomSpell from "@/components/ModalCustomSpell/ModalCustomSpell";
+import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
@@ -50,6 +52,29 @@ const SettingsDrawer: React.FC<
       />,
     );
   };
+  const handleCustomSpellClick = () => {
+    setModalIsOpen(true);
+    setModalTitle("Add Custom Spell");
+    setModalContent(
+      <ModalCustomSpell
+        character={character}
+        setCharacter={setCharacter}
+        setModalIsOpen={setModalIsOpen}
+      />,
+    );
+  };
+  const handleAddEditSpellClick = () => {
+    setModalIsOpen(true);
+    setModalTitle("Add/Edit Spells");
+    setModalContent(
+      <AllSpellsSelection
+        character={character}
+        setCharacter={setCharacter}
+        hideStartingText
+        className=""
+      />,
+    );
+  };
   return (
     <Drawer
       title="Settings"
@@ -67,8 +92,8 @@ const SettingsDrawer: React.FC<
         <Divider className="font-enchant text-2xl">Magic</Divider>
         {isSpellCaster && (
           <>
-            <Button>Add/Edit Spells</Button>
-            <Button>Add Custom Spell</Button>
+            <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
+            <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
           </>
         )}
         <Button>Add 0 Level Spells</Button>

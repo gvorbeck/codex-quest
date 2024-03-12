@@ -227,13 +227,7 @@ const PageCharacterSheet: React.FC<
                 <Section
                   title="Spells"
                   className="[@media(width<=640px)]:mt-4"
-                  component={
-                    <Spells
-                      setModalIsOpen={setModalIsOpen}
-                      setModalTitle={setModalTitle}
-                      setModalContent={setModalContent}
-                    />
-                  }
+                  component={<Spells />}
                 />
 
                 <Divider className="[@media(width>=640px)]:hidden" />
