@@ -1,5 +1,5 @@
 import { CharacterDataContext } from "@/contexts/CharacterContext";
-import { Collapse, CollapseProps, Flex } from "antd";
+import { Collapse, CollapseProps } from "antd";
 import React from "react";
 import SpellDescriptions from "./SpellDescriptions/SpellDescriptions";
 
@@ -22,11 +22,7 @@ const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({
         />
       ),
     }));
-  return (
-    <Flex vertical gap={16}>
-      <Collapse items={items} className={className} />
-    </Flex>
-  );
+  return <Collapse items={items} className={className} />;
 };
 
 export default Spells;

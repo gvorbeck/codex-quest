@@ -1,0 +1,117 @@
+[
+  {
+    "name": "Call to Worship",
+    "classes": ["cleric", "druid"],
+    "description": "This orison mentally notifies patrons of the Cleric's church (within one mile per level) that services are beginning. The orison does not provide an actual compulsion to come."
+  },
+  {
+    "name": "Cure Minor Wounds",
+    "classes": ["cleric", "druid"],
+    "description": "Heals one hit point."
+  },
+  {
+    "name": "Guidance*",
+    "classes": ["cleric", "druid"],
+    "description": "The Cleric grants +1 to any subject’s next attack roll. Reversed, this becomes **misguide**, which gives the subject -1 to their next attack roll."
+  },
+  {
+    "name": "Meal Blessing",
+    "classes": ["cleric", "druid"],
+    "description": "The Cleric says this short prayer before a meal to give the diners a blessing. Anyone who eats the meal within twenty minutes heals 1 hit point. The meal must be normally prepared and obtained in a way that the deity permits."
+  },
+  {
+    "name": "Mend",
+    "classes": ["cleric", "druid"],
+    "description": "Mends breaks, dents, and holes in small objects."
+  },
+  {
+    "name": "Predict Weather",
+    "classes": ["cleric", "druid"],
+    "description": "The Cleric may predict the weather up to 24 hours in advance."
+  },
+  {
+    "name": "Virtue",
+    "classes": ["cleric", "druid"],
+    "description": "A subject gains one temporary hit point."
+  },
+  {
+    "name": "Ward*",
+    "classes": ["cleric", "druid"],
+    "description": "Grants +1 to the subject’s next saving throw. Reversed, this becomes **curse**, which gives the opposite effect."
+  },
+  {
+    "name": "Water to Wine",
+    "classes": ["cleric", "druid"],
+    "description": "The Cleric may turn one flask or mug of water to wine."
+  },
+  {
+    "name": "Animate Tool",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "A single, small tool (such as a quill pen, spoon, sewing needle, or small hammer) is animated by this cantrip. It will perform a single, repetitive task (such as writing dictated words, stirring a pot of soup, sewing the hem of a dress, or nailing boards into a house) for as long as a turn. The magic user must be able to perform the repeated action by hand themself. Weapons may not be animated by this cantrip, and objects animated may not be used as weapons."
+  },
+  {
+    "name": "Clean*",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "A mage making use of this cantrip may clean, shine, dust, or polish a small object or surface of up to 1 square-foot. Reversed, this becomes **dirty**, which can make the same area dirty, tarnished, scuffed, or dusty."
+  },
+  {
+    "name": "Flare",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "A flash of light, a very small ball of fire, or a puff of colored smoke can be created by this cantrip. It will not typically last longer than a second."
+  },
+  {
+    "name": "Flavor*",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "This cantrip may either make one dish taste any way the caster wants it to (which is an illusion), or add salt, spice, sweetener, or another flavoring agent (which is real). Reversed, it becomes **putrefy**, which makes the food or drink either go bad (which is real) or taste as if it had been prepared wrongly (which is an illusion)."
+  },
+  {
+    "name": "Inscribe",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "This cantrip engraves up to 1 square-foot of writing or drawing on almost any nonliving surface."
+  },
+  {
+    "name": "Irritate",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "This cantrip forces another person to involuntarily blink, nod, itch, giggle, or some other small body motion."
+  },
+  {
+    "name": "Knot*",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "This spell will tightly knot or tangle a rope, string, or similar object in any knot the caster would be able to tie. Reversed, **unknot** will undo any knot the caster could unknot."
+  },
+  {
+    "name": "Mage Hand",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "A spectral hand is conjured, which may either move one pound of materials at a speed of 10 feet per round for ten rounds (at a maximum range of 40 feet), or give an object a powerful push about equal to the caster's strength at a range of 10 feet."
+  },
+  {
+    "name": "Open/Close",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "A normal, unlocked door, window, or other portal may be opened by this cantrip."
+  },
+  {
+    "name": "Summon Vermin*",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "This cantrip summons one small, totally ordinary insect (such as a beetle, fly, or spider), a small rodent (such as a field mouse), or a cloud of gnats into a certain area. If targeted intelligently, the spell may be able to disrupt spellcasting, but will never deal any actual damage (including poison) to the target. Reversed, this cantrip becomes **exterminate**, which may kill any one creature of similar size as the ones described in the spell."
+  },
+  {
+    "name": "Transfigure",
+    "classes": ["magic-user", "illusionist", "necromancer", "spellcrafter"],
+    "description": "This cantrip may change a small object (up to 27 cubic inches) into another shape, size, color, or texture. Radical changes, such as creating small living things, are not apt to last more than one turn, but minor changes (such as coloring a head of hair bright pink) may stay as long as a month. \"Related\" changes, such as creating a baby hedgehog from a pincushion, may last longer than non-related ones (such as changing a book into a lizard)."
+  },
+  {
+    "name": "Bolster*",
+    "classes": ["necromancer"],
+    "description": "Undead within 10 feet of the caster are harder to Turn or command, being one point harder to affect (on Turning table). The effect lasts one hour or until a Turning (or command) attempt is made. Reversed, the cantrip makes undead one point easier for the same period."
+  },
+  {
+    "name": "Embalm",
+    "classes": ["necromancer"],
+    "description": "Specially prepares one corpse for burial (or further use). When cast upon recently-dead in preparation for re-animation type spells, the newly risen zombie will have +1 on hit point rolls for each hit die (up to the maximum hit points for each hit die)."
+  },
+  {
+    "name": "Negate Stench*",
+    "classes": ["necromancer"],
+    "description": "Removes stench from one creature (or corpse), including ghouls or ghasts (save vs. Spells to resist effect). Lasts 1 round per level. Reversed, the relevant stench is made more potent, giving all victims of the stench a penalty of -2 on any relevant saving throw."
+  }
+]

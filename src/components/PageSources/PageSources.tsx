@@ -90,6 +90,11 @@ const PageSources: React.FC<
           Basic Fantasy Role-Playing Game, 2023,
           basicfantasy.org/downloads.html.
         </List.Item>
+        <List.Item>
+          Gonnerman, et al. "0 Level Spells: A Basic Fantasy RPG Supplement."
+          Release 5. Basic Fantasy Role-Playing Game, 2023,
+          basicfantasy.org/downloads.html.
+        </List.Item>
       </List>
     </div>
   );
