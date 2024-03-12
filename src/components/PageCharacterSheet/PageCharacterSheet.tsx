@@ -31,6 +31,7 @@ import { useSpellData } from "@/hooks/useSpellData";
 import { useMarkdown } from "@/hooks/useMarkdown";
 import { classSplit, isStandardClass } from "@/support/classSupport";
 import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
+import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -44,6 +45,7 @@ export interface Wearing {
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
+  const [open, setOpen] = React.useState(false);
   const { character, setCharacter, userIsOwner, uid, id } =
     useCharacterData(user);
   const {
@@ -72,7 +74,8 @@ const PageCharacterSheet: React.FC<
   const { isSpellCaster } = useSpellData();
   const classArr = character ? classSplit(character.class) : [];
   const moneyClassNames = classNames({ "w-1/3": !isMobile });
-
+  const showDrawer = () => setOpen(true);
+  const onClose = () => setOpen(false);
   return character ? (
     <CharacterDataContext.Provider
       value={{ character, setCharacter, userIsOwner, uid, id }}
@@ -82,6 +85,7 @@ const PageCharacterSheet: React.FC<
         setModalTitle={setModalTitle}
         setModalContent={setModalContent}
         modalOk={modalOkRef.current}
+        openSettingsDrawer={showDrawer}
       />
       <Flex vertical className={className} gap={16}>
         <Row>
@@ -260,6 +264,11 @@ const PageCharacterSheet: React.FC<
           </Col>
         </Row>
       </Flex>
+      <SettingsDrawer
+        onClose={onClose}
+        open={open}
+        isSpellCaster={isSpellCaster(character)}
+      />
       <ModalContainer
         title={modalTitle}
         modalIsOpen={modalIsOpen}

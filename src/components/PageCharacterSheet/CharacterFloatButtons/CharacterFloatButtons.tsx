@@ -1,4 +1,8 @@
-import { FileSearchOutlined, NodeIndexOutlined } from "@ant-design/icons";
+import {
+  FileSearchOutlined,
+  NodeIndexOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import Icon, {
   CustomIconComponentProps,
 } from "@ant-design/icons/lib/components/Icon";
@@ -15,6 +19,7 @@ interface CharacterFloatButtonsProps {
   setModalTitle: (modalTitle: string) => void;
   setModalContent: (modalContent: React.ReactNode) => void;
   modalOk: (() => void | undefined) | null | undefined;
+  openSettingsDrawer: () => void;
 }
 
 const DiceIcon = (props: Partial<CustomIconComponentProps>) => (
@@ -23,7 +28,13 @@ const DiceIcon = (props: Partial<CustomIconComponentProps>) => (
 
 const CharacterFloatButtons: React.FC<
   CharacterFloatButtonsProps & React.ComponentPropsWithRef<"div">
-> = ({ className, setModalContent, setModalIsOpen, setModalTitle }) => {
+> = ({
+  className,
+  setModalContent,
+  setModalIsOpen,
+  setModalTitle,
+  openSettingsDrawer,
+}) => {
   const { character } = React.useContext(CharacterDataContext);
   const { rollInitiative, contextHolder } = useCharacterDice(character);
   const handleCheatSheetClick = () => {
@@ -53,6 +64,11 @@ const CharacterFloatButtons: React.FC<
         icon={<DiceIcon className="fill-shipGray" />}
         tooltip={<div>Virtual Dice</div>}
         onClick={handleVirtualDiceClick}
+      />
+      <FloatButton
+        icon={<SettingOutlined />}
+        tooltip={<div>Settings</div>}
+        onClick={openSettingsDrawer}
       />
     </FloatButton.Group>
   );
