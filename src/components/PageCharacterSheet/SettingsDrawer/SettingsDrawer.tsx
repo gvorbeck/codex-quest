@@ -6,6 +6,8 @@ import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
 import { Button, Divider, Drawer, Flex } from "antd";
 import React from "react";
+import CantripSelection from "../CantripSelection/CantripSelection";
+import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -28,6 +30,9 @@ const SettingsDrawer: React.FC<
   setModalContent,
 }) => {
   const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const [showCustomCantripForm, setShowCustomCantripForm] =
+    React.useState(false);
+  const [showCantripSelection, setShowCantripSelection] = React.useState(false);
   const handleEditEquipmentClick = () => {
     setModalIsOpen(true);
     setModalTitle("Add/Edit Equipment");
@@ -75,6 +80,16 @@ const SettingsDrawer: React.FC<
       />,
     );
   };
+  const handleAddEditCantripClick = () => {
+    setShowCantripSelection(
+      (prevShowCantripSelection) => !prevShowCantripSelection,
+    );
+  };
+  const handleCustomCantripClick = () => {
+    setShowCustomCantripForm(
+      (prevShowCustomCantripForm) => !prevShowCustomCantripForm,
+    );
+  };
   return (
     <Drawer
       title="Settings"
@@ -94,9 +109,19 @@ const SettingsDrawer: React.FC<
           <>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
+            <Divider className="font-enchant text-2xl">
+              Cantrips/Osirons
+            </Divider>
+            <Button onClick={handleAddEditCantripClick}>
+              Add/Edit 0 Level Spells
+            </Button>
+            {showCantripSelection && <CantripSelection />}
+            <Button onClick={handleCustomCantripClick}>
+              Add Custom 0 Level Spells
+            </Button>
+            {showCustomCantripForm && <CustomCantripForm />}
           </>
         )}
-        <Button>Add 0 Level Spells</Button>
       </Flex>
     </Drawer>
   );
