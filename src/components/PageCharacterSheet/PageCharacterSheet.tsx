@@ -264,11 +264,16 @@ const PageCharacterSheet: React.FC<
           </Col>
         </Row>
       </Flex>
-      <SettingsDrawer
-        onClose={onClose}
-        open={open}
-        isSpellCaster={isSpellCaster(character)}
-      />
+      {userIsOwner && (
+        <SettingsDrawer
+          onClose={onClose}
+          open={open}
+          isSpellCaster={isSpellCaster(character)}
+          setModalContent={setModalContent}
+          setModalIsOpen={setModalIsOpen}
+          setModalTitle={setModalTitle}
+        />
+      )}
       <ModalContainer
         title={modalTitle}
         modalIsOpen={modalIsOpen}
