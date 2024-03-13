@@ -94,6 +94,12 @@ export type Spell = {
   range: string;
 };
 
+export type ZeroLevelSpell = {
+  name: string;
+  classes: string[];
+  description: string;
+};
+
 export type Monster = {
   name: string;
   variants: [string, MonsterStatsType][];
@@ -180,6 +186,7 @@ export type CharData = {
   wearing?: { armor: string; shield: string };
   weight: number;
   xp: number;
+  cantrips?: ZeroLevelSpell[];
   userId?: string;
   charId?: string;
 };

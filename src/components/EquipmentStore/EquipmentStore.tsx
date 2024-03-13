@@ -78,8 +78,6 @@ const EquipmentStore: React.FC<
 }) => {
   const [filterText, setFilterText] = React.useState("");
 
-  React.useEffect(() => console.log("filterText:", filterText), [filterText]);
-
   if (!character) return null;
   const noLargeEquipment =
     races[character.race as keyof typeof races]?.noLargeEquipment ?? false;

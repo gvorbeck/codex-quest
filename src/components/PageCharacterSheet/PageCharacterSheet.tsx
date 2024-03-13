@@ -31,6 +31,8 @@ import { useSpellData } from "@/hooks/useSpellData";
 import { useMarkdown } from "@/hooks/useMarkdown";
 import { classSplit, isStandardClass } from "@/support/classSupport";
 import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
+import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
+import Cantrips from "./Cantrips/Cantrips";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -44,6 +46,7 @@ export interface Wearing {
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
+  const [open, setOpen] = React.useState(false);
   const { character, setCharacter, userIsOwner, uid, id } =
     useCharacterData(user);
   const {
@@ -72,7 +75,8 @@ const PageCharacterSheet: React.FC<
   const { isSpellCaster } = useSpellData();
   const classArr = character ? classSplit(character.class) : [];
   const moneyClassNames = classNames({ "w-1/3": !isMobile });
-
+  const showDrawer = () => setOpen(true);
+  const onClose = () => setOpen(false);
   return character ? (
     <CharacterDataContext.Provider
       value={{ character, setCharacter, userIsOwner, uid, id }}
@@ -82,6 +86,7 @@ const PageCharacterSheet: React.FC<
         setModalTitle={setModalTitle}
         setModalContent={setModalContent}
         modalOk={modalOkRef.current}
+        openSettingsDrawer={showDrawer}
       />
       <Flex vertical className={className} gap={16}>
         <Row>
@@ -219,21 +224,19 @@ const PageCharacterSheet: React.FC<
               <Divider className="[@media(width>=640px)]:hidden" />
             </Flex>
             {isSpellCaster(character) && (
-              <>
+              <Flex gap={16} vertical>
                 <Section
                   title="Spells"
                   className="[@media(width<=640px)]:mt-4"
-                  component={
-                    <Spells
-                      setModalIsOpen={setModalIsOpen}
-                      setModalTitle={setModalTitle}
-                      setModalContent={setModalContent}
-                    />
-                  }
+                  component={<Spells />}
                 />
-
+                <Section
+                  title="Cantrips/Osirons"
+                  // className="[@media(width<=640px)]:mt-4"
+                  component={<Cantrips />}
+                />
                 <Divider className="[@media(width>=640px)]:hidden" />
-              </>
+              </Flex>
             )}
           </Col>
           <Col xs={24} sm={12}>
@@ -260,6 +263,16 @@ const PageCharacterSheet: React.FC<
           </Col>
         </Row>
       </Flex>
+      {userIsOwner && (
+        <SettingsDrawer
+          onClose={onClose}
+          open={open}
+          isSpellCaster={isSpellCaster(character)}
+          setModalContent={setModalContent}
+          setModalIsOpen={setModalIsOpen}
+          setModalTitle={setModalTitle}
+        />
+      )}
       <ModalContainer
         title={modalTitle}
         modalIsOpen={modalIsOpen}
