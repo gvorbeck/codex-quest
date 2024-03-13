@@ -1,5 +1,5 @@
 import { CharacterDataContext } from "@/contexts/CharacterContext";
-import { Collapse, CollapseProps, Popconfirm } from "antd";
+import { Collapse, CollapseProps, Empty, Popconfirm } from "antd";
 import React from "react";
 import CantripDescriptions from "./CantripDescriptions/CantripDescriptions";
 import { CloseOutlined } from "@ant-design/icons";
@@ -46,7 +46,11 @@ const Cantrips: React.FC<
         ) : undefined,
       };
     });
-  return <Collapse items={items} className={className} />;
+  return items?.length ? (
+    <Collapse items={items} className={className} />
+  ) : (
+    <Empty description="No 0 Level Spells" />
+  );
 };
 
 export default Cantrips;
