@@ -31,8 +31,8 @@ const Cantrips: React.FC<
         children: <CantripDescriptions cantrip={spell} />,
         extra: customCantrip ? (
           <Popconfirm
-            title="Delete 0 level spell?"
-            description="Are you sure to delete this?"
+            title="Delete custom 0 level spell?"
+            description="Are you sure?"
             onConfirm={(e) => {
               e?.stopPropagation();
               deleteCustomCantrip(spell);
