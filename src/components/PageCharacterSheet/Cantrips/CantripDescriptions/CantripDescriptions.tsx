@@ -1,6 +1,5 @@
 import { ZeroLevelSpell } from "@/data/definitions";
-import { useMarkdown } from "@/hooks/useMarkdown";
-import { Descriptions, DescriptionsProps, Typography } from "antd";
+import { Descriptions, DescriptionsProps } from "antd";
 import React from "react";
 
 interface CantripDescriptionsProps {
