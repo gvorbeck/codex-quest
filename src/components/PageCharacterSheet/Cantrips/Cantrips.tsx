@@ -28,7 +28,7 @@ const Cantrips: React.FC<
       return {
         key: spell.name,
         label: spell.name,
-        children: <CantripDescriptions />,
+        children: <CantripDescriptions cantrip={spell} />,
         extra: customCantrip ? (
           <Popconfirm
             title="Delete 0 level spell?"

@@ -1,9 +1,38 @@
-import React from 'react';
+import { ZeroLevelSpell } from "@/data/definitions";
+import { useMarkdown } from "@/hooks/useMarkdown";
+import { Descriptions, DescriptionsProps, Typography } from "antd";
+import React from "react";
 
-interface CantripDescriptionsProps {}
+interface CantripDescriptionsProps {
+  cantrip: ZeroLevelSpell;
+}
 
-const CantripDescriptions: React.FC<CantripDescriptionsProps & React.ComponentPropsWithRef<"div">> = ({ className }) => {
-  return <div className={className}>CantripDescriptions</div>
+const CantripDescriptions: React.FC<
+  CantripDescriptionsProps & React.ComponentPropsWithRef<"div">
+> = ({ className, cantrip }) => {
+  const items: DescriptionsProps["items"] = [
+    {
+      key: "1",
+      label: "Description",
+      children: cantrip.description,
+    },
+  ];
+  return (
+    <>
+      <Descriptions items={items} className={className} layout="vertical" />
+      <div>
+        {/* {spellImage && (
+          <div className="w-28 float-left mr-4 mb-2">
+            <Image src={spellImage} preview={false} />
+          </div>
+        )} */}
+        <Typography
+          dangerouslySetInnerHTML={{ __html: useMarkdown(cantrip.description) }}
+          className="text-justify"
+        />
+      </div>
+    </>
+  );
 };
 
-  export default CantripDescriptions;
+export default CantripDescriptions;
