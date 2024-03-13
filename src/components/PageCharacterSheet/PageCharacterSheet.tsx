@@ -229,6 +229,11 @@ const PageCharacterSheet: React.FC<
                   className="[@media(width<=640px)]:mt-4"
                   component={<Spells />}
                 />
+                <Section
+                  title="Cantrips/Osirons"
+                  className="[@media(width<=640px)]:mt-4"
+                  component={<Spells />}
+                />
 
                 <Divider className="[@media(width>=640px)]:hidden" />
               </>
