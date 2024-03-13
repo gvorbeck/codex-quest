@@ -119,7 +119,11 @@ const SettingsDrawer: React.FC<
             <Button onClick={handleCustomCantripClick}>
               Add Custom 0 Level Spells
             </Button>
-            {showCustomCantripForm && <CustomCantripForm />}
+            {showCustomCantripForm && (
+              <CustomCantripForm
+                setShowCustomCantripForm={setShowCustomCantripForm}
+              />
+            )}
           </>
         )}
       </Flex>

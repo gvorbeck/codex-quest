@@ -224,7 +224,7 @@ const PageCharacterSheet: React.FC<
               <Divider className="[@media(width>=640px)]:hidden" />
             </Flex>
             {isSpellCaster(character) && (
-              <>
+              <Flex gap={16} vertical>
                 <Section
                   title="Spells"
                   className="[@media(width<=640px)]:mt-4"
@@ -232,12 +232,11 @@ const PageCharacterSheet: React.FC<
                 />
                 <Section
                   title="Cantrips/Osirons"
-                  className="[@media(width<=640px)]:mt-4"
+                  // className="[@media(width<=640px)]:mt-4"
                   component={<Cantrips />}
                 />
-
                 <Divider className="[@media(width>=640px)]:hidden" />
-              </>
+              </Flex>
             )}
           </Col>
           <Col xs={24} sm={12}>

@@ -2,20 +2,27 @@ import { CharacterDataContext } from "@/contexts/CharacterContext";
 import { Button, Form, Input, message } from "antd";
 import React, { useEffect } from "react";
 
-interface CustomCantripFormProps {}
+interface CustomCantripFormProps {
+  setShowCustomCantripForm: (show: boolean) => void;
+}
 
 const CustomCantripForm: React.FC<
   CustomCantripFormProps & React.ComponentPropsWithRef<"div">
-> = ({ className }) => {
+> = ({ className, setShowCustomCantripForm }) => {
   const [form] = Form.useForm();
   const [, contextHolder] = message.useMessage();
   const { character, setCharacter } = React.useContext(CharacterDataContext);
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: {
+    name: string;
+    classes: string[];
+    description: string;
+  }) => {
     console.log("Received values of form: ", values);
     const cantrips = [...(character.cantrips ?? []), values];
     setCharacter({ ...character, cantrips });
     message.success(`${values.name} added`);
+    setShowCustomCantripForm(false);
     form.resetFields();
   };
 
