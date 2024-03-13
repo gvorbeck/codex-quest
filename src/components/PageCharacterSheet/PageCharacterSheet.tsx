@@ -32,6 +32,7 @@ import { useMarkdown } from "@/hooks/useMarkdown";
 import { classSplit, isStandardClass } from "@/support/classSupport";
 import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
 import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
+import Cantrips from "./Cantrips/Cantrips";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -232,7 +233,7 @@ const PageCharacterSheet: React.FC<
                 <Section
                   title="Cantrips/Osirons"
                   className="[@media(width<=640px)]:mt-4"
-                  component={<Spells />}
+                  component={<Cantrips />}
                 />
 
                 <Divider className="[@media(width>=640px)]:hidden" />
