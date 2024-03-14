@@ -35,6 +35,7 @@ const SettingsDrawer: React.FC<
     React.useState(false);
   const [showCantripSelection, setShowCantripSelection] = React.useState(false);
   const [showCustomSpellForm, setShowCustomSpellForm] = React.useState(false);
+  const [showSpellSelection, setShowSpellSelection] = React.useState(false);
 
   const handleEditEquipmentClick = () => {
     setModalIsOpen(true);
@@ -66,16 +67,7 @@ const SettingsDrawer: React.FC<
     );
   };
   const handleAddEditSpellClick = () => {
-    setModalIsOpen(true);
-    setModalTitle("Add/Edit Spells");
-    setModalContent(
-      <AllSpellsSelection
-        character={character}
-        setCharacter={setCharacter}
-        hideStartingText
-        className=""
-      />,
-    );
+    setShowSpellSelection((prevShowSpellSelection) => !prevShowSpellSelection);
   };
   const handleAddEditCantripClick = () => {
     setShowCantripSelection(
@@ -105,6 +97,7 @@ const SettingsDrawer: React.FC<
           <>
             <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
+            {showSpellSelection && <AllSpellsSelection hideStartingText />}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             {showCustomSpellForm && <FormCustomField />}
             <Divider className="font-enchant text-2xl">
