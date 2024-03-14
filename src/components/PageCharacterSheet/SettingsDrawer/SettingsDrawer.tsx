@@ -1,5 +1,4 @@
 import ModalCustomEquipment from "@/components/ModalCustomEquipment/ModalCustomEquipment";
-import ModalCustomSpell from "@/components/ModalCustomSpell/ModalCustomSpell";
 import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
@@ -8,6 +7,7 @@ import { Button, Divider, Drawer, Flex } from "antd";
 import React from "react";
 import CantripSelection from "../CantripSelection/CantripSelection";
 import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
+import FormCustomField from "@/components/FormCustomSpell/FormCustomSpell";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -30,9 +30,12 @@ const SettingsDrawer: React.FC<
   setModalContent,
 }) => {
   const { character, setCharacter } = React.useContext(CharacterDataContext);
+
   const [showCustomCantripForm, setShowCustomCantripForm] =
     React.useState(false);
   const [showCantripSelection, setShowCantripSelection] = React.useState(false);
+  const [showCustomSpellForm, setShowCustomSpellForm] = React.useState(false);
+
   const handleEditEquipmentClick = () => {
     setModalIsOpen(true);
     setModalTitle("Add/Edit Equipment");
@@ -58,14 +61,8 @@ const SettingsDrawer: React.FC<
     );
   };
   const handleCustomSpellClick = () => {
-    setModalIsOpen(true);
-    setModalTitle("Add Custom Spell");
-    setModalContent(
-      <ModalCustomSpell
-        character={character}
-        setCharacter={setCharacter}
-        setModalIsOpen={setModalIsOpen}
-      />,
+    setShowCustomSpellForm(
+      (prevShowCustomSpellForm) => !prevShowCustomSpellForm,
     );
   };
   const handleAddEditSpellClick = () => {
@@ -109,6 +106,7 @@ const SettingsDrawer: React.FC<
             <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
+            {showCustomSpellForm && <FormCustomField />}
             <Divider className="font-enchant text-2xl">
               Cantrips/Osirons
             </Divider>
