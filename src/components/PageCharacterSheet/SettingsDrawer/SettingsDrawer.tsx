@@ -104,9 +104,9 @@ const SettingsDrawer: React.FC<
         <Button onClick={handleCustomEquipmentClick}>
           Add Custom Equipment
         </Button>
-        <Divider className="font-enchant text-2xl">Spells</Divider>
         {isSpellCaster && (
           <>
+            <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             <Divider className="font-enchant text-2xl">
