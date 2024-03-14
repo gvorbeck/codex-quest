@@ -1,33 +1,26 @@
-import { CharData, Spell } from "@/data/definitions";
+import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { Spell } from "@/data/definitions";
 import { Button, Form, Input } from "antd";
 import classNames from "classnames";
 import React from "react";
 
-interface ModalCustomSpellProps {
-  character: CharData;
-  setCharacter: (character: CharData) => void;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-}
+interface FormCustomFieldProps {}
 
-const ModalCustomSpell: React.FC<
-  ModalCustomSpellProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, setModalIsOpen }) => {
+const FormCustomField: React.FC<
+  FormCustomFieldProps & React.ComponentPropsWithRef<"div">
+> = ({ className }) => {
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
+  const { character, setCharacter } = React.useContext(CharacterDataContext);
+
   const [submittable, setSubmittable] = React.useState(false);
 
-  const customEquipmentClassNames = classNames(
-    "flex",
-    "flex-col",
-    "gap-4",
-    className,
-  );
+  const customEquipmentClassNames = classNames("flex", "flex-col", className);
   const onFinish = (values: object) => {
     setCharacter({
       ...character,
       spells: [...character.spells, values as Spell],
     });
-    setModalIsOpen(false);
   };
 
   const onFinishFailed = (errorInfo: object) => {
@@ -43,6 +36,7 @@ const ModalCustomSpell: React.FC<
         setSubmittable(false);
       },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues]);
 
   return (
@@ -85,4 +79,4 @@ const ModalCustomSpell: React.FC<
   );
 };
 
-export default ModalCustomSpell;
+export default FormCustomField;

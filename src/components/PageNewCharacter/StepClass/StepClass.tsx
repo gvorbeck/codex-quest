@@ -261,10 +261,7 @@ const StepClass: React.FC<
               onChange={(e) => onCustomClassChange(e)}
             />
             <Suspense fallback={<div>Loading...</div>}>
-              <AllSpellsSelection
-                character={character}
-                setCharacter={setCharacter}
-              />
+              <AllSpellsSelection />
             </Suspense>
           </>
         )}
