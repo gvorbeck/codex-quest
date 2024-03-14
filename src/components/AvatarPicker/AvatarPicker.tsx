@@ -40,7 +40,7 @@ export default function AvatarPicker({
   const handleChange: UploadProps["onChange"] = async ({
     fileList: newFileList,
   }) => {
-    const allowedTypes = ["image/jpeg", "image/png"]; // Allowed file types
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"]; // Allowed file types: jpg, jpeg, png, webp
     const maxSize = 1 * 1024 * 1024; // Maximum file size in bytes (1MB)
 
     const latestFile = newFileList[newFileList.length - 1]; // Get the latest file added

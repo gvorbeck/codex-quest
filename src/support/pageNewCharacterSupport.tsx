@@ -138,7 +138,7 @@ export const isNextButtonEnabled = (
     case 3:
       return character.hp?.points !== 0;
     case 4:
-      return character.equipment?.length !== 0;
+      return character.gold !== 0;
     case 5:
       return character.name;
     default:
