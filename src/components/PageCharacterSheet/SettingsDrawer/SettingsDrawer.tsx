@@ -53,15 +53,6 @@ const SettingsDrawer: React.FC<
   };
 
   const handleCustomEquipmentClick = () => {
-    // setModalIsOpen(true);
-    // setModalTitle("Add Custom Equipment");
-    // setModalContent(
-    //   <FormCustomEquipment
-    //     character={character}
-    //     setCharacter={setCharacter}
-    //     setModalIsOpen={setModalIsOpen}
-    //   />,
-    // );
     setShowCustomEquipmentForm(
       (prevShowCustomEquipmentForm) => !prevShowCustomEquipmentForm,
     );

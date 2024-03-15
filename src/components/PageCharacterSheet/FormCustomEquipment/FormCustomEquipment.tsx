@@ -120,7 +120,6 @@ const FormCustomEquipment: React.FC<
       ...character,
       equipment: [...character.equipment, values as EquipmentItem],
     });
-    // setModalIsOpen(false);
   };
 
   const handleFormValuesChange = (value: object) => {
