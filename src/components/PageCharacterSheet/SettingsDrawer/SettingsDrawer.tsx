@@ -6,7 +6,7 @@ import { Button, Divider, Drawer, Flex } from "antd";
 import React from "react";
 import CantripSelection from "../CantripSelection/CantripSelection";
 import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
-import FormCustomSpell from "@/components/FormCustomSpell/FormCustomSpell";
+import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
 
 interface SettingsDrawerProps {
