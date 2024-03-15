@@ -14,19 +14,12 @@ import ArmorClass from "./ArmorClass/ArmorClass";
 import AttackType from "./AttackType/AttackType";
 import Range from "./Range/Range";
 import Ammo from "./Ammo/Ammo";
-import {
-  CharData,
-  EquipmentCategories,
-  EquipmentItem,
-} from "@/data/definitions";
+import { EquipmentCategories, EquipmentItem } from "@/data/definitions";
 import SubCategory from "./SubCategory/SubCategory";
 import ArmorType from "./ArmorType/ArmorType";
+import { CharacterDataContext } from "@/contexts/CharacterContext";
 
-interface ModalCustomEquipmentProps {
-  character: CharData;
-  setCharacter: (character: CharData) => void;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-}
+interface FormCustomEquipmentProps {}
 
 type CategoryFieldMappings = {
   [key in EquipmentCategories]?: string[];
@@ -65,9 +58,10 @@ const onFinishFailed = (errorInfo: object) => {
   console.error("Failed:", errorInfo);
 };
 
-const ModalCustomEquipment: React.FC<
-  ModalCustomEquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, setModalIsOpen }) => {
+const FormCustomEquipment: React.FC<
+  FormCustomEquipmentProps & React.ComponentPropsWithRef<"div">
+> = ({ className }) => {
+  const { character, setCharacter } = React.useContext(CharacterDataContext);
   const [form] = Form.useForm();
   const [categorySelect, setCategorySelect] = React.useState<
     EquipmentCategories | ""
@@ -126,7 +120,7 @@ const ModalCustomEquipment: React.FC<
       ...character,
       equipment: [...character.equipment, values as EquipmentItem],
     });
-    setModalIsOpen(false);
+    // setModalIsOpen(false);
   };
 
   const handleFormValuesChange = (value: object) => {
@@ -253,4 +247,4 @@ const ModalCustomEquipment: React.FC<
   );
 };
 
-export default ModalCustomEquipment;
+export default FormCustomEquipment;

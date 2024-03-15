@@ -4,10 +4,10 @@ import { Button, Form, Input } from "antd";
 import classNames from "classnames";
 import React from "react";
 
-interface FormCustomFieldProps {}
+interface FormCustomSpellProps {}
 
-const FormCustomField: React.FC<
-  FormCustomFieldProps & React.ComponentPropsWithRef<"div">
+const FormCustomSpell: React.FC<
+  FormCustomSpellProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
@@ -79,4 +79,4 @@ const FormCustomField: React.FC<
   );
 };
 
-export default FormCustomField;
+export default FormCustomSpell;

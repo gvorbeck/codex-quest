@@ -1,4 +1,3 @@
-import ModalCustomEquipment from "@/components/ModalCustomEquipment/ModalCustomEquipment";
 import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
@@ -7,7 +6,8 @@ import { Button, Divider, Drawer, Flex } from "antd";
 import React from "react";
 import CantripSelection from "../CantripSelection/CantripSelection";
 import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
-import FormCustomField from "@/components/FormCustomSpell/FormCustomSpell";
+import FormCustomSpell from "@/components/FormCustomSpell/FormCustomSpell";
+import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -36,6 +36,8 @@ const SettingsDrawer: React.FC<
   const [showCantripSelection, setShowCantripSelection] = React.useState(false);
   const [showCustomSpellForm, setShowCustomSpellForm] = React.useState(false);
   const [showSpellSelection, setShowSpellSelection] = React.useState(false);
+  const [showCustomEquipmentForm, setShowCustomEquipmentForm] =
+    React.useState(false);
 
   const handleEditEquipmentClick = () => {
     setModalIsOpen(true);
@@ -51,14 +53,17 @@ const SettingsDrawer: React.FC<
   };
 
   const handleCustomEquipmentClick = () => {
-    setModalIsOpen(true);
-    setModalTitle("Add Custom Equipment");
-    setModalContent(
-      <ModalCustomEquipment
-        character={character}
-        setCharacter={setCharacter}
-        setModalIsOpen={setModalIsOpen}
-      />,
+    // setModalIsOpen(true);
+    // setModalTitle("Add Custom Equipment");
+    // setModalContent(
+    //   <FormCustomEquipment
+    //     character={character}
+    //     setCharacter={setCharacter}
+    //     setModalIsOpen={setModalIsOpen}
+    //   />,
+    // );
+    setShowCustomEquipmentForm(
+      (prevShowCustomEquipmentForm) => !prevShowCustomEquipmentForm,
     );
   };
   const handleCustomSpellClick = () => {
@@ -93,13 +98,14 @@ const SettingsDrawer: React.FC<
         <Button onClick={handleCustomEquipmentClick}>
           Add Custom Equipment
         </Button>
+        {showCustomEquipmentForm && <FormCustomEquipment />}
         {isSpellCaster && (
           <>
             <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             {showSpellSelection && <AllSpellsSelection hideStartingText />}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
-            {showCustomSpellForm && <FormCustomField />}
+            {showCustomSpellForm && <FormCustomSpell />}
             <Divider className="font-enchant text-2xl">
               Cantrips/Osirons
             </Divider>
