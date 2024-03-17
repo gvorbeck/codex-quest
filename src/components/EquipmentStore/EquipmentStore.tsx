@@ -31,6 +31,7 @@ interface EquipmentStoreProps {
   gold: number;
   setGold: (gold: number) => void;
   newCharacter?: boolean;
+  cost?: boolean;
 }
 
 const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
@@ -75,6 +76,7 @@ const EquipmentStore: React.FC<
   gold,
   setGold,
   newCharacter,
+  cost = false,
 }) => {
   const [filterText, setFilterText] = React.useState("");
 
@@ -88,18 +90,20 @@ const EquipmentStore: React.FC<
       const newItem = { ...item, amount: value };
       newEquipment.push(newItem);
     }
-    const oldEquipmentCost = equipment
-      .reduce((acc, curr) => {
-        return acc + getItemCost(curr);
-      }, 0)
-      .toFixed(2);
-    const newEquipmentCost = newEquipment
-      .reduce((acc, curr) => {
-        return acc + getItemCost(curr);
-      }, 0)
-      .toFixed(2);
+    if (cost) {
+      const oldEquipmentCost = equipment
+        .reduce((acc, curr) => {
+          return acc + getItemCost(curr);
+        }, 0)
+        .toFixed(2);
+      const newEquipmentCost = newEquipment
+        .reduce((acc, curr) => {
+          return acc + getItemCost(curr);
+        }, 0)
+        .toFixed(2);
 
-    setGold(+(gold + (+oldEquipmentCost - +newEquipmentCost)).toFixed(2));
+      setGold(+(gold + (+oldEquipmentCost - +newEquipmentCost)).toFixed(2));
+    }
     setEquipment(newEquipment);
   };
 

@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import React from "react";
 import { ClassNames } from "@/data/definitions";
 import Hero from "./Hero/Hero";
-import { Alert, Col, Divider, Flex, Row, Skeleton } from "antd";
+import { Alert, Col, Divider, Flex, Row } from "antd";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
 import Section from "./Section/Section";
 import AttackBonuses from "./AttackBonuses/AttackBonuses";
@@ -33,6 +33,7 @@ import { classSplit, isStandardClass } from "@/support/classSupport";
 import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
 import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
 import Cantrips from "./Cantrips/Cantrips";
+import PageCharacterSheetSkeleton from "./PageCharacterSheetSkeleton/PageCharacterSheetSkeleton";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -282,7 +283,7 @@ const PageCharacterSheet: React.FC<
       />
     </CharacterDataContext.Provider>
   ) : (
-    <Skeleton avatar paragraph={{ rows: 8 }} />
+    <PageCharacterSheetSkeleton />
   );
 };
 
