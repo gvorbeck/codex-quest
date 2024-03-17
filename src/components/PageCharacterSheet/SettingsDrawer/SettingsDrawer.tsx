@@ -13,22 +13,11 @@ interface SettingsDrawerProps {
   open: boolean;
   onClose: () => void;
   isSpellCaster: boolean;
-  setModalTitle: (modalTitle: string) => void;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  setModalContent: (modalContent: React.ReactNode) => void;
 }
 
 const SettingsDrawer: React.FC<
   SettingsDrawerProps & React.ComponentPropsWithRef<"div">
-> = ({
-  open,
-  onClose,
-  className,
-  isSpellCaster,
-  setModalTitle,
-  setModalIsOpen,
-  setModalContent,
-}) => {
+> = ({ open, onClose, className, isSpellCaster }) => {
   const { character, setCharacter } = React.useContext(CharacterDataContext);
 
   const [showCustomCantripForm, setShowCustomCantripForm] =
@@ -38,17 +27,12 @@ const SettingsDrawer: React.FC<
   const [showSpellSelection, setShowSpellSelection] = React.useState(false);
   const [showCustomEquipmentForm, setShowCustomEquipmentForm] =
     React.useState(false);
+  const [showEditEquipmentForm, setShowEditEquipmentForm] =
+    React.useState(false);
 
   const handleEditEquipmentClick = () => {
-    setModalIsOpen(true);
-    setModalTitle("Add/Edit Equipment");
-    setModalContent(
-      <StepEquipment
-        character={character}
-        setCharacter={setCharacter}
-        hideDiceButton
-        hideInventory
-      />,
+    setShowEditEquipmentForm(
+      (prevShowEditEquipmentForm) => !prevShowEditEquipmentForm,
     );
   };
 
@@ -86,6 +70,14 @@ const SettingsDrawer: React.FC<
       <Flex vertical gap={16}>
         <Divider className="font-enchant text-2xl">Equipment</Divider>
         <Button onClick={handleEditEquipmentClick}>Add/Edit Equipment</Button>
+        {showEditEquipmentForm && (
+          <StepEquipment
+            character={character}
+            setCharacter={setCharacter}
+            hideDiceButton
+            hideInventory
+          />
+        )}
         <Button onClick={handleCustomEquipmentClick}>
           Add Custom Equipment
         </Button>

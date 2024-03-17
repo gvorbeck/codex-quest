@@ -269,9 +269,6 @@ const PageCharacterSheet: React.FC<
           onClose={onClose}
           open={open}
           isSpellCaster={isSpellCaster(character)}
-          setModalContent={setModalContent}
-          setModalIsOpen={setModalIsOpen}
-          setModalTitle={setModalTitle}
         />
       )}
       <ModalContainer
