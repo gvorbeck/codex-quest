@@ -31,7 +31,7 @@ const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
   };
 
   return (
-    <Flex vertical className={className}>
+    <Flex vertical className={classNames(className)}>
       <Flex gap={16} align="baseline">
         {title && (
           <Typography.Title level={3} className="mt-0 leading-none">

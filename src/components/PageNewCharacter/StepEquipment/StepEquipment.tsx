@@ -15,9 +15,6 @@ interface StepEquipmentProps {
   newCharacter?: boolean;
 }
 
-// TODO: RACE/CLASS RESTRICTIONS
-console.error("race/class equipment restrictions not implemented yet");
-
 const StepEquipment: React.FC<
   StepEquipmentProps & React.ComponentPropsWithRef<"div">
 > = ({

@@ -1,5 +1,5 @@
 import { CharacterDataContext } from "@/contexts/CharacterContext";
-import { Collapse, CollapseProps, Popconfirm } from "antd";
+import { Collapse, CollapseProps, Empty, Popconfirm } from "antd";
 import React from "react";
 import SpellDescriptions from "./SpellDescriptions/SpellDescriptions";
 import { Spell } from "@/data/definitions";
@@ -50,7 +50,11 @@ const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({
         ) : undefined,
       };
     });
-  return <Collapse items={items} className={className} />;
+  return items.length ? (
+    <Collapse items={items} className={className} />
+  ) : (
+    <Empty description="No Spells" />
+  );
 };
 
 export default Spells;
