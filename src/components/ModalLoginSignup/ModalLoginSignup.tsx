@@ -82,6 +82,7 @@ const ModalLoginSignup: React.FC<ModalLoginSignupProps> = ({
             Log in with Google
           </Button>
           <LoginForm
+            email={email}
             setEmail={setEmail}
             setPassword={setPassword}
             onLogin={onLogin}

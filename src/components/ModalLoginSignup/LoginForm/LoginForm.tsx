@@ -1,8 +1,10 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import React from "react";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 interface LoginFormProps {
   setEmail: (email: string) => void;
+  email: string;
   setPassword: (password: string) => void;
   onLogin: (e: React.FormEvent) => void;
   errors: string[];
@@ -17,13 +19,34 @@ type FieldType = {
 
 const LoginForm: React.FC<
   LoginFormProps & React.ComponentPropsWithRef<"div">
-> = ({ setEmail, setPassword, onLogin, errors, handleCancel, className }) => {
-  const onFinishFailed = (errorInfo: any) => {
+> = ({
+  email,
+  setEmail,
+  setPassword,
+  onLogin,
+  errors,
+  handleCancel,
+  className,
+}) => {
+  const auth = getAuth();
+
+  const onFinishFailed = (errorInfo: unknown) => {
     console.error("Failed:", errorInfo);
   };
+
   const onFinish = (e: React.FormEvent<HTMLElement>) => {
     handleCancel();
     onLogin(e);
+  };
+
+  const handleForgotPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        message.success("Password reset email sent!");
+      })
+      .catch((error) => {
+        message.error(error.message);
+      });
   };
   return (
     <Form
@@ -87,6 +110,9 @@ const LoginForm: React.FC<
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
+        <a onClick={handleForgotPassword} style={{ marginLeft: 10 }}>
+          Forgot password?
+        </a>
       </Form.Item>
     </Form>
   );
