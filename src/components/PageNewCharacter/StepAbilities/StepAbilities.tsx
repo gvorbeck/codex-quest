@@ -52,7 +52,7 @@ const StepAbilities: React.FC<
             record={record}
             character={character}
             setCharacter={setCharacter}
-            newCharacter
+            newCharacter={newCharacter}
           />
         );
       },
