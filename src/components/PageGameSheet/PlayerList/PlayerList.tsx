@@ -107,7 +107,9 @@ const PlayerList: React.FC<
                   </Tooltip>
                   <Tooltip title={`Remove Character`}>
                     <Button
-                      onClick={() => onRemoveButtonClick(userId, charId)}
+                      onClick={() =>
+                        user && onRemoveButtonClick(user.uid, charId)
+                      }
                       icon={<UserDeleteOutlined />}
                       disabled={!userIsOwner}
                     />
