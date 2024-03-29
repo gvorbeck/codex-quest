@@ -35,7 +35,6 @@ const SettingsDrawer: React.FC<
       (prevShowEditEquipmentForm) => !prevShowEditEquipmentForm,
     );
   };
-
   const handleCustomEquipmentClick = () => {
     setShowCustomEquipmentForm(
       (prevShowCustomEquipmentForm) => !prevShowCustomEquipmentForm,
@@ -59,6 +58,7 @@ const SettingsDrawer: React.FC<
       (prevShowCustomCantripForm) => !prevShowCustomCantripForm,
     );
   };
+
   return (
     <Drawer
       title="Settings"

@@ -6,6 +6,7 @@ import {
   DescriptionsProps,
   Flex,
   Popconfirm,
+  Typography,
   message,
 } from "antd";
 import { equipmentNames } from "@/support/equipmentSupport";
@@ -139,6 +140,7 @@ const EquipmentItemDescription: React.FC<
           items={items}
           column={3}
         />
+        {item.notes && <Typography.Text>{item.notes}</Typography.Text>}
         <Flex justify="flex-end" gap={16}>
           {!equipmentNames.includes(item.name) &&
             item.name !== "Punch**" &&

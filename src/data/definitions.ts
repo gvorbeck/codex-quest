@@ -141,6 +141,7 @@ export type EquipmentItem = {
   costCurrency: CostCurrency;
   category: EquipmentCategories | "inherent" | "weapons";
   amount: number;
+  notes?: string;
   subCategory?: string;
   weight?: number;
   size?: SizeOptions;
