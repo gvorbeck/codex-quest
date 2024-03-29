@@ -4,7 +4,7 @@
   "bfrpgEdition": "4th",
   "bfrpgRelease": "137",
   "license": "CC BY-SA 4.0",
-  "version": "2.7.6",
+  "version": "2.7.7",
   "private": true,
   "type": "module",
   "scripts": {
