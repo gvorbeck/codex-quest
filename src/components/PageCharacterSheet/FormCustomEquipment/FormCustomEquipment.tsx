@@ -18,6 +18,7 @@ import { EquipmentCategories, EquipmentItem } from "@/data/definitions";
 import SubCategory from "./SubCategory/SubCategory";
 import ArmorType from "./ArmorType/ArmorType";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
+import Notes from "./Notes/Notes";
 
 interface FormCustomEquipmentProps {}
 
@@ -237,6 +238,7 @@ const FormCustomEquipment: React.FC<
         />
         <Cost className={costClassNames} />
       </Flex>
+      <Notes />
       <Form.Item>
         <Button type="primary" htmlType="submit" disabled={!categorySelect}>
           Submit
