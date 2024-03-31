@@ -29,11 +29,13 @@ const confirm = (
   character: CharData,
   setCharacter: (character: CharData) => void,
 ) => {
-  message.success(`${item.name} deleted`);
+  const characterEquipment = [...character.equipment];
+  const itemIndex = characterEquipment.findIndex((e) => e === item);
   setCharacter({
     ...character,
-    equipment: character.equipment.filter((e) => e.name !== item.name),
+    equipment: characterEquipment.filter((_, i) => i !== itemIndex),
   });
+  message.success(`${item.name} deleted`);
 };
 
 const cancel = () => {};
