@@ -29,11 +29,12 @@ const confirm = (
   character: CharData,
   setCharacter: (character: CharData) => void,
 ) => {
+  const eqp_idx = character.equipment.findIndex((e) => e === item);
+  if (eqp_idx >= 0) {
+    character.equipment.splice(eqp_idx, 1);
+  }
+  setCharacter(character);
   message.success(`${item.name} deleted`);
-  setCharacter({
-    ...character,
-    equipment: character.equipment.filter((e) => e.name !== item.name),
-  });
 };
 
 const cancel = () => {};
