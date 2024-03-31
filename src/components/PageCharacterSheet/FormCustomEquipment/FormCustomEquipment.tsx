@@ -1,4 +1,4 @@
-import { Button, Flex, Form } from "antd";
+import { Button, Flex, Form, Input } from "antd";
 import classNames from "classnames";
 import React from "react";
 import Cost from "./Cost/Cost";
@@ -193,6 +193,7 @@ const FormCustomEquipment: React.FC<
   React.useEffect(() => {
     if (categorySelect === EquipmentCategories.BOWS) {
       form.setFieldsValue({ attack: "Missile" });
+      form.setFieldsValue({ type: "missile" });
       setAttackTypeDisabled(true);
     } else {
       setAttackTypeDisabled(false);
@@ -219,10 +220,14 @@ const FormCustomEquipment: React.FC<
         costValue: 0,
         costCurrency: "gp",
         notes: "",
+        type: "",
       }}
       name="custom-equipment"
       onValuesChange={handleFormValuesChange}
     >
+      <Form.Item name="type" hidden>
+        <Input />
+      </Form.Item>
       <Name />
       <Category handleCategoryChange={handleCategoryChange} />
       <Flex gap={16} wrap="wrap">

@@ -24,7 +24,6 @@ const ModalAttack: React.FC<
   setCharacter,
 }) => {
   const [attackSwitch, setAttackWitch] = React.useState(false);
-  console.error("TODOS!");
   return (
     <Flex vertical gap={16} className={className}>
       {item.type === "both" && (
@@ -63,17 +62,6 @@ const ModalAttack: React.FC<
           character={character}
         />
       )}
-      {/* 
-      TODO:
-      x get item
-      x determine if melee or missile
-      x determine if thrown or ammo
-      determine if ammo is available
-      select ammo
-      if thrown, item is gone
-      if ammo, 75% chance of being gone
-      when closing modal, reset states (ex: range)
-      */}
     </Flex>
   );
 };
