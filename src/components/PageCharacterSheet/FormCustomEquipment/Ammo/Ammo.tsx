@@ -17,7 +17,7 @@ const Ammo: React.FC<AmmoProps & React.ComponentPropsWithRef<"div">> = ({
   return (
     <Form.Item
       label="Ammunition"
-      name="ammunition"
+      name="ammo"
       className={className}
       rules={[{ required: true }]}
     >
