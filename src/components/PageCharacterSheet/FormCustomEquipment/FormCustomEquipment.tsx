@@ -218,6 +218,7 @@ const FormCustomEquipment: React.FC<
         amount: 1,
         costValue: 0,
         costCurrency: "gp",
+        notes: "",
       }}
       name="custom-equipment"
       onValuesChange={handleFormValuesChange}
