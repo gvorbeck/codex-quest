@@ -194,6 +194,7 @@ const FormCustomEquipment: React.FC<
     if (categorySelect === EquipmentCategories.BOWS) {
       form.setFieldsValue({ attack: "Missile" });
       form.setFieldsValue({ type: "missile" });
+      setShowRange(true);
       setAttackTypeDisabled(true);
     } else {
       setAttackTypeDisabled(false);
