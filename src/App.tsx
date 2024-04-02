@@ -23,8 +23,13 @@ const PageSources = lazy(() => import("./components/PageSources/PageSources"));
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedKey, setSelectedKey] = React.useState<string>("1");
 
   const auth = getAuth();
+
+  const handleTabChange = (key: string) => {
+    setSelectedKey(key);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -62,7 +67,11 @@ const App: React.FC = () => {
                 loading ? (
                   <Spin size="large" />
                 ) : user ? (
-                  <PageHome user={user} />
+                  <PageHome
+                    user={user}
+                    selectedKey={selectedKey}
+                    handleTabChange={handleTabChange}
+                  />
                 ) : (
                   <PageWelcome />
                 )

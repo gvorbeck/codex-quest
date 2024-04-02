@@ -9,19 +9,20 @@ import CardGame from "@/components/CardGame/CardGame";
 
 interface PageHomeProps {
   user: User | null;
+  selectedKey: string;
+  handleTabChange: (key: string) => void;
 }
 
-const PageHome: React.FC<PageHomeProps> = ({ user }) => {
-  const [selectedKey, setSelectedKey] = React.useState<string>("1");
+const PageHome: React.FC<PageHomeProps> = ({
+  user,
+  selectedKey,
+  handleTabChange,
+}) => {
   const [characters, setCharacters] = React.useState<CharData[]>([]);
   const [games, setGames] = React.useState<GameData[]>([]);
   const [charactersLoading, setCharactersLoading] =
     React.useState<boolean>(true);
   const [gamesLoading, setGamesLoading] = React.useState<boolean>(true);
-
-  const handleTabChange = (key: string) => {
-    setSelectedKey(key);
-  };
 
   const childrenCharacterList = (
     <ContentListWrapper
