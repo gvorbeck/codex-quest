@@ -20,7 +20,9 @@ import ArmorType from "./ArmorType/ArmorType";
 import { CharacterDataContext } from "@/contexts/CharacterContext";
 import Notes from "./Notes/Notes";
 
-interface FormCustomEquipmentProps {}
+interface FormCustomEquipmentProps {
+  handleResetFormDisplay: () => void;
+}
 
 type CategoryFieldMappings = {
   [key in EquipmentCategories]?: string[];
@@ -61,7 +63,7 @@ const onFinishFailed = (errorInfo: object) => {
 
 const FormCustomEquipment: React.FC<
   FormCustomEquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className }) => {
+> = ({ className, handleResetFormDisplay }) => {
   const { character, setCharacter } = React.useContext(CharacterDataContext);
   const [form] = Form.useForm();
   const [categorySelect, setCategorySelect] = React.useState<
@@ -121,6 +123,7 @@ const FormCustomEquipment: React.FC<
       ...character,
       equipment: [...character.equipment, values as EquipmentItem],
     });
+    handleResetFormDisplay();
   };
 
   const handleFormValuesChange = (value: object) => {

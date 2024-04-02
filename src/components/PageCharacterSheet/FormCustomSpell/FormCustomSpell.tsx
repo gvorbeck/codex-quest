@@ -4,23 +4,26 @@ import { Button, Form, Input } from "antd";
 import classNames from "classnames";
 import React from "react";
 
-interface FormCustomSpellProps {}
+interface FormCustomSpellProps {
+  handleResetFormDisplay: () => void;
+}
 
 const FormCustomSpell: React.FC<
   FormCustomSpellProps & React.ComponentPropsWithRef<"div">
-> = ({ className }) => {
+> = ({ className, handleResetFormDisplay }) => {
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
   const { character, setCharacter } = React.useContext(CharacterDataContext);
 
   const [submittable, setSubmittable] = React.useState(false);
 
-  const customEquipmentClassNames = classNames("flex", "flex-col", className);
+  const customSpellClassNames = classNames("flex", "flex-col", className);
   const onFinish = (values: object) => {
     setCharacter({
       ...character,
       spells: [...character.spells, values as Spell],
     });
+    handleResetFormDisplay();
   };
 
   const onFinishFailed = (errorInfo: object) => {
@@ -41,7 +44,7 @@ const FormCustomSpell: React.FC<
 
   return (
     <Form
-      className={customEquipmentClassNames}
+      className={customSpellClassNames}
       layout="vertical"
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}

@@ -58,6 +58,14 @@ const SettingsDrawer: React.FC<
       (prevShowCustomCantripForm) => !prevShowCustomCantripForm,
     );
   };
+  const handleResetFormDisplay = () => {
+    setShowCustomCantripForm(false);
+    setShowCantripSelection(false);
+    setShowCustomSpellForm(false);
+    setShowSpellSelection(false);
+    setShowCustomEquipmentForm(false);
+    setShowEditEquipmentForm(false);
+  };
 
   return (
     <Drawer
@@ -81,14 +89,22 @@ const SettingsDrawer: React.FC<
         <Button onClick={handleCustomEquipmentClick}>
           Add Custom Equipment
         </Button>
-        {showCustomEquipmentForm && <FormCustomEquipment />}
+        {showCustomEquipmentForm && (
+          <FormCustomEquipment
+            handleResetFormDisplay={handleResetFormDisplay}
+          />
+        )}
         {isSpellCaster && (
           <>
             <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             {showSpellSelection && <AllSpellsSelection hideStartingText />}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
-            {showCustomSpellForm && <FormCustomSpell />}
+            {showCustomSpellForm && (
+              <FormCustomSpell
+                handleResetFormDisplay={handleResetFormDisplay}
+              />
+            )}
             <Divider className="font-enchant text-2xl">
               Cantrips/Osirons
             </Divider>
@@ -101,7 +117,7 @@ const SettingsDrawer: React.FC<
             </Button>
             {showCustomCantripForm && (
               <CustomCantripForm
-                setShowCustomCantripForm={setShowCustomCantripForm}
+                handleResetFormDisplay={handleResetFormDisplay}
               />
             )}
           </>
