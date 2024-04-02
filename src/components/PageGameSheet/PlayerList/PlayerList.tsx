@@ -5,7 +5,15 @@ import {
   CombatantTypes,
   GamePlayerList,
 } from "@/data/definitions";
-import { Button, Card, Descriptions, Flex, Spin, Tooltip } from "antd";
+import {
+  Button,
+  Card,
+  Descriptions,
+  Flex,
+  Popconfirm,
+  Spin,
+  Tooltip,
+} from "antd";
 import { openInNewTab } from "@/support/characterSupport";
 import classNames from "classnames";
 import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
@@ -105,15 +113,19 @@ const PlayerList: React.FC<
                       onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
                     />
                   </Tooltip>
-                  <Tooltip title={`Remove Character`}>
-                    <Button
-                      onClick={() =>
-                        user && onRemoveButtonClick(user.uid, charId)
-                      }
-                      icon={<UserDeleteOutlined />}
-                      disabled={!userIsOwner}
-                    />
-                  </Tooltip>
+                  <Popconfirm
+                    title="Remove this character?"
+                    onConfirm={() =>
+                      user && onRemoveButtonClick(user.uid, charId)
+                    }
+                    okText="Yes"
+                    cancelText="No"
+                    disabled={!userIsOwner}
+                  >
+                    <Tooltip title={`Remove Character`} placement="bottom">
+                      <Button icon={<UserDeleteOutlined />} />
+                    </Tooltip>
+                  </Popconfirm>
                   <Tooltip title="Add to Round Tracker">
                     <Button
                       onClick={() => addToTurnTracker(character, "player")}
