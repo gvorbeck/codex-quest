@@ -106,7 +106,7 @@ const SettingsDrawer: React.FC<
               />
             )}
             <Divider className="font-enchant text-2xl">
-              Cantrips/Osirons
+              Cantrips/Orisons
             </Divider>
             <Button onClick={handleAddEditCantripClick}>
               Add/Edit 0 Level Spells

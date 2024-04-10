@@ -232,7 +232,7 @@ const PageCharacterSheet: React.FC<
                   component={<Spells />}
                 />
                 <Section
-                  title="Cantrips/Osirons"
+                  title="Cantrips/Orisons"
                   // className="[@media(width<=640px)]:mt-4"
                   component={<Cantrips />}
                 />
