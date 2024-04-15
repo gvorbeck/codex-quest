@@ -5,25 +5,12 @@ import {
   CombatantTypes,
   GamePlayerList,
 } from "@/data/definitions";
-import {
-  Button,
-  Card,
-  Descriptions,
-  Flex,
-  Popconfirm,
-  Spin,
-  Tooltip,
-} from "antd";
-import { openInNewTab } from "@/support/characterSupport";
+import { Card, Descriptions, Flex, Spin } from "antd";
 import classNames from "classnames";
-import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
 import { User } from "firebase/auth";
-import { TrackerAddSvg } from "@/support/svgSupport";
-import Icon, {
-  CustomIconComponentProps,
-} from "@ant-design/icons/lib/components/Icon";
+import PlayerButtons from "./PlayerButtons/PlayerButtons";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -39,10 +26,6 @@ interface PlayerListProps {
   ) => void;
   user: User | null;
 }
-
-const TrackerAddIcon = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={TrackerAddSvg} {...props} />
-);
 
 const PlayerList: React.FC<
   PlayerListProps & React.ComponentPropsWithRef<"div">
@@ -67,10 +50,6 @@ const PlayerList: React.FC<
   ] = useGameCharacters(players);
   const { setCharacter } = useCharacterData(user);
   const playerListClassNames = classNames(className);
-
-  const onRemoveButtonClick = (userId?: string, characterId?: string) => {
-    userId && characterId && removePlayer(gameId, userId, characterId);
-  };
 
   React.useEffect(() => {
     const { showThief, showAssassin, showRanger, showScout } =
@@ -106,34 +85,16 @@ const PlayerList: React.FC<
                   items={subItems}
                   size="small"
                 />
-                <Flex gap={16}>
-                  <Tooltip title={`Open Character Sheet`}>
-                    <Button
-                      icon={<SolutionOutlined />}
-                      onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
-                    />
-                  </Tooltip>
-                  <Popconfirm
-                    title="Remove this character?"
-                    onConfirm={() =>
-                      user && onRemoveButtonClick(user.uid, charId)
-                    }
-                    okText="Yes"
-                    cancelText="No"
-                    disabled={!userIsOwner}
-                  >
-                    <Tooltip title={`Remove Character`} placement="bottom">
-                      <Button icon={<UserDeleteOutlined />} />
-                    </Tooltip>
-                  </Popconfirm>
-                  <Tooltip title="Add to Round Tracker">
-                    <Button
-                      onClick={() => addToTurnTracker(character, "player")}
-                      className="[&:hover_svg]:fill-seaBuckthorn"
-                      icon={<TrackerAddIcon />}
-                    />
-                  </Tooltip>
-                </Flex>
+                <PlayerButtons
+                  user={user}
+                  gameId={gameId}
+                  userId={userId}
+                  charId={charId}
+                  character={character}
+                  userIsOwner={userIsOwner}
+                  removePlayer={removePlayer}
+                  addToTurnTracker={addToTurnTracker}
+                />
               </Flex>
             </Card>
           );
