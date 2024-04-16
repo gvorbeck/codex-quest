@@ -1,6 +1,13 @@
+import { iconStrings } from "@/support/stringSupport";
 import { DiceTypes } from "../definitions";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import {
+  DarkvisionSvg,
+  NoSurpriseSvg,
+  ParalyzingAttackSvg,
+  SecretDoorSvg,
+} from "@/support/svgSupport";
 
 export const elf: RaceSetup = {
   name: "Elf",
@@ -43,4 +50,10 @@ export const elf: RaceSetup = {
     ],
     restrictions: [],
   },
+  icons: [
+    [DarkvisionSvg, iconStrings.darkVision(60)],
+    [SecretDoorSvg, iconStrings.secretDoors("1-2", "1d6")],
+    [ParalyzingAttackSvg, iconStrings.paralyzingAttack],
+    [NoSurpriseSvg, iconStrings.noSurprise("1", "1d6")],
+  ],
 };

@@ -12,6 +12,7 @@ import equipmentItems from "../data/equipmentItems.json";
 import { ArmorCategory } from "./equipmentSupport";
 import { classSplit, getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
+import { Tooltip } from "antd";
 
 export const getArmorClass = (
   character: CharData,
@@ -274,4 +275,23 @@ export const getModifier = (score: number): string => {
     }
   }
   return "+0"; // Default value
+};
+
+export const getExtraIcons = (character: CharData) => {
+  const raceIcons = races[character.race as RaceNames]?.icons || [];
+  // const classIcons = classes[]
+  const fullIcons = [...raceIcons];
+  return (
+    <ul className="list-none flex gap-2">
+      {fullIcons.map(([IconComponent, iconDescription], index) => (
+        <li key={index}>
+          <Tooltip title={iconDescription}>
+            <div className="w-8 h-8 [&_svg]:max-h-5 fill-springWood bg-shipGray aspect-square flex items-center justify-center p-1 rounded-full cursor-pointer">
+              <IconComponent />
+            </div>
+          </Tooltip>
+        </li>
+      ))}
+    </ul>
+  );
 };

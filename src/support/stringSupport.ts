@@ -121,3 +121,32 @@ export const getRandomString = (length: number) => {
   }
   return result;
 };
+
+export const iconStrings = {
+  darkVision(range: number) {
+    return `Has Darkvision with a range of ${range} feet.`;
+  },
+  secretDoors(chance: string, die: string) {
+    return `They are able to find secret doors with a ${chance} on a ${die} rather than the
+usual 1 on 1d6).`;
+  },
+  paralyzingAttack: "Immune to the paralyzing attack of ghouls.",
+  noSurprise(chance: string, die: string) {
+    return `Less likely to be surprised in combat, reducing the chance of surprise by ${chance} in ${die}.`;
+  },
+  stonecunning(chance: string, die: string) {
+    return `Able to detect slanting passages, stonework traps, shifting walls, and new construction on a roll of ${chance} on ${die}.`;
+  },
+  rangedBonus(bonus: number) {
+    return `Gain a +${bonus} attack bonus when employing ranged weapons.`;
+  },
+  sizeBonus(bonus: number) {
+    return `When attacked in melee by creatures larger than man-sized, gains a +${bonus} bonus to their Armor Class.`;
+  },
+  initiativeBonus(bonus: number) {
+    return `Adds +${bonus} to Initiative die rolls.`;
+  },
+  hideBonus(indoors: string, outdoors: string) {
+    return `Able to hide with a ${indoors} chance of detection in preferred terrain, and a ${outdoors} chance of detection in non-preferred terrain.`;
+  },
+};

@@ -11,6 +11,7 @@ import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
 import { User } from "firebase/auth";
 import PlayerButtons from "./PlayerButtons/PlayerButtons";
+import { getExtraIcons } from "@/support/statSupport";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -69,8 +70,9 @@ const PlayerList: React.FC<
           const { abilities, name, userId, charId } = character;
           const items = generateAbilityItems(abilities.scores);
           const subItems = generateDetailItems(character, setCharacter);
+          const extra = getExtraIcons(character);
           return (
-            <Card size="small" title={name} key={name}>
+            <Card size="small" title={name} key={name} extra={extra}>
               <Flex vertical gap={16}>
                 <Descriptions
                   column={3}
