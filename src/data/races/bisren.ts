@@ -1,6 +1,7 @@
-import { AttackTypes } from "@/support/stringSupport";
+import { AttackTypes, iconStrings } from "@/support/stringSupport";
 import { ClassNames } from "@/data/definitions";
 import { RaceSetup } from "./definitions";
+import { ArmSvg, SpecialSvg } from "@/support/svgSupport";
 
 // TODO: Add Details (specials, restrictions)
 // TODO: Thief/Assassin Ability Adjustments
@@ -54,4 +55,8 @@ export const bisren: RaceSetup = {
       "**Bisren** may wear human-sized armor, albeit often adjusted slightly to account for their size. Their cloven-hoof feet may not wear typical footwear, unless specially produced for Bisren. Specially-constructed helmets are likewise needed to fit their horned heads.",
     ],
   },
+  icons: [
+    [ArmSvg, iconStrings.strengthBonus("+1")],
+    [SpecialSvg, iconStrings.specialBonus("Gore Attack")],
+  ],
 };

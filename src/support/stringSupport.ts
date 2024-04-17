@@ -155,4 +155,10 @@ usual 1 on 1d6).`;
   xpBonus(bonus: string) {
     return `Experience bonus of ${bonus}`;
   },
+  strengthBonus(bonus: string) {
+    return `Bonus to feats of strength: ${bonus}`;
+  },
+  specialBonus(bonus: string) {
+    return `Special: ${bonus}`;
+  },
 };
