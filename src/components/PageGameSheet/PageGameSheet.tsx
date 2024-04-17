@@ -16,7 +16,7 @@ import { mobileBreakpoint } from "@/support/stringSupport";
 import classNames from "classnames";
 import TurnTracker from "./TurnTracker/TurnTracker";
 import Hero from "./Hero/Hero";
-import { getArmorClass } from "@/support/statSupport";
+import { getArmorClass } from "@/support/statSupport.tsx";
 import { useCharacterData } from "@/hooks/useCharacterData";
 
 interface PageGameSheetProps {

@@ -1,5 +1,7 @@
+import { FastLearnerSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const human: RaceSetup = {
   name: "Human",
@@ -12,4 +14,5 @@ export const human: RaceSetup = {
     ],
     restrictions: [],
   },
+  icons: [[FastLearnerSvg, iconStrings.xpBonus("10%")]],
 };

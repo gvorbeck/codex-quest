@@ -29,4 +29,5 @@ export interface RaceSetup {
   savingThrows?: Partial<SavingThrowsType>;
   specialAbilitiesOverride?: unknown;
   uniqueAttacks?: EquipmentItem[];
+  icons?: [React.FC, string][];
 }

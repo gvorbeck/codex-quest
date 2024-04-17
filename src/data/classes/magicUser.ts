@@ -2,6 +2,8 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
+import { EquipmentLimitsSvg, WeaponLimitsSvg } from "@/support/svgSupport";
+import { iconStrings } from "@/support/stringSupport";
 
 export const magicUser: ClassSetup = {
   name: "Magic-User",
@@ -174,4 +176,11 @@ export const magicUser: ClassSetup = {
       "**Magic-Users** may not wear armor of any sort nor use a shield as such things interfere with spellcasting.",
     ],
   },
+  icons: [
+    [
+      WeaponLimitsSvg,
+      iconStrings.weaponLimits("May only use dagger and cudgel/walking staff"),
+    ],
+    [EquipmentLimitsSvg, iconStrings.equipmentLimits("No armor or shields")],
+  ],
 };

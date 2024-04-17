@@ -37,4 +37,5 @@ export type ClassSetup = {
   spellBudget?: number[][];
   startingEquipment?: EquipmentItem[];
   startingSpells?: string[];
+  icons?: [React.FC, string][];
 };

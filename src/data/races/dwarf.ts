@@ -1,5 +1,11 @@
+import {
+  DarkvisionSvg,
+  StonecunningSvg,
+  WeaponLimitsSvg,
+} from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const dwarf: RaceSetup = {
   name: "Dwarf",
@@ -33,4 +39,9 @@ export const dwarf: RaceSetup = {
       "**Dwarves** may not employ Large weapons more than four feet in length.",
     ],
   },
+  icons: [
+    [DarkvisionSvg, iconStrings.darkVision(60)],
+    [StonecunningSvg, iconStrings.stonecunning("1-2", "1d6")],
+    [WeaponLimitsSvg, iconStrings.weaponLimits("No Large Weapons")],
+  ],
 };
