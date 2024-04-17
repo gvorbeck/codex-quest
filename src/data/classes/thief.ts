@@ -1,6 +1,8 @@
+import { CowledSvg, EquipmentLimitsSvg } from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const thief: ClassSetup = {
   name: "Thief",
@@ -185,4 +187,11 @@ export const thief: ClassSetup = {
       "**Thieves** may use any weapon, but may not wear metal armor as it interferes with stealthy activities, nor may they use shields of any sort",
     ],
   },
+  icons: [
+    [
+      EquipmentLimitsSvg,
+      iconStrings.equipmentLimits("No metal armor nor any shields"),
+    ],
+    [CowledSvg, iconStrings.thiefAbilities()],
+  ],
 };

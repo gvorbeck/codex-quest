@@ -2,6 +2,8 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
+import { UndeadSvg, WeaponLimitsSvg } from "@/support/svgSupport";
+import { iconStrings } from "@/support/stringSupport";
 
 export const cleric: ClassSetup = {
   name: "Cleric",
@@ -211,4 +213,8 @@ export const cleric: ClassSetup = {
       "**Clerics** may wear any armor, but may only use blunt weapons (specifically including warhammer, mace, maul, club, quarterstaff, and sling).",
     ],
   },
+  icons: [
+    [WeaponLimitsSvg, iconStrings.weaponLimits("May only use blunt weapons")],
+    [UndeadSvg, iconStrings.turnUndead()],
+  ],
 };

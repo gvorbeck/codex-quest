@@ -144,7 +144,7 @@ usual 1 on 1d6).`;
     return `When attacked in melee by creatures larger than man-sized, gains a +${bonus} bonus to their Armor Class.`;
   },
   initiativeBonus(bonus: number) {
-    return `Adds +${bonus} to Initiative die rolls.`;
+    return `Adds +${bonus} to initiative die rolls.`;
   },
   hideBonus(indoors: string, outdoors: string) {
     return `Able to hide with a ${indoors} chance of detection in preferred terrain, and a ${outdoors} chance of detection in non-preferred terrain.`;
@@ -160,5 +160,14 @@ usual 1 on 1d6).`;
   },
   specialBonus(bonus: string) {
     return `Special: ${bonus}`;
+  },
+  equipmentLimits(limit: string) {
+    return `Equipment Limits: ${limit}`;
+  },
+  turnUndead() {
+    return "Turn Undead ability";
+  },
+  thiefAbilities() {
+    return "Thief special abilities";
   },
 };

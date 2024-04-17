@@ -278,9 +278,17 @@ export const getModifier = (score: number): string => {
 };
 
 export const getExtraIcons = (character: CharData) => {
+  type IconComponentProps = React.SVGProps<SVGSVGElement>;
+  type IconTuple = [React.FC<IconComponentProps>, string];
+
   const raceIcons = races[character.race as RaceNames]?.icons || [];
-  // const classIcons = classes[]
-  const fullIcons = [...raceIcons];
+  const charClasses = classSplit(character.class);
+  const classIcons = charClasses.reduce((acc: IconTuple[], charClass) => {
+    const classIcon = classes[charClass as ClassNames]?.icons || [];
+    return [...acc, ...classIcon];
+  }, [] as IconTuple[]);
+
+  const fullIcons = [...raceIcons, ...classIcons];
   return (
     <ul className="list-none flex gap-2">
       {fullIcons.map(([IconComponent, iconDescription], index) => (
