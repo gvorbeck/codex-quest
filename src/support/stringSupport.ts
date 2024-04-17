@@ -149,4 +149,10 @@ usual 1 on 1d6).`;
   hideBonus(indoors: string, outdoors: string) {
     return `Able to hide with a ${indoors} chance of detection in preferred terrain, and a ${outdoors} chance of detection in non-preferred terrain.`;
   },
+  weaponLimits(limit: string) {
+    return `Weapon Limits: ${limit}`;
+  },
+  xpBonus(bonus: string) {
+    return `Experience bonus of ${bonus}`;
+  },
 };

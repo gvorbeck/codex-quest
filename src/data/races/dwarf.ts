@@ -1,4 +1,8 @@
-import { DarkvisionSvg, StonecunningSvg } from "@/support/svgSupport";
+import {
+  DarkvisionSvg,
+  StonecunningSvg,
+  WeaponLimitsSvg,
+} from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
@@ -38,5 +42,6 @@ export const dwarf: RaceSetup = {
   icons: [
     [DarkvisionSvg, iconStrings.darkVision(60)],
     [StonecunningSvg, iconStrings.stonecunning("1-2", "1d6")],
+    [WeaponLimitsSvg, iconStrings.weaponLimits("No Large Weapons")],
   ],
 };

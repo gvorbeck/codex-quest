@@ -286,7 +286,7 @@ export const getExtraIcons = (character: CharData) => {
       {fullIcons.map(([IconComponent, iconDescription], index) => (
         <li key={index}>
           <Tooltip title={iconDescription}>
-            <div className="w-8 h-8 [&_svg]:max-h-5 fill-springWood bg-shipGray aspect-square flex items-center justify-center p-1 rounded-full cursor-pointer">
+            <div className="w-8 h-8 [&_svg]:max-h-5 fill-springWood bg-shipGray aspect-square flex items-center justify-center p-0.5 rounded-full cursor-pointer">
               <IconComponent />
             </div>
           </Tooltip>

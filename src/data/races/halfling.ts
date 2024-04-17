@@ -3,6 +3,7 @@ import {
   InitiativeBonusSvg,
   RangedBonusSvg,
   SizeBonusSvg,
+  WeaponLimitsSvg,
 } from "@/support/svgSupport";
 import { DiceTypes, EquipmentCategories } from "../definitions";
 import { ClassNames } from "../definitions";
@@ -54,5 +55,11 @@ export const halfling: RaceSetup = {
     [SizeBonusSvg, iconStrings.sizeBonus(2)],
     [InitiativeBonusSvg, iconStrings.initiativeBonus(1)],
     [HideBonusSvg, iconStrings.hideBonus("10%", "30%")],
+    [
+      WeaponLimitsSvg,
+      iconStrings.weaponLimits(
+        "No large weapons, medium weapons use both hands",
+      ),
+    ],
   ],
 };
