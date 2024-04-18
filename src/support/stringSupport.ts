@@ -182,4 +182,10 @@ usual 1 on 1d6).`;
   penalties(penalty: string) {
     return `Penalties: ${penalty}`;
   },
+  rearAttack(details: string) {
+    return `Rear Attack: ${details}`;
+  },
+  underwaterAbilities(details: string) {
+    return `Underwater Abilities: ${details}`;
+  },
 };
