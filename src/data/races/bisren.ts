@@ -1,7 +1,7 @@
 import { AttackTypes, iconStrings } from "@/support/stringSupport";
 import { ClassNames } from "@/data/definitions";
 import { RaceSetup } from "./definitions";
-import { ArmSvg, SpecialSvg } from "@/support/svgSupport";
+import { ArmSvg, SpecialSvg, WhistleSvg } from "@/support/svgSupport";
 
 // TODO: Add Details (specials, restrictions)
 // TODO: Thief/Assassin Ability Adjustments
@@ -58,5 +58,9 @@ export const bisren: RaceSetup = {
   icons: [
     [ArmSvg, iconStrings.strengthBonus("+1")],
     [SpecialSvg, iconStrings.specialBonus("Gore Attack")],
+    [
+      WhistleSvg,
+      iconStrings.penalties("Thief abilities and armor constraints"),
+    ],
   ],
 };

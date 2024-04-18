@@ -170,4 +170,16 @@ usual 1 on 1d6).`;
   thiefAbilities() {
     return "Thief special abilities";
   },
+  smellBonus() {
+    return `Can identify individuals by scent alone, including concealed or invisible creatures. Penalties associated with combating such foes are halved.`;
+  },
+  rangerBonus() {
+    return `Can track as a Ranger of equivalent level, and an actual Canein Ranger gets a bonus of +20% on Tracking rolls.`;
+  },
+  similarCreatures(bonus: string, type: string) {
+    return `${bonus} on any reaction rolls involving other ${type}.`;
+  },
+  penalties(penalty: string) {
+    return `Penalties: ${penalty}`;
+  },
 };

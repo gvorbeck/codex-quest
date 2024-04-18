@@ -1,5 +1,7 @@
+import { RangerSvg, SittingDogSvg, SnoutSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const canein: RaceSetup = {
   name: "Canein",
@@ -28,4 +30,9 @@ export const canein: RaceSetup = {
     ],
     restrictions: [],
   },
+  icons: [
+    [SnoutSvg, iconStrings.smellBonus()],
+    [RangerSvg, iconStrings.rangerBonus()],
+    [SittingDogSvg, iconStrings.similarCreatures("+2", "canine creatures")],
+  ],
 };
