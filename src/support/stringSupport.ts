@@ -127,8 +127,7 @@ export const iconStrings = {
     return `Has Darkvision with a range of ${range} feet.`;
   },
   secretDoors(chance: string, die: string) {
-    return `They are able to find secret doors with a ${chance} on a ${die} rather than the
-usual 1 on 1d6).`;
+    return `They are able to find secret doors with a ${chance} on a ${die}.`;
   },
   paralyzingAttack: "Immune to the paralyzing attack of ghouls.",
   noSurprise(chance: string, die: string) {
@@ -187,5 +186,8 @@ usual 1 on 1d6).`;
   },
   underwaterAbilities(details: string) {
     return `Underwater Abilities: ${details}`;
+  },
+  sunlightSensitivity(details: string) {
+    return `Sunlight Sensitivity: ${details}`;
   },
 };
