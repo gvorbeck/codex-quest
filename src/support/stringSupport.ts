@@ -127,8 +127,7 @@ export const iconStrings = {
     return `Has Darkvision with a range of ${range} feet.`;
   },
   secretDoors(chance: string, die: string) {
-    return `They are able to find secret doors with a ${chance} on a ${die} rather than the
-usual 1 on 1d6).`;
+    return `They are able to find secret doors with a ${chance} on a ${die}.`;
   },
   paralyzingAttack: "Immune to the paralyzing attack of ghouls.",
   noSurprise(chance: string, die: string) {
@@ -169,5 +168,26 @@ usual 1 on 1d6).`;
   },
   thiefAbilities() {
     return "Thief special abilities";
+  },
+  smellBonus() {
+    return `Can identify individuals by scent alone, including concealed or invisible creatures. Penalties associated with combating such foes are halved.`;
+  },
+  rangerBonus() {
+    return `Can track as a Ranger of equivalent level, and an actual Canein Ranger gets a bonus of +20% on Tracking rolls.`;
+  },
+  similarCreatures(bonus: string, type: string) {
+    return `${bonus} on any reaction rolls involving other ${type}.`;
+  },
+  penalties(penalty: string) {
+    return `Penalties: ${penalty}`;
+  },
+  rearAttack(details: string) {
+    return `Rear Attack: ${details}`;
+  },
+  underwaterAbilities(details: string) {
+    return `Underwater Abilities: ${details}`;
+  },
+  sunlightSensitivity(details: string) {
+    return `Sunlight Sensitivity: ${details}`;
   },
 };

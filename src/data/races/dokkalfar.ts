@@ -1,5 +1,13 @@
+import {
+  DarkvisionSvg,
+  NoSurpriseSvg,
+  ParalyzingAttackSvg,
+  SecretDoorSvg,
+  SunSvg,
+} from "@/support/svgSupport";
 import { ClassNames, DiceTypes } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const dokkalfar: RaceSetup = {
   name: "Dokkalfar",
@@ -36,4 +44,22 @@ export const dokkalfar: RaceSetup = {
       "**Dokkalfar** are extremely sensitive to light; if suddenly exposed to daylight or any illumination of similar brightness they must save vs. Death Ray or suffer blindness for 2d4 rounds.  Even so, when in such illumination they suffer a -2 penalty to all attack rolls.  Exposure of a Dokkalf's skin to actual daylight (not merely bright lights) causes their skin to actually harden and begin to crack, inflicting 1d4 points of damage per each full turn of exposure.",
     ],
   },
+  icons: [
+    [DarkvisionSvg, iconStrings.darkVision(120)],
+    [
+      SecretDoorSvg,
+      iconStrings.secretDoors(
+        "1-2",
+        "1d6, or even a 1 on 1d6 with a cursory look",
+      ),
+    ],
+    [ParalyzingAttackSvg, iconStrings.paralyzingAttack],
+    [NoSurpriseSvg, iconStrings.noSurprise("1", "1d6")],
+    [
+      SunSvg,
+      iconStrings.sunlightSensitivity(
+        "If suddenly exposed to bright illumination they must save vs. Death Ray or suffer blindness for 2d4 rounds.  Even so, they suffer a -2 penalty to all attack rolls.  Exposure of skin to daylight causes skin to actually harden and crack, inflicting 1d4 points of damage per each full turn.",
+      ),
+    ],
+  ],
 };
