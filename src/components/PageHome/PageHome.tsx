@@ -27,7 +27,7 @@ const PageHome: React.FC<PageHomeProps> = ({
   const childrenCharacterList = (
     <ContentListWrapper
       loading={charactersLoading}
-      loadingContent={<Spin size="large" className="w-full" />}
+      loadingContent={<Spin size="large" className="w-full h-full py-4" />}
       className="mx-auto"
     >
       {characters.map((character) => (
@@ -39,7 +39,7 @@ const PageHome: React.FC<PageHomeProps> = ({
   const childrenGameList = (
     <ContentListWrapper
       loading={gamesLoading}
-      loadingContent={<Spin size="large" className="w-full" />}
+      loadingContent={<Spin size="large" className="w-full h-full py-4" />}
     >
       {games.map((game) => (
         <CardGame key={game.id || ""} user={user} item={game} />

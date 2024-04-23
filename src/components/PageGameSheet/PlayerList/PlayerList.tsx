@@ -103,7 +103,7 @@ const PlayerList: React.FC<
         })}
     </Flex>
   ) : (
-    <Spin size="large" className="w-full" />
+    <Spin size="large" className="w-full h-full py-4" />
   );
 };
 

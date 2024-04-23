@@ -42,9 +42,11 @@ const App: React.FC = () => {
   }, []);
   const date = new Date();
 
+  const spin = <Spin size="large" className="w-full h-full py-4" />;
+
   return (
     <ConfigProvider theme={cqTheme}>
-      <Suspense fallback={<Spin />}>
+      <Suspense fallback={spin}>
         <Routes>
           <Route
             path="/"
@@ -65,7 +67,7 @@ const App: React.FC = () => {
               index
               element={
                 loading ? (
-                  <Spin size="large" />
+                  spin
                 ) : user ? (
                   <PageHome
                     user={user}
