@@ -23,11 +23,12 @@ const PageHome: React.FC<PageHomeProps> = ({
   const [charactersLoading, setCharactersLoading] =
     React.useState<boolean>(true);
   const [gamesLoading, setGamesLoading] = React.useState<boolean>(true);
+  const spin = <Spin size="large" className="w-full h-full py-4" />;
 
   const childrenCharacterList = (
     <ContentListWrapper
       loading={charactersLoading}
-      loadingContent={<Spin size="large" className="w-full h-full py-4" />}
+      loadingContent={spin}
       className="mx-auto"
     >
       {characters.map((character) => (
@@ -37,10 +38,7 @@ const PageHome: React.FC<PageHomeProps> = ({
   );
 
   const childrenGameList = (
-    <ContentListWrapper
-      loading={gamesLoading}
-      loadingContent={<Spin size="large" className="w-full h-full py-4" />}
-    >
+    <ContentListWrapper loading={gamesLoading} loadingContent={spin}>
       {games.map((game) => (
         <CardGame key={game.id || ""} user={user} item={game} />
       ))}
