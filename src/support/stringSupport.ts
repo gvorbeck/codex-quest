@@ -190,4 +190,7 @@ export const iconStrings = {
   sunlightSensitivity(details: string) {
     return `Sunlight Sensitivity: ${details}`;
   },
+  charmResist(bonus: string, source: string) {
+    return `Resistant to charm-like effects from ${source}, gaining a ${bonus} bonus on relevant saves.`;
+  },
 };
