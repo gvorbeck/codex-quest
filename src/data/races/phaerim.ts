@@ -1,5 +1,12 @@
+import {
+  FallingSvg,
+  HideBonusSvg,
+  WeaponLimitsSvg,
+  WingsSvg,
+} from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const phaerim: RaceSetup = {
   name: "Phaerim",
@@ -25,4 +32,13 @@ export const phaerim: RaceSetup = {
       "**Phaerim** may not use Large weapons, and must wield Medium weapons with both hands.",
     ],
   },
+  icons: [
+    [WingsSvg, iconStrings.flight(10)],
+    [
+      FallingSvg,
+      "half-damage from falls due to their reduced weight and wings.",
+    ],
+    [HideBonusSvg, iconStrings.hideBonus("10%", "30%")],
+    [WeaponLimitsSvg, iconStrings.weaponLimits("No Large weapons")],
+  ],
 };

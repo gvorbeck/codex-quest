@@ -1,5 +1,11 @@
+import {
+  DarkvisionSvg,
+  FastLearnerSvg,
+  SizeBonusSvg,
+} from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const halfOrc: RaceSetup = {
   name: "Half-Orc",
@@ -17,4 +23,12 @@ export const halfOrc: RaceSetup = {
     ],
     restrictions: [],
   },
+  icons: [
+    [DarkvisionSvg, iconStrings.darkVision(60)],
+    [FastLearnerSvg, iconStrings.xpBonus("+5%")],
+    [
+      SizeBonusSvg,
+      "When dealing with humanoids of human-size or smaller, gains an additional +1 on any reaction die roll, in addition to CHA bonus.",
+    ],
+  ],
 };

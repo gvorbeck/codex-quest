@@ -196,4 +196,7 @@ export const iconStrings = {
   observationBonus(chance: string, subject: string, radius: string) {
     return `Observant: ${chance} chance to detect ${subject} within a ${radius} radius.`;
   },
+  flight(duration: number) {
+    return `Can fly up to ${duration} rounds, but must remain grounded an equivalent amount of time after any flight.`;
+  },
 };
