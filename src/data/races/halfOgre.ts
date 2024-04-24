@@ -1,5 +1,7 @@
+import { ArmSvg, DarkvisionSvg, FastLearnerSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const halfOgre: RaceSetup = {
   name: "Half-Ogre",
@@ -25,4 +27,9 @@ export const halfOgre: RaceSetup = {
     ],
     restrictions: [],
   },
+  icons: [
+    [DarkvisionSvg, iconStrings.darkVision(30)],
+    [FastLearnerSvg, iconStrings.xpBonus("+5%")],
+    [ArmSvg, iconStrings.strengthBonus("+1")],
+  ],
 };
