@@ -193,4 +193,7 @@ export const iconStrings = {
   charmResist(bonus: string, source: string) {
     return `Resistant to charm-like effects from ${source}, gaining a ${bonus} bonus on relevant saves.`;
   },
+  observationBonus(chance: string, subject: string, radius: string) {
+    return `Observant: ${chance} chance to detect ${subject} within a ${radius} radius.`;
+  },
 };

@@ -1,6 +1,13 @@
+import {
+  DarkvisionSvg,
+  ObservantSvg,
+  SizeBonusSvg,
+  WeaponLimitsSvg,
+} from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const gnome: RaceSetup = {
   name: "Gnome",
@@ -39,4 +46,17 @@ export const gnome: RaceSetup = {
       "**Gnomes** may not employ Large weapons.",
     ],
   },
+  icons: [
+    [DarkvisionSvg, iconStrings.darkVision(30)],
+    [SizeBonusSvg, iconStrings.sizeBonus(1)],
+    [
+      ObservantSvg,
+      iconStrings.observationBonus(
+        "10%",
+        "invisible or hidden creatures",
+        "30 foot",
+      ),
+    ],
+    [WeaponLimitsSvg, iconStrings.weaponLimits("No Large weapons")],
+  ],
 };
