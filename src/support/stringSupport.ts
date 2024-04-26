@@ -199,4 +199,7 @@ export const iconStrings = {
   flight(duration: number) {
     return `Can fly up to ${duration} rounds, but must remain grounded an equivalent amount of time after any flight.`;
   },
+  nature(text: string) {
+    return `Nature Perk: ${text}`;
+  },
 };

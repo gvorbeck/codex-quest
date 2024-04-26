@@ -1,6 +1,12 @@
+import {
+  EquipmentLimitsSvg,
+  NatureSvg,
+  WeaponLimitsSvg,
+} from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
 
 export const druid: ClassSetup = {
   name: "Druid",
@@ -221,4 +227,22 @@ export const druid: ClassSetup = {
       "**Druids** utilize any one-handed melee weapon, as well as staff, sling, and shortbow.",
     ],
   },
+  icons: [
+    [
+      NatureSvg,
+      iconStrings.nature(
+        "Has Animal Affinity power. Can identify any natural animal or plant, and can identify clean water.",
+      ),
+    ],
+    [
+      EquipmentLimitsSvg,
+      iconStrings.equipmentLimits("No metal armor or shields."),
+    ],
+    [
+      WeaponLimitsSvg,
+      iconStrings.weaponLimits(
+        "One-handed melee weapons only, as well as staff, sling, and shortbow.",
+      ),
+    ],
+  ],
 };
