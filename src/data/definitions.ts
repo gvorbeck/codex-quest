@@ -166,6 +166,8 @@ export type CharData = {
     modifiers: Abilities;
   };
   avatar: string;
+  cantrips?: ZeroLevelSpell[];
+  charId?: string;
   class: string[];
   desc: string | string[];
   equipment: EquipmentItem[];
@@ -184,12 +186,10 @@ export type CharData = {
   savingThrows: SavingThrowsType;
   specials: SpecialRestriction;
   spells: Spell[];
+  userId?: string;
   wearing?: { armor: string; shield: string };
   weight: number;
   xp: number;
-  cantrips?: ZeroLevelSpell[];
-  userId?: string;
-  charId?: string;
 };
 
 export type SetCharData = (characterData: CharData) => void;
