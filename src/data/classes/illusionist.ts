@@ -2,6 +2,8 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentItems from "../equipmentItems.json";
+import { EquipmentLimitsSvg, WeaponLimitsSvg } from "@/support/svgSupport";
+import { iconStrings } from "@/support/stringSupport";
 
 export const illusionist: ClassSetup = {
   name: "Illusionist",
@@ -177,4 +179,16 @@ export const illusionist: ClassSetup = {
       "**Illusionists**, like other Magic-Users, can utilize a walking staff (or cudgel) or dagger, and of course they may use magical weapons of those types.",
     ],
   },
+  icons: [
+    [
+      EquipmentLimitsSvg,
+      iconStrings.equipmentLimits("No armor or shields of any sort."),
+    ],
+    [
+      WeaponLimitsSvg,
+      iconStrings.weaponLimits(
+        "May utilize walking staff (or cudgel) or dagger. Also, magic weapons of those types.",
+      ),
+    ],
+  ],
 };
