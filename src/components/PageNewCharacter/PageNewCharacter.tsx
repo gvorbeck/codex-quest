@@ -18,6 +18,7 @@ import React from "react";
 import { marked } from "marked";
 import { CharData } from "@/data/definitions";
 import StepAbilities from "./StepAbilities/StepAbilities";
+import StepRace from "./StepRace/StepRace";
 
 interface PageNewCharacterProps {
   user: User | null;
@@ -46,9 +47,12 @@ const newCharacterStepItemData = [
     disabled: "Roll all your Ability Scores before proceeding.",
   },
   {
-    title: "foo",
-    description: marked.parse(`foo`),
-    disabled: "boofar",
+    title: "Choose Your Race",
+    description:
+      marked.parse(`Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.
+  
+  <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Official Character Race documentation</a>`),
+    disabled: "Select a Race before proceeding.",
   },
 ];
 
@@ -151,13 +155,12 @@ const PageNewCharacterCreator: React.FC<
     switch (stepNumber) {
       case 0:
         // If any ability score is 0, disable the next button
-        if (
-          Object.values(character.abilities.scores).some(
-            (ability) => ability === 0,
-          )
-        ) {
-          disabled = true;
-        }
+        disabled = Object.values(character.abilities.scores).some(
+          (ability) => ability === 0,
+        );
+        break;
+      case 1:
+        disabled = character.race === "";
         break;
       default:
         break;
@@ -232,6 +235,9 @@ const PageNewCharacterCreator: React.FC<
                 setCharacter={setCharacter}
                 newCharacter
               />
+            )}
+            {stepNumber === 1 && (
+              <StepRace character={character} setCharacter={setCharacter} />
             )}
           </Flex>
         </Col>
