@@ -7,6 +7,7 @@ import { iconStrings } from "@/support/stringSupport";
 
 export const cleric: ClassSetup = {
   name: "Cleric",
+  isBase: true,
   minimumAbilityRequirements: { wisdom: 9 },
   hitDice: DiceTypes.D6,
   hitDiceModifier: 1,

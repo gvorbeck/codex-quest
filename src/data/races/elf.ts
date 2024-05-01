@@ -11,6 +11,7 @@ import {
 
 export const elf: RaceSetup = {
   name: "Elf",
+  isBase: true,
   allowedStandardClasses: [
     ClassNames.CLERIC,
     ClassNames.CUSTOM,

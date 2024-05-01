@@ -7,6 +7,7 @@ import { iconStrings } from "@/support/stringSupport";
 
 export const magicUser: ClassSetup = {
   name: "Magic-User",
+  isBase: true,
   minimumAbilityRequirements: { intelligence: 9 },
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,

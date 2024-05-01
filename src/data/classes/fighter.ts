@@ -4,6 +4,7 @@ import { ClassSetup } from "./definitions";
 
 export const fighter: ClassSetup = {
   name: "Fighter",
+  isBase: true,
   minimumAbilityRequirements: { strength: 9 },
   hitDice: DiceTypes.D8,
   hitDiceModifier: 2,

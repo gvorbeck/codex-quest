@@ -6,6 +6,7 @@ import { iconStrings } from "@/support/stringSupport";
 
 export const thief: ClassSetup = {
   name: "Thief",
+  isBase: true,
   minimumAbilityRequirements: { dexterity: 9 },
   hitDice: DiceTypes.D4,
   hitDiceModifier: 2,

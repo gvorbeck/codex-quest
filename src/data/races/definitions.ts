@@ -30,4 +30,5 @@ export interface RaceSetup {
   specialAbilitiesOverride?: unknown;
   uniqueAttacks?: EquipmentItem[];
   icons?: [React.FC, string][];
+  isBase?: boolean;
 }

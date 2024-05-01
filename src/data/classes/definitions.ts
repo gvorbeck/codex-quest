@@ -38,4 +38,5 @@ export type ClassSetup = {
   startingEquipment?: EquipmentItem[];
   startingSpells?: string[];
   icons?: [React.FC, string][];
+  isBase?: boolean;
 };
