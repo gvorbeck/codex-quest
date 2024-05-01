@@ -4,7 +4,33 @@ import { titleCaseToCamelCase } from "./stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 const roller = new DiceRoller();
-export const rollDice = (dice: string) => roller.roll(dice).total;
+
+// NEW
+// Get the total of a dice roll matching the notation provided.
+// Use count to roll dice multiple times.
+export const rollDice = (dice: string, count?: number) => {
+  if (!count) return roller.roll(dice).total;
+  const results = [];
+  for (let i = 0; i < count; i++) {
+    results.push(roller.roll(dice).total);
+  }
+  return results;
+};
+
+// NEW
+// Calculate the modifier for an ability score.
+export function calculateModifier(score: number) {
+  let modifier;
+  if (score === null) modifier = "";
+  if (score === 3) modifier = "-3";
+  else if (score <= 5) modifier = "-2";
+  else if (score <= 8) modifier = "-1";
+  else if (score <= 12) modifier = "+0";
+  else if (score <= 15) modifier = "+1";
+  else if (score <= 17) modifier = "+2";
+  else if (score === 18) modifier = "+3";
+  return modifier;
+}
 
 export const rollSavingThrow = (
   score: number,

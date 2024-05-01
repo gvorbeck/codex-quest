@@ -2,6 +2,7 @@ import { Abilities, CharData } from "@/data/definitions";
 import { Button, Descriptions, Flex, Table, TableProps } from "antd";
 import AbilityRoller from "./AbilityRoller/AbilityRoller";
 import { useDeviceType } from "@/hooks/useDeviceType";
+import { calculateModifier, rollDice } from "@/support/diceSupport";
 
 interface StepAbilitiesProps {
   character: CharData;
@@ -11,7 +12,7 @@ interface StepAbilitiesProps {
 
 const StepAbilities: React.FC<
   StepAbilitiesProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, setCharacter, newCharacter }) => {
   const { isMobile } = useDeviceType();
   const dataSource: TableProps["dataSource"] = [
     {
@@ -75,7 +76,6 @@ const StepAbilities: React.FC<
           score: number;
           modifier: string;
         },
-        index: number,
       ) => {
         const abilityKey = record.ability.toLowerCase();
 
@@ -84,28 +84,10 @@ const StepAbilities: React.FC<
             character={character}
             setCharacter={setCharacter}
             ability={abilityKey as keyof Abilities}
-            newCharacter
+            newCharacter={newCharacter}
           />
         );
       },
-      //         const abilityKey = record.ability.toLowerCase();
-      //         let abilityValue = 0;
-      //         if (isAbilityKey(abilityKey, character)) {
-      //           abilityValue =
-      //             +character.abilities.scores[
-      //               abilityKey as keyof typeof character.abilities.scores
-      //             ];
-      //         }
-
-      //         return (
-      //           <AbilityRoller
-      //             abilityValue={abilityValue}
-      //             record={record}
-      //             character={character}
-      //             setCharacter={setCharacter}
-      //             newCharacter={newCharacter}
-      //           />
-      //         );
     },
     {
       title: "Modifier",
@@ -113,175 +95,117 @@ const StepAbilities: React.FC<
     },
   ];
 
+  function handleRollAllAbilities() {
+    const abilityRolls = rollDice("3d6", 6);
+    const newScores = { ...character.abilities.scores };
+    const newModifiers = { ...character.abilities.modifiers };
+
+    Object.keys(newScores).forEach((ability, index) => {
+      const score = abilityRolls[index];
+      newScores[ability as keyof Abilities] = score;
+      newModifiers[ability as keyof Abilities] = calculateModifier(score) + "";
+    });
+
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      abilities: {
+        scores: newScores,
+        modifiers: newModifiers,
+      },
+      race: newCharacter ? "" : prevCharacter.race,
+      class: newCharacter ? [] : [...prevCharacter.class],
+      hp: newCharacter
+        ? { dice: "", points: 0, max: 0, desc: "" }
+        : { ...prevCharacter.hp },
+    }));
+  }
+
+  function handleFlipAbilities() {
+    setCharacter((prevCharacter) => {
+      const flippedScores = Object.fromEntries(
+        Object.entries(prevCharacter.abilities.scores).map(([key, value]) => [
+          key,
+          21 - +value,
+        ]),
+      );
+      const flippedModifiers = Object.fromEntries(
+        Object.entries(flippedScores).map(([key, value]) => [
+          key,
+          calculateModifier(value),
+        ]),
+      );
+
+      return {
+        ...prevCharacter,
+        abilities: {
+          scores: flippedScores as Abilities,
+          modifiers: flippedModifiers as Abilities,
+        },
+        race: newCharacter ? "" : prevCharacter.race,
+        class: newCharacter ? [] : [...prevCharacter.class],
+        hp: newCharacter
+          ? { dice: "", points: 0, max: 0, desc: "" }
+          : { ...prevCharacter.hp },
+      };
+    });
+  }
+
+  function areAllAbilitiesSet() {
+    const abilities = character.abilities.scores;
+    for (const key in abilities) {
+      const value = +abilities[key as keyof typeof abilities];
+      if (value <= 0 || isNaN(value)) {
+        return false;
+      }
+    }
+    if (Object.entries(abilities).length === 6) return true;
+  }
+
+  function getAbilityTotalItems() {
+    const { modifiers } = character.abilities;
+    const total = Object.values(modifiers).reduce((acc, score) => {
+      return +acc + +score;
+    });
+    return [
+      {
+        key: "1",
+        label: "Modifier Total",
+        children: <span>{+total >= 0 ? `+${total}` : total}</span>,
+      },
+    ];
+  }
+
   return (
-    <Flex vertical className={className} gap={16}>
-      {/* {!hideRollAll && (
-         <Flex gap={16} align="center" justify="flex-start">
-           <Button
-             type="primary"
-             onClick={rollAllAbilities}
-             className="self-start"
-           >
-             Roll All Abilities
-           </Button>
-           {areAllAbilitiesSet(character?.abilities?.scores) && (
-             <>
-               <Descriptions
-                 className="[&_td]:p-0 inline-block"
-                 items={abilityTotalItems}
-               />
-               <Button
-                 onClick={() => flipAbilityScores(character, setCharacter)}
-               >
-                 Flip 'Em
-               </Button>
-             </>
-           )}
-         </Flex>
-       )} */}
+    <>
+      {newCharacter && (
+        <Flex gap={16} align="center" justify="flex-start">
+          <Button type="primary" onClick={handleRollAllAbilities}>
+            Roll All Abilities
+          </Button>
+          <Button
+            disabled={!areAllAbilitiesSet()}
+            onClick={handleFlipAbilities}
+          >
+            Flip 'em
+          </Button>
+          {areAllAbilitiesSet() && (
+            <Descriptions
+              className="[&_td]:p-0 inline-block"
+              items={getAbilityTotalItems()}
+            />
+          )}
+        </Flex>
+      )}
       <Table
         dataSource={dataSource}
         columns={columns}
         pagination={false}
         size={isMobile ? "small" : "large"}
         bordered
-        className="w-fit"
+        className={`${className ?? ""} w-fit`}
       />
-    </Flex>
+    </>
   );
 };
 
 export default StepAbilities;
-
-// import { Button, Descriptions, DescriptionsProps, Flex, Table } from "antd";
-// import React from "react";
-// import { AbilityRecord, CharData } from "@/data/definitions";
-// import AbilityRoller from "./AbilityRoller/AbilityRoller";
-// import { rollDice } from "@/support/diceSupport";
-// import { getModifier, isAbilityKey } from "@/support/statSupport";
-// import {
-//   areAllAbilitiesSet,
-//   flipAbilityScores,
-//   getAbilitiesDataSource,
-//   getAbilityTotalItems,
-//   updateCharacter,
-// } from "@/support/pageNewCharacterSupport";
-
-// interface StepAbilitiesProps {
-//   character: CharData;
-//   setCharacter: (character: CharData) => void;
-//   setComboClass?: (comboClass: boolean) => void;
-//   setComboClassSwitch?: (comboClassSwitch: boolean) => void;
-//   hideRollAll?: boolean;
-//   newCharacter?: boolean;
-// }
-
-// const StepAbilities: React.FC<
-//   StepAbilitiesProps & React.ComponentPropsWithRef<"div">
-// > = ({ className, character, setCharacter, hideRollAll, newCharacter }) => {
-//   const dataSource = getAbilitiesDataSource(character);
-//   const columns = [
-//     {
-//       title: "Ability",
-//       dataIndex: "label",
-//       key: "ability",
-//     },
-//     {
-//       title: "Score",
-//       dataIndex: "score",
-//       key: "score",
-//       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//       render: (_text: string, record: AbilityRecord, _index: number) => {
-//         const abilityKey = record.ability.toLowerCase();
-//         let abilityValue = 0;
-//         if (isAbilityKey(abilityKey, character)) {
-//           abilityValue =
-//             +character.abilities.scores[
-//               abilityKey as keyof typeof character.abilities.scores
-//             ];
-//         }
-
-//         return (
-//           <AbilityRoller
-//             abilityValue={abilityValue}
-//             record={record}
-//             character={character}
-//             setCharacter={setCharacter}
-//             newCharacter={newCharacter}
-//           />
-//         );
-//       },
-//     },
-//     {
-//       title: "Modifier",
-//       dataIndex: "modifier",
-//       key: "modifier",
-//     },
-//   ];
-
-//   const rollAllAbilities = () => {
-//     const abilities = [
-//       "strength",
-//       "intelligence",
-//       "wisdom",
-//       "dexterity",
-//       "constitution",
-//       "charisma",
-//     ];
-//     const newScores: Record<string, number> = {};
-//     const newModifiers: Record<string, string> = {};
-//     abilities.forEach((ability) => {
-//       const score = rollDice("3d6");
-//       newScores[ability] = score;
-//       newModifiers[ability] = getModifier(score);
-//     });
-//     updateCharacter(
-//       newScores,
-//       newModifiers,
-//       character,
-//       setCharacter,
-//       newCharacter,
-//     );
-//   };
-
-//   const abilityTotalItems: DescriptionsProps["items"] =
-//     getAbilityTotalItems(character);
-
-//   return (
-//     <Flex vertical className={className} gap={16}>
-//       {!hideRollAll && (
-//         <Flex gap={16} align="center" justify="flex-start">
-//           <Button
-//             type="primary"
-//             onClick={rollAllAbilities}
-//             className="self-start"
-//           >
-//             Roll All Abilities
-//           </Button>
-//           {areAllAbilitiesSet(character?.abilities?.scores) && (
-//             <>
-//               <Descriptions
-//                 className="[&_td]:p-0 inline-block"
-//                 items={abilityTotalItems}
-//               />
-//               <Button
-//                 onClick={() => flipAbilityScores(character, setCharacter)}
-//               >
-//                 Flip 'Em
-//               </Button>
-//             </>
-//           )}
-//         </Flex>
-//       )}
-//       <Table
-//         dataSource={dataSource}
-//         columns={columns}
-//         pagination={false}
-//         size="small"
-//         bordered
-//       />
-//     </Flex>
-//   );
-// };
-
-// export default StepAbilities;
