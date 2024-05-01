@@ -117,6 +117,8 @@ const StepAbilities: React.FC<
       hp: newCharacter
         ? { dice: "", points: 0, max: 0, desc: "" }
         : { ...prevCharacter.hp },
+      equipment: [],
+      gold: 0,
     }));
   }
 
@@ -146,6 +148,8 @@ const StepAbilities: React.FC<
         hp: newCharacter
           ? { dice: "", points: 0, max: 0, desc: "" }
           : { ...prevCharacter.hp },
+        equipment: [],
+        gold: 0,
       };
     });
   }
