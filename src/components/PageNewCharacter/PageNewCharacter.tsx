@@ -129,8 +129,9 @@ const emptyCharacter: CharData = {
 const PageNewCharacterCreator: React.FC<
   PageNewCharacterProps & React.ComponentPropsWithRef<"div">
 > = ({ user, className }) => {
-  const [stepNumber, setStepNumber] = React.useState(0);
-  const [character, setCharacter] = React.useState(emptyCharacter);
+  const [stepNumber, setStepNumber] = React.useState<number>(0);
+  const [character, setCharacter] = React.useState<CharData>(emptyCharacter);
+  console.log(character);
 
   if (!newCharacterStepsItems) return;
 
@@ -229,6 +230,7 @@ const PageNewCharacterCreator: React.FC<
               <StepAbilities
                 character={character}
                 setCharacter={setCharacter}
+                newCharacter
               />
             )}
           </Flex>
