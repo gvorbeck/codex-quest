@@ -125,11 +125,14 @@ const StepClass: React.FC<
           supplementalSwitch={supplementalSwitch}
           onChange={handleSupplementalSwitchChange}
         />
-        <SupplementalContentSwitch
-          label="Use Combination Class"
-          supplementalSwitch={combinationClass}
-          onChange={handleCombinationClassSwitchChange}
-        />
+        {races[character.race as RaceNames].allowedCombinationClasses
+          ?.length && (
+          <SupplementalContentSwitch
+            label="Use Combination Class"
+            supplementalSwitch={combinationClass}
+            onChange={handleCombinationClassSwitchChange}
+          />
+        )}
       </Flex>
       <Flex gap={8} vertical>
         <Select
