@@ -10,7 +10,7 @@ import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
 import { classes } from "@/data/classes";
 import { useImages } from "@/hooks/useImages";
 import { toSlugCase } from "@/support/stringSupport";
-import RaceClassDescription from "./RaceClassDescription/RaceClassDescription";
+import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
 import { races } from "@/data/races";
 import SpellSelect from "./SpellSelect/SpellSelect";
 import CombinationClassSelect from "./CombinationClassSelect/CombinationClassSelect";
