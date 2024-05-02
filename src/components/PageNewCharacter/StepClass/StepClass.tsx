@@ -17,11 +17,15 @@
 // import ClassSettings from "./ClassSettings/ClassSettings";
 // import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 
-import { CharData } from "@/data/definitions";
+import { CharData, ClassNames, RaceNames } from "@/data/definitions";
 import React from "react";
 import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
 import { getClassType, isStandardClass } from "@/support/classSupport";
-import { Flex, Select } from "antd";
+import { Flex, Select, SelectProps } from "antd";
+import { isStandardRace } from "@/support/raceSupport";
+import { races } from "@/data/races";
+import { classes } from "@/data/classes";
+import { ClassSetup } from "@/data/classes/definitions";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -30,7 +34,7 @@ const AllSpellsSelection = React.lazy(
 
 interface StepClassProps {
   character: CharData;
-  setCharacter: (character: CharData) => void;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
 }
 
 const StepClass: React.FC<
@@ -43,12 +47,76 @@ const StepClass: React.FC<
   const [combinationClass, setCombinationClass] = React.useState(
     classType[0] === "combination",
   );
+  const [primaryClass, setPrimaryClass] = React.useState(character.class[0]);
+  const [secondaryClass, setSecondaryClass] = React.useState(
+    character.class[1],
+  );
+
+  function classIsDisabled(choice: ClassSetup) {
+    return (
+      choice.minimumAbilityRequirements &&
+      Object.entries(choice.minimumAbilityRequirements).some(
+        ([ability, requirement]) =>
+          +character.abilities?.scores[
+            ability as keyof typeof character.abilities.scores
+          ] < (requirement as number), // Cast requirement to number
+      )
+    );
+  }
+
+  function getClassSelectOptions(
+    useSupplemental?: boolean,
+  ): SelectProps["options"] {
+    const options = [];
+    const raceDetails = races[character.race as RaceNames];
+
+    for (const [className, classDetails] of Object.entries(classes)) {
+      const isAllowedByRace =
+        !raceDetails ||
+        raceDetails.allowedStandardClasses.includes(className as ClassNames);
+
+      if (
+        (useSupplemental || classDetails.isBase) &&
+        !classIsDisabled(classDetails) &&
+        isAllowedByRace
+      ) {
+        options.push({ value: className, label: className });
+      }
+    }
+    return options;
+  }
 
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
   function handleCombinationClassSwitchChange() {
     setCombinationClass((prevCombinationClass) => !prevCombinationClass);
+  }
+  function handlePrimaryClassSelectChange(value: string) {
+    setPrimaryClass(value);
+    setCharacter((prevCharacter) => {
+      const classArray = [...prevCharacter.class];
+      return {
+        ...prevCharacter,
+        class: [value, classArray[1]],
+        hp: { dice: "", points: 0, max: 0, desc: "" },
+        equipment: [],
+        gold: 0,
+      };
+    });
+  }
+  function handleSecondaryClassSelectChange(value: string) {
+    setSecondaryClass(value);
+    setCharacter((prevCharacter) => {
+      const classArray = [...prevCharacter.class];
+      return {
+        ...prevCharacter,
+        class: [classArray[0], value],
+        hp: { dice: "", points: 0, max: 0, desc: "" },
+        equipment: [],
+        gold: 0,
+      };
+    });
   }
   return (
     <Flex gap={16} vertical className={className}>
@@ -64,9 +132,19 @@ const StepClass: React.FC<
         />
       </Flex>
       <Flex gap={8} vertical>
-        <Select options={[]} placeholder="Select a class" />
+        <Select
+          options={getClassSelectOptions(supplementalSwitch)}
+          placeholder="Select a class"
+          value={primaryClass}
+          onChange={handlePrimaryClassSelectChange}
+        />
         {combinationClass && (
-          <Select options={[]} placeholder="Select a class" />
+          <Select
+            options={[]}
+            placeholder="Select a class"
+            value={secondaryClass}
+            onChange={handleSecondaryClassSelectChange}
+          />
         )}
       </Flex>
       <div>
