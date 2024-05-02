@@ -2,14 +2,14 @@ import { Flex, Switch, Typography } from "antd";
 
 interface SupplementalContentSwitchProps {
   supplementalSwitch: boolean;
-  setSupplmentalSwitch: React.Dispatch<React.SetStateAction<boolean>>;
+  setSupplementalSwitch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SupplementalContentSwitch: React.FC<
   SupplementalContentSwitchProps & React.ComponentPropsWithRef<"div">
-> = ({ supplementalSwitch, setSupplmentalSwitch }) => {
+> = ({ supplementalSwitch, setSupplementalSwitch }) => {
   function handleSupplementalSwitchChange() {
-    setSupplmentalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
+    setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
   return (
     <Flex gap={16}>

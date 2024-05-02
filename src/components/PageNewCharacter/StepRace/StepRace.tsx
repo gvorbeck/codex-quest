@@ -16,7 +16,7 @@ interface StepRaceProps {
 const StepRace: React.FC<
   StepRaceProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
-  const [supplementalSwitch, setSupplmentalSwitch] = React.useState(
+  const [supplementalSwitch, setSupplementalSwitch] = React.useState(
     !isStandardRace(character.race, true) && character.race !== "",
   );
   const [showCustomInput, setShowCustomInput] = React.useState(
@@ -103,7 +103,7 @@ const StepRace: React.FC<
     <Flex gap={16} vertical className={className}>
       <SupplementalContentSwitch
         supplementalSwitch={supplementalSwitch}
-        setSupplmentalSwitch={setSupplmentalSwitch}
+        setSupplementalSwitch={setSupplementalSwitch}
       />
       <Select
         options={getRaceSelectOptions(supplementalSwitch)}

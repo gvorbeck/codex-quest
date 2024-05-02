@@ -19,6 +19,8 @@
 
 import { CharData } from "@/data/definitions";
 import React from "react";
+import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
+import { getClassType, isStandardClass } from "@/support/classSupport";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -33,10 +35,17 @@ interface StepClassProps {
 const StepClass: React.FC<
   StepClassProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
+  const classType = getClassType(character.class);
+  const [supplementalSwitch, setSupplementalSwitch] = React.useState(
+    classType[0] === "custom" || classType[1] === "supplemental",
+  );
   return (
     <div className={className}>
       <div>
-        <div>SUPPLEMENTAL CONTENT SWITCH</div>
+        <SupplementalContentSwitch
+          supplementalSwitch={supplementalSwitch}
+          setSupplementalSwitch={setSupplementalSwitch}
+        />
         <div>COMBINATION CLASS SWITCH</div>
       </div>
       <div>
