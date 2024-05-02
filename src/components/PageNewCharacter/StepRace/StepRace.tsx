@@ -99,11 +99,15 @@ const StepRace: React.FC<
     }));
   }
 
+  function handleSupplementalSwitchChange() {
+    setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
+  }
+
   return (
     <Flex gap={16} vertical className={className}>
       <SupplementalContentSwitch
         supplementalSwitch={supplementalSwitch}
-        setSupplementalSwitch={setSupplementalSwitch}
+        onChange={handleSupplementalSwitchChange}
       />
       <Select
         options={getRaceSelectOptions(supplementalSwitch)}

@@ -21,6 +21,7 @@ import { CharData } from "@/data/definitions";
 import React from "react";
 import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
 import { getClassType, isStandardClass } from "@/support/classSupport";
+import { Flex, Select } from "antd";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -39,19 +40,35 @@ const StepClass: React.FC<
   const [supplementalSwitch, setSupplementalSwitch] = React.useState(
     classType[0] === "custom" || classType[1] === "supplemental",
   );
+  const [combinationClass, setCombinationClass] = React.useState(
+    classType[0] === "combination",
+  );
+
+  function handleSupplementalSwitchChange() {
+    setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
+  }
+  function handleCombinationClassSwitchChange() {
+    setCombinationClass((prevCombinationClass) => !prevCombinationClass);
+  }
   return (
-    <div className={className}>
-      <div>
+    <Flex gap={16} vertical className={className}>
+      <Flex gap={8} vertical>
         <SupplementalContentSwitch
           supplementalSwitch={supplementalSwitch}
-          setSupplementalSwitch={setSupplementalSwitch}
+          onChange={handleSupplementalSwitchChange}
         />
-        <div>COMBINATION CLASS SWITCH</div>
-      </div>
-      <div>
-        <div>CLASS SELECT</div>
-        <div>COMBINATION CLASS SELECT</div>
-      </div>
+        <SupplementalContentSwitch
+          label="Use Combination Class"
+          supplementalSwitch={combinationClass}
+          onChange={handleCombinationClassSwitchChange}
+        />
+      </Flex>
+      <Flex gap={8} vertical>
+        <Select options={[]} placeholder="Select a class" />
+        {combinationClass && (
+          <Select options={[]} placeholder="Select a class" />
+        )}
+      </Flex>
       <div>
         <div>HOPMEBREW WARNING</div>
         <div>CUSTOM CLASS INPUT</div>
@@ -62,7 +79,7 @@ const StepClass: React.FC<
         <div>CLASS DESCRIPTION</div>
         <div>COMBINATION CLASS DESCRIPTION</div>
       </div>
-    </div>
+    </Flex>
   );
   // // STATE
   // const [standardClass, setStandardClass] = React.useState<string | undefined>(
