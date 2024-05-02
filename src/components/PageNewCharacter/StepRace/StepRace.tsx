@@ -1,5 +1,5 @@
 import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
-import { CharData } from "@/data/definitions";
+import { CharData, RaceNames } from "@/data/definitions";
 import { races } from "@/data/races";
 import { RaceSetup } from "@/data/races/definitions";
 import { isStandardRace } from "@/support/raceSupport";
@@ -13,6 +13,7 @@ import {
   Typography,
 } from "antd";
 import React from "react";
+import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
 
 interface StepRaceProps {
   character: CharData;
@@ -134,7 +135,15 @@ const StepRace: React.FC<
           />
         </div>
       )}
-      {isStandardRace(character.race) && <div>RACE DESCRIPTION</div>}
+      {isStandardRace(character.race) && (
+        <RaceClassDescription
+          subject={character.race}
+          description={
+            races[character.race as RaceNames].details.description ?? ""
+          }
+          image={"races/" + character.race.toLowerCase()}
+        />
+      )}
     </Flex>
   );
 };
