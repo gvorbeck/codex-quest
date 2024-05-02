@@ -15,10 +15,12 @@ import { User } from "firebase/auth";
 import BreadcrumbHomeLink from "../BreadcrumbHomeLink/BreadcrumbHomeLink";
 import { UserAddOutlined } from "@ant-design/icons";
 import React from "react";
-import { marked } from "marked";
 import { CharData } from "@/data/definitions";
 import StepAbilities from "./StepAbilities/StepAbilities";
 import StepRace from "./StepRace/StepRace";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import StepClass from "./StepClass/StepClass";
 
 interface PageNewCharacterProps {
   user: User | null;
@@ -39,20 +41,24 @@ const breadcrumbItems: BreadcrumbProps["items"] = [
 const newCharacterStepItemData = [
   {
     title: "Roll for Ability Scores",
-    description: marked.parse(
-      `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
+    description: `Roll for your character's Abilities. **You can click the "Roll" buttons or use your own dice and record your scores**. Afterward your character will have a score ranging from 3 to 18 in each of the Abilities below. A bonus (or penalty) Modifier is then associated with each score. Your character's Abilities will begin to determine the options available to them in the next steps as well, so good luck!
   
   <a href="https://basicfantasy.org/srd/abilities.html" target="_blank">BFRPG Official Character Ability documentation</a>`,
-    ),
     disabled: "Roll all your Ability Scores before proceeding.",
   },
   {
     title: "Choose Your Race",
-    description:
-      marked.parse(`Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.
+    description: `Choose your character's Race. **Some options may be unavailable due to your character's Ability Scores**. Each Race except Humans has a minimum and maximum value for specific Abilities that your character's Ability Scores must meet in order to select them. Consider that each Race has specific restrictions, special abilities, and Saving Throws. Choose wisely.
   
-  <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Official Character Race documentation</a>`),
+  <a href="https://basicfantasy.org/srd/races.html" target="_blank">BFRPG Official Character Race documentation</a>`,
     disabled: "Select a Race before proceeding.",
+  },
+  {
+    title: "Choose Your Class",
+    description: `Choose your character's Class. **Your character's Race and Ability Scores will determine which Class options are available**. Your Class choice determines your character's background and how they will progress through the game as they level up.
+  
+  <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Official Character Class documentation</a>`,
+    disabled: "Select a Class and required options before proceeding.",
   },
 ];
 
@@ -162,6 +168,11 @@ const PageNewCharacterCreator: React.FC<
       case 1:
         disabled = character.race === "";
         break;
+      case 2:
+        // check class is not empty
+        // if combo class is selected, that second class is not empty
+        // if magic class, that spell is not empty
+        break;
       default:
         break;
     }
@@ -190,13 +201,9 @@ const PageNewCharacterCreator: React.FC<
               {newCharacterStepItemData[stepNumber]["title"]}
             </Typography.Title>
             <Typography.Paragraph className="m-0 [&_p]:m-0 [&_p+p]:mt-4">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: newCharacterStepItemData[stepNumber][
-                    "description"
-                  ] as string,
-                }}
-              />
+              <Markdown rehypePlugins={[rehypeRaw]}>
+                {newCharacterStepItemData[stepNumber]["description"]}
+              </Markdown>
             </Typography.Paragraph>
             <Divider />
             {/* NEW WRAPPER COMPONENT END */}
@@ -238,6 +245,9 @@ const PageNewCharacterCreator: React.FC<
             )}
             {stepNumber === 1 && (
               <StepRace character={character} setCharacter={setCharacter} />
+            )}
+            {stepNumber === 2 && (
+              <StepClass character={character} setCharacter={setCharacter} />
             )}
           </Flex>
         </Col>
