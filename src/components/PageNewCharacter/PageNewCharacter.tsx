@@ -172,6 +172,7 @@ const PageNewCharacterCreator: React.FC<
         // check class is not empty
         // if combo class is selected, that second class is not empty
         // if magic class, that spell is not empty
+        disabled = character.class.length === 0;
         break;
       default:
         break;
