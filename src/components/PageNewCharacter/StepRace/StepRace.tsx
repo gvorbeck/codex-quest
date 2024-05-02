@@ -3,17 +3,10 @@ import { CharData, RaceNames } from "@/data/definitions";
 import { races } from "@/data/races";
 import { RaceSetup } from "@/data/races/definitions";
 import { isStandardRace } from "@/support/raceSupport";
-import {
-  Flex,
-  Input,
-  InputRef,
-  Select,
-  SelectProps,
-  Switch,
-  Typography,
-} from "antd";
+import { Flex, Input, InputRef, Select, SelectProps } from "antd";
 import React from "react";
 import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
+import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
 
 interface StepRaceProps {
   character: CharData;
@@ -77,10 +70,6 @@ const StepRace: React.FC<
     return value;
   }
 
-  function handleSupplementalSwitchChange() {
-    setSupplmentalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
-  }
-
   function handleRaceSelectChange(value: string) {
     if (value === "Custom") {
       setShowCustomInput(true);
@@ -112,13 +101,10 @@ const StepRace: React.FC<
 
   return (
     <Flex gap={16} vertical className={className}>
-      <Flex gap={16}>
-        <Typography.Text>Enable Supplemental Content</Typography.Text>
-        <Switch
-          checked={supplementalSwitch}
-          onChange={handleSupplementalSwitchChange}
-        />
-      </Flex>
+      <SupplementalContentSwitch
+        supplementalSwitch={supplementalSwitch}
+        setSupplmentalSwitch={setSupplmentalSwitch}
+      />
       <Select
         options={getRaceSelectOptions(supplementalSwitch)}
         value={getRaceSelectValue()}
