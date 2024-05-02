@@ -1,28 +1,8 @@
-// import { Flex, Input, Select, SelectProps } from "antd";
-// import React, { ChangeEvent, Suspense } from "react";
-// import {
-//   baseClasses,
-//   classSplit,
-//   getClassSelectOptions,
-//   getClassType,
-// } from "@/support/classSupport";
-// import { CharData, ClassNames, RaceNames, Spell } from "@/data/definitions";
-// import { classes } from "@/data/classes";
-// import { useImages } from "@/hooks/useImages";
-// import { toSlugCase } from "@/support/stringSupport";
-// import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
-// import { races } from "@/data/races";
-// import SpellSelect from "./SpellSelect/SpellSelect";
-// import CombinationClassSelect from "./CombinationClassSelect/CombinationClassSelect";
-// import ClassSettings from "./ClassSettings/ClassSettings";
-// import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
-
 import { CharData, ClassNames, RaceNames } from "@/data/definitions";
 import React from "react";
 import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
-import { getClassType, isStandardClass } from "@/support/classSupport";
+import { getClassType } from "@/support/classSupport";
 import { Flex, Select, SelectProps } from "antd";
-import { isStandardRace } from "@/support/raceSupport";
 import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
@@ -47,10 +27,13 @@ const StepClass: React.FC<
   const [combinationClass, setCombinationClass] = React.useState(
     classType[0] === "combination",
   );
-  const [primaryClass, setPrimaryClass] = React.useState(character.class[0]);
-  const [secondaryClass, setSecondaryClass] = React.useState(
-    character.class[1],
+  const [primaryClass, setPrimaryClass] = React.useState<string | undefined>(
+    character.class[0],
   );
+  const [secondaryClass, setSecondaryClass] = React.useState<
+    string | undefined
+  >(character.class[1]);
+  const characterRace = races[character.race as RaceNames];
 
   function classIsDisabled(choice: ClassSetup) {
     return (
@@ -68,12 +51,11 @@ const StepClass: React.FC<
     useSupplemental?: boolean,
   ): SelectProps["options"] {
     const options = [];
-    const raceDetails = races[character.race as RaceNames];
 
     for (const [className, classDetails] of Object.entries(classes)) {
       const isAllowedByRace =
-        !raceDetails ||
-        raceDetails.allowedStandardClasses.includes(className as ClassNames);
+        !characterRace ||
+        characterRace.allowedStandardClasses.includes(className as ClassNames);
 
       if (
         (useSupplemental || classDetails.isBase) &&
@@ -85,20 +67,55 @@ const StepClass: React.FC<
     }
     return options;
   }
+  function getComboClassSelectOptions(select: 0 | 1): SelectProps["options"] {
+    if (select === 0) {
+      return [{ value: ClassNames.MAGICUSER, label: ClassNames.MAGICUSER }];
+    } else {
+      const options = [];
+      const combinations = [...characterRace.allowedCombinationClasses!].filter(
+        (option) => option !== ClassNames.MAGICUSER,
+      );
+      for (const className of combinations) {
+        options.push({ value: className, label: className });
+      }
+      return options;
+    }
+  }
 
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
   function handleCombinationClassSwitchChange() {
+    setPrimaryClass(undefined);
+    setSecondaryClass(undefined);
     setCombinationClass((prevCombinationClass) => !prevCombinationClass);
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      class: [],
+      hp: { dice: "", points: 0, max: 0, desc: "" },
+      equipment: [],
+      gold: 0,
+    }));
   }
   function handlePrimaryClassSelectChange(value: string) {
+    if (value === "Custom") {
+      setCharacter((prevCharacter) => ({
+        ...prevCharacter,
+        class: [],
+        hp: { dice: "", points: 0, max: 0, desc: "" },
+        equipment: [],
+        gold: 0,
+      }));
+      return;
+    }
     setPrimaryClass(value);
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
+      const newClassArray =
+        classArray[1] && combinationClass ? [value, classArray[1]] : [value];
       return {
         ...prevCharacter,
-        class: [value, classArray[1]],
+        class: newClassArray,
         hp: { dice: "", points: 0, max: 0, desc: "" },
         equipment: [],
         gold: 0,
@@ -109,9 +126,10 @@ const StepClass: React.FC<
     setSecondaryClass(value);
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
+      const newClassArray = classArray[0] ? [classArray[0], value] : [value];
       return {
         ...prevCharacter,
-        class: [classArray[0], value],
+        class: newClassArray,
         hp: { dice: "", points: 0, max: 0, desc: "" },
         equipment: [],
         gold: 0,
@@ -125,8 +143,7 @@ const StepClass: React.FC<
           supplementalSwitch={supplementalSwitch}
           onChange={handleSupplementalSwitchChange}
         />
-        {races[character.race as RaceNames].allowedCombinationClasses
-          ?.length && (
+        {characterRace.allowedCombinationClasses?.length && (
           <SupplementalContentSwitch
             label="Use Combination Class"
             supplementalSwitch={combinationClass}
@@ -136,14 +153,18 @@ const StepClass: React.FC<
       </Flex>
       <Flex gap={8} vertical>
         <Select
-          options={getClassSelectOptions(supplementalSwitch)}
+          options={
+            combinationClass
+              ? getComboClassSelectOptions(0)
+              : getClassSelectOptions(supplementalSwitch)
+          }
           placeholder="Select a class"
           value={primaryClass}
           onChange={handlePrimaryClassSelectChange}
         />
         {combinationClass && (
           <Select
-            options={[]}
+            options={getComboClassSelectOptions(1)}
             placeholder="Select a class"
             value={secondaryClass}
             onChange={handleSecondaryClassSelectChange}
@@ -151,15 +172,17 @@ const StepClass: React.FC<
         )}
       </Flex>
       <div>
-        <div>HOPMEBREW WARNING</div>
+        <div>HOMEBREW WARNING</div>
         <div>CUSTOM CLASS INPUT</div>
         <div>CUSTOM CLASS SPELL SELECTION</div>
       </div>
-      <div>
-        <div>SPELL SELECTION</div>
-        <div>CLASS DESCRIPTION</div>
-        <div>COMBINATION CLASS DESCRIPTION</div>
-      </div>
+      {!!character.class.length && classType[0] !== "custom" && (
+        <div>
+          <div>SPELL SELECTION</div>
+          <div>CLASS DESCRIPTION</div>
+          <div>COMBINATION CLASS DESCRIPTION</div>
+        </div>
+      )}
     </Flex>
   );
   // // STATE
