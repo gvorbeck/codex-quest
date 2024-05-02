@@ -3,8 +3,15 @@ import { Abilities, CharData, ClassNames, RaceNames } from "@/data/definitions";
 import { races } from "@/data/races";
 import { isStandardRace } from "./raceSupport";
 
-export const isStandardClass = (className: string) =>
-  Object.values(ClassNames).includes(className as ClassNames);
+export const isStandardClass = (classNameArray: string[], isBase?: boolean) => {
+  if (!classNameArray || classNameArray.length === 0) return false;
+  return classNameArray.every((className) => {
+    const classDetails = classes[className as keyof typeof classes];
+    if (!classDetails) return false;
+    if (isBase && !classDetails.isBase) return false;
+    return true;
+  });
+};
 
 export const classSplit = (className: string | string[]) => {
   if (typeof className === "string") {
@@ -13,34 +20,47 @@ export const classSplit = (className: string | string[]) => {
   return className;
 };
 
-export const getClassType = (characterClass: string[] | string) => {
-  const classArr = classSplit(characterClass);
-
+type ClassDefKey =
+  | "base"
+  | "combination"
+  | "standard"
+  | "supplemental"
+  | "none"
+  | "custom";
+type ClassTypeResult = ClassDefKey[];
+export const getClassType = (classNameArray: string[]): ClassTypeResult => {
+  const CLASS_DEFS: { [key: string]: ClassDefKey } = {
+    base: "base",
+    combo: "combination",
+    standard: "standard",
+    supplemental: "supplemental",
+  };
   // NONE
-  if (classArr.length === 0 || classArr.every((className) => className === ""))
-    return "none";
-  // STANDARD
   if (
-    classArr.length === 1 &&
-    classArr.every((className) => isStandardClass(className))
-  ) {
-    return "standard";
+    classNameArray.length === 0 ||
+    classNameArray.every((className) => className === "")
+  )
+    return ["none"];
+  // STANDARD
+  if (classNameArray.length === 1) {
+    if (isStandardClass(classNameArray, true)) {
+      return [CLASS_DEFS.standard, CLASS_DEFS.base];
+    }
+    if (isStandardClass(classNameArray)) {
+      return [CLASS_DEFS.standard, CLASS_DEFS.supplemental];
+    }
   }
   // COMBINATION
-  if (
-    classArr.length === 1 &&
-    classArr[0].split(" ").every((className) => isStandardClass(className))
-  ) {
-    return "combination";
-  }
-  if (
-    classArr.length > 1 &&
-    classArr.every((className) => isStandardClass(className))
-  ) {
-    return "combination";
+  if (classNameArray.length > 1) {
+    if (isStandardClass(classNameArray, true)) {
+      return [CLASS_DEFS.combo, CLASS_DEFS.base];
+    }
+    if (isStandardClass(classNameArray)) {
+      return [CLASS_DEFS.combo, CLASS_DEFS.supplemental];
+    }
   }
   // CUSTOM
-  return "custom";
+  return ["custom"];
 };
 
 export const baseClasses = [
