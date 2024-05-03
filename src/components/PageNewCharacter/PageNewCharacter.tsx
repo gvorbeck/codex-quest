@@ -22,6 +22,7 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import StepClass from "./StepClass/StepClass";
 import { classes } from "@/data/classes";
+import StepHitPoints from "./StepHitPoints/StepHitPoints";
 
 console.warn("TODO: specials/restrictions");
 
@@ -62,6 +63,13 @@ const newCharacterStepItemData = [
   
   <a href="https://basicfantasy.org/srd/class.html" target="_blank">BFRPG Official Character Class documentation</a>`,
     disabled: "Select a Class and required options before proceeding.",
+  },
+  {
+    title: "Roll for Hit Points",
+    description: `Roll for your character's Hit Points. **Your character's Race may place restrictions on the Hit Dice available to them, but generally this is determined by their chosen Class**. Additionally, your character's Constitution modifier is added/subtracted from this value with a minimum value of 1. The end result is the amount of Hit Points your character will start with and determines how much damage your character can take in battle.
+  
+  <a href="https://basicfantasy.org/srd/abilities.html#hit-points-and-hit-dice" target="_blank">BFRPG Official Character Hit Points documentation</a>`,
+    disabled: "Roll for Hit Points before proceeding.",
   },
 ];
 
@@ -195,6 +203,9 @@ const PageNewCharacterCreator: React.FC<
           }
         }
         break;
+      case 3:
+        disabled = character.hp.points === 0;
+        break;
       default:
         break;
     }
@@ -270,6 +281,12 @@ const PageNewCharacterCreator: React.FC<
             )}
             {stepNumber === 2 && (
               <StepClass character={character} setCharacter={setCharacter} />
+            )}
+            {stepNumber === 3 && (
+              <StepHitPoints
+                character={character}
+                setCharacter={setCharacter}
+              />
             )}
           </Flex>
         </Col>
