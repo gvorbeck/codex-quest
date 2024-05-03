@@ -15,12 +15,13 @@ import { User } from "firebase/auth";
 import BreadcrumbHomeLink from "../BreadcrumbHomeLink/BreadcrumbHomeLink";
 import { UserAddOutlined } from "@ant-design/icons";
 import React from "react";
-import { CharData } from "@/data/definitions";
+import { CharData, ClassNames } from "@/data/definitions";
 import StepAbilities from "./StepAbilities/StepAbilities";
 import StepRace from "./StepRace/StepRace";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import StepClass from "./StepClass/StepClass";
+import { classes } from "@/data/classes";
 
 console.warn("TODO: specials/restrictions");
 
@@ -168,13 +169,31 @@ const PageNewCharacterCreator: React.FC<
         );
         break;
       case 1:
+        // Disable next button if no race has been selected
         disabled = character.race === "";
         break;
       case 2:
-        // check class is not empty
-        // if combo class is selected, that second class is not empty
-        // if magic class, that spell is not empty
+        // Disable next button if no class has been selected
         disabled = character.class.length === 0;
+
+        // Further checks if classes are selected
+        if (!disabled) {
+          // Check if any selected class has a spellBudget, implying need for spell selection
+          const classRequiresSpells = character.class.some((className) => {
+            const classDetails = classes[className as ClassNames];
+            // Only consider predefined classes that have a spellBudget defined
+            return (
+              classDetails &&
+              classDetails.spellBudget &&
+              classDetails.spellBudget.length > 0
+            );
+          });
+
+          // If a predefined class requires spells, ensure that spells have been selected
+          if (classRequiresSpells) {
+            disabled = character.spells.length === 0;
+          }
+        }
         break;
       default:
         break;
