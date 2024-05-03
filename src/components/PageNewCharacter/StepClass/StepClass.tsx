@@ -1,11 +1,12 @@
 import { CharData, ClassNames, RaceNames } from "@/data/definitions";
 import React from "react";
 import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
-import { getClassType } from "@/support/classSupport";
-import { Flex, Select, SelectProps } from "antd";
+import { getClassType, isStandardClass } from "@/support/classSupport";
+import { Flex, Input, InputRef, Select, SelectProps } from "antd";
 import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
+import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -28,11 +29,14 @@ const StepClass: React.FC<
     classType[0] === "combination",
   );
   const [primaryClass, setPrimaryClass] = React.useState<string | undefined>(
-    character.class[0],
+    classType[0] === "custom" ? "Custom" : character.class[0],
   );
   const [secondaryClass, setSecondaryClass] = React.useState<
     string | undefined
   >(character.class[1]);
+
+  const inputRef = React.useRef<InputRef>(null);
+
   const characterRace = races[character.race as RaceNames];
 
   function classIsDisabled(choice: ClassSetup) {
@@ -98,6 +102,7 @@ const StepClass: React.FC<
     }));
   }
   function handlePrimaryClassSelectChange(value: string) {
+    setPrimaryClass(value);
     if (value === "Custom") {
       setCharacter((prevCharacter) => ({
         ...prevCharacter,
@@ -108,7 +113,6 @@ const StepClass: React.FC<
       }));
       return;
     }
-    setPrimaryClass(value);
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
       const newClassArray =
@@ -136,6 +140,17 @@ const StepClass: React.FC<
       };
     });
   }
+  function handleClassInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      class: [value],
+      hp: { dice: "", points: 0, max: 0, desc: "" },
+      equipment: [],
+      gold: 0,
+    }));
+  }
+
   return (
     <Flex gap={16} vertical className={className}>
       <Flex gap={8} vertical>
@@ -171,10 +186,17 @@ const StepClass: React.FC<
           />
         )}
       </Flex>
-      {classType[0] === "custom" && (
+      {(classType[0] === "custom" || primaryClass === "Custom") && (
         <div>
-          <div>HOMEBREW WARNING</div>
-          <div>CUSTOM CLASS INPUT</div>
+          <HomebrewWarning homebrew="class" />
+          <Input
+            ref={inputRef}
+            value={
+              isStandardClass(character.class) ? undefined : character.class[0]
+            }
+            onChange={handleClassInputChange}
+            placeholder="Custom Class Name"
+          />
           <div>CUSTOM CLASS SPELL SELECTION</div>
         </div>
       )}
