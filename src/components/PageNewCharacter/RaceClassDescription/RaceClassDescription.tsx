@@ -20,7 +20,7 @@ const RaceClassDescription: React.FC<
       className={className + " overflow-hidden"}
     >
       <Flex
-        gap={16}
+        gap={8}
         vertical={isMobile}
         className={isMobile ? "flex-col-reverse" : ""}
       >

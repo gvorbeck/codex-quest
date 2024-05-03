@@ -8,6 +8,8 @@ import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
 import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
 import SpellSelect from "./SpellSelect/SpellSelect";
+import RaceClassDescription from "../RaceClassDescription/RaceClassDescription";
+import { toSlugCase } from "@/support/stringSupport";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -141,7 +143,6 @@ const StepClass: React.FC<
         hp: { dice: "", points: 0, max: 0, desc: "" },
         equipment: [],
         gold: 0,
-        spells: [],
       };
     });
   }
@@ -212,9 +213,23 @@ const StepClass: React.FC<
           ) && (
             <SpellSelect character={character} setCharacter={setCharacter} />
           )}
-          <div>CLASS DESCRIPTION</div>
+          <RaceClassDescription
+            subject={character.class[0]}
+            description={
+              classes[character.class[0] as ClassNames].details?.description ||
+              ""
+            }
+            image={`classes/${toSlugCase(character.class[0])}`}
+          />
           {classType[0] === "combination" && (
-            <div>COMBINATION CLASS DESCRIPTION</div>
+            <RaceClassDescription
+              subject={character.class[1]}
+              description={
+                classes[character.class[1] as ClassNames].details
+                  ?.description || ""
+              }
+              image={`classes/${toSlugCase(character.class[1])}`}
+            />
           )}
         </Flex>
       )}
