@@ -7,6 +7,7 @@ import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
 import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
+import SpellSelect from "./SpellSelect/SpellSelect";
 
 // Lazy loading this because it's a big component and it's not needed unless the user selects a custom class.
 const AllSpellsSelection = React.lazy(
@@ -201,15 +202,17 @@ const StepClass: React.FC<
         </Flex>
       )}
       {!!character.class.length && classType[0] !== "custom" && (
-        <div>
+        <Flex gap={8} vertical>
           {character.class.some(
             (className) => classes[className as ClassNames].spellBudget?.length,
-          ) && <div>SPELL SELECTION</div>}
+          ) && (
+            <SpellSelect character={character} setCharacter={setCharacter} />
+          )}
           <div>CLASS DESCRIPTION</div>
           {classType[0] === "combination" && (
             <div>COMBINATION CLASS DESCRIPTION</div>
           )}
-        </div>
+        </Flex>
       )}
     </Flex>
   );
