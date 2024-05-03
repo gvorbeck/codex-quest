@@ -171,16 +171,22 @@ const StepClass: React.FC<
           />
         )}
       </Flex>
-      <div>
-        <div>HOMEBREW WARNING</div>
-        <div>CUSTOM CLASS INPUT</div>
-        <div>CUSTOM CLASS SPELL SELECTION</div>
-      </div>
+      {classType[0] === "custom" && (
+        <div>
+          <div>HOMEBREW WARNING</div>
+          <div>CUSTOM CLASS INPUT</div>
+          <div>CUSTOM CLASS SPELL SELECTION</div>
+        </div>
+      )}
       {!!character.class.length && classType[0] !== "custom" && (
         <div>
-          <div>SPELL SELECTION</div>
+          {character.class.some(
+            (className) => classes[className as ClassNames].spellBudget?.length,
+          ) && <div>SPELL SELECTION</div>}
           <div>CLASS DESCRIPTION</div>
-          <div>COMBINATION CLASS DESCRIPTION</div>
+          {classType[0] === "combination" && (
+            <div>COMBINATION CLASS DESCRIPTION</div>
+          )}
         </div>
       )}
     </Flex>
