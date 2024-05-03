@@ -22,6 +22,8 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import StepClass from "./StepClass/StepClass";
 
+console.warn("TODO: specials/restrictions");
+
 interface PageNewCharacterProps {
   user: User | null;
 }
