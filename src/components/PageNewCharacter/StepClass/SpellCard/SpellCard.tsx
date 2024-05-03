@@ -23,11 +23,7 @@ const SpellCard: React.FC<
   );
   return (
     <Card
-      title={
-        <span className="font-enchant text-3xl tracking-wide">
-          {startingSpells[1]?.name}
-        </span>
-      }
+      title={<span className="enchant-title">{startingSpells[1]?.name}</span>}
       className={cardClassNames}
     >
       <Flex gap={16} align="flex-start" vertical={isMobile}>
