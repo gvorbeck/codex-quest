@@ -56,9 +56,9 @@ const SpellSelect: React.FC<
           // value={startingSpells?.[0]?.name}
           onChange={handleStartingSpellChange}
         />
-        {/* {!!startingSpells?.length && (
-          <SpellCard startingSpells={startingSpells} />
-        )} */}
+        {character.spells.length > 0 && (
+          <SpellCard spell={character.spells[1]} />
+        )}
       </Flex>
     </Card>
   );
