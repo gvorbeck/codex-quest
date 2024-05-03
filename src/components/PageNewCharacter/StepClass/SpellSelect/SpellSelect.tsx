@@ -7,26 +7,13 @@ import Markdown from "react-markdown";
 import { classes } from "@/data/classes";
 
 interface SpellSelectProps {
-  // setStartingSpells: (spells: Spell[]) => void;
-  // magicCharacterClass: string | undefined;
-  // startingSpells: Spell[];
   character: CharData;
   setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
-  // classArr: string[];
 }
 
 const SpellSelect: React.FC<
   SpellSelectProps & React.ComponentPropsWithRef<"div">
-> = ({
-  character,
-  setCharacter,
-  // classArr,
-  className,
-  // character,
-  // startingSpells,
-  // setStartingSpells,
-  // magicCharacterClass,
-}) => {
+> = ({ character, setCharacter, className }) => {
   const classDescription = `Characters with the **${character.class.find((className) => classes[className as ClassNames]?.spellBudget?.length)}** class start with **Read Magic** and one other spell:`;
   const levelOneSpells = getSpellsAtLevel(character);
   const spellSelectOptions: SelectProps["options"] = levelOneSpells
@@ -53,7 +40,6 @@ const SpellSelect: React.FC<
         </Typography.Text>
         <Select
           options={spellSelectOptions}
-          // value={startingSpells?.[0]?.name}
           onChange={handleStartingSpellChange}
         />
         {character.spells.length > 0 && (
