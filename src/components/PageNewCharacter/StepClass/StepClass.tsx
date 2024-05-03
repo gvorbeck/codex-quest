@@ -187,7 +187,7 @@ const StepClass: React.FC<
         )}
       </Flex>
       {(classType[0] === "custom" || primaryClass === "Custom") && (
-        <div>
+        <Flex gap={8} vertical>
           <HomebrewWarning homebrew="class" />
           <Input
             ref={inputRef}
@@ -198,7 +198,7 @@ const StepClass: React.FC<
             placeholder="Custom Class Name"
           />
           <div>CUSTOM CLASS SPELL SELECTION</div>
-        </div>
+        </Flex>
       )}
       {!!character.class.length && classType[0] !== "custom" && (
         <div>
