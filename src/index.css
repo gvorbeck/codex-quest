@@ -6,3 +6,9 @@
   font-family: "Enchant";
   src: url("assets/fonts/Enchant.ttf") format("truetype");
 }
+
+@layer components {
+  .enchant-title {
+    @apply font-enchant text-3xl tracking-wide;
+  }
+}
