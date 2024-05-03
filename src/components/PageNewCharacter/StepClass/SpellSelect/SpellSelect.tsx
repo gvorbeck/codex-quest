@@ -37,7 +37,10 @@ const SpellSelect: React.FC<
     const readMagicSpell = getSpellFromName("Read Magic");
     const selectedSpell = getSpellFromName(value);
     const spells = [readMagicSpell, selectedSpell].filter(Boolean) as Spell[];
-    // setStartingSpells(spells);
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      spells,
+    }));
   }
   return (
     <Card

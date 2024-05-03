@@ -119,6 +119,7 @@ const StepAbilities: React.FC<
         : { ...prevCharacter.hp },
       equipment: [],
       gold: 0,
+      spells: [],
     }));
   }
 
@@ -150,6 +151,7 @@ const StepAbilities: React.FC<
           : { ...prevCharacter.hp },
         equipment: [],
         gold: 0,
+        spells: [],
       };
     });
   }

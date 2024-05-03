@@ -83,6 +83,7 @@ const StepRace: React.FC<
         hp: { dice: "", points: 0, max: 0, desc: "" },
         equipment: [],
         gold: 0,
+        spells: [],
       }));
     }
   }
@@ -96,6 +97,7 @@ const StepRace: React.FC<
       hp: { dice: "", points: 0, max: 0, desc: "" },
       equipment: [],
       gold: 0,
+      spells: [],
     }));
   }
 
