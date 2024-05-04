@@ -24,7 +24,7 @@ import StepClass from "./StepClass/StepClass";
 import { classes } from "@/data/classes";
 import StepHitPoints from "./StepHitPoints/StepHitPoints";
 
-console.warn("TODO: specials/restrictions");
+console.warn("TODO: specials/restrictions & saving throws");
 
 interface PageNewCharacterProps {
   user: User | null;
@@ -183,7 +183,6 @@ const PageNewCharacterCreator: React.FC<
       case 2:
         // Disable next button if no class has been selected
         disabled = character.class.length === 0;
-
         // Further checks if classes are selected
         if (!disabled) {
           // Check if any selected class has a spellBudget, implying need for spell selection
@@ -196,7 +195,6 @@ const PageNewCharacterCreator: React.FC<
               classDetails.spellBudget.length > 0
             );
           });
-
           // If a predefined class requires spells, ensure that spells have been selected
           if (classRequiresSpells) {
             disabled = character.spells.length === 0;
