@@ -23,6 +23,7 @@ import rehypeRaw from "rehype-raw";
 import StepClass from "./StepClass/StepClass";
 import { classes } from "@/data/classes";
 import StepHitPoints from "./StepHitPoints/StepHitPoints";
+import StepEquipment from "./StepEquipment/StepEquipment";
 
 console.warn("TODO: specials/restrictions & saving throws");
 
@@ -70,6 +71,18 @@ const newCharacterStepItemData = [
   
   <a href="https://basicfantasy.org/srd/abilities.html#hit-points-and-hit-dice" target="_blank">BFRPG Official Character Hit Points documentation</a>`,
     disabled: "Roll for Hit Points before proceeding.",
+  },
+  {
+    title: "Buy Equipment",
+    description: `Roll for your character's starting gold and purchase their equipment. **Keep in mind that your character's Race and Class selections may limit types and amounts of equipment they can have**.
+  
+  <a href="https://basicfantasy.org/srd/equipment.html" target="_blank">BFRPG Official Character Equipment documentation</a>`,
+    disabled: "Roll for your starting gold before proceeding.",
+  },
+  {
+    title: "Finalize Character Details",
+    description: `You're almost done! Personalize your newly minted character by giving them an identity. Optionally, upload a portrait image if you'd like. Image must be PNG/JPG and <= 1mb`,
+    disabled: "Fill in your character's name before proceeding.",
   },
 ];
 
@@ -204,6 +217,9 @@ const PageNewCharacterCreator: React.FC<
       case 3:
         disabled = character.hp.points === 0;
         break;
+      case 4:
+        disabled = character.equipment.length === 0 && character.gold === 0;
+        break;
       default:
         break;
     }
@@ -282,6 +298,12 @@ const PageNewCharacterCreator: React.FC<
             )}
             {stepNumber === 3 && (
               <StepHitPoints
+                character={character}
+                setCharacter={setCharacter}
+              />
+            )}
+            {stepNumber === 4 && (
+              <StepEquipment
                 character={character}
                 setCharacter={setCharacter}
               />
