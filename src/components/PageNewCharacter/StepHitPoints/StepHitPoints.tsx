@@ -80,54 +80,56 @@ const StepHitPoints: React.FC<
     (die: string) => ({ label: die, value: die }),
   );
 
-  //   const handleButtonClick = () => {
-  //     let roll =
-  //       rollDice(die!) +
-  //       parseInt(character.abilities.modifiers.constitution + "");
-  //     roll = roll < 1 ? 1 : roll;
-  //     setMax(roll);
-  //   };
-  //   const handleInputChange = (value: number | null) => {
-  //     if (value) setMax(value);
-  //   };
-  //   const onSelectChange = (value: DiceTypes) => {
-  //     setDie(value);
-  //   };
-
-  //   React.useEffect(() => {
-  //     setCharacter({
-  //       ...character,
-  //       hp: { ...character.hp, max, points: max, dice: die! },
-  //     });
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [max, die]);
-
-  //   React.useEffect(() => {
-  //     const result = getCharacterHitDiceFromClass(character);
-  //     if (result === undefined) {
-  //       setUseCustomDice(true);
-  //     } else {
-  //       setDie(result);
-  //     }
-  //   }, [character]);
   function handleRollHitDieClick() {
-    // Add CONSTITUTION MODIFIER!!!
-    // setCharacter((prevCharacter) => ({
-    //   ...prevCharacter,
-    //   hp: {
-    //     dice: hitDie as DiceTypes,
-    //     points: rollDice(`1${hitDie}`),
-    //     max: hitDie?.split("d")[0],
-    //     desc: "",
-    //   },
-    // }));
+    if (!hitDie) return;
+    const rolledHP = rollDice(
+      `1${hitDie}${character.abilities.modifiers.constitution}`,
+    );
+    const hpScore = rolledHP < 1 ? 1 : rolledHP;
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      hp: {
+        dice: hitDie as DiceTypes,
+        points: hpScore,
+        max:
+          +hitDie?.split("d")[1] +
+          parseInt(character.abilities.modifiers.constitution as string),
+        desc: "",
+      },
+    }));
   }
 
   function handleHitDieSelectChange(value: DiceTypes | undefined) {
     setHitDie(value);
   }
 
-  function handleHitDieInputNumberChange(value: number | undefined | null) {}
+  function handleHitDieInputNumberChange(value: number | undefined | null) {
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      hp: {
+        ...prevCharacter.hp,
+        points: value ?? 0,
+      },
+    }));
+  }
+
+  function handleMaxHPClick() {
+    if (!hitDie) return;
+    const maxHP =
+      +hitDie.split("d")[1] +
+      parseInt(character.abilities.modifiers.constitution as string);
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      hp: {
+        dice: hitDie as DiceTypes,
+        points: maxHP,
+        max:
+          +hitDie.split("d")[1] +
+          parseInt(character.abilities.modifiers.constitution as string),
+        desc: "",
+      },
+    }));
+  }
 
   return (
     <Flex vertical className={className} gap={16}>
@@ -139,24 +141,30 @@ const StepHitPoints: React.FC<
           value={hitDie}
         />
       )}
-      <Space.Compact>
-        <InputNumber
-          className="pb-0.5"
-          defaultValue={0}
-          onChange={handleHitDieInputNumberChange}
-        />
-        <Tooltip title={hitDie === undefined && "Select a die to roll"}>
-          <Button
-            type="primary"
-            onClick={handleRollHitDieClick}
-            disabled={hitDie === undefined}
-          >
-            Roll 1{hitDie}
-            {character.abilities.modifiers.constitution}
-          </Button>
-        </Tooltip>
-      </Space.Compact>
-      <div>GIVE MAX BUTTON</div>
+      <Flex gap={8}>
+        <Space.Compact>
+          <InputNumber
+            className="pb-0.5"
+            defaultValue={0}
+            min={1}
+            value={character.hp.points}
+            onChange={handleHitDieInputNumberChange}
+          />
+          <Tooltip title={hitDie === undefined && "Select a die to roll"}>
+            <Button
+              type="primary"
+              onClick={handleRollHitDieClick}
+              disabled={hitDie === undefined}
+            >
+              Roll 1{hitDie}
+              {character.abilities.modifiers.constitution}
+            </Button>
+          </Tooltip>
+        </Space.Compact>
+        <Button disabled={hitDie === undefined} onClick={handleMaxHPClick}>
+          Max HP
+        </Button>
+      </Flex>
     </Flex>
   );
 };
