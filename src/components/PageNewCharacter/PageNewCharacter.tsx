@@ -205,7 +205,7 @@ const PageNewCharacterCreator: React.FC<
             return (
               classDetails &&
               classDetails.spellBudget &&
-              classDetails.spellBudget.length > 0
+              classDetails.spellBudget[0][0] > 0
             );
           });
           // If a predefined class requires spells, ensure that spells have been selected
