@@ -25,8 +25,7 @@ const PageFooter: React.FC<
         >
           J. Garrett Vorbeck
         </a>
-        . <span data-testid="all-rights-reserved">All rights reserved.</span>{" "}
-        <span data-testid="site-title">CODEX.QUEST</span>{" "}
+        . <span data-testid="site-title">CODEX.QUEST</span>{" "}
         <span data-testid="version-number">v{version}</span>
       </Typography.Paragraph>
       <Typography.Paragraph>
@@ -39,9 +38,7 @@ const PageFooter: React.FC<
         >
           Basic Fantasy Role-Playing Game
         </a>{" "}
-        and is current to{" "}
-        <span data-testid="bfrpg-edition">{bfrpgEdition}</span> Edition (release{" "}
-        <span data-testid="bfrpg-release">{bfrpgRelease}</span>).
+        (<span data-testid="bfrpg-edition">{bfrpgEdition}</span> Edition)
       </Typography.Paragraph>
       <Flex wrap="wrap" className="[&_a]:text-seaBuckthorn [&_*]:m-0" gap={16}>
         <Typography.Paragraph>
