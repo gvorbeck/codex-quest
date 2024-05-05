@@ -216,10 +216,10 @@ const StepClass: React.FC<
       )}
       {!!character.class.length && classType[0] !== "custom" && (
         <Flex gap={8} vertical>
-          {character.class.some(
-            (className) =>
-              classes[className as ClassNames]?.spellBudget?.length,
-          ) && (
+          {character.class.some((className) => {
+            const classInfo = classes[className as ClassNames];
+            return classInfo?.spellBudget && classInfo.spellBudget[0][0] > 0;
+          }) && (
             <SpellSelect character={character} setCharacter={setCharacter} />
           )}
           <RaceClassDescription
@@ -230,11 +230,11 @@ const StepClass: React.FC<
             }
             image={`classes/${toSlugCase(character.class[0])}`}
           />
-          {classType[0] === "combination" && (
+          {classType[0] === "combination" && character.class[1] && (
             <RaceClassDescription
               subject={character.class[1]}
               description={
-                classes[character.class[1] as ClassNames].details
+                classes[character.class[1] as ClassNames]?.details
                   ?.description || ""
               }
               image={`classes/${toSlugCase(character.class[1])}`}
