@@ -1,6 +1,7 @@
+import EquipmentStore from "@/components/EquipmentStore/EquipmentStore";
 import { CharData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { Flex, FloatButton } from "antd";
+import { Button, Flex, FloatButton, InputNumber, Space } from "antd";
 
 interface StepEquipmentProps {
   character: CharData;
@@ -16,13 +17,18 @@ const StepEquipment: React.FC<
 
   return (
     <Flex vertical gap={16} className={className}>
-      {!hideDiceButton && <div>GOLD ROLLER</div>}
+      {!hideDiceButton && (
+        <Space.Compact>
+          <InputNumber className="pb-0.5" />
+          <Button type="primary">Roll 3d6x10</Button>
+        </Space.Compact>
+      )}
       <Flex
         gap={16}
         className={!hideInventory ? "[&>div]:flex-[0_1_50%]" : undefined}
         vertical={isMobile}
       >
-        <div>EQUIPMENT STORE</div>
+        <EquipmentStore />
         {!hideInventory && <div>CHARACTER INVENTORY</div>}
       </Flex>
       <FloatButton.BackTop
