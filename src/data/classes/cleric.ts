@@ -1,7 +1,7 @@
 import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
-import equipmentItems from "../equipmentItems.json";
+import equipmentData from "../equipment.json";
 import { UndeadSvg, WeaponLimitsSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
 
@@ -187,7 +187,7 @@ export const cleric: ClassSetup = {
     [6, 5, 5, 4, 3, 3],
   ],
   startingEquipment: [
-    equipmentItems.find((item) =>
+    equipmentData.find((item) =>
       item.name.toLowerCase().startsWith("holy symbol"),
     )! as EquipmentItem,
   ],

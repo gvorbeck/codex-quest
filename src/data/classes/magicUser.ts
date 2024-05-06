@@ -1,7 +1,7 @@
 import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
-import equipmentItems from "../equipmentItems.json";
+import equipmentData from "../equipment.json";
 import { EquipmentLimitsSvg, WeaponLimitsSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
 
@@ -162,7 +162,7 @@ export const magicUser: ClassSetup = {
   ],
   startingSpells: ["Read Magic"],
   startingEquipment: [
-    equipmentItems.find((item) =>
+    equipmentData.find((item) =>
       item.name.toLowerCase().startsWith("spellbook"),
     )! as EquipmentItem,
   ],
