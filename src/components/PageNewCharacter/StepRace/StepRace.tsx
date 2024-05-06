@@ -98,12 +98,39 @@ const StepRace: React.FC<
       equipment: [],
       gold: 0,
       spells: [],
+      specials: {
+        race: races[value as RaceNames].details.specials ?? [],
+        class: [],
+      },
+      restrictions: {
+        race: races[value as RaceNames].details.restrictions ?? [],
+        class: [],
+      },
     }));
   }
 
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
+
+  const customInput = showCustomInput ? (
+    <div>
+      <HomebrewWarning homebrew="race" />
+      <Input
+        ref={inputRef}
+        value={isStandardRace(character.race) ? "" : character.race}
+        onChange={handleRaceInputChange}
+      />
+    </div>
+  ) : null;
+
+  const raceDescription = isStandardRace(character.race) ? (
+    <RaceClassDescription
+      subject={character.race}
+      description={races[character.race as RaceNames].details.description ?? ""}
+      image={"races/" + character.race.toLowerCase()}
+    />
+  ) : null;
 
   return (
     <Flex gap={16} vertical className={className}>
@@ -117,25 +144,8 @@ const StepRace: React.FC<
         onChange={handleRaceSelectChange}
         placeholder="Select a race"
       />
-      {showCustomInput && (
-        <div>
-          <HomebrewWarning homebrew="race" />
-          <Input
-            ref={inputRef}
-            value={isStandardRace(character.race) ? "" : character.race}
-            onChange={handleRaceInputChange}
-          />
-        </div>
-      )}
-      {isStandardRace(character.race) && (
-        <RaceClassDescription
-          subject={character.race}
-          description={
-            races[character.race as RaceNames].details.description ?? ""
-          }
-          image={"races/" + character.race.toLowerCase()}
-        />
-      )}
+      {customInput}
+      {raceDescription}
     </Flex>
   );
 };
