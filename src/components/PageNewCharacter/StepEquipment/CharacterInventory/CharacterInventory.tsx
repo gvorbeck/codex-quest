@@ -1,7 +1,6 @@
 import { EquipmentItem } from "@/data/definitions";
-import { Divider, List } from "antd";
+import { Divider, Flex, List, Typography } from "antd";
 import React from "react";
-import CharacterInventoryItem from "../CharacterInventoryItem/CharacterInventoryItem";
 import classNames from "classnames";
 
 interface CharacterInventoryProps {
@@ -21,7 +20,14 @@ const CharacterInventory: React.FC<
         </Divider>
         <List
           dataSource={dataSource}
-          renderItem={(item) => <CharacterInventoryItem item={item} />}
+          renderItem={(item) => (
+            <Flex>
+              <Typography.Text>{item.name}</Typography.Text>
+              <Typography.Text className="ml-auto">
+                {item.amount}x
+              </Typography.Text>
+            </Flex>
+          )}
         />
       </div>
     </div>
