@@ -76,6 +76,7 @@ const StepClass: React.FC<
     }
     return options;
   }
+
   function getComboClassSelectOptions(select: 0 | 1): SelectProps["options"] {
     if (select === 0) {
       return [{ value: ClassNames.MAGICUSER, label: ClassNames.MAGICUSER }];
@@ -91,9 +92,27 @@ const StepClass: React.FC<
     }
   }
 
+  function getSpecialsRestrictions(classArray: ClassNames[]) {
+    function reducer(attr: "specials" | "restrictions") {
+      return classArray.reduce<string[]>((acc, className) => {
+        const classInfo = classes[className];
+        if (classInfo.details?.[attr]) {
+          acc.push(...classInfo.details[attr]!);
+        }
+        return acc;
+      }, []);
+    }
+
+    return {
+      specials: reducer("specials"),
+      restrictions: reducer("restrictions"),
+    };
+  }
+
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
+
   function handleCombinationClassSwitchChange() {
     setPrimaryClass(undefined);
     setSecondaryClass(undefined);
@@ -105,10 +124,19 @@ const StepClass: React.FC<
       equipment: [],
       gold: 0,
       spells: [],
+      specials: {
+        ...prevCharacter.specials,
+        class: [],
+      },
+      restrictions: {
+        ...prevCharacter.restrictions,
+        class: [],
+      },
     }));
   }
   function handlePrimaryClassSelectChange(value: string) {
     setPrimaryClass(value);
+
     if (value === "Custom") {
       setTimeout(() => inputRef.current?.focus(), 5);
       setCharacter((prevCharacter) => ({
@@ -118,13 +146,26 @@ const StepClass: React.FC<
         equipment: [],
         gold: 0,
         spells: [],
+        specials: {
+          ...prevCharacter.specials,
+          class: [],
+        },
+        restrictions: {
+          ...prevCharacter.restrictions,
+          class: [],
+        },
       }));
       return;
     }
+
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
       const newClassArray =
         classArray[1] && combinationClass ? [value, classArray[1]] : [value];
+      const { specials, restrictions } = getSpecialsRestrictions(
+        newClassArray as ClassNames[],
+      );
+
       return {
         ...prevCharacter,
         class: newClassArray,
@@ -132,23 +173,46 @@ const StepClass: React.FC<
         equipment: [],
         gold: 0,
         spells: [],
+        specials: {
+          ...prevCharacter.specials,
+          class: specials,
+        },
+        restrictions: {
+          ...prevCharacter.restrictions,
+          class: restrictions,
+        },
       };
     });
   }
+
   function handleSecondaryClassSelectChange(value: string) {
     setSecondaryClass(value);
+
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
       const newClassArray = classArray[0] ? [classArray[0], value] : [value];
+      const { specials, restrictions } = getSpecialsRestrictions(
+        newClassArray as ClassNames[],
+      );
+
       return {
         ...prevCharacter,
         class: newClassArray,
         hp: { dice: "", points: 0, max: 0, desc: "" },
         equipment: [],
         gold: 0,
+        specials: {
+          ...prevCharacter.specials,
+          class: specials,
+        },
+        restrictions: {
+          ...prevCharacter.restrictions,
+          class: restrictions,
+        },
       };
     });
   }
+
   function handleClassInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
     setCharacter((prevCharacter) => ({
@@ -157,8 +221,87 @@ const StepClass: React.FC<
       hp: { dice: "", points: 0, max: 0, desc: "" },
       equipment: [],
       gold: 0,
+      specials: {
+        ...prevCharacter.specials,
+        class: [],
+      },
+      restrictions: {
+        ...prevCharacter.restrictions,
+        class: [],
+      },
     }));
   }
+
+  const showComboClassSwitch = characterRace.allowedCombinationClasses
+    ?.length ? (
+    <SupplementalContentSwitch
+      label="Use Combination Class"
+      supplementalSwitch={combinationClass}
+      onChange={handleCombinationClassSwitchChange}
+    />
+  ) : null;
+
+  const selectOptionsSource = combinationClass
+    ? getComboClassSelectOptions(0)
+    : getClassSelectOptions(supplementalSwitch);
+
+  const comboClassSelect = combinationClass ? (
+    <Select
+      options={getComboClassSelectOptions(1)}
+      placeholder="Select a class"
+      value={secondaryClass}
+      onChange={handleSecondaryClassSelectChange}
+    />
+  ) : null;
+
+  const customClassForm =
+    classType[0] === "custom" || primaryClass === "Custom" ? (
+      <Flex gap={8} vertical>
+        <HomebrewWarning homebrew="class" />
+        <Input
+          ref={inputRef}
+          value={
+            isStandardClass(character.class) ? undefined : character.class[0]
+          }
+          onChange={handleClassInputChange}
+          placeholder="Custom Class Name"
+        />
+        <React.Suspense fallback={spin}>
+          <AllSpellsSelection
+            character={character}
+            setCharacter={setCharacter}
+          />
+        </React.Suspense>
+      </Flex>
+    ) : null;
+
+  const classSelectionDescriptions = !!character.class.length &&
+    classType[0] !== "custom" && (
+      <Flex gap={8} vertical>
+        {character.class.some((className) => {
+          const classInfo = classes[className as ClassNames];
+          return classInfo?.spellBudget && classInfo.spellBudget[0][0] > 0;
+        }) && <SpellSelect character={character} setCharacter={setCharacter} />}
+        <RaceClassDescription
+          subject={character.class[0]}
+          description={
+            classes[character.class[0] as ClassNames]?.details?.description ||
+            ""
+          }
+          image={`classes/${toSlugCase(character.class[0])}`}
+        />
+        {classType[0] === "combination" && character.class[1] && (
+          <RaceClassDescription
+            subject={character.class[1]}
+            description={
+              classes[character.class[1] as ClassNames]?.details?.description ||
+              ""
+            }
+            image={`classes/${toSlugCase(character.class[1])}`}
+          />
+        )}
+      </Flex>
+    );
 
   return (
     <Flex gap={16} vertical className={className}>
@@ -167,81 +310,19 @@ const StepClass: React.FC<
           supplementalSwitch={supplementalSwitch}
           onChange={handleSupplementalSwitchChange}
         />
-        {characterRace.allowedCombinationClasses?.length && (
-          <SupplementalContentSwitch
-            label="Use Combination Class"
-            supplementalSwitch={combinationClass}
-            onChange={handleCombinationClassSwitchChange}
-          />
-        )}
+        {showComboClassSwitch}
       </Flex>
       <Flex gap={8} vertical>
         <Select
-          options={
-            combinationClass
-              ? getComboClassSelectOptions(0)
-              : getClassSelectOptions(supplementalSwitch)
-          }
+          options={selectOptionsSource}
           placeholder="Select a class"
           value={primaryClass}
           onChange={handlePrimaryClassSelectChange}
         />
-        {combinationClass && (
-          <Select
-            options={getComboClassSelectOptions(1)}
-            placeholder="Select a class"
-            value={secondaryClass}
-            onChange={handleSecondaryClassSelectChange}
-          />
-        )}
+        {comboClassSelect}
       </Flex>
-      {(classType[0] === "custom" || primaryClass === "Custom") && (
-        <Flex gap={8} vertical>
-          <HomebrewWarning homebrew="class" />
-          <Input
-            ref={inputRef}
-            value={
-              isStandardClass(character.class) ? undefined : character.class[0]
-            }
-            onChange={handleClassInputChange}
-            placeholder="Custom Class Name"
-          />
-          <React.Suspense fallback={spin}>
-            <AllSpellsSelection
-              character={character}
-              setCharacter={setCharacter}
-            />
-          </React.Suspense>
-        </Flex>
-      )}
-      {!!character.class.length && classType[0] !== "custom" && (
-        <Flex gap={8} vertical>
-          {character.class.some((className) => {
-            const classInfo = classes[className as ClassNames];
-            return classInfo?.spellBudget && classInfo.spellBudget[0][0] > 0;
-          }) && (
-            <SpellSelect character={character} setCharacter={setCharacter} />
-          )}
-          <RaceClassDescription
-            subject={character.class[0]}
-            description={
-              classes[character.class[0] as ClassNames]?.details?.description ||
-              ""
-            }
-            image={`classes/${toSlugCase(character.class[0])}`}
-          />
-          {classType[0] === "combination" && character.class[1] && (
-            <RaceClassDescription
-              subject={character.class[1]}
-              description={
-                classes[character.class[1] as ClassNames]?.details
-                  ?.description || ""
-              }
-              image={`classes/${toSlugCase(character.class[1])}`}
-            />
-          )}
-        </Flex>
-      )}
+      {customClassForm}
+      {classSelectionDescriptions}
     </Flex>
   );
 };
