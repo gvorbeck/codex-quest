@@ -46,6 +46,7 @@ const EquipmentStore: React.FC<
     for (const className of character.class) {
       classProps[className] = classes[className as ClassNames] ?? {};
     }
+
     for (const [key, value] of Object.entries(EquipmentCategories)) {
       // Check if any class has this equipment category available
       let isCategoryAvailable = false;
@@ -57,22 +58,25 @@ const EquipmentStore: React.FC<
       }
 
       if (isCategoryAvailable) {
-        items.push({
-          key,
-          label: slugToTitleCase(value),
-          children: (
-            <Flex gap={16} vertical>
-              {getEquipmentCategoryChildren(value).map((equipmentItem) => (
-                <EquipmentStoreItem
-                  key={equipmentItem.name}
-                  item={equipmentItem as EquipmentItem}
-                  character={character}
-                  setCharacter={setCharacter}
-                />
-              ))}
-            </Flex>
-          ),
-        });
+        const filteredItems = getEquipmentCategoryChildren(value);
+        if (filteredItems.length > 0) {
+          items.push({
+            key,
+            label: slugToTitleCase(value),
+            children: (
+              <Flex gap={16} vertical>
+                {filteredItems.map((equipmentItem) => (
+                  <EquipmentStoreItem
+                    key={equipmentItem.name}
+                    item={equipmentItem as EquipmentItem}
+                    character={character}
+                    setCharacter={setCharacter}
+                  />
+                ))}
+              </Flex>
+            ),
+          });
+        }
       }
     }
     return items.sort((a, b) => {
