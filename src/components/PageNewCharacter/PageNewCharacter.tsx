@@ -24,6 +24,7 @@ import StepClass from "./StepClass/StepClass";
 import { classes } from "@/data/classes";
 import StepHitPoints from "./StepHitPoints/StepHitPoints";
 import StepEquipment from "./StepEquipment/StepEquipment";
+import StepDetails from "./StepDetails/StepDetails";
 
 console.warn("TODO: specials/restrictions & saving throws");
 
@@ -220,6 +221,9 @@ const PageNewCharacterCreator: React.FC<
       case 4:
         disabled = character.equipment.length === 0 && character.gold === 0;
         break;
+      case 5:
+        disabled = character.name === "";
+        break;
       default:
         break;
     }
@@ -304,6 +308,13 @@ const PageNewCharacterCreator: React.FC<
             )}
             {stepNumber === 4 && (
               <StepEquipment
+                character={character}
+                setCharacter={setCharacter}
+              />
+            )}
+            {stepNumber === 5 && (
+              <StepDetails
+                newCharacter
                 character={character}
                 setCharacter={setCharacter}
               />
