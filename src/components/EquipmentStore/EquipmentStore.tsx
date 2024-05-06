@@ -63,8 +63,38 @@ const EquipmentStore: React.FC<
         const filteredItems = getEquipmentCategoryChildren(value);
         if (filteredItems.length > 0) {
           if (value === "general-equipment") {
+            // Map to organize items by subCategory
+            const subCategoryMap: Record<string, EquipmentItem[]> = {};
+
+            filteredItems.forEach((item: EquipmentItem) => {
+              const category = item.subCategory || "Other";
+              if (!subCategoryMap[category]) {
+                subCategoryMap[category] = [];
+              }
+              subCategoryMap[category].push(item);
+            });
+
+            // Create Collapse items for each subCategory
             const generalEquipmentItems: CollapseProps["items"] =
-              filteredItems.map((equipmentItem) => {});
+              Object.entries(subCategoryMap).map(
+                ([subCategoryKey, subCategoryItems]) => ({
+                  key: subCategoryKey,
+                  label: slugToTitleCase(subCategoryKey),
+                  children: (
+                    <Flex gap={16} vertical>
+                      {subCategoryItems.map((equipmentItem) => (
+                        <EquipmentStoreItem
+                          key={equipmentItem.name}
+                          item={equipmentItem as EquipmentItem}
+                          character={character}
+                          setCharacter={setCharacter}
+                        />
+                      ))}
+                    </Flex>
+                  ),
+                }),
+              );
+
             items.push({
               key,
               label: slugToTitleCase(value),
