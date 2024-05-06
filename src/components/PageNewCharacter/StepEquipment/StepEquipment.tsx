@@ -3,6 +3,7 @@ import { CharData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { rollDice } from "@/support/diceSupport";
 import { Button, Flex, FloatButton, InputNumber, Space } from "antd";
+import CharacterInventory from "./CharacterInventory/CharacterInventory";
 
 interface StepEquipmentProps {
   character: CharData;
@@ -38,7 +39,9 @@ const StepEquipment: React.FC<
         vertical={isMobile}
       >
         <EquipmentStore character={character} setCharacter={setCharacter} />
-        {!hideInventory && <div>CHARACTER INVENTORY</div>}
+        {!hideInventory && (
+          <CharacterInventory equipment={character.equipment} />
+        )}
       </Flex>
       <FloatButton.BackTop
         shape="square"
