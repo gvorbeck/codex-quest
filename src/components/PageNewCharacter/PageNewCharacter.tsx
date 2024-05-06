@@ -88,24 +88,12 @@ const newCharacterStepItemData = [
 ];
 
 const newCharacterStepsItems: StepsProps["items"] = [
-  {
-    title: "Abilities",
-  },
-  {
-    title: "Race",
-  },
-  {
-    title: "Class",
-  },
-  {
-    title: "Hit Points",
-  },
-  {
-    title: "Equipment",
-  },
-  {
-    title: "Details",
-  },
+  { title: "Abilities" },
+  { title: "Race" },
+  { title: "Class" },
+  { title: "Hit Points" },
+  { title: "Equipment" },
+  { title: "Details" },
 ];
 
 const emptyCharacter: CharData = {
