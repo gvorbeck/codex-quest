@@ -1,4 +1,4 @@
-import equipmentItems from "../data/equipmentItems.json";
+import equipmentData from "../data/equipment.json";
 import {
   CharData,
   CostCurrency,
@@ -9,7 +9,7 @@ import { AttackTypes } from "./stringSupport";
 import { DescriptionsProps, RadioChangeEvent, SelectProps } from "antd";
 
 export const getEquipmentItemFromName = (name: string) => {
-  return equipmentItems.find((item) => item.name === name);
+  return equipmentData.find((item) => item.name === name);
 };
 
 export const onChangeWearing = (
@@ -54,7 +54,7 @@ export const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
 // Get an object with properties for every equipment category. Those properties are arrays of equipment items.
 // If no equipment list is provided, the default equipment list is used.
 export const equipmentCategoryMap = (
-  equipmentList: EquipmentItem[] = equipmentItems as EquipmentItem[],
+  equipmentList: EquipmentItem[] = equipmentData as EquipmentItem[],
 ) => {
   const equipmentCategories: Record<string, EquipmentItem[]> = {};
 
@@ -72,7 +72,7 @@ export const equipmentCategoryMap = (
 export const equipmentSubCategoryMap = () => {
   const equipmentSubCategories: Record<string, EquipmentItem[]> = {};
 
-  (equipmentItems as EquipmentItem[])
+  (equipmentData as EquipmentItem[])
     .filter((item) => item.category === EquipmentCategories.GENERAL)
     .forEach((item: EquipmentItem) => {
       if (item.subCategory) {
@@ -109,13 +109,13 @@ export const kickItem: EquipmentItem = {
   noDelete: true,
 };
 
-export const equipmentNames = equipmentItems.map((item) => item.name);
+export const equipmentNames = equipmentData.map((item) => item.name);
 
-export const getItemCost = (item: EquipmentItem) => {
-  let cost = item.costValue;
-  if (item.costCurrency === "sp") cost *= 0.1;
-  if (item.costCurrency === "cp") cost *= 0.01;
-  return cost * item.amount;
+export const getItemCost = (item: EquipmentItem): number => {
+  let unitCost = item.costValue;
+  if (item.costCurrency === "sp") unitCost *= 0.1;
+  if (item.costCurrency === "cp") unitCost *= 0.01;
+  return unitCost;
 };
 
 export type ArmorCategory = "lightArmor" | "mediumArmor" | "heavyArmor";

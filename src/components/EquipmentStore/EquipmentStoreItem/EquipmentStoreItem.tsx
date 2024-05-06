@@ -1,11 +1,12 @@
 import React from "react";
 import { CharData, EquipmentItem } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, InputNumber } from "antd";
-// import { getItemCost } from "@/support/equipmentSupport";
+import { getItemCost } from "@/support/equipmentSupport";
 
 interface EquipmentStoreItemProps {
   item: EquipmentItem;
   character: CharData;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
   // onChange: ((value: number | null) => void) | undefined;
   // disabled?: boolean;
   // gold: number;
@@ -14,7 +15,7 @@ interface EquipmentStoreItemProps {
 
 const EquipmentStoreItem: React.FC<
   EquipmentStoreItemProps & React.ComponentPropsWithRef<"div">
-> = ({ className, item, character }) => {
+> = ({ className, item, character, setCharacter }) => {
   // const maxItemsAffordable = Math.floor(gold / getItemCost(item));
   const damageItem = {
     key: "damage",
@@ -74,18 +75,51 @@ const EquipmentStoreItem: React.FC<
     label: "Amount",
     children: (
       <InputNumber
-        // defaultValue={characterAmount ?? item.amount}
+        defaultValue={
+          character.equipment.some((eqItem) => eqItem.name === item.name)
+            ? character.equipment.find((eqItem) => eqItem.name === item.name)
+                ?.amount || 0
+            : 0
+        }
         min={0}
-        // max={maxItemsAffordable}
-        // onChange={(value) => onChange && onChange(value)}
-        // disabled={disabled}
+        onChange={handleAmountChange}
+        disabled={character.gold < getItemCost(item)}
         className="w-fit"
       />
     ),
   });
 
+  function handleAmountChange(value: number | null) {
+    // console.log(
+    //   character.gold,
+    //   getItemCost(item),
+    //   character.gold - getItemCost(item) < 0,
+    // );
+    setCharacter((prevCharacter) => {
+      const foundItemIndex = prevCharacter.equipment.findIndex(
+        (eqItem) => eqItem.name === item.name,
+      );
+
+      const newEquipment = [...prevCharacter.equipment];
+      if (foundItemIndex !== -1) {
+        // Update existing item amount
+        newEquipment[foundItemIndex] = {
+          ...newEquipment[foundItemIndex],
+          amount: value ?? 0,
+        };
+      } else {
+        // Add new item if it doesn't exist
+        newEquipment.push({ ...item, amount: value ?? 0 });
+      }
+
+      return { ...prevCharacter, equipment: newEquipment };
+    });
+  }
+
   return (
     <Descriptions
+      labelStyle={{ fontSize: ".75rem", padding: "4px" }}
+      contentStyle={{ fontSize: ".75rem" }}
       size="small"
       className={className}
       items={items}

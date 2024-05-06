@@ -21,11 +21,12 @@ import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
 
 interface EquipmentStoreProps {
   character: CharData;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
 }
 
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character }) => {
+> = ({ className, character, setCharacter }) => {
   function getEquipmentCategoryChildren(category: string) {
     return equipmentData.filter((item) => item.category === category);
   }
@@ -47,19 +48,20 @@ const EquipmentStore: React.FC<
       }
 
       if (isCategoryAvailable) {
-        console.log(value, getEquipmentCategoryChildren(value));
         items.push({
           key,
           label: slugToTitleCase(value),
           children: (
-            <div>
+            <Flex gap={16} vertical>
               {getEquipmentCategoryChildren(value).map((equipmentItem) => (
                 <EquipmentStoreItem
+                  key={equipmentItem.name}
                   item={equipmentItem as EquipmentItem}
                   character={character}
+                  setCharacter={setCharacter}
                 />
               ))}
-            </div>
+            </Flex>
           ),
         });
       }
