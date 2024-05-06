@@ -1,20 +1,21 @@
 import React from "react";
-import { EquipmentItem } from "@/data/definitions";
+import { CharData, EquipmentItem } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, InputNumber } from "antd";
-import { getItemCost } from "@/support/equipmentSupport";
+// import { getItemCost } from "@/support/equipmentSupport";
 
 interface EquipmentStoreItemProps {
   item: EquipmentItem;
-  onChange: ((value: number | null) => void) | undefined;
-  disabled?: boolean;
-  gold: number;
-  characterAmount?: number;
+  character: CharData;
+  // onChange: ((value: number | null) => void) | undefined;
+  // disabled?: boolean;
+  // gold: number;
+  // characterAmount?: number;
 }
 
 const EquipmentStoreItem: React.FC<
   EquipmentStoreItemProps & React.ComponentPropsWithRef<"div">
-> = ({ className, item, onChange, disabled, gold, characterAmount }) => {
-  const maxItemsAffordable = Math.floor(gold / getItemCost(item));
+> = ({ className, item, character }) => {
+  // const maxItemsAffordable = Math.floor(gold / getItemCost(item));
   const damageItem = {
     key: "damage",
     label: "Damage",
@@ -73,11 +74,11 @@ const EquipmentStoreItem: React.FC<
     label: "Amount",
     children: (
       <InputNumber
-        defaultValue={characterAmount ?? item.amount}
+        // defaultValue={characterAmount ?? item.amount}
         min={0}
-        max={maxItemsAffordable}
-        onChange={(value) => onChange && onChange(value)}
-        disabled={disabled}
+        // max={maxItemsAffordable}
+        // onChange={(value) => onChange && onChange(value)}
+        // disabled={disabled}
         className="w-fit"
       />
     ),

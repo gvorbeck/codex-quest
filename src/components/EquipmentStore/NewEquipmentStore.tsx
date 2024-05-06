@@ -8,10 +8,16 @@ import {
   Input,
 } from "antd";
 import equipmentData from "@/data/equipment.json";
-import { CharData, ClassNames, EquipmentCategories } from "@/data/definitions";
+import {
+  CharData,
+  ClassNames,
+  EquipmentCategories,
+  EquipmentItem,
+} from "@/data/definitions";
 import { slugToTitleCase } from "@/support/stringSupport";
 import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
+import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
 
 interface EquipmentStoreProps {
   character: CharData;
@@ -20,6 +26,10 @@ interface EquipmentStoreProps {
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character }) => {
+  function getEquipmentCategoryChildren(category: string) {
+    return equipmentData.filter((item) => item.category === category);
+  }
+
   function getEquipmentCategoryItems() {
     const items: CollapseProps["items"] = [];
     const classProps: Record<string, ClassSetup> = {};
@@ -37,10 +47,20 @@ const EquipmentStore: React.FC<
       }
 
       if (isCategoryAvailable) {
+        console.log(value, getEquipmentCategoryChildren(value));
         items.push({
           key,
           label: slugToTitleCase(value),
-          children: <div>{value}</div>,
+          children: (
+            <div>
+              {getEquipmentCategoryChildren(value).map((equipmentItem) => (
+                <EquipmentStoreItem
+                  item={equipmentItem as EquipmentItem}
+                  character={character}
+                />
+              ))}
+            </div>
+          ),
         });
       }
     }
