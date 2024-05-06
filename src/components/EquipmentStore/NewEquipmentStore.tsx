@@ -18,6 +18,7 @@ import { slugToTitleCase } from "@/support/stringSupport";
 import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
 import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
+import React from "react";
 
 interface EquipmentStoreProps {
   character: CharData;
@@ -27,8 +28,16 @@ interface EquipmentStoreProps {
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
+  const [search, setSearch] = React.useState("");
+
+  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value.toLowerCase());
+  }
+
   function getEquipmentCategoryChildren(category: string) {
-    return equipmentData.filter((item) => item.category === category);
+    return equipmentData
+      .filter((item) => item.category === category)
+      .filter((item) => item.name.toLowerCase().includes(search));
   }
 
   function getEquipmentCategoryItems() {
@@ -95,7 +104,11 @@ const EquipmentStore: React.FC<
 
   return (
     <Flex gap={8} vertical className={className}>
-      <Input placeholder="Filter equipment list" />
+      <Input
+        placeholder="Filter equipment list"
+        value={search}
+        onChange={handleSearchChange}
+      />
       <Collapse items={items} />
       <Alert
         type="info"

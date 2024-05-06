@@ -112,7 +112,11 @@ const EquipmentStoreItem: React.FC<
         newEquipment.push({ ...item, amount: value ?? 0 });
       }
 
-      return { ...prevCharacter, equipment: newEquipment };
+      return {
+        ...prevCharacter,
+        equipment: newEquipment,
+        gold: prevCharacter.gold - getItemCost(item),
+      };
     });
   }
 
