@@ -66,7 +66,7 @@ const EquipmentStore: React.FC<
             // Map to organize items by subCategory
             const subCategoryMap: Record<string, EquipmentItem[]> = {};
 
-            filteredItems.forEach((item: EquipmentItem) => {
+            filteredItems.forEach((item: any) => {
               const category = item.subCategory || "Other";
               if (!subCategoryMap[category]) {
                 subCategoryMap[category] = [];
