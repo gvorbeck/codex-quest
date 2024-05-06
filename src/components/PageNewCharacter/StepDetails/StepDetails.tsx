@@ -14,7 +14,7 @@ const StepDetails: React.FC<
   StepDetailsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter, newCharacter }) => {
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanInput = DOMPurify.sanitize(event.target.value);
+    const cleanInput = DOMPurify.sanitize(event.target.value).trim();
     setCharacter({ ...character, name: cleanInput });
   };
 
@@ -24,6 +24,7 @@ const StepDetails: React.FC<
         value={character.name}
         onChange={handleNameChange}
         placeholder="Name"
+        maxLength={100}
       />
       {newCharacter && (
         <AvatarPicker character={character} setCharacter={setCharacter} />
