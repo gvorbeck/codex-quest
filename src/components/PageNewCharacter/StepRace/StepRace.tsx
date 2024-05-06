@@ -84,6 +84,14 @@ const StepRace: React.FC<
         equipment: [],
         gold: 0,
         spells: [],
+        specials: {
+          race: races[value as RaceNames].details.specials ?? [],
+          class: [],
+        },
+        restrictions: {
+          race: races[value as RaceNames].details.restrictions ?? [],
+          class: [],
+        },
       }));
     }
   }
@@ -99,11 +107,11 @@ const StepRace: React.FC<
       gold: 0,
       spells: [],
       specials: {
-        race: races[value as RaceNames].details.specials ?? [],
+        race: [],
         class: [],
       },
       restrictions: {
-        race: races[value as RaceNames].details.restrictions ?? [],
+        race: [],
         class: [],
       },
     }));
