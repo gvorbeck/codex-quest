@@ -43,6 +43,8 @@ const EquipmentStore: React.FC<
   function getEquipmentCategoryItems() {
     const items: CollapseProps["items"] = [];
     const classProps: Record<string, ClassSetup> = {};
+
+    // Setting up class properties based on the character's class array.
     for (const className of character.class) {
       classProps[className] = classes[className as ClassNames] ?? {};
     }
@@ -60,22 +62,32 @@ const EquipmentStore: React.FC<
       if (isCategoryAvailable) {
         const filteredItems = getEquipmentCategoryChildren(value);
         if (filteredItems.length > 0) {
-          items.push({
-            key,
-            label: slugToTitleCase(value),
-            children: (
-              <Flex gap={16} vertical>
-                {filteredItems.map((equipmentItem) => (
-                  <EquipmentStoreItem
-                    key={equipmentItem.name}
-                    item={equipmentItem as EquipmentItem}
-                    character={character}
-                    setCharacter={setCharacter}
-                  />
-                ))}
-              </Flex>
-            ),
-          });
+          if (value === "general-equipment") {
+            const generalEquipmentItems: CollapseProps["items"] =
+              filteredItems.map((equipmentItem) => {});
+            items.push({
+              key,
+              label: slugToTitleCase(value),
+              children: <Collapse ghost items={generalEquipmentItems} />,
+            });
+          } else {
+            items.push({
+              key,
+              label: slugToTitleCase(value),
+              children: (
+                <Flex gap={16} vertical>
+                  {filteredItems.map((equipmentItem) => (
+                    <EquipmentStoreItem
+                      key={equipmentItem.name}
+                      item={equipmentItem as EquipmentItem}
+                      character={character}
+                      setCharacter={setCharacter}
+                    />
+                  ))}
+                </Flex>
+              ),
+            });
+          }
         }
       }
     }
