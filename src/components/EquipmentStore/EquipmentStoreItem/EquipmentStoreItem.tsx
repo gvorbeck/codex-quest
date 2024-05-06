@@ -7,16 +7,11 @@ interface EquipmentStoreItemProps {
   item: EquipmentItem;
   character: CharData;
   setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
-  // onChange: ((value: number | null) => void) | undefined;
-  // disabled?: boolean;
-  // gold: number;
-  // characterAmount?: number;
 }
 
 const EquipmentStoreItem: React.FC<
   EquipmentStoreItemProps & React.ComponentPropsWithRef<"div">
 > = ({ className, item, character, setCharacter }) => {
-  // const maxItemsAffordable = Math.floor(gold / getItemCost(item));
   const damageItem = {
     key: "damage",
     label: "Damage",
