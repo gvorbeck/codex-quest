@@ -27,7 +27,7 @@ import StepEquipment from "./StepEquipment/StepEquipment";
 import StepDetails from "./StepDetails/StepDetails";
 
 console.warn(
-  "TODO: specials/restrictions & saving throws & equipment item limits per race/class (like large items etc)",
+  "TODO: specials/restrictions & saving throws & equipment item limits per race/class (like large items etc) & equipment store for custom class",
 );
 
 interface PageNewCharacterProps {
