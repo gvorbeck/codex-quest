@@ -90,11 +90,6 @@ const EquipmentStoreItem: React.FC<
   });
 
   function handleAmountChange(value: number | null) {
-    // console.log(
-    //   character.gold,
-    //   getItemCost(item),
-    //   character.gold - getItemCost(item) < 0,
-    // );
     setCharacter((prevCharacter) => {
       const foundItemIndex = prevCharacter.equipment.findIndex(
         (eqItem) => eqItem.name === item.name,
@@ -115,7 +110,7 @@ const EquipmentStoreItem: React.FC<
       return {
         ...prevCharacter,
         equipment: newEquipment,
-        gold: prevCharacter.gold - getItemCost(item),
+        gold: parseFloat((prevCharacter.gold - getItemCost(item)).toFixed(2)),
       };
     });
   }
