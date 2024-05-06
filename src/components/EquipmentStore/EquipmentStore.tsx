@@ -1,10 +1,3 @@
-import React from "react";
-import {
-  CharData,
-  ClassNames,
-  EquipmentCategories,
-  EquipmentItem,
-} from "@/data/definitions";
 import {
   Alert,
   Collapse,
@@ -14,215 +7,119 @@ import {
   Flex,
   Input,
 } from "antd";
+import equipmentData from "@/data/equipment.json";
 import {
-  equipmentCategoryMap,
-  equipmentSubCategoryMap,
-  getItemCost,
-} from "@/support/equipmentSupport";
-import { slugToTitleCase, toSlugCase } from "@/support/stringSupport";
-import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
+  CharData,
+  ClassNames,
+  EquipmentCategories,
+  EquipmentItem,
+} from "@/data/definitions";
+import { slugToTitleCase } from "@/support/stringSupport";
 import { classes } from "@/data/classes";
-import { races } from "@/data/races";
-import { getClassType } from "@/support/classSupport";
+import { ClassSetup } from "@/data/classes/definitions";
+import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
+import React from "react";
 
 interface EquipmentStoreProps {
-  character?: CharData;
-  equipment: EquipmentItem[];
-  setEquipment: (equipment: EquipmentItem[]) => void;
-  gold: number;
-  setGold: (gold: number) => void;
-  newCharacter?: boolean;
-  cost?: boolean;
+  character: CharData;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
 }
-
-const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
-  {
-    key: "1",
-    label: "**",
-    children: "This weapon only does subduing damage",
-  },
-  {
-    key: "2",
-    label: "(E)",
-    children: "Entangling: This weapon may be used to snare or hold opponents.",
-  },
-  {
-    key: "3",
-    label: "†",
-    children: "Silver tip or blade, for use against lycanthropes.",
-  },
-];
 
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  equipment,
-  setEquipment,
-  gold,
-  setGold,
-  newCharacter,
-  cost = false,
-}) => {
-  const [filterText, setFilterText] = React.useState("");
+> = ({ className, character, setCharacter }) => {
+  const [search, setSearch] = React.useState("");
 
-  const getFilteredEquipmentCategories = (
-    characterClass: string | string[],
-  ) => {
-    const equipmentCategories = new Set<string>();
+  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value.toLowerCase());
+  }
 
-    character.class.forEach((classItem: ClassNames) => {
-      const availableCategories =
-        classes[classItem as keyof typeof classes].availableEquipmentCategories;
-      availableCategories.forEach((category) =>
-        equipmentCategories.add(category),
-      );
-    });
+  function getEquipmentCategoryChildren(category: string) {
+    return equipmentData
+      .filter((item) => item.category === category)
+      .filter((item) => item.name.toLowerCase().includes(search));
+  }
 
-    return Array.from(equipmentCategories);
-  };
-
-  if (!character) return null;
-  const noLargeEquipment =
-    races[character.race as keyof typeof races]?.noLargeEquipment ?? false;
-
-  const onChange = (value: number | null, item: EquipmentItem) => {
-    const newEquipment = equipment.filter((e) => e.name !== item.name);
-    if (!!value && value > 0) {
-      const newItem = { ...item, amount: value };
-      newEquipment.push(newItem);
+  function getEquipmentCategoryItems() {
+    const items: CollapseProps["items"] = [];
+    const classProps: Record<string, ClassSetup> = {};
+    for (const className of character.class) {
+      classProps[className] = classes[className as ClassNames] ?? {};
     }
-    if (cost) {
-      const oldEquipmentCost = equipment
-        .reduce((acc, curr) => {
-          return acc + getItemCost(curr);
-        }, 0)
-        .toFixed(2);
-      const newEquipmentCost = newEquipment
-        .reduce((acc, curr) => {
-          return acc + getItemCost(curr);
-        }, 0)
-        .toFixed(2);
 
-      setGold(+(gold + (+oldEquipmentCost - +newEquipmentCost)).toFixed(2));
+    for (const [key, value] of Object.entries(EquipmentCategories)) {
+      // Check if any class has this equipment category available
+      let isCategoryAvailable = false;
+      for (const classSetup of Object.values(classProps)) {
+        if (classSetup.availableEquipmentCategories?.includes(value)) {
+          isCategoryAvailable = true;
+          break; // Stop searching once we find a match
+        }
+      }
+
+      if (isCategoryAvailable) {
+        const filteredItems = getEquipmentCategoryChildren(value);
+        if (filteredItems.length > 0) {
+          items.push({
+            key,
+            label: slugToTitleCase(value),
+            children: (
+              <Flex gap={16} vertical>
+                {filteredItems.map((equipmentItem) => (
+                  <EquipmentStoreItem
+                    key={equipmentItem.name}
+                    item={equipmentItem as EquipmentItem}
+                    character={character}
+                    setCharacter={setCharacter}
+                  />
+                ))}
+              </Flex>
+            ),
+          });
+        }
+      }
     }
-    setEquipment(newEquipment);
-  };
-
-  const generalItems: CollapseProps["items"] = Object.entries(
-    equipmentSubCategoryMap(),
-  ).map((category, index) => {
-    return {
-      key: (index + 1).toString(),
-      label: slugToTitleCase(category[0]),
-      children: (
-        <Flex vertical gap={16}>
-          {category[1].map((item: EquipmentItem, itemIndex: number) => {
-            // Filter out if item does not match filter text
-            if (
-              filterText &&
-              !item.name.toLowerCase().includes(filterText.toLowerCase())
-            ) {
-              return null;
-            }
-            let characterInventoryAmount = undefined;
-            if (character) {
-              characterInventoryAmount = equipment.find(
-                (charItem) => charItem.name === item.name,
-              )?.amount;
-            }
-            return (
-              <EquipmentStoreItem
-                key={itemIndex}
-                item={item}
-                characterAmount={characterInventoryAmount}
-                onChange={(e) => onChange(e ? +e : 0, item)}
-                // disabled={item.amount === 0 && getItemCost(item) >= gold}
-                // max={getItemCost(item) >= gold}
-                gold={gold}
-              />
-            );
-          })}
-        </Flex>
-      ),
-    };
-  });
-
-  const items: CollapseProps["items"] = Object.entries(equipmentCategoryMap())
-    .sort()
-    .map((category, index) => ({
-      key: index + 1 + "",
-      label: slugToTitleCase(category[0]),
-      children: (
-        <Flex vertical gap={16}>
-          {category[0] === EquipmentCategories.GENERAL ? (
-            <Collapse items={generalItems} ghost className="flex flex-col" />
-          ) : (
-            category[1].map((item: EquipmentItem, index: number) => {
-              // Filter out if item does not match filter text
-              if (
-                filterText &&
-                !item.name.toLowerCase().includes(filterText.toLowerCase())
-              ) {
-                return null;
-              }
-              // Filter out large equipment if character cannot use it
-              if (noLargeEquipment && item.size === "L") {
-                return null;
-              }
-              let characterInventoryAmount = undefined;
-              if (character) {
-                characterInventoryAmount = equipment.find(
-                  (charItem) => charItem.name === item.name,
-                )?.amount;
-              }
-              return (
-                <EquipmentStoreItem
-                  key={index}
-                  item={item}
-                  characterAmount={characterInventoryAmount}
-                  onChange={(e) => onChange(e ? +e : 0, item)}
-                  // disabled={item.amount === 0 && getItemCost(item) >= gold}
-                  // max={getItemCost(item) >= gold}
-                  gold={gold}
-                />
-              );
-            })
-          )}
-        </Flex>
-      ),
-    }));
-
-  let filteredItems = items;
-
-  if (character && getClassType(character.class) !== "custom") {
-    const filteredCategories = getFilteredEquipmentCategories(
-      character.class,
-    ).map(toSlugCase);
-
-    filteredItems = items.filter((item) => {
-      const itemCategory = toSlugCase(item.label as string); // Ensure same format for comparison
-      return filteredCategories.includes(itemCategory);
+    return items.sort((a, b) => {
+      const labelA = typeof a.label === "string" ? a.label : "";
+      const labelB = typeof b.label === "string" ? b.label : "";
+      return labelA.localeCompare(labelB);
     });
   }
 
+  const items: CollapseProps["items"] = getEquipmentCategoryItems();
+  const descriptionsItems: DescriptionsProps["items"] = [
+    {
+      key: "1",
+      label: "**",
+      children: "This weapon only does subduing damage",
+    },
+    {
+      key: "2",
+      label: "(E)",
+      children:
+        "Entangling: This weapon may be used to snare or hold opponents.",
+    },
+    {
+      key: "3",
+      label: "†",
+      children: "Silver tip or blade, for use against lycanthropes.",
+    },
+  ];
+
   return (
-    <Flex vertical gap={16} className={className}>
+    <Flex gap={8} vertical className={className}>
       <Input
-        placeholder="Search"
-        onChange={(e) => setFilterText(e.target.value)}
+        placeholder="Filter equipment list"
+        value={search}
+        onChange={handleSearchChange}
       />
-      <Collapse
-        items={filteredItems}
-        collapsible={!gold && newCharacter ? "disabled" : undefined}
-      />
+      <Collapse items={items} />
       <Alert
         type="info"
         message={
           <Descriptions
             size="small"
-            items={equipmentSymbolKeyItems}
+            items={descriptionsItems}
             column={1}
             contentStyle={{ fontSize: ".75rem" }}
           />

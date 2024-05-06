@@ -1,4 +1,4 @@
-import EquipmentStore from "@/components/EquipmentStore/NewEquipmentStore";
+import EquipmentStore from "@/components/EquipmentStore/EquipmentStore";
 import { CharData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { rollDice } from "@/support/diceSupport";
