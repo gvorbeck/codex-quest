@@ -181,34 +181,39 @@ const StepAbilities: React.FC<
     ];
   }
 
+  const abilityScore = areAllAbilitiesSet() ? (
+    <Descriptions
+      className="[&_td]:p-0 inline-block"
+      items={getAbilityTotalItems()}
+    />
+  ) : undefined;
+
+  const buttons = newCharacter ? (
+    <Flex gap={16} align="center" justify="flex-start">
+      <Button type="primary" onClick={handleRollAllAbilities}>
+        Roll All Abilities
+      </Button>
+      <Button disabled={!areAllAbilitiesSet()} onClick={handleFlipAbilities}>
+        Flip 'em
+      </Button>
+      {abilityScore}
+    </Flex>
+  ) : undefined;
+
+  const size = isMobile ? "small" : "large";
+
+  const classNames = `${className ?? ""} w-fit`;
+
   return (
     <>
-      {newCharacter && (
-        <Flex gap={16} align="center" justify="flex-start">
-          <Button type="primary" onClick={handleRollAllAbilities}>
-            Roll All Abilities
-          </Button>
-          <Button
-            disabled={!areAllAbilitiesSet()}
-            onClick={handleFlipAbilities}
-          >
-            Flip 'em
-          </Button>
-          {areAllAbilitiesSet() && (
-            <Descriptions
-              className="[&_td]:p-0 inline-block"
-              items={getAbilityTotalItems()}
-            />
-          )}
-        </Flex>
-      )}
+      {buttons}
       <Table
         dataSource={dataSource}
         columns={columns}
         pagination={false}
-        size={isMobile ? "small" : "large"}
+        size={size}
         bordered
-        className={`${className ?? ""} w-fit`}
+        className={classNames}
       />
     </>
   );
