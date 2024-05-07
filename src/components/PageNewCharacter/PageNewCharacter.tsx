@@ -31,9 +31,7 @@ import { auth } from "@/firebase";
 import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
 
-console.warn(
-  "TODO: equipment store for custom class & custom avatars & character name spaces being removed? * messageapi not working *",
-);
+console.warn("TODO: custom avatars & * messageapi not working *");
 
 interface PageNewCharacterProps {
   user: User | null;
@@ -147,7 +145,18 @@ const PageNewCharacterCreator: React.FC<
   const [stepNumber, setStepNumber] = React.useState<number>(0);
   const [character, setCharacter] = React.useState<CharData>(emptyCharacter);
   const navigate = useNavigate();
-  console.log(character);
+  const [messageApi, contextHolder] = message.useMessage();
+  if (!user) {
+    return (
+      <>
+        <Breadcrumb items={breadcrumbItems} />
+        <Typography.Text>
+          You must log in before creating a character.
+        </Typography.Text>
+      </>
+    );
+  }
+  console.info("Character in progress:", character);
 
   if (!newCharacterStepsItems) return;
 
@@ -157,34 +166,6 @@ const PageNewCharacterCreator: React.FC<
   function handlePrev() {
     setStepNumber((prevStepNumber) => prevStepNumber - 1);
   }
-
-  // const addCharacterData = async (
-  //   character: CharData,
-  //   messageApi: MessageInstance,
-  //   setCharacter: (character: CharData) => void,
-  //   setCurrentStep: (currentStep: number) => void,
-  //   navigate: NavigateFunction,
-  // ) => {
-  //   await createDocument(
-  //     auth.currentUser,
-  //     "characters",
-  //     character,
-  //     (name) => {
-  //       success(name, messageApi);
-  //       // Reset characterData and step
-  //       setCharacter({} as CharData);
-  //       setCurrentStep(0);
-  //     },
-  //     (error) => {
-  //       errorMessage(`Error writing document: ${error}`, messageApi);
-  //     },
-  //     () => {
-  //       navigate("/");
-  //     },
-  //   );
-  // };
-
-  const [messageApi, contextHolder] = message.useMessage();
   function success(name: string, messageApi: MessageInstance) {
     messageApi.open({
       type: "success",
