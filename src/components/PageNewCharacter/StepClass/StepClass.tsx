@@ -107,14 +107,6 @@ const StepClass: React.FC<
       equipment: [],
       gold: 0,
       spells: [],
-      specials: {
-        ...prevCharacter.specials,
-        class: [],
-      },
-      restrictions: {
-        ...prevCharacter.restrictions,
-        class: [],
-      },
     }));
   }
   function handlePrimaryClassSelectChange(value: string) {
@@ -129,14 +121,6 @@ const StepClass: React.FC<
         equipment: [],
         gold: 0,
         spells: [],
-        specials: {
-          ...prevCharacter.specials,
-          class: [],
-        },
-        restrictions: {
-          ...prevCharacter.restrictions,
-          class: [],
-        },
       }));
       return;
     }
