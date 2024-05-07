@@ -1,17 +1,33 @@
 import React from "react";
 import { CharData } from "@/data/definitions";
-import { Radio, RadioChangeEvent, UploadFile, Modal, Divider } from "antd";
-import { getBase64 } from "@/support/accountSupport";
+import {
+  Radio,
+  RadioChangeEvent,
+  UploadFile,
+  Divider,
+  GetProp,
+  Image,
+} from "antd";
 import Upload, { RcFile, UploadProps } from "antd/es/upload";
-import { getDownloadURL } from "firebase/storage";
-import { storage, ref, uploadBytes } from "@/firebase";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { storage } from "@/firebase";
 import { PlusOutlined } from "@ant-design/icons";
 import StockAvatars from "./StockAvatars/StockAvatars";
 
 type AvatarPickerProps = {
   character: CharData;
-  setCharacter: (character: CharData) => void;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
 };
+
+type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+
+const getBase64 = (file: FileType): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 
 export default function AvatarPicker({
   character,
@@ -19,23 +35,17 @@ export default function AvatarPicker({
 }: AvatarPickerProps) {
   const [previewOpen, setPreviewOpen] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState("");
-  const [previewTitle, setPreviewTitle] = React.useState("");
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
   const [imageSource, setImageSource] = React.useState(0);
 
-  const handleCancel = () => setPreviewOpen(false);
-
-  const handlePreview = async (file: UploadFile) => {
+  async function handlePreview(file: UploadFile) {
     if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
+      file.preview = await getBase64(file.originFileObj as FileType);
     }
 
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1),
-    );
-  };
+  }
 
   const handleChange: UploadProps["onChange"] = async ({
     fileList: newFileList,
@@ -84,15 +94,50 @@ export default function AvatarPicker({
   };
 
   const uploadButton = (
-    <div>
+    <button style={{ border: 0, background: "none" }} type="button">
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
+    </button>
   );
+
   const handleChangeImageSource = (e: RadioChangeEvent) => {
-    setCharacter({ ...character, avatar: "" });
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      avatar: "",
+    }));
     setImageSource(e.target.value);
   };
+
+  const showUpload =
+    imageSource === 2 ? (
+      <>
+        <Upload
+          listType="picture-circle"
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleChange}
+          beforeUpload={() => false}
+        >
+          {fileList.length > 1 ? null : uploadButton}
+        </Upload>
+        {previewImage && (
+          <Image
+            wrapperStyle={{ display: "none" }}
+            preview={{
+              visible: previewOpen,
+              onVisibleChange: (visible) => setPreviewOpen(visible),
+              afterOpenChange: (visible) => !visible && setPreviewImage(""),
+            }}
+            src={previewImage}
+          />
+        )}
+      </>
+    ) : null;
+
+  const showStockAvatars =
+    imageSource === 1 ? (
+      <StockAvatars character={character} setCharacter={setCharacter} />
+    ) : null;
 
   return (
     <>
@@ -108,30 +153,8 @@ export default function AvatarPicker({
         <Radio.Button value={1}>Stock</Radio.Button>
         <Radio.Button value={2}>Upload</Radio.Button>
       </Radio.Group>
-      {imageSource === 2 && (
-        <>
-          <Upload
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-            className="cursor-pointer"
-          >
-            {fileList.length >= 1 ? null : uploadButton}
-          </Upload>
-          <Modal
-            open={previewOpen}
-            title={previewTitle}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <img alt="example" style={{ width: "100%" }} src={previewImage} />
-          </Modal>
-        </>
-      )}
-      {imageSource === 1 && (
-        <StockAvatars character={character} setCharacter={setCharacter} />
-      )}
+      {showUpload}
+      {showStockAvatars}
     </>
   );
 }
