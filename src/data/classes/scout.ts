@@ -25,8 +25,8 @@ export const scout: ClassSetup = {
     EquipmentCategories.CHAINFLAIL,
   ],
   equipmentAttackBonuses: [
-    ["shortbow", "+1"],
-    ["longbow", "+1"],
+    ["shortbow", "+2"],
+    ["longbow", "+2"],
   ],
   noLargeEquipment: true,
   specificEquipmentItems: [[EquipmentCategories.ARMOR], ["leather"]],
