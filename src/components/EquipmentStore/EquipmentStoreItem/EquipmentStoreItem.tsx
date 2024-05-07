@@ -42,6 +42,26 @@ const EquipmentStoreItem: React.FC<
     return character.gold < getItemCost(item);
   }
 
+  function specificItemsOnly() {
+    for (const className of character.class) {
+      const classDetails = classes[className as ClassNames];
+      const specificItems = classDetails?.specificEquipmentItems;
+
+      if (specificItems) {
+        const [allowedCategories, allowedItems] = specificItems;
+
+        // Check if the item's category is in the list of restricted categories
+        if (allowedCategories.includes(item.category)) {
+          // Check if the item's name matches any in the allowed list (case-insensitive)
+          return !allowedItems.some((allowedItem) =>
+            item.name.toLowerCase().includes(allowedItem.toLowerCase()),
+          );
+        }
+      }
+    }
+    return false; // If no class restrictions apply, return false (item is not specifically disabled)
+  }
+
   const damageItem = {
     key: "damage",
     label: "Damage",
@@ -102,13 +122,12 @@ const EquipmentStoreItem: React.FC<
       <InputNumber
         defaultValue={
           character.equipment.some((eqItem) => eqItem.name === item.name)
-            ? character.equipment.find((eqItem) => eqItem.name === item.name)
-                ?.amount || 0
+            ? item.amount
             : 0
         }
         min={0}
         onChange={handleAmountChange}
-        disabled={isAffordable() || isSizeDisabled()}
+        disabled={isAffordable() || isSizeDisabled() || specificItemsOnly()}
         className="w-fit"
       />
     ),
