@@ -1,6 +1,6 @@
 import { DiceTypes, EquipmentItem, SavingThrowsType } from "../definitions";
 
-export type ClassSetup = {
+export interface ClassSetup {
   attackBonus: number[];
   availableEquipmentCategories: string[];
   details?: {
@@ -10,7 +10,7 @@ export type ClassSetup = {
   };
   experiencePoints: number[];
   equipmentAttackBonuses?: [string, string][];
-  customRules?: { title: string; description: string }[];
+  customRules?: { title: string; description: string }[]; // Not in use yet, but may be used for toggles in the future.
   hitDice: DiceTypes;
   hitDiceModifier: number;
   minimumAbilityRequirements?: Partial<
@@ -39,4 +39,4 @@ export type ClassSetup = {
   startingSpells?: string[];
   icons?: [React.FC, string][];
   isBase?: boolean;
-};
+}
