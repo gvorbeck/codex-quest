@@ -32,7 +32,7 @@ import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
 
 console.warn(
-  "TODO: maximumAbilityRequirements & equipment item limits per race/class (like large items etc) & equipment store for custom class & custom avatars & character name spaces being removed? * messageapi not working *",
+  "TODO: equipment store for custom class & custom avatars & character name spaces being removed? * messageapi not working *",
 );
 
 interface PageNewCharacterProps {
