@@ -66,6 +66,7 @@ const EquipmentStore: React.FC<
             // Map to organize items by subCategory
             const subCategoryMap: Record<string, EquipmentItem[]> = {};
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             filteredItems.forEach((item: any) => {
               const category = item.subCategory || "Other";
               if (!subCategoryMap[category]) {

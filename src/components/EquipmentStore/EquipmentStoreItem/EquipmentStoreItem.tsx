@@ -1,7 +1,14 @@
 import React from "react";
-import { CharData, EquipmentItem } from "@/data/definitions";
+import {
+  CharData,
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+} from "@/data/definitions";
 import { Descriptions, DescriptionsProps, InputNumber } from "antd";
 import { getItemCost } from "@/support/equipmentSupport";
+import { races } from "@/data/races";
+import { classes } from "@/data/classes";
 
 interface EquipmentStoreItemProps {
   item: EquipmentItem;
@@ -12,6 +19,29 @@ interface EquipmentStoreItemProps {
 const EquipmentStoreItem: React.FC<
   EquipmentStoreItemProps & React.ComponentPropsWithRef<"div">
 > = ({ className, item, character, setCharacter }) => {
+  function getItemWeight() {
+    let weight = 0;
+    const modifier =
+      races[character.race as RaceNames]?.equipmentWeightModifier;
+    if (modifier?.length && modifier[0] === item.category) {
+      weight = item.weight! * modifier[1];
+    }
+    return weight;
+  }
+
+  function isSizeDisabled() {
+    if (item.size !== "L") return false;
+    const raceDisabled = races[character.race as RaceNames]?.noLargeEquipment;
+    const classDisabled = character.class.some(
+      (className) => classes[className as ClassNames]?.noLargeEquipment,
+    );
+    return raceDisabled || classDisabled;
+  }
+
+  function isAffordable() {
+    return character.gold < getItemCost(item);
+  }
+
   const damageItem = {
     key: "damage",
     label: "Damage",
@@ -22,7 +52,7 @@ const EquipmentStoreItem: React.FC<
   const weightItem = {
     key: "weight",
     label: "Weight",
-    children: item.weight,
+    children: getItemWeight(),
   };
   const acItem = { key: "ac", label: "AC", children: item.AC };
   const missileACItem = {
@@ -78,7 +108,7 @@ const EquipmentStoreItem: React.FC<
         }
         min={0}
         onChange={handleAmountChange}
-        disabled={character.gold < getItemCost(item)}
+        disabled={isAffordable() || isSizeDisabled()}
         className="w-fit"
       />
     ),
