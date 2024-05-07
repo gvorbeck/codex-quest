@@ -6,7 +6,7 @@ import { CharData } from "@/data/definitions";
 
 interface StepDetailsProps {
   character: CharData;
-  setCharacter: (character: CharData) => void;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
   newCharacter?: boolean;
 }
 
@@ -14,8 +14,8 @@ const StepDetails: React.FC<
   StepDetailsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter, newCharacter }) => {
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanInput = DOMPurify.sanitize(event.target.value).trim();
-    setCharacter({ ...character, name: cleanInput });
+    const cleanInput = DOMPurify.sanitize(event.target.value);
+    setCharacter((prevCharacter) => ({ ...prevCharacter, name: cleanInput }));
   };
 
   return (
