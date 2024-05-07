@@ -8,7 +8,7 @@ import {
   Popconfirm,
 } from "antd";
 import { extractImageName } from "@/support/characterSupport";
-import { images } from "@/assets/images/faces/imageAssets";
+// import { images } from "@/assets/images/faces/imageAssets";
 import {
   DeleteOutlined,
   SolutionOutlined,
@@ -35,16 +35,17 @@ const CardCharacter: React.FC<
   // Legacy characters created while the site was using Create React App will have broken image links that start with "/static/media/"
   // This code checks for that and replaces the broken link with the correct one
   let image = "";
-  if (item?.avatar?.startsWith("/static/media/")) {
-    const legacyImage = extractImageName(item.avatar);
-    if (legacyImage) {
-      // find the matching source images in `images`
-      // "/src/assets/images/faces/gnome-boy-1.jpg" matches gnome-boy-1
-      image = images.find((image) => image.includes(legacyImage)) || "";
-    }
-  } else {
-    image = item.avatar;
-  }
+  console.log("avatar", item.avatar, item.name);
+  // if (item?.avatar?.startsWith("/static/media/")) {
+  //   const legacyImage = extractImageName(item.avatar);
+  //   if (legacyImage) {
+  //     // find the matching source images in `images`
+  //     // "/src/assets/images/faces/gnome-boy-1.jpg" matches gnome-boy-1
+  //     image = images.find((image) => image.includes(legacyImage)) || "";
+  //   }
+  // } else {
+  //   image = item.avatar;
+  // }
 
   const descriptionItems: DescriptionsProps["items"] = [
     { key: "1", label: "Level", children: item.level },
