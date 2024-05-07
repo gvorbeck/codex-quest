@@ -19,7 +19,10 @@ export const magicUser: ClassSetup = {
     EquipmentCategories.BARDING,
     EquipmentCategories.IMPROVISED,
   ],
-  specificEquipmentItems: [[EquipmentCategories.OTHERWEAPONS], ["cudgel"]],
+  specificEquipmentItems: [
+    [EquipmentCategories.OTHERWEAPONS],
+    ["cudgel", "stick"],
+  ],
   experiencePoints: [
     0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
     750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000,
