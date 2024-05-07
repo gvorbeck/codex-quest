@@ -129,12 +129,16 @@ const StepClass: React.FC<
       const classArray = [...prevCharacter.class];
       const newClassArray =
         classArray[1] && combinationClass ? [value, classArray[1]] : [value];
+      const startingEquipment = classes[value as ClassNames]?.startingEquipment;
+      if (startingEquipment) {
+        startingEquipment.forEach((item) => (item.amount = 1));
+      }
 
       return {
         ...prevCharacter,
         class: newClassArray,
         hp: { dice: "", points: 0, max: 0, desc: "" },
-        equipment: [],
+        equipment: startingEquipment ?? [],
         gold: 0,
         spells: [],
       };
