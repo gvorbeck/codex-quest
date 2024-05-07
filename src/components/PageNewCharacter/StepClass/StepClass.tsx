@@ -1,4 +1,9 @@
-import { CharData, ClassNames, RaceNames } from "@/data/definitions";
+import {
+  CharData,
+  ClassNames,
+  EquipmentItem,
+  RaceNames,
+} from "@/data/definitions";
 import React from "react";
 import SupplementalContentSwitch from "../SupplementalContentSwitch/SupplementalContentSwitch";
 import { getClassType, isStandardClass } from "@/support/classSupport";
@@ -92,6 +97,21 @@ const StepClass: React.FC<
     }
   }
 
+  function getStartingEquipment(classArray: string[]) {
+    const startingEquipment: EquipmentItem[] = [];
+    classArray.some((className) => {
+      const hasStartingEquipment =
+        classes[className as ClassNames]?.startingEquipment;
+      if (hasStartingEquipment) {
+        hasStartingEquipment.forEach((item) => {
+          item.amount = 1;
+        });
+        startingEquipment.push(...hasStartingEquipment);
+      }
+    });
+    return startingEquipment;
+  }
+
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
@@ -109,6 +129,7 @@ const StepClass: React.FC<
       spells: [],
     }));
   }
+
   function handlePrimaryClassSelectChange(value: string) {
     setPrimaryClass(value);
 
@@ -129,10 +150,8 @@ const StepClass: React.FC<
       const classArray = [...prevCharacter.class];
       const newClassArray =
         classArray[1] && combinationClass ? [value, classArray[1]] : [value];
-      const startingEquipment = classes[value as ClassNames]?.startingEquipment;
-      if (startingEquipment) {
-        startingEquipment.forEach((item) => (item.amount = 1));
-      }
+      const startingEquipment: EquipmentItem[] =
+        getStartingEquipment(newClassArray);
 
       return {
         ...prevCharacter,
@@ -151,12 +170,14 @@ const StepClass: React.FC<
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
       const newClassArray = classArray[0] ? [classArray[0], value] : [value];
+      const startingEquipment: EquipmentItem[] =
+        getStartingEquipment(newClassArray);
 
       return {
         ...prevCharacter,
         class: newClassArray,
         hp: { dice: "", points: 0, max: 0, desc: "" },
-        equipment: [],
+        equipment: startingEquipment || [],
         gold: 0,
       };
     });
