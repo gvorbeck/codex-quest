@@ -32,7 +32,7 @@ import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
 
 console.warn(
-  "TODO: saving throws & equipment item limits per race/class (like large items etc) & equipment store for custom class & custom avatars & character name spaces being removed? * messageapi not working *",
+  "TODO: equipment item limits per race/class (like large items etc) & equipment store for custom class & custom avatars & character name spaces being removed? * messageapi not working *",
 );
 
 interface PageNewCharacterProps {
@@ -136,21 +136,6 @@ const emptyCharacter: CharData = {
   level: 1,
   name: "",
   race: "",
-  restrictions: {
-    race: [],
-    class: [],
-  },
-  savingThrows: {
-    deathRayOrPoison: 0,
-    dragonBreath: 0,
-    magicWands: 0,
-    paralysisOrPetrify: 0,
-    spells: 0,
-  },
-  specials: {
-    race: [],
-    class: [],
-  },
   spells: [],
   weight: 0,
   xp: 0,
@@ -283,6 +268,7 @@ const PageNewCharacterCreator: React.FC<
   }
   return (
     <>
+      {contextHolder}
       <Breadcrumb items={breadcrumbItems} />
       <Row className={className} gutter={16}>
         <Col xs={24} sm={5}>

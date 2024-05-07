@@ -155,10 +155,10 @@ export type EquipmentItem = {
   minLevel?: number;
 };
 
-type SpecialRestriction = {
-  race: string[];
-  class: string[];
-};
+// type SpecialRestriction = {
+//   race: string[];
+//   class: string[];
+// };
 
 export type CharData = {
   abilities: {
@@ -182,9 +182,9 @@ export type CharData = {
   level: number;
   name: string;
   race: string;
-  restrictions: SpecialRestriction;
-  savingThrows: SavingThrowsType;
-  specials: SpecialRestriction;
+  // restrictions: SpecialRestriction;
+  // savingThrows: SavingThrowsType;
+  // specials: SpecialRestriction;
   spells: Spell[];
   userId?: string;
   wearing?: { armor: string; shield: string };

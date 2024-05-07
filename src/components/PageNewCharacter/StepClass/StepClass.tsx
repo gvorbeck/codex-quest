@@ -92,23 +92,6 @@ const StepClass: React.FC<
     }
   }
 
-  function getSpecialsRestrictions(classArray: ClassNames[]) {
-    function reducer(attr: "specials" | "restrictions") {
-      return classArray.reduce<string[]>((acc, className) => {
-        const classInfo = classes[className];
-        if (classInfo.details?.[attr]) {
-          acc.push(...classInfo.details[attr]!);
-        }
-        return acc;
-      }, []);
-    }
-
-    return {
-      specials: reducer("specials"),
-      restrictions: reducer("restrictions"),
-    };
-  }
-
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
@@ -162,9 +145,6 @@ const StepClass: React.FC<
       const classArray = [...prevCharacter.class];
       const newClassArray =
         classArray[1] && combinationClass ? [value, classArray[1]] : [value];
-      const { specials, restrictions } = getSpecialsRestrictions(
-        newClassArray as ClassNames[],
-      );
 
       return {
         ...prevCharacter,
@@ -173,14 +153,6 @@ const StepClass: React.FC<
         equipment: [],
         gold: 0,
         spells: [],
-        specials: {
-          ...prevCharacter.specials,
-          class: specials,
-        },
-        restrictions: {
-          ...prevCharacter.restrictions,
-          class: restrictions,
-        },
       };
     });
   }
@@ -191,9 +163,6 @@ const StepClass: React.FC<
     setCharacter((prevCharacter) => {
       const classArray = [...prevCharacter.class];
       const newClassArray = classArray[0] ? [classArray[0], value] : [value];
-      const { specials, restrictions } = getSpecialsRestrictions(
-        newClassArray as ClassNames[],
-      );
 
       return {
         ...prevCharacter,
@@ -201,14 +170,6 @@ const StepClass: React.FC<
         hp: { dice: "", points: 0, max: 0, desc: "" },
         equipment: [],
         gold: 0,
-        specials: {
-          ...prevCharacter.specials,
-          class: specials,
-        },
-        restrictions: {
-          ...prevCharacter.restrictions,
-          class: restrictions,
-        },
       };
     });
   }
@@ -221,14 +182,6 @@ const StepClass: React.FC<
       hp: { dice: "", points: 0, max: 0, desc: "" },
       equipment: [],
       gold: 0,
-      specials: {
-        ...prevCharacter.specials,
-        class: [],
-      },
-      restrictions: {
-        ...prevCharacter.restrictions,
-        class: [],
-      },
     }));
   }
 
