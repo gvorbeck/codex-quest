@@ -61,7 +61,7 @@ function getCharacterHitDiceFromClass(character: CharData) {
   } else if (classType[0] === "standard") {
     return incrementChecker(classes[character.class[0] as ClassNames].hitDice);
   }
-  return undefined;
+  return (character.hp.dice as DiceTypes) || undefined;
 }
 
 const StepHitPoints: React.FC<
