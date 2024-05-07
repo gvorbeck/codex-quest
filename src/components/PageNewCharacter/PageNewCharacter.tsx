@@ -10,6 +10,7 @@ import {
   StepsProps,
   Tooltip,
   Typography,
+  message,
 } from "antd";
 import { User } from "firebase/auth";
 import BreadcrumbHomeLink from "../BreadcrumbHomeLink/BreadcrumbHomeLink";
@@ -25,9 +26,13 @@ import { classes } from "@/data/classes";
 import StepHitPoints from "./StepHitPoints/StepHitPoints";
 import StepEquipment from "./StepEquipment/StepEquipment";
 import StepDetails from "./StepDetails/StepDetails";
+import { createDocument } from "@/support/accountSupport";
+import { auth } from "@/firebase";
+import { MessageInstance } from "antd/es/message/interface";
+import { useNavigate } from "react-router-dom";
 
 console.warn(
-  "TODO: specials/restrictions & saving throws & equipment item limits per race/class (like large items etc) & equipment store for custom class",
+  "TODO: saving throws & equipment item limits per race/class (like large items etc) & equipment store for custom class & custom avatars & character name spaces being removed? * messageapi not working *",
 );
 
 interface PageNewCharacterProps {
@@ -156,6 +161,7 @@ const PageNewCharacterCreator: React.FC<
 > = ({ user, className }) => {
   const [stepNumber, setStepNumber] = React.useState<number>(0);
   const [character, setCharacter] = React.useState<CharData>(emptyCharacter);
+  const navigate = useNavigate();
   console.log(character);
 
   if (!newCharacterStepsItems) return;
@@ -167,8 +173,64 @@ const PageNewCharacterCreator: React.FC<
     setStepNumber((prevStepNumber) => prevStepNumber - 1);
   }
 
-  function handleSaveCharacter() {
-    // ...TBD
+  // const addCharacterData = async (
+  //   character: CharData,
+  //   messageApi: MessageInstance,
+  //   setCharacter: (character: CharData) => void,
+  //   setCurrentStep: (currentStep: number) => void,
+  //   navigate: NavigateFunction,
+  // ) => {
+  //   await createDocument(
+  //     auth.currentUser,
+  //     "characters",
+  //     character,
+  //     (name) => {
+  //       success(name, messageApi);
+  //       // Reset characterData and step
+  //       setCharacter({} as CharData);
+  //       setCurrentStep(0);
+  //     },
+  //     (error) => {
+  //       errorMessage(`Error writing document: ${error}`, messageApi);
+  //     },
+  //     () => {
+  //       navigate("/");
+  //     },
+  //   );
+  // };
+
+  const [messageApi, contextHolder] = message.useMessage();
+  function success(name: string, messageApi: MessageInstance) {
+    messageApi.open({
+      type: "success",
+      content: `${name} successfully saved!`,
+    });
+  }
+  function errorMessage(message: string, messageApi: MessageInstance) {
+    messageApi.open({
+      type: "error",
+      content: `This is an error message: ${message}`,
+    });
+  }
+
+  async function handleSaveCharacter() {
+    await createDocument(
+      auth.currentUser,
+      "characters",
+      character,
+      (name) => {
+        success(name, messageApi);
+        // Reset characterData and step
+        setCharacter({} as CharData);
+        setStepNumber(0);
+      },
+      (error) => {
+        errorMessage(`Error writing document: ${error}`, messageApi);
+      },
+      () => {
+        navigate("/");
+      },
+    );
   }
 
   function handleProgressDisabled() {
