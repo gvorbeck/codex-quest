@@ -19,6 +19,7 @@ import { classes } from "@/data/classes";
 import { ClassSetup } from "@/data/classes/definitions";
 import EquipmentStoreItem from "./EquipmentStoreItem/EquipmentStoreItem";
 import React from "react";
+import { getClassType } from "@/support/classSupport";
 
 interface EquipmentStoreProps {
   character: CharData;
@@ -43,6 +44,9 @@ const EquipmentStore: React.FC<
   function getEquipmentCategoryItems() {
     const items: CollapseProps["items"] = [];
     const classProps: Record<string, ClassSetup> = {};
+    const classTypes = getClassType(character.class);
+    // Assume all categories are available if any class is 'custom'
+    const isCustomClass = classTypes.includes("custom");
 
     // Setting up class properties based on the character's class array.
     for (const className of character.class) {
@@ -51,11 +55,13 @@ const EquipmentStore: React.FC<
 
     for (const [key, value] of Object.entries(EquipmentCategories)) {
       // Check if any class has this equipment category available
-      let isCategoryAvailable = false;
-      for (const classSetup of Object.values(classProps)) {
-        if (classSetup.availableEquipmentCategories?.includes(value)) {
-          isCategoryAvailable = true;
-          break; // Stop searching once we find a match
+      let isCategoryAvailable = isCustomClass;
+      if (!isCustomClass) {
+        for (const classSetup of Object.values(classProps)) {
+          if (classSetup.availableEquipmentCategories?.includes(value)) {
+            isCategoryAvailable = true;
+            break; // Stop searching once we find a match
+          }
         }
       }
 
