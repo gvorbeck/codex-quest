@@ -1,22 +1,21 @@
 import { classes } from "@/data/classes";
-import { CharData, Spell } from "@/data/definitions";
+import { CharData, ModalDisplay, Spell } from "@/data/definitions";
 import React from "react";
 import SpellOptionsContainer from "./SpellOptionsContainer/SpellOptionsContainer";
 import { Button, Flex } from "antd";
 import { getSelectedSpellsByLevel } from "@/support/spellSupport";
-import { classSplit } from "@/support/classSupport";
 import { rollDice } from "@/support/diceSupport";
 import { getHitDice } from "@/support/statSupport";
 
 interface ModalLevelUpProps {
   character: CharData;
   setCharacter: (character: CharData) => void;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const ModalLevelUp: React.FC<
   ModalLevelUpProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, setModalIsOpen }) => {
+> = ({ className, character, setCharacter, setModalDisplay }) => {
   const [magicClass, setMagicClass] = React.useState<string>("");
   const [spellBudget, setSpellBudget] = React.useState<number[]>([]);
   const [selectedSpells, setSelectedSpells] = React.useState<Array<Spell[]>>(
@@ -38,14 +37,16 @@ const ModalLevelUp: React.FC<
       spells: selectedSpells.flatMap((spells) => spells),
     };
     setCharacter(newCharacter);
-    setModalIsOpen(false);
+    setModalDisplay((prevModalDisplayer) => ({
+      ...prevModalDisplayer,
+      isOpen: false,
+    }));
   };
 
   React.useEffect(() => {
     // Set magicClass when character changes
-    const classArr = classSplit(character.class);
     // NOTE: do this with some() instead:
-    for (const cls of classArr) {
+    for (const cls of character.class) {
       const key = cls as keyof typeof classes;
       if (classes[key]?.spellBudget) {
         setMagicClass(key);
