@@ -23,7 +23,7 @@ const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
   editableClassName,
 }) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const editOutlinedÇlassNames = classNames("shadow-none", editableClassName);
+  const editOutlinedClassNames = classNames("shadow-none", editableClassName);
 
   const handleEditClick = () => {
     const editing = !isEditing;
@@ -44,7 +44,7 @@ const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
               type={isEditing ? "primary" : "link"}
               icon={<EditOutlined className="cursor" />}
               onClick={handleEditClick}
-              className={editOutlinedÇlassNames}
+              className={editOutlinedClassNames}
             />
           </Tooltip>
         )}
