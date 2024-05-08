@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, Input } from "antd";
 import { CostCurrency } from "@/data/definitions";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { useMoney } from "@/hooks/useMoney";
 import { useDeviceType } from "@/hooks/useDeviceType";
 

@@ -11,7 +11,7 @@ import {
 } from "antd";
 import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
 import classNames from "classnames";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { classSplit } from "@/support/classSupport";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import HeroAvatar from "./HeroAvatar/HeroAvatar";

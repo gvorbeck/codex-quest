@@ -5,7 +5,7 @@ import { races } from "@/data/races";
 import { classes } from "@/data/classes";
 import SpecialsRestrictionsList from "../SpecialsRestrictionsList/SpecialsRestrictionsList";
 import { titleCaseToCamelCase } from "@/support/stringSupport";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { classSplit } from "@/support/classSupport";
 
 const SpecialsRestrictions: React.FC<React.ComponentPropsWithRef<"div">> = ({

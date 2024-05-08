@@ -1,4 +1,4 @@
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { Collapse, CollapseProps, Empty, Popconfirm } from "antd";
 import React from "react";
 import CantripDescriptions from "./CantripDescriptions/CantripDescriptions";

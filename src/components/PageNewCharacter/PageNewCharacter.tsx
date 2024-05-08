@@ -30,6 +30,7 @@ import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
+import { emptyCharacter } from "@/support/characterSupport";
 
 console.warn("TODO: custom avatars & * messageapi not working *");
 
@@ -100,44 +101,6 @@ const newCharacterStepsItems: StepsProps["items"] = [
   { title: "Equipment" },
   { title: "Details" },
 ];
-
-const emptyCharacter: CharData = {
-  abilities: {
-    scores: {
-      strength: 0,
-      intelligence: 0,
-      wisdom: 0,
-      dexterity: 0,
-      constitution: 0,
-      charisma: 0,
-    },
-    modifiers: {
-      strength: "",
-      intelligence: "",
-      wisdom: "",
-      dexterity: "",
-      constitution: "",
-      charisma: "",
-    },
-  },
-  avatar: "",
-  class: [],
-  desc: [],
-  equipment: [],
-  gold: 0,
-  hp: {
-    dice: "",
-    points: 0,
-    max: 0,
-    desc: "",
-  },
-  level: 1,
-  name: "",
-  race: "",
-  spells: [],
-  weight: 0,
-  xp: 0,
-};
 
 const PageNewCharacterCreator: React.FC<
   PageNewCharacterProps & React.ComponentPropsWithRef<"div">

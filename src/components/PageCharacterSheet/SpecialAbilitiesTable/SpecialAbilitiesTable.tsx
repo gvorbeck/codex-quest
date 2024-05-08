@@ -2,7 +2,7 @@ import React from "react";
 import { ColumnType } from "antd/es/table";
 import { Table } from "antd";
 import classNames from "classnames";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
 import { rollSpecialAbility } from "@/support/diceSupport";
 

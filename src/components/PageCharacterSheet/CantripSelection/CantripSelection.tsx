@@ -2,7 +2,7 @@ import React from "react";
 import cantrips from "@/data/cantrips.json";
 import { Card, Checkbox, Flex, Typography } from "antd";
 import { ZeroLevelSpell } from "@/data/definitions";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { classSplit } from "@/support/classSupport";
 

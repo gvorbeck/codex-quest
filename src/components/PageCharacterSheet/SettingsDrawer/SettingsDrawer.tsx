@@ -1,6 +1,6 @@
 import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
 import { Button, Divider, Drawer, Flex } from "antd";
 import React from "react";

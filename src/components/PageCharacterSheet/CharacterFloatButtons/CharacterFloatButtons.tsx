@@ -8,7 +8,7 @@ import Icon, {
 } from "@ant-design/icons/lib/components/Icon";
 import { FloatButton } from "antd";
 import React from "react";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { useCharacterDice } from "@/hooks/useCharacterDice";
 import ModalCheatSheet from "@/components/ModalCheatSheet/ModalCheatSheet";
 import ModalVirtualDice from "@/components/ModalVirtualDice/ModalVirtualDice";

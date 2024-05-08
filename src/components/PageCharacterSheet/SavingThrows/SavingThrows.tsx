@@ -3,7 +3,7 @@ import React from "react";
 import { Table } from "antd";
 import { camelCaseToTitleCase } from "@/support/stringSupport";
 import classNames from "classnames";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
 import { classSplit } from "@/support/classSupport";
 import { rollSavingThrow } from "@/support/diceSupport";

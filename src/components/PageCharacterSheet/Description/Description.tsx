@@ -3,7 +3,7 @@ import React from "react";
 import DOMPurify from "dompurify";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import DescriptionFieldButton from "../CollapseEquipment/DescriptionFieldButton/DescriptionFieldButton";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { getClassType } from "@/support/classSupport";
 
 type DescriptionProps = {

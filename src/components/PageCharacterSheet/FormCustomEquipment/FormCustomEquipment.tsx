@@ -17,7 +17,7 @@ import Ammo from "./Ammo/Ammo";
 import { EquipmentCategories, EquipmentItem } from "@/data/definitions";
 import SubCategory from "./SubCategory/SubCategory";
 import ArmorType from "./ArmorType/ArmorType";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import Notes from "./Notes/Notes";
 
 interface FormCustomEquipmentProps {

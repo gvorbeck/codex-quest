@@ -2,7 +2,7 @@ import React from "react";
 import { Abilities } from "@/data/definitions";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface DataType {
   key: string;

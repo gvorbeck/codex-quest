@@ -3,7 +3,7 @@ import React from "react";
 import CollapseEquipment from "../CollapseEquipment/CollapseEquipment";
 import EquipmentItemDescription from "../CollapseEquipment/EquipmentItemDescription/EquipmentItemDescription";
 import { kickItem, punchItem } from "@/support/equipmentSupport";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface EquipmentProps {
   setModalIsOpen: (modalIsOpen: boolean) => void;

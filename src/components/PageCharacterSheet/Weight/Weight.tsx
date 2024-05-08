@@ -3,7 +3,7 @@ import { RaceNames } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, Flex } from "antd";
 import CharacterStat from "../CharacterStat/CharacterStat";
 import { getCarryingCapacity, getWeight } from "@/support/statSupport";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
 const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
