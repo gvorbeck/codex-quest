@@ -228,3 +228,9 @@ export type CombatantType = {
 };
 
 export type CombatantTypes = "player" | "monster";
+
+export interface ModalDisplay {
+  isOpen: boolean;
+  title: string;
+  content: React.ReactNode | undefined;
+}
