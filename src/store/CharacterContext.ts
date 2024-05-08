@@ -4,7 +4,7 @@ import { emptyCharacter } from "@/support/characterSupport";
 
 interface CharacterDataContextProps {
   character: CharData;
-  setCharacter: (character: CharData | null) => void;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
   userIsOwner: boolean;
   uid: string | undefined;
   id: string | undefined;
