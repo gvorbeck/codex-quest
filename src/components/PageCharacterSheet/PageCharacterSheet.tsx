@@ -2,6 +2,11 @@ import { useCharacterData } from "@/hooks/useCharacterData";
 import { User } from "firebase/auth";
 import PageCharacterSheetSkeleton from "./PageCharacterSheetSkeleton/PageCharacterSheetSkeleton";
 import { CharacterDataContext } from "@/store/CharacterContext";
+import CharacterFloatButtons from "./CharacterFloatButtons/CharacterFloatButtons";
+import { useModal } from "@/hooks/useModal";
+import React from "react";
+import { Flex, Row } from "antd";
+import Hero from "./Hero/Hero";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -10,14 +15,25 @@ interface PageCharacterSheetProps {
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
+  const [open, setOpen] = React.useState(false);
   const { character, setCharacter, userIsOwner, uid, id } =
     useCharacterData(user);
+  const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
+
+  const showDrawer = () => setOpen(true);
 
   return character ? (
     <CharacterDataContext.Provider
       value={{ character, setCharacter, userIsOwner, uid, id }}
     >
-      <div className={className}>Character Sheet</div>
+      <CharacterFloatButtons
+        setModalDisplay={setModalDisplay}
+        modalOk={modalOkRef.current}
+        openSettingsDrawer={showDrawer}
+      />
+      <Flex vertical className={className} gap={16}>
+        <Hero setModalDisplay={setModalDisplay} />
+      </Flex>
     </CharacterDataContext.Provider>
   ) : (
     <PageCharacterSheetSkeleton />
