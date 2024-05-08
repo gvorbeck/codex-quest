@@ -1,7 +1,6 @@
 import AvatarPicker from "@/components/AvatarPicker/AvatarPicker";
 import { CharData } from "@/data/definitions";
 import { getAvatar } from "@/support/characterSupport";
-import { avatarClassNames } from "@/support/cssSupport";
 import { EditOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Badge } from "antd";
 import classNames from "classnames";
@@ -55,7 +54,7 @@ const HeroAvatar: React.FC<
       <Badge count={<EditOutlined className="opacity-25" />}>
         <Avatar
           size={64}
-          className={avatarClassNames}
+          className="avatar"
           icon={!character.avatar ? <UserOutlined /> : undefined}
           src={character.avatar ? getAvatar(character.avatar) : undefined}
         />
