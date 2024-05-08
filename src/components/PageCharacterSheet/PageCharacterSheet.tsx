@@ -7,6 +7,8 @@ import { useModal } from "@/hooks/useModal";
 import React from "react";
 import { Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
+import { CharData } from "@/data/definitions";
+import ModalContainer from "../ModalContainer/ModalContainer";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -15,6 +17,10 @@ interface PageCharacterSheetProps {
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
+  console.info(
+    "choosing a stock avatar doesn't show selected ring around image.",
+  );
+
   const [open, setOpen] = React.useState(false);
   const { character, setCharacter, userIsOwner, uid, id } =
     useCharacterData(user);
@@ -24,7 +30,15 @@ const PageCharacterSheet: React.FC<
 
   return character ? (
     <CharacterDataContext.Provider
-      value={{ character, setCharacter, userIsOwner, uid, id }}
+      value={{
+        character,
+        setCharacter: setCharacter as React.Dispatch<
+          React.SetStateAction<CharData>
+        >,
+        userIsOwner,
+        uid,
+        id,
+      }}
     >
       <CharacterFloatButtons
         setModalDisplay={setModalDisplay}
@@ -34,6 +48,11 @@ const PageCharacterSheet: React.FC<
       <Flex vertical className={className} gap={16}>
         <Hero setModalDisplay={setModalDisplay} />
       </Flex>
+      <ModalContainer
+        modalDisplay={modalDisplay}
+        setModalDisplay={setModalDisplay}
+        modalOk={modalOkRef.current}
+      />
     </CharacterDataContext.Provider>
   ) : (
     <PageCharacterSheetSkeleton />

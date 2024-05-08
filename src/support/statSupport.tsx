@@ -8,9 +8,9 @@ import {
 } from "@/data/definitions";
 import { AttackTypes } from "./stringSupport";
 import { races } from "@/data/races";
-import equipmentItems from "../data/equipmentItems.json";
+import equipmentItems from "../data/equipment.json";
 import { ArmorCategory } from "./equipmentSupport";
-import { classSplit, getClassType } from "./classSupport";
+import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
 
@@ -172,11 +172,10 @@ export const getCarryingCapacity = (
 };
 
 export const getAttackBonus = (character: CharData) => {
-  const classArr = classSplit(character.class);
-  if (getClassType(classArr) === "custom") return 0;
+  if (getClassType(character.class).includes("custom")) return 0;
   let maxAttackBonus = 0;
 
-  classArr.forEach((classPiece) => {
+  character.class.forEach((classPiece) => {
     const classAttackBonus =
       classes[classPiece as ClassNames]?.attackBonus[character.level];
     if (classAttackBonus > maxAttackBonus) {
@@ -233,7 +232,7 @@ export const getBestSavingThrowList = (charClass: string[], level: number) => {
   };
   const classType = getClassType(charClass);
   // if classType is standard, find saving throws for that class
-  if (classType === "standard") {
+  if (classType.includes("standard")) {
     return getSavingThrows(charClass.join(), level) || defaultSavingThrows;
     // if classType is combination, find saving throws for each class and use the best
   } else {
@@ -282,8 +281,7 @@ export const getExtraIcons = (character: CharData) => {
   type IconTuple = [React.FC<IconComponentProps>, string];
 
   const raceIcons = races[character.race as RaceNames]?.icons || [];
-  const charClasses = classSplit(character.class);
-  const classIcons = charClasses.reduce((acc: IconTuple[], charClass) => {
+  const classIcons = character.class.reduce((acc: IconTuple[], charClass) => {
     const classIcon = classes[charClass as ClassNames]?.icons || [];
     return [...acc, ...classIcon];
   }, [] as IconTuple[]);
