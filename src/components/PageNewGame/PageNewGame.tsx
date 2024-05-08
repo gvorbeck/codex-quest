@@ -2,29 +2,17 @@ import { User } from "firebase/auth";
 import React from "react";
 import NewContentWrapper from "../NewContentWrapper/NewContentWrapper";
 import { marked } from "marked";
-import { Breadcrumb, BreadcrumbProps, Button, Form, Input } from "antd";
-import BreadcrumbHomeLink from "../BreadcrumbHomeLink/BreadcrumbHomeLink";
+import { Breadcrumb, Button, Form, Input } from "antd";
 import { UsergroupAddOutlined } from "@ant-design/icons";
 import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { useNavigate } from "react-router-dom";
 import { GameData } from "@/data/definitions";
+import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
 interface PageNewGameProps {
   user: User | null;
 }
-
-const breadcrumbItems: BreadcrumbProps["items"] = [
-  { title: <BreadcrumbHomeLink /> },
-  {
-    title: (
-      <div>
-        <UsergroupAddOutlined className="mr-2" />
-        <span>New Game</span>
-      </div>
-    ),
-  },
-];
 
 const PageNewGame: React.FC<
   PageNewGameProps & React.ComponentPropsWithRef<"div">
@@ -57,7 +45,10 @@ const PageNewGame: React.FC<
   );
   return (
     <>
-      <Breadcrumb items={breadcrumbItems} className="-mb-4" />
+      <Breadcrumb
+        items={breadcrumbItems("New Character", UsergroupAddOutlined)}
+        className="-mb-4"
+      />
       <NewContentWrapper
         className={className}
         title={"New Game"}
