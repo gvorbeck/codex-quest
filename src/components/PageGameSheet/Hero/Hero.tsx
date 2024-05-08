@@ -1,6 +1,5 @@
 import {
   Breadcrumb,
-  BreadcrumbProps,
   Button,
   Divider,
   Flex,
@@ -10,10 +9,10 @@ import {
 } from "antd";
 import React from "react";
 import AddPlayerForm from "../PlayerList/AddPlayerForm/AddPlayerForm";
-import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
 import { HourglassOutlined, TeamOutlined } from "@ant-design/icons";
 import { GameData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
+import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
 interface HeroProps {
   game: GameData;
@@ -34,22 +33,10 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
   setTurnTrackerExpanded,
 }) => {
   const { isMobile } = useDeviceType();
-  const breadcrumbItems: BreadcrumbProps["items"] = [
-    {
-      title: <BreadcrumbHomeLink />,
-    },
-    {
-      title: (
-        <div>
-          <TeamOutlined className="mr-2" />
-          <span>{game?.name}</span>
-        </div>
-      ),
-    },
-  ];
+
   return (
     <div className={className}>
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems(game?.name, TeamOutlined)} />
       <Typography.Title
         level={2}
         className="my-5 font-enchant text-5xl tracking-wide text-center"
