@@ -1,6 +1,5 @@
 import {
   Breadcrumb,
-  BreadcrumbProps,
   Button,
   Col,
   Divider,
@@ -13,7 +12,6 @@ import {
   message,
 } from "antd";
 import { User } from "firebase/auth";
-import BreadcrumbHomeLink from "../BreadcrumbHomeLink/BreadcrumbHomeLink";
 import { UserAddOutlined } from "@ant-design/icons";
 import React from "react";
 import { CharData, ClassNames } from "@/data/definitions";
@@ -31,24 +29,13 @@ import { auth } from "@/firebase";
 import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
 import { emptyCharacter } from "@/support/characterSupport";
+import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
-console.warn("TODO: custom avatars & * messageapi not working *");
+console.warn("TODO: * messageapi not working *");
 
 interface PageNewCharacterProps {
   user: User | null;
 }
-
-const breadcrumbItems: BreadcrumbProps["items"] = [
-  { title: <BreadcrumbHomeLink /> },
-  {
-    title: (
-      <div>
-        <UserAddOutlined className="mr-2" />
-        <span>New Character</span>
-      </div>
-    ),
-  },
-];
 
 const newCharacterStepItemData = [
   {
@@ -112,7 +99,7 @@ const PageNewCharacterCreator: React.FC<
   if (!user) {
     return (
       <>
-        <Breadcrumb items={breadcrumbItems} />
+        <Breadcrumb items={breadcrumbItems("New Character", UserAddOutlined)} />
         <Typography.Text>
           You must log in before creating a character.
         </Typography.Text>
@@ -283,7 +270,7 @@ const PageNewCharacterCreator: React.FC<
   return (
     <>
       {contextHolder}
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems("New Character", UserAddOutlined)} />
       <Row className={className} gutter={16}>
         <Col xs={24} sm={5}>
           <Steps
