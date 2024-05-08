@@ -14,7 +14,7 @@ const ContentListWrapper: React.FC<
     className,
   );
   return (
-    <div className={contentListWrapperClassNames}>
+    <div className={loading ? "" : contentListWrapperClassNames}>
       {loading ? loadingContent : children}
     </div>
   );
