@@ -247,6 +247,76 @@ const PageNewCharacterCreator: React.FC<
     }
     return disabled;
   }
+
+  function getStepContent() {
+    let content = null;
+    stepNumber === 0 &&
+      (content = (
+        <StepAbilities
+          character={character}
+          setCharacter={setCharacter}
+          newCharacter
+        />
+      ));
+
+    stepNumber === 1 &&
+      (content = (
+        <StepRace character={character} setCharacter={setCharacter} />
+      ));
+    stepNumber === 2 &&
+      (content = (
+        <StepClass character={character} setCharacter={setCharacter} />
+      ));
+    stepNumber === 3 &&
+      (content = (
+        <StepHitPoints character={character} setCharacter={setCharacter} />
+      ));
+    stepNumber === 4 &&
+      (content = (
+        <StepEquipment character={character} setCharacter={setCharacter} />
+      ));
+    stepNumber === 5 &&
+      (content = (
+        <StepDetails
+          newCharacter
+          character={character}
+          setCharacter={setCharacter}
+        />
+      ));
+    return content;
+  }
+
+  const previousButton =
+    stepNumber > 0 ? <Button onClick={handlePrev}>Previous</Button> : null;
+  const nextButton =
+    stepNumber < newCharacterStepsItems.length - 1 ? (
+      <Tooltip
+        title={
+          handleProgressDisabled() &&
+          newCharacterStepItemData[stepNumber]["disabled"]
+        }
+      >
+        <Button
+          type="primary"
+          onClick={handleNext}
+          disabled={handleProgressDisabled()}
+          className="[&:only-child]:ml-auto"
+        >
+          Next
+        </Button>
+      </Tooltip>
+    ) : null;
+  const doneButton =
+    stepNumber === newCharacterStepsItems.length - 1 ? (
+      <Button
+        type="primary"
+        onClick={handleSaveCharacter}
+        disabled={handleProgressDisabled()}
+      >
+        Done
+      </Button>
+    ) : null;
+
   return (
     <>
       {contextHolder}
@@ -278,66 +348,11 @@ const PageNewCharacterCreator: React.FC<
             <Divider />
             {/* NEW WRAPPER COMPONENT END */}
             <Flex gap={16} justify="space-between">
-              {stepNumber > 0 && <Button onClick={handlePrev}>Previous</Button>}
-              {stepNumber < newCharacterStepsItems.length - 1 && (
-                <Tooltip
-                  title={
-                    handleProgressDisabled() &&
-                    newCharacterStepItemData[stepNumber]["disabled"]
-                  }
-                >
-                  <Button
-                    type="primary"
-                    onClick={handleNext}
-                    disabled={handleProgressDisabled()}
-                    className="[&:only-child]:ml-auto"
-                  >
-                    Next
-                  </Button>
-                </Tooltip>
-              )}
-              {stepNumber === newCharacterStepsItems.length - 1 && (
-                <Button
-                  type="primary"
-                  onClick={handleSaveCharacter}
-                  disabled={handleProgressDisabled()}
-                >
-                  Done
-                </Button>
-              )}
+              {previousButton}
+              {nextButton}
+              {doneButton}
             </Flex>
-            {stepNumber === 0 && (
-              <StepAbilities
-                character={character}
-                setCharacter={setCharacter}
-                newCharacter
-              />
-            )}
-            {stepNumber === 1 && (
-              <StepRace character={character} setCharacter={setCharacter} />
-            )}
-            {stepNumber === 2 && (
-              <StepClass character={character} setCharacter={setCharacter} />
-            )}
-            {stepNumber === 3 && (
-              <StepHitPoints
-                character={character}
-                setCharacter={setCharacter}
-              />
-            )}
-            {stepNumber === 4 && (
-              <StepEquipment
-                character={character}
-                setCharacter={setCharacter}
-              />
-            )}
-            {stepNumber === 5 && (
-              <StepDetails
-                newCharacter
-                character={character}
-                setCharacter={setCharacter}
-              />
-            )}
+            {getStepContent()}
           </Flex>
         </Col>
       </Row>
