@@ -5,9 +5,9 @@ import { CharacterDataContext } from "@/store/CharacterContext";
 import CharacterFloatButtons from "./CharacterFloatButtons/CharacterFloatButtons";
 import { useModal } from "@/hooks/useModal";
 import React from "react";
-import { Col, Flex, Row } from "antd";
+import { Alert, Col, Divider, Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
-import { CharData } from "@/data/definitions";
+import { CharData, ClassNames } from "@/data/definitions";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
@@ -18,6 +18,12 @@ import StepHitPoints from "../PageNewCharacter/StepHitPoints/StepHitPoints";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import CharacterStat from "./CharacterStat/CharacterStat";
 import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
+import { getClassType } from "@/support/classSupport";
+import SpecialsRestrictions from "./SpecialsRestrictions/SpecialsRestrictions";
+import { classes } from "@/data/classes";
+import SpecialAbilitiesTable from "./SpecialAbilitiesTable/SpecialAbilitiesTable";
+import SavingThrows from "./SavingThrows/SavingThrows";
+import { customClassString } from "@/support/stringSupport";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -138,6 +144,48 @@ const PageCharacterSheet: React.FC<
             </Flex>
           </Col>
         </Row>
+        <Divider />
+        {getClassType(character.class).includes("standard") ? (
+          <Row gutter={16}>
+            <Col xs={24} sm={12} md={14}>
+              <Section
+                title="Restrictions & Special Abilities"
+                component={<SpecialsRestrictions />}
+              />
+            </Col>
+            <Col xs={24} sm={12} md={10}>
+              <Flex gap={16} vertical>
+                {character.class.map((cls) => {
+                  const specialAbilities =
+                    classes[cls as ClassNames]?.specialAbilities;
+                  if (specialAbilities) {
+                    return (
+                      <Section
+                        key={cls}
+                        title={`${cls} Abilities Table`}
+                        titleHelpText={`A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`}
+                        component={
+                          <SpecialAbilitiesTable
+                            specialAbilities={specialAbilities}
+                          />
+                        }
+                        className={isMobile ? "mt-4" : ""}
+                      />
+                    );
+                  }
+                })}
+                <Section
+                  title="Saving Throws"
+                  component={<SavingThrows />}
+                  className="[@media(width<=640px)]:mt-4"
+                />
+              </Flex>
+            </Col>
+          </Row>
+        ) : (
+          <Alert type="info" message={customClassString} />
+        )}
+        <Divider />
       </Flex>
       <ModalContainer
         modalDisplay={modalDisplay}
@@ -324,48 +372,48 @@ export default PageCharacterSheet;
 //   </Flex>
 // </Col>
 //         </Row>
-//         <Divider />
-//         {classArr.every((cls) => isStandardClass(cls)) ? (
-//           <Row gutter={16}>
-//             <Col xs={24} sm={12} md={14}>
+// <Divider />
+// {classArr.every((cls) => isStandardClass(cls)) ? (
+//   <Row gutter={16}>
+//     <Col xs={24} sm={12} md={14}>
+//       <Section
+//         title="Restrictions & Special Abilities"
+//         component={<SpecialsRestrictions />}
+//       />
+//     </Col>
+//     <Col xs={24} sm={12} md={10}>
+//       <Flex gap={16} vertical>
+//         {classArr.map((cls) => {
+//           const specialAbilities =
+//             classes[cls as ClassNames]?.specialAbilities;
+//           if (specialAbilities) {
+//             return (
 //               <Section
-//                 title="Restrictions & Special Abilities"
-//                 component={<SpecialsRestrictions />}
+//                 key={cls}
+//                 title={`${cls} Abilities Table`}
+//                 titleHelpText={abilitiesTableHelpText}
+//                 component={
+//                   <SpecialAbilitiesTable
+//                     specialAbilities={specialAbilities}
+//                   />
+//                 }
+//                 className={isMobile ? "mt-4" : ""}
 //               />
-//             </Col>
-//             <Col xs={24} sm={12} md={10}>
-//               <Flex gap={16} vertical>
-//                 {classArr.map((cls) => {
-//                   const specialAbilities =
-//                     classes[cls as ClassNames]?.specialAbilities;
-//                   if (specialAbilities) {
-//                     return (
-//                       <Section
-//                         key={cls}
-//                         title={`${cls} Abilities Table`}
-//                         titleHelpText={abilitiesTableHelpText}
-//                         component={
-//                           <SpecialAbilitiesTable
-//                             specialAbilities={specialAbilities}
-//                           />
-//                         }
-//                         className={isMobile ? "mt-4" : ""}
-//                       />
-//                     );
-//                   }
-//                 })}
-//                 <Section
-//                   title="Saving Throws"
-//                   component={<SavingThrows />}
-//                   className="[@media(width<=640px)]:mt-4"
-//                 />
-//               </Flex>
-//             </Col>
-//           </Row>
-//         ) : (
-//           <Alert type="info" message={customClassAlertMessage} />
-//         )}
-//         <Divider />
+//             );
+//           }
+//         })}
+//         <Section
+//           title="Saving Throws"
+//           component={<SavingThrows />}
+//           className="[@media(width<=640px)]:mt-4"
+//         />
+//       </Flex>
+//     </Col>
+//   </Row>
+// ) : (
+//   <Alert type="info" message={customClassAlertMessage} />
+// )}
+// <Divider />
 //         <Row gutter={32}>
 //           <Col xs={24} sm={12}>
 //             <Flex gap={16} vertical={isMobile} justify="space-between">

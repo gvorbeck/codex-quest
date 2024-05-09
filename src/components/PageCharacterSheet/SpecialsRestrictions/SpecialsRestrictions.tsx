@@ -6,13 +6,11 @@ import { classes } from "@/data/classes";
 import SpecialsRestrictionsList from "../SpecialsRestrictionsList/SpecialsRestrictionsList";
 import { titleCaseToCamelCase } from "@/support/stringSupport";
 import { CharacterDataContext } from "@/store/CharacterContext";
-import { classSplit } from "@/support/classSupport";
 
 const SpecialsRestrictions: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
   const { character } = React.useContext(CharacterDataContext);
-  const classArr = classSplit(character.class);
   const items: TabsProps["items"] = [
     {
       key: titleCaseToCamelCase(character.race),
@@ -27,7 +25,7 @@ const SpecialsRestrictions: React.FC<React.ComponentPropsWithRef<"div">> = ({
         />
       ),
     },
-    ...classArr.map((cls) => ({
+    ...character.class.map((cls) => ({
       key: titleCaseToCamelCase(cls),
       label: cls,
       children: (

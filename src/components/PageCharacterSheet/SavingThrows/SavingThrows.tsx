@@ -5,7 +5,6 @@ import { camelCaseToTitleCase } from "@/support/stringSupport";
 import classNames from "classnames";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
-import { classSplit } from "@/support/classSupport";
 import { rollSavingThrow } from "@/support/diceSupport";
 import { getBestSavingThrowList } from "@/support/statSupport";
 
@@ -24,8 +23,7 @@ const SavingThrows: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
   const { character } = React.useContext(CharacterDataContext);
-  const { level, class: charClass, race } = character;
-  const savingThrows = getBestSavingThrowList(classSplit(charClass), level);
+  const savingThrows = getBestSavingThrowList(character.class, character.level);
   const dataSource: Array<{ key: number; throw: string; score: number }> = [];
   const { contextHolder, openNotification } = useNotification();
   Object.entries(savingThrows).forEach(([key, value], index) => {
@@ -43,7 +41,12 @@ const SavingThrows: React.FC<React.ComponentPropsWithRef<"div">> = ({
       key: "throw",
       onCell: (record: TableCellRecord) => ({
         onClick: () =>
-          rollSavingThrow(record.score, record.throw, race, openNotification),
+          rollSavingThrow(
+            record.score,
+            record.throw,
+            character.race,
+            openNotification,
+          ),
       }),
     },
     { title: "Score", dataIndex: "score", key: "score" },

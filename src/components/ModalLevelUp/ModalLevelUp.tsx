@@ -1,5 +1,5 @@
 import { classes } from "@/data/classes";
-import { CharData, ModalDisplay, Spell } from "@/data/definitions";
+import { ModalDisplay, Spell } from "@/data/definitions";
 import React from "react";
 import SpellOptionsContainer from "./SpellOptionsContainer/SpellOptionsContainer";
 import { Button, Flex } from "antd";
