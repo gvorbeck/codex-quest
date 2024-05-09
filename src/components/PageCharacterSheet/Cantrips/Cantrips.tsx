@@ -17,7 +17,10 @@ const Cantrips: React.FC<
     const newCantrips = character?.cantrips?.filter(
       (c) => c.name !== cantrip.name,
     );
-    setCharacter({ ...character, cantrips: newCantrips });
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      cantrips: newCantrips,
+    }));
   };
 
   const items: CollapseProps["items"] = character?.cantrips

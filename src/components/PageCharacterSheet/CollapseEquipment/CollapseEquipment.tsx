@@ -14,36 +14,24 @@ import {
   onChangeWearing,
 } from "@/support/equipmentSupport";
 import {
-  CharData,
   EquipmentCategories,
   EquipmentCategoriesWeapons,
   EquipmentItem,
+  ModalDisplay,
 } from "@/data/definitions";
 import EquipmentItemDescription from "./EquipmentItemDescription/EquipmentItemDescription";
 import WearingRadioGroup from "./WearingRadioGroup/WearingRadioGroup";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface CollapseEquipmentProps {
-  character: CharData;
-  setCharacter: (character: CharData) => void;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
   onCharacterSheet?: boolean;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  setModalTitle: (modalTitle: string) => void;
-  setModalContent: (modalContent: React.ReactNode) => void;
-  userIsOwner?: boolean;
 }
 
 const CollapseEquipment: React.FC<
   CollapseEquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  character,
-  setCharacter,
-  onCharacterSheet,
-  setModalIsOpen,
-  setModalTitle,
-  setModalContent,
-  userIsOwner,
-}) => {
+> = ({ className, setModalDisplay, onCharacterSheet }) => {
+  const { character, setCharacter } = React.useContext(CharacterDataContext);
   const items: CollapseProps["items"] = Object.entries(
     equipmentCategoryMap(character.equipment),
   )
@@ -85,9 +73,7 @@ const CollapseEquipment: React.FC<
                   <EquipmentItemDescription
                     item={item}
                     className="flex-grow"
-                    character={character}
-                    setCharacter={setCharacter}
-                    userIsOwner={userIsOwner}
+                    setModalDisplay={setModalDisplay}
                   />
                 </Radio>
               ))}
@@ -102,12 +88,7 @@ const CollapseEquipment: React.FC<
                     category[0] as EquipmentCategoriesWeapons,
                   ) && onCharacterSheet
                 }
-                setModalIsOpen={setModalIsOpen}
-                setModalTitle={setModalTitle}
-                setModalContent={setModalContent}
-                character={character}
-                setCharacter={setCharacter}
-                userIsOwner={userIsOwner}
+                setModalDisplay={setModalDisplay}
               />
             ))
           )}

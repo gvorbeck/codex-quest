@@ -4,7 +4,7 @@ import { CostCurrency } from "@/data/definitions";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { useMoney } from "@/hooks/useMoney";
 import { useDeviceType } from "@/hooks/useDeviceType";
-
+// get rid of auto change. create silver and copper fields in CharData. Perform a check to see if those values exist and if not use the gold field's decimal values to calculate the silver and copper values. If they do exist, use those values to calculate the gold value.
 const Money: React.FC<React.ComponentPropsWithRef<"div">> = ({ className }) => {
   const { isMobile } = useDeviceType();
   const { character, setCharacter, userIsOwner } =

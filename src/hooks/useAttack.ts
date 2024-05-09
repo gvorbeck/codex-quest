@@ -29,15 +29,13 @@ interface UseAttackReturnType {
   handleRangeChange: (value: string) => void;
   updateEquipmentAfterMissileAttack: (
     ammoSelection: string | undefined,
-    equipment: EquipmentItem[],
     isRecoveryChecked: boolean,
     character: CharData,
-    setCharacter: (character: CharData) => void,
+    setCharacter: React.Dispatch<React.SetStateAction<CharData>>,
   ) => boolean;
   calculateMissileRollResults: (
     character: CharData,
     range: string | undefined,
-    equipment: EquipmentItem[],
     ammoSelection: string | undefined,
     thrown?: boolean,
   ) => {
@@ -73,14 +71,13 @@ export const useAttack = (): UseAttackReturnType => {
   };
   const updateEquipmentAfterMissileAttack = (
     ammoSelection: string | undefined,
-    equipment: EquipmentItem[],
     isRecoveryChecked: boolean,
     character: CharData,
-    setCharacter: (character: CharData) => void,
+    setCharacter: React.Dispatch<React.SetStateAction<CharData>>,
   ) => {
-    const weapon = getWeapon(ammoSelection ?? "", equipment);
+    const weapon = getWeapon(ammoSelection ?? "", character.equipment);
     if (weapon) {
-      const newEquipment = equipment.filter(
+      const newEquipment = character.equipment.filter(
         (item) => item.name !== ammoSelection,
       );
       const weaponRecovered = isRecoveryChecked && Math.random() < 0.25;
@@ -92,10 +89,10 @@ export const useAttack = (): UseAttackReturnType => {
         if (weapon.amount > 0) newEquipment.push(weapon);
       }
 
-      setCharacter({
-        ...character,
+      setCharacter((prevCharacter) => ({
+        ...prevCharacter,
         equipment: [...newEquipment],
-      });
+      }));
 
       return weaponRecovered;
     }
@@ -105,7 +102,6 @@ export const useAttack = (): UseAttackReturnType => {
   const calculateMissileRollResults = (
     character: CharData,
     range: string | undefined,
-    equipment: EquipmentItem[],
     ammoSelection: string | undefined,
     thrown: boolean = false,
   ) => {
@@ -113,13 +109,13 @@ export const useAttack = (): UseAttackReturnType => {
     let rollToDamage;
     if (thrown) {
       rollToDamage = getRollToThrownDamageResult(
-        equipment,
+        character.equipment,
         ammoSelection,
         character,
       );
     } else {
       rollToDamage = getRollToAmmoDamageResult(
-        equipment,
+        character.equipment,
         ammoSelection,
         character,
       );

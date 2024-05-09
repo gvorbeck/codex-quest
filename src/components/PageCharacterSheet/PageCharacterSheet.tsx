@@ -24,6 +24,12 @@ import { classes } from "@/data/classes";
 import SpecialAbilitiesTable from "./SpecialAbilitiesTable/SpecialAbilitiesTable";
 import SavingThrows from "./SavingThrows/SavingThrows";
 import { customClassString } from "@/support/stringSupport";
+import Money from "./Money/Money";
+import Weight from "./Weight/Weight";
+import { useSpellData } from "@/hooks/useSpellData";
+import Spells from "./Spells/Spells";
+import Cantrips from "./Cantrips/Cantrips";
+import Equipment from "./Equipment/Equipment";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -36,6 +42,8 @@ const PageCharacterSheet: React.FC<
     "-Choosing a stock avatar doesn't show selected ring around image.",
     "-Chosen spell descriptions in Level-Up Modal.",
     "-Make use of all ClassSetup and RaceSetup fields.",
+    "-Use notes in Money component to remove auto rounding.",
+    "-Empty equipment display.",
   );
 
   const [open, setOpen] = React.useState(false);
@@ -43,6 +51,8 @@ const PageCharacterSheet: React.FC<
     useCharacterData(user);
   const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
   const { isMobile, isTablet, isDesktop } = useDeviceType();
+  const { isSpellCaster } = useSpellData();
+  console.log(character);
 
   const showDrawer = () => setOpen(true);
 
@@ -178,6 +188,7 @@ const PageCharacterSheet: React.FC<
                   title="Saving Throws"
                   component={<SavingThrows />}
                   className="[@media(width<=640px)]:mt-4"
+                  titleHelpText={`Roll 1d20. Pass if above the number shown.\n\nPoison saving throws are made w/ CON modifier.\n\nSaving throws against illusions are made w/ INT modifier.\n\nSaving throws against charm spells (and other forms of mind control) are made w/ WIS modifier.`}
                 />
               </Flex>
             </Col>
@@ -186,7 +197,59 @@ const PageCharacterSheet: React.FC<
           <Alert type="info" message={customClassString} />
         )}
         <Divider />
+        <Row gutter={32}>
+          <Col xs={24} sm={12}>
+            <Flex gap={16} vertical={isMobile} justify="space-between">
+              <Section
+                title="Money"
+                className={!isMobile ? "w-1/3" : ""}
+                component={<Money />}
+              />
+              <Divider className="[@media(width>=640px)]:hidden" />
+              <Section title="Weight" component={<Weight />} />
+              <Divider className="[@media(width>=640px)]:hidden" />
+            </Flex>
+            {isSpellCaster(character) && (
+              <Flex gap={16} vertical>
+                <Section
+                  title="Spells"
+                  className="[@media(width<=640px)]:mt-4"
+                  component={<Spells />}
+                />
+                <Section
+                  title="Cantrips/Orisons"
+                  // className="[@media(width<=640px)]:mt-4"
+                  component={<Cantrips />}
+                />
+                <Divider className="[@media(width>=640px)]:hidden" />
+              </Flex>
+            )}
+          </Col>
+          <Col xs={24} sm={12}>
+            <Section
+              title="Equipment"
+              className="mt-4 sm:m-0"
+              component={<Equipment setModalDisplay={setModalDisplay} />}
+            />
+          </Col>
+        </Row>
+        <Divider />
+        {/* <Row gutter={16}>
+          <Col span={24}>
+            <Section
+              title="Bio & Notes"
+              component={<Description isMobile={isMobile} />}
+            />
+          </Col>
+        </Row> */}
       </Flex>
+      {/* {userIsOwner && (
+        <SettingsDrawer
+          onClose={onClose}
+          open={open}
+          isSpellCaster={isSpellCaster(character)}
+        />
+      )} */}
       <ModalContainer
         modalDisplay={modalDisplay}
         setModalDisplay={setModalDisplay}
@@ -414,65 +477,65 @@ export default PageCharacterSheet;
 //   <Alert type="info" message={customClassAlertMessage} />
 // )}
 // <Divider />
-//         <Row gutter={32}>
-//           <Col xs={24} sm={12}>
-//             <Flex gap={16} vertical={isMobile} justify="space-between">
-//               <Section
-//                 title="Money"
-//                 className={moneyClassNames}
-//                 component={<Money />}
-//               />
-//               <Divider className="[@media(width>=640px)]:hidden" />
-//               <Section title="Weight" component={<Weight />} />
-//               <Divider className="[@media(width>=640px)]:hidden" />
-//             </Flex>
-//             {isSpellCaster(character) && (
-//               <Flex gap={16} vertical>
-//                 <Section
-//                   title="Spells"
-//                   className="[@media(width<=640px)]:mt-4"
-//                   component={<Spells />}
-//                 />
-//                 <Section
-//                   title="Cantrips/Orisons"
-//                   // className="[@media(width<=640px)]:mt-4"
-//                   component={<Cantrips />}
-//                 />
-//                 <Divider className="[@media(width>=640px)]:hidden" />
-//               </Flex>
-//             )}
-//           </Col>
-//           <Col xs={24} sm={12}>
-//             <Section
-//               title="Equipment"
-//               className="mt-4 sm:m-0"
-//               component={
-//                 <Equipment
-//                   setModalIsOpen={setModalIsOpen}
-//                   setModalTitle={setModalTitle}
-//                   setModalContent={setModalContent}
-//                 />
-//               }
-//             />
-//           </Col>
-//         </Row>
-//         <Divider />
-//         <Row gutter={16}>
-//           <Col span={24}>
-//             <Section
-//               title="Bio & Notes"
-//               component={<Description isMobile={isMobile} />}
-//             />
-//           </Col>
-//         </Row>
-//       </Flex>
-//       {userIsOwner && (
-//         <SettingsDrawer
-//           onClose={onClose}
-//           open={open}
-//           isSpellCaster={isSpellCaster(character)}
+//   <Row gutter={32}>
+//     <Col xs={24} sm={12}>
+//       <Flex gap={16} vertical={isMobile} justify="space-between">
+//         <Section
+//           title="Money"
+//           className={moneyClassNames}
+//           component={<Money />}
 //         />
+//         <Divider className="[@media(width>=640px)]:hidden" />
+//         <Section title="Weight" component={<Weight />} />
+//         <Divider className="[@media(width>=640px)]:hidden" />
+//       </Flex>
+//       {isSpellCaster(character) && (
+//         <Flex gap={16} vertical>
+//           <Section
+//             title="Spells"
+//             className="[@media(width<=640px)]:mt-4"
+//             component={<Spells />}
+//           />
+//           <Section
+//             title="Cantrips/Orisons"
+//             // className="[@media(width<=640px)]:mt-4"
+//             component={<Cantrips />}
+//           />
+//           <Divider className="[@media(width>=640px)]:hidden" />
+//         </Flex>
 //       )}
+//     </Col>
+//     <Col xs={24} sm={12}>
+//       <Section
+//         title="Equipment"
+//         className="mt-4 sm:m-0"
+//         component={
+//           <Equipment
+//             setModalIsOpen={setModalIsOpen}
+//             setModalTitle={setModalTitle}
+//             setModalContent={setModalContent}
+//           />
+//         }
+//       />
+//     </Col>
+//   </Row>
+//   <Divider />
+//   <Row gutter={16}>
+//     <Col span={24}>
+//       <Section
+//         title="Bio & Notes"
+//         component={<Description isMobile={isMobile} />}
+//       />
+//     </Col>
+//   </Row>
+// </Flex>
+// {userIsOwner && (
+//   <SettingsDrawer
+//     onClose={onClose}
+//     open={open}
+//     isSpellCaster={isSpellCaster(character)}
+//   />
+// )}
 //       <ModalContainer
 //         title={modalTitle}
 //         modalIsOpen={modalIsOpen}

@@ -12,12 +12,14 @@ const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
   const { isCustomSpell } = useSpellData();
-
   const { character, setCharacter } = React.useContext(CharacterDataContext);
 
   const deleteCustomSpell = (spell: Spell) => {
     const newSpells = character?.spells?.filter((c) => c.name !== spell.name);
-    setCharacter({ ...character, spells: newSpells });
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      spells: newSpells,
+    }));
   };
 
   const items: CollapseProps["items"] = character?.spells

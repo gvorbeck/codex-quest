@@ -1,4 +1,4 @@
-import { CharData, EquipmentItem } from "@/data/definitions";
+import { EquipmentItem, ModalDisplay } from "@/data/definitions";
 import { Flex, Switch } from "antd";
 import React from "react";
 import ThrownAttackForm from "./ThrownAttackForm/ThrownAttackForm";
@@ -6,23 +6,13 @@ import AmmoAttackForm from "./AmmoAttackForm/AmmoAttackForm";
 import MeleeAttackForm from "./MeleeAttackForm/MeleeAttackForm";
 
 interface ModalAttackProps {
-  character: CharData;
-  setCharacter: (character: CharData) => void;
   item: EquipmentItem;
-  equipment: EquipmentItem[];
-  setModalIsOpen: (modalIsOpen: boolean) => void;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const ModalAttack: React.FC<
   ModalAttackProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  item,
-  equipment,
-  setModalIsOpen,
-  character,
-  setCharacter,
-}) => {
+> = ({ className, item, setModalDisplay }) => {
   const [attackSwitch, setAttackWitch] = React.useState(false);
   return (
     <Flex vertical gap={16} className={className}>
@@ -38,29 +28,13 @@ const ModalAttack: React.FC<
       {item.type === "missile" || (item.type === "both" && attackSwitch) ? (
         <>
           {item.ammo ? (
-            <AmmoAttackForm
-              item={item}
-              equipment={equipment}
-              setModalIsOpen={setModalIsOpen}
-              character={character}
-              setCharacter={setCharacter}
-            />
+            <AmmoAttackForm item={item} setModalDisplay={setModalDisplay} />
           ) : (
-            <ThrownAttackForm
-              item={item}
-              setModalIsOpen={setModalIsOpen}
-              equipment={equipment}
-              character={character}
-              setCharacter={setCharacter}
-            />
+            <ThrownAttackForm item={item} setModalDisplay={setModalDisplay} />
           )}
         </>
       ) : (
-        <MeleeAttackForm
-          item={item}
-          setModalIsOpen={setModalIsOpen}
-          character={character}
-        />
+        <MeleeAttackForm item={item} setModalDisplay={setModalDisplay} />
       )}
     </Flex>
   );
