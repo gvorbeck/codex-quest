@@ -24,7 +24,7 @@ const ModalLevelUp: React.FC<
 
   const newHitDiceValue = getHitDice(
     character.level + 1,
-    character.class,
+    character,
     character.hp.dice,
   );
 

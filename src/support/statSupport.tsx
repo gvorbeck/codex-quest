@@ -198,16 +198,18 @@ export const getHitPointsModifier = (classArr: string[]) => {
   return modifier;
 };
 
+// level: number, not always the same as character.level
 export const getHitDice = (
   level: number,
-  className: string[],
+  character: CharData,
   dice: string,
 ) => {
   const dieType = dice.split("d")[1].split("+")[0];
   const prefix = Math.min(level, 9);
 
   // Calculate the suffix
-  const suffix = (level > 9 ? level - 9 : 0) * getHitPointsModifier(className);
+  const suffix =
+    (level > 9 ? level - 9 : 0) * getHitPointsModifier(character.class);
 
   // Combine to create the result
   const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;

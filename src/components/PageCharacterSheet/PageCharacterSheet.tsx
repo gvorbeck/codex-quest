@@ -12,6 +12,12 @@ import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
 import StepAbilities from "../PageNewCharacter/StepAbilities/StepAbilities";
+import AttackBonuses from "./AttackBonuses/AttackBonuses";
+import HitPoints from "./HitPoints/HitPoints";
+import StepHitPoints from "../PageNewCharacter/StepHitPoints/StepHitPoints";
+import { useDeviceType } from "@/hooks/useDeviceType";
+import CharacterStat from "./CharacterStat/CharacterStat";
+import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -23,12 +29,14 @@ const PageCharacterSheet: React.FC<
   console.info(
     "-Choosing a stock avatar doesn't show selected ring around image.",
     "-Chosen spell descriptions in Level-Up Modal.",
+    "-Make use of all ClassSetup and RaceSetup fields.",
   );
 
   const [open, setOpen] = React.useState(false);
   const { character, setCharacter, userIsOwner, uid, id } =
     useCharacterData(user);
   const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
+  const { isMobile, isTablet, isDesktop } = useDeviceType();
 
   const showDrawer = () => setOpen(true);
 
@@ -68,6 +76,66 @@ const PageCharacterSheet: React.FC<
               }
               editable
             />
+          </Col>
+          <Col xs={24} sm={12} md={8}>
+            <Flex gap={16} vertical>
+              <Section
+                title="Attack Bonuses"
+                titleHelpText={`**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`}
+                component={<AttackBonuses />}
+              />
+              <Section
+                title="Hit Points"
+                component={<HitPoints />}
+                editable
+                editableComponent={
+                  <StepHitPoints
+                    character={character}
+                    setCharacter={
+                      setCharacter as React.Dispatch<
+                        React.SetStateAction<CharData>
+                      >
+                    }
+                  />
+                }
+              />
+            </Flex>
+          </Col>
+          <Col xs={24} md={8}>
+            <Flex
+              gap={16}
+              vertical={isMobile || isTablet || isDesktop}
+              justify="space-between"
+            >
+              <Section
+                title="Armor Class"
+                titleHelpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`}
+                component={
+                  <CharacterStat
+                    value={getArmorClass(character, setCharacter) || 0}
+                  />
+                }
+              />
+              <Section
+                title="Movement"
+                titleHelpText={`Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`}
+                component={
+                  <CharacterStat value={`${getMovement(character)}'`} />
+                }
+              />
+              <Section
+                title="Hit Dice"
+                component={
+                  <CharacterStat
+                    value={getHitDice(
+                      character.level,
+                      character,
+                      character.hp.dice,
+                    )}
+                  />
+                }
+              />
+            </Flex>
           </Col>
         </Row>
       </Flex>
@@ -199,62 +267,62 @@ export default PageCharacterSheet;
 //               editable
 //             />
 //           </Col>
-//           <Col xs={24} sm={12} md={8}>
-//             <Flex gap={16} vertical>
-//               <Section
-//                 title="Attack Bonuses"
-//                 titleHelpText={attackBonusesHelpText}
-//                 component={<AttackBonuses />}
-//               />
-//               <Section
-//                 title="Hit Points"
-//                 component={<HitPoints />}
-//                 editable
-//                 editableComponent={
-//                   <StepHitPoints
-//                     character={character}
-//                     setCharacter={setCharacter}
-//                   />
-//                 }
-//               />
-//             </Flex>
-//           </Col>
-//           <Col xs={24} md={8}>
-//             <Flex
-//               gap={16}
-//               vertical={isMobile || isTablet || isDesktop}
-//               justify="space-between"
-//             >
-//               <Section
-//                 title="Armor Class"
-//                 titleHelpText={armorClassHelpText}
-//                 component={
-//                   <CharacterStat
-//                     value={getArmorClass(character, setCharacter) || 0}
-//                   />
-//                 }
-//               />
-//               <Section
-//                 title="Movement"
-//                 titleHelpText={movementHelpText}
-//                 component={
-//                   <CharacterStat value={`${getMovement(character)}'`} />
-//                 }
-//               />
-//               <Section
-//                 title="Hit Dice"
-//                 component={
-//                   <CharacterStat
-//                     value={getHitDice(
-//                       character.level,
-//                       classArr,
-//                       character.hp.dice,
-//                     )}
-//                   />
-//                 }
-//               />
-//             </Flex>
-//           </Col>
+// <Col xs={24} sm={12} md={8}>
+//   <Flex gap={16} vertical>
+//     <Section
+//       title="Attack Bonuses"
+//       titleHelpText={attackBonusesHelpText}
+//       component={<AttackBonuses />}
+//     />
+//     <Section
+//       title="Hit Points"
+//       component={<HitPoints />}
+//       editable
+//       editableComponent={
+//         <StepHitPoints
+//           character={character}
+//           setCharacter={setCharacter}
+//         />
+//       }
+//     />
+//   </Flex>
+// </Col>
+// <Col xs={24} md={8}>
+//   <Flex
+//     gap={16}
+//     vertical={isMobile || isTablet || isDesktop}
+//     justify="space-between"
+//   >
+//     <Section
+//       title="Armor Class"
+//       titleHelpText={armorClassHelpText}
+//       component={
+//         <CharacterStat
+//           value={getArmorClass(character, setCharacter) || 0}
+//         />
+//       }
+//     />
+//     <Section
+//       title="Movement"
+//       titleHelpText={movementHelpText}
+//       component={
+//         <CharacterStat value={`${getMovement(character)}'`} />
+//       }
+//     />
+//     <Section
+//       title="Hit Dice"
+//       component={
+//         <CharacterStat
+//           value={getHitDice(
+//             character.level,
+//             classArr,
+//             character.hp.dice,
+//           )}
+//         />
+//       }
+//     />
+//   </Flex>
+// </Col>
 //         </Row>
 //         <Divider />
 //         {classArr.every((cls) => isStandardClass(cls)) ? (

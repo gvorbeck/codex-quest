@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ColorScheme } from "@/support/colorSupport";
-import { useMarkdown } from "@/hooks/useMarkdown";
+import Markdown from "react-markdown";
 
 interface HelpTooltipProps {
   text: string;
@@ -12,7 +12,6 @@ interface HelpTooltipProps {
 const HelpTooltip: React.FC<
   HelpTooltipProps & React.ComponentPropsWithRef<"div">
 > = ({ className, text }) => {
-  const parsedHtml = useMarkdown(text);
   const tooltipClassNames = classNames(
     className,
     "print:hidden",
@@ -22,10 +21,9 @@ const HelpTooltip: React.FC<
     <Tooltip
       className={tooltipClassNames}
       title={
-        <div
-          className="[&_p]:mt-0 [&_p:last-child]:mb-0"
-          dangerouslySetInnerHTML={{ __html: parsedHtml }}
-        />
+        <div className="[&_p]:mt-0 [&_p:last-child]:mb-0">
+          <Markdown>{text}</Markdown>
+        </div>
       }
       color={ColorScheme.SHIPGRAY}
     >
