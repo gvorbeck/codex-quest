@@ -21,13 +21,7 @@ const ExperiencePoints: React.FC<
     setModalDisplay({
       isOpen: true,
       title: "Level Up",
-      content: (
-        <ModalLevelUp
-          character={character}
-          setCharacter={setCharacter}
-          setModalDisplay={setModalDisplay}
-        />
-      ),
+      content: <ModalLevelUp setModalDisplay={setModalDisplay} />,
     });
   }
 

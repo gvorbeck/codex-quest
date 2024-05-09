@@ -5,10 +5,13 @@ import { CharacterDataContext } from "@/store/CharacterContext";
 import CharacterFloatButtons from "./CharacterFloatButtons/CharacterFloatButtons";
 import { useModal } from "@/hooks/useModal";
 import React from "react";
-import { Flex, Row } from "antd";
+import { Col, Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
 import { CharData } from "@/data/definitions";
 import ModalContainer from "../ModalContainer/ModalContainer";
+import Section from "./Section/Section";
+import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
+import StepAbilities from "../PageNewCharacter/StepAbilities/StepAbilities";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -18,7 +21,8 @@ const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
   console.info(
-    "choosing a stock avatar doesn't show selected ring around image.",
+    "-Choosing a stock avatar doesn't show selected ring around image.",
+    "-Chosen spell descriptions in Level-Up Modal.",
   );
 
   const [open, setOpen] = React.useState(false);
@@ -47,6 +51,25 @@ const PageCharacterSheet: React.FC<
       />
       <Flex vertical className={className} gap={16}>
         <Hero setModalDisplay={setModalDisplay} />
+        <Row gutter={16} className="[&>div]:mt-4">
+          <Col xs={24} sm={12} md={8}>
+            <Section
+              title="Abilities"
+              component={<AbilitiesTable />}
+              editableComponent={
+                <StepAbilities
+                  character={character}
+                  setCharacter={
+                    setCharacter as React.Dispatch<
+                      React.SetStateAction<CharData>
+                    >
+                  }
+                />
+              }
+              editable
+            />
+          </Col>
+        </Row>
       </Flex>
       <ModalContainer
         modalDisplay={modalDisplay}

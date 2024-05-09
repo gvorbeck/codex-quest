@@ -6,16 +6,16 @@ import { Button, Flex } from "antd";
 import { getSelectedSpellsByLevel } from "@/support/spellSupport";
 import { rollDice } from "@/support/diceSupport";
 import { getHitDice } from "@/support/statSupport";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface ModalLevelUpProps {
-  character: CharData;
-  setCharacter: (character: CharData) => void;
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const ModalLevelUp: React.FC<
   ModalLevelUpProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, setModalDisplay }) => {
+> = ({ className, setModalDisplay }) => {
+  const { character, setCharacter } = React.useContext(CharacterDataContext);
   const [magicClass, setMagicClass] = React.useState<string>("");
   const [spellBudget, setSpellBudget] = React.useState<number[]>([]);
   const [selectedSpells, setSelectedSpells] = React.useState<Array<Spell[]>>(
