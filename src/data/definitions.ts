@@ -169,6 +169,7 @@ export type CharData = {
   cantrips?: ZeroLevelSpell[];
   charId?: string;
   class: string[];
+  copper: number;
   desc: string | string[];
   equipment: EquipmentItem[];
   gold: number;
@@ -182,9 +183,7 @@ export type CharData = {
   level: number;
   name: string;
   race: string;
-  // restrictions: SpecialRestriction;
-  // savingThrows: SavingThrowsType;
-  // specials: SpecialRestriction;
+  silver: number;
   spells: Spell[];
   userId?: string;
   wearing?: { armor: string; shield: string };
