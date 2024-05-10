@@ -63,20 +63,37 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
     }, 50);
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setGold(value); // Update the input state with the raw string
-  }
+    if (name === "gold") {
+      setGold(value);
+    } else if (name === "silver") {
+      setSilver(value);
+    } else if (name === "copper") {
+      setCopper(value);
+    }
+  };
 
-  function handleBlurOrEnter() {
-    // Convert the input string to a number when focus is lost or enter is pressed
-    const newValue = handleArithmetic(gold, character.gold);
+  const handleBlurOrEnter = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const numericValue = handleArithmetic(
+      value,
+      character[name as "gold" | "silver" | "copper"],
+    );
+
+    if (name === "gold") {
+      setGold(numericValue.toString());
+    } else if (name === "silver") {
+      setSilver(numericValue.toString());
+    } else if (name === "copper") {
+      setCopper(numericValue.toString());
+    }
+
     setCharacter((prevCharacter) => ({
       ...prevCharacter,
-      gold: newValue,
+      [name]: numericValue,
     }));
-    setGold(newValue.toString()); // Update the input state with the new number
-  }
+  };
 
   if (character.gold % 1 !== 0) {
     const [gold, silver, copper] = updateCurrency();
@@ -98,13 +115,16 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
     <Input
       key={data.name}
       min="0"
+      disabled={!userIsOwner}
       value={data.state}
       name={data.name}
       addonAfter={data.addOn}
       onFocus={handleFocus}
       onChange={handleChange}
       onBlur={handleBlurOrEnter}
-      onPressEnter={handleBlurOrEnter}
+      onPressEnter={(e) =>
+        handleBlurOrEnter(e as unknown as React.FocusEvent<HTMLInputElement>)
+      }
     />
   ));
 
@@ -116,79 +136,3 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
 };
 
 export default Money;
-// import React from "react";
-// import { Flex, Input } from "antd";
-// import { CostCurrency } from "@/data/definitions";
-// import { CharacterDataContext } from "@/store/CharacterContext";
-// import { useMoney } from "@/hooks/useMoney";
-// import { useDeviceType } from "@/hooks/useDeviceType";
-// // get rid of auto change. create silver and copper fields in CharData. Perform a check to see if those values exist and if not use the gold field's decimal values to calculate the silver and copper values. If they do exist, use those values to calculate the gold value.
-// const Money: React.FC<React.ComponentPropsWithRef<"div">> = ({ className }) => {
-//   const { isMobile } = useDeviceType();
-//   const { character, setCharacter, userIsOwner } =
-//     React.useContext(CharacterDataContext);
-//   const {
-//     goldValue,
-//     setGoldValue,
-//     silverValue,
-//     setSilverValue,
-//     copperValue,
-//     setCopperValue,
-//     handleBlurAndEnter,
-//     handleChange,
-//     handleFocus,
-//   } = useMoney(character, setCharacter);
-//   return (
-//     <Flex className={className} gap={16} vertical={!isMobile}>
-//       {[
-//         ["gp", goldValue, setGoldValue, 1],
-//         ["sp", silverValue, setSilverValue, 10],
-//         ["cp", copperValue, setCopperValue, 100],
-//       ].map(([key, value, setFunc, multiplier]) => {
-//         const keyValue = key as CostCurrency;
-//         const setFuncTyped = setFunc as React.Dispatch<
-//           React.SetStateAction<string>
-//         >;
-//         const multiplierTyped = multiplier as number;
-
-//         return (
-//           <React.Fragment key={key as string}>
-//             <Input
-//               min={0}
-//               value={value as string}
-//               name={keyValue}
-//               onFocus={handleFocus}
-//               onChange={(e) => handleChange(e, setFuncTyped)}
-//               onBlur={() =>
-//                 handleBlurAndEnter(
-//                   value as string,
-//                   setFuncTyped,
-//                   multiplierTyped,
-//                   keyValue,
-//                 )
-//               }
-//               onKeyDown={(e) => {
-//                 if (e.key === "Enter") {
-//                   handleBlurAndEnter(
-//                     value as string,
-//                     setFuncTyped,
-//                     multiplierTyped,
-//                     keyValue,
-//                   );
-//                 }
-//               }}
-//               addonAfter={keyValue}
-//               disabled={!userIsOwner}
-//               id={keyValue}
-//             />
-//             <label htmlFor={key as string} className="hidden">
-//               {key as string}
-//             </label>
-//           </React.Fragment>
-//         );
-//       })}
-//     </Flex>
-//   );
-// };
-
-// export default Money;
