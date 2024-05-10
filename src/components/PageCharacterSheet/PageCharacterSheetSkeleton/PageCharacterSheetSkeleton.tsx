@@ -13,7 +13,7 @@ const PageCharacterSheetSkeleton: React.FC<
       <Skeleton.Avatar
         size={"large"}
         shape={"circle"}
-        className="[&>span]:w-16 [&>span]:h-16"
+        className="[&>span]:w-32 [&>span]:h-32"
         active
       />
       <Skeleton title={{ width: "100%" }} paragraph={{ rows: 10 }} active />

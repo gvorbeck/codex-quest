@@ -23,7 +23,7 @@ const HeroAvatar: React.FC<
       onClick={handleShowAvatarModal}
     >
       <Badge count={<EditOutlined className="opacity-25" />}>
-        <Avatar size={64} className="avatar" icon={icon} src={src} />
+        <Avatar size={128} className="avatar" icon={icon} src={src} />
       </Badge>
     </div>
   );
