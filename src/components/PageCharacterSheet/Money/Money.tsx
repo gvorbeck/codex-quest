@@ -10,8 +10,8 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
   const { character, setCharacter, userIsOwner } =
     React.useContext(CharacterDataContext);
   const [gold, setGold] = React.useState(character.gold.toString());
-  const [silver, setSilver] = React.useState(character.silver.toString());
-  const [copper, setCopper] = React.useState(character.copper.toString());
+  const [silver, setSilver] = React.useState(character.silver?.toString() || 0);
+  const [copper, setCopper] = React.useState(character.copper?.toString() || 0);
 
   function updateCurrency() {
     let gold = character.gold;
