@@ -1,7 +1,4 @@
 import { classes } from "@/data/classes";
-import { Abilities, CharData, ClassNames, RaceNames } from "@/data/definitions";
-import { races } from "@/data/races";
-import { isStandardRace } from "./raceSupport";
 
 export const isStandardClass = (classNameArray: string[], isBase?: boolean) => {
   if (!classNameArray || classNameArray.length === 0) return false;

@@ -30,6 +30,8 @@ import { useSpellData } from "@/hooks/useSpellData";
 import Spells from "./Spells/Spells";
 import Cantrips from "./Cantrips/Cantrips";
 import Equipment from "./Equipment/Equipment";
+import Description from "./Description/Description";
+import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -43,7 +45,6 @@ const PageCharacterSheet: React.FC<
     "-Chosen spell descriptions in Level-Up Modal.",
     "-Make use of all ClassSetup and RaceSetup fields.",
     "-Use notes in Money component to remove auto rounding.",
-    "-Empty equipment display.",
   );
 
   const [open, setOpen] = React.useState(false);
@@ -55,6 +56,7 @@ const PageCharacterSheet: React.FC<
   console.log(character);
 
   const showDrawer = () => setOpen(true);
+  const onClose = () => setOpen(false);
 
   return character ? (
     <CharacterDataContext.Provider
@@ -234,22 +236,22 @@ const PageCharacterSheet: React.FC<
           </Col>
         </Row>
         <Divider />
-        {/* <Row gutter={16}>
+        <Row gutter={16}>
           <Col span={24}>
             <Section
               title="Bio & Notes"
               component={<Description isMobile={isMobile} />}
             />
           </Col>
-        </Row> */}
+        </Row>
       </Flex>
-      {/* {userIsOwner && (
+      {userIsOwner && (
         <SettingsDrawer
           onClose={onClose}
           open={open}
           isSpellCaster={isSpellCaster(character)}
         />
-      )} */}
+      )}
       <ModalContainer
         modalDisplay={modalDisplay}
         setModalDisplay={setModalDisplay}

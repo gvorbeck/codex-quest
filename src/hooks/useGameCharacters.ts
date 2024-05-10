@@ -9,7 +9,6 @@ import { removePlayerFromGame } from "../support/accountSupport";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { DescriptionsProps } from "antd";
-import { classSplit } from "@/support/classSupport";
 import { getArmorClass, getMovement } from "@/support/statSupport";
 
 export function useGameCharacters(players: GamePlayerList): [
@@ -75,7 +74,7 @@ export function useGameCharacters(players: GamePlayerList): [
     character: CharData,
     setCharacter: (character: CharData) => void,
   ): DescriptionsProps["items"] => {
-    const { level, hp, class: charClass, race } = character;
+    const { level, hp, race } = character;
     return [
       {
         key: "level",
@@ -92,7 +91,7 @@ export function useGameCharacters(players: GamePlayerList): [
       {
         key: "class",
         label: "Class",
-        children: classSplit(charClass).join(", "),
+        children: character.class.join(", "),
         span: 1,
       },
       { key: "race", label: "Race", children: race, span: 1 },
@@ -120,11 +119,12 @@ export function useGameCharacters(players: GamePlayerList): [
     };
 
     characters.forEach((character) => {
-      const classes = classSplit(character.class);
-      classAbilities.showThief ||= classes.includes(ClassNames.THIEF);
-      classAbilities.showAssassin ||= classes.includes(ClassNames.ASSASSIN);
-      classAbilities.showRanger ||= classes.includes(ClassNames.RANGER);
-      classAbilities.showScout ||= classes.includes(ClassNames.SCOUT);
+      classAbilities.showThief ||= character.class.includes(ClassNames.THIEF);
+      classAbilities.showAssassin ||= character.class.includes(
+        ClassNames.ASSASSIN,
+      );
+      classAbilities.showRanger ||= character.class.includes(ClassNames.RANGER);
+      classAbilities.showScout ||= character.class.includes(ClassNames.SCOUT);
     });
 
     return classAbilities;

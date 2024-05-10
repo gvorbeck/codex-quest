@@ -1,8 +1,6 @@
 import { CharData, Spell } from "@/data/definitions";
-// import { useImages } from "@/hooks/useImages";
 import { useMarkdown } from "@/hooks/useMarkdown";
-import { toSlugCase } from "@/support/stringSupport";
-import { Descriptions, DescriptionsProps, Image, Typography } from "antd";
+import { Descriptions, DescriptionsProps, Typography } from "antd";
 import React from "react";
 
 interface SpellDescriptionsProps {

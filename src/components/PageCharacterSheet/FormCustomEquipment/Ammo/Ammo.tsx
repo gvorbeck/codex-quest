@@ -1,6 +1,6 @@
 import { Form, Select, SelectProps } from "antd";
 import React from "react";
-import equipment from "@/data/equipmentItems.json";
+import equipmentData from "@/data/equipment.json";
 import { EquipmentCategories } from "@/data/definitions";
 
 interface AmmoProps {
@@ -11,7 +11,7 @@ interface AmmoProps {
 const Ammo: React.FC<AmmoProps & React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
-  const options: SelectProps["options"] = equipment
+  const options: SelectProps["options"] = equipmentData
     .filter((item) => item.category === EquipmentCategories.AMMUNITION)
     .map((item) => ({ label: item.name, value: item.name }));
   return (

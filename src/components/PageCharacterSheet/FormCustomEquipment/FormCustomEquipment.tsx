@@ -64,7 +64,7 @@ const onFinishFailed = (errorInfo: object) => {
 const FormCustomEquipment: React.FC<
   FormCustomEquipmentProps & React.ComponentPropsWithRef<"div">
 > = ({ className, handleResetFormDisplay }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { setCharacter } = React.useContext(CharacterDataContext);
   const [form] = Form.useForm();
   const [categorySelect, setCategorySelect] = React.useState<
     EquipmentCategories | ""
@@ -102,27 +102,22 @@ const FormCustomEquipment: React.FC<
     }
   };
 
-  const handlePurchasedChange = (checked: boolean) => {
+  const handlePurchasedChange = (checked: boolean) =>
     setPurchasedCheckbox(checked);
-  };
 
-  const handleMissileAcChange = (value: number) => {
+  const handleMissileAcChange = (value: number) =>
     setMissileAcInputNumber(value);
-  };
 
-  const handleRangeChange = (value: [number, number, number]) => {
+  const handleRangeChange = (value: [number, number, number]) =>
     setRangeArray(value);
-  };
 
-  const handleAmmoChange = (value: string) => {
-    setAmmoSelect(value);
-  };
+  const handleAmmoChange = (value: string) => setAmmoSelect(value);
 
   const onFinish = (values: object) => {
-    setCharacter({
-      ...character,
-      equipment: [...character.equipment, values as EquipmentItem],
-    });
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      equipment: [...prevCharacter.equipment, values as EquipmentItem],
+    }));
     handleResetFormDisplay();
   };
 

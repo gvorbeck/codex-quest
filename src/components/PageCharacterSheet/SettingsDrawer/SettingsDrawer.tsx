@@ -98,7 +98,13 @@ const SettingsDrawer: React.FC<
           <>
             <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
-            {showSpellSelection && <AllSpellsSelection hideStartingText />}
+            {showSpellSelection && (
+              <AllSpellsSelection
+                character={character}
+                setCharacter={setCharacter}
+                hideStartingText
+              />
+            )}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             {showCustomSpellForm && (
               <FormCustomSpell

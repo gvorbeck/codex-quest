@@ -1,6 +1,6 @@
 import { Flex, Typography } from "antd";
 import React from "react";
-import { version, bfrpgRelease, bfrpgEdition } from "../../../../package.json";
+import { version, bfrpgEdition } from "../../../../package.json";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 interface PageFooterProps {}
