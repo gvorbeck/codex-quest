@@ -3,6 +3,7 @@ import {
   Collapse,
   CollapseProps,
   Descriptions,
+  Empty,
   Flex,
   Radio,
 } from "antd";
@@ -96,9 +97,15 @@ const CollapseEquipment: React.FC<
       ),
     }));
 
+  const collapseContent = items.length ? (
+    <Collapse className={className} items={items} />
+  ) : (
+    <Empty description="No Equipment" />
+  );
+
   return (
     <Flex vertical gap={16}>
-      <Collapse className={className} items={items} />
+      {collapseContent}
       <Alert
         type="info"
         message={
