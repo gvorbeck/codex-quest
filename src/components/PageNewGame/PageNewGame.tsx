@@ -1,25 +1,26 @@
 import { User } from "firebase/auth";
 import React from "react";
-import NewContentWrapper from "../NewContentWrapper/NewContentWrapper";
-import { marked } from "marked";
-import { Breadcrumb, Button, Form, Input } from "antd";
+import { Breadcrumb, Button, Flex, Form, Input } from "antd";
 import { UsergroupAddOutlined } from "@ant-design/icons";
 import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { useNavigate } from "react-router-dom";
 import { GameData } from "@/data/definitions";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
+import NewContentHeader from "../NewContentHeader/NewContentHeader";
 
 interface PageNewGameProps {
   user: User | null;
+  handleTabChange: (key: string) => void;
 }
 
 const PageNewGame: React.FC<
   PageNewGameProps & React.ComponentPropsWithRef<"div">
-> = ({ className }) => {
+> = ({ className, handleTabChange }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const onFinish = async (values: GameData) => {
+    handleTabChange("2");
     const newGame: GameData = { ...values, combatants: [] };
     // Call createDocument to create a new game document
     await createDocument(
@@ -40,32 +41,30 @@ const PageNewGame: React.FC<
     );
   };
 
-  const newGameDescription = marked(
-    `Create a new Basic Fantasy RPG game. You will be the Game Master and will be able to add players to your game using their characters' unique URLs.`,
-  );
+  const newGameDescription = `Create a new Basic Fantasy RPG game. You will be the Game Master and will be able to add players to your game using their characters' unique URLs.`;
+
   return (
-    <>
+    <Flex gap={16} vertical>
       <Breadcrumb
         items={breadcrumbItems("New Character", UsergroupAddOutlined)}
-        className="-mb-4"
       />
-      <NewContentWrapper
+      <NewContentHeader title="New Game" description={newGameDescription} />
+      <Form
+        form={form}
+        name="new-game-form"
+        onFinish={onFinish}
         className={className}
-        title={"New Game"}
-        markedDesc={newGameDescription}
       >
-        <Form form={form} name="new-game-form" onFinish={onFinish}>
-          <Form.Item name="name" label="Game Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </NewContentWrapper>
-    </>
+        <Form.Item name="name" label="Game Name" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </Flex>
   );
 };
 

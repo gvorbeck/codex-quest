@@ -2,7 +2,6 @@ import {
   Breadcrumb,
   Button,
   Col,
-  Divider,
   Flex,
   Row,
   Steps,
@@ -17,8 +16,6 @@ import React from "react";
 import { CharData, ClassNames } from "@/data/definitions";
 import StepAbilities from "./StepAbilities/StepAbilities";
 import StepRace from "./StepRace/StepRace";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
 import StepClass from "./StepClass/StepClass";
 import { classes } from "@/data/classes";
 import StepHitPoints from "./StepHitPoints/StepHitPoints";
@@ -30,6 +27,7 @@ import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
 import { emptyCharacter } from "@/support/characterSupport";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
+import NewContentHeader from "../NewContentHeader/NewContentHeader";
 
 console.warn("TODO: * messageapi not working *");
 
@@ -283,20 +281,10 @@ const PageNewCharacterCreator: React.FC<
         </Col>
         <Col xs={24} sm={19}>
           <Flex gap={16} vertical>
-            {/* NEW WRAPPER COMPONENT START (USE: NEW-CHARACTER, NEW-GAME) */}
-            <Typography.Title
-              level={2}
-              className="m-0 font-enchant leading-none tracking-wide"
-            >
-              {newCharacterStepItemData[stepNumber]["title"]}
-            </Typography.Title>
-            <Typography.Paragraph className="m-0 [&_p]:m-0 [&_p+p]:mt-4">
-              <Markdown rehypePlugins={[rehypeRaw]}>
-                {newCharacterStepItemData[stepNumber]["description"]}
-              </Markdown>
-            </Typography.Paragraph>
-            <Divider />
-            {/* NEW WRAPPER COMPONENT END */}
+            <NewContentHeader
+              title={newCharacterStepItemData[stepNumber]["title"]}
+              description={newCharacterStepItemData[stepNumber]["description"]}
+            />
             <Flex gap={16} justify="space-between">
               {previousButton}
               {nextButton}
