@@ -171,6 +171,7 @@ export type CharData = {
   class: string[];
   copper: number;
   desc: string | string[];
+  electrum: number;
   equipment: EquipmentItem[];
   gold: number;
   hp: {
@@ -182,6 +183,7 @@ export type CharData = {
   id?: string;
   level: number;
   name: string;
+  platinum: number;
   race: string;
   silver: number;
   spells: Spell[];

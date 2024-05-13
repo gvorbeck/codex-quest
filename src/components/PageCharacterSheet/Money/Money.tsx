@@ -12,6 +12,12 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
   const [gold, setGold] = React.useState(character.gold.toString());
   const [silver, setSilver] = React.useState(character.silver?.toString() || 0);
   const [copper, setCopper] = React.useState(character.copper?.toString() || 0);
+  const [electrum, setElectrum] = React.useState(
+    character.electrum?.toString() || 0,
+  );
+  const [platinum, setPlatinum] = React.useState(
+    character.platinum?.toString() || 0,
+  );
 
   function updateCurrency() {
     let gold = character.gold;
@@ -109,6 +115,8 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
     { state: gold, name: "gold", addOn: "GP" },
     { state: silver, name: "silver", addOn: "SP" },
     { state: copper, name: "copper", addOn: "CP" },
+    { state: electrum, name: "electrum", addOn: "EP" },
+    { state: platinum, name: "platinum", addOn: "PP" },
   ];
 
   const moneyInputs = moneyData.map((data) => (

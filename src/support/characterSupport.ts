@@ -28,6 +28,7 @@ export const emptyCharacter: CharData = {
   class: [],
   copper: 0,
   desc: [],
+  electrum: 0,
   equipment: [],
   gold: 0,
   hp: {
@@ -38,6 +39,7 @@ export const emptyCharacter: CharData = {
   },
   level: 1,
   name: "",
+  platinum: 0,
   race: "",
   silver: 0,
   spells: [],
