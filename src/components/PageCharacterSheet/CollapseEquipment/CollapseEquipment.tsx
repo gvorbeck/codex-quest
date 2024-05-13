@@ -103,6 +103,18 @@ const CollapseEquipment: React.FC<
     <Empty description="No Equipment" />
   );
 
+  React.useEffect(() => {
+    // do a filter on character.equipment and remove items with amount 0
+    // then compare to original character.equipment and update if necessary
+    const newEquipment = character.equipment.filter((item) => item.amount > 0);
+    if (newEquipment.length !== character.equipment.length) {
+      setCharacter((prevCharacter) => ({
+        ...prevCharacter,
+        equipment: newEquipment,
+      }));
+    }
+  }, []);
+
   return (
     <Flex vertical gap={16}>
       {collapseContent}
