@@ -2,7 +2,7 @@ import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpell
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
-import { Button, Divider, Drawer, Flex } from "antd";
+import { Button, Divider, Drawer, Flex, Switch, Typography } from "antd";
 import React from "react";
 import CantripSelection from "../CantripSelection/CantripSelection";
 import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
@@ -67,6 +67,13 @@ const SettingsDrawer: React.FC<
     setShowEditEquipmentForm(false);
   };
 
+  function handleChangeCoinWeight(checked: boolean) {
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      useCoinWeight: checked,
+    }));
+  }
+
   return (
     <Drawer
       title="Settings"
@@ -128,6 +135,14 @@ const SettingsDrawer: React.FC<
             )}
           </>
         )}
+        <Flex gap={8}>
+          <Typography.Text>Use coin weight?</Typography.Text>
+          <Switch
+            className="self-start"
+            checked={character.useCoinWeight}
+            onChange={handleChangeCoinWeight}
+          />
+        </Flex>
       </Flex>
     </Drawer>
   );

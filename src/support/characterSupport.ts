@@ -43,6 +43,7 @@ export const emptyCharacter: CharData = {
   race: "",
   silver: 0,
   spells: [],
+  useCoinWeight: true,
   weight: 0,
   xp: 0,
 };

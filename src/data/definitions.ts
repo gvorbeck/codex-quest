@@ -191,6 +191,7 @@ export type CharData = {
   wearing?: { armor: string; shield: string };
   weight: number;
   xp: number;
+  useCoinWeight?: boolean;
 };
 
 export type SetCharData = (characterData: CharData) => void;

@@ -88,7 +88,7 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
     const { name, value } = e.target;
     const numericValue = handleArithmetic(
       value,
-      character[name as "gold" | "silver" | "copper"],
+      character[name as "gold" | "silver" | "copper" | "electrum" | "platinum"],
     );
 
     if (name === "gold") {
@@ -97,6 +97,10 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
       setSilver(numericValue.toString());
     } else if (name === "copper") {
       setCopper(numericValue.toString());
+    } else if (name === "electrum") {
+      setElectrum(numericValue.toString());
+    } else if (name === "platinum") {
+      setPlatinum(numericValue.toString());
     }
 
     setCharacter((prevCharacter) => ({
@@ -139,6 +143,13 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
       }
     />
   ));
+
+  if (character.useCoinWeight === undefined) {
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      useCoinWeight: true,
+    }));
+  }
 
   return (
     <Flex vertical gap={8} className={className}>

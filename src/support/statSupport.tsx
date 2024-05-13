@@ -75,8 +75,13 @@ export const getWeight = (character: CharData) => {
     },
     0,
   );
-  const coinsWeight = character.gold * 0.05;
-  return equipmentWeight + coinsWeight;
+  const coinsWeight =
+    character.gold * 0.05 +
+    character.silver * 0.05 +
+    character.copper * 0.05 +
+    character.electrum * 0.05 +
+    character.platinum * 0.05;
+  return equipmentWeight + (character.useCoinWeight ? coinsWeight : 0);
 };
 
 export const getMovement = (characterData: CharData) => {
