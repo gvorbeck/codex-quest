@@ -113,6 +113,7 @@ const CollapseEquipment: React.FC<
         equipment: newEquipment,
       }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
