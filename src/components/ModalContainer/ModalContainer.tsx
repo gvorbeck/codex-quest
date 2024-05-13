@@ -1,43 +1,42 @@
+import { ModalDisplay } from "@/data/definitions";
 import { Modal } from "antd";
 import React from "react";
 
 interface ModalContainerProps {
-  title: string;
-  modalIsOpen: boolean;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  modalContent: React.ReactNode | undefined;
+  modalDisplay: ModalDisplay;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
   modalOk?: (() => void | undefined) | null | undefined;
 }
 
 const ModalContainer: React.FC<
   ModalContainerProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  title,
-  modalIsOpen,
-  setModalIsOpen,
-  modalContent,
-  modalOk,
-}) => {
-  const handleOk = () => {
+> = ({ className, modalDisplay, setModalDisplay, modalOk }) => {
+  function handleOk() {
     if (modalOk) modalOk();
-    setModalIsOpen(false);
-  };
+    setModalDisplay((prevModalDisplay) => ({
+      ...prevModalDisplay,
+      isOpen: false,
+    }));
+  }
 
-  const handleCancel = () => {
-    setModalIsOpen(false);
-  };
+  function handleCancel() {
+    setModalDisplay((prevModalDisplay) => ({
+      ...prevModalDisplay,
+      isOpen: false,
+    }));
+  }
+
   return (
     <Modal
-      title={title}
-      open={modalIsOpen}
+      title={modalDisplay.title}
+      open={modalDisplay.isOpen}
       onOk={handleOk}
       onCancel={handleCancel}
       className={className}
       footer={false}
       width={900}
     >
-      {modalContent}
+      {modalDisplay.content}
     </Modal>
   );
 };

@@ -11,7 +11,7 @@ export interface RaceSetup {
   allowedCombinationClasses?: ClassNames[];
   allowedStandardClasses: ClassNames[];
   altBaseAC?: number;
-  decrementHitDie?: boolean; // Use the next highest die type for hit points
+  decrementHitDie?: boolean; // Use the next lowest die type for hit points
   details: {
     description?: string;
     restrictions?: string[];
@@ -30,4 +30,5 @@ export interface RaceSetup {
   specialAbilitiesOverride?: unknown;
   uniqueAttacks?: EquipmentItem[];
   icons?: [React.FC, string][];
+  isBase?: boolean;
 }

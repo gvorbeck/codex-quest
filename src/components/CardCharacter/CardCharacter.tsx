@@ -7,8 +7,6 @@ import {
   DescriptionsProps,
   Popconfirm,
 } from "antd";
-import { extractImageName } from "@/support/characterSupport";
-import { images } from "@/assets/images/faces/imageAssets";
 import {
   DeleteOutlined,
   SolutionOutlined,
@@ -16,9 +14,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import { avatarClassNames } from "@/support/cssSupport";
 import { deleteDocument } from "@/support/accountSupport";
-import { classSplit } from "@/support/classSupport";
 
 interface CardCharacterProps {
   item: CharData;
@@ -33,24 +29,11 @@ const CardCharacter: React.FC<
   if (!item) {
     return null; // or a placeholder/loading/error state
   }
-  // Legacy characters created while the site was using Create React App will have broken image links that start with "/static/media/"
-  // This code checks for that and replaces the broken link with the correct one
-  let image = "";
-  if (item?.avatar?.startsWith("/static/media/")) {
-    const legacyImage = extractImageName(item.avatar);
-    if (legacyImage) {
-      // find the matching source images in `images`
-      // "/src/assets/images/faces/gnome-boy-1.jpg" matches gnome-boy-1
-      image = images.find((image) => image.includes(legacyImage)) || "";
-    }
-  } else {
-    image = item.avatar;
-  }
 
   const descriptionItems: DescriptionsProps["items"] = [
     { key: "1", label: "Level", children: item.level },
     { key: "2", label: "Race", children: item.race },
-    { key: "3", label: "Class", children: classSplit(item.class).join(" | ") },
+    { key: "3", label: "Class", children: item.class.join(" | ") },
   ];
   return (
     item &&
@@ -88,10 +71,10 @@ const CardCharacter: React.FC<
         <Card.Meta
           avatar={
             <Avatar
-              src={image || undefined}
-              icon={!image ? <UserOutlined /> : undefined}
+              src={item.avatar || undefined}
+              icon={!item.avatar ? <UserOutlined /> : undefined}
               size={64}
-              className={avatarClassNames}
+              className="avatar"
             />
           }
           title={

@@ -1,7 +1,5 @@
-import React from "react";
 import { CharData } from "@/data/definitions";
-import { Button } from "antd";
-import { images } from "@/assets/images/faces/imageAssets";
+import { Button, Image } from "antd";
 import classNames from "classnames";
 
 interface StockAvatarsProps {
@@ -12,23 +10,37 @@ interface StockAvatarsProps {
 const StockAvatars: React.FC<
   StockAvatarsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
-  const [selectedAvatar, setSelectedAvatar] = React.useState("");
-
-  React.useEffect(() => {
-    if (selectedAvatar) {
-      const updatedCharacter = { ...character, avatar: selectedAvatar };
-      setCharacter(updatedCharacter);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAvatar]);
-
-  const stockAvatarClassNames = classNames(
-    className,
-    "mt-4 mx-auto grid grid-cols-4 gap-2 md:grid-cols-5 lg:w-[75%]",
-  );
+  const imageNames = [
+    "cleric-man-1.jpg",
+    "dwarf-man-1.jpg",
+    "elf-man-1.jpg",
+    "elf-woman-1.jpg",
+    "elf-woman-2.jpg",
+    "elf-woman-3.jpg",
+    "gnome-boy-1.jpg",
+    "thief-man-1.jpg",
+    "thief-woman-1.jpg",
+    "warrior-man-1.jpg",
+    "warrior-man-2.jpg",
+    "warrior-man-3.jpg",
+    "warrior-man-4.jpg",
+    "warrior-man-5.jpg",
+    "warrior-woman-1.jpg",
+    "warrior-woman-2.jpg",
+    "warrior-woman-3.jpg",
+    "wizard-man-1.jpg",
+    "wizard-woman-1.jpg",
+    "wizard-woman-3.jpg",
+  ];
+  const images = imageNames.map((name) => `/faces/${name}`);
 
   return (
-    <div className={stockAvatarClassNames}>
+    <div
+      className={classNames(
+        "mt-4 grid grid-cols-4 gap-2 md:grid-cols-5",
+        className,
+      )}
+    >
       {images.map((image) => (
         <Button
           key={image}
@@ -36,17 +48,15 @@ const StockAvatars: React.FC<
           className="h-auto w-auto leading-none p-0"
           onClick={() => {
             setCharacter({ ...character, avatar: image });
-            setSelectedAvatar(image);
           }}
         >
-          <img
-            alt="Avatar"
+          <Image
             src={image}
-            className={`w-16 rounded-[50%] border-4 border-solid ${
-              image === selectedAvatar
-                ? "border-seaBuckthorn shadow-md"
-                : "border-springWood"
-            }`}
+            className={classNames("w-16 rounded-full", {
+              "ring-4 ring-seaBuckthorn": character.avatar === image,
+              "ring-2 ring-shipGray": character.avatar !== image,
+            })}
+            preview={false}
           />
         </Button>
       ))}

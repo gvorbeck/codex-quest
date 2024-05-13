@@ -1,103 +1,80 @@
+import { useCharacterData } from "@/hooks/useCharacterData";
 import { User } from "firebase/auth";
+import PageCharacterSheetSkeleton from "./PageCharacterSheetSkeleton/PageCharacterSheetSkeleton";
+import { CharacterDataContext } from "@/store/CharacterContext";
+import CharacterFloatButtons from "./CharacterFloatButtons/CharacterFloatButtons";
+import { useModal } from "@/hooks/useModal";
 import React from "react";
-import { ClassNames } from "@/data/definitions";
-import Hero from "./Hero/Hero";
 import { Alert, Col, Divider, Flex, Row } from "antd";
-import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
+import Hero from "./Hero/Hero";
+import { CharData, ClassNames } from "@/data/definitions";
+import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
+import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
+import StepAbilities from "../PageNewCharacter/StepAbilities/StepAbilities";
 import AttackBonuses from "./AttackBonuses/AttackBonuses";
 import HitPoints from "./HitPoints/HitPoints";
-import { classes } from "@/data/classes";
+import StepHitPoints from "../PageNewCharacter/StepHitPoints/StepHitPoints";
+import { useDeviceType } from "@/hooks/useDeviceType";
 import CharacterStat from "./CharacterStat/CharacterStat";
+import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
+import { getClassType } from "@/support/classSupport";
 import SpecialsRestrictions from "./SpecialsRestrictions/SpecialsRestrictions";
+import { classes } from "@/data/classes";
 import SpecialAbilitiesTable from "./SpecialAbilitiesTable/SpecialAbilitiesTable";
 import SavingThrows from "./SavingThrows/SavingThrows";
+import { customClassString } from "@/support/stringSupport";
 import Money from "./Money/Money";
 import Weight from "./Weight/Weight";
+import { useSpellData } from "@/hooks/useSpellData";
+import Spells from "./Spells/Spells";
+import Cantrips from "./Cantrips/Cantrips";
 import Equipment from "./Equipment/Equipment";
 import Description from "./Description/Description";
-import CharacterFloatButtons from "./CharacterFloatButtons/CharacterFloatButtons";
-import ModalContainer from "@/components/ModalContainer/ModalContainer";
-import StepAbilities from "@/components/PageNewCharacter/StepAbilities/StepAbilities";
-import StepHitPoints from "@/components/PageNewCharacter/StepHitPoints/StepHitPoints";
-import { useCharacterData } from "@/hooks/useCharacterData";
-import { useModal } from "@/hooks/useModal";
-import { useDeviceType } from "@/hooks/useDeviceType";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
-import { customClassString } from "@/support/stringSupport";
-import classNames from "classnames";
-import Spells from "./Spells/Spells";
-import { useSpellData } from "@/hooks/useSpellData";
-import { useMarkdown } from "@/hooks/useMarkdown";
-import { classSplit, isStandardClass } from "@/support/classSupport";
-import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
 import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
-import Cantrips from "./Cantrips/Cantrips";
-import PageCharacterSheetSkeleton from "./PageCharacterSheetSkeleton/PageCharacterSheetSkeleton";
 
 interface PageCharacterSheetProps {
   user: User | null;
 }
 
-export interface Wearing {
-  armor: string | undefined;
-  shield: string | undefined;
-}
-
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
+  console.info(
+    "-Choosing a stock avatar doesn't show selected ring around image.",
+    "-Chosen spell descriptions in Level-Up Modal.",
+    "-Make use of all ClassSetup and RaceSetup fields.",
+  );
+
   const [open, setOpen] = React.useState(false);
   const { character, setCharacter, userIsOwner, uid, id } =
     useCharacterData(user);
-  const {
-    modalIsOpen,
-    setModalIsOpen,
-    modalTitle,
-    setModalTitle,
-    modalContent,
-    setModalContent,
-    modalOkRef,
-  } = useModal();
-  const attackBonusesHelpText = useMarkdown(
-    `**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`,
-  );
-  const armorClassHelpText = useMarkdown(
-    `Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`,
-  );
-  const movementHelpText = useMarkdown(
-    `Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`,
-  );
-  const abilitiesTableHelpText = useMarkdown(
-    `A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`,
-  );
-  const customClassAlertMessage = customClassString;
+  const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
   const { isMobile, isTablet, isDesktop } = useDeviceType();
   const { isSpellCaster } = useSpellData();
-  const classArr = character ? classSplit(character.class) : [];
-  const moneyClassNames = classNames({ "w-1/3": !isMobile });
+
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
+
   return character ? (
     <CharacterDataContext.Provider
-      value={{ character, setCharacter, userIsOwner, uid, id }}
+      value={{
+        character,
+        setCharacter: setCharacter as React.Dispatch<
+          React.SetStateAction<CharData>
+        >,
+        userIsOwner,
+        uid,
+        id,
+      }}
     >
       <CharacterFloatButtons
-        setModalIsOpen={setModalIsOpen}
-        setModalTitle={setModalTitle}
-        setModalContent={setModalContent}
+        setModalDisplay={setModalDisplay}
         modalOk={modalOkRef.current}
         openSettingsDrawer={showDrawer}
       />
       <Flex vertical className={className} gap={16}>
-        <Row>
-          <Hero
-            setModalIsOpen={setModalIsOpen}
-            setModalTitle={setModalTitle}
-            setModalContent={setModalContent}
-            isMobile={isMobile}
-          />
-        </Row>
+        <Hero setModalDisplay={setModalDisplay} />
         <Row gutter={16} className="[&>div]:mt-4">
           <Col xs={24} sm={12} md={8}>
             <Section
@@ -106,8 +83,11 @@ const PageCharacterSheet: React.FC<
               editableComponent={
                 <StepAbilities
                   character={character}
-                  setCharacter={setCharacter}
-                  hideRollAll
+                  setCharacter={
+                    setCharacter as React.Dispatch<
+                      React.SetStateAction<CharData>
+                    >
+                  }
                 />
               }
               editable
@@ -117,7 +97,7 @@ const PageCharacterSheet: React.FC<
             <Flex gap={16} vertical>
               <Section
                 title="Attack Bonuses"
-                titleHelpText={attackBonusesHelpText}
+                titleHelpText={`**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`}
                 component={<AttackBonuses />}
               />
               <Section
@@ -127,7 +107,11 @@ const PageCharacterSheet: React.FC<
                 editableComponent={
                   <StepHitPoints
                     character={character}
-                    setCharacter={setCharacter}
+                    setCharacter={
+                      setCharacter as React.Dispatch<
+                        React.SetStateAction<CharData>
+                      >
+                    }
                   />
                 }
               />
@@ -141,7 +125,7 @@ const PageCharacterSheet: React.FC<
             >
               <Section
                 title="Armor Class"
-                titleHelpText={armorClassHelpText}
+                titleHelpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`}
                 component={
                   <CharacterStat
                     value={getArmorClass(character, setCharacter) || 0}
@@ -150,7 +134,7 @@ const PageCharacterSheet: React.FC<
               />
               <Section
                 title="Movement"
-                titleHelpText={movementHelpText}
+                titleHelpText={`Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`}
                 component={
                   <CharacterStat value={`${getMovement(character)}'`} />
                 }
@@ -161,7 +145,7 @@ const PageCharacterSheet: React.FC<
                   <CharacterStat
                     value={getHitDice(
                       character.level,
-                      classArr,
+                      character,
                       character.hp.dice,
                     )}
                   />
@@ -171,7 +155,7 @@ const PageCharacterSheet: React.FC<
           </Col>
         </Row>
         <Divider />
-        {classArr.every((cls) => isStandardClass(cls)) ? (
+        {getClassType(character.class).includes("standard") ? (
           <Row gutter={16}>
             <Col xs={24} sm={12} md={14}>
               <Section
@@ -181,7 +165,7 @@ const PageCharacterSheet: React.FC<
             </Col>
             <Col xs={24} sm={12} md={10}>
               <Flex gap={16} vertical>
-                {classArr.map((cls) => {
+                {character.class.map((cls) => {
                   const specialAbilities =
                     classes[cls as ClassNames]?.specialAbilities;
                   if (specialAbilities) {
@@ -189,7 +173,7 @@ const PageCharacterSheet: React.FC<
                       <Section
                         key={cls}
                         title={`${cls} Abilities Table`}
-                        titleHelpText={abilitiesTableHelpText}
+                        titleHelpText={`A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`}
                         component={
                           <SpecialAbilitiesTable
                             specialAbilities={specialAbilities}
@@ -204,12 +188,13 @@ const PageCharacterSheet: React.FC<
                   title="Saving Throws"
                   component={<SavingThrows />}
                   className="[@media(width<=640px)]:mt-4"
+                  titleHelpText={`Roll 1d20. Pass if above the number shown.\n\nPoison saving throws are made w/ CON modifier.\n\nSaving throws against illusions are made w/ INT modifier.\n\nSaving throws against charm spells (and other forms of mind control) are made w/ WIS modifier.`}
                 />
               </Flex>
             </Col>
           </Row>
         ) : (
-          <Alert type="info" message={customClassAlertMessage} />
+          <Alert type="info" message={customClassString} />
         )}
         <Divider />
         <Row gutter={32}>
@@ -217,7 +202,7 @@ const PageCharacterSheet: React.FC<
             <Flex gap={16} vertical={isMobile} justify="space-between">
               <Section
                 title="Money"
-                className={moneyClassNames}
+                className={!isMobile ? "w-1/3" : ""}
                 component={<Money />}
               />
               <Divider className="[@media(width>=640px)]:hidden" />
@@ -244,13 +229,7 @@ const PageCharacterSheet: React.FC<
             <Section
               title="Equipment"
               className="mt-4 sm:m-0"
-              component={
-                <Equipment
-                  setModalIsOpen={setModalIsOpen}
-                  setModalTitle={setModalTitle}
-                  setModalContent={setModalContent}
-                />
-              }
+              component={<Equipment setModalDisplay={setModalDisplay} />}
             />
           </Col>
         </Row>
@@ -272,10 +251,8 @@ const PageCharacterSheet: React.FC<
         />
       )}
       <ModalContainer
-        title={modalTitle}
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        modalContent={modalContent}
+        modalDisplay={modalDisplay}
+        setModalDisplay={setModalDisplay}
         modalOk={modalOkRef.current}
       />
     </CharacterDataContext.Provider>

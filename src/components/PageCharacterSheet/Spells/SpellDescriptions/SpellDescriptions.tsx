@@ -1,8 +1,6 @@
 import { CharData, Spell } from "@/data/definitions";
-import { useImages } from "@/hooks/useImages";
 import { useMarkdown } from "@/hooks/useMarkdown";
-import { toSlugCase } from "@/support/stringSupport";
-import { Descriptions, DescriptionsProps, Image, Typography } from "antd";
+import { Descriptions, DescriptionsProps, Typography } from "antd";
 import React from "react";
 
 interface SpellDescriptionsProps {
@@ -14,7 +12,7 @@ interface SpellDescriptionsProps {
 const SpellDescriptions: React.FC<
   SpellDescriptionsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, spell }) => {
-  const { getSpellImage } = useImages();
+  // const { getSpellImage } = useImages();
   const items: DescriptionsProps["items"] = [
     {
       key: "1",
@@ -27,16 +25,16 @@ const SpellDescriptions: React.FC<
       children: spell.duration,
     },
   ];
-  const spellImage = getSpellImage(toSlugCase(spell.name || ""));
+  // const spellImage = getSpellImage(toSlugCase(spell.name || ""));
   return (
     <>
       <Descriptions items={items} className={className} />
       <div>
-        {spellImage && (
+        {/* {spellImage && (
           <div className="w-28 float-left mr-4 mb-2">
             <Image src={spellImage} preview={false} />
           </div>
-        )}
+        )} */}
         <Typography
           dangerouslySetInnerHTML={{ __html: useMarkdown(spell.description) }}
           className="text-justify"

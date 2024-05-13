@@ -155,10 +155,10 @@ export type EquipmentItem = {
   minLevel?: number;
 };
 
-type SpecialRestriction = {
-  race: string[];
-  class: string[];
-};
+// type SpecialRestriction = {
+//   race: string[];
+//   class: string[];
+// };
 
 export type CharData = {
   abilities: {
@@ -166,8 +166,12 @@ export type CharData = {
     modifiers: Abilities;
   };
   avatar: string;
+  cantrips?: ZeroLevelSpell[];
+  charId?: string;
   class: string[];
+  copper: number;
   desc: string | string[];
+  electrum: number;
   equipment: EquipmentItem[];
   gold: number;
   hp: {
@@ -179,17 +183,14 @@ export type CharData = {
   id?: string;
   level: number;
   name: string;
+  platinum: number;
   race: string;
-  restrictions: SpecialRestriction;
-  savingThrows: SavingThrowsType;
-  specials: SpecialRestriction;
+  silver: number;
   spells: Spell[];
+  userId?: string;
   wearing?: { armor: string; shield: string };
   weight: number;
   xp: number;
-  cantrips?: ZeroLevelSpell[];
-  userId?: string;
-  charId?: string;
 };
 
 export type SetCharData = (characterData: CharData) => void;
@@ -228,3 +229,9 @@ export type CombatantType = {
 };
 
 export type CombatantTypes = "player" | "monster";
+
+export interface ModalDisplay {
+  isOpen: boolean;
+  title: string;
+  content: React.ReactNode | undefined;
+}

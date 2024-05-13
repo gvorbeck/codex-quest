@@ -20,7 +20,7 @@ export const raceIsDisabled = (choice: RaceSetup, character: CharData) =>
 
 export const getRaceSelectOptions = (
   character: CharData,
-  useBase: boolean = true,
+  useBase?: boolean,
 ) => {
   return Object.keys(races)
     .filter((race) => !raceIsDisabled(races[race as RaceNames], character))
@@ -45,15 +45,10 @@ export const getRaceSelectOptions = (
     }));
 };
 
-export const baseClasses = [
-  RaceNames.DWARF,
-  RaceNames.ELF,
-  RaceNames.HALFLING,
-  RaceNames.HUMAN,
-];
-
-export const isStandardRace = (raceName: string, isBase = false) => {
+export const isStandardRace = (raceName: string, isBase?: boolean) => {
   if (!raceName) return false;
-  if (isBase) return Object.values(baseClasses).includes(raceName as RaceNames);
-  return Object.values(RaceNames).includes(raceName as RaceNames);
+  const race = races[raceName as keyof typeof races];
+  if (!race) return false;
+  if (isBase) return race.isBase;
+  return true;
 };

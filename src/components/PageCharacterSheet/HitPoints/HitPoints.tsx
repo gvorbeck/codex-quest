@@ -1,7 +1,7 @@
 import { Flex, Input, InputNumber, Typography } from "antd";
 import React from "react";
 import DOMPurify from "dompurify";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 const HitPoints: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,

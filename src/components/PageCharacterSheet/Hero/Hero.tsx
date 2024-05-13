@@ -6,83 +6,53 @@ import {
   Breadcrumb,
   Typography,
   Descriptions,
-  BreadcrumbProps,
   DescriptionsProps,
 } from "antd";
-import BreadcrumbHomeLink from "@/components/BreadcrumbHomeLink/BreadcrumbHomeLink";
-import classNames from "classnames";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
-import { classSplit } from "@/support/classSupport";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import ExperiencePoints from "./ExperiencePoints/ExperiencePoints";
 import HeroAvatar from "./HeroAvatar/HeroAvatar";
 import Section from "../Section/Section";
 import StepDetails from "@/components/PageNewCharacter/StepDetails/StepDetails";
+import { ModalDisplay } from "@/data/definitions";
+import { breadcrumbItems } from "@/support/cqSupportGeneral";
+import AvatarPicker from "@/components/AvatarPicker/AvatarPicker";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 interface HeroProps {
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  setModalTitle: (modalTitle: string) => void;
-  setModalContent: (modalContent: React.ReactNode) => void;
-  isMobile: boolean;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
   className,
-  setModalIsOpen,
-  setModalTitle,
-  setModalContent,
-  isMobile,
+  setModalDisplay,
 }) => {
-  const { character, setCharacter, userIsOwner, uid, id } =
+  const { character, setCharacter, userIsOwner } =
     React.useContext(CharacterDataContext);
-  const [newNameInput, setNewNameInput] = React.useState(character.name);
-
-  const heroClassNames = classNames("w-full", className);
-
-  const classArr = classSplit(character.class);
-
-  const breadcrumbItems: BreadcrumbProps["items"] = [
-    {
-      title: <BreadcrumbHomeLink />,
-    },
-    {
-      title: (
-        <div>
-          <SolutionOutlined className="mr-2" />
-          <span>{character.name}</span>
-        </div>
-      ),
-    },
-  ];
+  const { isMobile } = useDeviceType();
 
   const descriptionsItems: DescriptionsProps["items"] = [
     { key: "1", label: "Level", children: character.level },
     { key: "2", label: "Race", children: character.race },
-    { key: "3", label: "Class", children: classArr.join(", ") },
+    { key: "3", label: "Class", children: character.class.join(", ") },
   ];
 
-  React.useEffect(() => {
-    setNewNameInput(character.name);
-  }, [character.name]);
-
-  React.useEffect(
-    () => setCharacter({ ...character, name: newNameInput }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [newNameInput],
-  );
+  function handleShowAvatarModal() {
+    if (userIsOwner) {
+      setModalDisplay({
+        isOpen: true,
+        title: "Change Avatar",
+        content: (
+          <AvatarPicker character={character} setCharacter={setCharacter} />
+        ),
+      });
+    }
+  }
 
   return (
     <>
-      <Flex className={heroClassNames} gap={16} vertical>
-        <Breadcrumb items={breadcrumbItems} />
-        <HeroAvatar
-          setModalIsOpen={setModalIsOpen}
-          setModalContent={setModalContent}
-          setModalTitle={setModalTitle}
-          userIsOwner={userIsOwner}
-          character={character}
-          setCharacter={setCharacter}
-        />
-        {/* Name */}
+      <Flex className={"w-full " + className} gap={16} vertical>
+        <Breadcrumb items={breadcrumbItems(character.name, SolutionOutlined)} />
+        <HeroAvatar handleShowAvatarModal={handleShowAvatarModal} />
         <Section
           component={
             <Typography.Title
@@ -111,7 +81,6 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           justify="space-between"
           className="w-full sm:flex-row-reverse sm:mx-auto"
         >
-          {/* Level/Race/Class */}
           <Descriptions
             bordered
             column={2}
@@ -119,17 +88,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
             items={descriptionsItems}
             className="w-full sm:w-1/3"
           />
-          <ExperiencePoints
-            id={id}
-            uid={uid}
-            classArr={classArr}
-            character={character}
-            userIsOwner={userIsOwner}
-            setCharacter={setCharacter}
-            setModalTitle={setModalTitle}
-            setModalIsOpen={setModalIsOpen}
-            setModalContent={setModalContent}
-          />
+          <ExperiencePoints setModalDisplay={setModalDisplay} />
         </Flex>
       </Flex>
     </>

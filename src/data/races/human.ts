@@ -5,6 +5,7 @@ import { iconStrings } from "@/support/stringSupport";
 
 export const human: RaceSetup = {
   name: "Human",
+  isBase: true,
   allowedStandardClasses: [...(Object.values(ClassNames) as ClassNames[])],
   details: {
     description:

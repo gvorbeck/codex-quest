@@ -12,6 +12,7 @@ import { iconStrings } from "@/support/stringSupport";
 
 export const halfling: RaceSetup = {
   name: "Halfling",
+  isBase: true,
   allowedStandardClasses: [
     ClassNames.CLERIC,
     ClassNames.CUSTOM,

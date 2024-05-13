@@ -3,7 +3,7 @@ import { RaceNames } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, Flex } from "antd";
 import CharacterStat from "../CharacterStat/CharacterStat";
 import { getCarryingCapacity, getWeight } from "@/support/statSupport";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
 const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
@@ -15,7 +15,7 @@ const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
     +character.abilities.scores.strength,
     character.race as RaceNames,
   );
-  const [weight, setWeight] = React.useState(0);
+  const weight = getWeight(character);
   const items: DescriptionsProps["items"] = [
     { key: "1", label: "Max Weight", children: capacity.heavy },
     {
@@ -25,11 +25,6 @@ const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
     },
   ];
 
-  React.useEffect(
-    () => setWeight(getWeight(character)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character.gold, character.equipment],
-  );
   return (
     <Flex gap={16} className={className} vertical={!isMobile}>
       <CharacterStat value={weight.toFixed(0)} />

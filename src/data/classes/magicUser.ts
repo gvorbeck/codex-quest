@@ -1,12 +1,13 @@
 import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
-import equipmentItems from "../equipmentItems.json";
+import equipmentData from "../equipment.json";
 import { EquipmentLimitsSvg, WeaponLimitsSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
 
 export const magicUser: ClassSetup = {
   name: "Magic-User",
+  isBase: true,
   minimumAbilityRequirements: { intelligence: 9 },
   hitDice: DiceTypes.D4,
   hitDiceModifier: 1,
@@ -18,7 +19,10 @@ export const magicUser: ClassSetup = {
     EquipmentCategories.BARDING,
     EquipmentCategories.IMPROVISED,
   ],
-  specificEquipmentItems: [[EquipmentCategories.OTHERWEAPONS], ["cudgel"]],
+  specificEquipmentItems: [
+    [EquipmentCategories.OTHERWEAPONS],
+    ["cudgel", "stick"],
+  ],
   experiencePoints: [
     0, 2500, 5000, 10000, 20000, 40000, 80000, 150000, 300000, 450000, 600000,
     750000, 900000, 1050000, 1200000, 1350000, 1500000, 1650000, 1800000,
@@ -161,7 +165,7 @@ export const magicUser: ClassSetup = {
   ],
   startingSpells: ["Read Magic"],
   startingEquipment: [
-    equipmentItems.find((item) =>
+    equipmentData.find((item) =>
       item.name.toLowerCase().startsWith("spellbook"),
     )! as EquipmentItem,
   ],

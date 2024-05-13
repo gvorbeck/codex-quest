@@ -1,19 +1,20 @@
-import { CharData, EquipmentItem } from "@/data/definitions";
+import { EquipmentItem, ModalDisplay } from "@/data/definitions";
 import React from "react";
 import AttackForm from "../AttackForm/AttackForm";
 import { useAttack } from "@/hooks/useAttack";
 import { getRollToHitResult } from "../ModalAttackSupport";
 import { rollDice } from "@/support/diceSupport";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface MeleeAttackFormProps {
-  character: CharData;
   item: EquipmentItem;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const MeleeAttackForm: React.FC<
   MeleeAttackFormProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, item, setModalIsOpen }) => {
+> = ({ className, item, setModalDisplay }) => {
+  const { character } = React.useContext(CharacterDataContext);
   const { contextHolder, openNotification } = useAttack();
 
   const onFinish = () => {
@@ -32,7 +33,10 @@ const MeleeAttackForm: React.FC<
     );
 
     // Reset modal state
-    setModalIsOpen(false);
+    setModalDisplay((prevModalDisplay) => ({
+      ...prevModalDisplay,
+      isOpen: false,
+    }));
   };
 
   return (

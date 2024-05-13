@@ -1,4 +1,4 @@
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { Button, Form, Input, message } from "antd";
 import React, { useEffect } from "react";
 

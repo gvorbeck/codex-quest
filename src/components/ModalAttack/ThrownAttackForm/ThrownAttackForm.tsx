@@ -1,28 +1,19 @@
 import React from "react";
-import { CharData, EquipmentItem } from "@/data/definitions";
+import { EquipmentItem, ModalDisplay } from "@/data/definitions";
 import AttackForm from "../AttackForm/AttackForm";
 import { useAttack } from "@/hooks/useAttack";
 import { Flex, Form, Select, Typography } from "antd";
 import { sendAmmoAttackNotifications } from "../ModalAttackSupport";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface ThrownAttackFormProps {
   item: EquipmentItem;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  character: CharData;
-  setCharacter: (character: CharData) => void;
-  equipment: EquipmentItem[];
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const ThrownAttackForm: React.FC<
   ThrownAttackFormProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  item,
-  setModalIsOpen,
-  equipment,
-  character,
-  setCharacter,
-}) => {
+> = ({ className, item, setModalDisplay }) => {
   const {
     range,
     setRange,
@@ -33,16 +24,19 @@ const ThrownAttackForm: React.FC<
     updateEquipmentAfterMissileAttack,
     calculateMissileRollResults,
   } = useAttack();
+  const { character, setCharacter } = React.useContext(CharacterDataContext);
   const ammoSelection = item.name;
   const rangeOptions = getRangeOptions(item.range);
   const resetFormState = () => {
     setRange(undefined);
-    setModalIsOpen(false);
+    setModalDisplay((prevModalDisplay) => ({
+      ...prevModalDisplay,
+      isOpen: false,
+    }));
   };
   const onFinish = () => {
     const weaponRecovered = updateEquipmentAfterMissileAttack(
       ammoSelection,
-      equipment,
       false,
       character,
       setCharacter,
@@ -50,7 +44,6 @@ const ThrownAttackForm: React.FC<
     const { rollToHit, rollToDamage } = calculateMissileRollResults(
       character,
       range,
-      equipment,
       ammoSelection,
       true,
     );

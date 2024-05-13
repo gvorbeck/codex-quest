@@ -1,4 +1,4 @@
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { Collapse, CollapseProps, Empty, Popconfirm } from "antd";
 import React from "react";
 import CantripDescriptions from "./CantripDescriptions/CantripDescriptions";
@@ -17,7 +17,10 @@ const Cantrips: React.FC<
     const newCantrips = character?.cantrips?.filter(
       (c) => c.name !== cantrip.name,
     );
-    setCharacter({ ...character, cantrips: newCantrips });
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      cantrips: newCantrips,
+    }));
   };
 
   const items: CollapseProps["items"] = character?.cantrips

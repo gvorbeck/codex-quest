@@ -1,5 +1,4 @@
 import { Statistic } from "antd";
-import classNames from "classnames";
 import React from "react";
 
 interface CharacterStatProps {
@@ -10,15 +9,9 @@ interface CharacterStatProps {
 const CharacterStat: React.FC<
   CharacterStatProps & React.ComponentPropsWithRef<"div">
 > = ({ className, value, altValue }) => {
-  const characterStatClassNames = classNames(
-    "text-center",
-    "font-bold",
-    "leading-none",
-    className,
-  );
   return (
     <Statistic
-      className={characterStatClassNames}
+      className={"text-center font-bold leading-none " + className}
       value={value}
       suffix={altValue && <div className="text-base">/ {altValue}</div>}
     />

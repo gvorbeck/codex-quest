@@ -1,4 +1,4 @@
-import { CharData, EquipmentItem } from "@/data/definitions";
+import { EquipmentItem, ModalDisplay } from "@/data/definitions";
 import React from "react";
 import AttackForm from "../AttackForm/AttackForm";
 import { Checkbox, Flex, Form, Select, Typography } from "antd";
@@ -10,25 +10,20 @@ import {
   sendAmmoAttackNotifications,
 } from "../ModalAttackSupport";
 import { useAttack } from "@/hooks/useAttack";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface AmmoAttackFormProps {
-  character: CharData;
-  setCharacter: (character: CharData) => void;
+  // character: CharData;
+  // setCharacter: (character: CharData) => void;
   item: EquipmentItem;
-  equipment: EquipmentItem[];
-  setModalIsOpen: (modalIsOpen: boolean) => void;
+  // equipment: EquipmentItem[];
+  // setModalIsOpen: (modalIsOpen: boolean) => void;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const AmmoAttackForm: React.FC<
   AmmoAttackFormProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  item,
-  equipment,
-  setModalIsOpen,
-  character,
-  setCharacter,
-}) => {
+> = ({ className, item, setModalDisplay }) => {
   // HOOKS
   const {
     range,
@@ -40,6 +35,7 @@ const AmmoAttackForm: React.FC<
     updateEquipmentAfterMissileAttack,
     calculateMissileRollResults,
   } = useAttack();
+  const { character, setCharacter } = React.useContext(CharacterDataContext);
   const [ammoSelection, setAmmoSelection] = React.useState<string | undefined>(
     undefined,
   );
@@ -50,8 +46,8 @@ const AmmoAttackForm: React.FC<
   // VARS
   const rangeOptions = getRangeOptions(item.range);
   const availableAmmoOptions = React.useMemo(
-    () => getAvailableAmmoOptions(item.ammo, equipment) ?? [],
-    [item, equipment],
+    () => getAvailableAmmoOptions(item.ammo, character.equipment) ?? [],
+    [item, character.equipment],
   );
   const availableAmmoSelectOptions = React.useMemo(
     () => getAvailableAmmoSelectOptions(availableAmmoOptions) ?? [],
@@ -63,12 +59,14 @@ const AmmoAttackForm: React.FC<
     setAmmoSelection(undefined);
     setAmmoSelectionMessage(noAmmoMessage);
     setIsRecoveryChecked(false);
-    setModalIsOpen(false);
+    setModalDisplay((prevModalDisplay) => ({
+      ...prevModalDisplay,
+      isOpen: false,
+    }));
   };
   const onFinish = () => {
     const weaponRecovered = updateEquipmentAfterMissileAttack(
       ammoSelection,
-      equipment,
       isRecoveryChecked,
       character,
       setCharacter,
@@ -76,7 +74,6 @@ const AmmoAttackForm: React.FC<
     const { rollToHit, rollToDamage } = calculateMissileRollResults(
       character,
       range,
-      equipment,
       ammoSelection,
     );
     sendAmmoAttackNotifications(

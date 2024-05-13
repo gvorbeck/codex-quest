@@ -3,52 +3,30 @@ import React from "react";
 import CollapseEquipment from "../CollapseEquipment/CollapseEquipment";
 import EquipmentItemDescription from "../CollapseEquipment/EquipmentItemDescription/EquipmentItemDescription";
 import { kickItem, punchItem } from "@/support/equipmentSupport";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { ModalDisplay } from "@/data/definitions";
 
 interface EquipmentProps {
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  setModalTitle: (modalTitle: string) => void;
-  setModalContent: (modalContent: React.ReactNode) => void;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const Equipment: React.FC<
   EquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, setModalIsOpen, setModalTitle, setModalContent }) => {
-  const { character, setCharacter, userIsOwner } =
-    React.useContext(CharacterDataContext);
+> = ({ className, setModalDisplay }) => {
   return (
     <Flex vertical gap={16} className={className}>
       <Flex gap={16} vertical>
         <EquipmentItemDescription
           item={kickItem}
           showAttackButton
-          setModalIsOpen={setModalIsOpen}
-          setModalTitle={setModalTitle}
-          character={character}
-          setCharacter={setCharacter}
-          setModalContent={setModalContent}
-          userIsOwner={userIsOwner}
+          setModalDisplay={setModalDisplay}
         />
         <EquipmentItemDescription
           item={punchItem}
           showAttackButton
-          setModalIsOpen={setModalIsOpen}
-          setModalTitle={setModalTitle}
-          setModalContent={setModalContent}
-          character={character}
-          setCharacter={setCharacter}
-          userIsOwner={userIsOwner}
+          setModalDisplay={setModalDisplay}
         />
       </Flex>
-      <CollapseEquipment
-        character={character}
-        setCharacter={setCharacter}
-        onCharacterSheet
-        setModalIsOpen={setModalIsOpen}
-        setModalTitle={setModalTitle}
-        setModalContent={setModalContent}
-        userIsOwner={userIsOwner}
-      />
+      <CollapseEquipment onCharacterSheet setModalDisplay={setModalDisplay} />
     </Flex>
   );
 };

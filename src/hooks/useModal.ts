@@ -1,33 +1,26 @@
 // useModal.js
+import { ModalDisplay } from "@/data/definitions";
 import React from "react";
 
 interface UseModalReturnType {
-  modalIsOpen: boolean;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  modalTitle: string;
-  setModalTitle: (modalTitle: string) => void;
-  modalContent: React.ReactNode | undefined;
-  setModalContent: (modalContent: React.ReactNode) => void;
+  modalDisplay: ModalDisplay;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
   modalOkRef: React.RefObject<(() => void | undefined) | undefined>;
 }
 
 export const useModal = (): UseModalReturnType => {
-  const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
-  const [modalTitle, setModalTitle] = React.useState<string>("");
-  const [modalContent, setModalContent] = React.useState<
-    React.ReactNode | undefined
-  >(undefined);
+  const [modalDisplay, setModalDisplay] = React.useState<ModalDisplay>({
+    isOpen: false,
+    title: "",
+    content: undefined,
+  });
   const modalOkRef = React.useRef<(() => void | undefined) | undefined>(
     undefined,
   );
 
   return {
-    modalIsOpen,
-    setModalIsOpen,
-    modalTitle,
-    setModalTitle,
-    modalContent,
-    setModalContent,
+    modalDisplay,
+    setModalDisplay,
     modalOkRef,
   };
 };

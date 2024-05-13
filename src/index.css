@@ -6,3 +6,12 @@
   font-family: "Enchant";
   src: url("assets/fonts/Enchant.ttf") format("truetype");
 }
+
+@layer components {
+  .avatar {
+    @apply shadow-md border-solid border-2 border-seaBuckthorn;
+  }
+  .enchant-title {
+    @apply font-enchant text-3xl tracking-wide;
+  }
+}

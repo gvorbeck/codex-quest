@@ -1802,7 +1802,7 @@
     "amount": 0
   },
   {
-    "name": "Padded/Quilted Armor",
+    "name": "Padded/Quilted Armor (leather)",
     "costValue": 15,
     "costCurrency": "gp",
     "weight": 10,
@@ -1811,7 +1811,7 @@
     "amount": 0
   },
   {
-    "name": "Hide Armor",
+    "name": "Hide Armor (leather)",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 30,

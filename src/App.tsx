@@ -40,6 +40,7 @@ const App: React.FC = () => {
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const date = new Date();
 
   const spin = <Spin size="large" className="w-full h-full py-4" />;
@@ -83,7 +84,12 @@ const App: React.FC = () => {
               path="new-character"
               element={<PageNewCharacter user={user} />}
             />
-            <Route path="new-game" element={<PageNewGame user={user} />} />
+            <Route
+              path="new-game"
+              element={
+                <PageNewGame user={user} handleTabChange={handleTabChange} />
+              }
+            />
             <Route
               path="u/:uid/c/:id"
               element={<PageCharacterSheet user={user} />}

@@ -1,6 +1,6 @@
 import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
 import { Button, Divider, Drawer, Flex } from "antd";
 import React from "react";
@@ -98,7 +98,13 @@ const SettingsDrawer: React.FC<
           <>
             <Divider className="font-enchant text-2xl">Spells</Divider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
-            {showSpellSelection && <AllSpellsSelection hideStartingText />}
+            {showSpellSelection && (
+              <AllSpellsSelection
+                character={character}
+                setCharacter={setCharacter}
+                hideStartingText
+              />
+            )}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             {showCustomSpellForm && (
               <FormCustomSpell

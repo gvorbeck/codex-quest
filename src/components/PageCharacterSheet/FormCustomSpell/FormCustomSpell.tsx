@@ -1,4 +1,4 @@
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { Spell } from "@/data/definitions";
 import { Button, Form, Input } from "antd";
 import classNames from "classnames";

@@ -3,7 +3,7 @@ import React from "react";
 import DOMPurify from "dompurify";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import DescriptionFieldButton from "../CollapseEquipment/DescriptionFieldButton/DescriptionFieldButton";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { getClassType } from "@/support/classSupport";
 
 type DescriptionProps = {
@@ -54,16 +54,13 @@ const Description: React.FC<
     }
   };
 
-  // Side-Effect to initialize character.desc
-  React.useEffect(() => {
-    if (typeof character.desc === "string") {
-      setCharacter({
-        ...character,
-        desc: [character.desc || ""],
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [character.desc]);
+  if (typeof character.desc === "string") {
+    const desc = [character.desc];
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      desc,
+    }));
+  }
 
   // Effect to handle database update with a delay
   React.useEffect(() => {
@@ -107,7 +104,7 @@ const Description: React.FC<
             value={
               index === 0 &&
               desc === "" &&
-              getClassType(character.class) === "custom"
+              getClassType(character.class).includes("custom")
                 ? placeholderSavingThrows
                 : desc
             }

@@ -9,6 +9,7 @@ import { iconStrings } from "@/support/stringSupport";
 
 export const dwarf: RaceSetup = {
   name: "Dwarf",
+  isBase: true,
   allowedStandardClasses: [
     ClassNames.CLERIC,
     ClassNames.CUSTOM,

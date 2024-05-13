@@ -1,6 +1,5 @@
 import { CharData, Spell } from "@/data/definitions";
 import spells from "@/data/spells.json";
-import { classSplit } from "./classSupport";
 
 export const getSpellFromName = (name: string) => {
   return spells.find((spell) => spell.name === name);
@@ -24,15 +23,9 @@ export const getSelectedSpellsByLevel = (
 };
 
 // Get all the spells available to a Character at a given level
-export const getSpellsAtLevel = (
-  classNames: string[],
-  charLevel: number,
-  level?: number,
-) => {
-  const characterClass = classSplit(classNames || []);
-  const characterLevel = charLevel || 1;
+export const getSpellsAtLevel = (character: CharData, level?: number) => {
   const filteredSpells: Spell[] = [];
-  characterClass.forEach((className) => {
+  character.class.forEach((className) => {
     filteredSpells.push(
       ...spells.filter((spell: Spell) => {
         const levelValue = spell.level?.[className.toLowerCase()];
@@ -46,7 +39,7 @@ export const getSpellsAtLevel = (
               return spell;
             }
           } else {
-            if (levelValue <= characterLevel) {
+            if (levelValue <= character.level) {
               return spell;
             }
           }

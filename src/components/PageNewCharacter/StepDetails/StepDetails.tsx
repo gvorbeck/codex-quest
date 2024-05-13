@@ -6,7 +6,7 @@ import { CharData } from "@/data/definitions";
 
 interface StepDetailsProps {
   character: CharData;
-  setCharacter: (character: CharData) => void;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
   newCharacter?: boolean;
 }
 
@@ -15,7 +15,7 @@ const StepDetails: React.FC<
 > = ({ className, character, setCharacter, newCharacter }) => {
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const cleanInput = DOMPurify.sanitize(event.target.value);
-    setCharacter({ ...character, name: cleanInput });
+    setCharacter((prevCharacter) => ({ ...prevCharacter, name: cleanInput }));
   };
 
   return (
@@ -24,6 +24,7 @@ const StepDetails: React.FC<
         value={character.name}
         onChange={handleNameChange}
         placeholder="Name"
+        maxLength={100}
       />
       {newCharacter && (
         <AvatarPicker character={character} setCharacter={setCharacter} />

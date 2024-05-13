@@ -26,7 +26,7 @@ const SpellOptionsContainer: React.FC<
       {spellBudget.map((max, index) => {
         const spellLevel = index + 1;
         const spellsAtLevel = getSpellsAtLevel(
-          character.class,
+          character,
           character.level,
         ).filter(
           (spell) => spell.level[magicClass.toLowerCase()] === spellLevel,

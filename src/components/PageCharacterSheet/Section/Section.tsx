@@ -2,7 +2,6 @@ import { Button, Flex, Tooltip, Typography } from "antd";
 import React from "react";
 import HelpTooltip from "@/components/HelpTooltip/HelpTooltip";
 import { EditOutlined } from "@ant-design/icons";
-import classNames from "classnames";
 
 interface SectionProps {
   component: React.ReactNode;
@@ -23,34 +22,38 @@ const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
   editableClassName,
 }) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const editOutlinedÇlassNames = classNames("shadow-none", editableClassName);
 
-  const handleEditClick = () => {
+  function handleEditClick() {
     const editing = !isEditing;
     setIsEditing(editing);
-  };
+  }
+
+  const hasTitle = title ? (
+    <Typography.Title level={3} className="mt-0 leading-none">
+      {title}
+    </Typography.Title>
+  ) : null;
+  const isEditable = editable ? (
+    <Tooltip title={isEditing ? "Save" : "Edit"}>
+      <Button
+        type={isEditing ? "primary" : "link"}
+        icon={<EditOutlined className="cursor" />}
+        onClick={handleEditClick}
+        className={"shadow-none " + editableClassName}
+      />
+    </Tooltip>
+  ) : null;
+  const titleHelp = titleHelpText ? <HelpTooltip text={titleHelpText} /> : null;
+  const editing = isEditing ? editableComponent : component;
 
   return (
-    <Flex vertical className={classNames(className)}>
+    <Flex vertical className={className}>
       <Flex gap={16} align="baseline">
-        {title && (
-          <Typography.Title level={3} className="mt-0 leading-none">
-            {title}
-          </Typography.Title>
-        )}
-        {editable && (
-          <Tooltip title={isEditing ? "Save" : "Edit"}>
-            <Button
-              type={isEditing ? "primary" : "link"}
-              icon={<EditOutlined className="cursor" />}
-              onClick={handleEditClick}
-              className={editOutlinedÇlassNames}
-            />
-          </Tooltip>
-        )}
-        {!!titleHelpText && <HelpTooltip text={titleHelpText} />}
+        {hasTitle}
+        {isEditable}
+        {titleHelp}
       </Flex>
-      {isEditing ? editableComponent : component}
+      {editing}
     </Flex>
   );
 };

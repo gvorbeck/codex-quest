@@ -1,64 +1,29 @@
-import AvatarPicker from "@/components/AvatarPicker/AvatarPicker";
-import { CharData } from "@/data/definitions";
-import { getAvatar } from "@/support/characterSupport";
-import { avatarClassNames } from "@/support/cssSupport";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { EditOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Badge } from "antd";
-import classNames from "classnames";
 import React from "react";
 
 interface HeroAvatarProps {
-  userIsOwner: boolean;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  setModalTitle: (modalTitle: string) => void;
-  setModalContent: (modalContent: React.ReactNode) => void;
-  character: CharData;
-  setCharacter: (character: CharData) => void;
+  handleShowAvatarModal: () => void;
 }
 
 const HeroAvatar: React.FC<
   HeroAvatarProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  userIsOwner,
-  setModalIsOpen,
-  setModalTitle,
-  setModalContent,
-  character,
-  setCharacter,
-}) => {
-  const wrapperClassNames = classNames(
-    "[&>span:hover>span:last-child]:opacity-100 mx-auto cursor-pointer",
-    className,
-  );
+> = ({ className, handleShowAvatarModal }) => {
+  const { character } = React.useContext(CharacterDataContext);
+  const icon = !character.avatar ? <UserOutlined /> : undefined;
+  const src = character.avatar ?? undefined;
 
-  const showAvatarModal = () => {
-    setModalIsOpen(true);
-    setModalTitle("Change Avatar");
-    setModalContent(
-      <AvatarPicker character={character} setCharacter={setCharacter} />,
-    );
-  };
   return (
     <div
-      className={wrapperClassNames}
-      onClick={
-        userIsOwner
-          ? showAvatarModal
-          : () => {
-              console.error(
-                "You are not logged in as the owner of this character",
-              );
-            }
+      className={
+        "[&>span:hover>span:last-child]:opacity-100 mx-auto cursor-pointer " +
+        className
       }
+      onClick={handleShowAvatarModal}
     >
       <Badge count={<EditOutlined className="opacity-25" />}>
-        <Avatar
-          size={64}
-          className={avatarClassNames}
-          icon={!character.avatar ? <UserOutlined /> : undefined}
-          src={character.avatar ? getAvatar(character.avatar) : undefined}
-        />
+        <Avatar size={128} className="avatar" icon={icon} src={src} />
       </Badge>
     </div>
   );

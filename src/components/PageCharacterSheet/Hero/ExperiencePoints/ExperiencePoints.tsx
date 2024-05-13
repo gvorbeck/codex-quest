@@ -1,49 +1,31 @@
 import HelpTooltip from "@/components/HelpTooltip/HelpTooltip";
 import ModalLevelUp from "@/components/ModalLevelUp/ModalLevelUp";
 import { classes } from "@/data/classes";
-import { CharData, ClassNames } from "@/data/definitions";
+import { ClassNames, ModalDisplay } from "@/data/definitions";
+import { CharacterDataContext } from "@/store/CharacterContext";
 import { Button, Flex, Input, Space } from "antd";
 import React from "react";
 
 interface ExperiencePointsProps {
-  classArr: string[];
-  character: CharData;
-  setCharacter: (character: CharData) => void;
-  setModalIsOpen: (modalIsOpen: boolean) => void;
-  uid: string | undefined;
-  id: string | undefined;
-  setModalTitle: (modalTitle: string) => void;
-  setModalContent: (modalContent: React.ReactNode) => void;
-  userIsOwner: boolean;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const ExperiencePoints: React.FC<
   ExperiencePointsProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  classArr,
-  setModalIsOpen,
-  character,
-  setCharacter,
-  setModalTitle,
-  uid,
-  id,
-  setModalContent,
-  userIsOwner,
-}) => {
+> = ({ className, setModalDisplay }) => {
+  const { character, setCharacter, userIsOwner, uid, id } =
+    React.useContext(CharacterDataContext);
   const [inputValue, setInputValue] = React.useState<string>(`${character.xp}`);
-  const showLevelUpModal = () => {
-    setModalIsOpen(true);
-    setModalTitle("Level Up");
-    setModalContent(
-      <ModalLevelUp
-        character={character}
-        setCharacter={setCharacter}
-        setModalIsOpen={setModalIsOpen}
-      />,
-    );
-  };
-  const handleInputBlur = () => {
+
+  function showLevelUpModal() {
+    setModalDisplay({
+      isOpen: true,
+      title: "Level Up",
+      content: <ModalLevelUp setModalDisplay={setModalDisplay} />,
+    });
+  }
+
+  function handleInputBlur() {
     if (!uid || !id) {
       return;
     }
@@ -73,51 +55,67 @@ const ExperiencePoints: React.FC<
       });
       setInputValue(updatedXP.toString());
     }
-  };
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-  const totalLevelRequirement = classArr
+
+  function handleInputFocus(event: React.FocusEvent<HTMLInputElement>) {
+    setTimeout(() => {
+      event.target.select();
+    }, 50);
+  }
+
+  function handleInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      handleInputBlur();
+    }
+  }
+
+  const totalLevelRequirement = character.class
     .map((className) => {
       const classRequirements =
         classes[className as ClassNames]?.experiencePoints;
       return classRequirements ? classRequirements[character.level] : 0; // value if using a custom class
     })
     .reduce((a, b) => a + b, 0);
+
+  const levelUpButtonDisabled =
+    character.xp < totalLevelRequirement || !userIsOwner;
+
+  const levelUpButton =
+    character.level < 20 ? (
+      <Button
+        disabled={levelUpButtonDisabled}
+        type="primary"
+        onClick={showLevelUpModal}
+        className="print:hidden shadow-none"
+      >
+        Level Up
+      </Button>
+    ) : null;
+
+  const suffix = character.level < 20 ? `/ ${totalLevelRequirement} XP` : null;
+
   return (
     <Flex gap={8} className={className}>
       <Space.Compact size="middle">
         <Input
           value={inputValue}
-          onFocus={(e) => {
-            setTimeout(() => {
-              e.target.select();
-            }, 50);
-          }}
+          onFocus={handleInputFocus}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              handleInputBlur();
-            }
-          }}
+          onKeyDown={handleInputKeyDown}
           name="Experience Points"
           id="experience-points"
-          suffix={character.level < 20 && `/ ${totalLevelRequirement} XP`}
+          suffix={suffix}
           disabled={!userIsOwner}
         />
         <label htmlFor="experience-points" className="hidden">
           Experience Points
         </label>
-        {character.level < 20 && (
-          <Button
-            disabled={character.xp < totalLevelRequirement || !userIsOwner}
-            type="primary"
-            onClick={showLevelUpModal}
-            className="print:hidden shadow-none"
-          >{`Level Up`}</Button>
-        )}
+        {levelUpButton}
       </Space.Compact>
       <HelpTooltip text="You can add to your XP total by highlighting the current value and typing a number starting with + or - (ex: +250) and hitting Enter" />
     </Flex>

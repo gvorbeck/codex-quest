@@ -1,5 +1,5 @@
 import React from "react";
-import { CharData, EquipmentItem } from "@/data/definitions";
+import { CharData, EquipmentItem, ModalDisplay } from "@/data/definitions";
 import {
   Button,
   Descriptions,
@@ -12,16 +12,12 @@ import {
 import { equipmentNames } from "@/support/equipmentSupport";
 import { DeleteOutlined } from "@ant-design/icons";
 import ModalAttack from "@/components/ModalAttack/ModalAttack";
+import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface EquipmentItemDescriptionProps {
   item: EquipmentItem;
   showAttackButton?: boolean;
-  character?: CharData;
-  setCharacter?: (character: CharData) => void;
-  setModalIsOpen?: (modalIsOpen: boolean) => void;
-  setModalTitle?: (modalTitle: string) => void;
-  setModalContent?: (modalContent: React.ReactNode) => void;
-  userIsOwner?: boolean;
+  setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
 const confirm = (
@@ -42,18 +38,10 @@ const cancel = () => {};
 
 const EquipmentItemDescription: React.FC<
   EquipmentItemDescriptionProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  item,
-  showAttackButton,
-  setModalIsOpen,
-  setModalTitle,
-  character,
-  setCharacter,
-  setModalContent,
-  userIsOwner,
-}) => {
+> = ({ className, item, showAttackButton, setModalDisplay }) => {
   const [, contextHolder] = message.useMessage();
+  const { character, setCharacter, userIsOwner } =
+    React.useContext(CharacterDataContext);
 
   const damageItem = {
     key: "damage",
@@ -111,26 +99,42 @@ const EquipmentItemDescription: React.FC<
   });
 
   const handleAttackClick = () => {
-    if (
-      setModalIsOpen &&
-      setModalTitle &&
-      setModalContent &&
-      character &&
-      setCharacter
-    ) {
-      setModalIsOpen(true);
-      setModalTitle(`Attack with ${item.name}`);
-      setModalContent(
-        <ModalAttack
-          item={item}
-          equipment={character.equipment}
-          setModalIsOpen={setModalIsOpen}
-          character={character}
-          setCharacter={setCharacter}
-        />,
-      );
+    if (setModalDisplay) {
+      setModalDisplay({
+        isOpen: true,
+        title: `Attack with ${item.name}`,
+        content: <ModalAttack item={item} setModalDisplay={setModalDisplay} />,
+      });
     }
   };
+
+  const notes = item.notes ? (
+    <Typography.Text>{item.notes}</Typography.Text>
+  ) : null;
+  const deleteCustomEquipmentButton = !equipmentNames.includes(item.name)
+    ? item.name !== "Punch**" &&
+      item.name !== "Kick**" &&
+      character &&
+      setCharacter && (
+        <Popconfirm
+          title="Delete equipment item"
+          description="Are you sure to delete this item?"
+          onConfirm={() => confirm(item, character, setCharacter)}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button icon={<DeleteOutlined />} disabled={!userIsOwner}>
+            Delete
+          </Button>
+        </Popconfirm>
+      )
+    : null;
+  const attackButton = showAttackButton ? (
+    <Button onClick={handleAttackClick} disabled={!userIsOwner}>
+      Attack
+    </Button>
+  ) : null;
   return (
     <>
       {contextHolder}
@@ -142,31 +146,10 @@ const EquipmentItemDescription: React.FC<
           items={items}
           column={3}
         />
-        {item.notes && <Typography.Text>{item.notes}</Typography.Text>}
+        {notes}
         <Flex justify="flex-end" gap={16}>
-          {!equipmentNames.includes(item.name) &&
-            item.name !== "Punch**" &&
-            item.name !== "Kick**" &&
-            character &&
-            setCharacter && (
-              <Popconfirm
-                title="Delete equipment item"
-                description="Are you sure to delete this item?"
-                onConfirm={() => confirm(item, character, setCharacter)}
-                onCancel={cancel}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button icon={<DeleteOutlined />} disabled={!userIsOwner}>
-                  Delete
-                </Button>
-              </Popconfirm>
-            )}
-          {showAttackButton && (
-            <Button onClick={handleAttackClick} disabled={!userIsOwner}>
-              Attack
-            </Button>
-          )}
+          {deleteCustomEquipmentButton}
+          {attackButton}
         </Flex>
       </Flex>
     </>

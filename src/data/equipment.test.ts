@@ -1,5 +1,5 @@
 import { AttackTypes } from "../support/stringSupport";
-import equipmentItems from "./equipmentItems.json";
+import equipmentItems from "./equipment.json";
 import { describe, expect, test } from "vitest";
 
 describe("equipmentItems", () => {

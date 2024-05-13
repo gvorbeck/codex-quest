@@ -1,66 +1,48 @@
-import React, { useEffect, useState } from "react";
+import { CharData, Spell } from "@/data/definitions";
 import spells from "@/data/spells.json";
-import { Checkbox, Divider, Input, Typography } from "antd";
-import classNames from "classnames";
-import { Spell } from "@/data/definitions";
-import { CharacterDataContext } from "@/contexts/CharacterContext";
+import { getSpellFromName } from "@/support/spellSupport";
+import { Checkbox, Divider, Flex, Input, Typography } from "antd";
+import React from "react";
 
 interface AllSpellsSelectionProps {
   hideStartingText?: boolean;
+  character: CharData;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
 }
 
 const AllSpellsSelection: React.FC<
   AllSpellsSelectionProps & React.ComponentPropsWithRef<"div">
-> = ({ className, hideStartingText }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
-  const [search, setSearch] = useState("");
+> = ({ className, hideStartingText, character, setCharacter }) => {
+  const [search, setSearch] = React.useState("");
 
-  const checkboxGroupClassNames = classNames("grid", "grid-cols-1", className);
+  const spellOptions = spells.map((spell) => ({
+    label: spell.name,
+    value: spell.name,
+    checked: character.spells?.some((s) => s.name === spell.name),
+  }));
 
-  const [filteredOptions, setFilteredOptions] = useState(() =>
-    spells.map((spell) => ({
-      label: spell.name,
-      value: spell.name,
-      checked: character.spells?.some((s) => s.name === spell.name),
-    })),
-  );
+  let filteredSpells;
+  search.length
+    ? (filteredSpells = spellOptions.filter((spell) =>
+        spell.label.toLowerCase().includes(search.toLowerCase()),
+      ))
+    : (filteredSpells = spellOptions);
 
-  const [startingSpells, setStartingSpells] = useState<Spell[]>(
-    character.spells || [],
-  );
-
-  useEffect(() => {
-    const newOptions = spells
-      .filter((spell) =>
-        spell.name.toLowerCase().includes(search.toLowerCase()),
-      )
-      .map((spell) => ({
-        label: spell.name,
-        value: spell.name,
-        checked: startingSpells.some((s) => s.name === spell.name),
-      }));
-    setFilteredOptions(newOptions);
-  }, [search, startingSpells]);
-
-  const onChange = (checkedValues: string[]) => {
-    const newStartingSpells = spells.filter((spell) =>
-      checkedValues.includes(spell.name),
-    );
-    setStartingSpells(newStartingSpells);
-  };
-
-  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChangeSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
-  };
-
-  useEffect(() => {
-    if (JSON.stringify(character.spells) !== JSON.stringify(startingSpells)) {
-      setCharacter({ ...character, spells: startingSpells });
-    }
-  }, [startingSpells, character, setCharacter]);
+  }
+  function handleCheckboxChange(checkedValues: string[]) {
+    const selectedSpells = checkedValues.map((spell) =>
+      getSpellFromName(spell),
+    );
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      spells: selectedSpells as Spell[],
+    }));
+  }
 
   return (
-    <>
+    <Flex gap={8} className={className} vertical>
       {!hideStartingText && (
         <>
           <Divider plain className="font-enchant text-2xl">
@@ -72,18 +54,18 @@ const AllSpellsSelection: React.FC<
         </>
       )}
       <Input
-        placeholder="Search"
+        placeholder="Search spells"
         allowClear
         value={search}
-        onChange={onChangeSearch}
+        onChange={handleChangeSearch}
       />
       <Checkbox.Group
-        className={checkboxGroupClassNames}
-        options={filteredOptions}
+        className="grid grid-cols-1"
+        options={filteredSpells}
         defaultValue={character.spells?.map((s) => s.name)}
-        onChange={onChange}
+        onChange={handleCheckboxChange}
       />
-    </>
+    </Flex>
   );
 };
 
