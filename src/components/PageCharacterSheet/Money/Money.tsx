@@ -77,6 +77,10 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
       setSilver(value);
     } else if (name === "copper") {
       setCopper(value);
+    } else if (name === "electrum") {
+      setElectrum(value);
+    } else if (name === "platinum") {
+      setPlatinum(value);
     }
   };
 
