@@ -213,14 +213,10 @@ const PageCharacterSheet: React.FC<
               <Flex gap={16} vertical>
                 <Section
                   title="Spells"
-                  className="[@media(width<=640px)]:mt-4"
+                  className="mt-4"
                   component={<Spells />}
                 />
-                <Section
-                  title="Cantrips/Orisons"
-                  // className="[@media(width<=640px)]:mt-4"
-                  component={<Cantrips />}
-                />
+                <Section title="Cantrips/Orisons" component={<Cantrips />} />
                 <Divider className="[@media(width>=640px)]:hidden" />
               </Flex>
             )}
