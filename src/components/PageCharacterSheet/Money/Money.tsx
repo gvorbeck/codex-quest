@@ -119,6 +119,14 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
     }));
   }
 
+  if (character.platinum === undefined || character.electrum === undefined) {
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      platinum: 0,
+      electrum: 0,
+    }));
+  }
+
   const moneyData = [
     { state: gold, name: "gold", addOn: "GP" },
     { state: silver, name: "silver", addOn: "SP" },
