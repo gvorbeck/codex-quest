@@ -58,7 +58,7 @@ const App: React.FC = () => {
                 alert={
                   date.getMonth() === 2 && date.getDate() === 4
                     ? "Happy International GM's Day!"
-                    : undefined
+                    : "I recently updated the site. You may need to reset your character's avatar if it is gone. Contact me with any wonkiness. GLHF!"
                 }
                 // alert={"Site-Wide Message Goes Here"}
               />
