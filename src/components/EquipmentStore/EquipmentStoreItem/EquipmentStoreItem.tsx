@@ -122,7 +122,8 @@ const EquipmentStoreItem: React.FC<
       <InputNumber
         defaultValue={
           character.equipment.some((eqItem) => eqItem.name === item.name)
-            ? item.amount
+            ? character.equipment.find((eqItem) => eqItem.name === item.name)
+                ?.amount
             : 0
         }
         min={0}
