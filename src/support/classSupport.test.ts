@@ -15,36 +15,44 @@ describe("isStandardClass", () => {
 
 describe("getClassType", () => {
   it("returns 'none' for empty classes", () => {
-    expect(getClassType([""])).toBe("none");
+    expect(getClassType([""])).toStrictEqual(["none"]);
   });
   it("returns 'standard' for standard classes", () => {
-    expect(getClassType(["Cleric"])).toBe("standard");
+    expect(getClassType(["Cleric"])).toStrictEqual(["standard", "base"]);
   });
   it("returns 'combination' for a combination of standard classes", () => {
-    expect(getClassType(["Cleric", "Fighter"])).toBe("combination");
+    expect(getClassType(["Cleric", "Fighter"])).toStrictEqual([
+      "combination",
+      "base",
+    ]);
   });
   it("returns 'combination' for a combination of standard and custom classes", () => {
-    expect(getClassType(["Cleric", "Fighter", "Custom"])).toBe("combination");
+    expect(getClassType(["Cleric", "Fighter", "Custo"])).toStrictEqual([
+      "custom",
+    ]);
   });
   it("returns 'custom' for custom classes", () => {
-    expect(getClassType(["Sylas"])).toBe("custom");
+    expect(getClassType(["Sylas"])).toStrictEqual(["custom"]);
   });
   it("returns 'custom' for a combination of custom classes", () => {
-    expect(getClassType(["Custom1", "Custom2"])).toBe("custom");
+    expect(getClassType(["Custom1", "Custom2"])).toStrictEqual(["custom"]);
   });
   it("returns 'combination' for a combination of standard and custom classes", () => {
-    expect(getClassType(["Cleric", "Custom"])).toBe("combination");
+    expect(getClassType(["Cleric", "Custom"])).toStrictEqual([
+      "combination",
+      "supplemental",
+    ]);
   });
   it("returns 'custom' for a combination of standard, custom, and empty classes", () => {
-    expect(getClassType(["Wuntuunt"])).toBe("custom");
+    expect(getClassType(["Wuntuunt"])).toStrictEqual(["custom"]);
   });
   it("returns 'custom' for a combination of custom and empty classes", () => {
-    expect(getClassType(["Risco"])).toBe("custom");
+    expect(getClassType(["Risco"])).toStrictEqual(["custom"]);
   });
   it("returns 'custom' for a combination of empty classes", () => {
-    expect(getClassType([""])).toBe("none");
+    expect(getClassType([""])).toStrictEqual(["none"]);
   });
   it("returns 'custom' for a combination of empty classes", () => {
-    expect(getClassType([])).toBe("none");
+    expect(getClassType([])).toStrictEqual(["none"]);
   });
 });
