@@ -35,6 +35,7 @@ const ModalContainer: React.FC<
       className={className}
       footer={false}
       width={900}
+      centered
     >
       {modalDisplay.content}
     </Modal>

@@ -101,10 +101,12 @@ export default function AvatarPicker({
   );
 
   const handleChangeImageSource = (e: RadioChangeEvent) => {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      avatar: "",
-    }));
+    if (e.target.value === 0) {
+      setCharacter((prevCharacter) => ({
+        ...prevCharacter,
+        avatar: "",
+      }));
+    }
     setImageSource(e.target.value);
   };
 

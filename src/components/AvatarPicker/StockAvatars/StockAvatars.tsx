@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 interface StockAvatarsProps {
   character: CharData;
-  setCharacter: (character: CharData) => void;
+  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
 }
 
 const StockAvatars: React.FC<
@@ -47,7 +47,10 @@ const StockAvatars: React.FC<
           type="link"
           className="h-auto w-auto leading-none p-0"
           onClick={() => {
-            setCharacter({ ...character, avatar: image });
+            setCharacter((prevCharacter) => ({
+              ...prevCharacter,
+              avatar: image,
+            }));
           }}
         >
           <Image
