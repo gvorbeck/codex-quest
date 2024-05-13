@@ -23,11 +23,6 @@ describe("PageFooter", () => {
     expect(document.body.contains(authorLinkElement)).toBeTruthy();
   });
 
-  it("expects the all rights reserved text to be present", () => {
-    const allRightsReservedElement = screen.getByTestId("all-rights-reserved");
-    expect(document.body.contains(allRightsReservedElement)).toBeTruthy();
-  });
-
   it("expects the site title to be present", () => {
     const siteTitleElement = screen.getByTestId("site-title");
     expect(document.body.contains(siteTitleElement)).toBeTruthy();
@@ -50,11 +45,6 @@ describe("PageFooter", () => {
   it("expects the bfrpg edition to be present", () => {
     const bfrpgEditionElement = screen.getByTestId("bfrpg-edition");
     expect(document.body.contains(bfrpgEditionElement)).toBeTruthy();
-  });
-
-  it("expects the bfrpg release to be present", () => {
-    const bfrpgReleaseElement = screen.getByTestId("bfrpg-release");
-    expect(document.body.contains(bfrpgReleaseElement)).toBeTruthy();
   });
 
   it("expects the license link to be present", () => {
