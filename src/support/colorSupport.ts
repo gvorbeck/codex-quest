@@ -1,13 +1,15 @@
-export enum ColorScheme {
-  SEABUCKTHORN = "#F9B32A",
-  SUSHI = "#80B045",
-  CALIFORNIA = "#FDA00D",
-  POMEGRANATE = "#F44336",
-  SHIPGRAY = "#3E3643",
-  SPRINGWOOD = "#F4F5EB",
-  STONE = "#9F9B8F",
-  RUST = "#965247",
-}
+import config from "../../tailwind.config";
+
+export const ColorScheme = {
+  SEABUCKTHORN: config.theme.colors.seaBuckthorn,
+  SUSHI: config.theme.colors.sushi,
+  CALIFORNIA: config.theme.colors.california,
+  POMEGRANATE: config.theme.colors.pomegranite,
+  SHIPGRAY: config.theme.colors.shipGray,
+  SPRINGWOOD: config.theme.colors.springWood,
+  STONE: config.theme.colors.stone,
+  RUST: config.theme.colors.rust,
+};
 
 export const darkenHexColor = (hex: string, percent: number): string => {
   // Convert hex to RGB first
