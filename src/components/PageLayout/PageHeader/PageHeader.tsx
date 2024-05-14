@@ -33,7 +33,7 @@ const PageHeader: React.FC<
       >
         <Link
           to="/"
-          className="font-enchant text-springWood flex items-center gap-2 leading-none [&>span]:mt-1.5 tracking-wider"
+          className="font-enchant text-springWood flex items-center gap-2 leading-none [&>span]:mt-1.5 [&>span]:italic [&>span]:opacity-90 tracking-wider"
           data-testid="home-link"
         >
           <span>{siteTitle[0]}</span>
