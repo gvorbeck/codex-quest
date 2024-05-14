@@ -1,6 +1,7 @@
 import { CharData } from "@/data/definitions";
 import { Button, Image } from "antd";
 import classNames from "classnames";
+import React from "react";
 
 interface StockAvatarsProps {
   character: CharData;
@@ -10,6 +11,7 @@ interface StockAvatarsProps {
 const StockAvatars: React.FC<
   StockAvatarsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
+  const [avatar, setAvatar] = React.useState(character.avatar);
   const imageNames = [
     "cleric-man-1.jpg",
     "dwarf-man-1.jpg",
@@ -33,6 +35,7 @@ const StockAvatars: React.FC<
     "wizard-woman-3.jpg",
   ];
   const images = imageNames.map((name) => `/faces/${name}`);
+  console.log(avatar);
 
   return (
     <div
@@ -47,6 +50,7 @@ const StockAvatars: React.FC<
           type="link"
           className="h-auto w-auto leading-none p-0"
           onClick={() => {
+            setAvatar(image);
             setCharacter((prevCharacter) => ({
               ...prevCharacter,
               avatar: image,
@@ -56,8 +60,8 @@ const StockAvatars: React.FC<
           <Image
             src={image}
             className={classNames("w-16 rounded-full", {
-              "ring-4 ring-seaBuckthorn": character.avatar === image,
-              "ring-2 ring-shipGray": character.avatar !== image,
+              "ring-4 ring-seaBuckthorn": avatar === image,
+              "ring-2 ring-shipGray": avatar !== image,
             })}
             preview={false}
           />
