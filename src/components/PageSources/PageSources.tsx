@@ -12,7 +12,7 @@ const PageSources: React.FC<
       <Typography.Title level={3}>Sources</Typography.Title>
       <Typography.Paragraph>
         This site could not exist without the awesome work of so many talented
-        people dedicated to open source gaming. Here are the sources that have
+        people dedicated to open-source gaming. Here are the sources that have
         been used to create the content for this site:
       </Typography.Paragraph>
       <List
@@ -116,6 +116,12 @@ const PageSources: React.FC<
           <Link
             to="https://game-icons.net/1x1/delapouite/shambling-zombie.html"
             title="Shambling zombie icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/darkzaitzev/plants-and-animals.html"
+            title="Plants and animals icon"
           />
         </List.Item>
       </List>
