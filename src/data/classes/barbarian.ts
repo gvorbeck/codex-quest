@@ -1,8 +1,8 @@
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { DiceTypes } from "../definitions";
-import { SpecialSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
+import SpecialBonusSvg from "@/assets/svg/SpecialBonusSvg";
 
 export const barbarian: ClassSetup = {
   name: "Barbarian",
@@ -163,7 +163,7 @@ export const barbarian: ClassSetup = {
   },
   icons: [
     [
-      SpecialSvg,
+      SpecialBonusSvg,
       iconStrings.specialBonus(
         "With no armor (or leather) can use special abilities",
       ),

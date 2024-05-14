@@ -1,8 +1,9 @@
-import { CowledSvg, EquipmentLimitsSvg } from "@/support/svgSupport";
+import { CowledSvg } from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
+import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
 
 export const thief: ClassSetup = {
   name: "Thief",

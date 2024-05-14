@@ -2,8 +2,9 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentData from "../equipment.json";
-import { EquipmentLimitsSvg, WeaponLimitsSvg } from "@/support/svgSupport";
+import { WeaponLimitsSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
+import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
 
 export const magicUser: ClassSetup = {
   name: "Magic-User",

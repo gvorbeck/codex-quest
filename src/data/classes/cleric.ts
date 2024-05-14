@@ -2,8 +2,9 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentData from "../equipment.json";
-import { UndeadSvg, WeaponLimitsSvg } from "@/support/svgSupport";
+import { UndeadSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 
 export const cleric: ClassSetup = {
   name: "Cleric",

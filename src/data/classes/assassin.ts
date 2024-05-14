@@ -1,8 +1,9 @@
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { DiceTypes } from "../definitions";
-import { EquipmentLimitsSvg, SpecialSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
+import SpecialBonusSvg from "@/assets/svg/SpecialBonusSvg";
+import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
 
 export const assassin: ClassSetup = {
   name: "Assassin",
@@ -194,7 +195,7 @@ export const assassin: ClassSetup = {
     ],
   },
   icons: [
-    [SpecialSvg, iconStrings.specialBonus("Asassin Abilities")],
+    [SpecialBonusSvg, iconStrings.specialBonus("Asassin Abilities")],
     [
       EquipmentLimitsSvg,
       iconStrings.equipmentLimits("No metal armor nor any shields"),
