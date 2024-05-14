@@ -1,11 +1,8 @@
-import {
-  DarkvisionSvg,
-  StonecunningSvg,
-  WeaponLimitsSvg,
-} from "@/support/svgSupport";
+import { DarkvisionSvg, StonecunningSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 
 export const dwarf: RaceSetup = {
   name: "Dwarf",

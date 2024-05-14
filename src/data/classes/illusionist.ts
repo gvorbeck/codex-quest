@@ -2,9 +2,9 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentData from "../equipment.json";
-import { WeaponLimitsSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
 import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 
 export const illusionist: ClassSetup = {
   name: "Illusionist",

@@ -1,9 +1,10 @@
-import { NatureSvg, WeaponLimitsSvg } from "@/support/svgSupport";
+import { NatureSvg } from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 
 export const druid: ClassSetup = {
   name: "Druid",

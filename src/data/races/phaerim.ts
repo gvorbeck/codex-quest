@@ -1,12 +1,8 @@
-import {
-  FallingSvg,
-  HideBonusSvg,
-  WeaponLimitsSvg,
-  WingsSvg,
-} from "@/support/svgSupport";
+import { FallingSvg, HideBonusSvg, WingsSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 
 export const phaerim: RaceSetup = {
   name: "Phaerim",
