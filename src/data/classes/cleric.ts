@@ -2,9 +2,9 @@ import { DiceTypes, EquipmentItem } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentData from "../equipment.json";
-import { UndeadSvg } from "@/support/svgSupport";
 import { iconStrings } from "@/support/stringSupport";
 import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
+import TurnUndeadSvg from "@/assets/svg/TurnUndeadSvg";
 
 export const cleric: ClassSetup = {
   name: "Cleric",
@@ -217,6 +217,6 @@ export const cleric: ClassSetup = {
   },
   icons: [
     [WeaponLimitsSvg, iconStrings.weaponLimits("May only use blunt weapons")],
-    [UndeadSvg, iconStrings.turnUndead()],
+    [TurnUndeadSvg, iconStrings.turnUndead()],
   ],
 };

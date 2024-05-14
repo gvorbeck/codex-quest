@@ -1,5 +1,6 @@
 import { List, Typography } from "antd";
 import React from "react";
+import Link from "../Link/Link";
 
 interface PageSourcesProps {}
 
@@ -14,7 +15,14 @@ const PageSources: React.FC<
         people dedicated to open source gaming. Here are the sources that have
         been used to create the content for this site:
       </Typography.Paragraph>
-      <List className="italic">
+      <List
+        className="italic"
+        header={
+          <Typography.Title level={4} className="not-italic">
+            BFRPG content
+          </Typography.Title>
+        }
+      >
         <List.Item>
           Gonnerman, Chris. "Basic Fantasy Role-Playing Game Core Rules 4th
           Edition." Release 137. Basic Fantasy Role-Playing Game, 2023,
@@ -94,6 +102,21 @@ const PageSources: React.FC<
           Gonnerman, et al. "0 Level Spells: A Basic Fantasy RPG Supplement."
           Release 5. Basic Fantasy Role-Playing Game, 2023,
           basicfantasy.org/downloads.html.
+        </List.Item>
+      </List>
+      <List
+        className="italic"
+        header={
+          <Typography.Title level={4} className="not-italic">
+            Icons
+          </Typography.Title>
+        }
+      >
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/delapouite/shambling-zombie.html"
+            title="Shambling zombie icon"
+          />
         </List.Item>
       </List>
     </div>
