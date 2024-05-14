@@ -12,6 +12,7 @@ const StockAvatars: React.FC<
   StockAvatarsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, setCharacter }) => {
   const [avatar, setAvatar] = React.useState(character.avatar);
+
   const imageNames = [
     "cleric-man-1.jpg",
     "dwarf-man-1.jpg",
@@ -34,16 +35,11 @@ const StockAvatars: React.FC<
     "wizard-woman-1.jpg",
     "wizard-woman-3.jpg",
   ];
+
   const images = imageNames.map((name) => `/faces/${name}`);
-  console.log(avatar);
 
   return (
-    <div
-      className={classNames(
-        "mt-4 grid grid-cols-4 gap-2 md:grid-cols-5",
-        className,
-      )}
-    >
+    <div className={"mt-4 grid grid-cols-4 gap-2 md:grid-cols-5 " + className}>
       {images.map((image) => (
         <Button
           key={image}
