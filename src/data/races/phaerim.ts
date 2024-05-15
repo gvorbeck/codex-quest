@@ -1,8 +1,10 @@
-import { FallingSvg, HideBonusSvg, WingsSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
+import HideBonusSvg from "@/assets/svg/HideBonusSvg";
+import FallingSvg from "@/assets/svg/FallingSvg";
+import FlightSvg from "@/assets/svg/FlightSvg";
 
 export const phaerim: RaceSetup = {
   name: "Phaerim",
@@ -29,7 +31,7 @@ export const phaerim: RaceSetup = {
     ],
   },
   icons: [
-    [WingsSvg, iconStrings.flight(10)],
+    [FlightSvg, iconStrings.flight(10)],
     [
       FallingSvg,
       "half-damage from falls due to their reduced weight and wings.",

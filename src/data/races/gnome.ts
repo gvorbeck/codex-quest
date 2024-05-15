@@ -1,10 +1,11 @@
-import { ObservantSvg, SizeBonusSvg } from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 import DarkvisionSvg from "@/assets/svg/DarkVisionSvg";
+import SizeBonusSvg from "@/assets/svg/SizeBonusSvg";
+import ObservationBonusSvg from "@/assets/svg/ObservationBonusSvg";
 
 export const gnome: RaceSetup = {
   name: "Gnome",
@@ -47,7 +48,7 @@ export const gnome: RaceSetup = {
     [DarkvisionSvg, iconStrings.darkVision(30)],
     [SizeBonusSvg, iconStrings.sizeBonus(1)],
     [
-      ObservantSvg,
+      ObservationBonusSvg,
       iconStrings.observationBonus(
         "10%",
         "invisible or hidden creatures",

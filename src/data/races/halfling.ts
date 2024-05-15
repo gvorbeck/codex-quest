@@ -1,14 +1,12 @@
-import {
-  HideBonusSvg,
-  InitiativeBonusSvg,
-  RangedBonusSvg,
-  SizeBonusSvg,
-} from "@/support/svgSupport";
 import { DiceTypes, EquipmentCategories } from "../definitions";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
+import SizeBonusSvg from "@/assets/svg/SizeBonusSvg";
+import HideBonusSvg from "@/assets/svg/HideBonusSvg";
+import InitiativeBonusSvg from "@/assets/svg/InitiativeBonusSvg";
+import RangedBonusSvg from "@/assets/svg/RangedBonusSvg";
 
 export const halfling: RaceSetup = {
   name: "Halfling",

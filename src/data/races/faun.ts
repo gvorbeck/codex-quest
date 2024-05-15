@@ -1,9 +1,9 @@
-import { CharmSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
 import DarkvisionSvg from "@/assets/svg/DarkVisionSvg";
+import CharmResistSvg from "@/assets/svg/CharmResistSvg";
 
 export const faun: RaceSetup = {
   name: "Faun",
@@ -28,7 +28,7 @@ export const faun: RaceSetup = {
   },
   icons: [
     [DarkvisionSvg, iconStrings.darkVision(30)],
-    [CharmSvg, iconStrings.charmResist("+4", "fey beings")],
+    [CharmResistSvg, iconStrings.charmResist("+4", "fey beings")],
     [
       EquipmentLimitsSvg,
       iconStrings.equipmentLimits("No human-style footwear"),

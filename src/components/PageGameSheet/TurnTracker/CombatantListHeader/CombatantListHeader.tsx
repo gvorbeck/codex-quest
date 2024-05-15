@@ -1,5 +1,5 @@
+import DiceSvg from "@/assets/svg/DiceSvg";
 import { CombatantType } from "@/data/definitions";
-import { DiceSvg } from "@/support/svgSupport";
 import { ClearOutlined } from "@ant-design/icons";
 import Icon, {
   CustomIconComponentProps,

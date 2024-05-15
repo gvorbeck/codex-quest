@@ -13,10 +13,10 @@ import {
   theme,
 } from "antd";
 import React from "react";
-import { TrackerRemoveSvg } from "@/support/svgSupport";
 import Icon, {
   CustomIconComponentProps,
 } from "@ant-design/icons/lib/components/Icon";
+import TrackerRemoveSvg from "@/assets/svg/TrackerRemoveSvg";
 
 interface CombatantControlsProps {
   combatant: CombatantType;

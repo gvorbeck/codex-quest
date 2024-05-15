@@ -11,10 +11,10 @@ import React from "react";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import ModalCheatSheet from "@/components/ModalCheatSheet/ModalCheatSheet";
 import ModalVirtualDice from "@/components/ModalVirtualDice/ModalVirtualDice";
-import { DiceSvg } from "@/support/svgSupport";
 import { rollDice } from "@/support/diceSupport";
 import { useNotification } from "@/hooks/useNotification";
 import { ModalDisplay } from "@/data/definitions";
+import DiceSvg from "@/assets/svg/DiceSvg";
 
 interface CharacterFloatButtonsProps {
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;

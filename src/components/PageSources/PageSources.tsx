@@ -166,6 +166,36 @@ const PageSources: React.FC<
             title="Heraldic sun icon"
           />
         </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/charm.html"
+            title="Charm icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/awareness.html"
+            title="Awareness icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/delapouite/invisible.html"
+            title="Invisible icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/sbed/falling.html"
+            title="Falling icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/angel-wings.html"
+            title="Angel wings icon"
+          />
+        </List.Item>
       </List>
     </div>
   );

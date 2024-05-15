@@ -1,6 +1,6 @@
+import TrackerAddSvg from "@/assets/svg/TrackerAddSvg";
 import { CharData, CombatantType, CombatantTypes } from "@/data/definitions";
 import { openInNewTab } from "@/support/characterSupport";
-import { TrackerAddSvg } from "@/support/svgSupport";
 import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import Icon, {
   CustomIconComponentProps,
