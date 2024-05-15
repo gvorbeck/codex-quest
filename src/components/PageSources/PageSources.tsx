@@ -124,6 +124,42 @@ const PageSources: React.FC<
             title="Plants and animals icon"
           />
         </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/cowled.html"
+            title="Cowled icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/delapouite/whistle.html"
+            title="Whistle icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/snout.html"
+            title="Snout icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/delapouite/sitting-dog.html"
+            title="Sitting dog icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/delapouite/aquarium.html"
+            title="Aquarium icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/backstab.html"
+            title="Backstab icon"
+          />
+        </List.Item>
       </List>
     </div>
   );

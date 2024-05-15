@@ -1,7 +1,9 @@
-import { AquariumSvg, BackstabSvg, WhistleSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
+import PenaltiesSvg from "@/assets/svg/PenaltiesSvg";
+import UnderwaterAbilitiesSvg from "@/assets/svg/UnderwaterAbilitiesSvg";
+import RearAttackSvg from "@/assets/svg/RearAttackSvg";
 
 export const chelonian: RaceSetup = {
   name: "Chelonian",
@@ -24,13 +26,13 @@ export const chelonian: RaceSetup = {
     ],
   },
   icons: [
-    [BackstabSvg, iconStrings.rearAttack("AC of 17 (plus/minus DEX)")],
+    [RearAttackSvg, iconStrings.rearAttack("AC of 17 (plus/minus DEX)")],
     [
-      AquariumSvg,
+      UnderwaterAbilitiesSvg,
       iconStrings.underwaterAbilities("2x holding breath and vision."),
     ],
     [
-      WhistleSvg,
+      PenaltiesSvg,
       iconStrings.penalties(
         "Expensive custom armor needed in order to fit properly.",
       ),

@@ -179,7 +179,9 @@ export const necromancer: ClassSetup = {
     ],
     restrictions: [
       "**Necromancers** may not wear armor of any sort or use shields",
-      "**Necromancers** may not wear armor of any sort or use shields",
     ],
   },
+  icons: [
+    // TODO
+  ],
 };

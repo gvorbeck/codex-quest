@@ -1,9 +1,9 @@
-import { CowledSvg } from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
+import ThiefAbilitiesSvg from "@/assets/svg/ThiefAbilitiesSvg";
 
 export const thief: ClassSetup = {
   name: "Thief",
@@ -194,6 +194,6 @@ export const thief: ClassSetup = {
       EquipmentLimitsSvg,
       iconStrings.equipmentLimits("No metal armor nor any shields"),
     ],
-    [CowledSvg, iconStrings.thiefAbilities()],
+    [ThiefAbilitiesSvg, iconStrings.thiefAbilities()],
   ],
 };
