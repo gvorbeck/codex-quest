@@ -1,6 +1,12 @@
+import ExpertBowmenSvg from "@/assets/svg/ExpertBowmenSvg";
 import { DiceTypes } from "../definitions";
 import { EquipmentCategories } from "../definitions";
 import { ClassSetup } from "./definitions";
+import { iconStrings } from "@/support/stringSupport";
+import DualWieldBonusSvg from "@/assets/svg/DualWieldBonusSvg";
+import NoSurpriseSvg from "@/assets/svg/NoSurpriseSvg";
+import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
 
 export const scout: ClassSetup = {
   name: "Scout",
@@ -197,4 +203,20 @@ export const scout: ClassSetup = {
       "If a **Scout** is operating alone or greater then 30' away from a party (or in a party composed entirely of Scouts), he or she surprises foes on a 1-3 on 1d6.",
     ],
   },
+  icons: [
+    [
+      EquipmentLimitsSvg,
+      iconStrings.equipmentLimits("No metal armor. No shields."),
+    ],
+    [
+      WeaponLimitsSvg,
+      iconStrings.weaponLimits("Small melee weapons, shortbow, longbow"),
+    ],
+    [ExpertBowmenSvg, "+2 Attack Bonus with Bows (not crossbows)"],
+    [DualWieldBonusSvg, "Dual Wield Bonus"],
+    [
+      NoSurpriseSvg,
+      "When more than 30' from party, surprises foes on a 1-3 on 1d6",
+    ],
+  ],
 };

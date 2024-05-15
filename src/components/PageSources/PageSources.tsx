@@ -196,6 +196,18 @@ const PageSources: React.FC<
             title="Angel wings icon"
           />
         </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/bowman.html"
+            title="Bowman icon"
+          />
+        </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/lorc/crossed-swords.html"
+            title="Crossed swords icon"
+          />
+        </List.Item>
       </List>
     </div>
   );

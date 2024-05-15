@@ -1,6 +1,8 @@
 import { DiceTypes, EquipmentCategories, EquipmentItem } from "../definitions";
 import { ClassSetup } from "./definitions";
 import equipmentData from "../equipment.json";
+import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
+import { iconStrings } from "@/support/stringSupport";
 
 export const spellCrafter: ClassSetup = {
   name: "Spellcrafter",
@@ -177,4 +179,10 @@ export const spellCrafter: ClassSetup = {
       "The real power of **Spellcrafters** is their greater understanding of the processes of magical fabrication. Spellcrafters can create any scroll starting at 1st level, potions and other single use items beginning at 3rd level, and at 7th level they can create any kind of magic item. A Spellcrafter receives a +25% bonus to all magical research rolls for creating magical items.\n\nAt 6th level, Spellcrafters become so adept as to cut in half the time necessary to create a magic item. At 9th level, Spellcrafters become so adept as to reduce the cost of creating a magic item by 25%.",
     ],
   },
+  icons: [
+    [
+      WeaponLimitsSvg,
+      iconStrings.weaponLimits("May only use dagger and cudgel/walking staff"),
+    ],
+  ],
 };
