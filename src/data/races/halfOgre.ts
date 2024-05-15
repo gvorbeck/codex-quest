@@ -1,8 +1,9 @@
-import { DarkvisionSvg, FastLearnerSvg } from "@/support/svgSupport";
+import { FastLearnerSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import StrengthBonusSvg from "@/assets/svg/StrengthBonusSvg";
+import DarkvisionSvg from "@/assets/svg/DarkVisionSvg";
 
 export const halfOgre: RaceSetup = {
   name: "Half-Ogre",

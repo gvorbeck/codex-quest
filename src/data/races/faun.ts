@@ -1,8 +1,9 @@
-import { CharmSvg, DarkvisionSvg } from "@/support/svgSupport";
+import { CharmSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import EquipmentLimitsSvg from "@/assets/svg/EquipmentLimitsSvg";
+import DarkvisionSvg from "@/assets/svg/DarkVisionSvg";
 
 export const faun: RaceSetup = {
   name: "Faun",

@@ -1,11 +1,9 @@
-import {
-  DarkvisionSvg,
-  FastLearnerSvg,
-  SecretDoorSvg,
-} from "@/support/svgSupport";
+import { FastLearnerSvg } from "@/support/svgSupport";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
+import DarkvisionSvg from "@/assets/svg/DarkVisionSvg";
+import SecretDoorsSvg from "@/assets/svg/SecretDoorsSvg";
 
 export const halfElf: RaceSetup = {
   name: "Half-Elf",
@@ -46,7 +44,7 @@ export const halfElf: RaceSetup = {
   },
   icons: [
     [DarkvisionSvg, iconStrings.darkVision(30)],
-    [SecretDoorSvg, iconStrings.secretDoors("1-2", "1d6")],
+    [SecretDoorsSvg, iconStrings.secretDoors("1-2", "1d6")],
     [FastLearnerSvg, iconStrings.xpBonus("+5% (not for combination classes)")],
   ],
 };

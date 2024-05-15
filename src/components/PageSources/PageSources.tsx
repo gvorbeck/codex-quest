@@ -160,6 +160,12 @@ const PageSources: React.FC<
             title="Backstab icon"
           />
         </List.Item>
+        <List.Item>
+          <Link
+            to="https://game-icons.net/1x1/caro-asercion/heraldic-sun.html"
+            title="Heraldic sun icon"
+          />
+        </List.Item>
       </List>
     </div>
   );

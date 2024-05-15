@@ -1,13 +1,10 @@
-import {
-  DarkvisionSvg,
-  ObservantSvg,
-  SizeBonusSvg,
-} from "@/support/svgSupport";
+import { ObservantSvg, SizeBonusSvg } from "@/support/svgSupport";
 import { DiceTypes } from "../definitions";
 import { ClassNames } from "../definitions";
 import { RaceSetup } from "./definitions";
 import { iconStrings } from "@/support/stringSupport";
 import WeaponLimitsSvg from "@/assets/svg/WeaponLimitsSvg";
+import DarkvisionSvg from "@/assets/svg/DarkVisionSvg";
 
 export const gnome: RaceSetup = {
   name: "Gnome",
