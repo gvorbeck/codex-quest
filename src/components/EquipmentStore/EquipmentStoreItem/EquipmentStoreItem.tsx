@@ -25,6 +25,8 @@ const EquipmentStoreItem: React.FC<
       races[character.race as RaceNames]?.equipmentWeightModifier;
     if (modifier?.length && modifier[0] === item.category) {
       weight = item.weight! * modifier[1];
+    } else {
+      weight = item.weight!;
     }
     return weight;
   }
