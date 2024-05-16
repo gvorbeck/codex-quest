@@ -19,6 +19,7 @@ import SubCategory from "./SubCategory/SubCategory";
 import ArmorType from "./ArmorType/ArmorType";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import Notes from "./Notes/Notes";
+import { getItemCost } from "@/support/equipmentSupport";
 
 interface FormCustomEquipmentProps {
   handleResetFormDisplay: () => void;
@@ -114,10 +115,16 @@ const FormCustomEquipment: React.FC<
   const handleAmmoChange = (value: string) => setAmmoSelect(value);
 
   const onFinish = (values: object) => {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      equipment: [...prevCharacter.equipment, values as EquipmentItem],
-    }));
+    setCharacter((prevCharacter) => {
+      const newGold = purchasedCheckbox
+        ? getItemCost(values as EquipmentItem)
+        : 0;
+      return {
+        ...prevCharacter,
+        equipment: [...prevCharacter.equipment, values as EquipmentItem],
+        gold: parseFloat((prevCharacter.gold - newGold).toFixed(2)),
+      };
+    });
     handleResetFormDisplay();
   };
 
