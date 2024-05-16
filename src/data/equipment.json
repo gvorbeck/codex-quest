@@ -1983,34 +1983,44 @@
     "costValue": 120,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0
+    "amount": 0,
+    "lowCapacity": 350,
+    "capacity": 700
   },
   {
     "name": "Horse, War",
     "costValue": 200,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0
+    "amount": 0,
+    "lowCapacity": 350,
+    "capacity": 700
   },
   {
     "name": "Horse, Riding",
     "costValue": 75,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0
+    "amount": 0,
+    "lowCapacity": 250,
+    "capacity": 500
   },
   {
     "name": "Pony*",
     "costValue": 40,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0
+    "amount": 0,
+    "lowCapacity": 275,
+    "capacity": 550
   },
   {
     "name": "Pony, War*",
     "costValue": 80,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0
+    "amount": 0,
+    "lowCapacity": 275,
+    "capacity": 550
   }
 ]

@@ -1,6 +1,7 @@
 import {
   CharData,
   ClassNames,
+  EquipmentCategories,
   EquipmentItem,
   RaceNames,
   SavingThrowsType,
@@ -9,7 +10,7 @@ import {
 import { AttackTypes } from "./stringSupport";
 import { races } from "@/data/races";
 import equipmentItems from "../data/equipment.json";
-import { ArmorCategory } from "./equipmentSupport";
+import { ArmorCategory, getEquipmentItemFromName } from "./equipmentSupport";
 import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
@@ -87,10 +88,7 @@ export const getWeight = (character: CharData) => {
 export const getMovement = (characterData: CharData) => {
   if (!characterData) return;
 
-  const carryingCapacity = getCarryingCapacity(
-    +characterData.abilities.scores.strength,
-    characterData.race as RaceNames,
-  );
+  const carryingCapacity = getCarryingCapacity(characterData);
 
   const armorSpeedMap: Record<ArmorCategory, [number, number]> = {
     lightArmor: [40, 30],
@@ -147,10 +145,28 @@ const getStrengthRange = (strength: number): string => {
 type Capacity = { light: number; heavy: number };
 type CapacityMap = Record<string, Capacity>;
 
-export const getCarryingCapacity = (
-  strength: number,
-  race: RaceNames,
-): Capacity => {
+export const getCarryingCapacity = (character: CharData): Capacity => {
+  if (!character) return { light: 0, heavy: 0 };
+  let animalCapacity: Capacity = { light: 0, heavy: 0 };
+  const hasBeast = character.equipment.some(
+    (item) => item.category === EquipmentCategories.BEASTS,
+  );
+  if (hasBeast) {
+    animalCapacity = character.equipment.reduce(
+      (acc, currItem) => {
+        if (currItem.category === EquipmentCategories.BEASTS) {
+          const beast = getEquipmentItemFromName(currItem.name);
+          return {
+            light: acc.light + (beast?.lowCapacity ?? 0),
+            heavy: acc.heavy + (beast?.capacity ?? 0),
+          };
+        }
+        return acc;
+      },
+      { light: 0, heavy: 0 },
+    );
+  }
+
   const capacities: CapacityMap = {
     "3": { light: 25, heavy: 60 },
     "4-5": { light: 35, heavy: 90 },
@@ -160,7 +176,6 @@ export const getCarryingCapacity = (
     "16-17": { light: 70, heavy: 180 },
     "18": { light: 80, heavy: 195 },
   };
-
   const lowCapacities: CapacityMap = {
     "3": { light: 20, heavy: 40 },
     "4-5": { light: 30, heavy: 60 },
@@ -170,10 +185,15 @@ export const getCarryingCapacity = (
     "16-17": { light: 60, heavy: 120 },
     "18": { light: 65, heavy: 130 },
   };
+  const range = getStrengthRange(character.abilities.scores.strength as number);
+  const charCapacity = races[character.race as RaceNames]?.hasLowCapacity
+    ? lowCapacities[range]
+    : capacities[range];
 
-  const range = getStrengthRange(strength);
-
-  return races[race]?.hasLowCapacity ? lowCapacities[range] : capacities[range];
+  return {
+    light: charCapacity.light + animalCapacity.light,
+    heavy: charCapacity.heavy + animalCapacity?.heavy,
+  };
 };
 
 export const getAttackBonus = (character: CharData) => {

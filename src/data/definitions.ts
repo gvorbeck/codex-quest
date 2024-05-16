@@ -136,23 +136,25 @@ export type AttackTypeStrings =
   | AttackTypes.BOTH;
 
 export type EquipmentItem = {
-  name: string;
-  costValue: number;
-  costCurrency: CostCurrency;
-  category: EquipmentCategories | "inherent" | "weapons";
-  amount: number;
-  notes?: string;
-  subCategory?: string;
-  weight?: number;
-  size?: SizeOptions;
-  damage?: string;
-  missileAC?: string;
   AC?: string | number;
-  type?: string;
-  range?: number[];
   ammo?: string[];
-  noDelete?: boolean;
+  amount: number;
+  capacity?: number;
+  category: EquipmentCategories | "inherent" | "weapons";
+  costCurrency: CostCurrency;
+  costValue: number;
+  damage?: string;
+  lowCapacity?: number;
   minLevel?: number;
+  missileAC?: string;
+  name: string;
+  noDelete?: boolean;
+  notes?: string;
+  range?: number[];
+  size?: SizeOptions;
+  subCategory?: string;
+  type?: string;
+  weight?: number;
 };
 
 // type SpecialRestriction = {
