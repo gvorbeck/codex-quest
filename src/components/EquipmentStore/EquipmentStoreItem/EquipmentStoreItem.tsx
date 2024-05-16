@@ -137,6 +137,7 @@ const EquipmentStoreItem: React.FC<
   });
 
   function handleAmountChange(value: number | null) {
+    console.log(value);
     setCharacter((prevCharacter) => {
       const foundItemIndex = prevCharacter.equipment.findIndex(
         (eqItem) => eqItem.name === item.name,
@@ -144,10 +145,21 @@ const EquipmentStoreItem: React.FC<
 
       const newEquipment = [...prevCharacter.equipment];
       if (foundItemIndex !== -1) {
+        if (!value) {
+          // Remove item if amount is 0
+          newEquipment.splice(foundItemIndex, 1);
+          return {
+            ...prevCharacter,
+            equipment: newEquipment,
+            gold: parseFloat(
+              (prevCharacter.gold + getItemCost(item)).toFixed(2),
+            ),
+          };
+        }
         // Update existing item amount
         newEquipment[foundItemIndex] = {
           ...newEquipment[foundItemIndex],
-          amount: value ?? 0,
+          amount: value,
         };
       } else {
         // Add new item if it doesn't exist
