@@ -19,6 +19,20 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
     character.platinum?.toString() || 0,
   );
 
+  React.useEffect(() => {
+    setGold(character.gold.toString());
+    setSilver(character.silver?.toString() || "0");
+    setCopper(character.copper?.toString() || "0");
+    setElectrum(character.electrum?.toString() || "0");
+    setPlatinum(character.platinum?.toString() || "0");
+  }, [
+    character.gold,
+    character.silver,
+    character.copper,
+    character.electrum,
+    character.platinum,
+  ]);
+
   function updateCurrency() {
     let gold = character.gold;
     let silver = character.silver || 0;

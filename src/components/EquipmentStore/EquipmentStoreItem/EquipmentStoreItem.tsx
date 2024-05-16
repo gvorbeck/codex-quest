@@ -137,7 +137,6 @@ const EquipmentStoreItem: React.FC<
   });
 
   function handleAmountChange(value: number | null) {
-    console.log(value);
     setCharacter((prevCharacter) => {
       const foundItemIndex = prevCharacter.equipment.findIndex(
         (eqItem) => eqItem.name === item.name,
