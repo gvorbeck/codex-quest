@@ -202,7 +202,7 @@ const PageCharacterSheet: React.FC<
               <Section
                 title="Money"
                 className={!isMobile ? "w-1/3" : ""}
-                component={<Money character={character} />}
+                component={<Money />}
               />
               <Divider className="[@media(width>=640px)]:hidden" />
               <Section title="Weight" component={<Weight />} />
