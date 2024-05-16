@@ -41,7 +41,6 @@ const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
 > = ({ className, user }) => {
   console.info(
-    "-Choosing a stock avatar doesn't show selected ring around image.",
     "-Chosen spell descriptions in Level-Up Modal.",
     "-Make use of all ClassSetup and RaceSetup fields.",
   );
@@ -203,7 +202,7 @@ const PageCharacterSheet: React.FC<
               <Section
                 title="Money"
                 className={!isMobile ? "w-1/3" : ""}
-                component={<Money />}
+                component={<Money character={character} />}
               />
               <Divider className="[@media(width>=640px)]:hidden" />
               <Section title="Weight" component={<Weight />} />
