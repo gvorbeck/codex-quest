@@ -34,7 +34,12 @@ export const canein: RaceSetup = {
   },
   icons: [
     [SmellBonusSvg, iconStrings.smellBonus()],
-    [RangerBonusSvg, iconStrings.rangerBonus()],
+    [
+      RangerBonusSvg,
+      iconStrings.rangerBonus(
+        "Can track as a Ranger of equivalent level, and an actual Canein Ranger gets a bonus of +20% on Tracking rolls.",
+      ),
+    ],
     [
       SimilarCreaturesSvg,
       iconStrings.similarCreatures("+2", "canine creatures"),
