@@ -157,8 +157,8 @@ export const getCarryingCapacity = (character: CharData): Capacity => {
         if (currItem.category === EquipmentCategories.BEASTS) {
           const beast = getEquipmentItemFromName(currItem.name);
           return {
-            light: acc.light + (beast?.lowCapacity ?? 0),
-            heavy: acc.heavy + (beast?.capacity ?? 0),
+            light: acc.light + (beast?.lowCapacity ?? 0) * currItem.amount,
+            heavy: acc.heavy + (beast?.capacity ?? 0) * currItem.amount,
           };
         }
         return acc;
