@@ -1,5 +1,4 @@
 import React from "react";
-import { RaceNames } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, Flex } from "antd";
 import CharacterStat from "../CharacterStat/CharacterStat";
 import { getCarryingCapacity, getWeight } from "@/support/statSupport";
@@ -11,10 +10,7 @@ const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const { isMobile } = useDeviceType();
   const { character } = React.useContext(CharacterDataContext);
-  const capacity = getCarryingCapacity(
-    +character.abilities.scores.strength,
-    character.race as RaceNames,
-  );
+  const capacity = getCarryingCapacity(character);
   const weight = getWeight(character);
   const items: DescriptionsProps["items"] = [
     { key: "1", label: "Max Weight", children: capacity.heavy },
