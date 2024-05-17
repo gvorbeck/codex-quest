@@ -193,8 +193,8 @@ export const getCarryingCapacity = (character: CharData) => {
   return {
     light: charCapacity.light + animalCapacity.light,
     heavy: charCapacity.heavy + animalCapacity?.heavy,
-    player: charCapacity,
-    animal: animalCapacity,
+    player: hasBeast ? charCapacity : undefined,
+    animal: hasBeast ? animalCapacity : undefined,
   };
 };
 
