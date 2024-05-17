@@ -20,6 +20,20 @@ const Weight: React.FC<React.ComponentPropsWithRef<"div">> = ({
       children: weight < capacity.light ? "Lightly Loaded" : "Heavily Loaded",
     },
   ];
+  if (capacity.player) {
+    items.push({
+      key: "3",
+      label: "PC",
+      children: `${capacity.player.light}/${capacity.player.heavy}`,
+    });
+  }
+  if (capacity.animal) {
+    items.push({
+      key: "4",
+      label: "Animal",
+      children: `${capacity.animal.light}/${capacity.animal.heavy}`,
+    });
+  }
 
   return (
     <Flex gap={16} className={className} vertical={!isMobile}>

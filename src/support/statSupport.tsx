@@ -145,7 +145,7 @@ const getStrengthRange = (strength: number): string => {
 type Capacity = { light: number; heavy: number };
 type CapacityMap = Record<string, Capacity>;
 
-export const getCarryingCapacity = (character: CharData): Capacity => {
+export const getCarryingCapacity = (character: CharData) => {
   if (!character) return { light: 0, heavy: 0 };
   let animalCapacity: Capacity = { light: 0, heavy: 0 };
   const hasBeast = character.equipment.some(
@@ -193,6 +193,8 @@ export const getCarryingCapacity = (character: CharData): Capacity => {
   return {
     light: charCapacity.light + animalCapacity.light,
     heavy: charCapacity.heavy + animalCapacity?.heavy,
+    player: charCapacity,
+    animal: animalCapacity,
   };
 };
 
