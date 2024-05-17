@@ -1,6 +1,7 @@
 import React from "react";
 import {
   CharData,
+  CharDataAction,
   ClassNames,
   EquipmentItem,
   RaceNames,
@@ -13,12 +14,12 @@ import { classes } from "@/data/classes";
 interface EquipmentStoreItemProps {
   item: EquipmentItem;
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const EquipmentStoreItem: React.FC<
   EquipmentStoreItemProps & React.ComponentPropsWithRef<"div">
-> = ({ className, item, character, setCharacter }) => {
+> = ({ className, item, character, characterDispatch }) => {
   function getItemWeight() {
     let weight = 0;
     const modifier =
@@ -137,46 +138,12 @@ const EquipmentStoreItem: React.FC<
   });
 
   function handleAmountChange(value: number | null) {
-    setCharacter((prevCharacter) => {
-      const foundItemIndex = prevCharacter.equipment.findIndex(
-        (eqItem) => eqItem.name === item.name,
-      );
-
-      const newEquipment = [...prevCharacter.equipment];
-      let newGold = prevCharacter.gold;
-      if (foundItemIndex !== -1) {
-        if (!value) {
-          // Remove item if amount is 0
-          newEquipment.splice(foundItemIndex, 1);
-          return {
-            ...prevCharacter,
-            equipment: newEquipment,
-            gold: parseFloat(
-              (prevCharacter.gold + getItemCost(item)).toFixed(2),
-            ),
-          };
-        }
-        // Determine if an item is being added or removed
-        const itemAmount = newEquipment[foundItemIndex].amount;
-        const amountDifference = value - itemAmount;
-        const costDifference = getItemCost(item) * amountDifference;
-        newGold = parseFloat((prevCharacter.gold - costDifference).toFixed(2));
-
-        // Update existing item amount
-        newEquipment[foundItemIndex] = {
-          ...newEquipment[foundItemIndex],
-          amount: value,
-        };
-      } else {
-        // Add new item if it doesn't exist
-        newEquipment.push({ ...item, amount: value ?? 0 });
-      }
-
-      return {
-        ...prevCharacter,
-        equipment: newEquipment,
-        gold: newGold,
-      };
+    characterDispatch({
+      type: "SET_EQUIPMENT",
+      payload: {
+        item,
+        amount: value,
+      },
     });
   }
 

@@ -1,5 +1,5 @@
 import HomebrewWarning from "@/components/HomebrewWarning/HomebrewWarning";
-import { CharData, RaceNames } from "@/data/definitions";
+import { CharData, CharDataAction, RaceNames } from "@/data/definitions";
 import { races } from "@/data/races";
 import { RaceSetup } from "@/data/races/definitions";
 import { isStandardRace } from "@/support/raceSupport";
@@ -10,12 +10,12 @@ import SupplementalContentSwitch from "../SupplementalContentSwitch/Supplemental
 
 interface StepRaceProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const StepRace: React.FC<
   StepRaceProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, characterDispatch }) => {
   const [supplementalSwitch, setSupplementalSwitch] = React.useState(
     !isStandardRace(character.race, true) && character.race !== "",
   );
@@ -76,45 +76,23 @@ const StepRace: React.FC<
       setTimeout(() => inputRef.current?.focus(), 5);
     } else {
       setShowCustomInput(false);
-      setCharacter((prevCharacter) => ({
-        ...prevCharacter,
-        race: value,
-        class: [],
-        hp: { dice: "", points: 0, max: 0, desc: "" },
-        equipment: [],
-        gold: 0,
-        spells: [],
-        specials: {
-          race: races[value as RaceNames].details.specials ?? [],
-          class: [],
+      characterDispatch({
+        type: "SET_RACE",
+        payload: {
+          race: value,
         },
-        restrictions: {
-          race: races[value as RaceNames].details.restrictions ?? [],
-          class: [],
-        },
-      }));
+      });
     }
   }
 
   function handleRaceInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      race: value,
-      class: [],
-      hp: { dice: "", points: 0, max: 0, desc: "" },
-      equipment: [],
-      gold: 0,
-      spells: [],
-      specials: {
-        race: [],
-        class: [],
+    characterDispatch({
+      type: "SET_RACE",
+      payload: {
+        race: value,
       },
-      restrictions: {
-        race: [],
-        class: [],
-      },
-    }));
+    });
   }
 
   function handleSupplementalSwitchChange() {

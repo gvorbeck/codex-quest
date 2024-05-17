@@ -1,33 +1,59 @@
 import EquipmentStore from "@/components/EquipmentStore/EquipmentStore";
-import { CharData } from "@/data/definitions";
+import { CharData, CharDataAction } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { rollDice } from "@/support/diceSupport";
 import { Button, Flex, FloatButton, InputNumber, Space } from "antd";
 import CharacterInventory from "./CharacterInventory/CharacterInventory";
 
 interface StepEquipmentProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
   hideDiceButton?: boolean;
   hideInventory?: boolean;
 }
 
 const StepEquipment: React.FC<
   StepEquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, hideDiceButton, hideInventory }) => {
+> = ({
+  className,
+  character,
+  characterDispatch,
+  hideDiceButton,
+  hideInventory,
+}) => {
   const { isMobile } = useDeviceType();
 
   function handleRollGoldClick() {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      gold: rollDice("3d6*10"),
-    }));
+    characterDispatch({
+      type: "SET_GOLD",
+    });
+  }
+
+  function handleGoldInputChange(value: number | null) {
+    if (!value) {
+      characterDispatch({
+        type: "SET_GOLD",
+        payload: {
+          gold: 0,
+        },
+      });
+    } else {
+      characterDispatch({
+        type: "SET_GOLD",
+        payload: {
+          gold: value,
+        },
+      });
+    }
   }
   return (
     <Flex vertical gap={16} className={className}>
       {!hideDiceButton && (
         <Space.Compact>
-          <InputNumber className="pb-0.5" value={character.gold} />
+          <InputNumber
+            className="pb-0.5"
+            value={character.gold}
+            onChange={handleGoldInputChange}
+          />
           <Button type="primary" onClick={handleRollGoldClick}>
             Roll 3d6x10
           </Button>
@@ -38,7 +64,10 @@ const StepEquipment: React.FC<
         className={!hideInventory ? "[&>div]:flex-[0_1_50%]" : undefined}
         vertical={isMobile}
       >
-        <EquipmentStore character={character} setCharacter={setCharacter} />
+        <EquipmentStore
+          character={character}
+          characterDispatch={characterDispatch}
+        />
         {!hideInventory && (
           <CharacterInventory equipment={character.equipment} />
         )}

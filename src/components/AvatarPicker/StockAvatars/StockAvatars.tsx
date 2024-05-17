@@ -1,16 +1,16 @@
-import { CharData } from "@/data/definitions";
+import { CharData, CharDataAction } from "@/data/definitions";
 import { Button, Image } from "antd";
 import classNames from "classnames";
 import React from "react";
 
 interface StockAvatarsProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const StockAvatars: React.FC<
   StockAvatarsProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, characterDispatch }) => {
   const [avatar, setAvatar] = React.useState(character.avatar);
 
   const imageNames = [
@@ -47,10 +47,12 @@ const StockAvatars: React.FC<
           className="h-auto w-auto leading-none p-0"
           onClick={() => {
             setAvatar(image);
-            setCharacter((prevCharacter) => ({
-              ...prevCharacter,
-              avatar: image,
-            }));
+            characterDispatch({
+              type: "SET_AVATAR",
+              payload: {
+                avatar: image,
+              },
+            });
           }}
         >
           <Image

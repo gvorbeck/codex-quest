@@ -1,4 +1,4 @@
-import { Abilities, CharData } from "@/data/definitions";
+import { Abilities, CharData, CharDataAction } from "@/data/definitions";
 import { Button, Descriptions, Flex, Table, TableProps } from "antd";
 import AbilityRoller from "./AbilityRoller/AbilityRoller";
 import { useDeviceType } from "@/hooks/useDeviceType";
@@ -6,13 +6,13 @@ import { calculateModifier, rollDice } from "@/support/diceSupport";
 
 interface StepAbilitiesProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
   newCharacter?: boolean;
 }
 
 const StepAbilities: React.FC<
   StepAbilitiesProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, newCharacter }) => {
+> = ({ className, character, characterDispatch, newCharacter }) => {
   const { isMobile } = useDeviceType();
   const dataSource: TableProps["dataSource"] = [
     {
@@ -82,7 +82,8 @@ const StepAbilities: React.FC<
         return (
           <AbilityRoller
             character={character}
-            setCharacter={setCharacter}
+            // setCharacter={setCharacter}
+            characterDispatch={characterDispatch}
             ability={abilityKey as keyof Abilities}
             newCharacter={newCharacter}
           />
@@ -106,53 +107,22 @@ const StepAbilities: React.FC<
       newModifiers[ability as keyof Abilities] = calculateModifier(score) + "";
     });
 
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      abilities: {
+    characterDispatch({
+      type: "SET_ABILITIES",
+      payload: {
         scores: newScores,
         modifiers: newModifiers,
+        newCharacter: !!newCharacter,
       },
-      race: newCharacter ? "" : prevCharacter.race,
-      class: newCharacter ? [] : [...prevCharacter.class],
-      hp: newCharacter
-        ? { dice: "", points: 0, max: 0, desc: "" }
-        : { ...prevCharacter.hp },
-      equipment: [],
-      gold: 0,
-      spells: [],
-    }));
+    });
   }
 
   function handleFlipAbilities() {
-    setCharacter((prevCharacter) => {
-      const flippedScores = Object.fromEntries(
-        Object.entries(prevCharacter.abilities.scores).map(([key, value]) => [
-          key,
-          21 - +value,
-        ]),
-      );
-      const flippedModifiers = Object.fromEntries(
-        Object.entries(flippedScores).map(([key, value]) => [
-          key,
-          calculateModifier(value),
-        ]),
-      );
-
-      return {
-        ...prevCharacter,
-        abilities: {
-          scores: flippedScores as Abilities,
-          modifiers: flippedModifiers as Abilities,
-        },
-        race: newCharacter ? "" : prevCharacter.race,
-        class: newCharacter ? [] : [...prevCharacter.class],
-        hp: newCharacter
-          ? { dice: "", points: 0, max: 0, desc: "" }
-          : { ...prevCharacter.hp },
-        equipment: [],
-        gold: 0,
-        spells: [],
-      };
+    characterDispatch({
+      type: "FLIP_ABILITIES",
+      payload: {
+        newCharacter: !!newCharacter,
+      },
     });
   }
 

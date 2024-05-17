@@ -1,5 +1,5 @@
 import React from "react";
-import { CharData } from "@/data/definitions";
+import { CharData, CharDataAction } from "@/data/definitions";
 import {
   Radio,
   RadioChangeEvent,
@@ -16,7 +16,7 @@ import StockAvatars from "./StockAvatars/StockAvatars";
 
 type AvatarPickerProps = {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 };
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
@@ -31,7 +31,7 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 export default function AvatarPicker({
   character,
-  setCharacter,
+  characterDispatch,
 }: AvatarPickerProps) {
   const [previewOpen, setPreviewOpen] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState("");
@@ -86,8 +86,12 @@ export default function AvatarPicker({
       const downloadURL = await getDownloadURL(storageRef);
 
       // Update the character's avatar in the local state
-      const updatedCharacterData = { ...character, avatar: downloadURL };
-      setCharacter(updatedCharacterData);
+      characterDispatch({
+        type: "SET_AVATAR",
+        payload: {
+          avatar: downloadURL,
+        },
+      });
     } catch (error) {
       console.error("Error during the file upload or document update:", error);
     }
@@ -102,10 +106,12 @@ export default function AvatarPicker({
 
   const handleChangeImageSource = (e: RadioChangeEvent) => {
     if (e.target.value === 0) {
-      setCharacter((prevCharacter) => ({
-        ...prevCharacter,
-        avatar: "",
-      }));
+      characterDispatch({
+        type: "SET_AVATAR",
+        payload: {
+          avatar: "",
+        },
+      });
     }
     setImageSource(e.target.value);
   };
@@ -138,7 +144,10 @@ export default function AvatarPicker({
 
   const showStockAvatars =
     imageSource === 1 ? (
-      <StockAvatars character={character} setCharacter={setCharacter} />
+      <StockAvatars
+        character={character}
+        characterDispatch={characterDispatch}
+      />
     ) : null;
 
   return (

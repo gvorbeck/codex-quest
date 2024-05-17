@@ -10,6 +10,7 @@ import {
 import equipmentData from "@/data/equipment.json";
 import {
   CharData,
+  CharDataAction,
   ClassNames,
   EquipmentCategories,
   EquipmentItem,
@@ -23,12 +24,12 @@ import { getClassType } from "@/support/classSupport";
 
 interface EquipmentStoreProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, characterDispatch }) => {
   const [search, setSearch] = React.useState("");
 
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -94,7 +95,7 @@ const EquipmentStore: React.FC<
                           key={equipmentItem.name}
                           item={equipmentItem as EquipmentItem}
                           character={character}
-                          setCharacter={setCharacter}
+                          characterDispatch={characterDispatch}
                         />
                       ))}
                     </Flex>
@@ -118,7 +119,7 @@ const EquipmentStore: React.FC<
                       key={equipmentItem.name}
                       item={equipmentItem as EquipmentItem}
                       character={character}
-                      setCharacter={setCharacter}
+                      characterDispatch={characterDispatch}
                     />
                   ))}
                 </Flex>

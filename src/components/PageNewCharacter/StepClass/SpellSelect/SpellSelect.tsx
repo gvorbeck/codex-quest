@@ -2,18 +2,23 @@ import { Card, Flex, Select, SelectProps, Typography } from "antd";
 import React from "react";
 import SpellCard from "../SpellCard/SpellCard";
 import { getSpellFromName, getSpellsAtLevel } from "@/support/spellSupport";
-import { CharData, ClassNames, Spell } from "@/data/definitions";
+import {
+  CharData,
+  CharDataAction,
+  ClassNames,
+  Spell,
+} from "@/data/definitions";
 import Markdown from "react-markdown";
 import { classes } from "@/data/classes";
 
 interface SpellSelectProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const SpellSelect: React.FC<
   SpellSelectProps & React.ComponentPropsWithRef<"div">
-> = ({ character, setCharacter, className }) => {
+> = ({ character, characterDispatch, className }) => {
   const classDescription = `Characters with the **${character.class.find((className) => classes[className as ClassNames]?.spellBudget?.length)}** class start with **Read Magic** and one other spell:`;
   const levelOneSpells = getSpellsAtLevel(character);
   const spellSelectOptions: SelectProps["options"] = levelOneSpells
@@ -24,10 +29,12 @@ const SpellSelect: React.FC<
     const readMagicSpell = getSpellFromName("Read Magic");
     const selectedSpell = getSpellFromName(value);
     const spells = [readMagicSpell, selectedSpell].filter(Boolean) as Spell[];
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      spells,
-    }));
+    characterDispatch({
+      type: "SET_SPELLS",
+      payload: {
+        spells,
+      },
+    });
   }
   return (
     <Card
