@@ -35,7 +35,8 @@ const AmmoAttackForm: React.FC<
     updateEquipmentAfterMissileAttack,
     calculateMissileRollResults,
   } = useAttack();
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
   const [ammoSelection, setAmmoSelection] = React.useState<string | undefined>(
     undefined,
   );
@@ -69,7 +70,7 @@ const AmmoAttackForm: React.FC<
       ammoSelection,
       isRecoveryChecked,
       character,
-      setCharacter,
+      characterDispatch,
     );
     const { rollToHit, rollToDamage } = calculateMissileRollResults(
       character,

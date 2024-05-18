@@ -7,7 +7,7 @@ interface MoneyProps {}
 const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
-  const { character, setCharacter, userIsOwner } =
+  const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
   const [gold, setGold] = React.useState(character.gold.toString());
   const [silver, setSilver] = React.useState(character.silver?.toString() || 0);
@@ -117,28 +117,34 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
       setPlatinum(numericValue.toString());
     }
 
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      [name]: numericValue,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        [name]: numericValue,
+      },
+    });
   };
 
   if (character.gold % 1 !== 0) {
     const [gold, silver, copper] = updateCurrency();
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      gold,
-      silver,
-      copper,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        gold,
+        silver,
+        copper,
+      },
+    });
   }
 
   if (character.platinum === undefined || character.electrum === undefined) {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      platinum: 0,
-      electrum: 0,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        platinum: 0,
+        electrum: 0,
+      },
+    });
   }
 
   const moneyData = [
@@ -167,10 +173,12 @@ const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({
   ));
 
   if (character.useCoinWeight === undefined) {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      useCoinWeight: true,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        useCoinWeight: true,
+      },
+    });
   }
 
   return (

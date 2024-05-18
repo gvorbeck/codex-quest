@@ -72,7 +72,7 @@ export function useGameCharacters(players: GamePlayerList): [
 
   const generateDetailItems = (
     character: CharData,
-    setCharacter: (character: CharData) => void,
+    characterDispatch: React.Dispatch<any>,
   ): DescriptionsProps["items"] => {
     const { level, hp, race } = character;
     return [
@@ -98,7 +98,7 @@ export function useGameCharacters(players: GamePlayerList): [
       {
         key: "ac",
         label: "AC",
-        children: getArmorClass(character, setCharacter),
+        children: getArmorClass(character, characterDispatch),
         span: 1,
       },
       {

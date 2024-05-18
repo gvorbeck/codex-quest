@@ -7,7 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import React from "react";
 import { Alert, Col, Divider, Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
-import { CharData, ClassNames } from "@/data/definitions";
+import { ClassNames } from "@/data/definitions";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
@@ -46,7 +46,7 @@ const PageCharacterSheet: React.FC<
   );
 
   const [open, setOpen] = React.useState(false);
-  const { character, setCharacter, userIsOwner, uid, id } =
+  const { character, characterDispatch, userIsOwner, uid, id } =
     useCharacterData(user);
   const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
   const { isMobile, isTablet, isDesktop } = useDeviceType();
@@ -55,13 +55,13 @@ const PageCharacterSheet: React.FC<
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
 
+  console.log(character);
+
   return character ? (
     <CharacterDataContext.Provider
       value={{
         character,
-        setCharacter: setCharacter as React.Dispatch<
-          React.SetStateAction<CharData>
-        >,
+        characterDispatch,
         userIsOwner,
         uid,
         id,
@@ -82,11 +82,7 @@ const PageCharacterSheet: React.FC<
               editableComponent={
                 <StepAbilities
                   character={character}
-                  setCharacter={
-                    setCharacter as React.Dispatch<
-                      React.SetStateAction<CharData>
-                    >
-                  }
+                  characterDispatch={characterDispatch}
                 />
               }
               editable
@@ -106,11 +102,7 @@ const PageCharacterSheet: React.FC<
                 editableComponent={
                   <StepHitPoints
                     character={character}
-                    setCharacter={
-                      setCharacter as React.Dispatch<
-                        React.SetStateAction<CharData>
-                      >
-                    }
+                    characterDispatch={characterDispatch}
                   />
                 }
               />
@@ -127,7 +119,7 @@ const PageCharacterSheet: React.FC<
                 titleHelpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`}
                 component={
                   <CharacterStat
-                    value={getArmorClass(character, setCharacter) || 0}
+                    value={getArmorClass(character, characterDispatch) || 0}
                   />
                 }
               />
@@ -164,9 +156,8 @@ const PageCharacterSheet: React.FC<
             </Col>
             <Col xs={24} sm={12} md={10}>
               <Flex gap={16} vertical>
-                {character.class.map((cls) => {
-                  const specialAbilities =
-                    classes[cls as ClassNames]?.specialAbilities;
+                {character.class.map((cls: ClassNames) => {
+                  const specialAbilities = classes[cls]?.specialAbilities;
                   if (specialAbilities) {
                     return (
                       <Section

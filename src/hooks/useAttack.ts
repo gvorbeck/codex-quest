@@ -1,6 +1,6 @@
 import React from "react";
 import { useNotification } from "./useNotification";
-import { CharData, EquipmentItem } from "@/data/definitions";
+import { CharData, EquipmentItem, UpdateCharAction } from "@/data/definitions";
 import {
   getRollToAmmoDamageResult,
   getRollToHitResult,
@@ -31,7 +31,7 @@ interface UseAttackReturnType {
     ammoSelection: string | undefined,
     isRecoveryChecked: boolean,
     character: CharData,
-    setCharacter: React.Dispatch<React.SetStateAction<CharData>>,
+    characterDispatch: React.Dispatch<UpdateCharAction>,
   ) => boolean;
   calculateMissileRollResults: (
     character: CharData,
@@ -73,26 +73,28 @@ export const useAttack = (): UseAttackReturnType => {
     ammoSelection: string | undefined,
     isRecoveryChecked: boolean,
     character: CharData,
-    setCharacter: React.Dispatch<React.SetStateAction<CharData>>,
+    characterDispatch: React.Dispatch<UpdateCharAction>,
   ) => {
     const weapon = getWeapon(ammoSelection ?? "", character.equipment);
     if (weapon) {
-      const newEquipment = character.equipment.filter(
+      const equipment = character.equipment.filter(
         (item) => item.name !== ammoSelection,
       );
       const weaponRecovered = isRecoveryChecked && Math.random() < 0.25;
 
       if (weaponRecovered) {
-        newEquipment.push(weapon);
+        equipment.push(weapon);
       } else {
         weapon.amount = weapon.amount - 1;
-        if (weapon.amount > 0) newEquipment.push(weapon);
+        if (weapon.amount > 0) equipment.push(weapon);
       }
 
-      setCharacter((prevCharacter) => ({
-        ...prevCharacter,
-        equipment: [...newEquipment],
-      }));
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          equipment,
+        },
+      });
 
       return weaponRecovered;
     }

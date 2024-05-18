@@ -2,12 +2,12 @@ import React from "react";
 import { Flex, Input } from "antd";
 import DOMPurify from "dompurify";
 import AvatarPicker from "@/components/AvatarPicker/AvatarPicker";
-import { CharData, CharDataAction } from "@/data/definitions";
+import { CharData } from "@/data/definitions";
 
 interface StepDetailsProps {
   character: CharData;
   newCharacter?: boolean;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<any>;
 }
 
 const StepDetails: React.FC<

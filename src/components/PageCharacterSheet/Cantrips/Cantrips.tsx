@@ -11,16 +11,17 @@ interface CantripsProps {}
 const Cantrips: React.FC<
   CantripsProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
 
   const deleteCustomCantrip = (cantrip: ZeroLevelSpell) => {
-    const newCantrips = character?.cantrips?.filter(
+    const cantrips = character?.cantrips?.filter(
       (c) => c.name !== cantrip.name,
     );
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      cantrips: newCantrips,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: { cantrips },
+    });
   };
 
   const items: CollapseProps["items"] = character?.cantrips

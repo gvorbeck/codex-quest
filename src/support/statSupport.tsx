@@ -5,7 +5,7 @@ import {
   EquipmentItem,
   RaceNames,
   SavingThrowsType,
-  SetCharData,
+  UpdateCharAction,
 } from "@/data/definitions";
 import { AttackTypes } from "./stringSupport";
 import { races } from "@/data/races";
@@ -17,7 +17,7 @@ import { Tooltip } from "antd";
 
 export const getArmorClass = (
   character: CharData,
-  setCharacter: SetCharData,
+  characterDispatch: React.Dispatch<UpdateCharAction>,
   type: AttackTypes.MISSILE | AttackTypes.MELEE = AttackTypes.MELEE,
 ) => {
   if (!character) return;
@@ -26,7 +26,10 @@ export const getArmorClass = (
   const armorClass = races[race as RaceNames]?.altBaseAC || 11;
 
   if (!wearing) {
-    setCharacter({ ...character, wearing: { armor: "", shield: "" } });
+    characterDispatch({
+      type: "UPDATE",
+      payload: { wearing: { armor: "", shield: "" } },
+    });
     return armorClass;
   }
 

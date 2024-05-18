@@ -1,5 +1,5 @@
 import React from "react";
-import { CharData, CharDataAction } from "@/data/definitions";
+import { CharData } from "@/data/definitions";
 import {
   Radio,
   RadioChangeEvent,
@@ -16,7 +16,7 @@ import StockAvatars from "./StockAvatars/StockAvatars";
 
 type AvatarPickerProps = {
   character: CharData;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<any>;
 };
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];

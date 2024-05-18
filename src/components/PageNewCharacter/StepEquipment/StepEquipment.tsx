@@ -1,12 +1,12 @@
 import EquipmentStore from "@/components/EquipmentStore/EquipmentStore";
-import { CharData, CharDataAction } from "@/data/definitions";
+import { CharData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { Button, Flex, FloatButton, InputNumber, Space } from "antd";
 import CharacterInventory from "./CharacterInventory/CharacterInventory";
 
 interface StepEquipmentProps {
   character: CharData;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<any>;
   hideDiceButton?: boolean;
   hideInventory?: boolean;
 }

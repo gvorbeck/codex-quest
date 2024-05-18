@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase-admin/firestore";
 import { AttackTypes } from "../support/stringSupport";
 
 export enum EquipmentCategories {
@@ -156,6 +157,16 @@ export type EquipmentItem = {
   type?: string;
   weight?: number;
 };
+
+export type UpdateCharAction =
+  | {
+      type: "FETCH";
+      payload: DocumentData;
+    }
+  | {
+      type: "UPDATE";
+      payload: Partial<CharData>;
+    };
 
 export type CharDataAction =
   | { type: "RESET" }

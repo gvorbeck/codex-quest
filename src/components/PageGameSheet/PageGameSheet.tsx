@@ -40,7 +40,7 @@ const PageGameSheet: React.FC<
   const [hidePlayers, setHidePlayers] = React.useState(false);
   const [combatants, setCombatants] = React.useState<CombatantType[]>([]);
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
-  const { setCharacter } = useCharacterData(user);
+  const { characterDispatch } = useCharacterData(user);
   const gameBinderClassNames = classNames(
     { "shrink-0": !isMobile },
     { "w-1/2 ": !isMobile && !hidePlayers },
@@ -88,7 +88,7 @@ const PageGameSheet: React.FC<
         message.warning(`${data.name} is already in the Round Tracker`);
         return;
       }
-      newCombatant.ac = getArmorClass(data as CharData, setCharacter);
+      newCombatant.ac = getArmorClass(data as CharData, characterDispatch);
     }
     // if (type === "monster") {}
     if (combatants) setCombatants([...combatants, newCombatant]);

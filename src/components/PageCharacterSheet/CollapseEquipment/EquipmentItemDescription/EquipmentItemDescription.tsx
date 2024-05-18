@@ -1,5 +1,10 @@
 import React from "react";
-import { CharData, EquipmentItem, ModalDisplay } from "@/data/definitions";
+import {
+  CharData,
+  EquipmentItem,
+  ModalDisplay,
+  UpdateCharAction,
+} from "@/data/definitions";
 import {
   Button,
   Descriptions,
@@ -23,13 +28,15 @@ interface EquipmentItemDescriptionProps {
 const confirm = (
   item: EquipmentItem,
   character: CharData,
-  setCharacter: (character: CharData) => void,
+  characterDispatch: React.Dispatch<UpdateCharAction>,
 ) => {
   const characterEquipment = [...character.equipment];
   const itemIndex = characterEquipment.findIndex((e) => e === item);
-  setCharacter({
-    ...character,
-    equipment: characterEquipment.filter((_, i) => i !== itemIndex),
+  characterDispatch({
+    type: "UPDATE",
+    payload: {
+      equipment: characterEquipment.filter((_, i) => i !== itemIndex),
+    },
   });
   message.success(`${item.name} deleted`);
 };
@@ -40,7 +47,7 @@ const EquipmentItemDescription: React.FC<
   EquipmentItemDescriptionProps & React.ComponentPropsWithRef<"div">
 > = ({ className, item, showAttackButton, setModalDisplay }) => {
   const [, contextHolder] = message.useMessage();
-  const { character, setCharacter, userIsOwner } =
+  const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
 
   const damageItem = {
@@ -115,11 +122,11 @@ const EquipmentItemDescription: React.FC<
     ? item.name !== "Punch**" &&
       item.name !== "Kick**" &&
       character &&
-      setCharacter && (
+      characterDispatch && (
         <Popconfirm
           title="Delete equipment item"
           description="Are you sure to delete this item?"
-          onConfirm={() => confirm(item, character, setCharacter)}
+          onConfirm={() => confirm(item, character, characterDispatch)}
           onCancel={cancel}
           okText="Yes"
           cancelText="No"

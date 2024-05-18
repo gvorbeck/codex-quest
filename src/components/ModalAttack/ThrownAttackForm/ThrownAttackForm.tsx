@@ -24,7 +24,8 @@ const ThrownAttackForm: React.FC<
     updateEquipmentAfterMissileAttack,
     calculateMissileRollResults,
   } = useAttack();
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
   const ammoSelection = item.name;
   const rangeOptions = getRangeOptions(item.range);
   const resetFormState = () => {
@@ -39,7 +40,7 @@ const ThrownAttackForm: React.FC<
       ammoSelection,
       false,
       character,
-      setCharacter,
+      characterDispatch,
     );
     const { rollToHit, rollToDamage } = calculateMissileRollResults(
       character,

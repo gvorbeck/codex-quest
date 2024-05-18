@@ -13,7 +13,7 @@ type DescriptionProps = {
 const Description: React.FC<
   DescriptionProps & React.ComponentPropsWithRef<"div">
 > = ({ isMobile }) => {
-  const { character, setCharacter, userIsOwner } =
+  const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
   const initialDesc = Array.isArray(character.desc)
     ? character.desc || [""]
@@ -45,9 +45,11 @@ const Description: React.FC<
 
   // Function to handle immediate database update on blur
   const handleImmediateUpdate = () => {
-    setCharacter({
-      ...character,
-      desc: textAreaValues || "",
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        desc: textAreaValues || "",
+      },
     });
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -56,10 +58,12 @@ const Description: React.FC<
 
   if (typeof character.desc === "string") {
     const desc = [character.desc];
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      desc,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        desc,
+      },
+    });
   }
 
   // Effect to handle database update with a delay
@@ -68,9 +72,11 @@ const Description: React.FC<
       clearTimeout(timeoutRef.current);
     }
     timeoutRef.current = setTimeout(() => {
-      setCharacter({
-        ...character,
-        desc: textAreaValues || "",
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          desc: textAreaValues || "",
+        },
       });
     }, 1000);
     return () => {

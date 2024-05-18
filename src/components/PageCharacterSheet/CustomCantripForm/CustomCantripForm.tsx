@@ -11,7 +11,8 @@ const CustomCantripForm: React.FC<
 > = ({ className, handleResetFormDisplay }) => {
   const [form] = Form.useForm();
   const [, contextHolder] = message.useMessage();
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
 
   const onFinish = (values: {
     name: string;
@@ -19,7 +20,12 @@ const CustomCantripForm: React.FC<
     description: string;
   }) => {
     const cantrips = [...(character.cantrips ?? []), values];
-    setCharacter({ ...character, cantrips });
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        cantrips,
+      },
+    });
     message.success(`${values.name} added`);
     handleResetFormDisplay();
     form.resetFields();

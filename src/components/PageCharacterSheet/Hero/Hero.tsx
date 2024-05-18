@@ -26,7 +26,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
   className,
   setModalDisplay,
 }) => {
-  const { character, setCharacter, userIsOwner } =
+  const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
   const { isMobile } = useDeviceType();
 
@@ -42,7 +42,10 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         isOpen: true,
         title: "Change Avatar",
         content: (
-          <AvatarPicker character={character} setCharacter={setCharacter} />
+          <AvatarPicker
+            character={character}
+            characterDispatch={characterDispatch}
+          />
         ),
       });
     }
@@ -66,7 +69,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           editableComponent={
             <StepDetails
               character={character}
-              setCharacter={setCharacter}
+              characterDispatch={characterDispatch}
               className="mr-4"
             />
           }

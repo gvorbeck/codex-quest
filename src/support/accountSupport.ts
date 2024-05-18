@@ -21,6 +21,7 @@ import { GamePlayer, PlayerListObject } from "../data/definitions";
 import { RcFile } from "antd/es/upload";
 import { mockCharacters } from "@/mocks/characters";
 import { mockGames } from "@/mocks/games";
+import { DocumentData } from "firebase-admin/firestore";
 
 type DocumentType = "characters" | "games";
 
@@ -127,7 +128,7 @@ export const fetchCollection = async (
 export const fetchDocument = (
   uid: string | undefined,
   id: string | undefined,
-  setContent: (content: any) => void,
+  setContent: React.Dispatch<any>,
   collectionName: DocumentType,
 ): (() => void) => {
   const docRef = doc(db, `users/${uid}/${collectionName}/${id}`);
@@ -135,8 +136,8 @@ export const fetchDocument = (
   // Listen to real-time updates
   const unsubscribe = onSnapshot(docRef, (snapshot) => {
     if (snapshot.exists()) {
-      const documentData = snapshot.data();
-      setContent(documentData);
+      const documentData: DocumentData = snapshot.data();
+      setContent({ type: "FETCH", payload: documentData });
       if (collectionName === "characters") {
         document.title = `${documentData.name} | CODEX.QUEST`;
       }

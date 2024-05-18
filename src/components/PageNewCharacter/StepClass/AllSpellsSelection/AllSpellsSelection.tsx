@@ -1,4 +1,4 @@
-import { CharData, CharDataAction, Spell } from "@/data/definitions";
+import { CharData, Spell } from "@/data/definitions";
 import spells from "@/data/spells.json";
 import { getSpellFromName } from "@/support/spellSupport";
 import { Checkbox, Divider, Flex, Input, Typography } from "antd";
@@ -7,7 +7,7 @@ import React from "react";
 interface AllSpellsSelectionProps {
   hideStartingText?: boolean;
   character: CharData;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<any>;
 }
 
 const AllSpellsSelection: React.FC<

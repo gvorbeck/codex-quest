@@ -12,14 +12,17 @@ const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
   const { isCustomSpell } = useSpellData();
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
 
   const deleteCustomSpell = (spell: Spell) => {
-    const newSpells = character?.spells?.filter((c) => c.name !== spell.name);
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      spells: newSpells,
-    }));
+    const spells = character?.spells?.filter((c) => c.name !== spell.name);
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        spells,
+      },
+    });
   };
 
   const items: CollapseProps["items"] = character?.spells
@@ -28,13 +31,7 @@ const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({
       return {
         key: spell.name,
         label: spell.name,
-        children: (
-          <SpellDescriptions
-            spell={spell}
-            character={character}
-            setCharacter={setCharacter}
-          />
-        ),
+        children: <SpellDescriptions spell={spell} />,
         extra: isCustomSpell(spell.name) ? (
           <Popconfirm
             title="Delete custom spell?"

@@ -82,7 +82,6 @@ const StepAbilities: React.FC<
         return (
           <AbilityRoller
             character={character}
-            // setCharacter={setCharacter}
             characterDispatch={characterDispatch}
             ability={abilityKey as keyof Abilities}
             newCharacter={newCharacter}
