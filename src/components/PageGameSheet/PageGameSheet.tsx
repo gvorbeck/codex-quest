@@ -1,8 +1,16 @@
 import React from "react";
 import Hero from "./Hero/Hero";
+import { useParams } from "react-router-dom";
+import { User } from "firebase/auth";
 
-const PageGameSheet: React.FC = () => {
+interface PageGameSheetProps {
+  user: User | null;
+}
+
+const PageGameSheet: React.FC<PageGameSheetProps> = () => {
   const [hideCharacters, setHideCharacters] = React.useState(false);
+  const { userId, gameId } = useParams();
+
   const characterList = !hideCharacters ? <div>character-list</div> : null;
 
   function handlePlayersSwitch(checked: boolean) {
@@ -13,7 +21,12 @@ const PageGameSheet: React.FC = () => {
   return (
     <>
       <div>turn tracker</div>
-      <Hero name={"game-name"} handlePlayersSwitch={handlePlayersSwitch} />
+      <Hero
+        name={"game-name"}
+        handlePlayersSwitch={handlePlayersSwitch}
+        userId={userId}
+        gameId={gameId}
+      />
       <div>
         {characterList}
         <div>game-binder</div>

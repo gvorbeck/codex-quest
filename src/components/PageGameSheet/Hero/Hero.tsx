@@ -15,8 +15,10 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
 interface HeroProps {
+  gameId: string | undefined;
   handlePlayersSwitch: (checked: boolean) => void;
   name: string;
+  userId: string | undefined;
   // game: GameData;
   // handlePlayersSwitch: (checked: boolean) => void;
   // uid: string | undefined;
@@ -25,10 +27,11 @@ interface HeroProps {
   // setTurnTrackerExpanded: (expanded: boolean) => void;
 }
 
-const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
-  className,
-  name,
+const Hero: React.FC<HeroProps> = ({
+  gameId,
   handlePlayersSwitch,
+  name,
+  userId,
   // game,
   // handlePlayersSwitch,
   // uid,
@@ -39,7 +42,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
   const { isMobile } = useDeviceType();
 
   return (
-    <div className={className}>
+    <header>
       <Breadcrumb items={breadcrumbItems(name, TeamOutlined)} />
       <Typography.Title
         level={2}
@@ -56,6 +59,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         <Flex gap={8} align="center">
           <Typography.Text>Hide PCs</Typography.Text>
           <Switch className="mr-2" onChange={handlePlayersSwitch} />
+          <div>open-round-tracker</div>
           {/* <Tooltip title="Open Round Tracker">
             <Button
               icon={<HourglassOutlined />}
@@ -63,16 +67,17 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
             />
           </Tooltip> */}
         </Flex>
-        {/* {uid && id && (
-          <AddPlayerForm
-            gmId={uid}
-            gameId={id}
-            userIsOwner={userIsOwner}
-            className="mb-4 flex-grow"
-          />
-        )} */}
+        {userId && gameId && (
+          <div>Add-player-form</div>
+          // <AddPlayerForm
+          //   gmId={uid}
+          //   gameId={id}
+          //   userIsOwner={userIsOwner}
+          //   className="mb-4 flex-grow"
+          // />
+        )}
       </Flex>
-    </div>
+    </header>
   );
 };
 
