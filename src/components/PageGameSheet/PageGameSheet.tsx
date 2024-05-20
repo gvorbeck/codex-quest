@@ -100,7 +100,7 @@ const PageGameSheet: React.FC<
       uid,
       id,
       (fetchedGame) => {
-        setGame(fetchedGame);
+        setGame(fetchedGame.payload);
       },
       "games",
     );
