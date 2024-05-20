@@ -1,10 +1,21 @@
+import React from "react";
+import Hero from "./Hero/Hero";
+
 const PageGameSheet: React.FC = () => {
+  const [hideCharacters, setHideCharacters] = React.useState(false);
+  const characterList = !hideCharacters ? <div>character-list</div> : null;
+
+  function handlePlayersSwitch(checked: boolean) {
+    console.log("checked", checked);
+    setHideCharacters(checked);
+  }
+
   return (
     <>
       <div>turn tracker</div>
-      <div>hero</div>
+      <Hero name={"game-name"} handlePlayersSwitch={handlePlayersSwitch} />
       <div>
-        <div>player-list</div>
+        {characterList}
         <div>game-binder</div>
       </div>
     </>
@@ -114,7 +125,7 @@ export default PageGameSheet;
 //       uid,
 //       id,
 //       (fetchedGame) => {
-//         setGame(fetchedGame);
+//         setGame(fetchedGame.payload);
 //       },
 //       "games",
 //     );

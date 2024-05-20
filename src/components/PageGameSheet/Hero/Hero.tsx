@@ -15,33 +15,37 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
 interface HeroProps {
-  game: GameData;
   handlePlayersSwitch: (checked: boolean) => void;
-  uid: string | undefined;
-  gameId: string | undefined;
-  userIsOwner: boolean;
-  setTurnTrackerExpanded: (expanded: boolean) => void;
+  name: string;
+  // game: GameData;
+  // handlePlayersSwitch: (checked: boolean) => void;
+  // uid: string | undefined;
+  // gameId: string | undefined;
+  // userIsOwner: boolean;
+  // setTurnTrackerExpanded: (expanded: boolean) => void;
 }
 
 const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
   className,
-  game,
+  name,
   handlePlayersSwitch,
-  uid,
-  gameId: id,
-  userIsOwner,
-  setTurnTrackerExpanded,
+  // game,
+  // handlePlayersSwitch,
+  // uid,
+  // gameId: id,
+  // userIsOwner,
+  // setTurnTrackerExpanded,
 }) => {
   const { isMobile } = useDeviceType();
 
   return (
     <div className={className}>
-      <Breadcrumb items={breadcrumbItems(game?.name, TeamOutlined)} />
+      <Breadcrumb items={breadcrumbItems(name, TeamOutlined)} />
       <Typography.Title
         level={2}
         className="my-5 font-enchant text-5xl tracking-wide text-center"
       >
-        {game.name}
+        {name}
       </Typography.Title>
       <Divider className="my-2" />
       <Flex
@@ -52,21 +56,21 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         <Flex gap={8} align="center">
           <Typography.Text>Hide PCs</Typography.Text>
           <Switch className="mr-2" onChange={handlePlayersSwitch} />
-          <Tooltip title="Open Round Tracker">
+          {/* <Tooltip title="Open Round Tracker">
             <Button
               icon={<HourglassOutlined />}
               onClick={() => setTurnTrackerExpanded(true)}
             />
-          </Tooltip>
+          </Tooltip> */}
         </Flex>
-        {uid && id && (
+        {/* {uid && id && (
           <AddPlayerForm
             gmId={uid}
             gameId={id}
             userIsOwner={userIsOwner}
             className="mb-4 flex-grow"
           />
-        )}
+        )} */}
       </Flex>
     </div>
   );
