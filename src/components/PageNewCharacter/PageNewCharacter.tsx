@@ -25,10 +25,7 @@ import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
-import {
-  newCharacterReducer,
-  emptyCharacter,
-} from "@/support/characterSupport";
+import { characterReducer, emptyCharacter } from "@/support/characterSupport";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 import NewContentHeader from "../NewContentHeader/NewContentHeader";
 
@@ -95,7 +92,7 @@ const PageNewCharacter: React.FC<
 > = ({ user, className }) => {
   const [stepNumber, setStepNumber] = React.useState<number>(0);
   const [character, characterDispatch] = React.useReducer(
-    newCharacterReducer,
+    characterReducer,
     emptyCharacter,
   );
   const navigate = useNavigate();

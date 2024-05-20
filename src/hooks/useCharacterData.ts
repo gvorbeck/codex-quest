@@ -2,13 +2,13 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { fetchDocument, updateDocument } from "../support/accountSupport";
 import { User } from "firebase/auth";
-import { characterReducer } from "@/support/characterSupport";
+import { characterReducer, emptyCharacter } from "@/support/characterSupport";
 
 export function useCharacterData(user: User | null) {
   const { uid, id } = useParams();
   const [character, characterDispatch] = React.useReducer(
     characterReducer,
-    null,
+    emptyCharacter,
   );
   const userIsOwner = user?.uid === uid;
 
@@ -21,8 +21,7 @@ export function useCharacterData(user: User | null) {
   }, [uid, id]);
 
   React.useEffect(() => {
-    console.log("character useEffect");
-    if (uid && id && character) {
+    if (uid && id && character.race) {
       updateDocument({
         collection: "users",
         docId: uid,

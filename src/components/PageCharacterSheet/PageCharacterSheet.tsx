@@ -55,9 +55,8 @@ const PageCharacterSheet: React.FC<
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
 
-  console.log(character);
-
-  return character ? (
+  // Test that character state is not in empty state.
+  return character.race ? (
     <CharacterDataContext.Provider
       value={{
         character,

@@ -57,13 +57,7 @@ export const emptyCharacter: CharData = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function characterReducer(
-  state: CharData,
-  action: any,
-): CharData | null {
-  if (state === null) {
-    return emptyCharacter;
-  }
+export function characterReducer(state: CharData, action: any): CharData {
   switch (action.type) {
     case "FETCH":
       return {
