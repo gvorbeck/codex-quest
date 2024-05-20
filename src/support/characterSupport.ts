@@ -1,4 +1,9 @@
-import { CharData, ClassNames, EquipmentItem } from "@/data/definitions";
+import {
+  Abilities,
+  CharData,
+  ClassNames,
+  EquipmentItem,
+} from "@/data/definitions";
 import { calculateModifier, rollDice } from "./diceSupport";
 import { classes } from "@/data/classes";
 import { getItemCost } from "./equipmentSupport";
@@ -52,28 +57,23 @@ export const emptyCharacter: CharData = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function existingCharacterReducer(state: CharData, action: any) {
-  switch (action.type) {
-    case "UPDATE":
-      // Update the character's data.
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "FETCH":
-      // Fetch the character's data.
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
+export function characterReducer(
+  state: CharData,
+  action: any,
+): CharData | null {
+  if (state === null) {
+    return emptyCharacter;
   }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function newCharacterReducer(state: CharData, action: any) {
   switch (action.type) {
+    case "FETCH":
+      return {
+        ...(action.payload as CharData),
+      };
+    case "UPDATE":
+      return {
+        ...state,
+        ...(action.payload as CharData),
+      };
     case "RESET":
       // Return character to empty state.
       return emptyCharacter;
@@ -113,8 +113,8 @@ export function newCharacterReducer(state: CharData, action: any) {
       return {
         ...state,
         abilities: {
-          scores: flippedScores,
-          modifiers: flippedModifiers,
+          scores: flippedScores as Abilities,
+          modifiers: flippedModifiers as Abilities,
         },
         race: action.payload.newCharacter ? "" : state.race,
         class: action.payload.newCharacter ? [] : [...state.class],

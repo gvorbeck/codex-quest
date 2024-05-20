@@ -156,8 +156,9 @@ const PageCharacterSheet: React.FC<
             </Col>
             <Col xs={24} sm={12} md={10}>
               <Flex gap={16} vertical>
-                {character.class.map((cls: ClassNames) => {
-                  const specialAbilities = classes[cls]?.specialAbilities;
+                {character.class.map((cls: string) => {
+                  const specialAbilities =
+                    classes[cls as ClassNames]?.specialAbilities;
                   if (specialAbilities) {
                     return (
                       <Section
