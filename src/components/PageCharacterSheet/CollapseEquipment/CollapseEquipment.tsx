@@ -32,7 +32,8 @@ interface CollapseEquipmentProps {
 const CollapseEquipment: React.FC<
   CollapseEquipmentProps & React.ComponentPropsWithRef<"div">
 > = ({ className, setModalDisplay, onCharacterSheet }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
   const items: CollapseProps["items"] = Object.entries(
     equipmentCategoryMap(character.equipment),
   )
@@ -60,7 +61,7 @@ const CollapseEquipment: React.FC<
                     e,
                     category[0] as "armor" | "shields",
                     character,
-                    setCharacter,
+                    characterDispatch,
                   );
                 }
               }}
@@ -104,14 +105,14 @@ const CollapseEquipment: React.FC<
   );
 
   React.useEffect(() => {
-    // do a filter on character.equipment and remove items with amount 0
-    // then compare to original character.equipment and update if necessary
-    const newEquipment = character.equipment.filter((item) => item.amount > 0);
-    if (newEquipment.length !== character.equipment.length) {
-      setCharacter((prevCharacter) => ({
-        ...prevCharacter,
-        equipment: newEquipment,
-      }));
+    // Do a filter on character.equipment and remove items with amount 0
+    // then compare to original character.equipment and update if necessary.
+    const equipment = character.equipment.filter((item) => item.amount > 0);
+    if (equipment.length !== character.equipment.length) {
+      characterDispatch({
+        type: "UPDATE",
+        payload: { equipment },
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -7,12 +7,12 @@ import React from "react";
 interface AllSpellsSelectionProps {
   hideStartingText?: boolean;
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<any>;
 }
 
 const AllSpellsSelection: React.FC<
   AllSpellsSelectionProps & React.ComponentPropsWithRef<"div">
-> = ({ className, hideStartingText, character, setCharacter }) => {
+> = ({ className, hideStartingText, character, characterDispatch }) => {
   const [search, setSearch] = React.useState("");
 
   const spellOptions = spells.map((spell) => ({
@@ -35,10 +35,12 @@ const AllSpellsSelection: React.FC<
     const selectedSpells = checkedValues.map((spell) =>
       getSpellFromName(spell),
     );
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      spells: selectedSpells as Spell[],
-    }));
+    characterDispatch({
+      type: "SET_SPELLS",
+      payload: {
+        spells: selectedSpells as Spell[],
+      },
+    });
   }
 
   return (

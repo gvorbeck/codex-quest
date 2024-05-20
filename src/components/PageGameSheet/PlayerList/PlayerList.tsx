@@ -49,7 +49,7 @@ const PlayerList: React.FC<
     generateDetailItems,
     calculateClassAbilitiesToShow,
   ] = useGameCharacters(players);
-  const { setCharacter } = useCharacterData(user);
+  const { characterDispatch } = useCharacterData(user);
   const playerListClassNames = classNames(className);
 
   React.useEffect(() => {
@@ -69,7 +69,7 @@ const PlayerList: React.FC<
         .map((character) => {
           const { abilities, name, userId, charId } = character;
           const items = generateAbilityItems(abilities.scores);
-          const subItems = generateDetailItems(character, setCharacter);
+          const subItems = generateDetailItems(character, characterDispatch);
           const extra = getExtraIcons(character);
           return (
             <Card size="small" title={name} key={name} extra={extra}>

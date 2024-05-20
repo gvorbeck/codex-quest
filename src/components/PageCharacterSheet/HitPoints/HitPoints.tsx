@@ -6,7 +6,7 @@ import { CharacterDataContext } from "@/store/CharacterContext";
 const HitPoints: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
-  const { character, setCharacter, userIsOwner } =
+  const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
   const [inputValue, setInputValue] = React.useState(character.hp.points);
   const [descValue, setDescValue] = React.useState(character.hp.desc || "");
@@ -17,11 +17,13 @@ const HitPoints: React.FC<React.ComponentPropsWithRef<"div">> = ({
       setInputValue(value);
 
       // Update character state
-      setCharacter({
-        ...character,
-        hp: {
-          ...character.hp,
-          points: value,
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          hp: {
+            ...character.hp,
+            points: value,
+          },
         },
       });
     }
@@ -33,11 +35,13 @@ const HitPoints: React.FC<React.ComponentPropsWithRef<"div">> = ({
   };
 
   const handleDescBlur = () => {
-    setCharacter({
-      ...character,
-      hp: {
-        ...character.hp,
-        desc: descValue,
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        hp: {
+          ...character.hp,
+          desc: descValue,
+        },
       },
     });
   };

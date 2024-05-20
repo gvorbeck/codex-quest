@@ -1,12 +1,10 @@
-import { CharData, Spell } from "@/data/definitions";
+import { Spell } from "@/data/definitions";
 import { useMarkdown } from "@/hooks/useMarkdown";
 import { Descriptions, DescriptionsProps, Typography } from "antd";
 import React from "react";
 
 interface SpellDescriptionsProps {
   spell: Spell;
-  character: CharData;
-  setCharacter: (character: CharData) => void;
 }
 
 const SpellDescriptions: React.FC<

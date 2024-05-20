@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase-admin/firestore";
 import { AttackTypes } from "../support/stringSupport";
 
 export enum EquipmentCategories {
@@ -157,10 +158,85 @@ export type EquipmentItem = {
   weight?: number;
 };
 
-// type SpecialRestriction = {
-//   race: string[];
-//   class: string[];
-// };
+export type UpdateCharAction =
+  | {
+      type: "FETCH";
+      payload: DocumentData;
+    }
+  | {
+      type: "UPDATE";
+      payload: Partial<CharData>;
+    };
+
+export type CharDataAction =
+  | { type: "RESET" }
+  | {
+      type: "SET_ABILITIES";
+      payload: {
+        scores: Abilities;
+        modifiers: Abilities;
+        newCharacter: boolean;
+      };
+    }
+  | {
+      type: "FLIP_ABILITIES";
+      payload: {
+        newCharacter: boolean;
+      };
+    }
+  | {
+      type: "SET_RACE";
+      payload: {
+        race: string;
+      };
+    }
+  | {
+      type: "SET_CLASS";
+      payload: {
+        class: string[];
+        position?: "primary" | "secondary";
+        combinationClass?: boolean;
+        keepSpells?: boolean;
+      };
+    }
+  | {
+      type: "SET_SPELLS";
+      payload: {
+        spells: Spell[];
+      };
+    }
+  | {
+      type: "SET_HP";
+      payload: {
+        dice?: DiceTypes;
+        points: number;
+        setMax?: boolean;
+        desc?: string;
+      };
+    }
+  | {
+      type: "SET_GOLD";
+      payload?: { gold: number };
+    }
+  | {
+      type: "SET_EQUIPMENT";
+      payload: {
+        item: EquipmentItem;
+        amount?: number | null;
+      };
+    }
+  | {
+      type: "SET_NAME";
+      payload: {
+        name: string;
+      };
+    }
+  | {
+      type: "SET_AVATAR";
+      payload: {
+        avatar: string;
+      };
+    };
 
 export type CharData = {
   abilities: {

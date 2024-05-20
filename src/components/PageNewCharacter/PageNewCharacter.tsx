@@ -13,7 +13,7 @@ import {
 import { User } from "firebase/auth";
 import { UserAddOutlined } from "@ant-design/icons";
 import React from "react";
-import { CharData, ClassNames } from "@/data/definitions";
+import { ClassNames } from "@/data/definitions";
 import StepAbilities from "./StepAbilities/StepAbilities";
 import StepRace from "./StepRace/StepRace";
 import StepClass from "./StepClass/StepClass";
@@ -25,7 +25,7 @@ import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { MessageInstance } from "antd/es/message/interface";
 import { useNavigate } from "react-router-dom";
-import { emptyCharacter } from "@/support/characterSupport";
+import { characterReducer, emptyCharacter } from "@/support/characterSupport";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 import NewContentHeader from "../NewContentHeader/NewContentHeader";
 
@@ -87,11 +87,14 @@ const newCharacterStepsItems: StepsProps["items"] = [
   { title: "Details" },
 ];
 
-const PageNewCharacterCreator: React.FC<
+const PageNewCharacter: React.FC<
   PageNewCharacterProps & React.ComponentPropsWithRef<"div">
 > = ({ user, className }) => {
   const [stepNumber, setStepNumber] = React.useState<number>(0);
-  const [character, setCharacter] = React.useState<CharData>(emptyCharacter);
+  const [character, characterDispatch] = React.useReducer(
+    characterReducer,
+    emptyCharacter,
+  );
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   if (!user) {
@@ -135,7 +138,7 @@ const PageNewCharacterCreator: React.FC<
       (name) => {
         success(name, messageApi);
         // Reset characterData and step
-        setCharacter({} as CharData);
+        characterDispatch({ type: "RESET" });
         setStepNumber(0);
       },
       (error) => {
@@ -202,33 +205,42 @@ const PageNewCharacterCreator: React.FC<
       (content = (
         <StepAbilities
           character={character}
-          setCharacter={setCharacter}
+          characterDispatch={characterDispatch}
           newCharacter
         />
       ));
 
     stepNumber === 1 &&
       (content = (
-        <StepRace character={character} setCharacter={setCharacter} />
+        <StepRace character={character} characterDispatch={characterDispatch} />
       ));
     stepNumber === 2 &&
       (content = (
-        <StepClass character={character} setCharacter={setCharacter} />
+        <StepClass
+          character={character}
+          characterDispatch={characterDispatch}
+        />
       ));
     stepNumber === 3 &&
       (content = (
-        <StepHitPoints character={character} setCharacter={setCharacter} />
+        <StepHitPoints
+          character={character}
+          characterDispatch={characterDispatch}
+        />
       ));
     stepNumber === 4 &&
       (content = (
-        <StepEquipment character={character} setCharacter={setCharacter} />
+        <StepEquipment
+          character={character}
+          characterDispatch={characterDispatch}
+        />
       ));
     stepNumber === 5 &&
       (content = (
         <StepDetails
           newCharacter
           character={character}
-          setCharacter={setCharacter}
+          characterDispatch={characterDispatch}
         />
       ));
     return content;
@@ -298,4 +310,4 @@ const PageNewCharacterCreator: React.FC<
   );
 };
 
-export default PageNewCharacterCreator;
+export default PageNewCharacter;

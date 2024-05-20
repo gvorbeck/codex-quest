@@ -1,7 +1,7 @@
 import {
   CharData,
+  CharDataAction,
   ClassNames,
-  EquipmentItem,
   RaceNames,
 } from "@/data/definitions";
 import React from "react";
@@ -23,12 +23,12 @@ const AllSpellsSelection = React.lazy(
 
 interface StepClassProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const StepClass: React.FC<
   StepClassProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, characterDispatch }) => {
   const classType = getClassType(character.class);
   const [supplementalSwitch, setSupplementalSwitch] = React.useState(
     classType[0] === "custom" || classType[1] === "supplemental",
@@ -97,21 +97,6 @@ const StepClass: React.FC<
     }
   }
 
-  function getStartingEquipment(classArray: string[]) {
-    const startingEquipment: EquipmentItem[] = [];
-    classArray.some((className) => {
-      const hasStartingEquipment =
-        classes[className as ClassNames]?.startingEquipment;
-      if (hasStartingEquipment) {
-        hasStartingEquipment.forEach((item) => {
-          item.amount = 1;
-        });
-        startingEquipment.push(...hasStartingEquipment);
-      }
-    });
-    return startingEquipment;
-  }
-
   function handleSupplementalSwitchChange() {
     setSupplementalSwitch((prevSupplementalSwitch) => !prevSupplementalSwitch);
   }
@@ -120,14 +105,12 @@ const StepClass: React.FC<
     setPrimaryClass(undefined);
     setSecondaryClass(undefined);
     setCombinationClass((prevCombinationClass) => !prevCombinationClass);
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      class: [],
-      hp: { dice: "", points: 0, max: 0, desc: "" },
-      equipment: [],
-      gold: 0,
-      spells: [],
-    }));
+    characterDispatch({
+      type: "SET_CLASS",
+      payload: {
+        class: [],
+      },
+    });
   }
 
   function handlePrimaryClassSelectChange(value: string) {
@@ -135,63 +118,47 @@ const StepClass: React.FC<
 
     if (value === "Custom") {
       setTimeout(() => inputRef.current?.focus(), 5);
-      setCharacter((prevCharacter) => ({
-        ...prevCharacter,
-        class: [],
-        hp: { dice: "", points: 0, max: 0, desc: "" },
-        equipment: [],
-        gold: 0,
-        spells: [],
-      }));
+      characterDispatch({
+        type: "SET_CLASS",
+        payload: {
+          class: [],
+        },
+      });
       return;
     }
 
-    setCharacter((prevCharacter) => {
-      const classArray = [...prevCharacter.class];
-      const newClassArray =
-        classArray[1] && combinationClass ? [value, classArray[1]] : [value];
-      const startingEquipment: EquipmentItem[] =
-        getStartingEquipment(newClassArray);
-
-      return {
-        ...prevCharacter,
-        class: newClassArray,
-        hp: { dice: "", points: 0, max: 0, desc: "" },
-        equipment: startingEquipment ?? [],
-        gold: 0,
-        spells: [],
-      };
+    characterDispatch({
+      type: "SET_CLASS",
+      payload: {
+        class: [value],
+        combinationClass,
+        position: "primary",
+      },
     });
   }
 
   function handleSecondaryClassSelectChange(value: string) {
     setSecondaryClass(value);
 
-    setCharacter((prevCharacter) => {
-      const classArray = [...prevCharacter.class];
-      const newClassArray = classArray[0] ? [classArray[0], value] : [value];
-      const startingEquipment: EquipmentItem[] =
-        getStartingEquipment(newClassArray);
-
-      return {
-        ...prevCharacter,
-        class: newClassArray,
-        hp: { dice: "", points: 0, max: 0, desc: "" },
-        equipment: startingEquipment || [],
-        gold: 0,
-      };
+    characterDispatch({
+      type: "SET_CLASS",
+      payload: {
+        class: [value],
+        position: "secondary",
+        keepSpells: true,
+      },
     });
   }
 
   function handleClassInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      class: value !== "" ? [value] : [],
-      hp: { dice: "", points: 0, max: 0, desc: "" },
-      equipment: [],
-      gold: 0,
-    }));
+    characterDispatch({
+      type: "SET_CLASS",
+      payload: {
+        class: value !== "" ? [value] : [],
+        keepSpells: true,
+      },
+    });
   }
 
   const showComboClassSwitch = characterRace.allowedCombinationClasses
@@ -231,7 +198,7 @@ const StepClass: React.FC<
         <React.Suspense fallback={spin}>
           <AllSpellsSelection
             character={character}
-            setCharacter={setCharacter}
+            characterDispatch={characterDispatch}
           />
         </React.Suspense>
       </Flex>
@@ -243,7 +210,12 @@ const StepClass: React.FC<
         {character.class.some((className) => {
           const classInfo = classes[className as ClassNames];
           return classInfo?.spellBudget && classInfo.spellBudget[0][0] > 0;
-        }) && <SpellSelect character={character} setCharacter={setCharacter} />}
+        }) && (
+          <SpellSelect
+            character={character}
+            characterDispatch={characterDispatch}
+          />
+        )}
         <RaceClassDescription
           subject={character.class[0]}
           description={

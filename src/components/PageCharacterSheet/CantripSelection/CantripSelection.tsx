@@ -10,7 +10,8 @@ interface CantripSelectionProps {}
 const CantripSelection: React.FC<
   CantripSelectionProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
 
   const selectedCantrips: ZeroLevelSpell[] = character.cantrips ?? [];
 
@@ -18,12 +19,14 @@ const CantripSelection: React.FC<
     change: CheckboxChangeEvent,
     cantrip: ZeroLevelSpell,
   ) {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      cantrips: change.target.checked
-        ? [...selectedCantrips, cantrip]
-        : selectedCantrips.filter((spell) => spell.name !== cantrip.name),
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        cantrips: change.target.checked
+          ? [...selectedCantrips, cantrip]
+          : selectedCantrips.filter((spell) => spell.name !== cantrip.name),
+      },
+    });
   }
 
   const cantripCards = cantrips.map((cantrip: ZeroLevelSpell) => {

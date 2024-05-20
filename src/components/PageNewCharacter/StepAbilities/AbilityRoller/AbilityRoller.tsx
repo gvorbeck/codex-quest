@@ -1,4 +1,4 @@
-import { Abilities, CharData } from "@/data/definitions";
+import { Abilities, CharData, CharDataAction } from "@/data/definitions";
 import { calculateModifier, rollDice } from "@/support/diceSupport";
 import { Button, InputNumber, Space } from "antd";
 
@@ -6,33 +6,27 @@ interface AbilityRollerProps {
   ability: keyof Abilities;
   character: CharData;
   newCharacter?: boolean;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 const AbilityRoller: React.FC<
   AbilityRollerProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter, newCharacter, ability }) => {
+> = ({ className, character, characterDispatch, newCharacter, ability }) => {
   function handleChange(value: number | null) {
     if (value === null) return;
-    setCharacter((prevCharacter) => {
-      return {
-        ...prevCharacter,
-        abilities: {
-          scores: {
-            ...prevCharacter.abilities.scores,
-            [ability]: value,
-          },
-          modifiers: {
-            ...prevCharacter.abilities.modifiers,
-            [ability]: calculateModifier(value),
-          },
+    characterDispatch({
+      type: "SET_ABILITIES",
+      payload: {
+        scores: {
+          ...character.abilities.scores,
+          [ability]: value,
         },
-        race: newCharacter ? "" : prevCharacter.race,
-        class: newCharacter ? [] : [...prevCharacter.class],
-        hp: newCharacter
-          ? { dice: "", points: 0, max: 0, desc: "" }
-          : { ...prevCharacter.hp },
-      };
+        modifiers: {
+          ...character.abilities.modifiers,
+          [ability]: calculateModifier(value),
+        },
+        newCharacter: !!newCharacter,
+      },
     });
   }
 

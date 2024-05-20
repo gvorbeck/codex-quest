@@ -1,4 +1,10 @@
-import { CharData, ClassNames, DiceTypes, RaceNames } from "@/data/definitions";
+import {
+  CharData,
+  CharDataAction,
+  ClassNames,
+  DiceTypes,
+  RaceNames,
+} from "@/data/definitions";
 import {
   Button,
   Flex,
@@ -16,7 +22,7 @@ import { classes } from "@/data/classes";
 
 interface StepHitPointsProps {
   character: CharData;
-  setCharacter: React.Dispatch<React.SetStateAction<CharData>>;
+  characterDispatch: React.Dispatch<CharDataAction>;
 }
 
 function getCharacterHitDiceFromClass(character: CharData) {
@@ -66,7 +72,7 @@ function getCharacterHitDiceFromClass(character: CharData) {
 
 const StepHitPoints: React.FC<
   StepHitPointsProps & React.ComponentPropsWithRef<"div">
-> = ({ className, character, setCharacter }) => {
+> = ({ className, character, characterDispatch }) => {
   const [hitDie, setHitDie] = React.useState<DiceTypes | undefined>(
     getCharacterHitDiceFromClass(character),
   );
@@ -86,17 +92,14 @@ const StepHitPoints: React.FC<
       `1${hitDie}${character.abilities.modifiers.constitution}`,
     );
     const hpScore = rolledHP < 1 ? 1 : rolledHP;
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      hp: {
+    characterDispatch({
+      type: "SET_HP",
+      payload: {
         dice: hitDie as DiceTypes,
         points: hpScore,
-        max:
-          +hitDie?.split("d")[1] +
-          parseInt(character.abilities.modifiers.constitution as string),
-        desc: "",
+        setMax: true,
       },
-    }));
+    });
   }
 
   function handleHitDieSelectChange(value: DiceTypes | undefined) {
@@ -104,13 +107,12 @@ const StepHitPoints: React.FC<
   }
 
   function handleHitDieInputNumberChange(value: number | undefined | null) {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      hp: {
-        ...prevCharacter.hp,
+    characterDispatch({
+      type: "SET_HP",
+      payload: {
         points: value ?? 0,
       },
-    }));
+    });
   }
 
   function handleMaxHPClick() {
@@ -118,17 +120,14 @@ const StepHitPoints: React.FC<
     const maxHP =
       +hitDie.split("d")[1] +
       parseInt(character.abilities.modifiers.constitution as string);
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      hp: {
+    characterDispatch({
+      type: "SET_HP",
+      payload: {
         dice: hitDie as DiceTypes,
         points: maxHP,
-        max:
-          +hitDie.split("d")[1] +
-          parseInt(character.abilities.modifiers.constitution as string),
-        desc: "",
+        setMax: true,
       },
-    }));
+    });
   }
 
   return (

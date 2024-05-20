@@ -4,6 +4,7 @@ import {
   CostCurrency,
   EquipmentCategories,
   EquipmentItem,
+  UpdateCharAction,
 } from "../data/definitions";
 import { AttackTypes } from "./stringSupport";
 import { DescriptionsProps, RadioChangeEvent, SelectProps } from "antd";
@@ -16,19 +17,21 @@ export const onChangeWearing = (
   e: RadioChangeEvent,
   type: "armor" | "shields",
   character: CharData,
-  setCharacter: (character: CharData) => void,
+  characterDispatch: React.Dispatch<UpdateCharAction>,
 ) => {
-  setCharacter({
-    ...character,
-    wearing: {
-      armor:
-        type === "armor"
-          ? e.target.value || ""
-          : character.wearing?.armor || "",
-      shield:
-        type === "shields"
-          ? e.target.value || ""
-          : character.wearing?.shield || "",
+  characterDispatch({
+    type: "UPDATE",
+    payload: {
+      wearing: {
+        armor:
+          type === "armor"
+            ? e.target.value || ""
+            : character.wearing?.armor || "",
+        shield:
+          type === "shields"
+            ? e.target.value || ""
+            : character.wearing?.shield || "",
+      },
     },
   });
 };

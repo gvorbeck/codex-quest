@@ -65,7 +65,8 @@ const onFinishFailed = (errorInfo: object) => {
 const FormCustomEquipment: React.FC<
   FormCustomEquipmentProps & React.ComponentPropsWithRef<"div">
 > = ({ className, handleResetFormDisplay }) => {
-  const { setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
   const [form] = Form.useForm();
   const [categorySelect, setCategorySelect] = React.useState<
     EquipmentCategories | ""
@@ -115,15 +116,15 @@ const FormCustomEquipment: React.FC<
   const handleAmmoChange = (value: string) => setAmmoSelect(value);
 
   const onFinish = (values: object) => {
-    setCharacter((prevCharacter) => {
-      const newGold = purchasedCheckbox
-        ? getItemCost(values as EquipmentItem)
-        : 0;
-      return {
-        ...prevCharacter,
-        equipment: [...prevCharacter.equipment, values as EquipmentItem],
-        gold: parseFloat((prevCharacter.gold - newGold).toFixed(2)),
-      };
+    const newGold = purchasedCheckbox
+      ? getItemCost(values as EquipmentItem)
+      : 0;
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        equipment: [...character.equipment, values as EquipmentItem],
+        gold: parseFloat((character.gold - newGold).toFixed(2)),
+      },
     });
     handleResetFormDisplay();
   };

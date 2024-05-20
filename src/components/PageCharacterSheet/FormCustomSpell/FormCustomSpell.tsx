@@ -13,15 +13,18 @@ const FormCustomSpell: React.FC<
 > = ({ className, handleResetFormDisplay }) => {
   const [form] = Form.useForm();
   const formValues = Form.useWatch([], form);
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
 
   const [submittable, setSubmittable] = React.useState(false);
 
   const customSpellClassNames = classNames("flex", "flex-col", className);
   const onFinish = (values: object) => {
-    setCharacter({
-      ...character,
-      spells: [...character.spells, values as Spell],
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        spells: [...character.spells, values as Spell],
+      },
     });
     handleResetFormDisplay();
   };

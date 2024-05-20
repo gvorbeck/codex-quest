@@ -13,7 +13,7 @@ interface ExperiencePointsProps {
 const ExperiencePoints: React.FC<
   ExperiencePointsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, setModalDisplay }) => {
-  const { character, setCharacter, userIsOwner, uid, id } =
+  const { character, characterDispatch, userIsOwner, uid, id } =
     React.useContext(CharacterDataContext);
   const [inputValue, setInputValue] = React.useState<string>(`${character.xp}`);
 
@@ -48,12 +48,14 @@ const ExperiencePoints: React.FC<
 
     // Apply the XP change
     if (!isNaN(xpChange)) {
-      const updatedXP = character.xp + xpChange;
-      setCharacter({
-        ...character,
-        xp: updatedXP,
+      const xp = character.xp + xpChange;
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          xp,
+        },
       });
-      setInputValue(updatedXP.toString());
+      setInputValue(xp.toString());
     }
   }
 

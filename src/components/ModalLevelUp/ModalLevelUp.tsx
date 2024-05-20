@@ -15,7 +15,8 @@ interface ModalLevelUpProps {
 const ModalLevelUp: React.FC<
   ModalLevelUpProps & React.ComponentPropsWithRef<"div">
 > = ({ className, setModalDisplay }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
   const [magicClass, setMagicClass] = React.useState<string>("");
   const [spellBudget, setSpellBudget] = React.useState<number[]>([]);
   const [selectedSpells, setSelectedSpells] = React.useState<Array<Spell[]>>(
@@ -36,7 +37,10 @@ const ModalLevelUp: React.FC<
       level: character.level + 1,
       spells: selectedSpells.flatMap((spells) => spells),
     };
-    setCharacter(newCharacter);
+    characterDispatch({
+      type: "UPDATE",
+      payload: newCharacter,
+    });
     setModalDisplay((prevModalDisplayer) => ({
       ...prevModalDisplayer,
       isOpen: false,

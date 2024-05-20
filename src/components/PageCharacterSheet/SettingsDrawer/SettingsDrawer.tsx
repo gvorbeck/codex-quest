@@ -18,7 +18,8 @@ interface SettingsDrawerProps {
 const SettingsDrawer: React.FC<
   SettingsDrawerProps & React.ComponentPropsWithRef<"div">
 > = ({ open, onClose, className, isSpellCaster }) => {
-  const { character, setCharacter } = React.useContext(CharacterDataContext);
+  const { character, characterDispatch } =
+    React.useContext(CharacterDataContext);
 
   const [showCustomCantripForm, setShowCustomCantripForm] =
     React.useState(false);
@@ -68,10 +69,12 @@ const SettingsDrawer: React.FC<
   };
 
   function handleChangeCoinWeight(checked: boolean) {
-    setCharacter((prevCharacter) => ({
-      ...prevCharacter,
-      useCoinWeight: checked,
-    }));
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        useCoinWeight: checked,
+      },
+    });
   }
 
   return (
@@ -88,7 +91,7 @@ const SettingsDrawer: React.FC<
         {showEditEquipmentForm && (
           <StepEquipment
             character={character}
-            setCharacter={setCharacter}
+            characterDispatch={characterDispatch}
             hideDiceButton
             hideInventory
           />
@@ -108,7 +111,7 @@ const SettingsDrawer: React.FC<
             {showSpellSelection && (
               <AllSpellsSelection
                 character={character}
-                setCharacter={setCharacter}
+                characterDispatch={characterDispatch}
                 hideStartingText
               />
             )}
