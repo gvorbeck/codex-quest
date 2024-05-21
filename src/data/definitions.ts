@@ -169,6 +169,7 @@ export type UpdateCharAction =
     };
 
 export type CharDataAction =
+  | UpdateCharAction
   | { type: "RESET" }
   | {
       type: "SET_ABILITIES";
