@@ -2,6 +2,7 @@ import React from "react";
 import {
   Abilities,
   CharData,
+  CharDataAction,
   ClassNames,
   GamePlayerList,
 } from "../data/definitions";
@@ -17,7 +18,7 @@ export function useGameCharacters(players: GamePlayerList): [
   (scores: Abilities) => DescriptionsProps["items"],
   (
     character: CharData,
-    setCharacter: (character: CharData) => void,
+    setCharacter: React.Dispatch<React.SetStateAction<CharDataAction>>,
   ) => DescriptionsProps["items"],
   (characters: CharData[]) => {
     showThief: boolean;
@@ -72,7 +73,7 @@ export function useGameCharacters(players: GamePlayerList): [
 
   const generateDetailItems = (
     character: CharData,
-    characterDispatch: React.Dispatch<any>,
+    characterDispatch: React.Dispatch<CharDataAction>,
   ): DescriptionsProps["items"] => {
     const { level, hp, race } = character;
     return [
