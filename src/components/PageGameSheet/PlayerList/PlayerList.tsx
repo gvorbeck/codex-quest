@@ -6,7 +6,6 @@ import {
   GamePlayerList,
 } from "@/data/definitions";
 import { Card, Descriptions, Flex, Spin } from "antd";
-import classNames from "classnames";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
 import { User } from "firebase/auth";
@@ -15,32 +14,34 @@ import { getExtraIcons } from "@/support/statSupport";
 
 interface PlayerListProps {
   players: GamePlayerList;
-  setShowThiefAbilities: (showThiefAbilities: boolean) => void;
-  setShowAssassinAbilities: (showAssassinAbilities: boolean) => void;
-  setShowRangerAbilities: (showRangerAbilities: boolean) => void;
-  setShowScoutAbilities: (showScoutAbilities: boolean) => void;
-  gameId: string;
-  userIsOwner: boolean;
-  addToTurnTracker: (
-    data: CombatantType | CharData,
-    type: CombatantTypes,
-  ) => void;
+  // setShowThiefAbilities: (showThiefAbilities: boolean) => void;
+  // setShowAssassinAbilities: (showAssassinAbilities: boolean) => void;
+  // setShowRangerAbilities: (showRangerAbilities: boolean) => void;
+  // setShowScoutAbilities: (showScoutAbilities: boolean) => void;
+  gameId: string | undefined;
+  userIsOwner?: boolean;
+  // addToTurnTracker: (
+  //   data: CombatantType | CharData,
+  //   type: CombatantTypes,
+  // ) => void;
   user: User | null;
 }
 
-const PlayerList: React.FC<
-  PlayerListProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  players,
-  setShowThiefAbilities,
-  setShowAssassinAbilities,
-  setShowRangerAbilities,
-  setShowScoutAbilities,
+const PlayerList: React.FC<PlayerListProps> = ({
   gameId,
-  userIsOwner,
-  addToTurnTracker,
+  players,
   user,
+  userIsOwner,
+  // className,
+  // players,
+  // setShowThiefAbilities,
+  // setShowAssassinAbilities,
+  // setShowRangerAbilities,
+  // setShowScoutAbilities,
+  // gameId,
+  // userIsOwner,
+  // addToTurnTracker,
+  // user,
 }) => {
   const [
     characterList,
@@ -50,20 +51,20 @@ const PlayerList: React.FC<
     calculateClassAbilitiesToShow,
   ] = useGameCharacters(players);
   const { characterDispatch } = useCharacterData(user);
-  const playerListClassNames = classNames(className);
+  // const playerListClassNames = classNames(className);
 
-  React.useEffect(() => {
-    const { showThief, showAssassin, showRanger, showScout } =
-      calculateClassAbilitiesToShow(characterList);
-    setShowThiefAbilities(showThief);
-    setShowAssassinAbilities(showAssassin);
-    setShowRangerAbilities(showRanger);
-    setShowScoutAbilities(showScout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [characterList]);
+  // React.useEffect(() => {
+  //   const { showThief, showAssassin, showRanger, showScout } =
+  //     calculateClassAbilitiesToShow(characterList);
+  //   setShowThiefAbilities(showThief);
+  //   setShowAssassinAbilities(showAssassin);
+  //   setShowRangerAbilities(showRanger);
+  //   setShowScoutAbilities(showScout);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [characterList]);
 
-  return characterList.length ? (
-    <Flex vertical gap={16} className={playerListClassNames}>
+  return characterList.length && gameId ? (
+    <Flex vertical gap={16}>
       {characterList
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((character) => {
@@ -93,7 +94,7 @@ const PlayerList: React.FC<
                   userId={userId}
                   charId={charId}
                   character={character}
-                  userIsOwner={userIsOwner}
+                  userIsOwner={!!userIsOwner}
                   removePlayer={removePlayer}
                   addToTurnTracker={addToTurnTracker}
                 />
