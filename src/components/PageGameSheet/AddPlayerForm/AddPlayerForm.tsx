@@ -62,7 +62,6 @@ const AddPlayerForm: React.FC<
   const onFinish = async () => {
     try {
       await addPlayerToGame(playerUrl, gameId, userId);
-      // Handle additional UI logic like resetting form, updating local state, etc.
       message.success("Character added successfully.");
       setPlayerUrl("");
     } catch (error: unknown) {
