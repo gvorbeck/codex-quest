@@ -4,16 +4,21 @@ import { useParams } from "react-router-dom";
 import { User } from "firebase/auth";
 import { fetchDocument } from "@/support/accountSupport";
 import { GameData } from "@/data/definitions";
+import PlayerList from "./PlayerList/PlayerList";
 
 interface PageGameSheetProps {
   user: User | null;
 }
 
-const PageGameSheet: React.FC<PageGameSheetProps> = () => {
+const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
   const [hideCharacters, setHideCharacters] = React.useState(false);
   const [roundTrackerOpen, setRoundTrackerOpen] = React.useState(false);
-  const { userId, gameId } = useParams();
   const [game, setGame] = React.useState<GameData | null>(null);
+
+  const { userId, gameId } = useParams();
+
+  const userLoggedIn: User | null = user;
+  const userIsOwner = userLoggedIn?.uid === userId;
 
   //               {!!game.players?.length && (
   //                 <PlayerList
@@ -33,7 +38,14 @@ const PageGameSheet: React.FC<PageGameSheetProps> = () => {
   // const characterList = !hideCharacters ? <div>character-list</div> : null;
   const characterList = () => {
     if (!hideCharacters) {
-      return game?.players ? <div>character-list</div> : null;
+      return game?.players ? (
+        <PlayerList
+          userIsOwner
+          players={game.players}
+          gameId={gameId}
+          user={user}
+        />
+      ) : null;
     }
     return null;
   };
