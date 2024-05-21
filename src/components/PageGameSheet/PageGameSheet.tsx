@@ -9,9 +9,18 @@ interface PageGameSheetProps {
 
 const PageGameSheet: React.FC<PageGameSheetProps> = () => {
   const [hideCharacters, setHideCharacters] = React.useState(false);
+  const [roundTrackerOpen, setRoundTrackerOpen] = React.useState(false);
   const { userId, gameId } = useParams();
 
   const characterList = !hideCharacters ? <div>character-list</div> : null;
+
+  function handleRoundTrackerOpen() {
+    setRoundTrackerOpen(true);
+  }
+
+  function handleRoundTrackerClose() {
+    setRoundTrackerOpen(false);
+  }
 
   function handlePlayersSwitch(checked: boolean) {
     console.log("checked", checked);
@@ -22,10 +31,11 @@ const PageGameSheet: React.FC<PageGameSheetProps> = () => {
     <>
       <div>turn tracker</div>
       <Hero
-        name={"game-name"}
-        handlePlayersSwitch={handlePlayersSwitch}
-        userId={userId}
         gameId={gameId}
+        handlePlayersSwitch={handlePlayersSwitch}
+        handleRoundTrackerOpen={handleRoundTrackerOpen}
+        name={"game-name"}
+        userId={userId}
       />
       <div>
         {characterList}

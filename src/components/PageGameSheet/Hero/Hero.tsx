@@ -17,6 +17,7 @@ import { breadcrumbItems } from "@/support/cqSupportGeneral";
 interface HeroProps {
   gameId: string | undefined;
   handlePlayersSwitch: (checked: boolean) => void;
+  handleRoundTrackerOpen: () => void;
   name: string;
   userId: string | undefined;
   // game: GameData;
@@ -30,6 +31,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({
   gameId,
   handlePlayersSwitch,
+  handleRoundTrackerOpen,
   name,
   userId,
   // game,
@@ -59,13 +61,12 @@ const Hero: React.FC<HeroProps> = ({
         <Flex gap={8} align="center">
           <Typography.Text>Hide PCs</Typography.Text>
           <Switch className="mr-2" onChange={handlePlayersSwitch} />
-          <div>open-round-tracker</div>
-          {/* <Tooltip title="Open Round Tracker">
+          <Tooltip title="Open Round Tracker">
             <Button
               icon={<HourglassOutlined />}
-              onClick={() => setTurnTrackerExpanded(true)}
+              onClick={handleRoundTrackerOpen}
             />
-          </Tooltip> */}
+          </Tooltip>
         </Flex>
         {userId && gameId && (
           <div>Add-player-form</div>
