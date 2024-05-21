@@ -2,6 +2,8 @@ import React from "react";
 import Hero from "./Hero/Hero";
 import { useParams } from "react-router-dom";
 import { User } from "firebase/auth";
+import { fetchDocument } from "@/support/accountSupport";
+import { GameData } from "@/data/definitions";
 
 interface PageGameSheetProps {
   user: User | null;
@@ -11,8 +13,30 @@ const PageGameSheet: React.FC<PageGameSheetProps> = () => {
   const [hideCharacters, setHideCharacters] = React.useState(false);
   const [roundTrackerOpen, setRoundTrackerOpen] = React.useState(false);
   const { userId, gameId } = useParams();
+  const [game, setGame] = React.useState<GameData | null>(null);
 
-  const characterList = !hideCharacters ? <div>character-list</div> : null;
+  //               {!!game.players?.length && (
+  //                 <PlayerList
+  //                   players={game.players}
+  //                   setShowThiefAbilities={setShowThiefAbilities}
+  //                   setShowAssassinAbilities={setShowAssassinAbilities}
+  //                   setShowRangerAbilities={setShowRangerAbilities}
+  //                   setShowScoutAbilities={setShowScoutAbilities}
+  //                   gameId={id}
+  //                   userIsOwner={userIsOwner}
+  //                   className={!hidePlayers ? "" : "hidden"}
+  //                   addToTurnTracker={addToTurnTracker}
+  //                   user={user}
+  //                 />
+  //               )}
+
+  // const characterList = !hideCharacters ? <div>character-list</div> : null;
+  const characterList = () => {
+    if (!hideCharacters) {
+      return game?.players ? <div>character-list</div> : null;
+    }
+    return null;
+  };
 
   function handleRoundTrackerOpen() {
     setRoundTrackerOpen(true);
@@ -27,21 +51,38 @@ const PageGameSheet: React.FC<PageGameSheetProps> = () => {
     setHideCharacters(checked);
   }
 
+  React.useEffect(() => {
+    const unsubscribe = fetchDocument(
+      userId,
+      gameId,
+      (fetchedGame) => {
+        setGame(fetchedGame.payload);
+      },
+      "games",
+    );
+
+    return () => unsubscribe();
+    // userId and gameId will not change during the lifetime of the component so they are not needed as dependencies.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <>
-      <div>turn tracker</div>
-      <Hero
-        gameId={gameId}
-        handlePlayersSwitch={handlePlayersSwitch}
-        handleRoundTrackerOpen={handleRoundTrackerOpen}
-        name={"game-name"}
-        userId={userId}
-      />
-      <div>
-        {characterList}
-        <div>game-binder</div>
-      </div>
-    </>
+    game && (
+      <>
+        <div>turn tracker</div>
+        <Hero
+          gameId={gameId}
+          handlePlayersSwitch={handlePlayersSwitch}
+          handleRoundTrackerOpen={handleRoundTrackerOpen}
+          name={game.name}
+          userId={userId}
+        />
+        <div>
+          {characterList()}
+          <div>game-binder</div>
+        </div>
+      </>
+    )
   );
 };
 
