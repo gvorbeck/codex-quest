@@ -1,6 +1,6 @@
-import { useMarkdown } from "@/hooks/useMarkdown";
 import { List } from "antd";
 import classNames from "classnames";
+import Markdown from "react-markdown";
 
 interface SpecialsRestrictionsListItemProps {
   item: string;
@@ -9,11 +9,9 @@ interface SpecialsRestrictionsListItemProps {
 const SpecialsRestrictionsListItem: React.FC<
   SpecialsRestrictionsListItemProps
 > = ({ item }) => {
-  const itemHtml = useMarkdown(item);
-
   return (
     <List.Item>
-      <div dangerouslySetInnerHTML={{ __html: itemHtml }} />
+      <Markdown>{item}</Markdown>
     </List.Item>
   );
 };

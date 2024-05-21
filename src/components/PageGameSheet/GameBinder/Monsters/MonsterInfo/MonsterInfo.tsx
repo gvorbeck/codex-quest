@@ -2,7 +2,7 @@ import { Monster } from "@/data/definitions";
 import React from "react";
 import MonsterStats from "../MonsterStats/MonsterStats";
 import { Flex, Tabs } from "antd";
-import { useMarkdown } from "@/hooks/useMarkdown";
+import Markdown from "react-markdown";
 
 interface MonsterDescriptionProps {
   monster: Monster;
@@ -28,9 +28,7 @@ const MonsterInfo: React.FC<
   return (
     <Flex vertical className={className}>
       {stats}
-      <div
-        dangerouslySetInnerHTML={{ __html: useMarkdown(monster.description) }}
-      />
+      <Markdown>{monster.description}</Markdown>
     </Flex>
   );
 };

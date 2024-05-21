@@ -1,7 +1,7 @@
 import { Spell } from "@/data/definitions";
-import { useMarkdown } from "@/hooks/useMarkdown";
 import { Descriptions, DescriptionsProps, Typography } from "antd";
 import React from "react";
+import Markdown from "react-markdown";
 
 interface SpellDescriptionsProps {
   spell: Spell;
@@ -33,10 +33,9 @@ const SpellDescriptions: React.FC<
             <Image src={spellImage} preview={false} />
           </div>
         )} */}
-        <Typography
-          dangerouslySetInnerHTML={{ __html: useMarkdown(spell.description) }}
-          className="text-justify"
-        />
+        <Typography className="text-justify">
+          <Markdown>{spell.description}</Markdown>
+        </Typography>
       </div>
     </>
   );
