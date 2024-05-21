@@ -13,11 +13,7 @@ import { useAttack } from "@/hooks/useAttack";
 import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface AmmoAttackFormProps {
-  // character: CharData;
-  // setCharacter: (character: CharData) => void;
   item: EquipmentItem;
-  // equipment: EquipmentItem[];
-  // setModalIsOpen: (modalIsOpen: boolean) => void;
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
 }
 
