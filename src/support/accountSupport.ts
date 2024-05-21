@@ -16,8 +16,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import DOMPurify from "dompurify";
-import { GamePlayer, PlayerListObject } from "../data/definitions";
+import { PlayerListObject } from "../data/definitions";
 import { RcFile } from "antd/es/upload";
 import { mockCharacters } from "@/mocks/characters";
 import { mockGames } from "@/mocks/games";
@@ -204,49 +203,6 @@ export const createDocument = async (
     console.error("Error writing document: ", error);
     if (errorCallback) errorCallback(error);
   }
-};
-
-export const updateGameWithNewPlayer = async (
-  gameId: string,
-  userId: string,
-  newPlayer: GamePlayer,
-) => {
-  const gameDocRef = doc(db, `users/${userId}/games/${gameId}`);
-  const gameDoc = await getDoc(gameDocRef);
-
-  if (gameDoc.exists()) {
-    const gameData = gameDoc.data();
-    const updatedPlayers = [...(gameData?.players || []), newPlayer];
-    await setDoc(gameDocRef, { ...gameData, players: updatedPlayers });
-  } else {
-    console.error("Game does not exist");
-  }
-};
-
-export const addPlayerToGame = async (
-  url: string,
-  gameId: string,
-  gmId: string,
-) => {
-  const sanitizedURL = DOMPurify.sanitize(url);
-  const regex = /\/u\/([a-zA-Z0-9]+)\/c\/([a-zA-Z0-9]+)/;
-  const match = sanitizedURL.match(regex);
-  if (!match) {
-    throw new Error("Invalid URL format.");
-  }
-
-  const userId = match[1];
-  const characterId = match[2];
-  const docRef = doc(db, `users/${userId}/characters/${characterId}`);
-  const docSnap = await getDoc(docRef);
-
-  if (!docSnap.exists()) {
-    throw new Error("No such character exists.");
-  }
-
-  const characterData = { user: userId, character: characterId };
-  await updateGameWithNewPlayer(gameId, gmId, characterData);
-  return characterData;
 };
 
 export async function removePlayerFromGame(

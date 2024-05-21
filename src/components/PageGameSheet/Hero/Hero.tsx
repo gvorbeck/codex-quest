@@ -8,9 +8,8 @@ import {
   Typography,
 } from "antd";
 import React from "react";
-import AddPlayerForm from "../PlayerList/AddPlayerForm/AddPlayerForm";
+import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import { HourglassOutlined, TeamOutlined } from "@ant-design/icons";
-import { GameData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
@@ -20,12 +19,6 @@ interface HeroProps {
   handleRoundTrackerOpen: () => void;
   name: string;
   userId: string | undefined;
-  // game: GameData;
-  // handlePlayersSwitch: (checked: boolean) => void;
-  // uid: string | undefined;
-  // gameId: string | undefined;
-  // userIsOwner: boolean;
-  // setTurnTrackerExpanded: (expanded: boolean) => void;
 }
 
 const Hero: React.FC<HeroProps> = ({
@@ -34,12 +27,6 @@ const Hero: React.FC<HeroProps> = ({
   handleRoundTrackerOpen,
   name,
   userId,
-  // game,
-  // handlePlayersSwitch,
-  // uid,
-  // gameId: id,
-  // userIsOwner,
-  // setTurnTrackerExpanded,
 }) => {
   const { isMobile } = useDeviceType();
 
@@ -69,13 +56,12 @@ const Hero: React.FC<HeroProps> = ({
           </Tooltip>
         </Flex>
         {userId && gameId && (
-          <div>Add-player-form</div>
-          // <AddPlayerForm
-          //   gmId={uid}
-          //   gameId={id}
-          //   userIsOwner={userIsOwner}
-          //   className="mb-4 flex-grow"
-          // />
+          <AddPlayerForm
+            gameId={gameId}
+            userId={userId}
+            userIsOwner
+            className="mb-4 flex-grow"
+          />
         )}
       </Flex>
     </header>
