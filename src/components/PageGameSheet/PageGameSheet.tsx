@@ -32,55 +32,6 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
   const userLoggedIn: User | null = user;
   const userIsOwner = userLoggedIn?.uid === userId;
 
-  // function addToTurnTracker(
-  //   data: CombatantType | CharData,
-  //   type: CombatantTypes,
-  // ) {
-  //   if (!data) {
-  //     message.error("addToTurnTracker data is required");
-  //     return;
-  //   }
-  //   if (type !== "player" && type !== "monster") {
-  //     message.error('addToTurnTracker type must be "player" or "monster"');
-  //     return;
-  //   }
-  //   const newCombatant: CombatantType = {
-  //     name: data.name,
-  //     avatar: data.avatar ?? undefined,
-  //     initiative: 0,
-  //     type,
-  //     tags: [],
-  //   };
-  //   if (type === "player") {
-  //     // If combatant is a player, and they are already in the combatants array, return
-  //     if (combatants?.some((c) => c.name === newCombatant.name)) {
-  //       message.warning(`${data.name} is already in the Round Tracker`);
-  //       return;
-  //     }
-  //     newCombatant.ac = getArmorClass(data as CharData, characterDispatch);
-  //   }
-  //   // if (type === "monster") {}
-  //   if (combatants) setCombatants([...combatants, newCombatant]);
-  //   message.success(`${data.name} added to Round Tracker`);
-  // }
-
-  //               {!!game.players?.length && (
-  //                 <PlayerList
-  //                   players={game.players}
-  //                   setShowThiefAbilities={setShowThiefAbilities}
-  //                   setShowAssassinAbilities={setShowAssassinAbilities}
-  //                   setShowRangerAbilities={setShowRangerAbilities}
-  //                   setShowScoutAbilities={setShowScoutAbilities}
-  //                   gameId={id}
-  //                   userIsOwner={userIsOwner}
-  //                   className={!hidePlayers ? "" : "hidden"}
-  //                   addToTurnTracker={addToTurnTracker}
-  //                   user={user}
-  //                 />
-  //               )}
-
-  // const characterList = !hideCharacters ? <div>character-list</div> : null;
-
   const addToTurnTracker = (
     data: CombatantType | CharData,
     type: CombatantTypes,
