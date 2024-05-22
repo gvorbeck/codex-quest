@@ -89,14 +89,14 @@ const PlayerList: React.FC<PlayerListProps> = ({
                   size="small"
                 />
                 <PlayerButtons
-                  user={user}
-                  gameId={gameId}
-                  userId={userId}
-                  charId={charId}
-                  character={character}
-                  userIsOwner={!!userIsOwner}
-                  removePlayer={removePlayer}
-                  addToTurnTracker={addToTurnTracker}
+                // user={user}
+                // gameId={gameId}
+                // userId={userId}
+                // charId={charId}
+                // character={character}
+                // userIsOwner={!!userIsOwner}
+                // removePlayer={removePlayer}
+                // addToTurnTracker={addToTurnTracker}
                 />
               </Flex>
             </Card>
