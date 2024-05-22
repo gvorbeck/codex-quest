@@ -6,6 +6,7 @@ import { useCharacterData } from "@/hooks/useCharacterData";
 import PlayerButtons from "./PlayerButtons/PlayerButtons";
 import { getExtraIcons } from "@/support/statSupport";
 import { GameDataContext } from "@/store/GameDataContext";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -22,16 +23,7 @@ const PlayerList: React.FC<
   } = useGameCharacters(players);
   const { user, gameId } = React.useContext(GameDataContext);
   const { characterDispatch } = useCharacterData(user);
-
-  // React.useEffect(() => {
-  //   const { showThief, showAssassin, showRanger, showScout } =
-  //     calculateClassAbilitiesToShow(characterList);
-  //   setShowThiefAbilities(showThief);
-  //   setShowAssassinAbilities(showAssassin);
-  //   setShowRangerAbilities(showRanger);
-  //   setShowScoutAbilities(showScout);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [characterList]);
+  const { isMobile } = useDeviceType();
 
   return characterList.length && gameId ? (
     <Flex vertical gap={16} className={className}>
@@ -43,7 +35,25 @@ const PlayerList: React.FC<
           const subItems = generateDetailItems(character, characterDispatch);
           const extra = getExtraIcons(character);
           return (
-            <Card size="small" title={name} key={name} extra={extra}>
+            <Card
+              size="small"
+              title={name}
+              key={name}
+              extra={extra}
+              className={
+                isMobile
+                  ? "[&_.ant-card-head-wrapper]:flex [&_.ant-card-head-wrapper]:flex-col [&_.ant-card-head-wrapper]:items-start [&_.ant-card-head-wrapper]:overflow-scroll"
+                  : ""
+              }
+              styles={{
+                title: {
+                  marginTop: isMobile ? "0.5rem" : 0,
+                },
+                extra: {
+                  margin: isMobile ? 0 : "auto",
+                },
+              }}
+            >
               <Flex vertical gap={16}>
                 <Descriptions
                   column={3}

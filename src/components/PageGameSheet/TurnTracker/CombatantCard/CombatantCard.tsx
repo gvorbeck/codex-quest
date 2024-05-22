@@ -5,7 +5,7 @@ import CombatantName from "../CombatantName/CombatantName";
 import { EditOutlined } from "@ant-design/icons";
 import CombatantControls from "../CombatantControls/CombatantControls";
 import TagList from "../TagList/TagList";
-import { useTurnTracker } from "@/hooks/useTurnTacker";
+import { useRoundTracker } from "@/hooks/useRoundTacker";
 import { CombatantType } from "@/data/definitions";
 
 interface CombatantCardProps {
@@ -18,10 +18,8 @@ interface CombatantCardProps {
 const CombatantCard: React.FC<
   CombatantCardProps & React.ComponentPropsWithRef<"div">
 > = ({ className, combatant, combatants, setCombatants, index }) => {
-  const { editingCombatant, setEditingCombatant, handleClose } = useTurnTracker(
-    combatants,
-    setCombatants,
-  );
+  const { editingCombatant, setEditingCombatant, handleClose } =
+    useRoundTracker(combatants, setCombatants);
   const combatantCardClassNames = classNames("w-full", className);
   return (
     <Flex

@@ -1,17 +1,13 @@
-import { CombatantType } from "@/data/definitions";
+import { useRoundTracker } from "@/hooks/useRoundTacker";
+import { GameDataContext } from "@/store/GameDataContext";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Flex, Tooltip } from "antd";
 import React from "react";
 
-interface TurnControlsProps {
-  turn: number;
-  setTurn: (turn: number) => void;
-  combatants: CombatantType[];
-}
+const TurnControls: React.FC = () => {
+  const { combatants, setCombatants } = React.useContext(GameDataContext);
+  const { setTurn, turn } = useRoundTracker(combatants, setCombatants);
 
-const TurnControls: React.FC<
-  TurnControlsProps & React.ComponentPropsWithRef<"div">
-> = ({ className, turn, setTurn, combatants }) => {
   const advanceTurn = (reverse: boolean) => {
     if (reverse) {
       if (turn < combatants.length - 1) {
@@ -28,7 +24,7 @@ const TurnControls: React.FC<
     }
   };
   return (
-    <Flex gap={16} justify="space-between" align="center" className={className}>
+    <Flex gap={16} justify="space-between" align="center">
       <Tooltip title="Rewind Turn">
         <Button
           onClick={() => advanceTurn(false)}

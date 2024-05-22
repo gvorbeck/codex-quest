@@ -11,12 +11,16 @@ interface GameDataContextProps {
   userId: string | undefined;
   gameId: string | undefined;
   user: User | null;
+  combatants: CombatantType[];
+  setCombatants: (combatants: CombatantType[]) => void;
 }
 export const GameDataContext: React.Context<GameDataContextProps> =
   React.createContext<GameDataContextProps>({
     addToTurnTracker: () => {},
-    userIsOwner: false,
-    userId: undefined,
+    combatants: [],
     gameId: undefined,
+    setCombatants: () => {},
     user: null,
+    userId: undefined,
+    userIsOwner: false,
   });

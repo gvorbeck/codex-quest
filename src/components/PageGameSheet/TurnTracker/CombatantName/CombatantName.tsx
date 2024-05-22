@@ -1,5 +1,5 @@
 import { CombatantType } from "@/data/definitions";
-import { useTurnTracker } from "@/hooks/useTurnTacker";
+import { useRoundTracker } from "@/hooks/useRoundTacker";
 import { Flex, Image, Input, Typography } from "antd";
 import classNames from "classnames";
 import React from "react";
@@ -22,7 +22,7 @@ const CombatantName: React.FC<
   editingCombatant,
   index,
 }) => {
-  const { setEditingCombatant } = useTurnTracker(combatants, setCombatants);
+  const { setEditingCombatant } = useRoundTracker(combatants, setCombatants);
   const combatantNameClassNames = classNames(
     "flex-grow truncate text-elipsis text-clip",
     className,
