@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  CharData,
-  CombatantType,
-  CombatantTypes,
-  GamePlayerList,
-} from "@/data/definitions";
+import { GamePlayerList } from "@/data/definitions";
 import { Card, Descriptions, Flex, Spin } from "antd";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
@@ -14,39 +9,17 @@ import { GameDataContext } from "@/store/GameDataContext";
 
 interface PlayerListProps {
   players: GamePlayerList;
-  // setShowThiefAbilities: (showThiefAbilities: boolean) => void;
-  // setShowAssassinAbilities: (showAssassinAbilities: boolean) => void;
-  // setShowRangerAbilities: (showRangerAbilities: boolean) => void;
-  // setShowScoutAbilities: (showScoutAbilities: boolean) => void;
-  // addToTurnTracker: (
-  //   data: CombatantType | CharData,
-  //   type: CombatantTypes,
-  // ) => void;
 }
 
 const PlayerList: React.FC<
   PlayerListProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  players,
-  // className,
-  // players,
-  // setShowThiefAbilities,
-  // setShowAssassinAbilities,
-  // setShowRangerAbilities,
-  // setShowScoutAbilities,
-  // gameId,
-  // userIsOwner,
-  // addToTurnTracker,
-  // user,
-}) => {
-  const [
+> = ({ className, players }) => {
+  const {
     characterList,
     removePlayer,
     generateAbilityItems,
     generateDetailItems,
-    calculateClassAbilitiesToShow,
-  ] = useGameCharacters(players);
+  } = useGameCharacters(players);
   const { user, gameId } = React.useContext(GameDataContext);
   const { characterDispatch } = useCharacterData(user);
 

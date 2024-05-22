@@ -10,10 +10,11 @@ import {
   GameData,
 } from "@/data/definitions";
 import PlayerList from "./PlayerList/PlayerList";
-import { Flex, message } from "antd";
+import { Flex, Skeleton, message } from "antd";
 import { getArmorClass } from "@/support/statSupport";
 import { useCharacterData } from "@/hooks/useCharacterData";
 import { GameDataContext } from "@/store/GameDataContext";
+import GameBinder from "./GameBinder/GameBinder";
 
 interface PageGameSheetProps {
   user: User | null;
@@ -149,23 +150,25 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    game && (
-      <GameDataContext.Provider
-        value={{ addToTurnTracker, userIsOwner, gameId, userId, user }}
-      >
-        <div>turn tracker</div>
-        <Hero
-          handlePlayersSwitch={handlePlayersSwitch}
-          handleRoundTrackerOpen={handleRoundTrackerOpen}
-          name={game.name}
-        />
-        <Flex gap={16} className="[&>*]:flex-1">
-          {characterList()}
-          <div>game-binder</div>
-        </Flex>
-      </GameDataContext.Provider>
-    )
+  console.info("CHECK MOBILE/TABLET LAYOUTS!");
+
+  return game ? (
+    <GameDataContext.Provider
+      value={{ addToTurnTracker, userIsOwner, gameId, userId, user }}
+    >
+      <div>turn tracker</div>
+      <Hero
+        handlePlayersSwitch={handlePlayersSwitch}
+        handleRoundTrackerOpen={handleRoundTrackerOpen}
+        name={game.name}
+      />
+      <Flex gap={16} className="[&>*]:flex-1 [&>*]:w-1/2">
+        {characterList()}
+        <GameBinder game={game} />
+      </Flex>
+    </GameDataContext.Provider>
+  ) : (
+    <Skeleton paragraph={{ rows: 8 }} />
   );
 };
 
@@ -305,18 +308,18 @@ export default PageGameSheet;
 //               )}
 //             </div>
 //             {!!game && (
-//               <GameBinder
-//                 players={game.players}
-//                 showThiefAbilities={showThiefAbilities}
-//                 showAssassinAbilities={showAssassinAbilities}
-//                 showRangerAbilities={showRangerAbilities}
-//                 showScoutAbilities={showScoutAbilities}
-//                 className={gameBinderClassNames}
-//                 gameId={id}
-//                 uid={uid}
-//                 notes={game.notes}
-//                 addToTurnTracker={addToTurnTracker}
-//               />
+// <GameBinder
+//   players={game.players}
+//   showThiefAbilities={showThiefAbilities}
+//   showAssassinAbilities={showAssassinAbilities}
+//   showRangerAbilities={showRangerAbilities}
+//   showScoutAbilities={showScoutAbilities}
+//   className={gameBinderClassNames}
+//   gameId={id}
+//   uid={uid}
+//   notes={game.notes}
+//   addToTurnTracker={addToTurnTracker}
+// />
 //             )}
 //           </>
 //         )}
