@@ -8,40 +8,32 @@ import {
   Typography,
 } from "antd";
 import React from "react";
-import AddPlayerForm from "../PlayerList/AddPlayerForm/AddPlayerForm";
+import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 import { HourglassOutlined, TeamOutlined } from "@ant-design/icons";
-import { GameData } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
 interface HeroProps {
-  game: GameData;
   handlePlayersSwitch: (checked: boolean) => void;
-  uid: string | undefined;
-  gameId: string | undefined;
-  userIsOwner: boolean;
-  setTurnTrackerExpanded: (expanded: boolean) => void;
+  handleRoundTrackerOpen: () => void;
+  name: string;
 }
 
-const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
-  className,
-  game,
+const Hero: React.FC<HeroProps> = ({
   handlePlayersSwitch,
-  uid,
-  gameId: id,
-  userIsOwner,
-  setTurnTrackerExpanded,
+  handleRoundTrackerOpen,
+  name,
 }) => {
   const { isMobile } = useDeviceType();
 
   return (
-    <div className={className}>
-      <Breadcrumb items={breadcrumbItems(game?.name, TeamOutlined)} />
+    <header>
+      <Breadcrumb items={breadcrumbItems(name, TeamOutlined)} />
       <Typography.Title
         level={2}
         className="my-5 font-enchant text-5xl tracking-wide text-center"
       >
-        {game.name}
+        {name}
       </Typography.Title>
       <Divider className="my-2" />
       <Flex
@@ -55,20 +47,13 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           <Tooltip title="Open Round Tracker">
             <Button
               icon={<HourglassOutlined />}
-              onClick={() => setTurnTrackerExpanded(true)}
+              onClick={handleRoundTrackerOpen}
             />
           </Tooltip>
         </Flex>
-        {uid && id && (
-          <AddPlayerForm
-            gmId={uid}
-            gameId={id}
-            userIsOwner={userIsOwner}
-            className="mb-4 flex-grow"
-          />
-        )}
+        <AddPlayerForm className="mb-4 flex-grow" />
       </Flex>
-    </div>
+    </header>
   );
 };
 

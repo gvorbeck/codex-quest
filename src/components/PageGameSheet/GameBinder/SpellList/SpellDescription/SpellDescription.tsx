@@ -2,7 +2,7 @@ import React from "react";
 import { Spell } from "@/data/definitions";
 import { Descriptions, DescriptionsProps } from "antd";
 import { toTitleCase } from "@/support/stringSupport";
-import { useMarkdown } from "@/hooks/useMarkdown";
+import Markdown from "react-markdown";
 
 interface SpellDescriptionProps {
   spell: Spell;
@@ -32,11 +32,7 @@ const SpellDescription: React.FC<
     },
     {
       key: "description",
-      children: (
-        <div
-          dangerouslySetInnerHTML={{ __html: useMarkdown(spell.description) }}
-        />
-      ),
+      children: <Markdown>{spell.description}</Markdown>,
     },
   ];
   return (

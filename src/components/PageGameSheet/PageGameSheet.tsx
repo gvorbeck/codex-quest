@@ -1,67 +1,39 @@
-import { User } from "firebase/auth";
 import React from "react";
+import Hero from "./Hero/Hero";
 import { useParams } from "react-router-dom";
+import { User } from "firebase/auth";
+import { fetchDocument } from "@/support/accountSupport";
 import {
   CharData,
   CombatantType,
   CombatantTypes,
   GameData,
 } from "@/data/definitions";
-import { fetchDocument, updateDocument } from "@/support/accountSupport";
-import { Flex, Skeleton, message } from "antd";
 import PlayerList from "./PlayerList/PlayerList";
-import GameBinder from "./GameBinder/GameBinder";
-import { useMediaQuery } from "react-responsive";
-import { mobileBreakpoint } from "@/support/stringSupport";
-import classNames from "classnames";
-import TurnTracker from "./TurnTracker/TurnTracker";
-import Hero from "./Hero/Hero";
-import { getArmorClass } from "@/support/statSupport.tsx";
+import { Flex, Skeleton, message } from "antd";
+import { getArmorClass } from "@/support/statSupport";
 import { useCharacterData } from "@/hooks/useCharacterData";
+import { GameDataContext } from "@/store/GameDataContext";
+import GameBinder from "./GameBinder/GameBinder";
+import RoundTracker from "./TurnTracker/RoundTracker";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 interface PageGameSheetProps {
   user: User | null;
 }
 
-const PageGameSheet: React.FC<
-  PageGameSheetProps & React.ComponentPropsWithRef<"div">
-> = ({ className, user }) => {
-  const [, contextHolder] = message.useMessage();
-  const { uid, id } = useParams();
-  const userLoggedIn: User | null = user;
-  const userIsOwner = userLoggedIn?.uid === uid;
+const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
+  const [hideCharacters, setHideCharacters] = React.useState(false);
+  const [roundTrackerOpen, setRoundTrackerOpen] = React.useState(false);
   const [game, setGame] = React.useState<GameData | null>(null);
-  const [turnTrackerExpanded, setTurnTrackerExpanded] = React.useState(false);
-  const [showThiefAbilities, setShowThiefAbilities] = React.useState(false);
-  const [showAssassinAbilities, setShowAssassinAbilities] =
-    React.useState(false);
-  const [showRangerAbilities, setShowRangerAbilities] = React.useState(false);
-  const [showScoutAbilities, setShowScoutAbilities] = React.useState(false);
-  const [hidePlayers, setHidePlayers] = React.useState(false);
   const [combatants, setCombatants] = React.useState<CombatantType[]>([]);
-  const isMobile = useMediaQuery({ query: mobileBreakpoint });
+
+  const { userId, gameId } = useParams();
   const { characterDispatch } = useCharacterData(user);
-  const gameBinderClassNames = classNames(
-    { "shrink-0": !isMobile },
-    { "w-1/2 ": !isMobile && !hidePlayers },
-    { "w-full": !isMobile && hidePlayers },
-  );
+  const { isMobile, isTablet } = useDeviceType();
 
-  const saveCombatants = async () => {
-    if (uid) {
-      await updateDocument({
-        collection: "users",
-        docId: uid,
-        subCollection: "games",
-        subDocId: id,
-        data: { combatants },
-      });
-    }
-  };
-
-  const handlePlayersSwitch = (checked: boolean) => {
-    setHidePlayers(checked);
-  };
+  const userLoggedIn: User | null = user;
+  const userIsOwner = userLoggedIn?.uid === userId;
 
   const addToTurnTracker = (
     data: CombatantType | CharData,
@@ -95,10 +67,31 @@ const PageGameSheet: React.FC<
     message.success(`${data.name} added to Round Tracker`);
   };
 
+  const characterList = () => {
+    return (
+      <PlayerList
+        players={game?.players ?? []}
+        className={hideCharacters ? "hidden" : ""}
+      />
+    );
+  };
+
+  function handleRoundTrackerOpen() {
+    setRoundTrackerOpen(true);
+  }
+
+  function handleRoundTrackerClose() {
+    setRoundTrackerOpen(false);
+  }
+
+  function handlePlayersSwitch(checked: boolean) {
+    setHideCharacters(checked);
+  }
+
   React.useEffect(() => {
     const unsubscribe = fetchDocument(
-      uid,
-      id,
+      userId,
+      gameId,
       (fetchedGame) => {
         setGame(fetchedGame.payload);
       },
@@ -106,82 +99,41 @@ const PageGameSheet: React.FC<
     );
 
     return () => unsubscribe();
-  }, [uid, id]);
-
-  // Effect to set combatants from game data
-  React.useEffect(() => {
-    if (game) {
-      setCombatants(game.combatants);
-    }
-  }, [game]);
-
-  React.useEffect(() => {
-    if (game) {
-      saveCombatants().catch(console.error);
-    }
+    // userId and gameId will not change during the lifetime of the component so they are not needed as dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [combatants]);
+  }, []);
 
   return game ? (
-    <>
-      {contextHolder}
-      <TurnTracker
+    <GameDataContext.Provider
+      value={{
+        addToTurnTracker,
+        userIsOwner,
+        gameId,
+        userId,
+        user,
+        combatants,
+        setCombatants,
+      }}
+    >
+      <RoundTracker
         className="absolute bottom-0 right-0 z-10"
-        turnTrackerExpanded={turnTrackerExpanded}
-        setTurnTrackerExpanded={setTurnTrackerExpanded}
-        combatants={combatants ?? []}
-        setCombatants={setCombatants}
+        roundTrackerOpen={roundTrackerOpen}
+        handleRoundTrackerClose={handleRoundTrackerClose}
       />
       <Hero
-        game={game}
         handlePlayersSwitch={handlePlayersSwitch}
-        uid={uid}
-        gameId={id}
-        userIsOwner={userIsOwner}
-        setTurnTrackerExpanded={setTurnTrackerExpanded}
+        handleRoundTrackerOpen={handleRoundTrackerOpen}
+        name={game.name}
       />
       <Flex
-        vertical={isMobile}
         gap={16}
-        className={className}
-        justify="flex-end"
+        className={isMobile || isTablet ? "" : "[&>*]:flex-1 [&>*]:w-1/2"}
+        vertical={isMobile || isTablet}
       >
-        {uid && id && (
-          <>
-            <div>
-              {!!game.players?.length && (
-                <PlayerList
-                  players={game.players}
-                  setShowThiefAbilities={setShowThiefAbilities}
-                  setShowAssassinAbilities={setShowAssassinAbilities}
-                  setShowRangerAbilities={setShowRangerAbilities}
-                  setShowScoutAbilities={setShowScoutAbilities}
-                  gameId={id}
-                  userIsOwner={userIsOwner}
-                  className={!hidePlayers ? "" : "hidden"}
-                  addToTurnTracker={addToTurnTracker}
-                  user={user}
-                />
-              )}
-            </div>
-            {!!game && (
-              <GameBinder
-                players={game.players}
-                showThiefAbilities={showThiefAbilities}
-                showAssassinAbilities={showAssassinAbilities}
-                showRangerAbilities={showRangerAbilities}
-                showScoutAbilities={showScoutAbilities}
-                className={gameBinderClassNames}
-                gameId={id}
-                uid={uid}
-                notes={game.notes}
-                addToTurnTracker={addToTurnTracker}
-              />
-            )}
-          </>
-        )}
+        {characterList()}
+        <GameBinder game={game} />
       </Flex>
-    </>
+    </GameDataContext.Provider>
   ) : (
     <Skeleton paragraph={{ rows: 8 }} />
   );

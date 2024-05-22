@@ -1,5 +1,5 @@
 import { CombatantType } from "@/data/definitions";
-import { useTurnTracker } from "@/hooks/useTurnTacker";
+import { useRoundTracker } from "@/hooks/useRoundTacker";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -41,7 +41,7 @@ const CombatantControls: React.FC<
     inputValue,
     inputVisible,
     inputRef,
-  } = useTurnTracker(combatants, setCombatants);
+  } = useRoundTracker(combatants, setCombatants);
   const [, contextHolder] = message.useMessage();
   const { token } = theme.useToken();
   const tagPlusStyle: React.CSSProperties = {
@@ -83,7 +83,7 @@ const CombatantControls: React.FC<
           okText="Yes"
           cancelText="No"
         >
-          <Tooltip title="Remove from Round Tracker">
+          <Tooltip title="Remove from Round Tracker" placement="bottom">
             <Button
               className="[&:hover_svg]:fill-seaBuckthorn"
               icon={<TrackerRemoveIcon />}

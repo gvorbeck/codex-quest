@@ -1,69 +1,32 @@
 import React from "react";
-import {
-  CharData,
-  CombatantType,
-  CombatantTypes,
-  GamePlayerList,
-} from "@/data/definitions";
+import { GamePlayerList } from "@/data/definitions";
 import { Card, Descriptions, Flex, Spin } from "antd";
-import classNames from "classnames";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
-import { User } from "firebase/auth";
 import PlayerButtons from "./PlayerButtons/PlayerButtons";
 import { getExtraIcons } from "@/support/statSupport";
+import { GameDataContext } from "@/store/GameDataContext";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 interface PlayerListProps {
   players: GamePlayerList;
-  setShowThiefAbilities: (showThiefAbilities: boolean) => void;
-  setShowAssassinAbilities: (showAssassinAbilities: boolean) => void;
-  setShowRangerAbilities: (showRangerAbilities: boolean) => void;
-  setShowScoutAbilities: (showScoutAbilities: boolean) => void;
-  gameId: string;
-  userIsOwner: boolean;
-  addToTurnTracker: (
-    data: CombatantType | CharData,
-    type: CombatantTypes,
-  ) => void;
-  user: User | null;
 }
 
 const PlayerList: React.FC<
   PlayerListProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
-  players,
-  setShowThiefAbilities,
-  setShowAssassinAbilities,
-  setShowRangerAbilities,
-  setShowScoutAbilities,
-  gameId,
-  userIsOwner,
-  addToTurnTracker,
-  user,
-}) => {
-  const [
+> = ({ className, players }) => {
+  const {
     characterList,
     removePlayer,
     generateAbilityItems,
     generateDetailItems,
-    calculateClassAbilitiesToShow,
-  ] = useGameCharacters(players);
+  } = useGameCharacters(players);
+  const { user, gameId } = React.useContext(GameDataContext);
   const { characterDispatch } = useCharacterData(user);
-  const playerListClassNames = classNames(className);
+  const { isMobile } = useDeviceType();
 
-  React.useEffect(() => {
-    const { showThief, showAssassin, showRanger, showScout } =
-      calculateClassAbilitiesToShow(characterList);
-    setShowThiefAbilities(showThief);
-    setShowAssassinAbilities(showAssassin);
-    setShowRangerAbilities(showRanger);
-    setShowScoutAbilities(showScout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [characterList]);
-
-  return characterList.length ? (
-    <Flex vertical gap={16} className={playerListClassNames}>
+  return characterList.length && gameId ? (
+    <Flex vertical gap={16} className={className}>
       {characterList
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((character) => {
@@ -72,7 +35,25 @@ const PlayerList: React.FC<
           const subItems = generateDetailItems(character, characterDispatch);
           const extra = getExtraIcons(character);
           return (
-            <Card size="small" title={name} key={name} extra={extra}>
+            <Card
+              size="small"
+              title={name}
+              key={name}
+              extra={extra}
+              className={
+                isMobile
+                  ? "[&_.ant-card-head-wrapper]:flex [&_.ant-card-head-wrapper]:flex-col [&_.ant-card-head-wrapper]:items-start [&_.ant-card-head-wrapper]:overflow-scroll"
+                  : ""
+              }
+              styles={{
+                title: {
+                  marginTop: isMobile ? "0.5rem" : 0,
+                },
+                extra: {
+                  margin: isMobile ? 0 : "auto",
+                },
+              }}
+            >
               <Flex vertical gap={16}>
                 <Descriptions
                   column={3}
@@ -88,14 +69,10 @@ const PlayerList: React.FC<
                   size="small"
                 />
                 <PlayerButtons
-                  user={user}
-                  gameId={gameId}
                   userId={userId}
                   charId={charId}
                   character={character}
-                  userIsOwner={userIsOwner}
                   removePlayer={removePlayer}
-                  addToTurnTracker={addToTurnTracker}
                 />
               </Flex>
             </Card>

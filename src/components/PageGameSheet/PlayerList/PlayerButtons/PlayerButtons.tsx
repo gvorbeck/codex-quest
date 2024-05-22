@@ -1,12 +1,12 @@
 import TrackerAddSvg from "@/assets/svg/TrackerAddSvg";
-import { CharData, CombatantType, CombatantTypes } from "@/data/definitions";
+import { CharData } from "@/data/definitions";
+import { GameDataContext } from "@/store/GameDataContext";
 import { openInNewTab } from "@/support/characterSupport";
 import { SolutionOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import Icon, {
   CustomIconComponentProps,
 } from "@ant-design/icons/lib/components/Icon";
 import { Button, Flex, Popconfirm, Tooltip } from "antd";
-import { User } from "firebase/auth";
 import React from "react";
 
 interface PlayerButtonsProps {
@@ -15,44 +15,37 @@ interface PlayerButtonsProps {
     userId: string,
     characterId: string,
   ) => Promise<void>;
-  gameId: string;
   userId: string | undefined;
   charId: string | undefined;
-  user: User | null;
-  userIsOwner: boolean;
-  addToTurnTracker: (
-    data: CombatantType | CharData,
-    type: CombatantTypes,
-  ) => void;
   character: CharData;
 }
 
-const PlayerButtons: React.FC<
-  PlayerButtonsProps & React.ComponentPropsWithRef<"div">
-> = ({
-  className,
+const PlayerButtons: React.FC<PlayerButtonsProps> = ({
   removePlayer,
-  gameId,
   userId,
   charId,
-  user,
-  userIsOwner,
-  addToTurnTracker,
   character,
 }) => {
+  const { addToTurnTracker, user, gameId, userIsOwner } =
+    React.useContext(GameDataContext);
+
   const onRemoveButtonClick = (userId?: string, characterId?: string) => {
-    userId && characterId && removePlayer(gameId, userId, characterId);
+    userId &&
+      characterId &&
+      gameId &&
+      removePlayer(gameId, userId, characterId);
   };
 
   const TrackerAddIcon = (props: Partial<CustomIconComponentProps>) => (
     <Icon component={TrackerAddSvg} {...props} />
   );
   return (
-    <Flex gap={16} className={className}>
+    <Flex gap={16}>
       <Tooltip title={`Open Character Sheet`}>
         <Button
           icon={<SolutionOutlined />}
           onClick={() => openInNewTab(`/u/${userId}/c/${charId}`)}
+          disabled={!userId || !charId}
         />
       </Tooltip>
       <Popconfirm

@@ -320,7 +320,7 @@ export const getExtraIcons = (character: CharData) => {
 
   const fullIcons = [...raceIcons, ...classIcons];
   return (
-    <ul className="list-none flex gap-2">
+    <ul className="list-none flex gap-2 p-0">
       {fullIcons.map(([IconComponent, iconDescription], index) => (
         <li key={index}>
           <Tooltip title={iconDescription}>

@@ -2,7 +2,7 @@ import { CombatantType } from "@/data/definitions";
 import { InputRef } from "antd";
 import React from "react";
 
-export function useTurnTracker(
+export function useRoundTracker(
   combatants: CombatantType[],
   setCombatants: (combatants: CombatantType[]) => void,
 ) {

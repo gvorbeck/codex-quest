@@ -95,7 +95,7 @@ const App: React.FC = () => {
               element={<PageCharacterSheet user={user} />}
             />
             <Route
-              path="u/:uid/g/:id"
+              path="u/:userId/g/:gameId"
               element={<PageGameSheet user={user} />}
             />
             <Route path="sources" element={<PageSources />} />

@@ -2,21 +2,16 @@ import React from "react";
 import CombatantListHeader from "../CombatantListHeader/CombatantListHeader";
 import CombatantCard from "../CombatantCard/CombatantCard";
 import { List } from "antd";
-import { CombatantType } from "@/data/definitions";
+import { GameDataContext } from "@/store/GameDataContext";
+import { useRoundTracker } from "@/hooks/useRoundTacker";
 
-interface CombatantListProps {
-  combatants: CombatantType[];
-  setCombatants: (combatants: CombatantType[]) => void;
-  turn: number;
-}
+const CombatantList: React.FC = () => {
+  const { combatants, setCombatants } = React.useContext(GameDataContext);
+  const { turn } = useRoundTracker(combatants, setCombatants);
 
-const CombatantList: React.FC<
-  CombatantListProps & React.ComponentPropsWithRef<"div">
-> = ({ className, combatants, setCombatants, turn }) => {
   return (
     <List
       split={false}
-      className={className}
       header={
         <CombatantListHeader
           combatants={combatants}

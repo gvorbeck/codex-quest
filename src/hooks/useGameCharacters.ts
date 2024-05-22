@@ -2,6 +2,7 @@ import React from "react";
 import {
   Abilities,
   CharData,
+  CharDataAction,
   ClassNames,
   GamePlayerList,
 } from "../data/definitions";
@@ -11,21 +12,7 @@ import { db } from "../firebase";
 import { DescriptionsProps } from "antd";
 import { getArmorClass, getMovement } from "@/support/statSupport";
 
-export function useGameCharacters(players: GamePlayerList): [
-  CharData[],
-  (gameId: string, userId: string, characterId: string) => Promise<void>,
-  (scores: Abilities) => DescriptionsProps["items"],
-  (
-    character: CharData,
-    setCharacter: (character: CharData) => void,
-  ) => DescriptionsProps["items"],
-  (characters: CharData[]) => {
-    showThief: boolean;
-    showAssassin: boolean;
-    showRanger: boolean;
-    showScout: boolean;
-  },
-] {
+export function useGameCharacters(players: GamePlayerList) {
   const [characterList, setCharacterList] = React.useState<CharData[]>([]);
 
   const getCharacter = async (userId: string, characterId: string) => {
@@ -72,7 +59,7 @@ export function useGameCharacters(players: GamePlayerList): [
 
   const generateDetailItems = (
     character: CharData,
-    characterDispatch: React.Dispatch<any>,
+    characterDispatch: React.Dispatch<CharDataAction>,
   ): DescriptionsProps["items"] => {
     const { level, hp, race } = character;
     return [
@@ -136,7 +123,6 @@ export function useGameCharacters(players: GamePlayerList): [
       for (const player of players) {
         const data = await getCharacter(player.user, player.character);
         if (data) {
-          // Add the player's user ID to the character data for stable reference
           fetchedData.push({
             ...data,
             userId: player.user,
@@ -150,11 +136,11 @@ export function useGameCharacters(players: GamePlayerList): [
     fetchAllCharacterData();
   }, [players]);
 
-  return [
+  return {
     characterList,
     removePlayer,
     generateAbilityItems,
     generateDetailItems,
     calculateClassAbilitiesToShow,
-  ];
+  };
 }
