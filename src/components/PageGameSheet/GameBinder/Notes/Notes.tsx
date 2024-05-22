@@ -1,9 +1,8 @@
-import { Button, Flex, Input } from "antd";
+import { Flex, Input } from "antd";
 import React from "react";
 import { mobileBreakpoint } from "@/support/stringSupport";
 import { useMediaQuery } from "react-responsive";
 import { updateDocument } from "@/support/accountSupport";
-import { LoadingOutlined } from "@ant-design/icons";
 
 interface NotesProps {
   uid: string;
@@ -19,26 +18,30 @@ const Notes: React.FC<NotesProps & React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const isMobile = useMediaQuery({ query: mobileBreakpoint });
   const [gameNotes, setGameNotes] = React.useState<string>(notes || "");
+  const [initialNotes, setInitialNotes] = React.useState<string>(notes || "");
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
   const saveNotes = React.useCallback(
     async (newNotes: string) => {
-      setIsSaving(true);
-      await updateDocument({
-        collection: "users",
-        docId: uid,
-        subCollection: "games",
-        subDocId: gameId,
-        data: { notes: newNotes },
-      });
-      setIsSaving(false);
+      if (newNotes !== initialNotes) {
+        setIsSaving(true);
+        await updateDocument({
+          collection: "users",
+          docId: uid,
+          subCollection: "games",
+          subDocId: gameId,
+          data: { notes: newNotes },
+        });
+        setInitialNotes(newNotes);
+        setIsSaving(false);
+      }
     },
-    [uid, gameId],
+    [initialNotes, uid, gameId],
   );
 
   React.useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (gameNotes !== notes) {
+      if (gameNotes !== initialNotes) {
         saveNotes(gameNotes);
         // Display a confirmation dialog to the user
         event.preventDefault();
@@ -51,7 +54,7 @@ const Notes: React.FC<NotesProps & React.ComponentPropsWithRef<"div">> = ({
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [gameNotes, notes, saveNotes]);
+  }, [gameNotes, initialNotes, saveNotes]);
 
   return (
     <Flex vertical gap={16} justify="flex-end">
@@ -61,15 +64,8 @@ const Notes: React.FC<NotesProps & React.ComponentPropsWithRef<"div">> = ({
         rows={isMobile ? 4 : 20}
         onChange={(e) => setGameNotes(e.target.value)}
         onBlur={() => saveNotes(gameNotes)}
-      />
-      <Button
-        icon={isSaving && <LoadingOutlined />}
         disabled={isSaving}
-        type="primary"
-        onClick={() => saveNotes(gameNotes)}
-      >
-        Save
-      </Button>
+      />
     </Flex>
   );
 };
