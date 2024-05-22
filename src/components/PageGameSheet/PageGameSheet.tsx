@@ -3,8 +3,17 @@ import Hero from "./Hero/Hero";
 import { useParams } from "react-router-dom";
 import { User } from "firebase/auth";
 import { fetchDocument } from "@/support/accountSupport";
-import { GameData } from "@/data/definitions";
+import {
+  CharData,
+  CombatantType,
+  CombatantTypes,
+  GameData,
+} from "@/data/definitions";
 import PlayerList from "./PlayerList/PlayerList";
+import { message } from "antd";
+import { getArmorClass } from "@/support/statSupport";
+import { useCharacterData } from "@/hooks/useCharacterData";
+import { TurnTrackerDataContext } from "@/store/TurnTrackerContext";
 
 interface PageGameSheetProps {
   user: User | null;
@@ -14,11 +23,45 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
   const [hideCharacters, setHideCharacters] = React.useState(false);
   const [roundTrackerOpen, setRoundTrackerOpen] = React.useState(false);
   const [game, setGame] = React.useState<GameData | null>(null);
+  const [combatants, setCombatants] = React.useState<CombatantType[]>([]);
 
   const { userId, gameId } = useParams();
+  const { characterDispatch } = useCharacterData(user);
 
   const userLoggedIn: User | null = user;
   const userIsOwner = userLoggedIn?.uid === userId;
+
+  // function addToTurnTracker(
+  //   data: CombatantType | CharData,
+  //   type: CombatantTypes,
+  // ) {
+  //   if (!data) {
+  //     message.error("addToTurnTracker data is required");
+  //     return;
+  //   }
+  //   if (type !== "player" && type !== "monster") {
+  //     message.error('addToTurnTracker type must be "player" or "monster"');
+  //     return;
+  //   }
+  //   const newCombatant: CombatantType = {
+  //     name: data.name,
+  //     avatar: data.avatar ?? undefined,
+  //     initiative: 0,
+  //     type,
+  //     tags: [],
+  //   };
+  //   if (type === "player") {
+  //     // If combatant is a player, and they are already in the combatants array, return
+  //     if (combatants?.some((c) => c.name === newCombatant.name)) {
+  //       message.warning(`${data.name} is already in the Round Tracker`);
+  //       return;
+  //     }
+  //     newCombatant.ac = getArmorClass(data as CharData, characterDispatch);
+  //   }
+  //   // if (type === "monster") {}
+  //   if (combatants) setCombatants([...combatants, newCombatant]);
+  //   message.success(`${data.name} added to Round Tracker`);
+  // }
 
   //               {!!game.players?.length && (
   //                 <PlayerList
@@ -36,6 +79,39 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
   //               )}
 
   // const characterList = !hideCharacters ? <div>character-list</div> : null;
+
+  const addToTurnTracker = (
+    data: CombatantType | CharData,
+    type: CombatantTypes,
+  ) => {
+    if (!data) {
+      message.error("addToTurnTracker data is required");
+      return;
+    }
+    if (type !== "player" && type !== "monster") {
+      message.error('addToTurnTracker type must be "player" or "monster"');
+      return;
+    }
+    const newCombatant: CombatantType = {
+      name: data.name,
+      avatar: data.avatar ?? undefined,
+      initiative: 0,
+      type,
+      tags: [],
+    };
+    if (type === "player") {
+      // If combatant is a player, and they are already in the combatants array, return
+      if (combatants?.some((c) => c.name === newCombatant.name)) {
+        message.warning(`${data.name} is already in the Round Tracker`);
+        return;
+      }
+      newCombatant.ac = getArmorClass(data as CharData, characterDispatch);
+    }
+    // if (type === "monster") {}
+    if (combatants) setCombatants([...combatants, newCombatant]);
+    message.success(`${data.name} added to Round Tracker`);
+  };
+
   const characterList = () => {
     if (!hideCharacters) {
       return game?.players ? (
@@ -80,7 +156,7 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
 
   return (
     game && (
-      <>
+      <TurnTrackerDataContext.Provider value={{ addToTurnTracker }}>
         <div>turn tracker</div>
         <Hero
           gameId={gameId}
@@ -93,7 +169,7 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
           {characterList()}
           <div>game-binder</div>
         </div>
-      </>
+      </TurnTrackerDataContext.Provider>
     )
   );
 };
@@ -162,38 +238,6 @@ export default PageGameSheet;
 
 //   const handlePlayersSwitch = (checked: boolean) => {
 //     setHidePlayers(checked);
-//   };
-
-//   const addToTurnTracker = (
-//     data: CombatantType | CharData,
-//     type: CombatantTypes,
-//   ) => {
-//     if (!data) {
-//       message.error("addToTurnTracker data is required");
-//       return;
-//     }
-//     if (type !== "player" && type !== "monster") {
-//       message.error('addToTurnTracker type must be "player" or "monster"');
-//       return;
-//     }
-//     const newCombatant: CombatantType = {
-//       name: data.name,
-//       avatar: data.avatar ?? undefined,
-//       initiative: 0,
-//       type,
-//       tags: [],
-//     };
-//     if (type === "player") {
-//       // If combatant is a player, and they are already in the combatants array, return
-//       if (combatants?.some((c) => c.name === newCombatant.name)) {
-//         message.warning(`${data.name} is already in the Round Tracker`);
-//         return;
-//       }
-//       newCombatant.ac = getArmorClass(data as CharData, characterDispatch);
-//     }
-//     // if (type === "monster") {}
-//     if (combatants) setCombatants([...combatants, newCombatant]);
-//     message.success(`${data.name} added to Round Tracker`);
 //   };
 
 //   React.useEffect(() => {
