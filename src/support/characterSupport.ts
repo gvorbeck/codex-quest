@@ -188,7 +188,6 @@ export function characterReducer(state: CharData, action: any): CharData {
         ? +dice.split("d")[1] +
           parseInt(state.abilities.modifiers.constitution as string)
         : state.hp.max;
-      console.log("max", max);
       const desc = action.payload.desc || state.hp.desc;
       return {
         ...state,
@@ -207,7 +206,6 @@ export function characterReducer(state: CharData, action: any): CharData {
         gold: action.payload ? action.payload.gold : rollDice("3d6*10"),
       };
     case "SET_EQUIPMENT": {
-      console.log("action.payload", action.payload);
       const foundItemIndex = state.equipment.findIndex(
         (equipmentItem) => equipmentItem.name === action.payload.item.name,
       );

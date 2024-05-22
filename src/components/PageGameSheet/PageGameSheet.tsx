@@ -85,7 +85,6 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
   }
 
   function handlePlayersSwitch(checked: boolean) {
-    console.log("checked", checked);
     setHideCharacters(checked);
   }
 
