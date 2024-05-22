@@ -5,12 +5,7 @@ import DOMPurify from "dompurify";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { GamePlayer } from "@/data/definitions";
 import { db } from "@/firebase";
-
-interface AddPlayerFormProps {
-  gameId: string;
-  userId: string;
-  userIsOwner: boolean;
-}
+import { GameDataContext } from "@/store/GameDataContext";
 
 async function updateGameWithNewPlayer(
   gameId: string,
@@ -51,10 +46,26 @@ async function addPlayerToGame(url: string, gameId: string, gmId: string) {
   return characterData;
 }
 
-const AddPlayerForm: React.FC<
-  AddPlayerFormProps & React.ComponentPropsWithRef<"div">
-> = ({ className, userId, gameId, userIsOwner }) => {
+const AddPlayerForm: React.FC<React.ComponentPropsWithRef<"div">> = ({
+  className,
+}) => {
   const [playerUrl, setPlayerUrl] = React.useState("");
+  const { userIsOwner, gameId, userId } = React.useContext(GameDataContext);
+
+  if (!gameId || !userId) {
+    if (!gameId && !userId) {
+      console.error("Game ID and User ID are missing.");
+      return <div>Game ID and User ID are missing.</div>;
+    }
+    if (!gameId) {
+      console.error("Game ID is missing.");
+      return <div>Game ID is missing.</div>;
+    }
+    if (!userId) {
+      console.error("User ID is missing.");
+      return <div>User ID is missing.</div>;
+    }
+  }
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPlayerUrl(event.target.value);

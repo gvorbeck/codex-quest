@@ -8,9 +8,9 @@ import {
 import { Card, Descriptions, Flex, Spin } from "antd";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
-import { User } from "firebase/auth";
 import PlayerButtons from "./PlayerButtons/PlayerButtons";
 import { getExtraIcons } from "@/support/statSupport";
+import { GameDataContext } from "@/store/GameDataContext";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -18,20 +18,17 @@ interface PlayerListProps {
   // setShowAssassinAbilities: (showAssassinAbilities: boolean) => void;
   // setShowRangerAbilities: (showRangerAbilities: boolean) => void;
   // setShowScoutAbilities: (showScoutAbilities: boolean) => void;
-  gameId: string | undefined;
-  userIsOwner?: boolean;
   // addToTurnTracker: (
   //   data: CombatantType | CharData,
   //   type: CombatantTypes,
   // ) => void;
-  user: User | null;
 }
 
-const PlayerList: React.FC<PlayerListProps> = ({
-  gameId,
+const PlayerList: React.FC<
+  PlayerListProps & React.ComponentPropsWithRef<"div">
+> = ({
+  className,
   players,
-  user,
-  userIsOwner,
   // className,
   // players,
   // setShowThiefAbilities,
@@ -50,8 +47,8 @@ const PlayerList: React.FC<PlayerListProps> = ({
     generateDetailItems,
     calculateClassAbilitiesToShow,
   ] = useGameCharacters(players);
+  const { user, gameId } = React.useContext(GameDataContext);
   const { characterDispatch } = useCharacterData(user);
-  // const playerListClassNames = classNames(className);
 
   // React.useEffect(() => {
   //   const { showThief, showAssassin, showRanger, showScout } =
@@ -64,7 +61,7 @@ const PlayerList: React.FC<PlayerListProps> = ({
   // }, [characterList]);
 
   return characterList.length && gameId ? (
-    <Flex vertical gap={16}>
+    <Flex vertical gap={16} className={className}>
       {characterList
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((character) => {
@@ -89,14 +86,10 @@ const PlayerList: React.FC<PlayerListProps> = ({
                   size="small"
                 />
                 <PlayerButtons
-                // user={user}
-                // gameId={gameId}
-                // userId={userId}
-                // charId={charId}
-                // character={character}
-                // userIsOwner={!!userIsOwner}
-                // removePlayer={removePlayer}
-                // addToTurnTracker={addToTurnTracker}
+                  userId={userId}
+                  charId={charId}
+                  character={character}
+                  removePlayer={removePlayer}
                 />
               </Flex>
             </Card>

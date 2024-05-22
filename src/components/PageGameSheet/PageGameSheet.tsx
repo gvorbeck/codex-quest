@@ -10,10 +10,10 @@ import {
   GameData,
 } from "@/data/definitions";
 import PlayerList from "./PlayerList/PlayerList";
-import { message } from "antd";
+import { Flex, message } from "antd";
 import { getArmorClass } from "@/support/statSupport";
 import { useCharacterData } from "@/hooks/useCharacterData";
-import { TurnTrackerDataContext } from "@/store/TurnTrackerContext";
+import { GameDataContext } from "@/store/GameDataContext";
 
 interface PageGameSheetProps {
   user: User | null;
@@ -113,17 +113,12 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
   };
 
   const characterList = () => {
-    if (!hideCharacters) {
-      return game?.players ? (
-        <PlayerList
-          userIsOwner
-          players={game.players}
-          gameId={gameId}
-          user={user}
-        />
-      ) : null;
-    }
-    return null;
+    return (
+      <PlayerList
+        players={game?.players ?? []}
+        className={hideCharacters ? "hidden" : ""}
+      />
+    );
   };
 
   function handleRoundTrackerOpen() {
@@ -156,20 +151,20 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
 
   return (
     game && (
-      <TurnTrackerDataContext.Provider value={{ addToTurnTracker }}>
+      <GameDataContext.Provider
+        value={{ addToTurnTracker, userIsOwner, gameId, userId, user }}
+      >
         <div>turn tracker</div>
         <Hero
-          gameId={gameId}
           handlePlayersSwitch={handlePlayersSwitch}
           handleRoundTrackerOpen={handleRoundTrackerOpen}
           name={game.name}
-          userId={userId}
         />
-        <div>
+        <Flex gap={16} className="[&>*]:flex-1">
           {characterList()}
           <div>game-binder</div>
-        </div>
-      </TurnTrackerDataContext.Provider>
+        </Flex>
+      </GameDataContext.Provider>
     )
   );
 };

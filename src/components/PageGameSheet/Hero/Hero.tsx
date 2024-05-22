@@ -14,19 +14,15 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 
 interface HeroProps {
-  gameId: string | undefined;
   handlePlayersSwitch: (checked: boolean) => void;
   handleRoundTrackerOpen: () => void;
   name: string;
-  userId: string | undefined;
 }
 
 const Hero: React.FC<HeroProps> = ({
-  gameId,
   handlePlayersSwitch,
   handleRoundTrackerOpen,
   name,
-  userId,
 }) => {
   const { isMobile } = useDeviceType();
 
@@ -55,14 +51,7 @@ const Hero: React.FC<HeroProps> = ({
             />
           </Tooltip>
         </Flex>
-        {userId && gameId && (
-          <AddPlayerForm
-            gameId={gameId}
-            userId={userId}
-            userIsOwner
-            className="mb-4 flex-grow"
-          />
-        )}
+        <AddPlayerForm className="mb-4 flex-grow" />
       </Flex>
     </header>
   );
