@@ -20,8 +20,6 @@ export function useGameCharacters(players: GamePlayerList) {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data() as CharData;
-    } else {
-      console.error("No such document!");
     }
   };
 
