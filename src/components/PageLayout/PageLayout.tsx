@@ -33,7 +33,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
         data-testid="site-content"
       >
         <Flex vertical gap={16}>
-          {isHomePage && (
+          {isHomePage && user && (
             <FloatButton.Group shape="square">
               <FloatButton
                 icon={<UserAddOutlined />}
