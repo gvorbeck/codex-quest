@@ -42,8 +42,8 @@ const App: React.FC = () => {
   }, []);
 
   const date = new Date();
-
   const spin = <Spin size="large" className="w-full h-full py-4" />;
+  const gmDay = date.getMonth() === 2 && date.getDate() === 4;
 
   return (
     <ConfigProvider theme={cqTheme}>
@@ -54,13 +54,11 @@ const App: React.FC = () => {
             element={
               <PageLayout
                 user={user}
-                // If the date is March 4th
                 alert={
-                  date.getMonth() === 2 && date.getDate() === 4
+                  gmDay
                     ? "Happy International GM's Day!"
                     : "I recently updated the site. You may need to reset your character's avatar if it is gone. Contact me with any wonkiness. GLHF!"
                 }
-                // alert={"Site-Wide Message Goes Here"}
               />
             }
           >
