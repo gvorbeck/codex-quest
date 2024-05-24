@@ -3,6 +3,8 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 import { emptyLoot, generateUnguardedTreasure } from "@/support/diceSupport";
 import {
   Button,
+  Descriptions,
+  DescriptionsProps,
   Flex,
   Form,
   FormProps,
@@ -95,7 +97,20 @@ const TreasureGenerator: React.FC<
     setTreasureForm(e.target.value);
   }
 
-  const resultsData = results ? <div>have results</div> : null;
+  const items: DescriptionsProps["items"] = [
+    { key: "copper", label: "Copper", children: results?.copper },
+    { key: "silver", label: "Silver", children: results?.silver },
+    { key: "electrum", label: "Electrum", children: results?.electrum },
+    { key: "gold", label: "Gold", children: results?.gold },
+    { key: "platinum", label: "Platinum", children: results?.platinum },
+    { key: "gems", label: "Gems", children: results?.gems },
+    { key: "jewels", label: "Jewels", children: results?.jewels },
+    { key: "magicItems", label: "Magic Items", children: results?.magicItems },
+  ];
+
+  const resultsData = results ? (
+    <Descriptions items={items} bordered column={1} size="small" />
+  ) : null;
 
   return (
     <Flex className={className} vertical gap={16}>
