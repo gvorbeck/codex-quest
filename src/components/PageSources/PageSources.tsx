@@ -209,6 +209,22 @@ const PageSources: React.FC<
           />
         </List.Item>
       </List>
+
+      <List
+        className="italic"
+        header={
+          <Typography.Title level={4} className="not-italic">
+            Inspiration
+          </Typography.Title>
+        }
+      >
+        <List.Item>
+          <Link
+            to="https://github.com/jgn196/bfrpg-unguarded-loot"
+            title="bfrpg-unguarded-loot"
+          />
+        </List.Item>
+      </List>
     </div>
   );
 };
