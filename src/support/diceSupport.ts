@@ -58,3 +58,147 @@ export const rollSpecialAbility = (
   const passFail = result.total <= score ? "Pass" : "Fail";
   openNotification(result.output + " - " + passFail, title);
 };
+
+type Loot = {
+  copper: number;
+  silver: number;
+  electrum: number;
+  gold: number;
+  platinum: number;
+  gems: number;
+  jewels: number;
+  magicItems: number;
+};
+
+type Chances = {
+  copper: [number, number, number];
+  silver: [number, number, number];
+  electrum: [number, number, number];
+  gold: [number, number, number];
+  platinum: [number, number, number];
+  gems: [number, number, number];
+  jewels: [number, number, number];
+  magicItems: number;
+};
+
+export function generateUnguardedTreasure(level: number): Loot {
+  const chances: Chances = {
+    copper: [0, 0, 0],
+    silver: [0, 0, 0],
+    electrum: [0, 0, 0],
+    gold: [0, 0, 0],
+    platinum: [0, 0, 0],
+    gems: [0, 0, 0],
+    jewels: [0, 0, 0],
+    magicItems: 0,
+  };
+  const loot: Loot = {
+    copper: 0,
+    silver: 0,
+    electrum: 0,
+    gold: 0,
+    platinum: 0,
+    gems: 0,
+    jewels: 0,
+    magicItems: 0,
+  };
+
+  switch (level) {
+    case 1:
+      chances.copper = [0.75, 8, 1];
+      chances.silver = [0.5, 6, 1];
+      chances.electrum = [0.25, 4, 1];
+      chances.gold = [0.07, 4, 1];
+      chances.platinum = [0.01, 4, 1];
+      chances.gems = [0.07, 4, 1];
+      chances.jewels = [0.03, 4, 1];
+      chances.magicItems = 0.02;
+      break;
+    case 2:
+      chances.copper = [0.5, 10, 1];
+      chances.silver = [0.5, 8, 1];
+      chances.electrum = [0.25, 6, 1];
+      chances.gold = [0.2, 6, 1];
+      chances.platinum = [0.02, 4, 1];
+      chances.gems = [0.1, 6, 1];
+      chances.jewels = [0.07, 4, 1];
+      chances.magicItems = 0.05;
+      break;
+    case 3:
+      chances.copper = [0.3, 6, 2];
+      chances.silver = [0.5, 10, 1];
+      chances.electrum = [0.25, 8, 1];
+      chances.gold = [0.5, 6, 1];
+      chances.platinum = [0.04, 4, 1];
+      chances.gems = [0.15, 6, 1];
+      chances.jewels = [0.07, 6, 1];
+      chances.magicItems = 0.08;
+      break;
+    case 4:
+    case 5:
+      chances.copper = [0.2, 6, 3];
+      chances.silver = [0.5, 6, 2];
+      chances.electrum = [0.25, 10, 1];
+      chances.gold = [0.5, 6, 2];
+      chances.platinum = [0.08, 4, 1];
+      chances.gems = [0.2, 8, 1];
+      chances.jewels = [0.1, 6, 1];
+      chances.magicItems = 0.12;
+      break;
+    case 6:
+    case 7:
+      chances.copper = [0.15, 6, 4];
+      chances.silver = [0.5, 6, 3];
+      chances.electrum = [0.25, 12, 1];
+      chances.gold = [0.7, 8, 2];
+      chances.platinum = [0.15, 4, 1];
+      chances.gems = [0.3, 8, 1];
+      chances.jewels = [0.15, 6, 1];
+      chances.magicItems = 0.16;
+      break;
+    case 8:
+    default:
+      chances.copper = [0.1, 6, 5];
+      chances.silver = [0.5, 6, 5];
+      chances.electrum = [0.25, 8, 2];
+      chances.gold = [0.75, 6, 4];
+      chances.platinum = [0.3, 4, 1];
+      chances.gems = [0.4, 8, 1];
+      chances.jewels = [0.3, 8, 1];
+      chances.magicItems = 0.2;
+      break;
+  }
+
+  const roll = (d: number) => Math.floor(Math.random() * d) + 1;
+  const getAmount = (
+    chance: number,
+    d: number,
+    numDice: number,
+    amount: number = 1,
+  ) => {
+    let total = 0;
+    if (Math.random() <= chance) {
+      for (let i = 0; i < numDice; i++) {
+        total += roll(d);
+      }
+    }
+    return total * amount;
+  };
+  const hasMagicItem = Math.random() <= chances.magicItems ? 1 : 0;
+
+  (Object.keys(loot) as (keyof Loot)[]).forEach((key) => {
+    if (key !== "magicItems") {
+      const notGemOrJewel = key !== "gems" && key !== "jewels";
+      loot[key] = getAmount(
+        chances[key][0], // % chance
+        chances[key][1], // the type of die
+        chances[key][2], // number of dice
+        notGemOrJewel ? 100 : 1,
+      );
+    } else {
+      loot[key] = hasMagicItem;
+    }
+  });
+
+  return loot;
+}
