@@ -1,5 +1,6 @@
+import { Loot } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { generateUnguardedTreasure } from "@/support/diceSupport";
+import { emptyLoot, generateUnguardedTreasure } from "@/support/diceSupport";
 import {
   Button,
   Flex,
@@ -21,6 +22,7 @@ interface OptionProps {
 
 interface TreasureFormProps {
   form: number;
+  setResults: React.Dispatch<React.SetStateAction<Loot | undefined>>;
 }
 
 type FieldType = {
@@ -36,10 +38,9 @@ const Option: React.FC<OptionProps> = ({ value, title }) => {
   return <Radio value={value}>{title}</Radio>;
 };
 
-const TreasureForm: React.FC<TreasureFormProps> = ({ form }) => {
-  console.log("treasureForm");
+const TreasureForm: React.FC<TreasureFormProps> = ({ form, setResults }) => {
   function onFinish(values: FieldType): FormProps<FieldType>["onFinish"] {
-    let result;
+    let result = { ...emptyLoot };
     if (
       values.name === "unguarded-treasure" &&
       values.type &&
@@ -48,6 +49,7 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ form }) => {
     ) {
       result = generateUnguardedTreasure(values.type);
     }
+    setResults(result);
     console.log(result);
     return;
   }
@@ -85,11 +87,15 @@ const TreasureGenerator: React.FC<
   TreasureGeneratorProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
   const [treasureForm, setTreasureForm] = React.useState(0);
+  const [results, setResults] = React.useState<Loot | undefined>(undefined);
+
   const { isMobile } = useDeviceType();
 
   function handleTreasureFormChange(e: RadioChangeEvent) {
     setTreasureForm(e.target.value);
   }
+
+  const resultsData = results ? <div>have results</div> : null;
 
   return (
     <Flex className={className} vertical gap={16}>
@@ -103,8 +109,8 @@ const TreasureGenerator: React.FC<
         <Option value={2} title="Ungaurded Treasure" />
       </Radio.Group>
       <Flex vertical={isMobile} gap={16} className="[&>*]:flex-1">
-        <TreasureForm form={treasureForm} />
-        <div>results</div>
+        <TreasureForm form={treasureForm} setResults={setResults} />
+        {resultsData}
       </Flex>
     </Flex>
   );
