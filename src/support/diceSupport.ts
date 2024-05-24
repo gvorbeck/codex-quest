@@ -70,7 +70,7 @@ export const emptyLoot: Loot = {
   magicItems: 0,
 };
 
-export function generateUnguardedTreasure(level: number): Loot {
+export function generateLoot(level: number): Loot {
   const chances: Chances = {
     copper: [0, 0, 0],
     silver: [0, 0, 0],
@@ -181,4 +181,82 @@ export function generateUnguardedTreasure(level: number): Loot {
   });
 
   return loot;
+}
+
+export function generateGems(gemTypes: number) {
+  const gems = [];
+
+  const values = [5, 10, 50, 100, 500, 1000, 5000];
+
+  function getBaseDescription(quality: number) {
+    if (quality <= 20)
+      return {
+        quality: "Ornamental",
+        baseValue: values[1],
+        amount: Math.floor(Math.random() * 10) + 1,
+      };
+    if (quality <= 45)
+      return {
+        quality: "Semiprecious",
+        baseValue: values[2],
+        amount: Math.floor(Math.random() * 8) + 1,
+      };
+    if (quality <= 75)
+      return {
+        quality: "Fancy",
+        baseValue: values[3],
+        amount: Math.floor(Math.random() * 6) + 1,
+      };
+    if (quality <= 95)
+      return {
+        quality: "Precious",
+        baseValue: values[4],
+        amount: Math.floor(Math.random() * 4) + 1,
+      };
+    return {
+      quality: "Gem",
+      baseValue: values[5],
+      amount: Math.floor(Math.random() * 2) + 1,
+    };
+  }
+
+  function getValue(baseValue: number) {
+    const adjusted = rollDice("2d6");
+    if (adjusted === 2)
+      return values[values.findIndex((value) => value === baseValue) - 1];
+    if (adjusted === 3) return Math.floor(baseValue / 2);
+    if (adjusted === 4) return Math.floor(baseValue * 0.75);
+    if (adjusted <= 9) return baseValue;
+    if (adjusted === 10) return Math.floor(baseValue * 1.5);
+    if (adjusted === 11) return Math.floor(baseValue * 2);
+    return values[values.findIndex((value) => value === baseValue) + 1];
+  }
+
+  function getType() {
+    const typeRoll = Math.floor(Math.random() * 100) + 1;
+    if (typeRoll <= 5) return "Alexandrite";
+    if (typeRoll <= 12) return "Amethyst";
+    if (typeRoll <= 20) return "Aventurine";
+    if (typeRoll <= 30) return "Chlorastrolite";
+    if (typeRoll <= 40) return "Diamond";
+    if (typeRoll <= 43) return "Emerald";
+    if (typeRoll <= 48) return "Fire Opal";
+    if (typeRoll <= 57) return "Fluorospar";
+    if (typeRoll <= 63) return "Garnet";
+    if (typeRoll <= 68) return "Heliotrope";
+    if (typeRoll <= 78) return "Malachite";
+    if (typeRoll <= 88) return "Rhodonite";
+    if (typeRoll <= 91) return "Ruby";
+    if (typeRoll <= 95) return "Sapphire";
+    return "Topaz";
+  }
+
+  for (let i = 0; i < gemTypes; i++) {
+    const qualityRoll = Math.floor(Math.random() * 100) + 1;
+    const { quality, baseValue, amount } = getBaseDescription(qualityRoll);
+    const value = getValue(baseValue);
+    const type = getType();
+    gems.push({ type, quality, value, amount });
+  }
+  return gems;
 }

@@ -1,6 +1,6 @@
 import { Loot } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { emptyLoot, generateUnguardedTreasure } from "@/support/diceSupport";
+import { emptyLoot, generateGems, generateLoot } from "@/support/diceSupport";
 import {
   Button,
   Descriptions,
@@ -11,6 +11,7 @@ import {
   InputNumber,
   Radio,
   RadioChangeEvent,
+  Typography,
 } from "antd";
 import React from "react";
 
@@ -49,7 +50,7 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ form, setResults }) => {
       typeof values.type === "number" &&
       values.type > 0
     ) {
-      result = generateUnguardedTreasure(values.type);
+      result = generateLoot(values.type);
     }
     setResults(result);
     console.log(result);
@@ -97,19 +98,45 @@ const TreasureGenerator: React.FC<
     setTreasureForm(e.target.value);
   }
 
+  let gemResults;
+  if (results?.gems) {
+    gemResults = generateGems(results.gems);
+    console.log(gemResults);
+    // const gemItems: DescriptionsProps["items"] = gemResults.map((gem, index) => ({ key: index, label: gem.type, children}));
+  }
+
   const items: DescriptionsProps["items"] = [
     { key: "copper", label: "Copper", children: results?.copper },
     { key: "silver", label: "Silver", children: results?.silver },
     { key: "electrum", label: "Electrum", children: results?.electrum },
     { key: "gold", label: "Gold", children: results?.gold },
     { key: "platinum", label: "Platinum", children: results?.platinum },
-    { key: "gems", label: "Gems", children: results?.gems },
+    {
+      key: "gems",
+      label: "Gems",
+      children: results?.gems ? `${results?.gems} kinds` : 0,
+    },
     { key: "jewels", label: "Jewels", children: results?.jewels },
     { key: "magicItems", label: "Magic Items", children: results?.magicItems },
   ];
 
   const resultsData = results ? (
     <Descriptions items={items} bordered column={1} size="small" />
+  ) : null;
+
+  const gemsData = results?.gems ? (
+    <Flex vertical gap={16}>
+      <Typography.Title level={5}>Gems</Typography.Title>
+      {gemResults?.map((gem) => {
+        const items: DescriptionsProps["items"] = [
+          { key: "amount", label: "Amount", children: gem.amount },
+          { key: "quality", label: "Quality", children: gem.quality },
+          { key: "type", label: "Type", children: gem.type },
+          { key: "value", label: "Value", children: gem.value },
+        ];
+        return <Descriptions items={items} bordered column={1} size="small" />;
+      })}
+    </Flex>
   ) : null;
 
   return (
@@ -125,7 +152,10 @@ const TreasureGenerator: React.FC<
       </Radio.Group>
       <Flex vertical={isMobile} gap={16} className="[&>*]:flex-1">
         <TreasureForm form={treasureForm} setResults={setResults} />
-        {resultsData}
+        <Flex vertical gap={16}>
+          {resultsData}
+          {gemsData}
+        </Flex>
       </Flex>
     </Flex>
   );
