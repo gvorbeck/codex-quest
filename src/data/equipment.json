@@ -2022,5 +2022,57 @@
     "amount": 0,
     "lowCapacity": 275,
     "capacity": 550
+  },
+  {
+    "name": "Camel",
+    "costValue": 75,
+    "costCurrency": "gp",
+    "category": "beasts-of-burden",
+    "amount": 0,
+    "lowCapacity": 400,
+    "capacity": 800
+  },
+  {
+    "name": "Donkey, mule, or ass",
+    "costValue": 40,
+    "costCurrency": "gp",
+    "category": "beasts-of-burden",
+    "amount": 0,
+    "lowCapacity": 70,
+    "capacity": 140
+  },
+  {
+    "name": "Elephant, Labor",
+    "costValue": 200,
+    "costCurrency": "gp",
+    "category": "beasts-of-burden",
+    "amount": 0,
+    "lowCapacity": 7000,
+    "capacity": 14000
+  },
+  {
+    "name": "Elephant, War",
+    "costValue": 500,
+    "costCurrency": "gp",
+    "category": "beasts-of-burden",
+    "amount": 0,
+    "lowCapacity": 7000,
+    "capacity": 14000
+  },
+  {
+    "name": "War Ram",
+    "costValue": 200,
+    "costCurrency": "gp",
+    "amount": 0,
+    "lowCapacity": 0,
+    "capacity": 0
+  },
+  {
+    "name": "Riding Dog",
+    "costValue": 80,
+    "costCurrency": "gp",
+    "amount": 0,
+    "lowCapacity": 150,
+    "capacity": 300
   }
 ]
