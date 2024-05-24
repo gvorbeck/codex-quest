@@ -1,4 +1,4 @@
-import { RaceNames, SavingThrowsType } from "@/data/definitions";
+import { Chances, Loot, RaceNames, SavingThrowsType } from "@/data/definitions";
 import { races } from "@/data/races";
 import { titleCaseToCamelCase } from "./stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
@@ -59,26 +59,15 @@ export const rollSpecialAbility = (
   openNotification(result.output + " - " + passFail, title);
 };
 
-type Loot = {
-  copper: number;
-  silver: number;
-  electrum: number;
-  gold: number;
-  platinum: number;
-  gems: number;
-  jewels: number;
-  magicItems: number;
-};
-
-type Chances = {
-  copper: [number, number, number];
-  silver: [number, number, number];
-  electrum: [number, number, number];
-  gold: [number, number, number];
-  platinum: [number, number, number];
-  gems: [number, number, number];
-  jewels: [number, number, number];
-  magicItems: number;
+export const emptyLoot: Loot = {
+  copper: 0,
+  silver: 0,
+  electrum: 0,
+  gold: 0,
+  platinum: 0,
+  gems: 0,
+  jewels: 0,
+  magicItems: 0,
 };
 
 export function generateUnguardedTreasure(level: number): Loot {
@@ -92,16 +81,7 @@ export function generateUnguardedTreasure(level: number): Loot {
     jewels: [0, 0, 0],
     magicItems: 0,
   };
-  const loot: Loot = {
-    copper: 0,
-    silver: 0,
-    electrum: 0,
-    gold: 0,
-    platinum: 0,
-    gems: 0,
-    jewels: 0,
-    magicItems: 0,
-  };
+  const loot = { ...emptyLoot };
 
   switch (level) {
     case 1:
