@@ -2063,6 +2063,7 @@
     "name": "War Ram",
     "costValue": 200,
     "costCurrency": "gp",
+    "category": "beasts-of-burden",
     "amount": 0,
     "lowCapacity": 0,
     "capacity": 0
@@ -2071,6 +2072,7 @@
     "name": "Riding Dog",
     "costValue": 80,
     "costCurrency": "gp",
+    "category": "beasts-of-burden",
     "amount": 0,
     "lowCapacity": 150,
     "capacity": 300
