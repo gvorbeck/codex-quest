@@ -183,7 +183,49 @@ export function generateLoot(level: number): Loot {
   return loot;
 }
 
-export function generateGems(gemTypes: number) {
+export function generateJewels(loot: Loot) {
+  const jewels = [];
+
+  function getJewel() {
+    const n = Math.floor(Math.random() * 100) + 1;
+    if (n <= 6) return "Anklet";
+    if (n <= 12) return "Belt";
+    if (n <= 14) return "Bowl";
+    if (n <= 21) return "Bracelet";
+    if (n <= 27) return "Brooch";
+    if (n <= 32) return "Buckle";
+    if (n <= 37) return "Chain";
+    if (n <= 40) return "Choker";
+    if (n <= 42) return "Circlet";
+    if (n <= 47) return "Clasp";
+    if (n <= 51) return "Comb";
+    if (n <= 52) return "Crown";
+    if (n <= 55) return "Cup";
+    if (n <= 62) return "Earring";
+    if (n <= 65) return "Flagon";
+    if (n <= 68) return "Goblet";
+    if (n <= 73) return "Knife";
+    if (n <= 77) return "Letter Opener";
+    if (n <= 80) return "Locket";
+    if (n <= 82) return "Medal";
+    if (n <= 89) return "Necklace";
+    if (n <= 90) return "Plate";
+    if (n <= 95) return "Pin";
+    if (n <= 96) return "Scepter";
+    if (n <= 99) return "Statuette";
+    return "Tiara";
+  }
+
+  for (let i = 0; i < loot.jewels; i++) {
+    const value = rollDice("2d8") * 100;
+    const type = getJewel();
+    jewels.push({ type, value });
+  }
+
+  return jewels;
+}
+
+export function generateGems(loot: Loot) {
   const gems = [];
 
   const values = [5, 10, 50, 100, 500, 1000, 5000];
@@ -251,12 +293,13 @@ export function generateGems(gemTypes: number) {
     return "Topaz";
   }
 
-  for (let i = 0; i < gemTypes; i++) {
+  for (let i = 0; i < loot.gems; i++) {
     const qualityRoll = Math.floor(Math.random() * 100) + 1;
     const { quality, baseValue, amount } = getBaseDescription(qualityRoll);
     const value = getValue(baseValue);
     const type = getType();
-    gems.push({ type, quality, value, amount });
+    if (value !== 5000) gems.push({ type, quality, value, amount });
+    else loot.jewels++;
   }
   return gems;
 }

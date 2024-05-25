@@ -1,6 +1,11 @@
 import { Loot } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { emptyLoot, generateGems, generateLoot } from "@/support/diceSupport";
+import {
+  emptyLoot,
+  generateGems,
+  generateJewels,
+  generateLoot,
+} from "@/support/diceSupport";
 import {
   Button,
   Descriptions,
@@ -99,11 +104,7 @@ const TreasureGenerator: React.FC<
   }
 
   let gemResults;
-  if (results?.gems) {
-    gemResults = generateGems(results.gems);
-    console.log(gemResults);
-    // const gemItems: DescriptionsProps["items"] = gemResults.map((gem, index) => ({ key: index, label: gem.type, children}));
-  }
+  if (results?.gems) gemResults = generateGems(results);
 
   const items: DescriptionsProps["items"] = [
     { key: "copper", label: "Copper", children: results?.copper },
@@ -127,15 +128,39 @@ const TreasureGenerator: React.FC<
   const gemsData = results?.gems ? (
     <Flex vertical gap={16}>
       <Typography.Title level={5}>Gems</Typography.Title>
-      {gemResults?.map((gem) => {
-        const items: DescriptionsProps["items"] = [
-          { key: "amount", label: "Amount", children: gem.amount },
-          { key: "quality", label: "Quality", children: gem.quality },
-          { key: "type", label: "Type", children: gem.type },
-          { key: "value", label: "Value", children: gem.value },
-        ];
-        return <Descriptions items={items} bordered column={1} size="small" />;
-      })}
+      <Flex vertical gap={8}>
+        {gemResults?.map((gem) => {
+          const items: DescriptionsProps["items"] = [
+            { key: "amount", label: "Amount", children: gem.amount },
+            { key: "quality", label: "Quality", children: gem.quality },
+            { key: "type", label: "Type", children: gem.type },
+            { key: "value", label: "Value", children: gem.value },
+          ];
+          return (
+            <Descriptions items={items} bordered column={1} size="small" />
+          );
+        })}
+      </Flex>
+    </Flex>
+  ) : null;
+
+  let jewelsResults;
+  if (results?.jewels) jewelsResults = generateJewels(results);
+
+  const jewelsData = results?.jewels ? (
+    <Flex vertical gap={16}>
+      <Typography.Title level={5}>Jewels</Typography.Title>
+      <Flex vertical gap={8}>
+        {jewelsResults?.map((jewel: { type: string; value: number }) => {
+          const items: DescriptionsProps["items"] = [
+            { key: "type", label: "Type", children: jewel.type },
+            { key: "value", label: "Value", children: jewel.value },
+          ];
+          return (
+            <Descriptions items={items} bordered column={1} size="small" />
+          );
+        })}
+      </Flex>
     </Flex>
   ) : null;
 
@@ -155,6 +180,7 @@ const TreasureGenerator: React.FC<
         <Flex vertical gap={16}>
           {resultsData}
           {gemsData}
+          {jewelsData}
         </Flex>
       </Flex>
     </Flex>
