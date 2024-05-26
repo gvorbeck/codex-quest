@@ -5,6 +5,7 @@ import {
   generateGems,
   generateJewels,
   generateLoot,
+  generateMagicItems,
 } from "@/support/diceSupport";
 import {
   Button,
@@ -20,8 +21,6 @@ import {
 } from "antd";
 import React from "react";
 
-interface TreasureGeneratorProps {}
-
 interface OptionProps {
   button?: boolean;
   value: number;
@@ -31,6 +30,11 @@ interface OptionProps {
 interface TreasureFormProps {
   form: number;
   setResults: React.Dispatch<React.SetStateAction<Loot | undefined>>;
+}
+
+interface TreasureSectionProps {
+  children: React.ReactNode;
+  title: string;
 }
 
 type FieldType = {
@@ -91,9 +95,21 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ form, setResults }) => {
   }
 };
 
-const TreasureGenerator: React.FC<
-  TreasureGeneratorProps & React.ComponentPropsWithRef<"div">
-> = ({ className }) => {
+const TreasureSection: React.FC<TreasureSectionProps> = ({
+  children,
+  title,
+}) => {
+  return (
+    <Flex vertical gap={8}>
+      <Typography.Title level={5}>{title}</Typography.Title>
+      {children}
+    </Flex>
+  );
+};
+
+const TreasureGenerator: React.FC<React.ComponentPropsWithRef<"div">> = ({
+  className,
+}) => {
   const [treasureForm, setTreasureForm] = React.useState(0);
   const [results, setResults] = React.useState<Loot | undefined>(undefined);
 
@@ -102,9 +118,6 @@ const TreasureGenerator: React.FC<
   function handleTreasureFormChange(e: RadioChangeEvent) {
     setTreasureForm(e.target.value);
   }
-
-  let gemResults;
-  if (results?.gems) gemResults = generateGems(results);
 
   const items: DescriptionsProps["items"] = [
     { key: "copper", label: "Copper", children: results?.copper },
@@ -115,7 +128,7 @@ const TreasureGenerator: React.FC<
     {
       key: "gems",
       label: "Gems",
-      children: results?.gems ? `${results?.gems} kinds` : 0,
+      children: results?.gems ? `${results?.gems} kind(s)` : 0,
     },
     { key: "jewels", label: "Jewels", children: results?.jewels },
     { key: "magicItems", label: "Magic Items", children: results?.magicItems },
@@ -125,43 +138,41 @@ const TreasureGenerator: React.FC<
     <Descriptions items={items} bordered column={1} size="small" />
   ) : null;
 
+  let gemResults;
+  if (results?.gems) gemResults = generateGems(results);
   const gemsData = results?.gems ? (
-    <Flex vertical gap={16}>
-      <Typography.Title level={5}>Gems</Typography.Title>
-      <Flex vertical gap={8}>
-        {gemResults?.map((gem) => {
-          const items: DescriptionsProps["items"] = [
-            { key: "amount", label: "Amount", children: gem.amount },
-            { key: "quality", label: "Quality", children: gem.quality },
-            { key: "type", label: "Type", children: gem.type },
-            { key: "value", label: "Value", children: gem.value },
-          ];
-          return (
-            <Descriptions items={items} bordered column={1} size="small" />
-          );
-        })}
-      </Flex>
-    </Flex>
+    <TreasureSection title="Gems">
+      {gemResults?.map((gem) => {
+        const items: DescriptionsProps["items"] = [
+          { key: "amount", label: "Amount", children: gem.amount },
+          { key: "quality", label: "Quality", children: gem.quality },
+          { key: "type", label: "Type", children: gem.type },
+          { key: "value", label: "Value", children: gem.value },
+        ];
+        return <Descriptions items={items} bordered column={1} size="small" />;
+      })}
+    </TreasureSection>
   ) : null;
 
   let jewelsResults;
   if (results?.jewels) jewelsResults = generateJewels(results);
-
   const jewelsData = results?.jewels ? (
-    <Flex vertical gap={16}>
-      <Typography.Title level={5}>Jewels</Typography.Title>
-      <Flex vertical gap={8}>
-        {jewelsResults?.map((jewel: { type: string; value: number }) => {
-          const items: DescriptionsProps["items"] = [
-            { key: "type", label: "Type", children: jewel.type },
-            { key: "value", label: "Value", children: jewel.value },
-          ];
-          return (
-            <Descriptions items={items} bordered column={1} size="small" />
-          );
-        })}
-      </Flex>
-    </Flex>
+    <TreasureSection title="Jewels">
+      {jewelsResults?.map((jewel: { type: string; value: number }) => {
+        const items: DescriptionsProps["items"] = [
+          { key: "type", label: "Type", children: jewel.type },
+          { key: "value", label: "Value", children: jewel.value },
+        ];
+        return <Descriptions items={items} bordered column={1} size="small" />;
+      })}
+    </TreasureSection>
+  ) : null;
+
+  let magicItemResults;
+  if (results?.magicItems) magicItemResults = generateMagicItems();
+  console.log(magicItemResults);
+  const magicItemData = results?.magicItems ? (
+    <TreasureSection title="Magic Items">magic</TreasureSection>
   ) : null;
 
   return (
@@ -173,7 +184,7 @@ const TreasureGenerator: React.FC<
       >
         <Option value={0} title="Lair Treasure" />
         <Option value={1} title="Individual Treasures" />
-        <Option value={2} title="Ungaurded Treasure" />
+        <Option value={2} title="Unguarded Treasure" />
       </Radio.Group>
       <Flex vertical={isMobile} gap={16} className="[&>*]:flex-1">
         <TreasureForm form={treasureForm} setResults={setResults} />
@@ -181,6 +192,7 @@ const TreasureGenerator: React.FC<
           {resultsData}
           {gemsData}
           {jewelsData}
+          {magicItemData}
         </Flex>
       </Flex>
     </Flex>

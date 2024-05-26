@@ -188,32 +188,39 @@ export function generateJewels(loot: Loot) {
 
   function getJewel() {
     const n = Math.floor(Math.random() * 100) + 1;
-    if (n <= 6) return "Anklet";
-    if (n <= 12) return "Belt";
-    if (n <= 14) return "Bowl";
-    if (n <= 21) return "Bracelet";
-    if (n <= 27) return "Brooch";
-    if (n <= 32) return "Buckle";
-    if (n <= 37) return "Chain";
-    if (n <= 40) return "Choker";
-    if (n <= 42) return "Circlet";
-    if (n <= 47) return "Clasp";
-    if (n <= 51) return "Comb";
-    if (n <= 52) return "Crown";
-    if (n <= 55) return "Cup";
-    if (n <= 62) return "Earring";
-    if (n <= 65) return "Flagon";
-    if (n <= 68) return "Goblet";
-    if (n <= 73) return "Knife";
-    if (n <= 77) return "Letter Opener";
-    if (n <= 80) return "Locket";
-    if (n <= 82) return "Medal";
-    if (n <= 89) return "Necklace";
-    if (n <= 90) return "Plate";
-    if (n <= 95) return "Pin";
-    if (n <= 96) return "Scepter";
-    if (n <= 99) return "Statuette";
-    return "Tiara";
+    const jewelTypes = [
+      "Anklet",
+      "Belt",
+      "Bowl",
+      "Bracelet",
+      "Brooch",
+      "Buckle",
+      "Chain",
+      "Choker",
+      "Circlet",
+      "Clasp",
+      "Comb",
+      "Crown",
+      "Cup",
+      "Earring",
+      "Flagon",
+      "Goblet",
+      "Knife",
+      "Letter Opener",
+      "Locket",
+      "Medal",
+      "Necklace",
+      "Plate",
+      "Pin",
+      "Scepter",
+      "Statuette",
+      "Tiara",
+    ];
+    const thresholds = [
+      6, 12, 14, 21, 27, 32, 37, 40, 42, 47, 51, 52, 55, 62, 65, 68, 73, 77, 80,
+      82, 89, 90, 95, 96, 99, 100,
+    ];
+    return jewelTypes[thresholds.findIndex((t) => n <= t)];
   }
 
   for (let i = 0; i < loot.jewels; i++) {
@@ -225,72 +232,210 @@ export function generateJewels(loot: Loot) {
   return jewels;
 }
 
+export function generateMagicItems() {
+  const i = Math.floor(Math.random() * 100) + 1;
+
+  function getAnyColumn(roll: number) {
+    if (roll <= 25) return getMagicalWeapon();
+    if (roll <= 35) return "Armor";
+    if (roll <= 55) return "Potion";
+    if (roll <= 85) return "Scroll";
+    if (roll <= 90) return "Wand, Staff, or Rod";
+    if (roll <= 97) return "Miscellaneous Items";
+    return "Rare Items";
+  }
+
+  function getWeaponArmorColumn(roll: number) {
+    if (roll <= 70) return getMagicalWeapon();
+    return "Armor";
+  }
+
+  function getAnyExcWeaponColumn(roll: number) {
+    if (roll <= 12) return "Armor";
+    if (roll <= 40) return "Potion";
+    if (roll <= 79) return "Scroll";
+    if (roll <= 86) return "Wand, Staff, or Rod";
+    if (roll <= 96) return "Miscellaneous Items";
+    return "Rare Items";
+  }
+
+  return [getAnyColumn(i), getWeaponArmorColumn(i), getAnyExcWeaponColumn(i)];
+}
+
+function getSpecialEnemy() {
+  const roll = Math.floor(Math.random() * 6) + 1;
+  const enemies = [
+    "Dragons",
+    "Enchanted",
+    "Lycanthropes",
+    "Regenerators",
+    "Spell Users",
+    "Undead",
+  ];
+  return enemies[roll - 1];
+}
+
+function getSpecialAbility() {
+  const roll = Math.floor(Math.random() * 20) + 1;
+  const abilities = [
+    "Casts Light on Command",
+    "Charm Person",
+    "Drains Energy",
+    "Flames on Command",
+    "Locate Objects",
+    "Wishes",
+  ];
+  const thresholds = [9, 11, 12, 16, 19];
+  return abilities[thresholds.findIndex((t) => roll <= t)];
+}
+
+function getWeaponBonus(weapon: {
+  name: string;
+  type: string;
+  bonus: string;
+  specAbility: string;
+}) {
+  const w = { ...weapon };
+  const roll = Math.floor(Math.random() * 100) + 1;
+  const meleeBonuses = [
+    { bonus: "+1" },
+    { bonus: "+2" },
+    { bonus: "+3" },
+    { bonus: "+4" },
+    { bonus: "+5" },
+    { bonus: "+1, +2 vs. " + getSpecialEnemy() },
+    { bonus: "+1, +3 vs. " + getSpecialEnemy() },
+    { bonus: "reroll", specAbility: getSpecialAbility() }, // reroll
+    { bonus: "-1", specAbility: "Cursed" },
+    { bonus: "-2", specAbility: "Cursed" },
+  ];
+  const meleeThresholds = [40, 50, 55, 57, 58, 75, 85, 95, 98, 100];
+  const missileBonuses = [
+    { bonus: "+1" },
+    { bonus: "+2" },
+    { bonus: "+3" },
+    { bonus: "+1, +2 vs. " + getSpecialEnemy() },
+    { bonus: "+1, +3 vs. " + getSpecialEnemy() },
+    { bonus: "-1", specAbility: "Cursed" },
+    { bonus: "-2", specAbility: "Cursed" },
+  ];
+  const missileThresholds = [46, 58, 64, 82, 94, 98, 100];
+  const bonuses = w.type === "melee" ? meleeBonuses : missileBonuses;
+  const thresholds = w.type === "melee" ? meleeThresholds : missileThresholds;
+  const index = thresholds.findIndex((t) => roll <= t);
+  if (bonuses[index].bonus) w.bonus = bonuses[index].bonus;
+  if (bonuses[index].specAbility)
+    w.specAbility = bonuses[index].specAbility || "";
+  if (w.bonus === "reroll") return getWeaponBonus(w);
+
+  return w;
+}
+
+function getMagicalWeapon() {
+  const roll = Math.floor(Math.random() * 100) + 1;
+  const weapons = [
+    { name: "Great Axe", type: "melee", bonus: "", specAbility: "" },
+    { name: "Battle Axe", type: "melee", bonus: "", specAbility: "" },
+    { name: "Hand Axe", type: "melee", bonus: "", specAbility: "" },
+    { name: "Shortbow", type: "missile", bonus: "", specAbility: "" },
+    { name: "Shortbow Arrow", type: "missile", bonus: "", specAbility: "" },
+    { name: "Longbow", type: "missile", bonus: "", specAbility: "" },
+    { name: "Longbow Arrow", type: "missile", bonus: "", specAbility: "" },
+    { name: "Light Quarrel", type: "missile", bonus: "", specAbility: "" },
+    { name: "Heavy Quarrel", type: "missile", bonus: "", specAbility: "" },
+    { name: "Dagger", type: "melee", bonus: "", specAbility: "" },
+    { name: "Shortsword", type: "melee", bonus: "", specAbility: "" },
+    { name: "Longsword", type: "melee", bonus: "", specAbility: "" },
+    { name: "Scimitar", type: "melee", bonus: "", specAbility: "" },
+    { name: "Two-Handed Sword", type: "melee", bonus: "", specAbility: "" },
+    { name: "Warhammer", type: "melee", bonus: "", specAbility: "" },
+    { name: "Mace", type: "melee", bonus: "", specAbility: "" },
+    { name: "Maul", type: "melee", bonus: "", specAbility: "" },
+    { name: "Pole Arm", type: "melee", bonus: "", specAbility: "" },
+    { name: "Sling Bullet", type: "missile", bonus: "", specAbility: "" },
+    { name: "Spear", type: "melee", bonus: "", specAbility: "" },
+  ];
+  const thresholds = [
+    2, 9, 11, 19, 27, 31, 35, 43, 47, 59, 65, 79, 81, 83, 86, 94, 95, 96, 97,
+    100,
+  ];
+  return getWeaponBonus(weapons[thresholds.findIndex((t) => roll <= t)]);
+}
+
 export function generateGems(loot: Loot) {
   const gems = [];
-
   const values = [5, 10, 50, 100, 500, 1000, 5000];
 
   function getBaseDescription(quality: number) {
-    if (quality <= 20)
-      return {
+    const qualities = [
+      {
         quality: "Ornamental",
         baseValue: values[1],
         amount: Math.floor(Math.random() * 10) + 1,
-      };
-    if (quality <= 45)
-      return {
+      },
+      {
         quality: "Semiprecious",
         baseValue: values[2],
         amount: Math.floor(Math.random() * 8) + 1,
-      };
-    if (quality <= 75)
-      return {
+      },
+      {
         quality: "Fancy",
         baseValue: values[3],
         amount: Math.floor(Math.random() * 6) + 1,
-      };
-    if (quality <= 95)
-      return {
+      },
+      {
         quality: "Precious",
         baseValue: values[4],
         amount: Math.floor(Math.random() * 4) + 1,
-      };
-    return {
-      quality: "Gem",
-      baseValue: values[5],
-      amount: Math.floor(Math.random() * 2) + 1,
-    };
+      },
+      {
+        quality: "Gem",
+        baseValue: values[5],
+        amount: Math.floor(Math.random() * 2) + 1,
+      },
+    ];
+    const thresholds = [20, 45, 75, 95, 100];
+    return qualities[thresholds.findIndex((t) => quality <= t)];
   }
 
   function getValue(baseValue: number) {
     const adjusted = rollDice("2d6");
-    if (adjusted === 2)
-      return values[values.findIndex((value) => value === baseValue) - 1];
-    if (adjusted === 3) return Math.floor(baseValue / 2);
-    if (adjusted === 4) return Math.floor(baseValue * 0.75);
-    if (adjusted <= 9) return baseValue;
-    if (adjusted === 10) return Math.floor(baseValue * 1.5);
-    if (adjusted === 11) return Math.floor(baseValue * 2);
-    return values[values.findIndex((value) => value === baseValue) + 1];
+    const valueTypes = [
+      values[values.findIndex((value) => value === baseValue) - 1],
+      Math.floor(baseValue / 2),
+      Math.floor(baseValue * 0.75),
+      baseValue,
+      Math.floor(baseValue * 1.5),
+      Math.floor(baseValue * 2),
+      values[values.findIndex((value) => value === baseValue) + 1],
+    ];
+    const thresholds = [2, 3, 4, 9, 10, 11, 12];
+    return valueTypes[thresholds.findIndex((t) => adjusted <= t)];
   }
 
   function getType() {
     const typeRoll = Math.floor(Math.random() * 100) + 1;
-    if (typeRoll <= 5) return "Alexandrite";
-    if (typeRoll <= 12) return "Amethyst";
-    if (typeRoll <= 20) return "Aventurine";
-    if (typeRoll <= 30) return "Chlorastrolite";
-    if (typeRoll <= 40) return "Diamond";
-    if (typeRoll <= 43) return "Emerald";
-    if (typeRoll <= 48) return "Fire Opal";
-    if (typeRoll <= 57) return "Fluorospar";
-    if (typeRoll <= 63) return "Garnet";
-    if (typeRoll <= 68) return "Heliotrope";
-    if (typeRoll <= 78) return "Malachite";
-    if (typeRoll <= 88) return "Rhodonite";
-    if (typeRoll <= 91) return "Ruby";
-    if (typeRoll <= 95) return "Sapphire";
-    return "Topaz";
+    const gemTypes = [
+      "Alexandrite",
+      "Amethyst",
+      "Aventurine",
+      "Chlorastrolite",
+      "Diamond",
+      "Emerald",
+      "Fire Opal",
+      "Fluorospar",
+      "Garnet",
+      "Heliotrope",
+      "Malachite",
+      "Rhodonite",
+      "Ruby",
+      "Sapphire",
+      "Topaz",
+    ];
+    const thresholds = [
+      5, 12, 20, 30, 40, 43, 48, 57, 63, 68, 78, 88, 91, 95, 100,
+    ];
+    return gemTypes[thresholds.findIndex((t) => typeRoll <= t)];
   }
 
   for (let i = 0; i < loot.gems; i++) {
