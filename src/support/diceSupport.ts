@@ -239,7 +239,7 @@ export function generateMagicItems() {
     if (roll <= 55) return `Potion of ${getPotion()}`;
     if (roll <= 85) return getScroll();
     if (roll <= 90) return getWand();
-    if (roll <= 97) return "Miscellaneous Items";
+    if (roll <= 97) return getMiscItem();
     return "Rare Items";
   }
 
@@ -253,7 +253,7 @@ export function generateMagicItems() {
     if (roll <= 40) return `Potion of ${getPotion()}`;
     if (roll <= 79) return getScroll();
     if (roll <= 86) return getWand();
-    if (roll <= 96) return "Miscellaneous Items";
+    if (roll <= 96) return getMiscItem();
     return "Rare Items";
   }
 
@@ -490,6 +490,147 @@ function getWand() {
   ];
   const wandRoll = Math.floor(Math.random() * 100) + 1;
   return wands[wandThresholds.findIndex((t) => wandRoll <= t)];
+}
+
+type MiscItem = {
+  effect: string;
+  form: string;
+  column: string;
+};
+
+function getMiscItem(): MiscItem {
+  const roll = Math.floor(Math.random() * 100) + 1;
+  let miscItem: MiscItem;
+  if (roll <= 57) {
+    const misc1 = [
+      { effect: "Blasting", column: "G" },
+      { effect: "Blending", column: "F" },
+      { effect: "Cold Resistance", column: "F" },
+      { effect: "Comprehension", column: "E" },
+      { effect: "Control Animal", column: "C" },
+      { effect: "Control Human", column: "C" },
+      { effect: "Control Plant", column: "C" },
+      { effect: "Courage", column: "G" },
+      { effect: "Deception", column: "F" },
+      { effect: "Delusion", column: "A" },
+      { effect: "Djinni Summoning", column: "C" },
+      { effect: "Doom", column: "G" },
+      { effect: "Fire Resistance", column: "F" },
+      { effect: "Invisibility", column: "F" },
+      { effect: "Levitation", column: "B" },
+      { effect: "Mind Reading", column: "C" },
+      { effect: "Panic", column: "G" },
+      { effect: "Penetrating Vision", column: "D" },
+    ];
+    const misc1Thresholds = [
+      1, 5, 13, 17, 22, 29, 35, 37, 40, 52, 55, 56, 67, 80, 85, 95, 97, 100,
+    ];
+    const roll1 = Math.floor(Math.random() * 100) + 1;
+    // return misc1[misc1Thresholds.findIndex((t) => roll1 <= t)];
+    miscItem = {
+      form: "",
+      ...misc1[misc1Thresholds.findIndex((t) => roll1 <= t)],
+    };
+  } else {
+    const misc2 = [
+      { effect: "Protection +1", column: "F" },
+      { effect: "Protection +2", column: "F" },
+      { effect: "Protection +3", column: "F" },
+      { effect: "Protection from Energy Drain", column: "F" },
+      { effect: "Protection from Scrying", column: "F" },
+      { effect: "Regeneration", column: "C" },
+      { effect: "Scrying", column: "H" },
+      { effect: "Scrying, Superior", column: "H" },
+      { effect: "Speed", column: "B" },
+      { effect: "Spell Storing", column: "C" },
+      { effect: "Spell Turning", column: "F" },
+      { effect: "Stealth", column: "B" },
+      { effect: "Telekinesis", column: "C" },
+      { effect: "Telepathy", column: "C" },
+      { effect: "Teleportation", column: "C" },
+      { effect: "True Seeing", column: "D" },
+      { effect: "Water Walking", column: "B" },
+      { effect: "Weakness", column: "C" },
+      { effect: "Wishes", column: "C" },
+    ];
+    const misc2Thresholds = [
+      7, 10, 11, 14, 20, 23, 29, 32, 39, 42, 50, 69, 72, 74, 76, 78, 88, 99,
+      100,
+    ];
+    const roll2 = Math.floor(Math.random() * 100) + 1;
+    miscItem = {
+      form: "",
+      ...misc2[misc2Thresholds.findIndex((t) => roll2 <= t)],
+    };
+  }
+  const formRoll = Math.floor(Math.random() * 100) + 1;
+  switch (miscItem.column) {
+    case "A": {
+      const items = [
+        "Bell (or Chime)",
+        "Belt (or Girdle)",
+        "Boots",
+        "Bowl",
+        "Cloak",
+        "Crystal Ball (or Orb)",
+        "Drums",
+        "Helm",
+        "Horn",
+        "Lens",
+        "Mirror",
+        "Pendant",
+        "Ring",
+      ];
+      const thresholds = [2, 5, 13, 15, 28, 31, 33, 38, 43, 46, 49, 67, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "B": {
+      const items = ["Boots", "Pendant", "Ring"];
+      const thresholds = [25, 50, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "C": {
+      const items = ["Pendant", "Ring"];
+      const thresholds = [40, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "D": {
+      const items = ["Lens", "Mirror", "Pendant", "Ring"];
+      const thresholds = [17, 21, 50, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "E": {
+      const items = ["Helm", "Pendant", "Ring"];
+      const thresholds = [40, 80, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "F": {
+      const items = ["Belt (or Girdle)", "Cloak", "Pendant", "Ring"];
+      const thresholds = [7, 38, 50, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "G": {
+      const items = ["Bell (or Chime)", "Drums", "Horn"];
+      const thresholds = [17, 50, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    case "H": {
+      const items = ["Bowl", "Crystal Ball (or Orb)", "Mirror"];
+      const thresholds = [17, 67, 100];
+      miscItem.form = items[thresholds.findIndex((t) => formRoll <= t)];
+      break;
+    }
+    default:
+      break;
+  }
+  return miscItem;
 }
 
 export function generateGems(loot: Loot) {
