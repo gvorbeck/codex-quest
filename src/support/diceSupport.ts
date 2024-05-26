@@ -234,13 +234,17 @@ export function generateMagicItems() {
   const i = Math.floor(Math.random() * 100) + 1;
 
   function getAnyColumn(roll: number) {
-    if (roll <= 25) return getMagicalWeapon();
-    if (roll <= 35) return getMagicalArmor();
-    if (roll <= 55) return `Potion of ${getPotion()}`;
-    if (roll <= 85) return getScroll();
-    if (roll <= 90) return getWand();
-    if (roll <= 97) return getMiscItem();
-    return "Rare Items";
+    const results = [
+      getMagicalWeapon(),
+      getMagicalArmor(),
+      `Potion of ${getPotion()}`,
+      getScroll(),
+      getWand(),
+      getMiscItem(),
+      getRareItem(),
+    ];
+    const thresholds = [25, 35, 55, 85, 90, 97, 100];
+    return results[thresholds.findIndex((t) => roll <= t)];
   }
 
   function getWeaponArmorColumn(roll: number) {
@@ -249,12 +253,16 @@ export function generateMagicItems() {
   }
 
   function getAnyExcWeaponColumn(roll: number) {
-    if (roll <= 12) return getMagicalArmor();
-    if (roll <= 40) return `Potion of ${getPotion()}`;
-    if (roll <= 79) return getScroll();
-    if (roll <= 86) return getWand();
-    if (roll <= 96) return getMiscItem();
-    return "Rare Items";
+    const results = [
+      getMagicalArmor(),
+      `Potion of ${getPotion()}`,
+      getScroll(),
+      getWand(),
+      getMiscItem(),
+      getRareItem(),
+    ];
+    const thresholds = [12, 40, 79, 86, 96, 100];
+    return results[thresholds.findIndex((t) => roll <= t)];
   }
 
   return [getAnyColumn(i), getWeaponArmorColumn(i), getAnyExcWeaponColumn(i)];
@@ -631,6 +639,40 @@ function getMiscItem(): MiscItem {
       break;
   }
   return miscItem;
+}
+
+function getRareItem() {
+  function getDeviceOfSummoningElementals() {
+    const roll = Math.floor(Math.random() * 8) + 1;
+    const items = [
+      "Bowl of Summoning Water Elementals",
+      "Brazier of Summoning Fire Elementals",
+      "Censer of Summoning Air Elementals",
+      "Crucible of Summoning Metal Elementals",
+      "Mallet of Summoning Wood Elementals",
+      "Marble Plate of Summoning Cold Elementals",
+      "Rod of Summoning Lightning Elementals",
+      "Stone of Summoning Earth Elementals",
+    ];
+    return items[roll - 1];
+  }
+
+  const roll = Math.floor(Math.random() * 100) + 1;
+  const items = [
+    "Bag of Devouring",
+    "Bag of Holding",
+    "Boots of Traveling and Leaping",
+    "Broom of Flying",
+    getDeviceOfSummoningElementals(),
+    "Efreeti Bottle",
+    "Flying Carpet",
+    "Gauntlets of Ogre Power",
+    "Girdle of Giant Strength",
+    "Mirror of Imprisonment",
+    "Rope of Climbing",
+  ];
+  const thresholds = [5, 20, 32, 47, 57, 59, 64, 81, 86, 88, 100];
+  return items[thresholds.findIndex((t) => roll <= t)];
 }
 
 export function generateGems(loot: Loot) {
