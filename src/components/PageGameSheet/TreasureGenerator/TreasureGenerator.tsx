@@ -1,13 +1,6 @@
 import { Loot } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import {
-  emptyLoot,
-  generateGems,
-  generateJewels,
-  generateLoot,
-  generateMagicItems,
-} from "@/support/diceSupport";
-import {
   Button,
   Descriptions,
   DescriptionsProps,
@@ -184,7 +177,7 @@ const TreasureGenerator: React.FC<React.ComponentPropsWithRef<"div">> = ({
         <Option value={1} title="Individual Treasures" />
         <Option value={2} title="Unguarded Treasure" />
       </Radio.Group>
-      <Flex className="[&>*]:flex-1">
+      <Flex className="[&>*]:flex-1" vertical>
         <TreasureForm type={treasureType} setResults={setResults} />
         <TreasureResults results={results} />
       </Flex>

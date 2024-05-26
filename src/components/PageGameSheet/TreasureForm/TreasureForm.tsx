@@ -1,5 +1,5 @@
 import { Loot } from "@/data/definitions";
-import { generateLoot } from "@/support/diceSupport";
+import { getLoot } from "@/support/diceSupport";
 import { Button, Flex, InputNumber, Select, SelectProps } from "antd";
 import React from "react";
 
@@ -69,9 +69,7 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ type, setResults }) => {
       {treasureInput}
       <Button
         type="primary"
-        onClick={() =>
-          setResults(generateLoot(treasureInputValue.current ?? ""))
-        }
+        onClick={() => setResults(getLoot(treasureInputValue.current ?? ""))}
       >
         Generate
       </Button>

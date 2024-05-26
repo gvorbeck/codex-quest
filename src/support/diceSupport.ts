@@ -68,7 +68,7 @@ export const emptyLoot: Loot = {
   magicItems: 0,
 };
 
-export function generateLoot(level: number | string): Loot {
+export function getLoot(level: number | string): Loot {
   const chances: Chances = {
     copper: [0, 0, 0],
     silver: [0, 0, 0],
@@ -181,7 +181,7 @@ export function generateLoot(level: number | string): Loot {
   return loot;
 }
 
-export function generateJewels(loot: Loot) {
+export function getJewels(loot: Loot) {
   const jewels = [];
 
   function getJewel() {
@@ -230,7 +230,7 @@ export function generateJewels(loot: Loot) {
   return jewels;
 }
 
-export function generateMagicItems() {
+export function getMagicItems() {
   const i = Math.floor(Math.random() * 100) + 1;
 
   function getAnyColumn(roll: number) {
@@ -675,7 +675,7 @@ function getRareItem() {
   return items[thresholds.findIndex((t) => roll <= t)];
 }
 
-export function generateGems(loot: Loot) {
+export function getGems(loot: Loot) {
   const gems = [];
   const values = [5, 10, 50, 100, 500, 1000, 5000];
 
