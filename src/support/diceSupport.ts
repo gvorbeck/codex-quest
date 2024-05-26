@@ -68,7 +68,7 @@ export const emptyLoot: Loot = {
   magicItems: 0,
 };
 
-export function generateLoot(level: number): Loot {
+export function generateLoot(level: number | string): Loot {
   const chances: Chances = {
     copper: [0, 0, 0],
     silver: [0, 0, 0],
