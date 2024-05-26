@@ -237,7 +237,7 @@ export function generateMagicItems() {
 
   function getAnyColumn(roll: number) {
     if (roll <= 25) return getMagicalWeapon();
-    if (roll <= 35) return "Armor";
+    if (roll <= 35) return getMagicalArmor();
     if (roll <= 55) return "Potion";
     if (roll <= 85) return "Scroll";
     if (roll <= 90) return "Wand, Staff, or Rod";
@@ -247,11 +247,11 @@ export function generateMagicItems() {
 
   function getWeaponArmorColumn(roll: number) {
     if (roll <= 70) return getMagicalWeapon();
-    return "Armor";
+    return getMagicalArmor();
   }
 
   function getAnyExcWeaponColumn(roll: number) {
-    if (roll <= 12) return "Armor";
+    if (roll <= 12) return getMagicalArmor();
     if (roll <= 40) return "Potion";
     if (roll <= 79) return "Scroll";
     if (roll <= 86) return "Wand, Staff, or Rod";
@@ -360,6 +360,42 @@ function getMagicalWeapon() {
     100,
   ];
   return getWeaponBonus(weapons[thresholds.findIndex((t) => roll <= t)]);
+}
+
+type MagicArmor = {
+  name: string;
+  special: string;
+  bonus: string;
+};
+
+function getMagicalArmor(reverse = false, a?: MagicArmor): MagicArmor {
+  const armor: MagicArmor = a ?? { name: "", special: "", bonus: "" };
+
+  if (!a) {
+    const armorTypes = ["Leather Armor", "Chain Mail", "Plate Mail", "Shield"];
+    const armorThresholds = [9, 28, 43, 100];
+    const armorRoll = Math.floor(Math.random() * 100) + 1;
+    armor.name = armorTypes[armorThresholds.findIndex((t) => armorRoll <= t)];
+  }
+
+  const bonusTypes = reverse
+    ? ["-1", "-2", "-3", "Cursed", "Cursed"]
+    : ["+1", "+2", "+3", "Cursed", "Cursed"];
+  const bonusThresholds = [50, 80, 90, 95, 100];
+  const bonusRoll = Math.floor(Math.random() * 100) + 1;
+  const bonusIndex = bonusThresholds.findIndex((t) => bonusRoll <= t);
+  const bonus = bonusTypes[bonusIndex];
+
+  let armorSpecial = "";
+
+  if (bonusIndex === 3) {
+    // Roll again with reverse bonus
+    return getMagicalArmor(true, { ...armor, special: "Cursed", bonus: "" });
+  } else if (bonusIndex === 4) {
+    armorSpecial = "Cursed: AC 11, but appears to be +1 when tested.";
+  }
+
+  return { ...armor, bonus, special: armorSpecial };
 }
 
 export function generateGems(loot: Loot) {
