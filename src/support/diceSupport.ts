@@ -5,7 +5,6 @@ import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 
 const roller = new DiceRoller();
 
-// NEW
 // Get the total of a dice roll matching the notation provided.
 // Use count to roll dice multiple times.
 export const rollDice = (dice: string, count?: number) => {
@@ -17,7 +16,6 @@ export const rollDice = (dice: string, count?: number) => {
   return results;
 };
 
-// NEW
 // Calculate the modifier for an ability score.
 export function calculateModifier(score: number) {
   let modifier;
@@ -238,9 +236,9 @@ export function generateMagicItems() {
   function getAnyColumn(roll: number) {
     if (roll <= 25) return getMagicalWeapon();
     if (roll <= 35) return getMagicalArmor();
-    if (roll <= 55) return "Potion";
-    if (roll <= 85) return "Scroll";
-    if (roll <= 90) return "Wand, Staff, or Rod";
+    if (roll <= 55) return `Potion of ${getPotion()}`;
+    if (roll <= 85) return getScroll();
+    if (roll <= 90) return getWand();
     if (roll <= 97) return "Miscellaneous Items";
     return "Rare Items";
   }
@@ -252,9 +250,9 @@ export function generateMagicItems() {
 
   function getAnyExcWeaponColumn(roll: number) {
     if (roll <= 12) return getMagicalArmor();
-    if (roll <= 40) return "Potion";
-    if (roll <= 79) return "Scroll";
-    if (roll <= 86) return "Wand, Staff, or Rod";
+    if (roll <= 40) return `Potion of ${getPotion()}`;
+    if (roll <= 79) return getScroll();
+    if (roll <= 86) return getWand();
     if (roll <= 96) return "Miscellaneous Items";
     return "Rare Items";
   }
@@ -396,6 +394,102 @@ function getMagicalArmor(reverse = false, a?: MagicArmor): MagicArmor {
   }
 
   return { ...armor, bonus, special: armorSpecial };
+}
+
+function getPotion() {
+  const potions = [
+    "Clairaudience",
+    "Clairvoyance",
+    "Cold Resistance",
+    "Control Animal",
+    "Control Dragon",
+    "Control Giant",
+    "Control Human",
+    "Control Plant",
+    "Control Undead",
+    "Delusion",
+    "Diminution",
+    "Fire Resistance",
+    "Flying",
+    "Gaseous Form",
+    "Giant Strength",
+    "Growth",
+    "Healing",
+    "Heroism",
+    "Invisibility",
+    "Invulnerability",
+    "Levitation",
+    "Longevity",
+    "Mind Reading",
+    "Poison",
+    "Polymorph Self",
+    "Speed",
+    "Treasure Finding",
+  ];
+  const potionThresholds = [
+    3, 6, 8, 11, 13, 16, 19, 22, 25, 32, 35, 39, 43, 47, 51, 55, 59, 63, 68, 72,
+    76, 80, 84, 86, 89, 97, 100,
+  ];
+  const potionRoll = Math.floor(Math.random() * 100) + 1;
+  return potions[potionThresholds.findIndex((t) => potionRoll <= t)];
+}
+
+function getScroll() {
+  const scrolls = [
+    "Cleric Spell Scroll (1 Spell)",
+    "Cleric Spell Scroll (2 Spells)",
+    "Cleric Spell Scroll (3 Spells)",
+    "Cleric Spell Scroll (4 Spells)",
+    "Magic-User Spell Scroll (1 Spell)",
+    "Magic-User Spell Scroll (2 Spells)",
+    "Magic-User Spell Scroll (3 Spells)",
+    "Magic-User Spell Scroll (4 Spells)",
+    "Magic-User Spell Scroll (5 Spells)",
+    "Magic-User Spell Scroll (6 Spells)",
+    "Magic-User Spell Scroll (7 Spells)",
+    "Cursed Scroll",
+    "Protection from Elementals",
+    "Protection from Lycanthropes",
+    "Protection from Magic",
+    "Protection from Undead",
+    "Map to Treasure Type A",
+    "Map to Treasure Type E",
+    "Map to Treasure Type G",
+    `Map to ${rollDice("1d4")} Magic Items`,
+  ];
+  const scrollThresholds = [
+    3, 6, 8, 9, 15, 20, 25, 29, 32, 34, 35, 40, 46, 56, 61, 75, 85, 89, 92, 100,
+  ];
+  const scrollRoll = Math.floor(Math.random() * 100) + 1;
+  return scrolls[scrollThresholds.findIndex((t) => scrollRoll <= t)];
+}
+
+function getWand() {
+  const wands = [
+    "Rod of Cancellation",
+    "Snake Staff",
+    "Staff of Commanding",
+    "Staff of Healing",
+    "Staff of Power",
+    "Staff of Striking",
+    "Staff of Wizardry",
+    "Wand of Cold",
+    "Wand of Enemy Detection",
+    "Wand of Fear",
+    "Wand of Fireballs",
+    "Wand of Illusion",
+    "Wand of Lightning Bolts",
+    "Wand of Magic Detection",
+    "Wand of Paralysis",
+    "Wand of Polymorph",
+    "Wand of Secret Door Detection",
+    "Wand of Trap Detection",
+  ];
+  const wandThresholds = [
+    8, 13, 17, 28, 30, 34, 35, 40, 45, 50, 55, 60, 65, 73, 79, 84, 92, 100,
+  ];
+  const wandRoll = Math.floor(Math.random() * 100) + 1;
+  return wands[wandThresholds.findIndex((t) => wandRoll <= t)];
 }
 
 export function generateGems(loot: Loot) {
