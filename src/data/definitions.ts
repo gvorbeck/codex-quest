@@ -337,3 +337,25 @@ export type Chances = {
   jewels: [number, number, number];
   magicItems: number;
 };
+
+export type MagicArmorTreasure = {
+  name: string;
+  special: string;
+  bonus: string;
+  id: "armor";
+};
+
+export type MiscItemTreasure = {
+  effect: string;
+  form: string;
+  column: string;
+  id: "misc";
+};
+
+export type WeaponTreasure = {
+  name: string;
+  type: string;
+  bonus: string;
+  specAbility: string;
+  id: "weapon";
+};

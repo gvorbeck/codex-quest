@@ -1,4 +1,11 @@
-import { Chances, Loot, RaceNames, SavingThrowsType } from "@/data/definitions";
+import {
+  Chances,
+  Loot,
+  MagicArmorTreasure,
+  MiscItemTreasure,
+  RaceNames,
+  SavingThrowsType,
+} from "@/data/definitions";
 import { races } from "@/data/races";
 import { titleCaseToCamelCase } from "./stringSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
@@ -230,7 +237,8 @@ export function getJewels(loot: Loot) {
   return jewels;
 }
 
-export function getMagicItems() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getMagicItems(): any[] {
   const i = Math.floor(Math.random() * 100) + 1;
 
   function getAnyColumn(roll: number) {
@@ -365,17 +373,22 @@ function getMagicalWeapon() {
     2, 9, 11, 19, 27, 31, 35, 43, 47, 59, 65, 79, 81, 83, 86, 94, 95, 96, 97,
     100,
   ];
-  return getWeaponBonus(weapons[thresholds.findIndex((t) => roll <= t)]);
+  return {
+    ...getWeaponBonus(weapons[thresholds.findIndex((t) => roll <= t)]),
+    id: "weapon",
+  };
 }
 
-type MagicArmor = {
-  name: string;
-  special: string;
-  bonus: string;
-};
-
-function getMagicalArmor(reverse = false, a?: MagicArmor): MagicArmor {
-  const armor: MagicArmor = a ?? { name: "", special: "", bonus: "" };
+function getMagicalArmor(
+  reverse = false,
+  a?: MagicArmorTreasure,
+): MagicArmorTreasure {
+  const armor: MagicArmorTreasure = a ?? {
+    name: "",
+    special: "",
+    bonus: "",
+    id: "armor",
+  };
 
   if (!a) {
     const armorTypes = ["Leather Armor", "Chain Mail", "Plate Mail", "Shield"];
@@ -469,7 +482,7 @@ function getScroll() {
     3, 6, 8, 9, 15, 20, 25, 29, 32, 34, 35, 40, 46, 56, 61, 75, 85, 89, 92, 100,
   ];
   const scrollRoll = Math.floor(Math.random() * 100) + 1;
-  return scrolls[scrollThresholds.findIndex((t) => scrollRoll <= t)];
+  return `Scroll: ${scrolls[scrollThresholds.findIndex((t) => scrollRoll <= t)]}`;
 }
 
 function getWand() {
@@ -497,18 +510,12 @@ function getWand() {
     8, 13, 17, 28, 30, 34, 35, 40, 45, 50, 55, 60, 65, 73, 79, 84, 92, 100,
   ];
   const wandRoll = Math.floor(Math.random() * 100) + 1;
-  return wands[wandThresholds.findIndex((t) => wandRoll <= t)];
+  return `Wands, Staves and Rods: ${wands[wandThresholds.findIndex((t) => wandRoll <= t)]}`;
 }
 
-type MiscItem = {
-  effect: string;
-  form: string;
-  column: string;
-};
-
-function getMiscItem(): MiscItem {
+function getMiscItem(): MiscItemTreasure {
   const roll = Math.floor(Math.random() * 100) + 1;
-  let miscItem: MiscItem;
+  let miscItem: MiscItemTreasure;
   if (roll <= 57) {
     const misc1 = [
       { effect: "Blasting", column: "G" },
@@ -537,6 +544,7 @@ function getMiscItem(): MiscItem {
     // return misc1[misc1Thresholds.findIndex((t) => roll1 <= t)];
     miscItem = {
       form: "",
+      id: "misc",
       ...misc1[misc1Thresholds.findIndex((t) => roll1 <= t)],
     };
   } else {
@@ -568,6 +576,7 @@ function getMiscItem(): MiscItem {
     const roll2 = Math.floor(Math.random() * 100) + 1;
     miscItem = {
       form: "",
+      id: "misc",
       ...misc2[misc2Thresholds.findIndex((t) => roll2 <= t)],
     };
   }
@@ -672,7 +681,7 @@ function getRareItem() {
     "Rope of Climbing",
   ];
   const thresholds = [5, 20, 32, 47, 57, 59, 64, 81, 86, 88, 100];
-  return items[thresholds.findIndex((t) => roll <= t)];
+  return `Rare Item: ${items[thresholds.findIndex((t) => roll <= t)]}`;
 }
 
 export function getGems(loot: Loot) {

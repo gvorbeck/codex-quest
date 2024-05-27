@@ -13,6 +13,7 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { storage } from "@/firebase";
 import { PlusOutlined } from "@ant-design/icons";
 import StockAvatars from "./StockAvatars/StockAvatars";
+import CqDivider from "../CqDivider/CqDivider";
 
 type AvatarPickerProps = {
   character: CharData;
@@ -152,9 +153,7 @@ export default function AvatarPicker({
 
   return (
     <>
-      <Divider plain className="font-enchant text-2xl my-4">
-        Avatar
-      </Divider>
+      <CqDivider>Avatar</CqDivider>
       <Radio.Group
         value={imageSource}
         onChange={handleChangeImageSource}
