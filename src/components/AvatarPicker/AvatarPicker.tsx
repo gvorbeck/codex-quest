@@ -1,13 +1,6 @@
 import React from "react";
 import { CharData } from "@/data/definitions";
-import {
-  Radio,
-  RadioChangeEvent,
-  UploadFile,
-  Divider,
-  GetProp,
-  Image,
-} from "antd";
+import { Radio, RadioChangeEvent, UploadFile, GetProp, Image } from "antd";
 import Upload, { RcFile, UploadProps } from "antd/es/upload";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { storage } from "@/firebase";
