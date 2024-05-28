@@ -1,7 +1,8 @@
+import CqDivider from "@/components/CqDivider/CqDivider";
 import { CharData, Spell } from "@/data/definitions";
 import spells from "@/data/spells.json";
 import { getSpellFromName } from "@/support/spellSupport";
-import { Checkbox, Divider, Flex, Input, Typography } from "antd";
+import { Checkbox, Flex, Input, Typography } from "antd";
 import React from "react";
 
 interface AllSpellsSelectionProps {
@@ -47,9 +48,7 @@ const AllSpellsSelection: React.FC<
     <Flex gap={8} className={className} vertical>
       {!hideStartingText && (
         <>
-          <Divider plain className="font-enchant text-2xl">
-            Starting Spells
-          </Divider>
+          <CqDivider>Starting Spells</CqDivider>
           <Typography.Text>
             Choose the spells your custom class starts level 1 with, if any.
           </Typography.Text>

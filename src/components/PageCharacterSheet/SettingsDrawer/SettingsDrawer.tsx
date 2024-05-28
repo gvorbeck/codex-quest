@@ -8,6 +8,7 @@ import CantripSelection from "../CantripSelection/CantripSelection";
 import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
+import CqDivider from "@/components/CqDivider/CqDivider";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -86,7 +87,7 @@ const SettingsDrawer: React.FC<
       className={className}
     >
       <Flex vertical gap={16}>
-        <Divider className="font-enchant text-2xl">Equipment</Divider>
+        <CqDivider>Equipment</CqDivider>
         <Button onClick={handleEditEquipmentClick}>Add/Edit Equipment</Button>
         {showEditEquipmentForm && (
           <StepEquipment
@@ -106,7 +107,7 @@ const SettingsDrawer: React.FC<
         )}
         {isSpellCaster && (
           <>
-            <Divider className="font-enchant text-2xl">Spells</Divider>
+            <CqDivider>Spells</CqDivider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             {showSpellSelection && (
               <AllSpellsSelection

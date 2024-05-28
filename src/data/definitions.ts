@@ -315,3 +315,49 @@ export interface ModalDisplay {
   title: string;
   content: React.ReactNode | undefined;
 }
+
+export type Loot = {
+  copper: number;
+  silver: number;
+  electrum: number;
+  gold: number;
+  platinum: number;
+  gems: number;
+  jewels: number;
+  magicItems: any[];
+};
+
+export type MagicItemColumns = "any" | "weaponArmor" | "noWeapon";
+
+export type Chances = {
+  copper: [number, number];
+  silver: [number, number];
+  electrum: [number, number];
+  gold: [number, number];
+  platinum: [number, number];
+  gems: [number, number];
+  jewels: [number, number];
+  magicItems: [number, MagicItemColumns, number, number, number];
+};
+
+export type MagicArmorTreasure = {
+  name: string;
+  special: string;
+  bonus: string;
+  id: "armor";
+};
+
+export type MiscItemTreasure = {
+  effect: string;
+  form: string;
+  column: string;
+  id: "misc";
+};
+
+export type WeaponTreasure = {
+  name: string;
+  type: string;
+  bonus: string;
+  specAbility: string;
+  id: "weapon";
+};
