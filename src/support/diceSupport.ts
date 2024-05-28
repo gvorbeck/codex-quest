@@ -2,6 +2,7 @@ import {
   Chances,
   Loot,
   MagicArmorTreasure,
+  MagicItemColumns,
   MiscItemTreasure,
   RaceNames,
   SavingThrowsType,
@@ -72,10 +73,10 @@ export const emptyLoot: Loot = {
   platinum: 0,
   gems: 0,
   jewels: 0,
-  magicItems: 0,
+  magicItems: [],
 };
 
-export function getLoot(level: number | string, dragonAge: number): Loot {
+export function getLoot(level: number | string, dragonAge?: number): Loot {
   const chances: Chances = {
     copper: [0, 0],
     silver: [0, 0],
@@ -86,13 +87,15 @@ export function getLoot(level: number | string, dragonAge: number): Loot {
     jewels: [0, 0],
     magicItems: [0, "any", 0, 0, 0],
   };
-  const loot = { ...emptyLoot };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const loot = { ...emptyLoot, magicItems: [] as any[] };
 
-  const dragonLootPercentage = dragonAge > 1 ? dragonAge / 10 + 0.15 : 0;
+  const dragonLootPercentage =
+    dragonAge && dragonAge > 1 ? dragonAge / 10 + 0.15 : 0;
 
   switch (level) {
     // coin, gems, jewels [percentage chance, rollDice()]
-    // magicItems [percentage chance, column, number produced, scrolls, potions]
+    // magicItems [percentage chance, column, number produced, # scrolls, # potions]
     case "A":
       chances.copper = [0.5, rollDice("5d6*100")];
       chances.silver = [0.6, rollDice("5d6*100")];
@@ -289,34 +292,34 @@ export function getLoot(level: number | string, dragonAge: number): Loot {
       break;
   }
 
-  const roll = (d: number) => Math.floor(Math.random() * d) + 1;
-  const getAmount = (
-    chance: number,
-    d: number,
-    numDice: number,
-    amount: number = 1,
-  ) => {
-    let total = 0;
-    if (Math.random() <= chance) {
-      for (let i = 0; i < numDice; i++) {
-        total += roll(d);
-      }
-    }
-    return total * amount;
-  };
-  const hasMagicItem = Math.random() <= chances.magicItems ? 1 : 0;
-
   (Object.keys(loot) as (keyof Loot)[]).forEach((key) => {
+    const roll = Math.random();
     if (key !== "magicItems") {
-      const notGemOrJewel = key !== "gems" && key !== "jewels";
-      loot[key] = getAmount(
-        chances[key][0], // % chance
-        chances[key][1], // the type of die
-        chances[key][2], // number of dice
-        notGemOrJewel ? 100 : 1,
-      );
+      if (roll <= chances[key][0]) {
+        loot[key] = chances[key][1];
+      }
     } else {
-      loot[key] = hasMagicItem;
+      // if there's a chance AND the roll is successful
+      if (chances[key][0] > 0 && roll <= chances[key][0]) {
+        // if there are any magic items
+        if (chances[key][2] > 0) {
+          for (let i = 1; i <= chances[key][2]; i++) {
+            loot[key].push(getMagicItems(chances[key][1]));
+          }
+        }
+        // if there are any scrolls
+        if (chances[key][3] > 0) {
+          for (let i = 1; i <= chances[key][3]; i++) {
+            loot[key].push(getScroll());
+          }
+        }
+        // if there are any potions
+        if (chances[key][4] > 0) {
+          for (let i = 1; i <= chances[key][4]; i++) {
+            loot[key].push(`Potion of ${getPotion()}`);
+          }
+        }
+      }
     }
   });
 
@@ -373,7 +376,7 @@ export function getJewels(loot: Loot) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getMagicItems(): any[] {
+export function getMagicItems(column: MagicItemColumns): any {
   const i = Math.floor(Math.random() * 100) + 1;
 
   function getAnyColumn(roll: number) {
@@ -408,7 +411,9 @@ export function getMagicItems(): any[] {
     return results[thresholds.findIndex((t) => roll <= t)];
   }
 
-  return [getAnyColumn(i), getWeaponArmorColumn(i), getAnyExcWeaponColumn(i)];
+  if (column === "any") return getAnyColumn(i);
+  if (column === "weaponArmor") return getWeaponArmorColumn(i);
+  if (column === "noWeapon") return getAnyExcWeaponColumn(i);
 }
 
 function getSpecialEnemy() {

@@ -6,8 +6,8 @@ import {
   WeaponTreasure,
 } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { getGems, getJewels, getMagicItems } from "@/support/diceSupport";
-import { Descriptions, DescriptionsProps, Empty, Flex, Typography } from "antd";
+import { getGems, getJewels } from "@/support/diceSupport";
+import { Descriptions, DescriptionsProps, Empty, Flex } from "antd";
 import React from "react";
 
 interface TreasureResultsProps {
@@ -41,7 +41,11 @@ const TreasureResults: React.FC<TreasureResultsProps> = ({ results }) => {
     { key: "platinum", label: "Platinum", children: results?.platinum || 0 },
     { key: "gems", label: "Gems", children: results?.gems || 0 },
     { key: "jewels", label: "Jewels", children: results?.jewels || 0 },
-    { key: "magicItems", label: "Magic Items", children: results?.magicItems },
+    {
+      key: "magicItems",
+      label: "Magic Items",
+      children: results?.magicItems.length,
+    },
   ];
 
   const gemsData = results ? getGems(results) : undefined;
@@ -125,48 +129,23 @@ const TreasureResults: React.FC<TreasureResultsProps> = ({ results }) => {
         bordered
         column={1}
         items={items}
-        title={item.id.toUpperCase()}
         size="small"
         key={item.id}
       />
     );
   }
 
-  const magicItemsData = results?.magicItems ? getMagicItems() : undefined;
-  const magicItemsDescriptions = magicItemsData?.length ? (
+  const magicItemsDescriptions = results?.magicItems?.length ? (
     <TreasureSection title="Magic Items">
-      <Flex justify="space-between" className="w-full">
-        <div>
-          <Typography.Title level={5} className="mt-0">
-            Any
-          </Typography.Title>
-          {magicItemContent(magicItemsData[0])}
-        </div>
-        <div>
-          <Typography.Title level={5} className="mt-0">
-            Weapon or Armor
-          </Typography.Title>
-          {magicItemContent(magicItemsData[1])}
-        </div>
-        <div>
-          <Typography.Title level={5} className="mt-0">
-            Any Except Weapons
-          </Typography.Title>
-          {magicItemContent(magicItemsData[2])}
-        </div>
-      </Flex>
+      {results?.magicItems.map((item) => magicItemContent(item))}
     </TreasureSection>
   ) : null;
-  console.log(magicItemsData);
+  console.log(results?.magicItems);
 
   return results ? (
     <Flex gap={16} vertical>
-      <Descriptions
-        bordered
-        column={4}
-        title="Treasure"
-        items={mainTreasureItems}
-      />
+      <CqDivider>Treasure</CqDivider>
+      <Descriptions bordered column={4} items={mainTreasureItems} />
       {!!results?.gems && gemsDescriptions}
       {!!results?.jewels && jewelsDescriptions}
       {!!results.magicItems && magicItemsDescriptions}

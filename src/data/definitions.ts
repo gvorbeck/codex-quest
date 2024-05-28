@@ -324,7 +324,7 @@ export type Loot = {
   platinum: number;
   gems: number;
   jewels: number;
-  magicItems: number;
+  magicItems: any[];
 };
 
 export type MagicItemColumns = "any" | "weaponArmor" | "noWeapon";

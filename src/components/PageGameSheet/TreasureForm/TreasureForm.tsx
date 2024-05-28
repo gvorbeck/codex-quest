@@ -1,6 +1,13 @@
 import { Loot } from "@/data/definitions";
 import { getLoot } from "@/support/diceSupport";
-import { Button, Flex, InputNumber, Select, SelectProps } from "antd";
+import {
+  Button,
+  Flex,
+  InputNumber,
+  Select,
+  SelectProps,
+  Typography,
+} from "antd";
 import React from "react";
 
 interface TreasureFormProps {
@@ -9,11 +16,17 @@ interface TreasureFormProps {
 }
 
 const TreasureForm: React.FC<TreasureFormProps> = ({ type, setResults }) => {
-  const treasureInputValue = React.useRef<number | string | null | undefined>(
-    "",
-  );
+  const [treasureInputValue, setTreasureInputValue] = React.useState<
+    number | string | null | undefined
+  >("");
+  const [dragonAge, setDragonAge] = React.useState<number | null>(1);
+
+  React.useEffect(() => {
+    setTreasureInputValue(undefined);
+  }, [type]);
+
   let treasureInput;
-  const treasure0Options: SelectProps["options"] = [
+  const treasureLairOptions: SelectProps["options"] = [
     { value: "A", label: "A" },
     { value: "B", label: "B" },
     { value: "C", label: "C" },
@@ -30,7 +43,7 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ type, setResults }) => {
     { value: "N", label: "N" },
     { value: "O", label: "O" },
   ];
-  const treasure1Options: SelectProps["options"] = [
+  const treasureIndvOptions: SelectProps["options"] = [
     { value: "P", label: "P" },
     { value: "Q", label: "Q" },
     { value: "R", label: "R" },
@@ -39,41 +52,75 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ type, setResults }) => {
     { value: "U", label: "U" },
     { value: "V", label: "V" },
   ];
-  if (type === 0) {
+
+  if (type === 0 || type === 1) {
     treasureInput = (
-      <Select
-        options={treasure0Options}
-        onChange={(v) => (treasureInputValue.current = v)}
-      />
-    );
-  }
-  if (type === 1) {
-    treasureInput = (
-      <Select
-        options={treasure1Options}
-        onChange={(v) => (treasureInputValue.current = v)}
-      />
+      <div>
+        <Typography.Text className="block">Type</Typography.Text>
+        <Select
+          options={type === 0 ? treasureLairOptions : treasureIndvOptions}
+          value={treasureInputValue as string}
+          onChange={(v) => setTreasureInputValue(v)}
+        />
+      </div>
     );
   }
   if (type === 2) {
     treasureInput = (
-      <InputNumber
-        min={1}
-        defaultValue={1}
-        onChange={(v) => (treasureInputValue.current = v)}
-      />
+      <div>
+        <Typography.Text className="block">Level</Typography.Text>
+        <InputNumber
+          min={1}
+          value={treasureInputValue as number}
+          onChange={(v) => setTreasureInputValue(v)}
+        />
+      </div>
     );
   }
+
+  const dragonInput =
+    treasureInputValue === "H" ? (
+      <div>
+        <Typography.Text className="block">Level</Typography.Text>
+        <InputNumber
+          min={1}
+          max={7}
+          value={dragonAge as number}
+          defaultValue={1}
+          onChange={(v) => setDragonAge(v)}
+        />
+      </div>
+    ) : null;
   return (
-    <Flex vertical gap={8} align="flex-start">
-      {treasureInput}
-      <Button
-        type="primary"
-        onClick={() => setResults(getLoot(treasureInputValue.current ?? ""))}
-      >
-        Generate
-      </Button>
-    </Flex>
+    <>
+      <Flex gap={8} align="flex-end">
+        {treasureInput}
+        {dragonInput}
+        <Button
+          type="primary"
+          onClick={() =>
+            setResults(
+              getLoot(
+                treasureInputValue ?? "",
+                treasureInputValue === "H" ? dragonAge ?? undefined : undefined,
+              ),
+            )
+          }
+          disabled={!treasureInputValue}
+        >
+          Generate
+        </Button>
+      </Flex>
+      {treasureInputValue === "H" && (
+        <Typography.Text className="mt-4">
+          * Type H treasures are specifically dragon treasure; the chance of
+          each type of monetary treasure ranges from 35% at the second age
+          category to 85% at the seventh, while the odds of gems, jewelry, and
+          magic items are 5% per hit die of the monster. Hatchlings do not
+          usually have any treasure.
+        </Typography.Text>
+      )}
+    </>
   );
 };
 
