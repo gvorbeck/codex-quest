@@ -327,15 +327,17 @@ export type Loot = {
   magicItems: number;
 };
 
+export type MagicItemColumns = "any" | "weaponArmor" | "noWeapon";
+
 export type Chances = {
-  copper: [number, number, number];
-  silver: [number, number, number];
-  electrum: [number, number, number];
-  gold: [number, number, number];
-  platinum: [number, number, number];
-  gems: [number, number, number];
-  jewels: [number, number, number];
-  magicItems: number;
+  copper: [number, number];
+  silver: [number, number];
+  electrum: [number, number];
+  gold: [number, number];
+  platinum: [number, number];
+  gems: [number, number];
+  jewels: [number, number];
+  magicItems: [number, MagicItemColumns, number, number, number];
 };
 
 export type MagicArmorTreasure = {

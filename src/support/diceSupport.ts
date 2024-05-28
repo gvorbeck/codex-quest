@@ -75,127 +75,217 @@ export const emptyLoot: Loot = {
   magicItems: 0,
 };
 
-export function getLoot(level: number | string): Loot {
+export function getLoot(level: number | string, dragonAge: number): Loot {
   const chances: Chances = {
-    copper: [0, 0, 0],
-    silver: [0, 0, 0],
-    electrum: [0, 0, 0],
-    gold: [0, 0, 0],
-    platinum: [0, 0, 0],
-    gems: [0, 0, 0],
-    jewels: [0, 0, 0],
-    magicItems: 0,
+    copper: [0, 0],
+    silver: [0, 0],
+    electrum: [0, 0],
+    gold: [0, 0],
+    platinum: [0, 0],
+    gems: [0, 0],
+    jewels: [0, 0],
+    magicItems: [0, "any", 0, 0, 0],
   };
   const loot = { ...emptyLoot };
-  console.log(level);
+
+  const dragonLootPercentage = dragonAge > 1 ? dragonAge / 10 + 0.15 : 0;
 
   switch (level) {
+    // coin, gems, jewels [percentage chance, rollDice()]
+    // magicItems [percentage chance, column, number produced, scrolls, potions]
     case "A":
+      chances.copper = [0.5, rollDice("5d6*100")];
+      chances.silver = [0.6, rollDice("5d6*100")];
+      chances.electrum = [0.4, rollDice("5d4*100")];
+      chances.gold = [0.7, rollDice("10d6*100")];
+      chances.platinum = [0.5, rollDice("1d10*100")];
+      chances.gems = [0.5, rollDice("6d6")];
+      chances.jewels = [0.5, rollDice("6d6")];
+      chances.magicItems = [0.3, "any", 3, 0, 0];
       break;
     case "B":
+      chances.copper = [0.75, rollDice("5d10*100")];
+      chances.silver = [0.5, rollDice("5d6*100")];
+      chances.electrum = [0.5, rollDice("5d4*100")];
+      chances.gold = [0.5, rollDice("3d6*100")];
+      chances.gems = [0.25, rollDice("1d6")];
+      chances.jewels = [0.25, rollDice("1d6")];
+      chances.magicItems = [0.1, "weaponArmor", 1, 0, 0];
       break;
     case "C":
+      chances.copper = [0.6, rollDice("6d6*100")];
+      chances.silver = [0.6, rollDice("5d4*100")];
+      chances.electrum = [0.3, rollDice("2d6*100")];
+      chances.gems = [0.25, rollDice("1d4")];
+      chances.jewels = [0.25, rollDice("1d4")];
+      chances.magicItems = [0.15, "any", rollDice("1d2"), 0, 0];
       break;
     case "D":
+      chances.copper = [0.3, rollDice("4d6*100")];
+      chances.silver = [0.45, rollDice("6d6*100")];
+      chances.gold = [0.9, rollDice("5d8*100")];
+      chances.gems = [0.3, rollDice("1d8")];
+      chances.jewels = [0.3, rollDice("1d8")];
+      chances.magicItems = [0.2, "any", rollDice("1d2"), 0, 1];
       break;
     case "E":
+      chances.copper = [0.3, rollDice("2d8*100")];
+      chances.silver = [0.6, rollDice("6d10*100")];
+      chances.electrum = [0.5, rollDice("3d8*100")];
+      chances.gold = [0.5, rollDice("4d10*100")];
+      chances.gems = [0.1, rollDice("1d10")];
+      chances.jewels = [0.1, rollDice("1d10")];
+      chances.magicItems = [0.3, "any", rollDice("1d4"), 1, 0];
       break;
     case "F":
+      chances.silver = [0.4, rollDice("3d8*100")];
+      chances.electrum = [0.5, rollDice("4d8*100")];
+      chances.gold = [0.85, rollDice("6d10*100")];
+      chances.platinum = [0.7, rollDice("2d8*100")];
+      chances.gems = [0.2, rollDice("2d12")];
+      chances.jewels = [0.1, rollDice("1d12")];
+      chances.magicItems = [0.35, "noWeapon", rollDice("1d4"), 1, 1];
       break;
     case "G":
+      chances.gold = [0.9, rollDice("4d6*1000")];
+      chances.platinum = [0.75, rollDice("5d8*100")];
+      chances.gems = [0.25, rollDice("3d6")];
+      chances.jewels = [0.25, rollDice("1d10")];
+      chances.magicItems = [0.5, "any", rollDice("1d4"), 1, 0];
       break;
     case "H":
+      chances.copper = [dragonLootPercentage, rollDice("8d10*100")];
+      chances.silver = [dragonLootPercentage, rollDice("6d10*1000")];
+      chances.electrum = [dragonLootPercentage, rollDice("3d10*1000")];
+      chances.gold = [dragonLootPercentage, rollDice("5d8*1000")];
+      chances.platinum = [dragonLootPercentage, rollDice("9d8*100")];
+      chances.gems = [dragonLootPercentage, rollDice("1d100")];
+      chances.jewels = [dragonLootPercentage, rollDice("10d4")];
+      chances.magicItems = [dragonLootPercentage, "any", rollDice("1d4"), 1, 1];
       break;
     case "I":
+      chances.platinum = [0.8, rollDice("3d10*100")];
+      chances.gems = [0.5, rollDice("2d6")];
+      chances.jewels = [0.5, rollDice("2d6")];
+      chances.magicItems = [0.15, "any", rollDice("1d4"), 0, 0];
       break;
     case "J":
+      chances.copper = [0.45, rollDice("3d8*100")];
+      chances.silver = [0.45, rollDice("1d8*100")];
       break;
     case "K":
+      chances.silver = [0.9, rollDice("2d10")];
+      chances.electrum = [0.35, rollDice("1d8")];
       break;
     case "L":
+      chances.gems = [0.5, rollDice("1d4")];
       break;
     case "M":
+      chances.gold = [0.9, rollDice("4d10*100")];
+      chances.platinum = [0.9, rollDice("2d8*1000")];
+      chances.gems = [0.55, rollDice("5d4")];
+      chances.jewels = [0.45, rollDice("2d6")];
       break;
     case "N":
+      chances.magicItems = [0.4, "any", 0, 0, rollDice("2d4")];
       break;
     case "O":
+      chances.magicItems = [0.5, "any", 0, rollDice("1d4"), 0];
       break;
     case "P":
+      chances.copper = [1, rollDice("3d8")];
       break;
     case "Q":
+      chances.silver = [1, rollDice("3d6")];
       break;
     case "R":
+      chances.electrum = [1, rollDice("2d6")];
       break;
     case "S":
+      chances.gold = [1, rollDice("2d4")];
       break;
     case "T":
+      chances.platinum = [1, rollDice("1d6")];
       break;
     case "U":
+      chances.copper = [0.5, rollDice("1d20")];
+      chances.silver = [0.5, rollDice("1d20")];
+      chances.gold = [0.25, rollDice("1d20")];
+      chances.gems = [0.05, rollDice("1d4")];
+      chances.jewels = [0.05, rollDice("1d4")];
+      chances.magicItems = [0.02, "any", 1, 0, 0];
       break;
     case "V":
+      chances.silver = [0.25, rollDice("1d20")];
+      chances.electrum = [0.25, rollDice("1d20")];
+      chances.gold = [0.5, rollDice("1d20")];
+      chances.platinum = [0.25, rollDice("1d20")];
+      chances.gems = [0.1, rollDice("1d4")];
+      chances.jewels = [0.1, rollDice("1d4")];
+      chances.magicItems = [0.05, "any", 1, 0, 0];
       break;
     case 1:
-      chances.copper = [0.75, 8, 1];
-      chances.silver = [0.5, 6, 1];
-      chances.electrum = [0.25, 4, 1];
-      chances.gold = [0.07, 4, 1];
-      chances.platinum = [0.01, 4, 1];
-      chances.gems = [0.07, 4, 1];
-      chances.jewels = [0.03, 4, 1];
-      chances.magicItems = 0.02;
+      chances.copper = [0.75, rollDice("1d8*100")];
+      chances.silver = [0.5, rollDice("1d6*100")];
+      chances.electrum = [0.25, rollDice("1d4*100")];
+      chances.gold = [0.07, rollDice("1d4*100")];
+      chances.platinum = [0.01, rollDice("1d4*100")];
+      chances.gems = [0.07, rollDice("1d4")];
+      chances.jewels = [0.03, rollDice("1d4")];
+      chances.magicItems = [0.02, "any", 1, 0, 0];
       break;
     case 2:
-      chances.copper = [0.5, 10, 1];
-      chances.silver = [0.5, 8, 1];
-      chances.electrum = [0.25, 6, 1];
-      chances.gold = [0.2, 6, 1];
-      chances.platinum = [0.02, 4, 1];
-      chances.gems = [0.1, 6, 1];
-      chances.jewels = [0.07, 4, 1];
-      chances.magicItems = 0.05;
+      chances.copper = [0.5, rollDice("1d10*100")];
+      chances.silver = [0.5, rollDice("1d8*100")];
+      chances.electrum = [0.25, rollDice("1d6*100")];
+      chances.gold = [0.2, rollDice("1d6*100")];
+      chances.platinum = [0.02, rollDice("1d4*100")];
+      chances.gems = [0.1, rollDice("1d6")];
+      chances.jewels = [0.07, rollDice("1d4")];
+      chances.magicItems = [0.05, "any", 1, 0, 0];
       break;
     case 3:
-      chances.copper = [0.3, 6, 2];
-      chances.silver = [0.5, 10, 1];
-      chances.electrum = [0.25, 8, 1];
-      chances.gold = [0.5, 6, 1];
-      chances.platinum = [0.04, 4, 1];
-      chances.gems = [0.15, 6, 1];
-      chances.jewels = [0.07, 6, 1];
-      chances.magicItems = 0.08;
+      chances.copper = [0.3, rollDice("2d6*100")];
+      chances.silver = [0.5, rollDice("1d10*100")];
+      chances.electrum = [0.25, rollDice("1d8*100")];
+      chances.gold = [0.5, rollDice("1d6*100")];
+      chances.platinum = [0.04, rollDice("1d4*100")];
+      chances.gems = [0.15, rollDice("1d6")];
+      chances.jewels = [0.07, rollDice("1d6")];
+      chances.magicItems = [0.08, "any", 1, 0, 0];
       break;
     case 4:
     case 5:
-      chances.copper = [0.2, 6, 3];
-      chances.silver = [0.5, 6, 2];
-      chances.electrum = [0.25, 10, 1];
-      chances.gold = [0.5, 6, 2];
-      chances.platinum = [0.08, 4, 1];
-      chances.gems = [0.2, 8, 1];
-      chances.jewels = [0.1, 6, 1];
-      chances.magicItems = 0.12;
+      chances.copper = [0.2, rollDice("3d6*100")];
+      chances.silver = [0.5, rollDice("2d6*100")];
+      chances.electrum = [0.25, rollDice("1d10*100")];
+      chances.gold = [0.5, rollDice("2d6*100")];
+      chances.platinum = [0.08, rollDice("1d4*100")];
+      chances.gems = [0.2, rollDice("1d8")];
+      chances.jewels = [0.1, rollDice("1d6")];
+      chances.magicItems = [0.12, "any", 1, 0, 0];
       break;
     case 6:
     case 7:
-      chances.copper = [0.15, 6, 4];
-      chances.silver = [0.5, 6, 3];
-      chances.electrum = [0.25, 12, 1];
-      chances.gold = [0.7, 8, 2];
-      chances.platinum = [0.15, 4, 1];
-      chances.gems = [0.3, 8, 1];
-      chances.jewels = [0.15, 6, 1];
-      chances.magicItems = 0.16;
+      chances.copper = [0.15, rollDice("4d6*100")];
+      chances.silver = [0.5, rollDice("3d6*100")];
+      chances.electrum = [0.25, rollDice("1d12*100")];
+      chances.gold = [0.7, rollDice("2d8*100")];
+      chances.platinum = [0.15, rollDice("1d4*100")];
+      chances.gems = [0.3, rollDice("1d8")];
+      chances.jewels = [0.15, rollDice("1d6")];
+      chances.magicItems = [0.16, "any", 1, 0, 0];
       break;
     case 8:
     default:
-      chances.copper = [0.1, 6, 5];
-      chances.silver = [0.5, 6, 5];
-      chances.electrum = [0.25, 8, 2];
-      chances.gold = [0.75, 6, 4];
-      chances.platinum = [0.3, 4, 1];
-      chances.gems = [0.4, 8, 1];
-      chances.jewels = [0.3, 8, 1];
-      chances.magicItems = 0.2;
+      chances.copper = [0.1, rollDice("5d6*100")];
+      chances.silver = [0.5, rollDice("5d6*100")];
+      chances.electrum = [0.25, rollDice("2d8*100")];
+      chances.gold = [0.75, rollDice("4d6*100")];
+      chances.platinum = [0.3, rollDice("1d4*100")];
+      chances.gems = [0.4, rollDice("1d8")];
+      chances.jewels = [0.3, rollDice("1d8")];
+      chances.magicItems = [0.2, "any", 1, 0, 0];
       break;
   }
 
