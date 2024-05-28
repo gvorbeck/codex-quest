@@ -45,7 +45,7 @@ const TreasureGenerator: React.FC<React.ComponentPropsWithRef<"div">> = ({
       </Radio.Group>
       <Flex className="[&>*]:flex-1" vertical>
         <TreasureForm type={treasureType} setResults={setResults} />
-        <TreasureResults results={results} />
+        {results && <TreasureResults results={results} />}
       </Flex>
     </Flex>
   );
