@@ -6,7 +6,7 @@ import {
   WeaponTreasure,
 } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { getGems, getJewels } from "@/support/diceSupport";
+import { getGems, getJewels } from "@/support/treasureSupport";
 import { Descriptions, DescriptionsProps, Empty, Flex } from "antd";
 import React from "react";
 

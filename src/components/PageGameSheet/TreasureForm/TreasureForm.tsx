@@ -1,5 +1,5 @@
 import { Loot } from "@/data/definitions";
-import { getLoot } from "@/support/diceSupport";
+import { getLoot } from "@/support/treasureSupport";
 import {
   Button,
   Flex,
