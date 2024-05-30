@@ -17,6 +17,7 @@ import ModalContainer from "@/components/ModalContainer/ModalContainer";
 import { useModal } from "@/hooks/useModal";
 import TreasureGenerator from "../TreasureGenerator/TreasureGenerator";
 import MonsterSvg from "@/assets/svg/MonsterSvg";
+import EncounterGenerator from "../EncounterGenerator/EncounterGenerator";
 
 interface HeroProps {
   handlePlayersSwitch: (checked: boolean) => void;
@@ -44,7 +45,7 @@ const Hero: React.FC<HeroProps> = ({
     setModalDisplay({
       isOpen: true,
       title: "Random Encounter Generator",
-      content: <div>Random Encounter Generator</div>,
+      content: <EncounterGenerator />,
     });
   }
 
