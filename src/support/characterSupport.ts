@@ -4,9 +4,10 @@ import {
   ClassNames,
   EquipmentItem,
 } from "@/data/definitions";
-import { calculateModifier, rollDice } from "./diceSupport";
+import { rollDice } from "./diceSupport";
 import { classes } from "@/data/classes";
 import { getItemCost } from "./equipmentSupport";
+import { calculateModifier } from "./statSupport";
 
 export const openInNewTab = (url: string) => {
   const newWindow = window.open(url, "_blank", "noopener,noreferrer");

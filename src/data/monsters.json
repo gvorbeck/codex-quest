@@ -2644,7 +2644,7 @@
     "description": "Jellies are strange creatures made of amorphous protoplasm. They are similar to tiny single-celled creatures such as a few wizards may have studied using magic, but far larger. Jellies are always completely non-intelligent, and are thus immune to **sleep** or **charm magic** as well as any form or **mind reading** or telepathy. Generally they also do not check morale, but simply move toward any potential meal and attack automatically."
   },
   {
-    "name": "Jelly,  Black* (Black Pudding)",
+    "name": "Jelly, Black* (Black Pudding)",
     "variants": [
       [
         "",
@@ -2665,7 +2665,7 @@
     "description": "Black jellies are amorphous creatures that live only to eat. They inhabit underground areas throughout the world, scouring caverns, ruins, and dungeons in search of organic matter, living or dead. They attack any creatures they encounter, lashing out with pseudopods or simply engulfing opponents with their bodies, which secrete acids that help them catch and digest their prey.\n\nIf attacked with normal or magical weapons, or with lightning or electricity, a black jelly suffers no injury, but will be split into two jellies; the GM should divide the original creature's hit dice between the two however they see fit, with the limitation that neither pudding may have less than two hit dice. A two hit die black jelly is simply unharmed by such attacks, but cannot be split further.\n\nCold or ice based attacks do not harm a black jelly, but such an attack will paralyze the jelly for one round per die of damage the attack would normally cause. Other attack forms will affect a black jelly normally; the preferred method of killing one usually involves fire.\n\nThe typical black jelly measures 10 feet across and 2 feet thick, and weighs about 10,000 pounds. Black jellies of smaller sizes may be encountered, possibly as a result of the splitting described above."
   },
   {
-    "name": "Jelly,  Glass (Gelatinous Cube)",
+    "name": "Jelly, Glass (Gelatinous Cube)",
     "variants": [
       [
         "",
@@ -2686,7 +2686,7 @@
     "description": "The glass jelly travels slowly along dungeon corridors and cave floors, absorbing carrion, creatures, and trash. Inorganic material remains trapped and visible inside the jelly's body. Glass jellies are huge, averaging 1,000 cubic feet and weighing as much as 20,000 pounds.\n\nThe body of a glass jelly is more viscous than that of other jellies, and it tends to take on the shape of its surroundings such that one in a dungeon with 10' wide corridors might have a shape similar to that of a cube, while one living in round sewer drains under a city would have a cylindrical or half-cylindrical shape.\n\nIf a glass jelly encounters a narrow place (a doorway, for example) it will need 2d4 rounds to push through the constriction and will have assumed a new shape after doing so; such a new shape will persist for twice as long as it took to pass the constriction before the monster begins to flow into a shape that fills the available space again.\n\nGlass jellies move quietly, making a faint sucking or slurping sound if anyone thinks to listen. Combined with their transparency, they are able to surprise prey on a roll of 1-3 on 1d6. Worse, any living creature hit by a glass jelly must save vs. Paralysis or be paralyzed for 2d4 turns in addition to suffering damage from its acid secretions.\n\nAny treasure indicated will be visible inside the creature, which must be slain if the treasure is to be recovered."
   },
   {
-    "name": "Jelly,  Gray (Gray Ooze)",
+    "name": "Jelly, Gray (Gray Ooze)",
     "variants": [
       [
         "",
@@ -2707,7 +2707,7 @@
     "description": "Gray jellies are amorphous creatures that live only to eat. They inhabit underground areas, scouring caverns, ruins, and dungeons in search of organic matter, living or dead. Average individuals will be up to 10 feet in diameter, about 6 inches thick (high), and weigh up to 2,500 pounds.\n\nThe acid secretions of the gray jelly can dissolve most organic matter and most metals; stone and glass are not affected, however. After a successful hit, the jelly will stick to the creature attacked, dealing 2d8 damage per round automatically. Normal (non-magical) armor or clothing dissolves and becomes useless immediately. Any non-magical weapon made of metal or wood which hits a gray jelly will be similarly destroyed.\n\nMagical weapons, armor, and clothing are allowed a saving throw (use the wearer's save vs. Death Ray, adding any magical \"plus\" value to the roll if applicable)."
   },
   {
-    "name": "Jelly,  Green* (Green Slime)",
+    "name": "Jelly, Green* (Green Slime)",
     "variants": [
       [
         "",
@@ -2728,7 +2728,7 @@
     "description": "Green jelly devours flesh and organic materials on contact and is even capable of dissolving metal given enough time. Bright green, wet, and sticky, it clings to walls, floors, and ceilings in patches, reproducing as it consumes organic matter. Green jelly cannot grow in sunlight; even the indirect sunlight of a dense forest will stunt it and prevent it from spreading, and direct sunlight will kill it outright within a turn.\n\nOn the first round of contact, the jelly can be scraped off a creature (most likely destroying the scraping device), but after that it must be frozen, burned, or cut away (dealing the same damage to both the victim and the jelly). A cure disease spell will destroy a patch of green jelly. It does not harm stone or enchanted metal, but can dissolve normal metal or enchanted wood in a turn and normal wood in 2d4 rounds.\n\nIf not destroyed or scraped off within 6+1d4 rounds, the victim will be completely transformed into more green jelly; such a character or creature cannot be retrieved by any magic short of a wish."
   },
   {
-    "name": "Jelly,  Ochre*",
+    "name": "Jelly, Ochre*",
     "variants": [
       [
         "",

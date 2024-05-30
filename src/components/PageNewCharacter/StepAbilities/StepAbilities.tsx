@@ -2,7 +2,8 @@ import { Abilities, CharData, CharDataAction } from "@/data/definitions";
 import { Button, Descriptions, Flex, Table, TableProps } from "antd";
 import AbilityRoller from "./AbilityRoller/AbilityRoller";
 import { useDeviceType } from "@/hooks/useDeviceType";
-import { calculateModifier, rollDice } from "@/support/diceSupport";
+import { rollDice } from "@/support/diceSupport";
+import { calculateModifier } from "@/support/statSupport";
 
 interface StepAbilitiesProps {
   character: CharData;

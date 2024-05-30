@@ -5,8 +5,7 @@ import { camelCaseToTitleCase } from "@/support/stringSupport";
 import classNames from "classnames";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
-import { rollSavingThrow } from "@/support/diceSupport";
-import { getBestSavingThrowList } from "@/support/statSupport";
+import { getBestSavingThrowList, rollSavingThrow } from "@/support/statSupport";
 
 interface DataType {
   key: number;

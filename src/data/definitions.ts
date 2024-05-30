@@ -361,3 +361,21 @@ export type WeaponTreasure = {
   specAbility: string;
   id: "weapon";
 };
+
+export type EncounterEnvironment = "dungeon" | "wilderness" | "urban";
+export type WildernessSubEnvironments =
+  | "desert-or-barren"
+  | "grassland"
+  | "inhabited-territories"
+  | "jungle"
+  | "mountains-or-hills"
+  | "ocean"
+  | "river-or-riverside"
+  | "swamp"
+  | "woods-or-forest";
+
+export interface EncounterDetails {
+  level?: number;
+  subEnvironment?: WildernessSubEnvironments;
+  time: "day" | "night";
+}

@@ -4,7 +4,7 @@ import { Table } from "antd";
 import classNames from "classnames";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
-import { rollSpecialAbility } from "@/support/diceSupport";
+import { rollSpecialAbility } from "@/support/statSupport";
 
 interface SpecialAbilitiesTableProps {
   specialAbilities: {

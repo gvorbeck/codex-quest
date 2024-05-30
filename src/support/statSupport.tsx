@@ -7,13 +7,57 @@ import {
   SavingThrowsType,
   UpdateCharAction,
 } from "@/data/definitions";
-import { AttackTypes } from "./stringSupport";
+import { AttackTypes, titleCaseToCamelCase } from "./stringSupport";
 import { races } from "@/data/races";
 import equipmentItems from "../data/equipment.json";
 import { ArmorCategory, getEquipmentItemFromName } from "./equipmentSupport";
 import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
+import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+
+const roller = new DiceRoller();
+
+// Calculate the modifier for an ability score.
+export function calculateModifier(score: number) {
+  let modifier;
+  if (score === null) modifier = "";
+  if (score === 3) modifier = "-3";
+  else if (score <= 5) modifier = "-2";
+  else if (score <= 8) modifier = "-1";
+  else if (score <= 12) modifier = "+0";
+  else if (score <= 15) modifier = "+1";
+  else if (score <= 17) modifier = "+2";
+  else if (score === 18) modifier = "+3";
+  return modifier;
+}
+
+export const rollSpecialAbility = (
+  score: number,
+  title: string,
+  openNotification: (result: string, specialAbilityTable: string) => void,
+) => {
+  const result = roller.roll(`d%`);
+  const passFail = result.total <= score ? "Pass" : "Fail";
+  openNotification(result.output + " - " + passFail, title);
+};
+
+export const rollSavingThrow = (
+  score: number,
+  title: string,
+  race: string,
+  openNotification: (result: string, savingThrowTitle: string) => void,
+) => {
+  const raceModifier =
+    races[race as RaceNames]?.savingThrows?.[
+      titleCaseToCamelCase(title) as keyof SavingThrowsType
+    ] || 0;
+  const result = roller.roll(
+    `d20${raceModifier > 0 ? `+${raceModifier}` : ""}`,
+  );
+  const passFail = result.total >= score ? "Pass" : "Fail";
+  openNotification(result.output + " - " + passFail, title);
+};
 
 export const getArmorClass = (
   character: CharData,

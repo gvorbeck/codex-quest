@@ -1,5 +1,6 @@
 import { Abilities, CharData, CharDataAction } from "@/data/definitions";
-import { calculateModifier, rollDice } from "@/support/diceSupport";
+import { rollDice } from "@/support/diceSupport";
+import { calculateModifier } from "@/support/statSupport";
 import { Button, InputNumber, Space } from "antd";
 
 interface AbilityRollerProps {
