@@ -1,37 +1,70 @@
-import { WildernessSubEnvironments } from "@/data/definitions";
-import { Flex, Select, SelectProps, Typography } from "antd";
+import { EncounterEnvironment } from "@/data/definitions";
+import {
+  Flex,
+  Radio,
+  RadioChangeEvent,
+  Select,
+  SelectProps,
+  Typography,
+} from "antd";
 import React from "react";
+import Option from "../Option/Option";
 
-const EncounterOptionWrapper: React.FC = () => {
-  return <div>foo</div>;
+interface EncounterOptionSelectProps {
+  label: string;
+  options: SelectProps["options"];
+  placeholder: string;
+  onChange: (value: string) => void;
+  value: string | undefined;
+}
+
+const EncounterOptionSelect: React.FC<EncounterOptionSelectProps> = ({
+  label,
+  options,
+  placeholder,
+  onChange,
+  value,
+}) => {
+  return (
+    <div>
+      <Typography.Text className="block">{label}</Typography.Text>
+      <Select
+        options={options}
+        placeholder={placeholder}
+        onChange={onChange}
+        value={value}
+      />
+    </div>
+  );
 };
 
 const EncounterGenerator: React.FC = () => {
-  const [encounterType, setEncounterType] = React.useState<string | undefined>(
-    undefined,
-  );
+  const [encounterType, setEncounterType] = React.useState<
+    EncounterEnvironment | undefined
+  >(undefined);
   const [dungeonLevel, setDungeonLevel] = React.useState<string | undefined>(
     undefined,
   );
   const [wildernessEnvironment, setWildernessEnvironment] = React.useState<
-    WildernessSubEnvironments | undefined
+    string | undefined
   >(undefined);
+  const [urbanTime, setUrbanTime] = React.useState<string | undefined>(
+    undefined,
+  );
 
-  function handleEncounterTypeChange(value: string) {
-    setEncounterType(value);
+  function handleEncounterTypeChange(e: RadioChangeEvent) {
+    setEncounterType(e.target.value);
   }
   function handleDungeonLevelChange(value: string) {
     setDungeonLevel(value);
   }
-  function handleWildernessEnvironmentChange(value: WildernessSubEnvironments) {
+  function handleWildernessEnvironmentChange(value: string) {
     setWildernessEnvironment(value);
   }
+  function handleUrbanTimeChange(value: string) {
+    setUrbanTime(value);
+  }
 
-  const options: SelectProps["options"] = [
-    { value: "dungeon", label: "Dungeon Encounter" },
-    { value: "wilderness", label: "Wilderness Encounter" },
-    { value: "urban", label: "Town, City, or Village Encounter" },
-  ];
   const dungeonLevelOptions: SelectProps["options"] = [
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -53,37 +86,49 @@ const EncounterGenerator: React.FC = () => {
     { value: "swamp", label: "Swamp" },
     { value: "woods-or-forest", label: "Woods or Forest" },
   ];
+  const urbanTimeOptions: SelectProps["options"] = [
+    { value: "day", label: "Day" },
+    { value: "night", label: "Night" },
+  ];
+
   return (
     <Flex gap={8} vertical align="flex-start">
-      <Select
-        options={options}
-        placeholder="Select an encounter type"
-        onChange={handleEncounterTypeChange}
+      <Radio.Group
         value={encounterType}
-      />
+        onChange={handleEncounterTypeChange}
+        buttonStyle="solid"
+      >
+        <Option value="dungeon" title="Dungeon Encounter" />
+        <Option value="wilderness" title="Wilderness Encounter" />
+        <Option value="urban" title="Town, City, or Village Encounter" />
+      </Radio.Group>
       {encounterType === "dungeon" && (
-        <div>
-          <Typography.Text className="block">Level</Typography.Text>
-          <Select
-            options={dungeonLevelOptions}
-            placeholder="Select an encounter level"
-            onChange={handleDungeonLevelChange}
-            value={dungeonLevel}
-          />
-        </div>
+        <EncounterOptionSelect
+          label="Level"
+          onChange={handleDungeonLevelChange}
+          options={dungeonLevelOptions}
+          placeholder="Select an encounter level"
+          value={dungeonLevel}
+        />
       )}
       {encounterType === "wilderness" && (
-        <div>
-          <Typography.Text className="block">Environment</Typography.Text>
-          <Select
-            options={wildernessEnvironmentOptions}
-            placeholder="Select an environment type"
-            onChange={handleWildernessEnvironmentChange}
-            value={wildernessEnvironment}
-          />
-        </div>
+        <EncounterOptionSelect
+          label="Environment"
+          onChange={handleWildernessEnvironmentChange}
+          options={wildernessEnvironmentOptions}
+          placeholder="Select an environment type"
+          value={wildernessEnvironment}
+        />
       )}
-      {encounterType === "urban" && <div>Urban encounter</div>}
+      {encounterType === "urban" && (
+        <EncounterOptionSelect
+          label="Time of Day"
+          onChange={handleUrbanTimeChange}
+          options={urbanTimeOptions}
+          placeholder="Select a time of day"
+          value={urbanTime}
+        />
+      )}
     </Flex>
   );
 };
