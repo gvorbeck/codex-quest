@@ -7,7 +7,7 @@ import monster from "@/data/monsters.json";
 import { rollDice } from "./diceSupport";
 
 export function getMonsterByName(name: string) {
-  return monster.find((m) => m.name === name);
+  return monster.find((m) => m.name.includes(name));
 }
 
 export function getEncounter(
@@ -85,7 +85,7 @@ export function getEncounter(
           "Rust Monster*",
           "Lycanthrope, Werewolf*",
           "Minotaur",
-          "Jelly, Ruddy*",
+          "Jelly, Ochre*",
           "Owlbear",
           "Wraith*",
         );
@@ -343,6 +343,7 @@ export function getEncounter(
   }
 
   if (!monster) {
+    console.log(monster);
     throw new Error("Invalid monster");
   }
   return monster;

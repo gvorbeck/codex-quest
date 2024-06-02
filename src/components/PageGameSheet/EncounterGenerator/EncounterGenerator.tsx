@@ -1,42 +1,14 @@
-import { EncounterEnvironment } from "@/data/definitions";
 import {
-  Flex,
-  Radio,
-  RadioChangeEvent,
-  Select,
-  SelectProps,
-  Typography,
-} from "antd";
+  EncounterDetails,
+  EncounterEnvironment,
+  Monster,
+  WildernessSubEnvironments,
+} from "@/data/definitions";
+import { Flex, Radio, RadioChangeEvent, SelectProps } from "antd";
 import React from "react";
 import Option from "../Option/Option";
-
-interface EncounterOptionSelectProps {
-  label: string;
-  options: SelectProps["options"];
-  placeholder: string;
-  onChange: (value: string) => void;
-  value: string | undefined;
-}
-
-const EncounterOptionSelect: React.FC<EncounterOptionSelectProps> = ({
-  label,
-  options,
-  placeholder,
-  onChange,
-  value,
-}) => {
-  return (
-    <div>
-      <Typography.Text className="block">{label}</Typography.Text>
-      <Select
-        options={options}
-        placeholder={placeholder}
-        onChange={onChange}
-        value={value}
-      />
-    </div>
-  );
-};
+import EncounterOptionSelect from "../EncounterOptionSelect/EncounterOptionSelect";
+import EncounterResults from "../EncounterResults/EncounterResults";
 
 const EncounterGenerator: React.FC = () => {
   const [encounterType, setEncounterType] = React.useState<
@@ -49,6 +21,9 @@ const EncounterGenerator: React.FC = () => {
     string | undefined
   >(undefined);
   const [urbanTime, setUrbanTime] = React.useState<string | undefined>(
+    undefined,
+  );
+  const [results, setResults] = React.useState<string | Monster | undefined>(
     undefined,
   );
 
@@ -102,33 +77,48 @@ const EncounterGenerator: React.FC = () => {
         <Option value="wilderness" title="Wilderness Encounter" />
         <Option value="urban" title="Town, City, or Village Encounter" />
       </Radio.Group>
-      {encounterType === "dungeon" && (
-        <EncounterOptionSelect
-          label="Level"
-          onChange={handleDungeonLevelChange}
-          options={dungeonLevelOptions}
-          placeholder="Select an encounter level"
-          value={dungeonLevel}
-        />
-      )}
-      {encounterType === "wilderness" && (
-        <EncounterOptionSelect
-          label="Environment"
-          onChange={handleWildernessEnvironmentChange}
-          options={wildernessEnvironmentOptions}
-          placeholder="Select an environment type"
-          value={wildernessEnvironment}
-        />
-      )}
-      {encounterType === "urban" && (
-        <EncounterOptionSelect
-          label="Time of Day"
-          onChange={handleUrbanTimeChange}
-          options={urbanTimeOptions}
-          placeholder="Select a time of day"
-          value={urbanTime}
-        />
-      )}
+      <Flex className="[&>*]:w-1/2 w-full">
+        {encounterType === "dungeon" && (
+          <EncounterOptionSelect
+            label="Level"
+            onChange={handleDungeonLevelChange}
+            options={dungeonLevelOptions}
+            placeholder="Select an encounter level"
+            value={dungeonLevel}
+            type={encounterType}
+            typeOption={{ level: parseInt(dungeonLevel || "0") }}
+            setResults={setResults}
+          />
+        )}
+        {encounterType === "wilderness" && (
+          <EncounterOptionSelect
+            label="Environment"
+            onChange={handleWildernessEnvironmentChange}
+            options={wildernessEnvironmentOptions}
+            placeholder="Select an environment type"
+            value={wildernessEnvironment}
+            type={encounterType}
+            typeOption={{
+              subEnvironment:
+                wildernessEnvironment as WildernessSubEnvironments,
+            }}
+            setResults={setResults}
+          />
+        )}
+        {encounterType === "urban" && (
+          <EncounterOptionSelect
+            label="Time of Day"
+            onChange={handleUrbanTimeChange}
+            options={urbanTimeOptions}
+            placeholder="Select a time of day"
+            value={urbanTime}
+            type={encounterType}
+            typeOption={{ time: urbanTime as EncounterDetails["time"] }}
+            setResults={setResults}
+          />
+        )}
+        {results && <EncounterResults results={results} />}
+      </Flex>
     </Flex>
   );
 };
