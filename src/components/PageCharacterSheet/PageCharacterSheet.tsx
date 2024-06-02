@@ -14,7 +14,6 @@ import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
 import StepAbilities from "../PageNewCharacter/StepAbilities/StepAbilities";
 import AttackBonuses from "./AttackBonuses/AttackBonuses";
 import HitPoints from "./HitPoints/HitPoints";
-import StepHitPoints from "../PageNewCharacter/StepHitPoints/StepHitPoints";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import CharacterStat from "./CharacterStat/CharacterStat";
 import { getArmorClass, getHitDice, getMovement } from "@/support/statSupport";
@@ -32,6 +31,7 @@ import Cantrips from "./Cantrips/Cantrips";
 import Equipment from "./Equipment/Equipment";
 import Description from "./Description/Description";
 import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
+import EditMaxHp from "./EditMaxHp/EditMaxHp";
 
 interface PageCharacterSheetProps {
   user: User | null;
@@ -98,12 +98,7 @@ const PageCharacterSheet: React.FC<
                 title="Hit Points"
                 component={<HitPoints />}
                 editable
-                editableComponent={
-                  <StepHitPoints
-                    character={character}
-                    characterDispatch={characterDispatch}
-                  />
-                }
+                editableComponent={<EditMaxHp />}
               />
             </Flex>
           </Col>
