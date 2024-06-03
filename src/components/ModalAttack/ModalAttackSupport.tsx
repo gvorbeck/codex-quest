@@ -2,16 +2,45 @@ import { CharData, EquipmentItem } from "@/data/definitions";
 import { rollDice } from "@/support/diceSupport";
 import { getAttackBonus } from "@/support/statSupport";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import equipmentData from "@/data/equipment.json";
 
 export const noAmmoMessage = "No ammunition available";
+
+const findAmmoItems = (
+  ammo: string[],
+  equipment: EquipmentItem[],
+): EquipmentItem[] => {
+  return ammo
+    .map((ammoName) => equipment.find((item) => item.name === ammoName))
+    .filter(Boolean) as EquipmentItem[];
+};
+
+const findCharacterAmmunition = (
+  equipment: EquipmentItem[],
+): EquipmentItem[] => {
+  return equipment.filter(
+    (item) =>
+      item.category === "ammunition" &&
+      !equipmentData.find((e) => e.name === item.name),
+  );
+};
 
 export const getAvailableAmmoOptions = (
   ammo: EquipmentItem["ammo"],
   equipment: EquipmentItem[],
-) =>
-  ammo?.flatMap((ammo: string) => {
-    return equipment.filter((item) => item.name === ammo);
-  });
+): EquipmentItem[] => {
+  if (!ammo) return [];
+
+  const ammoItems = findAmmoItems(ammo, equipment);
+  const charAmmunitionItems = findCharacterAmmunition(equipment);
+  // Set removes any duplicates
+  const optionsSet = new Set<EquipmentItem>([
+    ...ammoItems,
+    ...charAmmunitionItems,
+  ]);
+
+  return Array.from(optionsSet);
+};
 
 export const getAvailableAmmoSelectOptions = (
   options: EquipmentItem[] | undefined,
