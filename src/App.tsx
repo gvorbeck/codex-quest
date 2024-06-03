@@ -54,11 +54,7 @@ const App: React.FC = () => {
             element={
               <PageLayout
                 user={user}
-                alert={
-                  gmDay
-                    ? "Happy International GM's Day!"
-                    : "I recently updated the site. You may need to reset your character's avatar if it is gone. Contact me with any wonkiness. GLHF!"
-                }
+                alert={gmDay ? "Happy International GM's Day!" : undefined}
               />
             }
           >
