@@ -3793,16 +3793,16 @@
     "variants": [
       [
         {
-          "Armor Class": "18",
-          "Hit Dice": "5*",
-          "No. of Attacks": "1 touch",
-          "Damage": "special",
-          "Movement": "40'",
-          "No. Appearing": "1d4",
-          "Save As": "Fighter: 5",
-          "Morale": "7",
-          "Treasure Type": "None",
-          "XP": "405"
+          "ac": "18",
+          "hitDice": "5*",
+          "numAttacks": "1 touch",
+          "damage": "special",
+          "movement": "40'",
+          "numAppear": "1d4",
+          "saveAs": "Fighter: 5",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "405"
         }
       ]
     ],
