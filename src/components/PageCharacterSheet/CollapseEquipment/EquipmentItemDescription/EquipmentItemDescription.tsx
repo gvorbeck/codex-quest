@@ -10,6 +10,7 @@ import {
   Descriptions,
   DescriptionsProps,
   Flex,
+  InputNumber,
   Popconfirm,
   Typography,
   message,
@@ -92,6 +93,21 @@ const EquipmentItemDescription: React.FC<
     },
   ];
 
+  // Custom ammo items have no way to add more of themselves without this.
+  function handleCustomAmmoChange(value: number | null) {
+    if (value && !isNaN(value)) {
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          equipment: character.equipment.map((e) =>
+            e === item ? { ...e, amount: value } : e,
+          ),
+        },
+      });
+    }
+  }
+
+  // InputNumber for custom ammo items, regular amounts are done through settings drawer.
   if (item.weight) items.push(weightItem);
   if (item.size) items.push(sizeItem);
   if (item.damage) items.push(damageItem);
@@ -102,7 +118,15 @@ const EquipmentItemDescription: React.FC<
   items.push({
     key: "amount",
     label: "Amount",
-    children: item.amount,
+    children: !equipmentNames.includes(item.name) ? (
+      <InputNumber
+        value={item.amount}
+        onChange={handleCustomAmmoChange}
+        disabled={!userIsOwner}
+      />
+    ) : (
+      item.amount
+    ),
   });
 
   const handleAttackClick = () => {
@@ -118,25 +142,28 @@ const EquipmentItemDescription: React.FC<
   const notes = item.notes ? (
     <Typography.Text>{item.notes}</Typography.Text>
   ) : null;
+
+  const deleteButton = (
+    <Popconfirm
+      title="Delete equipment item"
+      description="Are you sure to delete this item?"
+      onConfirm={() => confirm(item, character, characterDispatch)}
+      onCancel={cancel}
+      okText="Yes"
+      cancelText="No"
+    >
+      <Button icon={<DeleteOutlined />} disabled={!userIsOwner}>
+        Delete
+      </Button>
+    </Popconfirm>
+  );
   const deleteCustomEquipmentButton = !equipmentNames.includes(item.name)
     ? item.name !== "Punch**" &&
       item.name !== "Kick**" &&
       character &&
-      characterDispatch && (
-        <Popconfirm
-          title="Delete equipment item"
-          description="Are you sure to delete this item?"
-          onConfirm={() => confirm(item, character, characterDispatch)}
-          onCancel={cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button icon={<DeleteOutlined />} disabled={!userIsOwner}>
-            Delete
-          </Button>
-        </Popconfirm>
-      )
+      deleteButton
     : null;
+
   const attackButton = showAttackButton ? (
     <Button onClick={handleAttackClick} disabled={!userIsOwner}>
       Attack
