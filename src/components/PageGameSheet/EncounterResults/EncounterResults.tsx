@@ -1,5 +1,5 @@
 import { Monster } from "@/data/definitions";
-import { Typography } from "antd";
+import { Button, Flex, InputNumber, Typography } from "antd";
 import React from "react";
 import MonsterInfo from "../GameBinder/Monsters/MonsterInfo/MonsterInfo";
 
@@ -17,6 +17,11 @@ const EncounterResults: React.FC<EncounterResultsProps> = ({ results }) => {
   }
   return (
     <div>
+      <Flex gap={8} align="center">
+        <Typography.Text>Add # to Round Tracker</Typography.Text>
+        <InputNumber min={1} defaultValue={1} />
+        <Button type="primary">Add</Button>
+      </Flex>
       <Typography.Title level={5}>{results.name}</Typography.Title>
       <MonsterInfo monster={results} />
     </div>
