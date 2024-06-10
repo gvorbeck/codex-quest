@@ -377,5 +377,5 @@ export type WildernessSubEnvironments =
 export interface EncounterDetails {
   level?: number;
   subEnvironment?: WildernessSubEnvironments;
-  time: "day" | "night";
+  time?: "day" | "night";
 }

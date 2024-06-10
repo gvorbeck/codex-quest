@@ -16,6 +16,8 @@ import CoinsSvg from "@/assets/svg/CoinsSvg";
 import ModalContainer from "@/components/ModalContainer/ModalContainer";
 import { useModal } from "@/hooks/useModal";
 import TreasureGenerator from "../TreasureGenerator/TreasureGenerator";
+import MonsterSvg from "@/assets/svg/MonsterSvg";
+import EncounterGenerator from "../EncounterGenerator/EncounterGenerator";
 
 interface HeroProps {
   handlePlayersSwitch: (checked: boolean) => void;
@@ -36,6 +38,14 @@ const Hero: React.FC<HeroProps> = ({
       isOpen: true,
       title: "Treasure Generator",
       content: <TreasureGenerator />,
+    });
+  }
+
+  function handleRandomEncounterModalClick() {
+    setModalDisplay({
+      isOpen: true,
+      title: "Random Encounter Generator",
+      content: <EncounterGenerator />,
     });
   }
 
@@ -68,6 +78,12 @@ const Hero: React.FC<HeroProps> = ({
               <Button
                 icon={<CoinsSvg className="w-6 fill-shipGray" />}
                 onClick={handleTreasureModalClick}
+              />
+            </Tooltip>
+            <Tooltip title="Open Random Encounter Generator">
+              <Button
+                icon={<MonsterSvg className="w-6 fill-shipGray" />}
+                onClick={handleRandomEncounterModalClick}
               />
             </Tooltip>
           </Flex>

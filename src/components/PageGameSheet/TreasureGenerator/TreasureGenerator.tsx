@@ -1,23 +1,9 @@
 import { Loot } from "@/data/definitions";
-import { useDeviceType } from "@/hooks/useDeviceType";
 import { Flex, Radio, RadioChangeEvent } from "antd";
 import React from "react";
 import TreasureForm from "../TreasureForm/TreasureForm";
 import TreasureResults from "../TreasureResults/TreasureResults";
-
-interface OptionProps {
-  button?: boolean;
-  value: number;
-  title: string;
-}
-
-const Option: React.FC<OptionProps> = ({ value, title }) => {
-  const { isMobile } = useDeviceType();
-  if (!isMobile) {
-    return <Radio.Button value={value}>{title}</Radio.Button>;
-  }
-  return <Radio value={value}>{title}</Radio>;
-};
+import Option from "../Option/Option";
 
 const TreasureGenerator: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,

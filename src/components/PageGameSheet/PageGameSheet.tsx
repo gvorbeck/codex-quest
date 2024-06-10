@@ -63,7 +63,8 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
       newCombatant.ac = getArmorClass(data as CharData, characterDispatch);
     }
     // if (type === "monster") {}
-    if (combatants) setCombatants([...combatants, newCombatant]);
+    if (combatants)
+      setCombatants((prevCombatants) => [...prevCombatants, newCombatant]);
     message.success(`${data.name} added to Round Tracker`);
   };
 

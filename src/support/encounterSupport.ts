@@ -7,7 +7,7 @@ import monster from "@/data/monsters.json";
 import { rollDice } from "./diceSupport";
 
 export function getMonsterByName(name: string) {
-  return monster.find((m) => m.name === name);
+  return monster.find((m) => m.name.includes(name));
 }
 
 export function getEncounter(
@@ -35,7 +35,7 @@ export function getEncounter(
           "Orc",
           "Stirge",
           "Skeleton",
-          "Snake, Cobra",
+          "Snake, Spitting Cobra",
           "Spider, Giant Crab",
           "Wolf",
         );
@@ -53,7 +53,7 @@ export function getEncounter(
           "NPC Party: Bandit",
           "Snake, Pit Viper",
           "Spider, Giant Black",
-          "Lizard Man, Subterranean",
+          "Lizard Man",
           "Zombie",
         );
         break;
@@ -85,7 +85,7 @@ export function getEncounter(
           "Rust Monster*",
           "Lycanthrope, Werewolf*",
           "Minotaur",
-          "Jelly, Ruddy*",
+          "Jelly, Ochre*",
           "Owlbear",
           "Wraith*",
         );
@@ -110,9 +110,9 @@ export function getEncounter(
       case 8:
       default:
         choices.push(
-          "Basilisk, Greater*",
+          "Basilisk",
           "Chimera",
-          "Deceiver, Greater",
+          "Deceiver",
           "Giant, Hill",
           "Giant, Stone",
           "Hydra",
@@ -157,13 +157,13 @@ export function getEncounter(
           "Scorpion, Giant",
           "NPC Party: Bandit",
           "Lion",
-          "Boar, Wild",
+          "Boar",
           "NPC Party: Merchant",
           "Wolf",
           "Bee, Giant",
           "Gnoll",
           "Goblin",
-          "Flicker Beast",
+          "Blink Dog",
           "Wolf, Dire",
           "Giant, Hill",
         );
@@ -203,14 +203,14 @@ export function getEncounter(
           "Caecilia, Giant",
           "Shadow*",
           "NPC Party: Merchant",
-          "Wolf, Dire",
+          "Wolf",
           "Lycanthrope, Weretiger*",
         );
         break;
       case "mountains-or-hills":
         choices.push(
           "Dragon, Ice",
-          "Roc (1d6: 1-3 Large, 4-5 Huge, 6 Giant)",
+          "Roc",
           "Deceiver",
           "Lycanthrope, Werewolf*",
           "Mountain Lion",
@@ -218,11 +218,11 @@ export function getEncounter(
           "Spider, Giant Crab",
           "Hawk",
           "Orc",
-          "Bat, Giant",
-          "Hawk, Giant",
+          "Bat",
+          "Hawk",
           "Giant, Hill",
           "Chimera",
-          "Wolf, Dire",
+          "Wolf",
           "Dragon, Mountain",
         );
         break;
@@ -231,15 +231,15 @@ export function getEncounter(
           "Dragon, Sea",
           "Hydra",
           "Whale, Sperm",
-          "Crocodile, Giant",
+          "Crocodile",
           "Crab, Giant",
           "Whale, Killer",
           "Octopus, Giant",
           "Shark, Mako",
           "Shark, Bull",
           "NPC Party: Merchant",
-          "NPC Party: Buccaneer (Pirate)",
-          "Roc (1d8: 1-5 Huge, 6-8 Giant)",
+          "NPC Party: Buccaneer",
+          "Roc",
           "Shark, Great White",
           "Mermaid",
           "Sea Serpent",
@@ -276,8 +276,8 @@ export function getEncounter(
           "Crocodile",
           "Stirge",
           "Orc",
-          "Toad, Giant (see Frog, Giant)",
-          "Lizard Man, Subterranean",
+          "Frog, Giant (and Toad, Giant)",
+          "Lizard Man",
           "Blood Rose",
           "Hangman Tree",
           "Basilisk",
@@ -286,17 +286,17 @@ export function getEncounter(
       case "woods-or-forest":
         choices.push(
           "Dragon, Forest",
-          "Alicorn (see Unicorn)",
+          "Unicorn (and Alicorn)",
           "Treant",
           "Orc",
-          "Boar, Wild",
+          "Boar",
           "Bear, Black",
-          "Hawk, Giant",
+          "Hawk",
           "Antelope",
           "Wolf",
           "Ogre",
           "Bear, Grizzly",
-          "Wolf, Dire",
+          "Wolf",
           "Giant, Hill",
           "Owlbear",
           "Unicorn",
@@ -309,7 +309,7 @@ export function getEncounter(
     const { time } = encounterDetails;
     if (time === "day") {
       choices.push(
-        "Doppleganger",
+        "Doppleganger - City Encounter",
         "Noble",
         "Thief",
         "Bully",
@@ -319,22 +319,22 @@ export function getEncounter(
         "Priest",
         "Mercenary",
         "Wizard",
-        "Lycanthrope, Wererat*",
+        "Lycanthrope, Wererat* - City Encounter",
       );
     }
     if (time === "night") {
       choices.push(
-        "Doppleganger",
+        "Doppleganger - City Encounter",
         "Shadow*",
         "Press Gang",
         "Beggar",
         "Thief",
         "Bully",
         "Merchant",
-        "Giant Rat",
+        "Giant Rat - City Encounter",
         "City Watch",
         "Wizard",
-        "Lycanthrope, Wererat*",
+        "Lycanthrope, Wererat* - City Encounter",
       );
     }
     monster = getMonsterByName(choices[roll - 2]);
@@ -343,6 +343,7 @@ export function getEncounter(
   }
 
   if (!monster) {
+    console.log(monster);
     throw new Error("Invalid monster");
   }
   return monster;
