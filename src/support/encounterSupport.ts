@@ -238,7 +238,7 @@ export function getEncounter(
           "Shark, Mako",
           "Shark, Bull",
           "NPC Party: Merchant",
-          "NPC Party: Buccaneer (Pirate)",
+          "NPC Party: Buccaneer",
           "Roc",
           "Shark, Great White",
           "Mermaid",
