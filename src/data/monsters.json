@@ -1709,7 +1709,7 @@
     "description": "Falcons are birds with wingspans of 16 to 20 inches; they stand about 1.5 to 2 feet tall and weigh about 3 pounds. These are the most popular of the hunting birds used by royalty. Falcons can only carry prey up to 1 pound. They will hunt snakes, small rodents, and even other birds such as wild ducks. Falcons appear in a variety of colors, typically ranging from dark gray on top to white with dark stripes on the bottom; kestrels, a variety of falcon, have reddish brown to dark brown feathers with dark stripes. A falcon typically attacks prey by diving, striking first with the talons before making the kill with its sharp beak."
   },
   {
-    "name": "Fish,  Giant Barracuda",
+    "name": "Fish, Giant Barracuda",
     "variants": [
       [
         "Huge",
@@ -1745,7 +1745,7 @@
     "description": "Barracuda are predatory fish found in salt water. Huge barracudas are about 12' long, while giant specimens can exceed 20'. They have elongated bodies, pointed heads and prominent jaws. Their bodies are covered with smooth scales, typically blue, gray or silver in color. They have extremely keen eyesight and are surprised only on a 1 on 1d6. Due to the quickness of their attack, barracudas are capable of surprising on 1-3 on 1d6 and gain a +2 bonus to Initiative.\n\nGiant barracuda always appear singly and are 50% likely to break off the attack after 1d4 rounds if they haven't killed their prey. Both kinds are attracted to shiny objects."
   },
   {
-    "name": "Fish,  Giant Bass",
+    "name": "Fish, Giant Bass",
     "variants": [
       [
         "",
@@ -1766,7 +1766,7 @@
     "description": "Giant bass are generally between 10' and 25' long. Most are greenish-grey marked with dark lateral stripes, though some are almost completely black. They are generally found in lakes or rivers, as they are not adapted for salt water.\n\nGiant bass are predatory, and on a natural attack roll of 20 a giant bass will swallow whole a dwarf-sized or smaller creature, which then takes 2d4 damage per round until it is dead. Swallowed characters can attack only with daggers or similar short weapons. Note that a giant bass can swallow at most one character, and each giant bass which has swallowed a character will attempt to retreat (having achieved its goal)."
   },
   {
-    "name": "Fish,  Giant Catfish",
+    "name": "Fish, Giant Catfish",
     "variants": [
       [
         "",
@@ -1787,7 +1787,7 @@
     "description": "Giant catfish fins are edged with a natural poison that causes a painful burning sensation for 3d10 rounds if a save vs. Poison is failed. The pain causes the affected character or creature to suffer a -1 penalty on all attack rolls and saving throws; further poisonings will increase this penalty by -1 each, down to a maximum penalty of -5 as well as adding 6 rounds to the duration of the poison effect.\n\nBecause of its large size (15 to 20 feet long) and body design, a giant catfish cannot target more than one of its attacks on any single creature; that is, it cannot bite and use both fins on one victim."
   },
   {
-    "name": "Fish,  Giant Piranha",
+    "name": "Fish, Giant Piranha",
     "variants": [
       [
         "",
@@ -1829,7 +1829,7 @@
     "description": "Giant flies look much like ordinary houseflies, but are about 3' long. Some are banded yellow and black, and are thus mistaken for giant bees. Giant flies are predators; after killing prey, they will sometimes lay eggs in the remains."
   },
   {
-    "name": "Frog,  Giant (and Toad, Giant)",
+    "name": "Frog, Giant (and Toad, Giant)",
     "variants": [
       [
         "",
@@ -1928,7 +1928,7 @@
     "description": "**Ghouls** are **undead** monsters which eat the flesh of dead humanoids to survive. They are vile, disgusting carrion-eaters, but are more than willing to kill for food. Those slain by ghouls will generally be stored until they begin to rot before the ghouls will actually eat them.\n\nLiving creatures hit by a ghoul's bite or claw attack must save vs. Paralysis or be paralyzed for 2d8 turns. Elves are immune to this paralysis. Ghouls try to attack with surprise whenever possible, striking from behind tombstones or bursting from shallow graves; when they attack in this way, they are able to surprise opponents on 1-3 on 1d6. Like all undead, they may be Turned by Clerics and are immune to **sleep**, **charm**, and **hold** magics.\n\nHumanoids bitten by ghouls may be infected with ghoul fever. Each time a humanoid is bitten, there is a 5% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghoul fever rises as a ghoul at the next midnight. A humanoid who becomes a ghoul in this way retains none of the knowledge or abilities they possessed in life. The newly-risen ghoul is not under the control of any other ghouls, but hungers for the flesh of the dead and behaves like any other ghoul in all respects.\n\n**Ghasts** look and fight almost exactly like ghouls, but they are smarter and just a bit more powerful. Refer to the previous paragraphs for information about their claw attacks and other abilities.\n\nThe stink of death and corruption surrounding these creatures is overwhelming. Living creatures within 10 feet must succeed on a save vs. Poison or be sickened for 2d6 rounds (-2 to attack rolls). A creature that successfully saves cannot be affected again by the same ghast's stench for 24 hours. A **neutralize poison** spell removes the effect from a sickened creature.\n\nThey may be Turned by Clerics using the same column as the ghoul, but as they are superior to ghouls, in a mixed group of ghasts and ghouls the GM should apply Turning effects to the ordinary ghouls first.\n\nHumanoids bitten by ghasts may be infected with ghast fever. Each time a humanoid is bitten, there is a 10% chance of the infection being passed. The afflicted humanoid is allowed to save vs. Death Ray; if the save is failed, the humanoid dies within a day.\n\nAn afflicted humanoid who dies of ghast fever rises as a ghast at the next midnight, in a similar fashion to the ghoul. However, a humanoid who becomes a ghast in this way retains all of the knowledge and abilities they possessed in life, unless those abilities are directly incompatible with the creature's new form (as decided by the GM). For such ghasts, the GM should also adjust XP values to include any such abilities. The newly-risen ghast is not under the control of any other ghasts, but hungers for the flesh of the living and behaves like any other ghast in all respects."
   },
   {
-    "name": "Giant,  Cloud",
+    "name": "Giant, Cloud",
     "variants": [
       [
         "",
@@ -1949,7 +1949,7 @@
     "description": "Cloud giants are huge, with males averaging 18 feet tall and females 17 feet tall; an adult cloud giant will normally weigh more than 4,750 pounds. They have very pale skin, sometimes with a slight bluish tint, and their hair is bright metallic colors such as silver, brass, or even gold. They have long lives, with most surviving to 400 years barring disease or misadventure.\n\nCloud giants are often vain, convinced they are the highest form of creation. They wear the finest clothing, make and eat the best food and drink, and live in castles built on high mountains or even in the clouds themselves. Like most giants, they are suspicious of the smaller races, but cloud giants do not usually prey upon them, preferring instead to demand tribute from smaller humanoids living nearby.\n\nDespite being self-centered, they fight in highly trained units that use sound tactics; their belief in their own superiority allows no less. Attacking from above is preferred, and ranged attacks are always considered better than melee. To that end, cloud giants can throw large stones up to 200' for 3d6 points of damage each. Also, 5% of cloud giants have the abilities of a Magic-User of level 2 to 8 (2d4). A favorite tactic is to encircle enemies, barraging them with rocks while the giants with magical abilities confound them with spells. In battle, cloud giants wear finely crafted, intricately engraved plate mail."
   },
   {
-    "name": "Giant,  Cyclops",
+    "name": "Giant, Cyclops",
     "variants": [
       [
         "",
@@ -1970,7 +1970,7 @@
     "description": "A cyclops is a one-eyed giant. Huge and brutish, they most resemble hill giants, and even dress in the same \"style,\" layers of crudely prepared hides with the fur left on, unwashed and unrepaired. They are reclusive and unfriendly to almost all of the smaller races.\n\nA cyclops can throw a large rock up to 200' for 3d6 points of damage, but they aim poorly and thus suffer an attack penalty of -2. Once per year, a cyclops can cast the spell bestow curse (the reverse of the spell remove curse)."
   },
   {
-    "name": "Giant,  Fire",
+    "name": "Giant, Fire",
     "variants": [
       [
         "",
@@ -1991,7 +1991,7 @@
     "description": "Despite their great size, fire giants have a Dwarf-like appearance, being barrel-chested with thick arms and legs; average males stand 14 feet tall and weigh around 3,200 pounds, while females average 13 feet tall and around 3,000 pounds. Their skin is ruddy, their hair is black, and their eyes are a very dark red that is almost black (and looks that color in poor lighting).\n\nFire giants are unfriendly to almost all other humanoid races, though they sometimes subjugate those living nearby to act as their servants.\n\nIn combat they favor heavy plate steel armor (the first AC given above) made of steel blackened by quenching in oil. They arm themselves with massive weapons made of the same material. A fire giant can throw large stones up to 200' for 3d6 points of damage.\n\nFire giants are immune to all fire-based attacks."
   },
   {
-    "name": "Giant,  Frost",
+    "name": "Giant, Frost",
     "variants": [
       [
         "",
@@ -2012,7 +2012,7 @@
     "description": "Frost giants have pale, almost white skin, blonde or pale blue hair, and bright blue eyes. Average males stand 15 feet tall and weigh around 2,800 pounds, while females average 14 feet tall and 2,500 pounds.\n\nFrost giants are, first and foremost, cunning. They dislike the smaller races as much as any giant, but rather than attacking outright they will try to use their advantages to convince those weaker than them to submit. If faced with a stronger force, frost giants will parley or withdraw if possible, attacking only if victory seems assured.\n\nIn combat frost giants prefer brightly-polished steel chainmail worn over their customary clothing of leather and fur (the first AC given above), and weapons of the same material. A frost giant can throw large stones up to 200' for 3d6 points of damage. Frost giants are immune to all ice or cold-based attacks."
   },
   {
-    "name": "Giant,  Hill",
+    "name": "Giant, Hill",
     "variants": [
       [
         "",
@@ -2033,7 +2033,7 @@
     "description": "The smallest of giants, adult hill giants stand between 10 and 12 feet in height and weigh about 1,100 pounds. They have medium brown skin, though they are often so dirty as to hide their true skin color; their hair is dark, lank, and greasy, and their eyes are dark as well. They wear crude clothing made of leather; the lack of livestock or game of great enough size often results in whole pelts being stitched together.\n\nWhether attacking with a weapon or fist, hill giants deal 2d8 damage. Hill giants are brutish and aggressive. They are sometimes found leading groups of ogres or bugbears. Hill giants often keep **dire wolves** as pets."
   },
   {
-    "name": "Giant,  Mountain",
+    "name": "Giant, Mountain",
     "variants": [
       [
         "",
@@ -2054,7 +2054,7 @@
     "description": "Mountain giants are the largest of all giants, with adult males averaging 24 feet in height and weighing around 16,000 pounds. Females are slightly smaller, standing 22 feet tall on the average and weighing around 14,000 pounds. They look very much like enormous, thickly built hill giants, and among humans they are often seen as little more than that. This is underselling the mountain giants, however, for though their crafting is primitive they have an intricately detailed social structure.\n\nMountain giants live in clans, led by the oldest male and female (or by their oldest offspring if the elders choose to delegate leadership due to advanced age). Each clan rules over and controls a group of 1d6 mountain peaks, generally spanning an area with a 5-6 mile diameter. They prefer peaks connected by high ridges so that they do not have to descend too far when walking their territory. Clan members who are mated establish households within the territory; unmarried members typically live with their parents until they are wed. The \"lair\" encounter figures above are for a single household, but if one household is attacked and the attackers subsequently retreat, upon their return they will usually find much of the rest of the clan waiting for them in ambush.\n\nThey wear armor made of wood held together with heavy rope, and wield giant clubs or staves carved from fully grown trees harvested from the lower reaches of their territory. If they live near storm giants, they may trade for better weapons (the second damage rating given above) but usually cannot afford storm giant armor.\n\nA mountain giant can throw large stones up to 240' for 4d6 points of damage each."
   },
   {
-    "name": "Giant,  Stone",
+    "name": "Giant, Stone",
     "variants": [
       [
         "",
@@ -2075,7 +2075,7 @@
     "description": "Stone giants are not the largest of giants, but with an average adult standing 12 feet tall and weighing roughly 1,500 pounds they are still formidable. There is no substantial difference in height between males and females. They usually dress in heavy leather clothing with sections having been boiled to stiffen them; these outfits serve as armor and give them the first AC above.\n\nStone giants are reclusive, but they will defend their territory (typically in rocky mountainous terrain) against any who trespass therein.\n\nA stone giant can throw large stones up to 300' for 3d6 points of damage. They will fight in groups to defend their territory but use only simple, basic tactics and strategy."
   },
   {
-    "name": "Giant,  Storm",
+    "name": "Giant, Storm",
     "variants": [
       [
         "",
@@ -4984,5 +4984,78 @@
       ]
     ],
     "description": "A Zombraire is a free-willed undead Magic-User. Like the zombie it resembles, a zombraire moves silently, is very strong, and must be literally hacked to pieces to be destroyed. However, it does not suffer the initiative penalty common to ordinary zombies. It takes only half damage from blunt weapons, and only a single point from arrows, bolts, and sling stones (plus any magical bonus). It may be Turned by a Cleric (as a wight), and is immune to sleep, charm, and hold spells.\n\nA zombraire slowly rots away, and as it does it loses its sanity; this is represented by the variable morale listed. An insane zombraire fights to the death in hopes of being slain, thus ending its tortured existence.\n\nThe given statistics are for a zombraire formed from a 2nd-level Magic-user; the HD and saving throws of a zombraire are based on the level it had in life. A zombraire can cast spells as it did when living, but cannot learn new spells.\n\nA Skeletaire is the final form of a zombraire which has rotted away completely. It takes only half damage from edged weapons, and only a single point from arrows, bolts, and sling stones (plus any magical bonus). It can be Turned by a Cleric (as a zombie), and is immune to sleep, charm, and hold spells. A skeletaire never fails morale, and thus always fights until destroyed.\n\nThe statistics above are for a skeletaire formed from a 2nd-level Magic-user. A skeletaire will have HD equal to the character's level minus 1, and will save as a Magic-user of the level equal to its HD. The skeletaire cannot speak, but still retains the ability to prepare and cast spells as it did in life (but like a zombraire, it cannot learn new spells).\n\nThe process of creating or becoming a zombraire are variable, and often involve cursed magic items (especially cursed scrolls)."
+  },
+  {
+    "name": "Camel",
+    "variants": [
+      [
+        "",
+        {
+          "ac": "13",
+          "hitDice": "2",
+          "numAttacks": "1 bite, 1 hoof",
+          "damage": "1 point bite, 1d4 hoof",
+          "movement": "50' (10') [ 40' (10') ]",
+          "numAppear": "Wild 2d4",
+          "saveAs": "Fighter: 2",
+          "morale": "7",
+          "treasure": "None",
+          "xp": "75"
+        }
+      ]
+    ],
+    "description": "Camels are large, long-necked mammals with a single hump on their back. They are known for their ability to survive in arid environments, and are often used as pack animals in desert regions. Camels are known for their ability to spit, and will do so if they feel threatened."
+  },
+  {
+    "name": "Beggar",
+    "description": "Encounters will often begin with a single beggar approaching the party, but there will generally be 2d4 beggars in the area, and if any party member gives anything to the first beggar, the others will descend on the party like flies. Each beggar is 90% likely to be a normal man, and 10% likely to be a 1st level Thief, possibly scouting for the Thieves Guild or a local gang."
+  },
+  {
+    "name": "Bully",
+    "description": "Encounters will be with 2d4 young toughs; each is 70% likely to be a normal man, 30% likely to be a 1st level Fighter. Bullies generally appear unarmed, depending on their brawling ability in a fight (but keeping a dagger or shortsword hidden, to be used in case the fight is going against them). Bullies can be a bit unpredictable, such that the GM may want to use a reaction roll to determine the leader's mood."
+  },
+  {
+    "name": "City Watch",
+    "description": "Encounters will be with 2d6 watchmen, all 1st level Fighters save for the squad leader, who will be from 2nd through 4th level. They will confront \"suspicious-looking\" characters, but generally will need a good reason before they attempt to arrest or otherwise interfere with player characters."
+  },
+  {
+    "name": "Doppleganger - City Encounter",
+    "description": "Encounters will, of course, appear to be some other type of encounter; the GM should roll again to determine what the doppleganger is masquerading as. 1d6 dopplegangers will be encountered; any extra group members will be humans who do not know they are traveling in the company of shapeshifting monsters. If the party is \"interesting\" to the dopplegangers, one or more of the monsters will attempt to follow them and replace a party member (as described in the monster description). In many cases, player character parties will not discover the true nature of the encounter until much later."
+  },
+  {
+    "name": "Giant Rat - City Encounter",
+    "description": "Encounters will generally involve alleys, the docks, or other \"low\" places. Rats are generally not dangerous unless provoked, but if surprised they may attack. See the monster description for details of this encounter type."
+  },
+  {
+    "name": "Lycanthrope, Wererat* - City Encounter",
+    "description": "Encounters will appear to be some other type of encounter, either another sort of \"normal\" encounter or a giant rat encounter (depending on the circumstances). Wererats are cowardly and will not attack a party of equal or larger size."
+  },
+  {
+    "name": "Mercenary",
+    "description": "Encounters will involve 2d6 members of a mercenary company, going about some business or other. A mercenary leader may offer a position to Fighter-classed player characters if they have any reputation at all."
+  },
+  {
+    "name": "Merchant",
+    "description": "Merchants are a common feature of towns, and may be encountered performing any sort of business. As with mercenary encounters, merchants may offer jobs to interesting player characters, particularly those with good reputations. See Creating an NPC Party, below, for details on this type of encounter. (A merchant in a town may not have a full entourage as described below; the GM should use their discretion in creating the encounter.)"
+  },
+  {
+    "name": "Noble",
+    "description": "Nobles encountered may also offer positions to player characters, or possibly offer a reward for some dangerous task. Player characters with bad reputations may be confronted, ordered to leave town, or even arrested if the noble is able to call for the city watch. A noble in a town may not have a full entourage as described below; the GM should use their discretion in creating the encounter."
+  },
+  {
+    "name": "Press Gang",
+    "description": "Press Gangs will consist of 2d6 Fighters, all 1st level except for one or two leaders of 2nd through 5th level. They will be armed with blunt weapons or possibly will fight with their bare hands, since their goal is to capture rather than kill player characters; however, it is likely that at least some members of a press gang will have daggers or swords on their persons in case a serious fight breaks out. A press gang will not confront a party of equal or greater size unless the party is obviously weakened, drunk, etc. If the party loses, they will awaken aboard a ship at sea or in a military camp (depending on whether sailors or soldiers captured them), unarmed and at the mercy of their captors."
+  },
+  {
+    "name": "Priest",
+    "description": "Priest encounters will usually be similar to a group of pilgrims, though the group encountered will not be as large as would be encountered in the wilderness. Generally, a single priest of 1st through 4th level will be encountered, accompanied by 1d4 of the faithful."
+  },
+  {
+    "name": "Thief",
+    "description": "Thief encounters will be with a group of 1d6 Thieves, generally disguised as ordinary townsmen or sometimes as beggars. One Thief in the group will be from 2nd to 4th level, with the others being 1st level only. They will seek to steal from the party, of course, unless watched very carefully."
+  },
+  {
+    "name": "Wizard",
+    "description": "Wizard encounters will involve a Magic-User of 4th through 7th level, accompanied by 1d4-1 apprentices of 1st level. The GM must decide on the temperament and mood of the wizard."
   }
 ]
