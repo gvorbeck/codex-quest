@@ -7,7 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import React from "react";
 import { Alert, Col, Divider, Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
-import { ClassNames } from "@/data/definitions";
+import { CharData, ClassNames } from "@/data/definitions";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
@@ -32,10 +32,56 @@ import Equipment from "./Equipment/Equipment";
 import Description from "./Description/Description";
 import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
 import EditMaxHp from "./EditMaxHp/EditMaxHp";
+import { getCharacter } from "@/apiService";
 
 interface PageCharacterSheetProps {
   user: User | null;
 }
+
+interface CharacterComponentProps {
+  userId: string;
+  characterId: string;
+}
+
+const CharacterComponent: React.FC<CharacterComponentProps> = ({
+  userId,
+  characterId,
+}) => {
+  const [character, setCharacter] = React.useState<CharData | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchCharacter = async () => {
+      try {
+        const data = await getCharacter(userId, characterId);
+        setCharacter(data);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCharacter();
+  }, [userId, characterId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!character) return <div>No character data found</div>;
+
+  return (
+    <div>
+      <h1>{character.name}</h1>
+      <p>Level: {character.level}</p>
+      <p>Class: {character.class}</p>
+    </div>
+  );
+};
 
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
@@ -235,6 +281,11 @@ const PageCharacterSheet: React.FC<
         modalDisplay={modalDisplay}
         setModalDisplay={setModalDisplay}
         modalOk={modalOkRef.current}
+      />
+
+      <CharacterComponent
+        userId="AsxtzoU61db5IAA6d9IrEFFjh6a2"
+        characterId="8RfWJpXr7Rh8ecskTtTN"
       />
     </CharacterDataContext.Provider>
   ) : (
