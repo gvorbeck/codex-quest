@@ -70,17 +70,11 @@ const CharacterComponent: React.FC<CharacterComponentProps> = ({
     fetchCharacter();
   }, [userId, characterId]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!character) return <div>No character data found</div>;
-
-  return (
-    <div>
-      <h1>{character.name}</h1>
-      <p>Level: {character.level}</p>
-      <p>Class: {character.class}</p>
-    </div>
-  );
+  if (loading) console.log("Loading...");
+  if (error) console.log(`Error: ${error}`);
+  if (!character) console.log("No character data found");
+  if (character) console.log(character);
+  return <div></div>;
 };
 
 const PageCharacterSheet: React.FC<
