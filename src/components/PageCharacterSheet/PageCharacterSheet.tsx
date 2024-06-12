@@ -7,7 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import React from "react";
 import { Alert, Col, Divider, Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
-import { CharData, ClassNames } from "@/data/definitions";
+import { ClassNames } from "@/data/definitions";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
@@ -32,50 +32,51 @@ import Equipment from "./Equipment/Equipment";
 import Description from "./Description/Description";
 import SettingsDrawer from "./SettingsDrawer/SettingsDrawer";
 import EditMaxHp from "./EditMaxHp/EditMaxHp";
-import { getCharacter } from "@/apiService";
+// import { getCharacter } from "@/apiService";
 
 interface PageCharacterSheetProps {
   user: User | null;
 }
 
-interface CharacterComponentProps {
-  userId: string;
-  characterId: string;
-}
+// THIS WAS TO TEST THE API
+// interface CharacterComponentProps {
+//   userId: string;
+//   characterId: string;
+// }
 
-const CharacterComponent: React.FC<CharacterComponentProps> = ({
-  userId,
-  characterId,
-}) => {
-  const [character, setCharacter] = React.useState<CharData | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+// const CharacterComponent: React.FC<CharacterComponentProps> = ({
+//   userId,
+//   characterId,
+// }) => {
+//   const [character, setCharacter] = React.useState<CharData | null>(null);
+//   const [loading, setLoading] = React.useState(true);
+//   const [error, setError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    const fetchCharacter = async () => {
-      try {
-        const data = await getCharacter(userId, characterId);
-        setCharacter(data);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unknown error occurred");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+//   React.useEffect(() => {
+//     const fetchCharacter = async () => {
+//       try {
+//         const data = await getCharacter(userId, characterId);
+//         setCharacter(data);
+//       } catch (error) {
+//         if (error instanceof Error) {
+//           setError(error.message);
+//         } else {
+//           setError("An unknown error occurred");
+//         }
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-    fetchCharacter();
-  }, [userId, characterId]);
+//     fetchCharacter();
+//   }, [userId, characterId]);
 
-  if (loading) console.log("Loading...");
-  if (error) console.log(`Error: ${error}`);
-  if (!character) console.log("No character data found");
-  if (character) console.log(character);
-  return <div></div>;
-};
+//   if (loading) console.log("Loading...");
+//   if (error) console.log(`Error: ${error}`);
+//   if (!character) console.log("No character data found");
+//   if (character) console.log(character);
+//   return <div></div>;
+// };
 
 const PageCharacterSheet: React.FC<
   PageCharacterSheetProps & React.ComponentPropsWithRef<"div">
@@ -277,10 +278,10 @@ const PageCharacterSheet: React.FC<
         modalOk={modalOkRef.current}
       />
 
-      <CharacterComponent
+      {/* <CharacterComponent
         userId="AsxtzoU61db5IAA6d9IrEFFjh6a2"
         characterId="8RfWJpXr7Rh8ecskTtTN"
-      />
+      /> */}
     </CharacterDataContext.Provider>
   ) : (
     <PageCharacterSheetSkeleton />
