@@ -1,7 +1,9 @@
+const BASE_URL = "https://us-central1-codex-quest.cloudfunctions.net";
+
 export const getCharacter = async (userId: string, characterId: string) => {
   try {
     const response = await fetch(
-      `/api/users/${userId}/characters/${characterId}`,
+      `${BASE_URL}/getCharacter?userId=${userId}&characterId=${characterId}`,
     );
     if (!response.ok) {
       throw new Error(`Error: ${response.statusText}`);
@@ -17,7 +19,7 @@ export const getCharacter = async (userId: string, characterId: string) => {
 
 export const listCharacters = async (userId: string) => {
   try {
-    const response = await fetch(`/api/users/${userId}/characters/list`);
+    const response = await fetch(`${BASE_URL}/listCharacters?userId=${userId}`);
     if (!response.ok) {
       throw new Error(`Error: ${response.statusText}`);
     }
