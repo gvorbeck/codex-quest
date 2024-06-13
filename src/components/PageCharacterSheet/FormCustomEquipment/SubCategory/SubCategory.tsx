@@ -13,7 +13,7 @@ const SubCategory: React.FC<React.ComponentPropsWithRef<"div">> = ({
   className,
 }) => {
   return (
-    <Form.Item label="Sub Category" name="sub-category" className={className}>
+    <Form.Item label="Sub Category" name="subCategory" className={className}>
       <Select options={subCategoryOptions} />
     </Form.Item>
   );
