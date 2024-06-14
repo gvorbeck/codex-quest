@@ -15,12 +15,14 @@ const Description: React.FC<
 > = ({ isMobile }) => {
   const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
-  const initialDesc = Array.isArray(character.desc)
-    ? character.desc || [""]
-    : [character.desc || ""];
+  const initialDesc =
+    Array.isArray(character.desc) && character.desc.length > 0
+      ? character.desc
+      : [""];
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const [textAreaValues, setTextAreaValues] =
     React.useState<string[]>(initialDesc);
+  console.log(textAreaValues.length);
   const placeholderSavingThrows = `"${character.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
 
   // Function to add a new description field
