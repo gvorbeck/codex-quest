@@ -22,7 +22,11 @@ const AllSpellsSelection: React.FC<
     checked: character.spells?.some((s) => s.name === spell.name),
   }));
 
-  let filteredSpells;
+  let filteredSpells: {
+    label: string;
+    value: string;
+    checked: boolean;
+  }[];
   search.length
     ? (filteredSpells = spellOptions.filter((spell) =>
         spell.label.toLowerCase().includes(search.toLowerCase()),
@@ -36,10 +40,18 @@ const AllSpellsSelection: React.FC<
     const selectedSpells = checkedValues.map((spell) =>
       getSpellFromName(spell),
     );
+
+    // Include spells already in character.spells that are not in the filtered list
+    const existingSpells = character.spells?.filter(
+      (spell) => !filteredSpells.some((s) => s.value === spell.name),
+    );
+
+    const combinedSpells = [...selectedSpells, ...(existingSpells ?? [])];
+
     characterDispatch({
       type: "SET_SPELLS",
       payload: {
-        spells: selectedSpells as Spell[],
+        spells: combinedSpells as Spell[],
       },
     });
   }
