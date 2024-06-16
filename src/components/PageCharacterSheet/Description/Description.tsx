@@ -22,7 +22,6 @@ const Description: React.FC<
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const [textAreaValues, setTextAreaValues] =
     React.useState<string[]>(initialDesc);
-  console.log(textAreaValues.length);
   const placeholderSavingThrows = `"${character.class}" SAVING THROWS\n----------\nDEATH RAY or POISON: 00\nMAGIC WANDS: 00\nPARALYSIS or PETRIFY: 00\nDRAGON BREATH: 00\nSPELLS: 00`;
 
   // Function to add a new description field
