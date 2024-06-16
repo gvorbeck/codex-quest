@@ -86,7 +86,7 @@ export function characterReducer(state: CharData, action: any): CharData {
         hp: action.payload.newCharacter
           ? { dice: "", points: 0, max: 0, desc: "" }
           : { ...state.hp },
-        equipment: [],
+        equipment: action.payload.newCharacter ? [] : [...state.equipment],
         gold: 0,
         spells: [],
       };
