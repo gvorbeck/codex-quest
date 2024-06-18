@@ -1802,22 +1802,24 @@
     "amount": 0
   },
   {
-    "name": "Padded/Quilted Armor (leather)",
+    "name": "Padded/Quilted Armor",
     "costValue": 15,
     "costCurrency": "gp",
     "weight": 10,
     "AC": 12,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 1
   },
   {
-    "name": "Hide Armor (leather)",
+    "name": "Hide Armor",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 30,
     "AC": 13,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 1
   },
   {
     "name": "Leather Armor",
@@ -1826,7 +1828,8 @@
     "weight": 15,
     "AC": 13,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 1
   },
   {
     "name": "Studded Leather Armor",
@@ -1835,7 +1838,8 @@
     "weight": 25,
     "AC": 14,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 1
   },
   {
     "name": "Ring Mail",
@@ -1844,7 +1848,8 @@
     "weight": 30,
     "AC": 14,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Brigandine Armor",
@@ -1853,7 +1858,8 @@
     "weight": 30,
     "AC": 15,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 1
   },
   {
     "name": "Chain Mail",
@@ -1862,7 +1868,8 @@
     "weight": 40,
     "AC": 15,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Scale Mail",
@@ -1871,7 +1878,8 @@
     "weight": 55,
     "AC": 16,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Splint Mail",
@@ -1880,7 +1888,8 @@
     "weight": 45,
     "AC": 16,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Banded Mail",
@@ -1889,7 +1898,8 @@
     "weight": 35,
     "AC": 16,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Plate Mail",
@@ -1898,7 +1908,8 @@
     "weight": 50,
     "AC": 17,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Field Plate Mail",
@@ -1907,7 +1918,8 @@
     "weight": 70,
     "AC": 18,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Full Plate Mail",
@@ -1916,7 +1928,8 @@
     "weight": 80,
     "AC": 19,
     "category": "armor",
-    "amount": 0
+    "amount": 0,
+    "type": 2
   },
   {
     "name": "Buckler Shield",

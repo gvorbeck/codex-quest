@@ -1,4 +1,4 @@
-import { Form, Switch } from "antd";
+import { Form, Select, SelectProps } from "antd";
 import React from "react";
 
 interface ArmorTypeProps {}
@@ -6,6 +6,11 @@ interface ArmorTypeProps {}
 const ArmorType: React.FC<
   ArmorTypeProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
+  const options: SelectProps["options"] = [
+    { value: 0, label: "No Armor or Magic Leather" },
+    { value: 1, label: "Leather Armor or Magic Metal" },
+    { value: 2, label: "Metal Armor" },
+  ];
   return (
     <Form.Item
       label="Armor Type"
@@ -13,11 +18,7 @@ const ArmorType: React.FC<
       className={className}
       rules={[{ required: true }]}
     >
-      <Switch
-        checkedChildren="Light Armor"
-        unCheckedChildren="Heavy Armor"
-        defaultChecked
-      />
+      <Select options={options} />
     </Form.Item>
   );
 };

@@ -48,14 +48,24 @@ describe("equipmentItems", () => {
     expect(uniqueSizes).toEqual(["L", "M", "S"]);
   });
 
-  test("every item that has a `type` property has a value of 'melee', 'missile', or 'both'", () => {
-    const types = equipmentItems.map((item) => item.type).filter(Boolean);
+  test("every non-armor item that has a `type` property has a value of 'melee', 'missile', or 'both'", () => {
+    const types = equipmentItems
+      .map((item) => item.category !== "armor" && item.type)
+      .filter(Boolean);
     const uniqueTypes = [...new Set(types)].sort();
     expect(uniqueTypes).toEqual([
       AttackTypes.BOTH,
       AttackTypes.MELEE,
       AttackTypes.MISSILE,
     ]);
+  });
+
+  test("every armor item has a `type` property has a value of 1 or 2", () => {
+    const types = equipmentItems
+      .filter((item) => item.category === "armor")
+      .map((item) => item.type);
+    const uniqueTypes = [...new Set(types)].sort();
+    expect(uniqueTypes).toEqual([1, 2]);
   });
 
   test("every item that has a `weight` property has a value of typeof 'number' greater than -1", () => {

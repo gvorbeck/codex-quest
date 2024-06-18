@@ -10,7 +10,7 @@ import {
 import { AttackTypes, titleCaseToCamelCase } from "./stringSupport";
 import { races } from "@/data/races";
 import equipmentItems from "../data/equipment.json";
-import { ArmorCategory, getEquipmentItemFromName } from "./equipmentSupport";
+import { getEquipmentItemFromName } from "./equipmentSupport";
 import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
@@ -135,46 +135,28 @@ export const getWeight = (character: CharData) => {
 export const getMovement = (characterData: CharData) => {
   if (!characterData) return;
 
+  const armorSpeedMap: [number, number][] = [
+    [40, 30],
+    [30, 20],
+    [20, 10],
+  ];
+
   const carryingCapacity = getCarryingCapacity(characterData);
-
-  const armorSpeedMap: Record<ArmorCategory, [number, number]> = {
-    lightArmor: [40, 30],
-    mediumArmor: [30, 20],
-    heavyArmor: [20, 10],
-  };
-
-  const armorCategoryMap: Record<string, ArmorCategory> = {
-    "No Armor": "lightArmor",
-    "Magic Leather Armor": "lightArmor",
-    "": "lightArmor",
-    "Studded Leather Armor": "mediumArmor",
-    "Hide Armor": "mediumArmor",
-    "Leather Armor": "mediumArmor",
-    "Magic Metal Armor": "mediumArmor",
-    "Metal Armor": "heavyArmor",
-    "Chain Mail": "heavyArmor",
-    "Ring Mail": "heavyArmor",
-    "Brigandine Armor": "heavyArmor",
-    "Scale Mail": "heavyArmor",
-    "Splint Mail": "heavyArmor",
-    "Banded Mail": "heavyArmor",
-    "Plate Mail": "heavyArmor",
-    "Field Plate Mail": "heavyArmor",
-    "Full Plate Mail": "heavyArmor",
-  };
-
-  const currentArmor = characterData?.wearing?.armor || "";
-  const currentCategory =
-    armorCategoryMap[currentArmor] ||
-    characterData?.equipment.filter((item) => item.name === currentArmor)[0]
-      ?.type
-      ? "lightArmor"
-      : "heavyArmor";
-  const [lightSpeed, heavySpeed] =
-    armorSpeedMap[currentCategory || "lightArmor"];
-  const weight = getWeight(characterData);
-
-  return weight <= carryingCapacity.light ? lightSpeed : heavySpeed;
+  // 0 = no armor/m,agic leather, 1 = leather/magic metal, 2 = metal
+  const currentArmor: number =
+    (getEquipmentItemFromName(characterData.wearing?.armor || "")
+      ?.type as number) || 0;
+  const currentWeight = getWeight(characterData);
+  // PC does not have an animal
+  if (!carryingCapacity.animal) {
+    return carryingCapacity.light >= currentWeight
+      ? armorSpeedMap[currentArmor][0]
+      : armorSpeedMap[currentArmor][1];
+  } else {
+    return carryingCapacity.player!.light >= currentWeight
+      ? armorSpeedMap[currentArmor][0]
+      : armorSpeedMap[currentArmor][1];
+  }
 };
 
 // Helper function to get the strength range

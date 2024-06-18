@@ -10,6 +10,7 @@ import { AttackTypes } from "./stringSupport";
 import { DescriptionsProps, RadioChangeEvent, SelectProps } from "antd";
 
 export const getEquipmentItemFromName = (name: string) => {
+  if (!name) return;
   return equipmentData.find((item) => item.name === name);
 };
 
