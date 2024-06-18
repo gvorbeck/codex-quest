@@ -10,7 +10,7 @@ import {
 import { AttackTypes, titleCaseToCamelCase } from "./stringSupport";
 import { races } from "@/data/races";
 import equipmentItems from "../data/equipment.json";
-import { ArmorCategory, getEquipmentItemFromName } from "./equipmentSupport";
+import { getEquipmentItemFromName } from "./equipmentSupport";
 import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
