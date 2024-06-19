@@ -154,7 +154,7 @@ export type EquipmentItem = {
   range?: number[];
   size?: SizeOptions;
   subCategory?: string;
-  type?: string;
+  type?: string | number;
   weight?: number;
 };
 

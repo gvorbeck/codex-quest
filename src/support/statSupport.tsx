@@ -143,13 +143,15 @@ export const getMovement = (characterData: CharData) => {
 
   const carryingCapacity = getCarryingCapacity(characterData);
   // 0 = no armor/m,agic leather, 1 = leather/magic metal, 2 = metal
-  const armorItem = getEquipmentItemFromName(
-    characterData.wearing?.armor || "",
-  );
-  let currentArmor: number = (armorItem?.type as number) || 0;
+  const armorItem = characterData.wearing?.armor
+    ? characterData.equipment.find(
+        (item) => item.name === characterData.wearing?.armor,
+      )
+    : undefined;
+  let currentArmor: number = Number(armorItem?.type) || 0;
 
   if (typeof currentArmor === "string") {
-    currentArmor = 0; // Default to 0 if currentArmor is a string
+    currentArmor = 0; // Default to 0 if currentArmor is a string (it used to be)
   }
   const currentWeight = getWeight(characterData);
   // PC does not have an animal
