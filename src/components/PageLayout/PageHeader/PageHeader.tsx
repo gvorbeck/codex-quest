@@ -4,7 +4,6 @@ import { handleLogin } from "@/support/accountSupport";
 import { title } from "../../../../package.json";
 import DragonIcon from "@/assets/images/dragon-head.png";
 import { Button, Flex, Tooltip, Typography } from "antd";
-import classNames from "classnames";
 import ModalLoginSignup from "@/components/ModalLoginSignup/ModalLoginSignup";
 import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { auth } from "@/firebase";
@@ -25,9 +24,8 @@ const PageHeader: React.FC<
 
   const siteTitle = title.split(" ");
 
-  const pageHeaderContainerClassNames = classNames(className);
   return (
-    <Flex className={pageHeaderContainerClassNames} justify="space-between">
+    <Flex className={className} justify="space-between">
       <Typography.Title
         level={1}
         className="text-3xl/base m-0 h-auto flex"
