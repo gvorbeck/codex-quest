@@ -9,6 +9,7 @@ import ModalLoginSignup from "@/components/ModalLoginSignup/ModalLoginSignup";
 import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { auth } from "@/firebase";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 interface PageHeaderProps {
   user: User | null;
@@ -19,6 +20,7 @@ const PageHeader: React.FC<
 > = ({ user, className }) => {
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] =
     React.useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
   const handleCancel = () => setIsLoginSignupModalOpen(false);
 
   const siteTitle = title.split(" ");
@@ -41,6 +43,9 @@ const PageHeader: React.FC<
           <span>{siteTitle[1]}</span>
         </Link>
       </Typography.Title>
+      <Button onClick={toggleTheme}>
+        Switch to {isDarkMode ? "Light" : "Dark"} Mode
+      </Button>
       <div>
         {user ? (
           <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
