@@ -5,7 +5,12 @@ import { title } from "../../../../package.json";
 import DragonIcon from "@/assets/images/dragon-head.png";
 import { Button, Flex, Tooltip, Typography } from "antd";
 import ModalLoginSignup from "@/components/ModalLoginSignup/ModalLoginSignup";
-import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  LoginOutlined,
+  LogoutOutlined,
+  MoonOutlined,
+  SunOutlined,
+} from "@ant-design/icons";
 import { auth } from "@/firebase";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/components/ThemeSwitcher/ThemeSwitcher";
@@ -41,10 +46,14 @@ const PageHeader: React.FC<
           <span>{siteTitle[1]}</span>
         </Link>
       </Typography.Title>
-      <Button onClick={toggleTheme}>
-        Switch to {isDarkMode ? "Light" : "Dark"} Mode
-      </Button>
-      <div>
+      <Flex gap={8} align="center">
+        <Tooltip title="Change Theme">
+          <Button
+            onClick={toggleTheme}
+            icon={isDarkMode ? <MoonOutlined /> : <SunOutlined />}
+            shape="circle"
+          />
+        </Tooltip>
         {user ? (
           <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
             <Button
@@ -68,7 +77,7 @@ const PageHeader: React.FC<
             />
           </Tooltip>
         )}
-      </div>
+      </Flex>
       <ModalLoginSignup
         handleCancel={handleCancel}
         isLoginSignupModalOpen={isLoginSignupModalOpen}
