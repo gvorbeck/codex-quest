@@ -1,12 +1,12 @@
 import "./firebase";
-import { ConfigProvider, Spin } from "antd";
+import { Spin } from "antd";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import "../node_modules/modern-normalize/modern-normalize.css";
 import PageLayout from "./components/PageLayout/PageLayout";
-import { cqTheme } from "./support/theme";
 import ThemeSwitcher from "./components/ThemeSwitcher/ThemeSwitcher";
+
 const PageWelcome = lazy(() => import("./components/PageWelcome/PageWelcome"));
 const PageCharacterSheet = lazy(
   () => import("./components/PageCharacterSheet/PageCharacterSheet"),
@@ -24,7 +24,7 @@ const PageSources = lazy(() => import("./components/PageSources/PageSources"));
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedKey, setSelectedKey] = React.useState<string>("1");
+  const [selectedKey, setSelectedKey] = useState<string>("1");
 
   const auth = getAuth();
 
@@ -39,8 +39,7 @@ const App: React.FC = () => {
     });
 
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [auth]);
 
   const date = new Date();
   const spin = <Spin size="large" className="w-full h-full py-4" />;
@@ -48,57 +47,55 @@ const App: React.FC = () => {
 
   return (
     <ThemeSwitcher>
-      <ConfigProvider theme={cqTheme}>
-        <Suspense fallback={spin}>
-          <Routes>
+      <Suspense fallback={spin}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <PageLayout
+                user={user}
+                alert={gmDay ? "Happy International GM's Day!" : undefined}
+              />
+            }
+          >
             <Route
-              path="/"
+              index
               element={
-                <PageLayout
-                  user={user}
-                  alert={gmDay ? "Happy International GM's Day!" : undefined}
-                />
+                loading ? (
+                  spin
+                ) : user ? (
+                  <PageHome
+                    user={user}
+                    selectedKey={selectedKey}
+                    handleTabChange={handleTabChange}
+                  />
+                ) : (
+                  <PageWelcome />
+                )
               }
-            >
-              <Route
-                index
-                element={
-                  loading ? (
-                    spin
-                  ) : user ? (
-                    <PageHome
-                      user={user}
-                      selectedKey={selectedKey}
-                      handleTabChange={handleTabChange}
-                    />
-                  ) : (
-                    <PageWelcome />
-                  )
-                }
-              />
-              <Route
-                path="new-character"
-                element={<PageNewCharacter user={user} />}
-              />
-              <Route
-                path="new-game"
-                element={
-                  <PageNewGame user={user} handleTabChange={handleTabChange} />
-                }
-              />
-              <Route
-                path="u/:uid/c/:id"
-                element={<PageCharacterSheet user={user} />}
-              />
-              <Route
-                path="u/:userId/g/:gameId"
-                element={<PageGameSheet user={user} />}
-              />
-              <Route path="sources" element={<PageSources />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </ConfigProvider>
+            />
+            <Route
+              path="new-character"
+              element={<PageNewCharacter user={user} />}
+            />
+            <Route
+              path="new-game"
+              element={
+                <PageNewGame user={user} handleTabChange={handleTabChange} />
+              }
+            />
+            <Route
+              path="u/:uid/c/:id"
+              element={<PageCharacterSheet user={user} />}
+            />
+            <Route
+              path="u/:userId/g/:gameId"
+              element={<PageGameSheet user={user} />}
+            />
+            <Route path="sources" element={<PageSources />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </ThemeSwitcher>
   );
 };
