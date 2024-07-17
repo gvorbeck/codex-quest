@@ -27,7 +27,7 @@ const HelpTooltip: React.FC<
       }
       color={ColorScheme.SHIPGRAY}
     >
-      <QuestionCircleOutlined className="text-lg [&_svg]:fill-shipGray" />
+      <QuestionCircleOutlined className="text-lg" />
     </Tooltip>
   );
 };

@@ -15,6 +15,7 @@ import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
+import classNames from "classnames";
 
 const roller = new DiceRoller();
 
@@ -341,10 +342,9 @@ export const getModifier = (score: number): string => {
   return "+0"; // Default value
 };
 
-export const getExtraIcons = (character: CharData) => {
+export const getExtraIcons = (character: CharData, isDarkMode: boolean) => {
   type IconComponentProps = React.SVGProps<SVGSVGElement>;
   type IconTuple = [React.FC<IconComponentProps>, string];
-
   const raceIcons = races[character.race as RaceNames]?.icons || [];
   const classIcons = character.class.reduce((acc: IconTuple[], charClass) => {
     const classIcon = classes[charClass as ClassNames]?.icons || [];
@@ -352,12 +352,19 @@ export const getExtraIcons = (character: CharData) => {
   }, [] as IconTuple[]);
 
   const fullIcons = [...raceIcons, ...classIcons];
+  const iconClassNames = classNames(
+    "w-8 h-8 [&_svg]:max-h-5 fill-current aspect-square flex items-center justify-center p-0.5 rounded-full cursor-pointer border-solid",
+    {
+      "bg-shipGray border-springWood": isDarkMode,
+      "bg-springWood border-shipGray": !isDarkMode,
+    },
+  );
   return (
     <ul className="list-none flex gap-2 p-0">
       {fullIcons.map(([IconComponent, iconDescription], index) => (
         <li key={index}>
           <Tooltip title={iconDescription}>
-            <div className="w-8 h-8 [&_svg]:max-h-5 fill-springWood bg-shipGray aspect-square flex items-center justify-center p-0.5 rounded-full cursor-pointer">
+            <div className={iconClassNames}>
               <IconComponent />
             </div>
           </Tooltip>

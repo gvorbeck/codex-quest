@@ -4,8 +4,7 @@ const TrackerRemoveSvg: React.FC = () => (
   <svg
     width={16}
     height={16}
-    opacity={0.75}
-    fill={ColorScheme.SHIPGRAY}
+    style={{ fill: "currentColor" }}
     viewBox="0 0 6480 8000"
   >
     <g>

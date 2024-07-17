@@ -74,29 +74,29 @@ export const fetchCollection = async (
 ) => {
   try {
     setLoading(true);
-    if (isLocalhost) {
-      // Using setTimeout to mimic async operation
-      setTimeout(() => {
-        let mockData: any;
-        switch (collectionName) {
-          case "characters":
-            mockData = mockCharacters;
-            break;
-          case "games":
-            mockData = mockGames;
-            break;
-          default:
-            mockData = [];
-        }
+    // if (isLocalhost) {
+    //   // Using setTimeout to mimic async operation
+    //   setTimeout(() => {
+    //     let mockData: any;
+    //     switch (collectionName) {
+    //       case "characters":
+    //         mockData = mockCharacters;
+    //         break;
+    //       case "games":
+    //         mockData = mockGames;
+    //         break;
+    //       default:
+    //         mockData = [];
+    //     }
 
-        setContent(
-          mockData.sort((a: any, b: any) => a.name.localeCompare(b.name)),
-        );
-        document.title = `CODEX.QUEST${pageTitle ? ` | ${pageTitle}` : ""}`;
-        setLoading(false);
-      }, 500); // Mimic network delay
-      return () => {};
-    }
+    //     setContent(
+    //       mockData.sort((a: any, b: any) => a.name.localeCompare(b.name)),
+    //     );
+    //     document.title = `CODEX.QUEST${pageTitle ? ` | ${pageTitle}` : ""}`;
+    //     setLoading(false);
+    //   }, 500); // Mimic network delay
+    //   return () => {};
+    // }
     if (user) {
       const uid = user.uid;
       const contentCollectionRef = collection(
