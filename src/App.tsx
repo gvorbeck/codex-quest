@@ -1,11 +1,12 @@
 import "./firebase";
-import { ConfigProvider, Spin } from "antd";
+import { Spin } from "antd";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import "../node_modules/modern-normalize/modern-normalize.css";
 import PageLayout from "./components/PageLayout/PageLayout";
-import { cqTheme } from "./support/theme";
+import ThemeSwitcher from "./components/ThemeSwitcher/ThemeSwitcher";
+
 const PageWelcome = lazy(() => import("./components/PageWelcome/PageWelcome"));
 const PageCharacterSheet = lazy(
   () => import("./components/PageCharacterSheet/PageCharacterSheet"),
@@ -23,7 +24,7 @@ const PageSources = lazy(() => import("./components/PageSources/PageSources"));
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedKey, setSelectedKey] = React.useState<string>("1");
+  const [selectedKey, setSelectedKey] = useState<string>("1");
 
   const auth = getAuth();
 
@@ -38,15 +39,14 @@ const App: React.FC = () => {
     });
 
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [auth]);
 
   const date = new Date();
   const spin = <Spin size="large" className="w-full h-full py-4" />;
   const gmDay = date.getMonth() === 2 && date.getDate() === 4;
 
   return (
-    <ConfigProvider theme={cqTheme}>
+    <ThemeSwitcher>
       <Suspense fallback={spin}>
         <Routes>
           <Route
@@ -96,7 +96,7 @@ const App: React.FC = () => {
           </Route>
         </Routes>
       </Suspense>
-    </ConfigProvider>
+    </ThemeSwitcher>
   );
 };
 

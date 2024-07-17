@@ -1,12 +1,8 @@
-import { ColorScheme } from "@/support/colorSupport";
-
 const DiceSvg: React.FC = () => (
   <svg
     width={16}
     height={16}
-    fill={ColorScheme.SHIPGRAY}
-    stroke={ColorScheme.SHIPGRAY}
-    opacity={0.75}
+    style={{ fill: "currentColor", stroke: "currentColor" }}
     strokeWidth={0.4}
   >
     <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z" />

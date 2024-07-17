@@ -7,6 +7,7 @@ import PlayerButtons from "./PlayerButtons/PlayerButtons";
 import { getExtraIcons } from "@/support/statSupport";
 import { GameDataContext } from "@/store/GameDataContext";
 import { useDeviceType } from "@/hooks/useDeviceType";
+import { useTheme } from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 interface PlayerListProps {
   players: GamePlayerList;
@@ -24,6 +25,7 @@ const PlayerList: React.FC<
   const { user, gameId } = React.useContext(GameDataContext);
   const { characterDispatch } = useCharacterData(user);
   const { isMobile } = useDeviceType();
+  const { isDarkMode } = useTheme();
 
   return characterList.length && gameId ? (
     <Flex vertical gap={16} className={className}>
@@ -33,7 +35,7 @@ const PlayerList: React.FC<
           const { abilities, name, userId, charId } = character;
           const items = generateAbilityItems(abilities.scores);
           const subItems = generateDetailItems(character, characterDispatch);
-          const extra = getExtraIcons(character);
+          const extra = getExtraIcons(character, isDarkMode);
           return (
             <Card
               size="small"

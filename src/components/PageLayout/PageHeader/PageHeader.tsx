@@ -4,11 +4,16 @@ import { handleLogin } from "@/support/accountSupport";
 import { title } from "../../../../package.json";
 import DragonIcon from "@/assets/images/dragon-head.png";
 import { Button, Flex, Tooltip, Typography } from "antd";
-import classNames from "classnames";
 import ModalLoginSignup from "@/components/ModalLoginSignup/ModalLoginSignup";
-import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  LoginOutlined,
+  LogoutOutlined,
+  MoonOutlined,
+  SunOutlined,
+} from "@ant-design/icons";
 import { auth } from "@/firebase";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 interface PageHeaderProps {
   user: User | null;
@@ -19,13 +24,13 @@ const PageHeader: React.FC<
 > = ({ user, className }) => {
   const [isLoginSignupModalOpen, setIsLoginSignupModalOpen] =
     React.useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
   const handleCancel = () => setIsLoginSignupModalOpen(false);
 
   const siteTitle = title.split(" ");
 
-  const pageHeaderContainerClassNames = classNames(className);
   return (
-    <Flex className={pageHeaderContainerClassNames} justify="space-between">
+    <Flex className={className} justify="space-between">
       <Typography.Title
         level={1}
         className="text-3xl/base m-0 h-auto flex"
@@ -41,7 +46,14 @@ const PageHeader: React.FC<
           <span>{siteTitle[1]}</span>
         </Link>
       </Typography.Title>
-      <div>
+      <Flex gap={8} align="center">
+        <Tooltip title="Change Theme">
+          <Button
+            onClick={toggleTheme}
+            icon={isDarkMode ? <MoonOutlined /> : <SunOutlined />}
+            shape="circle"
+          />
+        </Tooltip>
         {user ? (
           <Tooltip title="Logout of CODEX.QUEST" color="#3E3643">
             <Button
@@ -65,7 +77,7 @@ const PageHeader: React.FC<
             />
           </Tooltip>
         )}
-      </div>
+      </Flex>
       <ModalLoginSignup
         handleCancel={handleCancel}
         isLoginSignupModalOpen={isLoginSignupModalOpen}

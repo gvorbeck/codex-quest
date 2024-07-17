@@ -76,13 +76,13 @@ const Hero: React.FC<HeroProps> = ({
             </Tooltip>
             <Tooltip title="Open Treasure Generator">
               <Button
-                icon={<CoinsSvg className="w-6 fill-shipGray" />}
+                icon={<CoinsSvg className="w-6" />}
                 onClick={handleTreasureModalClick}
               />
             </Tooltip>
             <Tooltip title="Open Random Encounter Generator">
               <Button
-                icon={<MonsterSvg className="w-6 fill-shipGray" />}
+                icon={<MonsterSvg className="w-6" />}
                 onClick={handleRandomEncounterModalClick}
               />
             </Tooltip>
