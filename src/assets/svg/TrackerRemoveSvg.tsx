@@ -1,5 +1,3 @@
-import { ColorScheme } from "@/support/colorSupport";
-
 const TrackerRemoveSvg: React.FC = () => (
   <svg
     width={16}

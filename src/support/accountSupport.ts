@@ -18,8 +18,8 @@ import {
 import { db } from "../firebase";
 import { PlayerListObject } from "../data/definitions";
 import { RcFile } from "antd/es/upload";
-import { mockCharacters } from "@/mocks/characters";
-import { mockGames } from "@/mocks/games";
+// import { mockCharacters } from "@/mocks/characters";
+// import { mockGames } from "@/mocks/games";
 import { DocumentData } from "firebase-admin/firestore";
 
 type DocumentType = "characters" | "games";
@@ -32,7 +32,7 @@ type UpdatePayload = {
   data: any;
 };
 
-const isLocalhost = import.meta.env.VITE_USE_MOCK_DATA === "true";
+// const isLocalhost = import.meta.env.VITE_USE_MOCK_DATA === "true";
 
 export const handleLogin = async () => {
   const auth = getAuth();
