@@ -32,6 +32,7 @@ export const cqDarkTheme = {
     Card: {
       actionsBg: ColorScheme.CALIFORNIA,
       colorTextDescription: lightenHexColor(ColorScheme.SHIPGRAY, 20),
+      colorBorderSecondary: darkenHexColor(ColorScheme.SHIPGRAY, 10),
     },
     Collapse: {
       headerBg: ColorScheme.SEABUCKTHORN,
