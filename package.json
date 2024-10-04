@@ -16,7 +16,8 @@
     "format": "prettier --write './src/**/*.{js,ts,tsx}'",
     "test": "vitest",
     "coverage": "vitest --ui",
-    "host": "vite --host"
+    "host": "vite --host",
+    "knip": "knip"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
@@ -53,6 +54,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.12",
     "jsdom": "^25.0.1",
+    "knip": "^5.31.0",
     "plop": "^4.0.1",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
