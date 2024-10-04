@@ -1,7 +1,6 @@
 import { Spell } from "@/data/definitions";
 import { getSpellFromName } from "@/support/spellSupport";
 import { Checkbox, Flex, Typography } from "antd";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import React, { useState } from "react";
 
 interface SpellOptionsListProps {
@@ -29,7 +28,7 @@ const SpellOptionsList: React.FC<
       : [],
   );
 
-  const handleCheckboxChange = (checkedList: Array<CheckboxValueType>) => {
+  const handleCheckboxChange = (checkedList: Array<string>) => {
     setCheckedValues(checkedList.map((value) => String(value)));
   };
 

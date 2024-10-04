@@ -4,6 +4,7 @@ import AbilityRoller from "./AbilityRoller/AbilityRoller";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { rollDice } from "@/support/diceSupport";
 import { calculateModifier } from "@/support/statSupport";
+import { AnyObject } from "antd/es/_util/type";
 
 interface StepAbilitiesProps {
   character: CharData;
@@ -68,16 +69,7 @@ const StepAbilities: React.FC<
     {
       title: "Score",
       dataIndex: "score",
-      render: (
-        _,
-        record: {
-          key: string;
-          label: string;
-          ability: string;
-          score: number;
-          modifier: string;
-        },
-      ) => {
+      render: (_, record: AnyObject) => {
         const abilityKey = record.ability.toLowerCase();
 
         return (
