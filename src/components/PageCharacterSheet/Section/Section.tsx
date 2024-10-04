@@ -10,6 +10,7 @@ interface SectionProps {
   editableComponent?: React.ReactNode;
   editableClassName?: string;
   editable?: boolean;
+  editableClick?: (editing: boolean) => void;
 }
 
 const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
@@ -20,12 +21,14 @@ const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
   editable,
   editableComponent,
   editableClassName,
+  editableClick,
 }) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
   function handleEditClick() {
     const editing = !isEditing;
-    setIsEditing(editing);
+    if (!editableClick) setIsEditing(editing);
+    else editableClick(editing);
   }
 
   const hasTitle = title ? (

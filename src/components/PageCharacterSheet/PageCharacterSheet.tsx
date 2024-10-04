@@ -252,6 +252,8 @@ const PageCharacterSheet: React.FC<
               title="Equipment"
               className="mt-4 sm:m-0"
               component={<Equipment setModalDisplay={setModalDisplay} />}
+              editable
+              editableClick={showDrawer}
             />
           </Col>
         </Row>
