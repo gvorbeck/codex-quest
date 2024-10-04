@@ -12,6 +12,7 @@ import {
   Flex,
   InputNumber,
   Popconfirm,
+  Tooltip,
   Typography,
   message,
 } from "antd";
@@ -19,11 +20,14 @@ import { equipmentNames } from "@/support/equipmentSupport";
 import { DeleteOutlined } from "@ant-design/icons";
 import ModalAttack from "@/components/ModalAttack/ModalAttack";
 import { CharacterDataContext } from "@/store/CharacterContext";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 interface EquipmentItemDescriptionProps {
   item: EquipmentItem;
   showAttackButton?: boolean;
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
+  hideEditButton?: boolean;
+  hideAmount?: boolean;
 }
 
 const confirm = (
@@ -46,10 +50,18 @@ const cancel = () => {};
 
 const EquipmentItemDescription: React.FC<
   EquipmentItemDescriptionProps & React.ComponentPropsWithRef<"div">
-> = ({ className, item, showAttackButton, setModalDisplay }) => {
+> = ({
+  className,
+  item,
+  showAttackButton,
+  setModalDisplay,
+  hideEditButton,
+  hideAmount,
+}) => {
   const [, contextHolder] = message.useMessage();
   const { character, characterDispatch, userIsOwner } =
     React.useContext(CharacterDataContext);
+  const { isMobile } = useDeviceType();
 
   const damageItem = {
     key: "damage",
@@ -115,19 +127,20 @@ const EquipmentItemDescription: React.FC<
   if (item.missileAC) items.push(missileACItem);
   if (item.range) items.push(rangeItem);
   if (item.ammo) items.push(ammoItem);
-  items.push({
-    key: "amount",
-    label: "Amount",
-    children: !equipmentNames.includes(item.name) ? (
-      <InputNumber
-        value={item.amount}
-        onChange={handleCustomAmmoChange}
-        disabled={!userIsOwner}
-      />
-    ) : (
-      item.amount
-    ),
-  });
+  if (!hideAmount)
+    items.push({
+      key: "amount",
+      label: "Amount",
+      children: !equipmentNames.includes(item.name) ? (
+        <InputNumber
+          value={item.amount}
+          onChange={handleCustomAmmoChange}
+          disabled={!userIsOwner}
+        />
+      ) : (
+        item.amount
+      ),
+    });
 
   const handleAttackClick = () => {
     if (setModalDisplay) {
@@ -169,6 +182,12 @@ const EquipmentItemDescription: React.FC<
       Attack
     </Button>
   ) : null;
+
+  const editButton = !hideEditButton ? (
+    <Tooltip title={`Edit ${item.name}`}>
+      <Button disabled={!userIsOwner}>Edit</Button>
+    </Tooltip>
+  ) : null;
   return (
     <>
       {contextHolder}
@@ -178,10 +197,11 @@ const EquipmentItemDescription: React.FC<
           bordered
           className={className}
           items={items}
-          column={3}
+          column={isMobile ? 1 : 2}
         />
         {notes}
         <Flex justify="flex-end" gap={16}>
+          {editButton}
           {deleteCustomEquipmentButton}
           {attackButton}
         </Flex>
