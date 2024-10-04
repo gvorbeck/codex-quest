@@ -37,7 +37,7 @@ const PlayerButtons: React.FC<PlayerButtonsProps> = ({
   };
 
   const TrackerAddIcon = (props: Partial<CustomIconComponentProps>) => (
-    <Icon component={TrackerAddSvg} {...props} />
+    <Icon component={TrackerAddSvg} style={{ fill: "inherit" }} {...props} />
   );
   return (
     <Flex gap={16}>

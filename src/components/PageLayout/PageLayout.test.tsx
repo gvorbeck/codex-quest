@@ -2,12 +2,15 @@ import { describe, it, expect } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageLayout from "./PageLayout";
 import { render, screen } from "@testing-library/react";
+import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
 describe("PageLayout", () => {
   render(
-    <BrowserRouter>
-      <PageLayout user={null} />
-    </BrowserRouter>,
+    <ThemeSwitcher>
+      <BrowserRouter>
+        <PageLayout user={null} />
+      </BrowserRouter>
+    </ThemeSwitcher>,
   );
 
   it("expects the page header to be present", () => {

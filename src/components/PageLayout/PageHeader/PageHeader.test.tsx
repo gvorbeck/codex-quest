@@ -3,15 +3,18 @@ import { describe, it, expect } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageHeader from "./PageHeader";
 import { User } from "firebase/auth";
+import ThemeSwitcher from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 // PageHeader only checks for user null or not null, so we can pass in a boolean as a User.
 const loggedInUser: User = true as unknown as User;
 
 describe("PageHeader", () => {
   render(
-    <BrowserRouter>
-      <PageHeader user={loggedInUser} />
-    </BrowserRouter>,
+    <ThemeSwitcher>
+      <BrowserRouter>
+        <PageHeader user={loggedInUser} />
+      </BrowserRouter>
+    </ThemeSwitcher>,
   );
 
   it("expects the site title to be present", () => {
@@ -42,9 +45,11 @@ describe("PageHeader", () => {
     const loggedOutUser: User = null as unknown as User;
 
     render(
-      <BrowserRouter>
-        <PageHeader user={loggedOutUser} />
-      </BrowserRouter>,
+      <ThemeSwitcher>
+        <BrowserRouter>
+          <PageHeader user={loggedOutUser} />
+        </BrowserRouter>
+      </ThemeSwitcher>,
     );
 
     const loginButton = screen.getByTestId("login-button");
