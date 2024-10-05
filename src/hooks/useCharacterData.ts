@@ -5,6 +5,7 @@ import { User } from "firebase/auth";
 import { characterReducer, emptyCharacter } from "@/support/characterSupport";
 
 export function useCharacterData(user: User | null) {
+  const [disabled, setDisabled] = React.useState(false);
   const { uid, id } = useParams();
   const [character, characterDispatch] = React.useReducer(
     characterReducer,
@@ -21,13 +22,14 @@ export function useCharacterData(user: User | null) {
   }, [uid, id]);
 
   React.useEffect(() => {
-    if (uid && id && character.race) {
+    if (uid && id && character.race && !disabled) {
       updateDocument({
         collection: "users",
         docId: uid,
         subCollection: "characters",
         subDocId: id,
         data: { ...character },
+        setDisabled,
       });
     }
   }, [uid, id, character]);

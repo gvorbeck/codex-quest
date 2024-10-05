@@ -154,7 +154,8 @@ export const updateDocument = async ({
   subCollection,
   subDocId,
   data,
-}: UpdatePayload) => {
+  setDisabled,
+}: UpdatePayload & any) => {
   if (!docId) {
     console.error("Document ID is undefined");
     return;
@@ -170,6 +171,7 @@ export const updateDocument = async ({
   try {
     await updateDoc(docRef, data);
   } catch (error) {
+    setDisabled(true);
     console.warn(data);
     console.error("Error updating document: ", error);
   }
