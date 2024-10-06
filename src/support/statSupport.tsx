@@ -1,6 +1,7 @@
 import {
   CharData,
   ClassNames,
+  DiceTypes,
   EquipmentCategories,
   EquipmentItem,
   RaceNames,
@@ -268,6 +269,9 @@ export const getHitDice = (
   character: CharData,
   dice: string,
 ) => {
+  if (!dice) {
+    dice = getCharacterHitDiceFromClass(character) as string;
+  }
   const dieType = dice.split("d")[1].split("+")[0];
   const prefix = Math.min(level, 9);
 
@@ -279,6 +283,51 @@ export const getHitDice = (
   const result = `${prefix}d${dieType}${suffix > 0 ? "+" + suffix : ""}`;
   return result;
 };
+
+export function getCharacterHitDiceFromClass(character: CharData) {
+  const diceArr = [
+    DiceTypes.D3,
+    DiceTypes.D4,
+    DiceTypes.D6,
+    DiceTypes.D8,
+    DiceTypes.D10,
+    DiceTypes.D12,
+    DiceTypes.D20,
+  ];
+  const { race } = character;
+  const classType = getClassType(character.class);
+  // Some races require the character's hit dice to be incremented or decremented
+  const incrementChecker = (dice: DiceTypes) => {
+    // The index of the character's hit die in the diceArr
+    let diceIndex = diceArr.indexOf(dice);
+    // The max index a character's hit die is allowed to be in the diceArr
+    const diceMaxIndex = diceArr.indexOf(
+      races[race as RaceNames]?.maximumHitDice ?? DiceTypes.D20,
+    );
+    if (races[race as RaceNames]?.incrementHitDie) {
+      diceIndex++;
+    }
+    if (races[race as RaceNames]?.decrementHitDie) {
+      diceIndex--;
+    }
+    // If a character's hit die is greater than the max allowed hit die, set it to the max allowed hit die
+    if (diceIndex > diceMaxIndex) {
+      diceIndex = diceMaxIndex;
+    }
+    return diceArr[diceIndex];
+  };
+  if (classType[0] === "combination") {
+    if (character.class.includes(ClassNames.FIGHTER)) {
+      return incrementChecker(DiceTypes.D6);
+    }
+    if (character.class.includes(ClassNames.THIEF)) {
+      return incrementChecker(DiceTypes.D4);
+    }
+  } else if (classType[0] === "standard") {
+    return incrementChecker(classes[character.class[0] as ClassNames].hitDice);
+  }
+  return (character.hp.dice as DiceTypes) || undefined;
+}
 
 export const getSavingThrows = (className: string, level: number) =>
   classes[className as ClassNames]?.savingThrows.find(
