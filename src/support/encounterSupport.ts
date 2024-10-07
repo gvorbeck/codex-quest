@@ -6,7 +6,7 @@ import {
 import monster from "@/data/monsters.json";
 import { rollDice } from "./diceSupport";
 
-export function getMonsterByName(name: string) {
+function getMonsterByName(name: string) {
   return monster.find((m) => m.name.includes(name));
 }
 

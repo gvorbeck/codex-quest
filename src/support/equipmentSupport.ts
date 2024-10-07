@@ -122,8 +122,6 @@ export const getItemCost = (item: EquipmentItem): number => {
   return unitCost;
 };
 
-export type ArmorCategory = "lightArmor" | "mediumArmor" | "heavyArmor";
-
 export const CURRENCIES: CostCurrency[] = ["gp", "sp", "cp"];
 export const equipmentSizes: SelectProps["options"] = [
   {

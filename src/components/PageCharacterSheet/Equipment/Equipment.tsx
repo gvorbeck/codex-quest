@@ -1,6 +1,6 @@
 import { Button, Collapse, Flex, Input } from "antd";
 import React from "react";
-import CollapseEquipment from "../CollapseEquipment/CollapseEquipment";
+// import CollapseEquipment from "../CollapseEquipment/CollapseEquipment";
 import EquipmentItemDescription from "../CollapseEquipment/EquipmentItemDescription/EquipmentItemDescription";
 import { kickItem, punchItem } from "@/support/equipmentSupport";
 import { DrawerForms, ModalDisplay } from "@/data/definitions";
@@ -15,8 +15,7 @@ interface EquipmentProps {
 const Equipment: React.FC<
   EquipmentProps & React.ComponentPropsWithRef<"div">
 > = ({ className, setModalDisplay, showDrawer, setDrawerForms }) => {
-  const { character, characterDispatch } =
-    React.useContext(CharacterDataContext);
+  const { character } = React.useContext(CharacterDataContext);
   const [search, setSearch] = React.useState("");
   const { equipment } = character;
   // Sort equipment by category

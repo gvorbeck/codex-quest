@@ -329,12 +329,12 @@ export function getCharacterHitDiceFromClass(character: CharData) {
   return (character.hp.dice as DiceTypes) || undefined;
 }
 
-export const getSavingThrows = (className: string, level: number) =>
+const getSavingThrows = (className: string, level: number) =>
   classes[className as ClassNames]?.savingThrows.find(
     (savingThrow) => (savingThrow[0] as number) >= level,
   )?.[1] as SavingThrowsType;
 
-export const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
+const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
   Object.values(savingThrows).reduce((prev, curr) => prev + curr, 0);
 
 export const getBestSavingThrowList = (charClass: string[], level: number) => {
