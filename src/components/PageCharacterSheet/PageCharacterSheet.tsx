@@ -7,7 +7,7 @@ import { useModal } from "@/hooks/useModal";
 import React from "react";
 import { Alert, Col, Divider, Flex, Row } from "antd";
 import Hero from "./Hero/Hero";
-import { ClassNames } from "@/data/definitions";
+import { ClassNames, EquipmentItem } from "@/data/definitions";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import Section from "./Section/Section";
 import AbilitiesTable from "./AbilitiesTable/AbilitiesTable";
@@ -101,6 +101,9 @@ const PageCharacterSheet: React.FC<
       form: false,
     },
   });
+  const [editItem, setEditItem] = React.useState<EquipmentItem | undefined>(
+    undefined,
+  );
   const { character, characterDispatch, userIsOwner, uid, id } =
     useCharacterData(user);
   const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
