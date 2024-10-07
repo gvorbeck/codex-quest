@@ -57,16 +57,8 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
         <Breadcrumb items={breadcrumbItems(character.name, SolutionOutlined)} />
         <HeroAvatar handleShowAvatarModal={handleShowAvatarModal} />
         <Section
-          component={
-            <Typography.Title
-              level={2}
-              className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
-            >
-              {character.name}
-            </Typography.Title>
-          }
-          editable
-          editableComponent={
+          showEditButton
+          editComponent={
             <StepDetails
               character={character}
               characterDispatch={characterDispatch}
@@ -74,8 +66,15 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
             />
           }
           className="relative self-center"
-          editableClassName="absolute left-full"
-        />
+          editComponentClassName="absolute left-full"
+        >
+          <Typography.Title
+            level={2}
+            className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
+          >
+            {character.name}
+          </Typography.Title>
+        </Section>
         <Divider />
         <Flex
           gap={16}

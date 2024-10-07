@@ -4,59 +4,57 @@ import HelpTooltip from "@/components/HelpTooltip/HelpTooltip";
 import { EditOutlined } from "@ant-design/icons";
 
 interface SectionProps {
-  component: React.ReactNode;
   title?: string;
+  showEditButton?: boolean;
   titleHelpText?: string;
-  editableComponent?: React.ReactNode;
-  editableClassName?: string;
-  editable?: boolean;
-  editableClick?: (editing: boolean) => void;
+  editComponent?: React.ReactNode;
+  editComponentClassName?: string;
+  onEditClick?: () => void;
 }
 
 const Section: React.FC<SectionProps & React.ComponentPropsWithRef<"div">> = ({
   className,
-  component,
   title,
+  showEditButton,
+  editComponent,
+  editComponentClassName,
   titleHelpText,
-  editable,
-  editableComponent,
-  editableClassName,
-  editableClick,
+  children,
+  onEditClick,
 }) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
   function handleEditClick() {
-    const editing = !isEditing;
-    if (!editableClick) setIsEditing(editing);
-    else editableClick(editing);
+    if (editComponent) {
+      setIsEditing((prevEditing) => !prevEditing);
+    } else if (onEditClick) {
+      onEditClick();
+    }
   }
 
-  const hasTitle = title ? (
-    <Typography.Title level={3} className="mt-0 leading-none">
-      {title}
-    </Typography.Title>
-  ) : null;
-  const isEditable = editable ? (
-    <Tooltip title={isEditing ? "Save" : "Edit"}>
-      <Button
-        type={isEditing ? "primary" : "link"}
-        icon={<EditOutlined className="cursor" />}
-        onClick={handleEditClick}
-        className={"shadow-none " + editableClassName}
-      />
-    </Tooltip>
-  ) : null;
-  const titleHelp = titleHelpText ? <HelpTooltip text={titleHelpText} /> : null;
-  const editing = isEditing ? editableComponent : component;
+  // const editing = isEditing ? editableComponent : component;
 
   return (
     <Flex vertical className={className}>
       <Flex gap={16} align="baseline">
-        {hasTitle}
-        {isEditable}
-        {titleHelp}
+        {!!title && (
+          <Typography.Title level={3} className="mt-0 leading-none">
+            {title}
+          </Typography.Title>
+        )}
+        {!!showEditButton && (
+          <Tooltip title={isEditing ? "Save" : "Edit"}>
+            <Button
+              type={isEditing ? "primary" : "link"}
+              icon={<EditOutlined className="cursor" />}
+              onClick={handleEditClick}
+              className={"shadow-none " + editComponentClassName}
+            />
+          </Tooltip>
+        )}
+        {!!titleHelpText && <HelpTooltip text={titleHelpText} />}
       </Flex>
-      {editing}
+      <div>{!!isEditing ? editComponent : children}</div>
     </Flex>
   );
 };

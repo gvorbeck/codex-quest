@@ -94,14 +94,14 @@ const EquipmentItemDescription: React.FC<
     key: "ammo",
     label: "Ammo",
     children: <span className="text-xs">{item.ammo?.join(", ")}</span>,
-    span: 2,
+    span: isMobile ? 1 : 2,
   };
   const items: DescriptionsProps["items"] = [
     {
       key: "name",
       label: "Name",
       children: <span className="font-bold">{item.name}</span>,
-      span: 3,
+      span: isMobile ? 1 : 2,
     },
     {
       key: "cost",

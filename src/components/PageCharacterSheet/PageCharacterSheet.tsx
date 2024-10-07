@@ -135,29 +135,32 @@ const PageCharacterSheet: React.FC<
           <Col xs={24} sm={12} md={8}>
             <Section
               title="Abilities"
-              component={<AbilitiesTable />}
-              editableComponent={
+              showEditButton
+              editComponent={
                 <StepAbilities
                   character={character}
                   characterDispatch={characterDispatch}
                 />
               }
-              editable
-            />
+            >
+              <AbilitiesTable />
+            </Section>
           </Col>
           <Col xs={24} sm={12} md={8}>
             <Flex gap={16} vertical>
               <Section
                 title="Attack Bonuses"
                 titleHelpText={`**Melee** attacks use STR modifier + Attack Bonus.\n\n**Missile** attacks use DEX modifier + Attack Bonus.`}
-                component={<AttackBonuses />}
-              />
+              >
+                <AttackBonuses />
+              </Section>
               <Section
                 title="Hit Points"
-                component={<HitPoints />}
-                editable
-                editableComponent={<EditMaxHp />}
-              />
+                showEditButton
+                editComponent={<EditMaxHp />}
+              >
+                <HitPoints />
+              </Section>
             </Flex>
           </Col>
           <Col xs={24} md={8}>
@@ -169,31 +172,26 @@ const PageCharacterSheet: React.FC<
               <Section
                 title="Armor Class"
                 titleHelpText={`Base AC is 11.\n\nSelect the armor/shield your character is wearing in the Equipment section below.`}
-                component={
-                  <CharacterStat
-                    value={getArmorClass(character, characterDispatch) || 0}
-                  />
-                }
-              />
+              >
+                <CharacterStat
+                  value={getArmorClass(character, characterDispatch) || 0}
+                />
+              </Section>
               <Section
                 title="Movement"
                 titleHelpText={`Movement starts at 40' and is affected by how much weight your character is carrying as well as the armor they are wearing.`}
-                component={
-                  <CharacterStat value={`${getMovement(character)}'`} />
-                }
-              />
-              <Section
-                title="Hit Dice"
-                component={
-                  <CharacterStat
-                    value={getHitDice(
-                      character.level,
-                      character,
-                      character.hp.dice,
-                    )}
-                  />
-                }
-              />
+              >
+                <CharacterStat value={`${getMovement(character)}'`} />
+              </Section>
+              <Section title="Hit Dice">
+                <CharacterStat
+                  value={getHitDice(
+                    character.level,
+                    character,
+                    character.hp.dice,
+                  )}
+                />
+              </Section>
             </Flex>
           </Col>
         </Row>
@@ -201,10 +199,9 @@ const PageCharacterSheet: React.FC<
         {getClassType(character.class).includes("standard") ? (
           <Row gutter={16}>
             <Col xs={24} sm={12} md={14}>
-              <Section
-                title="Restrictions & Special Abilities"
-                component={<SpecialsRestrictions />}
-              />
+              <Section title="Restrictions & Special Abilities">
+                <SpecialsRestrictions />
+              </Section>
             </Col>
             <Col xs={24} sm={12} md={10}>
               <Flex gap={16} vertical>
@@ -217,22 +214,22 @@ const PageCharacterSheet: React.FC<
                         key={cls}
                         title={`${cls} Abilities Table`}
                         titleHelpText={`A player must roll their percentile dice with a result less than or equal to the numbers shown below. Click the rows to automatically roll for each special ability.`}
-                        component={
-                          <SpecialAbilitiesTable
-                            specialAbilities={specialAbilities}
-                          />
-                        }
                         className={isMobile ? "mt-4" : ""}
-                      />
+                      >
+                        <SpecialAbilitiesTable
+                          specialAbilities={specialAbilities}
+                        />
+                      </Section>
                     );
                   }
                 })}
                 <Section
                   title="Saving Throws"
-                  component={<SavingThrows />}
                   className="[@media(width<=640px)]:mt-4"
                   titleHelpText={`Roll 1d20. Pass if above the number shown.\n\nPoison saving throws are made w/ CON modifier.\n\nSaving throws against illusions are made w/ INT modifier.\n\nSaving throws against charm spells (and other forms of mind control) are made w/ WIS modifier.`}
-                />
+                >
+                  <SavingThrows />
+                </Section>
               </Flex>
             </Col>
           </Row>
@@ -243,23 +240,23 @@ const PageCharacterSheet: React.FC<
         <Row gutter={32}>
           <Col xs={24} sm={12}>
             <Flex gap={16} vertical={isMobile} justify="space-between">
-              <Section
-                title="Money"
-                className={!isMobile ? "w-1/3" : ""}
-                component={<Money />}
-              />
+              <Section title="Money" className={!isMobile ? "w-1/3" : ""}>
+                <Money />
+              </Section>
               <Divider className="[@media(width>=640px)]:hidden" />
-              <Section title="Weight" component={<Weight />} />
+              <Section title="Weight">
+                <Weight />
+              </Section>
               <Divider className="[@media(width>=640px)]:hidden" />
             </Flex>
             {isSpellCaster(character) && (
               <Flex gap={16} vertical>
-                <Section
-                  title="Spells"
-                  className="mt-4"
-                  component={<Spells />}
-                />
-                <Section title="Cantrips/Orisons" component={<Cantrips />} />
+                <Section title="Spells" className="mt-4">
+                  <Spells />
+                </Section>
+                <Section title="Cantrips/Orisons">
+                  <Cantrips />
+                </Section>
                 <Divider className="[@media(width>=640px)]:hidden" />
               </Flex>
             )}
@@ -268,25 +265,23 @@ const PageCharacterSheet: React.FC<
             <Section
               title="Equipment"
               className="mt-4 sm:m-0"
-              component={
-                <Equipment
-                  setModalDisplay={setModalDisplay}
-                  showDrawer={showDrawer}
-                  setDrawerForms={setDrawerForms}
-                />
-              }
-              editable
-              editableClick={showDrawer}
-            />
+              showEditButton
+              onEditClick={showDrawer}
+            >
+              <Equipment
+                setModalDisplay={setModalDisplay}
+                showDrawer={showDrawer}
+                setDrawerForms={setDrawerForms}
+              />
+            </Section>
           </Col>
         </Row>
         <Divider />
         <Row gutter={16}>
           <Col span={24}>
-            <Section
-              title="Bio & Notes"
-              component={<Description isMobile={isMobile} />}
-            />
+            <Section title="Bio & Notes">
+              <Description isMobile={isMobile} />
+            </Section>
           </Col>
         </Row>
       </Flex>
