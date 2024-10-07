@@ -23,6 +23,7 @@ import { getItemCost } from "@/support/equipmentSupport";
 
 interface FormCustomEquipmentProps {
   handleResetFormDisplay: () => void;
+  editItem?: EquipmentItem;
 }
 
 type CategoryFieldMappings = {
@@ -64,7 +65,7 @@ const onFinishFailed = (errorInfo: object) => {
 
 const FormCustomEquipment: React.FC<
   FormCustomEquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, handleResetFormDisplay }) => {
+> = ({ className, handleResetFormDisplay, editItem }) => {
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
   const [form] = Form.useForm();

@@ -292,6 +292,7 @@ const PageCharacterSheet: React.FC<
           isSpellCaster={isSpellCaster(character)}
           drawerForms={drawerForms}
           setDrawerForms={setDrawerForms}
+          editItem={editItem}
         />
       )}
       <ModalContainer

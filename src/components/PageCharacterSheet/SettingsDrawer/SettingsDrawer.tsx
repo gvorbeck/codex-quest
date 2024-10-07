@@ -9,7 +9,7 @@ import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
 import CqDivider from "@/components/CqDivider/CqDivider";
-import { DrawerForms } from "@/data/definitions";
+import { DrawerForms, EquipmentItem } from "@/data/definitions";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -17,6 +17,7 @@ interface SettingsDrawerProps {
   isSpellCaster: boolean;
   drawerForms: DrawerForms;
   setDrawerForms: React.Dispatch<React.SetStateAction<DrawerForms>>;
+  editItem?: EquipmentItem;
 }
 
 const SettingsDrawer: React.FC<
@@ -28,6 +29,7 @@ const SettingsDrawer: React.FC<
   isSpellCaster,
   drawerForms,
   setDrawerForms,
+  editItem,
 }) => {
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
@@ -111,9 +113,10 @@ const SettingsDrawer: React.FC<
           />
         )}
         <Button onClick={handleCustomEquipmentClick}>Custom Equipment</Button>
-        {drawerForms.equipment.form && (
+        {(drawerForms.equipment.form || editItem) && (
           <FormCustomEquipment
             handleResetFormDisplay={handleResetFormDisplay}
+            editItem={editItem}
           />
         )}
         {isSpellCaster && (
