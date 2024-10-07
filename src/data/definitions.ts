@@ -362,6 +362,12 @@ export type WeaponTreasure = {
   id: "weapon";
 };
 
+export type DrawerForms = {
+  equipment: { add: boolean; form: boolean };
+  spells: { add: boolean; form: boolean };
+  cantrips: { add: boolean; form: boolean };
+};
+
 export type EncounterEnvironment = "dungeon" | "wilderness" | "urban";
 export type WildernessSubEnvironments =
   | "desert-or-barren"

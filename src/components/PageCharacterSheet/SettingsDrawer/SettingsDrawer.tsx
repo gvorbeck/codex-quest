@@ -9,64 +9,77 @@ import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
 import CqDivider from "@/components/CqDivider/CqDivider";
+import { DrawerForms } from "@/data/definitions";
 
 interface SettingsDrawerProps {
   open: boolean;
   onClose: () => void;
   isSpellCaster: boolean;
+  drawerForms: DrawerForms;
+  setDrawerForms: React.Dispatch<React.SetStateAction<DrawerForms>>;
 }
 
 const SettingsDrawer: React.FC<
   SettingsDrawerProps & React.ComponentPropsWithRef<"div">
-> = ({ open, onClose, className, isSpellCaster }) => {
+> = ({
+  open,
+  onClose,
+  className,
+  isSpellCaster,
+  drawerForms,
+  setDrawerForms,
+}) => {
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
 
-  const [showCustomCantripForm, setShowCustomCantripForm] =
-    React.useState(false);
-  const [showCantripSelection, setShowCantripSelection] = React.useState(false);
-  const [showCustomSpellForm, setShowCustomSpellForm] = React.useState(false);
-  const [showSpellSelection, setShowSpellSelection] = React.useState(false);
-  const [showCustomEquipmentForm, setShowCustomEquipmentForm] =
-    React.useState(false);
-  const [showEditEquipmentForm, setShowEditEquipmentForm] =
-    React.useState(false);
-
   const handleEditEquipmentClick = () => {
-    setShowEditEquipmentForm(
-      (prevShowEditEquipmentForm) => !prevShowEditEquipmentForm,
-    );
+    setDrawerForms((prevDrawerForms) => ({
+      equipment: { add: !prevDrawerForms.equipment.add, form: false },
+      spells: { add: false, form: false },
+      cantrips: { add: false, form: false },
+    }));
   };
   const handleCustomEquipmentClick = () => {
-    setShowCustomEquipmentForm(
-      (prevShowCustomEquipmentForm) => !prevShowCustomEquipmentForm,
-    );
+    setDrawerForms((prevDrawerForms) => ({
+      equipment: { add: false, form: !prevDrawerForms.equipment.form },
+      spells: { add: false, form: false },
+      cantrips: { add: false, form: false },
+    }));
   };
   const handleCustomSpellClick = () => {
-    setShowCustomSpellForm(
-      (prevShowCustomSpellForm) => !prevShowCustomSpellForm,
-    );
+    setDrawerForms((prevDrawerForms) => ({
+      equipment: { add: false, form: false },
+      spells: { add: false, form: !prevDrawerForms.spells.form },
+      cantrips: { add: false, form: false },
+    }));
   };
   const handleAddEditSpellClick = () => {
-    setShowSpellSelection((prevShowSpellSelection) => !prevShowSpellSelection);
+    setDrawerForms((prevDrawerForms) => ({
+      equipment: { add: false, form: false },
+      spells: { add: !prevDrawerForms.spells.add, form: false },
+      cantrips: { add: false, form: false },
+    }));
   };
   const handleAddEditCantripClick = () => {
-    setShowCantripSelection(
-      (prevShowCantripSelection) => !prevShowCantripSelection,
-    );
+    setDrawerForms((prevDrawerForms) => ({
+      equipment: { add: false, form: false },
+      spells: { add: false, form: false },
+      cantrips: { add: !prevDrawerForms.cantrips.add, form: false },
+    }));
   };
   const handleCustomCantripClick = () => {
-    setShowCustomCantripForm(
-      (prevShowCustomCantripForm) => !prevShowCustomCantripForm,
-    );
+    setDrawerForms((prevDrawerForms) => ({
+      equipment: { add: false, form: false },
+      spells: { add: false, form: false },
+      cantrips: { add: false, form: !prevDrawerForms.cantrips.form },
+    }));
   };
   const handleResetFormDisplay = () => {
-    setShowCustomCantripForm(false);
-    setShowCantripSelection(false);
-    setShowCustomSpellForm(false);
-    setShowSpellSelection(false);
-    setShowCustomEquipmentForm(false);
-    setShowEditEquipmentForm(false);
+    setDrawerForms({
+      equipment: { add: false, form: false },
+      spells: { add: false, form: false },
+      cantrips: { add: false, form: false },
+    });
   };
 
   function handleChangeCoinWeight(checked: boolean) {
@@ -88,8 +101,8 @@ const SettingsDrawer: React.FC<
     >
       <Flex vertical gap={16}>
         <CqDivider>Equipment</CqDivider>
-        <Button onClick={handleEditEquipmentClick}>Add/Edit Equipment</Button>
-        {showEditEquipmentForm && (
+        <Button onClick={handleEditEquipmentClick}>Default Equipment</Button>
+        {drawerForms.equipment.add && (
           <StepEquipment
             character={character}
             characterDispatch={characterDispatch}
@@ -97,10 +110,8 @@ const SettingsDrawer: React.FC<
             hideInventory
           />
         )}
-        <Button onClick={handleCustomEquipmentClick}>
-          Add Custom Equipment
-        </Button>
-        {showCustomEquipmentForm && (
+        <Button onClick={handleCustomEquipmentClick}>Custom Equipment</Button>
+        {drawerForms.equipment.form && (
           <FormCustomEquipment
             handleResetFormDisplay={handleResetFormDisplay}
           />
@@ -108,16 +119,16 @@ const SettingsDrawer: React.FC<
         {isSpellCaster && (
           <>
             <CqDivider>Spells</CqDivider>
-            <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
-            {showSpellSelection && (
+            <Button onClick={handleAddEditSpellClick}>Default Spells</Button>
+            {drawerForms.spells.add && (
               <AllSpellsSelection
                 character={character}
                 characterDispatch={characterDispatch}
                 hideStartingText
               />
             )}
-            <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
-            {showCustomSpellForm && (
+            <Button onClick={handleCustomSpellClick}>Custom Spell</Button>
+            {drawerForms.spells.form && (
               <FormCustomSpell
                 handleResetFormDisplay={handleResetFormDisplay}
               />
@@ -126,13 +137,13 @@ const SettingsDrawer: React.FC<
               Cantrips/Orisons
             </Divider>
             <Button onClick={handleAddEditCantripClick}>
-              Add/Edit 0 Level Spells
+              Default 0 Level Spells
             </Button>
-            {showCantripSelection && <CantripSelection />}
+            {drawerForms.cantrips.add && <CantripSelection />}
             <Button onClick={handleCustomCantripClick}>
-              Add Custom 0 Level Spells
+              Custom 0 Level Spells
             </Button>
-            {showCustomCantripForm && (
+            {drawerForms.cantrips.form && (
               <CustomCantripForm
                 handleResetFormDisplay={handleResetFormDisplay}
               />

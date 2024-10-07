@@ -3,16 +3,18 @@ import React from "react";
 import CollapseEquipment from "../CollapseEquipment/CollapseEquipment";
 import EquipmentItemDescription from "../CollapseEquipment/EquipmentItemDescription/EquipmentItemDescription";
 import { kickItem, punchItem } from "@/support/equipmentSupport";
-import { ModalDisplay } from "@/data/definitions";
+import { DrawerForms, ModalDisplay } from "@/data/definitions";
 import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface EquipmentProps {
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
+  showDrawer: () => void;
+  setDrawerForms: React.Dispatch<React.SetStateAction<DrawerForms>>;
 }
 
 const Equipment: React.FC<
   EquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, setModalDisplay }) => {
+> = ({ className, setModalDisplay, showDrawer, setDrawerForms }) => {
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
   const [search, setSearch] = React.useState("");
@@ -28,10 +30,12 @@ const Equipment: React.FC<
       children: (
         <ul className="m-0 list-none p-0 [&>li+li]:mt-4">
           {[...equipmentItems].map((item) => (
-            <li>
+            <li key={item.name}>
               <EquipmentItemDescription
                 item={item}
                 setModalDisplay={setModalDisplay}
+                showDrawer={showDrawer}
+                setDrawerForms={setDrawerForms}
               />
             </li>
           ))}

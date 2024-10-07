@@ -86,15 +86,29 @@ const PageCharacterSheet: React.FC<
     "-Make use of all ClassSetup and RaceSetup fields.",
   );
 
-  const [open, setOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerForms, setDrawerForms] = React.useState({
+    equipment: {
+      add: false,
+      form: false,
+    },
+    spells: {
+      add: false,
+      form: false,
+    },
+    cantrips: {
+      add: false,
+      form: false,
+    },
+  });
   const { character, characterDispatch, userIsOwner, uid, id } =
     useCharacterData(user);
   const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
   const { isMobile, isTablet, isDesktop } = useDeviceType();
   const { isSpellCaster } = useSpellData();
 
-  const showDrawer = () => setOpen(true);
-  const onClose = () => setOpen(false);
+  const showDrawer = () => setDrawerOpen(true);
+  const onClose = () => setDrawerOpen(false);
 
   // Test that character state is not in empty state.
   return character.race ? (
@@ -251,7 +265,13 @@ const PageCharacterSheet: React.FC<
             <Section
               title="Equipment"
               className="mt-4 sm:m-0"
-              component={<Equipment setModalDisplay={setModalDisplay} />}
+              component={
+                <Equipment
+                  setModalDisplay={setModalDisplay}
+                  showDrawer={showDrawer}
+                  setDrawerForms={setDrawerForms}
+                />
+              }
               editable
               editableClick={showDrawer}
             />
@@ -270,8 +290,10 @@ const PageCharacterSheet: React.FC<
       {userIsOwner && (
         <SettingsDrawer
           onClose={onClose}
-          open={open}
+          open={drawerOpen}
           isSpellCaster={isSpellCaster(character)}
+          drawerForms={drawerForms}
+          setDrawerForms={setDrawerForms}
         />
       )}
       <ModalContainer

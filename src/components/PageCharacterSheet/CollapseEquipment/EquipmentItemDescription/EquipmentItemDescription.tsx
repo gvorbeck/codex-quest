@@ -1,6 +1,7 @@
 import React from "react";
 import {
   CharData,
+  DrawerForms,
   EquipmentItem,
   ModalDisplay,
   UpdateCharAction,
@@ -28,6 +29,8 @@ interface EquipmentItemDescriptionProps {
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
   hideEditButton?: boolean;
   hideAmount?: boolean;
+  showDrawer?: () => void;
+  setDrawerForms?: React.Dispatch<DrawerForms>;
 }
 
 const confirm = (
@@ -57,6 +60,8 @@ const EquipmentItemDescription: React.FC<
   setModalDisplay,
   hideEditButton,
   hideAmount,
+  showDrawer,
+  setDrawerForms,
 }) => {
   const [, contextHolder] = message.useMessage();
   const { character, characterDispatch, userIsOwner } =
@@ -185,7 +190,20 @@ const EquipmentItemDescription: React.FC<
 
   const editButton = !hideEditButton ? (
     <Tooltip title={`Edit ${item.name}`}>
-      <Button disabled={!userIsOwner}>Edit</Button>
+      <Button
+        disabled={!userIsOwner}
+        onClick={() => {
+          showDrawer && showDrawer();
+          setDrawerForms &&
+            setDrawerForms({
+              equipment: { add: false, form: true },
+              cantrips: { add: false, form: false },
+              spells: { add: false, form: false },
+            });
+        }}
+      >
+        Edit
+      </Button>
     </Tooltip>
   ) : null;
   return (
