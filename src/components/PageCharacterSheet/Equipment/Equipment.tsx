@@ -3,18 +3,25 @@ import React from "react";
 // import CollapseEquipment from "../CollapseEquipment/CollapseEquipment";
 import EquipmentItemDescription from "../CollapseEquipment/EquipmentItemDescription/EquipmentItemDescription";
 import { kickItem, punchItem } from "@/support/equipmentSupport";
-import { DrawerForms, ModalDisplay } from "@/data/definitions";
+import { DrawerForms, EquipmentItem, ModalDisplay } from "@/data/definitions";
 import { CharacterDataContext } from "@/store/CharacterContext";
 
 interface EquipmentProps {
   setModalDisplay: React.Dispatch<React.SetStateAction<ModalDisplay>>;
   showDrawer: () => void;
   setDrawerForms: React.Dispatch<React.SetStateAction<DrawerForms>>;
+  setEditItem: React.Dispatch<React.SetStateAction<EquipmentItem | undefined>>;
 }
 
 const Equipment: React.FC<
   EquipmentProps & React.ComponentPropsWithRef<"div">
-> = ({ className, setModalDisplay, showDrawer, setDrawerForms }) => {
+> = ({
+  className,
+  setModalDisplay,
+  showDrawer,
+  setDrawerForms,
+  setEditItem,
+}) => {
   const { character } = React.useContext(CharacterDataContext);
   const [search, setSearch] = React.useState("");
   const { equipment } = character;
@@ -35,6 +42,7 @@ const Equipment: React.FC<
                 setModalDisplay={setModalDisplay}
                 showDrawer={showDrawer}
                 setDrawerForms={setDrawerForms}
+                setEditItem={setEditItem}
               />
             </li>
           ))}

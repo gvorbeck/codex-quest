@@ -135,7 +135,7 @@ export type EquipmentItem = {
   ammo?: string[];
   amount: number;
   capacity?: number;
-  category: EquipmentCategories | "inherent" | "weapons";
+  category: EquipmentCategories | "inherent" | "weapons" | "";
   costCurrency: CostCurrency;
   costValue: number;
   damage?: string;

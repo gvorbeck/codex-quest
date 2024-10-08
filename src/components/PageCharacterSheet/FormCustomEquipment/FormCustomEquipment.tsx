@@ -1,8 +1,8 @@
 import { Button, Flex, Form, Input } from "antd";
 import classNames from "classnames";
 import React from "react";
-import Cost from "./Cost/Cost";
-import Purchased from "./Purchased/Purchased";
+// import Cost from "./Cost/Cost";
+// import Purchased from "./Purchased/Purchased";
 import Name from "./Name/Name";
 import Category from "./Category/Category";
 import Amount from "./Amount/Amount";
@@ -19,7 +19,7 @@ import SubCategory from "./SubCategory/SubCategory";
 import ArmorType from "./ArmorType/ArmorType";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import Notes from "./Notes/Notes";
-import { getItemCost } from "@/support/equipmentSupport";
+// import { getItemCost } from "@/support/equipmentSupport";
 
 interface FormCustomEquipmentProps {
   handleResetFormDisplay: () => void;
@@ -69,21 +69,21 @@ const FormCustomEquipment: React.FC<
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
   const [form] = Form.useForm();
-  const [categorySelect, setCategorySelect] = React.useState<
-    EquipmentCategories | ""
-  >("");
-  const [purchasedCheckbox, setPurchasedCheckbox] =
-    React.useState<boolean>(false);
-  const [missileAcInputNumber, setMissileAcInputNumber] =
-    React.useState<number>(0);
-
-  const [rangeArray, setRangeArray] = React.useState<[number, number, number]>([
-    0, 0, 0,
-  ]);
-  const [ammoSelect, setAmmoSelect] = React.useState<string | undefined>(
-    undefined,
+  const [formValues, setFormValues] = React.useState<EquipmentItem>(
+    editItem || {
+      name: "",
+      amount: 1,
+      category: "",
+      costCurrency: "gp",
+      costValue: 0,
+      missileAC: "0",
+      range: undefined,
+      ammo: undefined,
+      notes: "",
+    },
   );
   const [showRange, setShowRange] = React.useState<boolean>(false);
+
   const [attackTypeDisabled, setAttackTypeDisabled] =
     React.useState<boolean>(false);
 
@@ -98,33 +98,34 @@ const FormCustomEquipment: React.FC<
     if (
       Object.values(EquipmentCategories).includes(value as EquipmentCategories)
     ) {
-      setCategorySelect(value as EquipmentCategories);
+      setFormValues({ ...formValues, category: value as EquipmentCategories });
     } else {
       // Handle the case where the value is not part of the EquipmentCategories,
-      setCategorySelect("");
+      setFormValues({ ...formValues, category: "" });
     }
   };
 
-  const handlePurchasedChange = (checked: boolean) =>
-    setPurchasedCheckbox(checked);
+  const handleMissileAcChange = (value: number) => {
+    setFormValues({ ...formValues, missileAC: value.toString() });
+  };
 
-  const handleMissileAcChange = (value: number) =>
-    setMissileAcInputNumber(value);
+  const handleRangeChange = (value: [number, number, number]) => {
+    setFormValues({ ...formValues, range: value });
+  };
 
-  const handleRangeChange = (value: [number, number, number]) =>
-    setRangeArray(value);
-
-  const handleAmmoChange = (value: string) => setAmmoSelect(value);
+  const handleAmmoChange = (value: string) => {
+    setFormValues({ ...formValues, ammo: [value] });
+  };
 
   const onFinish = (values: object) => {
-    const newGold = purchasedCheckbox
-      ? getItemCost(values as EquipmentItem)
-      : 0;
+    // const newGold = purchasedCheckbox
+    //   ? getItemCost(values as EquipmentItem)
+    //   : 0;
     characterDispatch({
       type: "UPDATE",
       payload: {
         equipment: [...character.equipment, values as EquipmentItem],
-        gold: parseFloat((character.gold - newGold).toFixed(2)),
+        // gold: parseFloat((character.gold - newGold).toFixed(2)),
       },
     });
     handleResetFormDisplay();
@@ -145,7 +146,7 @@ const FormCustomEquipment: React.FC<
 
   const renderFieldsForCategory = () => {
     const fieldsToRender =
-      categoryFieldMapping[categorySelect as EquipmentCategories] || [];
+      categoryFieldMapping[formValues.category as EquipmentCategories] || [];
     return fieldsToRender.map((field: string, index) => {
       switch (field) {
         case "SubCategory":
@@ -162,7 +163,9 @@ const FormCustomEquipment: React.FC<
           return (
             showRange && (
               <Range
-                rangeArray={rangeArray}
+                rangeArray={
+                  (formValues.range as [number, number, number]) ?? [0, 0, 0]
+                }
                 handleRangeChange={handleRangeChange}
                 key={index}
               />
@@ -173,7 +176,7 @@ const FormCustomEquipment: React.FC<
         case "Ammo":
           return (
             <Ammo
-              ammoSelect={ammoSelect}
+              ammoSelect={formValues.ammo ? formValues.ammo[0] : undefined}
               handleAmmoChange={handleAmmoChange}
               key={index}
             />
@@ -182,7 +185,9 @@ const FormCustomEquipment: React.FC<
           return (
             <MissileAc
               handleMissileAcChange={handleMissileAcChange}
-              missileAcInputNumber={missileAcInputNumber}
+              missileAcInputNumber={
+                formValues.missileAC ? +formValues.missileAC : 0
+              }
               key={index}
             />
           );
@@ -193,12 +198,12 @@ const FormCustomEquipment: React.FC<
     });
   };
 
-  const showFieldCost = purchasedCheckbox;
+  // const showFieldCost = purchasedCheckbox;
 
-  const costClassNames = classNames({ hidden: !showFieldCost });
+  // const costClassNames = classNames({ hidden: !showFieldCost });
 
   React.useEffect(() => {
-    if (categorySelect === EquipmentCategories.BOWS) {
+    if (formValues.category === EquipmentCategories.BOWS) {
       form.setFieldsValue({ attack: "Missile" });
       form.setFieldsValue({ type: "missile" });
       setShowRange(true);
@@ -206,14 +211,14 @@ const FormCustomEquipment: React.FC<
     } else {
       setAttackTypeDisabled(false);
     }
-  }, [categorySelect, form]);
+  }, [formValues, form]);
 
-  React.useEffect(() => {
-    if (!showFieldCost) {
-      form.setFieldsValue({ costValue: 0 });
-      form.setFieldsValue({ costCurrency: "gp" });
-    }
-  }, [showFieldCost, form]);
+  // React.useEffect(() => {
+  //   if (!showFieldCost) {
+  //     form.setFieldsValue({ costValue: 0 });
+  //     form.setFieldsValue({ costCurrency: "gp" });
+  //   }
+  // }, [showFieldCost, form]);
 
   return (
     <Form
@@ -245,16 +250,13 @@ const FormCustomEquipment: React.FC<
         <Weight />
         <Amount />
       </Flex>
-      <Flex gap={16} wrap="wrap">
-        <Purchased
-          handlePurchasedChange={handlePurchasedChange}
-          purchasedCheckbox={purchasedCheckbox}
-        />
-        <Cost className={costClassNames} />
-      </Flex>
       <Notes />
       <Form.Item>
-        <Button type="primary" htmlType="submit" disabled={!categorySelect}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={!formValues.category}
+        >
           Submit
         </Button>
       </Form.Item>

@@ -101,9 +101,7 @@ const PageCharacterSheet: React.FC<
       form: false,
     },
   });
-  const [editItem, setEditItem] = React.useState<EquipmentItem | undefined>(
-    undefined,
-  );
+  const [editItem, setEditItem] = React.useState<EquipmentItem>();
   const { character, characterDispatch, userIsOwner, uid, id } =
     useCharacterData(user);
   const { modalDisplay, setModalDisplay, modalOkRef } = useModal();
@@ -272,6 +270,7 @@ const PageCharacterSheet: React.FC<
                 setModalDisplay={setModalDisplay}
                 showDrawer={showDrawer}
                 setDrawerForms={setDrawerForms}
+                setEditItem={setEditItem}
               />
             </Section>
           </Col>

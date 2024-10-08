@@ -31,6 +31,7 @@ interface EquipmentItemDescriptionProps {
   hideAmount?: boolean;
   showDrawer?: () => void;
   setDrawerForms?: React.Dispatch<DrawerForms>;
+  setEditItem?: React.Dispatch<React.SetStateAction<EquipmentItem | undefined>>;
 }
 
 const confirm = (
@@ -62,6 +63,7 @@ const EquipmentItemDescription: React.FC<
   hideAmount,
   showDrawer,
   setDrawerForms,
+  setEditItem,
 }) => {
   const [, contextHolder] = message.useMessage();
   const { character, characterDispatch, userIsOwner } =
@@ -200,6 +202,7 @@ const EquipmentItemDescription: React.FC<
               cantrips: { add: false, form: false },
               spells: { add: false, form: false },
             });
+          setEditItem && setEditItem(item);
         }}
       >
         Edit
