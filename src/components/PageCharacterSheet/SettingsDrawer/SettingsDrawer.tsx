@@ -31,7 +31,6 @@ const SettingsDrawer: React.FC<
   setDrawerForms,
   editItem,
 }) => {
-  console.log(editItem);
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
 

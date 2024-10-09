@@ -82,6 +82,18 @@ const FormCustomEquipment: React.FC<
       notes: "",
     },
   );
+
+  // Synchronize form values with editItem when it's available
+  React.useEffect(() => {
+    if (editItem) {
+      form.setFieldsValue(editItem); // This will populate the form fields
+      setFormValues(editItem); // Keep state in sync if needed elsewhere
+    }
+  }, [editItem, form]);
+
+  React.useEffect(() => {
+    console.log("formValues", formValues);
+  }, [formValues]);
   const [showRange, setShowRange] = React.useState<boolean>(false);
 
   const [attackTypeDisabled, setAttackTypeDisabled] =
