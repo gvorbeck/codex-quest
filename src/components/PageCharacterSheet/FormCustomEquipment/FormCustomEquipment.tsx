@@ -42,12 +42,7 @@ const categoryFieldMapping: CategoryFieldMappings = {
   [EquipmentCategories.HAMMERMACE]: ["Size", "Damage", "AttackType", "Range"],
   [EquipmentCategories.IMPROVISED]: ["Size", "Damage", "AttackType", "Range"],
   [EquipmentCategories.OTHERWEAPONS]: ["Size", "Damage", "AttackType", "Range"],
-  [EquipmentCategories.SHIELDS]: [
-    "ArmorClass",
-    "MissileAc",
-    "AttackType",
-    "Range",
-  ],
+  [EquipmentCategories.SHIELDS]: ["ArmorClass", "MissileAc"],
   [EquipmentCategories.SLINGHURLED]: ["Size", "Ammo", "AttackType", "Range"],
   [EquipmentCategories.SPEARSPOLES]: [
     "Size",
@@ -86,8 +81,16 @@ const FormCustomEquipment: React.FC<
   // Synchronize form values with editItem when it's available
   React.useEffect(() => {
     if (editItem) {
-      form.setFieldsValue(editItem); // This will populate the form fields
+      form.setFieldsValue({
+        ...editItem,
+        attack: editItem.type, // Map `type` to `attack` field for the form
+      });
       setFormValues(editItem); // Keep state in sync if needed elsewhere
+
+      // Automatically show Range field if editItem.type is "missile" or "both"
+      if (editItem.type === "missile" || editItem.type === "both") {
+        setShowRange(true);
+      }
     }
   }, [editItem, form]);
 
@@ -159,6 +162,7 @@ const FormCustomEquipment: React.FC<
   const renderFieldsForCategory = () => {
     const fieldsToRender =
       categoryFieldMapping[formValues.category as EquipmentCategories] || [];
+    console.log("fieldsToRender", fieldsToRender);
     return fieldsToRender.map((field: string, index) => {
       switch (field) {
         case "SubCategory":
