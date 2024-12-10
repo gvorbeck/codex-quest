@@ -38,6 +38,7 @@ export const cqDarkTheme = {
       headerBg: ColorScheme.SEABUCKTHORN,
       colorBorder: ColorScheme.CALIFORNIA,
       colorTextHeading: ColorScheme.SHIPGRAY,
+      contentBg: lightenHexColor(ColorScheme.SHIPGRAY, 25),
     },
     Descriptions: {
       padding: 8,
