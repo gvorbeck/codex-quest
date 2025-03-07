@@ -161,14 +161,14 @@ const StepClass: React.FC<
     });
   }
 
-  const showComboClassSwitch = characterRace.allowedCombinationClasses
-    ?.length ? (
-    <SupplementalContentSwitch
-      label="Use Combination Class"
-      supplementalSwitch={combinationClass}
-      onChange={handleCombinationClassSwitchChange}
-    />
-  ) : null;
+  const showComboClassSwitch =
+    characterRace && characterRace.allowedCombinationClasses?.length ? (
+      <SupplementalContentSwitch
+        label="Use Combination Class"
+        supplementalSwitch={combinationClass}
+        onChange={handleCombinationClassSwitchChange}
+      />
+    ) : null;
 
   const selectOptionsSource = combinationClass
     ? getComboClassSelectOptions(0)
