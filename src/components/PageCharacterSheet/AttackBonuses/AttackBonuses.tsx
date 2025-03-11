@@ -4,7 +4,10 @@ import { ColumnType } from "antd/es/table";
 import { Table } from "antd";
 import { races } from "@/data/races";
 import { CharacterDataContext } from "@/store/CharacterContext";
-import { getAttackBonus } from "@/support/statSupport";
+import {
+  getAttackBonus,
+  getRaceRangedAttackBonus,
+} from "@/support/statSupport";
 
 interface DataType {
   key: string;
@@ -30,9 +33,7 @@ const AttackBonuses: React.FC<React.ComponentPropsWithRef<"div">> = ({
 }) => {
   const { character } = React.useContext(CharacterDataContext);
   const baseAttackBonus = getAttackBonus(character);
-  const rangedRaceBonus = races[character.race as RaceNames]?.rangedBonus
-    ? races[character.race as RaceNames].rangedBonus
-    : 0;
+  const rangedRaceBonus = getRaceRangedAttackBonus(character);
   const dataSource: DataType[] = [
     { key: "1", bonus: "Base Attack Bonus", score: baseAttackBonus },
     {

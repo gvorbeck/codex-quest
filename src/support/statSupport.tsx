@@ -251,6 +251,12 @@ export const getAttackBonus = (character: CharData) => {
   return maxAttackBonus;
 };
 
+export const getRaceRangedAttackBonus = (character: CharData) => {
+  return races[character.race as RaceNames]?.rangedBonus
+    ? races[character.race as RaceNames].rangedBonus
+    : 0;
+};
+
 export const getHitPointsModifier = (classArr: string[]) => {
   let modifier = 0;
   for (const className of classArr) {
