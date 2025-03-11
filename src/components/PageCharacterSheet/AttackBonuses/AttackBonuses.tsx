@@ -1,8 +1,6 @@
 import React from "react";
-import { RaceNames } from "@/data/definitions";
 import { ColumnType } from "antd/es/table";
 import { Table } from "antd";
-import { races } from "@/data/races";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import {
   getAttackBonus,

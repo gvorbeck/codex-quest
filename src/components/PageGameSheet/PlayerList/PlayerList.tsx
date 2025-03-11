@@ -1,5 +1,5 @@
 import React from "react";
-import { GamePlayerList, RaceNames } from "@/data/definitions";
+import { GamePlayerList } from "@/data/definitions";
 import { Card, Descriptions, DescriptionsProps, Flex, Spin } from "antd";
 import { useGameCharacters } from "@/hooks/useGameCharacters";
 import { useCharacterData } from "@/hooks/useCharacterData";
@@ -12,7 +12,6 @@ import {
 import { GameDataContext } from "@/store/GameDataContext";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { useTheme } from "@/components/ThemeSwitcher/ThemeSwitcher";
-import { races } from "@/data/races";
 
 interface PlayerListProps {
   players: GamePlayerList;
