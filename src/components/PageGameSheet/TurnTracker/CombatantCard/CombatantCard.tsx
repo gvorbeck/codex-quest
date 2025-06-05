@@ -5,7 +5,7 @@ import CombatantName from "../CombatantName/CombatantName";
 import { EditOutlined } from "@ant-design/icons";
 import CombatantControls from "../CombatantControls/CombatantControls";
 import TagList from "../TagList/TagList";
-import { useRoundTracker } from "@/hooks/useRoundTacker";
+import { useRoundTracker } from "@/hooks/useRoundTracker";
 import { CombatantType } from "@/data/definitions";
 
 interface CombatantCardProps {

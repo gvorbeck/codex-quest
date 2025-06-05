@@ -1,5 +1,5 @@
 import { CombatantType } from "@/data/definitions";
-import { useRoundTracker } from "@/hooks/useRoundTacker";
+import { useRoundTracker } from "@/hooks/useRoundTracker";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -33,7 +33,7 @@ const CombatantControls: React.FC<
   CombatantControlsProps & React.ComponentPropsWithRef<"div">
 > = ({ className, combatant, combatants, setCombatants, index }) => {
   const {
-    handleInitiaveChange,
+    handleInitiativeChange,
     handleShowInput,
     handleInputChange,
     handleInputConfirm,
@@ -72,7 +72,7 @@ const CombatantControls: React.FC<
             className="w-[60px] box-content"
             min={0}
             value={combatant.initiative}
-            onChange={(newValue) => handleInitiaveChange(combatant, newValue)}
+            onChange={(newValue) => handleInitiativeChange(combatant, newValue)}
             onBlur={sortCombatants}
             onPressEnter={sortCombatants}
           />
