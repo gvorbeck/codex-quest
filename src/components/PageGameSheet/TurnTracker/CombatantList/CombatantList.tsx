@@ -3,7 +3,7 @@ import CombatantListHeader from "../CombatantListHeader/CombatantListHeader";
 import CombatantCard from "../CombatantCard/CombatantCard";
 import { List } from "antd";
 import { GameDataContext } from "@/store/GameDataContext";
-import { useRoundTracker } from "@/hooks/useRoundTacker";
+import { useRoundTracker } from "@/hooks/useRoundTracker";
 
 const CombatantList: React.FC = () => {
   const { combatants, setCombatants } = React.useContext(GameDataContext);

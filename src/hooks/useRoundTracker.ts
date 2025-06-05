@@ -17,7 +17,7 @@ export function useRoundTracker(
   const inputRef = React.useRef<InputRef>(null);
   // Handlers
 
-  const handleInitiaveChange = (
+  const handleInitiativeChange = (
     item: CombatantType,
     newValue: number | null,
   ) => {
@@ -85,6 +85,6 @@ export function useRoundTracker(
     handleInputChange,
     handleInputConfirm,
     setEditingCombatant,
-    handleInitiaveChange,
+    handleInitiativeChange,
   };
 }
