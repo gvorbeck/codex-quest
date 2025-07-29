@@ -49,9 +49,7 @@ const StockAvatars: React.FC<
             setAvatar(image);
             characterDispatch({
               type: "SET_AVATAR",
-              payload: {
-                avatar: image,
-              },
+              payload: { avatar: image },
             });
           }}
         >

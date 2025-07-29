@@ -26,16 +26,8 @@ const SpellCard: React.FC<
         <div>
           <Descriptions
             items={[
-              {
-                key: "1",
-                label: "Range",
-                children: spell.range,
-              },
-              {
-                key: "2",
-                label: "Duration",
-                children: spell.duration,
-              },
+              { key: "1", label: "Range", children: spell.range },
+              { key: "2", label: "Duration", children: spell.duration },
             ]}
           />
           <div className="text-justify">
