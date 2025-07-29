@@ -27,7 +27,7 @@ const RaceClassDescription: React.FC<
         <div className="text-justify">
           <Markdown>{description}</Markdown>
         </div>
-        <Image src={`/${image}.jpg`} className="w-64" preview={false} />
+        <Image src={`/${image}.webp`} className="w-64" preview={false} />
       </Flex>
     </Card>
   );

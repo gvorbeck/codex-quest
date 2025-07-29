@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import React from "react";
 import { handleLogin } from "@/support/accountSupport";
 import { title } from "../../../../package.json";
-import DragonIcon from "@/assets/images/dragon-head.png";
+import DragonIcon from "@/assets/images/dragon-head.webp";
 import { Button, Flex, Tooltip, Typography } from "antd";
 import ModalLoginSignup from "@/components/ModalLoginSignup/ModalLoginSignup";
 import {

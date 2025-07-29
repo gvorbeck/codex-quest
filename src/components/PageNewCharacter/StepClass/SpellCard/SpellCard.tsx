@@ -19,7 +19,7 @@ const SpellCard: React.FC<
     >
       <Flex gap={8} align="flex-start" vertical={isMobile}>
         <Image
-          src={`/spells/${toSlugCase(spell.name)}.jpg`}
+          src={`/spells/${toSlugCase(spell.name)}.webp`}
           className="w-40"
           preview={false}
         />
