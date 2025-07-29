@@ -1,17 +1,20 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import PageLayout from "./PageLayout";
-import { render, screen } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
 describe("PageLayout", () => {
-  render(
-    <ThemeSwitcher>
-      <BrowserRouter>
-        <PageLayout user={null} />
-      </BrowserRouter>
-    </ThemeSwitcher>,
-  );
+  beforeEach(() => {
+    cleanup();
+    render(
+      <ThemeSwitcher>
+        <BrowserRouter>
+          <PageLayout user={null} />
+        </BrowserRouter>
+      </ThemeSwitcher>,
+    );
+  });
 
   it("expects the page header to be present", () => {
     const headerElement = screen.getByTestId("site-header");
