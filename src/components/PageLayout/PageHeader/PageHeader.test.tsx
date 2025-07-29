@@ -21,7 +21,7 @@ describe("PageHeader", () => {
         </BrowserRouter>
       </ThemeSwitcher>,
     );
-    
+
     const siteTitleElement = screen.getByTestId("site-title");
     expect(document.body.contains(siteTitleElement)).toBeTruthy();
   });
@@ -34,7 +34,7 @@ describe("PageHeader", () => {
         </BrowserRouter>
       </ThemeSwitcher>,
     );
-    
+
     const homeLinkElement = screen.getByTestId("home-link");
     expect(document.body.contains(homeLinkElement)).toBeTruthy();
     expect(homeLinkElement.getAttribute("href")).toBe("/");
@@ -48,7 +48,7 @@ describe("PageHeader", () => {
         </BrowserRouter>
       </ThemeSwitcher>,
     );
-    
+
     const codex = screen.getByText("Codex");
     const quest = screen.getByText("Quest");
     expect(document.body.contains(codex)).toBeTruthy();
@@ -63,7 +63,7 @@ describe("PageHeader", () => {
         </BrowserRouter>
       </ThemeSwitcher>,
     );
-    
+
     const logoutButton = screen.getByTestId("logout-button");
     expect(document.body.contains(logoutButton)).toBeTruthy();
   });
