@@ -182,11 +182,23 @@ const FormSpellScrollCreation: React.FC<
               <Typography.Text>
                 Time required: {getSpellLevel(selectedSpell)} day(s) per scroll
               </Typography.Text>
-              <Typography.Text>
+              <Typography.Text
+                style={{ color: canAfford ? "inherit" : "#ff4d4f" }}
+              >
                 Available Gold: {character.gold} gp
+                {!canAfford && " (Insufficient funds!)"}
               </Typography.Text>
             </Flex>
           }
+        />
+      )}
+
+      {selectedSpell && !canAfford && (
+        <Alert
+          type="warning"
+          message="Insufficient Gold"
+          description={`You need ${totalCost} gp to create ${quantity > 1 ? `${quantity} scrolls` : "this scroll"}, but you only have ${character.gold} gp.`}
+          showIcon
         />
       )}
 
