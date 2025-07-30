@@ -74,5 +74,8 @@ export const cqDarkTheme = {
       colorTextHeading: ColorScheme.SHIPGRAY,
     },
     Statistic: { contentFontSize: 72 },
+    Typography: {
+      colorLinkHover: undefined,
+    },
   },
 };

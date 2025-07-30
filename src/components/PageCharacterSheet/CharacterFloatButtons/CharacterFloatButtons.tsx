@@ -58,22 +58,38 @@ const CharacterFloatButtons: React.FC<
       {contextHolder}
       <FloatButton
         icon={<NodeIndexOutlined />}
-        tooltip={<div>Roll Initiative</div>}
+        tooltip={{
+          title: "Roll Initiative",
+          className: "font-medium",
+          placement: "left",
+        }}
         onClick={rollInitiative}
       />
       <FloatButton
         icon={<FileSearchOutlined />}
-        tooltip={<div>Cheat Sheet</div>}
+        tooltip={{
+          title: "Cheat Sheet",
+          className: "font-medium",
+          placement: "left",
+        }}
         onClick={handleCheatSheetClick}
       />
       <FloatButton
         icon={<DiceIcon className="fill-shipGray" />}
-        tooltip={<div>Virtual Dice</div>}
+        tooltip={{
+          title: "Virtual Dice",
+          className: "font-medium",
+          placement: "left",
+        }}
         onClick={handleVirtualDiceClick}
       />
       <FloatButton
         icon={<SettingOutlined />}
-        tooltip={<div>Settings</div>}
+        tooltip={{
+          title: "Settings",
+          className: "font-medium",
+          placement: "left",
+        }}
         onClick={openSettingsDrawer}
       />
     </FloatButton.Group>
