@@ -17,7 +17,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { PlayerListObject } from "../data/definitions";
-import { RcFile } from "antd/es/upload";
 // import { mockCharacters } from "@/mocks/characters";
 // import { mockGames } from "@/mocks/games";
 import { DocumentData } from "firebase/firestore";
@@ -226,14 +225,6 @@ export async function removePlayerFromGame(
   }
 }
 
-export const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
 type DeletePayload = { collection: string; docId: string; uid: string };
 
 export const deleteDocument = async ({
@@ -254,22 +245,3 @@ export const deleteDocument = async ({
     console.error("Error deleting document: ", error);
   }
 };
-
-export function debounce(
-  func: (...args: any[]) => void,
-  wait: number,
-): (...args: any[]) => void {
-  let timeout: NodeJS.Timeout | null;
-
-  return function executedFunction(...args: any[]) {
-    const later = () => {
-      clearTimeout(timeout as NodeJS.Timeout);
-      func(...args);
-    };
-
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(later, wait);
-  };
-}
