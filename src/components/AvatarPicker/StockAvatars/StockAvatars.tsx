@@ -14,26 +14,26 @@ const StockAvatars: React.FC<
   const [avatar, setAvatar] = React.useState(character.avatar);
 
   const imageNames = [
-    "cleric-man-1.jpg",
-    "dwarf-man-1.jpg",
-    "elf-man-1.jpg",
-    "elf-woman-1.jpg",
-    "elf-woman-2.jpg",
-    "elf-woman-3.jpg",
-    "gnome-boy-1.jpg",
-    "thief-man-1.jpg",
-    "thief-woman-1.jpg",
-    "warrior-man-1.jpg",
-    "warrior-man-2.jpg",
-    "warrior-man-3.jpg",
-    "warrior-man-4.jpg",
-    "warrior-man-5.jpg",
-    "warrior-woman-1.jpg",
-    "warrior-woman-2.jpg",
-    "warrior-woman-3.jpg",
-    "wizard-man-1.jpg",
-    "wizard-woman-1.jpg",
-    "wizard-woman-3.jpg",
+    "cleric-man-1.webp",
+    "dwarf-man-1.webp",
+    "elf-man-1.webp",
+    "elf-woman-1.webp",
+    "elf-woman-2.webp",
+    "elf-woman-3.webp",
+    "gnome-boy-1.webp",
+    "thief-man-1.webp",
+    "thief-woman-1.webp",
+    "warrior-man-1.webp",
+    "warrior-man-2.webp",
+    "warrior-man-3.webp",
+    "warrior-man-4.webp",
+    "warrior-man-5.webp",
+    "warrior-woman-1.webp",
+    "warrior-woman-2.webp",
+    "warrior-woman-3.webp",
+    "wizard-man-1.webp",
+    "wizard-woman-1.webp",
+    "wizard-woman-3.webp",
   ];
 
   const images = imageNames.map((name) => `/faces/${name}`);
@@ -49,9 +49,7 @@ const StockAvatars: React.FC<
             setAvatar(image);
             characterDispatch({
               type: "SET_AVATAR",
-              payload: {
-                avatar: image,
-              },
+              payload: { avatar: image },
             });
           }}
         >

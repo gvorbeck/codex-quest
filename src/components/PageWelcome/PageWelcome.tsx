@@ -1,7 +1,7 @@
 import { Flex, Image, Typography } from "antd";
 import React from "react";
-import CharacterSheet from "@/assets/images/screenshot.jpg";
-import SiteLogo from "@/assets/images/dragon-head.png";
+import CharacterSheet from "@/assets/images/screenshot.webp";
+import SiteLogo from "@/assets/images/dragon-head.webp";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
 const PageWelcome: React.FC = () => {
