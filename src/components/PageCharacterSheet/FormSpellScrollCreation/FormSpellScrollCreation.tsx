@@ -77,26 +77,55 @@ const FormSpellScrollCreation: React.FC<
     }
 
     const scrollName = `Scroll of ${selectedSpell.name}`;
-    const scrollItem: EquipmentItem = {
-      name: scrollName,
-      costValue: scrollCost,
-      costCurrency: "gp",
-      weight: 0.1,
-      category: EquipmentCategories.GENERAL,
-      subCategory: "class-items",
-      amount: values.quantity,
-      notes: `Spell Level: ${getSpellLevel(selectedSpell)}. Contains the spell "${selectedSpell.name}". Single use consumable. Range: ${selectedSpell.range}, Duration: ${selectedSpell.duration}`,
-    };
 
-    characterDispatch({
-      type: "UPDATE",
-      payload: {
-        equipment: [...character.equipment, scrollItem],
-        gold: parseFloat((character.gold - totalCost).toFixed(2)),
-      },
-    });
+    // Check if scroll already exists in inventory
+    const existingScrollIndex = character.equipment.findIndex(
+      (item) => item.name === scrollName,
+    );
 
-    message.success(`Created ${values.quantity}x ${scrollName}!`);
+    if (existingScrollIndex !== -1) {
+      // Update existing scroll quantity
+      const updatedEquipment = [...character.equipment];
+      updatedEquipment[existingScrollIndex] = {
+        ...updatedEquipment[existingScrollIndex],
+        amount: updatedEquipment[existingScrollIndex].amount + values.quantity,
+      };
+
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          equipment: updatedEquipment,
+          gold: parseFloat((character.gold - totalCost).toFixed(2)),
+        },
+      });
+
+      message.success(
+        `Added ${values.quantity}x to existing ${scrollName}! Total: ${updatedEquipment[existingScrollIndex].amount}`,
+      );
+    } else {
+      // Create new scroll item
+      const scrollItem: EquipmentItem = {
+        name: scrollName,
+        costValue: scrollCost,
+        costCurrency: "gp",
+        weight: 0.1,
+        category: EquipmentCategories.GENERAL,
+        subCategory: "class-items",
+        amount: values.quantity,
+        notes: `Spell Level: ${getSpellLevel(selectedSpell)}. Contains the spell "${selectedSpell.name}". Single use consumable. Range: ${selectedSpell.range}, Duration: ${selectedSpell.duration}`,
+      };
+
+      characterDispatch({
+        type: "UPDATE",
+        payload: {
+          equipment: [...character.equipment, scrollItem],
+          gold: parseFloat((character.gold - totalCost).toFixed(2)),
+        },
+      });
+
+      message.success(`Created ${values.quantity}x ${scrollName}!`);
+    }
+
     handleResetFormDisplay();
   };
 
