@@ -7,6 +7,7 @@ import CantripSelection from "../CantripSelection/CantripSelection";
 import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
+import FormSpellScrollCreation from "../FormSpellScrollCreation/FormSpellScrollCreation";
 import CqDivider from "@/components/CqDivider/CqDivider";
 
 const AllSpellsSelection = React.lazy(
@@ -63,6 +64,11 @@ const SettingsDrawer: React.FC<
     React.useState(false);
   const [showEditEquipmentForm, setShowEditEquipmentForm] =
     React.useState(false);
+  const [showSpellScrollCreationForm, setShowSpellScrollCreationForm] =
+    React.useState(false);
+
+  // Check if character is a spellcrafter
+  const isSpellcrafter = character.class.includes("Spellcrafter");
 
   const handleEditEquipmentClick = () => {
     setShowEditEquipmentForm(
@@ -92,6 +98,11 @@ const SettingsDrawer: React.FC<
       (prevShowCustomCantripForm) => !prevShowCustomCantripForm,
     );
   };
+  const handleSpellScrollCreationClick = () => {
+    setShowSpellScrollCreationForm(
+      (prevShowSpellScrollCreationForm) => !prevShowSpellScrollCreationForm,
+    );
+  };
   const handleResetFormDisplay = () => {
     setShowCustomCantripForm(false);
     setShowCantripSelection(false);
@@ -99,6 +110,7 @@ const SettingsDrawer: React.FC<
     setShowSpellSelection(false);
     setShowCustomEquipmentForm(false);
     setShowEditEquipmentForm(false);
+    setShowSpellScrollCreationForm(false);
   };
 
   function handleChangeCoinWeight(checked: boolean) {
@@ -152,6 +164,18 @@ const SettingsDrawer: React.FC<
               <FormCustomSpell
                 handleResetFormDisplay={handleResetFormDisplay}
               />
+            )}
+            {isSpellcrafter && (
+              <>
+                <Button onClick={handleSpellScrollCreationClick}>
+                  Create Spell Scrolls
+                </Button>
+                {showSpellScrollCreationForm && (
+                  <FormSpellScrollCreation
+                    handleResetFormDisplay={handleResetFormDisplay}
+                  />
+                )}
+              </>
             )}
             <Divider className="font-enchant text-2xl">
               Cantrips/Orisons
