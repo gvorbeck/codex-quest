@@ -6,6 +6,7 @@ import { Spell } from "@/data/definitions";
 import { useSpellData } from "@/hooks/useSpellData";
 import { CloseOutlined } from "@ant-design/icons";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface SpellsProps {}
 
 const Spells: React.FC<SpellsProps & React.ComponentPropsWithRef<"div">> = ({

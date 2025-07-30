@@ -3,6 +3,8 @@ import React from "react";
 import { version, bfrpgEdition } from "../../../../package.json";
 import { clsx } from "clsx";
 import { Link } from "wouter";
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface PageFooterProps {}
 
 const PageFooter: React.FC<

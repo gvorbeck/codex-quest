@@ -30,10 +30,9 @@ const PlayerButtons: React.FC<PlayerButtonsProps> = ({
     React.useContext(GameDataContext);
 
   const onRemoveButtonClick = (userId?: string, characterId?: string) => {
-    userId &&
-      characterId &&
-      gameId &&
+    if (userId && characterId && gameId) {
       removePlayer(gameId, userId, characterId);
+    }
   };
 
   const TrackerAddIcon = (props: Partial<CustomIconComponentProps>) => (

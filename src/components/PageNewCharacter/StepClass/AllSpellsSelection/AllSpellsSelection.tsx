@@ -27,11 +27,14 @@ const AllSpellsSelection: React.FC<
     value: string;
     checked: boolean;
   }[];
-  search.length
-    ? (filteredSpells = spellOptions.filter((spell) =>
-        spell.label.toLowerCase().includes(search.toLowerCase()),
-      ))
-    : (filteredSpells = spellOptions);
+
+  if (search.length) {
+    filteredSpells = spellOptions.filter((spell) =>
+      spell.label.toLowerCase().includes(search.toLowerCase()),
+    );
+  } else {
+    filteredSpells = spellOptions;
+  }
 
   function handleChangeSearch(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);

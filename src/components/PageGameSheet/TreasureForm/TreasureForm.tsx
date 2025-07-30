@@ -102,7 +102,9 @@ const TreasureForm: React.FC<TreasureFormProps> = ({ type, setResults }) => {
             setResults(
               getLoot(
                 treasureInputValue ?? "",
-                treasureInputValue === "H" ? dragonAge ?? undefined : undefined,
+                treasureInputValue === "H"
+                  ? (dragonAge ?? undefined)
+                  : undefined,
               ),
             )
           }

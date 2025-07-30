@@ -3,6 +3,7 @@ import React from "react";
 import { useNotification } from "@/hooks/useNotification";
 import { rollDice } from "@/support/diceSupport";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ModalVirtualDiceProps {}
 
 const ModalVirtualDice: React.FC<

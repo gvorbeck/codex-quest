@@ -2,6 +2,7 @@ import { Flex, Skeleton } from "antd";
 import { clsx } from "clsx";
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface PageCharacterSheetSkeletonProps {}
 
 const PageCharacterSheetSkeleton: React.FC<

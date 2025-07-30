@@ -58,7 +58,7 @@ const ModalLoginSignup: React.FC<ModalLoginSignupProps> = ({
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(errorCode, errorMessage);
-        setErrors;
+        setErrors(errorMessage);
       });
   };
   return (

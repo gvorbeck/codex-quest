@@ -5,6 +5,7 @@ import { ZeroLevelSpell } from "@/data/definitions";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CantripSelectionProps {}
 
 const CantripSelection: React.FC<

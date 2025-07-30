@@ -2,6 +2,7 @@ import { CharacterDataContext } from "@/store/CharacterContext";
 import { Flex, Input } from "antd";
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface MoneyProps {}
 
 const Money: React.FC<MoneyProps & React.ComponentPropsWithRef<"div">> = ({

@@ -201,48 +201,54 @@ const PageNewCharacter: React.FC<
 
   function getStepContent() {
     let content = null;
-    stepNumber === 0 &&
-      (content = (
+    if (stepNumber === 0) {
+      content = (
         <StepAbilities
           character={character}
           characterDispatch={characterDispatch}
           newCharacter
         />
-      ));
+      );
+    }
 
-    stepNumber === 1 &&
-      (content = (
+    if (stepNumber === 1) {
+      content = (
         <StepRace character={character} characterDispatch={characterDispatch} />
-      ));
-    stepNumber === 2 &&
-      (content = (
+      );
+    }
+    if (stepNumber === 2) {
+      content = (
         <StepClass
           character={character}
           characterDispatch={characterDispatch}
         />
-      ));
-    stepNumber === 3 &&
-      (content = (
+      );
+    }
+    if (stepNumber === 3) {
+      content = (
         <StepHitPoints
           character={character}
           characterDispatch={characterDispatch}
         />
-      ));
-    stepNumber === 4 &&
-      (content = (
+      );
+    }
+    if (stepNumber === 4) {
+      content = (
         <StepEquipment
           character={character}
           characterDispatch={characterDispatch}
         />
-      ));
-    stepNumber === 5 &&
-      (content = (
+      );
+    }
+    if (stepNumber === 5) {
+      content = (
         <StepDetails
           newCharacter
           character={character}
           characterDispatch={characterDispatch}
         />
-      ));
+      );
+    }
     return content;
   }
 

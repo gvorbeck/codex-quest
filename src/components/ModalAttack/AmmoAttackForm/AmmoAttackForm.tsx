@@ -93,7 +93,9 @@ const AmmoAttackForm: React.FC<
   // EFFECTS
   React.useEffect(() => {
     if (availableAmmoOptions.length > 1) {
-      !ammoSelection && setAmmoSelectionMessage("No ammunition selected");
+      if (!ammoSelection) {
+        setAmmoSelectionMessage("No ammunition selected");
+      }
     }
     if (availableAmmoOptions.length === 1) {
       setAmmoSelection(availableAmmoOptions[0].name);

@@ -13,12 +13,7 @@ interface WearingRadioGroupProps {
 const WearingRadioGroup: React.FC<
   WearingRadioGroupProps & React.ComponentPropsWithRef<"div">
 > = ({ className, children, category, value, onChangeWearing }) => {
-  const radioGroupClassNames = clsx(
-    "flex",
-    "flex-col",
-    "gap-4",
-    className,
-  );
+  const radioGroupClassNames = clsx("flex", "flex-col", "gap-4", className);
 
   // DELETE THIS ALL AFTER JULY '24
   // Define the start date and calculate the end date (30 days from the start date)
