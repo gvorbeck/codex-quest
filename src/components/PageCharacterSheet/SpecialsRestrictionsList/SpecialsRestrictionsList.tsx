@@ -1,6 +1,6 @@
 import { List } from "antd";
 import { clsx } from "clsx";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface SpecialsRestrictionsListItemProps {
   item: string;
@@ -11,7 +11,7 @@ const SpecialsRestrictionsListItem: React.FC<
 > = ({ item }) => {
   return (
     <List.Item>
-      <Markdown>{item}</Markdown>
+      <LightMarkdown>{item}</LightMarkdown>
     </List.Item>
   );
 };

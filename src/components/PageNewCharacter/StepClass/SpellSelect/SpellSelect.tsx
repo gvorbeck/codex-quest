@@ -8,7 +8,7 @@ import {
   ClassNames,
   Spell,
 } from "@/data/definitions";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 import { classes } from "@/data/classes";
 
 interface SpellSelectProps {
@@ -43,7 +43,7 @@ const SpellSelect: React.FC<
     >
       <Flex vertical gap={16}>
         <Typography.Text className="[&_p]:m-0">
-          <Markdown>{classDescription}</Markdown>
+          <LightMarkdown>{classDescription}</LightMarkdown>
         </Typography.Text>
         <Select
           options={spellSelectOptions}

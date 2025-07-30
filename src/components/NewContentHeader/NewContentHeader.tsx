@@ -1,7 +1,6 @@
 import { Divider, Typography } from "antd";
 import React from "react";
-import Markdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface NewContentHeaderProps {
   title: string;
@@ -20,7 +19,7 @@ const NewContentHeader: React.FC<
         {title}
       </Typography.Title>
       <Typography.Paragraph className="m-0 [&_p]:m-0 [&_p+p]:mt-4">
-        <Markdown rehypePlugins={[rehypeRaw]}>{description}</Markdown>
+        <LightMarkdown>{description}</LightMarkdown>
       </Typography.Paragraph>
       <Divider className="mt-4" />
     </section>

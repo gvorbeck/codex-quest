@@ -1,7 +1,7 @@
 import { Spell } from "@/data/definitions";
 import { Descriptions, DescriptionsProps, Typography } from "antd";
 import React from "react";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface SpellDescriptionsProps {
   spell: Spell;
@@ -34,7 +34,7 @@ const SpellDescriptions: React.FC<
           </div>
         )} */}
         <Typography className="text-justify">
-          <Markdown>{spell.description}</Markdown>
+          <LightMarkdown>{spell.description}</LightMarkdown>
         </Typography>
       </div>
     </>

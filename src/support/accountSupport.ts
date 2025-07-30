@@ -20,7 +20,7 @@ import { PlayerListObject } from "../data/definitions";
 import { RcFile } from "antd/es/upload";
 // import { mockCharacters } from "@/mocks/characters";
 // import { mockGames } from "@/mocks/games";
-import { DocumentData } from "firebase-admin/firestore";
+import { DocumentData } from "firebase/firestore";
 
 type DocumentType = "characters" | "games";
 
@@ -234,11 +234,7 @@ export const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-type DeletePayload = {
-  collection: string;
-  docId: string;
-  uid: string;
-};
+type DeletePayload = { collection: string; docId: string; uid: string };
 
 export const deleteDocument = async ({
   collection,
