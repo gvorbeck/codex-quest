@@ -11,30 +11,48 @@ export default defineConfig({
     outDir: "build",
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Vendor chunks
-          "vendor-react": ["react", "react-dom"],
-          "vendor-router": ["wouter"],
-          "vendor-antd": ["antd"],
-          "vendor-firebase": [
-            "firebase/app",
-            "firebase/auth",
-            "firebase/firestore",
-            "firebase/storage",
-          ],
-          "vendor-utils": ["clsx", "dayjs"],
+          if (id.includes("node_modules")) {
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "vendor-react";
+            }
+            if (id.includes("wouter")) {
+              return "vendor-router";
+            }
+            if (id.includes("antd")) {
+              return "vendor-antd";
+            }
+            if (id.includes("firebase")) {
+              return "vendor-firebase";
+            }
+            if (id.includes("clsx") || id.includes("dayjs")) {
+              return "vendor-utils";
+            }
+          }
 
-          // Feature chunks
-          "feature-character": [
-            "./src/components/PageCharacterSheet/PageCharacterSheet.tsx",
-            "./src/components/PageNewCharacter/PageNewCharacter.tsx",
-          ],
-          "feature-game": ["./src/components/PageGameSheet/PageGameSheet.tsx"],
-          "feature-modals": [
-            "./src/components/ModalContainer/ModalContainer.tsx",
-            "./src/components/ModalAttack/ModalAttack.tsx",
-            "./src/components/ModalCheatSheet/ModalCheatSheet.tsx",
-          ],
+          // Feature chunks based on file paths
+          if (id.includes("src/components")) {
+            if (
+              id.includes("PageCharacterSheet") ||
+              id.includes("PageNewCharacter")
+            ) {
+              return "feature-character";
+            }
+            if (id.includes("PageGameSheet")) {
+              return "feature-game";
+            }
+            if (
+              id.includes("ModalContainer") ||
+              id.includes("ModalAttack") ||
+              id.includes("ModalCheatSheet")
+            ) {
+              return "feature-modals";
+            }
+          }
+
+          // Default chunk for everything else
+          return undefined;
         },
       },
     },

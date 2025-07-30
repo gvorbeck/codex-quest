@@ -16,6 +16,32 @@ const AllSpellsSelection = React.lazy(
     ),
 );
 
+class SpellSelectionErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("Error loading spell selection component:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Error loading spell selection. Please try again.</div>;
+    }
+
+    return this.props.children;
+  }
+}
+
 interface SettingsDrawerProps {
   open: boolean;
   onClose: () => void;
@@ -111,13 +137,15 @@ const SettingsDrawer: React.FC<
             <CqDivider>Spells</CqDivider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             {showSpellSelection && (
-              <React.Suspense fallback={<div>Loading spells...</div>}>
-                <AllSpellsSelection
-                  character={character}
-                  characterDispatch={characterDispatch}
-                  hideStartingText
-                />
-              </React.Suspense>
+              <SpellSelectionErrorBoundary>
+                <React.Suspense fallback={<div>Loading spells...</div>}>
+                  <AllSpellsSelection
+                    character={character}
+                    characterDispatch={characterDispatch}
+                    hideStartingText
+                  />
+                </React.Suspense>
+              </SpellSelectionErrorBoundary>
             )}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             {showCustomSpellForm && (
