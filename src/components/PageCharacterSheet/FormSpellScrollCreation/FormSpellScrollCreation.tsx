@@ -16,36 +16,30 @@ interface FormSpellScrollCreationProps {
   handleResetFormDisplay: () => void;
 }
 
+interface FormValues {
+  spell: string;
+  quantity: number;
+}
+
 const FormSpellScrollCreation: React.FC<
   FormSpellScrollCreationProps & React.ComponentPropsWithRef<"div">
 > = ({ className, handleResetFormDisplay }) => {
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
-  const [form] = Form.useForm();
+
+  const [form] = Form.useForm<FormValues>();
   const [selectedSpell, setSelectedSpell] = React.useState<Spell | null>(null);
-  const [scrollCost, setScrollCost] = React.useState<number>(0);
-  const [quantity, setQuantity] = React.useState<number>(1);
 
   // Check if character is a spellcrafter
   const isSpellcrafter = character.class.includes("Spellcrafter");
 
-  // Get available spells that the character knows
-  const availableSpells = character.spells || [];
-
-  // Calculate scroll creation cost based on spell level
-  const calculateScrollCost = (spell: Spell): number => {
-    if (!spell) return 0;
-
-    // Base cost formula: spell level squared * 25gp + materials
-    const spellLevel = getSpellLevel(spell);
-    const baseCost = Math.pow(spellLevel, 2) * 25;
-    const materialCost = spellLevel * 10; // Additional material costs
-
-    return baseCost + materialCost;
-  };
+  const availableSpells = React.useMemo(
+    () => character.spells || [],
+    [character.spells],
+  );
 
   // Get spell level for the spellcrafter class
-  const getSpellLevel = (spell: Spell): number => {
+  const getSpellLevel = React.useCallback((spell: Spell): number => {
     if (
       spell.level &&
       typeof spell.level === "object" &&
@@ -54,39 +48,31 @@ const FormSpellScrollCreation: React.FC<
       return spell.level.spellcrafter || 1;
     }
     return 1;
-  };
+  }, []);
 
-  // Calculate time required (in days)
-  const calculateTimeRequired = (spell: Spell): number => {
-    const spellLevel = getSpellLevel(spell);
-    return spellLevel; // 1 day per spell level
-  };
+  // Calculate scroll creation cost: (level² × 25) + (level × 10) for materials
+  const calculateScrollCost = React.useCallback(
+    (spell: Spell): number => {
+      const spellLevel = getSpellLevel(spell);
+      return Math.pow(spellLevel, 2) * 25 + spellLevel * 10;
+    },
+    [getSpellLevel],
+  );
+
+  const scrollCost = selectedSpell ? calculateScrollCost(selectedSpell) : 0;
+  const quantity = Form.useWatch("quantity", form) || 1;
+  const totalCost = scrollCost * quantity;
 
   const handleSpellChange = (spellName: string) => {
     const spell = availableSpells.find((s) => s.name === spellName);
-    if (spell) {
-      setSelectedSpell(spell);
-      const cost = calculateScrollCost(spell);
-      setScrollCost(cost);
-    }
+    setSelectedSpell(spell || null);
   };
-
-  const handleQuantityChange = (value: number | null) => {
-    setQuantity(value || 1);
-  };
-
-  interface FormValues {
-    spell: string;
-    quantity: number;
-  }
 
   const onFinish = (values: FormValues) => {
-    console.log("Form submitted with values:", values);
-    console.log("Selected spell:", selectedSpell);
-    console.log("Is spellcrafter:", isSpellcrafter);
+    if (!selectedSpell || !isSpellcrafter) return;
 
-    if (!selectedSpell || !isSpellcrafter) {
-      console.log("Early return - missing spell or not spellcrafter");
+    if (character.gold < totalCost) {
+      message.error("Insufficient gold to create this scroll!");
       return;
     }
 
@@ -98,19 +84,9 @@ const FormSpellScrollCreation: React.FC<
       weight: 0.1,
       category: EquipmentCategories.GENERAL,
       subCategory: "class-items",
-      amount: values.quantity || 1,
+      amount: values.quantity,
       notes: `Spell Level: ${getSpellLevel(selectedSpell)}. Contains the spell "${selectedSpell.name}". Single use consumable. Range: ${selectedSpell.range}, Duration: ${selectedSpell.duration}`,
     };
-
-    const totalCost = scrollCost * (values.quantity || 1);
-    console.log("Total cost:", totalCost, "Character gold:", character.gold);
-
-    if (character.gold < totalCost) {
-      message.error("Insufficient gold to create this scroll!");
-      return;
-    }
-
-    console.log("Creating scroll item:", scrollItem);
 
     characterDispatch({
       type: "UPDATE",
@@ -120,23 +96,18 @@ const FormSpellScrollCreation: React.FC<
       },
     });
 
-    message.success(`Created ${values.quantity || 1}x ${scrollName}!`);
+    message.success(`Created ${values.quantity}x ${scrollName}!`);
     handleResetFormDisplay();
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Form validation failed:", errorInfo);
-    console.log("Error fields:", errorInfo.errorFields);
-    errorInfo.errorFields?.forEach((field: any) => {
-      console.log(`Field ${field.name} errors:`, field.errors);
-    });
-  };
-
-  const spellOptions = availableSpells.map((spell) => ({
-    label: `${spell.name} (Level ${getSpellLevel(spell)})`,
-    value: spell.name,
-  }));
+  const spellOptions = React.useMemo(
+    () =>
+      availableSpells.map((spell) => ({
+        label: `${spell.name} (Level ${getSpellLevel(spell)})`,
+        value: spell.name,
+      })),
+    [availableSpells, getSpellLevel],
+  );
 
   if (!isSpellcrafter) {
     return (
@@ -149,16 +120,16 @@ const FormSpellScrollCreation: React.FC<
     );
   }
 
+  const canAfford = character.gold >= totalCost;
+  const isFormValid = selectedSpell && canAfford;
+
   return (
     <Form
       className={className}
       layout="vertical"
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
       form={form}
-      initialValues={{
-        quantity: 1,
-      }}
+      initialValues={{ quantity: 1 }}
       name="spell-scroll-creation"
     >
       <Typography.Title level={4}>Create Spell Scroll</Typography.Title>
@@ -187,54 +158,41 @@ const FormSpellScrollCreation: React.FC<
           },
         ]}
       >
-        <InputNumber min={1} max={10} onChange={handleQuantityChange} />
+        <InputNumber min={1} max={10} />
       </Form.Item>
 
       {selectedSpell && (
-        <Flex vertical gap={8}>
-          <Alert
-            type="info"
-            message={
-              <Flex vertical gap={4}>
-                <Typography.Text strong>
-                  {"Spell: "}
-                  {selectedSpell.name} (Level {getSpellLevel(selectedSpell)})
-                </Typography.Text>
-
-                <Typography.Text>
-                  {"Range: "}
-                  {selectedSpell.range} | Duration: {selectedSpell.duration}
-                </Typography.Text>
-
-                <Typography.Text>
-                  Cost per scroll: {scrollCost} gp
-                </Typography.Text>
-
-                <Typography.Text>
-                  Total cost: {scrollCost * quantity} gp
-                </Typography.Text>
-
-                <Typography.Text>
-                  Time required: {calculateTimeRequired(selectedSpell)} day(s)
-                  per scroll
-                </Typography.Text>
-
-                <Typography.Text>
-                  Available Gold: {character.gold} gp
-                </Typography.Text>
-              </Flex>
-            }
-          />
-        </Flex>
+        <Alert
+          type="info"
+          message={
+            <Flex vertical gap={4}>
+              <Typography.Text strong>
+                {"Spell: "}
+                {selectedSpell.name} (Level {getSpellLevel(selectedSpell)})
+              </Typography.Text>
+              <Typography.Text>
+                {"Range: "}
+                {selectedSpell.range} | Duration: {selectedSpell.duration}
+              </Typography.Text>
+              <Typography.Text>
+                {"Cost per scroll: "}
+                {scrollCost} gp
+              </Typography.Text>
+              <Typography.Text>Total cost: {totalCost} gp</Typography.Text>
+              <Typography.Text>
+                Time required: {getSpellLevel(selectedSpell)} day(s) per scroll
+              </Typography.Text>
+              <Typography.Text>
+                Available Gold: {character.gold} gp
+              </Typography.Text>
+            </Flex>
+          }
+        />
       )}
 
       <Flex justify="space-between">
         <Button onClick={handleResetFormDisplay}>Cancel</Button>
-        <Button
-          type="primary"
-          htmlType="submit"
-          disabled={!selectedSpell || character.gold < scrollCost * quantity}
-        >
+        <Button type="primary" htmlType="submit" disabled={!isFormValid}>
           Create Scroll{quantity > 1 ? `s (${quantity})` : ""}
         </Button>
       </Flex>
