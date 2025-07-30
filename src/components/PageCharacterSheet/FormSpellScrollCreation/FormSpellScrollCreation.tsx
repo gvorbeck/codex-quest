@@ -26,35 +26,27 @@ const FormSpellScrollCreation: React.FC<
 > = ({ className, handleResetFormDisplay }) => {
   const { character, characterDispatch } =
     React.useContext(CharacterDataContext);
-
   const [form] = Form.useForm<FormValues>();
   const [selectedSpell, setSelectedSpell] = React.useState<Spell | null>(null);
 
-  // Check if character is a spellcrafter
   const isSpellcrafter = character.class.includes("Spellcrafter");
-
   const availableSpells = React.useMemo(
     () => character.spells || [],
     [character.spells],
   );
 
-  // Get spell level for the spellcrafter class
   const getSpellLevel = React.useCallback((spell: Spell): number => {
-    if (
-      spell.level &&
+    return spell.level &&
       typeof spell.level === "object" &&
       "spellcrafter" in spell.level
-    ) {
-      return spell.level.spellcrafter || 1;
-    }
-    return 1;
+      ? spell.level.spellcrafter || 1
+      : 1;
   }, []);
 
-  // Calculate scroll creation cost: (level² × 25) + (level × 10) for materials
   const calculateScrollCost = React.useCallback(
     (spell: Spell): number => {
-      const spellLevel = getSpellLevel(spell);
-      return Math.pow(spellLevel, 2) * 25 + spellLevel * 10;
+      const level = getSpellLevel(spell);
+      return level * level * 25 + level * 10; // (level² × 25) + (level × 10)
     },
     [getSpellLevel],
   );
@@ -62,6 +54,8 @@ const FormSpellScrollCreation: React.FC<
   const scrollCost = selectedSpell ? calculateScrollCost(selectedSpell) : 0;
   const quantity = Form.useWatch("quantity", form) || 1;
   const totalCost = scrollCost * quantity;
+  const canAfford = character.gold >= totalCost;
+  const isFormValid = selectedSpell && canAfford;
 
   const handleSpellChange = (spellName: string) => {
     const spell = availableSpells.find((s) => s.name === spellName);
@@ -77,31 +71,21 @@ const FormSpellScrollCreation: React.FC<
     }
 
     const scrollName = `Scroll of ${selectedSpell.name}`;
-
-    // Check if scroll already exists in inventory
     const existingScrollIndex = character.equipment.findIndex(
       (item) => item.name === scrollName,
     );
 
+    let updatedEquipment: EquipmentItem[];
+    let successMessage: string;
+
     if (existingScrollIndex !== -1) {
       // Update existing scroll quantity
-      const updatedEquipment = [...character.equipment];
+      updatedEquipment = [...character.equipment];
       updatedEquipment[existingScrollIndex] = {
         ...updatedEquipment[existingScrollIndex],
         amount: updatedEquipment[existingScrollIndex].amount + values.quantity,
       };
-
-      characterDispatch({
-        type: "UPDATE",
-        payload: {
-          equipment: updatedEquipment,
-          gold: parseFloat((character.gold - totalCost).toFixed(2)),
-        },
-      });
-
-      message.success(
-        `Added ${values.quantity}x to existing ${scrollName}! Total: ${updatedEquipment[existingScrollIndex].amount}`,
-      );
+      successMessage = `Added ${values.quantity}x to existing ${scrollName}! Total: ${updatedEquipment[existingScrollIndex].amount}`;
     } else {
       // Create new scroll item
       const scrollItem: EquipmentItem = {
@@ -114,18 +98,19 @@ const FormSpellScrollCreation: React.FC<
         amount: values.quantity,
         notes: `Spell Level: ${getSpellLevel(selectedSpell)}. Contains the spell "${selectedSpell.name}". Single use consumable. Range: ${selectedSpell.range}, Duration: ${selectedSpell.duration}`,
       };
-
-      characterDispatch({
-        type: "UPDATE",
-        payload: {
-          equipment: [...character.equipment, scrollItem],
-          gold: parseFloat((character.gold - totalCost).toFixed(2)),
-        },
-      });
-
-      message.success(`Created ${values.quantity}x ${scrollName}!`);
+      updatedEquipment = [...character.equipment, scrollItem];
+      successMessage = `Created ${values.quantity}x ${scrollName}!`;
     }
 
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        equipment: updatedEquipment,
+        gold: parseFloat((character.gold - totalCost).toFixed(2)),
+      },
+    });
+
+    message.success(successMessage);
     handleResetFormDisplay();
   };
 
@@ -148,9 +133,6 @@ const FormSpellScrollCreation: React.FC<
       />
     );
   }
-
-  const canAfford = character.gold >= totalCost;
-  const isFormValid = selectedSpell && canAfford;
 
   return (
     <Form
