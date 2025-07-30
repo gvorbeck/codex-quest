@@ -2,7 +2,7 @@ import { Alert, Radio, RadioChangeEvent, Typography } from "antd";
 import React from "react";
 import { EquipmentCategories } from "@/data/definitions";
 import { slugToTitleCase } from "@/support/stringSupport";
-import classNames from "classnames";
+import { clsx } from "clsx";
 
 interface WearingRadioGroupProps {
   category: EquipmentCategories;
@@ -13,12 +13,7 @@ interface WearingRadioGroupProps {
 const WearingRadioGroup: React.FC<
   WearingRadioGroupProps & React.ComponentPropsWithRef<"div">
 > = ({ className, children, category, value, onChangeWearing }) => {
-  const radioGroupClassNames = classNames(
-    "flex",
-    "flex-col",
-    "gap-4",
-    className,
-  );
+  const radioGroupClassNames = clsx("flex", "flex-col", "gap-4", className);
 
   // DELETE THIS ALL AFTER JULY '24
   // Define the start date and calculate the end date (30 days from the start date)

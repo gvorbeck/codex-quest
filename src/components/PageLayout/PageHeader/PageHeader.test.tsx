@@ -1,6 +1,6 @@
 import { render, screen, cleanup } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "wouter";
 import PageHeader from "./PageHeader";
 import { User } from "firebase/auth";
 import ThemeSwitcher from "@/components/ThemeSwitcher/ThemeSwitcher";
@@ -16,9 +16,9 @@ describe("PageHeader", () => {
   it("expects the site title to be present", () => {
     render(
       <ThemeSwitcher>
-        <BrowserRouter>
+        <Router>
           <PageHeader user={loggedInUser} />
-        </BrowserRouter>
+        </Router>
       </ThemeSwitcher>,
     );
 
@@ -29,9 +29,9 @@ describe("PageHeader", () => {
   it("expects the home link to be present", () => {
     render(
       <ThemeSwitcher>
-        <BrowserRouter>
+        <Router>
           <PageHeader user={loggedInUser} />
-        </BrowserRouter>
+        </Router>
       </ThemeSwitcher>,
     );
 
@@ -43,9 +43,9 @@ describe("PageHeader", () => {
   it("expects the site title to be broken into two nodes", () => {
     render(
       <ThemeSwitcher>
-        <BrowserRouter>
+        <Router>
           <PageHeader user={loggedInUser} />
-        </BrowserRouter>
+        </Router>
       </ThemeSwitcher>,
     );
 
@@ -58,9 +58,9 @@ describe("PageHeader", () => {
   it("expects the logout button to be present when the user is logged in", () => {
     render(
       <ThemeSwitcher>
-        <BrowserRouter>
+        <Router>
           <PageHeader user={loggedInUser} />
-        </BrowserRouter>
+        </Router>
       </ThemeSwitcher>,
     );
 
@@ -74,9 +74,9 @@ describe("PageHeader", () => {
 
     render(
       <ThemeSwitcher>
-        <BrowserRouter>
+        <Router>
           <PageHeader user={loggedOutUser} />
-        </BrowserRouter>
+        </Router>
       </ThemeSwitcher>,
     );
 

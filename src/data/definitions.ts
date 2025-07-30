@@ -1,5 +1,4 @@
-import { DocumentData } from "firebase-admin/firestore";
-import { AttackTypes } from "../support/stringSupport";
+import { DocumentData } from "firebase/firestore";
 
 export enum EquipmentCategories {
   GENERAL = "general-equipment",
@@ -130,11 +129,8 @@ export type Abilities = {
 };
 
 export type CostCurrency = "gp" | "sp" | "cp";
-export type SizeOptions = "S" | "M" | "L";
-export type AttackTypeStrings =
-  | AttackTypes.MELEE
-  | AttackTypes.MISSILE
-  | AttackTypes.BOTH;
+
+type SizeOptions = "S" | "M" | "L";
 
 export type EquipmentItem = {
   AC?: string | number;
@@ -159,14 +155,8 @@ export type EquipmentItem = {
 };
 
 export type UpdateCharAction =
-  | {
-      type: "FETCH";
-      payload: DocumentData;
-    }
-  | {
-      type: "UPDATE";
-      payload: Partial<CharData>;
-    };
+  | { type: "FETCH"; payload: DocumentData }
+  | { type: "UPDATE"; payload: Partial<CharData> };
 
 export type CharDataAction =
   | UpdateCharAction
@@ -179,18 +169,8 @@ export type CharDataAction =
         newCharacter: boolean;
       };
     }
-  | {
-      type: "FLIP_ABILITIES";
-      payload: {
-        newCharacter: boolean;
-      };
-    }
-  | {
-      type: "SET_RACE";
-      payload: {
-        race: string;
-      };
-    }
+  | { type: "FLIP_ABILITIES"; payload: { newCharacter: boolean } }
+  | { type: "SET_RACE"; payload: { race: string } }
   | {
       type: "SET_CLASS";
       payload: {
@@ -200,12 +180,7 @@ export type CharDataAction =
         keepSpells?: boolean;
       };
     }
-  | {
-      type: "SET_SPELLS";
-      payload: {
-        spells: Spell[];
-      };
-    }
+  | { type: "SET_SPELLS"; payload: { spells: Spell[] } }
   | {
       type: "SET_HP";
       payload: {
@@ -215,35 +190,16 @@ export type CharDataAction =
         desc?: string;
       };
     }
-  | {
-      type: "SET_GOLD";
-      payload?: { gold: number };
-    }
+  | { type: "SET_GOLD"; payload?: { gold: number } }
   | {
       type: "SET_EQUIPMENT";
-      payload: {
-        item: EquipmentItem;
-        amount?: number | null;
-      };
+      payload: { item: EquipmentItem; amount?: number | null };
     }
-  | {
-      type: "SET_NAME";
-      payload: {
-        name: string;
-      };
-    }
-  | {
-      type: "SET_AVATAR";
-      payload: {
-        avatar: string;
-      };
-    };
+  | { type: "SET_NAME"; payload: { name: string } }
+  | { type: "SET_AVATAR"; payload: { avatar: string } };
 
 export type CharData = {
-  abilities: {
-    scores: Abilities;
-    modifiers: Abilities;
-  };
+  abilities: { scores: Abilities; modifiers: Abilities };
   avatar: string;
   cantrips?: ZeroLevelSpell[];
   charId?: string;
@@ -253,12 +209,7 @@ export type CharData = {
   electrum: number;
   equipment: EquipmentItem[];
   gold: number;
-  hp: {
-    dice: DiceTypes | string;
-    points: number;
-    max: number;
-    desc: string;
-  };
+  hp: { dice: DiceTypes | string; points: number; max: number; desc: string };
   id?: string;
   level: number;
   name: string;
@@ -273,14 +224,6 @@ export type CharData = {
   useCoinWeight?: boolean;
 };
 
-export type SetCharData = (characterData: CharData) => void;
-
-export type AbilityRecord = {
-  key: string;
-  ability: string;
-  score: number;
-};
-
 export type GameData = {
   name: string;
   id?: string;
@@ -291,13 +234,8 @@ export type GameData = {
 
 export type PlayerListObject = { user: string; character: string };
 
-export type GamePlayer = {
-  user: string;
-  character: string;
-};
+export type GamePlayer = { user: string; character: string };
 export type GamePlayerList = GamePlayer[];
-
-export type AvatarTypes = "none" | "stock" | "upload";
 
 export type CombatantType = {
   name: string;

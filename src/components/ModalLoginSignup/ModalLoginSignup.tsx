@@ -1,5 +1,5 @@
 import { Button, Modal } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import React from "react";
 import {
   createUserWithEmailAndPassword,
@@ -20,7 +20,7 @@ const ModalLoginSignup: React.FC<ModalLoginSignupProps> = ({
   isLoginSignupModalOpen,
   handleLogin,
 }) => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [signInForm, setSignInForm] = React.useState<boolean>(true);
@@ -58,7 +58,10 @@ const ModalLoginSignup: React.FC<ModalLoginSignupProps> = ({
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(errorCode, errorMessage);
-        setErrors;
+        setErrors((prevErrors) => [
+          ...prevErrors,
+          `${errorCode}: ${errorMessage}`,
+        ]);
       });
   };
   return (

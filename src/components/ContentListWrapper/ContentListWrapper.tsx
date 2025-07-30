@@ -1,5 +1,5 @@
 import React from "react";
-import classNames from "classnames";
+import { clsx } from "clsx";
 
 interface ContentListWrapperProps {
   loading: boolean;
@@ -9,7 +9,7 @@ interface ContentListWrapperProps {
 const ContentListWrapper: React.FC<
   ContentListWrapperProps & React.ComponentPropsWithRef<"div">
 > = ({ className, children, loading, loadingContent }) => {
-  const contentListWrapperClassNames = classNames(
+  const contentListWrapperClassNames = clsx(
     "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-start",
     className,
   );

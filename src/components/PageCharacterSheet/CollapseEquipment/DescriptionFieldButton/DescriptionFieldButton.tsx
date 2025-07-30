@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import { clsx } from "clsx";
 import { Button, Tooltip } from "antd";
 import { ReactNode } from "react";
 
@@ -13,7 +13,7 @@ export default function DescriptionFieldButton({
   icon,
   className,
 }: DescriptionFieldButtonProps & React.ComponentPropsWithRef<"div">) {
-  const buttonClassNames = classNames(className, "mb-4", "shadow-none");
+  const buttonClassNames = clsx(className, "mb-4", "shadow-none");
   return (
     <Tooltip title="Add text field">
       <Button

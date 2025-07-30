@@ -6,6 +6,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import cantrips from "@/data/cantrips.json";
 import { ZeroLevelSpell } from "@/data/definitions";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CantripsProps {}
 
 const Cantrips: React.FC<

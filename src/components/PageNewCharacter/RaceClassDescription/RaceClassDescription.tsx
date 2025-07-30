@@ -1,6 +1,6 @@
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { Card, Flex, Image } from "antd";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface RaceClassDescriptionProps {
   subject: string;
@@ -25,7 +25,7 @@ const RaceClassDescription: React.FC<
         className={isMobile ? "flex-col-reverse" : ""}
       >
         <div className="text-justify">
-          <Markdown>{description}</Markdown>
+          <LightMarkdown>{description}</LightMarkdown>
         </div>
         <Image src={`/${image}.webp`} className="w-64" preview={false} />
       </Flex>

@@ -1,14 +1,9 @@
 import { Typography } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 
 export default function MissilesMiss() {
-  const gridLayout = classNames(
-    "grid",
-    "grid-cols-3",
-    "grid-rows-5",
-    "gap-[1px]",
-  );
-  const gridItem = classNames(
+  const gridLayout = clsx("grid", "grid-cols-3", "grid-rows-5", "gap-[1px]");
+  const gridItem = clsx(
     "[&>div]:bg-shipGray",
     "[&>div]:text-springWood",
     "[&>div]:text-center",

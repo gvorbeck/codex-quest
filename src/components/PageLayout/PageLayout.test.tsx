@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "wouter";
 import PageLayout from "./PageLayout";
 import { render, screen, cleanup } from "@testing-library/react";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
@@ -9,9 +9,11 @@ describe("PageLayout", () => {
     cleanup();
     render(
       <ThemeSwitcher>
-        <BrowserRouter>
-          <PageLayout user={null} />
-        </BrowserRouter>
+        <Router>
+          <PageLayout user={null}>
+            <div>Test content</div>
+          </PageLayout>
+        </Router>
       </ThemeSwitcher>,
     );
   });

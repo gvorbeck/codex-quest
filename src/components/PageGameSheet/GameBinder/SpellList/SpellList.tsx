@@ -3,6 +3,7 @@ import React from "react";
 import spells from "@/data/spells.json";
 import SpellDescription from "./SpellDescription/SpellDescription";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface SpellListProps {}
 
 const SpellList: React.FC<

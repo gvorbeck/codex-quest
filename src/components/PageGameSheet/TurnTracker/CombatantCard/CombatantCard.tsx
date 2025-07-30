@@ -1,5 +1,5 @@
 import { Button, Card, Flex, Tooltip } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import React from "react";
 import CombatantName from "../CombatantName/CombatantName";
 import { EditOutlined } from "@ant-design/icons";
@@ -20,7 +20,7 @@ const CombatantCard: React.FC<
 > = ({ className, combatant, combatants, setCombatants, index }) => {
   const { editingCombatant, setEditingCombatant, handleClose } =
     useRoundTracker(combatants, setCombatants);
-  const combatantCardClassNames = classNames("w-full", className);
+  const combatantCardClassNames = clsx("w-full", className);
   return (
     <Flex
       gap={8}

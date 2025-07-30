@@ -2,7 +2,7 @@ import React from "react";
 import { GameData } from "@/data/definitions";
 import { Card, Descriptions, DescriptionsProps, Popconfirm } from "antd";
 import { TeamOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { User } from "firebase/auth";
 import { deleteDocument } from "@/support/accountSupport";
 
@@ -14,7 +14,7 @@ interface CardGameProps {
 const CardGame: React.FC<
   CardGameProps & React.ComponentPropsWithRef<"div">
 > = ({ className, item, user }) => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   if (!item) {
     return null; // or a placeholder/loading/error state
   }

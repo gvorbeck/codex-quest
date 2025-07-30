@@ -1,6 +1,7 @@
 import { Form, Select, SelectProps } from "antd";
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ArmorTypeProps {}
 
 const ArmorType: React.FC<

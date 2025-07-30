@@ -1,6 +1,6 @@
 import { CharData, CharDataAction } from "@/data/definitions";
 import { Button, Image } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import React from "react";
 
 interface StockAvatarsProps {
@@ -55,7 +55,7 @@ const StockAvatars: React.FC<
         >
           <Image
             src={image}
-            className={classNames("w-16 rounded-full", {
+            className={clsx("w-16 rounded-full", {
               "ring-4 ring-seaBuckthorn": avatar === image,
               "ring-2 ring-shipGray": avatar !== image,
             })}

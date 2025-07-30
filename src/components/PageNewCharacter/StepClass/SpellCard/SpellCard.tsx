@@ -2,7 +2,7 @@ import { Spell } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { toSlugCase } from "@/support/stringSupport";
 import { Card, Descriptions, Flex, Image } from "antd";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface SpellCardProps {
   spell: Spell;
@@ -31,7 +31,7 @@ const SpellCard: React.FC<
             ]}
           />
           <div className="text-justify">
-            <Markdown>{spell.description}</Markdown>
+            <LightMarkdown>{spell.description}</LightMarkdown>
           </div>
         </div>
       </Flex>

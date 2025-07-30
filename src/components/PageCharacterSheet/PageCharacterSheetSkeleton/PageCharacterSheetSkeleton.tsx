@@ -1,13 +1,14 @@
 import { Flex, Skeleton } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface PageCharacterSheetSkeletonProps {}
 
 const PageCharacterSheetSkeleton: React.FC<
   PageCharacterSheetSkeletonProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
-  const skeletonClassNames = classNames("mt-10", className);
+  const skeletonClassNames = clsx("mt-10", className);
   return (
     <Flex align="center" gap={16} vertical className={skeletonClassNames}>
       <Skeleton.Avatar

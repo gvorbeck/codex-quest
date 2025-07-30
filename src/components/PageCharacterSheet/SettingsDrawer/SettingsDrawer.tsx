@@ -1,4 +1,3 @@
-import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
@@ -9,6 +8,39 @@ import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
 import CqDivider from "@/components/CqDivider/CqDivider";
+
+const AllSpellsSelection = React.lazy(
+  () =>
+    import(
+      "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection"
+    ),
+);
+
+class SpellSelectionErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("Error loading spell selection component:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Error loading spell selection. Please try again.</div>;
+    }
+
+    return this.props.children;
+  }
+}
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -70,12 +102,7 @@ const SettingsDrawer: React.FC<
   };
 
   function handleChangeCoinWeight(checked: boolean) {
-    characterDispatch({
-      type: "UPDATE",
-      payload: {
-        useCoinWeight: checked,
-      },
-    });
+    characterDispatch({ type: "UPDATE", payload: { useCoinWeight: checked } });
   }
 
   return (
@@ -110,11 +137,15 @@ const SettingsDrawer: React.FC<
             <CqDivider>Spells</CqDivider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             {showSpellSelection && (
-              <AllSpellsSelection
-                character={character}
-                characterDispatch={characterDispatch}
-                hideStartingText
-              />
+              <SpellSelectionErrorBoundary>
+                <React.Suspense fallback={<div>Loading spells...</div>}>
+                  <AllSpellsSelection
+                    character={character}
+                    characterDispatch={characterDispatch}
+                    hideStartingText
+                  />
+                </React.Suspense>
+              </SpellSelectionErrorBoundary>
             )}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             {showCustomSpellForm && (

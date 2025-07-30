@@ -1,7 +1,7 @@
 import { EquipmentItem } from "@/data/definitions";
 import { Flex, List, Typography } from "antd";
 import React from "react";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import CqDivider from "@/components/CqDivider/CqDivider";
 
 interface CharacterInventoryProps {
@@ -11,7 +11,7 @@ interface CharacterInventoryProps {
 const CharacterInventory: React.FC<
   CharacterInventoryProps & React.ComponentPropsWithRef<"div">
 > = ({ className, equipment }) => {
-  const characterInventoryClassNames = classNames("sticky top-0", className);
+  const characterInventoryClassNames = clsx("sticky top-0", className);
   const dataSource = [...equipment];
   return (
     <div className={characterInventoryClassNames}>

@@ -1,9 +1,9 @@
 import { Tooltip } from "antd";
 import React from "react";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ColorScheme } from "@/support/colorSupport";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface HelpTooltipProps {
   text: string;
@@ -12,17 +12,13 @@ interface HelpTooltipProps {
 const HelpTooltip: React.FC<
   HelpTooltipProps & React.ComponentPropsWithRef<"div">
 > = ({ className, text }) => {
-  const tooltipClassNames = classNames(
-    className,
-    "print:hidden",
-    "cursor-help",
-  );
+  const tooltipClassNames = clsx(className, "print:hidden", "cursor-help");
   return (
     <Tooltip
       className={tooltipClassNames}
       title={
         <div className="[&_p]:mt-0 [&_p:last-child]:mb-0">
-          <Markdown>{text}</Markdown>
+          <LightMarkdown>{text}</LightMarkdown>
         </div>
       }
       color={ColorScheme.SHIPGRAY}

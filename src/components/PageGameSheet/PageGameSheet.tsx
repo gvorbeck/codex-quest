@@ -1,6 +1,6 @@
 import React from "react";
 import Hero from "./Hero/Hero";
-import { useParams } from "react-router-dom";
+import { useParams } from "wouter";
 import { User } from "firebase/auth";
 import { fetchDocument } from "@/support/accountSupport";
 import {

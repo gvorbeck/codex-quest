@@ -12,7 +12,7 @@ import {
   SunOutlined,
 } from "@ant-design/icons";
 import { auth } from "@/firebase";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 import { useTheme } from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 interface PageHeaderProps {

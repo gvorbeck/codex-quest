@@ -1,14 +1,16 @@
 import { Flex, Typography } from "antd";
 import React from "react";
 import { version, bfrpgEdition } from "../../../../package.json";
-import classNames from "classnames";
-import { Link } from "react-router-dom";
+import { clsx } from "clsx";
+import { Link } from "wouter";
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface PageFooterProps {}
 
 const PageFooter: React.FC<
   PageFooterProps & React.ComponentPropsWithRef<"div">
 > = ({ className }) => {
-  const footerClassNames = classNames(
+  const footerClassNames = clsx(
     className,
     "[&_div]:text-springWood",
     "[&_a]:text-seaBuckthorn",

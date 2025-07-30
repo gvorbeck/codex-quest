@@ -2,7 +2,7 @@ import { Monster } from "@/data/definitions";
 import React from "react";
 import MonsterStats from "../MonsterStats/MonsterStats";
 import { Flex, Tabs } from "antd";
-import Markdown from "react-markdown";
+import LightMarkdown from "@/components/LightMarkdown/LightMarkdown";
 
 interface MonsterDescriptionProps {
   monster: Monster;
@@ -28,7 +28,7 @@ const MonsterInfo: React.FC<
   return (
     <Flex vertical className={className}>
       {stats}
-      <Markdown>{monster.description}</Markdown>
+      <LightMarkdown>{monster.description}</LightMarkdown>
     </Flex>
   );
 };

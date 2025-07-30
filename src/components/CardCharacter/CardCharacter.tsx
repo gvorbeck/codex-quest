@@ -12,7 +12,7 @@ import {
   SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { User } from "firebase/auth";
 import { deleteDocument } from "@/support/accountSupport";
 
@@ -24,7 +24,7 @@ interface CardCharacterProps {
 const CardCharacter: React.FC<
   CardCharacterProps & React.ComponentPropsWithRef<"div">
 > = ({ className, item, user }) => {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
 
   if (!item) {
     return null; // or a placeholder/loading/error state
