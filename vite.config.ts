@@ -17,12 +17,11 @@ export default defineConfig({
             if (
               id.includes("react") ||
               id.includes("react-dom") ||
-              id.includes("wouter")
+              id.includes("wouter") ||
+              id.includes("antd") ||
+              id.includes("@ant-design")
             ) {
               return "vendor-react";
-            }
-            if (id.includes("antd")) {
-              return "vendor-antd";
             }
             if (id.includes("firebase")) {
               return "vendor-firebase";
@@ -60,7 +59,7 @@ export default defineConfig({
   },
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
   optimizeDeps: {
-    include: ["react", "react-dom", "wouter"],
+    include: ["react", "react-dom", "wouter", "antd", "@ant-design/icons"],
   },
   test: {
     environment: "jsdom",
