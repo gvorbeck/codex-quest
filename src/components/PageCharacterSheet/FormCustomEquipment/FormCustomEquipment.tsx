@@ -1,5 +1,5 @@
 import { Button, Flex, Form, Input } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import React from "react";
 import Cost from "./Cost/Cost";
 import Purchased from "./Purchased/Purchased";
@@ -86,7 +86,7 @@ const FormCustomEquipment: React.FC<
   const [attackTypeDisabled, setAttackTypeDisabled] =
     React.useState<boolean>(false);
 
-  const customEquipmentClassNames = classNames(
+  const customEquipmentClassNames = clsx(
     "flex",
     "flex-col",
     "gap-4",
@@ -194,7 +194,7 @@ const FormCustomEquipment: React.FC<
 
   const showFieldCost = purchasedCheckbox;
 
-  const costClassNames = classNames({ hidden: !showFieldCost });
+  const costClassNames = clsx({ hidden: !showFieldCost });
 
   React.useEffect(() => {
     if (categorySelect === EquipmentCategories.BOWS) {

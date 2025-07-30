@@ -1,7 +1,7 @@
 import "./firebase";
 import { Spin } from "antd";
 import React, { Suspense, lazy, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Router } from "wouter";
 import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import "../node_modules/modern-normalize/modern-normalize.css";
 import PageLayout from "./components/PageLayout/PageLayout";
@@ -48,53 +48,41 @@ const App: React.FC = () => {
   return (
     <ThemeSwitcher>
       <Suspense fallback={spin}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PageLayout
-                user={user}
-                alert={gmDay ? "Happy International GM's Day!" : undefined}
-              />
-            }
+        <Router>
+          <PageLayout
+            user={user}
+            alert={gmDay ? "Happy International GM's Day!" : undefined}
           >
-            <Route
-              index
-              element={
-                loading ? (
-                  spin
-                ) : user ? (
-                  <PageHome
-                    user={user}
-                    selectedKey={selectedKey}
-                    handleTabChange={handleTabChange}
-                  />
-                ) : (
-                  <PageWelcome />
-                )
-              }
-            />
-            <Route
-              path="new-character"
-              element={<PageNewCharacter user={user} />}
-            />
-            <Route
-              path="new-game"
-              element={
-                <PageNewGame user={user} handleTabChange={handleTabChange} />
-              }
-            />
-            <Route
-              path="u/:uid/c/:id"
-              element={<PageCharacterSheet user={user} />}
-            />
-            <Route
-              path="u/:userId/g/:gameId"
-              element={<PageGameSheet user={user} />}
-            />
-            <Route path="sources" element={<PageSources />} />
-          </Route>
-        </Routes>
+            <Route path="/">
+              {loading ? (
+                spin
+              ) : user ? (
+                <PageHome
+                  user={user}
+                  selectedKey={selectedKey}
+                  handleTabChange={handleTabChange}
+                />
+              ) : (
+                <PageWelcome />
+              )}
+            </Route>
+            <Route path="/new-character">
+              <PageNewCharacter user={user} />
+            </Route>
+            <Route path="/new-game">
+              <PageNewGame user={user} handleTabChange={handleTabChange} />
+            </Route>
+            <Route path="/u/:uid/c/:id">
+              <PageCharacterSheet user={user} />
+            </Route>
+            <Route path="/u/:userId/g/:gameId">
+              <PageGameSheet user={user} />
+            </Route>
+            <Route path="/sources">
+              <PageSources />
+            </Route>
+          </PageLayout>
+        </Router>
       </Suspense>
     </ThemeSwitcher>
   );

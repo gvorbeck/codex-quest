@@ -2,7 +2,7 @@ import { ColumnType } from "antd/es/table";
 import React from "react";
 import { Table } from "antd";
 import { camelCaseToTitleCase } from "@/support/stringSupport";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
 import { getBestSavingThrowList, rollSavingThrow } from "@/support/statSupport";
@@ -50,7 +50,7 @@ const SavingThrows: React.FC<React.ComponentPropsWithRef<"div">> = ({
     },
     { title: "Score", dataIndex: "score", key: "score" },
   ];
-  const tableClassNames = classNames("[&_td]:cursor-pointer", className);
+  const tableClassNames = clsx("[&_td]:cursor-pointer", className);
   return (
     <>
       {contextHolder}

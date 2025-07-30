@@ -1,5 +1,5 @@
 import { List } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import Markdown from "react-markdown";
 
 interface SpecialsRestrictionsListItemProps {
@@ -23,7 +23,7 @@ interface SpecialsRestrictionsListProps {
 const SpecialsRestrictionsList: React.FC<
   SpecialsRestrictionsListProps & React.ComponentPropsWithRef<"div">
 > = ({ className, dataSource }) => {
-  const listClassNames = classNames("print:border-0", className);
+  const listClassNames = clsx("print:border-0", className);
 
   return (
     <List

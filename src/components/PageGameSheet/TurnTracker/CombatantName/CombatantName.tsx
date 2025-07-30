@@ -1,7 +1,7 @@
 import { CombatantType } from "@/data/definitions";
 import { useRoundTracker } from "@/hooks/useRoundTracker";
 import { Flex, Image, Input, Typography } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import React from "react";
 
 interface CombatantNameProps {
@@ -23,7 +23,7 @@ const CombatantName: React.FC<
   index,
 }) => {
   const { setEditingCombatant } = useRoundTracker(combatants, setCombatants);
-  const combatantNameClassNames = classNames(
+  const combatantNameClassNames = clsx(
     "flex-grow truncate text-elipsis text-clip",
     className,
   );

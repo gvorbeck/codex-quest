@@ -1,6 +1,6 @@
 import { Tooltip } from "antd";
 import React from "react";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ColorScheme } from "@/support/colorSupport";
 import Markdown from "react-markdown";
@@ -12,7 +12,7 @@ interface HelpTooltipProps {
 const HelpTooltip: React.FC<
   HelpTooltipProps & React.ComponentPropsWithRef<"div">
 > = ({ className, text }) => {
-  const tooltipClassNames = classNames(
+  const tooltipClassNames = clsx(
     className,
     "print:hidden",
     "cursor-help",

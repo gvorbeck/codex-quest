@@ -1,6 +1,6 @@
 import { HomeOutlined } from "@ant-design/icons";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 const BreadcrumbHomeLink: React.FC = () => {
   return (

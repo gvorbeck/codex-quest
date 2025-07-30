@@ -24,7 +24,7 @@ import StepDetails from "./StepDetails/StepDetails";
 import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
 import { MessageInstance } from "antd/es/message/interface";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { characterReducer, emptyCharacter } from "@/support/characterSupport";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 import NewContentHeader from "../NewContentHeader/NewContentHeader";
@@ -95,7 +95,7 @@ const PageNewCharacter: React.FC<
     characterReducer,
     emptyCharacter,
   );
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const [messageApi, contextHolder] = message.useMessage();
   if (!user) {
     return (

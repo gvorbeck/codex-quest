@@ -1,14 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "wouter";
 import PageFooter from "./PageFooter";
 import "@/support/setupTests.js";
 
 describe("PageFooter", () => {
   render(
-    <BrowserRouter>
+    <Router>
       <PageFooter />
-    </BrowserRouter>,
+    </Router>,
   );
 
   it("expects the copyright year to be present and current", () => {

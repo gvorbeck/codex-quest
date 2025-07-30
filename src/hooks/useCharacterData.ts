@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "wouter";
 import { fetchDocument, updateDocument } from "../support/accountSupport";
 import { User } from "firebase/auth";
 import { characterReducer, emptyCharacter } from "@/support/characterSupport";

@@ -4,7 +4,7 @@ import { Breadcrumb, Button, Flex, Form, Input } from "antd";
 import { UsergroupAddOutlined } from "@ant-design/icons";
 import { createDocument } from "@/support/accountSupport";
 import { auth } from "@/firebase";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { GameData } from "@/data/definitions";
 import { breadcrumbItems } from "@/support/cqSupportGeneral";
 import NewContentHeader from "../NewContentHeader/NewContentHeader";
@@ -18,7 +18,7 @@ const PageNewGame: React.FC<
   PageNewGameProps & React.ComponentPropsWithRef<"div">
 > = ({ className, handleTabChange }) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const onFinish = async (values: GameData) => {
     handleTabChange("2");
     const newGame: GameData = { ...values, combatants: [] };

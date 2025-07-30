@@ -2,26 +2,22 @@ import { Alert, Flex, FloatButton, Layout } from "antd";
 import React from "react";
 import PageHeader from "./PageHeader/PageHeader";
 import PageFooter from "./PageFooter/PageFooter";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
 import { User } from "firebase/auth";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import { UserAddOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 
 interface PageLayoutProps {
   user: User | null;
   alert?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({ user, alert, children }) => {
   const contentWidthClassName = "max-w-[1200px] mx-auto w-full";
-  const layoutContentClassName = classNames(
-    contentWidthClassName,
-    "p-4",
-    "relative",
-  );
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
-  const navigate = useNavigate();
+  const layoutContentClassName = clsx(contentWidthClassName, "p-4", "relative");
+  const [location, navigate] = useLocation();
+  const isHomePage = location === "/";
   return (
     <Layout className="flex flex-col min-h-[100vh]">
       <Layout.Header className="flex items-center" data-testid="site-header">
@@ -47,7 +43,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert }) => {
               />
             </FloatButton.Group>
           )}
-          <Outlet context={{ user, className: "" }} />
+          {children}
         </Flex>
       </Layout.Content>
       <Layout.Footer data-testid="site-footer">

@@ -1,7 +1,7 @@
 import React from "react";
 import { ColumnType } from "antd/es/table";
 import { Table } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { useNotification } from "@/hooks/useNotification";
 import { rollSpecialAbility } from "@/support/statSupport";
@@ -66,7 +66,7 @@ const SpecialAbilitiesTable: React.FC<
       }),
     },
   ];
-  const tableClassNames = classNames("[&_td]:cursor-pointer", className);
+  const tableClassNames = clsx("[&_td]:cursor-pointer", className);
   return (
     <>
       {contextHolder}

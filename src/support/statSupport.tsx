@@ -16,7 +16,7 @@ import { getClassType } from "./classSupport";
 import { classes } from "@/data/classes";
 import { Tooltip } from "antd";
 import { DiceRoller } from "@dice-roller/rpg-dice-roller";
-import classNames from "classnames";
+import { clsx } from "clsx";
 
 const roller = new DiceRoller();
 
@@ -407,7 +407,7 @@ export const getExtraIcons = (character: CharData, isDarkMode: boolean) => {
   }, [] as IconTuple[]);
 
   const fullIcons = [...raceIcons, ...classIcons];
-  const iconClassNames = classNames(
+  const iconClassNames = clsx(
     "w-8 h-8 [&_svg]:max-h-5 fill-current aspect-square flex items-center justify-center p-0.5 rounded-full cursor-pointer border-solid",
     {
       "bg-shipGray border-springWood": isDarkMode,

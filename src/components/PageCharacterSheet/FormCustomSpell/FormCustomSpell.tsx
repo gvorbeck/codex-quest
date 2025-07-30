@@ -1,7 +1,7 @@
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { Spell } from "@/data/definitions";
 import { Button, Form, Input } from "antd";
-import classNames from "classnames";
+import { clsx } from "clsx";
 import React from "react";
 
 interface FormCustomSpellProps {
@@ -18,7 +18,7 @@ const FormCustomSpell: React.FC<
 
   const [submittable, setSubmittable] = React.useState(false);
 
-  const customSpellClassNames = classNames("flex", "flex-col", className);
+  const customSpellClassNames = clsx("flex", "flex-col", className);
   const onFinish = (values: object) => {
     characterDispatch({
       type: "UPDATE",
