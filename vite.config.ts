@@ -14,11 +14,12 @@ export default defineConfig({
         manualChunks: (id) => {
           // Vendor chunks
           if (id.includes("node_modules")) {
-            if (id.includes("react") || id.includes("react-dom")) {
+            if (
+              id.includes("react") ||
+              id.includes("react-dom") ||
+              id.includes("wouter")
+            ) {
               return "vendor-react";
-            }
-            if (id.includes("wouter")) {
-              return "vendor-router";
             }
             if (id.includes("antd")) {
               return "vendor-antd";
@@ -58,6 +59,9 @@ export default defineConfig({
     },
   },
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  optimizeDeps: {
+    include: ["react", "react-dom", "wouter"],
+  },
   test: {
     environment: "jsdom",
     setupFiles: ["./src/test-setup.ts"],
