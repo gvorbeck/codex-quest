@@ -66,7 +66,7 @@ const CardCharacter: React.FC<
             />
           </Popconfirm>,
         ]}
-        className={className}
+        className={`modern-card ${className || ""}`}
       >
         <Card.Meta
           avatar={

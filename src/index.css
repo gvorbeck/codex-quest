@@ -7,11 +7,22 @@
   src: url("assets/fonts/Enchant.ttf") format("truetype");
 }
 
+@layer base {
+  /* Universal link hover underline (except in header) */
+  a:hover:not(header a):not([data-testid="home-link"]) {
+    text-decoration: underline;
+  }
+}
+
 @layer components {
   .avatar {
-    @apply shadow-md border-solid border-2 border-seaBuckthorn;
+    @apply shadow-md border-solid border-2 border-seaBuckthorn transition-all duration-300 hover:shadow-lg hover:scale-105;
   }
   .enchant-title {
     @apply font-enchant text-3xl tracking-wide;
+  }
+
+  .modern-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
   }
 }

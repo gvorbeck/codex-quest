@@ -13,7 +13,7 @@ const PageWelcome: React.FC = () => {
           src={SiteLogo}
           alt="Codex quest logo"
           preview={false}
-          className="w-[50%] mx-auto block mb-4"
+          className="w-[50%] mx-auto block mb-4 transition-transform duration-300 hover:scale-105"
         />
         <Typography.Title
           level={2}
@@ -79,7 +79,7 @@ const PageWelcome: React.FC = () => {
       <Image
         src={CharacterSheet}
         alt="Sample Basic Fantasy Role-Playing Game Character Sheet"
-        className="border-solid border-1 border-shipGray shadow-md flex-[0_0_50%]"
+        className="border-solid border-1 border-shipGray shadow-md flex-[0_0_50%] modern-card"
       />
     </Flex>
   );

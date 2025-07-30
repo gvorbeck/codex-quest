@@ -36,6 +36,7 @@ const CardGame: React.FC<
             onClick={() => navigate(`/u/${user?.uid}/g/${item.id}`)}
             title="Go to game profile"
             aria-label="Go to game profile"
+            className="text-seaBuckthorn hover:text-california transition-all duration-300 hover:scale-110"
           />,
           <Popconfirm
             title="Delete this game profile?"
@@ -54,19 +55,43 @@ const CardGame: React.FC<
               key="delete"
               aria-label="Delete game profile"
               title="Delete game profile"
+              className="text-gray-500 hover:text-crimsonRed transition-all duration-300 hover:scale-110"
             />
           </Popconfirm>,
         ]}
-        className={className}
+        className={`modern-card group ${className}`}
+        styles={{
+          body: { padding: "16px" },
+          actions: {
+            background:
+              "linear-gradient(145deg, rgba(249, 179, 42, 0.1) 0%, rgba(253, 160, 13, 0.1) 100%)",
+            borderTop: "1px solid rgba(249, 179, 42, 0.2)",
+          },
+        }}
       >
         <Card.Meta
+          avatar={
+            <div className="relative w-16 h-16 flex items-center justify-center bg-gradient-to-br from-seaBuckthorn to-california rounded-full shadow-lg group-hover:animate-pulse">
+              <TeamOutlined className="text-2xl text-shipGray" />
+            </div>
+          }
           title={
-            <span className="font-enchant text-2xl tracking-wider">
-              {item.name}
-            </span>
+            <div className="space-y-1">
+              <span className="font-enchant text-2xl tracking-wider group-hover:animate-pulse">
+                {item.name}
+              </span>
+              <div className="h-0.5 bg-gradient-to-r from-seaBuckthorn to-california rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            </div>
           }
           description={
-            <Descriptions items={descriptionItems} size="small" column={1} />
+            <div className="space-y-2">
+              <Descriptions
+                items={descriptionItems}
+                size="small"
+                column={1}
+                className="[&_.ant-descriptions-item-label]:text-white [&_.ant-descriptions-item-label]:font-medium"
+              />
+            </div>
           }
         />
       </Card>

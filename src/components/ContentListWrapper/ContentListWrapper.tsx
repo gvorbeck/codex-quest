@@ -10,12 +10,24 @@ const ContentListWrapper: React.FC<
   ContentListWrapperProps & React.ComponentPropsWithRef<"div">
 > = ({ className, children, loading, loadingContent }) => {
   const contentListWrapperClassNames = clsx(
-    "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-start",
+    "relative transition-all duration-500",
     className,
   );
+
+  const gridClassNames = clsx(
+    "grid gap-6 items-start animate-fade-in",
+    "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+  );
+
   return (
-    <div className={loading ? "" : contentListWrapperClassNames}>
-      {loading ? loadingContent : children}
+    <div className={contentListWrapperClassNames}>
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          {loadingContent}
+        </div>
+      ) : (
+        <div className={gridClassNames}>{children}</div>
+      )}
     </div>
   );
 };

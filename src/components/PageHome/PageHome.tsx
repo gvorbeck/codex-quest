@@ -6,6 +6,7 @@ import { fetchCollection } from "@/support/accountSupport";
 import { User } from "firebase/auth";
 import CardCharacter from "@/components/CardCharacter/CardCharacter";
 import CardGame from "@/components/CardGame/CardGame";
+import { UserOutlined, TeamOutlined } from "@ant-design/icons";
 
 interface PageHomeProps {
   user: User | null;
@@ -31,23 +32,62 @@ const PageHome: React.FC<PageHomeProps> = ({
       loadingContent={spin}
       className="mx-auto"
     >
-      {characters.map((character) => (
-        <CardCharacter key={character.id || ""} user={user} item={character} />
+      {characters.map((character, index) => (
+        <div
+          key={character.id || ""}
+          className="animate-slide-up"
+          style={{ animationDelay: `${index * 0.1}s` }}
+        >
+          <CardCharacter user={user} item={character} />
+        </div>
       ))}
     </ContentListWrapper>
   );
 
   const childrenGameList = (
     <ContentListWrapper loading={gamesLoading} loadingContent={spin}>
-      {games.map((game) => (
-        <CardGame key={game.id || ""} user={user} item={game} />
+      {games.map((game, index) => (
+        <div
+          key={game.id || ""}
+          className="animate-slide-up"
+          style={{ animationDelay: `${index * 0.1}s` }}
+        >
+          <CardGame user={user} item={game} />
+        </div>
       ))}
     </ContentListWrapper>
   );
 
+  const tabItemClassNames =
+    "px-2 py-1 bg-gradient-to-r from-seaBuckthorn to-california text-shipGray text-xs rounded-full font-bold shadow-sm";
+
   const tabsItems: TabsProps["items"] = [
-    { key: "1", label: "Characters", children: childrenCharacterList },
-    { key: "2", label: "Games", children: childrenGameList },
+    {
+      key: "1",
+      label: (
+        <span className="flex items-center gap-2 font-medium">
+          <UserOutlined />
+          Characters
+          {characters.length > 0 && (
+            <span className={tabItemClassNames}>{characters.length}</span>
+          )}
+        </span>
+      ),
+      children: childrenCharacterList,
+    },
+    {
+      key: "2",
+      label: (
+        <span className="flex items-center gap-2 font-medium">
+          <TeamOutlined />
+          Games
+          {games.length > 0 && (
+            <span className={tabItemClassNames}>{games.length}</span>
+          )}
+        </span>
+      ),
+      children: childrenGameList,
+    },
   ];
 
   React.useEffect(() => {
@@ -62,12 +102,14 @@ const PageHome: React.FC<PageHomeProps> = ({
   }, [user]);
 
   return (
-    <Tabs
-      size="large"
-      defaultActiveKey={selectedKey}
-      items={tabsItems}
-      onChange={handleTabChange}
-    />
+    <div className="space-y-6">
+      <Tabs
+        size="large"
+        defaultActiveKey={selectedKey}
+        items={tabsItems}
+        onChange={handleTabChange}
+      />
+    </div>
   );
 };
 

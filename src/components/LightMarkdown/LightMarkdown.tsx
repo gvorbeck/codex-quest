@@ -44,9 +44,8 @@ const LightMarkdown: React.FC<LightMarkdownProps> = ({
       return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#x27;");
+        .replace(/>/g, "&gt;");
+      // Removed quote and apostrophe escaping - let the browser handle them naturally
     };
 
     // Process markdown without escaping HTML first, then selectively escape content
@@ -99,8 +98,8 @@ const LightMarkdown: React.FC<LightMarkdownProps> = ({
         if (part.startsWith("<") && part.endsWith(">")) {
           return part;
         }
-        // Otherwise, escape any remaining HTML entities
-        return part.replace(/[<>&"']/g, (char) => {
+        // Otherwise, escape any remaining HTML entities (but not quotes or apostrophes)
+        return part.replace(/[<>&]/g, (char) => {
           switch (char) {
             case "<":
               return "&lt;";
@@ -108,10 +107,6 @@ const LightMarkdown: React.FC<LightMarkdownProps> = ({
               return "&gt;";
             case "&":
               return "&amp;";
-            case '"':
-              return "&quot;";
-            case "'":
-              return "&#x27;";
             default:
               return char;
           }

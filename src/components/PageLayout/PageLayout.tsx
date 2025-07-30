@@ -18,35 +18,71 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert, children }) => {
   const layoutContentClassName = clsx(contentWidthClassName, "p-4", "relative");
   const [location, navigate] = useLocation();
   const isHomePage = location === "/";
+
   return (
-    <Layout className="flex flex-col min-h-[100vh]">
-      <Layout.Header className="flex items-center" data-testid="site-header">
+    <Layout className="flex flex-col min-h-[100vh] relative overflow-hidden">
+      {/* Background effects */}
+      <div className="fixed inset-0 bg-gradient-to-br from-springWood via-stone to-shipGray opacity-10 pointer-events-none"></div>
+      <div className="fixed top-20 left-10 w-96 h-96 bg-gradient-to-r from-seaBuckthorn to-california rounded-full opacity-5 blur-3xl pointer-events-none animate-float"></div>
+      <div
+        className="fixed bottom-20 right-10 w-64 h-64 bg-gradient-to-r from-mysticPurple to-deepBlue rounded-full opacity-5 blur-3xl pointer-events-none animate-float"
+        style={{ animationDelay: "2s" }}
+      ></div>
+
+      <Layout.Header
+        className="flex items-center relative z-10 backdrop-blur-sm bg-shipGray bg-opacity-95 border-b border-seaBuckthorn border-opacity-20"
+        data-testid="site-header"
+      >
         <PageHeader user={user} className={contentWidthClassName} />
       </Layout.Header>
-      {alert && <Alert banner message={alert} type="info" closable />}
+
+      {alert && (
+        <Alert
+          banner
+          message={alert}
+          type="info"
+          closable
+          className="relative z-10 border-seaBuckthorn border-opacity-30 bg-gradient-to-r from-seaBuckthorn to-california text-shipGray font-medium"
+        />
+      )}
+
       <Layout.Content
-        className={layoutContentClassName}
+        className={`${layoutContentClassName} relative z-10 flex-1`}
         data-testid="site-content"
       >
-        <Flex vertical gap={16}>
+        <Flex vertical gap={16} className="animate-fade-in">
           {isHomePage && user && (
-            <FloatButton.Group shape="square">
+            <FloatButton.Group shape="square" className="pulse-glow">
               <FloatButton
                 icon={<UserAddOutlined />}
-                tooltip={<div>Create New Character</div>}
+                tooltip={{
+                  title: "Create New Character",
+                  className: "font-medium",
+                  placement: "left",
+                }}
                 onClick={() => navigate("/new-character")}
+                className="hover:shadow-glow"
               />
               <FloatButton
                 icon={<UsergroupAddOutlined />}
-                tooltip={<div>Create New Game</div>}
+                tooltip={{
+                  title: "Create New Game",
+                  className: "font-medium",
+                  placement: "left",
+                }}
                 onClick={() => navigate("/new-game")}
+                className="hover:shadow-glow"
               />
             </FloatButton.Group>
           )}
           {children}
         </Flex>
       </Layout.Content>
-      <Layout.Footer data-testid="site-footer">
+
+      <Layout.Footer
+        data-testid="site-footer"
+        className="relative z-10 backdrop-blur-sm bg-shipGray bg-opacity-95 border-t border-seaBuckthorn border-opacity-20"
+      >
         <PageFooter className={contentWidthClassName} />
       </Layout.Footer>
     </Layout>
