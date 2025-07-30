@@ -38,11 +38,7 @@ export const onChangeWearing = (
 };
 
 export const equipmentSymbolKeyItems: DescriptionsProps["items"] = [
-  {
-    key: "1",
-    label: "**",
-    children: "This weapon only does subduing damage",
-  },
+  { key: "1", label: "**", children: "This weapon only does subduing damage" },
   {
     key: "2",
     label: "(E)",
@@ -122,20 +118,9 @@ export const getItemCost = (item: EquipmentItem): number => {
   return unitCost;
 };
 
-export type ArmorCategory = "lightArmor" | "mediumArmor" | "heavyArmor";
-
 export const CURRENCIES: CostCurrency[] = ["gp", "sp", "cp"];
 export const equipmentSizes: SelectProps["options"] = [
-  {
-    label: "S",
-    value: "S",
-  },
-  {
-    label: "M",
-    value: "M",
-  },
-  {
-    label: "L",
-    value: "L",
-  },
+  { label: "S", value: "S" },
+  { label: "M", value: "M" },
+  { label: "L", value: "L" },
 ];

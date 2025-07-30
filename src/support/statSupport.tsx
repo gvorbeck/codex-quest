@@ -257,7 +257,7 @@ export const getRaceRangedAttackBonus = (character: CharData) => {
     : 0;
 };
 
-export const getHitPointsModifier = (classArr: string[]) => {
+const getHitPointsModifier = (classArr: string[]) => {
   let modifier = 0;
   for (const className of classArr) {
     const classHitDiceModifier =
@@ -335,12 +335,12 @@ export function getCharacterHitDiceFromClass(character: CharData) {
   return (character.hp.dice as DiceTypes) || undefined;
 }
 
-export const getSavingThrows = (className: string, level: number) =>
+const getSavingThrows = (className: string, level: number) =>
   classes[className as ClassNames]?.savingThrows.find(
     (savingThrow) => (savingThrow[0] as number) >= level,
   )?.[1] as SavingThrowsType;
 
-export const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
+const getSavingThrowsWeight = (savingThrows: SavingThrowsType) =>
   Object.values(savingThrows).reduce((prev, curr) => prev + curr, 0);
 
 export const getBestSavingThrowList = (charClass: string[], level: number) => {
@@ -365,36 +365,6 @@ export const getBestSavingThrowList = (charClass: string[], level: number) => {
       ? firstClassSavingThrows
       : secondClassSavingThrows;
   }
-};
-
-export const isAbilityKey = (
-  key: string,
-  characterData: CharData,
-): key is keyof typeof characterData.abilities.scores => {
-  return (
-    characterData &&
-    characterData.abilities &&
-    key in characterData.abilities.scores
-  );
-};
-
-export const getModifier = (score: number): string => {
-  const modifierMapping: Record<number, string> = {
-    3: "-3",
-    5: "-2",
-    8: "-1",
-    12: "+0",
-    15: "+1",
-    17: "+2",
-    18: "+3",
-  };
-
-  for (const key in modifierMapping) {
-    if (score <= Number(key)) {
-      return modifierMapping[Number(key)];
-    }
-  }
-  return "+0"; // Default value
 };
 
 export const getExtraIcons = (character: CharData, isDarkMode: boolean) => {

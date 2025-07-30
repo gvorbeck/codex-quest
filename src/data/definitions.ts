@@ -1,5 +1,4 @@
 import { DocumentData } from "firebase/firestore";
-import { AttackTypes } from "../support/stringSupport";
 
 export enum EquipmentCategories {
   GENERAL = "general-equipment",
@@ -130,11 +129,8 @@ export type Abilities = {
 };
 
 export type CostCurrency = "gp" | "sp" | "cp";
-export type SizeOptions = "S" | "M" | "L";
-export type AttackTypeStrings =
-  | AttackTypes.MELEE
-  | AttackTypes.MISSILE
-  | AttackTypes.BOTH;
+
+type SizeOptions = "S" | "M" | "L";
 
 export type EquipmentItem = {
   AC?: string | number;
@@ -228,10 +224,6 @@ export type CharData = {
   useCoinWeight?: boolean;
 };
 
-export type SetCharData = (characterData: CharData) => void;
-
-export type AbilityRecord = { key: string; ability: string; score: number };
-
 export type GameData = {
   name: string;
   id?: string;
@@ -244,8 +236,6 @@ export type PlayerListObject = { user: string; character: string };
 
 export type GamePlayer = { user: string; character: string };
 export type GamePlayerList = GamePlayer[];
-
-export type AvatarTypes = "none" | "stock" | "upload";
 
 export type CombatantType = {
   name: string;

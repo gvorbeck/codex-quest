@@ -7,7 +7,7 @@ import {
 } from "@/data/definitions";
 import { rollDice } from "./diceSupport";
 
-export const emptyLoot: Loot = {
+const emptyLoot: Loot = {
   copper: 0,
   silver: 0,
   electrum: 0,
@@ -318,7 +318,7 @@ export function getJewels(loot: Loot) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getMagicItems(column: MagicItemColumns): any {
+function getMagicItems(column: MagicItemColumns): any {
   const i = Math.floor(Math.random() * 100) + 1;
 
   function getAnyColumn(roll: number) {

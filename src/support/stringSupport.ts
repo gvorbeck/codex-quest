@@ -56,16 +56,6 @@ export function titleCaseToCamelCase(input: string) {
     });
 }
 
-export function toCamelCase(input: string) {
-  return input
-    .trim()
-    .toLowerCase()
-    .replace(/[-_\s]+(.)?/g, (_, nextChar) =>
-      nextChar ? nextChar.toUpperCase() : "",
-    )
-    .replace(/^(.)/, (firstChar) => firstChar.toLowerCase());
-}
-
 export function camelCaseToTitleCase(input: string) {
   return toTitleCase(input.replace(/([A-Z])/g, " $1").toLowerCase());
 }
@@ -82,20 +72,6 @@ export function toSlugCase(input: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-export function toSnakeCase(str: string): string {
-  return (
-    str
-      // First, replace camelCase with snake_case
-      .replace(/([A-Z])/g, (letter, index) =>
-        index > 0 ? `_${letter}` : letter,
-      )
-      // Replace spaces and hyphens with underscores
-      .replace(/[\s-]+/g, "_")
-      // Convert to lowercase
-      .toLowerCase()
-  );
-}
-
 export const mobileBreakpoint = "(max-width: 639px)";
 export const tabletBreakpoint = "(min-width: 768px) and (max-width: 1023px)";
 export const desktopBreakpoint = "(min-width: 1024px)";
@@ -108,19 +84,6 @@ export enum AttackTypes {
 
 export const customClassString =
   'You are using a custom class. Use the "Bio & Notes" field below to calculate your character\'s Saving Throws, Special Abilities, and Restrictions. For standard classes, these values will be calculated here automatically.';
-
-export const getRandomString = (length: number) => {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
-};
 
 export const iconStrings = {
   darkVision(range: number) {

@@ -1,4 +1,3 @@
-import AllSpellsSelection from "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection";
 import StepEquipment from "@/components/PageNewCharacter/StepEquipment/StepEquipment";
 import { CharacterDataContext } from "@/store/CharacterContext";
 import { ColorScheme } from "@/support/colorSupport";
@@ -9,6 +8,13 @@ import CustomCantripForm from "../CustomCantripForm/CustomCantripForm";
 import FormCustomSpell from "@/components/PageCharacterSheet/FormCustomSpell/FormCustomSpell";
 import FormCustomEquipment from "../FormCustomEquipment/FormCustomEquipment";
 import CqDivider from "@/components/CqDivider/CqDivider";
+
+const AllSpellsSelection = React.lazy(
+  () =>
+    import(
+      "@/components/PageNewCharacter/StepClass/AllSpellsSelection/AllSpellsSelection"
+    ),
+);
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -70,12 +76,7 @@ const SettingsDrawer: React.FC<
   };
 
   function handleChangeCoinWeight(checked: boolean) {
-    characterDispatch({
-      type: "UPDATE",
-      payload: {
-        useCoinWeight: checked,
-      },
-    });
+    characterDispatch({ type: "UPDATE", payload: { useCoinWeight: checked } });
   }
 
   return (
@@ -110,11 +111,13 @@ const SettingsDrawer: React.FC<
             <CqDivider>Spells</CqDivider>
             <Button onClick={handleAddEditSpellClick}>Add/Edit Spells</Button>
             {showSpellSelection && (
-              <AllSpellsSelection
-                character={character}
-                characterDispatch={characterDispatch}
-                hideStartingText
-              />
+              <React.Suspense fallback={<div>Loading spells...</div>}>
+                <AllSpellsSelection
+                  character={character}
+                  characterDispatch={characterDispatch}
+                  hideStartingText
+                />
+              </React.Suspense>
             )}
             <Button onClick={handleCustomSpellClick}>Add Custom Spell</Button>
             {showCustomSpellForm && (
