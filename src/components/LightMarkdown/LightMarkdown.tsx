@@ -39,37 +39,87 @@ const LightMarkdown: React.FC<LightMarkdownProps> = ({
   const renderMarkdown = (text: string) => {
     if (!text) return "";
 
-    // Escape HTML entities first to prevent XSS
-    const escapedText = text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#x27;");
+    // Helper function to escape HTML in user content
+    const escapeHtml = (str: string) => {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#x27;");
+    };
 
-    // Handle basic markdown formatting on escaped text
-    const renderedHtml = escapedText
-      // Bold text: **text** or __text__
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/__(.*?)__/g, "<strong>$1</strong>")
-      // Italic text: *text* or _text_
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/_(.*?)_/g, "<em>$1</em>")
-      // Line breaks
-      .replace(/\n/g, "<br />")
-      // Links: [text](url) - with additional URL validation
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+    // Process markdown without escaping HTML first, then selectively escape content
+    let result = text;
+
+    // Links: [text](url) - process first to avoid conflicts
+    result = result.replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      (match, linkText, url) => {
         // Basic URL validation - only allow http/https
         if (url.match(/^https?:\/\//)) {
-          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+          const escapedUrl = escapeHtml(url);
+          const escapedText = escapeHtml(linkText);
+          return `<a href="${escapedUrl}" target="_blank" rel="noopener noreferrer">${escapedText}</a>`;
         }
-        return match; // Return original if URL is not valid
-      })
-      // Simple lists: - item
-      .replace(/^- (.+)$/gm, "<li>$1</li>")
-      .replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
+        return escapeHtml(match); // Return escaped original if URL is not valid
+      },
+    );
 
-    return sanitizeHtml(renderedHtml);
+    // Bold text: **text** or __text__
+    result = result.replace(/\*\*(.*?)\*\*/g, (_, content) => {
+      return `<strong>${escapeHtml(content)}</strong>`;
+    });
+    result = result.replace(/__(.*?)__/g, (_, content) => {
+      return `<strong>${escapeHtml(content)}</strong>`;
+    });
+
+    // Italic text: *text* or _text_
+    result = result.replace(/\*(.*?)\*/g, (_, content) => {
+      return `<em>${escapeHtml(content)}</em>`;
+    });
+    result = result.replace(/_(.*?)_/g, (_, content) => {
+      return `<em>${escapeHtml(content)}</em>`;
+    });
+
+    // Simple lists: - item
+    result = result.replace(/^- (.+)$/gm, (_, item) => {
+      return `<li>${escapeHtml(item)}</li>`;
+    });
+    result = result.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
+
+    // Line breaks
+    result = result.replace(/\n/g, "<br />");
+
+    // Escape any remaining unprocessed text that's not inside HTML tags
+    const parts = result.split(/(<[^>]*>)/);
+    result = parts
+      .map((part) => {
+        // If this part is an HTML tag (starts with <), don't escape it
+        if (part.startsWith("<") && part.endsWith(">")) {
+          return part;
+        }
+        // Otherwise, escape any remaining HTML entities
+        return part.replace(/[<>&"']/g, (char) => {
+          switch (char) {
+            case "<":
+              return "&lt;";
+            case ">":
+              return "&gt;";
+            case "&":
+              return "&amp;";
+            case '"':
+              return "&quot;";
+            case "'":
+              return "&#x27;";
+            default:
+              return char;
+          }
+        });
+      })
+      .join("");
+
+    return sanitizeHtml(result);
   };
 
   return (
