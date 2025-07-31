@@ -1,7 +1,7 @@
 import React from "react";
 import {
   CharData,
-  CharDataAction,
+  UpdateCharAction,
   ClassNames,
   EquipmentItem,
   RaceNames,
@@ -14,7 +14,7 @@ import { classes } from "@/data/classes";
 interface EquipmentStoreItemProps {
   item: EquipmentItem;
   character: CharData;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<UpdateCharAction>;
 }
 
 const EquipmentStoreItem: React.FC<
@@ -138,11 +138,50 @@ const EquipmentStoreItem: React.FC<
   });
 
   function handleAmountChange(value: number | null) {
+    const amount = value || 0;
+    const foundItemIndex = character.equipment.findIndex(
+      (equipmentItem) => equipmentItem.name === item.name,
+    );
+    const equipment = [...character.equipment];
+    let gold = character.gold;
+
+    if (foundItemIndex !== -1) {
+      if (amount === 0) {
+        // Remove item if amount is 0
+        const costDifference =
+          getItemCost(equipment[foundItemIndex]) *
+          equipment[foundItemIndex].amount;
+        equipment.splice(foundItemIndex, 1);
+        gold = parseFloat((character.gold + costDifference).toFixed(2));
+      } else {
+        // Determine if an item is being added or removed
+        const itemAmount = equipment[foundItemIndex].amount;
+        const amountDifference = amount - itemAmount;
+        const costDifference = getItemCost(item) * amountDifference;
+        gold = parseFloat((character.gold - costDifference).toFixed(2));
+
+        // Update existing item amount
+        equipment[foundItemIndex] = {
+          ...equipment[foundItemIndex],
+          amount: amount,
+        };
+      }
+    } else {
+      // Add new item if it doesn't exist
+      const cost = getItemCost(item) * amount;
+      gold = parseFloat((character.gold - cost).toFixed(2));
+
+      equipment.push({
+        ...item,
+        amount: amount,
+      });
+    }
+
     characterDispatch({
-      type: "SET_EQUIPMENT",
+      type: "UPDATE",
       payload: {
-        item,
-        amount: value,
+        equipment,
+        gold,
       },
     });
   }

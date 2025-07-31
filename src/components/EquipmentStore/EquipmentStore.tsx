@@ -10,7 +10,7 @@ import {
 import equipmentData from "@/data/equipment.json";
 import {
   CharData,
-  CharDataAction,
+  UpdateCharAction,
   ClassNames,
   EquipmentCategories,
   EquipmentItem,
@@ -24,7 +24,7 @@ import { getClassType } from "@/support/classSupport";
 
 interface EquipmentStoreProps {
   character: CharData;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<UpdateCharAction>;
 }
 
 const EquipmentStore: React.FC<

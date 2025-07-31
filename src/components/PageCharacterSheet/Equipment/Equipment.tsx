@@ -42,6 +42,7 @@ const Equipment: React.FC<
           characterDispatch={characterDispatch}
           hideDiceButton
           hideInventory
+          hideFloatButton
         />
       )}
 
