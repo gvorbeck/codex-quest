@@ -1,14 +1,16 @@
 import EquipmentStore from "@/components/EquipmentStore/EquipmentStore";
-import { CharData } from "@/data/definitions";
+import { CharData, UpdateCharAction } from "@/data/definitions";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import { Button, Flex, FloatButton, InputNumber, Space } from "antd";
 import CharacterInventory from "./CharacterInventory/CharacterInventory";
+import { rollDice } from "@/support/diceSupport";
 
 interface StepEquipmentProps {
   character: CharData;
-  characterDispatch: React.Dispatch<any>;
+  characterDispatch: React.Dispatch<UpdateCharAction>;
   hideDiceButton?: boolean;
   hideInventory?: boolean;
+  hideFloatButton?: boolean;
 }
 
 const StepEquipment: React.FC<
@@ -19,31 +21,26 @@ const StepEquipment: React.FC<
   characterDispatch,
   hideDiceButton,
   hideInventory,
+  hideFloatButton,
 }) => {
   const { isMobile } = useDeviceType();
 
   function handleRollGoldClick() {
     characterDispatch({
-      type: "SET_GOLD",
+      type: "UPDATE",
+      payload: {
+        gold: rollDice("3d6*10"),
+      },
     });
   }
 
   function handleGoldInputChange(value: number | null) {
-    if (!value) {
-      characterDispatch({
-        type: "SET_GOLD",
-        payload: {
-          gold: 0,
-        },
-      });
-    } else {
-      characterDispatch({
-        type: "SET_GOLD",
-        payload: {
-          gold: value,
-        },
-      });
-    }
+    characterDispatch({
+      type: "UPDATE",
+      payload: {
+        gold: value || 0,
+      },
+    });
   }
   return (
     <Flex vertical gap={16} className={className}>
@@ -72,11 +69,13 @@ const StepEquipment: React.FC<
           <CharacterInventory equipment={character.equipment} />
         )}
       </Flex>
-      <FloatButton.BackTop
-        shape="square"
-        className="[&_sup]:w-full"
-        badge={{ count: character.gold, offset: [0, 50] }}
-      />
+      {!hideFloatButton && (
+        <FloatButton.BackTop
+          shape="square"
+          className="[&_sup]:w-full"
+          badge={{ count: character.gold, offset: [0, 50] }}
+        />
+      )}
     </Flex>
   );
 };

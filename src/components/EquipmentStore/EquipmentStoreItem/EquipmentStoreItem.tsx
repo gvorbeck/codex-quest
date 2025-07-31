@@ -1,7 +1,7 @@
 import React from "react";
 import {
   CharData,
-  CharDataAction,
+  UpdateCharAction,
   ClassNames,
   EquipmentItem,
   RaceNames,
@@ -14,7 +14,7 @@ import { classes } from "@/data/classes";
 interface EquipmentStoreItemProps {
   item: EquipmentItem;
   character: CharData;
-  characterDispatch: React.Dispatch<CharDataAction>;
+  characterDispatch: React.Dispatch<UpdateCharAction>;
 }
 
 const EquipmentStoreItem: React.FC<
@@ -137,12 +137,68 @@ const EquipmentStoreItem: React.FC<
     ),
   });
 
+  function calculateCostDifference(
+    existingItem: EquipmentItem,
+    newAmount: number,
+  ): number {
+    const itemAmount = existingItem.amount;
+    const amountDifference = newAmount - itemAmount;
+    return getItemCost(item) * amountDifference;
+  }
+
+  function updateExistingItem(
+    equipment: EquipmentItem[],
+    itemIndex: number,
+    amount: number,
+  ): number {
+    if (amount === 0) {
+      // Remove item if amount is 0
+      const costDifference =
+        getItemCost(equipment[itemIndex]) * equipment[itemIndex].amount;
+      equipment.splice(itemIndex, 1);
+      return parseFloat((character.gold + costDifference).toFixed(2));
+    } else {
+      // Update existing item amount
+      const costDifference = calculateCostDifference(
+        equipment[itemIndex],
+        amount,
+      );
+      equipment[itemIndex] = {
+        ...equipment[itemIndex],
+        amount: amount,
+      };
+      return parseFloat((character.gold - costDifference).toFixed(2));
+    }
+  }
+
+  function addNewItem(equipment: EquipmentItem[], amount: number): number {
+    const cost = getItemCost(item) * amount;
+    equipment.push({
+      ...item,
+      amount: amount,
+    });
+    return parseFloat((character.gold - cost).toFixed(2));
+  }
+
   function handleAmountChange(value: number | null) {
+    const amount = value || 0;
+    const foundItemIndex = character.equipment.findIndex(
+      (equipmentItem) => equipmentItem.name === item.name,
+    );
+    const equipment = [...character.equipment];
+    let gold: number;
+
+    if (foundItemIndex !== -1) {
+      gold = updateExistingItem(equipment, foundItemIndex, amount);
+    } else {
+      gold = addNewItem(equipment, amount);
+    }
+
     characterDispatch({
-      type: "SET_EQUIPMENT",
+      type: "UPDATE",
       payload: {
-        item,
-        amount: value,
+        equipment,
+        gold,
       },
     });
   }
