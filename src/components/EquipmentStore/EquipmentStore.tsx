@@ -31,15 +31,65 @@ const EquipmentStore: React.FC<
   EquipmentStoreProps & React.ComponentPropsWithRef<"div">
 > = ({ className, character, characterDispatch }) => {
   const [search, setSearch] = React.useState("");
+  const [activeKeys, setActiveKeys] = React.useState<string[]>([]);
 
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value.toLowerCase());
+    const searchValue = event.target.value.toLowerCase();
+    setSearch(searchValue);
+
+    // Auto-expand categories that contain matching items
+    if (searchValue.trim()) {
+      const matchingCategories = getMatchingCategories(searchValue);
+      setActiveKeys(matchingCategories);
+    } else {
+      setActiveKeys([]);
+    }
   }
 
-  function getEquipmentCategoryChildren(category: string) {
-    return equipmentData
-      .filter((item) => item.category === category)
-      .filter((item) => item.name.toLowerCase().includes(search));
+  function getMatchingCategories(searchTerm: string): string[] {
+    // Find items that match the search term
+    const matchingItems = equipmentData.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm),
+    );
+
+    // Get categories from matching items
+    const categoriesFromItems = matchingItems.map((item) => item.category);
+
+    // Find categories whose names match the search term
+    const categoriesFromNames = Object.values(EquipmentCategories).filter(
+      (category) =>
+        slugToTitleCase(category).toLowerCase().includes(searchTerm),
+    );
+
+    // Combine all categories and convert to enum keys
+    const allCategories = [...categoriesFromItems, ...categoriesFromNames];
+    const enumKeys = [...new Set(allCategories)]
+      .map((categoryValue) => {
+        const entry = Object.entries(EquipmentCategories).find(
+          ([, value]) => value === categoryValue,
+        );
+        return entry?.[0];
+      })
+      .filter(Boolean) as string[];
+
+    return enumKeys;
+  }
+
+  function getEquipmentCategoryChildren(
+    category: string,
+    skipSearchFilter = false,
+  ) {
+    const categoryItems = equipmentData.filter(
+      (item) => item.category === category,
+    );
+
+    if (skipSearchFilter || !search.trim()) {
+      return categoryItems;
+    }
+
+    return categoryItems.filter((item) =>
+      item.name.toLowerCase().includes(search.toLowerCase()),
+    );
   }
 
   function getEquipmentCategoryItems() {
@@ -67,8 +117,15 @@ const EquipmentStore: React.FC<
       }
 
       if (isCategoryAvailable) {
-        const filteredItems = getEquipmentCategoryChildren(value);
-        if (filteredItems.length > 0) {
+        const filteredItems = getEquipmentCategoryChildren(
+          value,
+          !search.trim(),
+        );
+
+        // Only show categories that have items
+        const shouldShowCategory = filteredItems.length > 0;
+
+        if (shouldShowCategory) {
           if (value === "general-equipment") {
             // Map to organize items by subCategory
             const subCategoryMap: Record<string, EquipmentItem[]> = {};
@@ -159,11 +216,15 @@ const EquipmentStore: React.FC<
   return (
     <Flex gap={8} vertical className={className}>
       <Input
-        placeholder="Filter equipment list"
+        placeholder="Search for equipment (e.g., 'cutlass', 'sword', 'armor')"
         value={search}
         onChange={handleSearchChange}
       />
-      <Collapse items={items} />
+      <Collapse
+        items={items}
+        activeKey={activeKeys}
+        onChange={(keys) => setActiveKeys(Array.isArray(keys) ? keys : [keys])}
+      />
       <Alert
         type="info"
         message={
