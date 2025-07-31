@@ -87,8 +87,9 @@ const EquipmentStore: React.FC<
       return categoryItems;
     }
 
+    const lowercaseSearch = search.toLowerCase();
     return categoryItems.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase()),
+      item.name.toLowerCase().includes(lowercaseSearch),
     );
   }
 
