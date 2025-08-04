@@ -36,7 +36,7 @@ const CardGame: React.FC<
             onClick={() => navigate(`/u/${user?.uid}/g/${item.id}`)}
             title="Go to game profile"
             aria-label="Go to game profile"
-            className="text-seaBuckthorn hover:text-california transition-all duration-300 hover:scale-110"
+            className="text-sea-buckthorn hover:text-california transition-all duration-300 hover:scale-110"
           />,
           <Popconfirm
             title="Delete this game profile?"
@@ -55,7 +55,7 @@ const CardGame: React.FC<
               key="delete"
               aria-label="Delete game profile"
               title="Delete game profile"
-              className="text-gray-500 hover:text-crimsonRed transition-all duration-300 hover:scale-110"
+              className="text-gray-500 hover:text-crimson-red transition-all duration-300 hover:scale-110"
             />
           </Popconfirm>,
         ]}
@@ -71,8 +71,8 @@ const CardGame: React.FC<
       >
         <Card.Meta
           avatar={
-            <div className="relative w-16 h-16 flex items-center justify-center bg-gradient-to-br from-seaBuckthorn to-california rounded-full shadow-lg group-hover:animate-pulse">
-              <TeamOutlined className="text-2xl text-shipGray" />
+            <div className="relative w-16 h-16 flex items-center justify-center bg-linear-to-br from-sea-buckthorn to-california rounded-full shadow-lg group-hover:animate-pulse">
+              <TeamOutlined className="text-2xl text-ship-gray" />
             </div>
           }
           title={
@@ -80,7 +80,7 @@ const CardGame: React.FC<
               <span className="font-enchant text-2xl tracking-wider group-hover:animate-pulse">
                 {item.name}
               </span>
-              <div className="h-0.5 bg-gradient-to-r from-seaBuckthorn to-california rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              <div className="h-0.5 bg-linear-to-r from-sea-buckthorn to-california rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             </div>
           }
           description={

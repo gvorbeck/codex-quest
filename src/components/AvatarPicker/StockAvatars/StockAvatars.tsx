@@ -56,8 +56,8 @@ const StockAvatars: React.FC<
           <Image
             src={image}
             className={clsx("w-16 rounded-full", {
-              "ring-4 ring-seaBuckthorn": avatar === image,
-              "ring-2 ring-shipGray": avatar !== image,
+              "ring-4 ring-sea-buckthorn": avatar === image,
+              "ring-2 ring-ship-gray": avatar !== image,
             })}
             preview={false}
           />

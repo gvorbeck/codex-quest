@@ -20,14 +20,14 @@ const NewContentHeader: React.FC<
           {title}
         </Typography.Title>
 
-        <div className="h-1 w-24 bg-gradient-to-r from-seaBuckthorn to-california rounded-full mx-auto"></div>
+        <div className="h-1 w-24 bg-linear-to-r from-sea-buckthorn to-california rounded-full mx-auto"></div>
 
         <Typography.Paragraph className="m-0 [&_p]:m-0 [&_p+p]:mt-4 max-w-2xl text-lg">
           <LightMarkdown>{description}</LightMarkdown>
         </Typography.Paragraph>
       </div>
 
-      <Divider className="mt-6 border-seaBuckthorn" />
+      <Divider className="mt-6 border-sea-buckthorn" />
     </section>
   );
 };

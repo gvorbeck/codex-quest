@@ -87,7 +87,7 @@ const Hero: React.FC<HeroProps> = ({
               />
             </Tooltip>
           </Flex>
-          <AddPlayerForm className="mb-4 flex-grow" />
+          <AddPlayerForm className="mb-4 grow" />
         </Flex>
       </header>
       <ModalContainer

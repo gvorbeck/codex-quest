@@ -60,7 +60,7 @@ const Hero: React.FC<HeroProps & React.ComponentPropsWithRef<"div">> = ({
           component={
             <Typography.Title
               level={2}
-              className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 [&>*]:cursor-pointer!"
+              className="text-center m-0 leading-none font-enchant text-5xl tracking-wide w-full [&:hover_span]:opacity-100 [&_span]:opacity-50 *:cursor-pointer!"
             >
               {character.name}
             </Typography.Title>

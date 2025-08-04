@@ -380,8 +380,8 @@ export const getExtraIcons = (character: CharData, isDarkMode: boolean) => {
   const iconClassNames = clsx(
     "w-8 h-8 [&_svg]:max-h-5 fill-current aspect-square flex items-center justify-center p-0.5 rounded-full cursor-pointer border-solid",
     {
-      "bg-shipGray border-springWood": isDarkMode,
-      "bg-springWood border-shipGray": !isDarkMode,
+      "bg-ship-gray border-spring-wood": isDarkMode,
+      "bg-spring-wood border-ship-gray": !isDarkMode,
     },
   );
   return (

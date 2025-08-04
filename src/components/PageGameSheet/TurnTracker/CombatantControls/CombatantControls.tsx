@@ -85,7 +85,7 @@ const CombatantControls: React.FC<
         >
           <Tooltip title="Remove from Round Tracker" placement="bottom">
             <Button
-              className="[&:hover_svg]:fill-seaBuckthorn"
+              className="[&:hover_svg]:fill-sea-buckthorn"
               icon={<TrackerRemoveIcon />}
             />
           </Tooltip>

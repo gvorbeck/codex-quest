@@ -61,7 +61,7 @@ const PlayerButtons: React.FC<PlayerButtonsProps> = ({
       <Tooltip title="Add to Round Tracker">
         <Button
           onClick={() => addToTurnTracker(character, "player")}
-          className="[&:hover_svg]:fill-seaBuckthorn"
+          className="[&:hover_svg]:fill-sea-buckthorn"
           icon={<TrackerAddIcon />}
         />
       </Tooltip>

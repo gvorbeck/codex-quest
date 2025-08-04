@@ -24,7 +24,7 @@ const CombatantName: React.FC<
 }) => {
   const { setEditingCombatant } = useRoundTracker(combatants, setCombatants);
   const combatantNameClassNames = clsx(
-    "flex-grow truncate text-elipsis text-clip",
+    "grow truncate text-elipsis text-clip",
     className,
   );
   const handleRenameConfirm = (newName: string) => {
@@ -42,7 +42,7 @@ const CombatantName: React.FC<
           preview={false}
           width={32}
           height={32}
-          className="rounded-full border-2 border-seaBuckthorn border-solid shadow-md"
+          className="rounded-full border-2 border-sea-buckthorn border-solid shadow-md"
         />
       )}
       {editingCombatant === combatant.name ? (

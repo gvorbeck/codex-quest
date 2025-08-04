@@ -128,7 +128,7 @@ const PageGameSheet: React.FC<PageGameSheetProps> = ({ user }) => {
       />
       <Flex
         gap={16}
-        className={isMobile || isTablet ? "" : "[&>*]:flex-1 [&>*]:w-1/2"}
+        className={isMobile || isTablet ? "" : "*:flex-1 *:w-1/2"}
         vertical={isMobile || isTablet}
       >
         {characterList()}

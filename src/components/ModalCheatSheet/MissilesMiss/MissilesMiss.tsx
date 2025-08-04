@@ -2,13 +2,13 @@ import { Typography } from "antd";
 import { clsx } from "clsx";
 
 export default function MissilesMiss() {
-  const gridLayout = clsx("grid", "grid-cols-3", "grid-rows-5", "gap-[1px]");
+  const gridLayout = clsx("grid", "grid-cols-3", "grid-rows-5", "gap-px");
   const gridItem = clsx(
-    "[&>div]:bg-shipGray",
-    "[&>div]:text-springWood",
+    "[&>div]:bg-ship-gray",
+    "[&>div]:text-spring-wood",
     "[&>div]:text-center",
     "[&>div]:border",
-    "[&>div]:border-seaBuckthorn",
+    "[&>div]:border-sea-buckthorn",
     "[&>div]:border-solid",
     "[&>div]:py-1",
   );

@@ -38,12 +38,12 @@ const PageHeader: React.FC<
       >
         <Link
           to="/"
-          className="font-enchant text-springWood flex items-center gap-3 leading-none tracking-wider transition-all duration-300 hover:scale-105"
+          className="font-enchant text-spring-wood flex items-center gap-3 leading-none tracking-wider transition-all duration-300 hover:scale-105"
           data-testid="home-link"
         >
           <span className="relative">
             <span className="group-hover:animate-pulse">{siteTitle[0]}</span>
-            <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-seaBuckthorn to-california transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-linear-to-r from-sea-buckthorn to-california transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
           </span>
 
           <div className="relative">
@@ -52,12 +52,12 @@ const PageHeader: React.FC<
               className="w-10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110"
               alt="Dragon Icon"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-seaBuckthorn to-california rounded-full opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-sea-buckthorn to-california rounded-full opacity-0 group-hover:opacity-20 blur-xs transition-opacity duration-300"></div>
           </div>
 
           <span className="relative">
             <span className="group-hover:animate-pulse">{siteTitle[1]}</span>
-            <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-seaBuckthorn to-california transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-linear-to-r from-sea-buckthorn to-california transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
           </span>
         </Link>
       </Typography.Title>
@@ -68,7 +68,7 @@ const PageHeader: React.FC<
             onClick={toggleTheme}
             icon={isDarkMode ? <MoonOutlined /> : <SunOutlined />}
             shape="circle"
-            className="btn-glow border-2 border-seaBuckthorn hover:border-california hover:shadow-glow "
+            className="btn-glow border-2 border-sea-buckthorn hover:border-california hover:shadow-glow "
             size="large"
           />
         </Tooltip>
@@ -83,7 +83,7 @@ const PageHeader: React.FC<
               type="primary"
               shape="circle"
               size="large"
-              className="shadow-glow btn-glow border-2 border-seaBuckthorn hover:border-california transition-all duration-300 hover:scale-105"
+              className="shadow-glow btn-glow border-2 border-sea-buckthorn hover:border-california transition-all duration-300 hover:scale-105"
               icon={<LogoutOutlined />}
               data-testid="logout-button"
               onClick={() => auth.signOut()}
@@ -102,7 +102,7 @@ const PageHeader: React.FC<
               icon={<LoginOutlined />}
               data-testid="login-button"
               onClick={() => setIsLoginSignupModalOpen(true)}
-              className="shadow-glow btn-glow border-2 border-seaBuckthorn hover:border-california transition-all duration-300 hover:scale-105"
+              className="shadow-glow btn-glow border-2 border-sea-buckthorn hover:border-california transition-all duration-300 hover:scale-105"
             />
           </Tooltip>
         )}

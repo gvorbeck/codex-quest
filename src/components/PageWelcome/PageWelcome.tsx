@@ -79,7 +79,7 @@ const PageWelcome: React.FC = () => {
       <Image
         src={CharacterSheet}
         alt="Sample Basic Fantasy Role-Playing Game Character Sheet"
-        className="border-solid border-1 border-shipGray shadow-md flex-[0_0_50%] modern-card"
+        className="border-solid border border-ship-gray shadow-md flex-[0_0_50%] modern-card"
       />
     </Flex>
   );

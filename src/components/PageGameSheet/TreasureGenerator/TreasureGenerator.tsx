@@ -29,7 +29,7 @@ const TreasureGenerator: React.FC<React.ComponentPropsWithRef<"div">> = ({
         <Option value={1} title="Individual Treasures" />
         <Option value={2} title="Unguarded Treasure" />
       </Radio.Group>
-      <Flex className="[&>*]:flex-1" vertical>
+      <Flex className="*:flex-1" vertical>
         <TreasureForm type={treasureType} setResults={setResults} />
         {results && <TreasureResults results={results} />}
       </Flex>

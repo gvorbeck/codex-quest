@@ -59,7 +59,7 @@ const PageHome: React.FC<PageHomeProps> = ({
   );
 
   const tabItemClassNames =
-    "px-2 py-1 bg-gradient-to-r from-seaBuckthorn to-california text-shipGray text-xs rounded-full font-bold shadow-sm";
+    "px-2 py-1 bg-linear-to-r from-sea-buckthorn to-california text-ship-gray text-xs rounded-full font-bold shadow-xs";
 
   const tabsItems: TabsProps["items"] = [
     {

@@ -77,7 +77,7 @@ const EncounterGenerator: React.FC = () => {
         <Option value="wilderness" title="Wilderness Encounter" />
         <Option value="urban" title="Town, City, or Village Encounter" />
       </Radio.Group>
-      <Flex className="[&>*]:w-1/2 w-full">
+      <Flex className="*:w-1/2 w-full">
         {encounterType === "dungeon" && (
           <EncounterOptionSelect
             label="Level"

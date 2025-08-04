@@ -12,15 +12,15 @@ const PageFooter: React.FC<
 > = ({ className }) => {
   const footerClassNames = clsx(
     className,
-    "[&_div]:text-springWood",
-    "[&_a]:text-seaBuckthorn",
+    "[&_div]:text-spring-wood",
+    "[&_a]:text-sea-buckthorn",
     "relative",
   );
 
   return (
     <div className={footerClassNames}>
       {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-shipGray to-transparent opacity-50 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-linear-to-t from-ship-gray to-transparent opacity-50 pointer-events-none"></div>
 
       <Flex className="relative z-10" vertical>
         <Typography.Paragraph className="text-center">
@@ -42,7 +42,7 @@ const PageFooter: React.FC<
           </span>{" "}
           <span
             data-testid="version-number"
-            className="px-2 py-1 bg-gradient-to-r from-seaBuckthorn to-california text-shipGray text-xs rounded-full font-bold"
+            className="px-2 py-1 bg-linear-to-r from-sea-buckthorn to-california text-ship-gray text-xs rounded-full font-bold"
           >
             v{version}
           </span>
@@ -55,7 +55,7 @@ const PageFooter: React.FC<
             rel="noreferrer noopener"
             target="_blank"
             data-testid="bfrpg-link"
-            className="hover:text-california transition-colors duration-300 font-medium underline decoration-seaBuckthorn"
+            className="hover:text-california transition-colors duration-300 font-medium underline decoration-sea-buckthorn"
           >
             Basic Fantasy Role-Playing Game
           </a>{" "}
@@ -64,7 +64,7 @@ const PageFooter: React.FC<
 
         <Flex
           wrap="wrap"
-          className="[&_a]:text-seaBuckthorn [&_*]:m-0 [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-california"
+          className="[&_a]:text-sea-buckthorn **:m-0 [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:text-california"
           gap={16}
           justify="center"
         >
@@ -115,7 +115,7 @@ const PageFooter: React.FC<
               href="https://www.paypal.com/donate/?business=4BW6AR5BGQZYW&no_recurring=0&item_name=for+CODEX.QUEST+database+fees&currency_code=USD"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1 bg-gradient-to-r from-sushi to-forestGreen rounded-full font-medium hover:scale-105 transition-transform duration-300 shadow-sm"
+              className="px-3 py-1 bg-linear-to-r from-sushi to-forest-green rounded-full font-medium hover:scale-105 transition-transform duration-300 shadow-xs"
             >
               Donate
             </a>

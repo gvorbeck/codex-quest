@@ -20,17 +20,17 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert, children }) => {
   const isHomePage = location === "/";
 
   return (
-    <Layout className="flex flex-col min-h-[100vh] relative overflow-hidden">
+    <Layout className="flex flex-col min-h-screen relative overflow-hidden">
       {/* Background effects */}
-      <div className="fixed inset-0 bg-gradient-to-br from-springWood via-stone to-shipGray opacity-10 pointer-events-none"></div>
-      <div className="fixed top-20 left-10 w-96 h-96 bg-gradient-to-r from-seaBuckthorn to-california rounded-full opacity-5 blur-3xl pointer-events-none animate-float"></div>
+      <div className="fixed inset-0 bg-linear-to-br from-spring-wood via-stone to-ship-gray opacity-10 pointer-events-none"></div>
+      <div className="fixed top-20 left-10 w-96 h-96 bg-linear-to-r from-sea-buckthorn to-california rounded-full opacity-5 blur-3xl pointer-events-none animate-float"></div>
       <div
-        className="fixed bottom-20 right-10 w-64 h-64 bg-gradient-to-r from-mysticPurple to-deepBlue rounded-full opacity-5 blur-3xl pointer-events-none animate-float"
+        className="fixed bottom-20 right-10 w-64 h-64 bg-linear-to-r from-mystic-purple to-deep-blue rounded-full opacity-5 blur-3xl pointer-events-none animate-float"
         style={{ animationDelay: "2s" }}
       ></div>
 
       <Layout.Header
-        className="flex items-center relative z-10 backdrop-blur-sm bg-shipGray bg-opacity-95 border-b border-seaBuckthorn border-opacity-20"
+        className="flex items-center relative z-10 backdrop-blur-xs bg-ship-gray bg-opacity-95 border-b border-sea-buckthorn border-opacity-20"
         data-testid="site-header"
       >
         <PageHeader user={user} className={contentWidthClassName} />
@@ -42,7 +42,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert, children }) => {
           message={alert}
           type="info"
           closable
-          className="relative z-10 border-seaBuckthorn border-opacity-30 bg-gradient-to-r from-seaBuckthorn to-california text-shipGray font-medium"
+          className="relative z-10 border-sea-buckthorn border-opacity-30 bg-linear-to-r from-sea-buckthorn to-california text-ship-gray font-medium"
         />
       )}
 
@@ -81,7 +81,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert, children }) => {
 
       <Layout.Footer
         data-testid="site-footer"
-        className="relative z-10 backdrop-blur-sm bg-shipGray bg-opacity-95 border-t border-seaBuckthorn border-opacity-20"
+        className="relative z-10 backdrop-blur-xs bg-ship-gray bg-opacity-95 border-t border-sea-buckthorn border-opacity-20"
       >
         <PageFooter className={contentWidthClassName} />
       </Layout.Footer>

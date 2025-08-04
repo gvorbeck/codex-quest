@@ -75,7 +75,7 @@ const CharacterFloatButtons: React.FC<
         onClick={handleCheatSheetClick}
       />
       <FloatButton
-        icon={<DiceIcon className="fill-shipGray" />}
+        icon={<DiceIcon className="fill-ship-gray" />}
         tooltip={{
           title: "Virtual Dice",
           className: "font-medium",

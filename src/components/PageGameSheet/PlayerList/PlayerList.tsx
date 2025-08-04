@@ -90,17 +90,17 @@ const PlayerList: React.FC<
                   items={abilityItems}
                   bordered
                   size="small"
-                  className="[&_*]:text-xs"
+                  className="**:text-xs"
                 />
                 <Descriptions
                   column={3}
                   items={attackItems}
                   bordered
                   size="small"
-                  className="[&_*]:text-xs"
+                  className="**:text-xs"
                 />
                 <Descriptions
-                  className="[&_*]:text-xs"
+                  className="**:text-xs"
                   column={2}
                   items={subItems}
                   size="small"

@@ -266,7 +266,7 @@ const PageNewCharacter: React.FC<
           type="primary"
           onClick={handleNext}
           disabled={handleProgressDisabled()}
-          className="[&:only-child]:ml-auto"
+          className="only:ml-auto"
         >
           Next
         </Button>

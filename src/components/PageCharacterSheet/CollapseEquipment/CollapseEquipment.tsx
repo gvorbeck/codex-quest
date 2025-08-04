@@ -74,7 +74,7 @@ const CollapseEquipment: React.FC<
                 >
                   <EquipmentItemDescription
                     item={item}
-                    className="flex-grow"
+                    className="grow"
                     setModalDisplay={setModalDisplay}
                   />
                 </Radio>
