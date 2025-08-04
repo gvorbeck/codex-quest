@@ -16,7 +16,8 @@
     "format": "prettier --write './src/**/*.{js,ts,tsx}'",
     "test": "vitest",
     "coverage": "vitest --ui",
-    "host": "vite --host"
+    "host": "vite --host",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
@@ -47,7 +48,9 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.12",
+    "husky": "^9.1.7",
     "jsdom": "^25.0.1",
+    "lint-staged": "^16.1.4",
     "plop": "^4.0.1",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",

@@ -1,0 +1,11 @@
+# Run build
+echo "🔨 Running build..."
+npm run build
+
+# Run tests
+echo "🧪 Running tests..."
+npm run test -- run
+
+# Run lint-staged (linting and formatting on staged files)
+echo "🔍 Running lint and format on staged files..."
+npx lint-staged
