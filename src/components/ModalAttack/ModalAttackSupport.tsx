@@ -1,7 +1,6 @@
 import { CharData, EquipmentItem } from "@/data/definitions";
-import { rollDice } from "@/support/diceSupport";
+import { rollDice, rollDiceDetailed } from "@/support/diceSupport";
 import { getAttackBonus } from "@/support/statSupport";
-import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import equipmentData from "@/data/equipment.json";
 
 export const noAmmoMessage = "No ammunition available";
@@ -50,15 +49,9 @@ export const getAvailableAmmoSelectOptions = (
     value: ammo.name,
   }));
 
-const roller = new DiceRoller();
-
-const checkCriticalFailure = (rollResult: any) => {
-  return rollResult.rolls[0].rolls[0].modifierFlags === "__";
-};
-
-const checkCriticalSuccess = (rollResult: any) => {
-  return rollResult.rolls[0].rolls[0].modifierFlags === "**";
-};
+// Critical hit/failure detection
+const isCriticalFailure = (total: number) => total === 1;
+const isCriticalSuccess = (total: number) => total === 20;
 
 export const getRollToHitResult = (
   character: CharData,
@@ -76,23 +69,23 @@ export const getRollToHitResult = (
   }
   let rollResult;
   if (type === "melee") {
-    rollResult = roller.roll(
-      `1d20cfcs+${getAttackBonus(character)}${
+    rollResult = rollDiceDetailed(
+      `1d20+${getAttackBonus(character)}${
         character.abilities.modifiers.strength
       }`,
     );
   } else {
-    rollResult = roller.roll(
-      `1d20cfcs+${getAttackBonus(character)}${
+    rollResult = rollDiceDetailed(
+      `1d20+${getAttackBonus(character)}${
         character.abilities.modifiers.dexterity
       }${rangeModifier ? `+${rangeModifier}` : ""}`,
     );
   }
 
   // Check for critical failure or success
-  if (checkCriticalFailure(rollResult)) {
+  if (isCriticalFailure(rollResult.total)) {
     return { total: "1 (Critical Failure)" };
-  } else if (checkCriticalSuccess(rollResult)) {
+  } else if (isCriticalSuccess(rollResult.total)) {
     return { total: "20 (Critical Success)" };
   }
 
@@ -129,13 +122,11 @@ export const getRollToAmmoDamageResult = (
 export const getWeapon = (name: string, equipment: EquipmentItem[]) =>
   equipment.find((e) => e.name === name);
 
-// export const calculateThrownRollResults = ()
-
 export const sendAmmoAttackNotifications = (
   weaponRecovered: boolean,
-  rollToHit: any,
-  rollToDamage: any,
-  openNotification: any,
+  rollToHit: { total: number | string; notation?: string },
+  rollToDamage: number,
+  openNotification: (title: string, message: string) => void,
   ammoSelection: string | undefined,
   item: EquipmentItem,
 ) => {
@@ -147,6 +138,6 @@ export const sendAmmoAttackNotifications = (
   }
   openNotification(
     `Attack with ${item.name}`,
-    `To-hit: ${rollToHit.total} Damage: ${rollToDamage} (${rollToHit.notation.split("cfcs").join("")})`,
+    `To-hit: ${rollToHit.total} Damage: ${rollToDamage}${rollToHit.notation ? ` (${rollToHit.notation.replace(/cfcs/g, "")})` : ""}`,
   );
 };
