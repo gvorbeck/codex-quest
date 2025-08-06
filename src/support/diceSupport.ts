@@ -20,8 +20,26 @@ interface DiceRollResult {
 
 class DiceRoller {
   // Compiled regex patterns for better performance
-  private readonly DICE_REGEX =
-    /^(\d+)?d(\d+|%)([!*])?([kKdD]([hHlL])?(\d+))?([+-]\d+)?(\*\d+)?$/;
+  /**
+   * DICE_REGEX capture groups:
+   * 1: (\d+)? - Number of dice (optional, default 1)
+   * 2: (\d+|%) - Number of sides or '%' for percentile
+   * 3: ([!*])? - Exploding dice indicator (optional)
+   * 4: ([kKdD]([hHlL])?(\d+))? - Keep/Drop group (optional)
+   * 5: ([hHlL])? - Keep/Drop type: high/low (optional)
+   * 6: (\d+) - Number to keep/drop (optional)
+   * 7: ([+-]\d+)? - Modifier (optional)
+   * 8: (\*\d+)? - Multiplier (optional)
+   */
+  private readonly DICE_REGEX = new RegExp(
+    "(\\d+)?" + // 1: Number of dice (optional)
+      "d" + // Literal 'd'
+      "(\\d+|%)" + // 2: Number of sides or '%' for percentile
+      "([!*])?" + // 3: Exploding dice indicator (optional)
+      "([kKdD]([hHlL])?(\\d+))?" + // 4: Keep/Drop group (optional)
+      "([+-]\\d+)?" + // 7: Modifier (optional)
+      "(\\*\\d+)?$", // 8: Multiplier (optional)
+  );
   private readonly DICE_GROUP_REGEX =
     /(\d*d(\d+|%)[!*]?([kKdD]([hHlL])?(\d+))?([+-]\d+)?(\*\d+)?)/g;
 
@@ -192,8 +210,6 @@ class DiceRoller {
     const sum = finalRolls.reduce((acc, roll) => acc + roll, 0);
     const total = (sum + modifier) * multiplier;
 
-    // Build output string
-    const output = notation;
     const breakdown: string[] = [];
 
     // Add details for complex rolls
@@ -218,13 +234,13 @@ class DiceRoller {
 
     return {
       total,
-      output: `${output} = ${total}`,
+      output: `${notation} = ${total}`,
       breakdown: breakdown.length > 0 ? breakdown : undefined,
     };
   }
 
   private evaluateExpression(expression: string): number {
-    // Simple expression evaluator for basic arithmetic
+    // Safe mathematical expression evaluator for basic arithmetic
     // Handles +, -, *, / with proper precedence
     try {
       // Remove whitespace and validate characters
@@ -233,12 +249,134 @@ class DiceRoller {
         throw new Error("Invalid characters in expression");
       }
 
-      // Use Function constructor for safe evaluation of mathematical expressions
-      // This is safer than eval() as it runs in a restricted context
-      return new Function(`"use strict"; return (${cleaned})`)();
+      // Simple recursive descent parser for mathematical expressions
+      return this.parseExpression(cleaned);
     } catch {
       throw new Error(`Invalid mathematical expression: ${expression}`);
     }
+  }
+
+  private parseExpression(expr: string): number {
+    // Simple parser that handles basic arithmetic with proper precedence
+    // This replaces the Function constructor approach for better security
+    const tokens = this.tokenize(expr);
+    return this.evaluateTokens(tokens);
+  }
+
+  private tokenize(expr: string): (string | number)[] {
+    const tokens: (string | number)[] = [];
+    let i = 0;
+
+    while (i < expr.length) {
+      const char = expr[i];
+
+      if (/\d/.test(char)) {
+        // Parse number
+        let numStr = "";
+        while (i < expr.length && (/\d/.test(expr[i]) || expr[i] === ".")) {
+          numStr += expr[i];
+          i++;
+        }
+        tokens.push(parseFloat(numStr));
+      } else if (["+", "-", "*", "/", "(", ")"].includes(char)) {
+        tokens.push(char);
+        i++;
+      } else {
+        throw new Error(`Invalid character: ${char}`);
+      }
+    }
+
+    return tokens;
+  }
+
+  private evaluateTokens(tokens: (string | number)[]): number {
+    // Simple expression evaluator using operator precedence
+    const outputQueue: (string | number)[] = [];
+    const operatorStack: string[] = [];
+
+    const precedence: Record<string, number> = {
+      "+": 1,
+      "-": 1,
+      "*": 2,
+      "/": 2,
+    };
+    const isOperator = (token: string | number): token is string =>
+      typeof token === "string" && ["+", "-", "*", "/"].includes(token);
+
+    // Shunting-yard algorithm for infix to postfix conversion
+    for (const token of tokens) {
+      if (typeof token === "number") {
+        outputQueue.push(token);
+      } else if (isOperator(token)) {
+        while (
+          operatorStack.length > 0 &&
+          operatorStack[operatorStack.length - 1] !== "(" &&
+          precedence[operatorStack[operatorStack.length - 1]] >=
+            precedence[token]
+        ) {
+          outputQueue.push(operatorStack.pop()!);
+        }
+        operatorStack.push(token);
+      } else if (token === "(") {
+        operatorStack.push(token);
+      } else if (token === ")") {
+        while (
+          operatorStack.length > 0 &&
+          operatorStack[operatorStack.length - 1] !== "("
+        ) {
+          outputQueue.push(operatorStack.pop()!);
+        }
+        if (operatorStack.length === 0) {
+          throw new Error("Mismatched parentheses");
+        }
+        operatorStack.pop(); // Remove the "("
+      }
+    }
+
+    while (operatorStack.length > 0) {
+      const op = operatorStack.pop()!;
+      if (op === "(" || op === ")") {
+        throw new Error("Mismatched parentheses");
+      }
+      outputQueue.push(op);
+    }
+
+    // Evaluate postfix expression
+    const stack: number[] = [];
+
+    for (const token of outputQueue) {
+      if (typeof token === "number") {
+        stack.push(token);
+      } else if (isOperator(token)) {
+        if (stack.length < 2) {
+          throw new Error("Invalid expression");
+        }
+        const b = stack.pop()!;
+        const a = stack.pop()!;
+
+        switch (token) {
+          case "+":
+            stack.push(a + b);
+            break;
+          case "-":
+            stack.push(a - b);
+            break;
+          case "*":
+            stack.push(a * b);
+            break;
+          case "/":
+            if (b === 0) throw new Error("Division by zero");
+            stack.push(a / b);
+            break;
+        }
+      }
+    }
+
+    if (stack.length !== 1) {
+      throw new Error("Invalid expression");
+    }
+
+    return stack[0];
   }
 
   roll(notation: string): DiceRollResult {

@@ -124,7 +124,7 @@ export const getWeapon = (name: string, equipment: EquipmentItem[]) =>
 
 export const sendAmmoAttackNotifications = (
   weaponRecovered: boolean,
-  rollToHit: { total: number | string; notation?: string },
+  rollToHit: { total: number | string },
   rollToDamage: number,
   openNotification: (title: string, message: string) => void,
   ammoSelection: string | undefined,
@@ -138,6 +138,6 @@ export const sendAmmoAttackNotifications = (
   }
   openNotification(
     `Attack with ${item.name}`,
-    `To-hit: ${rollToHit.total} Damage: ${rollToDamage}${rollToHit.notation ? ` (${rollToHit.notation.replace(/cfcs/g, "")})` : ""}`,
+    `To-hit: ${rollToHit.total} Damage: ${rollToDamage}`,
   );
 };
