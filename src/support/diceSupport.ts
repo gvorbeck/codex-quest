@@ -23,7 +23,7 @@ class DiceRoller {
   private readonly DICE_REGEX =
     /^(\d+)?d(\d+|%)([!*])?([kKdD]([hHlL])?(\d+))?([+-]\d+)?(\*\d+)?$/;
   private readonly DICE_GROUP_REGEX =
-    /(\d*d\d+[!*]?[kKdD]?[hHlL]?\d*[+-]?\d*\*?\d*)/g;
+    /(\d*d(\d+|%)[!*]?([kKdD]([hHlL])?(\d+))?([+-]\d+)?(\*\d+)?)/g;
 
   private random(): number {
     return Math.random();
@@ -70,7 +70,7 @@ class DiceRoller {
       countStr,
       sidesStr,
       explodingChar,
-      ,
+      keepDropGroup,
       keepDropType,
       keepDropNum,
       modifierStr,
@@ -90,17 +90,17 @@ class DiceRoller {
     let keepLow: number | undefined;
     let drop: number | undefined;
 
-    if (keepDropNum) {
+    if (keepDropGroup && keepDropNum) {
       const num = parseInt(keepDropNum, 10);
-      const operation = match[4]?.toLowerCase();
+      const operation = keepDropGroup.toLowerCase().charAt(0); // First char: k or d
 
-      if (operation?.startsWith("k")) {
+      if (operation === "k") {
         if (keepDropType?.toLowerCase() === "l") {
           keepLow = num;
         } else {
           keepHigh = num; // default to keep high
         }
-      } else if (operation?.startsWith("d")) {
+      } else if (operation === "d") {
         drop = num;
       }
     }
