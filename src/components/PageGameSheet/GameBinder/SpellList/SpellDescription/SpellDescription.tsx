@@ -40,7 +40,7 @@ const SpellDescription: React.FC<
       className={className}
       items={items}
       column={1}
-      contentStyle={{ textAlign: "justify" }}
+      styles={{ content: { textAlign: "justify" } }}
     />
   );
 };

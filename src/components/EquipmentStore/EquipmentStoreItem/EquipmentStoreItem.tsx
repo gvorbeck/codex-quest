@@ -206,7 +206,7 @@ const EquipmentStoreItem: React.FC<
   return (
     <Descriptions
       labelStyle={{ fontSize: ".75rem", padding: "4px" }}
-      contentStyle={{ fontSize: ".75rem" }}
+      styles={{ content: { fontSize: ".75rem" } }}
       size="small"
       className={className}
       items={items}
