@@ -12,7 +12,7 @@
  * - Complex expressions: 2d6+1d8, 3d6+2*5
  */
 
-export interface DiceRollResult {
+interface DiceRollResult {
   total: number;
   output: string;
   breakdown?: string[];
@@ -373,9 +373,3 @@ export const validateDiceNotation = (notation: string): boolean => {
     return false;
   }
 };
-
-// Export the DiceRoller class for advanced usage
-export { DiceRoller };
-
-// Re-export for backward compatibility if needed
-export default diceRoller;
