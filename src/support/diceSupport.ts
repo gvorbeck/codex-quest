@@ -65,6 +65,11 @@ class DiceRoller {
     drop?: number;
     exploding: boolean;
   } {
+    // Handle empty or whitespace-only input
+    if (!notation || !notation.trim()) {
+      throw new Error("Empty dice notation");
+    }
+
     // Handle percentile dice first
     if (notation === "d%") {
       return {

@@ -49,9 +49,18 @@ export const getAvailableAmmoSelectOptions = (
     value: ammo.name,
   }));
 
-// Critical hit/failure detection
-const isCriticalFailure = (total: number) => total === 1;
-const isCriticalSuccess = (total: number) => total === 20;
+// Critical hit/failure detection - check the raw d20 roll
+const isCriticalFailure = (rollResult: { total: number; output: string }) => {
+  // Extract the raw d20 roll from the output string
+  const match = rollResult.output.match(/\b(1|20)\b/);
+  return match && match[1] === "1";
+};
+
+const isCriticalSuccess = (rollResult: { total: number; output: string }) => {
+  // Extract the raw d20 roll from the output string
+  const match = rollResult.output.match(/\b(1|20)\b/);
+  return match && match[1] === "20";
+};
 
 export const getRollToHitResult = (
   character: CharData,
@@ -82,10 +91,10 @@ export const getRollToHitResult = (
     );
   }
 
-  // Check for critical failure or success
-  if (isCriticalFailure(rollResult.total)) {
+  // Check for critical failure or success using the roll result
+  if (isCriticalFailure(rollResult)) {
     return { total: "1 (Critical Failure)" };
-  } else if (isCriticalSuccess(rollResult.total)) {
+  } else if (isCriticalSuccess(rollResult)) {
     return { total: "20 (Critical Success)" };
   }
 
