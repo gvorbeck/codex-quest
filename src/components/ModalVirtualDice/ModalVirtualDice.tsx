@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
 import { useNotification } from "@/hooks/useNotification";
-import { rollDice } from "@/support/diceSupport";
+import { rollDice, validateDiceNotation } from "@/support/diceSupport";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ModalVirtualDiceProps {}
@@ -15,20 +15,25 @@ const ModalVirtualDice: React.FC<
     setInputValue(event.target.value);
   };
   const onFinish = () => {
-    openNotification("Virtual Dice", rollDice(inputValue));
+    const result = rollDice(inputValue);
+    openNotification("Virtual Dice", result.toString());
   };
   return (
     <Form className={className} layout="vertical" onFinish={onFinish}>
       {contextHolder}
       <Form.Item
         className={className}
-        label="Name"
-        name="name"
+        label="Dice Notation"
+        name="diceNotation"
         rules={[
-          { required: true, message: "Please input a name!" },
+          { required: true, message: "Please input dice notation!" },
           {
-            pattern: /(\d+)?d(\d+)(([+-]\d+)|([kK]\d+([lLhH])?)|([eE]))?/g,
-            message: "Invalid dice notation",
+            validator: (_, value) => {
+              if (!value || validateDiceNotation(value)) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error("Invalid dice notation"));
+            },
           },
         ]}
       >

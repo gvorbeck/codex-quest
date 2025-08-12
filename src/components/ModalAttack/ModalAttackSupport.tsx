@@ -1,7 +1,6 @@
 import { CharData, EquipmentItem } from "@/data/definitions";
-import { rollDice } from "@/support/diceSupport";
+import { rollDice, rollDiceDetailed } from "@/support/diceSupport";
 import { getAttackBonus } from "@/support/statSupport";
-import { DiceRoller } from "@dice-roller/rpg-dice-roller";
 import equipmentData from "@/data/equipment.json";
 
 export const noAmmoMessage = "No ammunition available";
@@ -50,14 +49,17 @@ export const getAvailableAmmoSelectOptions = (
     value: ammo.name,
   }));
 
-const roller = new DiceRoller();
-
-const checkCriticalFailure = (rollResult: any) => {
-  return rollResult.rolls[0].rolls[0].modifierFlags === "__";
+// Critical hit/failure detection - check the raw d20 roll
+const isCriticalFailure = (rollResult: { total: number; output: string }) => {
+  // Extract the raw d20 roll from the output string
+  const match = rollResult.output.match(/\b(1|20)\b/);
+  return match && match[1] === "1";
 };
 
-const checkCriticalSuccess = (rollResult: any) => {
-  return rollResult.rolls[0].rolls[0].modifierFlags === "**";
+const isCriticalSuccess = (rollResult: { total: number; output: string }) => {
+  // Extract the raw d20 roll from the output string
+  const match = rollResult.output.match(/\b(1|20)\b/);
+  return match && match[1] === "20";
 };
 
 export const getRollToHitResult = (
@@ -76,23 +78,23 @@ export const getRollToHitResult = (
   }
   let rollResult;
   if (type === "melee") {
-    rollResult = roller.roll(
-      `1d20cfcs+${getAttackBonus(character)}${
+    rollResult = rollDiceDetailed(
+      `1d20+${getAttackBonus(character)}${
         character.abilities.modifiers.strength
       }`,
     );
   } else {
-    rollResult = roller.roll(
-      `1d20cfcs+${getAttackBonus(character)}${
+    rollResult = rollDiceDetailed(
+      `1d20+${getAttackBonus(character)}${
         character.abilities.modifiers.dexterity
       }${rangeModifier ? `+${rangeModifier}` : ""}`,
     );
   }
 
-  // Check for critical failure or success
-  if (checkCriticalFailure(rollResult)) {
+  // Check for critical failure or success using the roll result
+  if (isCriticalFailure(rollResult)) {
     return { total: "1 (Critical Failure)" };
-  } else if (checkCriticalSuccess(rollResult)) {
+  } else if (isCriticalSuccess(rollResult)) {
     return { total: "20 (Critical Success)" };
   }
 
@@ -129,13 +131,11 @@ export const getRollToAmmoDamageResult = (
 export const getWeapon = (name: string, equipment: EquipmentItem[]) =>
   equipment.find((e) => e.name === name);
 
-// export const calculateThrownRollResults = ()
-
 export const sendAmmoAttackNotifications = (
   weaponRecovered: boolean,
-  rollToHit: any,
-  rollToDamage: any,
-  openNotification: any,
+  rollToHit: { total: number | string },
+  rollToDamage: number,
+  openNotification: (title: string, message: string) => void,
   ammoSelection: string | undefined,
   item: EquipmentItem,
 ) => {
@@ -147,6 +147,6 @@ export const sendAmmoAttackNotifications = (
   }
   openNotification(
     `Attack with ${item.name}`,
-    `To-hit: ${rollToHit.total} Damage: ${rollToDamage} (${rollToHit.notation.split("cfcs").join("")})`,
+    `To-hit: ${rollToHit.total} Damage: ${rollToDamage}`,
   );
 };

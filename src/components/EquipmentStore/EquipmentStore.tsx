@@ -233,7 +233,7 @@ const EquipmentStore: React.FC<
             size="small"
             items={descriptionsItems}
             column={1}
-            contentStyle={{ fontSize: ".75rem" }}
+            styles={{ content: { fontSize: ".75rem" } }}
           />
         }
       />

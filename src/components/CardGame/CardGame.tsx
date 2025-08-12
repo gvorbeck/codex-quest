@@ -39,6 +39,7 @@ const CardGame: React.FC<
             className="text-sea-buckthorn hover:text-california transition-all duration-300 hover:scale-110"
           />,
           <Popconfirm
+            key="delete-confirm"
             title="Delete this game profile?"
             description={`This cannot be undone!`}
             onConfirm={() =>
@@ -52,7 +53,6 @@ const CardGame: React.FC<
             cancelText="No"
           >
             <DeleteOutlined
-              key="delete"
               aria-label="Delete game profile"
               title="Delete game profile"
               className="text-gray-500 hover:text-crimson-red transition-all duration-300 hover:scale-110"

@@ -50,7 +50,7 @@ const CharacterFloatButtons: React.FC<
 
   function rollInitiative() {
     const result = rollDice(`1d6${character.abilities.modifiers.dexterity}`);
-    openNotification("Roll Initiative", result);
+    openNotification("Roll Initiative", result.toString());
   }
 
   return (

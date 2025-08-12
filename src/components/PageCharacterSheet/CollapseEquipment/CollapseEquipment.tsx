@@ -127,7 +127,7 @@ const CollapseEquipment: React.FC<
             size="small"
             items={equipmentSymbolKeyItems}
             column={1}
-            contentStyle={{ fontSize: ".75rem" }}
+            styles={{ content: { fontSize: ".75rem" } }}
           />
         }
       />
