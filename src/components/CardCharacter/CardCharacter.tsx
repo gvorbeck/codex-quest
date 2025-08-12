@@ -47,6 +47,7 @@ const CardCharacter: React.FC<
             aria-label="Go to Character Sheet"
           />,
           <Popconfirm
+            key="delete-confirm"
             title="Delete this character?"
             description={`This cannot be undone!`}
             onConfirm={() =>
@@ -60,7 +61,6 @@ const CardCharacter: React.FC<
             cancelText="No"
           >
             <DeleteOutlined
-              key="delete"
               aria-label="Delete character"
               title="Delete character"
             />
