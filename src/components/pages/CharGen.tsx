@@ -181,7 +181,7 @@ function CharGen() {
     <article>
       <header>
         <h2>Character Creation</h2>
-        <p>Follow the steps below to create your D&D character. Your progress is automatically saved.</p>
+        <p>Follow the steps below to create your BFRPG character. Your progress is automatically saved.</p>
       </header>
       
       <section aria-label="Character creation wizard">

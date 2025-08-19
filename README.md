@@ -1,4 +1,32 @@
-# React + TypeScript + Vite
+# Torchlight - BFRPG Character Generator
+
+A comprehensive character generator for the Basic Fantasy Role-Playing Game (BFRPG) system. Built with React, TypeScript, and Vite for a modern, accessible web experience.
+
+## Features
+
+- **Interactive Character Creation**: Step-by-step wizard for creating BFRPG characters
+- **Dice Rolling System**: Comprehensive dice notation support with modifiers
+- **Race & Class Selection**: Full support for core and supplemental BFRPG content
+- **Accessibility First**: WCAG 2.1 AA compliant with screen reader support
+- **Auto-save**: Character progress automatically saved to localStorage
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Technical Details
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
