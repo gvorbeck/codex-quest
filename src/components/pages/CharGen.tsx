@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Stepper } from "@/components/ui";
-import { AbilityScoreStep } from "@/components/features";
+import { AbilityScoreStep, RaceStep } from "@/components/features";
 import type { Character } from "@/types/character";
 
 const emptyCharacter: Character = {
@@ -54,7 +54,9 @@ function CharGen() {
     },
     {
       title: "Race",
-      content: <div>Choose your race</div>,
+      content: (
+        <RaceStep character={character} onCharacterChange={setCharacter} />
+      ),
     },
     {
       title: "Class",
@@ -72,7 +74,7 @@ function CharGen() {
 
   useEffect(() => {
     // Save data to localStorage whenever 'character' changes
-    localStorage.setItem("myCharacter", JSON.stringify(character));
+    localStorage.setItem("newCharacter", JSON.stringify(character));
   }, [character]); // Dependency array ensures effect runs when 'character' changes
 
   return (

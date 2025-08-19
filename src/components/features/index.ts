@@ -3,3 +3,4 @@
 // Example: authentication components, character-related components, etc.
 
 export { default as AbilityScoreStep } from "./AbilityScoreStep";
+export { default as RaceStep } from "./RaceStep";
