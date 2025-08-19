@@ -37,11 +37,9 @@ export interface Race {
   id: string;
   description: string;
   physicalDescription: string;
-  restrictions: {
-    classes: string[];
-    requirements: RaceRequirement[];
-    weaponRestrictions?: string[]; // Array of equipment IDs that this race cannot use
-  };
+  allowedClasses: string[];
+  abilityRequirements: RaceRequirement[];
+  prohibitedWeapons?: string[]; // Array of equipment IDs that this race cannot use
   specialAbilities: SpecialAbility[];
   savingThrows: SavingThrowBonus[];
   lifespan: string;
