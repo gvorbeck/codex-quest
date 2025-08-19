@@ -1,4 +1,4 @@
-import { Select, Switch } from "@/components/ui";
+import { Select, Switch, StepWrapper } from "@/components/ui";
 import { allClasses } from "@/data/classes";
 import { combinationClasses } from "@/data/combinationClasses";
 import { allRaces } from "@/data/races";
@@ -94,124 +94,128 @@ export function ClassStep({
   );
 
   return (
-    <div>
-      <div>
-        <h2>Choose Your Class</h2>
-        <p>
-          Select the class that defines your character's abilities and role.
-        </p>
-      </div>
-
-      <div>
-        <Switch
-          label="Include Supplemental Classes"
-          checked={includeSupplementalClass}
-          onCheckedChange={onIncludeSupplementalClassChange}
-        />
-      </div>
-
-      {canUseCombinationClasses && (
+    <StepWrapper
+      title="Choose Your Class"
+      description="Select the class that defines your character's abilities and role."
+      statusMessage={
+        character.class 
+          ? `Selected class: ${character.class}` 
+          : character.combinationClass 
+            ? `Selected combination class: ${character.combinationClass}` 
+            : undefined
+      }
+    >
+      <fieldset>
+        <legend className="sr-only">Class selection options</legend>
+        
         <div>
           <Switch
-            label="Use Combination Class"
-            checked={useCombinationClass}
-            onCheckedChange={handleCombinationToggle}
+            label="Include Supplemental Classes"
+            checked={includeSupplementalClass}
+            onCheckedChange={onIncludeSupplementalClassChange}
           />
-          <p>
-            As an {selectedRace.name}, you can choose a combination class that
-            combines the abilities of two base classes.
-          </p>
         </div>
-      )}
+
+        {canUseCombinationClasses && (
+          <div>
+            <Switch
+              label="Use Combination Class"
+              checked={useCombinationClass}
+              onCheckedChange={handleCombinationToggle}
+            />
+            <p>
+              As an {selectedRace.name}, you can choose a combination class that
+              combines the abilities of two base classes.
+            </p>
+          </div>
+        )}
+      </fieldset>
 
       {!useCombinationClass ? (
-        <div>
-          <h3>Standard Classes</h3>
+        <section aria-labelledby="standard-classes-heading">
+          <h5 id="standard-classes-heading">Standard Classes</h5>
           <Select
             label="Select Class"
             value={character.class || ""}
             onValueChange={handleClassChange}
             options={classOptions}
             placeholder="Choose a class"
+            required
+            aria-describedby={character.class ? "class-details" : undefined}
           />
 
           {character.class && (
-            <div>
+            <div id="class-details">
               {(() => {
                 const selectedClass = availableClasses.find(
                   (cls) => cls.id === character.class
                 );
                 return selectedClass ? (
-                  <div>
-                    <h4>{selectedClass.name}</h4>
+                  <section aria-labelledby="class-info-heading">
+                    <h6 id="class-info-heading">{selectedClass.name}</h6>
                     <p>{selectedClass.description}</p>
-                    <div>
-                      <p>
-                        <strong>Hit Die:</strong> {selectedClass.hitDie}
-                      </p>
-                      <p>
-                        <strong>Primary Attribute:</strong>{" "}
-                        {selectedClass.primaryAttribute}
-                      </p>
-                    </div>
-                  </div>
+                    <dl>
+                      <dt>Hit Die:</dt>
+                      <dd>{selectedClass.hitDie}</dd>
+                      <dt>Primary Attribute:</dt>
+                      <dd>{selectedClass.primaryAttribute}</dd>
+                    </dl>
+                  </section>
                 ) : null;
               })()}
             </div>
           )}
-        </div>
+        </section>
       ) : (
-        <div>
-          <h3>Combination Classes</h3>
+        <section aria-labelledby="combination-classes-heading">
+          <h5 id="combination-classes-heading">Combination Classes</h5>
           <Select
             label="Select Combination Class"
             value={character.combinationClass || ""}
             onValueChange={handleCombinationClassChange}
             options={combinationClassOptions}
             placeholder="Choose a combination class"
+            required
+            aria-describedby={character.combinationClass ? "combination-class-details" : undefined}
           />
 
           {character.combinationClass && (
-            <div>
+            <div id="combination-class-details">
               {(() => {
                 const selectedCombClass = availableCombinationClasses.find(
                   (combClass) => combClass.id === character.combinationClass
                 );
                 return selectedCombClass ? (
-                  <div>
-                    <h4>{selectedCombClass.name}</h4>
+                  <section aria-labelledby="combination-class-info-heading">
+                    <h6 id="combination-class-info-heading">{selectedCombClass.name}</h6>
                     <p>{selectedCombClass.description}</p>
-                    <div>
-                      <p>
-                        <strong>Hit Die:</strong> {selectedCombClass.hitDie}
-                      </p>
-                      <p>
-                        <strong>Combines:</strong>{" "}
-                        {selectedCombClass.primaryClasses.join(" and ")}
-                      </p>
-                    </div>
+                    <dl>
+                      <dt>Hit Die:</dt>
+                      <dd>{selectedCombClass.hitDie}</dd>
+                      <dt>Combines:</dt>
+                      <dd>{selectedCombClass.primaryClasses.join(" and ")}</dd>
+                    </dl>
                     {selectedCombClass.specialAbilities.length > 0 && (
                       <div>
-                        <h5>Special Abilities:</h5>
+                        <h6>Special Abilities:</h6>
                         <ul>
                           {selectedCombClass.specialAbilities.map(
                             (ability, index) => (
                               <li key={index}>
-                                <strong>{ability.name}:</strong>{" "}
-                                {ability.description}
+                                <strong>{ability.name}:</strong> {ability.description}
                               </li>
                             )
                           )}
                         </ul>
                       </div>
                     )}
-                  </div>
+                  </section>
                 ) : null;
               })()}
             </div>
           )}
-        </div>
+        </section>
       )}
-    </div>
+    </StepWrapper>
   );
 }
