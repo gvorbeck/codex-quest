@@ -99,7 +99,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
         )}
 
         {error && (
-          <div id={errorId} role="alert" aria-live="polite">
+          <div id={errorId} role="alert" aria-live="assertive">
             {error}
           </div>
         )}

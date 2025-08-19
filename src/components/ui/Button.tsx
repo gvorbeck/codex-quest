@@ -29,8 +29,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         aria-label={ariaLabel}
         aria-disabled={isDisabled}
+        aria-busy={loading}
         {...props}
       >
+        {loading && (
+          <span aria-hidden="true" role="img">⏳</span>
+        )}
         {loading ? loadingText : children}
       </button>
     );

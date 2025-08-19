@@ -83,6 +83,26 @@ function CharGen() {
     }
   };
 
+  // Get validation message for current step
+  const getValidationMessage = () => {
+    switch (step) {
+      case 0: // Abilities step
+        return !hasValidAbilityScores(character) 
+          ? "Please roll or set all ability scores before proceeding."
+          : "";
+      case 1: // Race step
+        return !character.race 
+          ? "Please select a race for your character."
+          : "";
+      case 2: // Class step
+        return !character.class && !character.combinationClass
+          ? "Please select a class or combination class for your character."
+          : "";
+      default:
+        return "";
+    }
+  };
+
   const stepItems = [
     {
       title: "Abilities",
@@ -158,15 +178,22 @@ function CharGen() {
   }, [useCombinationClass]);
 
   return (
-    <div>
-      <h1>Character Generation</h1>
-      <Stepper
-        stepItems={stepItems}
-        step={step}
-        setStep={setStep}
-        nextDisabled={isNextDisabled()}
-      />
-    </div>
+    <article>
+      <header>
+        <h2>Character Creation</h2>
+        <p>Follow the steps below to create your D&D character. Your progress is automatically saved.</p>
+      </header>
+      
+      <section aria-label="Character creation wizard">
+        <Stepper
+          stepItems={stepItems}
+          step={step}
+          setStep={setStep}
+          nextDisabled={isNextDisabled()}
+          validationMessage={getValidationMessage()}
+        />
+      </section>
+    </article>
   );
 }
 
