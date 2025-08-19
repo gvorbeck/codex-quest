@@ -44,7 +44,6 @@ export const thief: Class = {
     19: 900000,
     20: 975000,
   },
-  savingThrows: {},
   thiefSkills: {
     1: {
       openLocks: 25,
@@ -227,4 +226,5 @@ export const thief: Class = {
       listen: 95,
     },
   },
+  supplementalContent: false,
 };

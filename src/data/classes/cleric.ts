@@ -76,5 +76,5 @@ export const cleric: Class = {
     19: 1080000,
     20: 1170000,
   },
-  savingThrows: {},
+  supplementalContent: false,
 };

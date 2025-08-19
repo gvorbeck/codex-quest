@@ -69,5 +69,5 @@ export const magicUser: Class = {
     19: 1800000,
     20: 1950000,
   },
-  savingThrows: {},
+  supplementalContent: false,
 };

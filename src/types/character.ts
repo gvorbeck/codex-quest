@@ -62,7 +62,6 @@ export interface Class {
   };
   specialAbilities: SpecialAbility[];
   experienceTable: { [level: number]: number };
-  savingThrows: { [level: number]: { [saveType: string]: number } };
-  thac0Table?: { [level: number]: number }; // For fighters mainly
   thiefSkills?: { [level: number]: { [skill: string]: number } }; // For thieves
+  supplementalContent?: boolean; // Indicates if this class is part of supplemental content
 }

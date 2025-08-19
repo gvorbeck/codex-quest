@@ -38,5 +38,5 @@ export const fighter: Class = {
     19: 1440000,
     20: 1560000,
   },
-  savingThrows: {},
+  supplementalContent: false,
 };
