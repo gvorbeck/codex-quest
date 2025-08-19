@@ -10,6 +10,10 @@ interface SimpleRollerProps {
   label?: string;
   /** Initial value to display in the input */
   initialValue?: number;
+  /** Minimum value for the number input */
+  minValue?: number;
+  /** Maximum value for the number input */
+  maxValue?: number;
   /** Callback when the value changes (either from rolling or manual input) */
   onChange?: (value: number | undefined) => void;
   /** Additional props for the container div */
@@ -20,6 +24,8 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
   formula,
   label,
   initialValue,
+  minValue,
+  maxValue,
   onChange,
   containerProps,
 }) => {
@@ -79,6 +85,8 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
           id={inputId}
           value={value}
           onChange={handleInputChange}
+          minValue={minValue}
+          maxValue={maxValue}
           aria-label={`Result of ${formula} roll`}
           aria-describedby={buttonId}
         />

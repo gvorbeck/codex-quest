@@ -123,6 +123,8 @@ function AbilityScoreStep({
               formula="3d6"
               label={`Roll ${abilityName}`}
               initialValue={ability.value > 0 ? ability.value : undefined}
+              minValue={3}
+              maxValue={18}
               onChange={(value) => {
                 if (value !== undefined) {
                   updateAbilityScore(abilityName, value);
