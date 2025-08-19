@@ -1,4 +1,4 @@
-import type { Character, Race } from "@/types/character";
+import type { Character, Race, RaceRequirement } from "@/types/character";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -12,7 +12,7 @@ export function canEquipItem(
   race: Race,
   equipmentId: string
 ): boolean {
-  return !race.restrictions.weaponRestrictions?.includes(equipmentId);
+  return !race.prohibitedWeapons?.includes(equipmentId);
 }
 
 /**
@@ -22,7 +22,7 @@ export function canEquipItem(
  * @returns true if the character meets all requirements, false otherwise
  */
 export function isRaceEligible(character: Character, race: Race): boolean {
-  return race.restrictions.requirements.every((req) => {
+  return race.abilityRequirements.every((req: RaceRequirement) => {
     const abilityValue = character.abilities[req.ability].value;
     const meetsMin = req.min ? abilityValue >= req.min : true;
     const meetsMax = req.max ? abilityValue <= req.max : true;
@@ -38,4 +38,16 @@ export function isRaceEligible(character: Character, race: Race): boolean {
  */
 export function getEligibleRaces(character: Character, races: Race[]): Race[] {
   return races.filter((race) => isRaceEligible(character, race));
+}
+
+/**
+ * Checks if all ability scores are within the valid range (3-18)
+ * @param character - The character to validate
+ * @returns true if all ability scores are between 3 and 18 (inclusive), false otherwise
+ */
+export function hasValidAbilityScores(character: Character): boolean {
+  const abilities = Object.values(character.abilities);
+  return abilities.every(
+    (ability) => ability.value >= 3 && ability.value <= 18
+  );
 }

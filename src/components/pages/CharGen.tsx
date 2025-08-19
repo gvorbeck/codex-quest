@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Stepper } from "@/components/ui";
 import { AbilityScoreStep, RaceStep } from "@/components/features";
+import { hasValidAbilityScores } from "@/utils/characterValidation";
 import type { Character } from "@/types/character";
 
 const emptyCharacter: Character = {
@@ -42,6 +43,16 @@ function CharGen() {
   });
   const [step, setStep] = useState(0);
 
+  // Determine if the Next button should be disabled based on current step and validation
+  const isNextDisabled = () => {
+    switch (step) {
+      case 0: // Abilities step
+        return !hasValidAbilityScores(character);
+      default:
+        return false;
+    }
+  };
+
   const stepItems = [
     {
       title: "Abilities",
@@ -80,7 +91,12 @@ function CharGen() {
   return (
     <div>
       <h1>Character Generation</h1>
-      <Stepper stepItems={stepItems} step={step} setStep={setStep} />
+      <Stepper
+        stepItems={stepItems}
+        step={step}
+        setStep={setStep}
+        nextDisabled={isNextDisabled()}
+      />
     </div>
   );
 }
