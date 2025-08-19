@@ -5,7 +5,7 @@ export interface AbilityScore {
 
 export interface Character {
   name: string;
-  race?: Race;
+  race: Race["id"] | "";
   abilities: {
     strength: AbilityScore;
     dexterity: AbilityScore;

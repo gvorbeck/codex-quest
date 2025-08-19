@@ -32,6 +32,7 @@ const emptyCharacter: Character = {
       modifier: 0,
     },
   },
+  race: "",
   equipment: [],
 };
 
@@ -86,6 +87,7 @@ function CharGen() {
   useEffect(() => {
     // Save data to localStorage whenever 'character' changes
     localStorage.setItem("newCharacter", JSON.stringify(character));
+    console.log("Character saved to localStorage:", character);
   }, [character]); // Dependency array ensures effect runs when 'character' changes
 
   return (
