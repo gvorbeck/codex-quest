@@ -13,7 +13,7 @@ export const thief: Class = {
       min: 9,
     },
   ],
-  allowedWeapons: ["any"],
+  allowedWeapons: [],
   allowedArmor: ["leather"],
   specialAbilities: [
     {

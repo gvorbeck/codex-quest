@@ -21,7 +21,7 @@ export const cleric: Class = {
     "quarterstaff",
     "sling",
   ],
-  allowedArmor: ["any"],
+  allowedArmor: [],
   spellcasting: {
     type: "divine",
     spellsPerLevel: {

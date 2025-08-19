@@ -17,7 +17,7 @@ export const assassin: Class = {
       min: 9,
     },
   ],
-  allowedWeapons: ["any"],
+  allowedWeapons: [],
   allowedArmor: ["leather"],
   specialAbilities: [
     {
@@ -58,7 +58,6 @@ export const assassin: Class = {
     19: 990000,
     20: 1072500,
   },
-  savingThrows: {},
   thiefSkills: {
     1: {
       openLocks: 15,

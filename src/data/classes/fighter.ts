@@ -13,8 +13,8 @@ export const fighter: Class = {
       min: 9,
     },
   ],
-  allowedWeapons: ["any"],
-  allowedArmor: ["any"],
+  allowedWeapons: [],
+  allowedArmor: [],
   specialAbilities: [],
   experienceTable: {
     1: 0,
