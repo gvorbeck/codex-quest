@@ -1,4 +1,4 @@
-import type { Race } from "../../types/character";
+import type { Race } from "@/types/character";
 
 export const dwarf: Race = {
   name: "Dwarf",

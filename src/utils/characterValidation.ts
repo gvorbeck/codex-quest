@@ -1,4 +1,4 @@
-import type { Character, Race } from "../types/character";
+import type { Character, Race } from "@/types/character";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions

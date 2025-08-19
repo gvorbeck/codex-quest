@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Stepper } from "../ui";
-import { AbilityScoreStep } from "../features";
-import type { Character } from "../../types/character";
+import { Stepper } from "@/components/ui";
+import { AbilityScoreStep } from "@/components/features";
+import type { Character } from "@/types/character";
 
 const emptyCharacter: Character = {
   name: "",
