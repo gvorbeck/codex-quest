@@ -15,3 +15,35 @@ export interface Character {
   };
   equipment: unknown[];
 }
+
+export interface RaceRequirement {
+  ability: keyof Character["abilities"];
+  min?: number;
+  max?: number;
+}
+
+export interface SpecialAbility {
+  name: string;
+  description: string;
+}
+
+export interface SavingThrowBonus {
+  type: string;
+  bonus: number;
+}
+
+export interface Race {
+  name: string;
+  id: string;
+  description: string;
+  physicalDescription: string;
+  restrictions: {
+    classes: string[];
+    requirements: RaceRequirement[];
+    weaponRestrictions?: string[]; // Array of equipment IDs that this race cannot use
+  };
+  specialAbilities: SpecialAbility[];
+  savingThrows: SavingThrowBonus[];
+  lifespan: string;
+  supplementalContent?: boolean;
+}
