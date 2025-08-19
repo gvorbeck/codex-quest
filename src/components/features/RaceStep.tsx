@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Switch, Select } from "@/components/ui";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
@@ -6,11 +5,16 @@ import type { Character } from "@/types/character";
 interface RaceStepProps {
   character: Character;
   onCharacterChange: (character: Character) => void;
+  includeSupplemental: boolean;
+  onIncludeSupplementalChange: (includeSupplemental: boolean) => void;
 }
 
-function RaceStep({ character, onCharacterChange }: RaceStepProps) {
-  const [includeSupplemental, setIncludeSupplemental] = useState(false);
-
+function RaceStep({
+  character,
+  onCharacterChange,
+  includeSupplemental,
+  onIncludeSupplementalChange,
+}: RaceStepProps) {
   // Filter races based on supplemental content setting and ability requirements
   const availableRaces = allRaces.filter((race) => {
     // Filter by supplemental content
@@ -41,31 +45,33 @@ function RaceStep({ character, onCharacterChange }: RaceStepProps) {
   }));
 
   const handleRaceChange = (raceId: string) => {
-    const selectedRace = allRaces.find((race) => race.id === raceId);
-    if (selectedRace) {
-      onCharacterChange({
-        ...character,
-        race: selectedRace,
-      });
-    }
+    onCharacterChange({
+      ...character,
+      race: raceId,
+    });
   };
 
-  const currentRaceId = character.race?.id || "";
+  const currentRaceId = character.race || "";
+
+  // Find the selected race object for display purposes
+  const selectedRace = character.race
+    ? allRaces.find((race) => race.id === character.race)
+    : null;
 
   return (
-    <div className="space-y-6">
+    <div>
       <div>
-        <h2 className="text-xl font-semibold mb-4">Choose Your Race</h2>
+        <h2>Choose Your Race</h2>
 
-        <div className="mb-4">
+        <div>
           <Switch
             label="Include Supplemental Content"
             checked={includeSupplemental}
-            onCheckedChange={setIncludeSupplemental}
+            onCheckedChange={onIncludeSupplementalChange}
           />
         </div>
 
-        <div className="mb-6">
+        <div>
           <Select
             label="Race"
             options={raceOptions}
@@ -75,25 +81,21 @@ function RaceStep({ character, onCharacterChange }: RaceStepProps) {
           />
         </div>
 
-        {character.race && (
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-lg mb-2">
-              {character.race.name}
-            </h3>
-            <p className="text-gray-700 mb-4">{character.race.description}</p>
+        {selectedRace && (
+          <div>
+            <h3>{selectedRace.name}</h3>
+            <p>{selectedRace.description}</p>
 
-            <div className="mb-4">
-              <h4 className="font-medium mb-2">Physical Description</h4>
-              <p className="text-sm text-gray-600">
-                {character.race.physicalDescription}
-              </p>
+            <div>
+              <h4>Physical Description</h4>
+              <p>{selectedRace.physicalDescription}</p>
             </div>
 
-            {character.race.abilityRequirements.length > 0 && (
-              <div className="mb-4">
-                <h4 className="font-medium mb-2">Ability Requirements</h4>
-                <ul className="text-sm text-gray-600">
-                  {character.race.abilityRequirements.map((req, index) => (
+            {selectedRace.abilityRequirements.length > 0 && (
+              <div>
+                <h4>Ability Requirements</h4>
+                <ul>
+                  {selectedRace.abilityRequirements.map((req, index) => (
                     <li key={index}>
                       {req.ability.charAt(0).toUpperCase() +
                         req.ability.slice(1)}
@@ -106,32 +108,28 @@ function RaceStep({ character, onCharacterChange }: RaceStepProps) {
               </div>
             )}
 
-            {character.race.specialAbilities.length > 0 && (
-              <div className="mb-4">
-                <h4 className="font-medium mb-2">Special Abilities</h4>
-                <ul className="space-y-2">
-                  {character.race.specialAbilities.map((ability, index) => (
-                    <li key={index} className="text-sm">
-                      <span className="font-medium">{ability.name}:</span>{" "}
-                      <span className="text-gray-600">
-                        {ability.description}
-                      </span>
+            {selectedRace.specialAbilities.length > 0 && (
+              <div>
+                <h4>Special Abilities</h4>
+                <ul>
+                  {selectedRace.specialAbilities.map((ability, index) => (
+                    <li key={index}>
+                      <span>{ability.name}:</span>{" "}
+                      <span>{ability.description}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            <div className="mb-4">
-              <h4 className="font-medium mb-2">Allowed Classes</h4>
-              <p className="text-sm text-gray-600">
-                {character.race.allowedClasses.join(", ")}
-              </p>
+            <div>
+              <h4>Allowed Classes</h4>
+              <p>{selectedRace.allowedClasses.join(", ")}</p>
             </div>
 
             <div>
-              <h4 className="font-medium mb-2">Lifespan</h4>
-              <p className="text-sm text-gray-600">{character.race.lifespan}</p>
+              <h4>Lifespan</h4>
+              <p>{selectedRace.lifespan}</p>
             </div>
           </div>
         )}
