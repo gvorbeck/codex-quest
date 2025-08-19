@@ -8,7 +8,7 @@ export const dwarf: Race = {
   physicalDescription:
     "Dwarves are a short, stocky race; both male and female Dwarves stand around four feet tall and typically weigh around 120 pounds. Their long hair and thick beards are dark brown, gray or black. They take great pride in their beards, sometimes braiding or forking them. They have a fair to ruddy complexion. Dwarves have stout frames and a strong, muscular build. They are rugged and resilient, with the capacity to endure great hardships.",
   restrictions: {
-    classes: ["Clerics", "Fighters", "Thieves"],
+    classes: ["cleric", "fighter", "thief"],
     requirements: [
       {
         ability: "constitution",
