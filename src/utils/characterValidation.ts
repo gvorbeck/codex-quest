@@ -1,4 +1,10 @@
-import type { Character, Race, RaceRequirement, Class, CombinationClass } from "@/types/character";
+import type {
+  Character,
+  Race,
+  RaceRequirement,
+  Class,
+  CombinationClass,
+} from "@/types/character";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -53,7 +59,10 @@ export function hasValidAbilityScores(character: Character): boolean {
  * @param race - The race to validate
  * @returns true if the race is still valid, false if it should be cleared
  */
-export function isCurrentRaceStillValid(character: Character, race: Race): boolean {
+export function isCurrentRaceStillValid(
+  character: Character,
+  race: Race
+): boolean {
   return isRaceEligible(character, race);
 }
 
@@ -65,18 +74,20 @@ export function isCurrentRaceStillValid(character: Character, race: Race): boole
  * @returns true if the class is still valid, false if it should be cleared
  */
 export function isCurrentClassStillValid(
-  character: Character, 
-  selectedRace: Race, 
+  character: Character,
+  selectedRace: Race,
   availableClasses: Class[]
 ): boolean {
   if (!character.class) return true; // No class selected, so nothing to validate
-  
+
   // Check if the class is in the race's allowed classes
   const isClassAllowed = selectedRace.allowedClasses.includes(character.class);
-  
+
   // Check if the class exists in available classes (for supplemental content filtering)
-  const classExists = availableClasses.some(cls => cls.id === character.class);
-  
+  const classExists = availableClasses.some(
+    (cls) => cls.id === character.class
+  );
+
   return isClassAllowed && classExists;
 }
 
@@ -93,11 +104,13 @@ export function isCurrentCombinationClassStillValid(
   availableCombinationClasses: CombinationClass[]
 ): boolean {
   if (!character.combinationClass) return true; // No combination class selected
-  
+
   // Check if the race is eligible for this combination class
-  const combClass = availableCombinationClasses.find(cc => cc.id === character.combinationClass);
+  const combClass = availableCombinationClasses.find(
+    (cc) => cc.id === character.combinationClass
+  );
   if (!combClass) return false;
-  
+
   return combClass.eligibleRaces.includes(selectedRace.id);
 }
 
@@ -116,7 +129,7 @@ export function cascadeValidateCharacter(
   availableCombinationClasses: CombinationClass[]
 ): Character {
   let updatedCharacter = { ...character };
-  
+
   // Step 1: Check if current race is still valid based on ability scores
   if (selectedRace && !isCurrentRaceStillValid(character, selectedRace)) {
     updatedCharacter = {
@@ -127,23 +140,27 @@ export function cascadeValidateCharacter(
     };
     return updatedCharacter; // If race is invalid, all subsequent selections are also invalid
   }
-  
+
   // Step 2: If race is valid, check class/combination class validity
   if (selectedRace) {
-    const classStillValid = isCurrentClassStillValid(updatedCharacter, selectedRace, availableClasses);
+    const classStillValid = isCurrentClassStillValid(
+      updatedCharacter,
+      selectedRace,
+      availableClasses
+    );
     const combClassStillValid = isCurrentCombinationClassStillValid(
-      updatedCharacter, 
-      selectedRace, 
+      updatedCharacter,
+      selectedRace,
       availableCombinationClasses
     );
-    
+
     if (!classStillValid) {
       updatedCharacter = {
         ...updatedCharacter,
         class: undefined,
       };
     }
-    
+
     if (!combClassStillValid) {
       updatedCharacter = {
         ...updatedCharacter,
@@ -151,6 +168,6 @@ export function cascadeValidateCharacter(
       };
     }
   }
-  
+
   return updatedCharacter;
 }

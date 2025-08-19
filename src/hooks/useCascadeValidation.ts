@@ -22,21 +22,20 @@ export function useCascadeValidation({
   includeSupplementalRace,
   includeSupplementalClass,
 }: UseCascadeValidationProps) {
-  
   const validateAndUpdateCharacter = useCallback(() => {
     // Get the currently selected race
     const selectedRace = allRaces.find((race) => race.id === character.race);
-    
+
     // Filter available classes based on supplemental content setting
     const availableClasses = allClasses.filter(
       (cls) => includeSupplementalClass || !cls.supplementalContent
     );
-    
+
     // Filter available combination classes (they also respect supplemental setting)
     const availableCombinationClasses = combinationClasses.filter(
       (combClass) => includeSupplementalClass || !combClass.supplementalContent
     );
-    
+
     // Run cascade validation
     const validatedCharacter = cascadeValidateCharacter(
       character,
@@ -44,13 +43,18 @@ export function useCascadeValidation({
       availableClasses,
       availableCombinationClasses
     );
-    
+
     // Only update if the character has changed
     if (JSON.stringify(validatedCharacter) !== JSON.stringify(character)) {
       onCharacterChange(validatedCharacter);
     }
-  }, [character, onCharacterChange, includeSupplementalRace, includeSupplementalClass]);
-  
+  }, [
+    character,
+    onCharacterChange,
+    includeSupplementalRace,
+    includeSupplementalClass,
+  ]);
+
   // Run validation whenever character abilities, race, or supplemental settings change
   useEffect(() => {
     validateAndUpdateCharacter();
@@ -68,9 +72,9 @@ export function useCascadeValidation({
     includeSupplementalRace,
     includeSupplementalClass,
     // Include the validation function
-    validateAndUpdateCharacter
+    validateAndUpdateCharacter,
   ]);
-  
+
   // Return a function to manually trigger validation (useful when race changes)
   return {
     validateCharacter: validateAndUpdateCharacter,

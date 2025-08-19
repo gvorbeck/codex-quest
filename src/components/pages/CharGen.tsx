@@ -68,7 +68,7 @@ function CharGen() {
     return savedUseCombinationClass
       ? JSON.parse(savedUseCombinationClass)
       : false;
-  }  );
+  });
 
   // Initialize cascade validation hook
   useCascadeValidation({
