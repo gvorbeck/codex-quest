@@ -62,11 +62,13 @@ function RaceStep({
     <StepWrapper
       title="Choose Your Race"
       description="Select the race that defines your character's heritage and abilities."
-      statusMessage={selectedRace ? `Selected race: ${selectedRace.name}` : undefined}
+      statusMessage={
+        selectedRace ? `Selected race: ${selectedRace.name}` : undefined
+      }
     >
       <fieldset>
         <legend className="sr-only">Race selection options</legend>
-        
+
         <div>
           <Switch
             label="Include Supplemental Content"
@@ -107,7 +109,9 @@ function RaceStep({
                 {selectedRace.abilityRequirements.map((req, index) => (
                   <li key={index}>
                     <strong>
-                      {req.ability.charAt(0).toUpperCase() + req.ability.slice(1)}:
+                      {req.ability.charAt(0).toUpperCase() +
+                        req.ability.slice(1)}
+                      :
                     </strong>{" "}
                     {req.min && `minimum ${req.min}`}
                     {req.min && req.max && ", "}

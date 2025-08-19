@@ -5,11 +5,11 @@ function Home() {
     <section>
       <h2>Welcome to Torchlight</h2>
       <p>
-        Create your perfect Basic Fantasy RPG character with our comprehensive character generator. 
-        Roll ability scores, choose from various races and classes, and equip your adventurer 
-        for their next quest.
+        Create your perfect Basic Fantasy RPG character with our comprehensive
+        character generator. Roll ability scores, choose from various races and
+        classes, and equip your adventurer for their next quest.
       </p>
-      
+
       <div>
         <h3>Features</h3>
         <ul>
@@ -20,7 +20,7 @@ function Home() {
           <li>Character validation and requirements checking</li>
         </ul>
       </div>
-      
+
       <div>
         <Link href="/new-character" aria-describedby="create-char-desc">
           Start Creating Your Character

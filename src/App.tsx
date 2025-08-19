@@ -8,7 +8,7 @@ function App() {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
-      
+
       <header role="banner">
         <nav role="navigation" aria-label="Main navigation">
           <h1>
@@ -28,7 +28,7 @@ function App() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/new-character" component={CharGen} />
-          
+
           {/* Default route in a switch */}
           <Route>
             <section>

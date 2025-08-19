@@ -94,11 +94,11 @@ function AbilityScoreStep({
   // Get the status message for screen readers
   const getStatusMessage = () => {
     if (!hasRolledScores) return undefined;
-    
+
     const abilityScores = Object.entries(character.abilities)
       .map(([name, ability]) => `${name}: ${ability.value}`)
       .join(", ");
-    
+
     return `Ability scores rolled: ${abilityScores}`;
   };
 
@@ -110,7 +110,7 @@ function AbilityScoreStep({
     >
       <fieldset>
         <legend className="sr-only">Ability score generation controls</legend>
-        
+
         <div style={{ marginBottom: "16px" }}>
           <Button onClick={rollAllAbilities}>Roll All Abilities</Button>
           {hasRolledScores && (
@@ -122,8 +122,10 @@ function AbilityScoreStep({
       </fieldset>
 
       <section aria-labelledby="ability-scores-heading">
-        <h5 id="ability-scores-heading" className="sr-only">Individual Ability Scores</h5>
-        
+        <h5 id="ability-scores-heading" className="sr-only">
+          Individual Ability Scores
+        </h5>
+
         <div style={{ display: "grid", gap: "12px" }}>
           {(
             Object.entries(character.abilities) as [
@@ -164,7 +166,7 @@ function AbilityScoreStep({
       </section>
 
       {hasRolledScores && (
-        <section 
+        <section
           style={{
             marginTop: "16px",
             padding: "12px",

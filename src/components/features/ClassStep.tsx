@@ -98,16 +98,16 @@ export function ClassStep({
       title="Choose Your Class"
       description="Select the class that defines your character's abilities and role."
       statusMessage={
-        character.class 
-          ? `Selected class: ${character.class}` 
-          : character.combinationClass 
-            ? `Selected combination class: ${character.combinationClass}` 
-            : undefined
+        character.class
+          ? `Selected class: ${character.class}`
+          : character.combinationClass
+          ? `Selected combination class: ${character.combinationClass}`
+          : undefined
       }
     >
       <fieldset>
         <legend className="sr-only">Class selection options</legend>
-        
+
         <div>
           <Switch
             label="Include Supplemental Classes"
@@ -176,7 +176,11 @@ export function ClassStep({
             options={combinationClassOptions}
             placeholder="Choose a combination class"
             required
-            aria-describedby={character.combinationClass ? "combination-class-details" : undefined}
+            aria-describedby={
+              character.combinationClass
+                ? "combination-class-details"
+                : undefined
+            }
           />
 
           {character.combinationClass && (
@@ -187,7 +191,9 @@ export function ClassStep({
                 );
                 return selectedCombClass ? (
                   <section aria-labelledby="combination-class-info-heading">
-                    <h6 id="combination-class-info-heading">{selectedCombClass.name}</h6>
+                    <h6 id="combination-class-info-heading">
+                      {selectedCombClass.name}
+                    </h6>
                     <p>{selectedCombClass.description}</p>
                     <dl>
                       <dt>Hit Die:</dt>
@@ -202,7 +208,8 @@ export function ClassStep({
                           {selectedCombClass.specialAbilities.map(
                             (ability, index) => (
                               <li key={index}>
-                                <strong>{ability.name}:</strong> {ability.description}
+                                <strong>{ability.name}:</strong>{" "}
+                                {ability.description}
                               </li>
                             )
                           )}

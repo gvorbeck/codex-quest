@@ -33,7 +33,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading && (
-          <span aria-hidden="true" role="img">⏳</span>
+          <span aria-hidden="true" role="img">
+            ⏳
+          </span>
         )}
         {loading ? loadingText : children}
       </button>

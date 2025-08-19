@@ -57,9 +57,10 @@ function Stepper({
   return (
     <div role="region" aria-labelledby="stepper-heading">
       <div aria-live="polite" aria-atomic="true" className="sr-only">
-        Step {safeCurrentStep + 1} of {stepItems.length}: {currentStepItem.title}
+        Step {safeCurrentStep + 1} of {stepItems.length}:{" "}
+        {currentStepItem.title}
       </div>
-      
+
       <nav role="navigation" aria-label="Step navigation">
         <ol aria-label="Progress steps">
           {stepItems.map((item, index) => (
@@ -73,7 +74,9 @@ function Stepper({
                 <span aria-hidden="true">{index + 1}</span>
                 <span>{item.title}</span>
                 {index < safeCurrentStep && (
-                  <span aria-label="completed" role="img">✓</span>
+                  <span aria-label="completed" role="img">
+                    ✓
+                  </span>
                 )}
               </button>
             </li>
@@ -81,7 +84,7 @@ function Stepper({
         </ol>
       </nav>
 
-      <section 
+      <section
         aria-labelledby="step-content-heading"
         role="tabpanel"
         aria-live="polite"
@@ -92,15 +95,21 @@ function Stepper({
 
       <nav role="navigation" aria-label="Step controls">
         {validationMessage && (
-          <div role="alert" aria-live="polite" style={{ marginBottom: "1rem", color: "#dc3545" }}>
+          <div
+            role="alert"
+            aria-live="polite"
+            style={{ marginBottom: "1rem", color: "#dc3545" }}
+          >
             {validationMessage}
           </div>
         )}
-        
+
         <button
           onClick={() => handleStepChange("previous")}
           disabled={prevDisabled || safeCurrentStep === 0}
-          aria-label={`Go to previous step: ${safeCurrentStep > 0 ? stepItems[safeCurrentStep - 1].title : ''}`}
+          aria-label={`Go to previous step: ${
+            safeCurrentStep > 0 ? stepItems[safeCurrentStep - 1].title : ""
+          }`}
         >
           Previous
         </button>
@@ -108,9 +117,13 @@ function Stepper({
         <button
           onClick={() => handleStepChange("next")}
           disabled={nextDisabled || safeCurrentStep === stepItems.length - 1}
-          aria-label={`Go to next step: ${safeCurrentStep < stepItems.length - 1 ? stepItems[safeCurrentStep + 1].title : 'Complete'}`}
+          aria-label={`Go to next step: ${
+            safeCurrentStep < stepItems.length - 1
+              ? stepItems[safeCurrentStep + 1].title
+              : "Complete"
+          }`}
         >
-          {safeCurrentStep === stepItems.length - 1 ? 'Complete' : 'Next'}
+          {safeCurrentStep === stepItems.length - 1 ? "Complete" : "Next"}
         </button>
       </nav>
     </div>

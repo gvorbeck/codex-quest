@@ -87,11 +87,11 @@ function CharGen() {
   const getValidationMessage = () => {
     switch (step) {
       case 0: // Abilities step
-        return !hasValidAbilityScores(character) 
+        return !hasValidAbilityScores(character)
           ? "Please roll or set all ability scores before proceeding."
           : "";
       case 1: // Race step
-        return !character.race 
+        return !character.race
           ? "Please select a race for your character."
           : "";
       case 2: // Class step
@@ -181,9 +181,12 @@ function CharGen() {
     <article>
       <header>
         <h2>Character Creation</h2>
-        <p>Follow the steps below to create your BFRPG character. Your progress is automatically saved.</p>
+        <p>
+          Follow the steps below to create your BFRPG character. Your progress
+          is automatically saved.
+        </p>
       </header>
-      
+
       <section aria-label="Character creation wizard">
         <Stepper
           stepItems={stepItems}
