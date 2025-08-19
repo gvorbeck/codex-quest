@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Stepper } from "@/components/ui";
 import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
 import { hasValidAbilityScores } from "@/utils/characterValidation";
+import { useCascadeValidation } from "@/hooks";
 import type { Character } from "@/types/character";
 
 const emptyCharacter: Character = {
@@ -67,6 +68,14 @@ function CharGen() {
     return savedUseCombinationClass
       ? JSON.parse(savedUseCombinationClass)
       : false;
+  }  );
+
+  // Initialize cascade validation hook
+  useCascadeValidation({
+    character,
+    onCharacterChange: setCharacter,
+    includeSupplementalRace,
+    includeSupplementalClass,
   });
 
   // Determine if the Next button should be disabled based on current step and validation
