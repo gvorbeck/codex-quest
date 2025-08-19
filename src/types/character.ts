@@ -46,3 +46,23 @@ export interface Race {
   lifespan: string;
   supplementalContent?: boolean;
 }
+
+export interface Class {
+  name: string;
+  id: string;
+  description: string;
+  hitDie: string;
+  primaryAttribute: keyof Character["abilities"];
+  abilityRequirements: RaceRequirement[];
+  allowedWeapons: string[];
+  allowedArmor: string[];
+  spellcasting?: {
+    type: "divine" | "arcane";
+    spellsPerLevel: { [level: number]: number[] }; // spellsPerLevel[characterLevel] = [1st level spells, 2nd level spells, etc.]
+  };
+  specialAbilities: SpecialAbility[];
+  experienceTable: { [level: number]: number };
+  savingThrows: { [level: number]: { [saveType: string]: number } };
+  thac0Table?: { [level: number]: number }; // For fighters mainly
+  thiefSkills?: { [level: number]: { [skill: string]: number } }; // For thieves
+}
