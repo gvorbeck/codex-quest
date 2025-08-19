@@ -48,12 +48,36 @@ function CharGen() {
     const savedSupplemental = localStorage.getItem("includeSupplemental");
     return savedSupplemental ? JSON.parse(savedSupplemental) : false;
   });
+  const [includeSupplementalClass, setIncludeSupplementalClass] = useState(
+    () => {
+      // Lazy initializer to get initial state from localStorage
+      const savedSupplementalClass = localStorage.getItem(
+        "includeSupplementalClass"
+      );
+      return savedSupplementalClass
+        ? JSON.parse(savedSupplementalClass)
+        : false;
+    }
+  );
+  const [useCombinationClass, setUseCombinationClass] = useState(() => {
+    // Lazy initializer to get initial state from localStorage
+    const savedUseCombinationClass = localStorage.getItem(
+      "useCombinationClass"
+    );
+    return savedUseCombinationClass
+      ? JSON.parse(savedUseCombinationClass)
+      : false;
+  });
 
   // Determine if the Next button should be disabled based on current step and validation
   const isNextDisabled = () => {
     switch (step) {
       case 0: // Abilities step
         return !hasValidAbilityScores(character);
+      case 1: // Race step
+        return !character.race;
+      case 2: // Class step
+        return !character.class && !character.combinationClass;
       default:
         return false;
     }
@@ -83,7 +107,14 @@ function CharGen() {
     {
       title: "Class",
       content: (
-        <ClassStep character={character} onCharacterChange={setCharacter} />
+        <ClassStep
+          character={character}
+          onCharacterChange={setCharacter}
+          includeSupplementalClass={includeSupplementalClass}
+          onIncludeSupplementalClassChange={setIncludeSupplementalClass}
+          useCombinationClass={useCombinationClass}
+          onUseCombinationClassChange={setUseCombinationClass}
+        />
       ),
     },
     {
@@ -109,6 +140,22 @@ function CharGen() {
       JSON.stringify(includeSupplementalRace)
     );
   }, [includeSupplementalRace]);
+
+  useEffect(() => {
+    // Save supplemental class content setting to localStorage whenever it changes
+    localStorage.setItem(
+      "includeSupplementalClass",
+      JSON.stringify(includeSupplementalClass)
+    );
+  }, [includeSupplementalClass]);
+
+  useEffect(() => {
+    // Save combination class toggle setting to localStorage whenever it changes
+    localStorage.setItem(
+      "useCombinationClass",
+      JSON.stringify(useCombinationClass)
+    );
+  }, [useCombinationClass]);
 
   return (
     <div>

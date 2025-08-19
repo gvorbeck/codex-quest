@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Select, Switch } from "@/components/ui";
 import { allClasses } from "@/data/classes";
 import { combinationClasses } from "@/data/combinationClasses";
@@ -8,17 +7,28 @@ import type { Character } from "@/types/character";
 interface ClassStepProps {
   character: Character;
   onCharacterChange: (character: Character) => void;
+  includeSupplementalClass: boolean;
+  onIncludeSupplementalClassChange: (include: boolean) => void;
+  useCombinationClass: boolean;
+  onUseCombinationClassChange: (use: boolean) => void;
 }
 
-export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
-  const [useCombinationClass, setUseCombinationClass] = useState(false);
-
+export function ClassStep({
+  character,
+  onCharacterChange,
+  includeSupplementalClass,
+  onIncludeSupplementalClassChange,
+  useCombinationClass,
+  onUseCombinationClassChange,
+}: ClassStepProps) {
   // Get the selected race data
   const selectedRace = allRaces.find((race) => race.id === character.race);
 
-  // Filter classes based on race restrictions
-  const availableClasses = allClasses.filter((cls) =>
-    selectedRace?.allowedClasses.includes(cls.id)
+  // Filter classes based on race restrictions and supplemental content setting
+  const availableClasses = allClasses.filter(
+    (cls) =>
+      selectedRace?.allowedClasses.includes(cls.id) &&
+      (includeSupplementalClass || !cls.supplementalContent)
   );
 
   // Filter combination classes based on race eligibility
@@ -43,7 +53,7 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
   };
 
   const handleCombinationToggle = (enabled: boolean) => {
-    setUseCombinationClass(enabled);
+    onUseCombinationClassChange(enabled);
     if (!enabled) {
       // Clear combination class when toggling off
       onCharacterChange({
@@ -64,7 +74,7 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
 
   if (!selectedRace) {
     return (
-      <div className="p-4">
+      <div>
         <p>Please select a race first before choosing a class.</p>
       </div>
     );
@@ -84,22 +94,30 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
   );
 
   return (
-    <div className="space-y-6">
+    <div>
       <div>
-        <h2 className="text-xl font-semibold mb-4">Choose Your Class</h2>
-        <p className="text-gray-600 mb-4">
+        <h2>Choose Your Class</h2>
+        <p>
           Select the class that defines your character's abilities and role.
         </p>
       </div>
 
+      <div>
+        <Switch
+          label="Include Supplemental Classes"
+          checked={includeSupplementalClass}
+          onCheckedChange={onIncludeSupplementalClassChange}
+        />
+      </div>
+
       {canUseCombinationClasses && (
-        <div className="p-4 border rounded-lg bg-blue-50">
+        <div>
           <Switch
             label="Use Combination Class"
             checked={useCombinationClass}
             onCheckedChange={handleCombinationToggle}
           />
-          <p className="text-sm text-gray-600 mt-2">
+          <p>
             As an {selectedRace.name}, you can choose a combination class that
             combines the abilities of two base classes.
           </p>
@@ -108,7 +126,7 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
 
       {!useCombinationClass ? (
         <div>
-          <h3 className="text-lg font-medium mb-3">Standard Classes</h3>
+          <h3>Standard Classes</h3>
           <Select
             label="Select Class"
             value={character.class || ""}
@@ -118,18 +136,16 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
           />
 
           {character.class && (
-            <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+            <div>
               {(() => {
                 const selectedClass = availableClasses.find(
                   (cls) => cls.id === character.class
                 );
                 return selectedClass ? (
                   <div>
-                    <h4 className="font-semibold mb-2">{selectedClass.name}</h4>
-                    <p className="text-sm text-gray-700 mb-2">
-                      {selectedClass.description}
-                    </p>
-                    <div className="text-sm">
+                    <h4>{selectedClass.name}</h4>
+                    <p>{selectedClass.description}</p>
+                    <div>
                       <p>
                         <strong>Hit Die:</strong> {selectedClass.hitDie}
                       </p>
@@ -146,7 +162,7 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
         </div>
       ) : (
         <div>
-          <h3 className="text-lg font-medium mb-3">Combination Classes</h3>
+          <h3>Combination Classes</h3>
           <Select
             label="Select Combination Class"
             value={character.combinationClass || ""}
@@ -156,20 +172,16 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
           />
 
           {character.combinationClass && (
-            <div className="mt-4 p-4 border rounded-lg bg-yellow-50">
+            <div>
               {(() => {
                 const selectedCombClass = availableCombinationClasses.find(
                   (combClass) => combClass.id === character.combinationClass
                 );
                 return selectedCombClass ? (
                   <div>
-                    <h4 className="font-semibold mb-2">
-                      {selectedCombClass.name}
-                    </h4>
-                    <p className="text-sm text-gray-700 mb-3">
-                      {selectedCombClass.description}
-                    </p>
-                    <div className="text-sm mb-3">
+                    <h4>{selectedCombClass.name}</h4>
+                    <p>{selectedCombClass.description}</p>
+                    <div>
                       <p>
                         <strong>Hit Die:</strong> {selectedCombClass.hitDie}
                       </p>
@@ -180,11 +192,11 @@ export function ClassStep({ character, onCharacterChange }: ClassStepProps) {
                     </div>
                     {selectedCombClass.specialAbilities.length > 0 && (
                       <div>
-                        <h5 className="font-medium mb-2">Special Abilities:</h5>
-                        <ul className="space-y-1">
+                        <h5>Special Abilities:</h5>
+                        <ul>
                           {selectedCombClass.specialAbilities.map(
                             (ability, index) => (
-                              <li key={index} className="text-sm">
+                              <li key={index}>
                                 <strong>{ability.name}:</strong>{" "}
                                 {ability.description}
                               </li>
