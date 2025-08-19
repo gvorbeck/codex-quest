@@ -4,3 +4,4 @@
 
 export { default as AbilityScoreStep } from "./AbilityScoreStep";
 export { default as RaceStep } from "./RaceStep";
+export { ClassStep } from "./ClassStep";

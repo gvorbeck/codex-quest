@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Stepper } from "@/components/ui";
-import { AbilityScoreStep, RaceStep } from "@/components/features";
+import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
 import { hasValidAbilityScores } from "@/utils/characterValidation";
 import type { Character } from "@/types/character";
 
@@ -82,7 +82,9 @@ function CharGen() {
     },
     {
       title: "Class",
-      content: <div>Choose your class</div>,
+      content: (
+        <ClassStep character={character} onCharacterChange={setCharacter} />
+      ),
     },
     {
       title: "Equipment",
