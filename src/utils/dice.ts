@@ -230,17 +230,3 @@ function applyModifiers(
     breakdown,
   };
 }
-
-// Utility functions for common dice rolls
-export const d4 = () => roller("d4");
-export const d6 = () => roller("d6");
-export const d8 = () => roller("d8");
-export const d10 = () => roller("d10");
-export const d12 = () => roller("d12");
-export const d20 = () => roller("d20");
-export const d100 = () => roller("d100");
-
-// Common D&D rolls
-export const advantage = () => roller("2d20K");
-export const disadvantage = () => roller("2d20L");
-export const abilityScore = () => roller("4d6L");

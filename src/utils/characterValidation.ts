@@ -2,16 +2,11 @@ import type { Character, Race, RaceRequirement } from "@/types/character";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
- * @param character - The character to check
  * @param race - The race of the character
  * @param equipmentId - The ID of the equipment item to check
  * @returns true if the character can equip the item, false otherwise
  */
-export function canEquipItem(
-  character: Character,
-  race: Race,
-  equipmentId: string
-): boolean {
+export function canEquipItem(race: Race, equipmentId: string): boolean {
   return !race.prohibitedWeapons?.includes(equipmentId);
 }
 
