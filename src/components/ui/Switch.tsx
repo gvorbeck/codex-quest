@@ -1,7 +1,8 @@
 import { forwardRef, useId } from "react";
 import type { InputHTMLAttributes } from "react";
 
-interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+interface SwitchProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   label: string;
   defaultActive?: boolean;
   checked?: boolean;
@@ -25,18 +26,18 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   ) => {
     const generatedId = useId();
     const switchId = providedId || generatedId;
-    
+
     const isControlled = checked !== undefined;
     const switchChecked = isControlled ? checked : defaultActive;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newChecked = event.target.checked;
-      
+
       // Call the custom handler if provided
       if (onCheckedChange) {
         onCheckedChange(newChecked);
       }
-      
+
       // Call the native onChange handler if provided
       if (onChange) {
         onChange(event);
