@@ -5,6 +5,7 @@ import {
   RaceStep,
   ClassStep,
   HitPointsStep,
+  EquipmentStep,
 } from "@/components/features";
 import { useCascadeValidation, useLocalStorage, useValidation } from "@/hooks";
 import type { Character } from "@/types/character";
@@ -52,6 +53,7 @@ const emptyCharacter: Character = {
   race: "",
   class: [],
   equipment: [],
+  gold: 0,
   hp: {
     current: 0,
     max: 0,
@@ -209,7 +211,9 @@ function CharGen() {
     },
     {
       title: "Equipment",
-      content: <div>Choose your equipment</div>,
+      content: (
+        <EquipmentStep character={character} onCharacterChange={setCharacter} />
+      ),
     },
     {
       title: "Review",

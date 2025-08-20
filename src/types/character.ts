@@ -19,6 +19,32 @@ export interface Spell {
   description: string;
 }
 
+export interface Equipment {
+  name: string;
+  costValue: number;
+  costCurrency: "gp" | "sp" | "cp";
+  weight: number;
+  category: string;
+  subCategory?: string;
+  amount: number;
+  // Weapon properties
+  size?: "S" | "M" | "L";
+  damage?: string;
+  twoHandedDamage?: string;
+  type?: "melee" | "missile" | "both";
+  range?: [number, number, number];
+  ammo?: string[];
+  // Armor properties
+  AC?: number | string;
+  missileAC?: string;
+  // Beast of burden properties
+  lowCapacity?: number;
+  capacity?: number;
+  animalWeight?: number;
+  // Equipment with gold amount
+  gold?: number;
+}
+
 export interface Character {
   name: string;
   race: string;
@@ -31,7 +57,8 @@ export interface Character {
     wisdom: AbilityScore;
     charisma: AbilityScore;
   };
-  equipment: unknown[];
+  equipment: Equipment[];
+  gold: number;
   hp: {
     current: number;
     max: number;

@@ -38,6 +38,12 @@ interface ParseResult {
 }
 
 function parseDiceExpression(expression: string): ParseResult {
+  // First handle multiplication/division (higher precedence)
+  const multiplyParts = expression.split(/([*/])/);
+  if (multiplyParts.length > 1) {
+    return parseMultiplicationExpression(multiplyParts);
+  }
+
   // Handle multiple dice expressions separated by + or -
   const parts = expression.split(/([+-])/);
   let total = 0;
@@ -67,6 +73,55 @@ function parseDiceExpression(expression: string): ParseResult {
   }
 
   return { total, rolls: allRolls, breakdown };
+}
+
+function parseMultiplicationExpression(parts: string[]): ParseResult {
+  let total = 0;
+  let firstResult: ParseResult | null = null;
+  let breakdown = "";
+
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i]?.trim();
+    if (!part) continue;
+
+    if (part === "*" || part === "/") {
+      breakdown += ` ${part} `;
+      continue;
+    }
+
+    const operator = i > 0 ? parts[i - 1] : "*";
+
+    if (firstResult === null) {
+      // First part - should be dice expression
+      firstResult = parseDicePart(part);
+      total = firstResult.total;
+      breakdown = firstResult.breakdown;
+    } else {
+      // Subsequent parts - should be numbers for multiplication
+      const numberMatch = part.match(/^(\d+)$/);
+      if (!numberMatch) {
+        throw new Error(
+          `Invalid multiplier: ${part}. Only numbers are supported for multiplication.`
+        );
+      }
+
+      const multiplier = parseInt(numberMatch[1]!);
+
+      if (operator === "*") {
+        total *= multiplier;
+        breakdown += ` ${operator} ${multiplier} = ${total}`;
+      } else if (operator === "/") {
+        total = Math.floor(total / multiplier);
+        breakdown += ` ${operator} ${multiplier} = ${total}`;
+      }
+    }
+  }
+
+  return {
+    total,
+    rolls: firstResult?.rolls || [],
+    breakdown,
+  };
 }
 
 function parseDicePart(part: string): ParseResult {
