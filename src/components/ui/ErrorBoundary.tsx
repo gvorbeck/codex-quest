@@ -1,5 +1,6 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
+import Button from "./Button";
 
 interface Props {
   children: ReactNode;
@@ -65,7 +66,7 @@ export class ErrorBoundary extends Component<Props, State> {
               {this.state.error?.message}
             </pre>
           </details>
-          <button
+          <Button
             onClick={() => window.location.reload()}
             style={{
               marginTop: "1rem",
@@ -78,7 +79,7 @@ export class ErrorBoundary extends Component<Props, State> {
             }}
           >
             Refresh Page
-          </button>
+          </Button>
         </div>
       );
     }

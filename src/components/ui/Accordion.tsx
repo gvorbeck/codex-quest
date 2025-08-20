@@ -135,9 +135,12 @@ function Accordion<T extends AccordionItem>({
     Object.keys(grouped)
       .sort()
       .forEach((category) => {
-        sortedGrouped[category] = grouped[category].sort((a, b) =>
-          String(a[labelProperty]).localeCompare(String(b[labelProperty]))
-        );
+        const categoryItems = grouped[category];
+        if (categoryItems) {
+          sortedGrouped[category] = categoryItems.sort((a, b) =>
+            String(a[labelProperty]).localeCompare(String(b[labelProperty]))
+          );
+        }
       });
 
     return {

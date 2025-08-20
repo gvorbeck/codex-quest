@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useStepAnnouncements } from "../../hooks/useA11y";
 import { memo } from "react";
+import Button from "./Button";
 
 interface StepItem {
   title: string;
@@ -105,7 +106,7 @@ function Stepper({
           </div>
         )}
 
-        <button
+        <Button
           onClick={() => handleStepChange("previous")}
           disabled={prevDisabled || safeCurrentStep === 0}
           aria-label={`Go to previous step: ${
@@ -115,9 +116,9 @@ function Stepper({
           }`}
         >
           Previous
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={() => handleStepChange("next")}
           disabled={nextDisabled || safeCurrentStep === stepItems.length - 1}
           aria-label={`Go to next step: ${
@@ -127,7 +128,7 @@ function Stepper({
           }`}
         >
           {safeCurrentStep === stepItems.length - 1 ? "Complete" : "Next"}
-        </button>
+        </Button>
       </nav>
     </div>
   );

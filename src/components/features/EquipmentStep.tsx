@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Accordion, SimpleRoller, StepWrapper } from "@/components/ui";
+import { Accordion, SimpleRoller, StepWrapper, Button } from "@/components/ui";
 import type { Character, Equipment } from "@/types/character";
 import equipmentData from "@/data/equipment.json";
 
@@ -52,26 +52,49 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   };
 
   const handleEquipmentAdd = (equipment: Equipment) => {
+    // Calculate the cost in gold pieces using proper decimal handling
+    let costInGold = equipment.costValue;
+    if (equipment.costCurrency === "sp") {
+      costInGold = costInGold / 10; // Convert sp to gp: 10 sp = 1 gp
+    } else if (equipment.costCurrency === "cp") {
+      costInGold = costInGold / 100; // Convert cp to gp: 100 cp = 1 gp
+    }
+    
+    // Round to 2 decimal places to avoid floating point issues
+    costInGold = Math.round(costInGold * 100) / 100;
+
+    // Check if character has enough gold
+    if (character.gold < costInGold) {
+      // Could add a toast notification here in the future
+      return;
+    }
+
     const existingItem = character.equipment.find(
       (item) => item.name === equipment.name
     );
 
     if (existingItem) {
-      // Increase amount of existing item
+      // Increase amount of existing item and deduct gold
       const updatedEquipment = character.equipment.map((item) =>
         item.name === equipment.name
           ? { ...item, amount: item.amount + 1 }
           : item
       );
+      const newGold = Math.round((character.gold - costInGold) * 100) / 100;
+      setStartingGold(newGold);
       onCharacterChange({
         ...character,
         equipment: updatedEquipment,
+        gold: newGold,
       });
     } else {
-      // Add new item with amount 1
+      // Add new item with amount 1 and deduct gold
+      const newGold = Math.round((character.gold - costInGold) * 100) / 100;
+      setStartingGold(newGold);
       onCharacterChange({
         ...character,
         equipment: [...character.equipment, { ...equipment, amount: 1 }],
+        gold: newGold,
       });
     }
   };
@@ -82,25 +105,42 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     );
 
     if (existingItem) {
+      // Calculate refund in gold pieces using proper decimal handling
+      let refundInGold = existingItem.costValue;
+      if (existingItem.costCurrency === "sp") {
+        refundInGold = refundInGold / 10; // Convert sp to gp: 10 sp = 1 gp
+      } else if (existingItem.costCurrency === "cp") {
+        refundInGold = refundInGold / 100; // Convert cp to gp: 100 cp = 1 gp
+      }
+      
+      // Round to 2 decimal places to avoid floating point issues
+      refundInGold = Math.round(refundInGold * 100) / 100;
+
       if (existingItem.amount > 1) {
-        // Decrease amount
+        // Decrease amount and refund gold
         const updatedEquipment = character.equipment.map((item) =>
           item.name === equipmentName
             ? { ...item, amount: item.amount - 1 }
             : item
         );
+        const newGold = Math.round((character.gold + refundInGold) * 100) / 100;
+        setStartingGold(newGold);
         onCharacterChange({
           ...character,
           equipment: updatedEquipment,
+          gold: newGold,
         });
       } else {
-        // Remove item entirely
+        // Remove item entirely and refund gold
         const updatedEquipment = character.equipment.filter(
           (item) => item.name !== equipmentName
         );
+        const newGold = Math.round((character.gold + refundInGold) * 100) / 100;
+        setStartingGold(newGold);
         onCharacterChange({
           ...character,
           equipment: updatedEquipment,
+          gold: newGold,
         });
       }
     }
@@ -130,6 +170,19 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     const weightDisplay =
       equipment.weight > 0 ? `${equipment.weight} lbs` : "—";
 
+    // Calculate cost in gold pieces for affordability check
+    let costInGold = equipment.costValue;
+    if (equipment.costCurrency === "sp") {
+      costInGold = costInGold / 10; // Convert sp to gp: 10 sp = 1 gp
+    } else if (equipment.costCurrency === "cp") {
+      costInGold = costInGold / 100; // Convert cp to gp: 100 cp = 1 gp
+    }
+    
+    // Round to 2 decimal places to avoid floating point issues
+    costInGold = Math.round(costInGold * 100) / 100;
+
+    const canAfford = character.gold >= costInGold;
+
     return (
       <div
         style={{
@@ -155,20 +208,16 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             {equipment.AC && <span>AC: {equipment.AC}</span>}
           </div>
         </div>
-        <button
+        <Button
           onClick={() => handleEquipmentAdd(equipment)}
+          disabled={!canAfford}
           style={{
-            padding: "0.25rem 0.5rem",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "0.25rem",
-            cursor: "pointer",
             fontSize: "0.875rem",
+            opacity: canAfford ? 1 : 0.5,
           }}
         >
           Add
-        </button>
+        </Button>
       </div>
     );
   };
@@ -192,11 +241,18 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           })}
           onChange={handleGoldRoll}
         />
-        {startingGold && (
-          <p style={{ marginTop: "0.5rem", fontWeight: "500" }}>
-            Starting Gold: {startingGold} gp
-          </p>
-        )}
+        <div style={{ marginTop: "0.5rem", display: "flex", gap: "2rem" }}>
+          {startingGold !== undefined && (
+            <p style={{ fontWeight: "500", margin: 0 }}>
+              Current Gold: {character.gold} gp
+            </p>
+          )}
+          {startingGold !== undefined && startingGold !== character.gold && (
+            <p style={{ fontWeight: "500", margin: 0, color: "#6c757d" }}>
+              Starting Gold: {startingGold} gp
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Current Equipment Loadout */}
@@ -245,7 +301,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                       )}
                     </div>
                   </div>
-                  <button
+                  <Button
                     onClick={() => handleEquipmentRemove(item.name)}
                     style={{
                       padding: "0.25rem 0.5rem",
@@ -258,7 +314,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                     }}
                   >
                     Remove
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
