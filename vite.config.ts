@@ -18,4 +18,39 @@ export default defineConfig({
       "@/constants": path.resolve(import.meta.dirname, "./src/constants"),
     },
   },
+  build: {
+    // Optimize for production
+    rollupOptions: {
+      output: {
+        // Manual chunk splitting for better caching
+        manualChunks: {
+          // Core React chunk
+          react: ['react', 'react-dom'],
+          // Router chunk
+          router: ['wouter'],
+          // Data chunks
+          'game-data': [
+            './src/data/classes/index.ts',
+            './src/data/races/index.ts',
+            './src/data/spells.json'
+          ],
+          // Utility chunks
+          utils: [
+            './src/utils/dice.ts',
+            './src/utils/spells.ts',
+            './src/utils/characterValidation.ts'
+          ],
+        },
+      },
+    },
+    // Optimize chunk size warnings
+    chunkSizeWarningLimit: 600,
+    // Source maps for debugging in production
+    sourcemap: true,
+  },
+  // Development optimizations
+  server: {
+    // Fast refresh
+    hmr: true,
+  },
 });

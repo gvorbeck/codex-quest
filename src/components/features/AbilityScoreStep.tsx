@@ -1,6 +1,7 @@
 import { Button, SimpleRoller, StepWrapper } from "../ui";
 import { roller } from "../../utils/dice";
 import type { Character, AbilityScore } from "../../types/character";
+import { memo } from "react";
 
 interface AbilityScoreStepProps {
   character: Character;
@@ -188,4 +189,4 @@ function AbilityScoreStep({
   );
 }
 
-export default AbilityScoreStep;
+export default memo(AbilityScoreStep);

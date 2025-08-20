@@ -1,7 +1,11 @@
 import { Link, Route, Switch } from "wouter";
+import { Suspense, lazy } from "react";
 import "./App.css";
-import { Home, CharGen } from "./components";
 import { ErrorBoundary } from "@/components/ui";
+
+// Lazy load page components for better code splitting
+const Home = lazy(() => import("./components/pages/Home"));
+const CharGen = lazy(() => import("./components/pages/CharGen"));
 
 function App() {
   return (
@@ -39,19 +43,25 @@ function App() {
               </section>
             }
           >
-            <Switch>
-              <Route path="/" component={Home} />
-              <Route path="/new-character" component={CharGen} />
+            <Suspense fallback={
+              <div role="status" aria-live="polite" style={{ padding: "2rem", textAlign: "center" }}>
+                <p>Loading...</p>
+              </div>
+            }>
+              <Switch>
+                <Route path="/" component={Home} />
+                <Route path="/new-character" component={CharGen} />
 
-              {/* Default route in a switch */}
-              <Route>
-                <section>
-                  <h2>Page Not Found</h2>
-                  <p>Sorry, the page you're looking for doesn't exist.</p>
-                  <Link href="/">Return to homepage</Link>
-                </section>
-              </Route>
-            </Switch>
+                {/* Default route in a switch */}
+                <Route>
+                  <section>
+                    <h2>Page Not Found</h2>
+                    <p>Sorry, the page you're looking for doesn't exist.</p>
+                    <Link href="/">Return to homepage</Link>
+                  </section>
+                </Route>
+              </Switch>
+            </Suspense>
           </ErrorBoundary>
         </main>
 

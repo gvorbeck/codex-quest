@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Stepper } from "@/components/ui";
 import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
 import { useCascadeValidation, useLocalStorage } from "@/hooks";
@@ -65,8 +65,8 @@ function CharGen() {
     includeSupplementalClass,
   });
 
-  // Determine if the Next button should be disabled based on current step and validation
-  const isNextDisabled = () => {
+  // Memoize validation functions for better performance
+  const isNextDisabled = useCallback(() => {
     switch (step) {
       case 0: // Abilities step
         return !hasValidAbilityScores(character);
@@ -77,10 +77,9 @@ function CharGen() {
       default:
         return false;
     }
-  };
+  }, [step, character]);
 
-  // Get validation message for current step
-  const getValidationMessage = () => {
+  const getValidationMessage = useCallback(() => {
     switch (step) {
       case 0: // Abilities step
         return !hasValidAbilityScores(character)
@@ -97,7 +96,7 @@ function CharGen() {
       default:
         return "";
     }
-  };
+  }, [step, character]);
 
   const stepItems = [
     {

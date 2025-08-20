@@ -3,6 +3,7 @@ import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
+import { memo } from "react";
 
 interface ClassStepProps {
   character: Character;
@@ -13,7 +14,7 @@ interface ClassStepProps {
   onUseCombinationClassChange: (use: boolean) => void;
 }
 
-export function ClassStep({
+function ClassStepComponent({
   character,
   onCharacterChange,
   includeSupplementalClass,
@@ -403,3 +404,5 @@ export function ClassStep({
     </StepWrapper>
   );
 }
+
+export const ClassStep = memo(ClassStepComponent);

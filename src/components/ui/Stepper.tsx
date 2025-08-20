@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useStepAnnouncements } from "../../hooks/useA11y";
+import { memo } from "react";
 
 interface StepItem {
   title: string;
@@ -130,4 +131,4 @@ function Stepper({
   );
 }
 
-export default Stepper;
+export default memo(Stepper);

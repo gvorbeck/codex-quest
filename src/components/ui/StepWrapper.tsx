@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { memo } from "react";
 
 interface StepWrapperProps {
   /** The main title of the step */
@@ -19,7 +20,7 @@ interface StepWrapperProps {
  * Wrapper component for character creation steps that provides consistent
  * structure, accessibility features, and styling
  */
-export default function StepWrapper({
+function StepWrapperComponent({
   title,
   description,
   children,
@@ -56,3 +57,5 @@ export default function StepWrapper({
     </section>
   );
 }
+
+export default memo(StepWrapperComponent);

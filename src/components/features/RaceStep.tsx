@@ -1,6 +1,7 @@
 import { Switch, Select, StepWrapper } from "@/components/ui";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
+import { memo } from "react";
 
 interface RaceStepProps {
   character: Character;
@@ -150,4 +151,4 @@ function RaceStep({
   );
 }
 
-export default RaceStep;
+export default memo(RaceStep);
