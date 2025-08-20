@@ -9,6 +9,7 @@ import {
   raceSelectionSchema,
   classSelectionSchema,
 } from "@/utils/validationSchemas";
+import { allRaces } from "@/data/races";
 
 const emptyCharacter: Character = {
   name: "",
@@ -72,6 +73,19 @@ function CharGen() {
     includeSupplementalRace,
     includeSupplementalClass,
   });
+
+  // Reset combination class checkbox when race changes to one that doesn't support it
+  useEffect(() => {
+    if (useCombinationClass && character.race) {
+      const selectedRace = allRaces.find((race) => race.id === character.race);
+      const canUseCombinationClasses =
+        selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
+
+      if (!canUseCombinationClasses) {
+        setUseCombinationClass(false);
+      }
+    }
+  }, [character.race, useCombinationClass, setUseCombinationClass]);
 
   // Enhanced validation functions with detailed feedback
   const isNextDisabled = useCallback(() => {
@@ -137,6 +151,10 @@ function CharGen() {
           onUseCombinationClassChange={setUseCombinationClass}
         />
       ),
+    },
+    {
+      title: "Hit Points",
+      content: <div>Calculate your hit points</div>,
     },
     {
       title: "Equipment",
