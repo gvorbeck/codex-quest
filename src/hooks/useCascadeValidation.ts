@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 import type { Character } from "@/types/character";
@@ -21,8 +21,17 @@ export function useCascadeValidation({
   includeSupplementalRace,
   includeSupplementalClass,
 }: UseCascadeValidationProps) {
-  // Extract class array to string for dependency tracking
-  const classArrayString = character.class.join(",");
+  // Use stable string for class array to avoid unnecessary effects
+  const classArrayString = useMemo(
+    () => character.class.join(","),
+    [character.class]
+  );
+
+  // Memoize ability scores hash to reduce unnecessary validations
+  const abilityScoresHash = useMemo(() => {
+    const abilities = character.abilities;
+    return `${abilities.strength.value}-${abilities.dexterity.value}-${abilities.constitution.value}-${abilities.intelligence.value}-${abilities.wisdom.value}-${abilities.charisma.value}`;
+  }, [character.abilities]);
 
   const validateAndUpdateCharacter = useCallback(() => {
     // Get the currently selected race
@@ -40,8 +49,13 @@ export function useCascadeValidation({
       availableClasses
     );
 
-    // Only update if the character has changed
-    if (JSON.stringify(validatedCharacter) !== JSON.stringify(character)) {
+    // Only update if the character has actually changed (more efficient comparison)
+    const hasChanged =
+      validatedCharacter.race !== character.race ||
+      validatedCharacter.class.join(",") !== character.class.join(",") ||
+      validatedCharacter.spells?.length !== character.spells?.length;
+
+    if (hasChanged) {
       onCharacterChange(validatedCharacter);
     }
   }, [character, onCharacterChange, includeSupplementalClass]);
@@ -50,17 +64,12 @@ export function useCascadeValidation({
   useEffect(() => {
     validateAndUpdateCharacter();
   }, [
-    // Watch for ability score changes
-    character.abilities.strength.value,
-    character.abilities.dexterity.value,
-    character.abilities.constitution.value,
-    character.abilities.intelligence.value,
-    character.abilities.wisdom.value,
-    character.abilities.charisma.value,
+    // Use computed hashes instead of individual ability scores
+    abilityScoresHash,
     // Watch for race changes (to clear invalid class selections)
     character.race,
     // Watch for class changes (to clear invalid spells)
-    classArrayString, // Watch the class array as string
+    classArrayString,
     // Watch for supplemental content changes
     includeSupplementalRace,
     includeSupplementalClass,

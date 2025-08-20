@@ -8,19 +8,10 @@ import {
   EquipmentStep,
   ReviewStep,
 } from "@/components/features";
-import { useCascadeValidation, useLocalStorage, useValidation } from "@/hooks";
+import { useCascadeValidation, useLocalStorage } from "@/hooks";
 import type { Character } from "@/types/character";
-import {
-  hasValidAbilityScores,
-  hasValidHitPoints,
-  hasRequiredStartingSpells,
-} from "@/utils/characterValidation";
+import { CharacterValidationService } from "@/services/characterValidation";
 import { STORAGE_KEYS } from "@/constants/storage";
-import {
-  raceSelectionSchema,
-  classSelectionSchema,
-  characterNameSchema,
-} from "@/utils/validationSchemas";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 
@@ -97,10 +88,16 @@ function CharGen() {
   const [useCombinationClass, setUseCombinationClass] =
     useLocalStorage<boolean>(STORAGE_KEYS.USE_COMBINATION_CLASS, false);
 
-  // Enhanced validation for individual fields
-  const raceValidation = useValidation(character.race, raceSelectionSchema);
-  const classValidation = useValidation(character.class, classSelectionSchema);
-  const nameValidation = useValidation(character.name, characterNameSchema);
+  // Create validation service instance
+  const validationService = useMemo(() => {
+    const filteredRaces = allRaces.filter(
+      (race) => includeSupplementalRace || !race.supplementalContent
+    );
+    const filteredClasses = allClasses.filter(
+      (cls) => includeSupplementalClass || !cls.supplementalContent
+    );
+    return new CharacterValidationService(filteredRaces, filteredClasses);
+  }, [includeSupplementalRace, includeSupplementalClass]);
 
   // Initialize cascade validation hook
   useCascadeValidation({
@@ -125,74 +122,14 @@ function CharGen() {
 
   // Enhanced validation functions with detailed feedback
   const isNextDisabled = useCallback(() => {
-    switch (step) {
-      case 0: // Abilities step
-        return !hasValidAbilityScores(character);
-      case 1: // Race step
-        return !raceValidation.isValid;
-      case 2: // Class step
-        return (
-          !classValidation.isValid ||
-          !hasRequiredStartingSpells(character, allClasses)
-        );
-      case 3: // Hit Points step
-        return !hasValidHitPoints(character);
-      case 4: // Equipment step
-        return false; // Equipment is optional
-      case 5: // Review step
-        return !nameValidation.isValid;
-      default:
-        return false;
-    }
-  }, [
-    step,
-    character,
-    raceValidation.isValid,
-    classValidation.isValid,
-    nameValidation.isValid,
-  ]);
+    return validationService.isStepDisabled(step, character);
+  }, [validationService, step, character]);
 
   const getValidationMessage = useCallback(() => {
-    switch (step) {
-      case 0: // Abilities step
-        return !hasValidAbilityScores(character)
-          ? "Please roll or set all ability scores before proceeding."
-          : "";
-      case 1: // Race step
-        return raceValidation.errors.length > 0 ? raceValidation.errors[0] : "";
-      case 2: // Class step
-        if (classValidation.errors.length > 0) {
-          return classValidation.errors[0];
-        }
-        if (!hasRequiredStartingSpells(character, allClasses)) {
-          // Check if it's specifically a Magic-User that needs spells
-          const isMagicUser = character.class.includes("magic-user");
-          if (isMagicUser) {
-            return "Magic-Users must select one first level spell (Read Magic is automatically known).";
-          }
-          return "Please select required starting spells for your class.";
-        }
-        return "";
-      case 3: // Hit Points step
-        return !hasValidHitPoints(character)
-          ? "Please roll or set your hit points before proceeding."
-          : "";
-      case 4: // Equipment step
-        return ""; // Equipment is optional
-      case 5: // Review step
-        return nameValidation.errors.length > 0 ? nameValidation.errors[0] : "";
-      default:
-        return "";
-    }
-  }, [
-    step,
-    character,
-    raceValidation.errors,
-    classValidation.errors,
-    nameValidation.errors,
-  ]);
+    return validationService.getStepValidationMessage(step, character);
+  }, [validationService, step, character]);
 
-  const stepItems = [
+  const stepItems = useMemo(() => [
     {
       title: "Abilities",
       content: (
@@ -244,7 +181,16 @@ function CharGen() {
         <ReviewStep character={character} onCharacterChange={setCharacter} />
       ),
     },
-  ];
+  ], [
+    character,
+    setCharacter,
+    includeSupplementalRace,
+    setIncludeSupplementalRace,
+    includeSupplementalClass,
+    setIncludeSupplementalClass,
+    useCombinationClass,
+    setUseCombinationClass,
+  ]);
 
   return (
     <article>
