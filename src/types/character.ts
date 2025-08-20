@@ -3,11 +3,26 @@ export interface AbilityScore {
   modifier: number;
 }
 
+export interface Spell {
+  name: string;
+  range: string;
+  level: {
+    spellcrafter: number | null;
+    paladin: number | null;
+    cleric: number | null;
+    "magic-user": number | null;
+    druid: number | null;
+    illusionist: number | null;
+    necromancer: number | null;
+  };
+  duration: string;
+  description: string;
+}
+
 export interface Character {
   name: string;
   race: string;
-  class?: string; // Single class
-  combinationClass?: string; // Combination class like "fighter/magic-user"
+  class: string[]; // Array of class IDs - single item for normal class, multiple for combination
   abilities: {
     strength: AbilityScore;
     dexterity: AbilityScore;
@@ -17,6 +32,7 @@ export interface Character {
     charisma: AbilityScore;
   };
   equipment: unknown[];
+  spells?: Spell[]; // Spells known by the character
 }
 
 export interface RaceRequirement {
@@ -41,23 +57,11 @@ export interface Race {
   description: string;
   physicalDescription: string;
   allowedClasses: string[];
-  allowedCombinationClasses?: string[]; // New field for combination classes
   abilityRequirements: RaceRequirement[];
   prohibitedWeapons?: string[]; // Array of equipment IDs that this race cannot use
   specialAbilities: SpecialAbility[];
   savingThrows: SavingThrowBonus[];
   lifespan: string;
-  supplementalContent?: boolean;
-}
-
-export interface CombinationClass {
-  name: string;
-  id: string;
-  description: string;
-  hitDie: string;
-  primaryClasses: [string, string]; // The two classes being combined
-  specialAbilities: SpecialAbility[];
-  eligibleRaces: string[]; // Races that can take this combination class
   supplementalContent?: boolean;
 }
 

@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-import { combinationClasses } from "@/data/combinationClasses";
 import { cascadeValidateCharacter } from "@/utils/characterValidation";
 import type { Character } from "@/types/character";
 
@@ -22,6 +21,9 @@ export function useCascadeValidation({
   includeSupplementalRace,
   includeSupplementalClass,
 }: UseCascadeValidationProps) {
+  // Extract class array to string for dependency tracking
+  const classArrayString = character.class.join(",");
+
   const validateAndUpdateCharacter = useCallback(() => {
     // Get the currently selected race
     const selectedRace = allRaces.find((race) => race.id === character.race);
@@ -31,31 +33,20 @@ export function useCascadeValidation({
       (cls) => includeSupplementalClass || !cls.supplementalContent
     );
 
-    // Filter available combination classes (they also respect supplemental setting)
-    const availableCombinationClasses = combinationClasses.filter(
-      (combClass) => includeSupplementalClass || !combClass.supplementalContent
-    );
-
     // Run cascade validation
     const validatedCharacter = cascadeValidateCharacter(
       character,
       selectedRace,
-      availableClasses,
-      availableCombinationClasses
+      availableClasses
     );
 
     // Only update if the character has changed
     if (JSON.stringify(validatedCharacter) !== JSON.stringify(character)) {
       onCharacterChange(validatedCharacter);
     }
-  }, [
-    character,
-    onCharacterChange,
-    includeSupplementalRace,
-    includeSupplementalClass,
-  ]);
+  }, [character, onCharacterChange, includeSupplementalClass]);
 
-  // Run validation whenever character abilities, race, or supplemental settings change
+  // Run validation whenever character abilities, race, class, or supplemental settings change
   useEffect(() => {
     validateAndUpdateCharacter();
   }, [
@@ -68,6 +59,8 @@ export function useCascadeValidation({
     character.abilities.charisma.value,
     // Watch for race changes (to clear invalid class selections)
     character.race,
+    // Watch for class changes (to clear invalid spells)
+    classArrayString, // Watch the class array as string
     // Watch for supplemental content changes
     includeSupplementalRace,
     includeSupplementalClass,

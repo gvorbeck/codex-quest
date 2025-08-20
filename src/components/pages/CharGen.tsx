@@ -34,6 +34,7 @@ const emptyCharacter: Character = {
     },
   },
   race: "",
+  class: [],
   equipment: [],
 };
 
@@ -86,7 +87,7 @@ function CharGen() {
       case 1: // Race step
         return !character.race;
       case 2: // Class step
-        return !character.class && !character.combinationClass;
+        return character.class.length === 0;
       default:
         return false;
     }
@@ -104,8 +105,8 @@ function CharGen() {
           ? "Please select a race for your character."
           : "";
       case 2: // Class step
-        return !character.class && !character.combinationClass
-          ? "Please select a class or combination class for your character."
+        return character.class.length === 0
+          ? "Please select a class for your character."
           : "";
       default:
         return "";
