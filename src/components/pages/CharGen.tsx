@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Stepper } from "@/components/ui";
 import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
-import { useCascadeValidation } from "@/hooks";
+import { useCascadeValidation, useLocalStorage } from "@/hooks";
 import type { Character } from "@/types/character";
 import { hasValidAbilityScores } from "@/utils/characterValidation";
+import { STORAGE_KEYS } from "@/constants/storage";
 
 const emptyCharacter: Character = {
   name: "",
@@ -39,37 +40,22 @@ const emptyCharacter: Character = {
 };
 
 function CharGen() {
-  const [character, setCharacter] = useState(() => {
-    // Lazy initializer to get initial state from localStorage
-    const savedCharacter = localStorage.getItem("newCharacter");
-    return savedCharacter ? JSON.parse(savedCharacter) : emptyCharacter;
-  });
-  const [step, setStep] = useState(0);
-  const [includeSupplementalRace, setIncludeSupplementalRace] = useState(() => {
-    // Lazy initializer to get initial state from localStorage
-    const savedSupplemental = localStorage.getItem("includeSupplemental");
-    return savedSupplemental ? JSON.parse(savedSupplemental) : false;
-  });
-  const [includeSupplementalClass, setIncludeSupplementalClass] = useState(
-    () => {
-      // Lazy initializer to get initial state from localStorage
-      const savedSupplementalClass = localStorage.getItem(
-        "includeSupplementalClass"
-      );
-      return savedSupplementalClass
-        ? JSON.parse(savedSupplementalClass)
-        : false;
-    }
+  // Use custom localStorage hooks for persistent state management
+  const [character, setCharacter] = useLocalStorage<Character>(
+    STORAGE_KEYS.NEW_CHARACTER,
+    emptyCharacter
   );
-  const [useCombinationClass, setUseCombinationClass] = useState(() => {
-    // Lazy initializer to get initial state from localStorage
-    const savedUseCombinationClass = localStorage.getItem(
-      "useCombinationClass"
-    );
-    return savedUseCombinationClass
-      ? JSON.parse(savedUseCombinationClass)
-      : false;
-  });
+
+  const [step, setStep] = useState(0);
+
+  const [includeSupplementalRace, setIncludeSupplementalRace] =
+    useLocalStorage<boolean>(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_RACE, false);
+
+  const [includeSupplementalClass, setIncludeSupplementalClass] =
+    useLocalStorage<boolean>(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_CLASS, false);
+
+  const [useCombinationClass, setUseCombinationClass] =
+    useLocalStorage<boolean>(STORAGE_KEYS.USE_COMBINATION_CLASS, false);
 
   // Initialize cascade validation hook
   useCascadeValidation({
@@ -157,35 +143,10 @@ function CharGen() {
     },
   ];
 
+  // Keep the character logging for development
   useEffect(() => {
-    // Save data to localStorage whenever 'character' changes
-    localStorage.setItem("newCharacter", JSON.stringify(character));
     console.log("Character saved to localStorage:", character);
-  }, [character]); // Dependency array ensures effect runs when 'character' changes
-
-  useEffect(() => {
-    // Save supplemental content setting to localStorage whenever it changes
-    localStorage.setItem(
-      "includeSupplemental",
-      JSON.stringify(includeSupplementalRace)
-    );
-  }, [includeSupplementalRace]);
-
-  useEffect(() => {
-    // Save supplemental class content setting to localStorage whenever it changes
-    localStorage.setItem(
-      "includeSupplementalClass",
-      JSON.stringify(includeSupplementalClass)
-    );
-  }, [includeSupplementalClass]);
-
-  useEffect(() => {
-    // Save combination class toggle setting to localStorage whenever it changes
-    localStorage.setItem(
-      "useCombinationClass",
-      JSON.stringify(useCombinationClass)
-    );
-  }, [useCombinationClass]);
+  }, [character]);
 
   return (
     <article>

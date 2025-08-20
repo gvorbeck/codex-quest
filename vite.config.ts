@@ -15,6 +15,7 @@ export default defineConfig({
       "@/data": path.resolve(import.meta.dirname, "./src/data"),
       "@/assets": path.resolve(import.meta.dirname, "./src/assets"),
       "@/hooks": path.resolve(import.meta.dirname, "./src/hooks"),
+      "@/constants": path.resolve(import.meta.dirname, "./src/constants"),
     },
   },
 });
