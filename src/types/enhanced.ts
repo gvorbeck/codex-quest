@@ -11,14 +11,19 @@ import type {
   Class,
   RaceRequirement,
   SpecialAbility,
-  SavingThrowBonus
-} from './character';
+  SavingThrowBonus,
+} from "./character";
 
 // Utility types for better type safety
 export type NonEmptyArray<T> = [T, ...T[]];
 
 // Character creation step types
-export type CharacterCreationStep = 'abilities' | 'race' | 'class' | 'equipment' | 'review';
+export type CharacterCreationStep =
+  | "abilities"
+  | "race"
+  | "class"
+  | "equipment"
+  | "review";
 
 export interface StepValidation {
   readonly step: CharacterCreationStep;
@@ -36,13 +41,13 @@ export interface StorageOperationResult<T> {
 // Component prop types for better type safety
 export interface BaseComponentProps {
   readonly className?: string;
-  readonly 'data-testid'?: string;
+  readonly "data-testid"?: string;
 }
 
 export interface FormComponentProps extends BaseComponentProps {
   readonly disabled?: boolean;
   readonly required?: boolean;
-  readonly 'aria-describedby'?: string;
+  readonly "aria-describedby"?: string;
 }
 
 // Performance monitoring types
@@ -72,22 +77,43 @@ export interface ValidationResult {
 }
 
 // Character creation state machine types
-export type CharacterCreationState = 
-  | { readonly step: 'abilities'; readonly character: Partial<Character> }
-  | { readonly step: 'race'; readonly character: Partial<Character> & { abilities: Character['abilities'] } }
-  | { readonly step: 'class'; readonly character: Partial<Character> & { abilities: Character['abilities']; race: string } }
-  | { readonly step: 'equipment'; readonly character: Partial<Character> & { abilities: Character['abilities']; race: string; class: NonEmptyArray<string> } }
-  | { readonly step: 'review'; readonly character: Character };
+export type CharacterCreationState =
+  | { readonly step: "abilities"; readonly character: Partial<Character> }
+  | {
+      readonly step: "race";
+      readonly character: Partial<Character> & {
+        abilities: Character["abilities"];
+      };
+    }
+  | {
+      readonly step: "class";
+      readonly character: Partial<Character> & {
+        abilities: Character["abilities"];
+        race: string;
+      };
+    }
+  | {
+      readonly step: "equipment";
+      readonly character: Partial<Character> & {
+        abilities: Character["abilities"];
+        race: string;
+        class: NonEmptyArray<string>;
+      };
+    }
+  | { readonly step: "review"; readonly character: Character };
 
 export type CharacterCreationAction =
-  | { readonly type: 'SET_ABILITIES'; readonly abilities: Character['abilities'] }
-  | { readonly type: 'SET_RACE'; readonly race: string }
-  | { readonly type: 'SET_CLASS'; readonly classes: string[] }
-  | { readonly type: 'SET_EQUIPMENT'; readonly equipment: unknown[] }
-  | { readonly type: 'NEXT_STEP' }
-  | { readonly type: 'PREVIOUS_STEP' }
-  | { readonly type: 'GOTO_STEP'; readonly step: CharacterCreationStep }
-  | { readonly type: 'RESET' };
+  | {
+      readonly type: "SET_ABILITIES";
+      readonly abilities: Character["abilities"];
+    }
+  | { readonly type: "SET_RACE"; readonly race: string }
+  | { readonly type: "SET_CLASS"; readonly classes: string[] }
+  | { readonly type: "SET_EQUIPMENT"; readonly equipment: unknown[] }
+  | { readonly type: "NEXT_STEP" }
+  | { readonly type: "PREVIOUS_STEP" }
+  | { readonly type: "GOTO_STEP"; readonly step: CharacterCreationStep }
+  | { readonly type: "RESET" };
 
 // Re-export existing types for convenience
 export type {
@@ -98,5 +124,5 @@ export type {
   Class,
   RaceRequirement,
   SpecialAbility,
-  SavingThrowBonus
+  SavingThrowBonus,
 };

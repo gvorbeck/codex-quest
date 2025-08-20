@@ -1,8 +1,8 @@
 import { Switch, StepWrapper } from "@/components/ui";
-import { 
-  StandardClassSelector, 
-  CombinationClassSelector, 
-  SpellSelector 
+import {
+  StandardClassSelector,
+  CombinationClassSelector,
+  SpellSelector,
 } from "@/components/features";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
@@ -147,8 +147,8 @@ function ClassStepComponent({
 
   // Get spell-related data for current class configuration
   const spellcastingClassId = getEffectiveSpellcastingClass();
-  const availableSpells = spellcastingClassId 
-    ? getFirstLevelSpellsForClass(spellcastingClassId) 
+  const availableSpells = spellcastingClassId
+    ? getFirstLevelSpellsForClass(spellcastingClassId)
     : [];
   const showSpellSelection = availableSpells.length > 0;
 
@@ -191,7 +191,7 @@ function ClassStepComponent({
             availableClasses={availableClasses}
             onClassChange={handleSingleClassChange}
           />
-          
+
           {showSpellSelection && (
             <SpellSelector
               character={character}
@@ -210,7 +210,7 @@ function ClassStepComponent({
             validCombinations={validCombinations}
             onCombinationChange={handleCombinationClassChange}
           />
-          
+
           {showSpellSelection && (
             <SpellSelector
               character={character}

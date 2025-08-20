@@ -35,7 +35,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    
+
     /* Enhanced Type Checking */
     "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,

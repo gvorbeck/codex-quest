@@ -18,12 +18,27 @@ function AbilityScoreStep({
 }: AbilityScoreStepProps) {
   // Enhanced validation for individual ability scores
   const validationResults = {
-    strength: useValidation(character.abilities.strength.value, abilityScoreSchema),
-    dexterity: useValidation(character.abilities.dexterity.value, abilityScoreSchema),
-    constitution: useValidation(character.abilities.constitution.value, abilityScoreSchema),
-    intelligence: useValidation(character.abilities.intelligence.value, abilityScoreSchema),
+    strength: useValidation(
+      character.abilities.strength.value,
+      abilityScoreSchema
+    ),
+    dexterity: useValidation(
+      character.abilities.dexterity.value,
+      abilityScoreSchema
+    ),
+    constitution: useValidation(
+      character.abilities.constitution.value,
+      abilityScoreSchema
+    ),
+    intelligence: useValidation(
+      character.abilities.intelligence.value,
+      abilityScoreSchema
+    ),
     wisdom: useValidation(character.abilities.wisdom.value, abilityScoreSchema),
-    charisma: useValidation(character.abilities.charisma.value, abilityScoreSchema),
+    charisma: useValidation(
+      character.abilities.charisma.value,
+      abilityScoreSchema
+    ),
   };
 
   // Calculate modifier based on ability score
@@ -38,10 +53,7 @@ function AbilityScoreStep({
   };
 
   // Type-safe update function for ability scores
-  const updateAbilityScore = (
-    ability: AbilityName,
-    value: number
-  ) => {
+  const updateAbilityScore = (ability: AbilityName, value: number) => {
     // Validate the score before applying
     if (!isValidAbilityScore(value)) {
       console.warn(`Invalid ability score ${value} for ${ability}`);
@@ -112,9 +124,13 @@ function AbilityScoreStep({
     if (!hasRolledScores) return "";
 
     // Check for validation errors
-    const hasErrors = Object.values(validationResults).some(result => !result.isValid);
+    const hasErrors = Object.values(validationResults).some(
+      (result) => !result.isValid
+    );
     if (hasErrors) {
-      const errorCount = Object.values(validationResults).filter(result => !result.isValid).length;
+      const errorCount = Object.values(validationResults).filter(
+        (result) => !result.isValid
+      ).length;
       return `${errorCount} ability scores need to be corrected`;
     }
 

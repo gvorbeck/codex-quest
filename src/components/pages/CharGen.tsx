@@ -5,9 +5,9 @@ import { useCascadeValidation, useLocalStorage, useValidation } from "@/hooks";
 import type { Character } from "@/types/character";
 import { hasValidAbilityScores } from "@/utils/characterValidation";
 import { STORAGE_KEYS } from "@/constants/storage";
-import { 
-  raceSelectionSchema, 
-  classSelectionSchema
+import {
+  raceSelectionSchema,
+  classSelectionSchema,
 } from "@/utils/validationSchemas";
 
 const emptyCharacter: Character = {
@@ -94,9 +94,7 @@ function CharGen() {
           ? "Please roll or set all ability scores before proceeding."
           : "";
       case 1: // Race step
-        return raceValidation.errors.length > 0
-          ? raceValidation.errors[0]
-          : "";
+        return raceValidation.errors.length > 0 ? raceValidation.errors[0] : "";
       case 2: // Class step
         return classValidation.errors.length > 0
           ? classValidation.errors[0]

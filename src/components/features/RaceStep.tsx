@@ -63,9 +63,7 @@ function RaceStep({
     <StepWrapper
       title="Choose Your Race"
       description="Select the race that defines your character's heritage and abilities."
-      statusMessage={
-        selectedRace ? `Selected race: ${selectedRace.name}` : ""
-      }
+      statusMessage={selectedRace ? `Selected race: ${selectedRace.name}` : ""}
     >
       <fieldset>
         <legend className="sr-only">Race selection options</legend>

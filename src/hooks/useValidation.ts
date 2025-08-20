@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import type { ValidationResult, ValidationSchema } from '@/types/enhanced';
+import { useMemo } from "react";
+import type { ValidationResult, ValidationSchema } from "@/types/enhanced";
 
 /**
  * Enhanced validation hook with type safety and detailed feedback
@@ -15,22 +15,28 @@ export function useValidation<T>(
     let isValid = true;
 
     // Check if value is required
-    if (schema.required && (value === null || value === undefined || value === '')) {
-      errors.push('This field is required');
+    if (
+      schema.required &&
+      (value === null || value === undefined || value === "")
+    ) {
+      errors.push("This field is required");
       isValid = false;
       return {
         isValid,
         errors: Object.freeze(errors),
-        warnings: Object.freeze(warnings)
+        warnings: Object.freeze(warnings),
       };
     }
 
     // Skip validation if value is empty and not required
-    if (!schema.required && (value === null || value === undefined || value === '')) {
+    if (
+      !schema.required &&
+      (value === null || value === undefined || value === "")
+    ) {
       return {
         isValid,
         errors: Object.freeze(errors),
-        warnings: Object.freeze(warnings)
+        warnings: Object.freeze(warnings),
       };
     }
 
@@ -51,7 +57,7 @@ export function useValidation<T>(
     return {
       isValid,
       errors: Object.freeze(errors),
-      warnings: Object.freeze(warnings)
+      warnings: Object.freeze(warnings),
     };
   }, [value, schema]);
 }
@@ -69,16 +75,25 @@ export function useMultiValidation<T extends Record<string, unknown>>(
     let isFormValid = true;
 
     // Helper function to validate a single value
-    const validateValue = <V>(value: V, schema: ValidationSchema<V>): ValidationResult => {
+    const validateValue = <V>(
+      value: V,
+      schema: ValidationSchema<V>
+    ): ValidationResult => {
       const errors: string[] = [];
       const warnings: string[] = [];
       let fieldIsValid = true;
 
       // Check if value is required
-      if (schema.required && (value === null || value === undefined || value === '')) {
-        errors.push('This field is required');
+      if (
+        schema.required &&
+        (value === null || value === undefined || value === "")
+      ) {
+        errors.push("This field is required");
         fieldIsValid = false;
-      } else if (schema.required || (value !== null && value !== undefined && value !== '')) {
+      } else if (
+        schema.required ||
+        (value !== null && value !== undefined && value !== "")
+      ) {
         // Run validation rules if value exists or is required
         for (const rule of schema.rules) {
           try {
@@ -97,7 +112,7 @@ export function useMultiValidation<T extends Record<string, unknown>>(
       return {
         isValid: fieldIsValid,
         errors: Object.freeze(errors),
-        warnings: Object.freeze(warnings)
+        warnings: Object.freeze(warnings),
       };
     };
 
@@ -113,14 +128,14 @@ export function useMultiValidation<T extends Record<string, unknown>>(
         results[key] = {
           isValid: true,
           errors: Object.freeze([]),
-          warnings: Object.freeze([])
+          warnings: Object.freeze([]),
         };
       }
     }
 
     return {
       ...results,
-      isFormValid
+      isFormValid,
     } as { [K in keyof T]: ValidationResult } & { isFormValid: boolean };
   }, [values, schemas]);
 }

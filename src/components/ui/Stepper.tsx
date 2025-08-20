@@ -109,7 +109,9 @@ function Stepper({
           onClick={() => handleStepChange("previous")}
           disabled={prevDisabled || safeCurrentStep === 0}
           aria-label={`Go to previous step: ${
-            safeCurrentStep > 0 ? stepItems[safeCurrentStep - 1]?.title || "Previous step" : ""
+            safeCurrentStep > 0
+              ? stepItems[safeCurrentStep - 1]?.title || "Previous step"
+              : ""
           }`}
         >
           Previous
