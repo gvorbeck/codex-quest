@@ -69,5 +69,6 @@ export const dokkalfar: Race = {
     },
   ],
   lifespan: "A dozen centuries or more",
+  languages: ["Common", "Dokkalfar Elvish"],
   supplementalContent: true,
 };

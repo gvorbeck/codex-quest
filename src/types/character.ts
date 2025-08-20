@@ -64,6 +64,7 @@ export interface Character {
     max: number;
   };
   spells?: Spell[]; // Spells known by the character
+  languages?: string[]; // Languages known by the character
 }
 
 export interface RaceRequirement {
@@ -93,6 +94,7 @@ export interface Race {
   specialAbilities: SpecialAbility[];
   savingThrows: SavingThrowBonus[];
   lifespan: string;
+  languages: string[]; // Languages automatically known by this race
   supplementalContent?: boolean;
 }
 

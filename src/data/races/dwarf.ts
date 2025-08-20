@@ -53,5 +53,6 @@ export const dwarf: Race = {
     },
   ],
   lifespan: "Three to four centuries",
+  languages: ["Common", "Dwarvish"],
   supplementalContent: false,
 };

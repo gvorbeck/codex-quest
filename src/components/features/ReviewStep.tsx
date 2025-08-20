@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { TextInput, StepWrapper } from "@/components/ui";
+import { LanguageSelector } from "@/components/features";
 import { useValidation } from "@/hooks";
 import { characterNameSchema } from "@/utils/validationSchemas";
 import { sanitizeCharacterName } from "@/utils/sanitization";
@@ -206,9 +207,17 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
         </div>
       </section>
 
-      {/* Future sections for languages and avatar would go here */}
+      {/* Languages */}
       <section style={{ marginBottom: "2rem" }}>
-        <h4>Additional Options</h4>
+        <LanguageSelector
+          character={character}
+          onCharacterChange={onCharacterChange}
+        />
+      </section>
+
+      {/* Future sections for avatar would go here */}
+      <section style={{ marginBottom: "2rem" }}>
+        <h4>Avatar</h4>
         <div
           style={{
             padding: "1rem",
@@ -219,7 +228,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
             textAlign: "center",
           }}
         >
-          Language selection and avatar upload coming soon...
+          Avatar upload coming soon...
         </div>
       </section>
     </StepWrapper>

@@ -84,5 +84,6 @@ export const halfling: Race = {
     },
   ],
   lifespan: "About a hundred years",
+  languages: ["Common", "Halfling"],
   supplementalContent: false,
 };

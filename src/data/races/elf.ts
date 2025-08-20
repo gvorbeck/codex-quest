@@ -59,5 +59,6 @@ export const elf: Race = {
     },
   ],
   lifespan: "A dozen centuries or more",
+  languages: ["Common", "Elvish"],
   supplementalContent: false,
 };

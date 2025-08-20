@@ -19,5 +19,6 @@ export const human: Race = {
   ],
   savingThrows: [],
   lifespan: "Around 75 years",
+  languages: ["Common"],
   supplementalContent: false,
 };
