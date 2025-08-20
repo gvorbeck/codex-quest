@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Accordion, SimpleRoller, StepWrapper, Button } from "@/components/ui";
 import type { Character, Equipment } from "@/types/character";
-import equipmentData from "@/data/equipment.json";
+import { loadAllEquipment } from "@/services/dataLoader";
 
 interface EquipmentStepProps {
   character: Character;
@@ -17,9 +17,25 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   const [startingGold, setStartingGold] = useState<number | undefined>(
     character.gold > 0 ? character.gold : undefined
   );
+  const [allEquipment, setAllEquipment] = useState<EquipmentWithIndex[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Cast equipment data to Equipment array with index signature for Accordion compatibility
-  const allEquipment = equipmentData as EquipmentWithIndex[];
+  // Load equipment data on component mount
+  useEffect(() => {
+    const loadEquipmentData = async () => {
+      try {
+        const equipment = await loadAllEquipment();
+        setAllEquipment(equipment as EquipmentWithIndex[]);
+      } catch (error) {
+        console.error('Failed to load equipment data:', error);
+        setAllEquipment([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadEquipmentData();
+  }, []);
 
   // Auto-add spellbook for magic-users
   const isMagicUser = useMemo(
@@ -323,12 +339,19 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           category.
         </p>
 
-        <Accordion
-          items={allEquipment}
-          sortBy="category"
-          searchPlaceholder="Search equipment..."
-          renderItem={renderEquipmentItem}
-        />
+        {isLoading ? (
+          <div className="flex items-center justify-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-400"></div>
+            <span className="ml-3 text-stone-400">Loading equipment...</span>
+          </div>
+        ) : (
+          <Accordion
+            items={allEquipment}
+            sortBy="category"
+            searchPlaceholder="Search equipment..."
+            renderItem={renderEquipmentItem}
+          />
+        )}
       </div>
     </StepWrapper>
   );

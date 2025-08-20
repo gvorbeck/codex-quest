@@ -28,16 +28,14 @@ export default defineConfig({
           react: ["react", "react-dom"],
           // Router chunk
           router: ["wouter"],
-          // Data chunks
+          // Data chunks (removing large JSON files for lazy loading)
           "game-data": [
             "./src/data/classes/index.ts",
             "./src/data/races/index.ts",
-            "./src/data/spells.json",
           ],
           // Utility chunks
           utils: [
             "./src/utils/dice.ts",
-            "./src/utils/spells.ts",
             "./src/utils/characterValidation.ts",
           ],
         },

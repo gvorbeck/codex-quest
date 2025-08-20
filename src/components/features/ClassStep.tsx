@@ -6,9 +6,9 @@ import {
 } from "@/components/features";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Character } from "@/types/character";
+import type { Character, Spell } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 
 interface ClassStepProps {
   character: Character;
@@ -29,6 +29,10 @@ function ClassStepComponent({
 }: ClassStepProps) {
   // Get the selected race data
   const selectedRace = allRaces.find((race) => race.id === character.race);
+  
+  // State for managing available spells
+  const [availableSpells, setAvailableSpells] = useState<Spell[]>([]);
+  const [isLoadingSpells, setIsLoadingSpells] = useState(false);
 
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = allClasses.filter(
@@ -64,11 +68,41 @@ function ClassStepComponent({
     }
   };
 
-  const handleSpellChange = (spellName: string) => {
-    const spellcastingClassId = getEffectiveSpellcastingClass();
-    if (!spellcastingClassId) return;
+  // Load available spells when spellcasting class changes
+  useEffect(() => {
+    // Helper function to get the effective spellcasting class
+    const getEffectiveSpellcastingClass = (): string | null => {
+      // Check if any of the character's classes can cast spells
+      for (const classId of character.class) {
+        const classData = availableClasses.find((cls) => cls.id === classId);
+        if (classData && hasSpellcasting(classData)) {
+          return classId;
+        }
+      }
+      return null;
+    };
 
-    const availableSpells = getFirstLevelSpellsForClass(spellcastingClassId);
+    const spellcastingClassId = getEffectiveSpellcastingClass();
+    if (spellcastingClassId) {
+      setIsLoadingSpells(true);
+      getFirstLevelSpellsForClass(spellcastingClassId)
+        .then((spells) => {
+          setAvailableSpells(spells);
+        })
+        .catch((error) => {
+          console.error('Failed to load spells:', error);
+          setAvailableSpells([]);
+        })
+        .finally(() => {
+          setIsLoadingSpells(false);
+        });
+    } else {
+      setAvailableSpells([]);
+      setIsLoadingSpells(false);
+    }
+  }, [character.class, availableClasses]);
+
+  const handleSpellChange = (spellName: string) => {
     const selectedSpell = availableSpells.find(
       (spell) => spell.name === spellName
     );
@@ -79,18 +113,6 @@ function ClassStepComponent({
         spells: [selectedSpell], // Replace any existing spells with the new selection
       });
     }
-  };
-
-  // Helper function to get the effective spellcasting class
-  const getEffectiveSpellcastingClass = (): string | null => {
-    // Check if any of the character's classes can cast spells
-    for (const classId of character.class) {
-      const classData = availableClasses.find((cls) => cls.id === classId);
-      if (classData && hasSpellcasting(classData)) {
-        return classId;
-      }
-    }
-    return null;
   };
 
   const handleCombinationToggle = (enabled: boolean) => {
@@ -146,10 +168,6 @@ function ClassStepComponent({
   };
 
   // Get spell-related data for current class configuration
-  const spellcastingClassId = getEffectiveSpellcastingClass();
-  const availableSpells = spellcastingClassId
-    ? getFirstLevelSpellsForClass(spellcastingClassId)
-    : [];
   const showSpellSelection = availableSpells.length > 0;
 
   return (
@@ -200,6 +218,7 @@ function ClassStepComponent({
               title="Starting Spell"
               description="Your class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
               detailsId="spell-selection"
+              isLoading={isLoadingSpells}
             />
           )}
         </>
@@ -219,6 +238,7 @@ function ClassStepComponent({
               title="Starting Spell"
               description="Your combination class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
               detailsId="combination-spell-selection"
+              isLoading={isLoadingSpells}
             />
           )}
         </>

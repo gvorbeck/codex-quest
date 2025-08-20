@@ -9,6 +9,7 @@ interface SpellSelectorProps {
   title: string;
   description: string;
   detailsId: string;
+  isLoading?: boolean;
 }
 
 function SpellSelectorComponent({
@@ -18,6 +19,7 @@ function SpellSelectorComponent({
   title,
   description,
   detailsId,
+  isLoading = false,
 }: SpellSelectorProps) {
   const spellOptions = availableSpells.map((spell) => ({
     value: spell.name,
@@ -33,15 +35,22 @@ function SpellSelectorComponent({
     <section aria-labelledby={`${detailsId}-heading`}>
       <h6 id={`${detailsId}-heading`}>{title}</h6>
       <p>{description}</p>
-      <Select
-        label="Choose your starting spell"
-        value={selectedSpell}
-        onValueChange={onSpellChange}
-        options={spellOptions}
-        placeholder="Choose a spell"
-        required
-        aria-describedby={selectedSpell ? `${detailsId}-details` : undefined}
-      />
+      {isLoading ? (
+        <div className="flex items-center justify-center py-4">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-stone-400"></div>
+          <span className="ml-3 text-stone-400">Loading spells...</span>
+        </div>
+      ) : (
+        <Select
+          label="Choose your starting spell"
+          value={selectedSpell}
+          onValueChange={onSpellChange}
+          options={spellOptions}
+          placeholder="Choose a spell"
+          required
+          aria-describedby={selectedSpell ? `${detailsId}-details` : undefined}
+        />
+      )}
 
       {selectedSpell && character.spells && character.spells.length > 0 && (
         <div id={`${detailsId}-details`}>

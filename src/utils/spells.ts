@@ -1,30 +1,18 @@
 import type { Spell } from "@/types/character";
-import spellsData from "@/data/spells.json";
-
-export const allSpells: Spell[] = spellsData as Spell[];
+import { loadSpellsForClass } from "@/services/dataLoader";
 
 /**
  * Get all spells available to a specific class at a given level
  */
-export function getSpellsForClass(classId: string, level: number): Spell[] {
-  return allSpells.filter((spell) => {
-    const spellLevel = spell.level[classId as keyof typeof spell.level];
-    return spellLevel === level;
-  });
+export async function getSpellsForClass(classId: string, level: number): Promise<Spell[]> {
+  return await loadSpellsForClass(classId, level);
 }
 
 /**
  * Get all first level spells available to a class (excluding Read Magic for magic-users)
  */
-export function getFirstLevelSpellsForClass(classId: string): Spell[] {
-  const firstLevelSpells = getSpellsForClass(classId, 1);
-
-  // For magic-users, exclude Read Magic since they automatically know it
-  if (classId === "magic-user") {
-    return firstLevelSpells.filter((spell) => spell.name !== "Read Magic");
-  }
-
-  return firstLevelSpells;
+export async function getFirstLevelSpellsForClass(classId: string): Promise<Spell[]> {
+  return await loadSpellsForClass(classId, 1);
 }
 
 /**

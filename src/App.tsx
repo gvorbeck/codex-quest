@@ -1,13 +1,21 @@
 import { Link, Route, Switch } from "wouter";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import "./App.css";
 import { ErrorBoundary } from "@/components/ui";
+import { preloadCriticalData } from "@/services/dataLoader";
 
 // Lazy load page components for better code splitting
 const Home = lazy(() => import("./components/pages/Home"));
 const CharGen = lazy(() => import("./components/pages/CharGen"));
 
 function App() {
+  // Preload critical data for better performance
+  useEffect(() => {
+    preloadCriticalData().catch((error) => {
+      console.warn('Failed to preload critical data:', error);
+    });
+  }, []);
+
   return (
     <ErrorBoundary>
       <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
