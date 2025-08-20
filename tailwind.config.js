@@ -4,6 +4,9 @@ export default {
   darkMode: "class", // Enable dark mode
   theme: {
     extend: {
+      fontFamily: {
+        title: ["Wellfleet", "serif"],
+      },
       colors: {
         // Primary color scheme
         primary: {

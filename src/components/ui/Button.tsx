@@ -100,7 +100,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             className="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full flex-shrink-0"
           />
         )}
-        <span className={`flex items-center gap-2 ${loading ? "opacity-0" : ""}`}>
+        <span
+          className={`flex items-center gap-2 ${loading ? "opacity-0" : ""}`}
+        >
           {children}
         </span>
         {loading && <span className="sr-only">{loadingText}</span>}

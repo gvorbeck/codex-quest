@@ -6,6 +6,16 @@ body {
   color: #f4f4f5; /* zinc-100 */
 }
 
+/* Apply Wellfleet font to headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Wellfleet", serif;
+}
+
 /* Custom accessibility and focus styles */
 
 /* Screen reader only content */

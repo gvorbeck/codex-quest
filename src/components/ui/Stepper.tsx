@@ -63,7 +63,11 @@ function Stepper({
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8" role="region" aria-labelledby="stepper-heading">
+    <div
+      className="flex flex-col lg:flex-row gap-8"
+      role="region"
+      aria-labelledby="stepper-heading"
+    >
       {/* Screen reader announcement */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">
         Step {safeCurrentStep + 1} of {stepItems.length}:{" "}
@@ -72,7 +76,11 @@ function Stepper({
 
       {/* Step Navigation - Hidden on mobile, visible on large screens */}
       <aside className="hidden lg:block lg:w-80 lg:flex-shrink-0">
-        <nav role="navigation" aria-label="Step navigation" className="sticky top-8">
+        <nav
+          role="navigation"
+          aria-label="Step navigation"
+          className="sticky top-8"
+        >
           <h3 className="text-lg font-semibold text-zinc-100 mb-6">Steps</h3>
           <ol className="space-y-3" aria-label="Progress steps">
             {stepItems.map((item, index) => {
@@ -123,7 +131,10 @@ function Stepper({
                 ? ["bg-zinc-900 text-lime-500 border-zinc-900"]
                 : ["bg-zinc-600 text-zinc-300 border-zinc-600"];
 
-              const numberClasses = [...numberBaseStyles, ...numberVariantStyles]
+              const numberClasses = [
+                ...numberBaseStyles,
+                ...numberVariantStyles,
+              ]
                 .filter(Boolean)
                 .join(" ");
 
@@ -159,7 +170,9 @@ function Stepper({
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold">{item.title}</div>
                       {isActive && (
-                        <div className="text-sm opacity-75 mt-1">Current step</div>
+                        <div className="text-sm opacity-75 mt-1">
+                          Current step
+                        </div>
                       )}
                       {isCompleted && (
                         <div className="text-sm opacity-75 mt-1">Completed</div>
@@ -198,7 +211,11 @@ function Stepper({
         </div>
 
         {/* Step Controls */}
-        <nav role="navigation" aria-label="Step controls" className="flex flex-col sm:flex-row gap-4 mb-8">
+        <nav
+          role="navigation"
+          aria-label="Step controls"
+          className="flex flex-col sm:flex-row gap-4 mb-8"
+        >
           <Button
             onClick={() => handleStepChange("previous")}
             disabled={prevDisabled || safeCurrentStep === 0}
@@ -267,7 +284,10 @@ function Stepper({
           aria-live="polite"
           className="mb-8"
         >
-          <h2 id="step-content-heading" className="text-2xl font-bold text-zinc-100 mb-4">
+          <h2
+            id="step-content-heading"
+            className="text-2xl font-bold text-zinc-100 mb-4"
+          >
             {currentStepItem?.title || "Step"}
           </h2>
           <div>{currentStepItem?.content}</div>
