@@ -34,10 +34,7 @@ export default defineConfig({
             "./src/data/races/index.ts",
           ],
           // Utility chunks
-          utils: [
-            "./src/utils/dice.ts",
-            "./src/utils/characterValidation.ts",
-          ],
+          utils: ["./src/utils/dice.ts", "./src/utils/characterValidation.ts"],
         },
       },
     },

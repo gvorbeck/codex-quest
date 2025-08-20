@@ -1,4 +1,4 @@
-import React, { useState, useId, useMemo } from "react";
+import React, { useState, useId, useMemo, useCallback } from "react";
 import TextInput from "./TextInput";
 
 interface AccordionItem {
@@ -132,7 +132,7 @@ function Accordion<T extends AccordionItem>({
     };
   }, [items, sortBy, labelProperty, searchTerm]);
 
-  const handleSectionToggle = (category: string) => {
+  const handleSectionToggle = useCallback((category: string) => {
     setExpandedSections((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(category)) {
@@ -142,20 +142,23 @@ function Accordion<T extends AccordionItem>({
       }
       return newSet;
     });
-  };
+  }, []);
 
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    // If we're filtering, expand all sections with results for better UX
-    if (value.trim()) {
-      setExpandedSections(new Set(Object.keys(groupedItems)));
-    }
-  };
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearchTerm(value);
+      // If we're filtering, expand all sections with results for better UX
+      if (value.trim()) {
+        setExpandedSections(new Set(Object.keys(groupedItems)));
+      }
+    },
+    [groupedItems]
+  );
 
-  const handleSearchClear = () => {
+  const handleSearchClear = useCallback(() => {
     setSearchTerm("");
     setExpandedSections(new Set()); // Collapse all sections when clearing
-  };
+  }, []);
 
   return (
     <div className={`accordion space-y-4 ${className}`}>

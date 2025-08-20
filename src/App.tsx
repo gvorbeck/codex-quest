@@ -12,7 +12,7 @@ function App() {
   // Preload critical data for better performance
   useEffect(() => {
     preloadCriticalData().catch((error) => {
-      console.warn('Failed to preload critical data:', error);
+      console.warn("Failed to preload critical data:", error);
     });
   }, []);
 

@@ -4,14 +4,19 @@ import { loadSpellsForClass } from "@/services/dataLoader";
 /**
  * Get all spells available to a specific class at a given level
  */
-export async function getSpellsForClass(classId: string, level: number): Promise<Spell[]> {
+export async function getSpellsForClass(
+  classId: string,
+  level: number
+): Promise<Spell[]> {
   return await loadSpellsForClass(classId, level);
 }
 
 /**
  * Get all first level spells available to a class (excluding Read Magic for magic-users)
  */
-export async function getFirstLevelSpellsForClass(classId: string): Promise<Spell[]> {
+export async function getFirstLevelSpellsForClass(
+  classId: string
+): Promise<Spell[]> {
   return await loadSpellsForClass(classId, 1);
 }
 

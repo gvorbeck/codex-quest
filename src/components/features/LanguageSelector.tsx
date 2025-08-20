@@ -13,10 +13,9 @@ function LanguageSelector({
   onCharacterChange,
 }: LanguageSelectorProps) {
   // Calculate how many bonus languages the character can learn based on Intelligence modifier
-  const maxBonusLanguages = Math.max(
-    0,
-    character.abilities.intelligence.modifier
-  );
+  const maxBonusLanguages = useMemo(() => {
+    return Math.max(0, character.abilities.intelligence.modifier);
+  }, [character.abilities.intelligence.modifier]);
 
   // Get the character's race data to determine automatic languages
   const raceData = useMemo(() => {
@@ -28,13 +27,17 @@ function LanguageSelector({
   }, [raceData?.languages]);
 
   // Get current bonus languages (languages beyond the automatic ones)
-  const currentLanguages = character.languages || [];
-  const bonusLanguages = currentLanguages.filter(
-    (lang) => !automaticLanguages.includes(lang)
-  );
+  const bonusLanguages = useMemo(() => {
+    const currentLanguages = character.languages || [];
+    return currentLanguages.filter(
+      (lang) => !automaticLanguages.includes(lang)
+    );
+  }, [character.languages, automaticLanguages]);
 
   // Calculate how many more languages can be added
-  const remainingSlots = maxBonusLanguages - bonusLanguages.length;
+  const remainingSlots = useMemo(() => {
+    return maxBonusLanguages - bonusLanguages.length;
+  }, [maxBonusLanguages, bonusLanguages.length]);
 
   const handleLanguageChange = useCallback(
     (index: number, newLanguage: string) => {

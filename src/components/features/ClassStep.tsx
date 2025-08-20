@@ -8,7 +8,7 @@ import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import type { Character, Spell } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps {
   character: Character;
@@ -28,24 +28,35 @@ function ClassStepComponent({
   onUseCombinationClassChange,
 }: ClassStepProps) {
   // Get the selected race data
-  const selectedRace = allRaces.find((race) => race.id === character.race);
-  
+  const selectedRace = useMemo(() => {
+    return allRaces.find((race) => race.id === character.race);
+  }, [character.race]);
+
   // State for managing available spells
   const [availableSpells, setAvailableSpells] = useState<Spell[]>([]);
   const [isLoadingSpells, setIsLoadingSpells] = useState(false);
 
   // Filter classes based on race restrictions and supplemental content setting
-  const availableClasses = allClasses.filter(
-    (cls) =>
-      selectedRace?.allowedClasses.includes(cls.id) &&
-      (includeSupplementalClass || !cls.supplementalContent)
-  );
+  const availableClasses = useMemo(() => {
+    return allClasses.filter(
+      (cls) =>
+        selectedRace?.allowedClasses.includes(cls.id) &&
+        (includeSupplementalClass || !cls.supplementalContent)
+    );
+  }, [selectedRace, includeSupplementalClass]);
 
   // Valid combination classes for elves and dokkalfar
-  const validCombinations = [
-    { ids: ["fighter", "magic-user"], name: "Fighter/Magic-User" },
-    { ids: ["magic-user", "thief"], name: "Magic-User/Thief" },
-  ];
+  const validCombinations = useMemo(() => {
+    return [
+      { ids: ["fighter", "magic-user"], name: "Fighter/Magic-User" },
+      { ids: ["magic-user", "thief"], name: "Magic-User/Thief" },
+    ];
+  }, []);
+
+  // Check if the character's race can use combination classes
+  const canUseCombinationClasses = useMemo(() => {
+    return selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
+  }, [selectedRace]);
 
   const handleSingleClassChange = (classId: string) => {
     onCharacterChange({
@@ -90,7 +101,7 @@ function ClassStepComponent({
           setAvailableSpells(spells);
         })
         .catch((error) => {
-          console.error('Failed to load spells:', error);
+          console.error("Failed to load spells:", error);
           setAvailableSpells([]);
         })
         .finally(() => {
@@ -135,21 +146,9 @@ function ClassStepComponent({
     }
   };
 
-  // Check if the character's race can use combination classes
-  const canUseCombinationClasses =
-    selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
-
-  if (!selectedRace) {
-    return (
-      <div>
-        <p>Please select a race first before choosing a class.</p>
-      </div>
-    );
-  }
-
   // Get current class display name
-  const getClassDisplayName = () => {
-    if (character.class.length === 0) return undefined;
+  const classDisplayName = useMemo(() => {
+    if (!selectedRace || character.class.length === 0) return undefined;
     if (character.class.length === 1) {
       const singleClass = availableClasses.find(
         (cls) => cls.id === character.class[0]
@@ -165,7 +164,15 @@ function ClassStepComponent({
         ? `Selected combination class: ${combination.name}`
         : `Selected classes: ${character.class.join(", ")}`;
     }
-  };
+  }, [selectedRace, character.class, availableClasses, validCombinations]);
+
+  if (!selectedRace) {
+    return (
+      <div>
+        <p>Please select a race first before choosing a class.</p>
+      </div>
+    );
+  }
 
   // Get spell-related data for current class configuration
   const showSpellSelection = availableSpells.length > 0;
@@ -174,7 +181,7 @@ function ClassStepComponent({
     <StepWrapper
       title="Choose Your Class"
       description="Select the class that defines your character's abilities and role."
-      statusMessage={getClassDisplayName() || ""}
+      statusMessage={classDisplayName || ""}
     >
       <fieldset>
         <legend className="sr-only">Class selection options</legend>

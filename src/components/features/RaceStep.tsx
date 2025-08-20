@@ -1,7 +1,7 @@
 import { Switch, Select, StepWrapper } from "@/components/ui";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 interface RaceStepProps {
   character: Character;
@@ -17,33 +17,37 @@ function RaceStep({
   onIncludeSupplementalChange,
 }: RaceStepProps) {
   // Filter races based on supplemental content setting and ability requirements
-  const availableRaces = allRaces.filter((race) => {
-    // Filter by supplemental content
-    if (race.supplementalContent && !includeSupplemental) {
-      return false;
-    }
-
-    // Filter by ability requirements
-    return race.abilityRequirements.every((requirement) => {
-      const abilityValue = character.abilities[requirement.ability].value;
-
-      if (requirement.min && abilityValue < requirement.min) {
+  const availableRaces = useMemo(() => {
+    return allRaces.filter((race) => {
+      // Filter by supplemental content
+      if (race.supplementalContent && !includeSupplemental) {
         return false;
       }
 
-      if (requirement.max && abilityValue > requirement.max) {
-        return false;
-      }
+      // Filter by ability requirements
+      return race.abilityRequirements.every((requirement) => {
+        const abilityValue = character.abilities[requirement.ability].value;
 
-      return true;
+        if (requirement.min && abilityValue < requirement.min) {
+          return false;
+        }
+
+        if (requirement.max && abilityValue > requirement.max) {
+          return false;
+        }
+
+        return true;
+      });
     });
-  });
+  }, [includeSupplemental, character.abilities]);
 
   // Convert races to select options
-  const raceOptions = availableRaces.map((race) => ({
-    value: race.id,
-    label: race.name,
-  }));
+  const raceOptions = useMemo(() => {
+    return availableRaces.map((race) => ({
+      value: race.id,
+      label: race.name,
+    }));
+  }, [availableRaces]);
 
   const handleRaceChange = (raceId: string) => {
     onCharacterChange({

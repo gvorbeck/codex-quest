@@ -48,7 +48,9 @@ export async function loadEquipmentByCategory(
 
     // Filter by category
     const categoryItems = (allEquipment as Equipment[]).filter((item) =>
-      (EQUIPMENT_CATEGORIES[category] as readonly string[]).includes(item.category)
+      (EQUIPMENT_CATEGORIES[category] as readonly string[]).includes(
+        item.category
+      )
     );
 
     // Cache the result

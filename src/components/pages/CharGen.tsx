@@ -120,12 +120,12 @@ function CharGen() {
     }
   }, [character.race, useCombinationClass, setUseCombinationClass]);
 
-  // Enhanced validation functions with detailed feedback
-  const isNextDisabled = useCallback(() => {
+  // Memoize validation functions to prevent unnecessary re-computation
+  const isNextDisabled = useMemo(() => {
     return validationService.isStepDisabled(step, character);
   }, [validationService, step, character]);
 
-  const getValidationMessage = useCallback(() => {
+  const getValidationMessage = useMemo(() => {
     return validationService.getStepValidationMessage(step, character);
   }, [validationService, step, character]);
 
@@ -216,8 +216,8 @@ function CharGen() {
           stepItems={stepItems}
           step={step}
           setStep={setStep}
-          nextDisabled={isNextDisabled()}
-          validationMessage={getValidationMessage() || ""}
+          nextDisabled={isNextDisabled}
+          validationMessage={getValidationMessage || ""}
         />
       </section>
     </article>
