@@ -22,13 +22,14 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   const allEquipment = equipmentData as EquipmentWithIndex[];
 
   // Auto-add spellbook for magic-users
-  const isMagicUser = useMemo(() => 
-    character.class.includes("magic-user"), 
+  const isMagicUser = useMemo(
+    () => character.class.includes("magic-user"),
     [character.class]
   );
 
-  const hasSpellbook = useMemo(() => 
-    character.equipment.some((item) => item.name === "Spellbook (128 pages)"),
+  const hasSpellbook = useMemo(
+    () =>
+      character.equipment.some((item) => item.name === "Spellbook (128 pages)"),
     [character.equipment]
   );
 

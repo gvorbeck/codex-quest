@@ -129,68 +129,77 @@ function CharGen() {
     return validationService.getStepValidationMessage(step, character);
   }, [validationService, step, character]);
 
-  const stepItems = useMemo(() => [
-    {
-      title: "Abilities",
-      content: (
-        <AbilityScoreStep
-          character={character}
-          onCharacterChange={setCharacter}
-        />
-      ),
-    },
-    {
-      title: "Race",
-      content: (
-        <RaceStep
-          character={character}
-          onCharacterChange={setCharacter}
-          includeSupplemental={includeSupplementalRace}
-          onIncludeSupplementalChange={setIncludeSupplementalRace}
-        />
-      ),
-    },
-    {
-      title: "Class",
-      content: (
-        <ClassStep
-          character={character}
-          onCharacterChange={setCharacter}
-          includeSupplementalClass={includeSupplementalClass}
-          onIncludeSupplementalClassChange={setIncludeSupplementalClass}
-          useCombinationClass={useCombinationClass}
-          onUseCombinationClassChange={setUseCombinationClass}
-        />
-      ),
-    },
-    {
-      title: "Hit Points",
-      content: (
-        <HitPointsStep character={character} onCharacterChange={setCharacter} />
-      ),
-    },
-    {
-      title: "Equipment",
-      content: (
-        <EquipmentStep character={character} onCharacterChange={setCharacter} />
-      ),
-    },
-    {
-      title: "Review",
-      content: (
-        <ReviewStep character={character} onCharacterChange={setCharacter} />
-      ),
-    },
-  ], [
-    character,
-    setCharacter,
-    includeSupplementalRace,
-    setIncludeSupplementalRace,
-    includeSupplementalClass,
-    setIncludeSupplementalClass,
-    useCombinationClass,
-    setUseCombinationClass,
-  ]);
+  const stepItems = useMemo(
+    () => [
+      {
+        title: "Abilities",
+        content: (
+          <AbilityScoreStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Race",
+        content: (
+          <RaceStep
+            character={character}
+            onCharacterChange={setCharacter}
+            includeSupplemental={includeSupplementalRace}
+            onIncludeSupplementalChange={setIncludeSupplementalRace}
+          />
+        ),
+      },
+      {
+        title: "Class",
+        content: (
+          <ClassStep
+            character={character}
+            onCharacterChange={setCharacter}
+            includeSupplementalClass={includeSupplementalClass}
+            onIncludeSupplementalClassChange={setIncludeSupplementalClass}
+            useCombinationClass={useCombinationClass}
+            onUseCombinationClassChange={setUseCombinationClass}
+          />
+        ),
+      },
+      {
+        title: "Hit Points",
+        content: (
+          <HitPointsStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Equipment",
+        content: (
+          <EquipmentStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Review",
+        content: (
+          <ReviewStep character={character} onCharacterChange={setCharacter} />
+        ),
+      },
+    ],
+    [
+      character,
+      setCharacter,
+      includeSupplementalRace,
+      setIncludeSupplementalRace,
+      includeSupplementalClass,
+      setIncludeSupplementalClass,
+      useCombinationClass,
+      setUseCombinationClass,
+    ]
+  );
 
   return (
     <article>

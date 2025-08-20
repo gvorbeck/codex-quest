@@ -22,10 +22,7 @@ export class CharacterValidationService {
   availableRaces: Race[];
   availableClasses: Class[];
 
-  constructor(
-    availableRaces: Race[],
-    availableClasses: Class[]
-  ) {
+  constructor(availableRaces: Race[], availableClasses: Class[]) {
     this.availableRaces = availableRaces;
     this.availableClasses = availableClasses;
   }
@@ -46,12 +43,18 @@ export class CharacterValidationService {
     if (isValid) {
       const eligibleRaces = getEligibleRaces(character, this.availableRaces);
       if (eligibleRaces.length === 0) {
-        warnings.push("Warning: Current ability scores don't meet requirements for any available races.");
+        warnings.push(
+          "Warning: Current ability scores don't meet requirements for any available races."
+        );
       } else if (eligibleRaces.length < this.availableRaces.length) {
         const ineligibleRaces = this.availableRaces.filter(
-          race => !eligibleRaces.some(eligible => eligible.id === race.id)
+          (race) => !eligibleRaces.some((eligible) => eligible.id === race.id)
         );
-        warnings.push(`Note: ${ineligibleRaces.map(r => r.name).join(", ")} won't be available with current scores.`);
+        warnings.push(
+          `Note: ${ineligibleRaces
+            .map((r) => r.name)
+            .join(", ")} won't be available with current scores.`
+        );
       }
     }
 
@@ -69,29 +72,33 @@ export class CharacterValidationService {
       return {
         isValid: false,
         errors: ["Please select a race for your character"],
-        warnings
+        warnings,
       };
     }
 
-    const selectedRace = this.availableRaces.find(r => r.id === character.race);
+    const selectedRace = this.availableRaces.find(
+      (r) => r.id === character.race
+    );
     if (!selectedRace) {
       return {
         isValid: false,
         errors: ["Selected race is not available"],
-        warnings
+        warnings,
       };
     }
 
     // Check if character meets race requirements
     const meetsRequirements = isRaceEligible(character, selectedRace);
     if (!meetsRequirements) {
-      errors.push(`Character doesn't meet ability requirements for ${selectedRace.name}`);
+      errors.push(
+        `Character doesn't meet ability requirements for ${selectedRace.name}`
+      );
     }
 
     return {
       isValid: meetsRequirements,
       errors,
-      warnings
+      warnings,
     };
   }
 
@@ -106,7 +113,7 @@ export class CharacterValidationService {
       return {
         isValid: false,
         errors: ["Please select at least one class for your character"],
-        warnings
+        warnings,
       };
     }
 
@@ -115,16 +122,18 @@ export class CharacterValidationService {
       return {
         isValid: false,
         errors: ["Please select a race before choosing classes"],
-        warnings
+        warnings,
       };
     }
 
-    const selectedRace = this.availableRaces.find(r => r.id === character.race);
+    const selectedRace = this.availableRaces.find(
+      (r) => r.id === character.race
+    );
     if (!selectedRace) {
       return {
         isValid: false,
         errors: ["Selected race is not available"],
-        warnings
+        warnings,
       };
     }
 
@@ -140,11 +149,16 @@ export class CharacterValidationService {
     }
 
     // Check for required starting spells
-    const hasRequiredSpells = hasRequiredStartingSpells(character, this.availableClasses);
+    const hasRequiredSpells = hasRequiredStartingSpells(
+      character,
+      this.availableClasses
+    );
     if (!hasRequiredSpells) {
       const isMagicUser = character.class.includes("magic-user");
       if (isMagicUser) {
-        errors.push("Magic-Users must select one first level spell (Read Magic is automatically known).");
+        errors.push(
+          "Magic-Users must select one first level spell (Read Magic is automatically known)."
+        );
       } else {
         errors.push("Please select required starting spells for your class.");
       }
@@ -153,7 +167,7 @@ export class CharacterValidationService {
     return {
       isValid: classesStillValid && hasRequiredSpells,
       errors,
-      warnings
+      warnings,
     };
   }
 
@@ -171,7 +185,7 @@ export class CharacterValidationService {
     return {
       isValid,
       errors,
-      warnings: []
+      warnings: [],
     };
   }
 
@@ -183,7 +197,7 @@ export class CharacterValidationService {
     return {
       isValid: true,
       errors: [],
-      warnings: []
+      warnings: [],
     };
   }
 
@@ -201,13 +215,15 @@ export class CharacterValidationService {
     } else if (character.name.trim().length > 50) {
       errors.push("Character name must be 50 characters or less");
     } else if (!/^[a-zA-Z\s\-'.]+$/.test(character.name.trim())) {
-      errors.push("Character name can only contain letters, spaces, hyphens, apostrophes, and periods");
+      errors.push(
+        "Character name can only contain letters, spaces, hyphens, apostrophes, and periods"
+      );
     }
 
     return {
       isValid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   }
 
