@@ -13,7 +13,10 @@ interface ReviewStepProps {
   onCharacterChange: (character: Character) => void;
 }
 
-function ReviewStepComponent({ character, onCharacterChange }: ReviewStepProps) {
+function ReviewStepComponent({
+  character,
+  onCharacterChange,
+}: ReviewStepProps) {
   // Validate character name
   const nameValidation = useValidation(character.name, characterNameSchema);
 
