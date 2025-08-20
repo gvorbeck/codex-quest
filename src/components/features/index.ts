@@ -5,6 +5,7 @@
 export { default as AbilityScoreStep } from "./AbilityScoreStep";
 export { default as RaceStep } from "./RaceStep";
 export { ClassStep } from "./ClassStep";
+export { default as HitPointsStep } from "./HitPointsStep";
 
 // Component parts for better modularity
 export { StandardClassSelector } from "./StandardClassSelector";

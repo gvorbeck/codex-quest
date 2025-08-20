@@ -32,6 +32,10 @@ export interface Character {
     charisma: AbilityScore;
   };
   equipment: unknown[];
+  hp: {
+    current: number;
+    max: number;
+  };
   spells?: Spell[]; // Spells known by the character
 }
 

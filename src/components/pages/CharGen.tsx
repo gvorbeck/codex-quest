@@ -1,15 +1,25 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { Stepper } from "@/components/ui";
-import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
+import {
+  AbilityScoreStep,
+  RaceStep,
+  ClassStep,
+  HitPointsStep,
+} from "@/components/features";
 import { useCascadeValidation, useLocalStorage, useValidation } from "@/hooks";
 import type { Character } from "@/types/character";
-import { hasValidAbilityScores } from "@/utils/characterValidation";
+import {
+  hasValidAbilityScores,
+  hasValidHitPoints,
+  hasRequiredStartingSpells,
+} from "@/utils/characterValidation";
 import { STORAGE_KEYS } from "@/constants/storage";
 import {
   raceSelectionSchema,
   classSelectionSchema,
 } from "@/utils/validationSchemas";
 import { allRaces } from "@/data/races";
+import { allClasses } from "@/data/classes";
 
 const emptyCharacter: Character = {
   name: "",
@@ -42,13 +52,34 @@ const emptyCharacter: Character = {
   race: "",
   class: [],
   equipment: [],
+  hp: {
+    current: 0,
+    max: 0,
+  },
 };
 
 function CharGen() {
   // Use custom localStorage hooks for persistent state management
-  const [character, setCharacter] = useLocalStorage<Character>(
+  const [storedCharacter, setStoredCharacter] = useLocalStorage<Character>(
     STORAGE_KEYS.NEW_CHARACTER,
     emptyCharacter
+  );
+
+  // Ensure the character always has the complete structure by merging with emptyCharacter
+  const character = useMemo(
+    () => ({
+      ...emptyCharacter,
+      ...storedCharacter,
+      hp: storedCharacter.hp || emptyCharacter.hp,
+    }),
+    [storedCharacter]
+  );
+
+  const setCharacter = useCallback(
+    (newCharacter: Character) => {
+      setStoredCharacter(newCharacter);
+    },
+    [setStoredCharacter]
   );
 
   const [step, setStep] = useState(0);
@@ -95,7 +126,12 @@ function CharGen() {
       case 1: // Race step
         return !raceValidation.isValid;
       case 2: // Class step
-        return !classValidation.isValid;
+        return (
+          !classValidation.isValid ||
+          !hasRequiredStartingSpells(character, allClasses)
+        );
+      case 3: // Hit Points step
+        return !hasValidHitPoints(character);
       default:
         return false;
     }
@@ -110,8 +146,21 @@ function CharGen() {
       case 1: // Race step
         return raceValidation.errors.length > 0 ? raceValidation.errors[0] : "";
       case 2: // Class step
-        return classValidation.errors.length > 0
-          ? classValidation.errors[0]
+        if (classValidation.errors.length > 0) {
+          return classValidation.errors[0];
+        }
+        if (!hasRequiredStartingSpells(character, allClasses)) {
+          // Check if it's specifically a Magic-User that needs spells
+          const isMagicUser = character.class.includes("magic-user");
+          if (isMagicUser) {
+            return "Magic-Users must select one first level spell (Read Magic is automatically known).";
+          }
+          return "Please select required starting spells for your class.";
+        }
+        return "";
+      case 3: // Hit Points step
+        return !hasValidHitPoints(character)
+          ? "Please roll or set your hit points before proceeding."
           : "";
       default:
         return "";
@@ -154,7 +203,9 @@ function CharGen() {
     },
     {
       title: "Hit Points",
-      content: <div>Calculate your hit points</div>,
+      content: (
+        <HitPointsStep character={character} onCharacterChange={setCharacter} />
+      ),
     },
     {
       title: "Equipment",

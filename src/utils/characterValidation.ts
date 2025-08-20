@@ -128,6 +128,44 @@ export function areCurrentSpellsStillValid(
 }
 
 /**
+ * Checks if spellcasting classes have their required starting spells
+ * @param character - The character to validate
+ * @param availableClasses - Array of all available classes
+ * @returns true if all required starting spells are present, false otherwise
+ */
+export function hasRequiredStartingSpells(
+  character: Character,
+  availableClasses: Class[]
+): boolean {
+  if (character.class.length === 0) return true;
+
+  // Check each class the character has
+  for (const classId of character.class) {
+    const charClass = availableClasses.find((cls) => cls.id === classId);
+    if (!charClass || !charClass.spellcasting) continue;
+
+    // Magic-Users start with "read magic" (automatically included) and one other 1st level spell
+    if (classId === "magic-user") {
+      const spells = character.spells || [];
+      const firstLevelSpells = spells.filter(
+        (spell) => spell.level["magic-user"] === 1
+      );
+
+      // Magic-Users need to select at least one 1st level spell
+      // (Read Magic is automatically included and doesn't need to be selected)
+      if (firstLevelSpells.length < 1) {
+        return false;
+      }
+    }
+
+    // Add validation for other spellcasting classes as needed
+    // Clerics, Paladins, etc. may have different starting spell requirements
+  }
+
+  return true;
+}
+
+/**
  * Checks if a class combination is valid (e.g., elf/dokkalfar can only have certain combinations)
  * @param classArray - Array of class IDs
  * @param selectedRace - The currently selected race
@@ -230,4 +268,13 @@ export function cascadeValidateCharacter(
   }
 
   return updatedCharacter;
+}
+
+/**
+ * Checks if hit points are properly set for the character
+ * @param character - The character to validate
+ * @returns true if hit points are set and valid, false otherwise
+ */
+export function hasValidHitPoints(character: Character): boolean {
+  return character.hp && character.hp.max > 0 && character.hp.current > 0;
 }
