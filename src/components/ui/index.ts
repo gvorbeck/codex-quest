@@ -1,4 +1,5 @@
 // UI Components - Reusable components
+export { default as Accordion } from "./Accordion";
 export { default as Button } from "./Button";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { default as NumberInput } from "./NumberInput";
