@@ -134,11 +134,7 @@ function AbilityScoreStep({
       return `${errorCount} ability scores need to be corrected`;
     }
 
-    const abilityScores = Object.entries(character.abilities)
-      .map(([name, ability]) => `${name}: ${ability.value}`)
-      .join(", ");
-
-    return `Ability scores rolled: ${abilityScores}`;
+    return "";
   };
 
   return (
@@ -147,25 +143,75 @@ function AbilityScoreStep({
       description="Roll 3d6 for each ability score. Each score ranges from 3 to 18."
       statusMessage={getStatusMessage()}
     >
-      <fieldset>
+      {/* Action Buttons */}
+      <fieldset className="mb-8">
         <legend className="sr-only">Ability score generation controls</legend>
 
-        <div style={{ marginBottom: "16px" }}>
-          <Button onClick={rollAllAbilities}>Roll All Abilities</Button>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button onClick={rollAllAbilities} variant="primary" size="lg">
+            Roll All Abilities
+          </Button>
           {hasRolledScores && (
-            <Button onClick={flipAbilityScores} style={{ marginLeft: "8px" }}>
+            <Button onClick={flipAbilityScores} variant="secondary" size="lg">
               Flip All Scores
             </Button>
           )}
         </div>
       </fieldset>
 
-      <section aria-labelledby="ability-scores-heading">
-        <h5 id="ability-scores-heading" className="sr-only">
-          Individual Ability Scores
-        </h5>
+      {/* Ability Scores Summary */}
+      {hasRolledScores && (
+        <section className="mb-8">
+          <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#b45309]">
+            <div className="flex items-center gap-3 mb-3">
+              <svg
+                className="w-5 h-5 flex-shrink-0 text-amber-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <h4 className="font-semibold text-amber-100 m-0">
+                Ability Scores Summary
+              </h4>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+              {Object.entries(character.abilities).map(([name, ability]) => (
+                <div key={name} className="text-center">
+                  <div className="text-xs text-amber-200 uppercase tracking-wider font-medium mb-1">
+                    {name.slice(0, 3)}
+                  </div>
+                  <div className="text-lg font-bold text-amber-100">
+                    {ability.value > 0 ? ability.value : "—"}
+                  </div>
+                  {ability.value > 0 && (
+                    <div className="text-xs text-amber-300">
+                      {ability.modifier >= 0 ? "+" : ""}
+                      {ability.modifier}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
-        <div style={{ display: "grid", gap: "12px" }}>
+      {/* Ability Scores Grid */}
+      <section aria-labelledby="ability-scores-heading" className="mb-8">
+        <h4
+          id="ability-scores-heading"
+          className="text-lg font-semibold text-zinc-100 mb-6"
+        >
+          Ability Scores
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {(
             Object.entries(character.abilities) as [
               keyof Character["abilities"],
@@ -174,15 +220,28 @@ function AbilityScoreStep({
           ).map(([abilityName, ability]) => (
             <div
               key={abilityName}
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-4 shadow-[0_3px_0_0_#3f3f46] hover:shadow-[0_4px_0_0_#3f3f46] transition-all duration-150"
             >
-              <label style={{ minWidth: "100px", textTransform: "capitalize" }}>
-                {abilityName}:
-              </label>
+              {/* Ability Name */}
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-base font-semibold text-zinc-100 capitalize">
+                  {abilityName}
+                </label>
+                {ability.value > 0 && (
+                  <div className="text-sm text-zinc-300 bg-zinc-700 px-2 py-1 rounded border border-zinc-600">
+                    <span className="font-medium">
+                      Modifier: {ability.modifier >= 0 ? "+" : ""}
+                      {ability.modifier}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Dice Roller */}
               <SimpleRoller
                 formula="3d6"
                 label={`Roll ${abilityName}`}
-                initialValue={ability.value > 0 ? ability.value : 0}
+                {...(ability.value > 0 && { initialValue: ability.value })}
                 minValue={3}
                 maxValue={18}
                 onChange={(value) => {
@@ -191,25 +250,26 @@ function AbilityScoreStep({
                   }
                 }}
               />
-              <span style={{ minWidth: "60px" }}>
-                {ability.value > 0 && (
-                  <>
-                    Modifier: {ability.modifier >= 0 ? "+" : ""}
-                    {ability.modifier}
-                  </>
-                )}
-              </span>
+
+              {/* Validation Error Display */}
+              {!validationResults[abilityName as keyof typeof validationResults]
+                .isValid && (
+                <div className="mt-2 text-sm text-red-400" role="alert">
+                  {
+                    validationResults[
+                      abilityName as keyof typeof validationResults
+                    ].errors[0]
+                  }
+                </div>
+              )}
             </div>
           ))}
         </div>
       </section>
 
+      {/* Flip Scores Information */}
       {hasRolledScores && (
-        <Callout
-          variant="info"
-          title="Flip Scores Information"
-          aria-labelledby="flip-scores-heading"
-        >
+        <Callout variant="info" title="Flip Scores Information">
           <p className="m-0">
             You can flip all ability scores by subtracting them from 21. This
             turns low scores into high scores and vice versa. For example, a 15
