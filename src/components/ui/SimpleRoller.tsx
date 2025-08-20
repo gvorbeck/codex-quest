@@ -67,7 +67,7 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
         {effectiveLabel}
       </div>
 
-      <div>
+      <div className="flex">
         <NumberInput
           id={inputId}
           value={value || 0}
@@ -76,12 +76,14 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
           {...(maxValue !== undefined && { maxValue })}
           aria-label={`Result of ${formula} roll`}
           aria-describedby={buttonId}
+          className="rounded-r-none border-r-0 shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309] flex-1"
         />
         <Button
           id={buttonId}
           onClick={handleRoll}
           aria-label={`Roll ${formula} dice`}
           aria-describedby={inputId}
+          className="rounded-l-none"
         >
           {buttonText}
         </Button>

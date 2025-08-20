@@ -1,5 +1,7 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
 
+type TextInputSize = "sm" | "md" | "lg";
+
 interface TextInputProps {
   value?: string;
   onChange?: (value: string) => void;
@@ -10,7 +12,10 @@ interface TextInputProps {
   id?: string;
   name?: string;
   type?: "text" | "email" | "password" | "url" | "tel";
+  size?: TextInputSize;
+  error?: boolean;
   showClearButton?: boolean;
+  className?: string;
   "aria-label"?: string;
   "aria-describedby"?: string;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -30,7 +35,10 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       id,
       name,
       type = "text",
+      size = "md",
+      error = false,
       showClearButton = true,
+      className = "",
       "aria-label": ariaLabel,
       "aria-describedby": ariaDescribedBy,
       onBlur,
@@ -44,7 +52,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const inputId = id || generatedId;
     const clearButtonId = `${inputId}-clear`;
     const [inputValue, setInputValue] = useState(value);
-    const [isFocused, setIsFocused] = useState(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.value;
@@ -70,12 +77,10 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     };
 
     const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true);
       onFocus?.(event);
     };
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false);
       onBlur?.(event);
     };
 
@@ -95,8 +100,66 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const showClear =
       showClearButton && inputValue && inputValue.length > 0 && !disabled;
 
+    // Base styles consistent with Button and NumberInput components
+    const baseStyles = [
+      "w-full transition-all duration-150",
+      "border-2 rounded-lg",
+      "bg-zinc-800 text-zinc-100 border-zinc-600",
+      "placeholder:text-zinc-400",
+      "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900",
+      "focus:border-amber-400 focus:bg-zinc-700",
+      "disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-zinc-900",
+    ];
+
+    // Error state styles
+    const errorStyles = error
+      ? [
+          "border-red-500 focus:border-red-400 focus:ring-red-400",
+          "bg-red-950/20 focus:bg-red-950/30",
+        ]
+      : [];
+
+    // Shadow styles - 3D effect like Button
+    const shadowStyles = [
+      "shadow-[0_3px_0_0_#3f3f46]", // zinc-700 shadow
+      "focus:shadow-[0_4px_0_0_#b45309]", // amber-700 shadow when focused
+      error ? "shadow-[0_3px_0_0_#b91c1c]" : "", // red-700 shadow for errors
+    ];
+
+    // Size styles
+    const sizeStyles = {
+      sm: "px-3 py-2 text-sm min-h-[36px]",
+      md: "px-4 py-3 text-base min-h-[44px]",
+      lg: "px-5 py-4 text-lg min-h-[52px]",
+    };
+
+    // Clear button styles
+    const clearButtonStyles = [
+      "absolute right-2 top-1/2 -translate-y-1/2",
+      "w-6 h-6 rounded-full",
+      "flex items-center justify-center",
+      "text-zinc-400 hover:text-zinc-200",
+      "hover:bg-zinc-700 transition-colors duration-150",
+      "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-800",
+    ];
+
+    // Adjust input padding when clear button is shown
+    const inputPaddingClass = showClear ? "pr-10" : "";
+
+    // Combine all styles
+    const inputClasses = [
+      ...baseStyles,
+      ...errorStyles,
+      ...shadowStyles,
+      sizeStyles[size],
+      inputPaddingClass,
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
     return (
-      <div>
+      <div className="relative">
         <input
           ref={ref}
           type={type}
@@ -114,8 +177,9 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-invalid={
-            maxLength !== undefined && inputValue.length > maxLength
+            error || (maxLength !== undefined && inputValue.length > maxLength)
           }
+          className={inputClasses}
           {...props}
         />
 
@@ -125,16 +189,21 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             id={clearButtonId}
             onClick={handleClear}
             aria-label="Clear input"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "1";
-              e.currentTarget.style.backgroundColor = "#f0f0f0";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = isFocused ? "1" : "0.7";
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
+            className={clearButtonStyles.join(" ")}
           >
-            ✕
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         )}
       </div>

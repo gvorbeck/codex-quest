@@ -1,5 +1,7 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
 
+type NumberInputSize = "sm" | "md" | "lg";
+
 interface NumberInputProps {
   value?: number;
   onChange?: (value: number | undefined) => void;
@@ -11,6 +13,9 @@ interface NumberInputProps {
   required?: boolean;
   id?: string;
   name?: string;
+  size?: NumberInputSize;
+  error?: boolean;
+  className?: string;
   "aria-label"?: string;
   "aria-describedby"?: string;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -30,6 +35,9 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       required = false,
       id,
       name,
+      size = "md",
+      error = false,
+      className = "",
       "aria-label": ariaLabel,
       "aria-describedby": ariaDescribedBy,
       onBlur,
@@ -79,6 +87,10 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       onBlur?.(event);
     };
 
+    const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+      onFocus?.(event);
+    };
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       // Allow: backspace, delete, tab, escape, enter
       if (
@@ -116,6 +128,50 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       }
     }, [value]);
 
+    // Base styles consistent with Button component
+    const baseStyles = [
+      "w-full transition-all duration-150",
+      "border-2 rounded-lg",
+      "bg-zinc-800 text-zinc-100 border-zinc-600",
+      "placeholder:text-zinc-400",
+      "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900",
+      "focus:border-amber-400 focus:bg-zinc-700",
+      "disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-zinc-900",
+    ];
+
+    // Error state styles
+    const errorStyles = error
+      ? [
+          "border-red-500 focus:border-red-400 focus:ring-red-400",
+          "bg-red-950/20 focus:bg-red-950/30",
+        ]
+      : [];
+
+    // Shadow styles - 3D effect like Button
+    const shadowStyles = [
+      "shadow-[0_3px_0_0_#3f3f46]", // zinc-700 shadow
+      "focus:shadow-[0_4px_0_0_#b45309]", // amber-700 shadow when focused
+      error ? "shadow-[0_3px_0_0_#b91c1c]" : "", // red-700 shadow for errors
+    ];
+
+    // Size styles
+    const sizeStyles = {
+      sm: "px-3 py-2 text-sm min-h-[36px]",
+      md: "px-4 py-3 text-base min-h-[44px]",
+      lg: "px-5 py-4 text-lg min-h-[52px]",
+    };
+
+    // Combine all styles
+    const inputClasses = [
+      ...baseStyles,
+      ...errorStyles,
+      ...shadowStyles,
+      sizeStyles[size],
+      className,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
     return (
       <input
         ref={ref}
@@ -125,7 +181,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         value={inputValue}
         onChange={handleInputChange}
         onBlur={handleBlur}
-        onFocus={onFocus}
+        onFocus={handleFocus}
         onKeyDown={handleKeyDown}
         min={minValue}
         max={maxValue}
@@ -136,10 +192,12 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
         aria-invalid={
-          value !== undefined &&
-          ((minValue !== undefined && value < minValue) ||
-            (maxValue !== undefined && value > maxValue))
+          error ||
+          (value !== undefined &&
+            ((minValue !== undefined && value < minValue) ||
+              (maxValue !== undefined && value > maxValue)))
         }
+        className={inputClasses}
         {...props}
       />
     );
