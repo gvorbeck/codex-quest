@@ -246,11 +246,6 @@ function CharGen() {
     },
   ];
 
-  // Keep the character logging for development
-  useEffect(() => {
-    console.log("Character saved to localStorage:", character);
-  }, [character]);
-
   return (
     <article>
       <header>

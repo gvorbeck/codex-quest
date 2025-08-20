@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Hook for managing accessibility features like announcements and focus management
+ * Hook for managing step navigation announcements
  */
-export function useA11y() {
+export function useStepAnnouncements(
+  currentStep: number,
+  steps: { title: string }[]
+) {
   const announcementRef = useRef<HTMLDivElement | null>(null);
 
   /**
@@ -37,18 +40,6 @@ export function useA11y() {
   };
 
   /**
-   * Focus an element by ID with fallback to selector
-   */
-  const focusElement = (selector: string, delay = 100) => {
-    setTimeout(() => {
-      const element = document.querySelector(selector) as HTMLElement;
-      if (element && typeof element.focus === "function") {
-        element.focus();
-      }
-    }, delay);
-  };
-
-  /**
    * Cleanup announcement element on unmount
    */
   useEffect(() => {
@@ -62,21 +53,6 @@ export function useA11y() {
     };
   }, []);
 
-  return {
-    announce,
-    focusElement,
-  };
-}
-
-/**
- * Hook for managing step navigation announcements
- */
-export function useStepAnnouncements(
-  currentStep: number,
-  steps: { title: string }[]
-) {
-  const { announce } = useA11y();
-
   useEffect(() => {
     if (steps.length > 0 && currentStep >= 0 && currentStep < steps.length) {
       const currentStepTitle = steps[currentStep]?.title || "Unknown step";
@@ -85,7 +61,7 @@ export function useStepAnnouncements(
       }: ${currentStepTitle}`;
       announce(stepInfo, "polite");
     }
-  }, [currentStep, steps, announce]);
+  }, [currentStep, steps]);
 
   return { announce };
 }
