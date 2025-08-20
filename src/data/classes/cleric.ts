@@ -23,7 +23,6 @@ export const cleric: Class = {
   ],
   allowedArmor: [],
   spellcasting: {
-    type: "divine",
     spellsPerLevel: {
       1: [],
       2: [1],

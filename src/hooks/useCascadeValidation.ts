@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-import { cascadeValidateCharacter } from "@/utils/characterValidation";
 import type { Character } from "@/types/character";
+import { cascadeValidateCharacter } from "@/utils/characterValidation";
 
 interface UseCascadeValidationProps {
   character: Character;

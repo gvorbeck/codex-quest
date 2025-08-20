@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Stepper } from "@/components/ui";
 import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
-import { hasValidAbilityScores } from "@/utils/characterValidation";
 import { useCascadeValidation } from "@/hooks";
 import type { Character } from "@/types/character";
+import { hasValidAbilityScores } from "@/utils/characterValidation";
 
 const emptyCharacter: Character = {
   name: "",
