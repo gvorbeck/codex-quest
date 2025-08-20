@@ -189,7 +189,7 @@ export function cascadeValidateCharacter(
       ...updatedCharacter,
       race: "",
       class: [], // Clear classes when race becomes invalid
-      spells: undefined, // Clear spells when race becomes invalid
+      spells: [], // Clear spells when race becomes invalid
     };
     return updatedCharacter; // If race is invalid, all subsequent selections are also invalid
   }
@@ -211,7 +211,7 @@ export function cascadeValidateCharacter(
       updatedCharacter = {
         ...updatedCharacter,
         class: [], // Clear classes when they become invalid
-        spells: undefined, // Clear spells when classes become invalid
+        spells: [], // Clear spells when classes become invalid
       };
     }
   }
@@ -225,7 +225,7 @@ export function cascadeValidateCharacter(
   if (!spellsStillValid) {
     updatedCharacter = {
       ...updatedCharacter,
-      spells: undefined, // Clear spells when they become invalid
+      spells: [], // Clear spells when they become invalid
     };
   }
 

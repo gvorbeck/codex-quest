@@ -24,7 +24,8 @@
       "@/utils/*": ["src/utils/*"],
       "@/data/*": ["src/data/*"],
       "@/assets/*": ["src/assets/*"],
-      "@/hooks/*": ["src/hooks/*"]
+      "@/hooks/*": ["src/hooks/*"],
+      "@/constants/*": ["src/constants/*"]
     },
 
     /* Linting */
@@ -33,7 +34,14 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    
+    /* Enhanced Type Checking */
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src"]
 }

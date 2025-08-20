@@ -79,9 +79,8 @@ export function useStepAnnouncements(
 
   useEffect(() => {
     if (steps.length > 0 && currentStep >= 0 && currentStep < steps.length) {
-      const stepInfo = `Step ${currentStep + 1} of ${steps.length}: ${
-        steps[currentStep].title
-      }`;
+      const currentStepTitle = steps[currentStep]?.title || "Unknown step";
+      const stepInfo = `Step ${currentStep + 1} of ${steps.length}: ${currentStepTitle}`;
       announce(stepInfo, "polite");
     }
   }, [currentStep, steps, announce]);

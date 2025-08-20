@@ -45,14 +45,13 @@ function parseDiceExpression(expression: string): ParseResult {
   let breakdown = "";
 
   for (let i = 0; i < parts.length; i++) {
-    const part = parts[i].trim();
+    const part = parts[i]?.trim();
+    if (!part) continue;
 
     if (part === "+" || part === "-") {
       breakdown += ` ${part} `;
       continue;
     }
-
-    if (part === "") continue;
 
     const operator = i > 0 ? parts[i - 1] : "+";
     const result = parseDicePart(part);
@@ -74,7 +73,9 @@ function parseDicePart(part: string): ParseResult {
   // Check if it's just a number (modifier)
   const numberMatch = part.match(/^(\d+)$/);
   if (numberMatch) {
-    const value = parseInt(numberMatch[1]);
+    const numberStr = numberMatch[1];
+    if (!numberStr) throw new Error(`Invalid number format: ${part}`);
+    const value = parseInt(numberStr);
     return {
       total: value,
       rolls: [],
@@ -89,7 +90,9 @@ function parseDicePart(part: string): ParseResult {
   }
 
   const numDice = parseInt(diceMatch[1] || "1");
-  const sides = parseInt(diceMatch[2]);
+  const sidesStr = diceMatch[2];
+  if (!sidesStr) throw new Error(`Invalid dice format: ${part}`);
+  const sides = parseInt(sidesStr);
   const modifier = diceMatch[3] || "";
 
   if (numDice <= 0 || sides <= 0) {

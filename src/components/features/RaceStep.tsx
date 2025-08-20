@@ -64,7 +64,7 @@ function RaceStep({
       title="Choose Your Race"
       description="Select the race that defines your character's heritage and abilities."
       statusMessage={
-        selectedRace ? `Selected race: ${selectedRace.name}` : undefined
+        selectedRace ? `Selected race: ${selectedRace.name}` : ""
       }
     >
       <fieldset>

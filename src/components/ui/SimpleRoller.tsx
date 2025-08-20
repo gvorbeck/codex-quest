@@ -83,10 +83,10 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <NumberInput
           id={inputId}
-          value={value}
+          value={value || 0}
           onChange={handleInputChange}
-          minValue={minValue}
-          maxValue={maxValue}
+          {...(minValue !== undefined && { minValue })}
+          {...(maxValue !== undefined && { maxValue })}
           aria-label={`Result of ${formula} roll`}
           aria-describedby={buttonId}
         />

@@ -59,7 +59,7 @@ function Stepper({
     <div role="region" aria-labelledby="stepper-heading">
       <div aria-live="polite" aria-atomic="true" className="sr-only">
         Step {safeCurrentStep + 1} of {stepItems.length}:{" "}
-        {currentStepItem.title}
+        {currentStepItem?.title || "Unknown step"}
       </div>
 
       <nav role="navigation" aria-label="Step navigation">
@@ -90,8 +90,8 @@ function Stepper({
         role="tabpanel"
         aria-live="polite"
       >
-        <h3 id="step-content-heading">{currentStepItem.title}</h3>
-        <div>{currentStepItem.content}</div>
+        <h3 id="step-content-heading">{currentStepItem?.title || "Step"}</h3>
+        <div>{currentStepItem?.content}</div>
       </section>
 
       <nav role="navigation" aria-label="Step controls">
@@ -109,7 +109,7 @@ function Stepper({
           onClick={() => handleStepChange("previous")}
           disabled={prevDisabled || safeCurrentStep === 0}
           aria-label={`Go to previous step: ${
-            safeCurrentStep > 0 ? stepItems[safeCurrentStep - 1].title : ""
+            safeCurrentStep > 0 ? stepItems[safeCurrentStep - 1]?.title || "Previous step" : ""
           }`}
         >
           Previous
@@ -120,7 +120,7 @@ function Stepper({
           disabled={nextDisabled || safeCurrentStep === stepItems.length - 1}
           aria-label={`Go to next step: ${
             safeCurrentStep < stepItems.length - 1
-              ? stepItems[safeCurrentStep + 1].title
+              ? stepItems[safeCurrentStep + 1]?.title || "Next step"
               : "Complete"
           }`}
         >

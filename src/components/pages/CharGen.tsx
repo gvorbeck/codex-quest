@@ -1,10 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
 import { Stepper } from "@/components/ui";
 import { AbilityScoreStep, RaceStep, ClassStep } from "@/components/features";
-import { useCascadeValidation, useLocalStorage } from "@/hooks";
+import { useCascadeValidation, useLocalStorage, useValidation } from "@/hooks";
 import type { Character } from "@/types/character";
 import { hasValidAbilityScores } from "@/utils/characterValidation";
 import { STORAGE_KEYS } from "@/constants/storage";
+import { 
+  raceSelectionSchema, 
+  classSelectionSchema
+} from "@/utils/validationSchemas";
 
 const emptyCharacter: Character = {
   name: "",
@@ -57,6 +61,10 @@ function CharGen() {
   const [useCombinationClass, setUseCombinationClass] =
     useLocalStorage<boolean>(STORAGE_KEYS.USE_COMBINATION_CLASS, false);
 
+  // Enhanced validation for individual fields
+  const raceValidation = useValidation(character.race, raceSelectionSchema);
+  const classValidation = useValidation(character.class, classSelectionSchema);
+
   // Initialize cascade validation hook
   useCascadeValidation({
     character,
@@ -65,19 +73,19 @@ function CharGen() {
     includeSupplementalClass,
   });
 
-  // Memoize validation functions for better performance
+  // Enhanced validation functions with detailed feedback
   const isNextDisabled = useCallback(() => {
     switch (step) {
       case 0: // Abilities step
         return !hasValidAbilityScores(character);
       case 1: // Race step
-        return !character.race;
+        return !raceValidation.isValid;
       case 2: // Class step
-        return character.class.length === 0;
+        return !classValidation.isValid;
       default:
         return false;
     }
-  }, [step, character]);
+  }, [step, character, raceValidation.isValid, classValidation.isValid]);
 
   const getValidationMessage = useCallback(() => {
     switch (step) {
@@ -86,17 +94,17 @@ function CharGen() {
           ? "Please roll or set all ability scores before proceeding."
           : "";
       case 1: // Race step
-        return !character.race
-          ? "Please select a race for your character."
+        return raceValidation.errors.length > 0
+          ? raceValidation.errors[0]
           : "";
       case 2: // Class step
-        return character.class.length === 0
-          ? "Please select a class for your character."
+        return classValidation.errors.length > 0
+          ? classValidation.errors[0]
           : "";
       default:
         return "";
     }
-  }, [step, character]);
+  }, [step, character, raceValidation.errors, classValidation.errors]);
 
   const stepItems = [
     {
@@ -163,7 +171,7 @@ function CharGen() {
           step={step}
           setStep={setStep}
           nextDisabled={isNextDisabled()}
-          validationMessage={getValidationMessage()}
+          validationMessage={getValidationMessage() || ""}
         />
       </section>
     </article>

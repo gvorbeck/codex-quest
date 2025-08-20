@@ -2,6 +2,10 @@ import { Button, SimpleRoller, StepWrapper } from "../ui";
 import { roller } from "../../utils/dice";
 import type { Character, AbilityScore } from "../../types/character";
 import { memo } from "react";
+import { useValidation } from "@/hooks";
+import { abilityScoreSchema } from "@/utils/validationSchemas";
+import { isValidAbilityScore, ABILITY_NAMES } from "@/utils/typeGuards";
+import type { AbilityName } from "@/utils/typeGuards";
 
 interface AbilityScoreStepProps {
   character: Character;
@@ -12,6 +16,16 @@ function AbilityScoreStep({
   character,
   onCharacterChange,
 }: AbilityScoreStepProps) {
+  // Enhanced validation for individual ability scores
+  const validationResults = {
+    strength: useValidation(character.abilities.strength.value, abilityScoreSchema),
+    dexterity: useValidation(character.abilities.dexterity.value, abilityScoreSchema),
+    constitution: useValidation(character.abilities.constitution.value, abilityScoreSchema),
+    intelligence: useValidation(character.abilities.intelligence.value, abilityScoreSchema),
+    wisdom: useValidation(character.abilities.wisdom.value, abilityScoreSchema),
+    charisma: useValidation(character.abilities.charisma.value, abilityScoreSchema),
+  };
+
   // Calculate modifier based on ability score
   const calculateModifier = (score: number): number => {
     if (score <= 3) return -3;
@@ -23,11 +37,17 @@ function AbilityScoreStep({
     return 3;
   };
 
-  // Update a specific ability score
+  // Type-safe update function for ability scores
   const updateAbilityScore = (
-    ability: keyof Character["abilities"],
+    ability: AbilityName,
     value: number
   ) => {
+    // Validate the score before applying
+    if (!isValidAbilityScore(value)) {
+      console.warn(`Invalid ability score ${value} for ${ability}`);
+      return;
+    }
+
     const updatedCharacter: Character = {
       ...character,
       abilities: {
@@ -41,27 +61,22 @@ function AbilityScoreStep({
     onCharacterChange(updatedCharacter);
   };
 
-  // Roll all ability scores
+  // Roll all ability scores with enhanced type safety
   const rollAllAbilities = () => {
-    const abilities: (keyof Character["abilities"])[] = [
-      "strength",
-      "dexterity",
-      "constitution",
-      "intelligence",
-      "wisdom",
-      "charisma",
-    ];
     const newCharacter = { ...character };
 
-    abilities.forEach((ability) => {
+    ABILITY_NAMES.forEach((ability) => {
       // Roll 3d6 for each ability using the dice roller
       const result = roller("3d6");
       const total = result.total;
 
-      newCharacter.abilities[ability] = {
-        value: total,
-        modifier: calculateModifier(total),
-      };
+      // Ensure the rolled value is valid
+      if (isValidAbilityScore(total)) {
+        newCharacter.abilities[ability] = {
+          value: total,
+          modifier: calculateModifier(total),
+        };
+      }
     });
 
     onCharacterChange(newCharacter);
@@ -92,9 +107,16 @@ function AbilityScoreStep({
     Object.values(character.abilities) as AbilityScore[]
   ).some((ability) => ability.value > 0);
 
-  // Get the status message for screen readers
+  // Get the status message for screen readers with validation feedback
   const getStatusMessage = () => {
-    if (!hasRolledScores) return undefined;
+    if (!hasRolledScores) return "";
+
+    // Check for validation errors
+    const hasErrors = Object.values(validationResults).some(result => !result.isValid);
+    if (hasErrors) {
+      const errorCount = Object.values(validationResults).filter(result => !result.isValid).length;
+      return `${errorCount} ability scores need to be corrected`;
+    }
 
     const abilityScores = Object.entries(character.abilities)
       .map(([name, ability]) => `${name}: ${ability.value}`)
@@ -144,12 +166,12 @@ function AbilityScoreStep({
               <SimpleRoller
                 formula="3d6"
                 label={`Roll ${abilityName}`}
-                initialValue={ability.value > 0 ? ability.value : undefined}
+                initialValue={ability.value > 0 ? ability.value : 0}
                 minValue={3}
                 maxValue={18}
                 onChange={(value) => {
                   if (value !== undefined) {
-                    updateAbilityScore(abilityName, value);
+                    updateAbilityScore(abilityName as AbilityName, value);
                   }
                 }}
               />

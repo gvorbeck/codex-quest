@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
  */
 export function usePerformanceMonitor(
   componentName: string,
-  enabled = process.env.NODE_ENV === "development"
+  enabled = process.env["NODE_ENV"] === "development"
 ) {
   const renderCountRef = useRef(0);
   const lastRenderTimeRef = useRef(performance.now());
