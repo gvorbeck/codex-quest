@@ -71,7 +71,6 @@ export interface Class {
   allowedWeapons: string[];
   allowedArmor: string[];
   spellcasting?: {
-    type: "divine" | "arcane";
     spellsPerLevel: { [level: number]: number[] }; // spellsPerLevel[characterLevel] = [1st level spells, 2nd level spells, etc.]
   };
   specialAbilities: SpecialAbility[];

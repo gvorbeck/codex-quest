@@ -16,7 +16,6 @@ export const magicUser: Class = {
   allowedWeapons: ["dagger", "walking-staff"],
   allowedArmor: ["none"],
   spellcasting: {
-    type: "arcane",
     spellsPerLevel: {
       1: [1],
       2: [2],
