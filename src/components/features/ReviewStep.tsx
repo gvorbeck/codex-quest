@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, memo } from "react";
 import { TextInput, StepWrapper } from "@/components/ui";
 import { LanguageSelector, AvatarSelector } from "@/components/features";
 import { useValidation } from "@/hooks";
@@ -13,7 +13,7 @@ interface ReviewStepProps {
   onCharacterChange: (character: Character) => void;
 }
 
-function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
+function ReviewStepComponent({ character, onCharacterChange }: ReviewStepProps) {
   // Validate character name
   const nameValidation = useValidation(character.name, characterNameSchema);
 
@@ -52,7 +52,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
       description="Name your character and review all details before completing character creation."
     >
       {/* Character Name */}
-      <section style={{ marginBottom: "2rem" }}>
+      <section className="mb-8">
         <h4>Character Name</h4>
         <TextInput
           value={character.name}
@@ -71,11 +71,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
             id="name-error"
             role="alert"
             aria-live="assertive"
-            style={{
-              color: "#dc3545",
-              fontSize: "0.875rem",
-              marginTop: "0.25rem",
-            }}
+            className="text-red-600 text-sm mt-1"
           >
             {nameValidation.errors[0]}
           </div>
@@ -83,36 +79,17 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
       </section>
 
       {/* Character Summary */}
-      <section style={{ marginBottom: "2rem" }}>
+      <section className="mb-8">
         <h4>Character Summary</h4>
-        <div
-          style={{
-            border: "1px solid #dee2e6",
-            borderRadius: "0.5rem",
-            padding: "1.5rem",
-            backgroundColor: "#f8f9fa",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: "1.5rem",
-              marginBottom: "1rem",
-            }}
-          >
+        <div className="border border-zinc-600 rounded-lg p-6 bg-zinc-800">
+          <div className="flex gap-6 mb-4">
             {/* Avatar */}
             {character.avatar && (
-              <div style={{ flexShrink: 0 }}>
+              <div className="flex-shrink-0">
                 <img
                   src={character.avatar}
                   alt={`${character.name || "Character"} avatar`}
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    borderRadius: "50%",
-                    border: "2px solid #dee2e6",
-                    objectFit: "cover",
-                  }}
+                  className="w-20 h-20 rounded-full border-2 border-zinc-600 object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = "none";
@@ -122,14 +99,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
             )}
 
             {/* Character Info */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "1rem",
-                flex: 1,
-              }}
-            >
+            <div className="grid grid-cols-2 gap-4 flex-1">
               <div>
                 <strong>Name:</strong> {character.name || "Unnamed Character"}
               </div>
@@ -147,15 +117,9 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
           </div>
 
           {/* Ability Scores */}
-          <div style={{ marginBottom: "1rem" }}>
-            <h5 style={{ marginBottom: "0.5rem" }}>Ability Scores</h5>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "0.5rem",
-              }}
-            >
+          <div className="mb-4">
+            <h5 className="mb-2">Ability Scores</h5>
+            <div className="grid grid-cols-3 gap-2">
               <div>
                 <strong>STR:</strong> {character.abilities.strength.value} (
                 {character.abilities.strength.modifier >= 0 ? "+" : ""}
@@ -191,8 +155,8 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
 
           {/* Equipment Summary */}
           {character.equipment.length > 0 && (
-            <div style={{ marginBottom: "1rem" }}>
-              <h5 style={{ marginBottom: "0.5rem" }}>
+            <div className="mb-4">
+              <h5 className="mb-2">
                 Equipment (
                 {character.equipment.reduce(
                   (total, item) => total + item.amount,
@@ -200,14 +164,14 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
                 )}{" "}
                 items)
               </h5>
-              <div style={{ fontSize: "0.875rem", color: "#6c757d" }}>
+              <div className="text-sm text-zinc-400">
                 Total Weight:{" "}
                 {character.equipment
                   .reduce((total, item) => total + item.weight * item.amount, 0)
                   .toFixed(1)}{" "}
                 lbs
                 {character.gold > 0 && (
-                  <span style={{ marginLeft: "1rem" }}>
+                  <span className="ml-4">
                     Remaining Gold: {character.gold} gp
                   </span>
                 )}
@@ -218,16 +182,16 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
           {/* Spells */}
           {character.spells && character.spells.length > 0 && (
             <div>
-              <h5 style={{ marginBottom: "0.5rem" }}>Spells</h5>
-              <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+              <h5 className="mb-2">Spells</h5>
+              <ul className="m-0 pl-4">
                 {/* Show Read Magic automatically for Magic-Users */}
                 {character.class.includes("magic-user") && (
-                  <li style={{ fontSize: "0.875rem", fontStyle: "italic" }}>
+                  <li className="text-sm italic">
                     <strong>Read Magic</strong> (automatically known)
                   </li>
                 )}
                 {character.spells.map((spell, index) => (
-                  <li key={index} style={{ fontSize: "0.875rem" }}>
+                  <li key={index} className="text-sm">
                     <strong>{spell.name}</strong>
                   </li>
                 ))}
@@ -238,7 +202,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
       </section>
 
       {/* Languages */}
-      <section style={{ marginBottom: "2rem" }}>
+      <section className="mb-8">
         <LanguageSelector
           character={character}
           onCharacterChange={onCharacterChange}
@@ -246,7 +210,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
       </section>
 
       {/* Avatar */}
-      <section style={{ marginBottom: "2rem" }}>
+      <section className="mb-8">
         <AvatarSelector
           character={character}
           onCharacterChange={onCharacterChange}
@@ -256,4 +220,4 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
   );
 }
 
-export default ReviewStep;
+export const ReviewStep = memo(ReviewStepComponent);
