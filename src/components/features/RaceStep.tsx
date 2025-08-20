@@ -1,4 +1,4 @@
-import { Switch, Select, StepWrapper } from "@/components/ui";
+import { Switch, Select, StepWrapper, Callout } from "@/components/ui";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
 import { memo, useMemo } from "react";
@@ -94,60 +94,74 @@ function RaceStep({
       </fieldset>
 
       {selectedRace && (
-        <section id="race-details" aria-labelledby="race-info-heading">
-          <header>
-            <h5 id="race-info-heading">{selectedRace.name}</h5>
-            <p>{selectedRace.description}</p>
-          </header>
-
-          <div>
-            <h6>Physical Description</h6>
-            <p>{selectedRace.physicalDescription}</p>
-          </div>
-
-          {selectedRace.abilityRequirements.length > 0 && (
+        <Callout
+          variant="neutral"
+          title={selectedRace.name}
+          id="race-details"
+          aria-labelledby="race-info-heading"
+        >
+          <div className="space-y-4">
             <div>
-              <h6>Ability Requirements</h6>
-              <ul>
-                {selectedRace.abilityRequirements.map((req, index) => (
-                  <li key={index}>
-                    <strong>
-                      {req.ability.charAt(0).toUpperCase() +
-                        req.ability.slice(1)}
-                      :
-                    </strong>{" "}
-                    {req.min && `minimum ${req.min}`}
-                    {req.min && req.max && ", "}
-                    {req.max && `maximum ${req.max}`}
-                  </li>
-                ))}
-              </ul>
+              <p className="mb-3">{selectedRace.description}</p>
             </div>
-          )}
 
-          {selectedRace.specialAbilities.length > 0 && (
             <div>
-              <h6>Special Abilities</h6>
-              <ul>
-                {selectedRace.specialAbilities.map((ability, index) => (
-                  <li key={index}>
-                    <strong>{ability.name}:</strong> {ability.description}
-                  </li>
-                ))}
-              </ul>
+              <h6 className="font-semibold mb-2 text-amber-400">
+                Physical Description
+              </h6>
+              <p className="mb-0">{selectedRace.physicalDescription}</p>
             </div>
-          )}
 
-          <div>
-            <h6>Allowed Classes</h6>
-            <p>{selectedRace.allowedClasses.join(", ")}</p>
-          </div>
+            {selectedRace.abilityRequirements.length > 0 && (
+              <div>
+                <h6 className="font-semibold mb-2 text-amber-400">
+                  Ability Requirements
+                </h6>
+                <ul className="mb-0 space-y-1">
+                  {selectedRace.abilityRequirements.map((req, index) => (
+                    <li key={index}>
+                      <strong>
+                        {req.ability.charAt(0).toUpperCase() +
+                          req.ability.slice(1)}
+                        :
+                      </strong>{" "}
+                      {req.min && `minimum ${req.min}`}
+                      {req.min && req.max && ", "}
+                      {req.max && `maximum ${req.max}`}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-          <div>
-            <h6>Lifespan</h6>
-            <p>{selectedRace.lifespan}</p>
+            {selectedRace.specialAbilities.length > 0 && (
+              <div>
+                <h6 className="font-semibold mb-2 text-amber-400">
+                  Special Abilities
+                </h6>
+                <ul className="mb-0 space-y-1">
+                  {selectedRace.specialAbilities.map((ability, index) => (
+                    <li key={index}>
+                      <strong>{ability.name}:</strong> {ability.description}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div>
+              <h6 className="font-semibold mb-2 text-amber-400">
+                Allowed Classes
+              </h6>
+              <p className="mb-0">{selectedRace.allowedClasses.join(", ")}</p>
+            </div>
+
+            <div>
+              <h6 className="font-semibold mb-2 text-amber-400">Lifespan</h6>
+              <p className="mb-0">{selectedRace.lifespan}</p>
+            </div>
           </div>
-        </section>
+        </Callout>
       )}
     </StepWrapper>
   );

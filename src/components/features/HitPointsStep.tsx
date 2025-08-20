@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { SimpleRoller, Button } from "@/components/ui";
+import { SimpleRoller, Button, Callout } from "@/components/ui";
 import { allClasses } from "@/data/classes";
 import type { Character } from "@/types/character";
 
@@ -93,11 +93,11 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   return (
     <div className="hit-points-step">
       <h3>Hit Points</h3>
-      <p>
+      <Callout variant="info" size="sm">
         Roll your starting hit points using your class's hit die:{" "}
         <strong>{hitDie}</strong>
         {constitutionText && <span>{constitutionText}</span>}
-      </p>
+      </Callout>
 
       <div
         className="hp-controls"

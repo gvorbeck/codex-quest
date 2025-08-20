@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui";
+import { Select, Callout } from "@/components/ui";
 import type { Character } from "@/types/character";
 import { memo } from "react";
 
@@ -44,21 +44,22 @@ function CombinationClassSelectorComponent({
       />
 
       {character.class.length > 1 && currentCombination && (
-        <div id="combination-class-details">
-          <section aria-labelledby="combination-class-info-heading">
-            <h6 id="combination-class-info-heading">
-              {currentCombination.name}
-            </h6>
-            <p>
+        <Callout
+          variant="neutral"
+          title={currentCombination.name}
+          id="combination-class-details"
+        >
+          <div aria-labelledby="combination-class-info-heading">
+            <p className="mb-3">
               This combination class combines the abilities of{" "}
               {character.class.join(" and ")}.
             </p>
-            <dl>
-              <dt>Classes:</dt>
-              <dd>{character.class.join(", ")}</dd>
+            <dl className="mb-0">
+              <dt className="font-semibold text-zinc-300">Classes:</dt>
+              <dd className="mb-0">{character.class.join(", ")}</dd>
             </dl>
-          </section>
-        </div>
+          </div>
+        </Callout>
       )}
     </section>
   );

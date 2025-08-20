@@ -1,5 +1,11 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { Accordion, SimpleRoller, StepWrapper, Button } from "@/components/ui";
+import {
+  Accordion,
+  SimpleRoller,
+  StepWrapper,
+  Button,
+  Callout,
+} from "@/components/ui";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 
@@ -340,10 +346,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         <h4 className="text-lg font-semibold text-stone-100 mb-2">
           Available Equipment
         </h4>
-        <p className="mb-4 text-stone-400">
+        <Callout variant="info" size="sm">
           Browse and select equipment for your character. Items are organized by
           category.
-        </p>
+        </Callout>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-8">

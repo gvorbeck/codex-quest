@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { TextInput, Button } from "@/components/ui";
+import { TextInput, Button, Callout } from "@/components/ui";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
 
@@ -107,38 +107,36 @@ function LanguageSelector({
       </header>
 
       {/* Automatic Languages */}
-      <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-        <h5 className="text-base font-medium text-primary-200 mb-3">
-          Automatic Languages
-        </h5>
+      <Callout variant="neutral" title="Automatic Languages">
         <div className="flex flex-wrap gap-2">
           {automaticLanguages.map((language, index) => (
             <div
               key={`auto-${index}`}
-              className="flex items-center gap-2 bg-primary-700 px-3 py-2 rounded-md border border-primary-600"
+              className="flex items-center gap-2 bg-zinc-700 px-3 py-2 rounded-md border border-zinc-600"
             >
-              <span className="text-primary-100 font-medium">{language}</span>
-              <span className="text-primary-400 text-sm">(automatic)</span>
+              <span className="text-zinc-100 font-medium">{language}</span>
+              <span className="text-zinc-400 text-sm">(automatic)</span>
             </div>
           ))}
         </div>
-      </div>
+      </Callout>
 
       {/* Bonus Languages */}
       {maxBonusLanguages > 0 && (
-        <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-          <h5 className="text-base font-medium text-primary-200 mb-3">
-            Bonus Languages
+        <Callout variant="neutral">
+          <div className="flex items-center gap-2 mb-4">
+            <h5 className="text-base font-medium text-zinc-200 m-0">
+              Bonus Languages
+            </h5>
             {maxBonusLanguages > 0 && (
-              <span className="text-primary-400 font-normal">
-                {" "}
+              <span className="text-zinc-400 text-sm">
                 ({bonusLanguages.length}/{maxBonusLanguages} used)
               </span>
             )}
-          </h5>
+          </div>
 
           {bonusLanguages.length === 0 && maxBonusLanguages > 0 && (
-            <p className="text-primary-300 mb-4">
+            <p className="text-zinc-300 mb-4">
               Your Intelligence bonus allows you to learn {maxBonusLanguages}{" "}
               additional language{maxBonusLanguages > 1 ? "s" : ""}.
             </p>
@@ -182,31 +180,28 @@ function LanguageSelector({
               </Button>
             </div>
           )}
-        </div>
+        </Callout>
       )}
 
       {maxBonusLanguages === 0 && (
-        <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-          <p className="text-primary-300">
+        <Callout variant="warning" title="No Bonus Languages Available">
+          <p className="m-0">
             Your Intelligence score ({character.abilities.intelligence.value})
             does not provide any bonus languages. You need Intelligence 13+ to
             learn additional languages.
           </p>
-        </div>
+        </Callout>
       )}
 
       {/* Common bonus languages suggestion */}
       {maxBonusLanguages > 0 && (
-        <div className="bg-primary-800/50 rounded-lg p-4 border border-primary-700/50">
-          <h6 className="text-base font-medium text-primary-200 mb-2">
-            Common Languages to Consider:
-          </h6>
-          <p className="text-primary-300 text-sm">
+        <Callout variant="info" title="Common Languages to Consider:">
+          <p className="m-0">
             Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll,
             Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other
             regional languages as determined by your GM.
           </p>
-        </div>
+        </Callout>
       )}
     </div>
   );

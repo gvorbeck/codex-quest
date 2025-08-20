@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui";
+import { Select, Callout } from "@/components/ui";
 import type { Character, Spell } from "@/types/character";
 import { memo } from "react";
 
@@ -53,24 +53,38 @@ function SpellSelectorComponent({
       )}
 
       {selectedSpell && character.spells && character.spells.length > 0 && (
-        <div id={`${detailsId}-details`}>
+        <Callout variant="info" id={`${detailsId}-details`}>
           {(() => {
             const spell = character.spells[0];
             if (!spell) return null;
             return (
-              <section aria-labelledby={`${detailsId}-info-heading`}>
-                <h6 id={`${detailsId}-info-heading`}>{spell.name}</h6>
-                <dl>
-                  <dt>Range:</dt>
-                  <dd>{spell.range}</dd>
-                  <dt>Duration:</dt>
-                  <dd>{spell.duration}</dd>
+              <div aria-labelledby={`${detailsId}-info-heading`}>
+                <h6
+                  id={`${detailsId}-info-heading`}
+                  className="font-semibold mb-3 text-amber-400"
+                >
+                  {spell.name}
+                </h6>
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                  <div>
+                    <dt className="font-semibold text-amber-300">Range:</dt>
+                    <dd className="mb-0">{spell.range}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-amber-300">Duration:</dt>
+                    <dd className="mb-0">{spell.duration}</dd>
+                  </div>
                 </dl>
-                <p>{spell.description}</p>
-              </section>
+                <div>
+                  <dt className="font-semibold text-amber-300 mb-2">
+                    Description:
+                  </dt>
+                  <dd className="mb-0">{spell.description}</dd>
+                </div>
+              </div>
             );
           })()}
-        </div>
+        </Callout>
       )}
     </section>
   );

@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui";
+import { Select, Callout } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
 import { memo } from "react";
 
@@ -34,25 +34,36 @@ function StandardClassSelectorComponent({
       />
 
       {character.class.length > 0 && (
-        <div id="class-details">
+        <Callout variant="neutral" id="class-details">
           {(() => {
             const selectedClass = availableClasses.find(
               (cls) => cls.id === character.class[0]
             );
             return selectedClass ? (
-              <section aria-labelledby="class-info-heading">
-                <h6 id="class-info-heading">{selectedClass.name}</h6>
-                <p>{selectedClass.description}</p>
-                <dl>
-                  <dt>Hit Die:</dt>
-                  <dd>{selectedClass.hitDie}</dd>
-                  <dt>Primary Attribute:</dt>
-                  <dd>{selectedClass.primaryAttribute}</dd>
+              <div aria-labelledby="class-info-heading">
+                <h6
+                  id="class-info-heading"
+                  className="font-semibold mb-3 text-amber-400"
+                >
+                  {selectedClass.name}
+                </h6>
+                <p className="mb-4">{selectedClass.description}</p>
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-0">
+                  <div>
+                    <dt className="font-semibold text-zinc-300">Hit Die:</dt>
+                    <dd className="mb-0">{selectedClass.hitDie}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-zinc-300">
+                      Primary Attribute:
+                    </dt>
+                    <dd className="mb-0">{selectedClass.primaryAttribute}</dd>
+                  </div>
                 </dl>
-              </section>
+              </div>
             ) : null;
           })()}
-        </div>
+        </Callout>
       )}
     </section>
   );

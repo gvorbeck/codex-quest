@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { FileUpload, Button } from "@/components/ui";
+import { FileUpload, Button, Callout } from "@/components/ui";
 import type { Character } from "@/types/character";
 
 interface AvatarSelectorProps {
@@ -107,10 +107,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
     <div className="space-y-6">
       <header>
         <h4 className="text-lg font-semibold text-primary-100 mb-2">Avatar</h4>
-        <p className="text-primary-300">
+        <Callout variant="info" size="sm">
           Choose a stock avatar or upload your own image to represent your
           character.
-        </p>
+        </Callout>
       </header>
 
       {/* Current Avatar Preview */}
@@ -212,10 +212,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           error={uploadError}
           aria-describedby="avatar-upload-info"
         />
-        <div id="avatar-upload-info" className="text-sm text-primary-400 mt-2">
+        <Callout variant="neutral" size="sm">
           For best results, use a square image (1:1 aspect ratio) that's at
           least 128x128 pixels.
-        </div>
+        </Callout>
       </div>
     </div>
   );
