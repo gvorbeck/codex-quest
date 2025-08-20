@@ -105,7 +105,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
               <div style={{ flexShrink: 0 }}>
                 <img
                   src={character.avatar}
-                  alt={`${character.name || 'Character'} avatar`}
+                  alt={`${character.name || "Character"} avatar`}
                   style={{
                     width: "80px",
                     height: "80px",
@@ -120,7 +120,7 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
                 />
               </div>
             )}
-            
+
             {/* Character Info */}
             <div
               style={{
