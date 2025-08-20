@@ -4,7 +4,6 @@ import {
   SimpleRoller,
   StepWrapper,
   Button,
-  Callout,
 } from "@/components/ui";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
@@ -225,146 +224,257 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       const canAfford = character.gold >= costInGold;
 
       return (
-        <div className="flex justify-between items-center py-2">
-          <div className="flex-1">
-            <div className="font-medium text-stone-100">{equipment.name}</div>
-            <div className="text-sm text-stone-400 flex gap-4">
-              <span>Cost: {costDisplay}</span>
-              <span>Weight: {weightDisplay}</span>
-              {equipment.damage && <span>Damage: {equipment.damage}</span>}
-              {equipment.AC && <span>AC: {equipment.AC}</span>}
+        <div className="bg-zinc-800/50 border border-zinc-600 rounded-lg p-4 hover:bg-zinc-800/70 transition-colors">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <div className="flex-1">
+              <div className="font-medium text-zinc-100 mb-2">{equipment.name}</div>
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 text-sm text-zinc-400">
+                <span className="flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  {costDisplay}
+                </span>
+                <span className="flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  </svg>
+                  {weightDisplay}
+                </span>
+                {equipment.damage && (
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                    </svg>
+                    {equipment.damage}
+                  </span>
+                )}
+                {equipment.AC && (
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v5.5a1 1 0 00.496.868l7 4a1 1 0 00.992 0l7-4A1 1 0 0018 13.5V8a1 1 0 00-.496-.868l-7-4zM6 9a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                    </svg>
+                    AC {equipment.AC}
+                  </span>
+                )}
+              </div>
             </div>
+            <Button
+              onClick={() => handleEquipmentAdd(equipment)}
+              disabled={!canAfford}
+              variant={canAfford ? "primary" : "secondary"}
+              size="sm"
+              className="self-start sm:self-center"
+            >
+              Add {!canAfford && "(Can't Afford)"}
+            </Button>
           </div>
-          <Button
-            onClick={() => handleEquipmentAdd(equipment)}
-            disabled={!canAfford}
-            className="text-sm opacity-100 disabled:opacity-50"
-          >
-            Add
-          </Button>
         </div>
       );
     },
     [character.gold, handleEquipmentAdd]
   );
 
+  const getStatusMessage = () => {
+    if (character.gold > 0 && character.equipment.length > 0) {
+      return `${character.equipment.length} items, ${character.gold} gp remaining`;
+    } else if (character.gold > 0) {
+      return `${character.gold} gp available`;
+    }
+    return "";
+  };
+
   return (
     <StepWrapper
       title="Equipment"
       description="Roll for starting gold and select your character's equipment."
+      statusMessage={getStatusMessage()}
     >
-      {/* Starting Gold Roller */}
-      <div className="mb-8">
-        <h4 className="text-lg font-semibold text-stone-100 mb-2">
-          Starting Gold
-        </h4>
-        <p className="mb-4 text-stone-400">
-          Roll 3d6 × 10 for your character's starting gold pieces.
-        </p>
-        <SimpleRoller
-          formula="3d6*10"
-          label="Starting Gold (3d6 × 10)"
-          {...(startingGold !== undefined && {
-            initialValue: startingGold,
-          })}
-          onChange={handleGoldRoll}
-        />
-        <div className="mt-2 flex gap-8">
+      {/* Starting Gold Section */}
+      <section className="mb-8">
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6">Starting Gold</h4>
+        
+        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309] mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <svg
+              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+            </svg>
+            <h5 className="font-semibold text-amber-100 m-0">Gold Information</h5>
+          </div>
+          <p className="text-amber-50 leading-relaxed m-0">
+            Roll 3d6 × 10 for your character's starting gold pieces. Use this gold to purchase equipment and supplies.
+          </p>
+        </div>
+
+        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+          <SimpleRoller
+            formula="3d6*10"
+            label="Starting Gold (3d6 × 10)"
+            {...(startingGold !== undefined && {
+              initialValue: startingGold,
+            })}
+            onChange={handleGoldRoll}
+          />
+          
           {startingGold !== undefined && (
-            <p className="font-medium text-stone-100 m-0">
-              Current Gold: {character.gold} gp
-            </p>
-          )}
-          {startingGold !== undefined && startingGold !== character.gold && (
-            <p className="font-medium text-stone-400 m-0">
-              Starting Gold: {startingGold} gp
-            </p>
+            <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:gap-8">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium text-zinc-100">Current: {character.gold} gp</span>
+              </div>
+              {startingGold !== character.gold && (
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-medium text-zinc-400">Started: {startingGold} gp</span>
+                </div>
+              )}
+            </div>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Current Equipment Loadout */}
-      <div className="mb-8">
-        <h4 className="text-lg font-semibold text-stone-100 mb-2">
-          Current Equipment
-        </h4>
+      {/* Current Equipment Section */}
+      <section className="mb-8">
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6">Current Equipment</h4>
+        
         {character.equipment.length === 0 ? (
-          <p className="text-stone-400 italic">No equipment selected yet.</p>
-        ) : (
-          <>
-            <div className="border border-zinc-600 rounded-lg bg-zinc-800 p-4 mb-4">
-              {character.equipment.map((item, index) => (
-                <div
-                  key={`${item.name}-${index}`}
-                  className="flex justify-between items-center py-2 border-b border-zinc-600 last:border-b-0"
-                >
-                  <div>
-                    <span className="font-medium text-stone-100">
-                      {item.name}
-                    </span>
-                    {item.amount > 1 && (
-                      <span className="text-stone-400"> × {item.amount}</span>
-                    )}
-                    <div className="text-sm text-stone-400">
-                      {item.weight > 0 &&
-                        `${
-                          Math.round(item.weight * item.amount * 10) / 10
-                        } lbs`}
-                      {item.costValue > 0 && (
-                        <span className="ml-4">
-                          {item.costValue * item.amount} {item.costCurrency}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <Button
-                    variant="destructive"
-                    onClick={() => handleEquipmentRemove(item.name)}
-                    className="text-sm px-2 py-1"
-                  >
-                    Remove
-                  </Button>
-                </div>
-              ))}
+          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+            <div className="flex items-center gap-3">
+              <svg className="w-5 h-5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
+              </svg>
+              <p className="text-zinc-400 italic m-0">No equipment selected yet. Browse available equipment below.</p>
             </div>
-
-            {/* Equipment Summary */}
-            <div className="grid grid-cols-2 gap-4 p-4 bg-zinc-700 rounded-lg text-sm">
-              <div>
-                <strong>Total Weight:</strong> {totalWeight} lbs
-              </div>
-              <div>
-                <strong>Total Value:</strong> {totalValue} gp
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Equipment Selection */}
-      <div>
-        <h4 className="text-lg font-semibold text-stone-100 mb-2">
-          Available Equipment
-        </h4>
-        <Callout variant="info" size="sm">
-          Browse and select equipment for your character. Items are organized by
-          category.
-        </Callout>
-
-        {isLoading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-400"></div>
-            <span className="ml-3 text-stone-400">Loading equipment...</span>
           </div>
         ) : (
-          <Accordion
-            items={allEquipment}
-            sortBy="category"
-            searchPlaceholder="Search equipment..."
-            renderItem={renderEquipmentItem}
-          />
+          <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg shadow-[0_3px_0_0_#65a30d]">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <svg className="w-5 h-5 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
+                </svg>
+                <h5 className="font-semibold text-lime-100 m-0">Equipment Inventory</h5>
+              </div>
+              
+              <div className="space-y-3 mb-6">
+                {character.equipment.map((item, index) => (
+                  <div
+                    key={`${item.name}-${index}`}
+                    className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="font-medium text-lime-100">{item.name}</span>
+                          {item.amount > 1 && (
+                            <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
+                              × {item.amount}
+                            </span>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
+                          {item.weight > 0 && (
+                            <span>{Math.round(item.weight * item.amount * 10) / 10} lbs</span>
+                          )}
+                          {item.costValue > 0 && (
+                            <span>{item.costValue * item.amount} {item.costCurrency}</span>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleEquipmentRemove(item.name)}
+                        className="self-start sm:self-center"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Equipment Summary */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                    </svg>
+                    Total Weight
+                  </h6>
+                  <p className="text-lime-50 font-bold m-0">{totalWeight} lbs</p>
+                </div>
+                <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>
+                    Total Value
+                  </h6>
+                  <p className="text-lime-50 font-bold m-0">{totalValue} gp</p>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
-      </div>
+      </section>
+
+      {/* Available Equipment Section */}
+      <section className="mb-8">
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6">Available Equipment</h4>
+        
+        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309] mb-6">
+          <div className="flex items-center gap-3 mb-3">
+            <svg
+              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <h5 className="font-semibold text-amber-100 m-0">Shopping Guide</h5>
+          </div>
+          <p className="text-amber-50 leading-relaxed m-0">
+            Browse and select equipment for your character. Items are organized by category. 
+            <span className="hidden sm:inline"> You can only purchase items you can afford with your current gold.</span>
+          </p>
+        </div>
+
+        {isLoading ? (
+          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-8 shadow-[0_3px_0_0_#3f3f46]">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-lime-400"></div>
+              <span className="ml-3 text-zinc-400">Loading equipment...</span>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg shadow-[0_3px_0_0_#3f3f46]">
+            <Accordion
+              items={allEquipment}
+              sortBy="category"
+              searchPlaceholder="Search equipment..."
+              renderItem={renderEquipmentItem}
+            />
+          </div>
+        )}
+      </section>
     </StepWrapper>
   );
 }
