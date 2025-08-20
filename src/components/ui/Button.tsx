@@ -40,31 +40,31 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none disabled:transform-none disabled:shadow-none",
     ];
 
-    // Variant styles with 3D shadow effect - using standard Tailwind colors
+    // Variant styles with 3D shadow effect - using darker shade of the same color for shadow
     const variantStyles = {
       primary: [
         "bg-amber-400 text-zinc-900 border-amber-500",
-        "shadow-[0_4px_0_0_#d97706] hover:shadow-[0_6px_0_0_#d97706]", // amber-600 shadow
+        "shadow-[0_4px_0_0_#b45309] hover:shadow-[0_6px_0_0_#b45309]", // amber-700 shadow
         "hover:bg-amber-300 hover:border-amber-400",
-        "active:shadow-[0_2px_0_0_#d97706] active:bg-amber-500",
+        "active:shadow-[0_2px_0_0_#b45309] active:bg-amber-500",
       ],
       secondary: [
         "bg-transparent text-amber-400 border-amber-400",
-        "shadow-[0_4px_0_0_#d97706] hover:shadow-[0_6px_0_0_#d97706]",
+        "shadow-[0_4px_0_0_#b45309] hover:shadow-[0_6px_0_0_#b45309]", // amber-700 shadow
         "hover:bg-amber-400 hover:text-zinc-900 hover:border-amber-500",
-        "active:shadow-[0_2px_0_0_#d97706] active:bg-amber-500 active:text-zinc-900",
+        "active:shadow-[0_2px_0_0_#b45309] active:bg-amber-500 active:text-zinc-900",
       ],
       ghost: [
         "bg-transparent text-zinc-300 border-zinc-600",
-        "shadow-[0_4px_0_0_#52525b] hover:shadow-[0_6px_0_0_#52525b]", // zinc-600 shadow
+        "shadow-[0_4px_0_0_#3f3f46] hover:shadow-[0_6px_0_0_#3f3f46]", // zinc-700 shadow
         "hover:bg-zinc-700 hover:text-zinc-100 hover:border-zinc-500",
-        "active:shadow-[0_2px_0_0_#52525b] active:bg-zinc-800",
+        "active:shadow-[0_2px_0_0_#3f3f46] active:bg-zinc-800",
       ],
       destructive: [
         "bg-red-500 text-white border-red-600",
-        "shadow-[0_4px_0_0_#dc2626] hover:shadow-[0_6px_0_0_#dc2626]", // red-600 shadow
+        "shadow-[0_4px_0_0_#b91c1c] hover:shadow-[0_6px_0_0_#b91c1c]", // red-700 shadow
         "hover:bg-red-400 hover:border-red-500",
-        "active:shadow-[0_2px_0_0_#dc2626] active:bg-red-600",
+        "active:shadow-[0_2px_0_0_#b91c1c] active:bg-red-600",
       ],
     };
 
