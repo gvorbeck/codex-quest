@@ -6,6 +6,7 @@ import {
   ClassStep,
   HitPointsStep,
   EquipmentStep,
+  ReviewStep,
 } from "@/components/features";
 import { useCascadeValidation, useLocalStorage, useValidation } from "@/hooks";
 import type { Character } from "@/types/character";
@@ -18,6 +19,7 @@ import { STORAGE_KEYS } from "@/constants/storage";
 import {
   raceSelectionSchema,
   classSelectionSchema,
+  characterNameSchema,
 } from "@/utils/validationSchemas";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
@@ -98,6 +100,7 @@ function CharGen() {
   // Enhanced validation for individual fields
   const raceValidation = useValidation(character.race, raceSelectionSchema);
   const classValidation = useValidation(character.class, classSelectionSchema);
+  const nameValidation = useValidation(character.name, characterNameSchema);
 
   // Initialize cascade validation hook
   useCascadeValidation({
@@ -134,10 +137,20 @@ function CharGen() {
         );
       case 3: // Hit Points step
         return !hasValidHitPoints(character);
+      case 4: // Equipment step
+        return false; // Equipment is optional
+      case 5: // Review step
+        return !nameValidation.isValid;
       default:
         return false;
     }
-  }, [step, character, raceValidation.isValid, classValidation.isValid]);
+  }, [
+    step,
+    character,
+    raceValidation.isValid,
+    classValidation.isValid,
+    nameValidation.isValid,
+  ]);
 
   const getValidationMessage = useCallback(() => {
     switch (step) {
@@ -164,10 +177,20 @@ function CharGen() {
         return !hasValidHitPoints(character)
           ? "Please roll or set your hit points before proceeding."
           : "";
+      case 4: // Equipment step
+        return ""; // Equipment is optional
+      case 5: // Review step
+        return nameValidation.errors.length > 0 ? nameValidation.errors[0] : "";
       default:
         return "";
     }
-  }, [step, character, raceValidation.errors, classValidation.errors]);
+  }, [
+    step,
+    character,
+    raceValidation.errors,
+    classValidation.errors,
+    nameValidation.errors,
+  ]);
 
   const stepItems = [
     {
@@ -217,7 +240,9 @@ function CharGen() {
     },
     {
       title: "Review",
-      content: <div>Review your character</div>,
+      content: (
+        <ReviewStep character={character} onCharacterChange={setCharacter} />
+      ),
     },
   ];
 

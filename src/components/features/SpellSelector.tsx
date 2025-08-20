@@ -32,7 +32,7 @@ function SpellSelectorComponent({
   return (
     <section aria-labelledby={`${detailsId}-heading`}>
       <h6 id={`${detailsId}-heading`}>{title}</h6>
-      <p dangerouslySetInnerHTML={{ __html: description }} />
+      <p>{description}</p>
       <Select
         label="Choose your starting spell"
         value={selectedSpell}
