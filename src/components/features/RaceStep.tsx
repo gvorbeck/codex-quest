@@ -74,7 +74,6 @@ function RaceStep({
     <StepWrapper
       title="Choose Your Race"
       description="Select the race that defines your character's heritage and abilities."
-      statusMessage={selectedRace ? `Selected race: ${selectedRace.name}` : ""}
     >
       {/* Race Selection Controls */}
       <section className="mb-8">

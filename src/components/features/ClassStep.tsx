@@ -147,30 +147,36 @@ function ClassStepComponent({
   };
 
   // Get current class display name
-  const classDisplayName = useMemo(() => {
-    if (!selectedRace || character.class.length === 0) return undefined;
-    if (character.class.length === 1) {
-      const singleClass = availableClasses.find(
-        (cls) => cls.id === character.class[0]
-      );
-      return singleClass ? `Selected class: ${singleClass.name}` : undefined;
-    } else {
-      const combination = validCombinations.find(
-        (combo) =>
-          combo.ids.length === character.class.length &&
-          combo.ids.every((id) => character.class.includes(id))
-      );
-      return combination
-        ? `Selected combination class: ${combination.name}`
-        : `Selected classes: ${character.class.join(", ")}`;
-    }
-  }, [selectedRace, character.class, availableClasses, validCombinations]);
 
   if (!selectedRace) {
     return (
-      <div>
-        <p>Please select a race first before choosing a class.</p>
-      </div>
+      <StepWrapper
+        title="Choose Your Class"
+        description="Select the class that defines your character's abilities and role."
+        statusMessage=""
+      >
+        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]">
+          <div className="flex items-center gap-3 mb-3">
+            <svg
+              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <h4 className="font-semibold text-amber-100 m-0">Race Required</h4>
+          </div>
+          <p className="text-amber-50 m-0">
+            Please select a race first before choosing a class. Your race
+            determines which classes are available to you.
+          </p>
+        </div>
+      </StepWrapper>
     );
   }
 
@@ -181,34 +187,56 @@ function ClassStepComponent({
     <StepWrapper
       title="Choose Your Class"
       description="Select the class that defines your character's abilities and role."
-      statusMessage={classDisplayName || ""}
     >
-      <fieldset>
-        <legend className="sr-only">Class selection options</legend>
+      {/* Class Selection Controls */}
+      <section className="mb-8">
+        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+          <fieldset>
+            <legend className="sr-only">Class selection options</legend>
 
-        <div>
-          <Switch
-            label="Include Supplemental Classes"
-            checked={includeSupplementalClass}
-            onCheckedChange={onIncludeSupplementalClassChange}
-          />
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-base font-semibold text-zinc-100 mb-1">
+                    Content Options
+                  </h4>
+                  <p className="text-sm text-zinc-400">
+                    Include additional classes from supplemental materials
+                  </p>
+                </div>
+                <Switch
+                  label="Include Supplemental Classes"
+                  checked={includeSupplementalClass}
+                  onCheckedChange={onIncludeSupplementalClassChange}
+                />
+              </div>
+
+              {canUseCombinationClasses && (
+                <div className="border-t border-zinc-600 pt-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h4 className="text-base font-semibold text-zinc-100 mb-1">
+                        Combination Classes
+                      </h4>
+                      <p className="text-sm text-zinc-400">
+                        As an {selectedRace.name}, you can choose a combination
+                        class that combines the abilities of two base classes.
+                      </p>
+                    </div>
+                    <Switch
+                      label="Use Combination Class"
+                      checked={useCombinationClass}
+                      onCheckedChange={handleCombinationToggle}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </fieldset>
         </div>
+      </section>
 
-        {canUseCombinationClasses && (
-          <div>
-            <Switch
-              label="Use Combination Class"
-              checked={useCombinationClass}
-              onCheckedChange={handleCombinationToggle}
-            />
-            <p>
-              As an {selectedRace.name}, you can choose a combination class that
-              combines the abilities of two base classes.
-            </p>
-          </div>
-        )}
-      </fieldset>
-
+      {/* Class Selection */}
       {!useCombinationClass ? (
         <>
           <StandardClassSelector
