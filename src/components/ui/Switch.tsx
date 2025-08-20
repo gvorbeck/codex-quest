@@ -102,7 +102,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
     // Thumb styles
     const thumbBaseStyles = [
-      "absolute top-0.5 left-0.5",
+      "absolute top-0 left-0.5",
       "bg-white border border-zinc-300",
       "rounded-full transition-transform duration-150",
       "shadow-sm pointer-events-none",
