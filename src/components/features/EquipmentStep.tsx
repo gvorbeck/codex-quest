@@ -59,7 +59,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     } else if (equipment.costCurrency === "cp") {
       costInGold = costInGold / 100; // Convert cp to gp: 100 cp = 1 gp
     }
-    
+
     // Round to 2 decimal places to avoid floating point issues
     costInGold = Math.round(costInGold * 100) / 100;
 
@@ -112,7 +112,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       } else if (existingItem.costCurrency === "cp") {
         refundInGold = refundInGold / 100; // Convert cp to gp: 100 cp = 1 gp
       }
-      
+
       // Round to 2 decimal places to avoid floating point issues
       refundInGold = Math.round(refundInGold * 100) / 100;
 
@@ -177,7 +177,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     } else if (equipment.costCurrency === "cp") {
       costInGold = costInGold / 100; // Convert cp to gp: 100 cp = 1 gp
     }
-    
+
     // Round to 2 decimal places to avoid floating point issues
     costInGold = Math.round(costInGold * 100) / 100;
 
