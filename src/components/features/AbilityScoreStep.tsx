@@ -1,4 +1,4 @@
-import { Button, SimpleRoller, StepWrapper, Callout } from "../ui";
+import { Button, SimpleRoller, StepWrapper } from "../ui";
 import { roller } from "../../utils/dice";
 import type { Character, AbilityScore } from "../../types/character";
 import { memo } from "react";
@@ -269,14 +269,30 @@ function AbilityScoreStep({
 
       {/* Flip Scores Information */}
       {hasRolledScores && (
-        <Callout variant="info" title="Flip Scores Information">
-          <p className="m-0">
+        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#d97706]">
+          <div className="flex items-center gap-3 mb-3">
+            <svg
+              className="w-5 h-5 text-amber-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <h5 className="text-base font-semibold text-amber-100 m-0">
+              Flip Scores Information
+            </h5>
+          </div>
+          <p className="text-amber-100 text-sm m-0 leading-relaxed">
             You can flip all ability scores by subtracting them from 21. This
             turns low scores into high scores and vice versa. For example, a 15
             becomes a 6, and a 3 becomes an 18. All scores must be flipped
             together.
           </p>
-        </Callout>
+        </div>
       )}
     </StepWrapper>
   );

@@ -1,10 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import {
-  Accordion,
-  SimpleRoller,
-  StepWrapper,
-  Button,
-} from "@/components/ui";
+import { Accordion, SimpleRoller, StepWrapper, Button } from "@/components/ui";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 
@@ -227,23 +222,45 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         <div className="bg-zinc-800/50 border border-zinc-600 rounded-lg p-4 hover:bg-zinc-800/70 transition-colors">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <div className="flex-1">
-              <div className="font-medium text-zinc-100 mb-2">{equipment.name}</div>
+              <div className="font-medium text-zinc-100 mb-2">
+                {equipment.name}
+              </div>
               <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 text-sm text-zinc-400">
                 <span className="flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  <svg
+                    className="w-3 h-3"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {costDisplay}
                 </span>
                 <span className="flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  <svg
+                    className="w-3 h-3"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {weightDisplay}
                 </span>
                 {equipment.damage && (
                   <span className="flex items-center gap-1">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      className="w-3 h-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
                     </svg>
                     {equipment.damage}
@@ -251,8 +268,16 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                 )}
                 {equipment.AC && (
                   <span className="flex items-center gap-1">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v5.5a1 1 0 00.496.868l7 4a1 1 0 00.992 0l7-4A1 1 0 0018 13.5V8a1 1 0 00-.496-.868l-7-4zM6 9a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                    <svg
+                      className="w-3 h-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v5.5a1 1 0 00.496.868l7 4a1 1 0 00.992 0l7-4A1 1 0 0018 13.5V8a1 1 0 00-.496-.868l-7-4zM6 9a1 1 0 000 2h8a1 1 0 100-2H6z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     AC {equipment.AC}
                   </span>
@@ -292,8 +317,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     >
       {/* Starting Gold Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">Starting Gold</h4>
-        
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
+          Starting Gold
+        </h4>
+
         <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309] mb-6">
           <div className="flex items-center gap-3 mb-4">
             <svg
@@ -302,12 +329,19 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               viewBox="0 0 20 20"
               aria-hidden="true"
             >
-              <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                clipRule="evenodd"
+              />
             </svg>
-            <h5 className="font-semibold text-amber-100 m-0">Gold Information</h5>
+            <h5 className="font-semibold text-amber-100 m-0">
+              Gold Information
+            </h5>
           </div>
           <p className="text-amber-50 leading-relaxed m-0">
-            Roll 3d6 × 10 for your character's starting gold pieces. Use this gold to purchase equipment and supplies.
+            Roll 3d6 × 10 for your character's starting gold pieces. Use this
+            gold to purchase equipment and supplies.
           </p>
         </div>
 
@@ -320,21 +354,41 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             })}
             onChange={handleGoldRoll}
           />
-          
+
           {startingGold !== undefined && (
             <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:gap-8">
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-lime-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
-                <span className="font-medium text-zinc-100">Current: {character.gold} gp</span>
+                <span className="font-medium text-zinc-100">
+                  Current: {character.gold} gp
+                </span>
               </div>
               {startingGold !== character.gold && (
                 <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4 text-zinc-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
-                  <span className="font-medium text-zinc-400">Started: {startingGold} gp</span>
+                  <span className="font-medium text-zinc-400">
+                    Started: {startingGold} gp
+                  </span>
                 </div>
               )}
             </div>
@@ -344,29 +398,59 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
       {/* Current Equipment Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">Current Equipment</h4>
-        
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
+          Current Equipment
+        </h4>
+
         {character.equipment.length === 0 ? (
           <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
             <div className="flex items-center gap-3">
-              <svg className="w-5 h-5 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clipRule="evenodd" />
-                <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
+              <svg
+                className="w-5 h-5 text-zinc-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"
+                  clipRule="evenodd"
+                />
+                <path
+                  fillRule="evenodd"
+                  d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                  clipRule="evenodd"
+                />
               </svg>
-              <p className="text-zinc-400 italic m-0">No equipment selected yet. Browse available equipment below.</p>
+              <p className="text-zinc-400 italic m-0">
+                No equipment selected yet. Browse available equipment below.
+              </p>
             </div>
           </div>
         ) : (
           <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg shadow-[0_3px_0_0_#65a30d]">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <svg className="w-5 h-5 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clipRule="evenodd" />
-                  <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
+                <svg
+                  className="w-5 h-5 text-lime-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"
+                    clipRule="evenodd"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
+                    clipRule="evenodd"
+                  />
                 </svg>
-                <h5 className="font-semibold text-lime-100 m-0">Equipment Inventory</h5>
+                <h5 className="font-semibold text-lime-100 m-0">
+                  Equipment Inventory
+                </h5>
               </div>
-              
+
               <div className="space-y-3 mb-6">
                 {character.equipment.map((item, index) => (
                   <div
@@ -376,7 +460,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="font-medium text-lime-100">{item.name}</span>
+                          <span className="font-medium text-lime-100">
+                            {item.name}
+                          </span>
                           {item.amount > 1 && (
                             <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
                               × {item.amount}
@@ -385,10 +471,15 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
                           {item.weight > 0 && (
-                            <span>{Math.round(item.weight * item.amount * 10) / 10} lbs</span>
+                            <span>
+                              {Math.round(item.weight * item.amount * 10) / 10}{" "}
+                              lbs
+                            </span>
                           )}
                           {item.costValue > 0 && (
-                            <span>{item.costValue * item.amount} {item.costCurrency}</span>
+                            <span>
+                              {item.costValue * item.amount} {item.costCurrency}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -409,17 +500,35 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                   <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     Total Weight
                   </h6>
-                  <p className="text-lime-50 font-bold m-0">{totalWeight} lbs</p>
+                  <p className="text-lime-50 font-bold m-0">
+                    {totalWeight} lbs
+                  </p>
                 </div>
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                   <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     Total Value
                   </h6>
@@ -433,8 +542,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
       {/* Available Equipment Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">Available Equipment</h4>
-        
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
+          Available Equipment
+        </h4>
+
         <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309] mb-6">
           <div className="flex items-center gap-3 mb-3">
             <svg
@@ -452,8 +563,12 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             <h5 className="font-semibold text-amber-100 m-0">Shopping Guide</h5>
           </div>
           <p className="text-amber-50 leading-relaxed m-0">
-            Browse and select equipment for your character. Items are organized by category. 
-            <span className="hidden sm:inline"> You can only purchase items you can afford with your current gold.</span>
+            Browse and select equipment for your character. Items are organized
+            by category.
+            <span className="hidden sm:inline">
+              {" "}
+              You can only purchase items you can afford with your current gold.
+            </span>
           </p>
         </div>
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { Stepper, Callout } from "@/components/ui";
+import { Stepper } from "@/components/ui";
 import {
   AbilityScoreStep,
   RaceStep,
@@ -205,10 +205,6 @@ function CharGen() {
     <article>
       <header>
         <h2>Character Creation</h2>
-        <Callout variant="info" size="sm">
-          Follow the steps below to create your BFRPG character. Your progress
-          is automatically saved.
-        </Callout>
       </header>
 
       <section aria-label="Character creation wizard">

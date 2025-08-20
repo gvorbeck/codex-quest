@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { FileUpload, Button, Callout } from "@/components/ui";
+import { FileUpload, Button } from "@/components/ui";
 import type { Character } from "@/types/character";
 
 interface AvatarSelectorProps {
@@ -106,31 +106,57 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
   return (
     <div className="space-y-6">
       <header>
-        <h4 className="text-lg font-semibold text-primary-100 mb-2">Avatar</h4>
-        <Callout variant="info" size="sm">
-          Choose a stock avatar or upload your own image to represent your
-          character.
-        </Callout>
+        <h4 className="text-lg font-semibold text-zinc-100 mb-6 flex items-center gap-2">
+          <svg
+            className="w-5 h-5 text-amber-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+              clipRule="evenodd"
+            />
+          </svg>
+          Avatar
+        </h4>
+        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#d97706] mb-6">
+          <p className="text-amber-100 text-sm m-0">
+            Choose a stock avatar or upload your own image to represent your
+            character.
+          </p>
+        </div>
       </header>
 
       {/* Current Avatar Preview */}
       {character.avatar && (
-        <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-          <h5 className="text-base font-medium text-primary-200 mb-3">
+        <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]">
+          <h5 className="text-base font-semibold text-lime-100 mb-4 flex items-center gap-2">
+            <svg
+              className="w-4 h-4 text-lime-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
             Current Avatar
           </h5>
           <div className="flex items-center gap-4">
             <img
               src={character.avatar}
               alt={`${character.name || "Character"} avatar`}
-              className="w-20 h-20 rounded-full border-2 border-primary-600 object-cover"
+              className="w-20 h-20 rounded-full border-3 border-lime-400 object-cover shadow-lg"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = "none";
               }}
             />
             <div className="flex-1">
-              <div className="text-primary-200 font-medium mb-2">
+              <div className="text-lime-100 font-medium mb-3">
                 {isCustomAvatar
                   ? "Custom Upload"
                   : getAvatarDisplayName(
@@ -150,8 +176,19 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       )}
 
       {/* Stock Avatars */}
-      <div>
-        <h5 className="text-base font-medium text-primary-200 mb-3">
+      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <h5 className="text-base font-semibold text-zinc-100 mb-4 flex items-center gap-2">
+          <svg
+            className="w-4 h-4 text-zinc-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+              clipRule="evenodd"
+            />
+          </svg>
           Stock Avatars
         </h5>
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
@@ -167,11 +204,11 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                 aria-label={`Select ${getAvatarDisplayName(avatar)} avatar`}
                 className={`
                   relative w-16 h-16 rounded-lg border-2 transition-all duration-200
-                  focus:outline-none focus:ring-2 focus:ring-highlight-400 focus:ring-offset-2 focus:ring-offset-primary-900
+                  focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-zinc-900
                   ${
                     isSelected
-                      ? "border-highlight-400 bg-highlight-400/10"
-                      : "border-primary-600 hover:border-highlight-400 hover:bg-primary-800"
+                      ? "border-lime-400 bg-lime-400/10 shadow-[0_2px_0_0_#65a30d]"
+                      : "border-zinc-600 hover:border-lime-400 hover:bg-zinc-700"
                   }
                 `}
               >
@@ -182,14 +219,12 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.alt = "Avatar unavailable";
-                    target.className += " bg-primary-700";
+                    target.className += " bg-zinc-700";
                   }}
                 />
                 {isSelected && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-highlight-400 rounded-full flex items-center justify-center">
-                    <span className="text-primary-900 text-xs font-bold">
-                      ✓
-                    </span>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-lime-400 rounded-full flex items-center justify-center">
+                    <span className="text-zinc-900 text-xs font-bold">✓</span>
                   </div>
                 )}
               </button>
@@ -199,8 +234,19 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       </div>
 
       {/* Custom Upload */}
-      <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-        <h5 className="text-base font-medium text-primary-200 mb-3">
+      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <h5 className="text-base font-semibold text-zinc-100 mb-4 flex items-center gap-2">
+          <svg
+            className="w-4 h-4 text-zinc-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
           Upload Custom Avatar
         </h5>
         <FileUpload
@@ -212,10 +258,12 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           error={uploadError}
           aria-describedby="avatar-upload-info"
         />
-        <Callout variant="neutral" size="sm">
-          For best results, use a square image (1:1 aspect ratio) that's at
-          least 128x128 pixels.
-        </Callout>
+        <div className="bg-amber-950/20 border border-amber-600/30 rounded-lg p-3 mt-4">
+          <p className="text-amber-100 text-sm m-0">
+            For best results, use a square image (1:1 aspect ratio) that's at
+            least 128x128 pixels.
+          </p>
+        </div>
       </div>
     </div>
   );
