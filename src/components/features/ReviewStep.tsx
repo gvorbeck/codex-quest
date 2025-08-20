@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { TextInput, StepWrapper } from "@/components/ui";
-import { LanguageSelector } from "@/components/features";
+import { LanguageSelector, AvatarSelector } from "@/components/features";
 import { useValidation } from "@/hooks";
 import { characterNameSchema } from "@/utils/validationSchemas";
 import { sanitizeCharacterName } from "@/utils/sanitization";
@@ -95,24 +95,54 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
         >
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1rem",
+              display: "flex",
+              gap: "1.5rem",
               marginBottom: "1rem",
             }}
           >
-            <div>
-              <strong>Name:</strong> {character.name || "Unnamed Character"}
-            </div>
-            <div>
-              <strong>Race:</strong> {raceDisplayName}
-            </div>
-            <div>
-              <strong>Class:</strong> {classDisplayNames}
-            </div>
-            <div>
-              <strong>Hit Points:</strong> {character.hp?.current || 0}/
-              {character.hp?.max || 0}
+            {/* Avatar */}
+            {character.avatar && (
+              <div style={{ flexShrink: 0 }}>
+                <img
+                  src={character.avatar}
+                  alt={`${character.name || 'Character'} avatar`}
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "50%",
+                    border: "2px solid #dee2e6",
+                    objectFit: "cover",
+                  }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = "none";
+                  }}
+                />
+              </div>
+            )}
+            
+            {/* Character Info */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "1rem",
+                flex: 1,
+              }}
+            >
+              <div>
+                <strong>Name:</strong> {character.name || "Unnamed Character"}
+              </div>
+              <div>
+                <strong>Race:</strong> {raceDisplayName}
+              </div>
+              <div>
+                <strong>Class:</strong> {classDisplayNames}
+              </div>
+              <div>
+                <strong>Hit Points:</strong> {character.hp?.current || 0}/
+                {character.hp?.max || 0}
+              </div>
             </div>
           </div>
 
@@ -215,21 +245,12 @@ function ReviewStep({ character, onCharacterChange }: ReviewStepProps) {
         />
       </section>
 
-      {/* Future sections for avatar would go here */}
+      {/* Avatar */}
       <section style={{ marginBottom: "2rem" }}>
-        <h4>Avatar</h4>
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px dashed #6c757d",
-            borderRadius: "0.5rem",
-            color: "#6c757d",
-            fontStyle: "italic",
-            textAlign: "center",
-          }}
-        >
-          Avatar upload coming soon...
-        </div>
+        <AvatarSelector
+          character={character}
+          onCharacterChange={onCharacterChange}
+        />
       </section>
     </StepWrapper>
   );

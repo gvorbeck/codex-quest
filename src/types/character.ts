@@ -65,6 +65,7 @@ export interface Character {
   };
   spells?: Spell[]; // Spells known by the character
   languages?: string[]; // Languages known by the character
+  avatar?: string; // Avatar image URL or path
 }
 
 export interface RaceRequirement {
