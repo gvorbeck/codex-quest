@@ -63,10 +63,7 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
   return (
     <div role="group" aria-labelledby={labelId} {...containerProps}>
       {/* Screen reader accessible label */}
-      <div
-        id={labelId}
-        className="sr-only"
-      >
+      <div id={labelId} className="sr-only">
         {effectiveLabel}
       </div>
 

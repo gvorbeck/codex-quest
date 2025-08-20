@@ -93,7 +93,9 @@ function LanguageSelector({
   return (
     <div className="space-y-6">
       <header>
-        <h4 className="text-lg font-semibold text-primary-100 mb-2">Languages</h4>
+        <h4 className="text-lg font-semibold text-primary-100 mb-2">
+          Languages
+        </h4>
         <p className="text-primary-300">
           All characters know their native language(s). Characters with
           Intelligence 13+ may learn additional languages equal to their
@@ -103,10 +105,12 @@ function LanguageSelector({
 
       {/* Automatic Languages */}
       <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-        <h5 className="text-base font-medium text-primary-200 mb-3">Automatic Languages</h5>
+        <h5 className="text-base font-medium text-primary-200 mb-3">
+          Automatic Languages
+        </h5>
         <div className="flex flex-wrap gap-2">
           {automaticLanguages.map((language, index) => (
-            <div 
+            <div
               key={`auto-${index}`}
               className="flex items-center gap-2 bg-primary-700 px-3 py-2 rounded-md border border-primary-600"
             >
@@ -124,7 +128,8 @@ function LanguageSelector({
             Bonus Languages
             {maxBonusLanguages > 0 && (
               <span className="text-primary-400 font-normal">
-                {" "}({bonusLanguages.length}/{maxBonusLanguages} used)
+                {" "}
+                ({bonusLanguages.length}/{maxBonusLanguages} used)
               </span>
             )}
           </h5>
@@ -163,8 +168,8 @@ function LanguageSelector({
 
           {remainingSlots > 0 && (
             <div className="mt-4">
-              <Button 
-                variant="secondary" 
+              <Button
+                variant="secondary"
                 size="sm"
                 onClick={handleAddLanguage}
                 className="w-full sm:w-auto"
@@ -190,11 +195,13 @@ function LanguageSelector({
       {/* Common bonus languages suggestion */}
       {maxBonusLanguages > 0 && (
         <div className="bg-primary-800/50 rounded-lg p-4 border border-primary-700/50">
-          <h6 className="text-base font-medium text-primary-200 mb-2">Common Languages to Consider:</h6>
+          <h6 className="text-base font-medium text-primary-200 mb-2">
+            Common Languages to Consider:
+          </h6>
           <p className="text-primary-300 text-sm">
-            Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll, 
-            Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other regional 
-            languages as determined by your GM.
+            Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll,
+            Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other
+            regional languages as determined by your GM.
           </p>
         </div>
       )}

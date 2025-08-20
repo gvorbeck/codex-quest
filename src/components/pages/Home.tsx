@@ -5,16 +5,20 @@ function Home() {
   return (
     <section className="max-w-4xl mx-auto space-y-8">
       <header className="text-center space-y-4">
-        <h2 className="text-3xl font-bold text-primary-100">Welcome to Torchlight</h2>
+        <h2 className="text-3xl font-bold text-primary-100">
+          Welcome to Torchlight
+        </h2>
         <p className="text-lg text-primary-300 leading-relaxed">
           Create your perfect Basic Fantasy RPG character with our comprehensive
-          character generator. Roll ability scores, choose from various races and
-          classes, and equip your adventurer for their next quest.
+          character generator. Roll ability scores, choose from various races
+          and classes, and equip your adventurer for their next quest.
         </p>
       </header>
 
       <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">
-        <h3 className="text-xl font-semibold text-primary-100 mb-4">Features</h3>
+        <h3 className="text-xl font-semibold text-primary-100 mb-4">
+          Features
+        </h3>
         <ul className="space-y-2 text-primary-300">
           <li className="flex items-start gap-2">
             <span className="text-highlight-400 mt-1">•</span>

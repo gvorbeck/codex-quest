@@ -43,9 +43,7 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div
-          role="alert"
-        >
+        <div role="alert">
           <h2>Something went wrong</h2>
           <p>
             We're sorry, but an unexpected error occurred. Please try refreshing
@@ -53,15 +51,9 @@ export class ErrorBoundary extends Component<Props, State> {
           </p>
           <details>
             <summary>Error details (for developers)</summary>
-            <pre>
-              {this.state.error?.message}
-            </pre>
+            <pre>{this.state.error?.message}</pre>
           </details>
-          <Button
-            onClick={() => window.location.reload()}
-          >
-            Refresh Page
-          </Button>
+          <Button onClick={() => window.location.reload()}>Refresh Page</Button>
         </div>
       );
     }

@@ -116,7 +116,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       {/* Current Avatar Preview */}
       {character.avatar && (
         <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-          <h5 className="text-base font-medium text-primary-200 mb-3">Current Avatar</h5>
+          <h5 className="text-base font-medium text-primary-200 mb-3">
+            Current Avatar
+          </h5>
           <div className="flex items-center gap-4">
             <img
               src={character.avatar}
@@ -135,8 +137,8 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                       character.avatar.split("/").pop() || ""
                     )}
               </div>
-              <Button 
-                variant="destructive" 
+              <Button
+                variant="destructive"
                 size="sm"
                 onClick={handleClearAvatar}
               >
@@ -149,7 +151,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
 
       {/* Stock Avatars */}
       <div>
-        <h5 className="text-base font-medium text-primary-200 mb-3">Stock Avatars</h5>
+        <h5 className="text-base font-medium text-primary-200 mb-3">
+          Stock Avatars
+        </h5>
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
           {STOCK_AVATARS.map((avatar) => {
             const avatarPath = `/faces/${avatar}`;
@@ -164,9 +168,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                 className={`
                   relative w-16 h-16 rounded-lg border-2 transition-all duration-200
                   focus:outline-none focus:ring-2 focus:ring-highlight-400 focus:ring-offset-2 focus:ring-offset-primary-900
-                  ${isSelected 
-                    ? 'border-highlight-400 bg-highlight-400/10' 
-                    : 'border-primary-600 hover:border-highlight-400 hover:bg-primary-800'
+                  ${
+                    isSelected
+                      ? "border-highlight-400 bg-highlight-400/10"
+                      : "border-primary-600 hover:border-highlight-400 hover:bg-primary-800"
                   }
                 `}
               >
@@ -182,7 +187,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                 />
                 {isSelected && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-highlight-400 rounded-full flex items-center justify-center">
-                    <span className="text-primary-900 text-xs font-bold">✓</span>
+                    <span className="text-primary-900 text-xs font-bold">
+                      ✓
+                    </span>
                   </div>
                 )}
               </button>
@@ -193,7 +200,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
 
       {/* Custom Upload */}
       <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
-        <h5 className="text-base font-medium text-primary-200 mb-3">Upload Custom Avatar</h5>
+        <h5 className="text-base font-medium text-primary-200 mb-3">
+          Upload Custom Avatar
+        </h5>
         <FileUpload
           label="Upload Avatar Image"
           helperText="Upload your own avatar image. Accepts JPG, PNG, WebP. Max 2MB."

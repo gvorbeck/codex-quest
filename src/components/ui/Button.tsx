@@ -95,15 +95,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading && (
-          <span 
-            aria-hidden="true" 
+          <span
+            aria-hidden="true"
             className="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full"
           />
         )}
         <span className={loading ? "opacity-0" : ""}>{children}</span>
-        {loading && (
-          <span className="sr-only">{loadingText}</span>
-        )}
+        {loading && <span className="sr-only">{loadingText}</span>}
       </button>
     );
   }

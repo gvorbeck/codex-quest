@@ -133,25 +133,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   return (
     <div>
-      <label
-        htmlFor={inputId}
-      >
+      <label htmlFor={inputId}>
         {label}
-        {required && (
-          <span aria-label="required">
-            {" "}
-            *
-          </span>
-        )}
+        {required && <span aria-label="required"> *</span>}
       </label>
 
-      {helperText && (
-        <div
-          id={helperTextId}
-        >
-          {helperText}
-        </div>
-      )}
+      {helperText && <div id={helperTextId}>{helperText}</div>}
 
       {/* Hidden file input */}
       <input
@@ -189,12 +176,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
       >
         {selectedFileName ? (
           <div>
-            <div>
-              ✓ {selectedFileName}
-            </div>
-            <div>
-              Click to change or drag a new file here
-            </div>
+            <div>✓ {selectedFileName}</div>
+            <div>Click to change or drag a new file here</div>
             <Button
               type="button"
               onClick={(e) => {

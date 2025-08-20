@@ -56,11 +56,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
           {title.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())} (
           {itemCount})
         </span>
-        <span
-          aria-hidden="true"
-        >
-          ▶
-        </span>
+        <span aria-hidden="true">▶</span>
       </button>
 
       {isExpanded && (
@@ -177,10 +173,7 @@ function Accordion<T extends AccordionItem>({
           aria-label="Filter accordion items"
           aria-describedby={`${accordionId}-description`}
         />
-        <div
-          id={`${accordionId}-description`}
-          aria-live="polite"
-        >
+        <div id={`${accordionId}-description`} aria-live="polite">
           {searchTerm
             ? `Showing ${totalFilteredCount} items matching "${searchTerm}"`
             : `${items.length} total items`}

@@ -97,10 +97,7 @@ function Stepper({
 
       <nav role="navigation" aria-label="Step controls">
         {validationMessage && (
-          <div
-            role="alert"
-            aria-live="polite"
-          >
+          <div role="alert" aria-live="polite">
             {validationMessage}
           </div>
         )}
