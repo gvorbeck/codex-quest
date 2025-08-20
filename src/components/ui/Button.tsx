@@ -34,7 +34,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = [
       "inline-flex items-center justify-center gap-2",
       "font-semibold transition-all duration-150",
-      "border-2 rounded-lg",
+      "border-2 rounded-lg whitespace-nowrap",
       "transform active:translate-y-0.5 active:shadow-sm",
       "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900",
       "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none disabled:transform-none disabled:shadow-none",
@@ -97,10 +97,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {loading && (
           <span
             aria-hidden="true"
-            className="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full"
+            className="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full flex-shrink-0"
           />
         )}
-        <span className={loading ? "opacity-0" : ""}>{children}</span>
+        <span className={`flex items-center gap-2 ${loading ? "opacity-0" : ""}`}>
+          {children}
+        </span>
         {loading && <span className="sr-only">{loadingText}</span>}
       </button>
     );
