@@ -43,11 +43,17 @@ function App() {
               </section>
             }
           >
-            <Suspense fallback={
-              <div role="status" aria-live="polite" style={{ padding: "2rem", textAlign: "center" }}>
-                <p>Loading...</p>
-              </div>
-            }>
+            <Suspense
+              fallback={
+                <div
+                  role="status"
+                  aria-live="polite"
+                  style={{ padding: "2rem", textAlign: "center" }}
+                >
+                  <p>Loading...</p>
+                </div>
+              }
+            >
               <Switch>
                 <Route path="/" component={Home} />
                 <Route path="/new-character" component={CharGen} />

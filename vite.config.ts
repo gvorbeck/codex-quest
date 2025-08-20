@@ -25,20 +25,20 @@ export default defineConfig({
         // Manual chunk splitting for better caching
         manualChunks: {
           // Core React chunk
-          react: ['react', 'react-dom'],
+          react: ["react", "react-dom"],
           // Router chunk
-          router: ['wouter'],
+          router: ["wouter"],
           // Data chunks
-          'game-data': [
-            './src/data/classes/index.ts',
-            './src/data/races/index.ts',
-            './src/data/spells.json'
+          "game-data": [
+            "./src/data/classes/index.ts",
+            "./src/data/races/index.ts",
+            "./src/data/spells.json",
           ],
           // Utility chunks
           utils: [
-            './src/utils/dice.ts',
-            './src/utils/spells.ts',
-            './src/utils/characterValidation.ts'
+            "./src/utils/dice.ts",
+            "./src/utils/spells.ts",
+            "./src/utils/characterValidation.ts",
           ],
         },
       },
