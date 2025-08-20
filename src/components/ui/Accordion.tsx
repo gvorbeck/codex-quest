@@ -12,7 +12,6 @@ interface AccordionProps<T extends AccordionItem> {
   labelProperty?: keyof T;
   searchPlaceholder?: string;
   renderItem: (item: T, index: number) => React.ReactNode;
-  onItemSelect?: (item: T) => void;
   className?: string;
 }
 
@@ -36,36 +35,45 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
   const contentId = `${sectionId}-content`;
 
   return (
-    <div className="accordion-section">
+    <div className="accordion-section border border-zinc-700 rounded-lg overflow-hidden bg-zinc-950 shadow-[0_4px_0_0_#3f3f46] mb-4">
       <button
         type="button"
         aria-expanded={isExpanded}
         aria-controls={contentId}
         onClick={onToggle}
-        style={{
-          cursor: "pointer",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = "#e9ecef";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "#f8f9fa";
-        }}
+        className={`
+          w-full px-6 py-4 text-left font-semibold text-base
+          bg-zinc-950 text-zinc-400 border-none
+          hover:bg-zinc-900 hover:text-amber-400
+          focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-950
+          transition-all duration-200
+          flex items-center justify-between
+          active:translate-y-0.5 active:shadow-[0_2px_0_0_#3f3f46]
+        `}
       >
-        <span>
-          {title.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())} (
-          {itemCount})
+        <span className="flex items-center gap-2">
+          <span className="text-amber-400">
+            {title.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+          </span>
+          <span className="text-zinc-400 text-sm font-normal">
+            ({itemCount})
+          </span>
         </span>
-        <span aria-hidden="true">▶</span>
+        <span
+          aria-hidden="true"
+          className={`
+            text-amber-400 transition-transform duration-200 font-bold text-lg
+            ${isExpanded ? "rotate-90" : "rotate-0"}
+          `}
+        >
+          ▶
+        </span>
       </button>
 
       {isExpanded && (
         <div
           id={contentId}
-          style={{
-            maxHeight: "300px",
-            overflowY: "auto",
-          }}
+          className="max-h-80 overflow-y-auto bg-zinc-900 border-t border-zinc-700 p-4"
           role="region"
           aria-labelledby={sectionId}
         >
@@ -82,7 +90,6 @@ function Accordion<T extends AccordionItem>({
   labelProperty = "name" as keyof T,
   searchPlaceholder = "Search items...",
   renderItem,
-  onItemSelect,
   className = "",
 }: AccordionProps<T>) {
   const accordionId = useId();
@@ -150,21 +157,10 @@ function Accordion<T extends AccordionItem>({
     setExpandedSections(new Set()); // Collapse all sections when clearing
   };
 
-  const handleItemClick = (item: T) => {
-    onItemSelect?.(item);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent, item: T) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      handleItemClick(item);
-    }
-  };
-
   return (
-    <div className={`accordion ${className}`}>
+    <div className={`accordion space-y-4 ${className}`}>
       {/* Search/Filter Bar */}
-      <div>
+      <div className="bg-zinc-800 rounded-lg p-4 border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
         <TextInput
           value={searchTerm}
           onChange={handleSearchChange}
@@ -173,7 +169,11 @@ function Accordion<T extends AccordionItem>({
           aria-label="Filter accordion items"
           aria-describedby={`${accordionId}-description`}
         />
-        <div id={`${accordionId}-description`} aria-live="polite">
+        <div
+          id={`${accordionId}-description`}
+          aria-live="polite"
+          className="text-sm text-zinc-400 mt-2"
+        >
           {searchTerm
             ? `Showing ${totalFilteredCount} items matching "${searchTerm}"`
             : `${items.length} total items`}
@@ -183,8 +183,12 @@ function Accordion<T extends AccordionItem>({
       {/* Accordion Sections */}
       <div role="region" aria-label="Accordion content">
         {Object.keys(groupedItems).length === 0 ? (
-          <div>
-            {searchTerm ? "No items match your search." : "No items available."}
+          <div className="bg-zinc-800 rounded-lg p-8 text-center border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
+            <p className="text-zinc-400 text-lg">
+              {searchTerm
+                ? "No items match your search."
+                : "No items available."}
+            </p>
           </div>
         ) : (
           Object.entries(groupedItems).map(([category, categoryItems]) => (
@@ -196,36 +200,12 @@ function Accordion<T extends AccordionItem>({
               sectionId={`${accordionId}-section-${category}`}
               itemCount={categoryItems.length}
             >
-              <div role="list">
+              <div role="list" className="space-y-2">
                 {categoryItems.map((item, index) => (
                   <div
                     key={`${category}-${index}`}
                     role="listitem"
-                    tabIndex={onItemSelect ? 0 : undefined}
-                    onClick={() => onItemSelect && handleItemClick(item)}
-                    onKeyDown={(e) => onItemSelect && handleKeyDown(e, item)}
-                    style={{
-                      cursor: onItemSelect ? "pointer" : "default",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (onItemSelect) {
-                        e.currentTarget.style.backgroundColor = "#f8f9fa";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                    onFocus={(e) => {
-                      if (onItemSelect) {
-                        e.currentTarget.style.backgroundColor = "#f8f9fa";
-                        e.currentTarget.style.outline = "2px solid #007bff";
-                        e.currentTarget.style.outlineOffset = "-2px";
-                      }
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                      e.currentTarget.style.outline = "none";
-                    }}
+                    className="p-3 rounded-md border border-zinc-700 bg-zinc-800 transition-all duration-200"
                   >
                     {renderItem(item, index)}
                   </div>

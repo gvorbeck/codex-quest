@@ -152,14 +152,16 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   };
 
   const totalWeight = useMemo(() => {
-    return character.equipment.reduce(
+    const weight = character.equipment.reduce(
       (total, item) => total + item.weight * item.amount,
       0
     );
+    // Round to 1 decimal place to avoid floating point precision errors
+    return Math.round(weight * 10) / 10;
   }, [character.equipment]);
 
   const totalValue = useMemo(() => {
-    return character.equipment.reduce((total, item) => {
+    const value = character.equipment.reduce((total, item) => {
       let itemValueInGold = item.costValue * item.amount;
       if (item.costCurrency === "sp") {
         itemValueInGold = itemValueInGold / 10;
@@ -168,6 +170,8 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       }
       return total + itemValueInGold;
     }, 0);
+    // Round to 2 decimal places to avoid floating point precision errors
+    return Math.round(value * 100) / 100;
   }, [character.equipment]);
 
   const renderEquipmentItem = (equipment: EquipmentWithIndex) => {
@@ -189,24 +193,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     const canAfford = character.gold >= costInGold;
 
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.5rem 0",
-        }}
-      >
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: "500" }}>{equipment.name}</div>
-          <div
-            style={{
-              fontSize: "0.875rem",
-              color: "#6c757d",
-              display: "flex",
-              gap: "1rem",
-            }}
-          >
+      <div className="flex justify-between items-center py-2">
+        <div className="flex-1">
+          <div className="font-medium text-stone-100">{equipment.name}</div>
+          <div className="text-sm text-stone-400 flex gap-4">
             <span>Cost: {costDisplay}</span>
             <span>Weight: {weightDisplay}</span>
             {equipment.damage && <span>Damage: {equipment.damage}</span>}
@@ -216,10 +206,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         <Button
           onClick={() => handleEquipmentAdd(equipment)}
           disabled={!canAfford}
-          style={{
-            fontSize: "0.875rem",
-            opacity: canAfford ? 1 : 0.5,
-          }}
+          className="text-sm opacity-100 disabled:opacity-50"
         >
           Add
         </Button>
@@ -233,9 +220,11 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       description="Roll for starting gold and select your character's equipment."
     >
       {/* Starting Gold Roller */}
-      <div style={{ marginBottom: "2rem" }}>
-        <h4>Starting Gold</h4>
-        <p style={{ marginBottom: "1rem", color: "#6c757d" }}>
+      <div className="mb-8">
+        <h4 className="text-lg font-semibold text-stone-100 mb-2">
+          Starting Gold
+        </h4>
+        <p className="mb-4 text-stone-400">
           Roll 3d6 × 10 for your character's starting gold pieces.
         </p>
         <SimpleRoller
@@ -246,14 +235,14 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           })}
           onChange={handleGoldRoll}
         />
-        <div style={{ marginTop: "0.5rem", display: "flex", gap: "2rem" }}>
+        <div className="mt-2 flex gap-8">
           {startingGold !== undefined && (
-            <p style={{ fontWeight: "500", margin: 0 }}>
+            <p className="font-medium text-stone-100 m-0">
               Current Gold: {character.gold} gp
             </p>
           )}
           {startingGold !== undefined && startingGold !== character.gold && (
-            <p style={{ fontWeight: "500", margin: 0, color: "#6c757d" }}>
+            <p className="font-medium text-stone-400 m-0">
               Starting Gold: {startingGold} gp
             </p>
           )}
@@ -261,62 +250,43 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       </div>
 
       {/* Current Equipment Loadout */}
-      <div style={{ marginBottom: "2rem" }}>
-        <h4>Current Equipment</h4>
+      <div className="mb-8">
+        <h4 className="text-lg font-semibold text-stone-100 mb-2">
+          Current Equipment
+        </h4>
         {character.equipment.length === 0 ? (
-          <p style={{ color: "#6c757d", fontStyle: "italic" }}>
-            No equipment selected yet.
-          </p>
+          <p className="text-stone-400 italic">No equipment selected yet.</p>
         ) : (
           <>
-            <div
-              style={{
-                border: "1px solid #dee2e6",
-                borderRadius: "0.25rem",
-                backgroundColor: "#f8f9fa",
-                padding: "1rem",
-                marginBottom: "1rem",
-              }}
-            >
+            <div className="border border-zinc-600 rounded-lg bg-zinc-800 p-4 mb-4">
               {character.equipment.map((item, index) => (
                 <div
                   key={`${item.name}-${index}`}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "0.5rem 0",
-                    borderBottom:
-                      index < character.equipment.length - 1
-                        ? "1px solid #dee2e6"
-                        : "none",
-                  }}
+                  className="flex justify-between items-center py-2 border-b border-zinc-600 last:border-b-0"
                 >
                   <div>
-                    <span style={{ fontWeight: "500" }}>{item.name}</span>
+                    <span className="font-medium text-stone-100">
+                      {item.name}
+                    </span>
                     {item.amount > 1 && (
-                      <span style={{ color: "#6c757d" }}> × {item.amount}</span>
+                      <span className="text-stone-400"> × {item.amount}</span>
                     )}
-                    <div style={{ fontSize: "0.875rem", color: "#6c757d" }}>
-                      {item.weight > 0 && `${item.weight * item.amount} lbs`}
+                    <div className="text-sm text-stone-400">
+                      {item.weight > 0 &&
+                        `${
+                          Math.round(item.weight * item.amount * 10) / 10
+                        } lbs`}
                       {item.costValue > 0 && (
-                        <span style={{ marginLeft: "1rem" }}>
+                        <span className="ml-4">
                           {item.costValue * item.amount} {item.costCurrency}
                         </span>
                       )}
                     </div>
                   </div>
                   <Button
+                    variant="destructive"
                     onClick={() => handleEquipmentRemove(item.name)}
-                    style={{
-                      padding: "0.25rem 0.5rem",
-                      backgroundColor: "#dc3545",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "0.25rem",
-                      cursor: "pointer",
-                      fontSize: "0.875rem",
-                    }}
+                    className="text-sm px-2 py-1"
                   >
                     Remove
                   </Button>
@@ -325,22 +295,12 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             </div>
 
             {/* Equipment Summary */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "1rem",
-                padding: "1rem",
-                backgroundColor: "#e9ecef",
-                borderRadius: "0.25rem",
-                fontSize: "0.875rem",
-              }}
-            >
+            <div className="grid grid-cols-2 gap-4 p-4 bg-zinc-700 rounded-lg text-sm">
               <div>
-                <strong>Total Weight:</strong> {totalWeight.toFixed(1)} lbs
+                <strong>Total Weight:</strong> {totalWeight} lbs
               </div>
               <div>
-                <strong>Total Value:</strong> {totalValue.toFixed(1)} gp
+                <strong>Total Value:</strong> {totalValue} gp
               </div>
             </div>
           </>
@@ -349,8 +309,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
       {/* Equipment Selection */}
       <div>
-        <h4>Available Equipment</h4>
-        <p style={{ marginBottom: "1rem", color: "#6c757d" }}>
+        <h4 className="text-lg font-semibold text-stone-100 mb-2">
+          Available Equipment
+        </h4>
+        <p className="mb-4 text-stone-400">
           Browse and select equipment for your character. Items are organized by
           category.
         </p>
@@ -360,7 +322,6 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           sortBy="category"
           searchPlaceholder="Search equipment..."
           renderItem={renderEquipmentItem}
-          onItemSelect={handleEquipmentAdd}
         />
       </div>
     </StepWrapper>
