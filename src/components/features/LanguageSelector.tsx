@@ -91,47 +91,27 @@ function LanguageSelector({
   );
 
   return (
-    <div>
-      <h4>Languages</h4>
-      <p
-        style={{ fontSize: "0.875rem", color: "#6c757d", marginBottom: "1rem" }}
-      >
-        All characters know their native language(s). Characters with
-        Intelligence 13+ may learn additional languages equal to their
-        Intelligence bonus (+1, +2, or +3).
-      </p>
+    <div className="space-y-6">
+      <header>
+        <h4 className="text-lg font-semibold text-primary-100 mb-2">Languages</h4>
+        <p className="text-primary-300">
+          All characters know their native language(s). Characters with
+          Intelligence 13+ may learn additional languages equal to their
+          Intelligence bonus (+1, +2, or +3).
+        </p>
+      </header>
 
       {/* Automatic Languages */}
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h5 style={{ marginBottom: "0.5rem" }}>Automatic Languages</h5>
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
-        >
+      <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
+        <h5 className="text-base font-medium text-primary-200 mb-3">Automatic Languages</h5>
+        <div className="flex flex-wrap gap-2">
           {automaticLanguages.map((language, index) => (
-            <div
+            <div 
               key={`auto-${index}`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "0.5rem",
-                backgroundColor: "#f8f9fa",
-                borderRadius: "0.25rem",
-                border: "1px solid #dee2e6",
-              }}
+              className="flex items-center gap-2 bg-primary-700 px-3 py-2 rounded-md border border-primary-600"
             >
-              <span style={{ fontWeight: "500", color: "#495057" }}>
-                {language}
-              </span>
-              <span
-                style={{
-                  marginLeft: "auto",
-                  fontSize: "0.75rem",
-                  color: "#6c757d",
-                  fontStyle: "italic",
-                }}
-              >
-                (automatic)
-              </span>
+              <span className="text-primary-100 font-medium">{language}</span>
+              <span className="text-primary-400 text-sm">(automatic)</span>
             </div>
           ))}
         </div>
@@ -139,68 +119,41 @@ function LanguageSelector({
 
       {/* Bonus Languages */}
       {maxBonusLanguages > 0 && (
-        <div>
-          <h5 style={{ marginBottom: "0.5rem" }}>
+        <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
+          <h5 className="text-base font-medium text-primary-200 mb-3">
             Bonus Languages
             {maxBonusLanguages > 0 && (
-              <span
-                style={{
-                  fontSize: "0.875rem",
-                  fontWeight: "normal",
-                  color: "#6c757d",
-                }}
-              >
-                ({bonusLanguages.length}/{maxBonusLanguages} used)
+              <span className="text-primary-400 font-normal">
+                {" "}({bonusLanguages.length}/{maxBonusLanguages} used)
               </span>
             )}
           </h5>
 
           {bonusLanguages.length === 0 && maxBonusLanguages > 0 && (
-            <p
-              style={{
-                fontSize: "0.875rem",
-                color: "#6c757d",
-                fontStyle: "italic",
-                marginBottom: "1rem",
-              }}
-            >
+            <p className="text-primary-300 mb-4">
               Your Intelligence bonus allows you to learn {maxBonusLanguages}{" "}
               additional language{maxBonusLanguages > 1 ? "s" : ""}.
             </p>
           )}
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.5rem",
-              marginBottom: "1rem",
-            }}
-          >
+          <div className="space-y-3">
             {bonusLanguages.map((language, index) => (
-              <div
-                key={`bonus-${index}`}
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-              >
-                <TextInput
-                  value={language}
-                  onChange={(value) => handleLanguageChange(index, value)}
-                  placeholder="Enter language name"
-                  maxLength={30}
-                  aria-label={`Bonus language ${index + 1}`}
-                />
+              <div key={`bonus-${index}`} className="flex items-center gap-3">
+                <div className="flex-1">
+                  <TextInput
+                    value={language}
+                    onChange={(value) => handleLanguageChange(index, value)}
+                    placeholder="Enter language name"
+                    maxLength={30}
+                    aria-label={`Bonus language ${index + 1}`}
+                  />
+                </div>
                 <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => handleRemoveLanguage(index)}
-                  style={{
-                    padding: "0.5rem",
-                    backgroundColor: "#dc3545",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "0.25rem",
-                    fontSize: "0.875rem",
-                    minWidth: "auto",
-                  }}
                   aria-label={`Remove language ${index + 1}`}
+                  className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
                 >
                   ✕
                 </Button>
@@ -209,36 +162,24 @@ function LanguageSelector({
           </div>
 
           {remainingSlots > 0 && (
-            <Button
-              onClick={handleAddLanguage}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.5rem 1rem",
-                backgroundColor: "#28a745",
-                color: "white",
-                border: "none",
-                borderRadius: "0.25rem",
-                fontSize: "0.875rem",
-              }}
-            >
-              <span style={{ fontSize: "1rem", fontWeight: "bold" }}>+</span>
-              Add Language ({remainingSlots} remaining)
-            </Button>
+            <div className="mt-4">
+              <Button 
+                variant="secondary" 
+                size="sm"
+                onClick={handleAddLanguage}
+                className="w-full sm:w-auto"
+              >
+                <span className="mr-1">+</span>
+                Add Language ({remainingSlots} remaining)
+              </Button>
+            </div>
           )}
         </div>
       )}
 
       {maxBonusLanguages === 0 && (
-        <div style={{ marginTop: "1rem" }}>
-          <p
-            style={{
-              fontSize: "0.875rem",
-              color: "#6c757d",
-              fontStyle: "italic",
-            }}
-          >
+        <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
+          <p className="text-primary-300">
             Your Intelligence score ({character.abilities.intelligence.value})
             does not provide any bonus languages. You need Intelligence 13+ to
             learn additional languages.
@@ -248,21 +189,12 @@ function LanguageSelector({
 
       {/* Common bonus languages suggestion */}
       {maxBonusLanguages > 0 && (
-        <div
-          style={{
-            marginTop: "1.5rem",
-            padding: "1rem",
-            backgroundColor: "#e9ecef",
-            borderRadius: "0.25rem",
-          }}
-        >
-          <h6 style={{ margin: "0 0 0.5rem 0", color: "#495057" }}>
-            Common Languages to Consider:
-          </h6>
-          <p style={{ fontSize: "0.75rem", color: "#6c757d", margin: 0 }}>
-            Orcish, Goblin, Kobold, Gnoll, Draconic, Giant, Alignment tongues
-            (Lawful, Chaotic), or other regional languages as determined by your
-            GM.
+        <div className="bg-primary-800/50 rounded-lg p-4 border border-primary-700/50">
+          <h6 className="text-base font-medium text-primary-200 mb-2">Common Languages to Consider:</h6>
+          <p className="text-primary-300 text-sm">
+            Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll, 
+            Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other regional 
+            languages as determined by your GM.
           </p>
         </div>
       )}

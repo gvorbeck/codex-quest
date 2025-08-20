@@ -3,7 +3,7 @@ import TextInput from "./TextInput";
 
 interface AccordionItem {
   name: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface AccordionProps<T extends AccordionItem> {
@@ -43,19 +43,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
         aria-controls={contentId}
         onClick={onToggle}
         style={{
-          width: "100%",
-          padding: "0.75rem 1rem",
-          backgroundColor: "#f8f9fa",
-          border: "1px solid #dee2e6",
-          borderBottom: isExpanded ? "none" : "1px solid #dee2e6",
           cursor: "pointer",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: "1rem",
-          fontWeight: "500",
-          textAlign: "left",
-          transition: "background-color 0.2s ease",
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.backgroundColor = "#e9ecef";
@@ -69,11 +57,6 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
           {itemCount})
         </span>
         <span
-          style={{
-            transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
-            transition: "transform 0.2s ease",
-            fontSize: "0.75rem",
-          }}
           aria-hidden="true"
         >
           ▶
@@ -84,9 +67,6 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
         <div
           id={contentId}
           style={{
-            border: "1px solid #dee2e6",
-            borderTop: "none",
-            backgroundColor: "#ffffff",
             maxHeight: "300px",
             overflowY: "auto",
           }}
@@ -186,9 +166,9 @@ function Accordion<T extends AccordionItem>({
   };
 
   return (
-    <div className={`accordion ${className}`} style={{ width: "100%" }}>
+    <div className={`accordion ${className}`}>
       {/* Search/Filter Bar */}
-      <div style={{ marginBottom: "1rem" }}>
+      <div>
         <TextInput
           value={searchTerm}
           onChange={handleSearchChange}
@@ -199,11 +179,6 @@ function Accordion<T extends AccordionItem>({
         />
         <div
           id={`${accordionId}-description`}
-          style={{
-            fontSize: "0.875rem",
-            color: "#6c757d",
-            marginTop: "0.25rem",
-          }}
           aria-live="polite"
         >
           {searchTerm
@@ -215,16 +190,7 @@ function Accordion<T extends AccordionItem>({
       {/* Accordion Sections */}
       <div role="region" aria-label="Accordion content">
         {Object.keys(groupedItems).length === 0 ? (
-          <div
-            style={{
-              padding: "2rem",
-              textAlign: "center",
-              color: "#6c757d",
-              border: "1px solid #dee2e6",
-              borderRadius: "0.25rem",
-              backgroundColor: "#f8f9fa",
-            }}
-          >
+          <div>
             {searchTerm ? "No items match your search." : "No items available."}
           </div>
         ) : (
@@ -246,13 +212,7 @@ function Accordion<T extends AccordionItem>({
                     onClick={() => onItemSelect && handleItemClick(item)}
                     onKeyDown={(e) => onItemSelect && handleKeyDown(e, item)}
                     style={{
-                      padding: "0.5rem 1rem",
-                      borderBottom:
-                        index < categoryItems.length - 1
-                          ? "1px solid #f1f3f4"
-                          : "none",
                       cursor: onItemSelect ? "pointer" : "default",
-                      transition: "background-color 0.2s ease",
                     }}
                     onMouseEnter={(e) => {
                       if (onItemSelect) {

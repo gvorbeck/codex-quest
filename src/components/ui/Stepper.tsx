@@ -100,7 +100,6 @@ function Stepper({
           <div
             role="alert"
             aria-live="polite"
-            style={{ marginBottom: "1rem", color: "#dc3545" }}
           >
             {validationMessage}
           </div>

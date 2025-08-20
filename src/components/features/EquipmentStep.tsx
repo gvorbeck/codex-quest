@@ -8,13 +8,18 @@ interface EquipmentStepProps {
   onCharacterChange: (character: Character) => void;
 }
 
+// Create a type that extends Equipment to match AccordionItem interface
+type EquipmentWithIndex = Equipment & {
+  [key: string]: unknown;
+};
+
 function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   const [startingGold, setStartingGold] = useState<number | undefined>(
     character.gold > 0 ? character.gold : undefined
   );
 
-  // Cast equipment data to Equipment array
-  const allEquipment = equipmentData as Equipment[];
+  // Cast equipment data to Equipment array with index signature for Accordion compatibility
+  const allEquipment = equipmentData as EquipmentWithIndex[];
 
   // Auto-add spellbook for magic-users
   const hasSpellbook = character.equipment.some(
@@ -51,7 +56,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     });
   };
 
-  const handleEquipmentAdd = (equipment: Equipment) => {
+  const handleEquipmentAdd = (equipment: EquipmentWithIndex) => {
     // Calculate the cost in gold pieces using proper decimal handling
     let costInGold = equipment.costValue;
     if (equipment.costCurrency === "sp") {
@@ -165,7 +170,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     }, 0);
   }, [character.equipment]);
 
-  const renderEquipmentItem = (equipment: Equipment) => {
+  const renderEquipmentItem = (equipment: EquipmentWithIndex) => {
     const costDisplay = `${equipment.costValue} ${equipment.costCurrency}`;
     const weightDisplay =
       equipment.weight > 0 ? `${equipment.weight} lbs` : "—";

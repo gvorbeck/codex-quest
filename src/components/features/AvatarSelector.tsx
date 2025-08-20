@@ -104,58 +104,41 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
   };
 
   return (
-    <div>
-      <h4>Avatar</h4>
-      <p
-        style={{
-          fontSize: "0.875rem",
-          color: "#6c757d",
-          marginBottom: "1.5rem",
-        }}
-      >
-        Choose a stock avatar or upload your own image to represent your
-        character.
-      </p>
+    <div className="space-y-6">
+      <header>
+        <h4 className="text-lg font-semibold text-primary-100 mb-2">Avatar</h4>
+        <p className="text-primary-300">
+          Choose a stock avatar or upload your own image to represent your
+          character.
+        </p>
+      </header>
 
       {/* Current Avatar Preview */}
       {character.avatar && (
-        <div style={{ marginBottom: "1.5rem" }}>
-          <h5 style={{ marginBottom: "0.5rem" }}>Current Avatar</h5>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
+          <h5 className="text-base font-medium text-primary-200 mb-3">Current Avatar</h5>
+          <div className="flex items-center gap-4">
             <img
               src={character.avatar}
-              alt="Current character avatar"
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-                border: "2px solid #dee2e6",
-                objectFit: "cover",
-              }}
+              alt={`${character.name || "Character"} avatar`}
+              className="w-20 h-20 rounded-full border-2 border-primary-600 object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = "none";
               }}
             />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: "500" }}>
+            <div className="flex-1">
+              <div className="text-primary-200 font-medium mb-2">
                 {isCustomAvatar
                   ? "Custom Upload"
                   : getAvatarDisplayName(
                       character.avatar.split("/").pop() || ""
                     )}
               </div>
-              <Button
+              <Button 
+                variant="destructive" 
+                size="sm"
                 onClick={handleClearAvatar}
-                style={{
-                  marginTop: "0.5rem",
-                  padding: "0.25rem 0.75rem",
-                  backgroundColor: "#dc3545",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "0.25rem",
-                  fontSize: "0.875rem",
-                }}
               >
                 Remove Avatar
               </Button>
@@ -165,15 +148,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       )}
 
       {/* Stock Avatars */}
-      <div style={{ marginBottom: "2rem" }}>
-        <h5 style={{ marginBottom: "1rem" }}>Stock Avatars</h5>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))",
-            gap: "0.75rem",
-          }}
-        >
+      <div>
+        <h5 className="text-base font-medium text-primary-200 mb-3">Stock Avatars</h5>
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
           {STOCK_AVATARS.map((avatar) => {
             const avatarPath = `/faces/${avatar}`;
             const isSelected = selectedStockAvatar === avatarPath;
@@ -184,51 +161,30 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                 type="button"
                 onClick={() => handleStockAvatarSelect(avatar)}
                 aria-label={`Select ${getAvatarDisplayName(avatar)} avatar`}
-                style={{
-                  padding: "0.25rem",
-                  border: `2px solid ${isSelected ? "#007bff" : "#dee2e6"}`,
-                  borderRadius: "50%",
-                  backgroundColor: isSelected ? "#e3f2fd" : "transparent",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  outline: "none",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isSelected) {
-                    e.currentTarget.style.borderColor = "#007bff";
-                    e.currentTarget.style.backgroundColor = "#f8f9fa";
+                className={`
+                  relative w-16 h-16 rounded-lg border-2 transition-all duration-200
+                  focus:outline-none focus:ring-2 focus:ring-highlight-400 focus:ring-offset-2 focus:ring-offset-primary-900
+                  ${isSelected 
+                    ? 'border-highlight-400 bg-highlight-400/10' 
+                    : 'border-primary-600 hover:border-highlight-400 hover:bg-primary-800'
                   }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isSelected) {
-                    e.currentTarget.style.borderColor = "#dee2e6";
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.outline = "2px solid #007bff";
-                  e.currentTarget.style.outlineOffset = "2px";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.outline = "none";
-                }}
+                `}
               >
                 <img
                   src={avatarPath}
                   alt={getAvatarDisplayName(avatar)}
-                  style={{
-                    width: "64px",
-                    height: "64px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    display: "block",
-                  }}
+                  className="w-full h-full rounded-md object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.alt = "Avatar unavailable";
-                    target.style.backgroundColor = "#f8f9fa";
+                    target.className += " bg-primary-700";
                   }}
                 />
+                {isSelected && (
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-highlight-400 rounded-full flex items-center justify-center">
+                    <span className="text-primary-900 text-xs font-bold">✓</span>
+                  </div>
+                )}
               </button>
             );
           })}
@@ -236,8 +192,8 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       </div>
 
       {/* Custom Upload */}
-      <div>
-        <h5 style={{ marginBottom: "1rem" }}>Upload Custom Avatar</h5>
+      <div className="bg-primary-800 rounded-lg p-4 border border-primary-700">
+        <h5 className="text-base font-medium text-primary-200 mb-3">Upload Custom Avatar</h5>
         <FileUpload
           label="Upload Avatar Image"
           helperText="Upload your own avatar image. Accepts JPG, PNG, WebP. Max 2MB."
@@ -247,10 +203,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           error={uploadError}
           aria-describedby="avatar-upload-info"
         />
-        <div
-          id="avatar-upload-info"
-          style={{ fontSize: "0.75rem", color: "#6c757d", marginTop: "0.5rem" }}
-        >
+        <div id="avatar-upload-info" className="text-sm text-primary-400 mt-2">
           For best results, use a square image (1:1 aspect ratio) that's at
           least 128x128 pixels.
         </div>

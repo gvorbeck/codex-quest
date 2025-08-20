@@ -135,11 +135,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
     <div>
       <label
         htmlFor={inputId}
-        style={{ display: "block", marginBottom: "0.5rem", fontWeight: "500" }}
       >
         {label}
         {required && (
-          <span aria-label="required" style={{ color: "#dc3545" }}>
+          <span aria-label="required">
             {" "}
             *
           </span>
@@ -149,11 +148,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {helperText && (
         <div
           id={helperTextId}
-          style={{
-            fontSize: "0.875rem",
-            color: "#6c757d",
-            marginBottom: "0.5rem",
-          }}
         >
           {helperText}
         </div>
@@ -170,17 +164,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         required={required}
         aria-describedby={describedByIds}
         aria-invalid={error ? true : undefined}
-        style={{
-          position: "absolute",
-          width: "1px",
-          height: "1px",
-          padding: "0",
-          margin: "-1px",
-          overflow: "hidden",
-          clip: "rect(0, 0, 0, 0)",
-          whiteSpace: "nowrap",
-          border: "0",
-        }}
+        className="sr-only"
       />
 
       {/* Drop zone */}
@@ -199,31 +183,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
         }
         aria-describedby={describedByIds}
         style={{
-          border: `2px dashed ${
-            error ? "#dc3545" : dragOver ? "#007bff" : "#dee2e6"
-          }`,
-          borderRadius: "0.5rem",
-          padding: "2rem",
-          textAlign: "center",
-          backgroundColor: dragOver ? "#f8f9fa" : "transparent",
           cursor: disabled ? "not-allowed" : "pointer",
           opacity: disabled ? 0.6 : 1,
-          transition: "border-color 0.2s ease, background-color 0.2s ease",
-          outline: "none",
         }}
       >
         {selectedFileName ? (
           <div>
-            <div style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>
+            <div>
               ✓ {selectedFileName}
             </div>
-            <div
-              style={{
-                fontSize: "0.875rem",
-                color: "#6c757d",
-                marginBottom: "1rem",
-              }}
-            >
+            <div>
               Click to change or drag a new file here
             </div>
             <Button
@@ -231,14 +200,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 handleClear();
-              }}
-              style={{
-                padding: "0.5rem 1rem",
-                backgroundColor: "#dc3545",
-                color: "white",
-                border: "none",
-                borderRadius: "0.25rem",
-                fontSize: "0.875rem",
               }}
             >
               Remove File

@@ -45,38 +45,20 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div
           role="alert"
-          style={{
-            padding: "2rem",
-            textAlign: "center",
-            border: "1px solid #dc3545",
-            borderRadius: "4px",
-            backgroundColor: "#f8d7da",
-            color: "#721c24",
-            margin: "1rem",
-          }}
         >
           <h2>Something went wrong</h2>
           <p>
             We're sorry, but an unexpected error occurred. Please try refreshing
             the page.
           </p>
-          <details style={{ marginTop: "1rem", textAlign: "left" }}>
+          <details>
             <summary>Error details (for developers)</summary>
-            <pre style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
+            <pre>
               {this.state.error?.message}
             </pre>
           </details>
           <Button
             onClick={() => window.location.reload()}
-            style={{
-              marginTop: "1rem",
-              padding: "0.5rem 1rem",
-              backgroundColor: "#dc3545",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
           >
             Refresh Page
           </Button>

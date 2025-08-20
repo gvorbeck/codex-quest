@@ -96,9 +96,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       showClearButton && inputValue && inputValue.length > 0 && !disabled;
 
     return (
-      <div
-        style={{ position: "relative", display: "inline-block", width: "100%" }}
-      >
+      <div>
         <input
           ref={ref}
           type={type}
@@ -118,11 +116,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           aria-invalid={
             maxLength !== undefined && inputValue.length > maxLength
           }
-          style={{
-            width: "100%",
-            paddingRight: showClear ? "2.5rem" : undefined,
-            boxSizing: "border-box",
-          }}
           {...props}
         />
 
@@ -132,24 +125,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             id={clearButtonId}
             onClick={handleClear}
             aria-label="Clear input"
-            style={{
-              position: "absolute",
-              right: "0.5rem",
-              top: "50%",
-              transform: "translateY(-50%)",
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0.25rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "50%",
-              fontSize: "1rem",
-              color: "#666",
-              opacity: isFocused ? 1 : 0.7,
-              transition: "opacity 0.2s ease",
-            }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = "1";
               e.currentTarget.style.backgroundColor = "#f0f0f0";
