@@ -177,11 +177,6 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
           Level Up
         </Button>
       </div>
-      
-      {/* Helper text */}
-      <div className="text-xs text-zinc-400 mt-1">
-        Try: +100, -50, or enter a number directly
-      </div>
     </div>
   );
 };

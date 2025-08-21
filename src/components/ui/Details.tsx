@@ -61,7 +61,7 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
       },
       md: {
         header: "px-5 py-4",
-        container: "p-5",
+        container: "p-4",
         itemSpacing: "gap-4",
         labelText: "text-sm font-semibold tracking-wide uppercase",
         contentText: "text-base font-medium",
@@ -128,22 +128,31 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
               <div
                 key={index}
                 className={`
-                  bg-zinc-750/20 ${DESIGN_TOKENS.effects.roundedSm} p-3 
-                  border ${DESIGN_TOKENS.colors.border.accent}
+                  relative group/card flex-1 min-w-0
+                  bg-gradient-to-b from-zinc-800/50 to-zinc-900/70
+                  ${DESIGN_TOKENS.effects.roundedSm} px-4 py-4.5
+                  border border-zinc-600/60 
                   ${DESIGN_TOKENS.effects.transition}
-                  hover:bg-zinc-700/30 hover:border-amber-400/30
-                  flex-1
+                  hover:border-amber-400/70 hover:bg-gradient-to-b hover:from-zinc-750/60 hover:to-zinc-800/80
+                  hover:shadow-lg hover:shadow-amber-400/5 hover:scale-[1.01]
                 `}
               >
-                <div
-                  className={`${DESIGN_TOKENS.colors.text.accent} ${currentSize.labelText} mb-1`}
-                >
-                  {item.label}
-                </div>
-                <div
-                  className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} truncate`}
-                >
-                  {item.children}
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"></div>
+
+                <div className="text-center space-y-2.5">
+                  <div
+                    className={`${DESIGN_TOKENS.colors.text.accent} ${currentSize.labelText}
+                      group-hover/card:text-amber-300 transition-colors duration-200 font-bold`}
+                  >
+                    {item.label}
+                  </div>
+                  <div
+                    className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} 
+                      group-hover/card:text-zinc-50 transition-colors duration-200 font-semibold`}
+                  >
+                    {item.children}
+                  </div>
                 </div>
               </div>
             ))}

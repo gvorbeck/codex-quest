@@ -1,10 +1,13 @@
-import { forwardRef } from "react";
+import { forwardRef, useState, useRef, useEffect } from "react";
 import type { Character } from "@/types/character";
+import NumberInput from "./NumberInput";
 
 interface AbilityScoresProps {
   character: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
+  editable?: boolean;
+  onAbilityChange?: (abilityKey: string, value: number) => void;
 }
 
 // Design tokens consistent with the project's design system
@@ -22,7 +25,7 @@ const DESIGN_TOKENS = {
       secondary: "text-zinc-400",
       muted: "text-zinc-300",
       accent: "text-amber-400",
-      modifier: "text-emerald-400",
+      modifier: "text-lime-400",
     },
     border: {
       primary: "border-zinc-600",
@@ -34,7 +37,8 @@ const DESIGN_TOKENS = {
   effects: {
     shadow: "shadow-[0_4px_0_0_#3f3f46,0_0_20px_rgba(0,0,0,0.3)]",
     shadowSm: "shadow-[0_2px_0_0_#52525b,0_0_10px_rgba(0,0,0,0.2)]",
-    abilityShadow: "shadow-[0_3px_0_0_#3f3f46,inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+    abilityShadow:
+      "shadow-[0_3px_0_0_#3f3f46,inset_0_1px_0_0_rgba(255,255,255,0.1)]",
     transition: "transition-all duration-200",
     rounded: "rounded-xl",
     roundedSm: "rounded-lg",
@@ -42,7 +46,18 @@ const DESIGN_TOKENS = {
 } as const;
 
 const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
-  ({ character, className = "", size = "md" }, ref) => {
+  (
+    {
+      character,
+      className = "",
+      size = "md",
+      editable = false,
+      onAbilityChange,
+    },
+    ref
+  ) => {
+    const [editingAbility, setEditingAbility] = useState<string | null>(null);
+    const editingInputRef = useRef<HTMLInputElement>(null);
     const sizeStyles = {
       sm: {
         container: "p-4",
@@ -74,6 +89,15 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
     };
 
     const currentSize = sizeStyles[size];
+
+    // Auto-focus the input when entering edit mode
+    useEffect(() => {
+      if (editingAbility && editingInputRef.current) {
+        editingInputRef.current.focus();
+        // Select all text for easy replacement
+        editingInputRef.current.select();
+      }
+    }, [editingAbility]);
 
     const containerClasses = [
       DESIGN_TOKENS.colors.bg.accent,
@@ -112,11 +136,63 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
     };
 
     const getAbilityColor = (score: number): string => {
-      if (score >= 16) return "text-emerald-400"; // High
-      if (score >= 13) return "text-amber-400"; // Above average
-      if (score >= 9) return "text-zinc-100"; // Average
-      return "text-red-400"; // Below average
+      const scores = abilities.map(({ key }) => character.abilities[key].value);
+      const highestScore = Math.max(...scores);
+      const lowestScore = Math.min(...scores);
+
+      if (score === highestScore) return "text-lime-400"; // Highest score(s)
+      if (score === lowestScore) return "text-red-400"; // Lowest score(s)
+      return "text-zinc-400"; // Below average
     };
+
+    const calculateModifier = (score: number): number => {
+      return Math.floor((score - 10) / 2);
+    };
+
+    const handleAbilityClick = (abilityKey: string) => {
+      if (editable) {
+        setEditingAbility(abilityKey);
+      }
+    };
+
+    const handleAbilityValueChange = (
+      abilityKey: string,
+      newValue: number | undefined
+    ) => {
+      if (newValue !== undefined && onAbilityChange) {
+        onAbilityChange(abilityKey, newValue);
+      }
+    };
+
+    const handleAbilityBlur = () => {
+      setEditingAbility(null);
+    };
+
+    const handleAbilityKeyDown = (
+      event: React.KeyboardEvent<HTMLInputElement>
+    ) => {
+      if (event.key === "Enter" || event.key === "Escape") {
+        setEditingAbility(null);
+      }
+    };
+
+    // Pencil Icon Component - consistent with Hero component
+    const PencilIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+      <svg
+        className={className}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+        />
+      </svg>
+    );
 
     return (
       <div ref={ref} className={containerClasses}>
@@ -128,9 +204,6 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
             <div className="w-2 h-2 bg-amber-400 rounded-full shadow-sm"></div>
             Ability Scores
           </div>
-          <div className={`${DESIGN_TOKENS.colors.text.muted} text-sm`}>
-            Core Attributes
-          </div>
         </div>
 
         {/* Ability Scores Grid */}
@@ -139,7 +212,9 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
             {abilities.map(({ key, label, fullName }) => {
               const ability = character.abilities[key];
               const scoreColor = getAbilityColor(ability.value);
-              
+              const isEditing = editingAbility === key;
+              const modifier = calculateModifier(ability.value);
+
               return (
                 <div
                   key={key}
@@ -157,50 +232,89 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
                     text-center
                     relative
                     overflow-hidden
+                    ${editable ? "cursor-pointer" : ""}
                   `}
                   title={fullName}
+                  onClick={() => handleAbilityClick(key)}
                 >
                   {/* Subtle background pattern */}
                   <div className="absolute inset-0 opacity-5">
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent"></div>
                   </div>
-                  
+
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Ability Name */}
-                    <h3 className={`
+                    <h3
+                      className={`
                       ${DESIGN_TOKENS.colors.text.accent} 
                       ${currentSize.abilityName}
                       group-hover/ability:text-amber-300
                       transition-colors duration-200
-                    `}>
+                    `}
+                    >
                       {label}
                     </h3>
-                    
+
                     {/* Ability Score */}
-                    <div className={`
-                      ${scoreColor}
-                      ${currentSize.abilityScore}
-                      leading-none
-                      mb-1
-                      transition-colors duration-200
-                    `}>
-                      {ability.value}
-                    </div>
-                    
+                    {isEditing ? (
+                      <div className="mb-1">
+                        <NumberInput
+                          ref={
+                            editingAbility === key ? editingInputRef : undefined
+                          }
+                          value={ability.value}
+                          onChange={(value) =>
+                            handleAbilityValueChange(key, value)
+                          }
+                          onBlur={handleAbilityBlur}
+                          onKeyDown={handleAbilityKeyDown}
+                          minValue={3}
+                          maxValue={25}
+                          size="sm"
+                          className="text-center bg-zinc-700 border-amber-400 text-zinc-100"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`
+                        ${scoreColor}
+                        ${currentSize.abilityScore}
+                        leading-none
+                        mb-1
+                        transition-colors duration-200
+                        relative
+                      `}
+                      >
+                        {ability.value}
+                        {editable && (
+                          <PencilIcon
+                            className={`
+                            w-3 h-3 text-zinc-400 
+                            opacity-0 group-hover/ability:opacity-100 
+                            transition-opacity duration-200
+                            absolute -top-1 right-2
+                          `}
+                          />
+                        )}
+                      </div>
+                    )}
+
                     {/* Modifier */}
-                    <div className={`
+                    <div
+                      className={`
                       ${DESIGN_TOKENS.colors.text.modifier}
                       ${currentSize.abilityModifier}
                       font-mono
                       bg-zinc-900/50
                       px-2 py-1
                       ${DESIGN_TOKENS.effects.roundedSm}
-                      border border-emerald-500/20
+                      border border-lime-500/20
                       inline-block
                       min-w-[3rem]
-                    `}>
-                      {getModifierDisplay(ability.modifier)}
+                    `}
+                    >
+                      {getModifierDisplay(modifier)}
                     </div>
                   </div>
 
@@ -209,33 +323,6 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
                 </div>
               );
             })}
-          </div>
-
-          {/* Summary Stats */}
-          <div className="mt-6 pt-4 border-t border-zinc-700/50">
-            <div className="flex flex-wrap gap-4 justify-center text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-                <span className={DESIGN_TOKENS.colors.text.muted}>
-                  High: {abilities.filter(({ key }) => character.abilities[key].value >= 16).length}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
-                <span className={DESIGN_TOKENS.colors.text.muted}>
-                  Above Avg: {abilities.filter(({ key }) => {
-                    const score = character.abilities[key].value;
-                    return score >= 13 && score < 16;
-                  }).length}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                <span className={DESIGN_TOKENS.colors.text.muted}>
-                  Below Avg: {abilities.filter(({ key }) => character.abilities[key].value < 9).length}
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>

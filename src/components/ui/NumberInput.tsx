@@ -20,6 +20,7 @@ interface NumberInputProps {
   "aria-describedby"?: string;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
@@ -42,6 +43,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       "aria-describedby": ariaDescribedBy,
       onBlur,
       onFocus,
+      onKeyDown,
       ...props
     },
     ref
@@ -92,6 +94,9 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      // Call custom onKeyDown handler first if provided
+      onKeyDown?.(event);
+      
       // Allow: backspace, delete, tab, escape, enter
       if (
         [8, 9, 27, 13, 46].indexOf(event.keyCode) !== -1 ||
@@ -100,8 +105,8 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         (event.keyCode === 67 && event.ctrlKey === true) ||
         (event.keyCode === 86 && event.ctrlKey === true) ||
         (event.keyCode === 88 && event.ctrlKey === true) ||
-        // Allow: home, end, left, right
-        (event.keyCode >= 35 && event.keyCode <= 39)
+        // Allow: home, end, left, right, up, down
+        (event.keyCode >= 35 && event.keyCode <= 40)
       ) {
         return;
       }
