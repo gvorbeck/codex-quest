@@ -1,5 +1,11 @@
 import { useCallback, useState } from "react";
 import { FileUpload, Button } from "@/components/ui";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  LAYOUT_STYLES,
+  ICON_STYLES,
+} from "@/constants";
 import type { Character } from "@/types/character";
 
 interface AvatarSelectorProps {
@@ -106,9 +112,11 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
   return (
     <div className="space-y-6">
       <header>
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6 flex items-center gap-2">
+        <h4
+          className={`${TEXT_STYLES.sectionHeading} ${LAYOUT_STYLES.iconText}`}
+        >
           <svg
-            className="w-5 h-5 text-amber-400"
+            className={`${ICON_STYLES.md} text-amber-400`}
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -120,7 +128,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           </svg>
           Avatar
         </h4>
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#d97706] mb-6">
+        <div className={`${CARD_STYLES.infoCompact} mb-6`}>
           <p className="text-amber-100 text-sm m-0">
             Choose a stock avatar or upload your own image to represent your
             character.
@@ -130,10 +138,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
 
       {/* Current Avatar Preview */}
       {character.avatar && (
-        <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]">
-          <h5 className="text-base font-semibold text-lime-100 mb-4 flex items-center gap-2">
+        <div className={CARD_STYLES.success}>
+          <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText} text-lime-100`}>
             <svg
-              className="w-4 h-4 text-lime-400"
+              className={`${ICON_STYLES.sm} text-lime-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -176,10 +184,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       )}
 
       {/* Stock Avatars */}
-      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
-        <h5 className="text-base font-semibold text-zinc-100 mb-4 flex items-center gap-2">
+      <div className={CARD_STYLES.standard}>
+        <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}>
           <svg
-            className="w-4 h-4 text-zinc-400"
+            className={`${ICON_STYLES.sm} text-zinc-400`}
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -234,10 +242,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       </div>
 
       {/* Custom Upload */}
-      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
-        <h5 className="text-base font-semibold text-zinc-100 mb-4 flex items-center gap-2">
+      <div className={CARD_STYLES.standard}>
+        <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}>
           <svg
-            className="w-4 h-4 text-zinc-400"
+            className={`${ICON_STYLES.sm} text-zinc-400`}
             fill="currentColor"
             viewBox="0 0 20 20"
           >

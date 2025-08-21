@@ -6,6 +6,7 @@ import {
 } from "@/components/features";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
+import { CARD_STYLES, LAYOUT_STYLES, ICON_STYLES } from "@/constants";
 import type { Character, Spell } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
 import { memo, useState, useEffect, useMemo } from "react";
@@ -155,10 +156,10 @@ function ClassStepComponent({
         description="Select the class that defines your character's abilities and role."
         statusMessage=""
       >
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]">
-          <div className="flex items-center gap-3 mb-3">
+        <div className={CARD_STYLES.info}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
-              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -190,7 +191,7 @@ function ClassStepComponent({
     >
       {/* Class Selection Controls */}
       <section className="mb-8">
-        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <div className={CARD_STYLES.standard}>
           <fieldset>
             <legend className="sr-only">Class selection options</legend>
 

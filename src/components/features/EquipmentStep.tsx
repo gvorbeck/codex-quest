@@ -1,5 +1,12 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Accordion, SimpleRoller, StepWrapper, Button } from "@/components/ui";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+  LAYOUT_STYLES,
+  BADGE_STYLES,
+} from "@/constants";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 
@@ -317,14 +324,12 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     >
       {/* Starting Gold Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-          Starting Gold
-        </h4>
+        <h4 className={TEXT_STYLES.sectionHeading}>Starting Gold</h4>
 
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309] mb-6">
-          <div className="flex items-center gap-3 mb-4">
+        <div className={`${CARD_STYLES.info} mb-6`}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-4`}>
             <svg
-              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -345,7 +350,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           </p>
         </div>
 
-        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <div className={CARD_STYLES.standard}>
           <SimpleRoller
             formula="3d6*10"
             label="Starting Gold (3d6 × 10)"
@@ -359,7 +364,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:gap-8">
               <div className="flex items-center gap-2">
                 <svg
-                  className="w-4 h-4 text-lime-400"
+                  className={`${ICON_STYLES.sm} text-lime-400`}
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -376,7 +381,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               {startingGold !== character.gold && (
                 <div className="flex items-center gap-2">
                   <svg
-                    className="w-4 h-4 text-zinc-400"
+                    className={`${ICON_STYLES.sm} text-zinc-400`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -398,12 +403,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
       {/* Current Equipment Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-          Current Equipment
-        </h4>
+        <h4 className={TEXT_STYLES.sectionHeading}>Current Equipment</h4>
 
         {character.equipment.length === 0 ? (
-          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+          <div className={CARD_STYLES.standard}>
             <div className="flex items-center gap-3">
               <svg
                 className="w-5 h-5 text-zinc-400"
@@ -427,7 +430,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             </div>
           </div>
         ) : (
-          <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg shadow-[0_3px_0_0_#65a30d]">
+          <div className={`${CARD_STYLES.success} p-0`}>
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <svg
@@ -464,7 +467,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                             {item.name}
                           </span>
                           {item.amount > 1 && (
-                            <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
+                            <span className={BADGE_STYLES.status}>
                               × {item.amount}
                             </span>
                           )}
@@ -501,7 +504,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                   <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                     <svg
-                      className="w-4 h-4"
+                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -520,7 +523,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                   <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                     <svg
-                      className="w-4 h-4"
+                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -542,14 +545,12 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
       {/* Available Equipment Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-          Available Equipment
-        </h4>
+        <h4 className={TEXT_STYLES.sectionHeading}>Available Equipment</h4>
 
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309] mb-6">
-          <div className="flex items-center gap-3 mb-3">
+        <div className={`${CARD_STYLES.info} mb-6`}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
-              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -573,14 +574,14 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         </div>
 
         {isLoading ? (
-          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-8 shadow-[0_3px_0_0_#3f3f46]">
+          <div className={`${CARD_STYLES.standard} p-8`}>
             <div className="flex items-center justify-center">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-lime-400"></div>
               <span className="ml-3 text-zinc-400">Loading equipment...</span>
             </div>
           </div>
         ) : (
-          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg shadow-[0_3px_0_0_#3f3f46]">
+          <div className={`${CARD_STYLES.standard} p-0`}>
             <Accordion
               items={allEquipment}
               sortBy="category"

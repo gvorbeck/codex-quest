@@ -1,6 +1,12 @@
 import React, { useMemo } from "react";
 import { SimpleRoller, Button, StepWrapper } from "@/components/ui";
 import { allClasses } from "@/data/classes";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+  LAYOUT_STYLES,
+} from "@/constants";
 import type { Character } from "@/types/character";
 
 interface HitPointsStepProps {
@@ -80,10 +86,10 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         description="Determine your character's starting hit points based on their class."
         statusMessage=""
       >
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]">
-          <div className="flex items-center gap-3 mb-3">
+        <div className={CARD_STYLES.info}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
-              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -96,7 +102,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
             </svg>
             <h4 className="font-semibold text-amber-100 m-0">Class Required</h4>
           </div>
-          <p className="text-amber-50 m-0">
+          <p className={TEXT_STYLES.description}>
             Please select a class first to determine your hit points. Your class
             determines which hit die you use for rolling hit points.
           </p>
@@ -120,10 +126,10 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
     >
       {/* Hit Points Information */}
       <section className="mb-8">
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]">
-          <div className="flex items-center gap-3 mb-4">
+        <div className={CARD_STYLES.info}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-4`}>
             <svg
-              className="w-5 h-5 flex-shrink-0 text-amber-400"
+              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -138,7 +144,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               Hit Die Information
             </h4>
           </div>
-          <p className="text-amber-50 leading-relaxed m-0">
+          <p className={TEXT_STYLES.description}>
             Roll your starting hit points using your class's hit die:{" "}
             <strong className="text-amber-100">{hitDie}</strong>
             {constitutionText && (
@@ -150,11 +156,9 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
 
       {/* Hit Points Rolling */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-          Roll Hit Points
-        </h4>
+        <h4 className={TEXT_STYLES.sectionHeading}>Roll Hit Points</h4>
 
-        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <div className={CARD_STYLES.standard}>
           <div className="flex flex-col sm:flex-row gap-4 items-end">
             <div className="flex-grow">
               <SimpleRoller
@@ -181,9 +185,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
       {/* Hit Points Summary */}
       {character.hp.max > 0 && (
         <section className="mb-8">
-          <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-            Hit Points Summary
-          </h4>
+          <h4 className={TEXT_STYLES.sectionHeading}>Hit Points Summary</h4>
 
           <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]">
             <div className="flex items-center gap-3 mb-4">
@@ -208,7 +210,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
                 <h6 className="font-semibold mb-2 text-lime-400 flex items-center gap-2">
                   <svg
-                    className="w-4 h-4"
+                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -229,7 +231,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
                   <h6 className="font-semibold mb-2 text-lime-400 flex items-center gap-2">
                     <svg
-                      className="w-4 h-4"
+                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >

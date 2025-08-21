@@ -1,6 +1,12 @@
 import { useCallback, useMemo, memo } from "react";
 import { TextInput, StepWrapper, HorizontalRule } from "@/components/ui";
 import { LanguageSelector, AvatarSelector } from "@/components/features";
+import {
+  CARD_STYLES,
+  BADGE_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+} from "@/constants";
 import { useValidation } from "@/hooks";
 import { characterNameSchema } from "@/utils/validationSchemas";
 import { sanitizeCharacterName } from "@/utils/sanitization";
@@ -67,11 +73,9 @@ function ReviewStepComponent({
     >
       {/* Character Name Section */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-          Character Name
-        </h4>
+        <h4 className={TEXT_STYLES.sectionHeading}>Character Name</h4>
 
-        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <div className={CARD_STYLES.standard}>
           <TextInput
             value={character.name}
             onChange={handleNameChange}
@@ -99,9 +103,7 @@ function ReviewStepComponent({
 
       {/* Character Summary */}
       <section className="mb-8">
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6">
-          Character Summary
-        </h4>
+        <h4 className={TEXT_STYLES.sectionHeading}>Character Summary</h4>
 
         <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg shadow-[0_3px_0_0_#65a30d]">
           <div className="p-6">
@@ -145,7 +147,7 @@ function ReviewStepComponent({
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                       <svg
-                        className="w-4 h-4"
+                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -166,7 +168,7 @@ function ReviewStepComponent({
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                       <svg
-                        className="w-4 h-4"
+                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -186,7 +188,7 @@ function ReviewStepComponent({
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                       <svg
-                        className="w-4 h-4"
+                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -207,7 +209,7 @@ function ReviewStepComponent({
                     <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                       <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                         <svg
-                          className="w-4 h-4"
+                          className={ICON_STYLES.sm}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -232,7 +234,7 @@ function ReviewStepComponent({
             <div className="mb-6">
               <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
                 <svg
-                  className="w-4 h-4"
+                  className={ICON_STYLES.sm}
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -270,7 +272,7 @@ function ReviewStepComponent({
               <div className="mb-6">
                 <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
                   <svg
-                    className="w-4 h-4"
+                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -350,7 +352,7 @@ function ReviewStepComponent({
               <div>
                 <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
                   <svg
-                    className="w-4 h-4"
+                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -376,9 +378,7 @@ function ReviewStepComponent({
                     )}
                     {character.spells.map((spell, index) => (
                       <div key={index} className="flex items-center gap-2">
-                        <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
-                          L1
-                        </span>
+                        <span className={BADGE_STYLES.status}>L1</span>
                         <span className="text-lime-200 font-medium">
                           {spell.name}
                         </span>

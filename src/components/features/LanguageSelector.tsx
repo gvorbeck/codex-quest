@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { TextInput, Button } from "@/components/ui";
 import { allRaces } from "@/data/races";
+import { CARD_STYLES, TEXT_STYLES, ICON_STYLES, LAYOUT_STYLES } from "@/constants";
 import type { Character } from "@/types/character";
 
 interface LanguageSelectorProps {
@@ -96,7 +97,7 @@ function LanguageSelector({
   return (
     <div className="space-y-6">
       <header>
-        <h4 className="text-lg font-semibold text-zinc-100 mb-6 flex items-center gap-2">
+        <h4 className={`${TEXT_STYLES.sectionHeading} flex items-center gap-2`}>
           <svg
             className="w-5 h-5 text-amber-400"
             fill="currentColor"
@@ -110,8 +111,8 @@ function LanguageSelector({
           </svg>
           Languages
         </h4>
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#d97706] mb-6">
-          <p className="text-amber-100 text-sm m-0 leading-relaxed">
+        <div className={`${CARD_STYLES.infoCompact} mb-6`}>
+          <p className={TEXT_STYLES.descriptionCompact}>
             All characters know their native language(s). Characters with
             Intelligence 13+ may learn additional languages equal to their
             Intelligence bonus (+1, +2, or +3).
@@ -120,10 +121,10 @@ function LanguageSelector({
       </header>
 
       {/* Automatic Languages */}
-      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
-        <h5 className="text-base font-semibold text-zinc-100 mb-4 flex items-center gap-2">
+      <div className={CARD_STYLES.standard}>
+        <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}>
           <svg
-            className="w-4 h-4 text-zinc-400"
+            className={`${ICON_STYLES.sm} text-zinc-400`}
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -150,10 +151,10 @@ function LanguageSelector({
 
       {/* Bonus Languages */}
       {maxBonusLanguages > 0 && (
-        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
-          <div className="flex items-center gap-2 mb-4">
+        <div className={CARD_STYLES.standard}>
+          <div className={`${LAYOUT_STYLES.iconText} mb-4`}>
             <svg
-              className="w-4 h-4 text-zinc-400"
+              className={`${ICON_STYLES.sm} text-zinc-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -167,7 +168,7 @@ function LanguageSelector({
               Bonus Languages
             </h5>
             {maxBonusLanguages > 0 && (
-              <span className="text-zinc-400 text-sm">
+              <span className={TEXT_STYLES.helper}>
                 ({bonusLanguages.length}/{maxBonusLanguages} used)
               </span>
             )}
@@ -222,10 +223,10 @@ function LanguageSelector({
       )}
 
       {maxBonusLanguages === 0 && (
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#d97706]">
-          <div className="flex items-center gap-3 mb-2">
+        <div className={CARD_STYLES.info}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
             <svg
-              className="w-5 h-5 text-amber-400"
+              className={`${ICON_STYLES.md} text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -249,10 +250,10 @@ function LanguageSelector({
 
       {/* Common bonus languages suggestion */}
       {maxBonusLanguages > 0 && (
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#d97706]">
-          <div className="flex items-center gap-3 mb-2">
+        <div className={CARD_STYLES.info}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
             <svg
-              className="w-5 h-5 text-amber-400"
+              className={`${ICON_STYLES.md} text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >

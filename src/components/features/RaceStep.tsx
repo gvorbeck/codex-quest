@@ -1,6 +1,13 @@
 import { Switch, Select, StepWrapper } from "@/components/ui";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+  LAYOUT_STYLES,
+  BADGE_STYLES,
+} from "@/constants";
 import type { Character } from "@/types/character";
 import { memo, useMemo } from "react";
 
@@ -77,7 +84,7 @@ function RaceStep({
     >
       {/* Race Selection Controls */}
       <section className="mb-8">
-        <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]">
+        <div className={CARD_STYLES.standard}>
           <fieldset>
             <legend className="sr-only">Race selection options</legend>
 
@@ -123,18 +130,15 @@ function RaceStep({
       {/* Selected Race Details */}
       {selectedRace && (
         <section aria-labelledby="race-details-heading" className="mb-8">
-          <h4
-            id="race-details-heading"
-            className="text-lg font-semibold text-zinc-100 mb-6"
-          >
+          <h4 id="race-details-heading" className={TEXT_STYLES.sectionHeading}>
             Race Details
           </h4>
 
-          <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]">
+          <div className={CARD_STYLES.info}>
             {/* Race Header */}
-            <div className="flex items-center gap-3 mb-6">
+            <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
               <svg
-                className="w-6 h-6 flex-shrink-0 text-amber-400"
+                className={`${ICON_STYLES.lg} flex-shrink-0 text-amber-400`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 aria-hidden="true"
@@ -150,9 +154,7 @@ function RaceStep({
                 {selectedRace.name}
               </h5>
               {selectedRace.supplementalContent && (
-                <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
-                  Supplemental
-                </span>
+                <span className={BADGE_STYLES.supplemental}>Supplemental</span>
               )}
             </div>
 
@@ -166,10 +168,10 @@ function RaceStep({
             {/* Race Information Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Physical Description */}
-              <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
+              <div className={CARD_STYLES.nested}>
                 <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
                   <svg
-                    className="w-4 h-4"
+                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -188,10 +190,10 @@ function RaceStep({
 
               {/* Ability Requirements */}
               {selectedRace.abilityRequirements.length > 0 && (
-                <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
+                <div className={CARD_STYLES.nested}>
                   <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
                     <svg
-                      className="w-4 h-4"
+                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -226,10 +228,10 @@ function RaceStep({
 
               {/* Special Abilities */}
               {selectedRace.specialAbilities.length > 0 && (
-                <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
+                <div className={CARD_STYLES.nested}>
                   <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
                     <svg
-                      className="w-4 h-4"
+                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -253,10 +255,10 @@ function RaceStep({
               )}
 
               {/* Allowed Classes */}
-              <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
+              <div className={CARD_STYLES.nested}>
                 <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
                   <svg
-                    className="w-4 h-4"
+                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -271,10 +273,7 @@ function RaceStep({
                 </h6>
                 <div className="flex flex-wrap gap-2">
                   {selectedRace.allowedClasses.map((classId, index) => (
-                    <span
-                      key={index}
-                      className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded"
-                    >
+                    <span key={index} className={BADGE_STYLES.status}>
                       {getClassName(classId)}
                     </span>
                   ))}
@@ -282,10 +281,10 @@ function RaceStep({
               </div>
 
               {/* Lifespan */}
-              <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
+              <div className={CARD_STYLES.nested}>
                 <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
                   <svg
-                    className="w-4 h-4"
+                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >

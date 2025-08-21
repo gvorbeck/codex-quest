@@ -1,5 +1,6 @@
 import { Button, SimpleRoller, StepWrapper } from "../ui";
 import { roller } from "../../utils/dice";
+import { CARD_STYLES, LAYOUT_STYLES, ICON_STYLES, TEXT_STYLES } from "@/constants";
 import type { Character, AbilityScore } from "../../types/character";
 import { memo } from "react";
 import { useValidation } from "@/hooks";
@@ -162,10 +163,10 @@ function AbilityScoreStep({
       {/* Ability Scores Summary */}
       {hasRolledScores && (
         <section className="mb-8">
-          <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#b45309]">
-            <div className="flex items-center gap-3 mb-3">
+          <div className={CARD_STYLES.infoCompact}>
+            <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
               <svg
-                className="w-5 h-5 flex-shrink-0 text-amber-400"
+                className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 aria-hidden="true"
@@ -206,7 +207,7 @@ function AbilityScoreStep({
       <section aria-labelledby="ability-scores-heading" className="mb-8">
         <h4
           id="ability-scores-heading"
-          className="text-lg font-semibold text-zinc-100 mb-6"
+          className={TEXT_STYLES.sectionHeading}
         >
           Ability Scores
         </h4>
@@ -220,7 +221,7 @@ function AbilityScoreStep({
           ).map(([abilityName, ability]) => (
             <div
               key={abilityName}
-              className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-4 shadow-[0_3px_0_0_#3f3f46] hover:shadow-[0_4px_0_0_#3f3f46] transition-all duration-150"
+              className={`${CARD_STYLES.standard} hover:shadow-[0_4px_0_0_#3f3f46] transition-all duration-150`}
             >
               {/* Ability Name */}
               <div className="flex items-center justify-between mb-3">
@@ -269,10 +270,10 @@ function AbilityScoreStep({
 
       {/* Flip Scores Information */}
       {hasRolledScores && (
-        <div className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#d97706]">
-          <div className="flex items-center gap-3 mb-3">
+        <div className={CARD_STYLES.info}>
+          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
-              className="w-5 h-5 text-amber-400"
+              className={`${ICON_STYLES.md} text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >

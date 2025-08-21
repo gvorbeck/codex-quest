@@ -1,5 +1,6 @@
 import { Select } from "@/components/ui";
 import type { Character } from "@/types/character";
+import { CARD_STYLES, TEXT_STYLES, ICON_STYLES, LAYOUT_STYLES, BADGE_STYLES } from "@/constants";
 import { memo } from "react";
 
 interface CombinationClassSelectorProps {
@@ -32,12 +33,12 @@ function CombinationClassSelectorComponent({
     <section aria-labelledby="combination-classes-heading" className="mb-8">
       <h4
         id="combination-classes-heading"
-        className="text-lg font-semibold text-zinc-100 mb-6"
+        className={TEXT_STYLES.sectionHeading}
       >
         Combination Classes
       </h4>
 
-      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46] mb-6">
+      <div className={`${CARD_STYLES.standard} mb-6`}>
         <Select
           label="Select Combination Class"
           value={currentCombination ? currentCombination.name : ""}
@@ -53,13 +54,13 @@ function CombinationClassSelectorComponent({
 
       {character.class.length > 1 && currentCombination && (
         <div
-          className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]"
+          className={CARD_STYLES.info}
           id="combination-class-details"
         >
           <div aria-labelledby="combination-class-info-heading">
-            <div className="flex items-center gap-3 mb-6">
+            <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
               <svg
-                className="w-6 h-6 flex-shrink-0 text-amber-400"
+                className={`${ICON_STYLES.lg} flex-shrink-0 text-amber-400`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 aria-hidden="true"
@@ -68,27 +69,27 @@ function CombinationClassSelectorComponent({
               </svg>
               <h5
                 id="combination-class-info-heading"
-                className="text-xl font-semibold text-amber-100 m-0"
+                className={TEXT_STYLES.infoHeading}
               >
                 {currentCombination.name}
               </h5>
-              <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
+              <span className={BADGE_STYLES.combination}>
                 Combination
               </span>
             </div>
 
             <div className="mb-6">
-              <p className="text-amber-50 leading-relaxed m-0">
+              <p className={TEXT_STYLES.description}>
                 This combination class combines the abilities of{" "}
                 {character.class.join(" and ")}, allowing you to gain benefits
                 from both classes as you advance.
               </p>
             </div>
 
-            <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
-              <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
+            <div className={CARD_STYLES.nested}>
+              <h6 className={TEXT_STYLES.subHeading}>
                 <svg
-                  className="w-4 h-4"
+                  className={ICON_STYLES.sm}
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -101,11 +102,11 @@ function CombinationClassSelectorComponent({
                 </svg>
                 Combined Classes
               </h6>
-              <div className="flex flex-wrap gap-2">
+              <div className={LAYOUT_STYLES.tagContainer}>
                 {character.class.map((classId, index) => (
                   <span
                     key={index}
-                    className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded capitalize"
+                    className={`${BADGE_STYLES.status} capitalize`}
                   >
                     {classId}
                   </span>

@@ -1,5 +1,6 @@
 import { Select } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
+import { CARD_STYLES, TEXT_STYLES, ICON_STYLES, LAYOUT_STYLES, BADGE_STYLES } from "@/constants";
 import { memo } from "react";
 
 interface StandardClassSelectorProps {
@@ -22,12 +23,12 @@ function StandardClassSelectorComponent({
     <section aria-labelledby="standard-classes-heading" className="mb-8">
       <h4
         id="standard-classes-heading"
-        className="text-lg font-semibold text-zinc-100 mb-6"
+        className={TEXT_STYLES.sectionHeading}
       >
         Standard Classes
       </h4>
 
-      <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46] mb-6">
+      <div className={`${CARD_STYLES.standard} mb-6`}>
         <Select
           label="Select Class"
           value={character.class.length > 0 ? character.class[0] : ""}
@@ -43,7 +44,7 @@ function StandardClassSelectorComponent({
 
       {character.class.length > 0 && (
         <div
-          className="bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]"
+          className={CARD_STYLES.info}
           id="class-details"
         >
           {(() => {
@@ -52,9 +53,9 @@ function StandardClassSelectorComponent({
             );
             return selectedClass ? (
               <div aria-labelledby="class-info-heading">
-                <div className="flex items-center gap-3 mb-6">
+                <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
                   <svg
-                    className="w-6 h-6 flex-shrink-0 text-amber-400"
+                    className={`${ICON_STYLES.lg} flex-shrink-0 text-amber-400`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"
@@ -68,28 +69,28 @@ function StandardClassSelectorComponent({
                   </svg>
                   <h5
                     id="class-info-heading"
-                    className="text-xl font-semibold text-amber-100 m-0"
+                    className={TEXT_STYLES.infoHeading}
                   >
                     {selectedClass.name}
                   </h5>
                   {selectedClass.supplementalContent && (
-                    <span className="bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
+                    <span className={BADGE_STYLES.supplemental}>
                       Supplemental
                     </span>
                   )}
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-amber-50 leading-relaxed m-0">
+                  <p className={TEXT_STYLES.description}>
                     {selectedClass.description}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
-                    <h6 className="font-semibold mb-2 text-amber-400 flex items-center gap-2">
+                <div className={LAYOUT_STYLES.infoGrid}>
+                  <div className={CARD_STYLES.nested}>
+                    <h6 className={TEXT_STYLES.subHeading}>
                       <svg
-                        className="w-4 h-4"
+                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -97,14 +98,14 @@ function StandardClassSelectorComponent({
                       </svg>
                       Hit Die
                     </h6>
-                    <p className="text-amber-50 text-sm m-0">
+                    <p className={TEXT_STYLES.description}>
                       {selectedClass.hitDie}
                     </p>
                   </div>
-                  <div className="bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4">
-                    <h6 className="font-semibold mb-2 text-amber-400 flex items-center gap-2">
+                  <div className={CARD_STYLES.nested}>
+                    <h6 className={TEXT_STYLES.subHeading}>
                       <svg
-                        className="w-4 h-4"
+                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -116,7 +117,7 @@ function StandardClassSelectorComponent({
                       </svg>
                       Primary Attribute
                     </h6>
-                    <p className="text-amber-50 text-sm m-0 capitalize">
+                    <p className={`${TEXT_STYLES.description} capitalize`}>
                       {selectedClass.primaryAttribute}
                     </p>
                   </div>

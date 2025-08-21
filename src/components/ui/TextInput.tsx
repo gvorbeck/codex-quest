@@ -1,3 +1,4 @@
+import { ICON_STYLES } from "@/constants";
 import React, { forwardRef, useState, useId, useEffect } from "react";
 
 type TextInputSize = "sm" | "md" | "lg";
@@ -192,7 +193,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             className={clearButtonStyles.join(" ")}
           >
             <svg
-              className="w-4 h-4"
+              className={ICON_STYLES.sm}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

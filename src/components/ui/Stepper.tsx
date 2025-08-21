@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useStepAnnouncements } from "../../hooks/useA11y";
 import { memo } from "react";
+import { TEXT_STYLES } from "@/constants";
 import Button from "./Button";
 
 interface StepItem {
@@ -81,7 +82,7 @@ function Stepper({
           aria-label="Step navigation"
           className="sticky top-8"
         >
-          <h3 className="text-lg font-semibold text-zinc-100 mb-6">Steps</h3>
+          <h3 className={TEXT_STYLES.sectionHeading}>Steps</h3>
           <ol className="space-y-3" aria-label="Progress steps">
             {stepItems.map((item, index) => {
               const isActive = index === safeCurrentStep;
