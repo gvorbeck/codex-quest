@@ -9,6 +9,7 @@ import { signOut } from "@/services/auth";
 // Lazy load page components for better code splitting
 const Home = lazy(() => import("./components/pages/Home"));
 const CharGen = lazy(() => import("./components/pages/CharGen"));
+const CharacterSheet = lazy(() => import("./components/pages/CharacterSheet"));
 
 // Lazy load auth components only when needed
 const SignInModal = lazy(() => import("./components/auth/SignInModal"));
@@ -141,6 +142,7 @@ function App() {
               <Switch>
                 <Route path="/" component={Home} />
                 <Route path="/new-character" component={CharGen} />
+                <Route path="/u/:userId/c/:characterId" component={CharacterSheet} />
 
                 {/* Default route in a switch */}
                 <Route>
