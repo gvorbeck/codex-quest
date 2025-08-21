@@ -2,7 +2,7 @@ import { useRoute } from "wouter";
 import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Breadcrumb } from "@/components/ui";
+import { Breadcrumb, Hero } from "@/components/ui";
 import type { Character } from "@/types/character";
 
 export default function CharacterSheet() {
@@ -86,10 +86,10 @@ export default function CharacterSheet() {
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
         <Breadcrumb items={breadcrumbItems} className="mb-4" />
-        <h1 className="text-3xl font-bold text-primary-100">
-          {character.name}
-        </h1>
       </header>
+
+      {/* Hero section with character avatar and basic info */}
+      <Hero character={character} className="mb-8" />
 
       {/* This is a basic character sheet that will be expanded later */}
       <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">
