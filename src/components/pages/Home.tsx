@@ -1,9 +1,20 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui";
+import { CharactersList } from "@/components/features";
+import { useAuth } from "@/hooks";
 
 function Home() {
+  const { user } = useAuth();
+
   return (
     <section className="max-w-4xl mx-auto space-y-8">
+      {/* Show character list for authenticated users */}
+      {user && (
+        <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">
+          <CharactersList />
+        </div>
+      )}
+
       <header className="text-center space-y-4">
         <h2 className="text-3xl font-bold text-primary-100">
           Welcome to Torchlight

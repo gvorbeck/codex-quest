@@ -2,6 +2,7 @@ import { Link, Route, Switch } from "wouter";
 import { Suspense, lazy, useEffect, useState } from "react";
 import "./App.css";
 import { ErrorBoundary, Button } from "@/components/ui";
+import { useAuth } from "@/hooks";
 import { preloadCriticalData } from "@/services/dataLoader";
 
 // Lazy load page components for better code splitting
@@ -13,10 +14,7 @@ const SignInModal = lazy(() => import("./components/auth/SignInModal"));
 
 function App() {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-  const [user, setUser] = useState<{
-    uid: string;
-    email: string | null;
-  } | null>(null);
+  const { user } = useAuth();
 
   // Preload critical data for better performance
   useEffect(() => {
@@ -29,17 +27,12 @@ function App() {
     try {
       const { signOut } = await import("@/services/auth");
       await signOut();
-      setUser(null);
     } catch (error) {
       console.error("Sign out error:", error);
     }
   };
 
-  const handleSignInSuccess = (userData: {
-    uid: string;
-    email: string | null;
-  }) => {
-    setUser(userData);
+  const handleSignInSuccess = () => {
     setIsSignInModalOpen(false);
   };
 

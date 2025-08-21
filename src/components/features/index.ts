@@ -9,6 +9,7 @@ export { ClassStep } from "./ClassStep";
 export { default as HitPointsStep } from "./HitPointsStep";
 export { default as EquipmentStep } from "./EquipmentStep";
 export { ReviewStep } from "./ReviewStep";
+export { CharactersList } from "./CharactersList";
 
 // Component parts for better modularity
 export { StandardClassSelector } from "./StandardClassSelector";
