@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { Stepper } from "@/components/ui";
+import { Stepper, Breadcrumb } from "@/components/ui";
 import {
   AbilityScoreStep,
   RaceStep,
@@ -208,9 +208,15 @@ function CharGen() {
     ]
   );
 
+  const breadcrumbItems = useMemo(() => [
+    { label: "Home", href: "/" },
+    { label: "Character Creation", current: true },
+  ], []);
+
   return (
     <article>
-      <header>
+      <header className="mb-6">
+        <Breadcrumb items={breadcrumbItems} className="mb-4" />
         <h2>Character Creation</h2>
       </header>
 

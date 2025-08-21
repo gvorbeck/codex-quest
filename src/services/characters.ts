@@ -1,8 +1,8 @@
 // Character service for Firebase Firestore operations
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { AuthUser } from "./auth";
-import { processCharacterData } from "./characterMigration";
+import { processCharacterData, isLegacyCharacter } from "./characterMigration";
 
 // Simple interface for listing characters - we don't need the full Character type
 export interface CharacterListItem {
@@ -24,14 +24,37 @@ export const getUserCharacters = async (
     const querySnapshot = await getDocs(charactersRef);
 
     const characters: CharacterListItem[] = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
+    const migrationPromises: Promise<void>[] = [];
+
+    querySnapshot.forEach((docSnapshot) => {
+      const data = docSnapshot.data();
+      const wasLegacy = isLegacyCharacter(data);
       const processedData = processCharacterData(data);
+      
       characters.push({
-        id: doc.id,
+        id: docSnapshot.id,
         ...processedData, // Include all migrated data (includes name)
       });
+
+      // If this was a legacy character, save the migrated data back to Firebase
+      if (wasLegacy) {
+        const docRef = doc(db, "users", user.uid, "characters", docSnapshot.id);
+        const migrationPromise = setDoc(docRef, processedData).catch((error) => {
+          console.error(`Failed to persist migration for character ${docSnapshot.id}:`, error);
+        });
+        migrationPromises.push(migrationPromise);
+      }
     });
+
+    // Wait for all migrations to complete before returning
+    if (migrationPromises.length > 0) {
+      try {
+        await Promise.all(migrationPromises);
+        console.log(`Successfully persisted ${migrationPromises.length} character migrations to Firebase`);
+      } catch {
+        console.warn("Some character migrations failed to persist, but continuing with fetched data");
+      }
+    }
 
     return characters;
   } catch (error) {
@@ -44,15 +67,28 @@ export const getUserCharacters = async (
  * Fetch a single character by ID (for future use)
  */
 export const getCharacterById = async (
+  userId: string,
   characterId: string
 ): Promise<CharacterListItem | null> => {
   try {
-    const characterRef = doc(db, "characters", characterId);
+    const characterRef = doc(db, "users", userId, "characters", characterId);
     const docSnap = await getDoc(characterRef);
 
     if (docSnap.exists()) {
       const data = docSnap.data();
+      const wasLegacy = isLegacyCharacter(data);
       const processedData = processCharacterData(data);
+
+      // If this was a legacy character, save the migrated data back to Firebase
+      if (wasLegacy) {
+        try {
+          await setDoc(characterRef, processedData);
+          console.log(`Successfully persisted migration for character ${characterId}`);
+        } catch (error) {
+          console.error(`Failed to persist migration for character ${characterId}:`, error);
+        }
+      }
+
       return {
         id: docSnap.id,
         ...processedData,

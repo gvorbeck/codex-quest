@@ -1,14 +1,20 @@
 import { useRoute } from "wouter";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { Breadcrumb } from "@/components/ui";
 import type { Character } from "@/types/character";
 
 export default function CharacterSheet() {
-  const [match, params] = useRoute("/u/:userId/c/:characterId");
+  const [, params] = useRoute("/u/:userId/c/:characterId");
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const breadcrumbItems = useMemo(() => [
+    { label: "Home", href: "/" },
+    { label: character?.name || "Character", current: true },
+  ], [character?.name]);
 
   useEffect(() => {
     const loadCharacter = async () => {
@@ -23,7 +29,7 @@ export default function CharacterSheet() {
         const characterSnap = await getDoc(characterRef);
         
         if (characterSnap.exists()) {
-          const characterData = { id: characterSnap.id, ...characterSnap.data() } as Character;
+          const characterData = { id: characterSnap.id, ...characterSnap.data() } as Character & { id: string };
           setCharacter(characterData);
         } else {
           setError("Character not found");
@@ -65,9 +71,12 @@ export default function CharacterSheet() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-primary-100 mb-8">
-        {character.name}
-      </h1>
+      <header className="mb-8">
+        <Breadcrumb items={breadcrumbItems} className="mb-4" />
+        <h1 className="text-3xl font-bold text-primary-100">
+          {character.name}
+        </h1>
+      </header>
       
       {/* This is a basic character sheet that will be expanded later */}
       <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">

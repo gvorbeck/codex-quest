@@ -68,7 +68,7 @@ export function migrateLegacyCharacter(legacyData: Record<string, any>): Record<
     migrated['hp'] = {
       current: legacyData['hp'].points || legacyData['hp'].max || 0,
       max: legacyData['hp'].max || 0,
-      desc: legacyData['hp'].desc || undefined
+      ...(legacyData['hp'].desc && { desc: legacyData['hp'].desc })
     };
   }
 
