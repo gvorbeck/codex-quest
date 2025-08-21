@@ -4,6 +4,7 @@ import "./App.css";
 import { ErrorBoundary, Button } from "@/components/ui";
 import { useAuth } from "@/hooks";
 import { preloadCriticalData } from "@/services/dataLoader";
+import { signOut } from "@/services/auth";
 
 // Lazy load page components for better code splitting
 const Home = lazy(() => import("./components/pages/Home"));
@@ -25,7 +26,6 @@ function App() {
 
   const handleSignOut = async () => {
     try {
-      const { signOut } = await import("@/services/auth");
       await signOut();
     } catch (error) {
       console.error("Sign out error:", error);

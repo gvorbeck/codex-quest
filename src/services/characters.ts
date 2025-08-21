@@ -1,8 +1,6 @@
 // Character service for Firebase Firestore operations
 import {
   collection,
-  query,
-  where,
   getDocs,
   doc,
   getDoc,
@@ -25,9 +23,9 @@ export const getUserCharacters = async (
   user: AuthUser
 ): Promise<CharacterListItem[]> => {
   try {
-    const charactersRef = collection(db, "characters");
-    const q = query(charactersRef, where("userId", "==", user.uid));
-    const querySnapshot = await getDocs(q);
+    // Use the correct Firestore path structure: /users/{userId}/characters
+    const charactersRef = collection(db, "users", user.uid, "characters");
+    const querySnapshot = await getDocs(charactersRef);
 
     const characters: CharacterListItem[] = [];
     querySnapshot.forEach((doc) => {
