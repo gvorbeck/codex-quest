@@ -169,7 +169,7 @@ function RaceStep({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Physical Description */}
               <div className={CARD_STYLES.nested}>
-                <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
+                <h6 className={TEXT_STYLES.subHeadingSpaced}>
                   <svg
                     className={ICON_STYLES.sm}
                     fill="currentColor"
@@ -191,7 +191,7 @@ function RaceStep({
               {/* Ability Requirements */}
               {selectedRace.abilityRequirements.length > 0 && (
                 <div className={CARD_STYLES.nested}>
-                  <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
+                  <h6 className={TEXT_STYLES.subHeadingSpaced}>
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -229,7 +229,7 @@ function RaceStep({
               {/* Special Abilities */}
               {selectedRace.specialAbilities.length > 0 && (
                 <div className={CARD_STYLES.nested}>
-                  <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
+                  <h6 className={TEXT_STYLES.subHeadingSpaced}>
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -256,7 +256,7 @@ function RaceStep({
 
               {/* Allowed Classes */}
               <div className={CARD_STYLES.nested}>
-                <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
+                <h6 className={TEXT_STYLES.subHeadingSpaced}>
                   <svg
                     className={ICON_STYLES.sm}
                     fill="currentColor"
@@ -282,7 +282,7 @@ function RaceStep({
 
               {/* Lifespan */}
               <div className={CARD_STYLES.nested}>
-                <h6 className="font-semibold mb-3 text-amber-400 flex items-center gap-2">
+                <h6 className={TEXT_STYLES.subHeadingSpaced}>
                   <svg
                     className={ICON_STYLES.sm}
                     fill="currentColor"

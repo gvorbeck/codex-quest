@@ -105,7 +105,7 @@ function ReviewStepComponent({
       <section className="mb-8">
         <h4 className={TEXT_STYLES.sectionHeading}>Character Summary</h4>
 
-        <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg shadow-[0_3px_0_0_#65a30d]">
+        <div className={`${CARD_STYLES.success} p-0`}>
           <div className="p-6">
             {/* Header with Avatar and Basic Info */}
             <div className="flex flex-col sm:flex-row gap-6 mb-6">

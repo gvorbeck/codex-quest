@@ -502,7 +502,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               {/* Equipment Summary */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                  <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                  <h6 className={TEXT_STYLES.subHeadingLime}>
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -521,7 +521,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                   </p>
                 </div>
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                  <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                  <h6 className={TEXT_STYLES.subHeadingLime}>
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"

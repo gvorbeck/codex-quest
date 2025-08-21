@@ -71,6 +71,9 @@ export const TEXT_STYLES = {
   // Subheadings with icons (mb-3 variant)
   subHeadingSpaced: "font-semibold mb-3 text-amber-400 flex items-center gap-2",
 
+  // Success/lime subheadings with icons
+  subHeadingLime: "font-semibold mb-1 text-lime-400 flex items-center gap-2",
+
   // Description text
   description: "text-amber-50 text-sm leading-relaxed m-0",
   

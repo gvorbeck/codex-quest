@@ -187,7 +187,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         <section className="mb-8">
           <h4 className={TEXT_STYLES.sectionHeading}>Hit Points Summary</h4>
 
-          <div className="bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]">
+          <div className={CARD_STYLES.success}>
             <div className="flex items-center gap-3 mb-4">
               <svg
                 className="w-6 h-6 flex-shrink-0 text-lime-400"
