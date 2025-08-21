@@ -11,10 +11,13 @@ export default function CharacterSheet() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const breadcrumbItems = useMemo(() => [
-    { label: "Home", href: "/" },
-    { label: character?.name || "Character", current: true },
-  ], [character?.name]);
+  const breadcrumbItems = useMemo(
+    () => [
+      { label: "Home", href: "/" },
+      { label: character?.name || "Character", current: true },
+    ],
+    [character?.name]
+  );
 
   useEffect(() => {
     const loadCharacter = async () => {
@@ -25,11 +28,20 @@ export default function CharacterSheet() {
       }
 
       try {
-        const characterRef = doc(db, "users", params.userId, "characters", params.characterId);
+        const characterRef = doc(
+          db,
+          "users",
+          params.userId,
+          "characters",
+          params.characterId
+        );
         const characterSnap = await getDoc(characterRef);
-        
+
         if (characterSnap.exists()) {
-          const characterData = { id: characterSnap.id, ...characterSnap.data() } as Character & { id: string };
+          const characterData = {
+            id: characterSnap.id,
+            ...characterSnap.data(),
+          } as Character & { id: string };
           setCharacter(characterData);
         } else {
           setError("Character not found");
@@ -69,6 +81,8 @@ export default function CharacterSheet() {
     );
   }
 
+  console.log(character);
+
   return (
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
@@ -77,7 +91,7 @@ export default function CharacterSheet() {
           {character.name}
         </h1>
       </header>
-      
+
       {/* This is a basic character sheet that will be expanded later */}
       <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">
         <p className="text-primary-300">
