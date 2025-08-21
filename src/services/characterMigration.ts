@@ -76,6 +76,30 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
 }
 
 /**
+ * Convert class name to proper lowercase ID using standardized rules
+ */
+function convertClassToId(className: string): string {
+  if (!className) return '';
+  
+  return className
+    .toLowerCase()
+    .replace(/\s+/g, '-')  // Replace spaces with hyphens
+    .replace(/[^a-z0-9-]/g, ''); // Remove any non-alphanumeric characters except hyphens
+}
+
+/**
+ * Convert race name to proper lowercase ID using standardized rules
+ */
+function convertRaceToId(raceName: string): string {
+  if (!raceName) return '';
+  
+  return raceName
+    .toLowerCase()
+    .replace(/\s+/g, '-')  // Replace spaces with hyphens
+    .replace(/[^a-z0-9-]/g, ''); // Remove any non-alphanumeric characters except hyphens
+}
+
+/**
  * Migrate legacy character data to current format
  */
 export function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyCharacterData {
@@ -142,8 +166,28 @@ export function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyC
 
   // Ensure required fields exist
   migrated['name'] = migrated['name'] || "Unnamed Character";
-  migrated['race'] = migrated['race'] || "";
-  migrated['class'] = Array.isArray(migrated['class']) ? migrated['class'] : [migrated['class'] || ""];
+  
+  // Migrate race name to proper ID
+  if (migrated['race']) {
+    migrated['race'] = convertRaceToId(migrated['race']);
+  } else {
+    migrated['race'] = "";
+  }
+  
+  // Migrate class names to proper IDs
+  const originalClasses = migrated['class'];
+  if (Array.isArray(migrated['class'])) {
+    migrated['class'] = migrated['class'].map((className: string) => convertClassToId(className));
+  } else {
+    const singleClass = migrated['class'] || "";
+    migrated['class'] = singleClass ? [convertClassToId(singleClass)] : [""];
+  }
+  
+  // Log class migration if it changed
+  if (JSON.stringify(originalClasses) !== JSON.stringify(migrated['class'])) {
+    logger.info(`Migrated character classes from ${JSON.stringify(originalClasses)} to ${JSON.stringify(migrated['class'])}`);
+  }
+  
   migrated['level'] = migrated['level'] || 1;
   migrated['xp'] = migrated['xp'] || 0;
 

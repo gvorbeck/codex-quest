@@ -63,9 +63,26 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   const canLevelUp = (): boolean => {
     // Find the character's primary class (first class in array)
     const primaryClassId = character.class[0];
-    const primaryClass = classes.find(c => c.id === primaryClassId);
     
-    if (!primaryClass) return false;
+    if (!primaryClassId) {
+      console.log("Character has no classes");
+      return false;
+    }
+    
+    // Try exact match first, then case-insensitive match for legacy data
+    let primaryClass = classes.find(c => c.id === primaryClassId);
+    
+    if (!primaryClass) {
+      // Try case-insensitive match (for migrated data that might have 'Cleric' instead of 'cleric')
+      primaryClass = classes.find(c => 
+        c.id.toLowerCase() === primaryClassId.toLowerCase() ||
+        c.name.toLowerCase() === primaryClassId.toLowerCase()
+      );
+    }
+    
+    if (!primaryClass) {
+      return false;
+    }
     
     const currentLevel = character.level;
     const nextLevel = currentLevel + 1;
@@ -118,6 +135,10 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
     setInputValue(character.xp.toString());
   };
 
+  const handleContextMenu = (event: React.MouseEvent<HTMLInputElement>) => {
+    event.preventDefault(); // Prevent context menu from appearing
+  };
+
   const handleLevelUp = () => {
     alert("Level up functionality coming soon!");
   };
@@ -140,6 +161,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
           onKeyDown={handleInputKeyDown}
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          onContextMenu={handleContextMenu}
           aria-label="Experience Points"
           aria-describedby={buttonId}
           className="w-full transition-all duration-150 border-2 rounded-l-lg rounded-r-none border-r-0 bg-zinc-800 text-zinc-100 border-zinc-600 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:border-amber-400 focus:bg-zinc-700 px-4 py-3 text-base min-h-[44px] shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309]"
@@ -154,6 +176,11 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
         >
           Level Up
         </Button>
+      </div>
+      
+      {/* Helper text */}
+      <div className="text-xs text-zinc-400 mt-1">
+        Try: +100, -50, or enter a number directly
       </div>
     </div>
   );
