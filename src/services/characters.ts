@@ -1,10 +1,5 @@
 // Character service for Firebase Firestore operations
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { AuthUser } from "./auth";
 
@@ -32,7 +27,7 @@ export const getUserCharacters = async (
       const data = doc.data();
       characters.push({
         id: doc.id,
-        name: data['name'] || "Unnamed Character",
+        name: data["name"] || "Unnamed Character",
         ...data, // Include all other data for flexibility
       });
     });
@@ -58,7 +53,7 @@ export const getCharacterById = async (
       const data = docSnap.data();
       return {
         id: docSnap.id,
-        name: data['name'] || "Unnamed Character",
+        name: data["name"] || "Unnamed Character",
         ...data,
       };
     } else {
