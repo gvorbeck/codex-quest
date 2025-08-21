@@ -46,11 +46,15 @@ const emptyCharacter: Character = {
   race: "",
   class: [],
   equipment: [],
-  gold: 0,
+  currency: {
+    gold: 0,
+  },
   hp: {
     current: 0,
     max: 0,
   },
+  level: 1,
+  xp: 0,
 };
 
 function CharGen() {

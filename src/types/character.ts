@@ -59,14 +59,27 @@ export interface Character {
     charisma: AbilityScore;
   };
   equipment: Equipment[];
-  gold: number;
+  currency: {
+    gold: number;
+    silver?: number;
+    copper?: number;
+    electrum?: number;
+    platinum?: number;
+  };
+  desc?: string;
   hp: {
     current: number;
     max: number;
+    desc?: string;
   };
+  level: number;
   spells?: Spell[]; // Spells known by the character
   languages?: string[]; // Languages known by the character
   avatar?: string; // Avatar image URL or path
+  settings?: {
+    useCoinWeight?: boolean; // Whether to include coin weight in encumbrance calculations
+  };
+  xp: number; // Total experience points
 }
 
 export interface RaceRequirement {

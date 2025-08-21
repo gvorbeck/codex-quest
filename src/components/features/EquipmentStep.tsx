@@ -9,6 +9,7 @@ import {
 } from "@/constants";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
+import { convertToGold, updateCharacterGold } from "@/utils/currency";
 
 interface EquipmentStepProps {
   character: Character;
@@ -22,7 +23,7 @@ type EquipmentWithIndex = Equipment & {
 
 function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   const [startingGold, setStartingGold] = useState<number | undefined>(
-    character.gold > 0 ? character.gold : undefined
+    character.currency.gold > 0 ? character.currency.gold : undefined
   );
   const [allEquipment, setAllEquipment] = useState<EquipmentWithIndex[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -81,25 +82,23 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     setStartingGold(value);
     onCharacterChange({
       ...character,
-      gold: value || 0,
+      currency: {
+        ...character.currency,
+        gold: value || 0,
+      },
     });
   };
 
   const handleEquipmentAdd = useCallback(
     (equipment: EquipmentWithIndex) => {
-      // Calculate the cost in gold pieces using proper decimal handling
-      let costInGold = equipment.costValue;
-      if (equipment.costCurrency === "sp") {
-        costInGold = costInGold / 10; // Convert sp to gp: 10 sp = 1 gp
-      } else if (equipment.costCurrency === "cp") {
-        costInGold = costInGold / 100; // Convert cp to gp: 100 cp = 1 gp
-      }
-
-      // Round to 2 decimal places to avoid floating point issues
-      costInGold = Math.round(costInGold * 100) / 100;
+      // Calculate the cost in gold pieces using utility function
+      const costInGold = convertToGold(
+        equipment.costValue,
+        equipment.costCurrency
+      );
 
       // Check if character has enough gold
-      if (character.gold < costInGold) {
+      if (character.currency.gold < costInGold) {
         // Could add a toast notification here in the future
         return;
       }
@@ -115,21 +114,25 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             ? { ...item, amount: item.amount + 1 }
             : item
         );
-        const newGold = Math.round((character.gold - costInGold) * 100) / 100;
-        setStartingGold(newGold);
+        const updatedCharacter = updateCharacterGold(
+          character,
+          character.currency.gold - costInGold
+        );
+        setStartingGold(updatedCharacter.currency.gold);
         onCharacterChange({
-          ...character,
+          ...updatedCharacter,
           equipment: updatedEquipment,
-          gold: newGold,
         });
       } else {
         // Add new item with amount 1 and deduct gold
-        const newGold = Math.round((character.gold - costInGold) * 100) / 100;
-        setStartingGold(newGold);
+        const updatedCharacter = updateCharacterGold(
+          character,
+          character.currency.gold - costInGold
+        );
+        setStartingGold(updatedCharacter.currency.gold);
         onCharacterChange({
-          ...character,
+          ...updatedCharacter,
           equipment: [...character.equipment, { ...equipment, amount: 1 }],
-          gold: newGold,
         });
       }
     },
@@ -142,16 +145,11 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     );
 
     if (existingItem) {
-      // Calculate refund in gold pieces using proper decimal handling
-      let refundInGold = existingItem.costValue;
-      if (existingItem.costCurrency === "sp") {
-        refundInGold = refundInGold / 10; // Convert sp to gp: 10 sp = 1 gp
-      } else if (existingItem.costCurrency === "cp") {
-        refundInGold = refundInGold / 100; // Convert cp to gp: 100 cp = 1 gp
-      }
-
-      // Round to 2 decimal places to avoid floating point issues
-      refundInGold = Math.round(refundInGold * 100) / 100;
+      // Calculate refund in gold pieces using utility function
+      const refundInGold = convertToGold(
+        existingItem.costValue,
+        existingItem.costCurrency
+      );
 
       if (existingItem.amount > 1) {
         // Decrease amount and refund gold
@@ -160,24 +158,28 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             ? { ...item, amount: item.amount - 1 }
             : item
         );
-        const newGold = Math.round((character.gold + refundInGold) * 100) / 100;
-        setStartingGold(newGold);
+        const updatedCharacter = updateCharacterGold(
+          character,
+          character.currency.gold + refundInGold
+        );
+        setStartingGold(updatedCharacter.currency.gold);
         onCharacterChange({
-          ...character,
+          ...updatedCharacter,
           equipment: updatedEquipment,
-          gold: newGold,
         });
       } else {
         // Remove item entirely and refund gold
         const updatedEquipment = character.equipment.filter(
           (item) => item.name !== equipmentName
         );
-        const newGold = Math.round((character.gold + refundInGold) * 100) / 100;
-        setStartingGold(newGold);
+        const updatedCharacter = updateCharacterGold(
+          character,
+          character.currency.gold + refundInGold
+        );
+        setStartingGold(updatedCharacter.currency.gold);
         onCharacterChange({
-          ...character,
+          ...updatedCharacter,
           equipment: updatedEquipment,
-          gold: newGold,
         });
       }
     }
@@ -194,12 +196,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
   const totalValue = useMemo(() => {
     const value = character.equipment.reduce((total, item) => {
-      let itemValueInGold = item.costValue * item.amount;
-      if (item.costCurrency === "sp") {
-        itemValueInGold = itemValueInGold / 10;
-      } else if (item.costCurrency === "cp") {
-        itemValueInGold = itemValueInGold / 100;
-      }
+      const itemValueInGold = convertToGold(
+        item.costValue * item.amount,
+        item.costCurrency
+      );
       return total + itemValueInGold;
     }, 0);
     // Round to 2 decimal places to avoid floating point precision errors
@@ -213,17 +213,12 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         equipment.weight > 0 ? `${equipment.weight} lbs` : "—";
 
       // Calculate cost in gold pieces for affordability check
-      let costInGold = equipment.costValue;
-      if (equipment.costCurrency === "sp") {
-        costInGold = costInGold / 10; // Convert sp to gp: 10 sp = 1 gp
-      } else if (equipment.costCurrency === "cp") {
-        costInGold = costInGold / 100; // Convert cp to gp: 100 cp = 1 gp
-      }
+      const costInGold = convertToGold(
+        equipment.costValue,
+        equipment.costCurrency
+      );
 
-      // Round to 2 decimal places to avoid floating point issues
-      costInGold = Math.round(costInGold * 100) / 100;
-
-      const canAfford = character.gold >= costInGold;
+      const canAfford = character.currency.gold >= costInGold;
 
       return (
         <div className="bg-zinc-800/50 border border-zinc-600 rounded-lg p-4 hover:bg-zinc-800/70 transition-colors">
@@ -304,14 +299,14 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         </div>
       );
     },
-    [character.gold, handleEquipmentAdd]
+    [character.currency.gold, handleEquipmentAdd]
   );
 
   const getStatusMessage = () => {
-    if (character.gold > 0 && character.equipment.length > 0) {
-      return `${character.equipment.length} items, ${character.gold} gp remaining`;
-    } else if (character.gold > 0) {
-      return `${character.gold} gp available`;
+    if (character.currency.gold > 0 && character.equipment.length > 0) {
+      return `${character.equipment.length} items, ${character.currency.gold} gp remaining`;
+    } else if (character.currency.gold > 0) {
+      return `${character.currency.gold} gp available`;
     }
     return "";
   };
@@ -375,10 +370,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                   />
                 </svg>
                 <span className="font-medium text-zinc-100">
-                  Current: {character.gold} gp
+                  Current: {character.currency.gold} gp
                 </span>
               </div>
-              {startingGold !== character.gold && (
+              {startingGold !== character.currency.gold && (
                 <div className="flex items-center gap-2">
                   <svg
                     className={`${ICON_STYLES.sm} text-zinc-400`}

@@ -205,7 +205,7 @@ function ReviewStepComponent({
                     </p>
                   </div>
 
-                  {character.gold > 0 && (
+                  {character.currency.gold > 0 && (
                     <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                       <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                         <svg
@@ -222,7 +222,7 @@ function ReviewStepComponent({
                         Gold
                       </h6>
                       <p className="text-lime-50 font-medium m-0">
-                        {character.gold} gp
+                        {character.currency.gold} gp
                       </p>
                     </div>
                   )}
