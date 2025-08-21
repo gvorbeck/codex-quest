@@ -1,6 +1,11 @@
 import { Button, SimpleRoller, StepWrapper } from "../ui";
 import { roller } from "../../utils/dice";
-import { CARD_STYLES, LAYOUT_STYLES, ICON_STYLES, TEXT_STYLES } from "@/constants";
+import {
+  CARD_STYLES,
+  LAYOUT_STYLES,
+  ICON_STYLES,
+  TEXT_STYLES,
+} from "@/constants";
 import type { Character, AbilityScore } from "../../types/character";
 import { memo } from "react";
 import { useValidation } from "@/hooks";
@@ -205,10 +210,7 @@ function AbilityScoreStep({
 
       {/* Ability Scores Grid */}
       <section aria-labelledby="ability-scores-heading" className="mb-8">
-        <h4
-          id="ability-scores-heading"
-          className={TEXT_STYLES.sectionHeading}
-        >
+        <h4 id="ability-scores-heading" className={TEXT_STYLES.sectionHeading}>
           Ability Scores
         </h4>
 

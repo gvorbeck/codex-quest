@@ -1,7 +1,12 @@
 import { useCallback, useMemo } from "react";
 import { TextInput, Button } from "@/components/ui";
 import { allRaces } from "@/data/races";
-import { CARD_STYLES, TEXT_STYLES, ICON_STYLES, LAYOUT_STYLES } from "@/constants";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+  LAYOUT_STYLES,
+} from "@/constants";
 import type { Character } from "@/types/character";
 
 interface LanguageSelectorProps {
@@ -122,7 +127,9 @@ function LanguageSelector({
 
       {/* Automatic Languages */}
       <div className={CARD_STYLES.standard}>
-        <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}>
+        <h5
+          className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}
+        >
           <svg
             className={`${ICON_STYLES.sm} text-zinc-400`}
             fill="currentColor"

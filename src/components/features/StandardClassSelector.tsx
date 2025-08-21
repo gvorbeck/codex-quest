@@ -1,6 +1,12 @@
 import { Select } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
-import { CARD_STYLES, TEXT_STYLES, ICON_STYLES, LAYOUT_STYLES, BADGE_STYLES } from "@/constants";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+  LAYOUT_STYLES,
+  BADGE_STYLES,
+} from "@/constants";
 import { memo } from "react";
 
 interface StandardClassSelectorProps {
@@ -21,10 +27,7 @@ function StandardClassSelectorComponent({
 
   return (
     <section aria-labelledby="standard-classes-heading" className="mb-8">
-      <h4
-        id="standard-classes-heading"
-        className={TEXT_STYLES.sectionHeading}
-      >
+      <h4 id="standard-classes-heading" className={TEXT_STYLES.sectionHeading}>
         Standard Classes
       </h4>
 
@@ -43,10 +46,7 @@ function StandardClassSelectorComponent({
       </div>
 
       {character.class.length > 0 && (
-        <div
-          className={CARD_STYLES.info}
-          id="class-details"
-        >
+        <div className={CARD_STYLES.info} id="class-details">
           {(() => {
             const selectedClass = availableClasses.find(
               (cls) => cls.id === character.class[0]

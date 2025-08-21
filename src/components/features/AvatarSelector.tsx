@@ -139,7 +139,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       {/* Current Avatar Preview */}
       {character.avatar && (
         <div className={CARD_STYLES.success}>
-          <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText} text-lime-100`}>
+          <h5
+            className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText} text-lime-100`}
+          >
             <svg
               className={`${ICON_STYLES.sm} text-lime-400`}
               fill="currentColor"
@@ -185,7 +187,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
 
       {/* Stock Avatars */}
       <div className={CARD_STYLES.standard}>
-        <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}>
+        <h5
+          className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}
+        >
           <svg
             className={`${ICON_STYLES.sm} text-zinc-400`}
             fill="currentColor"
@@ -243,7 +247,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
 
       {/* Custom Upload */}
       <div className={CARD_STYLES.standard}>
-        <h5 className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}>
+        <h5
+          className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}
+        >
           <svg
             className={`${ICON_STYLES.sm} text-zinc-400`}
             fill="currentColor"

@@ -6,12 +6,14 @@
 export const CARD_STYLES = {
   // Main information/warning cards with amber styling
   info: "bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]",
-  
+
   // Compact version of info card
-  infoCompact: "bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#d97706]",
+  infoCompact:
+    "bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#d97706]",
 
   // Success/positive cards with lime styling
-  success: "bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]",
+  success:
+    "bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]",
 
   // Standard content cards with zinc styling
   standard:
@@ -58,7 +60,7 @@ export const ICON_STYLES = {
 export const TEXT_STYLES = {
   // Section headings
   sectionHeading: "text-lg font-semibold text-zinc-100 mb-6",
-  
+
   // Base section headings
   baseSectionHeading: "text-base font-semibold text-zinc-100 mb-4",
 
@@ -67,7 +69,7 @@ export const TEXT_STYLES = {
 
   // Subheadings with icons
   subHeading: "font-semibold mb-2 text-amber-400 flex items-center gap-2",
-  
+
   // Subheadings with icons (mb-3 variant)
   subHeadingSpaced: "font-semibold mb-3 text-amber-400 flex items-center gap-2",
 
@@ -76,7 +78,7 @@ export const TEXT_STYLES = {
 
   // Description text
   description: "text-amber-50 text-sm leading-relaxed m-0",
-  
+
   // Compact description text
   descriptionCompact: "text-amber-100 text-sm m-0 leading-relaxed",
 

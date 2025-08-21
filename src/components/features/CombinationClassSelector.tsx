@@ -1,6 +1,12 @@
 import { Select } from "@/components/ui";
 import type { Character } from "@/types/character";
-import { CARD_STYLES, TEXT_STYLES, ICON_STYLES, LAYOUT_STYLES, BADGE_STYLES } from "@/constants";
+import {
+  CARD_STYLES,
+  TEXT_STYLES,
+  ICON_STYLES,
+  LAYOUT_STYLES,
+  BADGE_STYLES,
+} from "@/constants";
 import { memo } from "react";
 
 interface CombinationClassSelectorProps {
@@ -53,10 +59,7 @@ function CombinationClassSelectorComponent({
       </div>
 
       {character.class.length > 1 && currentCombination && (
-        <div
-          className={CARD_STYLES.info}
-          id="combination-class-details"
-        >
+        <div className={CARD_STYLES.info} id="combination-class-details">
           <div aria-labelledby="combination-class-info-heading">
             <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
               <svg
@@ -73,9 +76,7 @@ function CombinationClassSelectorComponent({
               >
                 {currentCombination.name}
               </h5>
-              <span className={BADGE_STYLES.combination}>
-                Combination
-              </span>
+              <span className={BADGE_STYLES.combination}>Combination</span>
             </div>
 
             <div className="mb-6">
