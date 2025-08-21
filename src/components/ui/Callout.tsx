@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 
 type CalloutVariant = "info" | "success" | "warning" | "error" | "neutral";
