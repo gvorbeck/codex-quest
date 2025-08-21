@@ -78,6 +78,7 @@ export interface Character {
   avatar?: string; // Avatar image URL or path
   settings?: {
     useCoinWeight?: boolean; // Whether to include coin weight in encumbrance calculations
+    version?: number; // Data format version for migration purposes
   };
   xp: number; // Total experience points
 }

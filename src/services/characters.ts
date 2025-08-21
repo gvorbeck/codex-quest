@@ -2,6 +2,7 @@
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { AuthUser } from "./auth";
+import { processCharacterData } from "./characterMigration";
 
 // Simple interface for listing characters - we don't need the full Character type
 export interface CharacterListItem {
@@ -25,10 +26,10 @@ export const getUserCharacters = async (
     const characters: CharacterListItem[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
+      const processedData = processCharacterData(data);
       characters.push({
         id: doc.id,
-        name: data["name"] || "Unnamed Character",
-        ...data, // Include all other data for flexibility
+        ...processedData, // Include all migrated data (includes name)
       });
     });
 
@@ -51,10 +52,10 @@ export const getCharacterById = async (
 
     if (docSnap.exists()) {
       const data = docSnap.data();
+      const processedData = processCharacterData(data);
       return {
         id: docSnap.id,
-        name: data["name"] || "Unnamed Character",
-        ...data,
+        ...processedData,
       };
     } else {
       return null;

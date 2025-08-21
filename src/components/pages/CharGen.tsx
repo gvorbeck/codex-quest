@@ -55,6 +55,9 @@ const emptyCharacter: Character = {
   },
   level: 1,
   xp: 0,
+  settings: {
+    version: 2, // Current version for migration
+  },
 };
 
 function CharGen() {
