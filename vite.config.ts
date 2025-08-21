@@ -28,6 +28,8 @@ export default defineConfig({
           react: ["react", "react-dom"],
           // Router chunk
           router: ["wouter"],
+          // Firebase chunk (separate to avoid bloating main bundle)
+          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
           // Data chunks (removing large JSON files for lazy loading)
           "game-data": [
             "./src/data/classes/index.ts",

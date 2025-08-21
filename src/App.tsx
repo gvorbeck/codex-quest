@@ -1,20 +1,47 @@
 import { Link, Route, Switch } from "wouter";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import "./App.css";
-import { ErrorBoundary } from "@/components/ui";
+import { ErrorBoundary, Button } from "@/components/ui";
 import { preloadCriticalData } from "@/services/dataLoader";
 
 // Lazy load page components for better code splitting
 const Home = lazy(() => import("./components/pages/Home"));
 const CharGen = lazy(() => import("./components/pages/CharGen"));
 
+// Lazy load auth components only when needed
+const SignInModal = lazy(() => import("./components/auth/SignInModal"));
+
 function App() {
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+  const [user, setUser] = useState<{
+    uid: string;
+    email: string | null;
+  } | null>(null);
+
   // Preload critical data for better performance
   useEffect(() => {
     preloadCriticalData().catch((error) => {
       console.warn("Failed to preload critical data:", error);
     });
   }, []);
+
+  const handleSignOut = async () => {
+    try {
+      const { signOut } = await import("@/services/auth");
+      await signOut();
+      setUser(null);
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
+  };
+
+  const handleSignInSuccess = (userData: {
+    uid: string;
+    email: string | null;
+  }) => {
+    setUser(userData);
+    setIsSignInModalOpen(false);
+  };
 
   return (
     <ErrorBoundary>
@@ -39,16 +66,46 @@ function App() {
                   Torchlight
                 </Link>
               </h1>
-              <ul className="flex space-x-6">
-                <li>
-                  <Link
-                    href="/new-character"
-                    className="text-primary-300 hover:text-highlight transition-colors"
-                  >
-                    Create Character
-                  </Link>
-                </li>
-              </ul>
+              <div className="flex items-center space-x-6">
+                <ul className="flex space-x-6">
+                  <li>
+                    <Link
+                      href="/new-character"
+                      className="text-primary-300 hover:text-highlight transition-colors"
+                    >
+                      Create Character
+                    </Link>
+                  </li>
+                </ul>
+
+                {/* Authentication Section */}
+                <div className="flex items-center space-x-3">
+                  {user ? (
+                    <div className="flex items-center space-x-3">
+                      <span className="text-primary-300 text-sm">
+                        Welcome, {user.email}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSignOut}
+                        className="text-primary-300 hover:text-highlight"
+                      >
+                        Sign Out
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setIsSignInModalOpen(true)}
+                      className="text-primary-300 hover:text-highlight"
+                    >
+                      Sign In
+                    </Button>
+                  )}
+                </div>
+              </div>
             </div>
           </nav>
         </header>
@@ -124,6 +181,17 @@ function App() {
             </p>
           </div>
         </footer>
+
+        {/* Sign In Modal - Lazy loaded */}
+        {isSignInModalOpen && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <SignInModal
+              isOpen={isSignInModalOpen}
+              onClose={() => setIsSignInModalOpen(false)}
+              onSuccess={handleSignInSuccess}
+            />
+          </Suspense>
+        )}
       </div>
     </ErrorBoundary>
   );
