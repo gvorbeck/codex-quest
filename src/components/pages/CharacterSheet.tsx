@@ -2,7 +2,13 @@ import { useRoute } from "wouter";
 import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Breadcrumb, Hero, ExperienceTracker, Details } from "@/components/ui";
+import {
+  Breadcrumb,
+  Hero,
+  ExperienceTracker,
+  Details,
+  AbilityScores,
+} from "@/components/ui";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
 import type { Character } from "@/types/character";
@@ -43,7 +49,7 @@ export default function CharacterSheet() {
     try {
       // Update local state immediately for responsiveness
       setCharacter(updatedCharacter);
-      
+
       // Update Firebase
       const characterRef = doc(
         db,
@@ -52,10 +58,10 @@ export default function CharacterSheet() {
         "characters",
         params.characterId
       );
-      
+
       // Create a clean object without the id field for Firebase
       const characterData = { ...updatedCharacter };
-      if ('id' in characterData) {
+      if ("id" in characterData) {
         delete characterData.id;
       }
       await updateDoc(characterRef, characterData);
@@ -135,9 +141,9 @@ export default function CharacterSheet() {
       </header>
 
       {/* Hero section with character avatar and basic info */}
-      <Hero 
-        character={character} 
-        className="mb-8" 
+      <Hero
+        character={character}
+        className="mb-8"
         editable={!!isOwner}
         onCharacterChange={handleCharacterChange}
       />
@@ -148,7 +154,7 @@ export default function CharacterSheet() {
         <div className="flex flex-col sm:flex-row gap-6 items-start">
           {/* Character Details */}
           <Details
-            layout="vertical"
+            layout="horizontal"
             items={[
               {
                 label: "Race",
@@ -191,29 +197,7 @@ export default function CharacterSheet() {
         </div>
 
         {/* Ability Scores */}
-        {/* <div className="bg-zinc-800 rounded-lg p-6 border border-zinc-700">
-          <h2 className="text-xl font-semibold text-zinc-100 mb-4">
-            Ability Scores
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {Object.entries(character.abilities).map(([ability, score]) => (
-              <div key={ability} className="text-center">
-                <h3 className="text-sm font-medium text-zinc-400 mb-1 capitalize">
-                  {ability}
-                </h3>
-                <div className="bg-zinc-700 rounded-lg p-3">
-                  <p className="text-xl font-bold text-zinc-100">
-                    {score.value}
-                  </p>
-                  <p className="text-sm text-zinc-300">
-                    {score.modifier >= 0 ? "+" : ""}
-                    {score.modifier}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div> */}
+        <AbilityScores character={character} className="mb-6" />
 
         {/* Equipment */}
         {/* {character.equipment.length > 0 && (
