@@ -3,6 +3,7 @@ export { default as Accordion } from "./Accordion";
 export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Button } from "./Button";
 export { default as Callout } from "./Callout";
+export { default as Details } from "./Details";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { default as ExperienceTracker } from "./ExperienceTracker";
 export { default as FileUpload } from "./FileUpload";

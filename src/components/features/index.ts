@@ -4,6 +4,7 @@
 
 export { default as AbilityScoreStep } from "./AbilityScoreStep";
 export { default as AvatarSelector } from "./AvatarSelector";
+export { default as AvatarChangeModal } from "./AvatarChangeModal";
 export { default as RaceStep } from "./RaceStep";
 export { default as HitPointsStep } from "./HitPointsStep";
 export { default as EquipmentStep } from "./EquipmentStep";

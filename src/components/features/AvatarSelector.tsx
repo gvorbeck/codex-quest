@@ -5,6 +5,8 @@ import {
   TEXT_STYLES,
   LAYOUT_STYLES,
   ICON_STYLES,
+  AVATAR_MAX_SIZE_BYTES,
+  AVATAR_MAX_SIZE_MB,
 } from "@/constants";
 import type { Character } from "@/types/character";
 
@@ -73,9 +75,8 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       }
 
       // Validate file size (max 2MB for avatars)
-      const maxSize = 2 * 1024 * 1024; // 2MB
-      if (file.size > maxSize) {
-        setUploadError("Image must be smaller than 2MB");
+      if (file.size > AVATAR_MAX_SIZE_BYTES) {
+        setUploadError(`Image must be smaller than ${AVATAR_MAX_SIZE_MB}MB`);
         return;
       }
 
@@ -265,9 +266,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
         </h5>
         <FileUpload
           label="Upload Avatar Image"
-          helperText="Upload your own avatar image. Accepts JPG, PNG, WebP. Max 2MB."
+          helperText={`Upload your own avatar image. Accepts JPG, PNG, WebP. Max ${AVATAR_MAX_SIZE_MB}MB.`}
           accept="image/jpeg,image/png,image/webp"
-          maxSizeBytes={2 * 1024 * 1024}
+          maxSizeBytes={AVATAR_MAX_SIZE_BYTES}
           onFileSelect={handleCustomUpload}
           error={uploadError}
           aria-describedby="avatar-upload-info"
