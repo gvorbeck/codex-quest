@@ -1,12 +1,12 @@
 import { Button, SimpleRoller, StepWrapper } from "../ui";
-import { roller } from "../../utils/dice";
+import { roller } from "@/utils/dice";
 import {
   CARD_STYLES,
   LAYOUT_STYLES,
   ICON_STYLES,
   TEXT_STYLES,
 } from "@/constants";
-import type { Character, AbilityScore } from "../../types/character";
+import type { Character, AbilityScore } from "@/types/character";
 import { memo } from "react";
 import { useValidation } from "@/hooks";
 import { abilityScoreSchema } from "@/utils/validationSchemas";

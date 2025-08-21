@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback, memo } from "react";
 import { Accordion, SimpleRoller, StepWrapper, Button } from "@/components/ui";
 import {
   CARD_STYLES,
@@ -590,4 +590,4 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   );
 }
 
-export default EquipmentStep;
+export default memo(EquipmentStep);

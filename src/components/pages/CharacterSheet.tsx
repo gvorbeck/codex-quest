@@ -81,7 +81,6 @@ export default function CharacterSheet() {
     );
   }
 
-  console.log(character);
 
   return (
     <div className="max-w-4xl mx-auto">

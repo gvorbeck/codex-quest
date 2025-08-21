@@ -1,10 +1,62 @@
 // Character migration service for handling legacy data formats
+import { logger } from '@/utils/logger';
+
 const CURRENT_VERSION = 2;
+
+// Types for legacy character data
+interface LegacyAbilities {
+  modifiers?: Record<string, string>;
+  scores?: Record<string, number>;
+  [key: string]: unknown;
+}
+
+interface LegacyHp {
+  points?: number;
+  max?: number;
+  desc?: string;
+  current?: number;
+  [key: string]: unknown;
+}
+
+interface LegacySettings {
+  version?: number;
+  useCoinWeight?: boolean;
+}
+
+interface LegacyEquipmentItem {
+  name?: string;
+  costValue?: number;
+  costCurrency?: string;
+  weight?: number;
+  category?: string;
+  amount?: number;
+  [key: string]: unknown;
+}
+
+interface LegacyCharacterData {
+  name?: string;
+  race?: string;
+  class?: string | string[];
+  level?: number;
+  xp?: number;
+  abilities?: LegacyAbilities;
+  gold?: number;
+  silver?: number;
+  copper?: number;
+  electrum?: number;
+  platinum?: number;
+  hp?: LegacyHp;
+  equipment?: LegacyEquipmentItem[];
+  settings?: LegacySettings;
+  useCoinWeight?: boolean;
+  wearing?: boolean;
+  [key: string]: unknown;
+}
 
 /**
  * Type guard to check if character data is in legacy format
  */
-export function isLegacyCharacter(data: Record<string, any>): boolean {
+export function isLegacyCharacter(data: LegacyCharacterData): boolean {
   // Check for legacy format indicators
   const hasLegacyAbilities = 
     data['abilities']?.modifiers && 
@@ -26,7 +78,7 @@ export function isLegacyCharacter(data: Record<string, any>): boolean {
 /**
  * Migrate legacy character data to current format
  */
-export function migrateLegacyCharacter(legacyData: Record<string, any>): Record<string, any> {
+export function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyCharacterData {
   const migrated = { ...legacyData };
 
   // Migrate abilities from separate modifiers/scores to combined structure
@@ -35,8 +87,8 @@ export function migrateLegacyCharacter(legacyData: Record<string, any>): Record<
     const abilityNames = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
     
     for (const ability of abilityNames) {
-      const score = legacyData['abilities'].scores[ability] || 0;
-      const modifierStr = legacyData['abilities'].modifiers[ability] || "+0";
+      const score = legacyData['abilities']?.scores?.[ability] || 0;
+      const modifierStr = legacyData['abilities']?.modifiers?.[ability] || "+0";
       const modifier = parseInt(modifierStr.replace('+', ''), 10) || 0;
       
       migrated['abilities'][ability] = {
@@ -77,7 +129,7 @@ export function migrateLegacyCharacter(legacyData: Record<string, any>): Record<
     migrated['equipment'] = [];
   } else {
     // Standardize equipment entries
-    migrated['equipment'] = migrated['equipment'].map((item: any) => ({
+    migrated['equipment'] = migrated['equipment'].map((item: LegacyEquipmentItem) => ({
       name: item.name || "Unknown Item",
       costValue: item.costValue || 0,
       costCurrency: item.costCurrency || "gp",
@@ -112,9 +164,9 @@ export function migrateLegacyCharacter(legacyData: Record<string, any>): Record<
 /**
  * Process character data and migrate if necessary
  */
-export function processCharacterData(data: any): any {
+export function processCharacterData(data: LegacyCharacterData): LegacyCharacterData {
   if (isLegacyCharacter(data)) {
-    console.log(`Migrating legacy character: ${data['name'] || 'Unknown'}`);
+    logger.debug(`Migrating legacy character: ${data['name'] || 'Unknown'}`);
     return migrateLegacyCharacter(data);
   }
   

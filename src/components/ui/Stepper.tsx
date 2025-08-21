@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useStepAnnouncements } from "../../hooks/useA11y";
+import { useStepAnnouncements } from "@/hooks/useA11y";
 import { memo } from "react";
 import { TEXT_STYLES } from "@/constants";
 import Button from "./Button";

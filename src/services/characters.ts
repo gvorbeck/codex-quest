@@ -3,6 +3,7 @@ import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { AuthUser } from "./auth";
 import { processCharacterData, isLegacyCharacter } from "./characterMigration";
+import { logger } from "@/utils/logger";
 
 // Simple interface for listing characters - we don't need the full Character type
 export interface CharacterListItem {
@@ -33,14 +34,15 @@ export const getUserCharacters = async (
       
       characters.push({
         id: docSnapshot.id,
-        ...processedData, // Include all migrated data (includes name)
+        name: processedData.name || "Unnamed Character", // Ensure name is always present
+        ...processedData,
       });
 
       // If this was a legacy character, save the migrated data back to Firebase
       if (wasLegacy) {
         const docRef = doc(db, "users", user.uid, "characters", docSnapshot.id);
         const migrationPromise = setDoc(docRef, processedData).catch((error) => {
-          console.error(`Failed to persist migration for character ${docSnapshot.id}:`, error);
+          logger.error(`Failed to persist migration for character ${docSnapshot.id}:`, error);
         });
         migrationPromises.push(migrationPromise);
       }
@@ -50,15 +52,15 @@ export const getUserCharacters = async (
     if (migrationPromises.length > 0) {
       try {
         await Promise.all(migrationPromises);
-        console.log(`Successfully persisted ${migrationPromises.length} character migrations to Firebase`);
+        logger.info(`Successfully persisted ${migrationPromises.length} character migrations to Firebase`);
       } catch {
-        console.warn("Some character migrations failed to persist, but continuing with fetched data");
+        logger.warn("Some character migrations failed to persist, but continuing with fetched data");
       }
     }
 
     return characters;
   } catch (error) {
-    console.error("Error fetching user characters:", error);
+    logger.error("Error fetching user characters:", error);
     throw new Error("Failed to fetch characters");
   }
 };
@@ -83,21 +85,22 @@ export const getCharacterById = async (
       if (wasLegacy) {
         try {
           await setDoc(characterRef, processedData);
-          console.log(`Successfully persisted migration for character ${characterId}`);
+          logger.info(`Successfully persisted migration for character ${characterId}`);
         } catch (error) {
-          console.error(`Failed to persist migration for character ${characterId}:`, error);
+          logger.error(`Failed to persist migration for character ${characterId}:`, error);
         }
       }
 
       return {
         id: docSnap.id,
+        name: processedData.name || "Unnamed Character", // Ensure name is always present
         ...processedData,
       };
     } else {
       return null;
     }
   } catch (error) {
-    console.error("Error fetching character:", error);
+    logger.error("Error fetching character:", error);
     throw new Error("Failed to fetch character");
   }
 };

@@ -5,6 +5,7 @@ import { ErrorBoundary, Button } from "@/components/ui";
 import { useAuth } from "@/hooks";
 import { preloadCriticalData } from "@/services/dataLoader";
 import { signOut } from "@/services/auth";
+import { logger } from "@/utils/logger";
 
 // Lazy load page components for better code splitting
 const Home = lazy(() => import("./components/pages/Home"));
@@ -21,7 +22,7 @@ function App() {
   // Preload critical data for better performance
   useEffect(() => {
     preloadCriticalData().catch((error) => {
-      console.warn("Failed to preload critical data:", error);
+      logger.warn("Failed to preload critical data:", error);
     });
   }, []);
 
@@ -29,7 +30,7 @@ function App() {
     try {
       await signOut();
     } catch (error) {
-      console.error("Sign out error:", error);
+      logger.error("Sign out error:", error);
     }
   };
 

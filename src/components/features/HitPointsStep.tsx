@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import { SimpleRoller, Button, StepWrapper } from "@/components/ui";
 import { allClasses } from "@/data/classes";
 import {
@@ -263,4 +263,4 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   );
 };
 
-export default HitPointsStep;
+export default memo(HitPointsStep);

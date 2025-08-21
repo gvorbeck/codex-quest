@@ -28,15 +28,20 @@ export default defineConfig({
           react: ["react", "react-dom"],
           // Router chunk
           router: ["wouter"],
-          // Firebase chunk (separate to avoid bloating main bundle)
-          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
-          // Data chunks (removing large JSON files for lazy loading)
-          "game-data": [
-            "./src/data/classes/index.ts",
-            "./src/data/races/index.ts",
+          // Firebase chunk - only import what we use for better tree-shaking
+          firebase: [
+            "firebase/app", 
+            "firebase/auth", 
+            "firebase/firestore"
           ],
+          // Data chunks - split by type for better caching
+          "race-data": ["./src/data/races/index.ts"],
+          "class-data": ["./src/data/classes/index.ts"],
           // Utility chunks
           utils: ["./src/utils/dice.ts", "./src/utils/characterValidation.ts"],
+          // Large data files - separate chunks for lazy loading
+          equipment: ["./src/data/equipment.json"],
+          spells: ["./src/data/spells.json"],
         },
       },
     },
