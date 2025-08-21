@@ -43,6 +43,7 @@ export interface Equipment {
   animalWeight?: number;
   // Equipment with gold amount
   gold?: number;
+  wearing?: boolean; // For armor and shields
 }
 
 export interface Character {
