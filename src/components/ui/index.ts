@@ -4,6 +4,7 @@ export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Button } from "./Button";
 export { default as Callout } from "./Callout";
 export { ErrorBoundary } from "./ErrorBoundary";
+export { default as ExperienceTracker } from "./ExperienceTracker";
 export { default as FileUpload } from "./FileUpload";
 export { default as Hero } from "./Hero";
 export { default as HorizontalRule } from "./HorizontalRule";

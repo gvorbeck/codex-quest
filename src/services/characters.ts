@@ -2,6 +2,7 @@
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { AuthUser } from "./auth";
+import type { Character } from "@/types/character";
 import { processCharacterData, isLegacyCharacter } from "./characterMigration";
 import { logger } from "@/utils/logger";
 
@@ -102,5 +103,43 @@ export const getCharacterById = async (
   } catch (error) {
     logger.error("Error fetching character:", error);
     throw new Error("Failed to fetch character");
+  }
+};
+
+/**
+ * Save a character to Firebase
+ */
+export const saveCharacter = async (
+  userId: string,
+  character: Character,
+  characterId?: string
+): Promise<string> => {
+  try {
+    // Ensure character has current version
+    const dataToSave = {
+      ...character,
+      settings: {
+        ...character.settings,
+        version: 2, // Current version
+      },
+    };
+    
+    if (characterId) {
+      // Update existing character
+      const characterRef = doc(db, "users", userId, "characters", characterId);
+      await setDoc(characterRef, dataToSave);
+      logger.info(`Successfully updated character ${characterId}`);
+      return characterId;
+    } else {
+      // Create new character with auto-generated ID
+      const charactersRef = collection(db, "users", userId, "characters");
+      const docRef = doc(charactersRef);
+      await setDoc(docRef, dataToSave);
+      logger.info(`Successfully created character ${docRef.id}`);
+      return docRef.id;
+    }
+  } catch (error) {
+    logger.error("Error saving character:", error);
+    throw new Error("Failed to save character");
   }
 };
