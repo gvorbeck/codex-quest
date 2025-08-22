@@ -37,8 +37,8 @@ const Callout = forwardRef<HTMLDivElement, CalloutProps>(
         "shadow-[0_3px_0_0_#b45309]", // amber-700 shadow
       ],
       success: [
-        "bg-emerald-950/20 border-emerald-600 text-emerald-100",
-        "shadow-[0_3px_0_0_#047857]", // emerald-700 shadow
+        "bg-lime-950/20 border-lime-600 text-lime-100",
+        "shadow-[0_3px_0_0_#65a30d]", // lime-700 shadow
       ],
       warning: [
         "bg-orange-950/20 border-orange-600 text-orange-100",

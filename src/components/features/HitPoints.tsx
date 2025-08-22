@@ -42,12 +42,15 @@ export default function HitPoints({
   // Calculate percentage of current HP to max HP for visual indicator
   const hpPercentage = useMemo(() => {
     if (character.hp.max === 0) return 0;
-    return Math.max(0, Math.min(100, (character.hp.current / character.hp.max) * 100));
+    return Math.max(
+      0,
+      Math.min(100, (character.hp.current / character.hp.max) * 100)
+    );
   }, [character.hp]);
 
   // Determine HP status color based on percentage
   const getHPStatusColor = (percentage: number) => {
-    if (percentage >= 75) return "text-green-400";
+    if (percentage >= 75) return "text-lime-400";
     if (percentage >= 50) return "text-yellow-400";
     if (percentage >= 25) return "text-orange-400";
     return "text-red-400";
@@ -127,9 +130,13 @@ export default function HitPoints({
             <div
               className={`
                 h-full transition-all duration-300 rounded-full
-                ${hpPercentage >= 75 ? "bg-green-500" : ""}
-                ${hpPercentage >= 50 && hpPercentage < 75 ? "bg-yellow-500" : ""}
-                ${hpPercentage >= 25 && hpPercentage < 50 ? "bg-orange-500" : ""}
+                ${hpPercentage >= 75 ? "bg-lime-500" : ""}
+                ${
+                  hpPercentage >= 50 && hpPercentage < 75 ? "bg-yellow-500" : ""
+                }
+                ${
+                  hpPercentage >= 25 && hpPercentage < 50 ? "bg-orange-500" : ""
+                }
                 ${hpPercentage < 25 ? "bg-red-500" : ""}
               `}
               style={{ width: `${hpPercentage}%` }}
@@ -168,13 +175,25 @@ export default function HitPoints({
 
           {/* HP Status Text */}
           <div className="text-center">
-            <span className={`text-xs font-medium ${getHPStatusColor(hpPercentage)}`}>
+            <span
+              className={`text-xs font-medium ${getHPStatusColor(
+                hpPercentage
+              )}`}
+            >
               {character.hp.current > character.hp.max && "Temporary HP"}
               {character.hp.current === character.hp.max && "Healthy"}
-              {character.hp.current >= character.hp.max * 0.75 && character.hp.current < character.hp.max && "Lightly Wounded"}
-              {character.hp.current >= character.hp.max * 0.5 && character.hp.current < character.hp.max * 0.75 && "Moderately Wounded"}
-              {character.hp.current >= character.hp.max * 0.25 && character.hp.current < character.hp.max * 0.5 && "Heavily Wounded"}
-              {character.hp.current > 0 && character.hp.current < character.hp.max * 0.25 && "Critically Wounded"}
+              {character.hp.current >= character.hp.max * 0.75 &&
+                character.hp.current < character.hp.max &&
+                "Lightly Wounded"}
+              {character.hp.current >= character.hp.max * 0.5 &&
+                character.hp.current < character.hp.max * 0.75 &&
+                "Moderately Wounded"}
+              {character.hp.current >= character.hp.max * 0.25 &&
+                character.hp.current < character.hp.max * 0.5 &&
+                "Heavily Wounded"}
+              {character.hp.current > 0 &&
+                character.hp.current < character.hp.max * 0.25 &&
+                "Critically Wounded"}
               {character.hp.current <= 0 && "Unconscious/Dead"}
             </span>
           </div>
