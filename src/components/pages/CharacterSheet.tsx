@@ -213,27 +213,36 @@ export default function CharacterSheet() {
           </section>
 
           {/* Experience and Combat Stats */}
-          <section className="lg:col-span-3 space-y-6" aria-labelledby="character-stats-heading">
+          <section className="lg:col-span-3" aria-labelledby="character-stats-heading">
             <h2 id="character-stats-heading" className="sr-only">Character Statistics</h2>
             
-            <ExperiencePoints
-              character={character}
-              classes={allClasses}
-              editable={!!isOwner}
-              onChange={handleXPChange}
-            />
+            {/* Masonry-style layout for cards */}
+            <div className="columns-1 md:columns-2 gap-6 space-y-6 md:space-y-0">
+              <div className="break-inside-avoid mb-6">
+                <ExperiencePoints
+                  character={character}
+                  classes={allClasses}
+                  editable={!!isOwner}
+                  onChange={handleXPChange}
+                />
+              </div>
 
-            <HitPoints 
-              character={character} 
-              editable={!!isOwner}
-              onCurrentHPChange={handleCurrentHPChange}
-              onHPNotesChange={handleHPNotesChange}
-            />
+              <div className="break-inside-avoid mb-6">
+                <HitPoints 
+                  character={character} 
+                  editable={!!isOwner}
+                  onCurrentHPChange={handleCurrentHPChange}
+                  onHPNotesChange={handleHPNotesChange}
+                />
+              </div>
 
-            {/* Attack Bonuses and Defense & Movement side-by-side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <AttackBonuses character={character} />
-              <CharacterDefense character={character} />
+              <div className="break-inside-avoid mb-6">
+                <AttackBonuses character={character} />
+              </div>
+
+              <div className="break-inside-avoid mb-6">
+                <CharacterDefense character={character} />
+              </div>
             </div>
           </section>
         </div>

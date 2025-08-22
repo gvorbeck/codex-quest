@@ -72,7 +72,7 @@ export default function HitPoints({
 
       {/* HP Content */}
       <div className={currentSize.container}>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {/* Current HP Input and Max HP Indicator */}
           <div className="flex items-center gap-3">
             <div className="flex-1">
@@ -145,10 +145,10 @@ export default function HitPoints({
                 placeholder="HP notes (injuries, effects, etc.)"
                 maxLength={200}
                 size="sm"
-                rows={2}
+                rows={3}
                 showClearButton={true}
                 aria-label="Hit point notes"
-                className="text-xs"
+                className="text-xs !bg-zinc-700/50 !border-zinc-600/50"
               />
             ) : (
               character.hp.desc && (

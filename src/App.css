@@ -85,3 +85,35 @@ h6 {
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
+
+/* Custom scrollbar styling for dark theme */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #52525b #27272a; /* thumb color, track color */
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #27272a; /* zinc-800 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #52525b; /* zinc-600 */
+  border-radius: 4px;
+  border: 1px solid #3f3f46; /* zinc-700 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #71717a; /* zinc-500 */
+}
+
+::-webkit-scrollbar-corner {
+  background: #27272a; /* zinc-800 */
+}
