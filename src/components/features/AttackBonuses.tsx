@@ -160,7 +160,7 @@ export default function AttackBonuses({ character, className = "" }: AttackBonus
     <Details
       title={titleWithTooltip}
       items={items}
-      layout="horizontal"
+      layout="vertical"
       size="md"
       className={className}
     />

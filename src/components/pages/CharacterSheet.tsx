@@ -10,6 +10,8 @@ import {
   AbilityScores,
 } from "@/components/ui";
 import AttackBonuses from "@/components/features/AttackBonuses";
+import HitPoints from "@/components/features/HitPoints";
+import CharacterDefense from "@/components/features/CharacterDefense";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
 import { calculateModifier } from "@/utils/gameUtils";
@@ -86,6 +88,35 @@ export default function CharacterSheet() {
           value: value,
           modifier: calculateModifier(value)
         }
+      }
+    };
+
+    handleCharacterChange(updatedCharacter);
+  };
+
+  // Handle HP changes
+  const handleCurrentHPChange = (value: number) => {
+    if (!character) return;
+
+    const updatedCharacter = {
+      ...character,
+      hp: {
+        ...character.hp,
+        current: value
+      }
+    };
+
+    handleCharacterChange(updatedCharacter);
+  };
+
+  const handleHPNotesChange = (value: string) => {
+    if (!character) return;
+
+    const updatedCharacter = {
+      ...character,
+      hp: {
+        ...character.hp,
+        desc: value
       }
     };
 
@@ -192,7 +223,18 @@ export default function CharacterSheet() {
               onChange={handleXPChange}
             />
 
-            <AttackBonuses character={character} />
+            <HitPoints 
+              character={character} 
+              editable={!!isOwner}
+              onCurrentHPChange={handleCurrentHPChange}
+              onHPNotesChange={handleHPNotesChange}
+            />
+
+            {/* Attack Bonuses and Defense & Movement side-by-side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <AttackBonuses character={character} />
+              <CharacterDefense character={character} />
+            </div>
           </section>
         </div>
 

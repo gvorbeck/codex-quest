@@ -5,7 +5,9 @@
       "Bash(npm run lint)",
       "WebFetch(domain:ant.design)",
       "Bash(npm run dev:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npm run lint:*)",
+      "Bash(mv:*)"
     ],
     "deny": [],
     "ask": []

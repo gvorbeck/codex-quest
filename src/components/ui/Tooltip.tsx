@@ -1,4 +1,4 @@
-import React, { useState, useRef, useId, useEffect } from "react";
+import React, { useState, useRef, useId, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 
@@ -15,31 +15,36 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, className = "" }) 
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const tooltipId = useId();
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
 
-  const showTooltip = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    
-    // Calculate position when showing
+  const updatePosition = () => {
     if (triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      setPosition({
-        top: rect.top + window.scrollY - 40, // 40px above the trigger
-        left: rect.left + window.scrollX + rect.width / 2, // Center horizontally
-      });
+      
+      const newPosition = {
+        top: rect.top - 40, // 40px above the trigger (viewport-relative)
+        left: rect.left + rect.width / 2, // Center horizontally (viewport-relative)
+      };
+      
+      setPosition(newPosition);
     }
-    
+  };
+
+  const showTooltip = () => {
+    updatePosition();
     setIsVisible(true);
   };
 
   const hideTooltip = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsVisible(false);
-    }, 100);
+    setIsVisible(false);
   };
+
+  // Update position when tooltip becomes visible
+  useLayoutEffect(() => {
+    if (isVisible) {
+      updatePosition();
+    }
+  }, [isVisible]);
 
   const handleMouseEnter = () => {
     showTooltip();
@@ -56,14 +61,6 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, className = "" }) 
   const handleBlur = () => {
     hideTooltip();
   };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   const tooltipPortal = isVisible ? createPortal(
     <div

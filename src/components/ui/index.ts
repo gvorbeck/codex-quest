@@ -21,5 +21,6 @@ export { default as SimpleRoller } from "./SimpleRoller";
 export { default as Stepper } from "./Stepper";
 export { default as StepWrapper } from "./StepWrapper";
 export { default as Switch } from "./Switch";
+export { default as TextArea } from "./TextArea";
 export { default as TextInput } from "./TextInput";
 export { default as Tooltip } from "./Tooltip";
