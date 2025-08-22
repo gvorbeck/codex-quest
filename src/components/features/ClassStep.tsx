@@ -1,9 +1,7 @@
 import { Switch, StepWrapper } from "@/components/ui";
-import {
-  StandardClassSelector,
-  CombinationClassSelector,
-  SpellSelector,
-} from "@/components/features";
+import { StandardClassSelector } from "@/components/features/StandardClassSelector";
+import { CombinationClassSelector } from "@/components/features/CombinationClassSelector";
+import { SpellSelector } from "@/components/features/SpellSelector";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import { CARD_STYLES, LAYOUT_STYLES, ICON_STYLES } from "@/constants";

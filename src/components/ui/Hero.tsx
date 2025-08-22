@@ -2,7 +2,8 @@ import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
 import type { Character } from "@/types/character";
 import { AvatarChangeModal } from "@/components/features";
-import { TextInput } from "@/components/ui";
+import { TextInput, Details } from "@/components/ui";
+import EditIcon from "./EditIcon";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -179,19 +180,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                        }
                      }}
                 >
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    />
-                  </svg>
+                  <EditIcon className="w-6 h-6 text-white" />
                 </div>
               )}
             </div>
@@ -240,24 +229,39 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onCharacterChange && (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 text-zinc-700"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                        />
-                      </svg>
+                      <EditIcon className="w-5 h-5 text-zinc-700" />
                     </div>
                   )}
                 </div>
               )}
+              
+              {/* Character Details */}
+              <div className="mt-4">
+                <Details
+                  layout="horizontal"
+                  className="bg-zinc-800/90 border-zinc-700"
+                  items={[
+                    {
+                      label: "Race",
+                      children: <span className="capitalize text-zinc-100 font-medium">{character.race}</span>,
+                    },
+                    {
+                      label: "Class",
+                      children: (
+                        <span className="capitalize text-zinc-100 font-medium">
+                          {Array.isArray(character.class)
+                            ? character.class.join(" / ")
+                            : character.class}
+                        </span>
+                      ),
+                    },
+                    {
+                      label: "Level",
+                      children: <span className="text-zinc-100 font-medium">{character.level}</span>,
+                    },
+                  ]}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm run build:*)",
       "Bash(npm run lint)",
-      "WebFetch(domain:ant.design)"
+      "WebFetch(domain:ant.design)",
+      "Bash(npm run dev:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

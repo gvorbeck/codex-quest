@@ -1,11 +1,9 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { Stepper, Breadcrumb } from "@/components/ui";
-import {
-  AbilityScoreStep,
-  RaceStep,
-  HitPointsStep,
-  EquipmentStep,
-} from "@/components/features";
+import AbilityScoreStep from "@/components/features/AbilityScoreStep";
+import RaceStep from "@/components/features/RaceStep";
+import HitPointsStep from "@/components/features/HitPointsStep";
+import EquipmentStep from "@/components/features/EquipmentStep";
 import { ClassStep } from "@/components/features/ClassStep";
 import { ReviewStep } from "@/components/features/ReviewStep";
 import { useCascadeValidation, useLocalStorage } from "@/hooks";

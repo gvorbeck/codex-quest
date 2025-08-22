@@ -5,13 +5,13 @@ import { db } from "@/lib/firebase";
 import {
   Breadcrumb,
   Hero,
-  ExperienceTracker,
-  Details,
+  ExperiencePoints,
   AbilityScores,
-  Tooltip,
 } from "@/components/ui";
+import AttackBonuses from "@/components/features/AttackBonuses";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
+import { calculateModifier } from "@/utils/gameUtils";
 import type { Character } from "@/types/character";
 
 export default function CharacterSheet() {
@@ -76,10 +76,6 @@ export default function CharacterSheet() {
   // Handle ability score changes
   const handleAbilityChange = (abilityKey: string, value: number) => {
     if (!character) return;
-    
-    const calculateModifier = (score: number): number => {
-      return Math.floor((score - 10) / 2);
-    };
 
     const updatedCharacter = {
       ...character,
@@ -135,15 +131,15 @@ export default function CharacterSheet() {
 
   if (loading) {
     return (
-      <div className="text-center py-8">
-        <p className="text-primary-400">Loading character...</p>
+      <div className="text-center py-8" role="status" aria-live="polite">
+        <p className="text-zinc-400">Loading character...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-8" role="alert">
         <p className="text-red-400">Error: {error}</p>
       </div>
     );
@@ -152,7 +148,7 @@ export default function CharacterSheet() {
   if (!character) {
     return (
       <div className="text-center py-8">
-        <p className="text-primary-400">Character not found</p>
+        <p className="text-zinc-400">Character not found</p>
       </div>
     );
   }
@@ -173,74 +169,31 @@ export default function CharacterSheet() {
 
       {/* Character Sheet Content */}
       <div className="space-y-6">
-        {/* Character Details and Experience */}
-        <div className="flex flex-col sm:flex-row gap-6 items-start">
-          {/* Character Details */}
-          <Details
-            layout="horizontal"
-            items={[
-              {
-                label: "Race",
-                children: <span className="capitalize">{character.race}</span>,
-              },
-              {
-                label: "Class",
-                children: (
-                  <span className="capitalize">
-                    {Array.isArray(character.class)
-                      ? character.class.join(" / ")
-                      : character.class}
-                  </span>
-                ),
-              },
-              {
-                label: "Level",
-                children: character.level,
-              },
-            ]}
-          />
+        {/* Main Character Stats Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+          {/* Ability Scores */}
+          <section className="lg:col-span-1" aria-labelledby="ability-scores-heading">
+            <AbilityScores 
+              character={character} 
+              editable={!!isOwner}
+              onAbilityChange={handleAbilityChange}
+            />
+          </section>
 
-          {/* Experience Points */}
-          <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg shadow-[0_3px_0_0_#3f3f46] transition-all duration-150 p-4">
-            <h3 className="text-sm font-medium text-zinc-400 mb-3 flex items-center gap-2">
-              Experience Points
-              <Tooltip content="Try: +100, -50, or enter a number directly">
-                <svg
-                  className="w-4 h-4 text-zinc-500 hover:text-zinc-300 cursor-help"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </Tooltip>
-            </h3>
-            {isOwner ? (
-              <ExperienceTracker
-                character={character}
-                classes={allClasses}
-                onChange={handleXPChange}
-              />
-            ) : (
-              <p className="text-base font-semibold text-zinc-100">
-                {character.xp} XP
-              </p>
-            )}
-          </div>
+          {/* Experience and Combat Stats */}
+          <section className="lg:col-span-3 space-y-6" aria-labelledby="character-stats-heading">
+            <h2 id="character-stats-heading" className="sr-only">Character Statistics</h2>
+            
+            <ExperiencePoints
+              character={character}
+              classes={allClasses}
+              editable={!!isOwner}
+              onChange={handleXPChange}
+            />
+
+            <AttackBonuses character={character} />
+          </section>
         </div>
-
-        {/* Ability Scores */}
-        <AbilityScores 
-          character={character} 
-          className="mb-6" 
-          editable={!!isOwner}
-          onAbilityChange={handleAbilityChange}
-        />
 
         {/* Equipment */}
         {/* {character.equipment.length > 0 && (

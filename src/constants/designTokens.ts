@@ -1,0 +1,72 @@
+export const DESIGN_TOKENS = {
+  colors: {
+    bg: {
+      primary: "bg-zinc-800",
+      accent: "bg-gradient-to-br from-zinc-800 to-zinc-900",
+      ability: "bg-gradient-to-br from-zinc-700 to-zinc-800",
+      abilityHover: "bg-gradient-to-br from-zinc-600 to-zinc-700",
+      header: "bg-gradient-to-r from-zinc-700/50 to-zinc-750/30",
+      label: "bg-zinc-750/40",
+    },
+    text: {
+      primary: "text-zinc-100",
+      secondary: "text-zinc-400",
+      muted: "text-zinc-300",
+      accent: "text-amber-400",
+      modifier: "text-lime-400",
+    },
+    border: {
+      primary: "border-zinc-600",
+      secondary: "border-zinc-700/60",
+      accent: "border-amber-500/20",
+      ability: "border-zinc-600/80",
+    },
+  },
+  effects: {
+    shadow: "shadow-[0_4px_0_0_#3f3f46,0_0_20px_rgba(0,0,0,0.3)]",
+    shadowSm: "shadow-[0_2px_0_0_#52525b,0_0_10px_rgba(0,0,0,0.2)]",
+    abilityShadow: "shadow-[0_3px_0_0_#3f3f46,inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+    transition: "transition-all duration-200",
+    rounded: "rounded-xl",
+    roundedSm: "rounded-lg",
+  },
+} as const;
+
+export const SIZE_STYLES = {
+  sm: {
+    container: "p-4",
+    header: "px-4 py-3",
+    abilityContainer: "p-3",
+    abilityName: "text-xs font-semibold tracking-wide uppercase mb-2",
+    abilityScore: "text-lg font-bold",
+    abilityModifier: "text-xs font-medium",
+    itemSpacing: "gap-3",
+    labelText: "text-xs font-semibold tracking-wide uppercase",
+    contentText: "text-sm font-medium",
+    grid: "grid-cols-1 gap-3",
+  },
+  md: {
+    container: "p-4",
+    header: "px-5 py-4",
+    abilityContainer: "p-4",
+    abilityName: "text-sm font-semibold tracking-wide uppercase mb-3",
+    abilityScore: "text-2xl font-bold",
+    abilityModifier: "text-sm font-medium",
+    itemSpacing: "gap-4",
+    labelText: "text-sm font-semibold tracking-wide uppercase",
+    contentText: "text-base font-medium",
+    grid: "grid-cols-1 gap-4",
+  },
+  lg: {
+    container: "p-6",
+    header: "px-6 py-5",
+    abilityContainer: "p-5",
+    abilityName: "text-base font-semibold tracking-wide uppercase mb-4",
+    abilityScore: "text-3xl font-bold",
+    abilityModifier: "text-base font-medium",
+    itemSpacing: "gap-6",
+    labelText: "text-base font-semibold tracking-wide uppercase",
+    contentText: "text-lg font-medium",
+    grid: "grid-cols-1 gap-6",
+  },
+} as const;
