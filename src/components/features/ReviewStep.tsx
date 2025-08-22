@@ -411,6 +411,7 @@ function ReviewStepComponent({
           onCharacterChange={onCharacterChange}
         />
       </section>
+
     </StepWrapper>
   );
 }

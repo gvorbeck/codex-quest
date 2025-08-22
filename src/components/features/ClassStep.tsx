@@ -54,7 +54,7 @@ function ClassStepComponent({
 
   // Check if the character's race can use combination classes
   const canUseCombinationClasses = useMemo(() => {
-    return selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
+    return selectedRace && ["elf", "dokkalfar", "half-elf"].includes(selectedRace.id);
   }, [selectedRace]);
 
   const handleSingleClassChange = (classId: string) => {

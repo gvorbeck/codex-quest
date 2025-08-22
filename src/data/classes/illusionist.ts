@@ -1,17 +1,17 @@
 import type { Class } from "@/types/character";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
-export const magicUser: Class = {
-  name: "Magic-User",
-  id: CHARACTER_CLASSES.MAGIC_USER,
+export const illusionist: Class = {
+  name: "Illusionist",
+  id: CHARACTER_CLASSES.ILLUSIONIST,
   description:
-    "Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding.",
+    "Illusionists are specialist Magic-Users who focus on the creation and manipulation of illusions, whether visual, auditory, or mental, and at higher levels quasi-real things made of tangible shadow. Though normal Magic-Users can create illusions, those created by a true Illusionist are superior in quality and realism.",
   hitDie: "1d4",
   primaryAttribute: "intelligence",
   abilityRequirements: [
     {
       ability: "intelligence",
-      min: 9,
+      min: 13,
     },
   ],
   allowedWeapons: ["dagger", "walking-staff"],
@@ -44,7 +44,12 @@ export const magicUser: Class = {
     {
       name: "Read Magic",
       description:
-        "A first level Magic-User begins play knowing read magic and one other spell of first level.",
+        "A first level Illusionist begins play knowing read magic and one other spell of first level.",
+    },
+    {
+      name: "Illusion Resistance",
+      description:
+        "Illusionists always gain an additional +2 on saves vs. any sort of illusion or phantasm.",
     },
   ],
   experienceTable: {
@@ -69,5 +74,5 @@ export const magicUser: Class = {
     19: 1800000,
     20: 1950000,
   },
-  supplementalContent: false,
+  supplementalContent: true,
 };

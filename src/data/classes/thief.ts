@@ -1,8 +1,9 @@
 import type { Class } from "@/types/character";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 export const thief: Class = {
   name: "Thief",
-  id: "thief",
+  id: CHARACTER_CLASSES.THIEF,
   description:
     'Thieves are those who take what they want or need by stealth, disarming traps and picking locks to get to the gold they crave; or "borrowing" money from pockets, beltpouches, etc. right under the nose of the "mark" without the victim ever knowing.',
   hitDie: "1d4",

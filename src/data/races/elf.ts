@@ -7,7 +7,7 @@ export const elf: Race = {
     "Elves are typically inquisitive, passionate, self-assured, and sometimes haughty. They are lithe and graceful with keen eyesight and hearing.",
   physicalDescription:
     "Elves are a slender race, with both males and females standing around five feet tall and weighing around 130 pounds. Most have dark hair, with little or no body or facial hair. Their skin is pale, and they have pointed ears and delicate features. Elves are lithe and graceful. They have keen eyesight and hearing.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief"],
+  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "ranger", "scout"],
   abilityRequirements: [
     {
       ability: "intelligence",
@@ -23,6 +23,11 @@ export const elf: Race = {
     {
       name: "Darkvision",
       description: "All Elves have Darkvision with a 60' range",
+      effects: {
+        darkvision: {
+          range: 60,
+        },
+      },
     },
     {
       name: "Secret Door Detection",
@@ -42,6 +47,11 @@ export const elf: Race = {
       name: "Hit Point Restriction",
       description:
         "Elves never roll larger than six-sided dice (d6) for hit points",
+      effects: {
+        hitDiceRestriction: {
+          maxSize: "d6",
+        },
+      },
     },
   ],
   savingThrows: [

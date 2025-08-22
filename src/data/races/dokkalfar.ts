@@ -7,7 +7,7 @@ export const dokkalfar: Race = {
     "Dokkalfar are typically haughty, cold-blooded, resentful, and lack empathy towards other races as they see them as completely inferior. Their negative attitude is strongest against all surface dwelling races, most especially Elves.",
   physicalDescription:
     "Dokkalfar are a subspecies of Elves, but they believe themselves far superior to any and all other types. Both males and females stand around five feet tall and weight around 130 pounds. Most have hair of monochromatic coloration ranging from jet black to pure white, and lack almost all body and facial hair. Their skin is a very pale white, and they have pointed ears and delicate features in common with other elven types. Their eyes are perhaps their most striking feature, being some very pale shade of blue, green, or grey, with the latter being the most common coloration.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief"],
+  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "illusionist", "necromancer", "spellcrafter"],
   abilityRequirements: [
     {
       ability: "intelligence",
@@ -23,6 +23,11 @@ export const dokkalfar: Race = {
     {
       name: "Superior Darkvision",
       description: "All Dokkalfar have superior Darkvision with a 120' range",
+      effects: {
+        darkvision: {
+          range: 120,
+        },
+      },
     },
     {
       name: "Secret Door Detection",
@@ -42,11 +47,22 @@ export const dokkalfar: Race = {
       name: "Hit Point Restriction",
       description:
         "Dokkalfar never roll larger than six-sided dice (d6) for hit points",
+      effects: {
+        hitDiceRestriction: {
+          maxSize: "d6",
+        },
+      },
     },
     {
       name: "Light Sensitivity",
       description:
         "Extremely sensitive to light; if suddenly exposed to daylight or any illumination of similar brightness they must save vs. Death Ray or suffer blindness for 2d4 rounds. Even so, when in such illumination they suffer a -2 penalty to all attack rolls",
+      effects: {
+        attackBonus: {
+          value: -2,
+          conditions: ["in bright light"],
+        },
+      },
     },
     {
       name: "Sunlight Vulnerability",

@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks";
 import { preloadCriticalData } from "@/services/dataLoader";
 import { signOut } from "@/services/auth";
 import { logger } from "@/utils/logger";
+import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants/dom";
 
 // Lazy load page components for better code splitting
 const Home = lazy(() => import("./components/pages/Home"));
@@ -42,11 +43,11 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
-        <a href="#main-content" className="skip-link">
+        <a href={`#${DOM_IDS.MAIN_CONTENT}`} className={CSS_CLASSES.SKIP_LINK}>
           Skip to main content
         </a>
 
-        <header role="banner" className="bg-primary-700 border-b border-primary-600 shadow-lg">
+        <header role={HTML_ROLES.BANNER} className="bg-primary-700 border-b border-primary-600 shadow-lg">
           <nav
             role="navigation"
             aria-label="Main navigation"

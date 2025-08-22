@@ -92,6 +92,56 @@ export interface RaceRequirement {
 export interface SpecialAbility {
   name: string;
   description: string;
+  // Mechanical effects for programmatic use by character sheet components
+  effects?: {
+    // Combat bonuses/penalties
+    attackBonus?: {
+      value: number;
+      conditions?: string[]; // e.g., ["ranged weapons", "in bright light"]
+    };
+    acBonus?: {
+      value: number;
+      conditions?: string[]; // e.g., ["vs creatures larger than man-sized"]
+    };
+    initiativeBonus?: {
+      value: number;
+    };
+    // Saving throw bonuses are handled separately in savingThrows array
+    // Other mechanical effects can be added here as needed
+    experienceBonus?: {
+      value: number; // percentage bonus
+      conditions?: string[]; // e.g., ["not combination class"]
+    };
+    // Vision/detection abilities
+    darkvision?: {
+      range: number; // in feet
+    };
+    // Dice modifications
+    hitDiceRestriction?: {
+      maxSize?: "d4" | "d6" | "d8" | "d10" | "d12";
+      sizeDecrease?: number; // Reduce die size by this many steps
+    };
+    hitDiceBonus?: {
+      sizeIncrease: number; // Increase die size by this many steps
+    };
+    // Special bonuses
+    strengthBonus?: {
+      value: number;
+      conditions?: string[]; // e.g., ["feats of strength", "opening doors"]
+    };
+    reactionBonus?: {
+      value: number;
+      conditions?: string[]; // e.g., ["vs canine creatures", "vs humanoids human-size or smaller"]
+    };
+    savingThrowBonus?: {
+      value: number;
+      conditions?: string[]; // e.g., ["vs fey charm effects"]
+    };
+    naturalArmor?: {
+      baseAC: number; // Base armor class
+      rearAC?: number; // Special rear armor class
+    };
+  };
 }
 
 export interface SavingThrowBonus {

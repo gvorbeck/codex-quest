@@ -4,6 +4,7 @@ import type {
   RaceRequirement,
   Class,
 } from "@/types/character";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -144,14 +145,17 @@ export function hasRequiredStartingSpells(
     const charClass = availableClasses.find((cls) => cls.id === classId);
     if (!charClass || !charClass.spellcasting) continue;
 
-    // Magic-Users start with "read magic" (automatically included) and one other 1st level spell
-    if (classId === "magic-user") {
+    // Magic-User-based classes start with "read magic" (automatically included) and one other 1st level spell
+    if (classId === CHARACTER_CLASSES.MAGIC_USER || 
+        classId === CHARACTER_CLASSES.ILLUSIONIST ||
+        classId === CHARACTER_CLASSES.NECROMANCER ||
+        classId === CHARACTER_CLASSES.SPELLCRAFTER) {
       const spells = character.spells || [];
       const firstLevelSpells = spells.filter(
-        (spell) => spell.level["magic-user"] === 1
+        (spell) => spell.level[classId as keyof typeof spell.level] === 1
       );
 
-      // Magic-Users need to select at least one 1st level spell
+      // These classes need to select at least one 1st level spell
       // (Read Magic is automatically included and doesn't need to be selected)
       if (firstLevelSpells.length < 1) {
         return false;
@@ -195,8 +199,8 @@ export function isValidClassCombination(
         combo.length === sortedClasses.length
     );
 
-    // Only elves and dokkalfar can have combination classes
-    const raceAllowsCombinations = ["elf", "dokkalfar"].includes(
+    // Only elves, dokkalfar, and half-elves can have combination classes
+    const raceAllowsCombinations = ["elf", "dokkalfar", "half-elf"].includes(
       selectedRace.id
     );
 

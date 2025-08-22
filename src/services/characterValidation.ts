@@ -5,6 +5,7 @@
 
 import type { Character, Race, Class } from "@/types/character";
 import type { ValidationResult } from "@/types/enhanced";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
 import {
   hasValidAbilityScores,
   hasValidHitPoints,
@@ -154,7 +155,7 @@ export class CharacterValidationService {
       this.availableClasses
     );
     if (!hasRequiredSpells) {
-      const isMagicUser = character.class.includes("magic-user");
+      const isMagicUser = character.class.includes(CHARACTER_CLASSES.MAGIC_USER);
       if (isMagicUser) {
         errors.push(
           "Magic-Users must select one first level spell (Read Magic is automatically known)."

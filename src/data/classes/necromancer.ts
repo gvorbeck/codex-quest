@@ -1,20 +1,24 @@
 import type { Class } from "@/types/character";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
-export const magicUser: Class = {
-  name: "Magic-User",
-  id: CHARACTER_CLASSES.MAGIC_USER,
+export const necromancer: Class = {
+  name: "Necromancer",
+  id: CHARACTER_CLASSES.NECROMANCER,
   description:
-    "Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding.",
+    "Necromancers are Magic-Users who practice necromancy, seeking expertise of the darker side of the arcane. They are rare due to the unsavory nature of their profession, often living in proximity to graveyards, burial mounds, and other places associated with the dead.",
   hitDie: "1d4",
   primaryAttribute: "intelligence",
   abilityRequirements: [
     {
       ability: "intelligence",
+      min: 11,
+    },
+    {
+      ability: "wisdom",
       min: 9,
     },
   ],
-  allowedWeapons: ["dagger", "walking-staff"],
+  allowedWeapons: ["dagger", "walking-staff", "sickle", "spade", "scimitar", "scythe"],
   allowedArmor: ["none"],
   spellcasting: {
     spellsPerLevel: {
@@ -44,7 +48,12 @@ export const magicUser: Class = {
     {
       name: "Read Magic",
       description:
-        "A first level Magic-User begins play knowing read magic and one other spell of first level.",
+        "A first level Necromancer begins play knowing read magic and one other spell of first level.",
+    },
+    {
+      name: "Expanded Weapon Selection",
+      description:
+        "In addition to the dagger and walking staff, Necromancers can use sickles, scythes, spades, and scimitars.",
     },
   ],
   experienceTable: {
@@ -69,5 +78,5 @@ export const magicUser: Class = {
     19: 1800000,
     20: 1950000,
   },
-  supplementalContent: false,
+  supplementalContent: true,
 };

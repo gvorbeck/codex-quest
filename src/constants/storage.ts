@@ -9,5 +9,13 @@ export const STORAGE_KEYS = {
   USE_COMBINATION_CLASS: "useCombinationClass",
 } as const;
 
+/**
+ * Cache keys used in data loading
+ */
+export const CACHE_KEYS = {
+  EQUIPMENT_ALL: "equipment-all",
+} as const;
+
 // Type for storage keys to ensure type safety
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
+export type CacheKey = (typeof CACHE_KEYS)[keyof typeof CACHE_KEYS];

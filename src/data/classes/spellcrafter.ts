@@ -1,11 +1,11 @@
 import type { Class } from "@/types/character";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
-export const magicUser: Class = {
-  name: "Magic-User",
-  id: CHARACTER_CLASSES.MAGIC_USER,
+export const spellcrafter: Class = {
+  name: "Spellcrafter",
+  id: CHARACTER_CLASSES.SPELLCRAFTER,
   description:
-    "Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding.",
+    "Spellcrafters are special magicians who are subclass of Magic-Users. They have the same abilities as Magic-Users but with unique focuses on spell creation and modification.",
   hitDie: "1d4",
   primaryAttribute: "intelligence",
   abilityRequirements: [
@@ -44,7 +44,12 @@ export const magicUser: Class = {
     {
       name: "Read Magic",
       description:
-        "A first level Magic-User begins play knowing read magic and one other spell of first level.",
+        "A first level Spellcrafter begins play knowing read magic and one other spell of first level.",
+    },
+    {
+      name: "Spell Research",
+      description:
+        "Spellcrafters have enhanced abilities when it comes to researching and creating new spells.",
     },
   ],
   experienceTable: {
@@ -69,5 +74,5 @@ export const magicUser: Class = {
     19: 1800000,
     20: 1950000,
   },
-  supplementalContent: false,
+  supplementalContent: true,
 };

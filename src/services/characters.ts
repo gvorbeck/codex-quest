@@ -1,6 +1,7 @@
 // Character service for Firebase Firestore operations
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import type { AuthUser } from "./auth";
 import type { Character } from "@/types/character";
 import { processCharacterData, isLegacyCharacter } from "./characterMigration";
@@ -22,7 +23,7 @@ export const getUserCharacters = async (
 ): Promise<CharacterListItem[]> => {
   try {
     // Use the correct Firestore path structure: /users/{userId}/characters
-    const charactersRef = collection(db, "users", user.uid, "characters");
+    const charactersRef = collection(db, FIREBASE_COLLECTIONS.USERS, user.uid, FIREBASE_COLLECTIONS.CHARACTERS);
     const querySnapshot = await getDocs(charactersRef);
 
     const characters: CharacterListItem[] = [];
@@ -41,7 +42,7 @@ export const getUserCharacters = async (
 
       // If this was a legacy character, save the migrated data back to Firebase
       if (wasLegacy) {
-        const docRef = doc(db, "users", user.uid, "characters", docSnapshot.id);
+        const docRef = doc(db, FIREBASE_COLLECTIONS.USERS, user.uid, FIREBASE_COLLECTIONS.CHARACTERS, docSnapshot.id);
         const migrationPromise = setDoc(docRef, processedData).catch((error) => {
           logger.error(`Failed to persist migration for character ${docSnapshot.id}:`, error);
         });
@@ -74,7 +75,7 @@ export const getCharacterById = async (
   characterId: string
 ): Promise<CharacterListItem | null> => {
   try {
-    const characterRef = doc(db, "users", userId, "characters", characterId);
+    const characterRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS, characterId);
     const docSnap = await getDoc(characterRef);
 
     if (docSnap.exists()) {
@@ -126,13 +127,13 @@ export const saveCharacter = async (
     
     if (characterId) {
       // Update existing character
-      const characterRef = doc(db, "users", userId, "characters", characterId);
+      const characterRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS, characterId);
       await setDoc(characterRef, dataToSave);
       logger.info(`Successfully updated character ${characterId}`);
       return characterId;
     } else {
       // Create new character with auto-generated ID
-      const charactersRef = collection(db, "users", userId, "characters");
+      const charactersRef = collection(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS);
       const docRef = doc(charactersRef);
       await setDoc(docRef, dataToSave);
       logger.info(`Successfully created character ${docRef.id}`);

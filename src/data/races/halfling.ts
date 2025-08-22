@@ -7,7 +7,7 @@ export const halfling: Race = {
     "Halflings are typically outgoing, unassuming and good-natured. They are dexterous and nimble, capable of moving quietly and remaining very still. They usually go barefoot.",
   physicalDescription:
     "Halflings are small, slightly stocky folk who stand around three feet tall and weigh about 60 pounds. They have curly brown hair on their heads and feet, but rarely have facial hair. They are usually fair skinned, often with ruddy cheeks. Halflings are remarkably rugged for their small size. They are dexterous and nimble, capable of moving quietly and remaining very still. They usually go barefoot.",
-  allowedClasses: ["cleric", "fighter", "thief"],
+  allowedClasses: ["cleric", "fighter", "thief", "ranger", "scout"],
   abilityRequirements: [
     {
       ability: "dexterity",
@@ -24,16 +24,33 @@ export const halfling: Race = {
       name: "Ranged Weapon Accuracy",
       description:
         "Halflings are unusually accurate with all sorts of ranged weapons, gaining a +1 attack bonus when employing them",
+      effects: {
+        attackBonus: {
+          value: 1,
+          conditions: ["ranged weapons"],
+        },
+      },
     },
     {
       name: "Size Defense Bonus",
       description:
         "When attacked in melee by creatures larger than man-sized, Halflings gain a +2 bonus to their Armor Class",
+      effects: {
+        acBonus: {
+          value: 2,
+          conditions: ["vs creatures larger than man-sized"],
+        },
+      },
     },
     {
       name: "Initiative Bonus",
       description:
         "Halflings are quick-witted, adding +1 to Initiative die rolls",
+      effects: {
+        initiativeBonus: {
+          value: 1,
+        },
+      },
     },
     {
       name: "Forest Hiding",
@@ -54,6 +71,11 @@ export const halfling: Race = {
       name: "Hit Point Restriction",
       description:
         "Halflings never roll larger than six-sided dice (d6) for hit points regardless of class",
+      effects: {
+        hitDiceRestriction: {
+          maxSize: "d6",
+        },
+      },
     },
     {
       name: "Weapon Size Restriction",

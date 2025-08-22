@@ -1,5 +1,6 @@
 // Character migration service for handling legacy data formats
 import { logger } from '@/utils/logger';
+import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from '@/constants/gameData';
 
 const CURRENT_VERSION = 2;
 
@@ -156,9 +157,9 @@ export function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyC
     migrated['equipment'] = migrated['equipment'].map((item: LegacyEquipmentItem) => ({
       name: item.name || "Unknown Item",
       costValue: item.costValue || 0,
-      costCurrency: item.costCurrency || "gp",
+      costCurrency: item.costCurrency || CURRENCY_TYPES.GOLD,
       weight: item.weight || 0,
-      category: item.category || "general-equipment",
+      category: item.category || EQUIPMENT_CATEGORIES.GENERAL,
       amount: item.amount || 1,
       ...item // Preserve other properties
     }));

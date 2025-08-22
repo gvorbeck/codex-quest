@@ -4,31 +4,33 @@
  */
 
 import type { Equipment, Spell } from "@/types/character";
+import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants/gameData";
+import { CACHE_KEYS } from "@/constants/storage";
 
 // Cache for loaded data chunks
 const dataCache = new Map<string, unknown>();
 
-// Equipment categories for chunking
-export const EQUIPMENT_CATEGORIES = {
+// Equipment categories for chunking - using centralized constants
+export const DATA_LOADER_CATEGORIES = {
   WEAPONS: [
-    "swords",
-    "axes",
-    "bows",
-    "daggers",
-    "hammers-and-maces",
-    "chain-and-flail",
-    "spears-and-polearms",
-    "slings-and-hurled-weapons",
-    "other-weapons",
-    "improvised-weapons",
+    EQUIPMENT_CATEGORIES.SWORDS,
+    EQUIPMENT_CATEGORIES.AXES,
+    EQUIPMENT_CATEGORIES.BOWS,
+    EQUIPMENT_CATEGORIES.DAGGERS,
+    EQUIPMENT_CATEGORIES.HAMMERS_AND_MACES,
+    EQUIPMENT_CATEGORIES.CHAIN_AND_FLAIL,
+    EQUIPMENT_CATEGORIES.SPEARS_AND_POLEARMS,
+    EQUIPMENT_CATEGORIES.SLINGS_AND_HURLED_WEAPONS,
+    EQUIPMENT_CATEGORIES.OTHER_WEAPONS,
+    EQUIPMENT_CATEGORIES.IMPROVISED_WEAPONS,
   ],
   ARMOR: ["armor", "shields"],
-  GENERAL: ["general-equipment"],
+  GENERAL: [EQUIPMENT_CATEGORIES.GENERAL],
   AMMUNITION: ["ammunition"],
-  ANIMALS: ["beasts-of-burden", "barding"],
+  ANIMALS: [EQUIPMENT_CATEGORIES.BEASTS_OF_BURDEN, EQUIPMENT_CATEGORIES.BARDING],
 } as const;
 
-export type EquipmentCategory = keyof typeof EQUIPMENT_CATEGORIES;
+export type EquipmentCategory = keyof typeof DATA_LOADER_CATEGORIES;
 
 /**
  * Lazy load equipment data by category
@@ -48,7 +50,7 @@ export async function loadEquipmentByCategory(
 
     // Filter by category
     const categoryItems = (allEquipment as Equipment[]).filter((item) =>
-      (EQUIPMENT_CATEGORIES[category] as readonly string[]).includes(
+      (DATA_LOADER_CATEGORIES[category] as readonly string[]).includes(
         item.category
       )
     );
@@ -66,7 +68,7 @@ export async function loadEquipmentByCategory(
  * Load all equipment data (fallback for when all categories are needed)
  */
 export async function loadAllEquipment(): Promise<Equipment[]> {
-  const cacheKey = "equipment-all";
+  const cacheKey = CACHE_KEYS.EQUIPMENT_ALL;
 
   if (dataCache.has(cacheKey)) {
     return dataCache.get(cacheKey) as Equipment[];
@@ -112,7 +114,7 @@ export async function loadSpellsForClass(
     }
 
     // For magic-users at level 1, exclude Read Magic since they automatically know it
-    if (classId === "magic-user" && level === 1) {
+    if (classId === CHARACTER_CLASSES.MAGIC_USER && level === 1) {
       filteredSpells = filteredSpells.filter(
         (spell) => spell.name !== "Read Magic"
       );
@@ -136,8 +138,8 @@ export async function preloadCriticalData(): Promise<void> {
       loadEquipmentByCategory("WEAPONS"),
       loadEquipmentByCategory("ARMOR"),
       // Load first level spells for common classes
-      loadSpellsForClass("magic-user", 1),
-      loadSpellsForClass("cleric", 1),
+      loadSpellsForClass(CHARACTER_CLASSES.MAGIC_USER, 1),
+      loadSpellsForClass(CHARACTER_CLASSES.CLERIC, 1),
     ]);
   } catch (error) {
     console.error("Failed to preload critical data:", error);

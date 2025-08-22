@@ -2,6 +2,7 @@ import { useRoute } from "wouter";
 import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import {
   Breadcrumb,
   Hero,
@@ -54,9 +55,9 @@ export default function CharacterSheet() {
       // Update Firebase
       const characterRef = doc(
         db,
-        "users",
+        FIREBASE_COLLECTIONS.USERS,
         params.userId,
-        "characters",
+        FIREBASE_COLLECTIONS.CHARACTERS,
         params.characterId
       );
 
@@ -102,9 +103,9 @@ export default function CharacterSheet() {
       try {
         const characterRef = doc(
           db,
-          "users",
+          FIREBASE_COLLECTIONS.USERS,
           params.userId,
-          "characters",
+          FIREBASE_COLLECTIONS.CHARACTERS,
           params.characterId
         );
         const characterSnap = await getDoc(characterRef);

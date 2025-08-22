@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { useLocation } from "wouter";
 import { Stepper, Breadcrumb } from "@/components/ui";
 import AbilityScoreStep from "@/components/features/AbilityScoreStep";
 import RaceStep from "@/components/features/RaceStep";
@@ -6,9 +7,10 @@ import HitPointsStep from "@/components/features/HitPointsStep";
 import EquipmentStep from "@/components/features/EquipmentStep";
 import { ClassStep } from "@/components/features/ClassStep";
 import { ReviewStep } from "@/components/features/ReviewStep";
-import { useCascadeValidation, useLocalStorage } from "@/hooks";
+import { useCascadeValidation, useLocalStorage, useAuth } from "@/hooks";
 import type { Character } from "@/types/character";
 import { CharacterValidationService } from "@/services/characterValidation";
+import { saveCharacter } from "@/services/characters";
 import { STORAGE_KEYS } from "@/constants/storage";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
@@ -59,6 +61,9 @@ const emptyCharacter: Character = {
 };
 
 function CharGen() {
+  const [, setLocation] = useLocation();
+  const { user } = useAuth();
+
   // Use custom localStorage hooks for persistent state management
   const [storedCharacter, setStoredCharacter] = useLocalStorage<Character>(
     STORAGE_KEYS.NEW_CHARACTER,
@@ -125,17 +130,88 @@ function CharGen() {
     }
   }, [character.race, useCombinationClass, setUseCombinationClass]);
 
+  // Constants for step management
+  const TOTAL_STEPS = 6; // Abilities, Race, Class, Hit Points, Equipment, Review
+  const LAST_STEP_INDEX = TOTAL_STEPS - 1; // Review step is index 5 (0-based)
+
+  // Handle completion of character creation
+  const handleNext = useCallback(async () => {
+    const isLastStep = step === LAST_STEP_INDEX;
+
+    if (isLastStep) {
+      // This is the completion step
+      if (!user) {
+        console.error("User not authenticated");
+        return;
+      }
+
+      if (!character.name?.trim()) {
+        console.error("Character name is required");
+        return;
+      }
+
+      try {
+        await saveCharacter(user.uid, character);
+
+        // Clear localStorage
+        localStorage.removeItem(STORAGE_KEYS.NEW_CHARACTER);
+
+        // Navigate to home
+        setLocation("/");
+      } catch (error) {
+        console.error("Failed to save character:", error);
+        // TODO: Show error toast/notification
+      }
+    } else {
+      // Regular next step
+      setStep(step + 1);
+    }
+  }, [step, user, character, setLocation]);
+
   // Memoize validation functions to prevent unnecessary re-computation
   const isNextDisabled = useMemo(() => {
+    const isLastStep = step === LAST_STEP_INDEX;
+
+    if (isLastStep) {
+      // For the completion step, check if user is authenticated and character has a valid name
+      const hasUser = !!user;
+      const hasName = !!character.name?.trim();
+      const disabled = !hasUser || !hasName;
+
+      console.log("Complete button validation:", {
+        step,
+        LAST_STEP_INDEX,
+        isLastStep,
+        hasUser,
+        hasName,
+        characterName: character.name,
+        disabled,
+      });
+
+      return disabled;
+    }
+
     return validationService.isStepDisabled(step, character);
-  }, [validationService, step, character]);
+  }, [validationService, step, character, user]);
 
   const getValidationMessage = useMemo(() => {
-    return validationService.getStepValidationMessage(step, character);
-  }, [validationService, step, character]);
+    const isLastStep = step === LAST_STEP_INDEX;
 
-  const stepItems = useMemo(
-    () => [
+    if (isLastStep) {
+      if (!user) {
+        return "Please sign in to save your character";
+      }
+      if (!character.name?.trim()) {
+        return "Please enter a character name to complete creation";
+      }
+      return null; // No validation message when ready to complete
+    }
+
+    return validationService.getStepValidationMessage(step, character);
+  }, [validationService, step, character, user]);
+
+  const stepItems = useMemo(() => {
+    const items = [
       {
         title: "Abilities",
         content: (
@@ -193,23 +269,34 @@ function CharGen() {
           <ReviewStep character={character} onCharacterChange={setCharacter} />
         ),
       },
-    ],
-    [
-      character,
-      setCharacter,
-      includeSupplementalRace,
-      setIncludeSupplementalRace,
-      includeSupplementalClass,
-      setIncludeSupplementalClass,
-      useCombinationClass,
-      setUseCombinationClass,
-    ]
-  );
+    ];
 
-  const breadcrumbItems = useMemo(() => [
-    { label: "Home", href: "/" },
-    { label: "Character Creation", current: true },
-  ], []);
+    console.log("Step items created:", {
+      totalSteps: items.length,
+      stepTitles: items.map((item) => item.title),
+      currentStep: step,
+    });
+
+    return items;
+  }, [
+    character,
+    setCharacter,
+    includeSupplementalRace,
+    setIncludeSupplementalRace,
+    includeSupplementalClass,
+    setIncludeSupplementalClass,
+    useCombinationClass,
+    setUseCombinationClass,
+    step,
+  ]);
+
+  const breadcrumbItems = useMemo(
+    () => [
+      { label: "Home", href: "/" },
+      { label: "Character Creation", current: true },
+    ],
+    []
+  );
 
   return (
     <article>
@@ -224,6 +311,7 @@ function CharGen() {
           step={step}
           setStep={setStep}
           nextDisabled={isNextDisabled}
+          onNext={handleNext}
           validationMessage={getValidationMessage || ""}
         />
       </section>

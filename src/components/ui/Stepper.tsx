@@ -248,7 +248,7 @@ function Stepper({
 
           <Button
             onClick={() => handleStepChange("next")}
-            disabled={nextDisabled || safeCurrentStep === stepItems.length - 1}
+            disabled={nextDisabled || (safeCurrentStep === stepItems.length - 1 && !onNext)}
             variant="primary"
             size="lg"
             className="w-full sm:w-auto sm:ml-auto whitespace-nowrap"

@@ -2,15 +2,16 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { FIREBASE_ENV_KEYS } from "@/constants/firebase";
 
 // Validate required environment variables
 const requiredEnvVars = [
-  'VITE_FIREBASE_API_KEY',
-  'VITE_FIREBASE_AUTH_DOMAIN',
-  'VITE_FIREBASE_PROJECT_ID',
-  'VITE_FIREBASE_STORAGE_BUCKET',
-  'VITE_FIREBASE_MESSAGING_SENDER_ID',
-  'VITE_FIREBASE_APP_ID',
+  FIREBASE_ENV_KEYS.API_KEY,
+  FIREBASE_ENV_KEYS.AUTH_DOMAIN,
+  FIREBASE_ENV_KEYS.PROJECT_ID,
+  FIREBASE_ENV_KEYS.STORAGE_BUCKET,
+  FIREBASE_ENV_KEYS.MESSAGING_SENDER_ID,
+  FIREBASE_ENV_KEYS.APP_ID,
 ] as const;
 
 requiredEnvVars.forEach(varName => {
@@ -20,13 +21,13 @@ requiredEnvVars.forEach(varName => {
 });
 
 const firebaseConfig = {
-  apiKey: import.meta.env['VITE_FIREBASE_API_KEY'],
-  authDomain: import.meta.env['VITE_FIREBASE_AUTH_DOMAIN'],
-  projectId: import.meta.env['VITE_FIREBASE_PROJECT_ID'],
-  storageBucket: import.meta.env['VITE_FIREBASE_STORAGE_BUCKET'],
-  messagingSenderId: import.meta.env['VITE_FIREBASE_MESSAGING_SENDER_ID'],
-  appId: import.meta.env['VITE_FIREBASE_APP_ID'],
-  measurementId: import.meta.env['VITE_FIREBASE_MEASUREMENT_ID'],
+  apiKey: import.meta.env[FIREBASE_ENV_KEYS.API_KEY],
+  authDomain: import.meta.env[FIREBASE_ENV_KEYS.AUTH_DOMAIN],
+  projectId: import.meta.env[FIREBASE_ENV_KEYS.PROJECT_ID],
+  storageBucket: import.meta.env[FIREBASE_ENV_KEYS.STORAGE_BUCKET],
+  messagingSenderId: import.meta.env[FIREBASE_ENV_KEYS.MESSAGING_SENDER_ID],
+  appId: import.meta.env[FIREBASE_ENV_KEYS.APP_ID],
+  measurementId: import.meta.env[FIREBASE_ENV_KEYS.MEASUREMENT_ID],
 };
 
 // Initialize Firebase
