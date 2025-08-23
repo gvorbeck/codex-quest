@@ -11,6 +11,7 @@ import {
 } from "@/components/ui";
 import AttackBonuses from "@/components/features/AttackBonuses";
 import HitPoints from "@/components/features/HitPoints";
+import SavingThrows from "@/components/features/SavingThrows";
 import CharacterDefense from "@/components/features/CharacterDefense";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -234,6 +235,10 @@ export default function CharacterSheet() {
                   onCurrentHPChange={handleCurrentHPChange}
                   onHPNotesChange={handleHPNotesChange}
                 />
+              </div>
+
+              <div className="break-inside-avoid mb-6">
+                <SavingThrows character={character} />
               </div>
 
               <div className="break-inside-avoid mb-6">
