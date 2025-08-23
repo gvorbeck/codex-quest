@@ -12,7 +12,7 @@ export interface DescriptionItem {
 interface DetailsProps {
   items: DescriptionItem[];
   size?: "sm" | "md" | "lg";
-  layout?: "horizontal" | "vertical";
+  layout?: "horizontal" | "vertical" | "cards";
   title?: ReactNode;
   extra?: ReactNode;
   className?: string;
@@ -83,6 +83,47 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
                   >
                     {item.children}
                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Cards Layout - each item gets its own card
+    if (layout === "cards") {
+      return (
+        <div ref={ref} className={containerClasses}>
+          {/* Header */}
+          {(title || extra) && (
+            <SectionHeader title={title} extra={extra} size={size} />
+          )}
+
+          {/* Cards Layout */}
+          <div className={`${currentSize.container} space-y-4`}>
+            {items.map((item, index) => (
+              <div
+                key={index}
+                className={`
+                  ${DESIGN_TOKENS.effects.roundedSm} p-4
+                  bg-zinc-750/30 border ${DESIGN_TOKENS.colors.border.secondary}
+                  ${DESIGN_TOKENS.effects.transition}
+                  hover:bg-zinc-700/40 hover:border-amber-400/30
+                  group/card
+                `}
+              >
+                {/* Card Header */}
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
+                  <h4 className={`${DESIGN_TOKENS.colors.text.accent} ${currentSize.labelText} font-semibold group-hover/card:text-amber-300 transition-colors duration-200`}>
+                    {item.label}
+                  </h4>
+                </div>
+                
+                {/* Card Content */}
+                <div className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} leading-relaxed`}>
+                  {item.children}
                 </div>
               </div>
             ))}

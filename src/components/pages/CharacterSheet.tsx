@@ -13,6 +13,7 @@ import AttackBonuses from "@/components/features/AttackBonuses";
 import HitPoints from "@/components/features/HitPoints";
 import SavingThrows from "@/components/features/SavingThrows";
 import CharacterDefense from "@/components/features/CharacterDefense";
+import SpecialsRestrictions from "@/components/features/SpecialsRestrictions";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
 import { calculateModifier } from "@/utils/gameUtils";
@@ -247,6 +248,10 @@ export default function CharacterSheet() {
 
               <div className="break-inside-avoid mb-6">
                 <CharacterDefense character={character} />
+              </div>
+
+              <div className="break-inside-avoid mb-6">
+                <SpecialsRestrictions character={character} />
               </div>
             </div>
           </section>
