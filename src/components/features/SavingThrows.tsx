@@ -1,13 +1,17 @@
 import { useMemo } from "react";
 import { Details } from "@/components/ui";
+import CharacterSheetSectionWrapper from "@/components/ui/CharacterSheetSectionWrapper";
+import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
 
 interface SavingThrowsProps {
   character: Character;
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function SavingThrows({ character, className = "" }: SavingThrowsProps) {
+export default function SavingThrows({ character, className = "", size = "md" }: SavingThrowsProps) {
+  const currentSize = SIZE_STYLES[size];
   const savingThrows = useMemo(() => {
     // Base saving throw table for BFRPG classes by level
     const getBaseSavingThrows = (level: number, characterClass: string) => {
@@ -168,11 +172,18 @@ export default function SavingThrows({ character, className = "" }: SavingThrows
   ];
 
   return (
-    <Details
-      title="Saving Throws"
-      items={items}
-      layout="vertical"
+    <CharacterSheetSectionWrapper 
+      title="Saving Throws" 
+      size={size}
       className={className}
-    />
+    >
+      <div className={currentSize.container}>
+        <Details
+          items={items}
+          layout="vertical"
+          size={size}
+        />
+      </div>
+    </CharacterSheetSectionWrapper>
   );
 }

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import NumberInput from "@/components/ui/NumberInput";
 import TextArea from "@/components/ui/TextArea";
-import SectionHeader from "@/components/ui/SectionHeader";
+import CharacterSheetSectionWrapper from "@/components/ui/CharacterSheetSectionWrapper";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
 
@@ -24,20 +24,6 @@ export default function HitPoints({
 }: HitPointsProps) {
   const currentSize = SIZE_STYLES[size];
 
-  const containerClasses = [
-    DESIGN_TOKENS.colors.bg.accent,
-    DESIGN_TOKENS.effects.rounded,
-    "overflow-hidden relative",
-    "border-2",
-    DESIGN_TOKENS.colors.border.primary,
-    DESIGN_TOKENS.effects.shadow,
-    DESIGN_TOKENS.effects.transition,
-    "hover:shadow-[0_6px_0_0_#3f3f46,0_0_25px_rgba(0,0,0,0.4)]",
-    "group",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
 
   // Calculate percentage of current HP to max HP for visual indicator
   const hpPercentage = useMemo(() => {
@@ -69,10 +55,11 @@ export default function HitPoints({
   };
 
   return (
-    <div className={containerClasses}>
-      {/* Header */}
-      <SectionHeader title="Hit Points" size={size} />
-
+    <CharacterSheetSectionWrapper 
+      title="Hit Points" 
+      size={size}
+      className={className}
+    >
       {/* HP Content */}
       <div className={currentSize.container}>
         <div className="space-y-2">
@@ -199,6 +186,6 @@ export default function HitPoints({
           </div>
         </div>
       </div>
-    </div>
+    </CharacterSheetSectionWrapper>
   );
 }

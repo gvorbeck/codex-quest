@@ -1,13 +1,18 @@
 import { useMemo } from "react";
 import { Details } from "@/components/ui";
+import CharacterSheetSectionWrapper from "@/components/ui/CharacterSheetSectionWrapper";
 import { allClasses } from "@/data/classes";
+import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
 
 interface CharacterDefenseProps {
   character: Character;
+  className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function CharacterDefense({ character }: CharacterDefenseProps) {
+export default function CharacterDefense({ character, className = "", size = "md" }: CharacterDefenseProps) {
+  const currentSize = SIZE_STYLES[size];
   // Calculate Armor Class
   const armorClass = useMemo(() => {
     // Check for worn armor
@@ -109,11 +114,18 @@ export default function CharacterDefense({ character }: CharacterDefenseProps) {
   ];
 
   return (
-    <Details
-      title="Defense & Movement"
-      items={detailsItems}
-      layout="vertical"
-      size="md"
-    />
+    <CharacterSheetSectionWrapper 
+      title="Defense & Movement" 
+      size={size}
+      className={className}
+    >
+      <div className={currentSize.container}>
+        <Details
+          items={detailsItems}
+          layout="vertical"
+          size={size}
+        />
+      </div>
+    </CharacterSheetSectionWrapper>
   );
 }

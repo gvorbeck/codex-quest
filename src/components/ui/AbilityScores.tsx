@@ -1,7 +1,7 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { Character } from "@/types/character";
 import NumberInput from "./NumberInput";
-import SectionHeader from "./SectionHeader";
+import CharacterSheetSectionWrapper from "./CharacterSheetSectionWrapper";
 import EditIcon from "./EditIcon";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import { calculateModifier, formatModifier, getAbilityScoreColor } from "@/utils/gameUtils";
@@ -39,20 +39,6 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
       }
     }, [editingAbility]);
 
-    const containerClasses = [
-      DESIGN_TOKENS.colors.bg.accent,
-      DESIGN_TOKENS.effects.rounded,
-      "overflow-hidden relative",
-      "border-2",
-      DESIGN_TOKENS.colors.border.primary,
-      DESIGN_TOKENS.effects.shadow,
-      DESIGN_TOKENS.effects.transition,
-      "hover:shadow-[0_6px_0_0_#3f3f46,0_0_25px_rgba(0,0,0,0.4)]",
-      "group",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
 
 
     const abilities = [
@@ -95,10 +81,12 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
 
 
     return (
-      <div ref={ref} className={containerClasses}>
-        {/* Header */}
-        <SectionHeader title="Ability Scores" size={size} />
-
+      <CharacterSheetSectionWrapper 
+        ref={ref} 
+        title="Ability Scores" 
+        size={size}
+        className={className}
+      >
         {/* Ability Scores Grid */}
         <div className={currentSize.container}>
           <div className={`grid ${currentSize.grid}`}>
@@ -227,7 +215,7 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
             })}
           </div>
         </div>
-      </div>
+      </CharacterSheetSectionWrapper>
     );
   }
 );

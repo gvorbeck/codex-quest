@@ -1,15 +1,19 @@
 import { useMemo } from "react";
 import { Details, InfoTooltip } from "@/components/ui";
+import CharacterSheetSectionWrapper from "@/components/ui/CharacterSheetSectionWrapper";
 import { formatModifier } from "@/utils/gameUtils";
 import { allRaces } from "@/data/races";
+import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character, SpecialAbility } from "@/types/character";
 
 interface AttackBonusesProps {
   character: Character;
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function AttackBonuses({ character, className = "" }: AttackBonusesProps) {
+export default function AttackBonuses({ character, className = "", size = "md" }: AttackBonusesProps) {
+  const currentSize = SIZE_STYLES[size];
   const attackBonuses = useMemo(() => {
     // Base Attack Bonus calculation from BFRPG table
     const getBaseAttackBonus = (level: number, characterClass: string): number => {
@@ -157,12 +161,18 @@ export default function AttackBonuses({ character, className = "" }: AttackBonus
   );
 
   return (
-    <Details
-      title={titleWithTooltip}
-      items={items}
-      layout="vertical"
-      size="md"
+    <CharacterSheetSectionWrapper 
+      title={titleWithTooltip} 
+      size={size}
       className={className}
-    />
+    >
+      <div className={currentSize.container}>
+        <Details
+          items={items}
+          layout="vertical"
+          size={size}
+        />
+      </div>
+    </CharacterSheetSectionWrapper>
   );
 }

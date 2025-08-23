@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import SectionHeader from "./SectionHeader";
+import CharacterSheetSectionWrapper from "./CharacterSheetSectionWrapper";
 import ExperienceTracker from "./ExperienceTracker";
 import InfoTooltip from "./InfoTooltip";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
@@ -29,20 +29,6 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
   ) => {
     const currentSize = SIZE_STYLES[size];
 
-    const containerClasses = [
-      DESIGN_TOKENS.colors.bg.accent,
-      DESIGN_TOKENS.effects.rounded,
-      "overflow-hidden relative",
-      "border-2",
-      DESIGN_TOKENS.colors.border.primary,
-      DESIGN_TOKENS.effects.shadow,
-      DESIGN_TOKENS.effects.transition,
-      "hover:shadow-[0_6px_0_0_#3f3f46,0_0_25px_rgba(0,0,0,0.4)]",
-      "group",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
 
     const titleWithTooltip = (
       <div className="flex items-center gap-2">
@@ -52,10 +38,12 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
     );
 
     return (
-      <div ref={ref} className={containerClasses}>
-        {/* Header */}
-        <SectionHeader title={titleWithTooltip} size={size} />
-
+      <CharacterSheetSectionWrapper 
+        ref={ref} 
+        title={titleWithTooltip} 
+        size={size}
+        className={className}
+      >
         {/* Content */}
         <div className={currentSize.container}>
           {editable ? (
@@ -72,7 +60,7 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
             </div>
           )}
         </div>
-      </div>
+      </CharacterSheetSectionWrapper>
     );
   }
 );

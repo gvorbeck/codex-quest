@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/Tabs";
 import Details, { type DescriptionItem } from "@/components/ui/Details";
-import SectionHeader from "@/components/ui/SectionHeader";
+import CharacterSheetSectionWrapper from "@/components/ui/CharacterSheetSectionWrapper";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
@@ -10,11 +10,13 @@ import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 interface SpecialsRestrictionsProps {
   character: Character;
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 export default function SpecialsRestrictions({ 
   character, 
-  className = "" 
+  className = "",
+  size = "md"
 }: SpecialsRestrictionsProps) {
   const race = useMemo(() => {
     return allRaces.find(r => r.id === character.race?.toLowerCase());
@@ -66,28 +68,14 @@ export default function SpecialsRestrictions({
   }, [classes]);
   
 
-  const currentSize = SIZE_STYLES["md"];
-
-  const containerClasses = [
-    DESIGN_TOKENS.colors.bg.accent,
-    DESIGN_TOKENS.effects.rounded,
-    "overflow-hidden relative",
-    "border-2",
-    DESIGN_TOKENS.colors.border.primary,
-    DESIGN_TOKENS.effects.shadow,
-    DESIGN_TOKENS.effects.transition,
-    "hover:shadow-[0_6px_0_0_#3f3f46,0_0_25px_rgba(0,0,0,0.4)]",
-    "group",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const currentSize = SIZE_STYLES[size];
 
   return (
-    <div className={containerClasses}>
-      {/* Header using SectionHeader component */}
-      <SectionHeader title="Restrictions & Special Abilities" size="md" />
-
+    <CharacterSheetSectionWrapper 
+      title="Restrictions & Special Abilities" 
+      size={size}
+      className={className}
+    >
       {/* Tabs inside the component */}
       <Tabs defaultValue="race" variant="underline">
         <div className="px-6 pt-4 border-b border-zinc-700/50">
@@ -176,6 +164,6 @@ export default function SpecialsRestrictions({
           </TabPanels>
         </div>
       </Tabs>
-    </div>
+    </CharacterSheetSectionWrapper>
   );
 }
