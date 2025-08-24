@@ -136,7 +136,12 @@ export default function Spells({
   }, [character]);
 
   const renderSpell = (spell: DisplayableSpell) => (
-    <div className="space-y-4" role="article">
+    <div className="space-y-4" role="article" aria-labelledby={`spell-${spell.uniqueKey}-name`}>
+      {/* Hidden spell name for screen readers */}
+      <h4 id={`spell-${spell.uniqueKey}-name`} className="sr-only">
+        {spell.name} - {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel} Spell`}
+      </h4>
+      
       {/* Spell Details */}
       <div
         className={`grid grid-cols-1 gap-3 ${
@@ -144,13 +149,20 @@ export default function Spells({
             ? "sm:grid-cols-3"
             : "sm:grid-cols-1"
         }`}
+        role="group"
+        aria-labelledby={`spell-${spell.uniqueKey}-name`}
       >
         <Card variant="nested" className="p-3">
-          <Typography variant="subHeading" className="text-zinc-300 mb-1">
+          <Typography variant="subHeading" className="text-zinc-300 mb-1" id={`spell-${spell.uniqueKey}-level-label`}>
             Level
           </Typography>
           <div className="flex items-center">
-            <Badge variant="status" className="text-xs">
+            <Badge 
+              variant="status" 
+              className="text-xs"
+              role="text"
+              aria-labelledby={`spell-${spell.uniqueKey}-level-label`}
+            >
               {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel}`}
             </Badge>
           </div>
@@ -158,18 +170,26 @@ export default function Spells({
         {"range" in spell && "duration" in spell && (
           <>
             <Card variant="nested" className="p-3">
-              <Typography variant="subHeading" className="text-zinc-300 mb-1">
+              <Typography variant="subHeading" className="text-zinc-300 mb-1" id={`spell-${spell.uniqueKey}-range-label`}>
                 Range
               </Typography>
-              <Typography variant="body" className="text-zinc-400">
+              <Typography 
+                variant="body" 
+                className="text-zinc-400"
+                aria-labelledby={`spell-${spell.uniqueKey}-range-label`}
+              >
                 {"range" in spell ? String(spell.range) : ""}
               </Typography>
             </Card>
             <Card variant="nested" className="p-3">
-              <Typography variant="subHeading" className="text-zinc-300 mb-1">
+              <Typography variant="subHeading" className="text-zinc-300 mb-1" id={`spell-${spell.uniqueKey}-duration-label`}>
                 Duration
               </Typography>
-              <Typography variant="body" className="text-zinc-400">
+              <Typography 
+                variant="body" 
+                className="text-zinc-400"
+                aria-labelledby={`spell-${spell.uniqueKey}-duration-label`}
+              >
                 {"duration" in spell ? String(spell.duration) : ""}
               </Typography>
             </Card>
@@ -179,10 +199,19 @@ export default function Spells({
 
       {/* Spell Description */}
       <Card variant="nested" className="p-3">
-        <Typography variant="subHeading" className="text-zinc-300 mb-2">
+        <Typography 
+          variant="subHeading" 
+          className="text-zinc-300 mb-2"
+          id={`spell-${spell.uniqueKey}-description-label`}
+        >
           Description
         </Typography>
-        <Typography variant="description" className="text-zinc-400">
+        <Typography 
+          variant="description" 
+          className="text-zinc-400"
+          aria-labelledby={`spell-${spell.uniqueKey}-description-label`}
+          role="text"
+        >
           {spell.description}
         </Typography>
       </Card>
@@ -208,6 +237,21 @@ export default function Spells({
             {/* Known Spells */}
             {knownSpells.length > 0 && (
               <section aria-labelledby="known-spells-heading">
+                <Typography
+                  variant="sectionHeading"
+                  id="known-spells-heading"
+                  className="text-zinc-100 flex items-center gap-2"
+                  as="h3"
+                >
+                  <span
+                    className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  Spells
+                  <span className="text-sm font-normal text-zinc-400" aria-label={`${knownSpells.length} spells known`}>
+                    ({knownSpells.length})
+                  </span>
+                </Typography>
                 <Accordion
                   items={knownSpells}
                   sortBy="name"
@@ -223,16 +267,21 @@ export default function Spells({
             {/* Cantrips */}
             {cantrips.length > 0 && (
               <section aria-labelledby="cantrips-heading">
-                <h3
+                <Typography
+                  variant="sectionHeading"
                   id="cantrips-heading"
-                  className="text-xl font-semibold text-zinc-100 mb-4 flex items-center gap-2"
+                  className="text-zinc-100 flex items-center gap-2"
+                  as="h3"
                 >
                   <span
                     className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
                     aria-hidden="true"
                   />
                   Cantrips
-                </h3>
+                  <span className="text-sm font-normal text-zinc-400" aria-label={`${cantrips.length} cantrips known`}>
+                    ({cantrips.length})
+                  </span>
+                </Typography>
 
                 <Accordion
                   items={cantrips}
@@ -248,10 +297,12 @@ export default function Spells({
         ) : (
           <div className="text-center py-8" role="status" aria-live="polite">
             <div className="text-zinc-400 space-y-2">
-              <p className="text-lg">No spells known</p>
-              <p className="text-sm">
+              <Typography variant="body" className="text-lg">
+                No spells known
+              </Typography>
+              <Typography variant="caption" className="text-sm">
                 This character doesn't know any spells yet.
-              </p>
+              </Typography>
             </div>
           </div>
         )}
