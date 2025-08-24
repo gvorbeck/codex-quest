@@ -110,8 +110,8 @@ function createWeightThresholds(
     {
       min: 0,
       max: lightPercentage,
-      textColor: "text-green-400",
-      barColor: "bg-green-500",
+      textColor: "text-lime-400",
+      barColor: "bg-lime-500",
       label: "Lightly Loaded",
     },
   ];
@@ -157,21 +157,28 @@ export default function Weight({
         <div className="space-y-4">
           {/* Current Weight vs Capacity */}
           <div className="text-center">
-            <div 
+            <div
               className="flex items-baseline justify-center gap-2 mb-3"
               role="group"
-              aria-label={`Current weight: ${totalWeight.toFixed(1)} pounds out of ${capacity.heavy} pound maximum capacity`}
+              aria-label={`Current weight: ${totalWeight.toFixed(
+                1
+              )} pounds out of ${capacity.heavy} pound maximum capacity`}
             >
               <span className="text-2xl font-mono font-bold text-zinc-100">
                 {totalWeight.toFixed(1)}
               </span>
-              <span className="text-lg text-zinc-400 font-mono" aria-hidden="true">/</span>
+              <span
+                className="text-lg text-zinc-400 font-mono"
+                aria-hidden="true"
+              >
+                /
+              </span>
               <span className="text-lg font-mono text-zinc-300">
                 {capacity.heavy}
               </span>
               <span className="text-sm text-zinc-500">lbs</span>
             </div>
-            
+
             {/* Load Status with StatusIndicator */}
             <StatusIndicator
               current={totalWeight}
@@ -191,18 +198,16 @@ export default function Weight({
                 {equipmentWeight.toFixed(1)} lbs
               </span>
             </div>
-            
+
             {character.settings?.useCoinWeight && (
               <div className="flex justify-between text-zinc-400">
                 <span>Coins:</span>
-                <span className="font-mono">
-                  {coinWeight.toFixed(1)} lbs
-                </span>
+                <span className="font-mono">{coinWeight.toFixed(1)} lbs</span>
               </div>
             )}
-            
+
             <hr className="border-zinc-600" />
-            
+
             <div className="flex justify-between text-zinc-300 font-semibold">
               <span>Total:</span>
               <span className="font-mono">{totalWeight.toFixed(1)} lbs</span>
