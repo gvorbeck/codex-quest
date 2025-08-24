@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useLocation } from "wouter";
-import { Stepper, Breadcrumb } from "@/components/ui/display";
+import Stepper from "@/components/ui/display/Stepper";
+import { Breadcrumb } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
   AbilityScoreStep,
