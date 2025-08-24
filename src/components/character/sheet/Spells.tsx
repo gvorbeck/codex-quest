@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { Character, Spell } from "@/types/character";
+import type { Character, Spell, Cantrip } from "@/types/character";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Accordion } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
@@ -16,6 +16,14 @@ interface SpellWithLevel extends Spell {
   uniqueKey: string; // Unique identifier for accordion grouping
   [key: string]: unknown;
 }
+
+interface CantripWithLevel extends Cantrip {
+  spellLevel: 0; // Cantrips are always level 0
+  uniqueKey: string;
+  [key: string]: unknown;
+}
+
+type DisplayableSpell = SpellWithLevel | CantripWithLevel;
 
 const READ_MAGIC_SPELL: Spell = {
   name: "Read Magic",
@@ -66,6 +74,17 @@ function canCastSpells(character: Character): boolean {
   });
 }
 
+function getCharacterCantrips(character: Character): CantripWithLevel[] {
+  // Return only the cantrips that the character knows
+  return (character.cantrips || []).map((cantrip, index) => ({
+    ...cantrip,
+    spellLevel: 0 as const,
+    uniqueKey: `cantrip-${cantrip.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")}-${index}`,
+  }));
+}
+
 export default function Spells({
   character,
   className = "",
@@ -107,46 +126,55 @@ export default function Spells({
       }
     });
 
-    // Separate spells and cantrips (0-level spells)
-    const spells = allSpells.filter((spell) => spell.spellLevel > 0);
-    const cantrips = allSpells.filter((spell) => spell.spellLevel === 0);
+    // Get the character's known cantrips
+    const characterCantrips = getCharacterCantrips(character);
 
-    return { knownSpells: spells, cantrips };
+    // Separate spells and cantrips
+    const spells = allSpells.filter((spell) => spell.spellLevel > 0);
+
+    return { knownSpells: spells, cantrips: characterCantrips };
   }, [character]);
 
-  const renderSpell = (spell: SpellWithLevel) => (
-    <div
-      className="space-y-4"
-      role="article"
-    >
+  const renderSpell = (spell: DisplayableSpell) => (
+    <div className="space-y-4" role="article">
       {/* Spell Details */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div
+        className={`grid grid-cols-1 gap-3 ${
+          "range" in spell && "duration" in spell
+            ? "sm:grid-cols-3"
+            : "sm:grid-cols-1"
+        }`}
+      >
         <Card variant="nested" className="p-3">
           <Typography variant="subHeading" className="text-zinc-300 mb-1">
             Level
           </Typography>
           <div className="flex items-center">
             <Badge variant="status" className="text-xs">
-              Level {spell.spellLevel}
+              {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel}`}
             </Badge>
           </div>
         </Card>
-        <Card variant="nested" className="p-3">
-          <Typography variant="subHeading" className="text-zinc-300 mb-1">
-            Range
-          </Typography>
-          <Typography variant="body" className="text-zinc-400">
-            {spell.range}
-          </Typography>
-        </Card>
-        <Card variant="nested" className="p-3">
-          <Typography variant="subHeading" className="text-zinc-300 mb-1">
-            Duration
-          </Typography>
-          <Typography variant="body" className="text-zinc-400">
-            {spell.duration}
-          </Typography>
-        </Card>
+        {"range" in spell && "duration" in spell && (
+          <>
+            <Card variant="nested" className="p-3">
+              <Typography variant="subHeading" className="text-zinc-300 mb-1">
+                Range
+              </Typography>
+              <Typography variant="body" className="text-zinc-400">
+                {"range" in spell ? String(spell.range) : ""}
+              </Typography>
+            </Card>
+            <Card variant="nested" className="p-3">
+              <Typography variant="subHeading" className="text-zinc-300 mb-1">
+                Duration
+              </Typography>
+              <Typography variant="body" className="text-zinc-400">
+                {"duration" in spell ? String(spell.duration) : ""}
+              </Typography>
+            </Card>
+          </>
+        )}
       </div>
 
       {/* Spell Description */}
@@ -184,7 +212,7 @@ export default function Spells({
                   items={knownSpells}
                   sortBy="name"
                   labelProperty="name"
-                  searchPlaceholder="Search spells..."
+                  showSearch={false}
                   renderItem={renderSpell}
                   className="mb-6"
                   showCounts={false}
@@ -204,16 +232,13 @@ export default function Spells({
                     aria-hidden="true"
                   />
                   Cantrips
-                  <span className="text-sm font-normal text-zinc-400">
-                    ({cantrips.length})
-                  </span>
                 </h3>
 
                 <Accordion
                   items={cantrips}
                   sortBy="name"
                   labelProperty="name"
-                  searchPlaceholder="Search cantrips..."
+                  showSearch={false}
                   renderItem={renderSpell}
                   showCounts={false}
                 />

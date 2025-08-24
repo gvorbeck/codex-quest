@@ -2,7 +2,7 @@
 import { logger } from '@/utils/logger';
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from '@/constants/gameData';
 
-const CURRENT_VERSION = 2.1;
+const CURRENT_VERSION = 2.2;
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -73,9 +73,11 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
 
   const hasLegacyClasses = hasLegacyClassNames(data);
 
+  const hasReadMagicSpell = hasReadMagicInSpells(data);
+
   const isNewVersion = data['settings']?.version === CURRENT_VERSION;
   
-  return (hasLegacyAbilities || hasLegacyCurrency || hasLegacyHp || hasLegacyClasses) && !isNewVersion;
+  return (hasLegacyAbilities || hasLegacyCurrency || hasLegacyHp || hasLegacyClasses || hasReadMagicSpell) && !isNewVersion;
 }
 
 /**
@@ -86,6 +88,17 @@ function hasLegacyClassNames(data: LegacyCharacterData): boolean {
   
   // Check if any class has uppercase letters or spaces (indicating it's a name, not an ID)
   return classes.some(cls => typeof cls === 'string' && (/[A-Z]/.test(cls) || /\s/.test(cls)));
+}
+
+/**
+ * Check if character has Read Magic in their spells array (should be removed since it's auto-provided)
+ */
+function hasReadMagicInSpells(data: LegacyCharacterData): boolean {
+  if (!Array.isArray(data['spells'])) return false;
+  
+  return data['spells'].some((spell: unknown) => 
+    spell && typeof spell === 'object' && 'name' in spell && spell.name === 'Read Magic'
+  );
 }
 
 /**
@@ -203,6 +216,19 @@ export function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyC
   
   migrated['level'] = migrated['level'] || 1;
   migrated['xp'] = migrated['xp'] || 0;
+
+  // Remove "Read Magic" from spells array since it's now automatically added for appropriate classes
+  if (Array.isArray(migrated['spells'])) {
+    const originalSpells = migrated['spells'];
+    migrated['spells'] = migrated['spells'].filter((spell: unknown) => 
+      !(spell && typeof spell === 'object' && 'name' in spell && spell.name === 'Read Magic')
+    );
+    
+    // Log spell migration if Read Magic was removed
+    if (originalSpells.length !== (migrated['spells'] as unknown[]).length) {
+      logger.info(`Removed Read Magic from character spells array (now automatically provided)`);
+    }
+  }
 
   // Set version and preserve/create settings
   migrated['settings'] = {

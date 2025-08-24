@@ -19,6 +19,12 @@ export interface Spell {
   description: string;
 }
 
+export interface Cantrip {
+  name: string;
+  classes: string[]; // Classes that can learn this cantrip
+  description: string;
+}
+
 export interface Equipment {
   name: string;
   costValue: number;
@@ -73,6 +79,7 @@ export interface Character {
     desc?: string;
   };
   level: number;
+  cantrips?: Cantrip[]; // Names of cantrips known by the character
   spells?: Spell[]; // Spells known by the character
   languages?: string[]; // Languages known by the character
   avatar?: string; // Avatar image URL or path

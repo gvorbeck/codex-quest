@@ -14,6 +14,7 @@ interface AccordionProps<T extends AccordionItem> {
   renderItem: (item: T, index: number) => React.ReactNode;
   className?: string;
   showCounts?: boolean; // Optional prop to show/hide item counts
+  showSearch?: boolean; // Optional prop to show/hide search bar
 }
 
 interface AccordionSectionProps {
@@ -97,6 +98,7 @@ function Accordion<T extends AccordionItem>({
   renderItem,
   className = "",
   showCounts = true,
+  showSearch = true,
 }: AccordionProps<T>) {
   const accordionId = useId();
   const [searchTerm, setSearchTerm] = useState("");
@@ -169,25 +171,27 @@ function Accordion<T extends AccordionItem>({
   return (
     <div className={`accordion space-y-4 ${className}`}>
       {/* Search/Filter Bar */}
-      <div className="bg-zinc-800 rounded-lg p-4 border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
-        <TextInput
-          value={searchTerm}
-          onChange={handleSearchChange}
-          onClear={handleSearchClear}
-          placeholder={searchPlaceholder}
-          aria-label="Filter accordion items"
-          aria-describedby={`${accordionId}-description`}
-        />
-        <div
-          id={`${accordionId}-description`}
-          aria-live="polite"
-          className="text-sm text-zinc-400 mt-2"
-        >
-          {searchTerm
-            ? `Showing ${totalFilteredCount} items matching "${searchTerm}"`
-            : `${items.length} total items`}
+      {showSearch && (
+        <div className="bg-zinc-800 rounded-lg p-4 border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
+          <TextInput
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onClear={handleSearchClear}
+            placeholder={searchPlaceholder}
+            aria-label="Filter accordion items"
+            aria-describedby={`${accordionId}-description`}
+          />
+          <div
+            id={`${accordionId}-description`}
+            aria-live="polite"
+            className="text-sm text-zinc-400 mt-2"
+          >
+            {searchTerm
+              ? `Showing ${totalFilteredCount} items matching "${searchTerm}"`
+              : `${items.length} total items`}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Accordion Sections */}
       <div role="region" aria-label="Accordion content">
