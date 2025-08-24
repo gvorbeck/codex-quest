@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
-import { Breadcrumb, Hero } from "@/components/ui/display";
+import { Breadcrumb, Hero, HorizontalRule } from "@/components/ui/display";
 import { ExperiencePoints, AbilityScores } from "@/components/character/sheet";
 import { PageWrapper } from "@/components/ui/layout";
 import {
@@ -281,6 +281,9 @@ export default function CharacterSheet() {
             </div>
           </div>
         )} */}
+        
+        {/* Horizontal Rule */}
+        <HorizontalRule />
       </div>
     </PageWrapper>
   );

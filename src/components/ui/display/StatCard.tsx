@@ -1,6 +1,6 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useRef, useEffect } from "react";
 import { EditIcon } from "@/components/ui/display";
-import { EditableValue } from "@/components/ui/inputs";
+import { NumberInput } from "@/components/ui/inputs";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 
 interface StatCardProps {
@@ -53,6 +53,15 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
   }, ref) => {
     const currentSize = SIZE_STYLES[size];
     const [isEditing, setIsEditing] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    // Auto-focus and select when entering edit mode
+    useEffect(() => {
+      if (isEditing && inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.select();
+      }
+    }, [isEditing]);
 
     const handleClick = () => {
       if (editable) {
@@ -76,9 +85,21 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
       onKeyDown?.(e);
     };
 
-    const handleValueChange = (newValue: number) => {
-      onChange?.(newValue);
+    const handleValueChange = (newValue: number | undefined) => {
+      if (newValue !== undefined && onChange) {
+        onChange(newValue);
+      }
       setIsEditing(false);
+    };
+
+    const handleInputBlur = () => {
+      setIsEditing(false);
+    };
+
+    const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter" || event.key === "Escape") {
+        setIsEditing(false);
+      }
     };
 
     return (
@@ -133,16 +154,17 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
               {/* Primary Value - with editing support */}
               {isEditing && onChange ? (
                 <div className="mb-1">
-                  <EditableValue
+                  <NumberInput
+                    ref={inputRef}
                     value={typeof value === 'number' ? value : parseInt(String(value))}
                     onChange={handleValueChange}
+                    onBlur={handleInputBlur}
+                    onKeyDown={handleInputKeyDown}
                     minValue={minValue}
                     maxValue={maxValue}
-                    editable={true}
-                    displayClassName={`${valueColor} ${currentSize.abilityScore} leading-none relative`}
-                    inputClassName="text-center bg-zinc-700 border-amber-400 text-zinc-100"
                     size={size}
-                    ariaLabel={`${fullName || label} value`}
+                    className="text-center bg-zinc-700 border-amber-400 text-zinc-100"
+                    aria-label={`${fullName || label} value`}
                   />
                 </div>
               ) : (
