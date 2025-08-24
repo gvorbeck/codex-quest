@@ -3,11 +3,9 @@ import { TextInput } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
 import { HorizontalRule } from "@/components/ui/display";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
+import { StatGrid } from "@/components/ui/display";
 import { LanguageSelector } from "@/components/character/creation";
 import { AvatarSelector } from "@/components/character/management";
-import {
-  ICON_STYLES,
-} from "@/constants";
 import { useValidation } from "@/hooks";
 import { characterNameSchema } from "@/utils/validationSchemas";
 import { sanitizeCharacterName } from "@/utils/sanitization";
@@ -148,7 +146,7 @@ function ReviewStepComponent({
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                       <svg
-                        className={ICON_STYLES.sm}
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -169,7 +167,7 @@ function ReviewStepComponent({
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                       <svg
-                        className={ICON_STYLES.sm}
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -189,7 +187,7 @@ function ReviewStepComponent({
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                       <svg
-                        className={ICON_STYLES.sm}
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -210,7 +208,7 @@ function ReviewStepComponent({
                     <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                       <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
                         <svg
-                          className={ICON_STYLES.sm}
+                          className="w-4 h-4"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -235,7 +233,7 @@ function ReviewStepComponent({
             <div className="mb-6">
               <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
                 <svg
-                  className={ICON_STYLES.sm}
+                  className="w-4 h-4"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -247,25 +245,15 @@ function ReviewStepComponent({
                 </svg>
                 Ability Scores
               </h6>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                {Object.entries(character.abilities).map(([ability, score]) => (
-                  <div
-                    key={ability}
-                    className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3 text-center"
-                  >
-                    <div className="text-xs text-lime-300 uppercase tracking-wider font-medium mb-1">
-                      {ability.slice(0, 3)}
-                    </div>
-                    <div className="text-lg font-bold text-lime-100">
-                      {score.value}
-                    </div>
-                    <div className="text-xs text-lime-300">
-                      {score.modifier >= 0 ? "+" : ""}
-                      {score.modifier}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <StatGrid
+                stats={Object.entries(character.abilities).map(([ability, score]) => ({
+                  label: ability,
+                  value: score.value,
+                  modifier: score.modifier,
+                }))}
+                variant="ability"
+                columns={{ base: 2, sm: 3, md: 6 }}
+              />
             </div>
 
             {/* Equipment Summary */}
@@ -273,7 +261,7 @@ function ReviewStepComponent({
               <div className="mb-6">
                 <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
                   <svg
-                    className={ICON_STYLES.sm}
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -353,7 +341,7 @@ function ReviewStepComponent({
               <div>
                 <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
                   <svg
-                    className={ICON_STYLES.sm}
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >

@@ -3,10 +3,7 @@ import { Accordion, StepWrapper } from "@/components/ui/layout";
 import { SimpleRoller } from "@/components/ui/display";
 import { Button } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
-import {
-  ICON_STYLES,
-  LAYOUT_STYLES,
-} from "@/constants";
+import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 import { convertToGold, updateCharacterGold } from "@/utils/currency";
@@ -322,23 +319,23 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         <Typography variant="sectionHeading">Starting Gold</Typography>
 
         <Card variant="info" className="mb-6">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-4`}>
-            <svg
-              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <h5 className="font-semibold text-amber-100 m-0">
-              Gold Information
-            </h5>
-          </div>
+          <InfoCardHeader
+            icon={
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            }
+            title="Gold Information"
+            className="mb-4"
+          />
           <p className="text-amber-50 leading-relaxed m-0">
             Roll 3d6 × 10 for your character's starting gold pieces. Use this
             gold to purchase equipment and supplies.
@@ -359,7 +356,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:gap-8">
               <div className="flex items-center gap-2">
                 <svg
-                  className={`${ICON_STYLES.sm} text-lime-400`}
+                  className="w-4 h-4 text-lime-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -376,7 +373,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               {startingGold !== character.currency.gold && (
                 <div className="flex items-center gap-2">
                   <svg
-                    className={`${ICON_STYLES.sm} text-zinc-400`}
+                    className="w-4 h-4 text-zinc-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -495,44 +492,46 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               </div>
 
               {/* Equipment Summary */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                  <Typography variant="subHeadingLime">
-                    <svg
-                      className={ICON_STYLES.sm}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Total Weight
-                  </Typography>
-                  <p className="text-lime-50 font-bold m-0">
-                    {totalWeight} lbs
-                  </p>
-                </div>
-                <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                  <Typography variant="subHeadingLime">
-                    <svg
-                      className={ICON_STYLES.sm}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Total Value
-                  </Typography>
-                  <p className="text-lime-50 font-bold m-0">{totalValue} gp</p>
-                </div>
-              </div>
+              <StatGrid
+                stats={[
+                  {
+                    label: "Total Weight",
+                    value: `${totalWeight} lbs`,
+                    icon: (
+                      <svg
+                        className="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "Total Value",
+                    value: `${totalValue} gp`,
+                    icon: (
+                      <svg
+                        className="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ),
+                  },
+                ]}
+                variant="equipment"
+                columns={{ base: 1, sm: 2 }}
+              />
             </div>
           </Card>
         )}
@@ -543,21 +542,23 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         <Typography variant="sectionHeading">Available Equipment</Typography>
 
         <Card variant="info" className="mb-6">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
-            <svg
-              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <h5 className="font-semibold text-amber-100 m-0">Shopping Guide</h5>
-          </div>
+          <InfoCardHeader
+            icon={
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            }
+            title="Shopping Guide"
+            className="mb-3"
+          />
           <p className="text-amber-50 leading-relaxed m-0">
             Browse and select equipment for your character. Items are organized
             by category.

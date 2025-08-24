@@ -1,11 +1,8 @@
 import { Button, Card, Typography } from "@/components/ui";
 import { SimpleRoller } from "@/components/ui/display";
 import { StepWrapper } from "@/components/ui/layout";
+import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
-import {
-  LAYOUT_STYLES,
-  ICON_STYLES,
-} from "@/constants";
 import type { Character, AbilityScore } from "@/types/character";
 import { memo } from "react";
 import { useValidation } from "@/hooks";
@@ -169,41 +166,32 @@ function AbilityScoreStep({
       {hasRolledScores && (
         <section className="mb-8">
           <Card variant="info" size="compact">
-            <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
-              <svg
-                className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <Typography variant="infoHeading">
-                Ability Scores Summary
-              </Typography>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-              {Object.entries(character.abilities).map(([name, ability]) => (
-                <div key={name} className="text-center">
-                  <div className="text-xs text-amber-200 uppercase tracking-wider font-medium mb-1">
-                    {name.slice(0, 3)}
-                  </div>
-                  <div className="text-lg font-bold text-amber-100">
-                    {ability.value > 0 ? ability.value : "—"}
-                  </div>
-                  {ability.value > 0 && (
-                    <div className="text-xs text-amber-300">
-                      {ability.modifier >= 0 ? "+" : ""}
-                      {ability.modifier}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <InfoCardHeader
+              icon={
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              }
+              title="Ability Scores Summary"
+              className="mb-3"
+            />
+            <StatGrid
+              stats={Object.entries(character.abilities).map(([name, ability]) => ({
+                label: name,
+                value: ability.value,
+                modifier: ability.modifier,
+              }))}
+              variant="summary"
+              columns={{ base: 2, sm: 3, md: 6 }}
+            />
           </Card>
         </section>
       )}
@@ -274,22 +262,22 @@ function AbilityScoreStep({
       {/* Flip Scores Information */}
       {hasRolledScores && (
         <Card variant="info">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
-            <svg
-              className={`${ICON_STYLES.md} text-amber-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <Typography variant="baseSectionHeading" color="amber">
-              Flip Scores Information
-            </Typography>
-          </div>
+          <InfoCardHeader
+            icon={
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            }
+            title="Flip Scores Information"
+            className="mb-3"
+          />
           <Typography variant="descriptionCompact" color="amber">
             You can flip all ability scores by subtracting them from 21. This
             turns low scores into high scores and vice versa. For example, a 15

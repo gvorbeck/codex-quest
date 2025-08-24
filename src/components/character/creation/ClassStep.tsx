@@ -1,6 +1,7 @@
-import { Switch } from "@/components/ui/inputs";
+import { OptionToggle } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
 import { Card } from "@/components/ui/design-system";
+import { RequirementCard } from "@/components/ui/display";
 import {
   StandardClassSelector,
   CombinationClassSelector,
@@ -8,7 +9,6 @@ import {
 } from "@/components/character/creation";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import { LAYOUT_STYLES, ICON_STYLES } from "@/constants";
 import type { Character, Spell } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
 import { memo, useState, useEffect, useMemo } from "react";
@@ -158,10 +158,11 @@ function ClassStepComponent({
         description="Select the class that defines your character's abilities and role."
         statusMessage=""
       >
-        <Card variant="info">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
+        <RequirementCard
+          title="Race Required"
+          message="Please select a race first before choosing a class. Your race determines which classes are available to you."
+          icon={
             <svg
-              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -172,13 +173,8 @@ function ClassStepComponent({
                 clipRule="evenodd"
               />
             </svg>
-            <h4 className="font-semibold text-amber-100 m-0">Race Required</h4>
-          </div>
-          <p className="text-amber-50 m-0">
-            Please select a race first before choosing a class. Your race
-            determines which classes are available to you.
-          </p>
-        </Card>
+          }
+        />
       </StepWrapper>
     );
   }
@@ -198,40 +194,23 @@ function ClassStepComponent({
             <legend className="sr-only">Class selection options</legend>
 
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-base font-semibold text-zinc-100 mb-1">
-                    Content Options
-                  </h4>
-                  <p className="text-sm text-zinc-400">
-                    Include additional classes from supplemental materials
-                  </p>
-                </div>
-                <Switch
-                  label="Include Supplemental Classes"
-                  checked={includeSupplementalClass}
-                  onCheckedChange={onIncludeSupplementalClassChange}
-                />
-              </div>
+              <OptionToggle
+                title="Content Options"
+                description="Include additional classes from supplemental materials"
+                switchLabel="Include Supplemental Classes"
+                checked={includeSupplementalClass}
+                onCheckedChange={onIncludeSupplementalClassChange}
+              />
 
               {canUseCombinationClasses && (
                 <div className="border-t border-zinc-600 pt-6">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h4 className="text-base font-semibold text-zinc-100 mb-1">
-                        Combination Classes
-                      </h4>
-                      <p className="text-sm text-zinc-400">
-                        As an {selectedRace.name}, you can choose a combination
-                        class that combines the abilities of two base classes.
-                      </p>
-                    </div>
-                    <Switch
-                      label="Use Combination Class"
-                      checked={useCombinationClass}
-                      onCheckedChange={handleCombinationToggle}
-                    />
-                  </div>
+                  <OptionToggle
+                    title="Combination Classes"
+                    description={`As an ${selectedRace.name}, you can choose a combination class that combines the abilities of two base classes.`}
+                    switchLabel="Use Combination Class"
+                    checked={useCombinationClass}
+                    onCheckedChange={handleCombinationToggle}
+                  />
                 </div>
               )}
             </div>

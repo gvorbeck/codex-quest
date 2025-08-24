@@ -1,12 +1,9 @@
-import { Switch, Select } from "@/components/ui/inputs";
+import { Select, OptionToggle } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
+import { InfoCardHeader, DetailSection } from "@/components/ui/display";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-import {
-  ICON_STYLES,
-  LAYOUT_STYLES,
-} from "@/constants";
 import type { Character } from "@/types/character";
 import { memo, useMemo } from "react";
 
@@ -88,21 +85,13 @@ function RaceStep({
             <legend className="sr-only">Race selection options</legend>
 
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-base font-semibold text-zinc-100 mb-1">
-                    Content Options
-                  </h4>
-                  <p className="text-sm text-zinc-400">
-                    Include additional races from supplemental materials
-                  </p>
-                </div>
-                <Switch
-                  label="Include Supplemental Content"
-                  checked={includeSupplemental}
-                  onCheckedChange={onIncludeSupplementalChange}
-                />
-              </div>
+              <OptionToggle
+                title="Content Options"
+                description="Include additional races from supplemental materials"
+                switchLabel="Include Supplemental Content"
+                checked={includeSupplemental}
+                onCheckedChange={onIncludeSupplementalChange}
+              />
 
               <div>
                 <Select
@@ -135,27 +124,26 @@ function RaceStep({
 
           <Card variant="info">
             {/* Race Header */}
-            <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
-              <svg
-                className={`${ICON_STYLES.lg} flex-shrink-0 text-amber-400`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path
-                  fillRule="evenodd"
-                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <h5 className="text-xl font-semibold text-amber-100 m-0">
-                {selectedRace.name}
-              </h5>
-              {selectedRace.supplementalContent && (
-                <Badge variant="supplemental">Supplemental</Badge>
-              )}
-            </div>
+            <InfoCardHeader
+              icon={
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              }
+              title={selectedRace.name}
+              iconSize="lg"
+              {...(selectedRace.supplementalContent && { badge: { text: "Supplemental" } })}
+              className="mb-6"
+            />
 
             {/* Race Description */}
             <div className="mb-6">
@@ -167,10 +155,9 @@ function RaceStep({
             {/* Race Information Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Physical Description */}
-              <Card variant="nested">
-                <Typography variant="subHeadingSpaced">
+              <DetailSection
+                icon={
                   <svg
-                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -180,19 +167,19 @@ function RaceStep({
                       clipRule="evenodd"
                     />
                   </svg>
-                  Physical Description
-                </Typography>
+                }
+                title="Physical Description"
+              >
                 <p className="text-amber-50 text-sm leading-relaxed m-0">
                   {selectedRace.physicalDescription}
                 </p>
-              </Card>
+              </DetailSection>
 
               {/* Ability Requirements */}
               {selectedRace.abilityRequirements.length > 0 && (
-                <Card variant="nested">
-                  <Typography variant="subHeadingSpaced">
+                <DetailSection
+                  icon={
                     <svg
-                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -202,8 +189,9 @@ function RaceStep({
                         clipRule="evenodd"
                       />
                     </svg>
-                    Ability Requirements
-                  </Typography>
+                  }
+                  title="Ability Requirements"
+                >
                   <div className="space-y-2">
                     {selectedRace.abilityRequirements.map((req, index) => (
                       <div
@@ -222,22 +210,22 @@ function RaceStep({
                       </div>
                     ))}
                   </div>
-                </Card>
+                </DetailSection>
               )}
 
               {/* Special Abilities */}
               {selectedRace.specialAbilities.length > 0 && (
-                <Card variant="nested">
-                  <Typography variant="subHeadingSpaced">
+                <DetailSection
+                  icon={
                     <svg
-                      className={ICON_STYLES.sm}
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
-                    Special Abilities
-                  </Typography>
+                  }
+                  title="Special Abilities"
+                >
                   <div className="space-y-3">
                     {selectedRace.specialAbilities.map((ability, index) => (
                       <div key={index}>
@@ -250,14 +238,13 @@ function RaceStep({
                       </div>
                     ))}
                   </div>
-                </Card>
+                </DetailSection>
               )}
 
               {/* Allowed Classes */}
-              <Card variant="nested">
-                <Typography variant="subHeadingSpaced">
+              <DetailSection
+                icon={
                   <svg
-                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -268,8 +255,9 @@ function RaceStep({
                     />
                     <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                   </svg>
-                  Allowed Classes
-                </Typography>
+                }
+                title="Allowed Classes"
+              >
                 <div className="flex flex-wrap gap-2">
                   {selectedRace.allowedClasses.map((classId, index) => (
                     <Badge key={index} variant="status">
@@ -277,13 +265,12 @@ function RaceStep({
                     </Badge>
                   ))}
                 </div>
-              </Card>
+              </DetailSection>
 
               {/* Lifespan */}
-              <Card variant="nested">
-                <Typography variant="subHeadingSpaced">
+              <DetailSection
+                icon={
                   <svg
-                    className={ICON_STYLES.sm}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -293,12 +280,13 @@ function RaceStep({
                       clipRule="evenodd"
                     />
                   </svg>
-                  Lifespan
-                </Typography>
+                }
+                title="Lifespan"
+              >
                 <p className="text-amber-50 text-sm m-0">
                   {selectedRace.lifespan}
                 </p>
-              </Card>
+              </DetailSection>
             </div>
           </Card>
         </section>

@@ -1,10 +1,7 @@
 import { Select } from "@/components/ui/inputs";
-import { Card, Typography, Badge } from "@/components/ui/design-system";
+import { Card, Typography } from "@/components/ui/design-system";
+import { InfoCardHeader, DetailSection } from "@/components/ui/display";
 import type { Character, Class } from "@/types/character";
-import {
-  ICON_STYLES,
-  LAYOUT_STYLES,
-} from "@/constants";
 import { memo } from "react";
 
 interface StandardClassSelectorProps {
@@ -51,32 +48,26 @@ function StandardClassSelectorComponent({
             );
             return selectedClass ? (
               <div aria-labelledby="class-info-heading">
-                <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
-                  <svg
-                    className={`${ICON_STYLES.lg} flex-shrink-0 text-amber-400`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                      clipRule="evenodd"
-                    />
-                    <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-                  </svg>
-                  <Typography
-                    variant="infoHeading"
-                    id="class-info-heading"
-                  >
-                    {selectedClass.name}
-                  </Typography>
-                  {selectedClass.supplementalContent && (
-                    <Badge variant="supplemental">
-                      Supplemental
-                    </Badge>
-                  )}
-                </div>
+                <InfoCardHeader
+                  icon={
+                    <svg
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                        clipRule="evenodd"
+                      />
+                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+                    </svg>
+                  }
+                  title={selectedClass.name}
+                  iconSize="lg"
+                  {...(selectedClass.supplementalContent && { badge: { text: "Supplemental" } })}
+                  className="mb-6"
+                />
 
                 <div className="mb-6">
                   <Typography variant="description">
@@ -84,26 +75,25 @@ function StandardClassSelectorComponent({
                   </Typography>
                 </div>
 
-                <div className={LAYOUT_STYLES.infoGrid}>
-                  <Card variant="nested">
-                    <Typography variant="subHeading">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <DetailSection
+                    icon={
                       <svg
-                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Hit Die
-                    </Typography>
+                    }
+                    title="Hit Die"
+                  >
                     <Typography variant="description">
                       {selectedClass.hitDie}
                     </Typography>
-                  </Card>
-                  <Card variant="nested">
-                    <Typography variant="subHeading">
+                  </DetailSection>
+                  <DetailSection
+                    icon={
                       <svg
-                        className={ICON_STYLES.sm}
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -113,12 +103,13 @@ function StandardClassSelectorComponent({
                           clipRule="evenodd"
                         />
                       </svg>
-                      Primary Attribute
-                    </Typography>
+                    }
+                    title="Primary Attribute"
+                  >
                     <Typography variant="description" className="capitalize">
                       {selectedClass.primaryAttribute}
                     </Typography>
-                  </Card>
+                  </DetailSection>
                 </div>
               </div>
             ) : null;

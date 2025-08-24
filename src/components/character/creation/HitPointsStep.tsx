@@ -2,12 +2,9 @@ import React, { useMemo, memo } from "react";
 import { SimpleRoller } from "@/components/ui/display";
 import { Button, Card, Typography } from "@/components/ui";
 import { StepWrapper } from "@/components/ui/layout";
+import { InfoCardHeader, RequirementCard } from "@/components/ui/display";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import {
-  ICON_STYLES,
-  LAYOUT_STYLES,
-} from "@/constants";
 import type { Character } from "@/types/character";
 
 interface HitPointsStepProps {
@@ -207,10 +204,11 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         description="Determine your character's starting hit points based on their class."
         statusMessage=""
       >
-        <Card variant="info">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
+        <RequirementCard
+          title="Class Required"
+          message="Please select a class first to determine your hit points. Your class determines which hit die you use for rolling hit points."
+          icon={
             <svg
-              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -221,13 +219,8 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                 clipRule="evenodd"
               />
             </svg>
-            <h4 className="font-semibold text-amber-100 m-0">Class Required</h4>
-          </div>
-          <Typography variant="description">
-            Please select a class first to determine your hit points. Your class
-            determines which hit die you use for rolling hit points.
-          </Typography>
-        </Card>
+          }
+        />
       </StepWrapper>
     );
   }
@@ -248,23 +241,23 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
       {/* Hit Points Information */}
       <section className="mb-8">
         <Card variant="info">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-4`}>
-            <svg
-              className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <h4 className="font-semibold text-amber-100 m-0">
-              Hit Die Information
-            </h4>
-          </div>
+          <InfoCardHeader
+            icon={
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            }
+            title="Hit Die Information"
+            className="mb-4"
+          />
           <Typography variant="description">
             Roll your starting hit points using your{" "}
             {racialModificationInfo ? "modified" : "class's"} hit die:{" "}
@@ -365,7 +358,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
                 <h6 className="font-semibold mb-2 text-lime-400 flex items-center gap-2">
                   <svg
-                    className={ICON_STYLES.sm}
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -386,7 +379,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
                   <h6 className="font-semibold mb-2 text-lime-400 flex items-center gap-2">
                     <svg
-                      className={ICON_STYLES.sm}
+                      className="w-4 h-4"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
