@@ -12,6 +12,7 @@ import {
   SavingThrows,
   CharacterDefense,
   SpecialsRestrictions,
+  CoinPurse,
 } from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -87,9 +88,9 @@ export default function CharacterSheet() {
         ...character.abilities,
         [abilityKey]: {
           value: value,
-          modifier: calculateModifier(value)
-        }
-      }
+          modifier: calculateModifier(value),
+        },
+      },
     };
 
     handleCharacterChange(updatedCharacter);
@@ -103,8 +104,8 @@ export default function CharacterSheet() {
       ...character,
       hp: {
         ...character.hp,
-        current: value
-      }
+        current: value,
+      },
     };
 
     handleCharacterChange(updatedCharacter);
@@ -117,8 +118,23 @@ export default function CharacterSheet() {
       ...character,
       hp: {
         ...character.hp,
-        desc: value
-      }
+        desc: value,
+      },
+    };
+
+    handleCharacterChange(updatedCharacter);
+  };
+
+  // Handle currency changes
+  const handleCurrencyChange = (updates: Partial<Character["currency"]>) => {
+    if (!character) return;
+
+    const updatedCharacter = {
+      ...character,
+      currency: {
+        ...character.currency,
+        ...updates,
+      },
     };
 
     handleCharacterChange(updatedCharacter);
@@ -205,18 +221,26 @@ export default function CharacterSheet() {
         {/* Main Character Stats Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
           {/* Ability Scores */}
-          <section className="lg:col-span-1" aria-labelledby="ability-scores-heading">
-            <AbilityScores 
-              character={character} 
+          <section
+            className="lg:col-span-1"
+            aria-labelledby="ability-scores-heading"
+          >
+            <AbilityScores
+              character={character}
               editable={!!isOwner}
               onAbilityChange={handleAbilityChange}
             />
           </section>
 
           {/* Experience and Combat Stats */}
-          <section className="lg:col-span-3" aria-labelledby="character-stats-heading">
-            <h2 id="character-stats-heading" className="sr-only">Character Statistics</h2>
-            
+          <section
+            className="lg:col-span-3"
+            aria-labelledby="character-stats-heading"
+          >
+            <h2 id="character-stats-heading" className="sr-only">
+              Character Statistics
+            </h2>
+
             {/* Masonry-style layout for cards */}
             <div className="columns-1 md:columns-2 gap-6 space-y-6 md:space-y-0">
               <div className="break-inside-avoid mb-6">
@@ -229,8 +253,8 @@ export default function CharacterSheet() {
               </div>
 
               <div className="break-inside-avoid mb-6">
-                <HitPoints 
-                  character={character} 
+                <HitPoints
+                  character={character}
                   editable={!!isOwner}
                   onCurrentHPChange={handleCurrentHPChange}
                   onHPNotesChange={handleHPNotesChange}
@@ -254,6 +278,20 @@ export default function CharacterSheet() {
               </div>
             </div>
           </section>
+        </div>
+
+        {/* Horizontal Rule */}
+        <HorizontalRule />
+
+        {/* Additional Components */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="break-inside-avoid">
+            <CoinPurse
+              character={character}
+              editable={!!isOwner}
+              onCurrencyChange={handleCurrencyChange}
+            />
+          </div>
         </div>
 
         {/* Equipment */}
@@ -281,9 +319,6 @@ export default function CharacterSheet() {
             </div>
           </div>
         )} */}
-        
-        {/* Horizontal Rule */}
-        <HorizontalRule />
       </div>
     </PageWrapper>
   );
