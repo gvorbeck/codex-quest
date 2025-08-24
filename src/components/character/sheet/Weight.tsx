@@ -1,6 +1,8 @@
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { StatusIndicator } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
+import type { StatusThreshold } from "@/components/ui/display/StatusIndicator";
 
 interface WeightProps {
   character: Character;
@@ -10,7 +12,7 @@ interface WeightProps {
 
 // Carrying capacity tables based on strength and race
 const CARRYING_CAPACITY = {
-  // Dwarf, Elf, Human
+  // Dwarf, Elf, Human - corrected from BFRPG table
   normal: {
     3: { light: 25, heavy: 60 },
     4: { light: 35, heavy: 90 },
@@ -82,17 +84,32 @@ function calculateTotalWeight(character: Character): number {
   return equipmentWeight + coinWeight;
 }
 
-function getLoadStatus(currentWeight: number, lightCapacity: number, heavyCapacity: number): {
-  status: 'light' | 'heavy' | 'overloaded';
-  color: string;
-} {
-  if (currentWeight <= lightCapacity) {
-    return { status: 'light', color: 'text-green-400' };
-  } else if (currentWeight <= heavyCapacity) {
-    return { status: 'heavy', color: 'text-yellow-400' };
-  } else {
-    return { status: 'overloaded', color: 'text-red-400' };
-  }
+function createWeightThresholds(lightCapacity: number, heavyCapacity: number): StatusThreshold[] {
+  const lightPercentage = (lightCapacity / heavyCapacity) * 100;
+  
+  return [
+    {
+      min: 100.1,
+      max: Infinity,
+      textColor: "text-red-400",
+      barColor: "bg-red-500",
+      label: "Overloaded",
+    },
+    {
+      min: lightPercentage,
+      max: 100.1,
+      textColor: "text-yellow-400",
+      barColor: "bg-yellow-500",
+      label: "Heavily Loaded",
+    },
+    {
+      min: 0,
+      max: lightPercentage,
+      textColor: "text-green-400",
+      barColor: "bg-green-500",
+      label: "Lightly Loaded",
+    },
+  ];
 }
 
 export default function Weight({
@@ -103,18 +120,7 @@ export default function Weight({
   const currentSize = SIZE_STYLES[size];
   const totalWeight = calculateTotalWeight(character);
   const capacity = getCarryingCapacity(character.race, character.abilities.strength.value);
-  const loadStatus = getLoadStatus(totalWeight, capacity.light, capacity.heavy);
-
-  const getStatusText = () => {
-    switch (loadStatus.status) {
-      case 'light':
-        return 'Lightly Loaded';
-      case 'heavy':
-        return 'Heavily Loaded';
-      case 'overloaded':
-        return 'Overloaded';
-    }
-  };
+  const weightThresholds = createWeightThresholds(capacity.light, capacity.heavy);
 
   return (
     <CharacterSheetSectionWrapper
@@ -126,7 +132,7 @@ export default function Weight({
         <div className="space-y-4">
           {/* Current Weight vs Capacity */}
           <div className="text-center">
-            <div className="flex items-baseline justify-center gap-2 mb-2">
+            <div className="flex items-baseline justify-center gap-2 mb-3">
               <span className="text-2xl font-mono font-bold text-zinc-100">
                 {totalWeight.toFixed(1)}
               </span>
@@ -137,10 +143,14 @@ export default function Weight({
               <span className="text-sm text-zinc-500">lbs</span>
             </div>
             
-            {/* Load Status */}
-            <div className={`font-semibold text-sm ${loadStatus.color}`}>
-              {getStatusText()}
-            </div>
+            {/* Load Status with StatusIndicator */}
+            <StatusIndicator
+              current={totalWeight}
+              max={capacity.heavy}
+              thresholds={weightThresholds}
+              showBar={true}
+              showLabel={true}
+            />
           </div>
 
           {/* Weight Breakdown */}
@@ -181,30 +191,6 @@ export default function Weight({
             </div>
           </div>
 
-          {/* Visual Weight Bar */}
-          <div className="w-full bg-zinc-700 rounded-full h-2">
-            <div className="relative h-full">
-              {/* Light capacity zone */}
-              <div
-                className="absolute left-0 top-0 h-full bg-green-500/50 rounded-full"
-                style={{ width: `${Math.min(100, (capacity.light / capacity.heavy) * 100)}%` }}
-              />
-              
-              {/* Current weight indicator */}
-              <div
-                className={`absolute top-0 h-full rounded-full transition-all duration-300 ${
-                  loadStatus.status === 'light' ? 'bg-green-400' :
-                  loadStatus.status === 'heavy' ? 'bg-yellow-400' : 'bg-red-400'
-                }`}
-                style={{ width: `${Math.min(100, (totalWeight / capacity.heavy) * 100)}%` }}
-              />
-              
-              {/* Overload indicator */}
-              {totalWeight > capacity.heavy && (
-                <div className="absolute right-0 top-0 w-1 h-full bg-red-500 rounded-full" />
-              )}
-            </div>
-          </div>
         </div>
       </div>
     </CharacterSheetSectionWrapper>
