@@ -1,10 +1,11 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
 import type { Character } from "@/types/character";
-import { AvatarChangeModal } from "@/components/character/management";
+import { AvatarChangeModal, SettingsModal } from "@/components/character/management";
 import { TextInput } from "@/components/ui/inputs";
 import { Details } from "@/components/ui/display";
 import EditIcon from "./EditIcon";
+import SettingsIcon from "./SettingsIcon";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -16,6 +17,7 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {
 const Hero = forwardRef<HTMLDivElement, HeroProps>(
   ({ character, size = "md", className = "", editable = false, onCharacterChange, ...props }, ref) => {
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(character.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
@@ -120,11 +122,29 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
       <>
         <div
           ref={ref}
-          className={containerClasses}
+          className={`${containerClasses} relative`}
           role="banner"
           aria-labelledby="hero-character-name"
           {...props}
         >
+          {/* Settings Button - Top Right Corner */}
+          {editable && onCharacterChange && (
+            <button
+              onClick={() => setIsSettingsModalOpen(true)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setIsSettingsModalOpen(true);
+                }
+              }}
+              className="absolute top-4 right-4 p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80 border border-zinc-600 rounded-lg transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
+              aria-label="Open character settings"
+              title="Settings"
+            >
+              <SettingsIcon className="w-5 h-5 text-zinc-300 group-hover:text-zinc-100 group-focus:text-zinc-100" />
+            </button>
+          )}
+
           <div className={`flex items-center ${currentSize.gap}`}>
             {/* Avatar with edit functionality */}
             <div className="relative group">
@@ -274,6 +294,14 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
             onClose={() => setIsAvatarModalOpen(false)}
             character={character}
             onCharacterChange={onCharacterChange}
+          />
+        )}
+
+        {/* Settings Modal */}
+        {editable && onCharacterChange && (
+          <SettingsModal
+            isOpen={isSettingsModalOpen}
+            onClose={() => setIsSettingsModalOpen(false)}
           />
         )}
       </>
