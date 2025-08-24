@@ -64,8 +64,11 @@ function getCarryingCapacity(race: string, strengthScore: number) {
 }
 
 function calculateTotalWeight(character: Character): number {
-  // Calculate equipment weight
+  // Calculate equipment weight (excluding beasts of burden which don't count as carried weight)
   const equipmentWeight = character.equipment.reduce((total, item) => {
+    if (item.category === "beasts-of-burden") {
+      return total; // Beasts of burden don't add to carried weight
+    }
     return total + item.weight * item.amount;
   }, 0);
 
@@ -84,6 +87,27 @@ function calculateTotalWeight(character: Character): number {
   }
 
   return equipmentWeight + coinWeight;
+}
+
+function calculateBeastCapacity(character: Character): {
+  lightCapacity: number;
+  heavyCapacity: number;
+} {
+  return character.equipment.reduce(
+    (total, item) => {
+      if (item.category === "beasts-of-burden" && item.amount > 0) {
+        const lightCap = (item.lowCapacity || 0) * item.amount;
+        const heavyCap = (item.capacity || 0) * item.amount;
+        
+        return {
+          lightCapacity: total.lightCapacity + lightCap,
+          heavyCapacity: total.heavyCapacity + heavyCap,
+        };
+      }
+      return total;
+    },
+    { lightCapacity: 0, heavyCapacity: 0 }
+  );
 }
 
 function createWeightThresholds(
@@ -124,18 +148,31 @@ export default function Weight({
 }: WeightProps) {
   const currentSize = SIZE_STYLES[size];
   const totalWeight = calculateTotalWeight(character);
-  const capacity = getCarryingCapacity(
+  const pcCapacity = getCarryingCapacity(
     character.race,
     character.abilities.strength.value
   );
+  const beastCapacity = calculateBeastCapacity(character);
+  
+  // Combined capacity (PC + beasts of burden)
+  const totalCapacity = {
+    light: pcCapacity.light + beastCapacity.lightCapacity,
+    heavy: pcCapacity.heavy + beastCapacity.heavyCapacity,
+  };
+  
   const weightThresholds = createWeightThresholds(
-    capacity.light,
-    capacity.heavy
+    totalCapacity.light,
+    totalCapacity.heavy
   );
 
   // Calculate breakdown for display
   const equipmentWeight = character.equipment.reduce(
-    (total, item) => total + item.weight * item.amount,
+    (total, item) => {
+      if (item.category === "beasts-of-burden") {
+        return total; // Don't count beasts in equipment weight
+      }
+      return total + item.weight * item.amount;
+    },
     0
   );
   const coinWeight = character.settings?.useCoinWeight
@@ -146,6 +183,11 @@ export default function Weight({
         (character.currency.platinum || 0)) /
       20
     : 0;
+
+  // Check if character has any beasts of burden
+  const hasBeasts = character.equipment.some(
+    (item) => item.category === "beasts-of-burden" && item.amount > 0
+  );
 
   return (
     <CharacterSheetSectionWrapper
@@ -162,7 +204,7 @@ export default function Weight({
               role="group"
               aria-label={`Current weight: ${totalWeight.toFixed(
                 1
-              )} pounds out of ${capacity.heavy} pound maximum capacity`}
+              )} pounds out of ${totalCapacity.heavy} pound maximum capacity`}
             >
               <span className="text-2xl font-mono font-bold text-zinc-100">
                 {totalWeight.toFixed(1)}
@@ -174,7 +216,7 @@ export default function Weight({
                 /
               </span>
               <span className="text-lg font-mono text-zinc-300">
-                {capacity.heavy}
+                {totalCapacity.heavy}
               </span>
               <span className="text-sm text-zinc-500">lbs</span>
             </div>
@@ -182,7 +224,7 @@ export default function Weight({
             {/* Load Status with StatusIndicator */}
             <StatusIndicator
               current={totalWeight}
-              max={capacity.heavy}
+              max={totalCapacity.heavy}
               thresholds={weightThresholds}
               showBar={true}
               showLabel={true}
@@ -216,14 +258,52 @@ export default function Weight({
 
           {/* Capacity Indicators */}
           <div className="space-y-1 text-xs">
-            <div className="flex justify-between text-zinc-400">
-              <span>Light Load:</span>
-              <span className="font-mono">{capacity.light} lbs</span>
-            </div>
-            <div className="flex justify-between text-zinc-400">
-              <span>Heavy Load:</span>
-              <span className="font-mono">{capacity.heavy} lbs</span>
-            </div>
+            {hasBeasts ? (
+              <>
+                {/* PC Capacity */}
+                <div className="flex justify-between text-zinc-400">
+                  <span>PC Light Load:</span>
+                  <span className="font-mono">{pcCapacity.light} lbs</span>
+                </div>
+                <div className="flex justify-between text-zinc-400">
+                  <span>PC Heavy Load:</span>
+                  <span className="font-mono">{pcCapacity.heavy} lbs</span>
+                </div>
+                
+                {/* Beast Capacity */}
+                <div className="flex justify-between text-zinc-400">
+                  <span>Animal Light Load:</span>
+                  <span className="font-mono">{beastCapacity.lightCapacity} lbs</span>
+                </div>
+                <div className="flex justify-between text-zinc-400">
+                  <span>Animal Heavy Load:</span>
+                  <span className="font-mono">{beastCapacity.heavyCapacity} lbs</span>
+                </div>
+                
+                <hr className="border-zinc-600" />
+                
+                {/* Total Capacity */}
+                <div className="flex justify-between text-zinc-300 font-semibold">
+                  <span>Total Light Load:</span>
+                  <span className="font-mono">{totalCapacity.light} lbs</span>
+                </div>
+                <div className="flex justify-between text-zinc-300 font-semibold">
+                  <span>Total Heavy Load:</span>
+                  <span className="font-mono">{totalCapacity.heavy} lbs</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex justify-between text-zinc-400">
+                  <span>Light Load:</span>
+                  <span className="font-mono">{pcCapacity.light} lbs</span>
+                </div>
+                <div className="flex justify-between text-zinc-400">
+                  <span>Heavy Load:</span>
+                  <span className="font-mono">{pcCapacity.heavy} lbs</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
