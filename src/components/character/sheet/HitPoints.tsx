@@ -78,12 +78,12 @@ export default function HitPoints({
                 </div>
               )}
 
-              {/* Status Indicator */}
+              {/* Status Bar only */}
               <StatusIndicator
                 current={character.hp.current}
                 max={character.hp.max}
                 showBar={true}
-                showLabel={true}
+                showLabel={false}
               />
             </div>
           </div>
@@ -117,6 +117,15 @@ export default function HitPoints({
               )
             )}
           </div>
+
+          {/* HP Status Text - positioned at bottom like original */}
+          <StatusIndicator
+            current={character.hp.current}
+            max={character.hp.max}
+            showBar={false}
+            showLabel={true}
+            className="text-center"
+          />
         </div>
       </div>
     </CharacterSheetSectionWrapper>
