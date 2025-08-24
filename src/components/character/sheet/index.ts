@@ -8,3 +8,4 @@ export { default as AttackBonuses } from "./AttackBonuses";
 export { default as SavingThrows } from "./SavingThrows";
 export { default as SpecialsRestrictions } from "./SpecialsRestrictions";
 export { default as CoinPurse } from "./CoinPurse";
+export { default as Weight } from "./Weight";

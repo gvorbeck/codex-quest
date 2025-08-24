@@ -13,6 +13,7 @@ import {
   CharacterDefense,
   SpecialsRestrictions,
   CoinPurse,
+  Weight,
 } from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -290,6 +291,11 @@ export default function CharacterSheet() {
               character={character}
               editable={!!isOwner}
               onCurrencyChange={handleCurrencyChange}
+            />
+          </div>
+          <div className="break-inside-avoid">
+            <Weight
+              character={character}
             />
           </div>
         </div>

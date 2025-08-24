@@ -102,11 +102,11 @@ export default function CoinPurse({
   const currentSize = SIZE_STYLES[size];
 
   const currencies = [
-    { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp' },
-    { key: 'gold' as const, label: 'Gold', abbrev: 'gp' },
-    { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep' },
-    { key: 'silver' as const, label: 'Silver', abbrev: 'sp' },
-    { key: 'copper' as const, label: 'Copper', abbrev: 'cp' },
+    { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp', color: 'from-slate-300 to-slate-500', ring: 'ring-slate-400/30', icon: '⚪' },
+    { key: 'gold' as const, label: 'Gold', abbrev: 'gp', color: 'from-yellow-300 to-yellow-600', ring: 'ring-yellow-400/30', icon: '🟡' },
+    { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep', color: 'from-amber-200 to-amber-500', ring: 'ring-amber-400/30', icon: '🟠' },
+    { key: 'silver' as const, label: 'Silver', abbrev: 'sp', color: 'from-gray-200 to-gray-400', ring: 'ring-gray-400/30', icon: '⚫' },
+    { key: 'copper' as const, label: 'Copper', abbrev: 'cp', color: 'from-orange-400 to-orange-700', ring: 'ring-orange-400/30', icon: '🟤' },
   ];
 
   const handleCurrencyChange = (currencyType: keyof Character["currency"]) => (value: number | undefined) => {
@@ -125,33 +125,63 @@ export default function CoinPurse({
     >
       <div className={currentSize.container}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {currencies.map(({ key, label, abbrev }) => {
+          {currencies.map(({ key, label, abbrev, color, ring, icon }) => {
             const value = character.currency[key] || 0;
             
             return (
-              <div key={key} className="flex flex-col">
-                <label 
-                  htmlFor={`currency-${key}`}
-                  className="text-xs font-medium text-zinc-300 mb-1"
-                >
-                  {label} ({abbrev})
-                </label>
-                {editable ? (
-                  <NumberInput
-                    id={`currency-${key}`}
-                    value={value}
-                    onChange={handleCurrencyChange(key)}
-                    minValue={0}
-                    size="sm"
-                    className="text-center font-mono"
-                    aria-label={`${label} pieces`}
-                    placeholder="0"
-                  />
-                ) : (
-                  <div className="bg-zinc-800 border-2 border-zinc-600 rounded-lg px-3 py-2 text-sm min-h-[36px] flex items-center justify-center font-mono text-zinc-100">
-                    {value}
+              <div key={key} className={`relative group transition-all duration-200 hover:scale-105`}>
+                {/* Coin-themed container with gradient background */}
+                <div className={`
+                  bg-gradient-to-br ${color} 
+                  rounded-xl p-[2px] shadow-lg
+                  ring-2 ${ring}
+                  group-hover:ring-4 group-hover:shadow-xl
+                  transition-all duration-200
+                `}>
+                  <div className="bg-zinc-900/80 backdrop-blur-sm rounded-[10px] p-3">
+                    {/* Header with coin icon and label */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg leading-none" role="img" aria-hidden="true">
+                        {icon}
+                      </span>
+                      <label 
+                        htmlFor={`currency-${key}`}
+                        className="text-xs font-semibold text-white drop-shadow-sm"
+                      >
+                        {label}
+                      </label>
+                      <span className="text-[10px] font-mono text-zinc-300 ml-auto">
+                        {abbrev}
+                      </span>
+                    </div>
+                    
+                    {/* Value input/display */}
+                    {editable ? (
+                      <NumberInput
+                        id={`currency-${key}`}
+                        value={value}
+                        onChange={handleCurrencyChange(key)}
+                        minValue={0}
+                        size="sm"
+                        className="text-center font-mono !bg-zinc-800/90 !border-zinc-600/50 hover:!border-zinc-500 focus:!bg-zinc-700/90"
+                        aria-label={`${label} pieces`}
+                        placeholder="0"
+                      />
+                    ) : (
+                      <div className="bg-zinc-800/90 border-2 border-zinc-600/50 rounded-lg px-3 py-2 text-sm min-h-[36px] flex items-center justify-center font-mono text-zinc-100 shadow-inner">
+                        {value.toLocaleString()}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
+                
+                {/* Subtle shimmer effect on hover */}
+                <div className={`
+                  absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 
+                  bg-gradient-to-r from-transparent via-white/10 to-transparent
+                  animate-pulse transition-opacity duration-300
+                  pointer-events-none
+                `} />
               </div>
             );
           })}
