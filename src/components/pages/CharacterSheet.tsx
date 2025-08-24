@@ -3,17 +3,16 @@ import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
+import { Breadcrumb, Hero } from "@/components/ui/display";
+import { ExperiencePoints, AbilityScores } from "@/components/character/sheet";
+import { PageWrapper } from "@/components/ui/layout";
 import {
-  Breadcrumb,
-  Hero,
-  ExperiencePoints,
-  AbilityScores,
-} from "@/components/ui";
-import AttackBonuses from "@/components/features/AttackBonuses";
-import HitPoints from "@/components/features/HitPoints";
-import SavingThrows from "@/components/features/SavingThrows";
-import CharacterDefense from "@/components/features/CharacterDefense";
-import SpecialsRestrictions from "@/components/features/SpecialsRestrictions";
+  AttackBonuses,
+  HitPoints,
+  SavingThrows,
+  CharacterDefense,
+  SpecialsRestrictions,
+} from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
 import { calculateModifier } from "@/utils/gameUtils";
@@ -188,7 +187,7 @@ export default function CharacterSheet() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <PageWrapper>
       <header className="mb-8">
         <Breadcrumb items={breadcrumbItems} className="mb-4" />
       </header>
@@ -283,6 +282,6 @@ export default function CharacterSheet() {
           </div>
         )} */}
       </div>
-    </div>
+    </PageWrapper>
   );
 }

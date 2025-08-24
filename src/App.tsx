@@ -1,7 +1,8 @@
 import { Link, Route, Switch } from "wouter";
 import { Suspense, lazy, useEffect, useState } from "react";
 import "./App.css";
-import { ErrorBoundary, Button } from "@/components/ui";
+import { ErrorBoundary } from "@/components/ui/feedback";
+import { Button } from "@/components/ui";
 import { useAuth } from "@/hooks";
 import { preloadCriticalData } from "@/services/dataLoader";
 import { signOut } from "@/services/auth";

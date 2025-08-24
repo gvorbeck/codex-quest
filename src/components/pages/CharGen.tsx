@@ -1,12 +1,15 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useLocation } from "wouter";
-import { Stepper, Breadcrumb } from "@/components/ui";
-import AbilityScoreStep from "@/components/features/AbilityScoreStep";
-import RaceStep from "@/components/features/RaceStep";
-import HitPointsStep from "@/components/features/HitPointsStep";
-import EquipmentStep from "@/components/features/EquipmentStep";
-import { ClassStep } from "@/components/features/ClassStep";
-import { ReviewStep } from "@/components/features/ReviewStep";
+import { Stepper, Breadcrumb } from "@/components/ui/display";
+import { PageWrapper } from "@/components/ui/layout";
+import {
+  AbilityScoreStep,
+  RaceStep,
+  HitPointsStep,
+  EquipmentStep,
+  ClassStep,
+  ReviewStep,
+} from "@/components/character/creation";
 import { useCascadeValidation, useLocalStorage, useAuth } from "@/hooks";
 import type { Character } from "@/types/character";
 import { CharacterValidationService } from "@/services/characterValidation";
@@ -299,23 +302,25 @@ function CharGen() {
   );
 
   return (
-    <article>
-      <header className="mb-6">
-        <Breadcrumb items={breadcrumbItems} className="mb-4" />
-        <h2>Character Creation</h2>
-      </header>
+    <PageWrapper>
+      <article>
+        <header className="mb-6">
+          <Breadcrumb items={breadcrumbItems} className="mb-4" />
+          <h2>Character Creation</h2>
+        </header>
 
-      <section aria-label="Character creation wizard">
-        <Stepper
-          stepItems={stepItems}
-          step={step}
-          setStep={setStep}
-          nextDisabled={isNextDisabled}
-          onNext={handleNext}
-          validationMessage={getValidationMessage || ""}
-        />
-      </section>
-    </article>
+        <section aria-label="Character creation wizard">
+          <Stepper
+            stepItems={stepItems}
+            step={step}
+            setStep={setStep}
+            nextDisabled={isNextDisabled}
+            onNext={handleNext}
+            validationMessage={getValidationMessage || ""}
+          />
+        </section>
+      </article>
+    </PageWrapper>
   );
 }
 

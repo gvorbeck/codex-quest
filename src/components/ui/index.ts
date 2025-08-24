@@ -1,27 +1,6 @@
 // UI Components - Reusable components
-export { default as AbilityScores } from "./AbilityScores";
-export { default as Accordion } from "./Accordion";
-export { default as Breadcrumb } from "./Breadcrumb";
-export { default as Button } from "./Button";
-export { default as Callout } from "./Callout";
-export { default as Details } from "./Details";
-export { default as EditIcon } from "./EditIcon";
-export { ErrorBoundary } from "./ErrorBoundary";
-export { default as ExperienceTracker } from "./ExperienceTracker";
-export { default as ExperiencePoints } from "./ExperiencePoints";
-export { default as SectionHeader } from "./SectionHeader";
-export { default as FileUpload } from "./FileUpload";
-export { default as Hero } from "./Hero";
-export { default as HorizontalRule } from "./HorizontalRule";
-export { default as InfoTooltip } from "./InfoTooltip";
-export { default as Modal } from "./Modal";
-export { default as NumberInput } from "./NumberInput";
-export { default as Select } from "./Select";
-export { default as SimpleRoller } from "./SimpleRoller";
-export { default as Stepper } from "./Stepper";
-export { default as StepWrapper } from "./StepWrapper";
-export { default as Switch } from "./Switch";
-export { Tabs, TabList, Tab, TabPanels, TabPanel } from "./Tabs";
-export { default as TextArea } from "./TextArea";
-export { default as TextInput } from "./TextInput";
-export { default as Tooltip } from "./Tooltip";
+// Re-export from subdirectories for backward compatibility and clean imports
+export * from "./inputs";
+export * from "./feedback";
+export * from "./layout";
+export * from "./display";

@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Button, TextInput, Modal } from "@/components/ui";
+import { Button } from "@/components/ui";
+import { TextInput } from "@/components/ui/inputs";
+import { Modal } from "@/components/ui/feedback";
 import { signInWithEmail } from "@/services/auth";
 
 interface SignInModalProps {
