@@ -1,6 +1,5 @@
 // Display Components - Information display and navigation
 export { default as Breadcrumb } from "./Breadcrumb";
-export { default as Hero } from "./Hero";
 export { default as HorizontalRule } from "./HorizontalRule";
 export { default as SectionHeader } from "./SectionHeader";
 export { default as Stepper } from "./Stepper";
@@ -9,7 +8,10 @@ export { default as EditIcon } from "./EditIcon";
 export { default as SettingsIcon } from "./SettingsIcon";
 export { default as SimpleRoller } from "./SimpleRoller";
 export { default as StatCard } from "./StatCard";
-export { default as StatusIndicator, type StatusThreshold } from "./StatusIndicator";
+export {
+  default as StatusIndicator,
+  type StatusThreshold,
+} from "./StatusIndicator";
 
 // Character Creation Abstractions
 export { InfoCardHeader } from "./InfoCardHeader";

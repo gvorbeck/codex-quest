@@ -3,8 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
-import { Breadcrumb, Hero, HorizontalRule } from "@/components/ui/display";
-import { ExperiencePoints, AbilityScores } from "@/components/character/sheet";
+import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
   AttackBonuses,
@@ -15,6 +14,9 @@ import {
   CoinPurse,
   Weight,
   Spells,
+  ExperiencePoints,
+  AbilityScores,
+  Hero,
 } from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -182,7 +184,7 @@ export default function CharacterSheet() {
 
   if (loading) {
     return (
-      <div className="text-center py-8" role="status" aria-live="polite">
+      <div className="status-message" role="status" aria-live="polite">
         <p className="text-zinc-400">Loading character...</p>
       </div>
     );
@@ -190,7 +192,7 @@ export default function CharacterSheet() {
 
   if (error) {
     return (
-      <div className="text-center py-8" role="alert">
+      <div className="status-message" role="alert">
         <p className="text-red-400">Error: {error}</p>
       </div>
     );
@@ -198,7 +200,7 @@ export default function CharacterSheet() {
 
   if (!character) {
     return (
-      <div className="text-center py-8">
+      <div className="status-message">
         <p className="text-zinc-400">Character not found</p>
       </div>
     );

@@ -24,7 +24,7 @@ export function AppRoutes() {
           <div
             role="status"
             aria-live="polite"
-            className="text-center py-8"
+            className="status-message"
           >
             <p className="text-primary-400">Loading...</p>
           </div>

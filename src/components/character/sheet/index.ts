@@ -2,6 +2,7 @@
 export { default as AbilityScores } from "./AbilityScores";
 export { default as ExperienceTracker } from "./ExperienceTracker";
 export { default as ExperiencePoints } from "./ExperiencePoints";
+export { default as Hero } from "./Hero";
 export { default as HitPoints } from "./HitPoints";
 export { default as CharacterDefense } from "./CharacterDefense";
 export { default as AttackBonuses } from "./AttackBonuses";

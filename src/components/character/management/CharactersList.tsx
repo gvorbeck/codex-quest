@@ -9,7 +9,7 @@ export function CharactersList() {
 
   if (loading) {
     return (
-      <div className="text-center py-8">
+      <div className="status-message">
         <Typography variant="helper">Loading your characters...</Typography>
       </div>
     );
@@ -17,7 +17,7 @@ export function CharactersList() {
 
   if (error) {
     return (
-      <div className="text-center py-8">
+      <div className="status-message">
         <Typography variant="helper" className="text-red-400">Error: {error}</Typography>
       </div>
     );
@@ -25,7 +25,7 @@ export function CharactersList() {
 
   if (characters.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="status-message">
         <Typography variant="helper">No characters found. Create your first character!</Typography>
       </div>
     );

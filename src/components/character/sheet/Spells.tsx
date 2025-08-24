@@ -295,7 +295,7 @@ export default function Spells({
             )}
           </div>
         ) : (
-          <div className="text-center py-8" role="status" aria-live="polite">
+          <div className="status-message" role="status" aria-live="polite">
             <div className="text-zinc-400 space-y-2">
               <Typography variant="body" className="text-lg">
                 No spells known

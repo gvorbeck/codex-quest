@@ -1,11 +1,14 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
 import type { Character } from "@/types/character";
-import { AvatarChangeModal, SettingsModal } from "@/components/character/management";
+import {
+  AvatarChangeModal,
+  SettingsModal,
+} from "@/components/character/management";
 import { TextInput } from "@/components/ui/inputs";
 import { Details } from "@/components/ui/display";
-import EditIcon from "./EditIcon";
-import SettingsIcon from "./SettingsIcon";
+import EditIcon from "../../ui/display/EditIcon";
+import SettingsIcon from "../../ui/display/SettingsIcon";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -15,7 +18,17 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Hero = forwardRef<HTMLDivElement, HeroProps>(
-  ({ character, size = "md", className = "", editable = false, onCharacterChange, ...props }, ref) => {
+  (
+    {
+      character,
+      size = "md",
+      className = "",
+      editable = false,
+      onCharacterChange,
+      ...props
+    },
+    ref
+  ) => {
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isEditingName, setIsEditingName] = useState(false);
@@ -74,10 +87,14 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     };
 
     const handleNameSubmit = () => {
-      if (nameValue.trim() && nameValue.trim() !== character.name && onCharacterChange) {
+      if (
+        nameValue.trim() &&
+        nameValue.trim() !== character.name &&
+        onCharacterChange
+      ) {
         onCharacterChange({
           ...character,
-          name: nameValue.trim()
+          name: nameValue.trim(),
         });
       }
       setIsEditingName(false);
@@ -89,10 +106,10 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     };
 
     const handleNameKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter') {
+      if (e.key === "Enter") {
         e.preventDefault();
         handleNameSubmit();
-      } else if (e.key === 'Escape') {
+      } else if (e.key === "Escape") {
         e.preventDefault();
         handleNameCancel();
       }
@@ -132,12 +149,12 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
             <button
               onClick={() => setIsSettingsModalOpen(true)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   setIsSettingsModalOpen(true);
                 }
               }}
-              className="absolute top-4 right-4 p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80 border border-zinc-600 rounded-lg transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
+              className="absolute top-4 right-6 p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80 border border-zinc-600 rounded-lg transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
               aria-label="Open character settings"
               title="Settings"
             >
@@ -145,7 +162,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
             </button>
           )}
 
-          <div className={`flex items-center ${currentSize.gap}`}>
+          <div className={`flex items-start ${currentSize.gap}`}>
             {/* Avatar with edit functionality */}
             <div className="relative group">
               <div className={avatarContainerClasses} aria-hidden="true">
@@ -189,17 +206,18 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
 
               {/* Avatar edit overlay - shows on hover when editable */}
               {editable && onCharacterChange && (
-                <div className="absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer"
-                     onClick={() => setIsAvatarModalOpen(true)}
-                     role="button"
-                     tabIndex={0}
-                     aria-label="Change avatar"
-                     onKeyDown={(e) => {
-                       if (e.key === 'Enter' || e.key === ' ') {
-                         e.preventDefault();
-                         setIsAvatarModalOpen(true);
-                       }
-                     }}
+                <div
+                  className="absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer"
+                  onClick={() => setIsAvatarModalOpen(true)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Change avatar"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setIsAvatarModalOpen(true);
+                    }
+                  }}
                 >
                   <EditIcon className="w-6 h-6 text-white" />
                 </div>
@@ -225,28 +243,42 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   </div>
                 </div>
               ) : (
-                <div className={`group flex items-center gap-2 ${editable && onCharacterChange ? 'cursor-pointer' : ''}`}>
+                <div
+                  className={`group flex items-center gap-2 pr-12 ${
+                    editable && onCharacterChange ? "cursor-pointer" : ""
+                  }`}
+                >
                   <h1
                     id="hero-character-name"
-                    className={`font-bold text-zinc-900 break-words ${currentSize.name} ${
-                      editable && onCharacterChange 
-                        ? 'focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 focus:ring-offset-amber-400 rounded-sm' 
-                        : ''
+                    className={`font-bold text-zinc-900 break-words ${
+                      currentSize.name
+                    } ${
+                      editable && onCharacterChange
+                        ? "focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 focus:ring-offset-amber-400 rounded-sm"
+                        : ""
                     }`}
                     onClick={handleNameClick}
                     onKeyDown={(e) => {
-                      if ((e.key === 'Enter' || e.key === ' ') && editable && onCharacterChange) {
+                      if (
+                        (e.key === "Enter" || e.key === " ") &&
+                        editable &&
+                        onCharacterChange
+                      ) {
                         e.preventDefault();
                         handleNameClick();
                       }
                     }}
                     tabIndex={editable && onCharacterChange ? 0 : undefined}
                     role={editable && onCharacterChange ? "button" : undefined}
-                    aria-label={editable && onCharacterChange ? "Click to edit character name" : undefined}
+                    aria-label={
+                      editable && onCharacterChange
+                        ? "Click to edit character name"
+                        : undefined
+                    }
                   >
                     {character.name}
                   </h1>
-                  
+
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onCharacterChange && (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
@@ -255,16 +287,20 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   )}
                 </div>
               )}
-              
+
               {/* Character Details */}
               <div className="mt-4">
                 <Details
                   layout="horizontal"
-                  className="bg-zinc-800/90 border-zinc-700"
+                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg"
                   items={[
                     {
                       label: "Race",
-                      children: <span className="capitalize text-zinc-100 font-medium">{character.race}</span>,
+                      children: (
+                        <span className="capitalize text-zinc-100 font-medium">
+                          {character.race}
+                        </span>
+                      ),
                     },
                     {
                       label: "Class",
@@ -278,7 +314,11 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                     },
                     {
                       label: "Level",
-                      children: <span className="text-zinc-100 font-medium">{character.level}</span>,
+                      children: (
+                        <span className="text-zinc-100 font-medium">
+                          {character.level}
+                        </span>
+                      ),
                     },
                   ]}
                 />

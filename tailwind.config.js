@@ -90,5 +90,13 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities({
+        '.status-message': {
+          '@apply text-center py-8': {},
+        },
+      });
+    },
+  ],
 };
