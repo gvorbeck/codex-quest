@@ -1,11 +1,9 @@
 import { Select } from "@/components/ui/inputs";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import type { Character, Class } from "@/types/character";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
-  BADGE_STYLES,
 } from "@/constants";
 import { memo } from "react";
 
@@ -27,11 +25,11 @@ function StandardClassSelectorComponent({
 
   return (
     <section aria-labelledby="standard-classes-heading" className="mb-8">
-      <h4 id="standard-classes-heading" className={TEXT_STYLES.sectionHeading}>
+      <Typography variant="sectionHeading" id="standard-classes-heading">
         Standard Classes
-      </h4>
+      </Typography>
 
-      <div className={`${CARD_STYLES.standard} mb-6`}>
+      <Card variant="standard" className="mb-6">
         <Select
           label="Select Class"
           value={character.class.length > 0 ? character.class[0] : ""}
@@ -43,10 +41,10 @@ function StandardClassSelectorComponent({
             character.class.length > 0 ? "class-details" : undefined
           }
         />
-      </div>
+      </Card>
 
       {character.class.length > 0 && (
-        <div className={CARD_STYLES.info} id="class-details">
+        <Card variant="info" id="class-details">
           {(() => {
             const selectedClass = availableClasses.find(
               (cls) => cls.id === character.class[0]
@@ -67,28 +65,28 @@ function StandardClassSelectorComponent({
                     />
                     <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                   </svg>
-                  <h5
+                  <Typography
+                    variant="infoHeading"
                     id="class-info-heading"
-                    className={TEXT_STYLES.infoHeading}
                   >
                     {selectedClass.name}
-                  </h5>
+                  </Typography>
                   {selectedClass.supplementalContent && (
-                    <span className={BADGE_STYLES.supplemental}>
+                    <Badge variant="supplemental">
                       Supplemental
-                    </span>
+                    </Badge>
                   )}
                 </div>
 
                 <div className="mb-6">
-                  <p className={TEXT_STYLES.description}>
+                  <Typography variant="description">
                     {selectedClass.description}
-                  </p>
+                  </Typography>
                 </div>
 
                 <div className={LAYOUT_STYLES.infoGrid}>
-                  <div className={CARD_STYLES.nested}>
-                    <h6 className={TEXT_STYLES.subHeading}>
+                  <Card variant="nested">
+                    <Typography variant="subHeading">
                       <svg
                         className={ICON_STYLES.sm}
                         fill="currentColor"
@@ -97,13 +95,13 @@ function StandardClassSelectorComponent({
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Hit Die
-                    </h6>
-                    <p className={TEXT_STYLES.description}>
+                    </Typography>
+                    <Typography variant="description">
                       {selectedClass.hitDie}
-                    </p>
-                  </div>
-                  <div className={CARD_STYLES.nested}>
-                    <h6 className={TEXT_STYLES.subHeading}>
+                    </Typography>
+                  </Card>
+                  <Card variant="nested">
+                    <Typography variant="subHeading">
                       <svg
                         className={ICON_STYLES.sm}
                         fill="currentColor"
@@ -116,16 +114,16 @@ function StandardClassSelectorComponent({
                         />
                       </svg>
                       Primary Attribute
-                    </h6>
-                    <p className={`${TEXT_STYLES.description} capitalize`}>
+                    </Typography>
+                    <Typography variant="description" className="capitalize">
                       {selectedClass.primaryAttribute}
-                    </p>
-                  </div>
+                    </Typography>
+                  </Card>
                 </div>
               </div>
             ) : null;
           })()}
-        </div>
+        </Card>
       )}
     </section>
   );

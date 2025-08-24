@@ -1,11 +1,9 @@
 import { Select } from "@/components/ui/inputs";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
-  BADGE_STYLES,
 } from "@/constants";
 import { memo } from "react";
 
@@ -37,14 +35,14 @@ function CombinationClassSelectorComponent({
 
   return (
     <section aria-labelledby="combination-classes-heading" className="mb-8">
-      <h4
+      <Typography
+        variant="sectionHeading"
         id="combination-classes-heading"
-        className={TEXT_STYLES.sectionHeading}
       >
         Combination Classes
-      </h4>
+      </Typography>
 
-      <div className={`${CARD_STYLES.standard} mb-6`}>
+      <Card variant="standard" className="mb-6">
         <Select
           label="Select Combination Class"
           value={currentCombination ? currentCombination.name : ""}
@@ -56,10 +54,10 @@ function CombinationClassSelectorComponent({
             character.class.length > 1 ? "combination-class-details" : undefined
           }
         />
-      </div>
+      </Card>
 
       {character.class.length > 1 && currentCombination && (
-        <div className={CARD_STYLES.info} id="combination-class-details">
+        <Card variant="info" id="combination-class-details">
           <div aria-labelledby="combination-class-info-heading">
             <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
               <svg
@@ -70,25 +68,25 @@ function CombinationClassSelectorComponent({
               >
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <h5
+              <Typography
+                variant="infoHeading"
                 id="combination-class-info-heading"
-                className={TEXT_STYLES.infoHeading}
               >
                 {currentCombination.name}
-              </h5>
-              <span className={BADGE_STYLES.combination}>Combination</span>
+              </Typography>
+              <Badge variant="combination">Combination</Badge>
             </div>
 
             <div className="mb-6">
-              <p className={TEXT_STYLES.description}>
+              <Typography variant="description">
                 This combination class combines the abilities of{" "}
                 {character.class.join(" and ")}, allowing you to gain benefits
                 from both classes as you advance.
-              </p>
+              </Typography>
             </div>
 
-            <div className={CARD_STYLES.nested}>
-              <h6 className={TEXT_STYLES.subHeading}>
+            <Card variant="nested">
+              <Typography variant="subHeading">
                 <svg
                   className={ICON_STYLES.sm}
                   fill="currentColor"
@@ -102,20 +100,21 @@ function CombinationClassSelectorComponent({
                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                 </svg>
                 Combined Classes
-              </h6>
+              </Typography>
               <div className={LAYOUT_STYLES.tagContainer}>
                 {character.class.map((classId, index) => (
-                  <span
+                  <Badge
                     key={index}
-                    className={`${BADGE_STYLES.status} capitalize`}
+                    variant="status"
+                    className="capitalize"
                   >
                     {classId}
-                  </span>
+                  </Badge>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
-        </div>
+        </Card>
       )}
     </section>
   );

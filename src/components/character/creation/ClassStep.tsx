@@ -1,5 +1,6 @@
 import { Switch } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
+import { Card } from "@/components/ui/design-system";
 import {
   StandardClassSelector,
   CombinationClassSelector,
@@ -7,7 +8,7 @@ import {
 } from "@/components/character/creation";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import { CARD_STYLES, LAYOUT_STYLES, ICON_STYLES } from "@/constants";
+import { LAYOUT_STYLES, ICON_STYLES } from "@/constants";
 import type { Character, Spell } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
 import { memo, useState, useEffect, useMemo } from "react";
@@ -157,7 +158,7 @@ function ClassStepComponent({
         description="Select the class that defines your character's abilities and role."
         statusMessage=""
       >
-        <div className={CARD_STYLES.info}>
+        <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
               className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
@@ -177,7 +178,7 @@ function ClassStepComponent({
             Please select a race first before choosing a class. Your race
             determines which classes are available to you.
           </p>
-        </div>
+        </Card>
       </StepWrapper>
     );
   }
@@ -192,7 +193,7 @@ function ClassStepComponent({
     >
       {/* Class Selection Controls */}
       <section className="mb-8">
-        <div className={CARD_STYLES.standard}>
+        <Card variant="standard">
           <fieldset>
             <legend className="sr-only">Class selection options</legend>
 
@@ -235,7 +236,7 @@ function ClassStepComponent({
               )}
             </div>
           </fieldset>
-        </div>
+        </Card>
       </section>
 
       {/* Class Selection */}

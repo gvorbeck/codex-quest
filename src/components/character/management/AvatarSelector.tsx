@@ -1,9 +1,8 @@
 import { useCallback, useState } from "react";
 import { FileUpload } from "@/components/ui/inputs";
 import { Button } from "@/components/ui";
+import { Card, Typography } from "@/components/ui/design-system";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   LAYOUT_STYLES,
   ICON_STYLES,
   AVATAR_MAX_SIZE_BYTES,
@@ -114,8 +113,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
   return (
     <div className="space-y-6">
       <header>
-        <h4
-          className={`${TEXT_STYLES.sectionHeading} ${LAYOUT_STYLES.iconText}`}
+        <Typography
+          variant="sectionHeading"
+          className={LAYOUT_STYLES.iconText}
         >
           <svg
             className={`${ICON_STYLES.md} text-amber-400`}
@@ -129,20 +129,21 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             />
           </svg>
           Avatar
-        </h4>
-        <div className={`${CARD_STYLES.infoCompact} mb-6`}>
+        </Typography>
+        <Card variant="info" size="compact" className="mb-6">
           <p className="text-amber-100 text-sm m-0">
             Choose a stock avatar or upload your own image to represent your
             character.
           </p>
-        </div>
+        </Card>
       </header>
 
       {/* Current Avatar Preview */}
       {character.avatar && (
-        <div className={CARD_STYLES.success}>
-          <h5
-            className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText} text-lime-100`}
+        <Card variant="success">
+          <Typography
+            variant="baseSectionHeading"
+            className={`${LAYOUT_STYLES.iconText} text-lime-100`}
           >
             <svg
               className={`${ICON_STYLES.sm} text-lime-400`}
@@ -156,7 +157,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
               />
             </svg>
             Current Avatar
-          </h5>
+          </Typography>
           <div className="flex items-center gap-4">
             <img
               src={character.avatar}
@@ -184,13 +185,14 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
               </Button>
             </div>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Stock Avatars */}
-      <div className={CARD_STYLES.standard}>
-        <h5
-          className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}
+      <Card variant="standard">
+        <Typography
+          variant="baseSectionHeading"
+          className={LAYOUT_STYLES.iconText}
         >
           <svg
             className={`${ICON_STYLES.sm} text-zinc-400`}
@@ -204,7 +206,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             />
           </svg>
           Stock Avatars
-        </h5>
+        </Typography>
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
           {STOCK_AVATARS.map((avatar) => {
             const avatarPath = `/faces/${avatar}`;
@@ -245,12 +247,13 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             );
           })}
         </div>
-      </div>
+      </Card>
 
       {/* Custom Upload */}
-      <div className={CARD_STYLES.standard}>
-        <h5
-          className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}
+      <Card variant="standard">
+        <Typography
+          variant="baseSectionHeading"
+          className={LAYOUT_STYLES.iconText}
         >
           <svg
             className={`${ICON_STYLES.sm} text-zinc-400`}
@@ -264,7 +267,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             />
           </svg>
           Upload Custom Avatar
-        </h5>
+        </Typography>
         <FileUpload
           label="Upload Avatar Image"
           helperText={`Upload your own avatar image. Accepts JPG, PNG, WebP. Max ${AVATAR_MAX_SIZE_MB}MB.`}
@@ -280,7 +283,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             least 128x128 pixels.
           </p>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

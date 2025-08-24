@@ -1,10 +1,8 @@
 import { Select } from "@/components/ui/inputs";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
-  BADGE_STYLES,
 } from "@/constants";
 import type { Character, Spell } from "@/types/character";
 import { memo } from "react";
@@ -51,7 +49,7 @@ function SpellSelectorComponent({
         dangerouslySetInnerHTML={{ __html: description }}
       />
 
-      <div className={`${CARD_STYLES.standard} mb-6`}>
+      <Card variant="standard" className="mb-6">
         {isLoading ? (
           <div className="flex items-center justify-center py-4">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-lime-400"></div>
@@ -70,10 +68,10 @@ function SpellSelectorComponent({
             }
           />
         )}
-      </div>
+      </Card>
 
       {selectedSpell && character.spells && character.spells.length > 0 && (
-        <div className={CARD_STYLES.info} id={`${detailsId}-details`}>
+        <Card variant="info" id={`${detailsId}-details`}>
           {(() => {
             const spell = character.spells[0];
             if (!spell) return null;
@@ -88,18 +86,18 @@ function SpellSelectorComponent({
                   >
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                  <h5
+                  <Typography
+                    variant="infoHeading"
                     id={`${detailsId}-info-heading`}
-                    className={TEXT_STYLES.infoHeading}
                   >
                     {spell.name}
-                  </h5>
-                  <span className={BADGE_STYLES.status}>Level 1</span>
+                  </Typography>
+                  <Badge variant="status">Level 1</Badge>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  <div className={CARD_STYLES.nested}>
-                    <h6 className={TEXT_STYLES.subHeading}>
+                  <Card variant="nested">
+                    <Typography variant="subHeading">
                       <svg
                         className={ICON_STYLES.sm}
                         fill="currentColor"
@@ -112,11 +110,11 @@ function SpellSelectorComponent({
                         />
                       </svg>
                       Range
-                    </h6>
+                    </Typography>
                     <p className="text-amber-50 text-sm m-0">{spell.range}</p>
-                  </div>
-                  <div className={CARD_STYLES.nested}>
-                    <h6 className={TEXT_STYLES.subHeading}>
+                  </Card>
+                  <Card variant="nested">
+                    <Typography variant="subHeading">
                       <svg
                         className={ICON_STYLES.sm}
                         fill="currentColor"
@@ -129,15 +127,15 @@ function SpellSelectorComponent({
                         />
                       </svg>
                       Duration
-                    </h6>
+                    </Typography>
                     <p className="text-amber-50 text-sm m-0">
                       {spell.duration}
                     </p>
-                  </div>
+                  </Card>
                 </div>
 
-                <div className={CARD_STYLES.nested}>
-                  <h6 className={TEXT_STYLES.subHeadingSpaced}>
+                <Card variant="nested">
+                  <Typography variant="subHeadingSpaced">
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -150,13 +148,13 @@ function SpellSelectorComponent({
                       />
                     </svg>
                     Description
-                  </h6>
-                  <p className={TEXT_STYLES.description}>{spell.description}</p>
-                </div>
+                  </Typography>
+                  <Typography variant="description">{spell.description}</Typography>
+                </Card>
               </div>
             );
           })()}
-        </div>
+        </Card>
       )}
     </section>
   );

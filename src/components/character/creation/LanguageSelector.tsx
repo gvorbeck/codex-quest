@@ -1,10 +1,9 @@
 import { useCallback, useMemo } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { Button } from "@/components/ui";
+import { Card, Typography } from "@/components/ui/design-system";
 import { allRaces } from "@/data/races";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
 } from "@/constants";
@@ -103,7 +102,7 @@ function LanguageSelector({
   return (
     <div className="space-y-6">
       <header>
-        <h4 className={`${TEXT_STYLES.sectionHeading} flex items-center gap-2`}>
+        <Typography variant="sectionHeading" className="flex items-center gap-2">
           <svg
             className="w-5 h-5 text-amber-400"
             fill="currentColor"
@@ -116,20 +115,21 @@ function LanguageSelector({
             />
           </svg>
           Languages
-        </h4>
-        <div className={`${CARD_STYLES.infoCompact} mb-6`}>
-          <p className={TEXT_STYLES.descriptionCompact}>
+        </Typography>
+        <Card variant="info" size="compact" className="mb-6">
+          <Typography variant="descriptionCompact">
             All characters know their native language(s). Characters with
             Intelligence 13+ may learn additional languages equal to their
             Intelligence bonus (+1, +2, or +3).
-          </p>
-        </div>
+          </Typography>
+        </Card>
       </header>
 
       {/* Automatic Languages */}
-      <div className={CARD_STYLES.standard}>
-        <h5
-          className={`${TEXT_STYLES.baseSectionHeading} ${LAYOUT_STYLES.iconText}`}
+      <Card variant="standard">
+        <Typography
+          variant="baseSectionHeading"
+          className={LAYOUT_STYLES.iconText}
         >
           <svg
             className={`${ICON_STYLES.sm} text-zinc-400`}
@@ -143,7 +143,7 @@ function LanguageSelector({
             />
           </svg>
           Automatic Languages
-        </h5>
+        </Typography>
         <div className="flex flex-wrap gap-2">
           {automaticLanguages.map((language, index) => (
             <div
@@ -155,11 +155,11 @@ function LanguageSelector({
             </div>
           ))}
         </div>
-      </div>
+      </Card>
 
       {/* Bonus Languages */}
       {maxBonusLanguages > 0 && (
-        <div className={CARD_STYLES.standard}>
+        <Card variant="standard">
           <div className={`${LAYOUT_STYLES.iconText} mb-4`}>
             <svg
               className={`${ICON_STYLES.sm} text-zinc-400`}
@@ -176,9 +176,9 @@ function LanguageSelector({
               Bonus Languages
             </h5>
             {maxBonusLanguages > 0 && (
-              <span className={TEXT_STYLES.helper}>
+              <Typography variant="helper">
                 ({bonusLanguages.length}/{maxBonusLanguages} used)
-              </span>
+              </Typography>
             )}
           </div>
 
@@ -227,11 +227,11 @@ function LanguageSelector({
               </Button>
             </div>
           )}
-        </div>
+        </Card>
       )}
 
       {maxBonusLanguages === 0 && (
-        <div className={CARD_STYLES.info}>
+        <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
             <svg
               className={`${ICON_STYLES.md} text-amber-400`}
@@ -253,12 +253,12 @@ function LanguageSelector({
             does not provide any bonus languages. You need Intelligence 13+ to
             learn additional languages.
           </p>
-        </div>
+        </Card>
       )}
 
       {/* Common bonus languages suggestion */}
       {maxBonusLanguages > 0 && (
-        <div className={CARD_STYLES.info}>
+        <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
             <svg
               className={`${ICON_STYLES.md} text-amber-400`}
@@ -280,7 +280,7 @@ function LanguageSelector({
             Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other
             regional languages as determined by your GM.
           </p>
-        </div>
+        </Card>
       )}
     </div>
   );
