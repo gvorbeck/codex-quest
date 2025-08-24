@@ -52,7 +52,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({ user, alert, children }) => {
       >
         <Flex vertical gap={16} className="animate-fade-in">
           {isHomePage && user && (
-            <FloatButton.Group shape="square" className="pulse-glow">
+            <FloatButton.Group
+              shape="square"
+              className="pulse-glow bottom-[200px]"
+            >
               <FloatButton
                 icon={<UserAddOutlined />}
                 tooltip={{
