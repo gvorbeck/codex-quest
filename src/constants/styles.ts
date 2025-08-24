@@ -101,6 +101,37 @@ export const LAYOUT_STYLES = {
   tagContainer: "flex flex-wrap gap-2",
 } as const;
 
+// Design System Component Mappings
+// Maps legacy CARD_STYLES to new Card component variants
+export const CARD_COMPONENT_MAP = {
+  info: { variant: "info" as const, size: "default" as const },
+  infoCompact: { variant: "info" as const, size: "compact" as const },
+  success: { variant: "success" as const, size: "default" as const },
+  standard: { variant: "standard" as const, size: "default" as const },
+  standardCompact: { variant: "standard" as const, size: "compact" as const },
+  nested: { variant: "nested" as const, size: "default" as const },
+} as const;
+
+// Maps legacy TEXT_STYLES to new Typography component variants
+export const TYPOGRAPHY_COMPONENT_MAP = {
+  sectionHeading: { variant: "sectionHeading" as const },
+  baseSectionHeading: { variant: "baseSectionHeading" as const },
+  infoHeading: { variant: "infoHeading" as const },
+  subHeading: { variant: "subHeading" as const },
+  subHeadingSpaced: { variant: "subHeadingSpaced" as const },
+  subHeadingLime: { variant: "subHeadingLime" as const },
+  description: { variant: "description" as const },
+  descriptionCompact: { variant: "descriptionCompact" as const },
+  helper: { variant: "helper" as const },
+} as const;
+
+// Maps legacy BADGE_STYLES to new Badge component variants  
+export const BADGE_COMPONENT_MAP = {
+  status: { variant: "status" as const, size: "sm" as const },
+  supplemental: { variant: "supplemental" as const, size: "sm" as const },
+  combination: { variant: "combination" as const, size: "sm" as const },
+} as const;
+
 // Utility function to combine styles
 export const cn = (
   ...classes: (string | undefined | null | false)[]

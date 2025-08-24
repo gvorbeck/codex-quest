@@ -2,12 +2,10 @@ import React, { useState, useMemo, useEffect, useCallback, memo } from "react";
 import { Accordion, StepWrapper } from "@/components/ui/layout";
 import { SimpleRoller } from "@/components/ui/display";
 import { Button } from "@/components/ui";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
-  BADGE_STYLES,
 } from "@/constants";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
@@ -321,9 +319,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     >
       {/* Starting Gold Section */}
       <section className="mb-8">
-        <h4 className={TEXT_STYLES.sectionHeading}>Starting Gold</h4>
+        <Typography variant="sectionHeading">Starting Gold</Typography>
 
-        <div className={`${CARD_STYLES.info} mb-6`}>
+        <Card variant="info" className="mb-6">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-4`}>
             <svg
               className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
@@ -345,9 +343,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             Roll 3d6 × 10 for your character's starting gold pieces. Use this
             gold to purchase equipment and supplies.
           </p>
-        </div>
+        </Card>
 
-        <div className={CARD_STYLES.standard}>
+        <Card variant="standard">
           <SimpleRoller
             formula="3d6*10"
             label="Starting Gold (3d6 × 10)"
@@ -395,15 +393,15 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               )}
             </div>
           )}
-        </div>
+        </Card>
       </section>
 
       {/* Current Equipment Section */}
       <section className="mb-8">
-        <h4 className={TEXT_STYLES.sectionHeading}>Current Equipment</h4>
+        <Typography variant="sectionHeading">Current Equipment</Typography>
 
         {character.equipment.length === 0 ? (
-          <div className={CARD_STYLES.standard}>
+          <Card variant="standard">
             <div className="flex items-center gap-3">
               <svg
                 className="w-5 h-5 text-zinc-400"
@@ -425,9 +423,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                 No equipment selected yet. Browse available equipment below.
               </p>
             </div>
-          </div>
+          </Card>
         ) : (
-          <div className={`${CARD_STYLES.success} p-0`}>
+          <Card variant="success" className="p-0">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <svg
@@ -464,9 +462,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                             {item.name}
                           </span>
                           {item.amount > 1 && (
-                            <span className={BADGE_STYLES.status}>
+                            <Badge variant="status">
                               × {item.amount}
-                            </span>
+                            </Badge>
                           )}
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
@@ -499,7 +497,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               {/* Equipment Summary */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                  <h6 className={TEXT_STYLES.subHeadingLime}>
+                  <Typography variant="subHeadingLime">
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -512,13 +510,13 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                       />
                     </svg>
                     Total Weight
-                  </h6>
+                  </Typography>
                   <p className="text-lime-50 font-bold m-0">
                     {totalWeight} lbs
                   </p>
                 </div>
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                  <h6 className={TEXT_STYLES.subHeadingLime}>
+                  <Typography variant="subHeadingLime">
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -531,20 +529,20 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                       />
                     </svg>
                     Total Value
-                  </h6>
+                  </Typography>
                   <p className="text-lime-50 font-bold m-0">{totalValue} gp</p>
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         )}
       </section>
 
       {/* Available Equipment Section */}
       <section className="mb-8">
-        <h4 className={TEXT_STYLES.sectionHeading}>Available Equipment</h4>
+        <Typography variant="sectionHeading">Available Equipment</Typography>
 
-        <div className={`${CARD_STYLES.info} mb-6`}>
+        <Card variant="info" className="mb-6">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
               className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
@@ -568,24 +566,24 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               You can only purchase items you can afford with your current gold.
             </span>
           </p>
-        </div>
+        </Card>
 
         {isLoading ? (
-          <div className={`${CARD_STYLES.standard} p-8`}>
+          <Card variant="standard" className="p-8">
             <div className="flex items-center justify-center">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-lime-400"></div>
               <span className="ml-3 text-zinc-400">Loading equipment...</span>
             </div>
-          </div>
+          </Card>
         ) : (
-          <div className={`${CARD_STYLES.standard} p-0`}>
+          <Card variant="standard" className="p-0">
             <Accordion
               items={allEquipment}
               sortBy="category"
               searchPlaceholder="Search equipment..."
               renderItem={renderEquipmentItem}
             />
-          </div>
+          </Card>
         )}
       </section>
     </StepWrapper>

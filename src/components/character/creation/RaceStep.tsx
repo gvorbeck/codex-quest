@@ -1,13 +1,11 @@
 import { Switch, Select } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
-  BADGE_STYLES,
 } from "@/constants";
 import type { Character } from "@/types/character";
 import { memo, useMemo } from "react";
@@ -85,7 +83,7 @@ function RaceStep({
     >
       {/* Race Selection Controls */}
       <section className="mb-8">
-        <div className={CARD_STYLES.standard}>
+        <Card variant="standard">
           <fieldset>
             <legend className="sr-only">Race selection options</legend>
 
@@ -125,17 +123,17 @@ function RaceStep({
               </div>
             </div>
           </fieldset>
-        </div>
+        </Card>
       </section>
 
       {/* Selected Race Details */}
       {selectedRace && (
         <section aria-labelledby="race-details-heading" className="mb-8">
-          <h4 id="race-details-heading" className={TEXT_STYLES.sectionHeading}>
+          <Typography variant="sectionHeading" id="race-details-heading">
             Race Details
-          </h4>
+          </Typography>
 
-          <div className={CARD_STYLES.info}>
+          <Card variant="info">
             {/* Race Header */}
             <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
               <svg
@@ -155,7 +153,7 @@ function RaceStep({
                 {selectedRace.name}
               </h5>
               {selectedRace.supplementalContent && (
-                <span className={BADGE_STYLES.supplemental}>Supplemental</span>
+                <Badge variant="supplemental">Supplemental</Badge>
               )}
             </div>
 
@@ -169,8 +167,8 @@ function RaceStep({
             {/* Race Information Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Physical Description */}
-              <div className={CARD_STYLES.nested}>
-                <h6 className={TEXT_STYLES.subHeadingSpaced}>
+              <Card variant="nested">
+                <Typography variant="subHeadingSpaced">
                   <svg
                     className={ICON_STYLES.sm}
                     fill="currentColor"
@@ -183,16 +181,16 @@ function RaceStep({
                     />
                   </svg>
                   Physical Description
-                </h6>
+                </Typography>
                 <p className="text-amber-50 text-sm leading-relaxed m-0">
                   {selectedRace.physicalDescription}
                 </p>
-              </div>
+              </Card>
 
               {/* Ability Requirements */}
               {selectedRace.abilityRequirements.length > 0 && (
-                <div className={CARD_STYLES.nested}>
-                  <h6 className={TEXT_STYLES.subHeadingSpaced}>
+                <Card variant="nested">
+                  <Typography variant="subHeadingSpaced">
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -205,7 +203,7 @@ function RaceStep({
                       />
                     </svg>
                     Ability Requirements
-                  </h6>
+                  </Typography>
                   <div className="space-y-2">
                     {selectedRace.abilityRequirements.map((req, index) => (
                       <div
@@ -224,13 +222,13 @@ function RaceStep({
                       </div>
                     ))}
                   </div>
-                </div>
+                </Card>
               )}
 
               {/* Special Abilities */}
               {selectedRace.specialAbilities.length > 0 && (
-                <div className={CARD_STYLES.nested}>
-                  <h6 className={TEXT_STYLES.subHeadingSpaced}>
+                <Card variant="nested">
+                  <Typography variant="subHeadingSpaced">
                     <svg
                       className={ICON_STYLES.sm}
                       fill="currentColor"
@@ -239,7 +237,7 @@ function RaceStep({
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                     Special Abilities
-                  </h6>
+                  </Typography>
                   <div className="space-y-3">
                     {selectedRace.specialAbilities.map((ability, index) => (
                       <div key={index}>
@@ -252,12 +250,12 @@ function RaceStep({
                       </div>
                     ))}
                   </div>
-                </div>
+                </Card>
               )}
 
               {/* Allowed Classes */}
-              <div className={CARD_STYLES.nested}>
-                <h6 className={TEXT_STYLES.subHeadingSpaced}>
+              <Card variant="nested">
+                <Typography variant="subHeadingSpaced">
                   <svg
                     className={ICON_STYLES.sm}
                     fill="currentColor"
@@ -271,19 +269,19 @@ function RaceStep({
                     <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                   </svg>
                   Allowed Classes
-                </h6>
+                </Typography>
                 <div className="flex flex-wrap gap-2">
                   {selectedRace.allowedClasses.map((classId, index) => (
-                    <span key={index} className={BADGE_STYLES.status}>
+                    <Badge key={index} variant="status">
                       {getClassName(classId)}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
-              </div>
+              </Card>
 
               {/* Lifespan */}
-              <div className={CARD_STYLES.nested}>
-                <h6 className={TEXT_STYLES.subHeadingSpaced}>
+              <Card variant="nested">
+                <Typography variant="subHeadingSpaced">
                   <svg
                     className={ICON_STYLES.sm}
                     fill="currentColor"
@@ -296,13 +294,13 @@ function RaceStep({
                     />
                   </svg>
                   Lifespan
-                </h6>
+                </Typography>
                 <p className="text-amber-50 text-sm m-0">
                   {selectedRace.lifespan}
                 </p>
-              </div>
+              </Card>
             </div>
-          </div>
+          </Card>
         </section>
       )}
     </StepWrapper>

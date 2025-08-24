@@ -1,5 +1,6 @@
 // Simple character list component
 import { Link } from "wouter";
+import { Card, Typography } from "@/components/ui";
 import { useCharacters, useAuth } from "@/hooks";
 
 export function CharactersList() {
@@ -9,7 +10,7 @@ export function CharactersList() {
   if (loading) {
     return (
       <div className="text-center py-8">
-        <p className="text-primary-400">Loading your characters...</p>
+        <Typography variant="helper">Loading your characters...</Typography>
       </div>
     );
   }
@@ -17,7 +18,7 @@ export function CharactersList() {
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-red-400">Error: {error}</p>
+        <Typography variant="helper" className="text-red-400">Error: {error}</Typography>
       </div>
     );
   }
@@ -25,26 +26,28 @@ export function CharactersList() {
   if (characters.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-primary-400">No characters found. Create your first character!</p>
+        <Typography variant="helper">No characters found. Create your first character!</Typography>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-semibold text-primary-100">Your Characters</h3>
+      <Typography variant="h4">Your Characters</Typography>
       <div className="space-y-2">
         {characters.map((character) => (
-          <div
+          <Card
             key={character.id}
-            className="bg-primary-800 rounded-lg p-4 border border-primary-700 hover:border-primary-600 transition-colors"
+            variant="standard"
+            size="compact"
+            className="hover:border-primary-600 transition-colors"
           >
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-lg font-medium text-primary-100">
+                <Typography variant="h5">
                   {character.name}
-                </h4>
-                <p className="text-sm text-primary-400">ID: {character.id}</p>
+                </Typography>
+                <Typography variant="caption" color="secondary">ID: {character.id}</Typography>
               </div>
               {user && (
                 <Link
@@ -55,7 +58,7 @@ export function CharactersList() {
                 </Link>
               )}
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

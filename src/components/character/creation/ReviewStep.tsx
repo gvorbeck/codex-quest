@@ -2,12 +2,10 @@ import { useCallback, useMemo, memo } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
 import { HorizontalRule } from "@/components/ui/display";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { LanguageSelector } from "@/components/character/creation";
 import { AvatarSelector } from "@/components/character/management";
 import {
-  CARD_STYLES,
-  BADGE_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
 } from "@/constants";
 import { useValidation } from "@/hooks";
@@ -76,9 +74,9 @@ function ReviewStepComponent({
     >
       {/* Character Name Section */}
       <section className="mb-8">
-        <h4 className={TEXT_STYLES.sectionHeading}>Character Name</h4>
+        <Typography variant="sectionHeading">Character Name</Typography>
 
-        <div className={CARD_STYLES.standard}>
+        <Card variant="standard">
           <TextInput
             value={character.name}
             onChange={handleNameChange}
@@ -101,14 +99,14 @@ function ReviewStepComponent({
               {nameValidation.errors[0]}
             </div>
           )}
-        </div>
+        </Card>
       </section>
 
       {/* Character Summary */}
       <section className="mb-8">
-        <h4 className={TEXT_STYLES.sectionHeading}>Character Summary</h4>
+        <Typography variant="sectionHeading">Character Summary</Typography>
 
-        <div className={`${CARD_STYLES.success} p-0`}>
+        <Card variant="success" className="p-0">
           <div className="p-6">
             {/* Header with Avatar and Basic Info */}
             <div className="flex flex-col sm:flex-row gap-6 mb-6">
@@ -381,7 +379,7 @@ function ReviewStepComponent({
                     )}
                     {character.spells.map((spell, index) => (
                       <div key={index} className="flex items-center gap-2">
-                        <span className={BADGE_STYLES.status}>L1</span>
+                        <Badge variant="status">L1</Badge>
                         <span className="text-lime-200 font-medium">
                           {spell.name}
                         </span>
@@ -392,7 +390,7 @@ function ReviewStepComponent({
               </div>
             )}
           </div>
-        </div>
+        </Card>
       </section>
 
       <HorizontalRule />

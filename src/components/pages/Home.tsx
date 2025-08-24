@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Button } from "@/components/ui";
+import { Button, Card, Typography } from "@/components/ui";
 import { PageWrapper } from "@/components/ui/layout";
 import { CharactersList } from "@/components/character/management";
 import { useAuth } from "@/hooks";
@@ -12,26 +12,26 @@ function Home() {
       <section className="space-y-8">
         {/* Show character list for authenticated users */}
         {user && (
-          <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">
+          <Card variant="standard">
             <CharactersList />
-          </div>
+          </Card>
         )}
 
         <header className="text-center space-y-4">
-          <h2 className="text-3xl font-bold text-primary-100">
+          <Typography variant="h2">
             Welcome to Torchlight
-          </h2>
-          <p className="text-lg text-primary-300 leading-relaxed">
+          </Typography>
+          <Typography variant="body" color="secondary" className="text-lg">
             Create your perfect Basic Fantasy RPG character with our comprehensive
             character generator. Roll ability scores, choose from various races
             and classes, and equip your adventurer for their next quest.
-          </p>
+          </Typography>
         </header>
 
-        <div className="bg-primary-800 rounded-lg p-6 border border-primary-700">
-          <h3 className="text-xl font-semibold text-primary-100 mb-4">
+        <Card variant="standard">
+          <Typography variant="h4" className="mb-4">
             Features
-          </h3>
+          </Typography>
           <ul className="space-y-2 text-primary-300">
             <li className="flex items-start gap-2">
               <span className="text-highlight-400 mt-1">•</span>
@@ -54,7 +54,7 @@ function Home() {
               Character validation and requirements checking
             </li>
           </ul>
-        </div>
+        </Card>
 
         <div className="text-center space-y-4">
           <Link href="/new-character" aria-describedby="create-char-desc">
@@ -62,9 +62,9 @@ function Home() {
               Start Creating Your Character
             </Button>
           </Link>
-          <p id="create-char-desc" className="text-primary-400 text-sm">
+          <Typography variant="helper" id="create-char-desc">
             Begin the character creation process with our step-by-step wizard
-          </p>
+          </Typography>
         </div>
       </section>
     </PageWrapper>

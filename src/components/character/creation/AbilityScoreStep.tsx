@@ -1,12 +1,10 @@
-import { Button } from "@/components/ui";
+import { Button, Card, Typography } from "@/components/ui";
 import { SimpleRoller } from "@/components/ui/display";
 import { StepWrapper } from "@/components/ui/layout";
 import { roller } from "@/utils/dice";
 import {
-  CARD_STYLES,
   LAYOUT_STYLES,
   ICON_STYLES,
-  TEXT_STYLES,
 } from "@/constants";
 import type { Character, AbilityScore } from "@/types/character";
 import { memo } from "react";
@@ -170,7 +168,7 @@ function AbilityScoreStep({
       {/* Ability Scores Summary */}
       {hasRolledScores && (
         <section className="mb-8">
-          <div className={CARD_STYLES.infoCompact}>
+          <Card variant="info" size="compact">
             <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
               <svg
                 className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
@@ -184,9 +182,9 @@ function AbilityScoreStep({
                   clipRule="evenodd"
                 />
               </svg>
-              <h4 className="font-semibold text-amber-100 m-0">
+              <Typography variant="infoHeading">
                 Ability Scores Summary
-              </h4>
+              </Typography>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
               {Object.entries(character.abilities).map(([name, ability]) => (
@@ -206,15 +204,15 @@ function AbilityScoreStep({
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         </section>
       )}
 
       {/* Ability Scores Grid */}
       <section aria-labelledby="ability-scores-heading" className="mb-8">
-        <h4 id="ability-scores-heading" className={TEXT_STYLES.sectionHeading}>
+        <Typography variant="sectionHeading" id="ability-scores-heading">
           Ability Scores
-        </h4>
+        </Typography>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {(
@@ -223,9 +221,10 @@ function AbilityScoreStep({
               AbilityScore
             ][]
           ).map(([abilityName, ability]) => (
-            <div
+            <Card
               key={abilityName}
-              className={`${CARD_STYLES.standard} hover:shadow-[0_4px_0_0_#3f3f46] transition-all duration-150`}
+              variant="standard"
+              hover={true}
             >
               {/* Ability Name */}
               <div className="flex items-center justify-between mb-3">
@@ -267,14 +266,14 @@ function AbilityScoreStep({
                   }
                 </div>
               )}
-            </div>
+            </Card>
           ))}
         </div>
       </section>
 
       {/* Flip Scores Information */}
       {hasRolledScores && (
-        <div className={CARD_STYLES.info}>
+        <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
               className={`${ICON_STYLES.md} text-amber-400`}
@@ -287,17 +286,17 @@ function AbilityScoreStep({
                 clipRule="evenodd"
               />
             </svg>
-            <h5 className="text-base font-semibold text-amber-100 m-0">
+            <Typography variant="baseSectionHeading" color="amber">
               Flip Scores Information
-            </h5>
+            </Typography>
           </div>
-          <p className="text-amber-100 text-sm m-0 leading-relaxed">
+          <Typography variant="descriptionCompact" color="amber">
             You can flip all ability scores by subtracting them from 21. This
             turns low scores into high scores and vice versa. For example, a 15
             becomes a 6, and a 3 becomes an 18. All scores must be flipped
             together.
-          </p>
-        </div>
+          </Typography>
+        </Card>
       )}
     </StepWrapper>
   );

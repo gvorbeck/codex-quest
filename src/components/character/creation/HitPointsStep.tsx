@@ -1,12 +1,10 @@
 import React, { useMemo, memo } from "react";
 import { SimpleRoller } from "@/components/ui/display";
-import { Button } from "@/components/ui";
+import { Button, Card, Typography } from "@/components/ui";
 import { StepWrapper } from "@/components/ui/layout";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import {
-  CARD_STYLES,
-  TEXT_STYLES,
   ICON_STYLES,
   LAYOUT_STYLES,
 } from "@/constants";
@@ -209,7 +207,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         description="Determine your character's starting hit points based on their class."
         statusMessage=""
       >
-        <div className={CARD_STYLES.info}>
+        <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-3`}>
             <svg
               className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
@@ -225,11 +223,11 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
             </svg>
             <h4 className="font-semibold text-amber-100 m-0">Class Required</h4>
           </div>
-          <p className={TEXT_STYLES.description}>
+          <Typography variant="description">
             Please select a class first to determine your hit points. Your class
             determines which hit die you use for rolling hit points.
-          </p>
-        </div>
+          </Typography>
+        </Card>
       </StepWrapper>
     );
   }
@@ -249,7 +247,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
     >
       {/* Hit Points Information */}
       <section className="mb-8">
-        <div className={CARD_STYLES.info}>
+        <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-4`}>
             <svg
               className={`${ICON_STYLES.md} flex-shrink-0 text-amber-400`}
@@ -267,14 +265,14 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               Hit Die Information
             </h4>
           </div>
-          <p className={TEXT_STYLES.description}>
+          <Typography variant="description">
             Roll your starting hit points using your{" "}
             {racialModificationInfo ? "modified" : "class's"} hit die:{" "}
             <strong className="text-amber-100">{hitDie}</strong>
             {constitutionText && (
               <span className="text-amber-200">{constitutionText}</span>
             )}
-          </p>
+          </Typography>
           
           {racialModificationInfo && (
             <div className="mt-3 p-3 bg-orange-900/20 border border-orange-700/40 rounded-lg">
@@ -308,14 +306,14 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               </div>
             </div>
           )}
-        </div>
+        </Card>
       </section>
 
       {/* Hit Points Rolling */}
       <section className="mb-8">
-        <h4 className={TEXT_STYLES.sectionHeading}>Roll Hit Points</h4>
+        <Typography variant="sectionHeading">Roll Hit Points</Typography>
 
-        <div className={CARD_STYLES.standard}>
+        <Card variant="standard">
           <div className="flex flex-col sm:flex-row gap-4 items-end">
             <div className="flex-grow">
               <SimpleRoller
@@ -336,15 +334,15 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               Use Max HP ({maxPossibleHP})
             </Button>
           </div>
-        </div>
+        </Card>
       </section>
 
       {/* Hit Points Summary */}
       {character.hp.max > 0 && (
         <section className="mb-8">
-          <h4 className={TEXT_STYLES.sectionHeading}>Hit Points Summary</h4>
+          <Typography variant="sectionHeading">Hit Points Summary</Typography>
 
-          <div className={CARD_STYLES.success}>
+          <Card variant="success">
             <div className="flex items-center gap-3 mb-4">
               <svg
                 className="w-6 h-6 flex-shrink-0 text-lime-400"
@@ -413,7 +411,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                 </div>
               )}
             </div>
-          </div>
+          </Card>
         </section>
       )}
     </StepWrapper>
