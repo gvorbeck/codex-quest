@@ -1,5 +1,6 @@
-import { NumberInput } from "@/components/ui/inputs";
+import { EditableValue } from "@/components/ui/inputs";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { Card } from "@/components/ui/design-system";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
 
@@ -26,6 +27,15 @@ const CURRENCY_VALUES: CurrencyConversions = {
   sp: 1,  // 1 sp = 10 cp
   cp: 0.1 // 1 cp = 0.1 sp
 };
+
+// Currency definitions for UI display
+const CURRENCY_DEFINITIONS = [
+  { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp', color: 'from-slate-300 to-slate-500', ring: 'ring-slate-400/30', icon: '⚪' },
+  { key: 'gold' as const, label: 'Gold', abbrev: 'gp', color: 'from-yellow-300 to-yellow-600', ring: 'ring-yellow-400/30', icon: '🟡' },
+  { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep', color: 'from-amber-200 to-amber-500', ring: 'ring-amber-400/30', icon: '🟠' },
+  { key: 'silver' as const, label: 'Silver', abbrev: 'sp', color: 'from-gray-200 to-gray-400', ring: 'ring-gray-400/30', icon: '⚫' },
+  { key: 'copper' as const, label: 'Copper', abbrev: 'cp', color: 'from-orange-400 to-orange-700', ring: 'ring-orange-400/30', icon: '🟤' },
+] as const;
 
 // Convert fractional amounts to smaller denominations
 function convertFractionalCurrency(
@@ -101,16 +111,8 @@ export default function CoinPurse({
 }: CoinPurseProps) {
   const currentSize = SIZE_STYLES[size];
 
-  const currencies = [
-    { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp', color: 'from-slate-300 to-slate-500', ring: 'ring-slate-400/30', icon: '⚪' },
-    { key: 'gold' as const, label: 'Gold', abbrev: 'gp', color: 'from-yellow-300 to-yellow-600', ring: 'ring-yellow-400/30', icon: '🟡' },
-    { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep', color: 'from-amber-200 to-amber-500', ring: 'ring-amber-400/30', icon: '🟠' },
-    { key: 'silver' as const, label: 'Silver', abbrev: 'sp', color: 'from-gray-200 to-gray-400', ring: 'ring-gray-400/30', icon: '⚫' },
-    { key: 'copper' as const, label: 'Copper', abbrev: 'cp', color: 'from-orange-400 to-orange-700', ring: 'ring-orange-400/30', icon: '🟤' },
-  ];
-
-  const handleCurrencyChange = (currencyType: keyof Character["currency"]) => (value: number | undefined) => {
-    if (!onCurrencyChange || value === undefined) return;
+  const handleCurrencyChange = (currencyType: keyof Character["currency"]) => (value: number) => {
+    if (!onCurrencyChange) return;
 
     // Convert fractional amounts to smaller denominations
     const updates = convertFractionalCurrency(value, currencyType as keyof CurrencyConversions, character.currency);
@@ -125,53 +127,66 @@ export default function CoinPurse({
     >
       <div className={currentSize.container}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {currencies.map(({ key, label, abbrev, color, ring, icon }) => {
+          {CURRENCY_DEFINITIONS.map(({ key, label, abbrev, color, ring, icon }) => {
             const value = character.currency[key] || 0;
             
             return (
-              <div key={key} className={`relative group transition-all duration-200 hover:scale-105`}>
-                {/* Coin-themed container with gradient background */}
-                <div className={`
-                  bg-gradient-to-br ${color} 
-                  rounded-xl p-[2px] shadow-lg
-                  ring-2 ${ring}
-                  group-hover:ring-4 group-hover:shadow-xl
-                  transition-all duration-200
-                `}>
-                  <div className="bg-zinc-900/80 backdrop-blur-sm rounded-[10px] p-3">
-                    {/* Header with coin icon and label */}
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-lg leading-none" role="img" aria-hidden="true">
-                        {icon}
-                      </span>
-                      <label 
-                        htmlFor={`currency-${key}`}
-                        className="text-xs font-semibold text-white drop-shadow-sm"
-                      >
-                        {label}
-                      </label>
-                      <span className="text-[10px] font-mono text-zinc-300 ml-auto">
-                        {abbrev}
-                      </span>
-                    </div>
-                    
-                    {/* Value input/display */}
-                    {editable ? (
-                      <NumberInput
-                        id={`currency-${key}`}
-                        value={value}
-                        onChange={handleCurrencyChange(key)}
-                        minValue={0}
-                        size="sm"
-                        className="text-center font-mono !bg-zinc-800/90 !border-zinc-600/50 hover:!border-zinc-500 focus:!bg-zinc-700/90"
-                        aria-label={`${label} pieces`}
-                        placeholder="0"
-                      />
-                    ) : (
-                      <div className="bg-zinc-800/90 border-2 border-zinc-600/50 rounded-lg px-3 py-2 text-sm min-h-[36px] flex items-center justify-center font-mono text-zinc-100 shadow-inner">
-                        {value.toLocaleString()}
-                      </div>
-                    )}
+              <Card
+                key={key}
+                variant="nested"
+                size="compact"
+                className={`
+                  relative group transition-all duration-200 hover:scale-105
+                  bg-gradient-to-br ${color} p-[2px] shadow-lg
+                  ring-2 ${ring} group-hover:ring-4 group-hover:shadow-xl
+                `}
+              >
+                <div className="bg-zinc-900/80 backdrop-blur-sm rounded-[10px] p-3">
+                  {/* Header with coin icon and label */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span 
+                      className="text-lg leading-none" 
+                      role="img" 
+                      aria-label={`${label} coin`}
+                    >
+                      {icon}
+                    </span>
+                    <label 
+                      htmlFor={`currency-${key}`}
+                      className="text-xs font-semibold text-white drop-shadow-sm"
+                    >
+                      {label}
+                    </label>
+                    <span className="text-[10px] font-mono text-zinc-300 ml-auto">
+                      {abbrev}
+                    </span>
+                  </div>
+                  
+                  {/* Value input/display using EditableValue */}
+                  <EditableValue
+                    value={value}
+                    onChange={handleCurrencyChange(key)}
+                    editable={editable}
+                    minValue={0}
+                    maxValue={999999}
+                    size="sm"
+                    ariaLabel={`${label} pieces`}
+                    showEditIcon={false}
+                    displayValue={value.toLocaleString()}
+                    displayClassName="bg-zinc-800/90 border-2 border-zinc-600/50 rounded-lg px-3 py-2 text-sm min-h-[36px] flex items-center justify-center font-mono text-zinc-100 shadow-inner"
+                    inputClassName="text-center font-mono !bg-zinc-800/90 !border-zinc-600/50 hover:!border-zinc-500 focus:!bg-zinc-700/90"
+                    displayProps={{
+                      id: `currency-${key}`,
+                      "aria-describedby": `currency-${key}-description`,
+                    }}
+                  />
+                  
+                  {/* Screen reader description */}
+                  <div 
+                    id={`currency-${key}-description`}
+                    className="sr-only"
+                  >
+                    {editable ? `Current ${label} amount: ${value.toLocaleString()}. Click to edit.` : `${value.toLocaleString()} ${label} pieces`}
                   </div>
                 </div>
                 
@@ -182,7 +197,7 @@ export default function CoinPurse({
                   animate-pulse transition-opacity duration-300
                   pointer-events-none
                 `} />
-              </div>
+              </Card>
             );
           })}
         </div>

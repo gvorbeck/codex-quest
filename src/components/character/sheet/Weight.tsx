@@ -53,9 +53,11 @@ const CARRYING_CAPACITY = {
 };
 
 function getCarryingCapacity(race: string, strengthScore: number) {
-  const isHalfling = race.toLowerCase() === 'halfling';
-  const table = isHalfling ? CARRYING_CAPACITY.halfling : CARRYING_CAPACITY.normal;
-  
+  const isHalfling = race.toLowerCase() === "halfling";
+  const table = isHalfling
+    ? CARRYING_CAPACITY.halfling
+    : CARRYING_CAPACITY.normal;
+
   // Clamp strength score to table bounds
   const clampedStr = Math.max(3, Math.min(18, strengthScore));
   return table[clampedStr as keyof typeof table];
@@ -64,29 +66,32 @@ function getCarryingCapacity(race: string, strengthScore: number) {
 function calculateTotalWeight(character: Character): number {
   // Calculate equipment weight
   const equipmentWeight = character.equipment.reduce((total, item) => {
-    return total + (item.weight * item.amount);
+    return total + item.weight * item.amount;
   }, 0);
 
   // Calculate coin weight if enabled
   let coinWeight = 0;
   if (character.settings?.useCoinWeight) {
     // 1 gold piece = 1/20th of a pound
-    const totalCoins = 
+    const totalCoins =
       (character.currency.gold || 0) +
       (character.currency.silver || 0) +
       (character.currency.copper || 0) +
       (character.currency.electrum || 0) +
       (character.currency.platinum || 0);
-    
+
     coinWeight = totalCoins / 20;
   }
 
   return equipmentWeight + coinWeight;
 }
 
-function createWeightThresholds(lightCapacity: number, heavyCapacity: number): StatusThreshold[] {
+function createWeightThresholds(
+  lightCapacity: number,
+  heavyCapacity: number
+): StatusThreshold[] {
   const lightPercentage = (lightCapacity / heavyCapacity) * 100;
-  
+
   return [
     {
       min: 100.1,
@@ -119,8 +124,28 @@ export default function Weight({
 }: WeightProps) {
   const currentSize = SIZE_STYLES[size];
   const totalWeight = calculateTotalWeight(character);
-  const capacity = getCarryingCapacity(character.race, character.abilities.strength.value);
-  const weightThresholds = createWeightThresholds(capacity.light, capacity.heavy);
+  const capacity = getCarryingCapacity(
+    character.race,
+    character.abilities.strength.value
+  );
+  const weightThresholds = createWeightThresholds(
+    capacity.light,
+    capacity.heavy
+  );
+
+  // Calculate breakdown for display
+  const equipmentWeight = character.equipment.reduce(
+    (total, item) => total + item.weight * item.amount,
+    0
+  );
+  const coinWeight = character.settings?.useCoinWeight
+    ? ((character.currency.gold || 0) +
+        (character.currency.silver || 0) +
+        (character.currency.copper || 0) +
+        (character.currency.electrum || 0) +
+        (character.currency.platinum || 0)) /
+      20
+    : 0;
 
   return (
     <CharacterSheetSectionWrapper
@@ -132,11 +157,15 @@ export default function Weight({
         <div className="space-y-4">
           {/* Current Weight vs Capacity */}
           <div className="text-center">
-            <div className="flex items-baseline justify-center gap-2 mb-3">
+            <div 
+              className="flex items-baseline justify-center gap-2 mb-3"
+              role="group"
+              aria-label={`Current weight: ${totalWeight.toFixed(1)} pounds out of ${capacity.heavy} pound maximum capacity`}
+            >
               <span className="text-2xl font-mono font-bold text-zinc-100">
                 {totalWeight.toFixed(1)}
               </span>
-              <span className="text-lg text-zinc-400 font-mono">/</span>
+              <span className="text-lg text-zinc-400 font-mono" aria-hidden="true">/</span>
               <span className="text-lg font-mono text-zinc-300">
                 {capacity.heavy}
               </span>
@@ -150,6 +179,7 @@ export default function Weight({
               thresholds={weightThresholds}
               showBar={true}
               showLabel={true}
+              className="mt-2"
             />
           </div>
 
@@ -158,7 +188,7 @@ export default function Weight({
             <div className="flex justify-between text-zinc-400">
               <span>Equipment:</span>
               <span className="font-mono">
-                {character.equipment.reduce((total, item) => total + (item.weight * item.amount), 0).toFixed(1)} lbs
+                {equipmentWeight.toFixed(1)} lbs
               </span>
             </div>
             
@@ -166,7 +196,7 @@ export default function Weight({
               <div className="flex justify-between text-zinc-400">
                 <span>Coins:</span>
                 <span className="font-mono">
-                  {(((character.currency.gold || 0) + (character.currency.silver || 0) + (character.currency.copper || 0) + (character.currency.electrum || 0) + (character.currency.platinum || 0)) / 20).toFixed(1)} lbs
+                  {coinWeight.toFixed(1)} lbs
                 </span>
               </div>
             )}
@@ -190,7 +220,6 @@ export default function Weight({
               <span className="font-mono">{capacity.heavy} lbs</span>
             </div>
           </div>
-
         </div>
       </div>
     </CharacterSheetSectionWrapper>
