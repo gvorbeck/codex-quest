@@ -14,6 +14,7 @@ import {
   SpecialsRestrictions,
   CoinPurse,
   Weight,
+  Spells,
 } from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -203,6 +204,8 @@ export default function CharacterSheet() {
     );
   }
 
+  console.log("character!", character);
+
   return (
     <PageWrapper>
       <header className="mb-8">
@@ -294,11 +297,12 @@ export default function CharacterSheet() {
             />
           </div>
           <div className="break-inside-avoid">
-            <Weight
-              character={character}
-            />
+            <Weight character={character} />
           </div>
         </div>
+
+        {/* Spells & Cantrips Section */}
+        <Spells character={character} />
 
         {/* Equipment */}
         {/* {character.equipment.length > 0 && (

@@ -2,7 +2,7 @@
 import { logger } from '@/utils/logger';
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from '@/constants/gameData';
 
-const CURRENT_VERSION = 2;
+const CURRENT_VERSION = 2.1;
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -71,9 +71,21 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
   const hasLegacyHp = 
     data['hp']?.points !== undefined;
 
+  const hasLegacyClasses = hasLegacyClassNames(data);
+
   const isNewVersion = data['settings']?.version === CURRENT_VERSION;
   
-  return (hasLegacyAbilities || hasLegacyCurrency || hasLegacyHp) && !isNewVersion;
+  return (hasLegacyAbilities || hasLegacyCurrency || hasLegacyHp || hasLegacyClasses) && !isNewVersion;
+}
+
+/**
+ * Check if character has class names instead of proper class IDs
+ */
+function hasLegacyClassNames(data: LegacyCharacterData): boolean {
+  const classes = Array.isArray(data.class) ? data.class : (data.class ? [data.class] : []);
+  
+  // Check if any class has uppercase letters or spaces (indicating it's a name, not an ID)
+  return classes.some(cls => typeof cls === 'string' && (/[A-Z]/.test(cls) || /\s/.test(cls)));
 }
 
 /**

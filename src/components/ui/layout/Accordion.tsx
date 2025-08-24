@@ -13,6 +13,7 @@ interface AccordionProps<T extends AccordionItem> {
   searchPlaceholder?: string;
   renderItem: (item: T, index: number) => React.ReactNode;
   className?: string;
+  showCounts?: boolean; // Optional prop to show/hide item counts
 }
 
 interface AccordionSectionProps {
@@ -22,6 +23,7 @@ interface AccordionSectionProps {
   onToggle: () => void;
   sectionId: string;
   itemCount: number;
+  showCount?: boolean; // Optional prop to show/hide item count
 }
 
 const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -31,6 +33,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
   onToggle,
   sectionId,
   itemCount,
+  showCount = true,
 }) => {
   const contentId = `${sectionId}-content`;
 
@@ -55,9 +58,11 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
           <span className="text-amber-400">
             {title.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
           </span>
-          <span className="text-zinc-400 text-sm font-normal">
-            ({itemCount})
-          </span>
+          {showCount && (
+            <span className="text-zinc-400 text-sm font-normal">
+              ({itemCount})
+            </span>
+          )}
         </span>
         <span
           aria-hidden="true"
@@ -91,6 +96,7 @@ function Accordion<T extends AccordionItem>({
   searchPlaceholder = "Search items...",
   renderItem,
   className = "",
+  showCounts = true,
 }: AccordionProps<T>) {
   const accordionId = useId();
   const [searchTerm, setSearchTerm] = useState("");
@@ -202,6 +208,7 @@ function Accordion<T extends AccordionItem>({
               onToggle={() => handleSectionToggle(category)}
               sectionId={`${accordionId}-section-${category}`}
               itemCount={categoryItems.length}
+              showCount={showCounts}
             >
               <div role="list" className="space-y-2">
                 {categoryItems.map((item, index) => (
