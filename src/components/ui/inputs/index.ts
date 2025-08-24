@@ -6,6 +6,7 @@ export { default as TextArea } from "./TextArea";
 export { default as Select } from "./Select";
 export { default as Switch } from "./Switch";
 export { default as FileUpload } from "./FileUpload";
+export { default as EditableValue } from "./EditableValue";
 
 // Character Creation Abstractions
 export { OptionToggle } from "./OptionToggle";

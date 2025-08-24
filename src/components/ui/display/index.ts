@@ -7,6 +7,8 @@ export { default as Stepper } from "./Stepper";
 export { default as Details, type DescriptionItem } from "./Details";
 export { default as EditIcon } from "./EditIcon";
 export { default as SimpleRoller } from "./SimpleRoller";
+export { default as StatCard } from "./StatCard";
+export { default as StatusIndicator, type StatusThreshold } from "./StatusIndicator";
 
 // Character Creation Abstractions
 export { InfoCardHeader } from "./InfoCardHeader";
