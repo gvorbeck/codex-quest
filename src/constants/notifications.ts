@@ -7,10 +7,11 @@ import type {
  * Animation and timing constants for notifications
  */
 export const NOTIFICATION_CONSTANTS = {
-  ANIMATION_DURATION: 300,
-  DEFAULT_DURATION: 15000,
-  STAGGER_DELAY: 100,
+  ANIMATION_DURATION: 400,
+  DEFAULT_DURATION: 0,
+  STAGGER_DELAY: 150,
   FOCUS_DELAY: 100,
+  MAX_NOTIFICATIONS: 5,
 } as const;
 
 /**
@@ -23,37 +24,42 @@ export const PRIORITY_STYLES: Record<
     bg: string;
     border: string;
     shadow: string;
-    titleColor: "amber" | "lime" | "white" | "primary";
-    messageColor: "primary" | "white";
+    titleColor: "amber" | "lime" | "white" | "primary" | "slate";
+    messageColor: "primary" | "white" | "slate";
+    accent: string;
   }
 > = {
   info: {
-    bg: "bg-zinc-800",
-    border: "border-amber-600",
-    shadow: "shadow-[0_3px_0_0_#b45309]",
-    titleColor: "amber",
-    messageColor: "primary",
+    bg: "bg-gradient-to-br from-slate-50/95 to-slate-100/95 dark:from-slate-900/90 dark:to-slate-800/90",
+    border: "border-slate-200 dark:border-slate-700",
+    shadow: "shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50",
+    titleColor: "slate",
+    messageColor: "slate",
+    accent: "bg-blue-500",
   },
   success: {
-    bg: "bg-lime-950/20",
-    border: "border-lime-600",
-    shadow: "shadow-[0_3px_0_0_#65a30d]",
-    titleColor: "lime",
-    messageColor: "primary",
+    bg: "bg-gradient-to-br from-lime-50/95 to-green-100/95 dark:from-lime-950/80 dark:to-green-900/80",
+    border: "border-lime-200 dark:border-lime-800",
+    shadow: "shadow-lg shadow-lime-200/50 dark:shadow-lime-900/30",
+    titleColor: "slate",
+    messageColor: "slate",
+    accent: "bg-lime-500",
   },
   warning: {
-    bg: "bg-amber-950/20",
-    border: "border-amber-600",
-    shadow: "shadow-[0_3px_0_0_#d97706]",
-    titleColor: "amber",
-    messageColor: "primary",
+    bg: "bg-gradient-to-br from-amber-50/95 to-orange-100/95 dark:from-amber-950/80 dark:to-orange-900/80",
+    border: "border-amber-200 dark:border-amber-800",
+    shadow: "shadow-lg shadow-amber-200/50 dark:shadow-amber-900/30",
+    titleColor: "slate",
+    messageColor: "slate",
+    accent: "bg-amber-500",
   },
   error: {
-    bg: "bg-red-950/20",
-    border: "border-red-600",
-    shadow: "shadow-[0_3px_0_0_#dc2626]",
-    titleColor: "white",
-    messageColor: "white",
+    bg: "bg-gradient-to-br from-red-50/90 to-rose-100/90 dark:from-red-950/80 dark:to-rose-900/80",
+    border: "border-red-200 dark:border-red-700",
+    shadow: "shadow-lg shadow-red-200/50 dark:shadow-red-900/40",
+    titleColor: "slate",
+    messageColor: "slate",
+    accent: "bg-red-500",
   },
 } as const;
 
@@ -70,34 +76,34 @@ export const POSITION_ANIMATIONS: Record<
   }
 > = {
   "top-right": {
-    enter: "translate-x-0 translate-y-0",
-    exit: "translate-x-full translate-y-0",
-    initial: "translate-x-full translate-y-0",
+    enter: "translate-x-0 translate-y-0 scale-100",
+    exit: "translate-x-full translate-y-0 scale-95",
+    initial: "translate-x-full translate-y-0 scale-95",
   },
   "top-left": {
-    enter: "translate-x-0 translate-y-0",
-    exit: "-translate-x-full translate-y-0",
-    initial: "-translate-x-full translate-y-0",
+    enter: "translate-x-0 translate-y-0 scale-100",
+    exit: "-translate-x-full translate-y-0 scale-95",
+    initial: "-translate-x-full translate-y-0 scale-95",
   },
   "bottom-right": {
-    enter: "translate-x-0 translate-y-0",
-    exit: "translate-x-full translate-y-0",
-    initial: "translate-x-full translate-y-0",
+    enter: "translate-x-0 translate-y-0 scale-100",
+    exit: "translate-x-full translate-y-0 scale-95",
+    initial: "translate-x-full translate-y-0 scale-95",
   },
   "bottom-left": {
-    enter: "translate-x-0 translate-y-0",
-    exit: "-translate-x-full translate-y-0",
-    initial: "-translate-x-full translate-y-0",
+    enter: "translate-x-0 translate-y-0 scale-100",
+    exit: "-translate-x-full translate-y-0 scale-95",
+    initial: "-translate-x-full translate-y-0 scale-95",
   },
   "top-center": {
-    enter: "translate-x-0 translate-y-0",
-    exit: "translate-x-0 -translate-y-full",
-    initial: "translate-x-0 -translate-y-full",
+    enter: "translate-x-0 translate-y-0 scale-100",
+    exit: "translate-x-0 -translate-y-full scale-95",
+    initial: "translate-x-0 -translate-y-full scale-95",
   },
   "bottom-center": {
-    enter: "translate-x-0 translate-y-0",
-    exit: "translate-x-0 translate-y-full",
-    initial: "translate-x-0 translate-y-full",
+    enter: "translate-x-0 translate-y-0 scale-100",
+    exit: "translate-x-0 translate-y-full scale-95",
+    initial: "translate-x-0 translate-y-full scale-95",
   },
 } as const;
 
@@ -105,7 +111,7 @@ export const POSITION_ANIMATIONS: Record<
  * Progress bar color mapping for different priorities
  */
 export const PRIORITY_PROGRESS_COLORS: Record<NotificationPriority, string> = {
-  info: "bg-amber-500",
+  info: "bg-blue-500",
   success: "bg-lime-500",
   warning: "bg-amber-500",
   error: "bg-red-500",
@@ -115,13 +121,15 @@ export const PRIORITY_PROGRESS_COLORS: Record<NotificationPriority, string> = {
  * Base notification styles that don't change
  */
 export const BASE_NOTIFICATION_STYLES = [
-  "border-2",
-  "rounded-lg",
-  "p-4",
-  "max-w-sm",
+  "border",
+  "rounded-xl",
+  "p-5",
+  "max-w-md",
+  "min-w-80",
   "transition-all",
-  "duration-300",
-  "ease-in-out",
-  "backdrop-blur-sm",
+  "duration-500",
+  "ease-out",
+  "backdrop-blur-md",
   "relative",
+  "overflow-hidden",
 ] as const;

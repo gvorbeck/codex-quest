@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import type { NotificationData } from "@/components/ui/feedback/NotificationContainer";
 import type {
   NotificationPriority,
@@ -50,16 +50,42 @@ export interface NotificationSystem {
  */
 export function useNotifications(
   defaultPosition: NotificationPosition = "top-right",
-  defaultDuration: number = NOTIFICATION_CONSTANTS.DEFAULT_DURATION
+  defaultDuration: number = 0
 ): NotificationSystem {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
   const { announce } = useA11yAnnouncements();
+
+  // Validate notification options
+  const validateNotificationOptions = useCallback(
+    (options: ShowNotificationOptions): void => {
+      if (options.duration !== undefined && options.duration < 0) {
+        throw new Error("Notification duration must be non-negative");
+      }
+      
+      if (options.title && typeof options.title !== "string") {
+        throw new Error("Notification title must be a string");
+      }
+      
+      if (options.priority && !["info", "success", "warning", "error"].includes(options.priority)) {
+        throw new Error("Invalid notification priority");
+      }
+      
+      if (options.position && !["top-right", "top-left", "bottom-right", "bottom-left", "top-center", "bottom-center"].includes(options.position)) {
+        throw new Error("Invalid notification position");
+      }
+    },
+    []
+  );
+
+  // Constants for ID generation
+  const ID_RANDOM_OFFSET = 2;
+  const ID_RANDOM_LENGTH = 9;
 
   // Generate unique ID for notifications
   const generateId = useCallback(() => {
     return `notification-${Date.now()}-${Math.random()
       .toString(36)
-      .substr(2, 9)}`;
+      .substr(ID_RANDOM_OFFSET, ID_RANDOM_LENGTH)}`;
   }, []);
 
   // Helper to create announcement text
@@ -95,6 +121,20 @@ export function useNotifications(
       message: string | React.ReactNode,
       options: ShowNotificationOptions = {}
     ): string => {
+      // Validate options before processing
+      try {
+        validateNotificationOptions(options);
+      } catch (error) {
+        console.error("Invalid notification options:", error);
+        // Fallback to safe defaults on validation error
+        options = {
+          ...options,
+          priority: "info",
+          duration: defaultDuration,
+          position: defaultPosition,
+        };
+      }
+
       const id = generateId();
       const priority = options.priority || "info";
 
@@ -110,7 +150,14 @@ export function useNotifications(
           options.dismissible !== undefined ? options.dismissible : true,
       };
 
-      setNotifications((prev) => [...prev, notification]);
+      setNotifications((prev) => {
+        const newNotifications = [...prev, notification];
+        // If we exceed the maximum, remove the oldest notifications
+        if (newNotifications.length > NOTIFICATION_CONSTANTS.MAX_NOTIFICATIONS) {
+          return newNotifications.slice(-NOTIFICATION_CONSTANTS.MAX_NOTIFICATIONS);
+        }
+        return newNotifications;
+      });
 
       // Announce to screen readers
       const announcementText = createAnnouncementText(
@@ -130,6 +177,7 @@ export function useNotifications(
       defaultDuration,
       createAnnouncementText,
       announce,
+      validateNotificationOptions,
     ]
   );
 
@@ -145,49 +193,43 @@ export function useNotifications(
     setNotifications([]);
   }, []);
 
+  // Generic factory function for priority methods
+  const createPriorityMethod = useCallback(
+    (
+      priority: NotificationPriority,
+      defaultOverrides?: Partial<ShowNotificationOptions>
+    ) =>
+      (
+        message: string | React.ReactNode,
+        options: Omit<ShowNotificationOptions, "priority"> = {}
+      ): string =>
+        showNotification(message, {
+          ...options,
+          ...defaultOverrides,
+          priority,
+        }),
+    [showNotification]
+  );
+
   // Convenience methods for different priority levels
-  const showInfo = useCallback(
-    (
-      message: string | React.ReactNode,
-      options: Omit<ShowNotificationOptions, "priority"> = {}
-    ): string => {
-      return showNotification(message, { ...options, priority: "info" });
-    },
-    [showNotification]
+  const showInfo = useMemo(
+    () => createPriorityMethod("info"),
+    [createPriorityMethod]
   );
 
-  const showSuccess = useCallback(
-    (
-      message: string | React.ReactNode,
-      options: Omit<ShowNotificationOptions, "priority"> = {}
-    ): string => {
-      return showNotification(message, { ...options, priority: "success" });
-    },
-    [showNotification]
+  const showSuccess = useMemo(
+    () => createPriorityMethod("success"),
+    [createPriorityMethod]
   );
 
-  const showWarning = useCallback(
-    (
-      message: string | React.ReactNode,
-      options: Omit<ShowNotificationOptions, "priority"> = {}
-    ): string => {
-      return showNotification(message, { ...options, priority: "warning" });
-    },
-    [showNotification]
+  const showWarning = useMemo(
+    () => createPriorityMethod("warning"),
+    [createPriorityMethod]
   );
 
-  const showError = useCallback(
-    (
-      message: string | React.ReactNode,
-      options: Omit<ShowNotificationOptions, "priority"> = {}
-    ): string => {
-      return showNotification(message, {
-        ...options,
-        priority: "error",
-        duration: 0,
-      }); // Errors don't auto-dismiss by default
-    },
-    [showNotification]
+  const showError = useMemo(
+    () => createPriorityMethod("error", { duration: 0 }), // Errors don't auto-dismiss by default
+    [createPriorityMethod]
   );
 
   return {

@@ -58,7 +58,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       title,
       priority = "info",
       position = "top-right",
-      duration = 15000,
+      duration = 0,
       onDismiss,
       dismissible = true,
       isVisible = true,
@@ -71,6 +71,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
     const dismissTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const notificationRef = useRef<HTMLDivElement>(null);
+    const previousFocusRef = useRef<HTMLElement | null>(null);
 
     const handleDismiss = useCallback(() => {
       setIsAnimatingOut(true);
@@ -120,16 +121,29 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       };
     }, []);
 
-    // Focus management for critical notifications
+    // Focus management for critical notifications with restoration
     useEffect(() => {
       if (isVisible && priority === "error" && notificationRef.current) {
+        // Store current focus before focusing the notification
+        previousFocusRef.current = document.activeElement as HTMLElement;
+        
         // Focus error notifications for immediate attention
         // Small delay to ensure the notification is rendered and positioned
         const focusTimer = setTimeout(() => {
           notificationRef.current?.focus();
         }, NOTIFICATION_CONSTANTS.FOCUS_DELAY);
 
-        return () => clearTimeout(focusTimer);
+        return () => {
+          clearTimeout(focusTimer);
+          // Restore focus when error notification is dismissed
+          if (
+            previousFocusRef.current &&
+            document.contains(previousFocusRef.current) &&
+            document.activeElement === notificationRef.current
+          ) {
+            previousFocusRef.current.focus();
+          }
+        };
       }
 
       return undefined;
@@ -186,13 +200,16 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         tabIndex={priority === "error" ? 0 : -1}
         {...props}
       >
+        {/* Accent bar */}
+        <div className={cn("absolute left-0 top-0 bottom-0 w-1 rounded-l-xl", styles.accent)} />
+
         {/* Close button */}
         {dismissible && (
           <Button
             onClick={handleDismiss}
             variant="ghost"
             size="sm"
-            className="absolute top-2 right-2 w-6 h-6 !p-0 !min-h-0 !border-0"
+            className="absolute top-3 right-3 w-7 h-7 !p-0 !min-h-0 !border-0 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors"
             aria-label="Dismiss notification"
           >
             <Icon name="close" size="sm" aria-hidden />
@@ -200,15 +217,15 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         )}
 
         {/* Content */}
-        <div className={dismissible ? "pr-8" : ""}>
+        <div className={cn("pl-4", dismissible ? "pr-12" : "pr-4")}>
           {title && (
-            <Typography variant="h6" color={styles.titleColor} className="mb-1">
+            <Typography variant="h6" color={styles.titleColor} className="mb-2 font-semibold">
               {title}
             </Typography>
           )}
 
           <Typography
-            variant="bodySmall"
+            variant="body"
             color={styles.messageColor}
             className="leading-relaxed"
           >
@@ -216,12 +233,12 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
           </Typography>
         </div>
 
-        {/* Progress bar for timed notifications */}
+        {/* Progress bar for timed notifications (only when duration > 0) */}
         {duration > 0 && isVisible && !isAnimatingOut && (
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-zinc-700/30 rounded-b-lg overflow-hidden">
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/5 dark:bg-white/5 overflow-hidden rounded-b-xl">
             <div
               className={cn(
-                "h-full transition-all ease-linear rounded-b-lg",
+                "h-full transition-all ease-linear",
                 PRIORITY_PROGRESS_COLORS[priority]
               )}
               style={{

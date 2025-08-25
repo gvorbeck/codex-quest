@@ -7,6 +7,7 @@ export { default as Callout } from "./Callout";
 export { default as Notification } from "./Notification";
 export { default as NotificationContainer } from "./NotificationContainer";
 export { ErrorBoundary } from "./ErrorBoundary";
+export { NotificationErrorBoundary } from "./NotificationErrorBoundary";
 export { CharGenErrorBoundary } from "./CharGenErrorBoundary";
 export { CharacterSheetErrorBoundary } from "./CharacterSheetErrorBoundary";
 export { HomeErrorBoundary } from "./HomeErrorBoundary";

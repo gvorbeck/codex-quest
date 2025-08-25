@@ -1,6 +1,6 @@
 import { Suspense, lazy, useState } from "react";
 import "./App.css";
-import { ErrorBoundary, NotificationContainer } from "@/components/ui/feedback";
+import { ErrorBoundary, NotificationContainer, NotificationErrorBoundary } from "@/components/ui/feedback";
 import { AppHeader } from "@/components/ui/AppHeader";
 import { AppFooter } from "@/components/ui/AppFooter";
 import { AppRoutes } from "@/components/ui/AppRoutes";
@@ -40,10 +40,12 @@ function App() {
           )}
 
           {/* Global Notification Container */}
-          <NotificationContainer
-            notifications={notifications.notifications}
-            onDismiss={notifications.dismissNotification}
-          />
+          <NotificationErrorBoundary>
+            <NotificationContainer
+              notifications={notifications.notifications}
+              onDismiss={notifications.dismissNotification}
+            />
+          </NotificationErrorBoundary>
         </div>
       </NotificationContext.Provider>
     </ErrorBoundary>

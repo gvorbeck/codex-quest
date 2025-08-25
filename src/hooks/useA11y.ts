@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
  */
 export function useA11yAnnouncements() {
   const announcementRef = useRef<HTMLDivElement | null>(null);
+  const clearTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   /**
    * Announce a message to screen readers
@@ -28,8 +29,13 @@ export function useA11yAnnouncements() {
     announcementRef.current.setAttribute("aria-live", priority);
     announcementRef.current.textContent = message;
 
+    // Clear any existing timeout to prevent memory leaks
+    if (clearTimeoutRef.current) {
+      clearTimeout(clearTimeoutRef.current);
+    }
+
     // Clear the message after announcement
-    setTimeout(() => {
+    clearTimeoutRef.current = setTimeout(() => {
       if (announcementRef.current) {
         announcementRef.current.textContent = "";
       }
@@ -37,10 +43,16 @@ export function useA11yAnnouncements() {
   };
 
   /**
-   * Cleanup announcement element on unmount
+   * Cleanup announcement element and timeouts on unmount
    */
   useEffect(() => {
     return () => {
+      // Clear any pending timeout
+      if (clearTimeoutRef.current) {
+        clearTimeout(clearTimeoutRef.current);
+      }
+      
+      // Remove announcement element
       if (
         announcementRef.current &&
         document.body.contains(announcementRef.current)

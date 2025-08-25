@@ -1,5 +1,4 @@
 import { useMemo, useCallback } from "react";
-import { Details } from "@/components/ui/display";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { formatModifier } from "@/utils/gameUtils";
@@ -37,7 +36,6 @@ export default function AttackBonuses({
           }${bonus} = ${total}`,
           {
             title: "Attack Roll",
-            duration: 5000,
           }
         );
       } catch {
@@ -197,45 +195,6 @@ export default function AttackBonuses({
     character.race,
   ]);
 
-  const items = [
-    {
-      label: "Base",
-      children: (
-        <button
-          onClick={() => handleAttackRoll("Base", attackBonuses.base)}
-          className="hover:text-amber-300 transition-colors cursor-pointer"
-          title="Click to roll base attack"
-        >
-          {formatModifier(attackBonuses.base)}
-        </button>
-      ),
-    },
-    {
-      label: "Melee",
-      children: (
-        <button
-          onClick={() => handleAttackRoll("Melee", attackBonuses.melee)}
-          className="hover:text-amber-300 transition-colors cursor-pointer"
-          title="Click to roll melee attack"
-        >
-          {formatModifier(attackBonuses.melee)}
-        </button>
-      ),
-    },
-    {
-      label: "Missile",
-      children: (
-        <button
-          onClick={() => handleAttackRoll("Missile", attackBonuses.missile)}
-          className="hover:text-amber-300 transition-colors cursor-pointer"
-          title="Click to roll missile attack"
-        >
-          {formatModifier(attackBonuses.missile)}
-        </button>
-      ),
-    },
-  ];
-
   const getTooltipContent = () => {
     let content = "Base: from level and class • Melee: base + STR modifier";
     if (attackBonuses.racial.melee !== 0) {
@@ -262,7 +221,42 @@ export default function AttackBonuses({
       className={className}
     >
       <div className={currentSize.container}>
-        <Details items={items} layout="vertical" size={size} />
+        <div className="space-y-3">
+          {[
+            { label: "Base", value: attackBonuses.base, type: "Base" },
+            { label: "Melee", value: attackBonuses.melee, type: "Melee" },
+            { label: "Missile", value: attackBonuses.missile, type: "Missile" },
+          ].map((item, index) => (
+            <button
+              key={index}
+              onClick={() => handleAttackRoll(item.type, item.value)}
+              className={`
+                w-full flex items-center justify-between py-3 px-4 gap-4
+                rounded-lg
+                bg-zinc-750/20 border border-zinc-600/60
+                transition-all duration-200
+                hover:bg-zinc-700/30 hover:border-amber-400/20
+                hover:shadow-lg hover:shadow-amber-400/5
+                cursor-pointer group/item
+              `}
+              title={`Click to roll ${item.label.toLowerCase()} attack`}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full group-hover/item:bg-amber-400 transition-colors duration-200"></div>
+                <span
+                  className={`text-amber-400 ${currentSize.labelText} group-hover/item:text-amber-300 transition-colors`}
+                >
+                  {item.label}
+                </span>
+              </div>
+              <div
+                className={`text-zinc-100 ${currentSize.contentText} text-right group-hover/item:text-amber-300 transition-colors`}
+              >
+                {formatModifier(item.value)}
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </CharacterSheetSectionWrapper>
   );

@@ -11,7 +11,7 @@ type TypographyVariant =
 
 type TypographyColor = 
   | "primary" | "secondary" | "muted" | "accent" 
-  | "amber" | "lime" | "zinc" | "white";
+  | "amber" | "lime" | "zinc" | "white" | "slate";
 
 type TypographyWeight = "normal" | "medium" | "semibold" | "bold";
 
@@ -78,6 +78,7 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
       lime: "text-lime-400",
       zinc: "text-zinc-100",
       white: "text-white",
+      slate: "text-slate-800 dark:text-slate-200",
     };
 
     // Weight styles
