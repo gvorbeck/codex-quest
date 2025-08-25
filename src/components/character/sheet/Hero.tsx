@@ -156,7 +156,12 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
               aria-label="Open character settings"
               title="Settings"
             >
-              <Icon name="settings" size="md" className="text-zinc-300 group-hover:text-zinc-100 group-focus:text-zinc-100" aria-hidden={true} />
+              <Icon
+                name="settings"
+                size="md"
+                className="text-zinc-300 group-hover:text-zinc-100 group-focus:text-zinc-100"
+                aria-hidden={true}
+              />
             </button>
           )}
 
@@ -217,7 +222,12 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                     }
                   }}
                 >
-                  <Icon name="edit" size="lg" className="text-white" aria-hidden={true} />
+                  <Icon
+                    name="edit"
+                    size="lg"
+                    className="text-white"
+                    aria-hidden={true}
+                  />
                 </div>
               )}
             </div>
@@ -280,7 +290,12 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onCharacterChange && (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <Icon name="edit" size="md" className="text-zinc-700" aria-hidden={true} />
+                      <Icon
+                        name="edit"
+                        size="md"
+                        className="text-zinc-700"
+                        aria-hidden={true}
+                      />
                     </div>
                   )}
                 </div>
@@ -340,6 +355,8 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
           <SettingsModal
             isOpen={isSettingsModalOpen}
             onClose={() => setIsSettingsModalOpen(false)}
+            character={character}
+            onCharacterChange={onCharacterChange}
           />
         )}
       </>
