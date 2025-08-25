@@ -18,6 +18,7 @@ import {
   AbilityScores,
   Hero,
   Equipment,
+  CharacterDescription,
 } from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -152,6 +153,18 @@ export default function CharacterSheet() {
     const updatedCharacter = {
       ...character,
       equipment,
+    };
+
+    handleCharacterChange(updatedCharacter);
+  };
+
+  // Handle description changes
+  const handleDescriptionChange = (desc: string) => {
+    if (!character) return;
+
+    const updatedCharacter = {
+      ...character,
+      desc,
     };
 
     handleCharacterChange(updatedCharacter);
@@ -328,6 +341,14 @@ export default function CharacterSheet() {
           character={character}
           editable={!!isOwner}
           onEquipmentChange={handleEquipmentChange}
+        />
+
+        {/* Character Description Section */}
+        <CharacterDescription
+          character={character}
+          editable={!!isOwner}
+          onDescriptionChange={handleDescriptionChange}
+          size="lg"
         />
       </div>
     </PageWrapper>
