@@ -232,11 +232,14 @@ export default function CharacterSheet() {
     );
   }
 
-  console.log(`
+  console.log(
+    `
 ⚔️  ═══════════════════════════════════════════════════════════════════════════════
-🛡️   CHARACTER SHEET DEBUG | ${character.name?.toUpperCase() || 'UNNAMED HERO'}
+🛡️   CHARACTER SHEET DEBUG | ${character.name?.toUpperCase() || "UNNAMED HERO"}
 ⚔️  ═══════════════════════════════════════════════════════════════════════════════
-`, character);
+`,
+    character
+  );
 
   return (
     <PageWrapper>
@@ -333,15 +336,20 @@ export default function CharacterSheet() {
           </div>
         </div>
 
-        {/* Spells & Cantrips Section */}
-        <Spells character={character} />
+        {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
+        {(character.spells?.length || character.cantrips?.length) && (
+          <Spells character={character} />
+        )}
 
         {/* Equipment Section */}
-        <Equipment 
+        <Equipment
           character={character}
           editable={!!isOwner}
           onEquipmentChange={handleEquipmentChange}
         />
+
+        {/* Horizontal Rule */}
+        <HorizontalRule />
 
         {/* Character Description Section */}
         <CharacterDescription
