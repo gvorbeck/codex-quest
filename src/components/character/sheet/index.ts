@@ -11,3 +11,4 @@ export { default as SpecialsRestrictions } from "./SpecialsRestrictions";
 export { default as CoinPurse } from "./CoinPurse";
 export { default as Weight } from "./Weight";
 export { default as Spells } from "./Spells";
+export { default as Equipment } from "./Equipment";

@@ -157,8 +157,11 @@ function CharGen() {
       try {
         await saveCharacter(user.uid, character);
 
-        // Clear localStorage
+        // Clear all character creation localStorage data for fresh start
         localStorage.removeItem(STORAGE_KEYS.NEW_CHARACTER);
+        localStorage.removeItem(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_RACE);
+        localStorage.removeItem(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_CLASS);
+        localStorage.removeItem(STORAGE_KEYS.USE_COMBINATION_CLASS);
 
         // Navigate to home
         setLocation("/");

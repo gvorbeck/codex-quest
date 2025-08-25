@@ -17,6 +17,7 @@ import {
   ExperiencePoints,
   AbilityScores,
   Hero,
+  Equipment,
 } from "@/components/character/sheet";
 import { useAuth } from "@/hooks/useAuth";
 import { allClasses } from "@/data/classes";
@@ -139,6 +140,18 @@ export default function CharacterSheet() {
         ...character.currency,
         ...updates,
       },
+    };
+
+    handleCharacterChange(updatedCharacter);
+  };
+
+  // Handle equipment changes
+  const handleEquipmentChange = (equipment: Character["equipment"]) => {
+    if (!character) return;
+
+    const updatedCharacter = {
+      ...character,
+      equipment,
     };
 
     handleCharacterChange(updatedCharacter);
@@ -310,31 +323,12 @@ export default function CharacterSheet() {
         {/* Spells & Cantrips Section */}
         <Spells character={character} />
 
-        {/* Equipment */}
-        {/* {character.equipment.length > 0 && (
-          <div className="bg-zinc-800 rounded-lg p-6 border border-zinc-700">
-            <h2 className="text-xl font-semibold text-zinc-100 mb-4">
-              Equipment
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {character.equipment.map((item, index) => (
-                <div key={index} className="bg-zinc-700 rounded-lg p-3">
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-medium text-zinc-100">{item.name}</h3>
-                    {item.amount > 1 && (
-                      <span className="text-sm text-zinc-400">
-                        × {item.amount}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-zinc-400">
-                    {item.costValue} {item.costCurrency} • {item.weight} lbs
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
+        {/* Equipment Section */}
+        <Equipment 
+          character={character}
+          editable={!!isOwner}
+          onEquipmentChange={handleEquipmentChange}
+        />
       </div>
     </PageWrapper>
   );
