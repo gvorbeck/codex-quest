@@ -390,11 +390,7 @@ const FABGroup: React.FC<FABGroupProps> = ({
               : "transform transition-transform duration-200"
           } ${isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"}`}
         >
-          <Icon 
-            name="plus" 
-            size="lg" 
-            aria-hidden={true}
-          />
+          <Icon name="plus" size="lg" aria-hidden={true} />
         </FloatingActionButton>
       )}
 
