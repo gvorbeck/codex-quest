@@ -5,6 +5,7 @@ import { Button, Switch, TextInput, TextArea } from "@/components/ui/inputs";
 import { Modal } from "@/components/ui/feedback";
 import { Accordion } from "@/components/ui/layout";
 import { EquipmentSelector } from "@/components/character/management";
+import CustomEquipmentModal from "./CustomEquipmentModal";
 import { Icon } from "@/components/ui/display/Icon";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character, Equipment as EquipmentItem } from "@/types/character";
@@ -25,7 +26,11 @@ export default function Equipment({
   onEquipmentChange,
 }: EquipmentProps) {
   const [showSelector, setShowSelector] = useState(false);
-  const [editingItem, setEditingItem] = useState<{ item: EquipmentItem; index: number } | null>(null);
+  const [showCustomModal, setShowCustomModal] = useState(false);
+  const [editingItem, setEditingItem] = useState<{
+    item: EquipmentItem;
+    index: number;
+  } | null>(null);
   const [editForm, setEditForm] = useState<EquipmentItem | null>(null);
   const currentSize = SIZE_STYLES[size];
 
@@ -56,20 +61,55 @@ export default function Equipment({
     setShowSelector(false);
   };
 
-  const handleEquipmentRemove = useCallback((index: number) => {
+  const handleCustomEquipmentAdd = (newEquipment: EquipmentItem) => {
     if (!onEquipmentChange) return;
 
-    const updatedEquipment = character.equipment.filter((_, i) => i !== index);
-    onEquipmentChange(updatedEquipment);
-  }, [character.equipment, onEquipmentChange]);
+    // Check if this equipment already exists in the character's inventory
+    const existingIndex = character.equipment.findIndex(
+      (item) => item.name === newEquipment.name
+    );
 
-  const handleEquipmentEdit = useCallback((index: number) => {
-    const item = character.equipment[index];
-    if (!item) return;
+    if (existingIndex >= 0) {
+      // Increase amount of existing item
+      const updatedEquipment = [...character.equipment];
+      const existingItem = updatedEquipment[existingIndex];
+      if (existingItem) {
+        updatedEquipment[existingIndex] = {
+          ...existingItem,
+          amount: existingItem.amount + newEquipment.amount,
+        };
+      }
+      onEquipmentChange(updatedEquipment);
+    } else {
+      // Add new item to inventory
+      onEquipmentChange([...character.equipment, newEquipment]);
+    }
 
-    setEditingItem({ item, index });
-    setEditForm({ ...item });
-  }, [character.equipment]);
+    setShowCustomModal(false);
+  };
+
+  const handleEquipmentRemove = useCallback(
+    (index: number) => {
+      if (!onEquipmentChange) return;
+
+      const updatedEquipment = character.equipment.filter(
+        (_, i) => i !== index
+      );
+      onEquipmentChange(updatedEquipment);
+    },
+    [character.equipment, onEquipmentChange]
+  );
+
+  const handleEquipmentEdit = useCallback(
+    (index: number) => {
+      const item = character.equipment[index];
+      if (!item) return;
+
+      setEditingItem({ item, index });
+      setEditForm({ ...item });
+    },
+    [character.equipment]
+  );
 
   const handleEditSave = useCallback(() => {
     if (!editForm || editingItem === null || !onEquipmentChange) return;
@@ -77,7 +117,7 @@ export default function Equipment({
     const updatedEquipment = [...character.equipment];
     updatedEquipment[editingItem.index] = editForm;
     onEquipmentChange(updatedEquipment);
-    
+
     setEditingItem(null);
     setEditForm(null);
   }, [editForm, editingItem, character.equipment, onEquipmentChange]);
@@ -87,70 +127,86 @@ export default function Equipment({
     setEditForm(null);
   }, []);
 
-  const updateEditForm = useCallback((field: keyof EquipmentItem, value: string | number) => {
-    if (!editForm) return;
-    setEditForm({ ...editForm, [field]: value });
-  }, [editForm]);
+  const updateEditForm = useCallback(
+    (field: keyof EquipmentItem, value: string | number) => {
+      if (!editForm) return;
+      setEditForm({ ...editForm, [field]: value });
+    },
+    [editForm]
+  );
 
+  const toggleWearing = useCallback(
+    (index: number) => {
+      if (!onEquipmentChange) return;
 
-  const toggleWearing = useCallback((index: number) => {
-    if (!onEquipmentChange) return;
+      const updatedEquipment = [...character.equipment];
+      const item = updatedEquipment[index];
 
-    const updatedEquipment = [...character.equipment];
-    const item = updatedEquipment[index];
-    
-    if (!item) return;
+      if (!item) return;
 
-    // Determine item type based on category and properties
-    const isArmor = item.category?.toLowerCase().includes('armor') || 
-                   (item.AC !== undefined && !item.category?.toLowerCase().includes('shield'));
-    const isShield = item.category?.toLowerCase().includes('shield');
-    
-    if (isArmor || isShield) {
-      const newWearingState = !item.wearing;
-      
-      if (newWearingState) {
-        // If we're equipping this item, unequip any other item of the same type
-        if (isArmor) {
-          // Unequip any currently worn armor
-          updatedEquipment.forEach((equipItem, i) => {
-            if (i !== index && equipItem.wearing) {
-              const otherIsArmor = equipItem.category?.toLowerCase().includes('armor') || 
-                                  (equipItem.AC !== undefined && !equipItem.category?.toLowerCase().includes('shield'));
-              if (otherIsArmor) {
+      // Determine item type based on category and properties
+      const isArmor =
+        item.category?.toLowerCase().includes("armor") ||
+        (item.AC !== undefined &&
+          !item.category?.toLowerCase().includes("shield"));
+      const isShield = item.category?.toLowerCase().includes("shield");
+
+      if (isArmor || isShield) {
+        const newWearingState = !item.wearing;
+
+        if (newWearingState) {
+          // If we're equipping this item, unequip any other item of the same type
+          if (isArmor) {
+            // Unequip any currently worn armor
+            updatedEquipment.forEach((equipItem, i) => {
+              if (i !== index && equipItem.wearing) {
+                const otherIsArmor =
+                  equipItem.category?.toLowerCase().includes("armor") ||
+                  (equipItem.AC !== undefined &&
+                    !equipItem.category?.toLowerCase().includes("shield"));
+                if (otherIsArmor) {
+                  updatedEquipment[i] = { ...equipItem, wearing: false };
+                }
+              }
+            });
+          } else if (isShield) {
+            // Unequip any currently worn shield
+            updatedEquipment.forEach((equipItem, i) => {
+              if (
+                i !== index &&
+                equipItem.wearing &&
+                equipItem.category?.toLowerCase().includes("shield")
+              ) {
                 updatedEquipment[i] = { ...equipItem, wearing: false };
               }
-            }
-          });
-        } else if (isShield) {
-          // Unequip any currently worn shield
-          updatedEquipment.forEach((equipItem, i) => {
-            if (i !== index && equipItem.wearing && equipItem.category?.toLowerCase().includes('shield')) {
-              updatedEquipment[i] = { ...equipItem, wearing: false };
-            }
-          });
+            });
+          }
         }
+
+        // Toggle the current item's wearing state
+        updatedEquipment[index] = {
+          ...item,
+          wearing: newWearingState,
+        };
+
+        onEquipmentChange(updatedEquipment);
       }
-      
-      // Toggle the current item's wearing state
-      updatedEquipment[index] = {
-        ...item,
-        wearing: newWearingState,
-      };
-      
-      onEquipmentChange(updatedEquipment);
-    }
-  }, [character.equipment, onEquipmentChange]);
+    },
+    [character.equipment, onEquipmentChange]
+  );
 
   const formatWeight = useCallback((weight: number, amount: number) => {
     const totalWeight = weight * amount;
     return totalWeight > 0 ? `${totalWeight} lbs` : "—";
   }, []);
 
-  const formatCost = useCallback((costValue: number, costCurrency: string, amount: number) => {
-    const totalCost = costValue * amount;
-    return `${totalCost} ${costCurrency}`;
-  }, []);
+  const formatCost = useCallback(
+    (costValue: number, costCurrency: string, amount: number) => {
+      const totalCost = costValue * amount;
+      return `${totalCost} ${costCurrency}`;
+    },
+    []
+  );
 
   // Prepare equipment items for the Accordion component
   const equipmentForAccordion = character.equipment.map((item, index) => ({
@@ -167,17 +223,17 @@ export default function Equipment({
           {/* Item Info */}
           <div className="flex-1">
             <div className="flex items-start gap-3 mb-2">
-              <Typography 
-                variant="body" 
-                color="primary" 
-                weight="medium" 
+              <Typography
+                variant="body"
+                color="primary"
+                weight="medium"
                 className="flex-1 flex items-center gap-2"
               >
                 {item.name}
                 {item.wearing && (
-                  <Badge 
-                    variant="success" 
-                    size="sm" 
+                  <Badge
+                    variant="success"
+                    size="sm"
                     aria-label="Currently equipped"
                   >
                     Equipped
@@ -194,9 +250,9 @@ export default function Equipment({
             {/* Item Description */}
             {item.description && (
               <div className="mb-3">
-                <Typography 
-                  variant="bodySmall" 
-                  color="muted" 
+                <Typography
+                  variant="bodySmall"
+                  color="muted"
                   className="italic leading-relaxed"
                 >
                   {item.description}
@@ -235,10 +291,14 @@ export default function Equipment({
             <div className="flex flex-col gap-3 sm:min-w-[140px]">
               {/* Wearing Switch for armor and shields */}
               {(() => {
-                const isArmor = item.category?.toLowerCase().includes('armor') || 
-                               (item.AC !== undefined && !item.category?.toLowerCase().includes('shield'));
-                const isShield = item.category?.toLowerCase().includes('shield');
-                
+                const isArmor =
+                  item.category?.toLowerCase().includes("armor") ||
+                  (item.AC !== undefined &&
+                    !item.category?.toLowerCase().includes("shield"));
+                const isShield = item.category
+                  ?.toLowerCase()
+                  .includes("shield");
+
                 if (isArmor || isShield) {
                   return (
                     <Switch
@@ -279,25 +339,41 @@ export default function Equipment({
         </div>
       );
     },
-    [editable, toggleWearing, handleEquipmentEdit, handleEquipmentRemove, formatCost, formatWeight]
+    [
+      editable,
+      toggleWearing,
+      handleEquipmentEdit,
+      handleEquipmentRemove,
+      formatCost,
+      formatWeight,
+    ]
   );
 
   return (
     <CharacterSheetSectionWrapper
       title={
-        <div className="flex items-center justify-between w-full">
+        <div className="flex gap-2 items-center justify-between w-full">
           <span>Equipment</span>
           {editable && (
-            <Button
-              onClick={() => setShowSelector(!showSelector)}
-              variant="secondary"
-              size="sm"
-              aria-expanded={showSelector}
-              aria-controls="equipment-selector"
-              className="ml-2"
-            >
-              {showSelector ? "Hide Shop" : "Add Equipment"}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setShowSelector(!showSelector)}
+                variant="secondary"
+                size="sm"
+                aria-expanded={showSelector}
+                aria-controls="equipment-selector"
+              >
+                {showSelector ? "Hide Shop" : "Add Equipment"}
+              </Button>
+              <Button
+                onClick={() => setShowCustomModal(true)}
+                variant="primary"
+                size="sm"
+                aria-label="Create custom equipment"
+              >
+                Create Custom
+              </Button>
+            </div>
           )}
         </div>
       }
@@ -323,7 +399,8 @@ export default function Equipment({
             </Typography>
             {editable && (
               <Typography variant="bodySmall" color="muted">
-                Click "Add Equipment" to start shopping for gear
+                Click "Add Equipment" to browse available gear or "Create
+                Custom" to make your own
               </Typography>
             )}
           </Card>
@@ -337,6 +414,13 @@ export default function Equipment({
             showCounts={true}
           />
         )}
+
+        {/* Custom Equipment Modal */}
+        <CustomEquipmentModal
+          isOpen={showCustomModal}
+          onClose={() => setShowCustomModal(false)}
+          onEquipmentAdd={handleCustomEquipmentAdd}
+        />
 
         {/* Edit Equipment Modal */}
         {editingItem && editForm && (
@@ -354,7 +438,7 @@ export default function Equipment({
                 </label>
                 <TextInput
                   value={editForm.name}
-                  onChange={(value) => updateEditForm('name', value)}
+                  onChange={(value) => updateEditForm("name", value)}
                   className="w-full"
                 />
               </div>
@@ -368,7 +452,9 @@ export default function Equipment({
                   type="number"
                   min="1"
                   value={editForm.amount}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateEditForm('amount', parseInt(e.target.value) || 1)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateEditForm("amount", parseInt(e.target.value) || 1)
+                  }
                   className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
                 />
               </div>
@@ -384,7 +470,12 @@ export default function Equipment({
                     min="0"
                     step="0.01"
                     value={editForm.costValue}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateEditForm('costValue', parseFloat(e.target.value) || 0)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateEditForm(
+                        "costValue",
+                        parseFloat(e.target.value) || 0
+                      )
+                    }
                     className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
                   />
                 </div>
@@ -394,7 +485,12 @@ export default function Equipment({
                   </label>
                   <select
                     value={editForm.costCurrency}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateEditForm('costCurrency', e.target.value as 'gp' | 'sp' | 'cp')}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      updateEditForm(
+                        "costCurrency",
+                        e.target.value as "gp" | "sp" | "cp"
+                      )
+                    }
                     className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
                   >
                     <option value="gp">gp</option>
@@ -414,7 +510,9 @@ export default function Equipment({
                   min="0"
                   step="0.1"
                   value={editForm.weight}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateEditForm('weight', parseFloat(e.target.value) || 0)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateEditForm("weight", parseFloat(e.target.value) || 0)
+                  }
                   className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
                 />
               </div>
@@ -425,8 +523,8 @@ export default function Equipment({
                   Category
                 </label>
                 <TextInput
-                  value={editForm.category || ''}
-                  onChange={(value) => updateEditForm('category', value)}
+                  value={editForm.category || ""}
+                  onChange={(value) => updateEditForm("category", value)}
                   className="w-full"
                 />
               </div>
@@ -437,8 +535,8 @@ export default function Equipment({
                   Description
                 </label>
                 <TextArea
-                  value={editForm.description || ''}
-                  onChange={(value) => updateEditForm('description', value)}
+                  value={editForm.description || ""}
+                  onChange={(value) => updateEditForm("description", value)}
                   placeholder="Optional description for this equipment..."
                   rows={3}
                   className="w-full"
@@ -451,7 +549,7 @@ export default function Equipment({
                   <Typography variant="body" weight="medium" className="mb-3">
                     Weapon Properties
                   </Typography>
-                  
+
                   <div className="grid grid-cols-2 gap-3">
                     {editForm.damage && (
                       <div>
@@ -460,12 +558,12 @@ export default function Equipment({
                         </label>
                         <TextInput
                           value={editForm.damage}
-                          onChange={(value) => updateEditForm('damage', value)}
+                          onChange={(value) => updateEditForm("damage", value)}
                           className="w-full"
                         />
                       </div>
                     )}
-                    
+
                     {editForm.twoHandedDamage && (
                       <div>
                         <label className="block text-sm font-medium text-zinc-200 mb-2">
@@ -473,7 +571,9 @@ export default function Equipment({
                         </label>
                         <TextInput
                           value={editForm.twoHandedDamage}
-                          onChange={(value) => updateEditForm('twoHandedDamage', value)}
+                          onChange={(value) =>
+                            updateEditForm("twoHandedDamage", value)
+                          }
                           className="w-full"
                         />
                       </div>
@@ -488,7 +588,7 @@ export default function Equipment({
                   <Typography variant="body" weight="medium" className="mb-3">
                     Armor Properties
                   </Typography>
-                  
+
                   <div className="grid grid-cols-1 gap-3">
                     {editForm.AC && (
                       <div>
@@ -497,12 +597,12 @@ export default function Equipment({
                         </label>
                         <TextInput
                           value={editForm.AC.toString()}
-                          onChange={(value) => updateEditForm('AC', value)}
+                          onChange={(value) => updateEditForm("AC", value)}
                           className="w-full"
                         />
                       </div>
                     )}
-                    
+
                     {editForm.missileAC && (
                       <div>
                         <label className="block text-sm font-medium text-zinc-200 mb-2">
@@ -510,7 +610,9 @@ export default function Equipment({
                         </label>
                         <TextInput
                           value={editForm.missileAC}
-                          onChange={(value) => updateEditForm('missileAC', value)}
+                          onChange={(value) =>
+                            updateEditForm("missileAC", value)
+                          }
                           className="w-full"
                         />
                       </div>
@@ -528,11 +630,7 @@ export default function Equipment({
                 >
                   Cancel
                 </Button>
-                <Button
-                  onClick={handleEditSave}
-                  variant="primary"
-                  size="md"
-                >
+                <Button onClick={handleEditSave} variant="primary" size="md">
                   Save Changes
                 </Button>
               </div>

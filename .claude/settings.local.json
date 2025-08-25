@@ -9,7 +9,8 @@
       "Bash(npm run lint:*)",
       "Bash(mv:*)",
       "Bash(git checkout:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": [],
     "ask": []
