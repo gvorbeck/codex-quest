@@ -95,7 +95,7 @@ settings: { version: number, useCoinWeight?: boolean }
 
 ### Critical Game System Knowledge
 
-- **BFRPG System**: Basic Fantasy RPG with supplemental content flags (see: `/sources/BFRPG-rulebook.txt`)
+- **BFRPG System**: Basic Fantasy RPG with supplemental content (see: `/sources/BFRPG-rulebook.txt`)
 - **Dice Notation**: Comprehensive parser in `utils/dice.ts` supports "3d6", "4d6L", etc.
 - **Currency System**: Gold/silver/copper with conversion utilities
 - **Multi-class Support**: Only elves and dokkalfar can use combination classes
