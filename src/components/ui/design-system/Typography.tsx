@@ -40,7 +40,7 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
     const getDefaultElement = (variant: TypographyVariant): ElementType => {
       if (variant.startsWith('h')) return variant as ElementType;
       if (variant.includes('Heading')) return 'h4';
-      if (variant === 'caption') return 'span';
+      if (variant === 'caption' || variant === 'helper') return 'span';
       return 'p';
     };
 

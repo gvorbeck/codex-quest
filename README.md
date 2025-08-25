@@ -1,4 +1,4 @@
-# Torchlight - BFRPG Character Generator
+# Codex.Quest - BFRPG Character Generator
 
 A comprehensive character generator for the Basic Fantasy Role-Playing Game (BFRPG) system. Built with React, TypeScript, and Vite for a modern, accessible web experience.
 

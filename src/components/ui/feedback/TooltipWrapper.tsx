@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import React from "react";
 import Tooltip from "@/components/ui/feedback/Tooltip";
 import type { ReactNode } from "react";
 
@@ -22,14 +22,13 @@ interface TooltipWrapperProps {
  * This ensures all tooltips in the application use the same portal-based approach,
  * positioning logic, and styling patterns.
  */
-const TooltipWrapper = forwardRef<HTMLElement, TooltipWrapperProps>(
-  ({
-    tooltip,
-    showTooltip = true,
-    children,
-    disabled = false,
-    tooltipClassName = "",
-  }) => {
+const TooltipWrapper: React.FC<TooltipWrapperProps> = ({
+  tooltip,
+  showTooltip = true,
+  children,
+  disabled = false,
+  tooltipClassName = "",
+}) => {
     // Only show tooltip if all conditions are met
     const shouldShowTooltip = Boolean(tooltip) && showTooltip && !disabled;
 
@@ -43,8 +42,7 @@ const TooltipWrapper = forwardRef<HTMLElement, TooltipWrapperProps>(
 
     // Return children unwrapped if no tooltip should be shown
     return <>{children}</>;
-  }
-);
+};
 
 TooltipWrapper.displayName = "TooltipWrapper";
 

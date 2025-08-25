@@ -11,8 +11,11 @@ import { logger } from "@/utils/logger";
 export interface CharacterListItem {
   id: string;
   name: string;
-  // We'll keep it minimal for now as the data shapes may not match
-  [key: string]: unknown; // Allow for flexibility with existing data
+  race?: string;
+  class?: string | string[];
+  level?: number;
+  // Allow for additional properties that might exist
+  [key: string]: unknown;
 }
 
 /**

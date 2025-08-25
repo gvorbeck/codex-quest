@@ -167,7 +167,7 @@ export const logValidationResults = (
   results: PropValidationResult
 ): void => {
   // Only log in development mode
-  if (process.env["NODE_ENV"] !== "development") return;
+  if (import.meta.env.MODE !== "development") return;
 
   const prefix = `[${componentName}]`;
 

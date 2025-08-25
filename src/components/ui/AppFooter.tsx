@@ -6,7 +6,7 @@ export function AppFooter() {
     >
       <div className="max-w-7xl mx-auto px-4 text-center">
         <p className="text-primary-400">
-          &copy; 2025 Torchlight. A BFRPG character generator.
+          &copy; 2025 Codex.Quest. A BFRPG character generator.
         </p>
       </div>
     </footer>

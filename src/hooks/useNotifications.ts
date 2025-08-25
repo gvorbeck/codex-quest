@@ -151,11 +151,21 @@ export function useNotifications(
       };
 
       setNotifications((prev) => {
+        // Add the new notification
         const newNotifications = [...prev, notification];
-        // If we exceed the maximum, remove the oldest notifications
+        
+        // If we exceed the maximum, trigger dismissal of the oldest notification
         if (newNotifications.length > NOTIFICATION_CONSTANTS.MAX_NOTIFICATIONS) {
-          return newNotifications.slice(-NOTIFICATION_CONSTANTS.MAX_NOTIFICATIONS);
+          const oldestNotification = newNotifications[0];
+          
+          // Use the existing dismiss mechanism for smooth animation
+          setTimeout(() => {
+            dismissNotification(oldestNotification!.id);
+          }, 0); // Trigger immediately but asynchronously
+          
+          return newNotifications;
         }
+        
         return newNotifications;
       });
 

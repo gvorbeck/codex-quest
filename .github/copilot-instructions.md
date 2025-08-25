@@ -1,4 +1,4 @@
-# Torchlight - BFRPG Character Generator - AI Coding Agent Instructions
+# Codex.Quest - BFRPG Character Generator - AI Coding Agent Instructions
 
 ## Core Architecture
 
