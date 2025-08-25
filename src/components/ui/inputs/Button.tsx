@@ -1,15 +1,9 @@
 import { forwardRef } from "react";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { createButtonStyles, combineButtonStyles, type BaseButtonProps } from "@/utils/buttonStyles";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive";
-type ButtonSize = "sm" | "md" | "lg";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends BaseButtonProps {
   children: ReactNode;
-  loading?: boolean;
-  loadingText?: string;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -30,58 +24,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const isDisabled = disabled || loading;
 
-    // Base styles
-    const baseStyles = [
-      "inline-flex items-center justify-center gap-2",
-      "font-semibold transition-all duration-150",
-      "border-2 rounded-lg whitespace-nowrap",
-      "transform active:translate-y-0.5 active:shadow-sm",
-      "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900",
-      "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none disabled:transform-none disabled:shadow-none",
-    ];
-
-    // Variant styles with 3D shadow effect - using darker shade of the same color for shadow
-    const variantStyles = {
-      primary: [
-        "bg-amber-400 text-zinc-900 border-amber-500",
-        "shadow-[0_4px_0_0_#b45309] hover:shadow-[0_6px_0_0_#b45309]", // amber-700 shadow
-        "hover:bg-amber-300 hover:border-amber-400",
-        "active:shadow-[0_2px_0_0_#b45309] active:bg-amber-500",
-      ],
-      secondary: [
-        "bg-transparent text-amber-400 border-amber-400",
-        "shadow-[0_4px_0_0_#b45309] hover:shadow-[0_6px_0_0_#b45309]", // amber-700 shadow
-        "hover:bg-amber-400 hover:text-zinc-900 hover:border-amber-500",
-        "active:shadow-[0_2px_0_0_#b45309] active:bg-amber-500 active:text-zinc-900",
-      ],
-      ghost: [
-        "bg-transparent text-zinc-300 border-zinc-600",
-        "shadow-[0_4px_0_0_#3f3f46] hover:shadow-[0_6px_0_0_#3f3f46]", // zinc-700 shadow
-        "hover:bg-zinc-700 hover:text-zinc-100 hover:border-zinc-500",
-        "active:shadow-[0_2px_0_0_#3f3f46] active:bg-zinc-800",
-      ],
-      destructive: [
-        "bg-red-500 text-white border-red-600",
-        "shadow-[0_4px_0_0_#b91c1c] hover:shadow-[0_6px_0_0_#b91c1c]", // red-700 shadow
-        "hover:bg-red-400 hover:border-red-500",
-        "active:shadow-[0_2px_0_0_#b91c1c] active:bg-red-600",
-      ],
-    };
-
-    // Size styles - made chunkier
-    const sizeStyles = {
-      sm: "px-4 py-3 text-sm min-h-[40px]",
-      md: "px-6 py-4 text-base min-h-[48px]",
-      lg: "px-8 py-5 text-lg min-h-[56px]",
-    };
-
+    // Get button styles using shared utility
+    const buttonStyles = createButtonStyles(false); // false = not circular
+    
     // Combine all styles
-    const buttonClasses = [
-      ...baseStyles,
-      ...variantStyles[variant],
-      sizeStyles[size],
-      className,
-    ].join(" ");
+    const buttonClasses = combineButtonStyles(
+      buttonStyles.base,
+      buttonStyles.variants[variant],
+      buttonStyles.sizes[size],
+      className
+    );
 
     return (
       <button

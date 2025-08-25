@@ -30,6 +30,12 @@ export const DESIGN_TOKENS = {
     rounded: "rounded-xl",
     roundedSm: "rounded-lg",
   },
+  interactions: {
+    tooltipDelay: 500,
+    animationDuration: 200,
+    staggerDelay: 50,
+    maxStaggerDelay: 300,
+  },
 } as const;
 
 export const SIZE_STYLES = {

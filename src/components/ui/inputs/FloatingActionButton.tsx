@@ -1,31 +1,28 @@
-import { forwardRef, useState, useRef, useEffect } from "react";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { forwardRef, useState, useEffect, useCallback } from "react";
+import type { ReactNode } from "react";
+import { createButtonStyles, combineButtonStyles, type BaseButtonProps, type ButtonVariant } from "@/utils/buttonStyles";
+import { TooltipWrapper } from "@/components/ui/feedback";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 
-// FAB Variants
-type FABVariant = "primary" | "secondary" | "accent" | "ghost";
+// FAB specific types - extends the base button variants
+type FABVariant = ButtonVariant;
 type FABSize = "sm" | "md" | "lg";
 type FABPosition = "bottom-right" | "bottom-left" | "top-right" | "top-left";
 
 // Individual FAB Props
-interface FloatingActionButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+interface FloatingActionButtonProps extends Omit<BaseButtonProps, "children"> {
   /** Icon or content for the button */
   children: ReactNode;
   /** Button variant */
   variant?: FABVariant;
   /** Button size */
   size?: FABSize;
-  /** Whether the button is in a loading state */
-  loading?: boolean;
-  /** Loading state text for screen readers */
-  loadingText?: string;
   /** Tooltip text that appears on hover */
   tooltip?: string;
   /** Whether to show tooltip */
   showTooltip?: boolean;
-  /** Custom tooltip position */
-  tooltipPosition?: "top" | "bottom" | "left" | "right";
+  /** Additional className for the tooltip */
+  tooltipClassName?: string;
 }
 
 // FAB Group Props for stacking multiple FABs
@@ -48,6 +45,14 @@ interface FABGroupProps {
   expandDirection?: "up" | "down" | "left" | "right";
 }
 
+// Extract style objects to module level to prevent recreation on each render
+const BUTTON_STYLES = createButtonStyles(true); // true = circular FAB
+
+// Predefined delay classes to ensure Tailwind inclusion
+const DELAY_CLASSES = [
+  "delay-0", "delay-50", "delay-100", "delay-150", "delay-200", "delay-300"
+];
+
 // Base FAB component
 const FloatingActionButton = forwardRef<
   HTMLButtonElement,
@@ -62,178 +67,56 @@ const FloatingActionButton = forwardRef<
       loadingText = "Loading...",
       tooltip,
       showTooltip = true,
-      tooltipPosition = "left",
+      tooltipClassName,
       disabled,
       className = "",
-      onMouseEnter,
-      onMouseLeave,
-      onFocus,
-      onBlur,
       "aria-label": ariaLabel,
       ...props
     },
     ref
   ) => {
-    const [showTooltipState, setShowTooltipState] = useState(false);
-    const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
     const isDisabled = disabled || loading;
 
-    // Clean up timeout on unmount
-    useEffect(() => {
-      return () => {
-        if (tooltipTimeoutRef.current) {
-          clearTimeout(tooltipTimeoutRef.current);
-        }
-      };
-    }, []);
+    // Combine all styles using shared utility
+    const buttonClasses = combineButtonStyles(
+      BUTTON_STYLES.base,
+      BUTTON_STYLES.variants[variant],
+      BUTTON_STYLES.sizes[size],
+      className
+    );
 
-    // Handle tooltip visibility
-    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (tooltip && showTooltip && !isDisabled) {
-        tooltipTimeoutRef.current = setTimeout(() => {
-          setShowTooltipState(true);
-        }, 500); // Delay before showing tooltip
-      }
-      onMouseEnter?.(e);
-    };
-
-    const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (tooltipTimeoutRef.current) {
-        clearTimeout(tooltipTimeoutRef.current);
-        tooltipTimeoutRef.current = null;
-      }
-      setShowTooltipState(false);
-      onMouseLeave?.(e);
-    };
-
-    const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
-      if (tooltip && showTooltip && !isDisabled) {
-        setShowTooltipState(true);
-      }
-      onFocus?.(e);
-    };
-
-    const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
-      setShowTooltipState(false);
-      onBlur?.(e);
-    };
-
-    // Base styles for circular FAB
-    const baseStyles = [
-      "relative inline-flex items-center justify-center",
-      "font-semibold transition-all duration-200 ease-out",
-      "border-2 rounded-full shadow-lg",
-      "transform hover:scale-105 active:scale-95",
-      "focus:outline-none focus:ring-4 focus:ring-amber-400/50 focus:ring-offset-2 focus:ring-offset-zinc-900",
-      "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none disabled:transform-none",
-      "group", // For tooltip positioning
-    ];
-
-    // Variant styles with enhanced 3D effects
-    const variantStyles = {
-      primary: [
-        "bg-amber-400 text-zinc-900 border-amber-500",
-        "shadow-[0_6px_0_0_#b45309,0_0_20px_rgba(245,158,11,0.4)]",
-        "hover:shadow-[0_8px_0_0_#b45309,0_0_25px_rgba(245,158,11,0.5)]",
-        "hover:bg-amber-300 hover:border-amber-400",
-        "active:shadow-[0_3px_0_0_#b45309,0_0_15px_rgba(245,158,11,0.3)]",
-      ],
-      secondary: [
-        "bg-zinc-700 text-amber-400 border-zinc-600",
-        "shadow-[0_6px_0_0_#3f3f46,0_0_20px_rgba(0,0,0,0.4)]",
-        "hover:shadow-[0_8px_0_0_#3f3f46,0_0_25px_rgba(0,0,0,0.5)]",
-        "hover:bg-zinc-600 hover:text-amber-300",
-        "active:shadow-[0_3px_0_0_#3f3f46,0_0_15px_rgba(0,0,0,0.3)]",
-      ],
-      accent: [
-        "bg-gradient-to-br from-amber-400 to-amber-500 text-zinc-900 border-amber-600",
-        "shadow-[0_6px_0_0_#b45309,0_0_20px_rgba(245,158,11,0.4)]",
-        "hover:shadow-[0_8px_0_0_#b45309,0_0_25px_rgba(245,158,11,0.5)]",
-        "hover:from-amber-300 hover:to-amber-400",
-        "active:shadow-[0_3px_0_0_#b45309,0_0_15px_rgba(245,158,11,0.3)]",
-      ],
-      ghost: [
-        "bg-zinc-800/80 backdrop-blur-sm text-zinc-300 border-zinc-600/50",
-        "shadow-[0_6px_0_0_#27272a,0_0_20px_rgba(0,0,0,0.4)]",
-        "hover:shadow-[0_8px_0_0_#27272a,0_0_25px_rgba(0,0,0,0.5)]",
-        "hover:bg-zinc-700/90 hover:text-zinc-100 hover:border-zinc-500",
-        "active:shadow-[0_3px_0_0_#27272a,0_0_15px_rgba(0,0,0,0.3)]",
-      ],
-    };
-
-    // Size styles for circular buttons
-    const sizeStyles = {
-      sm: "w-12 h-12 text-sm",
-      md: "w-14 h-14 text-base",
-      lg: "w-16 h-16 text-lg",
-    };
-
-    // Tooltip positioning styles
-    const tooltipPositionStyles = {
-      top: "bottom-full left-1/2 transform -translate-x-1/2 mb-2",
-      bottom: "top-full left-1/2 transform -translate-x-1/2 mt-2",
-      left: "right-full top-1/2 transform -translate-y-1/2 mr-2",
-      right: "left-full top-1/2 transform -translate-y-1/2 ml-2",
-    };
-
-    // Tooltip arrow styles
-    const tooltipArrowStyles = {
-      top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-zinc-800",
-      bottom:
-        "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-zinc-800",
-      left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-zinc-800",
-      right:
-        "right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-zinc-800",
-    };
-
-    // Combine all styles
-    const buttonClasses = [
-      ...baseStyles,
-      ...variantStyles[variant],
-      sizeStyles[size],
-      className,
-    ].join(" ");
-
-    return (
-      <div className="relative">
-        <button
-          ref={ref}
-          disabled={isDisabled}
-          aria-label={ariaLabel || tooltip}
-          aria-disabled={isDisabled}
-          aria-busy={loading}
-          className={buttonClasses}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          {...props}
-        >
-          {loading ? (
-            <span
-              aria-hidden="true"
-              className="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full"
-            />
-          ) : (
-            children
-          )}
-          {loading && <span className="sr-only">{loadingText}</span>}
-        </button>
-
-        {/* Tooltip */}
-        {tooltip && showTooltip && showTooltipState && !isDisabled && (
-          <div
-            role="tooltip"
-            className={`absolute z-50 px-3 py-2 text-sm font-medium text-zinc-100 bg-zinc-800 rounded-lg shadow-lg border border-zinc-600 whitespace-nowrap pointer-events-none transition-opacity duration-200 ${tooltipPositionStyles[tooltipPosition]}`}
-          >
-            {tooltip}
-            <div
-              className={`absolute w-0 h-0 border-4 ${tooltipArrowStyles[tooltipPosition]}`}
-            />
-          </div>
+    const buttonElement = (
+      <button
+        ref={ref}
+        disabled={isDisabled}
+        aria-label={ariaLabel || tooltip}
+        aria-disabled={isDisabled}
+        aria-busy={loading}
+        className={buttonClasses}
+        {...props}
+      >
+        {loading ? (
+          <span
+            aria-hidden="true"
+            className="animate-spin inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full"
+          />
+        ) : (
+          children
         )}
-      </div>
+        {loading && <span className="sr-only">{loadingText}</span>}
+      </button>
+    );
+
+    // Use TooltipWrapper for consistent tooltip behavior
+    return (
+      <TooltipWrapper
+        tooltip={tooltip}
+        showTooltip={showTooltip}
+        disabled={isDisabled}
+        tooltipClassName={tooltipClassName}
+      >
+        {buttonElement}
+      </TooltipWrapper>
     );
   }
 );
@@ -253,12 +136,35 @@ const FABGroup: React.FC<FABGroupProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(expanded);
 
-  // Handle expansion toggle
-  const handleToggle = () => {
+  // Sync internal state with external expanded prop
+  useEffect(() => {
+    setIsExpanded(expanded);
+  }, [expanded]);
+
+  // Handle expansion toggle with memoized callback
+  const handleToggle = useCallback(() => {
     const newExpanded = !isExpanded;
     setIsExpanded(newExpanded);
     onExpandedChange?.(newExpanded);
-  };
+  }, [isExpanded, onExpandedChange]);
+
+  // Handle ESC key to close expanded groups
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isExpanded) {
+        setIsExpanded(false);
+        onExpandedChange?.(false);
+      }
+    };
+
+    if (isExpanded) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+    
+    // Return undefined for the else case to satisfy TypeScript
+    return undefined;
+  }, [isExpanded, onExpandedChange]);
 
   // Position styles for the FAB group
   const positionStyles = {
@@ -276,13 +182,15 @@ const FABGroup: React.FC<FABGroupProps> = ({
     right: "flex-row",
   };
 
-  // Animation classes for actions
-  const getActionAnimationClass = (index: number) => {
-    const delay = index * 50; // Stagger animation
+  // Animation classes for actions using predefined classes
+  const getActionAnimationClass = useCallback((index: number) => {
+    const delayIndex = Math.min(index, DELAY_CLASSES.length - 1);
+    const delayClass = DELAY_CLASSES[delayIndex];
+    
     return isExpanded
-      ? `animate-in fade-in slide-in-from-bottom-2 duration-200 delay-[${delay}ms]`
+      ? `animate-in fade-in slide-in-from-bottom-2 duration-200 ${delayClass}`
       : `animate-out fade-out slide-out-to-bottom-2 duration-150`;
-  };
+  }, [isExpanded]);
 
   // Determine if we're using vertical or horizontal layout
   const isVertical = expandDirection === "up" || expandDirection === "down";
