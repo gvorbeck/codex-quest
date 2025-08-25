@@ -182,10 +182,7 @@ export default function Equipment({
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
-                  <path d="M4 7h1v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7h1c.55 0 1-.45 1-1s-.45-1-1-1h-3c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2H4c-.55 0-1 .45-1 1s.45 1 1 1z"/>
-                  <circle cx="8" cy="10" r="1.5"/>
-                  <circle cx="16" cy="10" r="1.5"/>
-                  <rect x="7" y="11" width="10" height="2" rx="1"/>
+                  <path d="M12 3C10.9 3 10 3.9 10 5v1H8c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-2V5c0-1.1-.9-2-2-2zm0 2c.6 0 1 .4 1 1v1h-2V6c0-.6.4-1 1-1z"/>
                 </svg>
                 {formatWeight(item.weight, item.amount)}
               </span>
@@ -194,10 +191,10 @@ export default function Equipment({
                   <svg
                     className="w-3 h-3"
                     fill="currentColor"
-                    viewBox="0 0 20 20"
+                    viewBox="0 0 24 24"
                     aria-hidden="true"
                   >
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                    <path d="M12 2l2 4 4-1-2 4 4 2-4 2 2 4-4-1-2 4-2-4-4 1 2-4-4-2 4-2-2-4 4 1z"/>
                   </svg>
                   {item.damage}
                   {item.twoHandedDamage && ` / ${item.twoHandedDamage}`}
@@ -212,7 +209,6 @@ export default function Equipment({
                     aria-hidden="true"
                   >
                     <path d="M12 1L3 5v6c0 8 9 12 9 12s9-4 9-12V5l-9-4z"/>
-                    <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="1.5" fill="none"/>
                   </svg>
                   AC {item.AC}
                 </span>
