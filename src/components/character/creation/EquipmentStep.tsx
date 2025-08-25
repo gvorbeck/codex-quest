@@ -7,6 +7,7 @@ import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 import { convertToGold, updateCharacterGold } from "@/utils/currency";
+import { EquipmentSelector } from "../management";
 
 interface EquipmentStepProps {
   character: Character;
@@ -321,11 +322,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         <Card variant="info" className="mb-6">
           <InfoCardHeader
             icon={
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
+              <svg fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                 <path
                   fillRule="evenodd"
                   d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
@@ -459,9 +456,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                             {item.name}
                           </span>
                           {item.amount > 1 && (
-                            <Badge variant="status">
-                              × {item.amount}
-                            </Badge>
+                            <Badge variant="status">× {item.amount}</Badge>
                           )}
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
@@ -538,55 +533,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       </section>
 
       {/* Available Equipment Section */}
-      <section className="mb-8">
-        <Typography variant="sectionHeading">Available Equipment</Typography>
-
-        <Card variant="info" className="mb-6">
-          <InfoCardHeader
-            icon={
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            }
-            title="Shopping Guide"
-            className="mb-3"
-          />
-          <p className="text-amber-50 leading-relaxed m-0">
-            Browse and select equipment for your character. Items are organized
-            by category.
-            <span className="hidden sm:inline">
-              {" "}
-              You can only purchase items you can afford with your current gold.
-            </span>
-          </p>
-        </Card>
-
-        {isLoading ? (
-          <Card variant="standard" className="p-8">
-            <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-lime-400"></div>
-              <span className="ml-3 text-zinc-400">Loading equipment...</span>
-            </div>
-          </Card>
-        ) : (
-          <Card variant="standard" className="p-0">
-            <Accordion
-              items={allEquipment}
-              sortBy="category"
-              searchPlaceholder="Search equipment..."
-              renderItem={renderEquipmentItem}
-            />
-          </Card>
-        )}
-      </section>
+      <EquipmentSelector />
     </StepWrapper>
   );
 }

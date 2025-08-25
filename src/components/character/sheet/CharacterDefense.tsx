@@ -56,50 +56,31 @@ export default function CharacterDefense({ character, className = "", size = "md
 
   // Calculate Hit Dice
   const hitDice = useMemo(() => {
-    console.log('Hit Dice Debug:', {
-      characterClass: character.class,
-      level: character.level,
-      classLength: character.class?.length
-    });
-    
-    console.log('All available class IDs:', allClasses.map(cls => cls.id));
-    
     if (!character.class || character.class.length === 0) {
-      console.log('No class found, using default 1d6');
       return "1d6"; // Default
     }
     
     // For multi-class characters, use the first class
     const primaryClassId = character.class[0];
     if (!primaryClassId) {
-      console.log('Primary class ID is undefined, using default 1d6');
       return "1d6"; // Default
     }
-    
-    console.log('Primary class ID:', primaryClassId, 'Type:', typeof primaryClassId);
-    console.log('Primary class ID length:', primaryClassId.length);
-    console.log('Primary class ID charCodes:', Array.from(primaryClassId).map(char => char.charCodeAt(0)));
     
     const characterClass = allClasses.find(cls => {
       const normalizedClassId = cls.id.toLowerCase().trim();
       const normalizedPrimaryId = primaryClassId.toLowerCase().trim();
-      console.log('Checking class:', normalizedClassId, 'against', normalizedPrimaryId, 'Match:', normalizedClassId === normalizedPrimaryId);
       return normalizedClassId === normalizedPrimaryId;
     });
-    console.log('Found character class:', characterClass);
     
     if (!characterClass) {
-      console.log('Character class not found, using default 1d6');
       return "1d6"; // Default
     }
     
     // Extract die type from hitDie string (e.g., "1d8" -> "d8")
     const dieType = characterClass.hitDie.substring(1); // Remove the "1" at the beginning
-    console.log('Die type extracted:', dieType, 'from hitDie:', characterClass.hitDie);
     
     // Multiply by level
     const result = `${character.level}${dieType}`;
-    console.log('Final hit dice result:', result);
     return result;
   }, [character.class, character.level]);
 
