@@ -218,7 +218,7 @@ const FABGroup: React.FC<FABGroupProps> = ({
 
   // Development validation
   useEffect(() => {
-    if (process.env["NODE_ENV"] === "development") {
+    if (import.meta.env.MODE === "development") {
       if (!actions || actions.length === 0) {
         handleError(new Error("FABGroup: actions array is empty or undefined"));
       }

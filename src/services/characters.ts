@@ -1,5 +1,5 @@
 // Character service for Firebase Firestore operations
-import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import type { AuthUser } from "./auth";
@@ -14,6 +14,8 @@ export interface CharacterListItem {
   race?: string;
   class?: string | string[];
   level?: number;
+  hp?: { current?: number; max?: number } | number;
+  xp?: number;
   // Allow for additional properties that might exist
   [key: string]: unknown;
 }
@@ -145,5 +147,22 @@ export const saveCharacter = async (
   } catch (error) {
     logger.error("Error saving character:", error);
     throw new Error("Failed to save character");
+  }
+};
+
+/**
+ * Delete a character from Firebase
+ */
+export const deleteCharacter = async (
+  userId: string,
+  characterId: string
+): Promise<void> => {
+  try {
+    const characterRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS, characterId);
+    await deleteDoc(characterRef);
+    logger.info(`Successfully deleted character ${characterId}`);
+  } catch (error) {
+    logger.error("Error deleting character:", error);
+    throw new Error("Failed to delete character");
   }
 };
