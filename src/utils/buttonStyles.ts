@@ -1,6 +1,11 @@
 import type { ButtonHTMLAttributes } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive" | "accent";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "ghost"
+  | "destructive"
+  | "accent";
 export type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonStyleConfig {
@@ -44,12 +49,20 @@ export const createButtonStyles = (isCircular = false): ButtonStyleConfig => {
     return `shadow-[0_${intensity}px_0_0_${color}${glowEffect}]`;
   };
 
-  const createHoverShadow = (color: string, intensity: number, withGlow = false) => {
+  const createHoverShadow = (
+    color: string,
+    intensity: number,
+    withGlow = false
+  ) => {
     const glowEffect = withGlow ? `,0_0_25px_rgba(245,158,11,0.5)` : "";
     return `hover:shadow-[0_${intensity}px_0_0_${color}${glowEffect}]`;
   };
 
-  const createActiveShadow = (color: string, intensity: number, withGlow = false) => {
+  const createActiveShadow = (
+    color: string,
+    intensity: number,
+    withGlow = false
+  ) => {
     const glowEffect = withGlow ? `,0_0_15px_rgba(245,158,11,0.3)` : "";
     return `active:shadow-[0_${intensity}px_0_0_${color}${glowEffect}]`;
   };
@@ -141,7 +154,8 @@ export const combineButtonStyles = (
 /**
  * Common button props interface for consistency
  */
-export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface BaseButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   loadingText?: string;
   variant?: ButtonVariant;

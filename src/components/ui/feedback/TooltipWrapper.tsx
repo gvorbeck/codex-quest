@@ -18,12 +18,18 @@ interface TooltipWrapperProps {
 /**
  * A wrapper component that conditionally applies tooltip functionality
  * to its children while maintaining consistency with the existing Tooltip component.
- * 
+ *
  * This ensures all tooltips in the application use the same portal-based approach,
  * positioning logic, and styling patterns.
  */
 const TooltipWrapper = forwardRef<HTMLElement, TooltipWrapperProps>(
-  ({ tooltip, showTooltip = true, children, disabled = false, tooltipClassName = "" }) => {
+  ({
+    tooltip,
+    showTooltip = true,
+    children,
+    disabled = false,
+    tooltipClassName = "",
+  }) => {
     // Only show tooltip if all conditions are met
     const shouldShowTooltip = Boolean(tooltip) && showTooltip && !disabled;
 

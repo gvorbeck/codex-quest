@@ -1,6 +1,11 @@
 import { forwardRef, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
-import { createButtonStyles, combineButtonStyles, type BaseButtonProps, type ButtonVariant } from "@/utils/buttonStyles";
+import {
+  createButtonStyles,
+  combineButtonStyles,
+  type BaseButtonProps,
+  type ButtonVariant,
+} from "@/utils/buttonStyles";
 import { TooltipWrapper } from "@/components/ui/feedback";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 
@@ -50,7 +55,12 @@ const BUTTON_STYLES = createButtonStyles(true); // true = circular FAB
 
 // Predefined delay classes to ensure Tailwind inclusion
 const DELAY_CLASSES = [
-  "delay-0", "delay-50", "delay-100", "delay-150", "delay-200", "delay-300"
+  "delay-0",
+  "delay-50",
+  "delay-100",
+  "delay-150",
+  "delay-200",
+  "delay-300",
 ];
 
 // Base FAB component
@@ -151,17 +161,17 @@ const FABGroup: React.FC<FABGroupProps> = ({
   // Handle ESC key to close expanded groups
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isExpanded) {
+      if (event.key === "Escape" && isExpanded) {
         setIsExpanded(false);
         onExpandedChange?.(false);
       }
     };
 
     if (isExpanded) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
-    
+
     // Return undefined for the else case to satisfy TypeScript
     return undefined;
   }, [isExpanded, onExpandedChange]);
@@ -183,14 +193,17 @@ const FABGroup: React.FC<FABGroupProps> = ({
   };
 
   // Animation classes for actions using predefined classes
-  const getActionAnimationClass = useCallback((index: number) => {
-    const delayIndex = Math.min(index, DELAY_CLASSES.length - 1);
-    const delayClass = DELAY_CLASSES[delayIndex];
-    
-    return isExpanded
-      ? `animate-in fade-in slide-in-from-bottom-2 duration-200 ${delayClass}`
-      : `animate-out fade-out slide-out-to-bottom-2 duration-150`;
-  }, [isExpanded]);
+  const getActionAnimationClass = useCallback(
+    (index: number) => {
+      const delayIndex = Math.min(index, DELAY_CLASSES.length - 1);
+      const delayClass = DELAY_CLASSES[delayIndex];
+
+      return isExpanded
+        ? `animate-in fade-in slide-in-from-bottom-2 duration-200 ${delayClass}`
+        : `animate-out fade-out slide-out-to-bottom-2 duration-150`;
+    },
+    [isExpanded]
+  );
 
   // Determine if we're using vertical or horizontal layout
   const isVertical = expandDirection === "up" || expandDirection === "down";

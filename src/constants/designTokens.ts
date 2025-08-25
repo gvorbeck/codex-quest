@@ -25,7 +25,8 @@ export const DESIGN_TOKENS = {
   effects: {
     shadow: "shadow-[0_4px_0_0_#3f3f46,0_0_20px_rgba(0,0,0,0.3)]",
     shadowSm: "shadow-[0_2px_0_0_#52525b,0_0_10px_rgba(0,0,0,0.2)]",
-    abilityShadow: "shadow-[0_3px_0_0_#3f3f46,inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+    abilityShadow:
+      "shadow-[0_3px_0_0_#3f3f46,inset_0_1px_0_0_rgba(255,255,255,0.1)]",
     transition: "transition-all duration-200",
     rounded: "rounded-xl",
     roundedSm: "rounded-lg",

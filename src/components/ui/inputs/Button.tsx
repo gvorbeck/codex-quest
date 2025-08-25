@@ -1,6 +1,10 @@
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
-import { createButtonStyles, combineButtonStyles, type BaseButtonProps } from "@/utils/buttonStyles";
+import {
+  createButtonStyles,
+  combineButtonStyles,
+  type BaseButtonProps,
+} from "@/utils/buttonStyles";
 
 interface ButtonProps extends BaseButtonProps {
   children: ReactNode;
@@ -26,7 +30,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Get button styles using shared utility
     const buttonStyles = createButtonStyles(false); // false = not circular
-    
+
     // Combine all styles
     const buttonClasses = combineButtonStyles(
       buttonStyles.base,
