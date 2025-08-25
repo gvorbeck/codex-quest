@@ -1,7 +1,7 @@
 export { useCascadeValidation } from "./useCascadeValidation";
 export { useLocalStorage } from "./useLocalStorage";
 export { useValidation } from "./useValidation";
-export { useStepAnnouncements } from "./useA11y";
+export { useStepAnnouncements, useA11yAnnouncements } from "./useA11y";
 export { useAuth } from "./useAuth";
 export { useCharacters } from "./useCharacters";
 export { useAppData } from "./useAppData";

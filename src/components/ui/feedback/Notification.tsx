@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState, useCallback } from "react";
+import { forwardRef, useEffect, useState, useCallback, useRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 import { Typography } from "@/components/ui/design-system";
@@ -52,12 +52,20 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
     ref
   ) => {
     const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+    const dismissTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const notificationRef = useRef<HTMLDivElement>(null);
 
     const handleDismiss = useCallback(() => {
       setIsAnimatingOut(true);
 
+      // Clear any existing animation timeout
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+
       // Allow animation to complete before calling onDismiss
-      setTimeout(() => {
+      animationTimeoutRef.current = setTimeout(() => {
         onDismiss?.(id);
       }, 300);
     }, [id, onDismiss]);
@@ -65,15 +73,51 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
     // Auto-dismiss timer
     useEffect(() => {
       if (duration > 0 && isVisible) {
-        const timer = setTimeout(() => {
+        // Clear any existing dismiss timeout
+        if (dismissTimeoutRef.current) {
+          clearTimeout(dismissTimeoutRef.current);
+        }
+
+        dismissTimeoutRef.current = setTimeout(() => {
           handleDismiss();
         }, duration);
 
-        return () => clearTimeout(timer);
+        return () => {
+          if (dismissTimeoutRef.current) {
+            clearTimeout(dismissTimeoutRef.current);
+          }
+        };
       }
 
       return undefined;
     }, [duration, isVisible, handleDismiss]);
+
+    // Cleanup effect for component unmount
+    useEffect(() => {
+      return () => {
+        if (dismissTimeoutRef.current) {
+          clearTimeout(dismissTimeoutRef.current);
+        }
+        if (animationTimeoutRef.current) {
+          clearTimeout(animationTimeoutRef.current);
+        }
+      };
+    }, []);
+
+    // Focus management for critical notifications
+    useEffect(() => {
+      if (isVisible && priority === "error" && notificationRef.current) {
+        // Focus error notifications for immediate attention
+        // Small delay to ensure the notification is rendered and positioned
+        const focusTimer = setTimeout(() => {
+          notificationRef.current?.focus();
+        }, 100);
+
+        return () => clearTimeout(focusTimer);
+      }
+
+      return undefined;
+    }, [isVisible, priority]);
 
     // Priority-based styling
     const priorityStyles = {
@@ -172,11 +216,19 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
 
     return (
       <div
-        ref={ref}
+        ref={(node) => {
+          notificationRef.current = node;
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+        }}
         className={notificationClasses}
         role="alert"
-        aria-live="polite"
+        aria-live={priority === "error" ? "assertive" : "polite"}
         aria-atomic="true"
+        tabIndex={priority === "error" ? 0 : -1}
         {...props}
       >
         {/* Close button */}

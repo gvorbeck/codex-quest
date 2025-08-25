@@ -4,6 +4,7 @@ import type {
   NotificationPriority,
   NotificationPosition,
 } from "@/components/ui/feedback/Notification";
+import { useA11yAnnouncements } from "./useA11y";
 
 export interface ShowNotificationOptions {
   title?: string;
@@ -47,6 +48,7 @@ export function useNotifications(
   defaultDuration: number = 15000
 ): NotificationSystem {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
+  const { announce } = useA11yAnnouncements();
 
   // Generate unique ID for notifications
   const generateId = useCallback(() => {
@@ -55,6 +57,31 @@ export function useNotifications(
       .substr(2, 9)}`;
   }, []);
 
+  // Helper to create announcement text
+  const createAnnouncementText = useCallback(
+    (
+      message: string | React.ReactNode,
+      priority: NotificationPriority,
+      title?: string
+    ): string => {
+      const messageText =
+        typeof message === "string" ? message : "Notification received";
+      const priorityPrefix =
+        priority === "error"
+          ? "Error: "
+          : priority === "success"
+          ? "Success: "
+          : priority === "warning"
+          ? "Warning: "
+          : "";
+
+      return title
+        ? `${priorityPrefix}${title}. ${messageText}`
+        : `${priorityPrefix}${messageText}`;
+    },
+    []
+  );
+
   // Add a new notification
   const showNotification = useCallback(
     (
@@ -62,12 +89,13 @@ export function useNotifications(
       options: ShowNotificationOptions = {}
     ): string => {
       const id = generateId();
+      const priority = options.priority || "default";
 
       const notification: NotificationData = {
         id,
         message,
         ...(options.title && { title: options.title }),
-        priority: options.priority || "default",
+        priority,
         position: options.position || defaultPosition,
         duration:
           options.duration !== undefined ? options.duration : defaultDuration,
@@ -76,9 +104,26 @@ export function useNotifications(
       };
 
       setNotifications((prev) => [...prev, notification]);
+
+      // Announce to screen readers
+      const announcementText = createAnnouncementText(
+        message,
+        priority,
+        options.title
+      );
+      const announcementPriority =
+        priority === "error" ? "assertive" : "polite";
+      announce(announcementText, announcementPriority);
+
       return id;
     },
-    [generateId, defaultPosition, defaultDuration]
+    [
+      generateId,
+      defaultPosition,
+      defaultDuration,
+      createAnnouncementText,
+      announce,
+    ]
   );
 
   // Remove a notification by ID

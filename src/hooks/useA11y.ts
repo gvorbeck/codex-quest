@@ -1,12 +1,9 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Hook for managing step navigation announcements
+ * Hook for managing accessibility announcements
  */
-export function useStepAnnouncements(
-  currentStep: number,
-  steps: { title: string }[]
-) {
+export function useA11yAnnouncements() {
   const announcementRef = useRef<HTMLDivElement | null>(null);
 
   /**
@@ -53,6 +50,18 @@ export function useStepAnnouncements(
     };
   }, []);
 
+  return { announce };
+}
+
+/**
+ * Hook for managing step navigation announcements
+ */
+export function useStepAnnouncements(
+  currentStep: number,
+  steps: { title: string }[]
+) {
+  const { announce } = useA11yAnnouncements();
+
   useEffect(() => {
     if (steps.length > 0 && currentStep >= 0 && currentStep < steps.length) {
       const currentStepTitle = steps[currentStep]?.title || "Unknown step";
@@ -61,7 +70,7 @@ export function useStepAnnouncements(
       }: ${currentStepTitle}`;
       announce(stepInfo, "polite");
     }
-  }, [currentStep, steps]);
+  }, [currentStep, steps, announce]);
 
   return { announce };
 }
