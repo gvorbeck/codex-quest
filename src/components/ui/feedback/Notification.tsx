@@ -10,6 +10,7 @@ import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 import { Typography } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
+import { Button } from "@/components/ui/inputs";
 import {
   NOTIFICATION_CONSTANTS,
   PRIORITY_STYLES,
@@ -187,18 +188,15 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       >
         {/* Close button */}
         {dismissible && (
-          <button
+          <Button
             onClick={handleDismiss}
-            className={cn(
-              "absolute top-2 right-2 w-6 h-6 flex items-center justify-center",
-              "rounded-full transition-colors duration-150",
-              "hover:bg-zinc-700/50 focus:bg-zinc-700/50 focus:outline-none",
-              "text-zinc-400 hover:text-zinc-100"
-            )}
+            variant="ghost"
+            size="sm"
+            className="absolute top-2 right-2 w-6 h-6 !p-0 !min-h-0 !border-0"
             aria-label="Dismiss notification"
           >
             <Icon name="close" size="sm" aria-hidden />
-          </button>
+          </Button>
         )}
 
         {/* Content */}
