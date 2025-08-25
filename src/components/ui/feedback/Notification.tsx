@@ -1,9 +1,24 @@
-import { forwardRef, useEffect, useState, useCallback, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 import { Typography } from "@/components/ui/design-system";
+import { Icon } from "@/components/ui/display";
+import {
+  NOTIFICATION_CONSTANTS,
+  PRIORITY_STYLES,
+  POSITION_ANIMATIONS,
+  PRIORITY_PROGRESS_COLORS,
+  BASE_NOTIFICATION_STYLES,
+} from "@/constants/notifications";
 
-export type NotificationPriority = "default" | "success" | "warning" | "error";
+export type NotificationPriority = "info" | "success" | "warning" | "error";
 export type NotificationPosition =
   | "top-right"
   | "top-left"
@@ -40,7 +55,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       id,
       message,
       title,
-      priority = "default",
+      priority = "info",
       position = "top-right",
       duration = 15000,
       onDismiss,
@@ -67,7 +82,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       // Allow animation to complete before calling onDismiss
       animationTimeoutRef.current = setTimeout(() => {
         onDismiss?.(id);
-      }, 300);
+      }, NOTIFICATION_CONSTANTS.ANIMATION_DURATION);
     }, [id, onDismiss]);
 
     // Auto-dismiss timer
@@ -111,7 +126,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         // Small delay to ensure the notification is rendered and positioned
         const focusTimer = setTimeout(() => {
           notificationRef.current?.focus();
-        }, 100);
+        }, NOTIFICATION_CONSTANTS.FOCUS_DELAY);
 
         return () => clearTimeout(focusTimer);
       }
@@ -119,99 +134,38 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       return undefined;
     }, [isVisible, priority]);
 
-    // Priority-based styling
-    const priorityStyles = {
-      default: {
-        bg: "bg-zinc-800",
-        border: "border-amber-600",
-        shadow: "shadow-[0_3px_0_0_#b45309]",
-        titleColor: "amber" as const,
-        messageColor: "primary" as const,
-      },
-      success: {
-        bg: "bg-lime-950/20",
-        border: "border-lime-600",
-        shadow: "shadow-[0_3px_0_0_#65a30d]",
-        titleColor: "lime" as const,
-        messageColor: "primary" as const,
-      },
-      warning: {
-        bg: "bg-amber-950/20",
-        border: "border-amber-600",
-        shadow: "shadow-[0_3px_0_0_#d97706]",
-        titleColor: "amber" as const,
-        messageColor: "primary" as const,
-      },
-      error: {
-        bg: "bg-red-950/20",
-        border: "border-red-600",
-        shadow: "shadow-[0_3px_0_0_#dc2626]",
-        titleColor: "white" as const,
-        messageColor: "white" as const,
-      },
-    };
+    // Memoize style lookups to prevent recalculation on every render
+    const styles = useMemo(() => PRIORITY_STYLES[priority], [priority]);
+    const animations = useMemo(() => POSITION_ANIMATIONS[position], [position]);
 
-    // Position-based transform for animations
-    const positionAnimations = {
-      "top-right": {
-        enter: "translate-x-0 translate-y-0",
-        exit: "translate-x-full translate-y-0",
-        initial: "translate-x-full translate-y-0",
-      },
-      "top-left": {
-        enter: "translate-x-0 translate-y-0",
-        exit: "-translate-x-full translate-y-0",
-        initial: "-translate-x-full translate-y-0",
-      },
-      "bottom-right": {
-        enter: "translate-x-0 translate-y-0",
-        exit: "translate-x-full translate-y-0",
-        initial: "translate-x-full translate-y-0",
-      },
-      "bottom-left": {
-        enter: "translate-x-0 translate-y-0",
-        exit: "-translate-x-full translate-y-0",
-        initial: "-translate-x-full translate-y-0",
-      },
-      "top-center": {
-        enter: "translate-x-0 translate-y-0",
-        exit: "translate-x-0 -translate-y-full",
-        initial: "translate-x-0 -translate-y-full",
-      },
-      "bottom-center": {
-        enter: "translate-x-0 translate-y-0",
-        exit: "translate-x-0 translate-y-full",
-        initial: "translate-x-0 translate-y-full",
-      },
-    };
-
-    const styles = priorityStyles[priority];
-    const animations = positionAnimations[position];
-
-    // Animation state classes
-    const getAnimationClass = () => {
+    // Animation state classes - memoized to prevent recalculation
+    const getAnimationClass = useCallback(() => {
       if (!isVisible) return animations.initial;
       if (isAnimatingOut) return animations.exit;
       return animations.enter;
-    };
+    }, [isVisible, isAnimatingOut, animations]);
 
-    const notificationClasses = cn(
-      // Base styles
-      "border-2 rounded-lg p-4 max-w-sm transition-all duration-300 ease-in-out",
-      "backdrop-blur-sm relative",
+    // Memoize notification classes to prevent unnecessary re-renders
+    const notificationClasses = useMemo(
+      () =>
+        cn(
+          // Base styles
+          ...BASE_NOTIFICATION_STYLES,
 
-      // Priority-based colors
-      styles.bg,
-      styles.border,
-      styles.shadow,
+          // Priority-based colors
+          styles.bg,
+          styles.border,
+          styles.shadow,
 
-      // Animation state
-      getAnimationClass(),
+          // Animation state
+          getAnimationClass(),
 
-      // Opacity for fade effect
-      isVisible && !isAnimatingOut ? "opacity-100" : "opacity-0",
+          // Opacity for fade effect
+          isVisible && !isAnimatingOut ? "opacity-100" : "opacity-0",
 
-      className
+          className
+        ),
+      [styles, isVisible, isAnimatingOut, getAnimationClass, className]
     );
 
     return (
@@ -243,18 +197,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
             )}
             aria-label="Dismiss notification"
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <Icon name="close" size="sm" aria-hidden />
           </button>
         )}
 
@@ -281,11 +224,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
             <div
               className={cn(
                 "h-full transition-all ease-linear rounded-b-lg",
-                priority === "success"
-                  ? "bg-lime-500"
-                  : priority === "error"
-                  ? "bg-red-500"
-                  : "bg-amber-500"
+                PRIORITY_PROGRESS_COLORS[priority]
               )}
               style={{
                 animation: `shrink ${duration}ms linear forwards`,

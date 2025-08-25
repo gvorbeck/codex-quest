@@ -2,3 +2,4 @@
 export * from "./storage";
 export * from "./styles";
 export * from "./fileUpload";
+export * from "./notifications";

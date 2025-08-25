@@ -5,6 +5,7 @@ import type {
   NotificationPosition,
 } from "@/components/ui/feedback/Notification";
 import { useA11yAnnouncements } from "./useA11y";
+import { NOTIFICATION_CONSTANTS } from "@/constants/notifications";
 
 export interface ShowNotificationOptions {
   title?: string;
@@ -22,6 +23,10 @@ export interface NotificationSystem {
   ) => string;
   dismissNotification: (id: string) => void;
   clearAll: () => void;
+  showInfo: (
+    message: string | React.ReactNode,
+    options?: Omit<ShowNotificationOptions, "priority">
+  ) => string;
   showSuccess: (
     message: string | React.ReactNode,
     options?: Omit<ShowNotificationOptions, "priority">
@@ -45,7 +50,7 @@ export interface NotificationSystem {
  */
 export function useNotifications(
   defaultPosition: NotificationPosition = "top-right",
-  defaultDuration: number = 15000
+  defaultDuration: number = NOTIFICATION_CONSTANTS.DEFAULT_DURATION
 ): NotificationSystem {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
   const { announce } = useA11yAnnouncements();
@@ -73,6 +78,8 @@ export function useNotifications(
           ? "Success: "
           : priority === "warning"
           ? "Warning: "
+          : priority === "info"
+          ? "Info: "
           : "";
 
       return title
@@ -89,7 +96,7 @@ export function useNotifications(
       options: ShowNotificationOptions = {}
     ): string => {
       const id = generateId();
-      const priority = options.priority || "default";
+      const priority = options.priority || "info";
 
       const notification: NotificationData = {
         id,
@@ -139,6 +146,16 @@ export function useNotifications(
   }, []);
 
   // Convenience methods for different priority levels
+  const showInfo = useCallback(
+    (
+      message: string | React.ReactNode,
+      options: Omit<ShowNotificationOptions, "priority"> = {}
+    ): string => {
+      return showNotification(message, { ...options, priority: "info" });
+    },
+    [showNotification]
+  );
+
   const showSuccess = useCallback(
     (
       message: string | React.ReactNode,
@@ -178,6 +195,7 @@ export function useNotifications(
     showNotification,
     dismissNotification,
     clearAll,
+    showInfo,
     showSuccess,
     showWarning,
     showError,
