@@ -34,13 +34,13 @@ export const useFocusManagement = ({
     if (!containerRef.current) return [];
 
     const focusableSelectors = [
-      'button:not([disabled])',
-      'a[href]',
-      'input:not([disabled])',
-      'select:not([disabled])',
-      'textarea:not([disabled])',
+      "button:not([disabled])",
+      "a[href]",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
       '[tabindex]:not([tabindex="-1"])',
-    ].join(', ');
+    ].join(", ");
 
     const elements = Array.from(
       containerRef.current.querySelectorAll(focusableSelectors)
@@ -48,7 +48,7 @@ export const useFocusManagement = ({
 
     return elements.filter(
       (element) =>
-        !element.hasAttribute('disabled') &&
+        !element.hasAttribute("disabled") &&
         element.tabIndex !== -1 &&
         element.offsetWidth > 0 &&
         element.offsetHeight > 0
@@ -60,7 +60,7 @@ export const useFocusManagement = ({
     (event: KeyboardEvent) => {
       if (!trapFocus || !isActive) return;
 
-      if (event.key === 'Tab') {
+      if (event.key === "Tab") {
         const focusableElements = getFocusableElements();
         focusableElementsRef.current = focusableElements;
 
@@ -114,30 +114,37 @@ export const useFocusManagement = ({
   useEffect(() => {
     if (isActive) {
       storeTriggerElement();
-      
+
       // Small delay to ensure DOM updates are complete
       const timer = setTimeout(() => {
         focusFirstElement();
       }, 50);
 
       if (trapFocus) {
-        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener("keydown", handleKeyDown);
       }
 
       return () => {
         clearTimeout(timer);
         if (trapFocus) {
-          document.removeEventListener('keydown', handleKeyDown);
+          document.removeEventListener("keydown", handleKeyDown);
         }
       };
     } else {
       // Component is being deactivated
       restoreFocusToTrigger();
     }
-    
+
     // Return undefined for the else case to satisfy TypeScript
     return undefined;
-  }, [isActive, storeTriggerElement, focusFirstElement, restoreFocusToTrigger, trapFocus, handleKeyDown]);
+  }, [
+    isActive,
+    storeTriggerElement,
+    focusFirstElement,
+    restoreFocusToTrigger,
+    trapFocus,
+    handleKeyDown,
+  ]);
 
   return {
     containerRef,

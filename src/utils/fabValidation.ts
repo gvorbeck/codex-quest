@@ -76,10 +76,17 @@ export const validateFABGroupProps = (props: {
   }
 
   // Validate position
-  const validPositions = ["bottom-right", "bottom-left", "top-right", "top-left"];
+  const validPositions = [
+    "bottom-right",
+    "bottom-left",
+    "top-right",
+    "top-left",
+  ];
   if (position && !validPositions.includes(position)) {
     result.warnings.push(
-      `Invalid position '${position}'. Valid options: ${validPositions.join(", ")}`
+      `Invalid position '${position}'. Valid options: ${validPositions.join(
+        ", "
+      )}`
     );
   }
 
@@ -87,7 +94,9 @@ export const validateFABGroupProps = (props: {
   const validDirections = ["up", "down", "left", "right"];
   if (expandDirection && !validDirections.includes(expandDirection)) {
     result.warnings.push(
-      `Invalid expandDirection '${expandDirection}'. Valid options: ${validDirections.join(", ")}`
+      `Invalid expandDirection '${expandDirection}'. Valid options: ${validDirections.join(
+        ", "
+      )}`
     );
   }
 
@@ -119,7 +128,13 @@ export const validateFABProps = (props: {
   }
 
   // Validate variant
-  const validVariants = ["primary", "secondary", "ghost", "destructive", "accent"];
+  const validVariants = [
+    "primary",
+    "secondary",
+    "ghost",
+    "destructive",
+    "accent",
+  ];
   if (variant && !validVariants.includes(variant)) {
     result.warnings.push(
       `Invalid variant '${variant}'. Valid options: ${validVariants.join(", ")}`
@@ -211,7 +226,7 @@ export const useAnimationState = (
       });
 
       const timer = setTimeout(() => {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           isAnimating: false,
           animationPhase: "entered",
@@ -236,7 +251,7 @@ export const useAnimationState = (
 
       return () => clearTimeout(timer);
     }
-    
+
     // Return undefined for the else case to satisfy TypeScript
     return undefined;
   }, [isVisible, duration, state.animationPhase]);

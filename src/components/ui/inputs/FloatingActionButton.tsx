@@ -9,10 +9,7 @@ import {
 import { TooltipWrapper } from "@/components/ui/feedback";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 import { useFocusManagement } from "@/hooks";
-import {
-  validateFABProps,
-  logValidationResults,
-} from "@/utils/fabValidation";
+import { validateFABProps, logValidationResults } from "@/utils/fabValidation";
 
 // FAB specific types - extends the base button variants
 type FABVariant = ButtonVariant;
@@ -220,9 +217,9 @@ const FABGroup: React.FC<FABGroupProps> = ({
 
   // Development validation
   useEffect(() => {
-    if (process.env['NODE_ENV'] === 'development') {
+    if (process.env["NODE_ENV"] === "development") {
       if (!actions || actions.length === 0) {
-        handleError(new Error('FABGroup: actions array is empty or undefined'));
+        handleError(new Error("FABGroup: actions array is empty or undefined"));
       }
     }
   }, [actions, handleError]);
@@ -261,20 +258,20 @@ const FABGroup: React.FC<FABGroupProps> = ({
   // Handle ESC key to close expanded groups
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isExpanded) {
+      if (event.key === "Escape" && isExpanded) {
         setIsExpanded(false);
         onExpandedChange?.(false);
       }
     };
 
     if (isExpanded) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
-    
+
     // Return undefined for the else case to satisfy TypeScript
     return undefined;
-  }, [isExpanded, onExpandedChange]);  // Position styles for the FAB group
+  }, [isExpanded, onExpandedChange]); // Position styles for the FAB group
   const positionStyles = {
     "bottom-right": "fixed bottom-6 right-6",
     "bottom-left": "fixed bottom-6 left-6",
@@ -296,7 +293,7 @@ const FABGroup: React.FC<FABGroupProps> = ({
       if (disableAnimations) {
         return ""; // No animations when disabled
       }
-      
+
       const delayIndex = Math.min(index, DELAY_CLASSES.length - 1);
       const delayClass = DELAY_CLASSES[delayIndex];
 
@@ -371,9 +368,13 @@ const FABGroup: React.FC<FABGroupProps> = ({
           aria-label={mainAction["aria-label"] || mainAction.label}
           aria-expanded={isExpanded}
           aria-haspopup="true"
-          className={`${disableAnimations ? '' : 'transform transition-transform duration-200'} ${
-            isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"
-          } ${mainAction.className || ""}`}
+          className={`${
+            disableAnimations
+              ? ""
+              : "transform transition-transform duration-200"
+          } ${isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"} ${
+            mainAction.className || ""
+          }`}
         />
       ) : (
         // Default toggle button if no main action provided
@@ -382,9 +383,11 @@ const FABGroup: React.FC<FABGroupProps> = ({
           aria-label={isExpanded ? "Close actions menu" : "Open actions menu"}
           aria-expanded={isExpanded}
           aria-haspopup="true"
-          className={`${disableAnimations ? '' : 'transform transition-transform duration-200'} ${
-            isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"
-          }`}
+          className={`${
+            disableAnimations
+              ? ""
+              : "transform transition-transform duration-200"
+          } ${isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"}`}
         >
           <svg
             width="24"
