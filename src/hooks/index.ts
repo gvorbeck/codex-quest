@@ -6,3 +6,10 @@ export { useAuth } from "./useAuth";
 export { useCharacters } from "./useCharacters";
 export { useAppData } from "./useAppData";
 export { useFocusManagement } from "./useFocusManagement";
+export { useNotifications } from "./useNotifications";
+
+// Export hook types
+export type {
+  NotificationSystem,
+  ShowNotificationOptions,
+} from "./useNotifications";

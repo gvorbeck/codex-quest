@@ -4,7 +4,17 @@ export { default as Tooltip } from "./Tooltip";
 export { default as TooltipWrapper } from "./TooltipWrapper";
 export { default as InfoTooltip } from "./InfoTooltip";
 export { default as Callout } from "./Callout";
+export { default as Notification } from "./Notification";
+export { default as NotificationContainer } from "./NotificationContainer";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { CharGenErrorBoundary } from "./CharGenErrorBoundary";
 export { CharacterSheetErrorBoundary } from "./CharacterSheetErrorBoundary";
 export { HomeErrorBoundary } from "./HomeErrorBoundary";
+
+// Export types
+export type {
+  NotificationProps,
+  NotificationPriority,
+  NotificationPosition,
+} from "./Notification";
+export type { NotificationData } from "./NotificationContainer";

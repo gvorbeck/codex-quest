@@ -117,3 +117,13 @@ h6 {
 ::-webkit-scrollbar-corner {
   background: #27272a; /* zinc-800 */
 }
+
+/* Notification progress bar animation */
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
