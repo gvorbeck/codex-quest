@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Modal } from "@/components/ui/feedback";
-import { Button, Select, TextInput, TextArea } from "@/components/ui/inputs";
+import { Button, Select, TextInput, TextArea, NumberInput } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
 import type { Equipment } from "@/types/character";
 
@@ -55,9 +55,22 @@ export default function CustomEquipmentModal({
     description: "",
   });
 
-  const handleFieldChange = useCallback((field: keyof Equipment, value: string | number) => {
+  const handleFieldChange = useCallback((field: keyof Equipment, value: string | number | [number, number, number] | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   }, []);
+
+  const handleReset = useCallback(() => {
+    setFormData({
+      name: "",
+      costValue: 0,
+      costCurrency: "gp",
+      weight: 0,
+      category: "",
+      amount: 1,
+      description: "",
+    });
+    onClose();
+  }, [onClose]);
 
   const handleSubmit = useCallback(() => {
     if (!formData.name || !formData.category) return;
@@ -136,20 +149,7 @@ export default function CustomEquipmentModal({
 
     onEquipmentAdd(newEquipment);
     handleReset();
-  }, [formData, onEquipmentAdd]);
-
-  const handleReset = useCallback(() => {
-    setFormData({
-      name: "",
-      costValue: 0,
-      costCurrency: "gp",
-      weight: 0,
-      category: "",
-      amount: 1,
-      description: "",
-    });
-    onClose();
-  }, [onClose]);
+  }, [formData, onEquipmentAdd, handleReset]);
 
   const handleCancel = handleReset;
 
@@ -232,11 +232,11 @@ export default function CustomEquipmentModal({
             <label className="block text-sm font-medium text-zinc-200 mb-2">
               Amount
             </label>
-            <TextInput
-              type="number"
-              value={formData.amount?.toString() || "1"}
-              onChange={(value) => handleFieldChange("amount", parseInt(value) || 1)}
+            <NumberInput
+              value={formData.amount || 1}
+              onChange={(value) => handleFieldChange("amount", value || 1)}
               placeholder="1"
+              minValue={1}
             />
           </div>
 
@@ -246,11 +246,12 @@ export default function CustomEquipmentModal({
               <label className="block text-sm font-medium text-zinc-200 mb-2">
                 Cost Value
               </label>
-              <TextInput
-                type="number"
-                value={formData.costValue?.toString() || "0"}
-                onChange={(value) => handleFieldChange("costValue", parseFloat(value) || 0)}
+              <NumberInput
+                value={formData.costValue || 0}
+                onChange={(value) => handleFieldChange("costValue", value || 0)}
                 placeholder="0"
+                minValue={0}
+                step={1}
               />
             </div>
             <Select
@@ -266,11 +267,12 @@ export default function CustomEquipmentModal({
             <label className="block text-sm font-medium text-zinc-200 mb-2">
               Weight (lbs)
             </label>
-            <TextInput
-              type="number"
-              value={formData.weight?.toString() || "0"}
-              onChange={(value) => handleFieldChange("weight", parseFloat(value) || 0)}
+            <NumberInput
+              value={formData.weight || 0}
+              onChange={(value) => handleFieldChange("weight", value || 0)}
               placeholder="0"
+              minValue={0}
+              step={0.1}
             />
           </div>
         </div>
@@ -333,41 +335,41 @@ export default function CustomEquipmentModal({
                 <div className="grid grid-cols-3 gap-2">
                   <div>
                     <label className="block text-xs text-zinc-400 mb-1">Short</label>
-                    <TextInput
-                      type="number"
-                      value={formData.range?.[0]?.toString() || ""}
+                    <NumberInput
+                      value={formData.range?.[0] || 0}
                       onChange={(value) => {
-                        const numValue = parseInt(value) || 0;
+                        const numValue = value || 0;
                         const currentRange = formData.range || [0, 0, 0];
                         handleFieldChange("range", [numValue, currentRange[1], currentRange[2]] as [number, number, number]);
                       }}
                       placeholder="0"
+                      minValue={0}
                     />
                   </div>
                   <div>
                     <label className="block text-xs text-zinc-400 mb-1">Medium</label>
-                    <TextInput
-                      type="number"
-                      value={formData.range?.[1]?.toString() || ""}
+                    <NumberInput
+                      value={formData.range?.[1] || 0}
                       onChange={(value) => {
-                        const numValue = parseInt(value) || 0;
+                        const numValue = value || 0;
                         const currentRange = formData.range || [0, 0, 0];
                         handleFieldChange("range", [currentRange[0], numValue, currentRange[2]] as [number, number, number]);
                       }}
                       placeholder="0"
+                      minValue={0}
                     />
                   </div>
                   <div>
                     <label className="block text-xs text-zinc-400 mb-1">Long</label>
-                    <TextInput
-                      type="number"
-                      value={formData.range?.[2]?.toString() || ""}
+                    <NumberInput
+                      value={formData.range?.[2] || 0}
                       onChange={(value) => {
-                        const numValue = parseInt(value) || 0;
+                        const numValue = value || 0;
                         const currentRange = formData.range || [0, 0, 0];
                         handleFieldChange("range", [currentRange[0], currentRange[1], numValue] as [number, number, number]);
                       }}
                       placeholder="0"
+                      minValue={0}
                     />
                   </div>
                 </div>
@@ -440,11 +442,11 @@ export default function CustomEquipmentModal({
               <label className="block text-sm font-medium text-zinc-200 mb-2">
                 Animal Weight (lbs)
               </label>
-              <TextInput
-                type="number"
-                value={formData.animalWeight?.toString() || ""}
-                onChange={(value) => handleFieldChange("animalWeight", parseInt(value) || 0)}
+              <NumberInput
+                value={formData.animalWeight || 0}
+                onChange={(value) => handleFieldChange("animalWeight", value || 0)}
                 placeholder="0"
+                minValue={0}
               />
             </div>
 
@@ -454,22 +456,22 @@ export default function CustomEquipmentModal({
                 <label className="block text-sm font-medium text-zinc-200 mb-2">
                   Low Capacity (lbs)
                 </label>
-                <TextInput
-                  type="number"
-                  value={formData.lowCapacity?.toString() || ""}
-                  onChange={(value) => handleFieldChange("lowCapacity", parseInt(value) || 0)}
+                <NumberInput
+                  value={formData.lowCapacity || 0}
+                  onChange={(value) => handleFieldChange("lowCapacity", value || 0)}
                   placeholder="0"
+                  minValue={0}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-zinc-200 mb-2">
                   Max Capacity (lbs)
                 </label>
-                <TextInput
-                  type="number"
-                  value={formData.capacity?.toString() || ""}
-                  onChange={(value) => handleFieldChange("capacity", parseInt(value) || 0)}
+                <NumberInput
+                  value={formData.capacity || 0}
+                  onChange={(value) => handleFieldChange("capacity", value || 0)}
                   placeholder="0"
+                  minValue={0}
                 />
               </div>
             </div>
@@ -487,11 +489,11 @@ export default function CustomEquipmentModal({
               <label className="block text-sm font-medium text-zinc-200 mb-2">
                 Gold Value (if applicable)
               </label>
-              <TextInput
-                type="number"
-                value={formData.gold?.toString() || ""}
-                onChange={(value) => handleFieldChange("gold", parseInt(value) || 0)}
+              <NumberInput
+                value={formData.gold || 0}
+                onChange={(value) => handleFieldChange("gold", value || 0)}
                 placeholder="Gold pieces value"
+                minValue={0}
               />
             </div>
           </div>
