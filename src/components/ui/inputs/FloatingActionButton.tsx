@@ -1,4 +1,4 @@
-import { forwardRef, useState, useEffect, useCallback } from "react";
+import { forwardRef, useState, useEffect, useCallback, useMemo } from "react";
 import type { ReactNode } from "react";
 import {
   createButtonStyles,
@@ -8,6 +8,11 @@ import {
 } from "@/utils/buttonStyles";
 import { TooltipWrapper } from "@/components/ui/feedback";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
+import { useFocusManagement } from "@/hooks";
+import {
+  validateFABProps,
+  logValidationResults,
+} from "@/utils/fabValidation";
 
 // FAB specific types - extends the base button variants
 type FABVariant = ButtonVariant;
@@ -28,6 +33,10 @@ interface FloatingActionButtonProps extends Omit<BaseButtonProps, "children"> {
   showTooltip?: boolean;
   /** Additional className for the tooltip */
   tooltipClassName?: string;
+  /** Test ID for automated testing */
+  "data-testid"?: string;
+  /** Custom error boundary handler */
+  onFABError?: (error: Error) => void;
 }
 
 // FAB Group Props for stacking multiple FABs
@@ -48,6 +57,14 @@ interface FABGroupProps {
   className?: string;
   /** Animation direction when expanding */
   expandDirection?: "up" | "down" | "left" | "right";
+  /** Test ID for automated testing */
+  "data-testid"?: string;
+  /** Whether to enable focus trapping in expanded state */
+  trapFocus?: boolean;
+  /** Custom error boundary handler */
+  onFABGroupError?: (error: Error) => void;
+  /** Performance optimization: disable animations */
+  disableAnimations?: boolean;
 }
 
 // Extract style objects to module level to prevent recreation on each render
@@ -63,7 +80,7 @@ const DELAY_CLASSES = [
   "delay-300",
 ];
 
-// Base FAB component
+// Base FAB component with enhanced Phase 2 features
 const FloatingActionButton = forwardRef<
   HTMLButtonElement,
   FloatingActionButtonProps
@@ -81,19 +98,57 @@ const FloatingActionButton = forwardRef<
       disabled,
       className = "",
       "aria-label": ariaLabel,
+      "data-testid": testId,
+      onFABError,
       ...props
     },
     ref
   ) => {
     const isDisabled = disabled || loading;
 
-    // Combine all styles using shared utility
-    const buttonClasses = combineButtonStyles(
-      BUTTON_STYLES.base,
-      BUTTON_STYLES.variants[variant],
-      BUTTON_STYLES.sizes[size],
-      className
+    // Runtime prop validation (development only)
+    const validationResults = useMemo(() => {
+      return validateFABProps({
+        variant,
+        size,
+        children,
+        ...(tooltip && { tooltip }),
+        ...(ariaLabel && { "aria-label": ariaLabel }),
+      });
+    }, [variant, size, children, tooltip, ariaLabel]);
+
+    // Log validation results in development
+    useEffect(() => {
+      logValidationResults("FloatingActionButton", validationResults);
+    }, [validationResults]);
+
+    // Error boundary handling
+    const handleError = useCallback(
+      (error: Error) => {
+        if (onFABError) {
+          onFABError(error);
+        } else {
+          console.error("FloatingActionButton Error:", error);
+        }
+      },
+      [onFABError]
     );
+
+    // Memoized style computation for performance
+    const buttonClasses = useMemo(() => {
+      try {
+        return combineButtonStyles(
+          BUTTON_STYLES.base,
+          BUTTON_STYLES.variants[variant],
+          BUTTON_STYLES.sizes[size],
+          className
+        );
+      } catch (error) {
+        handleError(error as Error);
+        // Fallback styles
+        return `inline-flex items-center justify-center p-3 rounded-full bg-amber-400 text-zinc-900 ${className}`;
+      }
+    }, [variant, size, className, handleError]);
 
     const buttonElement = (
       <button
@@ -102,6 +157,7 @@ const FloatingActionButton = forwardRef<
         aria-label={ariaLabel || tooltip}
         aria-disabled={isDisabled}
         aria-busy={loading}
+        data-testid={testId}
         className={buttonClasses}
         {...props}
       >
@@ -133,7 +189,7 @@ const FloatingActionButton = forwardRef<
 
 FloatingActionButton.displayName = "FloatingActionButton";
 
-// FAB Group component for multiple stacked actions
+// Enhanced FAB Group component with Phase 2 features
 const FABGroup: React.FC<FABGroupProps> = ({
   actions,
   position = "bottom-right",
@@ -143,8 +199,40 @@ const FABGroup: React.FC<FABGroupProps> = ({
   showLabels = true,
   className = "",
   expandDirection = "up",
+  "data-testid": testId,
+  trapFocus = true,
+  onFABGroupError,
+  disableAnimations = false,
 }) => {
   const [isExpanded, setIsExpanded] = useState(expanded);
+
+  // Error boundary handling
+  const handleError = useCallback(
+    (error: Error) => {
+      if (onFABGroupError) {
+        onFABGroupError(error);
+      } else {
+        console.error("FABGroup Error:", error);
+      }
+    },
+    [onFABGroupError]
+  );
+
+  // Development validation
+  useEffect(() => {
+    if (process.env['NODE_ENV'] === 'development') {
+      if (!actions || actions.length === 0) {
+        handleError(new Error('FABGroup: actions array is empty or undefined'));
+      }
+    }
+  }, [actions, handleError]);
+
+  // Enhanced focus management
+  const { containerRef, focusFirstElement } = useFocusManagement({
+    trapFocus,
+    restoreFocus: true,
+    isActive: isExpanded,
+  });
 
   // Sync internal state with external expanded prop
   useEffect(() => {
@@ -153,30 +241,40 @@ const FABGroup: React.FC<FABGroupProps> = ({
 
   // Handle expansion toggle with memoized callback
   const handleToggle = useCallback(() => {
-    const newExpanded = !isExpanded;
-    setIsExpanded(newExpanded);
-    onExpandedChange?.(newExpanded);
-  }, [isExpanded, onExpandedChange]);
+    try {
+      const newExpanded = !isExpanded;
+      setIsExpanded(newExpanded);
+      onExpandedChange?.(newExpanded);
+
+      // Focus management for accessibility
+      if (newExpanded && trapFocus) {
+        // Small delay to allow DOM updates
+        setTimeout(() => {
+          focusFirstElement();
+        }, 100);
+      }
+    } catch (error) {
+      handleError(error as Error);
+    }
+  }, [isExpanded, onExpandedChange, trapFocus, focusFirstElement, handleError]);
 
   // Handle ESC key to close expanded groups
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isExpanded) {
+      if (event.key === 'Escape' && isExpanded) {
         setIsExpanded(false);
         onExpandedChange?.(false);
       }
     };
 
     if (isExpanded) {
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
     }
-
+    
     // Return undefined for the else case to satisfy TypeScript
     return undefined;
-  }, [isExpanded, onExpandedChange]);
-
-  // Position styles for the FAB group
+  }, [isExpanded, onExpandedChange]);  // Position styles for the FAB group
   const positionStyles = {
     "bottom-right": "fixed bottom-6 right-6",
     "bottom-left": "fixed bottom-6 left-6",
@@ -195,6 +293,10 @@ const FABGroup: React.FC<FABGroupProps> = ({
   // Animation classes for actions using predefined classes
   const getActionAnimationClass = useCallback(
     (index: number) => {
+      if (disableAnimations) {
+        return ""; // No animations when disabled
+      }
+      
       const delayIndex = Math.min(index, DELAY_CLASSES.length - 1);
       const delayClass = DELAY_CLASSES[delayIndex];
 
@@ -202,7 +304,7 @@ const FABGroup: React.FC<FABGroupProps> = ({
         ? `animate-in fade-in slide-in-from-bottom-2 duration-200 ${delayClass}`
         : `animate-out fade-out slide-out-to-bottom-2 duration-150`;
     },
-    [isExpanded]
+    [isExpanded, disableAnimations]
   );
 
   // Determine if we're using vertical or horizontal layout
@@ -210,7 +312,11 @@ const FABGroup: React.FC<FABGroupProps> = ({
 
   return (
     <div
+      ref={containerRef}
       className={`${positionStyles[position]} flex ${directionStyles[expandDirection]} items-center gap-4 z-50 ${className}`}
+      role="group"
+      aria-label="Floating action menu"
+      data-testid={testId}
     >
       {/* Secondary Actions */}
       {isExpanded && (
@@ -265,8 +371,8 @@ const FABGroup: React.FC<FABGroupProps> = ({
           aria-label={mainAction["aria-label"] || mainAction.label}
           aria-expanded={isExpanded}
           aria-haspopup="true"
-          className={`transform transition-transform duration-200 ${
-            isExpanded ? "rotate-45" : "rotate-0"
+          className={`${disableAnimations ? '' : 'transform transition-transform duration-200'} ${
+            isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"
           } ${mainAction.className || ""}`}
         />
       ) : (
@@ -276,8 +382,8 @@ const FABGroup: React.FC<FABGroupProps> = ({
           aria-label={isExpanded ? "Close actions menu" : "Open actions menu"}
           aria-expanded={isExpanded}
           aria-haspopup="true"
-          className={`transform transition-transform duration-200 ${
-            isExpanded ? "rotate-45" : "rotate-0"
+          className={`${disableAnimations ? '' : 'transform transition-transform duration-200'} ${
+            isExpanded && !disableAnimations ? "rotate-45" : "rotate-0"
           }`}
         >
           <svg
