@@ -1,4 +1,5 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
+import { Icon } from "@/components/ui/display/Icon";
 
 type TextAreaSize = "sm" | "md" | "lg";
 
@@ -213,19 +214,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-label="Clear input"
               className={clearButtonStyles.join(" ")}
             >
-              <svg
-                className="w-3 h-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <Icon 
+                name="close" 
+                size="xs" 
+                aria-hidden={true}
+              />
             </button>
           )}
         </div>

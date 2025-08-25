@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { NumberInput } from "@/components/ui/inputs";
-import { EditIcon } from "@/components/ui/display";
+import { Icon } from "@/components/ui/display";
 
 interface EditableValueProps {
   /** Current value */
@@ -118,13 +118,16 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       >
         {displayValue ?? value}
         {editable && showEditIcon && (
-          <EditIcon
+          <Icon
+            name="edit"
+            size="xs"
             className="
-              w-3 h-3 text-zinc-400 
+              text-zinc-400 
               opacity-0 group-hover:opacity-100 
               transition-opacity duration-200
               absolute -top-1 right-2
             "
+            aria-hidden={true}
           />
         )}
       </div>

@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks";
 import { signOut } from "@/services/auth";
 import { logger } from "@/utils/logger";
 import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants/dom";
+import { Icon } from "@/components/ui/display/Icon";
 
 interface AppHeaderProps {
   setIsSignInModalOpen: (open: boolean) => void;
@@ -100,39 +101,12 @@ export function AppHeader({ setIsSignInModalOpen }: AppHeaderProps) {
                 aria-label="Toggle mobile menu"
               >
                 <span className="sr-only">Open main menu</span>
-                {!isMobileMenuOpen ? (
-                  <svg
-                    className="block h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="block h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                )}
+                <Icon 
+                  name={!isMobileMenuOpen ? "menu" : "close"} 
+                  size="lg" 
+                  className="block"
+                  aria-hidden={true}
+                />
               </button>
             </div>
           </div>

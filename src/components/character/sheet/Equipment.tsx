@@ -4,6 +4,7 @@ import { Card, Badge, Typography } from "@/components/ui/design-system";
 import { Button, Switch } from "@/components/ui/inputs";
 import { Accordion } from "@/components/ui/layout";
 import { EquipmentSelector } from "@/components/character/management";
+import { Icon } from "@/components/ui/display/Icon";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character, Equipment as EquipmentItem } from "@/types/character";
 
@@ -161,55 +162,23 @@ export default function Equipment({
             {/* Item Statistics */}
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 text-sm text-zinc-400">
               <span className="flex items-center gap-1">
-                <svg
-                  className="w-3 h-3"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <Icon name="coin" size="xs" aria-hidden={true} />
                 {formatCost(item.costValue, item.costCurrency, item.amount)}
               </span>
               <span className="flex items-center gap-1">
-                <svg
-                  className="w-3 h-3"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M12 3C10.9 3 10 3.9 10 5v1H8c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-2V5c0-1.1-.9-2-2-2zm0 2c.6 0 1 .4 1 1v1h-2V6c0-.6.4-1 1-1z"/>
-                </svg>
+                <Icon name="weight" size="xs" aria-hidden={true} />
                 {formatWeight(item.weight, item.amount)}
               </span>
               {item.damage && (
                 <span className="flex items-center gap-1">
-                  <svg
-                    className="w-3 h-3"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 2l2 4 4-1-2 4 4 2-4 2 2 4-4-1-2 4-2-4-4 1 2-4-4-2 4-2-2-4 4 1z"/>
-                  </svg>
+                  <Icon name="damage" size="xs" aria-hidden={true} />
                   {item.damage}
                   {item.twoHandedDamage && ` / ${item.twoHandedDamage}`}
                 </span>
               )}
               {item.AC && (
                 <span className="flex items-center gap-1">
-                  <svg
-                    className="w-3 h-3"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 1L3 5v6c0 8 9 12 9 12s9-4 9-12V5l-9-4z"/>
-                  </svg>
+                  <Icon name="shield" size="xs" aria-hidden={true} />
                   AC {item.AC}
                 </span>
               )}

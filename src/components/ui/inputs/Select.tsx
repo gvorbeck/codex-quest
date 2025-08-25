@@ -1,5 +1,6 @@
 import { forwardRef, useId } from "react";
 import type { SelectHTMLAttributes } from "react";
+import { Icon } from "@/components/ui/display/Icon";
 
 export interface SelectOption {
   value: string;
@@ -156,19 +157,12 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
           {/* Custom dropdown arrow */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg
-              className="w-5 h-5 text-zinc-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
+            <Icon 
+              name="chevron-down" 
+              size="md" 
+              className="text-zinc-400"
+              aria-hidden={true}
+            />
           </div>
         </div>
 

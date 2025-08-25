@@ -6,9 +6,7 @@ import {
   SettingsModal,
 } from "@/components/character/management";
 import { TextInput } from "@/components/ui/inputs";
-import { Details } from "@/components/ui/display";
-import EditIcon from "../../ui/display/EditIcon";
-import SettingsIcon from "../../ui/display/SettingsIcon";
+import { Details, Icon } from "@/components/ui/display";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -158,7 +156,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
               aria-label="Open character settings"
               title="Settings"
             >
-              <SettingsIcon className="w-5 h-5 text-zinc-300 group-hover:text-zinc-100 group-focus:text-zinc-100" />
+              <Icon name="settings" size="md" className="text-zinc-300 group-hover:text-zinc-100 group-focus:text-zinc-100" aria-hidden={true} />
             </button>
           )}
 
@@ -219,7 +217,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                     }
                   }}
                 >
-                  <EditIcon className="w-6 h-6 text-white" />
+                  <Icon name="edit" size="lg" className="text-white" aria-hidden={true} />
                 </div>
               )}
             </div>
@@ -282,7 +280,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onCharacterChange && (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <EditIcon className="w-5 h-5 text-zinc-700" />
+                      <Icon name="edit" size="md" className="text-zinc-700" aria-hidden={true} />
                     </div>
                   )}
                 </div>

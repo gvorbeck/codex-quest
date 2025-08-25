@@ -1,5 +1,5 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
-import { EditIcon } from "@/components/ui/display";
+import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 
@@ -180,13 +180,16 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
                 >
                   {value}
                   {editable && (
-                    <EditIcon
+                    <Icon
+                      name="edit"
+                      size="xs"
                       className={`
-                        w-3 h-3 text-zinc-400 
+                        text-zinc-400 
                         opacity-0 group-hover/stat-card:opacity-100 
                         transition-opacity duration-200
                         absolute -top-1 right-2
                       `}
+                      aria-hidden={true}
                     />
                   )}
                 </div>

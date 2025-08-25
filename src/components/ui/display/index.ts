@@ -4,8 +4,7 @@ export { default as HorizontalRule } from "./HorizontalRule";
 export { default as SectionHeader } from "./SectionHeader";
 export { default as Stepper } from "./Stepper";
 export { default as Details, type DescriptionItem } from "./Details";
-export { default as EditIcon } from "./EditIcon";
-export { default as SettingsIcon } from "./SettingsIcon";
+export { default as Icon, type IconName } from "./Icon";
 export { default as SimpleRoller } from "./SimpleRoller";
 export { default as StatCard } from "./StatCard";
 export {
