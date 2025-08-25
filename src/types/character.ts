@@ -50,6 +50,7 @@ export interface Equipment {
   // Equipment with gold amount
   gold?: number;
   wearing?: boolean; // For armor and shields
+  description?: string; // Optional description for the equipment
 }
 
 export interface Character {

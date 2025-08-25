@@ -1,7 +1,8 @@
 import { useState, useCallback } from "react";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Card, Badge, Typography } from "@/components/ui/design-system";
-import { Button, Switch } from "@/components/ui/inputs";
+import { Button, Switch, TextInput, TextArea } from "@/components/ui/inputs";
+import { Modal } from "@/components/ui/feedback";
 import { Accordion } from "@/components/ui/layout";
 import { EquipmentSelector } from "@/components/character/management";
 import { Icon } from "@/components/ui/display/Icon";
@@ -24,6 +25,8 @@ export default function Equipment({
   onEquipmentChange,
 }: EquipmentProps) {
   const [showSelector, setShowSelector] = useState(false);
+  const [editingItem, setEditingItem] = useState<{ item: EquipmentItem; index: number } | null>(null);
+  const [editForm, setEditForm] = useState<EquipmentItem | null>(null);
   const currentSize = SIZE_STYLES[size];
 
   const handleEquipmentAdd = (newEquipment: EquipmentItem) => {
@@ -59,6 +62,35 @@ export default function Equipment({
     const updatedEquipment = character.equipment.filter((_, i) => i !== index);
     onEquipmentChange(updatedEquipment);
   }, [character.equipment, onEquipmentChange]);
+
+  const handleEquipmentEdit = useCallback((index: number) => {
+    const item = character.equipment[index];
+    if (!item) return;
+
+    setEditingItem({ item, index });
+    setEditForm({ ...item });
+  }, [character.equipment]);
+
+  const handleEditSave = useCallback(() => {
+    if (!editForm || editingItem === null || !onEquipmentChange) return;
+
+    const updatedEquipment = [...character.equipment];
+    updatedEquipment[editingItem.index] = editForm;
+    onEquipmentChange(updatedEquipment);
+    
+    setEditingItem(null);
+    setEditForm(null);
+  }, [editForm, editingItem, character.equipment, onEquipmentChange]);
+
+  const handleEditCancel = useCallback(() => {
+    setEditingItem(null);
+    setEditForm(null);
+  }, []);
+
+  const updateEditForm = useCallback((field: keyof EquipmentItem, value: string | number) => {
+    if (!editForm) return;
+    setEditForm({ ...editForm, [field]: value });
+  }, [editForm]);
 
 
   const toggleWearing = useCallback((index: number) => {
@@ -159,6 +191,19 @@ export default function Equipment({
               )}
             </div>
 
+            {/* Item Description */}
+            {item.description && (
+              <div className="mb-3">
+                <Typography 
+                  variant="bodySmall" 
+                  color="muted" 
+                  className="italic leading-relaxed"
+                >
+                  {item.description}
+                </Typography>
+              </div>
+            )}
+
             {/* Item Statistics */}
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 text-sm text-zinc-400">
               <span className="flex items-center gap-1">
@@ -208,6 +253,17 @@ export default function Equipment({
                 return null;
               })()}
 
+              {/* Edit button */}
+              <Button
+                onClick={() => handleEquipmentEdit(item.originalIndex)}
+                variant="secondary"
+                size="sm"
+                className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                aria-label={`Edit ${item.name}`}
+              >
+                Edit
+              </Button>
+
               {/* Remove button */}
               <Button
                 onClick={() => handleEquipmentRemove(item.originalIndex)}
@@ -223,7 +279,7 @@ export default function Equipment({
         </div>
       );
     },
-    [editable, toggleWearing, handleEquipmentRemove, formatCost, formatWeight]
+    [editable, toggleWearing, handleEquipmentEdit, handleEquipmentRemove, formatCost, formatWeight]
   );
 
   return (
@@ -280,6 +336,208 @@ export default function Equipment({
             showSearch={character.equipment.length > 5} // Only show search if there are many items
             showCounts={true}
           />
+        )}
+
+        {/* Edit Equipment Modal */}
+        {editingItem && editForm && (
+          <Modal
+            isOpen={true}
+            onClose={handleEditCancel}
+            title={`Edit ${editingItem.item.name}`}
+            size="md"
+          >
+            <div className="space-y-4">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-200 mb-2">
+                  Name
+                </label>
+                <TextInput
+                  value={editForm.name}
+                  onChange={(value) => updateEditForm('name', value)}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Amount */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-200 mb-2">
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={editForm.amount}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateEditForm('amount', parseInt(e.target.value) || 1)}
+                  className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
+                />
+              </div>
+
+              {/* Cost */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-zinc-200 mb-2">
+                    Cost Value
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={editForm.costValue}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateEditForm('costValue', parseFloat(e.target.value) || 0)}
+                    className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-zinc-200 mb-2">
+                    Currency
+                  </label>
+                  <select
+                    value={editForm.costCurrency}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateEditForm('costCurrency', e.target.value as 'gp' | 'sp' | 'cp')}
+                    className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
+                  >
+                    <option value="gp">gp</option>
+                    <option value="sp">sp</option>
+                    <option value="cp">cp</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Weight */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-200 mb-2">
+                  Weight (lbs)
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value={editForm.weight}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateEditForm('weight', parseFloat(e.target.value) || 0)}
+                  className="w-full px-3 py-2 bg-zinc-700 border border-zinc-600 rounded-md text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent"
+                />
+              </div>
+
+              {/* Category */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-200 mb-2">
+                  Category
+                </label>
+                <TextInput
+                  value={editForm.category || ''}
+                  onChange={(value) => updateEditForm('category', value)}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-200 mb-2">
+                  Description
+                </label>
+                <TextArea
+                  value={editForm.description || ''}
+                  onChange={(value) => updateEditForm('description', value)}
+                  placeholder="Optional description for this equipment..."
+                  rows={3}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Weapon properties */}
+              {(editForm.damage || editForm.twoHandedDamage) && (
+                <div className="border-t border-zinc-600 pt-4">
+                  <Typography variant="body" weight="medium" className="mb-3">
+                    Weapon Properties
+                  </Typography>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    {editForm.damage && (
+                      <div>
+                        <label className="block text-sm font-medium text-zinc-200 mb-2">
+                          Damage
+                        </label>
+                        <TextInput
+                          value={editForm.damage}
+                          onChange={(value) => updateEditForm('damage', value)}
+                          className="w-full"
+                        />
+                      </div>
+                    )}
+                    
+                    {editForm.twoHandedDamage && (
+                      <div>
+                        <label className="block text-sm font-medium text-zinc-200 mb-2">
+                          Two-Handed Damage
+                        </label>
+                        <TextInput
+                          value={editForm.twoHandedDamage}
+                          onChange={(value) => updateEditForm('twoHandedDamage', value)}
+                          className="w-full"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Armor properties */}
+              {(editForm.AC || editForm.missileAC) && (
+                <div className="border-t border-zinc-600 pt-4">
+                  <Typography variant="body" weight="medium" className="mb-3">
+                    Armor Properties
+                  </Typography>
+                  
+                  <div className="grid grid-cols-1 gap-3">
+                    {editForm.AC && (
+                      <div>
+                        <label className="block text-sm font-medium text-zinc-200 mb-2">
+                          Armor Class
+                        </label>
+                        <TextInput
+                          value={editForm.AC.toString()}
+                          onChange={(value) => updateEditForm('AC', value)}
+                          className="w-full"
+                        />
+                      </div>
+                    )}
+                    
+                    {editForm.missileAC && (
+                      <div>
+                        <label className="block text-sm font-medium text-zinc-200 mb-2">
+                          Missile AC
+                        </label>
+                        <TextInput
+                          value={editForm.missileAC}
+                          onChange={(value) => updateEditForm('missileAC', value)}
+                          className="w-full"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Modal actions */}
+              <div className="flex justify-end gap-3 pt-6 border-t border-zinc-600">
+                <Button
+                  onClick={handleEditCancel}
+                  variant="secondary"
+                  size="md"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleEditSave}
+                  variant="primary"
+                  size="md"
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          </Modal>
         )}
       </div>
     </CharacterSheetSectionWrapper>
