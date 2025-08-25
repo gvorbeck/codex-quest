@@ -290,7 +290,6 @@ export default function CharacterSheet() {
                   onChange={handleXPChange}
                 />
               </div>
-
               <div className="break-inside-avoid mb-6">
                 <HitPoints
                   character={character}
@@ -299,19 +298,15 @@ export default function CharacterSheet() {
                   onHPNotesChange={handleHPNotesChange}
                 />
               </div>
-
               <div className="break-inside-avoid mb-6">
                 <SavingThrows character={character} />
               </div>
-
               <div className="break-inside-avoid mb-6">
                 <AttackBonuses character={character} />
-              </div>
-
+              </div>{" "}
               <div className="break-inside-avoid mb-6">
                 <CharacterDefense character={character} />
               </div>
-
               <div className="break-inside-avoid mb-6">
                 <SpecialsRestrictions character={character} />
               </div>

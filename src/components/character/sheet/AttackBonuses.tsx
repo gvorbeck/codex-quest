@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { Details } from "@/components/ui/display";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { formatModifier } from "@/utils/gameUtils";
 import { allRaces } from "@/data/races";
 import { SIZE_STYLES } from "@/constants/designTokens";
+import { roller } from "@/utils/dice";
+import { useNotificationContext } from "@/hooks/useNotificationContext";
 import type { Character, SpecialAbility } from "@/types/character";
 
 interface AttackBonusesProps {
@@ -13,15 +15,55 @@ interface AttackBonusesProps {
   size?: "sm" | "md" | "lg";
 }
 
-export default function AttackBonuses({ character, className = "", size = "md" }: AttackBonusesProps) {
+export default function AttackBonuses({
+  character,
+  className = "",
+  size = "md",
+}: AttackBonusesProps) {
   const currentSize = SIZE_STYLES[size];
+  const notifications = useNotificationContext();
+
+  // Handle attack roll simulation
+  const handleAttackRoll = useCallback(
+    (bonusType: string, bonus: number) => {
+      try {
+        const roll = roller("1d20");
+        const total = roll.total + bonus;
+        const formula = `1d20${bonus >= 0 ? "+" : ""}${bonus}`;
+
+        notifications.showSuccess(
+          `${bonusType} Attack: ${formula} = ${roll.total}${
+            bonus >= 0 ? "+" : ""
+          }${bonus} = ${total}`,
+          {
+            title: "Attack Roll",
+            duration: 5000,
+          }
+        );
+      } catch {
+        notifications.showError("Failed to roll attack", {
+          title: "Roll Error",
+        });
+      }
+    },
+    [notifications]
+  );
+
   const attackBonuses = useMemo(() => {
     // Base Attack Bonus calculation from BFRPG table
-    const getBaseAttackBonus = (level: number, characterClass: string): number => {
+    const getBaseAttackBonus = (
+      level: number,
+      characterClass: string
+    ): number => {
       const classLower = characterClass.toLowerCase();
-      
+
       // Fighter-based classes (Fighter, Barbarian, Ranger, Paladin)
-      if (classLower === "fighter" || classLower === "barbarian" || classLower === "ranger" || classLower === "paladin") {
+      if (
+        classLower === "fighter" ||
+        classLower === "barbarian" ||
+        classLower === "ranger" ||
+        classLower === "paladin"
+      ) {
         if (level >= 18) return 10;
         if (level >= 16) return 9;
         if (level >= 13) return 8;
@@ -34,9 +76,15 @@ export default function AttackBonuses({ character, className = "", size = "md" }
         if (level >= 1) return 1;
         return 0;
       }
-      
+
       // Cleric-based classes (Cleric, Druid) and Thief-based classes (Thief, Assassin, Scout)
-      if (classLower === "cleric" || classLower === "druid" || classLower === "thief" || classLower === "assassin" || classLower === "scout") {
+      if (
+        classLower === "cleric" ||
+        classLower === "druid" ||
+        classLower === "thief" ||
+        classLower === "assassin" ||
+        classLower === "scout"
+      ) {
         if (level >= 18) return 10;
         if (level >= 15) return 9;
         if (level >= 12) return 8;
@@ -47,9 +95,14 @@ export default function AttackBonuses({ character, className = "", size = "md" }
         if (level >= 1) return 1;
         return 0;
       }
-      
+
       // Magic-User-based classes (Magic-User, Illusionist, Necromancer, Spellcrafter)
-      if (classLower === "magic-user" || classLower === "illusionist" || classLower === "necromancer" || classLower === "spellcrafter") {
+      if (
+        classLower === "magic-user" ||
+        classLower === "illusionist" ||
+        classLower === "necromancer" ||
+        classLower === "spellcrafter"
+      ) {
         if (level >= 19) return 10;
         if (level >= 16) return 9;
         if (level >= 13) return 8;
@@ -59,7 +112,7 @@ export default function AttackBonuses({ character, className = "", size = "md" }
         if (level >= 1) return 1;
         return 0;
       }
-      
+
       // Default for unknown classes
       return 0;
     };
@@ -67,23 +120,28 @@ export default function AttackBonuses({ character, className = "", size = "md" }
     // Extract racial attack bonuses from special abilities
     const getRacialAttackBonuses = () => {
       // Find the race object from the races data
-      const raceData = allRaces.find(race => race.id === character.race);
+      const raceData = allRaces.find((race) => race.id === character.race);
       if (!raceData?.specialAbilities) return { melee: 0, missile: 0 };
-      
+
       let meleeBonus = 0;
       let missileBonus = 0;
-      
+
       raceData.specialAbilities.forEach((ability: SpecialAbility) => {
         const attackBonus = ability.effects?.attackBonus;
         if (attackBonus) {
           const conditions = attackBonus.conditions || [];
-          
+
           // Apply ranged weapon bonus to missile attacks
           if (conditions.includes("ranged weapons")) {
             missileBonus += attackBonus.value;
           }
           // Apply other attack bonuses to both melee and missile unless specifically conditional
-          else if (conditions.length === 0 || !conditions.some((c: string) => c.includes("ranged") || c.includes("melee"))) {
+          else if (
+            conditions.length === 0 ||
+            !conditions.some(
+              (c: string) => c.includes("ranged") || c.includes("melee")
+            )
+          ) {
             meleeBonus += attackBonus.value;
             missileBonus += attackBonus.value;
           }
@@ -93,31 +151,37 @@ export default function AttackBonuses({ character, className = "", size = "md" }
           }
         }
       });
-      
+
       return { melee: meleeBonus, missile: missileBonus };
     };
 
     // Get the primary class (first in array for multi-class characters)
     const primaryClass = character.class[0] || "";
-    
+
     // Calculate base attack bonus
     const baseAttackBonus = getBaseAttackBonus(character.level, primaryClass);
-    
+
     // Get racial attack bonuses
     const racialBonuses = getRacialAttackBonuses();
-    
-    // Calculate ability modifiers from values (D&D 3.x style: (value - 10) / 2, rounded down)
-    const calculateModifier = (value: number): number => Math.floor((value - 10) / 2);
-    
-    const strModifier = character.abilities.strength?.value ? calculateModifier(character.abilities.strength.value) : 0;
-    const dexModifier = character.abilities.dexterity?.value ? calculateModifier(character.abilities.dexterity.value) : 0;
-    
-    // Calculate melee attack bonus (base + strength modifier + racial bonuses)
-    const meleeAttackBonus = baseAttackBonus + strModifier + racialBonuses.melee;
-    
-    // Calculate missile attack bonus (base + dexterity modifier + racial bonuses)
-    const missileAttackBonus = baseAttackBonus + dexModifier + racialBonuses.missile;
 
+    // Calculate ability modifiers from values (D&D 3.x style: (value - 10) / 2, rounded down)
+    const calculateModifier = (value: number): number =>
+      Math.floor((value - 10) / 2);
+
+    const strModifier = character.abilities.strength?.value
+      ? calculateModifier(character.abilities.strength.value)
+      : 0;
+    const dexModifier = character.abilities.dexterity?.value
+      ? calculateModifier(character.abilities.dexterity.value)
+      : 0;
+
+    // Calculate melee attack bonus (base + strength modifier + racial bonuses)
+    const meleeAttackBonus =
+      baseAttackBonus + strModifier + racialBonuses.melee;
+
+    // Calculate missile attack bonus (base + dexterity modifier + racial bonuses)
+    const missileAttackBonus =
+      baseAttackBonus + dexModifier + racialBonuses.missile;
 
     return {
       base: baseAttackBonus,
@@ -125,20 +189,50 @@ export default function AttackBonuses({ character, className = "", size = "md" }
       missile: missileAttackBonus,
       racial: racialBonuses,
     };
-  }, [character.level, character.class, character.abilities.strength.modifier, character.abilities.dexterity.modifier, character.race]);
+  }, [
+    character.level,
+    character.class,
+    character.abilities.strength.value,
+    character.abilities.dexterity.value,
+    character.race,
+  ]);
 
   const items = [
     {
       label: "Base",
-      children: formatModifier(attackBonuses.base),
+      children: (
+        <button
+          onClick={() => handleAttackRoll("Base", attackBonuses.base)}
+          className="hover:text-amber-300 transition-colors cursor-pointer"
+          title="Click to roll base attack"
+        >
+          {formatModifier(attackBonuses.base)}
+        </button>
+      ),
     },
     {
       label: "Melee",
-      children: formatModifier(attackBonuses.melee),
+      children: (
+        <button
+          onClick={() => handleAttackRoll("Melee", attackBonuses.melee)}
+          className="hover:text-amber-300 transition-colors cursor-pointer"
+          title="Click to roll melee attack"
+        >
+          {formatModifier(attackBonuses.melee)}
+        </button>
+      ),
     },
     {
       label: "Missile",
-      children: formatModifier(attackBonuses.missile),
+      children: (
+        <button
+          onClick={() => handleAttackRoll("Missile", attackBonuses.missile)}
+          className="hover:text-amber-300 transition-colors cursor-pointer"
+          title="Click to roll missile attack"
+        >
+          {formatModifier(attackBonuses.missile)}
+        </button>
+      ),
     },
   ];
 
@@ -162,17 +256,13 @@ export default function AttackBonuses({ character, className = "", size = "md" }
   );
 
   return (
-    <CharacterSheetSectionWrapper 
-      title={titleWithTooltip} 
+    <CharacterSheetSectionWrapper
+      title={titleWithTooltip}
       size={size}
       className={className}
     >
       <div className={currentSize.container}>
-        <Details
-          items={items}
-          layout="vertical"
-          size={size}
-        />
+        <Details items={items} layout="vertical" size={size} />
       </div>
     </CharacterSheetSectionWrapper>
   );

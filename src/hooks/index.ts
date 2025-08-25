@@ -7,6 +7,7 @@ export { useCharacters } from "./useCharacters";
 export { useAppData } from "./useAppData";
 export { useFocusManagement } from "./useFocusManagement";
 export { useNotifications } from "./useNotifications";
+export { useNotificationContext } from "./useNotificationContext";
 
 // Export hook types
 export type {
