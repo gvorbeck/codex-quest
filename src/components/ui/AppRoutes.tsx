@@ -3,13 +3,15 @@ import { Suspense, lazy } from "react";
 import { Link } from "wouter";
 import { 
   CharGenErrorBoundary, 
-  CharacterSheetErrorBoundary, 
+  CharacterSheetErrorBoundary,
+  GameGenErrorBoundary,
   HomeErrorBoundary 
 } from "@/components/ui/feedback";
 import { DOM_IDS } from "@/constants/dom";
 
 const Home = lazy(() => import("../pages/Home"));
 const CharGen = lazy(() => import("../pages/CharGen"));
+const GameGen = lazy(() => import("../pages/GameGen"));
 const CharacterSheet = lazy(() => import("../pages/CharacterSheet"));
 
 export function AppRoutes() {
@@ -40,6 +42,11 @@ export function AppRoutes() {
             <CharGenErrorBoundary>
               <CharGen />
             </CharGenErrorBoundary>
+          </Route>
+          <Route path="/new-game">
+            <GameGenErrorBoundary>
+              <GameGen />
+            </GameGenErrorBoundary>
           </Route>
           <Route path="/u/:userId/c/:characterId">
             <CharacterSheetErrorBoundary>

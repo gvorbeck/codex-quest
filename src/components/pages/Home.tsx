@@ -1,6 +1,6 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button, Card, Typography } from "@/components/ui";
-import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
+import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
 import { Icon } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
@@ -17,6 +17,7 @@ import { useAuth, useCharacters } from "@/hooks";
 function Home() {
   const { user } = useAuth();
   const { characters, loading } = useCharacters();
+  const [, setLocation] = useLocation();
 
   const hasCharacters = characters.length > 0;
   const showWelcomeContent = !user || (!hasCharacters && !loading);
@@ -104,20 +105,38 @@ function Home() {
         )}
       </section>
 
-      {/* Floating Action Button for authenticated users */}
+      {/* Floating Action Button Group for authenticated users */}
       {user && (
-        <div className="fixed bottom-6 right-6 z-50">
-          <Link href="/new-character">
-            <FloatingActionButton
-              variant="primary"
-              size="lg"
-              tooltip="Create New Character"
-              aria-label="Create new character"
-            >
-              <Icon name="plus" size="lg" aria-hidden />
-            </FloatingActionButton>
-          </Link>
-        </div>
+        <FABGroup
+          position="bottom-right"
+          actions={[
+            {
+              key: "new-character",
+              label: "New Character",
+              variant: "primary" as const,
+              size: "lg" as const,
+              onClick: () => setLocation("/new-character"),
+              children: <Icon name="dice" size="lg" aria-hidden />,
+            },
+            {
+              key: "new-game",
+              label: "New Game",
+              variant: "secondary" as const,
+              size: "lg" as const,
+              onClick: () => setLocation("/new-game"),
+              children: <Icon name="shield" size="lg" aria-hidden />,
+            },
+          ]}
+          mainAction={{
+            key: "main",
+            label: "Create",
+            variant: "primary" as const,
+            size: "lg" as const,
+            children: <Icon name="plus" size="lg" aria-hidden />,
+          }}
+          expandDirection="up"
+          showLabels={true}
+        />
       )}
     </PageWrapper>
   );

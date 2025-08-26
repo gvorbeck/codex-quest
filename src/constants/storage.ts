@@ -4,6 +4,7 @@
  */
 export const STORAGE_KEYS = {
   NEW_CHARACTER: "newCharacter",
+  DRAFT_GAME: "draftGame",
   INCLUDE_SUPPLEMENTAL_RACE: "includeSupplemental",
   INCLUDE_SUPPLEMENTAL_CLASS: "includeSupplementalClass",
   USE_COMBINATION_CLASS: "useCombinationClass",

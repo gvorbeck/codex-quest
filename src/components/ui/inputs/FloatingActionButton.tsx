@@ -66,7 +66,7 @@ interface FABGroupProps {
 }
 
 // Extract style objects to module level to prevent recreation on each render
-const BUTTON_STYLES = createButtonStyles(true); // true = circular FAB
+const BUTTON_STYLES = createButtonStyles(true); // true = FAB (rounded square)
 
 // Predefined delay classes to ensure Tailwind inclusion
 const DELAY_CLASSES = [
@@ -361,7 +361,11 @@ const FABGroup: React.FC<FABGroupProps> = ({
       {/* Main Action Button */}
       {mainAction ? (
         <FloatingActionButton
-          {...mainAction}
+          key={mainAction.key}
+          {...(() => {
+            const { key, ...props } = mainAction;
+            return props;
+          })()}
           onClick={(e) => {
             handleToggle();
             mainAction.onClick?.(e);

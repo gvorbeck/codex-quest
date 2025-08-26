@@ -12,6 +12,7 @@ export { ErrorBoundary } from "./ErrorBoundary";
 export { NotificationErrorBoundary } from "./NotificationErrorBoundary";
 export { CharGenErrorBoundary } from "./CharGenErrorBoundary";
 export { CharacterSheetErrorBoundary } from "./CharacterSheetErrorBoundary";
+export { GameGenErrorBoundary } from "./GameGenErrorBoundary";
 export { HomeErrorBoundary } from "./HomeErrorBoundary";
 
 // Export types
