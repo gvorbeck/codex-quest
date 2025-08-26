@@ -363,6 +363,7 @@ const FABGroup: React.FC<FABGroupProps> = ({
         <FloatingActionButton
           key={mainAction.key}
           {...(() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { key, ...props } = mainAction;
             return props;
           })()}

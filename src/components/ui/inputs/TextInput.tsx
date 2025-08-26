@@ -21,6 +21,7 @@ interface TextInputProps {
   "aria-describedby"?: string;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onClear?: () => void;
 }
 
@@ -44,6 +45,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       "aria-describedby": ariaDescribedBy,
       onBlur,
       onFocus,
+      onKeyDown,
       onClear,
       ...props
     },
@@ -86,8 +88,11 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      // Call external onKeyDown handler first
+      onKeyDown?.(event);
+      
       // Allow Escape key to clear the input if clear button is enabled
-      if (event.key === "Escape" && showClearButton && inputValue) {
+      if (event.key === "Escape" && showClearButton && inputValue && !event.defaultPrevented) {
         event.preventDefault();
         handleClear();
       }

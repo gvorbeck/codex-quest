@@ -5,6 +5,8 @@ import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
+import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
+import { DiceRollerModal } from "@/components/ui/feedback";
 import {
   AttackBonuses,
   HitPoints,
@@ -30,6 +32,7 @@ export default function CharacterSheet() {
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDiceRollerOpen, setIsDiceRollerOpen] = useState(false);
   const { user } = useAuth();
 
   const breadcrumbItems = useMemo(
@@ -242,118 +245,154 @@ export default function CharacterSheet() {
   );
 
   return (
-    <PageWrapper>
-      <header className="mb-8">
-        <Breadcrumb items={breadcrumbItems} className="mb-4" />
-      </header>
+    <>
+      <PageWrapper>
+        <header className="mb-8">
+          <Breadcrumb items={breadcrumbItems} className="mb-4" />
+        </header>
 
-      {/* Hero section with character avatar and basic info */}
-      <Hero
-        character={character}
-        className="mb-8"
-        editable={!!isOwner}
-        onCharacterChange={handleCharacterChange}
-      />
+        {/* Hero section with character avatar and basic info */}
+        <Hero
+          character={character}
+          className="mb-8"
+          editable={!!isOwner}
+          onCharacterChange={handleCharacterChange}
+        />
 
-      {/* Character Sheet Content */}
-      <div className="space-y-6">
-        {/* Main Character Stats Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-          {/* Ability Scores */}
-          <section
-            className="lg:col-span-1"
-            aria-labelledby="ability-scores-heading"
-          >
-            <AbilityScores
-              character={character}
-              editable={!!isOwner}
-              onAbilityChange={handleAbilityChange}
-            />
-          </section>
+        {/* Character Sheet Content */}
+        <div className="space-y-6">
+          {/* Main Character Stats Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+            {/* Ability Scores */}
+            <section
+              className="lg:col-span-1"
+              aria-labelledby="ability-scores-heading"
+            >
+              <AbilityScores
+                character={character}
+                editable={!!isOwner}
+                onAbilityChange={handleAbilityChange}
+              />
+            </section>
 
-          {/* Experience and Combat Stats */}
-          <section
-            className="lg:col-span-3"
-            aria-labelledby="character-stats-heading"
-          >
-            <h2 id="character-stats-heading" className="sr-only">
-              Character Statistics
-            </h2>
+            {/* Experience and Combat Stats */}
+            <section
+              className="lg:col-span-3"
+              aria-labelledby="character-stats-heading"
+            >
+              <h2 id="character-stats-heading" className="sr-only">
+                Character Statistics
+              </h2>
 
-            {/* Masonry-style layout for cards */}
-            <div className="columns-1 md:columns-2 gap-6 space-y-6 md:space-y-0">
-              <div className="break-inside-avoid mb-6">
-                <ExperiencePoints
-                  character={character}
-                  classes={allClasses}
-                  editable={!!isOwner}
-                  onChange={handleXPChange}
-                />
+              {/* Masonry-style layout for cards */}
+              <div className="columns-1 md:columns-2 gap-6 space-y-6 md:space-y-0">
+                <div className="break-inside-avoid mb-6">
+                  <ExperiencePoints
+                    character={character}
+                    classes={allClasses}
+                    editable={!!isOwner}
+                    onChange={handleXPChange}
+                  />
+                </div>
+                <div className="break-inside-avoid mb-6">
+                  <HitPoints
+                    character={character}
+                    editable={!!isOwner}
+                    onCurrentHPChange={handleCurrentHPChange}
+                    onHPNotesChange={handleHPNotesChange}
+                  />
+                </div>
+                <div className="break-inside-avoid mb-6">
+                  <SavingThrows character={character} />
+                </div>
+                <div className="break-inside-avoid mb-6">
+                  <AttackBonuses character={character} />
+                </div>{" "}
+                <div className="break-inside-avoid mb-6">
+                  <CharacterDefense character={character} />
+                </div>
+                <div className="break-inside-avoid mb-6">
+                  <SpecialsRestrictions character={character} />
+                </div>
               </div>
-              <div className="break-inside-avoid mb-6">
-                <HitPoints
-                  character={character}
-                  editable={!!isOwner}
-                  onCurrentHPChange={handleCurrentHPChange}
-                  onHPNotesChange={handleHPNotesChange}
-                />
-              </div>
-              <div className="break-inside-avoid mb-6">
-                <SavingThrows character={character} />
-              </div>
-              <div className="break-inside-avoid mb-6">
-                <AttackBonuses character={character} />
-              </div>{" "}
-              <div className="break-inside-avoid mb-6">
-                <CharacterDefense character={character} />
-              </div>
-              <div className="break-inside-avoid mb-6">
-                <SpecialsRestrictions character={character} />
-              </div>
+            </section>
+          </div>
+
+          {/* Horizontal Rule */}
+          <HorizontalRule />
+
+          {/* Additional Components */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="break-inside-avoid">
+              <CoinPurse
+                character={character}
+                editable={!!isOwner}
+                onCurrencyChange={handleCurrencyChange}
+              />
             </div>
-          </section>
+            <div className="break-inside-avoid">
+              <Weight character={character} />
+            </div>
+          </div>
+
+          {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
+          {(character.spells?.length || character.cantrips?.length) && (
+            <Spells character={character} />
+          )}
+
+          {/* Equipment Section */}
+          <Equipment
+            character={character}
+            editable={!!isOwner}
+            onEquipmentChange={handleEquipmentChange}
+          />
+
+          {/* Horizontal Rule */}
+          <HorizontalRule />
+
+          {/* Character Description Section */}
+          <CharacterDescription
+            character={character}
+            editable={!!isOwner}
+            onDescriptionChange={handleDescriptionChange}
+            size="lg"
+          />
         </div>
 
-        {/* Horizontal Rule */}
-        <HorizontalRule />
-
-        {/* Additional Components */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="break-inside-avoid">
-            <CoinPurse
-              character={character}
-              editable={!!isOwner}
-              onCurrencyChange={handleCurrencyChange}
-            />
-          </div>
-          <div className="break-inside-avoid">
-            <Weight character={character} />
-          </div>
-        </div>
-
-        {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
-        {(character.spells?.length || character.cantrips?.length) && (
-          <Spells character={character} />
-        )}
-
-        {/* Equipment Section */}
-        <Equipment
-          character={character}
-          editable={!!isOwner}
-          onEquipmentChange={handleEquipmentChange}
+        {/* Dice Roller Modal */}
+        <DiceRollerModal
+          isOpen={isDiceRollerOpen}
+          onClose={() => setIsDiceRollerOpen(false)}
         />
+      </PageWrapper>
 
-        {/* Horizontal Rule */}
-        <HorizontalRule />
-
-        {/* Character Description Section */}
-        <CharacterDescription
-          character={character}
-          editable={!!isOwner}
-          onDescriptionChange={handleDescriptionChange}
-          size="lg"
-        />
+      {/* Dice Roller FAB */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <FloatingActionButton
+          onClick={() => setIsDiceRollerOpen(true)}
+          aria-label="Open dice roller"
+          tooltip="Roll Dice"
+          variant="primary"
+          size="md"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            {/* Dice outline */}
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
+            {/* Dice dots (5 pattern) */}
+            <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/>
+            <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+            <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
+            <circle cx="16.5" cy="16.5" r="1.5" fill="currentColor"/>
+          </svg>
+        </FloatingActionButton>
       </div>
-    </PageWrapper>
+    </>
   );
 }

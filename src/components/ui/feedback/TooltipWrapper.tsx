@@ -1,6 +1,7 @@
 import React from "react";
 import Tooltip from "@/components/ui/feedback/Tooltip";
 import type { ReactNode } from "react";
+import type { PositioningOptions } from "@/utils/tooltipUtils";
 
 interface TooltipWrapperProps {
   /** The tooltip content to display */
@@ -13,6 +14,10 @@ interface TooltipWrapperProps {
   disabled?: boolean;
   /** Additional className for the tooltip */
   tooltipClassName?: string | undefined;
+  /** Preferred position for the tooltip */
+  preferredPosition?: 'above' | 'below' | undefined;
+  /** Custom positioning options for the tooltip */
+  positioningOptions?: Partial<PositioningOptions> | undefined;
 }
 
 /**
@@ -20,7 +25,7 @@ interface TooltipWrapperProps {
  * to its children while maintaining consistency with the existing Tooltip component.
  *
  * This ensures all tooltips in the application use the same portal-based approach,
- * positioning logic, and styling patterns.
+ * positioning logic, and styling patterns. Now supports all enhanced Tooltip features.
  */
 const TooltipWrapper: React.FC<TooltipWrapperProps> = ({
   tooltip,
@@ -28,13 +33,21 @@ const TooltipWrapper: React.FC<TooltipWrapperProps> = ({
   children,
   disabled = false,
   tooltipClassName = "",
+  preferredPosition,
+  positioningOptions,
 }) => {
     // Only show tooltip if all conditions are met
-    const shouldShowTooltip = Boolean(tooltip) && showTooltip && !disabled;
+    const shouldShowTooltip = Boolean(tooltip?.trim()) && showTooltip && !disabled;
 
     if (shouldShowTooltip && tooltip) {
       return (
-        <Tooltip content={tooltip} className={tooltipClassName}>
+        <Tooltip 
+          content={tooltip} 
+          className={tooltipClassName}
+          preferredPosition={preferredPosition}
+          positioningOptions={positioningOptions}
+          disabled={disabled}
+        >
           {children}
         </Tooltip>
       );
