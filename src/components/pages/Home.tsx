@@ -3,6 +3,7 @@ import { Button, Card, Typography } from "@/components/ui";
 import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
 import { Icon } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/layout/Tabs";
 import { CharactersList } from "@/components/character/management";
 import { useAuth, useCharacters } from "@/hooks";
 
@@ -19,7 +20,24 @@ function Home() {
         {/* Show character list for authenticated users */}
         {user && (
           <Card variant="standard">
-            <CharactersList />
+            <Tabs defaultValue="characters" variant="underline">
+              <TabList aria-label="Main navigation">
+                <Tab value="characters">Characters</Tab>
+                <Tab value="games">Games</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel value="characters">
+                  <CharactersList />
+                </TabPanel>
+                <TabPanel value="games">
+                  <div className="p-4 text-center">
+                    <Typography variant="body" color="secondary">
+                      Games functionality coming soon...
+                    </Typography>
+                  </div>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </Card>
         )}
 
