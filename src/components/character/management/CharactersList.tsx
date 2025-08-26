@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Typography, Button, Badge } from "@/components/ui";
+import { DeleteCharacterModal } from "@/components/ui/feedback";
 import { Icon } from "@/components/ui/display";
 import { useCharacters, useAuth } from "@/hooks";
 import { allRaces } from "@/data/races";
@@ -11,6 +12,8 @@ export function CharactersList() {
   const { characters, loading, error, refetch } = useCharacters();
   const { user } = useAuth();
   const [deletingCharacter, setDeletingCharacter] = useState<string | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [characterToDelete, setCharacterToDelete] = useState<{id: string, name: string} | null>(null);
 
   // Helper functions to get names from IDs
   const getRaceName = (raceId: string): string => {
@@ -23,23 +26,33 @@ export function CharactersList() {
     return classData?.name || classId;
   };
 
-  const handleDeleteCharacter = async (characterId: string) => {
+  const handleDeleteCharacter = (characterId: string, characterName: string) => {
     if (!user) return;
-    
-    if (!confirm('Are you sure you want to delete this character? This action cannot be undone.')) {
-      return;
-    }
+    setCharacterToDelete({ id: characterId, name: characterName });
+    setDeleteModalOpen(true);
+  };
 
-    setDeletingCharacter(characterId);
+  const handleConfirmDelete = async () => {
+    if (!user || !characterToDelete) return;
+
+    setDeletingCharacter(characterToDelete.id);
     try {
-      await deleteCharacter(user.uid, characterId);
+      await deleteCharacter(user.uid, characterToDelete.id);
       await refetch();
+      setDeleteModalOpen(false);
+      setCharacterToDelete(null);
     } catch (error) {
       console.error('Failed to delete character:', error);
       alert('Failed to delete character. Please try again.');
     } finally {
       setDeletingCharacter(null);
     }
+  };
+
+  const handleCloseDeleteModal = () => {
+    if (deletingCharacter) return; // Prevent closing while deleting
+    setDeleteModalOpen(false);
+    setCharacterToDelete(null);
   };
 
   if (loading) {
@@ -222,7 +235,7 @@ export function CharactersList() {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      handleDeleteCharacter(character.id);
+                      handleDeleteCharacter(character.id, character.name);
                     }}
                     disabled={deletingCharacter === character.id}
                     aria-label={`Delete ${character.name}`}
@@ -240,6 +253,15 @@ export function CharactersList() {
           </div>
         ))}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteCharacterModal
+        isOpen={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        characterName={characterToDelete?.name || ""}
+        isDeleting={!!deletingCharacter}
+      />
     </div>
   );
 }

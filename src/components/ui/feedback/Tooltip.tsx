@@ -27,7 +27,7 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, className = "" }) 
       const padding = 8; // Minimum distance from screen edge
       
       let top = rect.top - tooltipHeight - 4; // 4px gap above trigger
-      let left = rect.left + rect.width / 2; // Center horizontally
+      const left = rect.left + rect.width / 2; // Center horizontally
       const triggerCenter = rect.left + rect.width / 2; // Store original center position
       
       // Check horizontal bounds and adjust

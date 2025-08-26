@@ -1,5 +1,6 @@
 // Feedback Components - Modals, tooltips, alerts, and error handling
 export { default as Modal } from "./Modal";
+export { default as DeleteCharacterModal } from "./DeleteCharacterModal";
 export { default as Tooltip } from "./Tooltip";
 export { default as TooltipWrapper } from "./TooltipWrapper";
 export { default as InfoTooltip } from "./InfoTooltip";
