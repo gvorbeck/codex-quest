@@ -17,3 +17,7 @@ export { InfoCardHeader } from "./InfoCardHeader";
 export { DetailSection } from "./DetailSection";
 export { StatGrid } from "./StatGrid";
 export { RequirementCard } from "./RequirementCard";
+
+// Generic Components
+export { ItemGrid } from "./ItemGrid";
+export { BaseCard } from "./BaseCard";

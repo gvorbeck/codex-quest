@@ -1,0 +1,69 @@
+import { Link } from "wouter";
+import { Button } from "@/components/ui";
+import { Icon } from "@/components/ui/display";
+import { CARD_DECORATION_SIZES } from "@/constants/theme";
+import type { ReactNode } from "react";
+
+interface BaseCardProps {
+  id: string;
+  name: string;
+  user: { uid: string } | null;
+  href: string;
+  onDelete: (id: string, name: string) => void;
+  isDeleting: boolean;
+  children: ReactNode;
+}
+
+export function BaseCard({ 
+  id, 
+  name, 
+  user, 
+  href, 
+  onDelete, 
+  isDeleting, 
+  children 
+}: BaseCardProps) {
+  return (
+    <div className="group relative bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-2 border-zinc-700/50 rounded-xl p-6 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1">
+      {/* Clickable overlay for entire card */}
+      <Link
+        href={href}
+        className="absolute inset-0 z-10 cursor-pointer rounded-xl"
+        aria-label={`View ${name}`}
+      />
+      
+      {/* Background decoration */}
+      <div className={`absolute top-0 right-0 ${CARD_DECORATION_SIZES.large} bg-gradient-to-bl from-amber-500/5 to-transparent rounded-xl pointer-events-none`} />
+      <div className={`absolute bottom-0 left-0 ${CARD_DECORATION_SIZES.medium} bg-gradient-to-tr from-amber-500/5 to-transparent rounded-xl pointer-events-none`} />
+      
+      <div className="relative z-20 space-y-4 pointer-events-none">
+        {children}
+        
+        {/* Action Area */}
+        {user && (
+          <div className="flex justify-end pt-3 border-t border-zinc-700/50">
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              className="relative z-30 p-2 text-red-400 bg-transparent border border-red-600/40 shadow-none hover:text-white hover:bg-red-600 hover:border-red-600 hover:shadow-lg hover:shadow-red-600/40 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-all duration-200 rounded-lg pointer-events-auto"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDelete(id, name);
+              }}
+              disabled={isDeleting}
+              aria-label={`Delete ${name}`}
+              title={`Delete ${name}`}
+            >
+              {isDeleting ? (
+                <div className="animate-spin rounded-full h-3 w-3 border-b border-current" />
+              ) : (
+                <Icon name="trash" size="xs" />
+              )}
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
