@@ -78,12 +78,7 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={
-        <div className="flex items-center gap-2">
-          <Icon name="dice" size="sm" />
-          Dice Roller
-        </div>
-      }
+      title="🎲 Dice Roller"
       size="md"
     >
       <div className="space-y-6">
