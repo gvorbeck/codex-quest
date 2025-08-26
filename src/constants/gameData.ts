@@ -51,38 +51,9 @@ export const CURRENCY_TYPES = {
   PLATINUM: "pp",
 } as const;
 
-/**
- * Equipment weapon types
- */
-export const WEAPON_TYPES = {
-  MELEE: "melee",
-  MISSILE: "missile",
-  BOTH: "both",
-} as const;
-
-/**
- * Equipment sizes
- */
-export const EQUIPMENT_SIZES = {
-  SMALL: "S",
-  MEDIUM: "M",
-  LARGE: "L",
-} as const;
-
-/**
- * Hit dice types
- */
-export const HIT_DICE_TYPES = {
-  D4: "d4",
-  D6: "d6",
-  D8: "d8",
-  D10: "d10",
-  D12: "d12",
-} as const;
+// Removed unused constants: WEAPON_TYPES, EQUIPMENT_SIZES, HIT_DICE_TYPES
 
 export type CharacterClass = (typeof CHARACTER_CLASSES)[keyof typeof CHARACTER_CLASSES];
 export type EquipmentCategory = (typeof EQUIPMENT_CATEGORIES)[keyof typeof EQUIPMENT_CATEGORIES];
 export type CurrencyType = (typeof CURRENCY_TYPES)[keyof typeof CURRENCY_TYPES];
-export type WeaponType = (typeof WEAPON_TYPES)[keyof typeof WEAPON_TYPES];
-export type EquipmentSize = (typeof EQUIPMENT_SIZES)[keyof typeof EQUIPMENT_SIZES];
-export type HitDiceType = (typeof HIT_DICE_TYPES)[keyof typeof HIT_DICE_TYPES];
+// Removed unused types: WeaponType, EquipmentSize, HitDiceType

@@ -1,16 +1,4 @@
-export { cleric } from "./cleric";
-export { fighter } from "./fighter";
-export { magicUser } from "./magic-user";
-export { thief } from "./thief";
-export { assassin } from "./assassin";
-export { barbarian } from "./barbarian";
-export { druid } from "./druid";
-export { illusionist } from "./illusionist";
-export { necromancer } from "./necromancer";
-export { ranger } from "./ranger";
-export { paladin } from "./paladin";
-export { scout } from "./scout";
-export { spellcrafter } from "./spellcrafter";
+// Removed unused individual class exports
 
 import { cleric } from "./cleric";
 import { fighter } from "./fighter";

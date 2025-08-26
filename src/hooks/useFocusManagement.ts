@@ -153,5 +153,3 @@ export const useFocusManagement = ({
     restoreFocusToTrigger,
   };
 };
-
-export default useFocusManagement;

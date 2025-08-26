@@ -2,44 +2,7 @@
  * Centralized style constants to reduce repetition and ensure consistency
  */
 
-// Card Styles
-export const CARD_STYLES = {
-  // Main information/warning cards with amber styling
-  info: "bg-amber-950/20 border-2 border-amber-600 rounded-lg p-6 shadow-[0_3px_0_0_#b45309]",
-
-  // Compact version of info card
-  infoCompact:
-    "bg-amber-950/20 border-2 border-amber-600 rounded-lg p-4 shadow-[0_3px_0_0_#d97706]",
-
-  // Success/positive cards with lime styling
-  success:
-    "bg-lime-950/20 border-2 border-lime-600 rounded-lg p-6 shadow-[0_3px_0_0_#65a30d]",
-
-  // Standard content cards with zinc styling
-  standard:
-    "bg-zinc-800 border-2 border-zinc-600 rounded-lg p-6 shadow-[0_3px_0_0_#3f3f46]",
-
-  // Compact version of standard card
-  standardCompact:
-    "bg-zinc-800 border-2 border-zinc-600 rounded-lg p-4 shadow-[0_3px_0_0_#3f3f46]",
-
-  // Nested detail boxes within cards
-  nested: "bg-zinc-800/50 border border-amber-700/30 rounded-lg p-4",
-} as const;
-
-// Badge Styles
-export const BADGE_STYLES = {
-  // Status/category badges
-  status: "bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded",
-
-  // Supplemental content indicator
-  supplemental:
-    "bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded",
-
-  // Combination class indicator
-  combination:
-    "bg-lime-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded",
-} as const;
+// Card Styles - removed unused CARD_STYLES constant
 
 // Icon Styles
 export const ICON_STYLES = {
@@ -56,35 +19,7 @@ export const ICON_STYLES = {
   xl: "w-8 h-8",
 } as const;
 
-// Common Text Styles
-export const TEXT_STYLES = {
-  // Section headings
-  sectionHeading: "text-lg font-semibold text-zinc-100 mb-6",
-
-  // Base section headings
-  baseSectionHeading: "text-base font-semibold text-zinc-100 mb-4",
-
-  // Info headings within cards
-  infoHeading: "text-xl font-semibold text-amber-100 m-0",
-
-  // Subheadings with icons
-  subHeading: "font-semibold mb-2 text-amber-400 flex items-center gap-2",
-
-  // Subheadings with icons (mb-3 variant)
-  subHeadingSpaced: "font-semibold mb-3 text-amber-400 flex items-center gap-2",
-
-  // Success/lime subheadings with icons
-  subHeadingLime: "font-semibold mb-1 text-lime-400 flex items-center gap-2",
-
-  // Description text
-  description: "text-amber-50 text-sm leading-relaxed m-0",
-
-  // Compact description text
-  descriptionCompact: "text-amber-100 text-sm m-0 leading-relaxed",
-
-  // Helper text
-  helper: "text-zinc-400 text-sm",
-} as const;
+// Removed unused BADGE_STYLES and TEXT_STYLES constants
 
 // Layout Styles
 export const LAYOUT_STYLES = {
@@ -101,36 +36,7 @@ export const LAYOUT_STYLES = {
   tagContainer: "flex flex-wrap gap-2",
 } as const;
 
-// Design System Component Mappings
-// Maps legacy CARD_STYLES to new Card component variants
-export const CARD_COMPONENT_MAP = {
-  info: { variant: "info" as const, size: "default" as const },
-  infoCompact: { variant: "info" as const, size: "compact" as const },
-  success: { variant: "success" as const, size: "default" as const },
-  standard: { variant: "standard" as const, size: "default" as const },
-  standardCompact: { variant: "standard" as const, size: "compact" as const },
-  nested: { variant: "nested" as const, size: "default" as const },
-} as const;
-
-// Maps legacy TEXT_STYLES to new Typography component variants
-export const TYPOGRAPHY_COMPONENT_MAP = {
-  sectionHeading: { variant: "sectionHeading" as const },
-  baseSectionHeading: { variant: "baseSectionHeading" as const },
-  infoHeading: { variant: "infoHeading" as const },
-  subHeading: { variant: "subHeading" as const },
-  subHeadingSpaced: { variant: "subHeadingSpaced" as const },
-  subHeadingLime: { variant: "subHeadingLime" as const },
-  description: { variant: "description" as const },
-  descriptionCompact: { variant: "descriptionCompact" as const },
-  helper: { variant: "helper" as const },
-} as const;
-
-// Maps legacy BADGE_STYLES to new Badge component variants  
-export const BADGE_COMPONENT_MAP = {
-  status: { variant: "status" as const, size: "sm" as const },
-  supplemental: { variant: "supplemental" as const, size: "sm" as const },
-  combination: { variant: "combination" as const, size: "sm" as const },
-} as const;
+// Removed unused component mapping constants
 
 // Utility function to combine styles
 export const cn = (

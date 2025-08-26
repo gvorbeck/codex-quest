@@ -1,17 +1,4 @@
-export { human } from "./human";
-export { elf } from "./elf";
-export { dwarf } from "./dwarf";
-export { halfling } from "./halfling";
-export { dokkalfar } from "./dokkalfar";
-export { gnome } from "./gnome";
-export { halfElf } from "./half-elf";
-export { halfOgre } from "./half-ogre";
-export { halfOrc } from "./half-orc";
-export { bisren } from "./bisren";
-export { canein } from "./canein";
-export { chelonian } from "./chelonian";
-export { faun } from "./faun";
-export { phaerim } from "./phaerim";
+// Removed unused individual race exports
 
 import { human } from "./human";
 import { elf } from "./elf";
