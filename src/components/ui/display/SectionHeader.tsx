@@ -23,6 +23,7 @@ export default function SectionHeader({
     currentSize.header,
     DESIGN_TOKENS.colors.bg.header,
     "backdrop-blur-sm",
+    "rounded-t-xl",
     className,
   ]
     .filter(Boolean)
