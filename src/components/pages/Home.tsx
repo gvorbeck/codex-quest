@@ -81,17 +81,18 @@ function Home() {
 
       {/* Floating Action Button for authenticated users */}
       {user && (
-        <Link href="/new-character">
-          <FloatingActionButton
-            variant="primary"
-            size="lg"
-            tooltip="Create New Character"
-            aria-label="Create new character"
-            className="fixed bottom-6 right-6 z-50"
-          >
-            <Icon name="plus" size="lg" aria-hidden />
-          </FloatingActionButton>
-        </Link>
+        <div className="fixed bottom-6 right-6 z-50">
+          <Link href="/new-character">
+            <FloatingActionButton
+              variant="primary"
+              size="lg"
+              tooltip="Create New Character"
+              aria-label="Create new character"
+            >
+              <Icon name="plus" size="lg" aria-hidden />
+            </FloatingActionButton>
+          </Link>
+        </div>
       )}
     </PageWrapper>
   );

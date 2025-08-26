@@ -13,7 +13,8 @@
       "mcp__ide__getDiagnostics",
       "Bash(node:*)",
       "Bash(timeout 10 npm run dev)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(gtimeout 10 npm run dev)"
     ],
     "deny": [],
     "ask": []

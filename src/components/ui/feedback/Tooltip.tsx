@@ -14,19 +14,46 @@ interface TooltipProps {
 const Tooltip: React.FC<TooltipProps> = ({ content, children, className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [isBelow, setIsBelow] = useState(false);
+  const [arrowOffset, setArrowOffset] = useState(0);
   const tooltipId = useId();
   const triggerRef = useRef<HTMLDivElement>(null);
 
   const updatePosition = () => {
     if (triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
+      const tooltipWidth = 200; // Approximate tooltip width
+      const tooltipHeight = 40; // Approximate tooltip height
+      const padding = 8; // Minimum distance from screen edge
       
-      const newPosition = {
-        top: rect.top - 40, // 40px above the trigger (viewport-relative)
-        left: rect.left + rect.width / 2, // Center horizontally (viewport-relative)
-      };
+      let top = rect.top - tooltipHeight - 4; // 4px gap above trigger
+      let left = rect.left + rect.width / 2; // Center horizontally
+      const triggerCenter = rect.left + rect.width / 2; // Store original center position
       
-      setPosition(newPosition);
+      // Check horizontal bounds and adjust
+      let adjustedLeft = left;
+      if (left - tooltipWidth / 2 < padding) {
+        // Too far left, align to left edge with padding
+        adjustedLeft = padding + tooltipWidth / 2;
+      } else if (left + tooltipWidth / 2 > window.innerWidth - padding) {
+        // Too far right, align to right edge with padding
+        adjustedLeft = window.innerWidth - padding - tooltipWidth / 2;
+      }
+      
+      // Calculate arrow offset from center of tooltip to point at trigger
+      const arrowOffsetFromCenter = triggerCenter - adjustedLeft;
+      setArrowOffset(arrowOffsetFromCenter);
+      
+      // Check vertical bounds and adjust
+      if (top < padding) {
+        // Not enough space above, position below instead
+        top = rect.bottom + 4;
+        setIsBelow(true);
+      } else {
+        setIsBelow(false);
+      }
+      
+      setPosition({ top, left: adjustedLeft });
     }
   };
 
@@ -74,7 +101,25 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, className = "" }) 
     >
       {content}
       {/* Arrow */}
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-600"></div>
+      {isBelow ? (
+        // Arrow pointing up (tooltip is below trigger)
+        <div 
+          className="absolute bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-zinc-600"
+          style={{
+            left: `calc(50% + ${arrowOffset}px)`,
+            transform: 'translateX(-50%)'
+          }}
+        ></div>
+      ) : (
+        // Arrow pointing down (tooltip is above trigger)
+        <div 
+          className="absolute top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-600"
+          style={{
+            left: `calc(50% + ${arrowOffset}px)`,
+            transform: 'translateX(-50%)'
+          }}
+        ></div>
+      )}
     </div>,
     document.body
   ) : null;
