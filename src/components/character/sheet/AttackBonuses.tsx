@@ -1,11 +1,11 @@
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import RollableButton from "@/components/ui/dice/RollableButton";
 import { formatModifier } from "@/utils/gameUtils";
 import { allRaces } from "@/data/races";
 import { SIZE_STYLES } from "@/constants/designTokens";
-import { roller } from "@/utils/dice";
-import { useNotificationContext } from "@/hooks/useNotificationContext";
+import { useDiceRoll } from "@/hooks/useDiceRoll";
 import type { Character, SpecialAbility } from "@/types/character";
 
 interface AttackBonusesProps {
@@ -20,32 +20,7 @@ export default function AttackBonuses({
   size = "md",
 }: AttackBonusesProps) {
   const currentSize = SIZE_STYLES[size];
-  const notifications = useNotificationContext();
-
-  // Handle attack roll simulation
-  const handleAttackRoll = useCallback(
-    (bonusType: string, bonus: number) => {
-      try {
-        const roll = roller("1d20");
-        const total = roll.total + bonus;
-        const formula = `1d20${bonus >= 0 ? "+" : ""}${bonus}`;
-
-        notifications.showSuccess(
-          `${bonusType} Attack: ${formula} = ${roll.total}${
-            bonus >= 0 ? "+" : ""
-          }${bonus} = ${total}`,
-          {
-            title: "Attack Roll",
-          }
-        );
-      } catch {
-        notifications.showError("Failed to roll attack", {
-          title: "Roll Error",
-        });
-      }
-    },
-    [notifications]
-  );
+  const { rollAttack } = useDiceRoll();
 
   const attackBonuses = useMemo(() => {
     // Base Attack Bonus calculation from BFRPG table
@@ -62,17 +37,17 @@ export default function AttackBonuses({
         classLower === "ranger" ||
         classLower === "paladin"
       ) {
-        if (level >= 18) return 10;
-        if (level >= 16) return 9;
-        if (level >= 13) return 8;
-        if (level >= 11) return 7;
-        if (level >= 8) return 6;
-        if (level >= 7) return 5;
-        if (level >= 5) return 4;
-        if (level >= 4) return 3;
-        if (level >= 2) return 2;
-        if (level >= 1) return 1;
-        return 0;
+        if (level >= 18) return 10; // 18-20
+        if (level >= 16) return 9;  // 16-17
+        if (level >= 13) return 8;  // 13-15
+        if (level >= 11) return 7;  // 11-12
+        if (level >= 8) return 6;   // 8-10
+        if (level >= 7) return 5;   // 7
+        if (level >= 5) return 4;   // 5-6
+        if (level >= 4) return 3;   // 4
+        if (level >= 2) return 2;   // 2-3
+        if (level >= 1) return 1;   // 1
+        return 0; // NM (Normal Men)
       }
 
       // Cleric-based classes (Cleric, Druid) and Thief-based classes (Thief, Assassin, Scout)
@@ -83,15 +58,15 @@ export default function AttackBonuses({
         classLower === "assassin" ||
         classLower === "scout"
       ) {
-        if (level >= 18) return 10;
-        if (level >= 15) return 9;
-        if (level >= 12) return 8;
-        if (level >= 9) return 7;
-        if (level >= 7) return 6;
-        if (level >= 5) return 5;
-        if (level >= 3) return 2;
-        if (level >= 1) return 1;
-        return 0;
+        if (level >= 18) return 8; // 18-20
+        if (level >= 15) return 7; // 15-17
+        if (level >= 12) return 6; // 12-14
+        if (level >= 9) return 5;  // 9-11
+        if (level >= 7) return 4;  // 7-8
+        if (level >= 5) return 3;  // 5-6
+        if (level >= 3) return 2;  // 3-4
+        if (level >= 1) return 1;  // 1-2
+        return 0; // NM (Normal Men)
       }
 
       // Magic-User-based classes (Magic-User, Illusionist, Necromancer, Spellcrafter)
@@ -101,14 +76,14 @@ export default function AttackBonuses({
         classLower === "necromancer" ||
         classLower === "spellcrafter"
       ) {
-        if (level >= 19) return 10;
-        if (level >= 16) return 9;
-        if (level >= 13) return 8;
-        if (level >= 9) return 7;
-        if (level >= 6) return 3;
-        if (level >= 4) return 2;
-        if (level >= 1) return 1;
-        return 0;
+        if (level >= 19) return 7; // 19-20
+        if (level >= 16) return 6; // 16-18
+        if (level >= 13) return 5; // 13-15
+        if (level >= 9) return 4;  // 9-12
+        if (level >= 6) return 3;  // 6-8
+        if (level >= 4) return 2;  // 4-5
+        if (level >= 1) return 1;  // 1-3
+        return 0; // NM (Normal Men)
       }
 
       // Default for unknown classes
@@ -227,34 +202,14 @@ export default function AttackBonuses({
             { label: "Melee", value: attackBonuses.melee, type: "Melee" },
             { label: "Missile", value: attackBonuses.missile, type: "Missile" },
           ].map((item, index) => (
-            <button
+            <RollableButton
               key={index}
-              onClick={() => handleAttackRoll(item.type, item.value)}
-              className={`
-                w-full flex items-center justify-between py-3 px-4 gap-4
-                rounded-lg
-                bg-zinc-750/20 border border-zinc-600/60
-                transition-all duration-200
-                hover:bg-zinc-700/30 hover:border-amber-400/20
-                hover:shadow-lg hover:shadow-amber-400/5
-                cursor-pointer group/item
-              `}
-              title={`Click to roll ${item.label.toLowerCase()} attack`}
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full group-hover/item:bg-amber-400 transition-colors duration-200"></div>
-                <span
-                  className={`text-amber-400 ${currentSize.labelText} group-hover/item:text-amber-300 transition-colors`}
-                >
-                  {item.label}
-                </span>
-              </div>
-              <div
-                className={`text-zinc-100 ${currentSize.contentText} text-right group-hover/item:text-amber-300 transition-colors`}
-              >
-                {formatModifier(item.value)}
-              </div>
-            </button>
+              label={item.label}
+              value={formatModifier(item.value)}
+              onClick={() => rollAttack(item.type, item.value)}
+              tooltip={`Click to roll ${item.label.toLowerCase()} attack`}
+              size={size}
+            />
           ))}
         </div>
       </div>

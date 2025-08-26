@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { Details } from "@/components/ui/display";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { SIZE_STYLES } from "@/constants/designTokens";
+import RollableButton from "@/components/ui/dice/RollableButton";
+import { useDiceRoll } from "@/hooks/useDiceRoll";
 import type { Character } from "@/types/character";
 
 interface SavingThrowsProps {
@@ -12,6 +13,8 @@ interface SavingThrowsProps {
 
 export default function SavingThrows({ character, className = "", size = "md" }: SavingThrowsProps) {
   const currentSize = SIZE_STYLES[size];
+  const { rollSavingThrow } = useDiceRoll();
+
   const savingThrows = useMemo(() => {
     // Base saving throw table for BFRPG classes by level
     const getBaseSavingThrows = (level: number, characterClass: string) => {
@@ -148,26 +151,26 @@ export default function SavingThrows({ character, className = "", size = "md" }:
     };
   }, [character.level, character.class, character.race]);
 
-  const items = [
+  const savingThrowItems = [
     {
       label: "Death Ray or Poison",
-      children: savingThrows.deathRayOrPoison,
+      target: savingThrows.deathRayOrPoison,
     },
     {
       label: "Magic Wands",
-      children: savingThrows.magicWands,
+      target: savingThrows.magicWands,
     },
     {
       label: "Paralysis or Petrify",
-      children: savingThrows.paralysisOrPetrify,
+      target: savingThrows.paralysisOrPetrify,
     },
     {
       label: "Dragon Breath",
-      children: savingThrows.dragonBreath,
+      target: savingThrows.dragonBreath,
     },
     {
       label: "Spells",
-      children: savingThrows.spells,
+      target: savingThrows.spells,
     },
   ];
 
@@ -178,11 +181,18 @@ export default function SavingThrows({ character, className = "", size = "md" }:
       className={className}
     >
       <div className={currentSize.container}>
-        <Details
-          items={items}
-          layout="vertical"
-          size={size}
-        />
+        <div className="space-y-3">
+          {savingThrowItems.map((item, index) => (
+            <RollableButton
+              key={index}
+              label={item.label}
+              value={`${item.target}+`}
+              onClick={() => rollSavingThrow(item.label, item.target)}
+              tooltip={`Click to roll ${item.label.toLowerCase()} save (need ${item.target}+ on d20)`}
+              size={size}
+            />
+          ))}
+        </div>
       </div>
     </CharacterSheetSectionWrapper>
   );
