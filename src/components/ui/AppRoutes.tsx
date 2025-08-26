@@ -5,6 +5,7 @@ import {
   CharGenErrorBoundary, 
   CharacterSheetErrorBoundary,
   GameGenErrorBoundary,
+  GameSheetErrorBoundary,
   HomeErrorBoundary 
 } from "@/components/ui/feedback";
 import { DOM_IDS } from "@/constants/dom";
@@ -13,6 +14,7 @@ const Home = lazy(() => import("../pages/Home"));
 const CharGen = lazy(() => import("../pages/CharGen"));
 const GameGen = lazy(() => import("../pages/GameGen"));
 const CharacterSheet = lazy(() => import("../pages/CharacterSheet"));
+const GameSheet = lazy(() => import("../pages/GameSheet"));
 
 export function AppRoutes() {
   return (
@@ -52,6 +54,11 @@ export function AppRoutes() {
             <CharacterSheetErrorBoundary>
               <CharacterSheet />
             </CharacterSheetErrorBoundary>
+          </Route>
+          <Route path="/u/:userId/g/:gameId">
+            <GameSheetErrorBoundary>
+              <GameSheet />
+            </GameSheetErrorBoundary>
           </Route>
 
           <Route>

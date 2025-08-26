@@ -16,7 +16,8 @@
       "Bash(curl:*)",
       "Bash(gtimeout 10 npm run dev)",
       "Bash(pkill:*)",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []

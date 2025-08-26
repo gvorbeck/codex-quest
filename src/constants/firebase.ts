@@ -4,6 +4,7 @@
 export const FIREBASE_COLLECTIONS = {
   USERS: "users",
   CHARACTERS: "characters",
+  GAMES: "games",
 } as const;
 
 /**
