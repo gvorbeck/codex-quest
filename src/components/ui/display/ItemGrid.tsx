@@ -98,7 +98,15 @@ export function ItemGrid<T extends { id: string }>({
           {header.title}
         </Typography>
         <Typography variant="helper" color="secondary">
-          {header.count} {header.title.toLowerCase()}{header.count !== 1 ? 's' : ''}
+          {(() => {
+            const title = header.title.toLowerCase();
+            if (title.startsWith('your ')) {
+              const baseTitle = title.replace('your ', '');
+              const singularTitle = header.count === 1 ? baseTitle.replace(/s$/, '') : baseTitle;
+              return `${header.count} ${singularTitle}`;
+            }
+            return `${header.count} ${header.count === 1 ? title.replace(/s$/, '') : title}`;
+          })()}
         </Typography>
       </div>
       

@@ -3,8 +3,15 @@ import { Button, Card, Typography } from "@/components/ui";
 import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
 import { Icon } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/layout/Tabs";
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@/components/ui/layout/Tabs";
 import { CharactersList } from "@/components/character/management";
+import { GamesList } from "@/components/game/management";
 import { useAuth, useCharacters } from "@/hooks";
 
 function Home() {
@@ -30,11 +37,7 @@ function Home() {
                   <CharactersList />
                 </TabPanel>
                 <TabPanel value="games">
-                  <div className="p-4 text-center">
-                    <Typography variant="body" color="secondary">
-                      Games functionality coming soon...
-                    </Typography>
-                  </div>
+                  <GamesList />
                 </TabPanel>
               </TabPanels>
             </Tabs>
@@ -45,13 +48,12 @@ function Home() {
         {showWelcomeContent && (
           <>
             <header className="text-center space-y-4">
-              <Typography variant="h2">
-                Welcome to Codex.Quest
-              </Typography>
+              <Typography variant="h2">Welcome to Codex.Quest</Typography>
               <Typography variant="body" color="secondary" className="text-lg">
-                Create your perfect Basic Fantasy RPG character with our comprehensive
-                character generator. Roll ability scores, choose from various races
-                and classes, and equip your adventurer for their next quest.
+                Create your perfect Basic Fantasy RPG character with our
+                comprehensive character generator. Roll ability scores, choose
+                from various races and classes, and equip your adventurer for
+                their next quest.
               </Typography>
             </header>
 
@@ -85,12 +87,17 @@ function Home() {
 
             <div className="text-center space-y-4">
               <Link href="/new-character" aria-describedby="create-char-desc">
-                <Button variant="primary" size="lg" className="text-lg px-8 py-4">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="text-lg px-8 py-4"
+                >
                   Start Creating Your Character
                 </Button>
               </Link>
               <Typography variant="helper" id="create-char-desc">
-                Begin the character creation process with our step-by-step wizard
+                Begin the character creation process with our step-by-step
+                wizard
               </Typography>
             </div>
           </>

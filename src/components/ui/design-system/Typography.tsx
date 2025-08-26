@@ -38,9 +38,9 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
   ) => {
     // Auto-detect element based on variant if 'as' not provided
     const getDefaultElement = (variant: TypographyVariant): ElementType => {
-      if (variant.startsWith('h')) return variant as ElementType;
-      if (variant.includes('Heading')) return 'h4';
       if (variant === 'caption' || variant === 'helper') return 'span';
+      if (variant.startsWith('h') && /^h[1-6]$/.test(variant)) return variant as ElementType;
+      if (variant.includes('Heading')) return 'h4';
       return 'p';
     };
 

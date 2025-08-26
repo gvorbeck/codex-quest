@@ -57,8 +57,8 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
       )}
 
       {/* Game Stats */}
-      <div className="grid grid-cols-2 gap-3 pt-2">
-        {game.players && game.players.length > 0 && (
+      {game.players && game.players.length > 0 && (
+        <div className="pt-2">
           <div className="text-center p-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50">
             <Typography variant="caption" className="text-zinc-400 uppercase tracking-wide text-xs">
               Players
@@ -67,18 +67,8 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
               {game.players.length}
             </Typography>
           </div>
-        )}
-        {game.combatants && game.combatants.length > 0 && (
-          <div className="text-center p-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50">
-            <Typography variant="caption" className="text-zinc-400 uppercase tracking-wide text-xs">
-              Combatants
-            </Typography>
-            <Typography variant="body" className="text-zinc-200 font-bold">
-              {game.combatants.length}
-            </Typography>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </BaseCard>
   );
 }
