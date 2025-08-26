@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { roller } from "@/utils/dice";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
-import { formatModifier } from "@/utils/gameUtils";
 
 interface AttackRollOptions {
   type: "attack";
@@ -15,7 +14,13 @@ interface SavingThrowRollOptions {
   targetNumber: number;
 }
 
-type RollOptions = AttackRollOptions | SavingThrowRollOptions;
+interface AbilityRollOptions {
+  type: "ability";
+  abilityName: string;
+  modifier: number;
+}
+
+type RollOptions = AttackRollOptions | SavingThrowRollOptions | AbilityRollOptions;
 
 export function useDiceRoll() {
   const notifications = useNotificationContext();
@@ -61,6 +66,19 @@ export function useDiceRoll() {
               title: "Saving Throw Failed",
             });
           }
+        } else if (options.type === "ability") {
+          const { abilityName, modifier } = options;
+          const total = roll.total + modifier;
+          const formula = `1d20${modifier >= 0 ? "+" : ""}${modifier}`;
+
+          notifications.showSuccess(
+            `${abilityName} Check: ${formula} = ${roll.total}${
+              modifier >= 0 ? "+" : ""
+            }${modifier} = ${total}`,
+            {
+              title: "Ability Check",
+            }
+          );
         }
       } catch {
         notifications.showError("Failed to roll dice", {
@@ -85,8 +103,16 @@ export function useDiceRoll() {
     [rollDice]
   );
 
+  const rollAbility = useCallback(
+    (abilityName: string, modifier: number) => {
+      rollDice({ type: "ability", abilityName, modifier });
+    },
+    [rollDice]
+  );
+
   return {
     rollAttack,
     rollSavingThrow,
+    rollAbility,
   };
 }
