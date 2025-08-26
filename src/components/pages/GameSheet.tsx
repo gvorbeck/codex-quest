@@ -1,32 +1,40 @@
 import { useRoute } from "wouter";
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
+import { useMemo, useCallback } from "react";
 import { Breadcrumb } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
-import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
-import { DiceRollerModal } from "@/components/ui/feedback";
+import { LoadingState } from "@/components/ui/feedback/LoadingState";
 import { 
   Hero, 
   PlayersSection, 
   CombatantsSection, 
   GameNotesSection,
-  GameSheetEmptyState,
-  GameSheetLoadingState
+  GameSheetEmptyState
 } from "@/components/game/sheet";
-import { useAuth } from "@/hooks/useAuth";
+import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
+import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { GAME_SHEET_STYLES, ERROR_MESSAGES, LOADING_MESSAGES } from "@/constants/gameSheetStyles";
 import type { Game } from "@/types/game";
 
 export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
-  const [game, setGame] = useState<Game | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isDiceRollerOpen, setIsDiceRollerOpen] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const { user } = useAuth();
+  
+  // Use the generic Firebase sheet hook
+  const {
+    data: game,
+    loading,
+    error,
+    isOwner: isGameMaster,
+    isUpdating,
+    updateEntity: updateGame,
+    clearError,
+  } = useFirebaseSheet<Game>({
+    userId: params?.userId,
+    entityId: params?.gameId,
+    collection: "GAMES",
+  });
+
+  // Use the dice roller hook
+  const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
 
   const breadcrumbItems = useMemo(
     () => [
@@ -37,97 +45,12 @@ export default function GameSheet() {
     [game?.name]
   );
 
-  // Check if the current user owns this game
-  const isGameMaster = useMemo(() => {
-    return user && params?.userId === user.uid;
-  }, [user, params?.userId]);
+  // Handle game changes using the generic update function
+  const handleGameChange = useCallback(async (updatedGame: Game) => {
+    await updateGame(updatedGame);
+  }, [updateGame]);
 
-  // Handle game changes
-  const handleGameChange = async (updatedGame: Game) => {
-    if (!params?.userId || !params?.gameId || !isGameMaster) {
-      return;
-    }
-
-    const previousGame = game;
-    setIsUpdating(true);
-
-    try {
-      // Update local state immediately for responsiveness
-      setGame(updatedGame);
-      
-      // Clear any existing errors
-      if (error) {
-        setError(null);
-      }
-
-      // Update Firebase
-      const gameRef = doc(
-        db,
-        FIREBASE_COLLECTIONS.USERS,
-        params.userId,
-        FIREBASE_COLLECTIONS.GAMES,
-        params.gameId
-      );
-
-      // Create a clean object without the id field for Firebase
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, ...gameData } = updatedGame;
-      await updateDoc(gameRef, gameData);
-    } catch (err) {
-      console.error("Error updating game:", err);
-      
-      // Revert to previous state properly
-      setGame(previousGame);
-      
-      // Show user feedback
-      setError(ERROR_MESSAGES.updateError);
-      
-      // Clear error after delay
-      setTimeout(() => {
-        setError(null);
-      }, 5000);
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  useEffect(() => {
-    const loadGame = async () => {
-      if (!params?.userId || !params?.gameId) {
-        setError(ERROR_MESSAGES.invalidUrl);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const gameRef = doc(
-          db,
-          FIREBASE_COLLECTIONS.USERS,
-          params.userId,
-          FIREBASE_COLLECTIONS.GAMES,
-          params.gameId
-        );
-        const gameSnap = await getDoc(gameRef);
-
-        if (gameSnap.exists()) {
-          const gameData = {
-            id: gameSnap.id,
-            ...gameSnap.data(),
-          } as Game & { id: string };
-          setGame(gameData);
-        } else {
-          setError(ERROR_MESSAGES.gameNotFound);
-        }
-      } catch (err) {
-        console.error("Error loading game:", err);
-        setError(ERROR_MESSAGES.loadError);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadGame();
-  }, [params?.userId, params?.gameId]);
+  // Data loading is now handled by useFirebaseSheet hook
 
   // Memoized content check for empty state
   const hasContent = useMemo(() => {
@@ -139,13 +62,8 @@ export default function GameSheet() {
     );
   }, [game]);
 
-  // Error handler for better UX
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
-
   if (loading) {
-    return <GameSheetLoadingState message={LOADING_MESSAGES.loadingGame} />;
+    return <LoadingState message={LOADING_MESSAGES.loadingGame} />;
   }
 
   if (error) {
@@ -227,48 +145,19 @@ export default function GameSheet() {
         </main>
 
         {/* Dice Roller Modal */}
-        <DiceRollerModal
-          isOpen={isDiceRollerOpen}
-          onClose={() => setIsDiceRollerOpen(false)}
-        />
+        <DiceRollerModal />
       </PageWrapper>
 
       {/* Update loading indicator */}
       {isUpdating && (
-        <GameSheetLoadingState 
+        <LoadingState 
           message={LOADING_MESSAGES.updatingGame} 
-          isUpdating={true} 
+          variant="overlay"
         />
       )}
 
       {/* Dice Roller FAB */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <FloatingActionButton
-          onClick={() => setIsDiceRollerOpen(true)}
-          aria-label="Open dice roller"
-          tooltip="Roll Dice"
-          variant="primary"
-          size="md"
-          disabled={isUpdating}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            {/* Dice outline */}
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
-            {/* Dice dots (5 pattern) */}
-            <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/>
-            <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor"/>
-            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-            <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
-            <circle cx="16.5" cy="16.5" r="1.5" fill="currentColor"/>
-          </svg>
-        </FloatingActionButton>
-      </div>
+      <DiceRollerFAB disabled={isUpdating} />
     </>
   );
 }

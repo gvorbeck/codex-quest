@@ -3,9 +3,8 @@ import { Suspense, lazy } from "react";
 import { Link } from "wouter";
 import { 
   CharGenErrorBoundary, 
-  CharacterSheetErrorBoundary,
+  SheetErrorBoundary,
   GameGenErrorBoundary,
-  GameSheetErrorBoundary,
   HomeErrorBoundary 
 } from "@/components/ui/feedback";
 import { DOM_IDS } from "@/constants/dom";
@@ -51,14 +50,14 @@ export function AppRoutes() {
             </GameGenErrorBoundary>
           </Route>
           <Route path="/u/:userId/c/:characterId">
-            <CharacterSheetErrorBoundary>
+            <SheetErrorBoundary entityType="Character Sheet" entityContext="character">
               <CharacterSheet />
-            </CharacterSheetErrorBoundary>
+            </SheetErrorBoundary>
           </Route>
           <Route path="/u/:userId/g/:gameId">
-            <GameSheetErrorBoundary>
+            <SheetErrorBoundary entityType="Game Sheet" entityContext="game">
               <GameSheet />
-            </GameSheetErrorBoundary>
+            </SheetErrorBoundary>
           </Route>
 
           <Route>

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui";
 
 interface Props {
   children: ReactNode;
+  entityType: string; // "Game Sheet" | "Character Sheet"
+  entityContext: string; // "game" | "character"
 }
 
 interface State {
@@ -12,7 +14,7 @@ interface State {
   error?: Error;
 }
 
-export class CharacterSheetErrorBoundary extends Component<Props, State> {
+export class SheetErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
@@ -23,7 +25,7 @@ export class CharacterSheetErrorBoundary extends Component<Props, State> {
   }
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Error in character sheet:", error, errorInfo);
+    console.error(`Error in ${this.props.entityContext} sheet:`, error, errorInfo);
   }
 
   override render() {
@@ -31,11 +33,11 @@ export class CharacterSheetErrorBoundary extends Component<Props, State> {
       return (
         <section className="text-center py-16" role="alert">
           <h2 className="text-xl font-semibold text-primary-200 mb-4">
-            Character Sheet Error
+            {this.props.entityType} Error
           </h2>
           <p className="text-primary-400 mb-6">
-            There was a problem displaying this character sheet. The character 
-            data may be corrupted or there's an issue loading the character information.
+            There was a problem displaying this {this.props.entityContext} sheet. The {this.props.entityContext} 
+            data may be corrupted or there's an issue loading the {this.props.entityContext} information.
           </p>
           <div className="space-x-4">
             <Button onClick={() => window.location.reload()}>

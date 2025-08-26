@@ -5,6 +5,5 @@ export { useAuth } from "./useAuth";
 export { useCharacters } from "./useCharacters";
 export { useFocusManagement } from "./useFocusManagement";
 export { useNotifications } from "./useNotifications";
-// Removed unused hook exports
-
-// Removed unused hook types
+export { useFirebaseSheet } from "./useFirebaseSheet";
+export { useDiceRoller } from "./useDiceRoller";

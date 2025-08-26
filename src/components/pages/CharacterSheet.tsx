@@ -1,12 +1,8 @@
 import { useRoute } from "wouter";
-import { useEffect, useState, useMemo } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
+import { useMemo, useCallback } from "react";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
-import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
-import { DiceRollerModal } from "@/components/ui/feedback";
+import { LoadingState } from "@/components/ui/feedback/LoadingState";
 import {
   AttackBonuses,
   HitPoints,
@@ -22,18 +18,30 @@ import {
   Equipment,
   CharacterDescription,
 } from "@/components/character/sheet";
-import { useAuth } from "@/hooks/useAuth";
+import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
+import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { allClasses } from "@/data/classes";
 import { calculateModifier } from "@/utils/gameUtils";
 import type { Character } from "@/types/character";
 
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [isDiceRollerOpen, setIsDiceRollerOpen] = useState(false);
-  const { user } = useAuth();
+  
+  // Use the generic Firebase sheet hook
+  const {
+    data: character,
+    loading,
+    error,
+    isOwner,
+    updateEntity: updateCharacter,
+  } = useFirebaseSheet<Character>({
+    userId: params?.userId,
+    entityId: params?.characterId,
+    collection: "CHARACTERS",
+  });
+
+  // Use the dice roller hook
+  const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
 
   const breadcrumbItems = useMemo(
     () => [
@@ -43,52 +51,21 @@ export default function CharacterSheet() {
     [character?.name]
   );
 
-  // Check if the current user owns this character
-  const isOwner = useMemo(() => {
-    return user && params?.userId === user.uid;
-  }, [user, params?.userId]);
-
   // Handle XP changes
-  const handleXPChange = (newXP: number) => {
+  const handleXPChange = useCallback((newXP: number) => {
     if (character) {
-      setCharacter({ ...character, xp: newXP });
+      const updatedCharacter = { ...character, xp: newXP };
+      updateCharacter(updatedCharacter);
     }
-  };
+  }, [character, updateCharacter]);
 
   // Handle character changes (for avatar, etc.)
-  const handleCharacterChange = async (updatedCharacter: Character) => {
-    if (!params?.userId || !params?.characterId || !isOwner) {
-      return;
-    }
-
-    try {
-      // Update local state immediately for responsiveness
-      setCharacter(updatedCharacter);
-
-      // Update Firebase
-      const characterRef = doc(
-        db,
-        FIREBASE_COLLECTIONS.USERS,
-        params.userId,
-        FIREBASE_COLLECTIONS.CHARACTERS,
-        params.characterId
-      );
-
-      // Create a clean object without the id field for Firebase
-      const characterData = { ...updatedCharacter };
-      if ("id" in characterData) {
-        delete characterData.id;
-      }
-      await updateDoc(characterRef, characterData);
-    } catch (err) {
-      console.error("Error updating character:", err);
-      // Revert local state on error
-      setCharacter(character);
-    }
-  };
+  const handleCharacterChange = useCallback(async (updatedCharacter: Character) => {
+    await updateCharacter(updatedCharacter);
+  }, [updateCharacter]);
 
   // Handle ability score changes
-  const handleAbilityChange = (abilityKey: string, value: number) => {
+  const handleAbilityChange = useCallback((abilityKey: string, value: number) => {
     if (!character) return;
 
     const updatedCharacter = {
@@ -103,10 +80,10 @@ export default function CharacterSheet() {
     };
 
     handleCharacterChange(updatedCharacter);
-  };
+  }, [character, handleCharacterChange]);
 
   // Handle HP changes
-  const handleCurrentHPChange = (value: number) => {
+  const handleCurrentHPChange = useCallback((value: number) => {
     if (!character) return;
 
     const updatedCharacter = {
@@ -118,9 +95,9 @@ export default function CharacterSheet() {
     };
 
     handleCharacterChange(updatedCharacter);
-  };
+  }, [character, handleCharacterChange]);
 
-  const handleHPNotesChange = (value: string) => {
+  const handleHPNotesChange = useCallback((value: string) => {
     if (!character) return;
 
     const updatedCharacter = {
@@ -132,10 +109,10 @@ export default function CharacterSheet() {
     };
 
     handleCharacterChange(updatedCharacter);
-  };
+  }, [character, handleCharacterChange]);
 
   // Handle currency changes
-  const handleCurrencyChange = (updates: Partial<Character["currency"]>) => {
+  const handleCurrencyChange = useCallback((updates: Partial<Character["currency"]>) => {
     if (!character) return;
 
     const updatedCharacter = {
@@ -147,10 +124,10 @@ export default function CharacterSheet() {
     };
 
     handleCharacterChange(updatedCharacter);
-  };
+  }, [character, handleCharacterChange]);
 
   // Handle equipment changes
-  const handleEquipmentChange = (equipment: Character["equipment"]) => {
+  const handleEquipmentChange = useCallback((equipment: Character["equipment"]) => {
     if (!character) return;
 
     const updatedCharacter = {
@@ -159,10 +136,10 @@ export default function CharacterSheet() {
     };
 
     handleCharacterChange(updatedCharacter);
-  };
+  }, [character, handleCharacterChange]);
 
   // Handle description changes
-  const handleDescriptionChange = (desc: string) => {
+  const handleDescriptionChange = useCallback((desc: string) => {
     if (!character) return;
 
     const updatedCharacter = {
@@ -171,52 +148,12 @@ export default function CharacterSheet() {
     };
 
     handleCharacterChange(updatedCharacter);
-  };
+  }, [character, handleCharacterChange]);
 
-  useEffect(() => {
-    const loadCharacter = async () => {
-      if (!params?.userId || !params?.characterId) {
-        setError("Invalid character URL");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const characterRef = doc(
-          db,
-          FIREBASE_COLLECTIONS.USERS,
-          params.userId,
-          FIREBASE_COLLECTIONS.CHARACTERS,
-          params.characterId
-        );
-        const characterSnap = await getDoc(characterRef);
-
-        if (characterSnap.exists()) {
-          const characterData = {
-            id: characterSnap.id,
-            ...characterSnap.data(),
-          } as Character & { id: string };
-          setCharacter(characterData);
-        } else {
-          setError("Character not found");
-        }
-      } catch (err) {
-        console.error("Error loading character:", err);
-        setError("Failed to load character");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCharacter();
-  }, [params?.userId, params?.characterId]);
+  // Data loading is now handled by useFirebaseSheet hook
 
   if (loading) {
-    return (
-      <div className="status-message" role="status" aria-live="polite">
-        <p className="text-zinc-400">Loading character...</p>
-      </div>
-    );
+    return <LoadingState message="Loading character..." />;
   }
 
   if (error) {
@@ -360,39 +297,11 @@ export default function CharacterSheet() {
         </div>
 
         {/* Dice Roller Modal */}
-        <DiceRollerModal
-          isOpen={isDiceRollerOpen}
-          onClose={() => setIsDiceRollerOpen(false)}
-        />
+        <DiceRollerModal />
       </PageWrapper>
 
       {/* Dice Roller FAB */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <FloatingActionButton
-          onClick={() => setIsDiceRollerOpen(true)}
-          aria-label="Open dice roller"
-          tooltip="Roll Dice"
-          variant="primary"
-          size="md"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            {/* Dice outline */}
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" strokeWidth="2"/>
-            {/* Dice dots (5 pattern) */}
-            <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor"/>
-            <circle cx="16.5" cy="7.5" r="1.5" fill="currentColor"/>
-            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-            <circle cx="7.5" cy="16.5" r="1.5" fill="currentColor"/>
-            <circle cx="16.5" cy="16.5" r="1.5" fill="currentColor"/>
-          </svg>
-        </FloatingActionButton>
-      </div>
+      <DiceRollerFAB />
     </>
   );
 }
