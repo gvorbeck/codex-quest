@@ -84,9 +84,22 @@ export default function Equipment({
     (index: number) => {
       if (!onEquipmentChange) return;
 
-      const updatedEquipment = character.equipment.filter(
-        (_, i) => i !== index
-      );
+      const updatedEquipment = [...character.equipment];
+      const item = updatedEquipment[index];
+      
+      if (!item) return;
+
+      if (item.amount > 1) {
+        // Decrease amount by 1
+        updatedEquipment[index] = {
+          ...item,
+          amount: item.amount - 1
+        };
+      } else {
+        // Remove item completely if amount is 1 or less
+        updatedEquipment.splice(index, 1);
+      }
+
       onEquipmentChange(updatedEquipment);
     },
     [character.equipment, onEquipmentChange]
@@ -187,7 +200,7 @@ export default function Equipment({
 
   const formatWeight = useCallback((weight: number, amount: number) => {
     const totalWeight = weight * amount;
-    return totalWeight > 0 ? `${totalWeight} lbs` : "—";
+    return totalWeight > 0 ? `${Math.round(totalWeight * 100) / 100} lbs` : "—";
   }, []);
 
   const formatCost = useCallback(
