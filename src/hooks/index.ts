@@ -7,3 +7,4 @@ export { useFocusManagement } from "./useFocusManagement";
 export { useNotifications } from "./useNotifications";
 export { useFirebaseSheet } from "./useFirebaseSheet";
 export { useDiceRoller } from "./useDiceRoller";
+export { useDebouncedUpdate } from "./useDebouncedUpdate";

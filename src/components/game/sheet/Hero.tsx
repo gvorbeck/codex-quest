@@ -26,7 +26,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(game.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
-    
+
     const sizeStyles = {
       sm: {
         container: "p-4",
@@ -80,11 +80,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
     };
 
     const handleNameSubmit = () => {
-      if (
-        nameValue.trim() &&
-        nameValue.trim() !== game.name &&
-        onGameChange
-      ) {
+      if (nameValue.trim() && nameValue.trim() !== game.name && onGameChange) {
         onGameChange({
           ...game,
           name: nameValue.trim(),
@@ -110,9 +106,9 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
 
     // Game-themed container styles (using different colors than character sheet)
     const containerClasses = [
-      "bg-gradient-to-br from-emerald-400 to-emerald-500",
-      "border-2 border-emerald-600 rounded-xl",
-      "shadow-[0_6px_0_0_#047857]",
+      "bg-gradient-to-br from-lime-400 to-lime-500",
+      "border-2 border-lime-600 rounded-xl",
+      "shadow-[0_6px_0_0_#365314]",
       "transition-all duration-150",
       "text-zinc-900",
       currentSize.container,
@@ -129,7 +125,6 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
     ].join(" ");
 
     const playerCount = game.players?.length || 0;
-    const combatantCount = game.combatants?.length || 0;
 
     return (
       <>
@@ -147,7 +142,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                 <Icon
                   name="dice"
                   size={size === "sm" ? "lg" : size === "lg" ? "xl" : "xl"}
-                  className="text-emerald-300"
+                  className="text-lime-300"
                   aria-hidden={true}
                 />
               </div>
@@ -183,7 +178,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       currentSize.name
                     } ${
                       editable && onGameChange
-                        ? "focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 focus:ring-offset-emerald-400 rounded-sm"
+                        ? "focus:outline-none focus:ring-2 focus:ring-lime-600 focus:ring-offset-2 focus:ring-offset-lime-400 rounded-sm"
                         : ""
                     }`}
                     onClick={handleNameClick}
@@ -233,22 +228,6 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       children: (
                         <span className="text-zinc-100 font-medium">
                           {playerCount}
-                        </span>
-                      ),
-                    },
-                    {
-                      label: "Combatants",
-                      children: (
-                        <span className="text-zinc-100 font-medium">
-                          {combatantCount}
-                        </span>
-                      ),
-                    },
-                    {
-                      label: "Game ID",
-                      children: (
-                        <span className="text-zinc-100 font-medium text-xs font-mono">
-                          {game.id.slice(-8)}
                         </span>
                       ),
                     },

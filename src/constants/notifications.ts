@@ -38,7 +38,7 @@ export const PRIORITY_STYLES: Record<
     accent: "bg-blue-500",
   },
   success: {
-    bg: "bg-gradient-to-br from-lime-50/95 to-green-100/95 dark:from-lime-950/80 dark:to-green-900/80",
+    bg: "bg-gradient-to-br from-lime-50/95 to-lime-100/95 dark:from-lime-950/80 dark:to-lime-900/80",
     border: "border-lime-200 dark:border-lime-800",
     shadow: "shadow-lg shadow-lime-200/50 dark:shadow-lime-900/30",
     titleColor: "slate",

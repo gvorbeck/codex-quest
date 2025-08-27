@@ -2,6 +2,7 @@ import { NumberInput, TextArea } from "@/components/ui/inputs";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { StatusIndicator } from "@/components/ui/display";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
+import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
 import type { Character } from "@/types/character";
 
 interface HitPointsProps {
@@ -23,15 +24,22 @@ export default function HitPoints({
 }: HitPointsProps) {
   const currentSize = SIZE_STYLES[size];
 
+  // Debounced HP notes to reduce Firebase writes
+  const debouncedHPNotes = useDebouncedUpdate(
+    character.hp.desc || "",
+    {
+      delay: 500,
+      onUpdate: (value: string) => {
+        if (onHPNotesChange) {
+          onHPNotesChange(value);
+        }
+      },
+    }
+  );
+
   const handleCurrentHPChange = (value: number | undefined) => {
     if (value !== undefined && onCurrentHPChange) {
       onCurrentHPChange(value);
-    }
-  };
-
-  const handleHPNotesChange = (value: string) => {
-    if (onHPNotesChange) {
-      onHPNotesChange(value);
     }
   };
 
@@ -91,17 +99,24 @@ export default function HitPoints({
           {/* HP Notes */}
           <div>
             {editable ? (
-              <TextArea
-                value={character.hp.desc || ""}
-                onChange={handleHPNotesChange}
-                placeholder="HP notes (injuries, effects, etc.)"
-                maxLength={200}
-                size="sm"
-                rows={3}
-                showClearButton={true}
-                aria-label="Hit point notes"
-                className="text-xs !bg-zinc-700/50 !border-zinc-600/50"
-              />
+              <>
+                <TextArea
+                  value={debouncedHPNotes.value}
+                  onChange={debouncedHPNotes.setValue}
+                  placeholder="HP notes (injuries, effects, etc.)"
+                  maxLength={200}
+                  size="sm"
+                  rows={3}
+                  showClearButton={true}
+                  aria-label="Hit point notes"
+                  className="text-xs !bg-zinc-700/50 !border-zinc-600/50"
+                />
+                {debouncedHPNotes.isPending && (
+                  <div className="text-xs text-zinc-500 mt-1">
+                    Saving...
+                  </div>
+                )}
+              </>
             ) : (
               character.hp.desc && (
                 <div

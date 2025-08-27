@@ -33,6 +33,7 @@ export default function CharacterSheet() {
     loading,
     error,
     isOwner,
+    isUpdating,
     updateEntity: updateCharacter,
   } = useFirebaseSheet<Character>({
     userId: params?.userId,
@@ -97,19 +98,6 @@ export default function CharacterSheet() {
     handleCharacterChange(updatedCharacter);
   }, [character, handleCharacterChange]);
 
-  const handleHPNotesChange = useCallback((value: string) => {
-    if (!character) return;
-
-    const updatedCharacter = {
-      ...character,
-      hp: {
-        ...character.hp,
-        desc: value,
-      },
-    };
-
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
 
   // Handle currency changes
   const handleCurrencyChange = useCallback((updates: Partial<Character["currency"]>) => {
@@ -133,6 +121,21 @@ export default function CharacterSheet() {
     const updatedCharacter = {
       ...character,
       equipment,
+    };
+
+    handleCharacterChange(updatedCharacter);
+  }, [character, handleCharacterChange]);
+
+  // Handle HP notes changes
+  const handleHPNotesChange = useCallback((value: string) => {
+    if (!character) return;
+
+    const updatedCharacter = {
+      ...character,
+      hp: {
+        ...character.hp,
+        desc: value,
+      },
     };
 
     handleCharacterChange(updatedCharacter);
@@ -185,7 +188,15 @@ export default function CharacterSheet() {
     <>
       <PageWrapper>
         <header className="mb-8">
-          <Breadcrumb items={breadcrumbItems} className="mb-4" />
+          <div className="flex items-center justify-between mb-4">
+            <Breadcrumb items={breadcrumbItems} />
+            {isUpdating && (
+              <div className="flex items-center gap-2 text-sm text-blue-400">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
+                <span>Saving...</span>
+              </div>
+            )}
+          </div>
         </header>
 
         {/* Hero section with character avatar and basic info */}

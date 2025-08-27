@@ -110,7 +110,7 @@ export default function DeleteCharacterModal({
                   name={isConfirmValid ? "check-circle" : "x-circle"}
                   size="sm"
                   className={
-                    isConfirmValid ? "text-green-400" : "text-yellow-500"
+                    isConfirmValid ? "text-lime-400" : "text-yellow-500"
                   }
                   aria-hidden={true}
                 />

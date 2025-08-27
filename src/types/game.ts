@@ -8,7 +8,10 @@ export interface GameCombatant {
 
 export interface GamePlayer {
   character: string; // Character ID
-  user: string; // User ID
+  characterName?: string; // Resolved character name
+  user: string; // User ID  
+  userName?: string; // Resolved user name
+  avatar?: string; // Character avatar
   [key: string]: unknown;
 }
 

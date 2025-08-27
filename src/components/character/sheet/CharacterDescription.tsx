@@ -1,6 +1,6 @@
-import { useCallback, useRef, useEffect } from "react";
 import { TextArea } from "@/components/ui/inputs";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
 import type { Character } from "@/types/character";
 
 interface CharacterDescriptionProps {
@@ -18,64 +18,23 @@ export default function CharacterDescription({
   editable = false,
   onDescriptionChange,
 }: CharacterDescriptionProps) {
-  // Use ref to store the debounce timer
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const lastValueRef = useRef<string>(character.desc || "");
-
-  // Debounced save function - saves to Firebase after user stops typing for 2 seconds
-  const debouncedSave = useCallback(
-    (value: string) => {
-      // Clear existing timer
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-
-      // Set new timer
-      debounceTimerRef.current = setTimeout(() => {
-        // Only save if the value has actually changed
-        if (value !== lastValueRef.current && onDescriptionChange) {
+  // Debounced description updates to reduce Firebase writes
+  const debouncedDescription = useDebouncedUpdate(
+    character.desc || "",
+    {
+      delay: 500,
+      onUpdate: (value: string) => {
+        if (onDescriptionChange) {
           onDescriptionChange(value);
-          lastValueRef.current = value;
         }
-      }, 2000); // 2 second delay
-    },
-    [onDescriptionChange]
+      },
+    }
   );
 
-  // Handle immediate change (for UI responsiveness) and trigger debounced save
-  const handleDescriptionChange = (value: string) => {
-    debouncedSave(value);
-  };
-
-  // Save immediately when component unmounts or character changes
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, []);
-
-  // Save immediately when user navigates away from the textarea (onBlur)
+  // Handle blur to flush any pending changes
   const handleBlur = () => {
-    // Clear the debounce timer
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-      debounceTimerRef.current = null;
-    }
-
-    // Get the current value from the textarea and save immediately
-    const currentValue = character.desc || "";
-    if (currentValue !== lastValueRef.current && onDescriptionChange) {
-      onDescriptionChange(currentValue);
-      lastValueRef.current = currentValue;
-    }
+    debouncedDescription.flush();
   };
-
-  // Update the last value ref when character prop changes
-  useEffect(() => {
-    lastValueRef.current = character.desc || "";
-  }, [character.desc]);
 
   return (
     <CharacterSheetSectionWrapper
@@ -86,8 +45,8 @@ export default function CharacterDescription({
       <div className="space-y-2 p-2">
         {editable ? (
           <TextArea
-            value={character.desc || ""}
-            onChange={handleDescriptionChange}
+            value={debouncedDescription.value}
+            onChange={debouncedDescription.setValue}
             onBlur={handleBlur}
             placeholder="Write your character's backstory, personality, appearance, notes, and anything else you'd like to remember..."
             maxLength={5000}
@@ -108,10 +67,9 @@ export default function CharacterDescription({
 
         {editable && (
           <div className="flex items-center justify-between text-xs text-zinc-500">
-            <span>{character.desc?.length || 0} / 5000 characters</span>
+            <span>{debouncedDescription.value.length} / 5000 characters</span>
             <span className="text-zinc-600">
-              Saves automatically after you stop typing (2s delay) or when you
-              click away
+              {debouncedDescription.isPending ? "Saving..." : "Saves automatically after you stop typing (500ms)"}
             </span>
           </div>
         )}

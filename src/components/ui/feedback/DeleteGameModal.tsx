@@ -49,10 +49,10 @@ export default function DeleteGameModal({
           size="lg"
         >
           <Typography variant="body" className="leading-relaxed">
-            <strong className="text-amber-300">"{gameName}"</strong> and
-            all its campaigns, player data, and battle records will be lost to the
-            void. This action cannot be undone, reversed, or recovered by any
-            magic known to mortals.
+            <strong className="text-amber-300">"{gameName}"</strong> and all its
+            campaigns, player data, and battle records will be lost to the void.
+            This action cannot be undone, reversed, or recovered by any magic
+            known to mortals.
           </Typography>
         </Callout>
 
@@ -62,9 +62,9 @@ export default function DeleteGameModal({
             variant="helper"
             className="text-zinc-400 italic text-center leading-relaxed"
           >
-            "When a campaign ends, the stories fade from memory, the bonds between
-            adventurers scatter to the winds, and the tales of heroism become
-            whispers in the darkness..."
+            "When a campaign ends, the stories fade from memory, the bonds
+            between adventurers scatter to the winds, and the tales of heroism
+            become whispers in the darkness..."
           </Typography>
         </Callout>
 
@@ -110,7 +110,7 @@ export default function DeleteGameModal({
                   name={isConfirmValid ? "check-circle" : "x-circle"}
                   size="sm"
                   className={
-                    isConfirmValid ? "text-green-400" : "text-yellow-500"
+                    isConfirmValid ? "text-lime-400" : "text-yellow-500"
                   }
                   aria-hidden={true}
                 />
