@@ -1,6 +1,7 @@
 import { Select } from "@/components/ui/inputs";
 import { Card, Typography } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection } from "@/components/ui/display";
+import { Icon } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
 import { memo } from "react";
 
@@ -77,14 +78,7 @@ function StandardClassSelectorComponent({
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <DetailSection
-                    icon={
-                      <svg
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    }
+                    icon={<Icon name="check-circle" size="md" aria-hidden={true} />}
                     title="Hit Die"
                   >
                     <Typography variant="description">

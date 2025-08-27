@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { TextInput } from "@/components/ui/inputs";
-import { Button } from "@/components/ui";
+import { Button, Icon } from "@/components/ui";
 import { Card, Typography } from "@/components/ui/design-system";
 import { allRaces } from "@/data/races";
 import {
@@ -161,17 +161,7 @@ function LanguageSelector({
       {maxBonusLanguages > 0 && (
         <Card variant="standard">
           <div className={`${LAYOUT_STYLES.iconText} mb-4`}>
-            <svg
-              className={`${ICON_STYLES.sm} text-zinc-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Icon name="plus" size="sm" className="text-zinc-400" aria-hidden={true} />
             <h5 className="text-base font-semibold text-zinc-100 m-0">
               Bonus Languages
             </h5>
@@ -233,17 +223,7 @@ function LanguageSelector({
       {maxBonusLanguages === 0 && (
         <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
-            <svg
-              className={`${ICON_STYLES.md} text-amber-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Icon name="exclamation-triangle" size="md" className="text-amber-400" aria-hidden={true} />
             <h5 className="text-base font-semibold text-amber-100 m-0">
               No Bonus Languages Available
             </h5>
