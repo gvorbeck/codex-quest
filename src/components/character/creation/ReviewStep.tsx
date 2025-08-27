@@ -127,9 +127,9 @@ function ReviewStepComponent({
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <Icon name="user" size="lg" className="text-lime-400" />
-                  <h5 className="text-xl font-semibold text-lime-100 m-0">
+                  <Typography variant="infoHeading" color="zinc">
                     {character.name || "Unnamed Character"}
-                  </h5>
+                  </Typography>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

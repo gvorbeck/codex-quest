@@ -276,9 +276,14 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Icon name="clipboard" size="md" className="text-lime-400" />
-                <h5 className="font-semibold text-lime-100 m-0">
+                <Typography
+                  variant="h5"
+                  color="zinc"
+                  weight="semibold"
+                  className="m-0"
+                >
                   Equipment Inventory
-                </h5>
+                </Typography>
               </div>
 
               <div className="space-y-3 mb-6">

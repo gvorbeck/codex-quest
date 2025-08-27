@@ -147,9 +147,9 @@ function LanguageSelector({
               className="text-zinc-400"
               aria-hidden={true}
             />
-            <h5 className="text-base font-semibold text-zinc-100 m-0">
+            <Typography variant="baseSectionHeading" color="zinc">
               Bonus Languages
-            </h5>
+            </Typography>
             {maxBonusLanguages > 0 && (
               <Typography variant="helper">
                 ({bonusLanguages.length}/{maxBonusLanguages} used)
@@ -214,9 +214,9 @@ function LanguageSelector({
               className="text-amber-400"
               aria-hidden={true}
             />
-            <h5 className="text-base font-semibold text-amber-100 m-0">
+            <Typography variant="baseSectionHeading" color="amber">
               No Bonus Languages Available
-            </h5>
+            </Typography>
           </div>
           <p className="text-amber-100 text-sm m-0">
             Your Intelligence score ({character.abilities.intelligence.value})
@@ -231,9 +231,9 @@ function LanguageSelector({
         <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
             <Icon name="info" size="md" className="text-amber-400" />
-            <h5 className="text-base font-semibold text-amber-100 m-0">
+            <Typography variant="baseSectionHeading" color="amber">
               Common Languages to Consider
-            </h5>
+            </Typography>
           </div>
           <p className="text-amber-100 text-sm m-0">
             Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll,
