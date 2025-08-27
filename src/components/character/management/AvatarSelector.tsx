@@ -1,10 +1,9 @@
 import { useCallback, useState } from "react";
 import { FileUpload } from "@/components/ui/inputs";
-import { Button } from "@/components/ui";
+import { Button, Icon } from "@/components/ui";
 import { Card, Typography } from "@/components/ui/design-system";
 import {
   LAYOUT_STYLES,
-  ICON_STYLES,
   AVATAR_MAX_SIZE_BYTES,
   AVATAR_MAX_SIZE_MB,
 } from "@/constants";
@@ -113,21 +112,8 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
   return (
     <div className="space-y-6">
       <header>
-        <Typography
-          variant="sectionHeading"
-          className={LAYOUT_STYLES.iconText}
-        >
-          <svg
-            className={`${ICON_STYLES.md} text-amber-400`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              clipRule="evenodd"
-            />
-          </svg>
+        <Typography variant="sectionHeading" className={LAYOUT_STYLES.iconText}>
+          <Icon name="user" size="md" className="text-amber-400" />
           Avatar
         </Typography>
         <Card variant="info" size="compact" className="mb-6">
@@ -145,17 +131,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             variant="baseSectionHeading"
             className={`${LAYOUT_STYLES.iconText} text-lime-100`}
           >
-            <svg
-              className={`${ICON_STYLES.sm} text-lime-400`}
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Icon name="check-circle" size="sm" className="text-lime-400" />
             Current Avatar
           </Typography>
           <div className="flex items-center gap-4">
@@ -194,17 +170,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           variant="baseSectionHeading"
           className={LAYOUT_STYLES.iconText}
         >
-          <svg
-            className={`${ICON_STYLES.sm} text-zinc-400`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <Icon name="photo" size="sm" className="text-zinc-400" />
           Stock Avatars
         </Typography>
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
@@ -255,17 +221,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           variant="baseSectionHeading"
           className={LAYOUT_STYLES.iconText}
         >
-          <svg
-            className={`${ICON_STYLES.sm} text-zinc-400`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <Icon name="upload" size="sm" className="text-zinc-400" />
           Upload Custom Avatar
         </Typography>
         <FileUpload

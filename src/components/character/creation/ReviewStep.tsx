@@ -1,7 +1,7 @@
 import { useCallback, useMemo, memo } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { StepWrapper } from "@/components/ui/layout";
-import { HorizontalRule } from "@/components/ui/display";
+import { HorizontalRule, Icon } from "@/components/ui/display";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { StatGrid } from "@/components/ui/display";
 import { LanguageSelector } from "@/components/character/creation";
@@ -126,17 +126,7 @@ function ReviewStepComponent({
               {/* Character Overview */}
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <svg
-                    className="w-6 h-6 text-lime-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Icon name="user" size="lg" className="text-lime-400" />
                   <h5 className="text-xl font-semibold text-lime-100 m-0">
                     {character.name || "Unnamed Character"}
                   </h5>
@@ -145,18 +135,7 @@ function ReviewStepComponent({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                        <path
-                          fillRule="evenodd"
-                          d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <Icon name="eye" size="sm" />
                       Race
                     </h6>
                     <p className="text-lime-50 font-medium m-0">
@@ -166,17 +145,7 @@ function ReviewStepComponent({
 
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <Icon name="briefcase" size="sm" />
                       Class
                     </h6>
                     <p className="text-lime-50 font-medium m-0">
@@ -186,17 +155,7 @@ function ReviewStepComponent({
 
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                     <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <Icon name="heart" size="sm" />
                       Hit Points
                     </h6>
                     <p className="text-lime-50 font-bold text-lg m-0">
@@ -246,11 +205,13 @@ function ReviewStepComponent({
                 Ability Scores
               </h6>
               <StatGrid
-                stats={Object.entries(character.abilities).map(([ability, score]) => ({
-                  label: ability,
-                  value: score.value,
-                  modifier: score.modifier,
-                }))}
+                stats={Object.entries(character.abilities).map(
+                  ([ability, score]) => ({
+                    label: ability,
+                    value: score.value,
+                    modifier: score.modifier,
+                  })
+                )}
                 variant="ability"
                 columns={{ base: 2, sm: 3, md: 6 }}
               />
@@ -400,7 +361,6 @@ function ReviewStepComponent({
           onCharacterChange={onCharacterChange}
         />
       </section>
-
     </StepWrapper>
   );
 }
