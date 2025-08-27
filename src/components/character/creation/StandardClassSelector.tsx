@@ -66,7 +66,9 @@ function StandardClassSelectorComponent({
                   }
                   title={selectedClass.name}
                   iconSize="lg"
-                  {...(selectedClass.supplementalContent && { badge: { text: "Supplemental" } })}
+                  {...(selectedClass.supplementalContent && {
+                    badge: { text: "Supplemental" },
+                  })}
                   className="mb-6"
                 />
 
@@ -78,7 +80,9 @@ function StandardClassSelectorComponent({
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <DetailSection
-                    icon={<Icon name="check-circle" size="md" aria-hidden={true} />}
+                    icon={
+                      <Icon name="check-circle" size="md" aria-hidden={true} />
+                    }
                     title="Hit Die"
                   >
                     <Typography variant="description">
@@ -87,10 +91,7 @@ function StandardClassSelectorComponent({
                   </DetailSection>
                   <DetailSection
                     icon={
-                      <svg
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
+                      <svg fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
                           d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"

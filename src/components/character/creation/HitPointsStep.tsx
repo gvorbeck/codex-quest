@@ -1,6 +1,6 @@
 import React, { useMemo, memo } from "react";
 import { SimpleRoller } from "@/components/ui/display";
-import { Button, Card, Typography } from "@/components/ui";
+import { Button, Card, Typography, Icon } from "@/components/ui";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, RequirementCard } from "@/components/ui/display";
 import { allClasses } from "@/data/classes";
@@ -23,13 +23,13 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
     // For combination classes, use the first class's hit die
     const primaryClassId = character.class[0];
     const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
-    
+
     if (!primaryClass?.hitDie) return null;
 
     // Check for racial hit dice modifications
-    const raceData = allRaces.find(race => race.id === character.race);
+    const raceData = allRaces.find((race) => race.id === character.race);
     let modifiedHitDie = primaryClass.hitDie;
-    
+
     if (raceData?.specialAbilities) {
       for (const ability of raceData.specialAbilities) {
         // Check for hit dice restrictions (maxSize)
@@ -39,15 +39,15 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
             // Apply the most restrictive dice size
             const classHitDie = modifiedHitDie;
             const restrictedDie = hitDiceRestriction.maxSize;
-            
+
             // Extract die sizes for comparison (e.g., "1d8" -> 8, "d6" -> 6)
             const classMatch = classHitDie.match(/\d*d(\d+)/);
             const restrictedMatch = restrictedDie.match(/d(\d+)/);
-            
+
             if (classMatch?.[1] && restrictedMatch?.[1]) {
               const classDieSize = parseInt(classMatch[1], 10);
               const restrictedDieSize = parseInt(restrictedMatch[1], 10);
-              
+
               // Use the smaller die size
               if (restrictedDieSize < classDieSize) {
                 modifiedHitDie = `1${restrictedDie}`;
@@ -59,21 +59,32 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
             if (match?.[1]) {
               const currentSize = parseInt(match[1], 10);
               let newSize;
-              
+
               switch (currentSize) {
-                case 12: newSize = 10; break;
-                case 10: newSize = 8; break;
-                case 8: newSize = 6; break;
-                case 6: newSize = 4; break;
-                case 4: newSize = 3; break;
-                default: newSize = currentSize;
+                case 12:
+                  newSize = 10;
+                  break;
+                case 10:
+                  newSize = 8;
+                  break;
+                case 8:
+                  newSize = 6;
+                  break;
+                case 6:
+                  newSize = 4;
+                  break;
+                case 4:
+                  newSize = 3;
+                  break;
+                default:
+                  newSize = currentSize;
               }
-              
+
               modifiedHitDie = `1d${newSize}`;
             }
           }
         }
-        
+
         // Check for hit dice bonuses (sizeIncrease for Half-Ogre, Bisren)
         const hitDiceBonus = ability.effects?.hitDiceBonus;
         if (hitDiceBonus?.sizeIncrease) {
@@ -81,15 +92,24 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
           if (match?.[1]) {
             const currentSize = parseInt(match[1], 10);
             let newSize;
-            
+
             switch (currentSize) {
-              case 4: newSize = 6; break;
-              case 6: newSize = 8; break;
-              case 8: newSize = 10; break;
-              case 10: newSize = 12; break;
-              default: newSize = currentSize;
+              case 4:
+                newSize = 6;
+                break;
+              case 6:
+                newSize = 8;
+                break;
+              case 8:
+                newSize = 10;
+                break;
+              case 10:
+                newSize = 12;
+                break;
+              default:
+                newSize = currentSize;
             }
-            
+
             modifiedHitDie = `1d${newSize}`;
           }
         }
@@ -127,28 +147,28 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   const racialModificationInfo = useMemo(() => {
     const primaryClassId = character.class[0];
     const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
-    const raceData = allRaces.find(race => race.id === character.race);
-    
+    const raceData = allRaces.find((race) => race.id === character.race);
+
     if (!primaryClass?.hitDie || !raceData?.specialAbilities) return null;
-    
+
     for (const ability of raceData.specialAbilities) {
       const hitDiceRestriction = ability.effects?.hitDiceRestriction;
       const hitDiceBonus = ability.effects?.hitDiceBonus;
-      
+
       if (hitDiceRestriction?.maxSize) {
         const classMatch = primaryClass.hitDie.match(/\d*d(\d+)/);
         const restrictedMatch = hitDiceRestriction.maxSize.match(/d(\d+)/);
-        
+
         if (classMatch?.[1] && restrictedMatch?.[1]) {
           const classDieSize = parseInt(classMatch[1], 10);
           const restrictedDieSize = parseInt(restrictedMatch[1], 10);
-          
+
           if (restrictedDieSize < classDieSize) {
             return {
               abilityName: ability.name,
               originalHitDie: primaryClass.hitDie,
               modifiedHitDie: `1${hitDiceRestriction.maxSize}`,
-              modificationType: "restriction"
+              modificationType: "restriction",
             };
           }
         }
@@ -157,14 +177,14 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
           abilityName: ability.name,
           originalHitDie: primaryClass.hitDie,
           modifiedHitDie: hitDie, // Use the calculated hit die
-          modificationType: "decrease"
+          modificationType: "decrease",
         };
       } else if (hitDiceBonus?.sizeIncrease) {
         return {
           abilityName: ability.name,
           originalHitDie: primaryClass.hitDie,
           modifiedHitDie: hitDie, // Use the calculated hit die
-          modificationType: "increase"
+          modificationType: "increase",
         };
       }
     }
@@ -207,19 +227,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         <RequirementCard
           title="Class Required"
           message="Please select a class first to determine your hit points. Your class determines which hit die you use for rolling hit points."
-          icon={
-            <svg
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
-          }
+          icon={<Icon name="info" size="md" aria-hidden={true} />}
         />
       </StepWrapper>
     );
@@ -242,19 +250,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
       <section className="mb-8">
         <Card variant="info">
           <InfoCardHeader
-            icon={
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            }
+            icon={<Icon name="info" size="md" aria-hidden={true} />}
             title="Hit Die Information"
             className="mb-4"
           />
@@ -266,32 +262,29 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               <span className="text-amber-200">{constitutionText}</span>
             )}
           </Typography>
-          
+
           {racialModificationInfo && (
             <div className="mt-3 p-3 bg-orange-900/20 border border-orange-700/40 rounded-lg">
               <div className="flex items-start gap-2">
-                <svg
-                  className="w-5 h-5 flex-shrink-0 text-orange-400 mt-0.5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <Icon
+                  name="info"
+                  size="md"
+                  className="flex-shrink-0 text-orange-400 mt-0.5"
+                  aria-hidden={true}
+                />
                 <div>
                   <p className="text-sm text-orange-200 font-medium mb-1">
                     Racial Restriction Applied
                   </p>
                   <p className="text-sm text-orange-100">
                     <strong>{racialModificationInfo.abilityName}</strong>{" "}
-                    {racialModificationInfo.modificationType === "restriction" && "restricts"}
-                    {racialModificationInfo.modificationType === "increase" && "increases"}
-                    {racialModificationInfo.modificationType === "decrease" && "decreases"}
-                    {" "}your hit die from{" "}
+                    {racialModificationInfo.modificationType ===
+                      "restriction" && "restricts"}
+                    {racialModificationInfo.modificationType === "increase" &&
+                      "increases"}
+                    {racialModificationInfo.modificationType === "decrease" &&
+                      "decreases"}{" "}
+                    your hit die from{" "}
                     <strong>{racialModificationInfo.originalHitDie}</strong> to{" "}
                     <strong>{racialModificationInfo.modifiedHitDie}</strong>
                   </p>
@@ -337,18 +330,12 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
 
           <Card variant="success">
             <div className="flex items-center gap-3 mb-4">
-              <svg
-                className="w-6 h-6 flex-shrink-0 text-lime-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Icon
+                name="check-circle"
+                size="lg"
+                className="flex-shrink-0 text-lime-400"
+                aria-hidden={true}
+              />
               <h5 className="text-xl font-semibold text-lime-100 m-0">
                 Current Hit Points
               </h5>

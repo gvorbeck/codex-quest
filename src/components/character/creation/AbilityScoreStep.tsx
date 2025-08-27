@@ -172,11 +172,13 @@ function AbilityScoreStep({
               className="mb-3"
             />
             <StatGrid
-              stats={Object.entries(character.abilities).map(([name, ability]) => ({
-                label: name,
-                value: ability.value,
-                modifier: ability.modifier,
-              }))}
+              stats={Object.entries(character.abilities).map(
+                ([name, ability]) => ({
+                  label: name,
+                  value: ability.value,
+                  modifier: ability.modifier,
+                })
+              )}
               variant="summary"
               columns={{ base: 2, sm: 3, md: 6 }}
             />
@@ -197,11 +199,7 @@ function AbilityScoreStep({
               AbilityScore
             ][]
           ).map(([abilityName, ability]) => (
-            <Card
-              key={abilityName}
-              variant="standard"
-              hover={true}
-            >
+            <Card key={abilityName} variant="standard" hover={true}>
               {/* Ability Name */}
               <div className="flex items-center justify-between mb-3">
                 <label className="text-base font-semibold text-zinc-100 capitalize">

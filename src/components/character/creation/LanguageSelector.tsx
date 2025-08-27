@@ -3,10 +3,7 @@ import { TextInput } from "@/components/ui/inputs";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography } from "@/components/ui/design-system";
 import { allRaces } from "@/data/races";
-import {
-  ICON_STYLES,
-  LAYOUT_STYLES,
-} from "@/constants";
+import { ICON_STYLES, LAYOUT_STYLES } from "@/constants";
 import type { Character } from "@/types/character";
 
 interface LanguageSelectorProps {
@@ -102,7 +99,10 @@ function LanguageSelector({
   return (
     <div className="space-y-6">
       <header>
-        <Typography variant="sectionHeading" className="flex items-center gap-2">
+        <Typography
+          variant="sectionHeading"
+          className="flex items-center gap-2"
+        >
           <svg
             className="w-5 h-5 text-amber-400"
             fill="currentColor"
@@ -161,7 +161,12 @@ function LanguageSelector({
       {maxBonusLanguages > 0 && (
         <Card variant="standard">
           <div className={`${LAYOUT_STYLES.iconText} mb-4`}>
-            <Icon name="plus" size="sm" className="text-zinc-400" aria-hidden={true} />
+            <Icon
+              name="plus"
+              size="sm"
+              className="text-zinc-400"
+              aria-hidden={true}
+            />
             <h5 className="text-base font-semibold text-zinc-100 m-0">
               Bonus Languages
             </h5>
@@ -223,7 +228,12 @@ function LanguageSelector({
       {maxBonusLanguages === 0 && (
         <Card variant="info">
           <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
-            <Icon name="exclamation-triangle" size="md" className="text-amber-400" aria-hidden={true} />
+            <Icon
+              name="exclamation-triangle"
+              size="md"
+              className="text-amber-400"
+              aria-hidden={true}
+            />
             <h5 className="text-base font-semibold text-amber-100 m-0">
               No Bonus Languages Available
             </h5>

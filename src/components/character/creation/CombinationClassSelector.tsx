@@ -1,10 +1,8 @@
 import { Select } from "@/components/ui/inputs";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
+import { Icon } from "@/components/ui";
 import type { Character } from "@/types/character";
-import {
-  ICON_STYLES,
-  LAYOUT_STYLES,
-} from "@/constants";
+import { ICON_STYLES, LAYOUT_STYLES } from "@/constants";
 import { memo } from "react";
 
 interface CombinationClassSelectorProps {
@@ -35,10 +33,7 @@ function CombinationClassSelectorComponent({
 
   return (
     <section aria-labelledby="combination-classes-heading" className="mb-8">
-      <Typography
-        variant="sectionHeading"
-        id="combination-classes-heading"
-      >
+      <Typography variant="sectionHeading" id="combination-classes-heading">
         Combination Classes
       </Typography>
 
@@ -60,14 +55,12 @@ function CombinationClassSelectorComponent({
         <Card variant="info" id="combination-class-details">
           <div aria-labelledby="combination-class-info-heading">
             <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
-              <svg
-                className={`${ICON_STYLES.lg} flex-shrink-0 text-amber-400`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                aria-hidden="true"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
+              <Icon
+                name="star"
+                size="lg"
+                className="flex-shrink-0 text-amber-400"
+                aria-hidden={true}
+              />
               <Typography
                 variant="infoHeading"
                 id="combination-class-info-heading"
@@ -103,11 +96,7 @@ function CombinationClassSelectorComponent({
               </Typography>
               <div className={LAYOUT_STYLES.tagContainer}>
                 {character.class.map((classId, index) => (
-                  <Badge
-                    key={index}
-                    variant="status"
-                    className="capitalize"
-                  >
+                  <Badge key={index} variant="status" className="capitalize">
                     {classId}
                   </Badge>
                 ))}
