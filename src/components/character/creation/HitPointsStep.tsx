@@ -189,7 +189,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
       }
     }
     return null;
-  }, [character.class, character.race]);
+  }, [character.class, character.race, hitDie]);
 
   const handleHPChange = (hp: number | undefined) => {
     if (hp === undefined) return;
@@ -343,10 +343,10 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
-                <h6 className="font-semibold mb-2 text-lime-400 flex items-center gap-2">
+                <Typography variant="subHeading" color="lime">
                   <Icon name="heart" size="sm" />
                   Hit Points
-                </h6>
+                </Typography>
                 <p className="text-lime-50 text-lg font-bold m-0">
                   {character.hp.current} / {character.hp.max} HP
                 </p>
@@ -354,10 +354,10 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
 
               {constitutionBonus !== 0 && (
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
-                  <h6 className="font-semibold mb-2 text-lime-400 flex items-center gap-2">
+                  <Typography variant="subHeading" color="lime">
                     <Icon name="clock" size="sm" />
                     Breakdown
-                  </h6>
+                  </Typography>
                   <p className="text-lime-50 text-sm m-0">
                     Base roll:{" "}
                     <strong>{character.hp.max - constitutionBonus}</strong>

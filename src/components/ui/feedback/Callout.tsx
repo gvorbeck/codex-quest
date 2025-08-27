@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 import { Icon } from "@/components/ui/display/Icon";
+import { Typography } from "@/components/ui/design-system";
 
 type CalloutVariant = "info" | "success" | "warning" | "error" | "neutral";
 
@@ -64,11 +65,46 @@ const Callout = forwardRef<HTMLDivElement, CalloutProps>(
 
     // Default icons for each variant
     const defaultIcons = {
-      info: <Icon name="info" size="md" className="flex-shrink-0" aria-hidden={true} />,
-      success: <Icon name="check-circle" size="md" className="flex-shrink-0" aria-hidden={true} />,
-      warning: <Icon name="exclamation-triangle" size="md" className="flex-shrink-0" aria-hidden={true} />,
-      error: <Icon name="x-circle" size="md" className="flex-shrink-0" aria-hidden={true} />,
-      neutral: <Icon name="info" size="md" className="flex-shrink-0" aria-hidden={true} />,
+      info: (
+        <Icon
+          name="info"
+          size="md"
+          className="flex-shrink-0"
+          aria-hidden={true}
+        />
+      ),
+      success: (
+        <Icon
+          name="check-circle"
+          size="md"
+          className="flex-shrink-0"
+          aria-hidden={true}
+        />
+      ),
+      warning: (
+        <Icon
+          name="exclamation-triangle"
+          size="md"
+          className="flex-shrink-0"
+          aria-hidden={true}
+        />
+      ),
+      error: (
+        <Icon
+          name="x-circle"
+          size="md"
+          className="flex-shrink-0"
+          aria-hidden={true}
+        />
+      ),
+      neutral: (
+        <Icon
+          name="info"
+          size="md"
+          className="flex-shrink-0"
+          aria-hidden={true}
+        />
+      ),
     };
 
     // Combine all styles
@@ -87,7 +123,9 @@ const Callout = forwardRef<HTMLDivElement, CalloutProps>(
           <div className="flex items-start gap-3 mb-3">
             {displayIcon && <div className="mt-0.5">{displayIcon}</div>}
             {title && (
-              <h6 className="font-semibold text-current m-0 flex-1">{title}</h6>
+              <Typography variant="h6" weight="semibold" className="m-0 flex-1">
+                {title}
+              </Typography>
             )}
           </div>
         )}

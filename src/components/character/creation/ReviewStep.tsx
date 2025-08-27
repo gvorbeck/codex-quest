@@ -134,30 +134,30 @@ function ReviewStepComponent({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                    <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                    <Typography variant="subHeadingLime" color="lime">
                       <Icon name="eye" size="sm" />
                       Race
-                    </h6>
+                    </Typography>
                     <p className="text-lime-50 font-medium m-0">
                       {raceDisplayName}
                     </p>
                   </div>
 
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                    <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                    <Typography variant="subHeadingLime" color="lime">
                       <Icon name="briefcase" size="sm" />
                       Class
-                    </h6>
+                    </Typography>
                     <p className="text-lime-50 font-medium m-0">
                       {classDisplayNames}
                     </p>
                   </div>
 
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                    <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                    <Typography variant="subHeadingLime" color="lime">
                       <Icon name="heart" size="sm" />
                       Hit Points
-                    </h6>
+                    </Typography>
                     <p className="text-lime-50 font-bold text-lg m-0">
                       {character.hp?.current || 0} / {character.hp?.max || 0} HP
                     </p>
@@ -165,10 +165,10 @@ function ReviewStepComponent({
 
                   {character.currency.gold > 0 && (
                     <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
-                      <h6 className="font-semibold mb-1 text-lime-400 flex items-center gap-2">
+                      <Typography variant="subHeadingLime" color="lime">
                         <Icon name="coin" size="sm" />
                         Gold
-                      </h6>
+                      </Typography>
                       <p className="text-lime-50 font-medium m-0">
                         {character.currency.gold} gp
                       </p>
@@ -180,10 +180,10 @@ function ReviewStepComponent({
 
             {/* Ability Scores */}
             <div className="mb-6">
-              <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
+              <Typography variant="subHeading" color="lime">
                 <Icon name="lightning" size="sm" />
                 Ability Scores
-              </h6>
+              </Typography>
               <StatGrid
                 stats={Object.entries(character.abilities).map(
                   ([ability, score]) => ({
@@ -200,7 +200,7 @@ function ReviewStepComponent({
             {/* Equipment Summary */}
             {character.equipment.length > 0 && (
               <div className="mb-6">
-                <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
+                <Typography variant="subHeading" color="lime">
                   <Icon name="clipboard" size="sm" />
                   Equipment (
                   {character.equipment.reduce(
@@ -208,7 +208,7 @@ function ReviewStepComponent({
                     0
                   )}{" "}
                   items)
-                </h6>
+                </Typography>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
@@ -265,10 +265,10 @@ function ReviewStepComponent({
             {/* Spells */}
             {character.spells && character.spells.length > 0 && (
               <div>
-                <h6 className="font-semibold mb-4 text-lime-400 flex items-center gap-2">
+                <Typography variant="subHeading" color="lime">
                   <Icon name="star" size="sm" />
                   Spells
-                </h6>
+                </Typography>
 
                 <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
                   <div className="space-y-2">
