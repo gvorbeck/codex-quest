@@ -36,12 +36,15 @@ function SpellSelectorComponent({
 
   return (
     <section aria-labelledby={`${detailsId}-heading`} className="mb-8">
-      <h4
+      <Typography
+        variant="sectionHeading"
+        as="h4"
         id={`${detailsId}-heading`}
-        className="text-lg font-semibold text-zinc-100 mb-3"
+        color="zinc"
+        className="mb-3"
       >
         {title}
-      </h4>
+      </Typography>
       <div
         className="text-sm text-zinc-400 mb-6"
         dangerouslySetInnerHTML={{ __html: description }}

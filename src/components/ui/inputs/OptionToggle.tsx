@@ -1,4 +1,5 @@
 import { Switch } from "@/components/ui/inputs";
+import { Typography } from "@/components/ui/design-system";
 
 interface OptionToggleProps {
   title: string;
@@ -20,12 +21,10 @@ export function OptionToggle({
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div>
-        <h4 className="text-base font-semibold text-zinc-100 mb-1">
+        <Typography variant="baseSectionHeading" color="zinc">
           {title}
-        </h4>
-        <p className="text-sm text-zinc-400">
-          {description}
-        </p>
+        </Typography>
+        <p className="text-sm text-zinc-400">{description}</p>
       </div>
       <Switch
         label={switchLabel}

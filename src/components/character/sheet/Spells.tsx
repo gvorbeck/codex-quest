@@ -142,10 +142,15 @@ export default function Spells({
       aria-labelledby={`spell-${spell.uniqueKey}-name`}
     >
       {/* Hidden spell name for screen readers */}
-      <h4 id={`spell-${spell.uniqueKey}-name`} className="sr-only">
+      <Typography
+        variant="h4"
+        as="h4"
+        id={`spell-${spell.uniqueKey}-name`}
+        className="sr-only"
+      >
         {spell.name} -{" "}
         {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel} Spell`}
-      </h4>
+      </Typography>
 
       {/* Spell Details */}
       <div

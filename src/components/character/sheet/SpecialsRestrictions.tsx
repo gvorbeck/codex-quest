@@ -1,7 +1,14 @@
 import { useMemo } from "react";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/layout";
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@/components/ui/layout";
 import { type DescriptionItem } from "@/components/ui/display";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { Typography } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
@@ -13,29 +20,29 @@ interface SpecialsRestrictionsProps {
   size?: "sm" | "md" | "lg";
 }
 
-export default function SpecialsRestrictions({ 
-  character, 
+export default function SpecialsRestrictions({
+  character,
   className = "",
-  size = "md"
+  size = "md",
 }: SpecialsRestrictionsProps) {
   const race = useMemo(() => {
-    return allRaces.find(r => r.id === character.race?.toLowerCase());
+    return allRaces.find((r) => r.id === character.race?.toLowerCase());
   }, [character.race]);
 
   const classes = useMemo(() => {
-    return character.class.map(classId => 
-      allClasses.find(c => c.id === classId?.toLowerCase())
-    ).filter(Boolean);
+    return character.class
+      .map((classId) => allClasses.find((c) => c.id === classId?.toLowerCase()))
+      .filter(Boolean);
   }, [character.class]);
 
   const raceItems = useMemo((): DescriptionItem[] => {
     const items: DescriptionItem[] = [];
 
     if (race?.specialAbilities?.length) {
-      race.specialAbilities.forEach(ability => {
+      race.specialAbilities.forEach((ability) => {
         items.push({
           label: ability.name,
-          children: ability.description
+          children: ability.description,
         });
       });
     }
@@ -43,7 +50,9 @@ export default function SpecialsRestrictions({
     if (race?.prohibitedWeapons?.length) {
       items.push({
         label: "Weapon Restrictions",
-        children: `May not employ ${race.prohibitedWeapons.join(", ")} more than four feet in length`
+        children: `May not employ ${race.prohibitedWeapons.join(
+          ", "
+        )} more than four feet in length`,
       });
     }
 
@@ -53,12 +62,12 @@ export default function SpecialsRestrictions({
   const classItems = useMemo((): DescriptionItem[] => {
     const items: DescriptionItem[] = [];
 
-    classes.forEach(charClass => {
+    classes.forEach((charClass) => {
       if (charClass?.specialAbilities?.length) {
-        charClass.specialAbilities.forEach(ability => {
+        charClass.specialAbilities.forEach((ability) => {
           items.push({
             label: ability.name,
-            children: ability.description
+            children: ability.description,
           });
         });
       }
@@ -68,8 +77,8 @@ export default function SpecialsRestrictions({
   }, [classes]);
 
   return (
-    <CharacterSheetSectionWrapper 
-      title="Restrictions & Special Abilities" 
+    <CharacterSheetSectionWrapper
+      title="Restrictions & Special Abilities"
       size={size}
       className={className}
     >
@@ -100,9 +109,14 @@ export default function SpecialsRestrictions({
                       >
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
-                          <h4 className="text-amber-400 text-sm font-semibold group-hover/card:text-amber-300 transition-colors duration-200">
+                          <Typography
+                            variant="bodySmall"
+                            color="amber"
+                            weight="semibold"
+                            className="group-hover/card:text-amber-300 transition-colors duration-200"
+                          >
                             {item.label}
-                          </h4>
+                          </Typography>
                         </div>
                         <div className="text-zinc-100 text-sm leading-relaxed">
                           {item.children}
@@ -113,7 +127,13 @@ export default function SpecialsRestrictions({
                     <div className="rounded-lg p-4 bg-zinc-750/30 border border-zinc-600/50">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                        <h4 className="text-zinc-400 text-sm font-semibold">No Restrictions</h4>
+                        <Typography
+                          variant="bodySmall"
+                          color="secondary"
+                          weight="semibold"
+                        >
+                          No Restrictions
+                        </Typography>
                       </div>
                       <div className="text-zinc-300 text-sm">
                         No special abilities or restrictions for this race.
@@ -135,9 +155,14 @@ export default function SpecialsRestrictions({
                       >
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
-                          <h4 className="text-amber-400 text-sm font-semibold group-hover/card:text-amber-300 transition-colors duration-200">
+                          <Typography
+                            variant="bodySmall"
+                            color="amber"
+                            weight="semibold"
+                            className="group-hover/card:text-amber-300 transition-colors duration-200"
+                          >
                             {item.label}
-                          </h4>
+                          </Typography>
                         </div>
                         <div className="text-zinc-100 text-sm leading-relaxed">
                           {item.children}
@@ -148,10 +173,17 @@ export default function SpecialsRestrictions({
                     <div className="rounded-lg p-4 bg-zinc-750/30 border border-zinc-600/50">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                        <h4 className="text-zinc-400 text-sm font-semibold">No Restrictions</h4>
+                        <Typography
+                          variant="bodySmall"
+                          color="secondary"
+                          weight="semibold"
+                        >
+                          No Restrictions
+                        </Typography>
                       </div>
                       <div className="text-zinc-300 text-sm">
-                        No special abilities or restrictions for {classes.length === 1 ? 'this class' : 'these classes'}.
+                        No special abilities or restrictions for{" "}
+                        {classes.length === 1 ? "this class" : "these classes"}.
                       </div>
                     </div>
                   )}

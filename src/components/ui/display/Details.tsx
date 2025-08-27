@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
+import { Typography } from "@/components/ui/design-system";
 
 export interface DescriptionItem {
   label: ReactNode;
@@ -15,14 +16,9 @@ interface DetailsProps {
   className?: string;
 }
 
-
 const Details = forwardRef<HTMLDivElement, DetailsProps>(
-  (
-    { items, size = "md", layout = "vertical", className = "" },
-    ref
-  ) => {
+  ({ items, size = "md", layout = "vertical", className = "" }, ref) => {
     const currentSize = SIZE_STYLES[size];
-
 
     if (layout === "horizontal") {
       return (
@@ -84,13 +80,20 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
               {/* Card Header */}
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
-                <h4 className={`${DESIGN_TOKENS.colors.text.accent} ${currentSize.labelText} font-semibold group-hover/card:text-amber-300 transition-colors duration-200`}>
+                <Typography
+                  variant="bodySmall"
+                  color="amber"
+                  weight="semibold"
+                  className="group-hover/card:text-amber-300 transition-colors duration-200"
+                >
                   {item.label}
-                </h4>
+                </Typography>
               </div>
-              
+
               {/* Card Content */}
-              <div className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} leading-relaxed`}>
+              <div
+                className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} leading-relaxed`}
+              >
                 {item.children}
               </div>
             </div>

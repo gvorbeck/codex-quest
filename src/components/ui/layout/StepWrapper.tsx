@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { memo } from "react";
+import { Typography } from "@/components/ui/design-system";
 
 interface StepWrapperProps {
   /** The main title of the step */
@@ -31,7 +32,7 @@ function StepWrapperComponent({
   return (
     <section {...sectionProps}>
       <header>
-        <h4>{title}</h4>
+        <Typography variant="h4">{title}</Typography>
         <p>{description}</p>
       </header>
 
