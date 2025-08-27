@@ -42,45 +42,25 @@ export default function Equipment({
   const addEquipmentToInventory = useCallback((newEquipment: EquipmentItem) => {
     if (!onEquipmentChange) return;
 
-    console.log('🚀 addEquipmentToInventory called with:', { 
-      name: newEquipment.name, 
-      amount: newEquipment.amount,
-      costValue: newEquipment.costValue,
-      costCurrency: newEquipment.costCurrency 
-    });
-
     // Clean equipment array first, then work with clean data
     const cleanedEquipment = cleanEquipmentArray(character.equipment);
-    console.log('🔍 Adding equipment:', newEquipment.name);
-    console.log('🔍 Current equipment array:', character.equipment.map(item => ({ name: item.name, amount: item.amount })));
-    console.log('🔍 Cleaned equipment array:', cleanedEquipment.map(item => ({ name: item.name, amount: item.amount })));
-    
     const existingIndex = cleanedEquipment.findIndex(
       (item) => item.name === newEquipment.name
     );
-    
-    console.log('🔍 Found existing item at index:', existingIndex);
 
     if (existingIndex >= 0) {
-      console.log('✅ Incrementing existing item');
       // Increase amount of existing item
       const updatedEquipment = [...cleanedEquipment];
       const existingItem = updatedEquipment[existingIndex];
       
-      console.log('🔍 Existing item:', existingItem ? { name: existingItem.name, amount: existingItem.amount } : 'NONE');
-      
       if (existingItem) {
-        console.log('🔢 Incrementing from', existingItem.amount, 'by', newEquipment.amount, 'to', existingItem.amount + newEquipment.amount);
         updatedEquipment[existingIndex] = {
           ...existingItem,
           amount: existingItem.amount + newEquipment.amount,
         };
       }
-      
-      console.log('📦 Final updated equipment array:', updatedEquipment.map(item => ({ name: item.name, amount: item.amount })));
       onEquipmentChange(updatedEquipment);
     } else {
-      console.log('➕ Adding new item');
       // Add new item with proper amount to cleaned equipment array
       const equipmentToAdd = ensureEquipmentAmount(newEquipment);
       
@@ -89,8 +69,10 @@ export default function Equipment({
   }, [character.equipment, onEquipmentChange]);
 
   const handleEquipmentAdd = (newEquipment: EquipmentItem) => {
-    addEquipmentToInventory(newEquipment);
-    setShowSelector(false);
+    // Ensure we're adding at least 1 item (EquipmentSelector sends items with amount: 0)
+    const equipmentToAdd = { ...newEquipment, amount: Math.max(1, newEquipment.amount) };
+    addEquipmentToInventory(equipmentToAdd);
+    // Don't close selector anymore - let user add multiple items
   };
 
   const handleCustomEquipmentAdd = (newEquipment: EquipmentItem) => {
