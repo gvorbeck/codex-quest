@@ -292,17 +292,24 @@ export default function CharacterSheet() {
             </div>
           </div>
 
-          {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
-          {(character.spells?.length || character.cantrips?.length) && (
-            <Spells character={character} />
-          )}
+          {/* Spells & Equipment Section - side-by-side on larger screens */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
+            {(character.spells?.length || character.cantrips?.length) && (
+              <div className="break-inside-avoid">
+                <Spells character={character} />
+              </div>
+            )}
 
-          {/* Equipment Section */}
-          <Equipment
-            character={character}
-            editable={!!isOwner}
-            onEquipmentChange={handleEquipmentChange}
-          />
+            {/* Equipment Section */}
+            <div className="break-inside-avoid">
+              <Equipment
+                character={character}
+                editable={!!isOwner}
+                onEquipmentChange={handleEquipmentChange}
+              />
+            </div>
+          </div>
 
           {/* Horizontal Rule */}
           <HorizontalRule />

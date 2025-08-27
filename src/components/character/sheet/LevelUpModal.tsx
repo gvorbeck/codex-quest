@@ -1,10 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Modal } from "@/components/ui/feedback";
 import { Button } from "@/components/ui";
+import { Select } from "@/components/ui/inputs";
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { roller } from "@/utils/dice";
-import type { Character, Class } from "@/types/character";
+import type { Character, Class, Spell } from "@/types/character";
 
 interface LevelUpModalProps {
   isOpen: boolean;
@@ -12,6 +13,13 @@ interface LevelUpModalProps {
   character: Character & { id?: string };
   classes: Class[];
   onLevelUp?: (updatedCharacter: Character) => void;
+}
+
+interface SpellGainInfo {
+  level: number;
+  newSpells: number[];
+  totalSpellsGained: number;
+  spellsByLevel: Array<{ spellLevel: number; count: number; spells: Spell[] }>;
 }
 
 export default function LevelUpModal({
@@ -22,6 +30,10 @@ export default function LevelUpModal({
   onLevelUp,
 }: LevelUpModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [availableSpells, setAvailableSpells] = useState<Spell[]>([]);
+  const [selectedSpells, setSelectedSpells] = useState<Record<string, string>>({});
+  const [isLoadingSpells, setIsLoadingSpells] = useState(false);
+
 
   // Get the character's primary class for level up calculations
   const getPrimaryClass = () => {
@@ -48,6 +60,112 @@ export default function LevelUpModal({
   const nextLevel = currentLevel + 1;
   const requiredXP = primaryClass?.experienceTable[nextLevel];
   const hasRequiredXP = requiredXP !== undefined && character.xp >= requiredXP;
+
+  // Calculate spell gains for leveling up
+  const spellGainInfo: SpellGainInfo | null = useMemo(() => {
+    if (!primaryClass?.spellcasting || !hasRequiredXP) return null;
+    
+    const currentSpells = primaryClass.spellcasting.spellsPerLevel[currentLevel] || [];
+    const nextLevelSpells = primaryClass.spellcasting.spellsPerLevel[nextLevel] || [];
+    
+    const newSpells: number[] = [];
+    let totalSpellsGained = 0;
+    
+    // Compare spell slots between current and next level
+    for (let spellLevel = 0; spellLevel < nextLevelSpells.length; spellLevel++) {
+      const currentCount = currentSpells[spellLevel] || 0;
+      const nextCount = nextLevelSpells[spellLevel] || 0;
+      const newCount = nextCount - currentCount;
+      
+      if (newCount > 0) {
+        newSpells[spellLevel] = newCount;
+        totalSpellsGained += newCount;
+      }
+    }
+    
+    return totalSpellsGained > 0 ? {
+      level: nextLevel,
+      newSpells,
+      totalSpellsGained,
+      spellsByLevel: [] // Will be populated when spells are loaded
+    } : null;
+  }, [primaryClass, currentLevel, nextLevel, hasRequiredXP]);
+
+  // Load available spells when spell gain is detected
+  useEffect(() => {
+    const loadSpells = async () => {
+      if (!spellGainInfo || !primaryClass) return;
+      
+      setIsLoadingSpells(true);
+      try {
+        // Import spells data dynamically
+        const spellsModule = await import('@/data/spells.json');
+        const allSpells: Spell[] = spellsModule.default;
+        
+        // Filter and organize spells by level
+        const classSpellKey = primaryClass.id as keyof Spell['level'];
+        const spellsByLevel: Array<{ spellLevel: number; count: number; spells: Spell[] }> = [];
+        
+        // Process each spell level that gained slots
+        spellGainInfo.newSpells.forEach((count, index) => {
+          if (count > 0) {
+            const spellLevel = index + 1;
+            const spellsForLevel = allSpells.filter(spell => {
+              const spellLevelForClass = spell.level[classSpellKey];
+              return spellLevelForClass === spellLevel;
+            });
+            
+            if (spellsForLevel.length > 0) {
+              spellsByLevel.push({
+                spellLevel,
+                count,
+                spells: spellsForLevel
+              });
+            }
+          }
+        });
+        
+        setAvailableSpells(allSpells); // Keep all spells for reference
+        // Reset selected spells when new spells are loaded
+        setSelectedSpells({});
+      } catch (error) {
+        console.error('Failed to load spells:', error);
+        setAvailableSpells([]);
+      } finally {
+        setIsLoadingSpells(false);
+      }
+    };
+    
+    loadSpells();
+  }, [spellGainInfo, primaryClass]);
+
+  // Organize spells by level for UI rendering
+  const organizedSpells = useMemo(() => {
+    if (!spellGainInfo || !primaryClass || availableSpells.length === 0) return [];
+    
+    const classSpellKey = primaryClass.id as keyof Spell['level'];
+    const spellsByLevel: Array<{ spellLevel: number; count: number; spells: Spell[] }> = [];
+    
+    spellGainInfo.newSpells.forEach((count, index) => {
+      if (count > 0) {
+        const spellLevel = index + 1;
+        const spellsForLevel = availableSpells.filter(spell => {
+          const spellLevelForClass = spell.level[classSpellKey];
+          return spellLevelForClass === spellLevel;
+        });
+        
+        if (spellsForLevel.length > 0) {
+          spellsByLevel.push({
+            spellLevel,
+            count,
+            spells: spellsForLevel
+          });
+        }
+      }
+    });
+    
+    return spellsByLevel;
+  }, [spellGainInfo, primaryClass, availableSpells]);
 
   // Generate HP gain calculation when modal opens and character is eligible (memoized to prevent recalculation)
   const hpGainResult = useMemo(() => {
@@ -121,20 +239,42 @@ export default function LevelUpModal({
     }
   }, [hasRequiredXP, primaryClass, character.abilities.constitution.modifier, character.level, nextLevel, isOpen]);
 
+  const canLevelUp = useMemo(() => {
+    if (!hasRequiredXP || !primaryClass || !hpGainResult) return false;
+    
+    // If spells are gained, ensure all spell selections are made
+    if (spellGainInfo) {
+      const requiredSelections = spellGainInfo.totalSpellsGained;
+      const filledSelections = Object.values(selectedSpells).filter(spell => spell !== '').length;
+      return filledSelections === requiredSelections;
+    }
+    
+    return true;
+  }, [hasRequiredXP, primaryClass, hpGainResult, spellGainInfo, selectedSpells]);
+
+  const handleSpellSelection = (selectionKey: string, spellName: string) => {
+    const newSelectedSpells = { ...selectedSpells };
+    newSelectedSpells[selectionKey] = spellName;
+    setSelectedSpells(newSelectedSpells);
+  };
+
   const handleLevelUp = async () => {
     console.log('Level up button clicked!', {
       hasRequiredXP,
       primaryClass: primaryClass?.name,
       hpGainResult,
       currentLevel: character.level,
-      nextLevel
+      nextLevel,
+      spellGainInfo,
+      selectedSpells
     });
     
-    if (!hasRequiredXP || !primaryClass || !hpGainResult) {
+    if (!canLevelUp || !hpGainResult) {
       console.log('Level up blocked:', {
         hasRequiredXP,
         hasPrimaryClass: !!primaryClass,
-        hasHpGainResult: !!hpGainResult
+        hasHpGainResult: !!hpGainResult,
+        canLevelUp
       });
       return;
     }
@@ -145,7 +285,17 @@ export default function LevelUpModal({
       // Simulate processing time
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Create updated character with new level and HP
+      // Prepare new spells if any were selected
+      let newSpells: Spell[] = [...(character.spells || [])];
+      if (spellGainInfo && Object.keys(selectedSpells).length > 0) {
+        const spellsToAdd = Object.values(selectedSpells)
+          .filter(name => name !== '')
+          .map(name => availableSpells.find(spell => spell.name === name)!)
+          .filter(Boolean);
+        newSpells = [...newSpells, ...spellsToAdd];
+      }
+
+      // Create updated character with new level, HP, and spells
       const updatedCharacter: Character = {
         ...character,
         level: nextLevel,
@@ -153,7 +303,8 @@ export default function LevelUpModal({
           ...character.hp,
           max: character.hp.max + hpGainResult.total,
           current: character.hp.max + hpGainResult.total, // Heal to new max
-        }
+        },
+        ...(newSpells.length > 0 && { spells: newSpells })
       };
 
       console.log('Calling onLevelUp with:', {
@@ -336,6 +487,102 @@ export default function LevelUpModal({
           </Card>
         )}
 
+        {/* Spell Selection */}
+        {spellGainInfo && hasRequiredXP && primaryClass && (
+          <Card variant="info" size="default">
+            <Typography variant="sectionHeading" color="amber" className="mb-4">
+              ✨ New Spells Available!
+            </Typography>
+            <Typography variant="body" color="primary" className="mb-4">
+              You gain {spellGainInfo.totalSpellsGained} new spell{spellGainInfo.totalSpellsGained > 1 ? 's' : ''} at level {nextLevel}!
+            </Typography>
+            
+            {isLoadingSpells ? (
+              <div className="flex items-center justify-center py-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-400"></div>
+                <Typography variant="bodySmall" color="secondary" className="ml-3">
+                  Loading available spells...
+                </Typography>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {organizedSpells.map((levelGroup) => (
+                  <div key={levelGroup.spellLevel} className="space-y-4">
+                    <Typography variant="subHeading" color="amber" className="border-b border-amber-700/30 pb-2">
+                      Level {levelGroup.spellLevel} Spells ({levelGroup.count} to select)
+                    </Typography>
+                    
+                    {Array.from({ length: levelGroup.count }).map((_, index) => {
+                      const selectionKey = `level-${levelGroup.spellLevel}-spell-${index}`;
+                      const currentSelection = selectedSpells[selectionKey] || '';
+                      
+                      const spellOptions = levelGroup.spells
+                        .filter(spell => {
+                          const isAlreadySelected = Object.entries(selectedSpells).some(
+                            ([key, value]) => key !== selectionKey && value === spell.name
+                          );
+                          return !isAlreadySelected || currentSelection === spell.name;
+                        })
+                        .map(spell => ({
+                          value: spell.name,
+                          label: spell.name
+                        }));
+                      
+                      return (
+                        <div key={selectionKey}>
+                          <Select
+                            label={levelGroup.count > 1 ? `Level ${levelGroup.spellLevel} Spell ${index + 1}` : `Level ${levelGroup.spellLevel} Spell`}
+                            value={currentSelection}
+                            onValueChange={(value) => handleSpellSelection(selectionKey, value)}
+                            options={spellOptions}
+                            placeholder="Choose a spell"
+                            size="sm"
+                            required
+                          />
+                          
+                          {/* Show spell details when selected */}
+                          {currentSelection && (
+                            <Card variant="nested" size="compact" className="mt-2">
+                              {(() => {
+                                const selectedSpell = levelGroup.spells.find(s => s.name === currentSelection);
+                                if (!selectedSpell) return null;
+                                
+                                return (
+                                  <div>
+                                    <div className="grid grid-cols-2 gap-2 mb-2 text-xs">
+                                      <Typography variant="caption" color="secondary">
+                                        <strong>Range:</strong> {selectedSpell.range}
+                                      </Typography>
+                                      <Typography variant="caption" color="secondary">
+                                        <strong>Duration:</strong> {selectedSpell.duration}
+                                      </Typography>
+                                    </div>
+                                    <Typography variant="caption" color="secondary" className="text-xs">
+                                      {selectedSpell.description.length > 150 
+                                        ? `${selectedSpell.description.substring(0, 150)}...` 
+                                        : selectedSpell.description}
+                                    </Typography>
+                                  </div>
+                                );
+                              })()}
+                            </Card>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+                
+                {Object.values(selectedSpells).filter(s => s !== '').length < spellGainInfo.totalSpellsGained && (
+                  <Typography variant="caption" color="amber" className="block mt-2">
+                    Please select all {spellGainInfo.totalSpellsGained} spell{spellGainInfo.totalSpellsGained > 1 ? 's' : ''} to continue.
+                  </Typography>
+                )}
+              </div>
+            )}
+          </Card>
+        )}
+
         {/* Action Buttons */}
         <div className="flex justify-end gap-3 pt-4 border-t border-zinc-700">
           <Button
@@ -349,14 +596,13 @@ export default function LevelUpModal({
             variant="primary"
             onClick={() => {
               console.log('🔥 BUTTON CLICKED DIRECTLY!', {
-                disabled: !hasRequiredXP || !hpGainResult || isProcessing,
-                hasRequiredXP,
-                hpGainResult: !!hpGainResult,
+                disabled: !canLevelUp || isProcessing,
+                canLevelUp,
                 isProcessing
               });
               handleLevelUp();
             }}
-            disabled={!hasRequiredXP || !hpGainResult || isProcessing}
+            disabled={!canLevelUp || isProcessing}
             loading={isProcessing}
             loadingText="Leveling up..."
             className="min-w-[120px]"

@@ -79,7 +79,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
       {isExpanded && (
         <div
           id={contentId}
-          className="max-h-80 overflow-y-auto bg-zinc-900 border-t border-zinc-700 p-4"
+          className="bg-zinc-900 border-t border-zinc-700 p-4"
           role="region"
           aria-labelledby={sectionId}
         >

@@ -1,5 +1,5 @@
-import { ICON_STYLES } from "@/constants";
 import React, { forwardRef, useState, useId, useEffect } from "react";
+import { Icon } from "@/components/ui";
 
 type TextInputSize = "sm" | "md" | "lg";
 
@@ -90,9 +90,14 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       // Call external onKeyDown handler first
       onKeyDown?.(event);
-      
+
       // Allow Escape key to clear the input if clear button is enabled
-      if (event.key === "Escape" && showClearButton && inputValue && !event.defaultPrevented) {
+      if (
+        event.key === "Escape" &&
+        showClearButton &&
+        inputValue &&
+        !event.defaultPrevented
+      ) {
         event.preventDefault();
         handleClear();
       }
@@ -197,19 +202,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             aria-label="Clear input"
             className={clearButtonStyles.join(" ")}
           >
-            <svg
-              className={ICON_STYLES.sm}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <Icon name="close" size="sm" aria-hidden={true} />
           </button>
         )}
       </div>

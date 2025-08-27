@@ -136,12 +136,17 @@ export default function Spells({
   }, [character]);
 
   const renderSpell = (spell: DisplayableSpell) => (
-    <div className="space-y-4" role="article" aria-labelledby={`spell-${spell.uniqueKey}-name`}>
+    <div
+      className="space-y-4"
+      role="article"
+      aria-labelledby={`spell-${spell.uniqueKey}-name`}
+    >
       {/* Hidden spell name for screen readers */}
       <h4 id={`spell-${spell.uniqueKey}-name`} className="sr-only">
-        {spell.name} - {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel} Spell`}
+        {spell.name} -{" "}
+        {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel} Spell`}
       </h4>
-      
+
       {/* Spell Details */}
       <div
         className={`grid grid-cols-1 gap-3 ${
@@ -152,13 +157,17 @@ export default function Spells({
         role="group"
         aria-labelledby={`spell-${spell.uniqueKey}-name`}
       >
-        <Card variant="nested" className="p-3">
-          <Typography variant="subHeading" className="text-zinc-300 mb-1" id={`spell-${spell.uniqueKey}-level-label`}>
+        <Card variant="nested" className="p-3!">
+          <Typography
+            variant="subHeading"
+            className="text-zinc-300 mb-1"
+            id={`spell-${spell.uniqueKey}-level-label`}
+          >
             Level
           </Typography>
           <div className="flex items-center">
-            <Badge 
-              variant="status" 
+            <Badge
+              variant="status"
               className="text-xs"
               role="text"
               aria-labelledby={`spell-${spell.uniqueKey}-level-label`}
@@ -169,24 +178,32 @@ export default function Spells({
         </Card>
         {"range" in spell && "duration" in spell && (
           <>
-            <Card variant="nested" className="p-3">
-              <Typography variant="subHeading" className="text-zinc-300 mb-1" id={`spell-${spell.uniqueKey}-range-label`}>
+            <Card variant="nested" className="p-3!">
+              <Typography
+                variant="subHeading"
+                className="text-zinc-300 mb-1"
+                id={`spell-${spell.uniqueKey}-range-label`}
+              >
                 Range
               </Typography>
-              <Typography 
-                variant="body" 
+              <Typography
+                variant="caption"
                 className="text-zinc-400"
                 aria-labelledby={`spell-${spell.uniqueKey}-range-label`}
               >
                 {"range" in spell ? String(spell.range) : ""}
               </Typography>
             </Card>
-            <Card variant="nested" className="p-3">
-              <Typography variant="subHeading" className="text-zinc-300 mb-1" id={`spell-${spell.uniqueKey}-duration-label`}>
+            <Card variant="nested" className="p-3!">
+              <Typography
+                variant="subHeading"
+                className="text-zinc-300 mb-1"
+                id={`spell-${spell.uniqueKey}-duration-label`}
+              >
                 Duration
               </Typography>
-              <Typography 
-                variant="body" 
+              <Typography
+                variant="caption"
                 className="text-zinc-400"
                 aria-labelledby={`spell-${spell.uniqueKey}-duration-label`}
               >
@@ -199,15 +216,15 @@ export default function Spells({
 
       {/* Spell Description */}
       <Card variant="nested" className="p-3">
-        <Typography 
-          variant="subHeading" 
+        <Typography
+          variant="subHeading"
           className="text-zinc-300 mb-2"
           id={`spell-${spell.uniqueKey}-description-label`}
         >
           Description
         </Typography>
-        <Typography 
-          variant="description" 
+        <Typography
+          variant="description"
           className="text-zinc-400"
           aria-labelledby={`spell-${spell.uniqueKey}-description-label`}
           role="text"
@@ -248,7 +265,10 @@ export default function Spells({
                     aria-hidden="true"
                   />
                   Spells
-                  <span className="text-sm font-normal text-zinc-400" aria-label={`${knownSpells.length} spells known`}>
+                  <span
+                    className="text-sm font-normal text-zinc-400"
+                    aria-label={`${knownSpells.length} spells known`}
+                  >
                     ({knownSpells.length})
                   </span>
                 </Typography>
@@ -278,7 +298,10 @@ export default function Spells({
                     aria-hidden="true"
                   />
                   Cantrips
-                  <span className="text-sm font-normal text-zinc-400" aria-label={`${cantrips.length} cantrips known`}>
+                  <span
+                    className="text-sm font-normal text-zinc-400"
+                    aria-label={`${cantrips.length} cantrips known`}
+                  >
                     ({cantrips.length})
                   </span>
                 </Typography>

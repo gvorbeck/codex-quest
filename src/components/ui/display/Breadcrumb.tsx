@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
+import { Icon } from "@/components/ui";
 
 interface BreadcrumbItem {
   label: string;
@@ -17,20 +18,12 @@ interface BreadcrumbProps {
 function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
   // Default separator with proper spacing and styling
   const defaultSeparator = (
-    <svg
-      className="w-4 h-4 text-zinc-500 flex-shrink-0"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 5l7 7-7 7"
-      />
-    </svg>
+    <Icon
+      name="chevron-right"
+      size="sm"
+      className="text-zinc-500 flex-shrink-0"
+      aria-hidden={true}
+    />
   );
 
   const sep = separator || defaultSeparator;
@@ -58,7 +51,7 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
                     {item.icon}
                   </span>
                 )}
-                
+
                 {isCurrent ? (
                   <span
                     className="font-medium text-amber-400"
@@ -74,7 +67,9 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
                     {item.label}
                   </Link>
                 ) : (
-                  <span className="text-zinc-400 font-medium">{item.label}</span>
+                  <span className="text-zinc-400 font-medium">
+                    {item.label}
+                  </span>
                 )}
               </div>
 
