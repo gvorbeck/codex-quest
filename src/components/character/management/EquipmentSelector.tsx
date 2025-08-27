@@ -39,8 +39,10 @@ function EquipmentSelector({ character, onEquipmentAdd }: EquipmentSelectorProps
   const renderEquipmentItem = useCallback(
     (equipment: EquipmentWithIndex) => {
       const costDisplay = `${equipment.costValue} ${equipment.costCurrency}`;
-      const weightDisplay =
-        equipment.weight > 0 ? `${equipment.weight} lbs` : "—";
+      const weightDisplay = 
+        (typeof equipment.weight === 'number' && equipment.weight > 0) 
+          ? `${equipment.weight} lbs` 
+          : "—";
 
       // Calculate cost in gold pieces for affordability check
       const costInGold = convertToGold(

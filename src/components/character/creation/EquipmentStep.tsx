@@ -6,6 +6,7 @@ import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import type { Character, Equipment } from "@/types/character";
 import { convertToGold, updateCharacterGold } from "@/utils/currency";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/gameUtils";
 import { EquipmentSelector } from "../management";
 
 interface EquipmentStepProps {
@@ -76,13 +77,15 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         return;
       }
 
-      const existingItem = character.equipment.find(
+      // Clean the equipment array first, then work with the clean array
+      const cleanedEquipment = cleanEquipmentArray(character.equipment);
+      const existingItem = cleanedEquipment.find(
         (item) => item.name === equipment.name
       );
 
       if (existingItem) {
         // Increase amount of existing item and deduct gold
-        const updatedEquipment = character.equipment.map((item) =>
+        const updatedEquipment = cleanedEquipment.map((item) =>
           item.name === equipment.name
             ? { ...item, amount: item.amount + 1 }
             : item
@@ -103,9 +106,14 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           character.currency.gold - costInGold
         );
         setStartingGold(updatedCharacter.currency.gold);
+        
+        // Clean equipment array and add new item with proper amount
+        const cleanedEquipment = cleanEquipmentArray(character.equipment);
+        const newEquipment = ensureEquipmentAmount(equipment);
+        
         onCharacterChange({
           ...updatedCharacter,
-          equipment: [...character.equipment, { ...equipment, amount: 1 }],
+          equipment: [...cleanedEquipment, newEquipment],
         });
       }
     },
@@ -114,7 +122,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
   const handleEquipmentRemove = (equipmentName: string) => {
     const existingItem = character.equipment.find(
-      (item) => item.name === equipmentName
+      (item) => item.name === equipmentName && item.amount > 0
     );
 
     if (existingItem) {
@@ -159,30 +167,33 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   };
 
   const totalWeight = useMemo(() => {
-    const weight = character.equipment.reduce(
-      (total, item) => total + item.weight * item.amount,
-      0
-    );
+    const weight = cleanEquipmentArray(character.equipment)
+      .reduce(
+        (total, item) => total + item.weight * item.amount,
+        0
+      );
     // Round to 1 decimal place to avoid floating point precision errors
     return Math.round(weight * 10) / 10;
   }, [character.equipment]);
 
   const totalValue = useMemo(() => {
-    const value = character.equipment.reduce((total, item) => {
-      const itemValueInGold = convertToGold(
-        item.costValue * item.amount,
-        item.costCurrency
-      );
-      return total + itemValueInGold;
-    }, 0);
+    const value = cleanEquipmentArray(character.equipment)
+      .reduce((total, item) => {
+        const itemValueInGold = convertToGold(
+          item.costValue * item.amount,
+          item.costCurrency
+        );
+        return total + itemValueInGold;
+      }, 0);
     // Round to 2 decimal places to avoid floating point precision errors
     return Math.round(value * 100) / 100;
   }, [character.equipment]);
 
 
   const getStatusMessage = () => {
-    if (character.currency.gold > 0 && character.equipment.length > 0) {
-      return `${character.equipment.length} items, ${character.currency.gold} gp remaining`;
+    const itemCount = cleanEquipmentArray(character.equipment).length;
+    if (character.currency.gold > 0 && itemCount > 0) {
+      return `${itemCount} items, ${character.currency.gold} gp remaining`;
     } else if (character.currency.gold > 0) {
       return `${character.currency.gold} gp available`;
     }
@@ -274,7 +285,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       <section className="mb-8">
         <Typography variant="sectionHeading">Current Equipment</Typography>
 
-        {character.equipment.length === 0 ? (
+        {cleanEquipmentArray(character.equipment).length === 0 ? (
           <Card variant="standard">
             <div className="flex items-center gap-3">
               <svg
@@ -324,7 +335,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
               </div>
 
               <div className="space-y-3 mb-6">
-                {character.equipment.map((item, index) => (
+                {cleanEquipmentArray(character.equipment).map((item, index) => (
                   <div
                     key={`${item.name}-${index}`}
                     className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4"

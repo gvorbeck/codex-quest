@@ -1,5 +1,6 @@
 import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
+import { LevelUpModal } from "@/components/character/sheet";
 import type { Character, Class } from "@/types/character";
 import { useAuth } from "@/hooks/useAuth";
 import { saveCharacter } from "@/services/characters";
@@ -48,6 +49,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   containerProps,
 }) => {
   const [inputValue, setInputValue] = useState(character.xp.toString());
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
   const { user } = useAuth();
   const componentId = useId();
   const inputId = `${componentId}-input`;
@@ -140,44 +142,62 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   };
 
   const handleLevelUp = () => {
-    alert("Level up functionality coming soon!");
+    setIsLevelUpModalOpen(true);
+  };
+
+  const handleLevelUpComplete = (updatedCharacter: Character) => {
+    // Handle the updated character data
+    if (onChange) {
+      onChange(updatedCharacter.xp);
+    }
+    setIsLevelUpModalOpen(false);
   };
 
   const isLevelUpEnabled = canLevelUp();
 
   return (
-    <div role="group" aria-labelledby={labelId} {...containerProps}>
-      {/* Screen reader accessible label */}
-      <div id={labelId} className="sr-only">
-        Experience Points Tracker
+    <>
+      <div role="group" aria-labelledby={labelId} {...containerProps}>
+        {/* Screen reader accessible label */}
+        <div id={labelId} className="sr-only">
+          Experience Points Tracker
+        </div>
+
+        <div className="flex">
+          <input
+            id={inputId}
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            onContextMenu={handleContextMenu}
+            aria-label="Experience Points"
+            aria-describedby={buttonId}
+            className="w-full transition-all duration-150 border-2 rounded-l-lg rounded-r-none border-r-0 bg-zinc-800 text-zinc-100 border-zinc-600 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:border-amber-400 focus:bg-zinc-700 px-4 py-3 text-base min-h-[44px] shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309]"
+          />
+          <Button
+            id={buttonId}
+            onClick={handleLevelUp}
+            disabled={!isLevelUpEnabled}
+            aria-label="Level up character"
+            aria-describedby={inputId}
+            className="rounded-l-none"
+          >
+            Level Up
+          </Button>
+        </div>
       </div>
 
-      <div className="flex">
-        <input
-          id={inputId}
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          onContextMenu={handleContextMenu}
-          aria-label="Experience Points"
-          aria-describedby={buttonId}
-          className="w-full transition-all duration-150 border-2 rounded-l-lg rounded-r-none border-r-0 bg-zinc-800 text-zinc-100 border-zinc-600 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:border-amber-400 focus:bg-zinc-700 px-4 py-3 text-base min-h-[44px] shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309]"
-        />
-        <Button
-          id={buttonId}
-          onClick={handleLevelUp}
-          disabled={!isLevelUpEnabled}
-          aria-label="Level up character"
-          aria-describedby={inputId}
-          className="rounded-l-none"
-        >
-          Level Up
-        </Button>
-      </div>
-    </div>
+      <LevelUpModal
+        isOpen={isLevelUpModalOpen}
+        onClose={() => setIsLevelUpModalOpen(false)}
+        character={character}
+        classes={classes}
+        onLevelUp={handleLevelUpComplete}
+      />
+    </>
   );
 };
 

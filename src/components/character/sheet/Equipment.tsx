@@ -8,6 +8,7 @@ import { EquipmentSelector } from "@/components/character/management";
 import CustomEquipmentModal from "./CustomEquipmentModal";
 import { Icon } from "@/components/ui/display/Icon";
 import { SIZE_STYLES } from "@/constants/designTokens";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/gameUtils";
 import type { Character, Equipment as EquipmentItem } from "@/types/character";
 
 interface EquipmentProps {
@@ -41,25 +42,49 @@ export default function Equipment({
   const addEquipmentToInventory = useCallback((newEquipment: EquipmentItem) => {
     if (!onEquipmentChange) return;
 
-    // Check if this equipment already exists in the character's inventory
-    const existingIndex = character.equipment.findIndex(
+    console.log('🚀 addEquipmentToInventory called with:', { 
+      name: newEquipment.name, 
+      amount: newEquipment.amount,
+      costValue: newEquipment.costValue,
+      costCurrency: newEquipment.costCurrency 
+    });
+
+    // Clean equipment array first, then work with clean data
+    const cleanedEquipment = cleanEquipmentArray(character.equipment);
+    console.log('🔍 Adding equipment:', newEquipment.name);
+    console.log('🔍 Current equipment array:', character.equipment.map(item => ({ name: item.name, amount: item.amount })));
+    console.log('🔍 Cleaned equipment array:', cleanedEquipment.map(item => ({ name: item.name, amount: item.amount })));
+    
+    const existingIndex = cleanedEquipment.findIndex(
       (item) => item.name === newEquipment.name
     );
+    
+    console.log('🔍 Found existing item at index:', existingIndex);
 
     if (existingIndex >= 0) {
+      console.log('✅ Incrementing existing item');
       // Increase amount of existing item
-      const updatedEquipment = [...character.equipment];
+      const updatedEquipment = [...cleanedEquipment];
       const existingItem = updatedEquipment[existingIndex];
+      
+      console.log('🔍 Existing item:', existingItem ? { name: existingItem.name, amount: existingItem.amount } : 'NONE');
+      
       if (existingItem) {
+        console.log('🔢 Incrementing from', existingItem.amount, 'by', newEquipment.amount, 'to', existingItem.amount + newEquipment.amount);
         updatedEquipment[existingIndex] = {
           ...existingItem,
           amount: existingItem.amount + newEquipment.amount,
         };
       }
+      
+      console.log('📦 Final updated equipment array:', updatedEquipment.map(item => ({ name: item.name, amount: item.amount })));
       onEquipmentChange(updatedEquipment);
     } else {
-      // Add new item to inventory
-      onEquipmentChange([...character.equipment, newEquipment]);
+      console.log('➕ Adding new item');
+      // Add new item with proper amount to cleaned equipment array
+      const equipmentToAdd = ensureEquipmentAmount(newEquipment);
+      
+      onEquipmentChange([...cleanedEquipment, equipmentToAdd]);
     }
   }, [character.equipment, onEquipmentChange]);
 
@@ -192,14 +217,14 @@ export default function Equipment({
   );
 
   // Prepare equipment items for the Accordion component (memoized for performance)
-  const equipmentForAccordion = useMemo(() => 
-    character.equipment.map((item, index) => ({
+  const equipmentForAccordion = useMemo(() => {
+    const cleanedEquipment = cleanEquipmentArray(character.equipment);
+    return cleanedEquipment.map((item) => ({
       ...item,
-      originalIndex: index,
+      originalIndex: character.equipment.findIndex(origItem => origItem === item),
       category: item.category || "Other",
-    })),
-    [character.equipment]
-  );
+    }));
+  }, [character.equipment]);
 
   // Render function for individual equipment items in the accordion
   const renderEquipmentItem = useCallback(
@@ -366,7 +391,7 @@ export default function Equipment({
         )}
 
         {/* Equipment List */}
-        {character.equipment.length === 0 ? (
+        {cleanEquipmentArray(character.equipment).length === 0 ? (
           <Card variant="standard" className="text-center py-8">
             <Typography variant="body" color="secondary" className="mb-4">
               No equipment found
@@ -384,7 +409,7 @@ export default function Equipment({
             sortBy="category"
             searchPlaceholder="Search equipment..."
             renderItem={renderEquipmentItem}
-            showSearch={character.equipment.length > SEARCH_THRESHOLD} // Only show search if there are many items
+            showSearch={cleanEquipmentArray(character.equipment).length > SEARCH_THRESHOLD} // Only show search if there are many items
             showCounts={true}
           />
         )}
