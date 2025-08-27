@@ -12,6 +12,8 @@ interface ExperienceTrackerProps {
   classes: Class[];
   /** Callback when XP changes */
   onChange?: (xp: number) => void;
+  /** Callback when full character updates (level up) */
+  onCharacterChange?: (character: Character) => void;
   /** Additional props for the container div */
   containerProps?: React.HTMLAttributes<HTMLDivElement>;
 }
@@ -46,6 +48,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   character,
   classes,
   onChange,
+  onCharacterChange,
   containerProps,
 }) => {
   const [inputValue, setInputValue] = useState(character.xp.toString());
@@ -145,12 +148,34 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
     setIsLevelUpModalOpen(true);
   };
 
-  const handleLevelUpComplete = (updatedCharacter: Character) => {
-    // Handle the updated character data
-    if (onChange) {
-      onChange(updatedCharacter.xp);
+  const handleLevelUpComplete = async (updatedCharacter: Character) => {
+    console.log('ExperienceTracker: handleLevelUpComplete called with:', {
+      oldLevel: character.level,
+      newLevel: updatedCharacter.level,
+      oldMaxHp: character.hp.max,
+      newMaxHp: updatedCharacter.hp.max,
+      hasUser: !!user,
+      hasCharacterId: !!character.id,
+      hasOnCharacterChange: !!onCharacterChange,
+      hasOnChange: !!onChange
+    });
+
+    try {
+      // Call the character change callback to update the parent component
+      // This should handle both local state update and Firebase save via useFirebaseSheet
+      if (onCharacterChange) {
+        console.log('Calling onCharacterChange...');
+        await onCharacterChange(updatedCharacter);
+        console.log('✅ Level up save completed successfully!');
+      }
+      
+      // DON'T call onChange for level ups - it would overwrite the full character update
+      // onChange is only for XP-only changes, not full character updates
+    } catch (error) {
+      console.error("Failed to update character after level up:", error);
+    } finally {
+      setIsLevelUpModalOpen(false);
     }
-    setIsLevelUpModalOpen(false);
   };
 
   const isLevelUpEnabled = canLevelUp();

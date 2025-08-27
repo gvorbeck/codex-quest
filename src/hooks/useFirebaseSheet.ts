@@ -50,16 +50,32 @@ export function useFirebaseSheet<T extends Record<string, any>>({
 
   // Update entity with optimistic updates and error handling
   const updateEntity = useCallback(async (updatedData: T, optimistic: boolean = true) => {
+    console.log('🔥 useFirebaseSheet: updateEntity called', {
+      userId,
+      entityId,
+      isOwner,
+      collection,
+      hasUpdatedData: !!updatedData,
+      updatedDataKeys: updatedData ? Object.keys(updatedData) : []
+    });
+
     if (!userId || !entityId || !isOwner) {
+      console.error('🔥 useFirebaseSheet: Unauthorized access attempt', {
+        userId,
+        entityId,
+        isOwner
+      });
       return;
     }
 
     const previousData = data;
     setIsUpdating(true);
+    console.log('🔥 useFirebaseSheet: Starting update process');
 
     try {
       // Optimistic update
       if (optimistic) {
+        console.log('🔥 useFirebaseSheet: Applying optimistic update');
         setData(updatedData);
       }
       
@@ -77,18 +93,40 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         entityId
       );
 
+      console.log('🔥 useFirebaseSheet: Firebase document path:', {
+        users: FIREBASE_COLLECTIONS.USERS,
+        userId,
+        collection: FIREBASE_COLLECTIONS[collection],
+        entityId,
+        fullPath: `${FIREBASE_COLLECTIONS.USERS}/${userId}/${FIREBASE_COLLECTIONS[collection]}/${entityId}`
+      });
+
       // Create a clean object without the id field for Firebase
       const cleanData = { ...updatedData };
       if ("id" in cleanData) {
         delete cleanData["id"];
       }
 
+      console.log('🔥 useFirebaseSheet: About to save to Firebase:', {
+        cleanDataKeys: Object.keys(cleanData),
+        level: cleanData['level'],
+        hpMax: cleanData['hp']?.['max'],
+        hpCurrent: cleanData['hp']?.['current']
+      });
+
       await updateDoc(entityRef, cleanData);
+      console.log('🔥 useFirebaseSheet: Firebase save successful!');
     } catch (err) {
-      console.error(`Error updating ${collection}:`, err);
+      console.error(`🔥 useFirebaseSheet: Error updating ${collection}:`, err);
+      console.error('🔥 useFirebaseSheet: Full error details:', {
+        errorMessage: err instanceof Error ? err.message : 'Unknown error',
+        errorCode: (err as any)?.code,
+        errorDetails: (err as any)?.details
+      });
       
       // Revert to previous state on error
       if (optimistic && previousData) {
+        console.log('🔥 useFirebaseSheet: Reverting to previous state');
         setData(previousData);
       }
       
@@ -101,6 +139,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
       }, 5000);
     } finally {
       setIsUpdating(false);
+      console.log('🔥 useFirebaseSheet: Update process completed');
     }
   }, [userId, entityId, isOwner, data, error, collection]);
 

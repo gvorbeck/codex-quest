@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Modal } from "@/components/ui/feedback";
 import { Button } from "@/components/ui";
+import Card from "@/components/ui/design-system/Card";
+import Typography from "@/components/ui/design-system/Typography";
+import { roller } from "@/utils/dice";
 import type { Character, Class } from "@/types/character";
 
 interface LevelUpModalProps {
@@ -11,12 +14,12 @@ interface LevelUpModalProps {
   onLevelUp?: (updatedCharacter: Character) => void;
 }
 
-export default function LevelUpModal({ 
-  isOpen, 
-  onClose, 
-  character, 
+export default function LevelUpModal({
+  isOpen,
+  onClose,
+  character,
   classes,
-  onLevelUp 
+  onLevelUp,
 }: LevelUpModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -24,18 +27,19 @@ export default function LevelUpModal({
   const getPrimaryClass = () => {
     const primaryClassId = character.class[0];
     if (!primaryClassId) return null;
-    
+
     // Try exact match first, then case-insensitive match for legacy data
-    let primaryClass = classes.find(c => c.id === primaryClassId);
-    
+    let primaryClass = classes.find((c) => c.id === primaryClassId);
+
     if (!primaryClass) {
       // Try case-insensitive match (for migrated data)
-      primaryClass = classes.find(c => 
-        c.id.toLowerCase() === primaryClassId.toLowerCase() ||
-        c.name.toLowerCase() === primaryClassId.toLowerCase()
+      primaryClass = classes.find(
+        (c) =>
+          c.id.toLowerCase() === primaryClassId.toLowerCase() ||
+          c.name.toLowerCase() === primaryClassId.toLowerCase()
       );
     }
-    
+
     return primaryClass;
   };
 
@@ -45,33 +49,128 @@ export default function LevelUpModal({
   const requiredXP = primaryClass?.experienceTable[nextLevel];
   const hasRequiredXP = requiredXP !== undefined && character.xp >= requiredXP;
 
-  const handleLevelUp = async () => {
-    if (!hasRequiredXP || !primaryClass) return;
+  // Generate HP gain calculation when modal opens and character is eligible (memoized to prevent recalculation)
+  const hpGainResult = useMemo(() => {
+    console.log('useMemo: Calculating HP gain result', {
+      hasPrimaryClass: !!primaryClass,
+      hasRequiredXP,
+      hitDie: primaryClass?.hitDie,
+      currentLevel: character.level,
+      nextLevel: nextLevel,
+      constitutionModifier: character.abilities.constitution.modifier,
+      isOpen
+    });
     
-    setIsProcessing(true);
+    if (!primaryClass || !hasRequiredXP || !isOpen) {
+      console.log('useMemo: returning null due to missing requirements');
+      return null;
+    }
+    
+    const hitDie = primaryClass.hitDie; // e.g., "1d8"
+    const dieParts = hitDie.split('d');
+    if (dieParts.length !== 2) {
+      console.log('useMemo: invalid hit die format:', hitDie);
+      return null;
+    }
+    const dieType = parseInt(dieParts[1] || '6', 10); // Extract die size (8 from "1d8"), default to 6
+    const constitutionModifier = character.abilities.constitution.modifier;
     
     try {
-      // This is where the actual level up logic will go
-      // For now, just show that it's a placeholder
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate processing
-      
-      // Future implementation will:
-      // 1. Increase character level
-      // 2. Roll for HP gain
-      // 3. Check for new spell slots
-      // 4. Check for class abilities
-      // 5. Update character data
-      
-      console.log("Level up processing would happen here");
-      
-      // For now, just call the callback with the current character
-      // In the future, this will be the updated character with new level
-      if (onLevelUp) {
-        onLevelUp(character);
+      // After level 9, characters get fixed HP as shown in advancement table
+      if (character.level >= 9) {
+        const className = primaryClass.name.toLowerCase();
+        let fixedHpGain = 1; // Default +1 HP per level
+        
+        // Classes that get +2 HP per level after 9th level
+        const twoHpClasses = ['fighter', 'thief', 'assassin', 'barbarian', 'ranger', 'paladin', 'scout'];
+        if (twoHpClasses.includes(className)) {
+          fixedHpGain = 2;
+        }
+        
+        const result = {
+          roll: null, // No rolling after level 9
+          constitutionBonus: null, // No Constitution bonus after level 9
+          total: fixedHpGain,
+          max: null,
+          breakdown: `Fixed HP gain (level ${nextLevel}): ${fixedHpGain}`,
+          isFixed: true
+        };
+        
+        console.log('useMemo: fixed HP gain result:', result);
+        return result;
       }
       
-      onClose();
+      // Levels 1-9: Roll hit die and add Constitution modifier
+      const diceResult = roller(hitDie);
+      const totalGain = Math.max(1, diceResult.total + constitutionModifier); // Minimum 1 HP gain
       
+      const result = {
+        roll: diceResult.total,
+        constitutionBonus: constitutionModifier,
+        total: totalGain,
+        max: dieType + constitutionModifier,
+        breakdown: `${diceResult.breakdown} + ${constitutionModifier} (Con) = ${totalGain}`,
+        isFixed: false
+      };
+      
+      console.log('useMemo: rolled HP gain result:', result);
+      return result;
+    } catch (error) {
+      console.error('Error calculating HP gain:', error);
+      return null;
+    }
+  }, [hasRequiredXP, primaryClass, character.abilities.constitution.modifier, character.level, nextLevel, isOpen]);
+
+  const handleLevelUp = async () => {
+    console.log('Level up button clicked!', {
+      hasRequiredXP,
+      primaryClass: primaryClass?.name,
+      hpGainResult,
+      currentLevel: character.level,
+      nextLevel
+    });
+    
+    if (!hasRequiredXP || !primaryClass || !hpGainResult) {
+      console.log('Level up blocked:', {
+        hasRequiredXP,
+        hasPrimaryClass: !!primaryClass,
+        hasHpGainResult: !!hpGainResult
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Simulate processing time
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Create updated character with new level and HP
+      const updatedCharacter: Character = {
+        ...character,
+        level: nextLevel,
+        hp: {
+          ...character.hp,
+          max: character.hp.max + hpGainResult.total,
+          current: character.hp.max + hpGainResult.total, // Heal to new max
+        }
+      };
+
+      console.log('Calling onLevelUp with:', {
+        oldLevel: character.level,
+        newLevel: updatedCharacter.level,
+        oldMaxHp: character.hp.max,
+        newMaxHp: updatedCharacter.hp.max,
+        hpGain: hpGainResult.total
+      });
+
+      if (onLevelUp) {
+        onLevelUp(updatedCharacter);
+      } else {
+        console.warn('No onLevelUp callback provided!');
+      }
+
+      onClose();
     } catch (error) {
       console.error("Level up failed:", error);
     } finally {
@@ -94,56 +193,147 @@ export default function LevelUpModal({
     >
       <div className="space-y-6">
         {/* Current Status */}
-        <div className="bg-zinc-800 rounded-lg p-4 border border-zinc-600">
-          <h3 className="text-lg font-semibold text-zinc-100 mb-3">Current Status</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-zinc-400">Current Level:</span>
-              <span className="text-zinc-100 ml-2 font-semibold">{currentLevel}</span>
+        <Card variant="standard" size="default">
+          <Typography variant="sectionHeading" className="mb-4">
+            Current Status
+          </Typography>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex justify-between">
+              <Typography variant="bodySmall" color="secondary">
+                Current Level:
+              </Typography>
+              <Typography variant="bodySmall" weight="semibold">
+                {currentLevel}
+              </Typography>
             </div>
-            <div>
-              <span className="text-zinc-400">Current XP:</span>
-              <span className="text-zinc-100 ml-2 font-semibold">{character.xp.toLocaleString()}</span>
+            <div className="flex justify-between">
+              <Typography variant="bodySmall" color="secondary">
+                Current XP:
+              </Typography>
+              <Typography variant="bodySmall" weight="semibold">
+                {character.xp.toLocaleString()}
+              </Typography>
             </div>
-            <div>
-              <span className="text-zinc-400">Class:</span>
-              <span className="text-zinc-100 ml-2 font-semibold">{primaryClass?.name || "Unknown"}</span>
+            <div className="flex justify-between">
+              <Typography variant="bodySmall" color="secondary">
+                Class:
+              </Typography>
+              <Typography variant="bodySmall" weight="semibold">
+                {primaryClass?.name || "Unknown"}
+              </Typography>
             </div>
-            <div>
-              <span className="text-zinc-400">Next Level XP:</span>
-              <span className="text-zinc-100 ml-2 font-semibold">
+            <div className="flex justify-between">
+              <Typography variant="bodySmall" color="secondary">
+                Next Level XP:
+              </Typography>
+              <Typography variant="bodySmall" weight="semibold">
                 {requiredXP ? requiredXP.toLocaleString() : "Max Level"}
-              </span>
+              </Typography>
+            </div>
+            <div className="flex justify-between">
+              <Typography variant="bodySmall" color="secondary">
+                Current HP:
+              </Typography>
+              <Typography variant="bodySmall" weight="semibold">
+                {character.hp.current}/{character.hp.max}
+              </Typography>
+            </div>
+            <div className="flex justify-between">
+              <Typography variant="bodySmall" color="secondary">
+                Hit Die:
+              </Typography>
+              <Typography variant="bodySmall" weight="semibold">
+                {primaryClass?.hitDie || "N/A"}
+              </Typography>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Level Up Preview */}
-        {hasRequiredXP && primaryClass ? (
-          <div className="bg-amber-900/20 border border-amber-600/30 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-amber-100 mb-3 flex items-center gap-2">
-              <span>🎉</span>
-              Ready to Level Up!
-            </h3>
-            <div className="space-y-2 text-sm text-amber-100">
-              <p>Your character is ready to advance to level {nextLevel}!</p>
-              <p className="text-amber-200/80">
-                <strong>Note:</strong> This is a placeholder implementation. 
-                The full level up process will include HP rolls, spell slot updates, 
-                and class feature unlocks.
-              </p>
+        {hasRequiredXP && primaryClass && hpGainResult ? (
+          <Card variant="success" size="default">
+            <Typography variant="sectionHeading" color="lime" className="mb-4">
+              🎉 Ready to Level Up!
+            </Typography>
+            <div className="space-y-4">
+              <Typography variant="body" color="primary">
+                Your character is ready to advance to level {nextLevel}!
+              </Typography>
+              
+              {/* HP Gain Preview */}
+              <Card variant="nested" size="compact">
+                <Typography variant="subHeading" color="amber" className="mb-2">
+                  Hit Points Gain
+                </Typography>
+                <div className="space-y-2">
+                  {hpGainResult.isFixed ? (
+                    // Fixed HP gain (levels 10+)
+                    <>
+                      <div className="flex justify-between items-center">
+                        <Typography variant="bodySmall" color="secondary">
+                          Fixed HP Gain:
+                        </Typography>
+                        <Typography variant="bodySmall" weight="semibold">
+                          +{hpGainResult.total} HP
+                        </Typography>
+                      </div>
+                      <Typography variant="caption" color="secondary">
+                        {hpGainResult.breakdown}
+                      </Typography>
+                    </>
+                  ) : (
+                    // Rolled HP gain (levels 1-9)
+                    <>
+                      <div className="flex justify-between items-center">
+                        <Typography variant="bodySmall" color="secondary">
+                          Roll ({primaryClass.hitDie}):
+                        </Typography>
+                        <Typography variant="bodySmall" weight="semibold">
+                          {hpGainResult.roll}
+                        </Typography>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <Typography variant="bodySmall" color="secondary">
+                          Constitution Bonus:
+                        </Typography>
+                        <Typography variant="bodySmall" weight="semibold">
+                          {hpGainResult.constitutionBonus !== null && hpGainResult.constitutionBonus >= 0 ? '+' : ''}{hpGainResult.constitutionBonus}
+                        </Typography>
+                      </div>
+                    </>
+                  )}
+                  <div className="flex justify-between items-center border-t border-amber-700/30 pt-2">
+                    <Typography variant="bodySmall" color="amber" weight="semibold">
+                      Total HP Gain:
+                    </Typography>
+                    <Typography variant="bodySmall" color="amber" weight="bold">
+                      +{hpGainResult.total} HP
+                    </Typography>
+                  </div>
+                  <Typography variant="caption" color="secondary">
+                    New HP: {character.hp.max} → {character.hp.max + hpGainResult.total}
+                  </Typography>
+                </div>
+              </Card>
+
+              <Typography variant="bodySmall" color="muted">
+                Note: This will also heal your character to full HP.
+              </Typography>
             </div>
-          </div>
+          </Card>
         ) : (
-          <div className="bg-zinc-800/50 border border-zinc-600 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-zinc-300 mb-3">Level Up Requirements</h3>
-            <p className="text-zinc-400 text-sm">
-              {requiredXP 
-                ? `You need ${(requiredXP - character.xp).toLocaleString()} more XP to reach level ${nextLevel}.`
-                : "You have reached the maximum level for this class."
-              }
-            </p>
-          </div>
+          <Card variant="standard" size="default">
+            <Typography variant="sectionHeading" className="mb-4">
+              Level Up Requirements
+            </Typography>
+            <Typography variant="body" color="secondary">
+              {requiredXP
+                ? `You need ${(
+                    requiredXP - character.xp
+                  ).toLocaleString()} more XP to reach level ${nextLevel}.`
+                : "You have reached the maximum level for this class."}
+            </Typography>
+          </Card>
         )}
 
         {/* Action Buttons */}
@@ -157,10 +347,18 @@ export default function LevelUpModal({
           </Button>
           <Button
             variant="primary"
-            onClick={handleLevelUp}
-            disabled={!hasRequiredXP || isProcessing}
+            onClick={() => {
+              console.log('🔥 BUTTON CLICKED DIRECTLY!', {
+                disabled: !hasRequiredXP || !hpGainResult || isProcessing,
+                hasRequiredXP,
+                hpGainResult: !!hpGainResult,
+                isProcessing
+              });
+              handleLevelUp();
+            }}
+            disabled={!hasRequiredXP || !hpGainResult || isProcessing}
             loading={isProcessing}
-            loadingText="Processing..."
+            loadingText="Leveling up..."
             className="min-w-[120px]"
           >
             {hasRequiredXP ? "Level Up!" : "Not Ready"}

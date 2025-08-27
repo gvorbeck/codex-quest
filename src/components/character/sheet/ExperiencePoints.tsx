@@ -10,6 +10,7 @@ interface ExperiencePointsProps {
   classes: Class[];
   editable?: boolean;
   onChange?: (xp: number) => void;
+  onCharacterChange?: (character: Character) => void;
   className?: string;
   size?: "sm" | "md" | "lg";
 }
@@ -22,6 +23,7 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
       classes,
       editable = false,
       onChange,
+      onCharacterChange,
       className = "",
       size = "md",
     },
@@ -51,6 +53,7 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
               character={character}
               classes={classes}
               {...(onChange && { onChange })}
+              {...(onCharacterChange && { onCharacterChange })}
             />
           ) : (
             <div className="text-center">

@@ -79,7 +79,22 @@ export default function CharacterDefense({ character, className = "", size = "md
     // Extract die type from hitDie string (e.g., "1d8" -> "d8")
     const dieType = characterClass.hitDie.substring(1); // Remove the "1" at the beginning
     
-    // Multiply by level
+    // Handle levels above 9 - cap at 9 dice and add flat bonus
+    if (character.level > 9) {
+      const className = characterClass.name.toLowerCase();
+      let hpPerLevel = 1; // Default +1 HP per level
+      
+      // Classes that get +2 HP per level after 9th level
+      const twoHpClasses = ['fighter', 'thief', 'assassin', 'barbarian', 'ranger', 'paladin', 'scout'];
+      if (twoHpClasses.includes(className)) {
+        hpPerLevel = 2;
+      }
+      
+      const bonusHitPoints = (character.level - 9) * hpPerLevel;
+      return `9${dieType}+${bonusHitPoints}`;
+    }
+    
+    // For levels 1-9, multiply by level
     const result = `${character.level}${dieType}`;
     return result;
   }, [character.class, character.level]);

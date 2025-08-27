@@ -298,11 +298,11 @@ export default function Weight({
             ) : (
               <>
                 <div className="flex justify-between text-zinc-400">
-                  <span>Light Load:</span>
+                  <span>Light Load Max:</span>
                   <span className="font-mono">{pcCapacity.light} lbs</span>
                 </div>
                 <div className="flex justify-between text-zinc-400">
-                  <span>Heavy Load:</span>
+                  <span>Heavy Load Max:</span>
                   <span className="font-mono">{pcCapacity.heavy} lbs</span>
                 </div>
               </>

@@ -62,8 +62,16 @@ export default function CharacterSheet() {
 
   // Handle character changes (for avatar, etc.)
   const handleCharacterChange = useCallback(async (updatedCharacter: Character) => {
+    console.log('CharacterSheet: handleCharacterChange called with:', {
+      oldLevel: character?.level,
+      newLevel: updatedCharacter.level,
+      oldMaxHp: character?.hp.max,
+      newMaxHp: updatedCharacter.hp.max
+    });
+    console.log('CharacterSheet: About to call updateCharacter...');
     await updateCharacter(updatedCharacter);
-  }, [updateCharacter]);
+    console.log('CharacterSheet: updateCharacter completed');
+  }, [updateCharacter, character]);
 
   // Handle ability score changes
   const handleAbilityChange = useCallback((abilityKey: string, value: number) => {
@@ -240,6 +248,7 @@ export default function CharacterSheet() {
                     classes={allClasses}
                     editable={!!isOwner}
                     onChange={handleXPChange}
+                    onCharacterChange={handleCharacterChange}
                   />
                 </div>
                 <div className="break-inside-avoid mb-6">
