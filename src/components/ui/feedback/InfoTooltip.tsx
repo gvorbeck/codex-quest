@@ -1,10 +1,14 @@
 import { Tooltip } from "@/components/ui/feedback";
 import { Icon, type IconName } from "@/components/ui/display/Icon";
 import type { PositioningOptions } from "@/utils/tooltipUtils";
+import type { ReactNode } from "react";
+
+// Default styles for consistent theming
+const DEFAULT_ICON_STYLES = "text-zinc-500 hover:text-zinc-300 cursor-help transition-colors duration-200";
 
 interface InfoTooltipProps {
   /** The content to show in the tooltip */
-  content: string;
+  content: string | ReactNode;
   /** Additional CSS classes for the wrapper */
   className?: string;
   /** Icon name to display */
@@ -39,7 +43,7 @@ export default function InfoTooltip({
   disabled = false,
   ariaLabel = "More information"
 }: InfoTooltipProps) {
-  const finalIconClassName = iconClassName || `text-zinc-500 hover:text-zinc-300 cursor-help ${className}`;
+  const finalIconClassName = iconClassName || `${DEFAULT_ICON_STYLES} ${className}`;
   
   return (
     <Tooltip 
@@ -48,13 +52,19 @@ export default function InfoTooltip({
       positioningOptions={positioningOptions}
       disabled={disabled}
     >
-      <Icon
-        name={iconName}
-        size={iconSize}
-        className={finalIconClassName}
+      <div
+        role="button"
+        tabIndex={0}
         aria-label={ariaLabel}
-        title={ariaLabel} // Fallback for older browsers
-      />
+        className="inline-block"
+      >
+        <Icon
+          name={iconName}
+          size={iconSize}
+          className={finalIconClassName}
+          title={ariaLabel} // Fallback for older browsers
+        />
+      </div>
     </Tooltip>
   );
 }

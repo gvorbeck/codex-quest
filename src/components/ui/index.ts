@@ -10,3 +10,4 @@ export * from "./design-system";
 export { AppHeader } from "./AppHeader";
 export { AppFooter } from "./AppFooter";
 export { AppRoutes } from "./AppRoutes";
+export { default as LoadingSpinner } from "./LoadingSpinner";

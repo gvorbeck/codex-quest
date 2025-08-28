@@ -7,9 +7,46 @@ import {
   type PositioningOptions 
 } from "@/utils/tooltipUtils";
 
+// Constants
+const POSITIONING_DELAY = 0;
+const THROTTLE_DELAY = 16; // 60fps
+const TOOLTIP_Z_INDEX = 9999;
+
+/**
+ * Throttle function to limit the rate of function execution
+ * @param func - Function to throttle
+ * @param delay - Delay in milliseconds
+ * @returns Throttled function
+ */
+const throttle = <T extends (...args: unknown[]) => void>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: NodeJS.Timeout | null = null;
+  let lastExecTime = 0;
+  
+  return (...args: Parameters<T>) => {
+    const currentTime = Date.now();
+    
+    if (currentTime - lastExecTime > delay) {
+      func(...args);
+      lastExecTime = currentTime;
+    } else {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+        lastExecTime = Date.now();
+        timeoutId = null;
+      }, delay - (currentTime - lastExecTime));
+    }
+  };
+};
+
 interface TooltipProps {
   /** The content to show in the tooltip */
-  content: string;
+  content: string | ReactNode;
   /** The element that triggers the tooltip */
   children: ReactNode;
   /** Additional CSS classes for the tooltip */
@@ -106,32 +143,29 @@ const Tooltip: React.FC<TooltipProps> = ({
     },
   }), []);
 
-  // Update position when tooltip becomes visible or content changes
-  useLayoutEffect(() => {
-    if (isVisible && !disabled) {
-      // Small delay to ensure tooltip is fully rendered with correct dimensions
-      const timeoutId = setTimeout(updatePosition, 0);
-      return () => clearTimeout(timeoutId);
-    }
-    return undefined;
-  }, [isVisible, content, updatePosition, disabled]);
+  // Memoized throttled resize handler for better performance
+  const throttledUpdatePosition = useMemo(
+    () => throttle(updatePosition, THROTTLE_DELAY),
+    [updatePosition]
+  );
 
-  // Handle viewport resize for responsive positioning
+  // Combined effect for positioning and viewport changes
   useLayoutEffect(() => {
     if (!isVisible || disabled) return undefined;
 
-    const handleResize = () => {
-      updatePosition();
-    };
+    // Initial positioning with delay to ensure DOM is ready
+    const initialPositionTimeout = setTimeout(updatePosition, POSITIONING_DELAY);
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', handleResize, { passive: true });
+    // Set up resize and scroll listeners with throttling
+    window.addEventListener('resize', throttledUpdatePosition);
+    window.addEventListener('scroll', throttledUpdatePosition, { passive: true });
     
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleResize);
+      clearTimeout(initialPositionTimeout);
+      window.removeEventListener('resize', throttledUpdatePosition);
+      window.removeEventListener('scroll', throttledUpdatePosition);
     };
-  }, [isVisible, updatePosition, disabled]);
+  }, [isVisible, disabled, updatePosition, throttledUpdatePosition]);
 
   // Handle escape key for better keyboard navigation
   useEffect(() => {
@@ -149,7 +183,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   }, [isVisible]);
 
   // Don't render tooltip if disabled or content is empty
-  if (disabled || !content.trim()) {
+  if (disabled || (typeof content === 'string' && !content.trim()) || !content) {
     return <>{children}</>;
   }
 
@@ -158,10 +192,11 @@ const Tooltip: React.FC<TooltipProps> = ({
       ref={tooltipRef}
       id={tooltipId}
       role="tooltip"
-      className={`fixed z-[9999] px-3 py-2 text-sm text-zinc-100 bg-zinc-700 border border-zinc-600 rounded-lg shadow-lg pointer-events-none whitespace-nowrap transform -translate-x-1/2 transition-opacity duration-200 ${className}`}
+      className={`fixed px-3 py-2 text-sm text-zinc-100 bg-zinc-700 border border-zinc-600 rounded-lg shadow-lg pointer-events-none transform -translate-x-1/2 transition-opacity duration-200 ${className}`}
       style={{
         top: position.top,
         left: position.left,
+        zIndex: TOOLTIP_Z_INDEX,
       }}
       aria-hidden={!isVisible}
     >

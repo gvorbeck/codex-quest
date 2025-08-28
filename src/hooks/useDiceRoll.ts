@@ -2,6 +2,19 @@ import { useCallback } from "react";
 import { roller } from "@/utils/dice";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
 
+// Constants for dice rolling
+const CRITICAL_SUCCESS = 20;
+const CRITICAL_FAILURE = 1;
+
+/**
+ * Formats a dice formula with bonus modifier
+ * @param bonus - The modifier to add to the dice roll
+ * @returns Formatted dice formula string (e.g., "1d20+3" or "1d20-2")
+ */
+const formatDiceFormula = (bonus: number): string => {
+  return `1d20${bonus >= 0 ? "+" : ""}${bonus}`;
+};
+
 interface AttackRollOptions {
   type: "attack";
   bonusType: string;
@@ -12,6 +25,7 @@ interface SavingThrowRollOptions {
   type: "savingThrow";
   saveName: string;
   targetNumber: number;
+  modifier?: number;
 }
 
 interface AbilityRollOptions {
@@ -33,7 +47,7 @@ export function useDiceRoll() {
         if (options.type === "attack") {
           const { bonusType, bonus } = options;
           const total = roll.total + bonus;
-          const formula = `1d20${bonus >= 0 ? "+" : ""}${bonus}`;
+          const formula = formatDiceFormula(bonus);
 
           notifications.showSuccess(
             `${bonusType} Attack: ${formula} = ${roll.total}${
@@ -44,11 +58,19 @@ export function useDiceRoll() {
             }
           );
         } else if (options.type === "savingThrow") {
-          const { saveName, targetNumber } = options;
-          const isSuccess = roll.total >= targetNumber || roll.total === 20;
-          const isCriticalFailure = roll.total === 1;
+          const { saveName, targetNumber, modifier } = options;
+          const actualModifier = modifier ?? 0;
+          const total = roll.total + actualModifier;
+          const isSuccess = total >= targetNumber || roll.total === CRITICAL_SUCCESS;
+          const isCriticalFailure = roll.total === CRITICAL_FAILURE;
 
-          let resultMessage = `${saveName}: 1d20 = ${roll.total} vs target ${targetNumber}`;
+          let resultMessage;
+          if (actualModifier !== 0) {
+            const formula = formatDiceFormula(actualModifier);
+            resultMessage = `${saveName}: ${formula} = ${roll.total}${actualModifier >= 0 ? "+" : ""}${actualModifier} = ${total} vs target ${targetNumber}`;
+          } else {
+            resultMessage = `${saveName}: 1d20 = ${roll.total} vs target ${targetNumber}`;
+          }
           
           if (isCriticalFailure) {
             resultMessage += " - Critical Failure!";
@@ -69,7 +91,7 @@ export function useDiceRoll() {
         } else if (options.type === "ability") {
           const { abilityName, modifier } = options;
           const total = roll.total + modifier;
-          const formula = `1d20${modifier >= 0 ? "+" : ""}${modifier}`;
+          const formula = formatDiceFormula(modifier);
 
           notifications.showSuccess(
             `${abilityName} Check: ${formula} = ${roll.total}${
@@ -97,8 +119,18 @@ export function useDiceRoll() {
   );
 
   const rollSavingThrow = useCallback(
-    (saveName: string, targetNumber: number) => {
-      rollDice({ type: "savingThrow", saveName, targetNumber });
+    (saveName: string, targetNumber: number, modifier?: number) => {
+      const rollOptions: SavingThrowRollOptions = {
+        type: "savingThrow",
+        saveName,
+        targetNumber,
+      };
+      
+      if (modifier !== undefined) {
+        rollOptions.modifier = modifier;
+      }
+      
+      rollDice(rollOptions);
     },
     [rollDice]
   );

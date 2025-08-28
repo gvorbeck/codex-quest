@@ -3,7 +3,216 @@ import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { InfoTooltip } from "@/components/ui/feedback";
+import { calculateModifier } from "@/utils/gameUtils";
 import type { Character } from "@/types/character";
+
+// Constants
+const MIN_SAVING_THROW = 1;
+
+// BFRPG Saving Throw Tables by Class and Level
+// Format: [Death Ray/Poison, Magic Wands, Paralysis/Petrify, Dragon Breath, Spells]
+type SavingThrowEntry = {
+  minLevel: number;
+  saves: [number, number, number, number, number];
+};
+
+type SavingThrowTable = {
+  [className: string]: SavingThrowEntry[];
+};
+
+/**
+ * Base saving throw tables for all BFRPG classes
+ * Tables are ordered from highest to lowest level for efficient lookup
+ */
+const SAVING_THROW_TABLES: SavingThrowTable = {
+  cleric: [
+    { minLevel: 20, saves: [5, 6, 9, 11, 10] },
+    { minLevel: 18, saves: [6, 7, 9, 11, 10] },
+    { minLevel: 16, saves: [6, 7, 10, 12, 11] },
+    { minLevel: 14, saves: [7, 8, 10, 12, 11] },
+    { minLevel: 12, saves: [7, 8, 11, 13, 12] },
+    { minLevel: 10, saves: [8, 9, 11, 13, 12] },
+    { minLevel: 8, saves: [8, 9, 12, 14, 13] },
+    { minLevel: 6, saves: [9, 10, 12, 14, 13] },
+    { minLevel: 4, saves: [9, 10, 13, 15, 14] },
+    { minLevel: 2, saves: [10, 11, 13, 15, 14] },
+    { minLevel: 1, saves: [11, 12, 14, 16, 15] },
+  ],
+  druid: [
+    { minLevel: 20, saves: [5, 6, 9, 11, 10] },
+    { minLevel: 18, saves: [6, 7, 9, 11, 10] },
+    { minLevel: 16, saves: [6, 7, 10, 12, 11] },
+    { minLevel: 14, saves: [7, 8, 10, 12, 11] },
+    { minLevel: 12, saves: [7, 8, 11, 13, 12] },
+    { minLevel: 10, saves: [8, 9, 11, 13, 12] },
+    { minLevel: 8, saves: [8, 9, 12, 14, 13] },
+    { minLevel: 6, saves: [9, 10, 12, 14, 13] },
+    { minLevel: 4, saves: [9, 10, 13, 15, 14] },
+    { minLevel: 2, saves: [10, 11, 13, 15, 14] },
+    { minLevel: 1, saves: [11, 12, 14, 16, 15] },
+  ],
+  "magic-user": [
+    { minLevel: 20, saves: [8, 6, 5, 11, 8] },
+    { minLevel: 18, saves: [9, 7, 6, 11, 9] },
+    { minLevel: 16, saves: [9, 8, 7, 12, 9] },
+    { minLevel: 14, saves: [10, 9, 8, 12, 10] },
+    { minLevel: 12, saves: [10, 10, 9, 13, 11] },
+    { minLevel: 10, saves: [11, 10, 9, 13, 11] },
+    { minLevel: 8, saves: [11, 11, 10, 14, 12] },
+    { minLevel: 6, saves: [12, 12, 11, 14, 13] },
+    { minLevel: 4, saves: [12, 13, 12, 15, 13] },
+    { minLevel: 2, saves: [13, 14, 13, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+  illusionist: [
+    { minLevel: 20, saves: [8, 6, 5, 11, 8] },
+    { minLevel: 18, saves: [9, 7, 6, 11, 9] },
+    { minLevel: 16, saves: [9, 8, 7, 12, 9] },
+    { minLevel: 14, saves: [10, 9, 8, 12, 10] },
+    { minLevel: 12, saves: [10, 10, 9, 13, 11] },
+    { minLevel: 10, saves: [11, 10, 9, 13, 11] },
+    { minLevel: 8, saves: [11, 11, 10, 14, 12] },
+    { minLevel: 6, saves: [12, 12, 11, 14, 13] },
+    { minLevel: 4, saves: [12, 13, 12, 15, 13] },
+    { minLevel: 2, saves: [13, 14, 13, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+  necromancer: [
+    { minLevel: 20, saves: [8, 6, 5, 11, 8] },
+    { minLevel: 18, saves: [9, 7, 6, 11, 9] },
+    { minLevel: 16, saves: [9, 8, 7, 12, 9] },
+    { minLevel: 14, saves: [10, 9, 8, 12, 10] },
+    { minLevel: 12, saves: [10, 10, 9, 13, 11] },
+    { minLevel: 10, saves: [11, 10, 9, 13, 11] },
+    { minLevel: 8, saves: [11, 11, 10, 14, 12] },
+    { minLevel: 6, saves: [12, 12, 11, 14, 13] },
+    { minLevel: 4, saves: [12, 13, 12, 15, 13] },
+    { minLevel: 2, saves: [13, 14, 13, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+  spellcrafter: [
+    { minLevel: 20, saves: [8, 6, 5, 11, 8] },
+    { minLevel: 18, saves: [9, 7, 6, 11, 9] },
+    { minLevel: 16, saves: [9, 8, 7, 12, 9] },
+    { minLevel: 14, saves: [10, 9, 8, 12, 10] },
+    { minLevel: 12, saves: [10, 10, 9, 13, 11] },
+    { minLevel: 10, saves: [11, 10, 9, 13, 11] },
+    { minLevel: 8, saves: [11, 11, 10, 14, 12] },
+    { minLevel: 6, saves: [12, 12, 11, 14, 13] },
+    { minLevel: 4, saves: [12, 13, 12, 15, 13] },
+    { minLevel: 2, saves: [13, 14, 13, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+  fighter: [
+    { minLevel: 20, saves: [5, 6, 8, 9, 10] },
+    { minLevel: 18, saves: [6, 7, 8, 10, 11] },
+    { minLevel: 16, saves: [7, 7, 9, 10, 11] },
+    { minLevel: 14, saves: [7, 8, 10, 11, 12] },
+    { minLevel: 12, saves: [8, 9, 10, 12, 13] },
+    { minLevel: 10, saves: [9, 9, 11, 12, 13] },
+    { minLevel: 8, saves: [9, 10, 12, 13, 14] },
+    { minLevel: 6, saves: [10, 11, 12, 14, 15] },
+    { minLevel: 4, saves: [11, 12, 13, 14, 15] },
+    { minLevel: 2, saves: [11, 12, 14, 15, 16] },
+    { minLevel: 1, saves: [12, 13, 14, 15, 17] },
+  ],
+  barbarian: [
+    { minLevel: 20, saves: [5, 6, 8, 9, 10] },
+    { minLevel: 18, saves: [6, 7, 8, 10, 11] },
+    { minLevel: 16, saves: [7, 7, 9, 10, 11] },
+    { minLevel: 14, saves: [7, 8, 10, 11, 12] },
+    { minLevel: 12, saves: [8, 9, 10, 12, 13] },
+    { minLevel: 10, saves: [9, 9, 11, 12, 13] },
+    { minLevel: 8, saves: [9, 10, 12, 13, 14] },
+    { minLevel: 6, saves: [10, 11, 12, 14, 15] },
+    { minLevel: 4, saves: [11, 12, 13, 14, 15] },
+    { minLevel: 2, saves: [11, 12, 14, 15, 16] },
+    { minLevel: 1, saves: [12, 13, 14, 15, 17] },
+  ],
+  ranger: [
+    { minLevel: 20, saves: [5, 6, 8, 9, 10] },
+    { minLevel: 18, saves: [6, 7, 8, 10, 11] },
+    { minLevel: 16, saves: [7, 7, 9, 10, 11] },
+    { minLevel: 14, saves: [7, 8, 10, 11, 12] },
+    { minLevel: 12, saves: [8, 9, 10, 12, 13] },
+    { minLevel: 10, saves: [9, 9, 11, 12, 13] },
+    { minLevel: 8, saves: [9, 10, 12, 13, 14] },
+    { minLevel: 6, saves: [10, 11, 12, 14, 15] },
+    { minLevel: 4, saves: [11, 12, 13, 14, 15] },
+    { minLevel: 2, saves: [11, 12, 14, 15, 16] },
+    { minLevel: 1, saves: [12, 13, 14, 15, 17] },
+  ],
+  paladin: [
+    { minLevel: 20, saves: [5, 6, 8, 9, 10] },
+    { minLevel: 18, saves: [6, 7, 8, 10, 11] },
+    { minLevel: 16, saves: [7, 7, 9, 10, 11] },
+    { minLevel: 14, saves: [7, 8, 10, 11, 12] },
+    { minLevel: 12, saves: [8, 9, 10, 12, 13] },
+    { minLevel: 10, saves: [9, 9, 11, 12, 13] },
+    { minLevel: 8, saves: [9, 10, 12, 13, 14] },
+    { minLevel: 6, saves: [10, 11, 12, 14, 15] },
+    { minLevel: 4, saves: [11, 12, 13, 14, 15] },
+    { minLevel: 2, saves: [11, 12, 14, 15, 16] },
+    { minLevel: 1, saves: [12, 13, 14, 15, 17] },
+  ],
+  thief: [
+    { minLevel: 20, saves: [6, 8, 8, 6, 8] },
+    { minLevel: 18, saves: [7, 9, 8, 7, 9] },
+    { minLevel: 16, saves: [7, 9, 9, 8, 9] },
+    { minLevel: 14, saves: [8, 10, 9, 9, 10] },
+    { minLevel: 12, saves: [9, 10, 10, 10, 11] },
+    { minLevel: 10, saves: [9, 12, 10, 11, 11] },
+    { minLevel: 8, saves: [10, 12, 11, 12, 12] },
+    { minLevel: 6, saves: [11, 13, 11, 13, 13] },
+    { minLevel: 4, saves: [11, 13, 12, 14, 13] },
+    { minLevel: 2, saves: [12, 14, 12, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+  assassin: [
+    { minLevel: 20, saves: [6, 8, 8, 6, 8] },
+    { minLevel: 18, saves: [7, 9, 8, 7, 9] },
+    { minLevel: 16, saves: [7, 9, 9, 8, 9] },
+    { minLevel: 14, saves: [8, 10, 9, 9, 10] },
+    { minLevel: 12, saves: [9, 10, 10, 10, 11] },
+    { minLevel: 10, saves: [9, 12, 10, 11, 11] },
+    { minLevel: 8, saves: [10, 12, 11, 12, 12] },
+    { minLevel: 6, saves: [11, 13, 11, 13, 13] },
+    { minLevel: 4, saves: [11, 13, 12, 14, 13] },
+    { minLevel: 2, saves: [12, 14, 12, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+  scout: [
+    { minLevel: 20, saves: [6, 8, 8, 6, 8] },
+    { minLevel: 18, saves: [7, 9, 8, 7, 9] },
+    { minLevel: 16, saves: [7, 9, 9, 8, 9] },
+    { minLevel: 14, saves: [8, 10, 9, 9, 10] },
+    { minLevel: 12, saves: [9, 10, 10, 10, 11] },
+    { minLevel: 10, saves: [9, 12, 10, 11, 11] },
+    { minLevel: 8, saves: [10, 12, 11, 12, 12] },
+    { minLevel: 6, saves: [11, 13, 11, 13, 13] },
+    { minLevel: 4, saves: [11, 13, 12, 14, 13] },
+    { minLevel: 2, saves: [12, 14, 12, 15, 14] },
+    { minLevel: 1, saves: [13, 14, 13, 16, 15] },
+  ],
+};
+
+// Default saving throws for unknown classes (uses Fighter table level 1)
+const DEFAULT_SAVING_THROWS: [number, number, number, number, number] = [12, 13, 14, 15, 17];
+
+// Saving throw help text for tooltips
+const SAVING_THROW_HELP = {
+  title: "Rolling Saving Throws:",
+  rules: [
+    "• Roll 1d20 and meet or exceed the target number",
+    "• Natural 20 always succeeds",
+    "• Natural 1 always fails",
+    "• Poison saves use CON modifier",
+    "• Illusion spells use INT modifier",
+    "• Charm spells use WIS modifier",
+    "• Other saves use no ability modifier",
+  ],
+};
 
 interface SavingThrowsProps {
   character: Character;
@@ -16,86 +225,31 @@ export default function SavingThrows({ character, className = "", size = "md" }:
   const { rollSavingThrow } = useDiceRoll();
 
   const savingThrows = useMemo(() => {
-    // Base saving throw table for BFRPG classes by level
-    const getBaseSavingThrows = (level: number, characterClass: string) => {
+    /**
+     * Gets base saving throws for a character class and level
+     * Uses table-driven lookup for better maintainability
+     * @param level - Character level (1+)
+     * @param characterClass - Character class name
+     * @returns Array of 5 saving throw values
+     */
+    const getBaseSavingThrows = (level: number, characterClass: string): [number, number, number, number, number] => {
       const classLower = characterClass.toLowerCase();
+      const classTable = SAVING_THROW_TABLES[classLower] || SAVING_THROW_TABLES['fighter'];
       
-      // Base saving throw values by class type and level (based on actual BFRPG tables)
-      // [Death Ray/Poison, Magic Wands, Paralysis/Petrify, Dragon Breath, Spells]
+      // Find the first entry where character level meets minimum requirement
+      const entry = classTable?.find(tableEntry => level >= tableEntry.minLevel);
       
-      // Cleric-based classes (Cleric, Druid)
-      if (classLower === "cleric" || classLower === "druid") {
-        if (level >= 20) return [5, 6, 9, 11, 10];
-        if (level >= 18) return [6, 7, 9, 11, 10];
-        if (level >= 16) return [6, 7, 10, 12, 11];
-        if (level >= 14) return [7, 8, 10, 12, 11];
-        if (level >= 12) return [7, 8, 11, 13, 12];
-        if (level >= 10) return [8, 9, 11, 13, 12];
-        if (level >= 8) return [8, 9, 12, 14, 13];
-        if (level >= 6) return [9, 10, 12, 14, 13];
-        if (level >= 4) return [9, 10, 13, 15, 14];
-        if (level >= 2) return [10, 11, 13, 15, 14];
-        if (level >= 1) return [11, 12, 14, 16, 15];
-        return [11, 12, 14, 16, 15];
-      }
-      
-      // Magic-User-based classes (Magic-User, Illusionist, Necromancer, Spellcrafter)
-      if (classLower === "magic-user" || classLower === "illusionist" || classLower === "necromancer" || classLower === "spellcrafter") {
-        if (level >= 20) return [8, 6, 5, 11, 8];
-        if (level >= 18) return [9, 7, 6, 11, 9];
-        if (level >= 16) return [9, 8, 7, 12, 9];
-        if (level >= 14) return [10, 9, 8, 12, 10];
-        if (level >= 12) return [10, 10, 9, 13, 11];
-        if (level >= 10) return [11, 10, 9, 13, 11];
-        if (level >= 8) return [11, 11, 10, 14, 12];
-        if (level >= 6) return [12, 12, 11, 14, 13];
-        if (level >= 4) return [12, 13, 12, 15, 13];
-        if (level >= 2) return [13, 14, 13, 15, 14];
-        if (level >= 1) return [13, 14, 13, 16, 15];
-        return [13, 14, 13, 16, 15];
-      }
-      
-      // Fighter-based classes (Fighter, Barbarian, Ranger, Paladin)
-      if (classLower === "fighter" || classLower === "barbarian" || classLower === "ranger" || classLower === "paladin") {
-        if (level >= 20) return [5, 6, 8, 9, 10];
-        if (level >= 18) return [6, 7, 8, 10, 11];
-        if (level >= 16) return [7, 7, 9, 10, 11];
-        if (level >= 14) return [7, 8, 10, 11, 12];
-        if (level >= 12) return [8, 9, 10, 12, 13];
-        if (level >= 10) return [9, 9, 11, 12, 13];
-        if (level >= 8) return [9, 10, 12, 13, 14];
-        if (level >= 6) return [10, 11, 12, 14, 15];
-        if (level >= 4) return [11, 12, 13, 14, 15];
-        if (level >= 2) return [11, 12, 14, 15, 16];
-        if (level >= 1) return [12, 13, 14, 15, 17];
-        return [13, 14, 15, 16, 18]; // Normal Man (0 level)
-      }
-      
-      // Thief-based classes (Thief, Assassin, Scout)
-      if (classLower === "thief" || classLower === "assassin" || classLower === "scout") {
-        if (level >= 20) return [6, 8, 8, 6, 8];
-        if (level >= 18) return [7, 9, 8, 7, 9];
-        if (level >= 16) return [7, 9, 9, 8, 9];
-        if (level >= 14) return [8, 10, 9, 9, 10];
-        if (level >= 12) return [9, 10, 10, 10, 11];
-        if (level >= 10) return [9, 12, 10, 11, 11];
-        if (level >= 8) return [10, 12, 11, 12, 12];
-        if (level >= 6) return [11, 13, 11, 13, 13];
-        if (level >= 4) return [11, 13, 12, 14, 13];
-        if (level >= 2) return [12, 14, 12, 15, 14];
-        if (level >= 1) return [13, 14, 13, 16, 15];
-        return [13, 14, 13, 16, 15];
-      }
-      
-      // Default for unknown classes (use Fighter table)
-      if (level >= 1) return [12, 13, 14, 15, 17];
-      return [13, 14, 15, 16, 18];
+      return entry?.saves || DEFAULT_SAVING_THROWS;
     };
 
-    // Get racial saving throw bonuses based on actual BFRPG rules
-    const getRacialSavingThrowBonuses = () => {
+    /**
+     * Gets racial saving throw bonuses based on BFRPG rules
+     * Bonuses are subtracted from target number (lower is better)
+     * @returns Array of 5 racial bonus values
+     */
+    const getRacialSavingThrowBonuses = (): [number, number, number, number, number] => {
       // Initialize bonuses array [Death Ray/Poison, Magic Wands, Paralysis/Petrify, Dragon Breath, Spells]
-      const bonuses = [0, 0, 0, 0, 0];
+      const bonuses: [number, number, number, number, number] = [0, 0, 0, 0, 0];
       
       // Apply bonuses based on race (these are subtracted from the target number as lower is better)
       switch (character.race) {
@@ -136,9 +290,9 @@ export default function SavingThrows({ character, className = "", size = "md" }:
     // Get racial bonuses
     const racialBonuses = getRacialSavingThrowBonuses();
     
-    // Apply bonuses to base values (lower is better in BFRPG)
+    // Apply bonuses to base values (lower is better in BFRPG, minimum of 1)
     const finalSavingThrows = baseSavingThrows.map((base, index) => 
-      Math.max(1, base - (racialBonuses[index] || 0))
+      Math.max(MIN_SAVING_THROW, base - (racialBonuses[index] || 0))
     );
 
     return {
@@ -151,32 +305,65 @@ export default function SavingThrows({ character, className = "", size = "md" }:
     };
   }, [character.level, character.class, character.race]);
 
+  const conModifier = calculateModifier(character.abilities?.constitution?.value || 10);
+  const wisModifier = calculateModifier(character.abilities?.wisdom?.value || 10);
+
   const savingThrowItems = [
     {
       label: "Death Ray or Poison",
       target: savingThrows.deathRayOrPoison,
+      modifier: conModifier,
+      usesModifier: true,
     },
     {
       label: "Magic Wands",
       target: savingThrows.magicWands,
+      modifier: 0,
+      usesModifier: false,
     },
     {
       label: "Paralysis or Petrify",
       target: savingThrows.paralysisOrPetrify,
+      modifier: 0,
+      usesModifier: false,
     },
     {
       label: "Dragon Breath",
       target: savingThrows.dragonBreath,
+      modifier: 0,
+      usesModifier: false,
     },
     {
       label: "Spells",
       target: savingThrows.spells,
+      modifier: wisModifier,
+      usesModifier: true,
     },
   ];
 
+  const tooltipContent = (
+    <div className="whitespace-normal max-w-xs">
+      <div className="font-semibold mb-1">{SAVING_THROW_HELP.title}</div>
+      <div className="space-y-1 text-xs">
+        {SAVING_THROW_HELP.rules.map((rule, index) => (
+          <div key={index}>{rule}</div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <CharacterSheetSectionWrapper 
-      title="Saving Throws" 
+      title={
+        <div className="flex items-center gap-2">
+          <span>Saving Throws</span>
+          <InfoTooltip 
+            content={tooltipContent}
+            ariaLabel="Saving throw rules"
+            preferredPosition="above"
+          />
+        </div>
+      } 
       size={size}
       className={className}
     >
@@ -187,8 +374,8 @@ export default function SavingThrows({ character, className = "", size = "md" }:
               key={index}
               label={item.label}
               value={`${item.target}+`}
-              onClick={() => rollSavingThrow(item.label, item.target)}
-              tooltip={`Click to roll ${item.label.toLowerCase()} save (need ${item.target}+ on d20)`}
+              onClick={() => rollSavingThrow(item.label, item.target, item.usesModifier ? item.modifier : undefined)}
+              tooltip={`Click to roll ${item.label.toLowerCase()} save (need ${item.target}+ on d20)${item.usesModifier ? ` with ${item.modifier >= 0 ? '+' : ''}${item.modifier} modifier` : ''}`}
               size={size}
             />
           ))}
