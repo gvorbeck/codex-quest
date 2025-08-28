@@ -16,7 +16,12 @@ import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
 import { logger } from "@/utils/logger";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips, getSpellTypeInfo } from "@/utils/cantrips";
-import { DIVINE_CLASSES, ARCANE_CLASSES, type ArcaneClass, type DivineClass } from "@/constants/spellcasting";
+import {
+  DIVINE_CLASSES,
+  ARCANE_CLASSES,
+  type ArcaneClass,
+  type DivineClass,
+} from "@/constants/spellcasting";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps {
@@ -183,7 +188,7 @@ function ClassStepComponent({
 
     // Get relevant ability bonus
     let abilityBonus = 0;
-    
+
     const hasArcane = newCharacter.class.some((classId) =>
       ARCANE_CLASSES.includes(classId as ArcaneClass)
     );
@@ -329,7 +334,11 @@ function ClassStepComponent({
                 })()}
                 description={(() => {
                   const spellTypeInfo = getSpellTypeInfo(character);
-                  return `You automatically know <strong>${character.cantrips?.length || 0}</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${spellTypeInfo.abilityScore} bonus). You may change your selection below.`;
+                  return `You automatically know <strong>${
+                    character.cantrips?.length || 0
+                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    spellTypeInfo.abilityScore
+                  } bonus). You may change your selection below.`;
                 })()}
               />
             </>
@@ -365,7 +374,11 @@ function ClassStepComponent({
                 })()}
                 description={(() => {
                   const spellTypeInfo = getSpellTypeInfo(character);
-                  return `You automatically know <strong>${character.cantrips?.length || 0}</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${spellTypeInfo.abilityScore} bonus). You may change your selection below.`;
+                  return `You automatically know <strong>${
+                    character.cantrips?.length || 0
+                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    spellTypeInfo.abilityScore
+                  } bonus). You may change your selection below.`;
                 })()}
               />
             </>

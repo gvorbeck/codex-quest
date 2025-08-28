@@ -1,7 +1,12 @@
 import type { Character, Cantrip } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import cantripData from "@/data/cantrips.json";
-import { DIVINE_CLASSES, ARCANE_CLASSES, type ArcaneClass, type DivineClass } from "@/constants/spellcasting";
+import {
+  DIVINE_CLASSES,
+  ARCANE_CLASSES,
+  type ArcaneClass,
+  type DivineClass,
+} from "@/constants/spellcasting";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -32,9 +37,7 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
   });
 
   return cantripData.filter((cantrip) =>
-    cantrip.classes.some((cantripClass) =>
-      mappedClasses.includes(cantripClass)
-    )
+    cantrip.classes.some((cantripClass) => mappedClasses.includes(cantripClass))
   );
 }
 
@@ -50,7 +53,7 @@ export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   );
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;
-  
+
   let abilityScore: SpellTypeInfo["abilityScore"];
   if (hasDivineClasses && hasArcaneClasses) {
     abilityScore = "Intelligence/Wisdom";
@@ -72,11 +75,14 @@ export function getSpellTypeInfo(character: Character): SpellTypeInfo {
 /**
  * Gets cantrip options for Select component
  */
-export function getCantripOptions(availableCantrips: Cantrip[], knownCantrips: Cantrip[]) {
+export function getCantripOptions(
+  availableCantrips: Cantrip[],
+  knownCantrips: Cantrip[]
+) {
   const availableToAdd = availableCantrips.filter(
     (cantrip) => !knownCantrips.some((known) => known.name === cantrip.name)
   );
-  
+
   return availableToAdd.map((cantrip) => ({
     value: cantrip.name,
     label: cantrip.name,
