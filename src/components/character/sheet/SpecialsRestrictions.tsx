@@ -236,12 +236,10 @@ export default function SpecialsRestrictions({
                       className="group/card"
                     >
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full group-hover/card:bg-blue-300 transition-colors duration-200"></div>
+                        <div className="w-2 h-2 bg-lime-400 rounded-full group-hover/card:bg-lime-300 transition-colors duration-200"></div>
                         <Typography
                           variant="bodySmall"
-                          color="blue"
                           weight="semibold"
-                          className="group-hover/card:text-blue-300 transition-colors duration-200"
                         >
                           {item.label}
                         </Typography>
