@@ -56,7 +56,7 @@ function EquipmentSelector({
       const canAfford = character.currency.gold >= costInGold;
 
       return (
-        <div className="bg-zinc-800/50 border border-zinc-600 rounded-lg p-4 hover:bg-zinc-800/70 transition-colors">
+        <Card variant="standard" hover>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <div className="flex-1">
               <div className="font-medium text-zinc-100 mb-2">
@@ -95,7 +95,7 @@ function EquipmentSelector({
               Add {!canAfford && "(Can't Afford)"}
             </Button>
           </div>
-        </div>
+        </Card>
       );
     },
     [character.currency.gold, onEquipmentAdd]

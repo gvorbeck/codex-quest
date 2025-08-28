@@ -288,9 +288,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
               <div className="space-y-3 mb-6">
                 {cleanEquipmentArray(character.equipment).map((item, index) => (
-                  <div
+                  <Card
                     key={`${item.name}-${index}`}
-                    className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4"
+                    variant="success"
                   >
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                       <div className="flex-1">
@@ -325,7 +325,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                         Remove
                       </Button>
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
 

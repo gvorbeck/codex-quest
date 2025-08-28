@@ -133,7 +133,7 @@ function ReviewStepComponent({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  <Card variant="success" size="compact">
                     <Typography variant="subHeadingLime" color="lime">
                       <Icon name="eye" size="sm" />
                       Race
@@ -141,9 +141,9 @@ function ReviewStepComponent({
                     <p className="text-lime-50 font-medium m-0">
                       {raceDisplayName}
                     </p>
-                  </div>
+                  </Card>
 
-                  <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  <Card variant="success" size="compact">
                     <Typography variant="subHeadingLime" color="lime">
                       <Icon name="briefcase" size="sm" />
                       Class
@@ -151,9 +151,9 @@ function ReviewStepComponent({
                     <p className="text-lime-50 font-medium m-0">
                       {classDisplayNames}
                     </p>
-                  </div>
+                  </Card>
 
-                  <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  <Card variant="success" size="compact">
                     <Typography variant="subHeadingLime" color="lime">
                       <Icon name="heart" size="sm" />
                       Hit Points
@@ -161,10 +161,10 @@ function ReviewStepComponent({
                     <p className="text-lime-50 font-bold text-lg m-0">
                       {character.hp?.current || 0} / {character.hp?.max || 0} HP
                     </p>
-                  </div>
+                  </Card>
 
                   {character.currency.gold > 0 && (
-                    <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                    <Card variant="success" size="compact">
                       <Typography variant="subHeadingLime" color="lime">
                         <Icon name="coin" size="sm" />
                         Gold
@@ -172,7 +172,7 @@ function ReviewStepComponent({
                       <p className="text-lime-50 font-medium m-0">
                         {character.currency.gold} gp
                       </p>
-                    </div>
+                    </Card>
                   )}
                 </div>
               </div>
@@ -211,7 +211,7 @@ function ReviewStepComponent({
                 </Typography>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  <Card variant="success" size="compact">
                     <div className="text-sm text-lime-300 mb-1">
                       Total Weight
                     </div>
@@ -224,8 +224,8 @@ function ReviewStepComponent({
                         .toFixed(1)}{" "}
                       lbs
                     </div>
-                  </div>
-                  <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                  </Card>
+                  <Card variant="success" size="compact">
                     <div className="text-sm text-lime-300 mb-1">
                       Equipment Value
                     </div>
@@ -241,7 +241,7 @@ function ReviewStepComponent({
                         .toFixed(2)}{" "}
                       gp
                     </div>
-                  </div>
+                  </Card>
                 </div>
 
                 <div className="max-h-32 overflow-y-auto">
@@ -270,7 +270,7 @@ function ReviewStepComponent({
                   Spells
                 </Typography>
 
-                <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3">
+                <Card variant="success" size="compact">
                   <div className="space-y-2">
                     {character.class.includes("magic-user") && (
                       <div className="flex items-center gap-2">
@@ -294,7 +294,7 @@ function ReviewStepComponent({
                       </div>
                     ))}
                   </div>
-                </div>
+                </Card>
               </div>
             )}
           </div>

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Card } from "@/components/ui/design-system";
 
 interface StatItem {
   label: string;
@@ -40,13 +41,25 @@ export function StatGrid({
   const getStatItemClasses = () => {
     switch (variant) {
       case "ability":
-        return "text-center bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3";
+        return "text-center";
       case "equipment":
-        return "bg-zinc-800/50 border border-lime-700/30 rounded-lg p-3";
+        return "";
       case "summary":
         return "text-center";
       default:
-        return "text-center bg-zinc-800/50 border border-zinc-600 rounded-lg p-3";
+        return "text-center";
+    }
+  };
+
+  const getCardVariant = () => {
+    switch (variant) {
+      case "ability":
+      case "equipment":
+        return "success";
+      case "summary":
+        return null; // No card for summary variant
+      default:
+        return "standard";
     }
   };
 
@@ -81,34 +94,48 @@ export function StatGrid({
 
   const colors = getTextColors();
 
+  const cardVariant = getCardVariant();
+
   return (
     <div className={`${getGridClasses()} ${className}`}>
-      {stats.map((stat, index) => (
-        <div key={`${stat.label}-${index}`} className={getStatItemClasses()}>
-          {stat.icon && variant === "equipment" && (
-            <div className="flex items-center gap-2 mb-1">
-              {stat.icon}
-              <div className={`text-xs uppercase tracking-wider font-medium ${colors.label}`}>
-                {stat.label}
+      {stats.map((stat, index) => {
+        const content = (
+          <>
+            {stat.icon && variant === "equipment" && (
+              <div className="flex items-center gap-2 mb-1">
+                {stat.icon}
+                <div className={`text-xs uppercase tracking-wider font-medium ${colors.label}`}>
+                  {stat.label}
+                </div>
               </div>
+            )}
+            {!stat.icon && (
+              <div className={`text-xs uppercase tracking-wider font-medium mb-1 ${colors.label}`}>
+                {variant === "ability" ? stat.label.slice(0, 3) : stat.label}
+              </div>
+            )}
+            <div className={`text-lg font-bold ${colors.value}`}>
+              {(typeof stat.value === "number" && stat.value > 0) || typeof stat.value === "string" ? stat.value : "—"}
             </div>
-          )}
-          {!stat.icon && (
-            <div className={`text-xs uppercase tracking-wider font-medium mb-1 ${colors.label}`}>
-              {variant === "ability" ? stat.label.slice(0, 3) : stat.label}
-            </div>
-          )}
-          <div className={`text-lg font-bold ${colors.value}`}>
-            {(typeof stat.value === "number" && stat.value > 0) || typeof stat.value === "string" ? stat.value : "—"}
+            {stat.modifier !== undefined && (
+              <div className={`text-xs ${colors.modifier}`}>
+                {typeof stat.modifier === "number" && stat.modifier >= 0 ? "+" : ""}
+                {stat.modifier}
+              </div>
+            )}
+          </>
+        );
+
+        return cardVariant ? (
+          <Card key={`${stat.label}-${index}`} variant={cardVariant} size="compact" className={getStatItemClasses()}>
+            {content}
+          </Card>
+        ) : (
+          <div key={`${stat.label}-${index}`} className={getStatItemClasses()}>
+            {content}
           </div>
-          {stat.modifier !== undefined && (
-            <div className={`text-xs ${colors.modifier}`}>
-              {typeof stat.modifier === "number" && stat.modifier >= 0 ? "+" : ""}
-              {stat.modifier}
-            </div>
-          )}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

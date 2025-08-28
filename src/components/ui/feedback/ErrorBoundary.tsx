@@ -1,6 +1,7 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Button } from "@/components/ui";
+import { Typography } from "@/components/ui/design-system";
 
 interface Props {
   children: ReactNode;
@@ -44,7 +45,9 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div role="alert">
-          <h2>Something went wrong</h2>
+          <Typography variant="h2" as="h2">
+            Something went wrong
+          </Typography>
           <p>
             We're sorry, but an unexpected error occurred. Please try refreshing
             the page.

@@ -3,6 +3,7 @@ import type { HTMLAttributes } from "react";
 import type { Game } from "@/types/game";
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
+import { Typography } from "@/components/ui/design-system";
 
 interface GameHeroProps extends HTMLAttributes<HTMLDivElement> {
   game: Game;
@@ -172,11 +173,13 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                     editable && onGameChange ? "cursor-pointer" : ""
                   }`}
                 >
-                  <h1
+                  <Typography
+                    as="h1"
+                    variant="h1"
+                    color="primary"
+                    weight="bold"
                     id="hero-game-name"
-                    className={`font-bold text-zinc-900 break-words ${
-                      currentSize.name
-                    } ${
+                    className={`break-words ${currentSize.name} ${
                       editable && onGameChange
                         ? "focus:outline-none focus:ring-2 focus:ring-lime-600 focus:ring-offset-2 focus:ring-offset-lime-400 rounded-sm"
                         : ""
@@ -201,7 +204,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                     }
                   >
                     {game.name}
-                  </h1>
+                  </Typography>
 
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onGameChange && (

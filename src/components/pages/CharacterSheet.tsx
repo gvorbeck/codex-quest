@@ -3,6 +3,7 @@ import { useMemo, useCallback } from "react";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback/LoadingState";
+import { Typography } from "@/components/ui/design-system";
 import {
   AttackBonuses,
   HitPoints,
@@ -26,7 +27,7 @@ import type { Character } from "@/types/character";
 
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
-  
+
   // Use the generic Firebase sheet hook
   const {
     data: character,
@@ -53,113 +54,136 @@ export default function CharacterSheet() {
   );
 
   // Handle XP changes
-  const handleXPChange = useCallback((newXP: number) => {
-    if (character) {
-      const updatedCharacter = { ...character, xp: newXP };
-      updateCharacter(updatedCharacter);
-    }
-  }, [character, updateCharacter]);
+  const handleXPChange = useCallback(
+    (newXP: number) => {
+      if (character) {
+        const updatedCharacter = { ...character, xp: newXP };
+        updateCharacter(updatedCharacter);
+      }
+    },
+    [character, updateCharacter]
+  );
 
   // Handle character changes (for avatar, etc.)
-  const handleCharacterChange = useCallback(async (updatedCharacter: Character) => {
-    console.log('CharacterSheet: handleCharacterChange called with:', {
-      oldLevel: character?.level,
-      newLevel: updatedCharacter.level,
-      oldMaxHp: character?.hp.max,
-      newMaxHp: updatedCharacter.hp.max
-    });
-    console.log('CharacterSheet: About to call updateCharacter...');
-    await updateCharacter(updatedCharacter);
-    console.log('CharacterSheet: updateCharacter completed');
-  }, [updateCharacter, character]);
+  const handleCharacterChange = useCallback(
+    async (updatedCharacter: Character) => {
+      console.log("CharacterSheet: handleCharacterChange called with:", {
+        oldLevel: character?.level,
+        newLevel: updatedCharacter.level,
+        oldMaxHp: character?.hp.max,
+        newMaxHp: updatedCharacter.hp.max,
+      });
+      console.log("CharacterSheet: About to call updateCharacter...");
+      await updateCharacter(updatedCharacter);
+      console.log("CharacterSheet: updateCharacter completed");
+    },
+    [updateCharacter, character]
+  );
 
   // Handle ability score changes
-  const handleAbilityChange = useCallback((abilityKey: string, value: number) => {
-    if (!character) return;
+  const handleAbilityChange = useCallback(
+    (abilityKey: string, value: number) => {
+      if (!character) return;
 
-    const updatedCharacter = {
-      ...character,
-      abilities: {
-        ...character.abilities,
-        [abilityKey]: {
-          value: value,
-          modifier: calculateModifier(value),
+      const updatedCharacter = {
+        ...character,
+        abilities: {
+          ...character.abilities,
+          [abilityKey]: {
+            value: value,
+            modifier: calculateModifier(value),
+          },
         },
-      },
-    };
+      };
 
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
+      handleCharacterChange(updatedCharacter);
+    },
+    [character, handleCharacterChange]
+  );
 
   // Handle HP changes
-  const handleCurrentHPChange = useCallback((value: number) => {
-    if (!character) return;
+  const handleCurrentHPChange = useCallback(
+    (value: number) => {
+      if (!character) return;
 
-    const updatedCharacter = {
-      ...character,
-      hp: {
-        ...character.hp,
-        current: value,
-      },
-    };
+      const updatedCharacter = {
+        ...character,
+        hp: {
+          ...character.hp,
+          current: value,
+        },
+      };
 
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
-
+      handleCharacterChange(updatedCharacter);
+    },
+    [character, handleCharacterChange]
+  );
 
   // Handle currency changes
-  const handleCurrencyChange = useCallback((updates: Partial<Character["currency"]>) => {
-    if (!character) return;
+  const handleCurrencyChange = useCallback(
+    (updates: Partial<Character["currency"]>) => {
+      if (!character) return;
 
-    const updatedCharacter = {
-      ...character,
-      currency: {
-        ...character.currency,
-        ...updates,
-      },
-    };
+      const updatedCharacter = {
+        ...character,
+        currency: {
+          ...character.currency,
+          ...updates,
+        },
+      };
 
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
+      handleCharacterChange(updatedCharacter);
+    },
+    [character, handleCharacterChange]
+  );
 
   // Handle equipment changes
-  const handleEquipmentChange = useCallback((equipment: Character["equipment"]) => {
-    if (!character) return;
+  const handleEquipmentChange = useCallback(
+    (equipment: Character["equipment"]) => {
+      if (!character) return;
 
-    const updatedCharacter = {
-      ...character,
-      equipment,
-    };
+      const updatedCharacter = {
+        ...character,
+        equipment,
+      };
 
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
+      handleCharacterChange(updatedCharacter);
+    },
+    [character, handleCharacterChange]
+  );
 
   // Handle HP notes changes
-  const handleHPNotesChange = useCallback((value: string) => {
-    if (!character) return;
+  const handleHPNotesChange = useCallback(
+    (value: string) => {
+      if (!character) return;
 
-    const updatedCharacter = {
-      ...character,
-      hp: {
-        ...character.hp,
-        desc: value,
-      },
-    };
+      const updatedCharacter = {
+        ...character,
+        hp: {
+          ...character.hp,
+          desc: value,
+        },
+      };
 
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
+      handleCharacterChange(updatedCharacter);
+    },
+    [character, handleCharacterChange]
+  );
 
   // Handle description changes
-  const handleDescriptionChange = useCallback((desc: string) => {
-    if (!character) return;
+  const handleDescriptionChange = useCallback(
+    (desc: string) => {
+      if (!character) return;
 
-    const updatedCharacter = {
-      ...character,
-      desc,
-    };
+      const updatedCharacter = {
+        ...character,
+        desc,
+      };
 
-    handleCharacterChange(updatedCharacter);
-  }, [character, handleCharacterChange]);
+      handleCharacterChange(updatedCharacter);
+    },
+    [character, handleCharacterChange]
+  );
 
   // Data loading is now handled by useFirebaseSheet hook
 
@@ -236,9 +260,14 @@ export default function CharacterSheet() {
               className="lg:col-span-3"
               aria-labelledby="character-stats-heading"
             >
-              <h2 id="character-stats-heading" className="sr-only">
+              <Typography
+                variant="h2"
+                as="h2"
+                id="character-stats-heading"
+                className="sr-only"
+              >
                 Character Statistics
-              </h2>
+              </Typography>
 
               {/* Masonry-style layout for cards */}
               <div className="columns-1 md:columns-2 gap-6 space-y-6 md:space-y-0">

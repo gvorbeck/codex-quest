@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useStepAnnouncements } from "@/hooks/useA11y";
 import { memo } from "react";
-import { Typography } from "@/components/ui/design-system";
+import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
 
 interface StepItem {
@@ -180,7 +180,7 @@ function Stepper({
       <main className="flex-1 min-w-0">
         {/* Mobile Step Indicator */}
         <div className="lg:hidden mb-6">
-          <div className="bg-zinc-800 rounded-lg p-4 border-2 border-zinc-600 shadow-[0_3px_0_0_#3f3f46]">
+          <Card variant="standard">
             <div className="flex items-center justify-between mb-3">
               <Typography
                 variant="sectionHeading"
@@ -202,7 +202,7 @@ function Stepper({
                 }}
               />
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Step Controls */}
@@ -266,12 +266,16 @@ function Stepper({
           aria-live="polite"
           className="mb-8"
         >
-          <h2
+          <Typography
+            variant="h2"
+            as="h2"
             id="step-content-heading"
-            className="text-2xl font-bold text-zinc-100 mb-4"
+            weight="bold"
+            color="zinc"
+            className="mb-4"
           >
             {currentStepItem?.title || "Step"}
-          </h2>
+          </Typography>
           <div>{currentStepItem?.content}</div>
         </section>
 

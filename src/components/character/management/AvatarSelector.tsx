@@ -233,12 +233,12 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           error={uploadError}
           aria-describedby="avatar-upload-info"
         />
-        <div className="bg-amber-950/20 border border-amber-600/30 rounded-lg p-3 mt-4">
+        <Card variant="info" size="compact" className="mt-4">
           <p className="text-amber-100 text-sm m-0">
             For best results, use a square image (1:1 aspect ratio) that's at
             least 128x128 pixels.
           </p>
-        </div>
+        </Card>
       </Card>
     </div>
   );

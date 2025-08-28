@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { Button, Icon } from "@/components/ui";
+import { Typography } from "@/components/ui/design-system";
 
 interface ModalProps {
   isOpen: boolean;
@@ -90,9 +91,14 @@ export default function Modal({
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-zinc-700">
-          <h2 id="modal-title" className="text-xl font-semibold text-zinc-100">
+          <Typography
+            variant="h2"
+            id="modal-title"
+            color="zinc"
+            className="text-xl"
+          >
             {title}
-          </h2>
+          </Typography>
           <Button
             variant="ghost"
             size="sm"

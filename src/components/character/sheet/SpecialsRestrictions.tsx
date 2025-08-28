@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/layout";
 import { type DescriptionItem } from "@/components/ui/display";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
-import { Typography } from "@/components/ui/design-system";
+import { Typography, Card } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
@@ -103,9 +103,11 @@ export default function SpecialsRestrictions({
                 <div className="p-6 space-y-4">
                   {raceItems.length > 0 ? (
                     raceItems.map((item, index) => (
-                      <div
+                      <Card
                         key={index}
-                        className="rounded-lg p-4 bg-zinc-750/30 border border-zinc-600/50 transition-all duration-200 hover:bg-zinc-700/40 hover:border-amber-400/30 group/card"
+                        variant="standard"
+                        hover
+                        className="group/card"
                       >
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
@@ -121,10 +123,10 @@ export default function SpecialsRestrictions({
                         <div className="text-zinc-100 text-sm leading-relaxed">
                           {item.children}
                         </div>
-                      </div>
+                      </Card>
                     ))
                   ) : (
-                    <div className="rounded-lg p-4 bg-zinc-750/30 border border-zinc-600/50">
+                    <Card variant="standard">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
                         <Typography
@@ -138,7 +140,7 @@ export default function SpecialsRestrictions({
                       <div className="text-zinc-300 text-sm">
                         No special abilities or restrictions for this race.
                       </div>
-                    </div>
+                    </Card>
                   )}
                 </div>
               </TabPanel>
@@ -149,9 +151,11 @@ export default function SpecialsRestrictions({
                 <div className="p-6 space-y-4">
                   {classItems.length > 0 ? (
                     classItems.map((item, index) => (
-                      <div
+                      <Card
                         key={index}
-                        className="rounded-lg p-4 bg-zinc-750/30 border border-zinc-600/50 transition-all duration-200 hover:bg-zinc-700/40 hover:border-amber-400/30 group/card"
+                        variant="standard"
+                        hover
+                        className="group/card"
                       >
                         <div className="flex items-center gap-2 mb-3">
                           <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
@@ -167,10 +171,10 @@ export default function SpecialsRestrictions({
                         <div className="text-zinc-100 text-sm leading-relaxed">
                           {item.children}
                         </div>
-                      </div>
+                      </Card>
                     ))
                   ) : (
-                    <div className="rounded-lg p-4 bg-zinc-750/30 border border-zinc-600/50">
+                    <Card variant="standard">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
                         <Typography
@@ -185,7 +189,7 @@ export default function SpecialsRestrictions({
                         No special abilities or restrictions for{" "}
                         {classes.length === 1 ? "this class" : "these classes"}.
                       </div>
-                    </div>
+                    </Card>
                   )}
                 </div>
               </TabPanel>

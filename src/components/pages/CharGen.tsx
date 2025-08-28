@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import Stepper from "@/components/ui/display/Stepper";
 import { Breadcrumb } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
+import { Typography } from "@/components/ui/design-system";
 import {
   AbilityScoreStep,
   RaceStep,
@@ -310,7 +311,9 @@ function CharGen() {
       <article>
         <header className="mb-6">
           <Breadcrumb items={breadcrumbItems} className="mb-4" />
-          <h2>Character Creation</h2>
+          <Typography variant="h2" as="h2">
+            Character Creation
+          </Typography>
         </header>
 
         <section aria-label="Character creation wizard">

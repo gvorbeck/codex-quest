@@ -1,5 +1,6 @@
 import React, { useState, useId, useMemo, useCallback } from "react";
 import { TextInput } from "@/components/ui/inputs";
+import { Card } from "@/components/ui/design-system";
 
 interface AccordionItem {
   name: string;
@@ -172,7 +173,7 @@ function Accordion<T extends AccordionItem>({
     <div className={`accordion space-y-4 ${className}`}>
       {/* Search/Filter Bar */}
       {showSearch && (
-        <div className="bg-zinc-800 rounded-lg p-4 border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
+        <Card variant="standard">
           <TextInput
             value={searchTerm}
             onChange={handleSearchChange}
@@ -190,7 +191,7 @@ function Accordion<T extends AccordionItem>({
               ? `Showing ${totalFilteredCount} items matching "${searchTerm}"`
               : `${items.length} total items`}
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Accordion Sections */}

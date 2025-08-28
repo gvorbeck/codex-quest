@@ -342,7 +342,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
+              <Card variant="success">
                 <Typography variant="subHeading" color="lime">
                   <Icon name="heart" size="sm" />
                   Hit Points
@@ -350,10 +350,10 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                 <p className="text-lime-50 text-lg font-bold m-0">
                   {character.hp.current} / {character.hp.max} HP
                 </p>
-              </div>
+              </Card>
 
               {constitutionBonus !== 0 && (
-                <div className="bg-zinc-800/50 border border-lime-700/30 rounded-lg p-4">
+                <Card variant="success">
                   <Typography variant="subHeading" color="lime">
                     <Icon name="clock" size="sm" />
                     Breakdown
@@ -368,7 +368,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                       {constitutionBonus}
                     </strong>
                   </p>
-                </div>
+                </Card>
               )}
             </div>
           </Card>

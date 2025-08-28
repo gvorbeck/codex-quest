@@ -2,6 +2,7 @@ import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui";
+import { Typography } from "@/components/ui/design-system";
 
 interface Props {
   children: ReactNode;
@@ -30,12 +31,12 @@ export class GameGenErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <section className="text-center py-16" role="alert">
-          <h2 className="text-xl font-semibold text-primary-200 mb-4">
+          <Typography variant="h2" color="primary" className="mb-4">
             Game Creation Unavailable
-          </h2>
+          </Typography>
           <p className="text-primary-400 mb-6">
-            We're experiencing technical difficulties with the game
-            creation system. Please try refreshing the page or start over.
+            We're experiencing technical difficulties with the game creation
+            system. Please try refreshing the page or start over.
           </p>
           <div className="space-x-4">
             <Button onClick={() => window.location.reload()}>

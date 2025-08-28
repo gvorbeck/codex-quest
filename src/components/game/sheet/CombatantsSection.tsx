@@ -90,12 +90,15 @@ export const CombatantsSection = memo(
       <>
         {showDivider && <HorizontalRule />}
         <section aria-labelledby="combatants-heading">
-          <h2
+          <Typography
+            variant="h2"
+            as="h2"
             id="combatants-heading"
-            className={`text-2xl font-bold ${GAME_SHEET_STYLES.colors.text.primary} ${GAME_SHEET_STYLES.spacing.element}`}
+            weight="bold"
+            className={`${GAME_SHEET_STYLES.colors.text.primary} ${GAME_SHEET_STYLES.spacing.element}`}
           >
             Combatants ({combatants.length})
-          </h2>
+          </Typography>
 
           <div
             className={`${GAME_SHEET_STYLES.layout.cardGrid} ${GAME_SHEET_STYLES.spacing.cardGap}`}

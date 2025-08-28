@@ -1,11 +1,12 @@
 import { Route, Switch } from "wouter";
 import { Suspense, lazy } from "react";
 import { Link } from "wouter";
-import { 
-  CharGenErrorBoundary, 
+import { Typography } from "@/components/ui/design-system";
+import {
+  CharGenErrorBoundary,
   SheetErrorBoundary,
   GameGenErrorBoundary,
-  HomeErrorBoundary 
+  HomeErrorBoundary,
 } from "@/components/ui/feedback";
 import { DOM_IDS } from "@/constants/dom";
 
@@ -24,11 +25,7 @@ export function AppRoutes() {
     >
       <Suspense
         fallback={
-          <div
-            role="status"
-            aria-live="polite"
-            className="status-message"
-          >
+          <div role="status" aria-live="polite" className="status-message">
             <p className="text-primary-400">Loading...</p>
           </div>
         }
@@ -50,7 +47,10 @@ export function AppRoutes() {
             </GameGenErrorBoundary>
           </Route>
           <Route path="/u/:userId/c/:characterId">
-            <SheetErrorBoundary entityType="Character Sheet" entityContext="character">
+            <SheetErrorBoundary
+              entityType="Character Sheet"
+              entityContext="character"
+            >
               <CharacterSheet />
             </SheetErrorBoundary>
           </Route>
@@ -62,9 +62,9 @@ export function AppRoutes() {
 
           <Route>
             <section className="text-center py-16">
-              <h2 className="text-xl font-semibold text-primary-200 mb-4">
+              <Typography variant="h2" color="primary" className="mb-4">
                 Page Not Found
-              </h2>
+              </Typography>
               <p className="text-primary-400 mb-6">
                 Sorry, the page you're looking for doesn't exist.
               </p>

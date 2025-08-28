@@ -7,6 +7,7 @@ import {
 } from "@/components/character/management";
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
+import { Typography } from "@/components/ui/design-system";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -256,11 +257,13 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                     editable && onCharacterChange ? "cursor-pointer" : ""
                   }`}
                 >
-                  <h1
+                  <Typography
+                    as="h1"
+                    variant="h1"
+                    color="primary"
+                    weight="bold"
                     id="hero-character-name"
-                    className={`font-bold text-zinc-900 break-words ${
-                      currentSize.name
-                    } ${
+                    className={`break-words ${currentSize.name} ${
                       editable && onCharacterChange
                         ? "focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 focus:ring-offset-amber-400 rounded-sm"
                         : ""
@@ -285,7 +288,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                     }
                   >
                     {character.name}
-                  </h1>
+                  </Typography>
 
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onCharacterChange && (
