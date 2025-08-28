@@ -311,7 +311,7 @@ export default function Equipment({
                 onClick={() => handleEquipmentEdit(item.originalIndex)}
                 variant="secondary"
                 size="sm"
-                className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                className="text-blue-400 hover:!text-blue-200 hover:bg-blue-900/30"
                 aria-label={`Edit ${item.name}`}
               >
                 Edit
@@ -322,7 +322,7 @@ export default function Equipment({
                 onClick={() => handleEquipmentRemove(item.originalIndex)}
                 variant="secondary"
                 size="sm"
-                className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
+                className="text-red-400 hover:!text-red-200 hover:bg-red-900/30"
                 aria-label={`Remove ${item.name}`}
               >
                 Remove
