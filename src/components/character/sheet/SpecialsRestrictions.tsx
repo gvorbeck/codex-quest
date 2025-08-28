@@ -76,6 +76,35 @@ export default function SpecialsRestrictions({
     return items;
   }, [classes]);
 
+  const languageItems = useMemo((): DescriptionItem[] => {
+    const items: DescriptionItem[] = [];
+    
+    // Get all unique languages from race and character
+    const allLanguages = new Set<string>();
+    
+    // Add race languages
+    if (race?.languages?.length) {
+      race.languages.forEach(lang => allLanguages.add(lang));
+    }
+    
+    // Add character languages
+    if (character.languages?.length) {
+      character.languages.forEach(lang => allLanguages.add(lang));
+    }
+    
+    // Convert to sorted array and create items
+    const sortedLanguages = Array.from(allLanguages).sort();
+    
+    if (sortedLanguages.length > 0) {
+      items.push({
+        label: "Known Languages",
+        children: sortedLanguages.join(", "),
+      });
+    }
+    
+    return items;
+  }, [race, character.languages]);
+
   return (
     <CharacterSheetSectionWrapper
       title="Restrictions & Special Abilities"
@@ -92,6 +121,7 @@ export default function SpecialsRestrictions({
                 {classes.length === 1 ? classes[0]?.name : "Classes"}
               </Tab>
             )}
+            <Tab value="languages">Languages</Tab>
           </TabList>
         </div>
 
@@ -194,6 +224,52 @@ export default function SpecialsRestrictions({
                 </div>
               </TabPanel>
             )}
+
+            <TabPanel value="languages">
+              <div className="p-6 space-y-4">
+                {languageItems.length > 0 ? (
+                  languageItems.map((item, index) => (
+                    <Card
+                      key={index}
+                      variant="standard"
+                      hover
+                      className="group/card"
+                    >
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full group-hover/card:bg-blue-300 transition-colors duration-200"></div>
+                        <Typography
+                          variant="bodySmall"
+                          color="blue"
+                          weight="semibold"
+                          className="group-hover/card:text-blue-300 transition-colors duration-200"
+                        >
+                          {item.label}
+                        </Typography>
+                      </div>
+                      <div className="text-zinc-100 text-sm leading-relaxed">
+                        {item.children}
+                      </div>
+                    </Card>
+                  ))
+                ) : (
+                  <Card variant="standard">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
+                      <Typography
+                        variant="bodySmall"
+                        color="secondary"
+                        weight="semibold"
+                      >
+                        No Languages
+                      </Typography>
+                    </div>
+                    <div className="text-zinc-300 text-sm">
+                      No languages have been specified for this character.
+                    </div>
+                  </Card>
+                )}
+              </div>
+            </TabPanel>
           </TabPanels>
         </div>
       </Tabs>
