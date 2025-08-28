@@ -17,7 +17,8 @@
       "Bash(gtimeout 10 npm run dev)",
       "Bash(pkill:*)",
       "Bash(rg:*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(npx knip:*)"
     ],
     "deny": [],
     "ask": []
