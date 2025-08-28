@@ -37,8 +37,10 @@ function App() {
         <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
           <AppHeader
             setIsSignInModalOpen={setIsSignInModalOpen}
-            alertMessage={alertMessage}
-            onAlertClose={handleAlertClose}
+            {...(alertMessage && { 
+              alertMessage, 
+              onAlertClose: handleAlertClose 
+            })}
           />
           <AppRoutes />
           <AppFooter />

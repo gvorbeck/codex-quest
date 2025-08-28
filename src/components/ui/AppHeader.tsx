@@ -11,8 +11,8 @@ import { Alert } from "@/components/ui/Alert";
 
 interface AppHeaderProps {
   setIsSignInModalOpen: (open: boolean) => void;
-  alertMessage?: string | undefined;
-  onAlertClose?: (() => void) | undefined;
+  alertMessage?: string;
+  onAlertClose?: () => void;
 }
 
 export function AppHeader({ setIsSignInModalOpen, alertMessage, onAlertClose }: AppHeaderProps) {
@@ -196,7 +196,12 @@ export function AppHeader({ setIsSignInModalOpen, alertMessage, onAlertClose }: 
           </div>
         </nav>
       </header>
-      <Alert message={alertMessage} onClose={onAlertClose} />
+      {alertMessage && (
+        <Alert 
+          message={alertMessage} 
+          {...(onAlertClose && { onClose: onAlertClose })}
+        />
+      )}
     </>
   );
 }
