@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { logger } from "@/utils/logger";
 
 /**
  * Custom hook for managing localStorage with automatic JSON serialization/deserialization
@@ -26,7 +27,7 @@ export function useLocalStorage<T>(
         setStoredValue(value);
         localStorage.setItem(key, JSON.stringify(value));
       } catch (error) {
-        console.error(`Error setting localStorage key "${key}":`, error);
+        logger.error(`Error setting localStorage key "${key}":`, error);
       }
     },
     [key]
@@ -38,7 +39,7 @@ export function useLocalStorage<T>(
       localStorage.removeItem(key);
       setStoredValue(defaultValue);
     } catch (error) {
-      console.error(`Error removing localStorage key "${key}":`, error);
+      logger.error(`Error removing localStorage key "${key}":`, error);
     }
   }, [key, defaultValue]);
 

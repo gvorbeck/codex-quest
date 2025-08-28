@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { ValidationResult, ValidationSchema } from "@/types/enhanced";
+import { logger } from "@/utils/logger";
 
 /**
  * Enhanced validation hook with type safety and detailed feedback
@@ -50,7 +51,7 @@ export function useValidation<T>(
       } catch (error) {
         errors.push(`Validation error: ${rule.name}`);
         isValid = false;
-        console.error(`Validation rule "${rule.name}" failed:`, error);
+        logger.error(`Validation rule "${rule.name}" failed:`, error);
       }
     }
 

@@ -1,12 +1,18 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { Character, Spell, Cantrip } from "@/types/character";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Accordion } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
+import { Button } from "@/components/ui/inputs";
+import { Icon } from "@/components/ui";
+import { Modal } from "@/components/ui/feedback";
+import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 
 interface SpellsProps {
   character: Character;
+  onCharacterChange?: (character: Character) => void;
+  isOwner?: boolean;
   className?: string;
   size?: "sm" | "md" | "lg";
 }
@@ -87,9 +93,12 @@ function getCharacterCantrips(character: Character): CantripWithLevel[] {
 
 export default function Spells({
   character,
+  onCharacterChange,
+  isOwner = false,
   className = "",
   size = "md",
 }: SpellsProps) {
+  const [showCantripModal, setShowCantripModal] = useState(false);
   const { knownSpells, cantrips } = useMemo(() => {
     if (!canCastSpells(character)) {
       return { knownSpells: [], cantrips: [] };
@@ -290,8 +299,8 @@ export default function Spells({
             )}
 
             {/* Cantrips */}
-            {cantrips.length > 0 && (
-              <section aria-labelledby="cantrips-heading">
+            <section aria-labelledby="cantrips-heading">
+              <div className="flex items-center justify-between mb-4">
                 <Typography
                   variant="sectionHeading"
                   id="cantrips-heading"
@@ -303,14 +312,29 @@ export default function Spells({
                     aria-hidden="true"
                   />
                   Cantrips
-                  <span
-                    className="text-sm font-normal text-zinc-400"
-                    aria-label={`${cantrips.length} cantrips known`}
-                  >
-                    ({cantrips.length})
-                  </span>
+                  {cantrips.length > 0 && (
+                    <span
+                      className="text-sm font-normal text-zinc-400"
+                      aria-label={`${cantrips.length} cantrips known`}
+                    >
+                      ({cantrips.length})
+                    </span>
+                  )}
                 </Typography>
 
+                {isOwner && onCharacterChange && (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => setShowCantripModal(true)}
+                  >
+                    <Icon name="edit" size="sm" />
+                    Edit Cantrips
+                  </Button>
+                )}
+              </div>
+
+              {cantrips.length > 0 ? (
                 <Accordion
                   items={cantrips}
                   sortBy="name"
@@ -319,8 +343,15 @@ export default function Spells({
                   renderItem={renderSpell}
                   showCounts={false}
                 />
-              </section>
-            )}
+              ) : (
+                <Card variant="standard" className="p-4">
+                  <Typography variant="body" className="text-zinc-400 text-center">
+                    No cantrips known yet.
+                    {isOwner && " Click 'Edit Cantrips' to add some."}
+                  </Typography>
+                </Card>
+              )}
+            </section>
           </div>
         ) : (
           <div className="status-message" role="status" aria-live="polite">
@@ -335,6 +366,38 @@ export default function Spells({
           </div>
         )}
       </div>
+
+      {/* Cantrip Edit Modal */}
+      {isOwner && onCharacterChange && (
+        <Modal
+          isOpen={showCantripModal}
+          onClose={() => setShowCantripModal(false)}
+          title="Edit Cantrips"
+          size="lg"
+        >
+          <CantripSelector
+            character={character}
+            onCantripChange={(cantrips) => {
+              onCharacterChange({
+                ...character,
+                cantrips,
+              });
+            }}
+            mode="edit"
+            title="Known Cantrips"
+            description="Manage the cantrips your character knows."
+          />
+          
+          <div className="flex justify-end pt-4 mt-6 border-t border-zinc-700">
+            <Button
+              variant="primary"
+              onClick={() => setShowCantripModal(false)}
+            >
+              Done
+            </Button>
+          </div>
+        </Modal>
+      )}
     </CharacterSheetSectionWrapper>
   );
 }

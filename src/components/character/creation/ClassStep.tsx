@@ -8,10 +8,12 @@ import {
   CombinationClassSelector,
   SpellSelector,
 } from "@/components/character/creation";
+import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Character, Spell } from "@/types/character";
+import type { Character, Spell, Cantrip } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
+import { logger } from "@/utils/logger";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps {
@@ -107,7 +109,7 @@ function ClassStepComponent({
           setAvailableSpells(spells);
         })
         .catch((error) => {
-          console.error("Failed to load spells:", error);
+          logger.error("Failed to load spells:", error);
           setAvailableSpells([]);
         })
         .finally(() => {
@@ -130,6 +132,13 @@ function ClassStepComponent({
         spells: [selectedSpell], // Replace any existing spells with the new selection
       });
     }
+  };
+
+  const handleCantripChange = (cantrips: Cantrip[]) => {
+    onCharacterChange({
+      ...character,
+      cantrips,
+    });
   };
 
   const handleCombinationToggle = (enabled: boolean) => {
@@ -219,15 +228,25 @@ function ClassStepComponent({
           />
 
           {showSpellSelection && (
-            <SpellSelector
-              character={character}
-              availableSpells={availableSpells}
-              onSpellChange={handleSpellChange}
-              title="Starting Spell"
-              description="Your class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
-              detailsId="spell-selection"
-              isLoading={isLoadingSpells}
-            />
+            <>
+              <SpellSelector
+                character={character}
+                availableSpells={availableSpells}
+                onSpellChange={handleSpellChange}
+                title="Starting Spell"
+                description="Your class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
+                detailsId="spell-selection"
+                isLoading={isLoadingSpells}
+              />
+              
+              <CantripSelector
+                character={character}
+                onCantripChange={handleCantripChange}
+                mode="creation"
+                title="Starting Cantrip (Optional)"
+                description="You may also choose to start with one cantrip - a simple magical effect that requires no spell preparation."
+              />
+            </>
           )}
         </>
       ) : (
@@ -239,15 +258,25 @@ function ClassStepComponent({
           />
 
           {showSpellSelection && (
-            <SpellSelector
-              character={character}
-              availableSpells={availableSpells}
-              onSpellChange={handleSpellChange}
-              title="Starting Spell"
-              description="Your combination class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
-              detailsId="combination-spell-selection"
-              isLoading={isLoadingSpells}
-            />
+            <>
+              <SpellSelector
+                character={character}
+                availableSpells={availableSpells}
+                onSpellChange={handleSpellChange}
+                title="Starting Spell"
+                description="Your combination class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
+                detailsId="combination-spell-selection"
+                isLoading={isLoadingSpells}
+              />
+              
+              <CantripSelector
+                character={character}
+                onCantripChange={handleCantripChange}
+                mode="creation"
+                title="Starting Cantrip (Optional)"
+                description="You may also choose to start with one cantrip - a simple magical effect that requires no spell preparation."
+              />
+            </>
           )}
         </>
       )}

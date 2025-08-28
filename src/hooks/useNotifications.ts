@@ -5,6 +5,7 @@ import type {
   NotificationPosition,
 } from "@/components/ui/feedback/Notification";
 import { useA11yAnnouncements } from "./useA11y";
+import { logger } from "@/utils/logger";
 import { NOTIFICATION_CONSTANTS } from "@/constants/notifications";
 
 export interface ShowNotificationOptions {
@@ -145,7 +146,7 @@ export function useNotifications(
       try {
         validateNotificationOptions(options);
       } catch (error) {
-        console.error("Invalid notification options:", error);
+        logger.error("Invalid notification options:", error);
         // Fallback to safe defaults on validation error
         options = {
           ...options,

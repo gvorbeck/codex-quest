@@ -330,7 +330,11 @@ export default function CharacterSheet() {
             {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
             {(character.spells?.length || character.cantrips?.length) && (
               <div className="break-inside-avoid">
-                <Spells character={character} />
+                <Spells 
+                  character={character} 
+                  onCharacterChange={handleCharacterChange}
+                  isOwner={isOwner}
+                />
               </div>
             )}
 

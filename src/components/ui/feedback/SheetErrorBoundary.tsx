@@ -1,8 +1,5 @@
-import { Component } from "react";
-import type { ErrorInfo, ReactNode } from "react";
-import { Link } from "wouter";
-import { Button } from "@/components/ui";
-import { Typography } from "@/components/ui/design-system";
+import type { ReactNode } from "react";
+import { SharedErrorBoundary } from "./SharedErrorBoundary";
 
 interface Props {
   children: ReactNode;
@@ -10,65 +7,14 @@ interface Props {
   entityContext: string; // "game" | "character"
 }
 
-interface State {
-  hasError: boolean;
-  error?: Error;
-}
-
-export class SheetErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
-  }
-
-  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(
-      `Error in ${this.props.entityContext} sheet:`,
-      error,
-      errorInfo
-    );
-  }
-
-  override render() {
-    if (this.state.hasError) {
-      return (
-        <section className="text-center py-16" role="alert">
-          <Typography variant="h2" color="primary" className="mb-4">
-            {this.props.entityType} Error
-          </Typography>
-          <p className="text-primary-400 mb-6">
-            There was a problem displaying this {this.props.entityContext}{" "}
-            sheet. The {this.props.entityContext}
-            data may be corrupted or there's an issue loading the{" "}
-            {this.props.entityContext} information.
-          </p>
-          <div className="space-x-4">
-            <Button onClick={() => window.location.reload()}>
-              Refresh Page
-            </Button>
-            <Link
-              href="/"
-              className="text-highlight hover:text-highlight-hover transition-colors"
-            >
-              Return to Homepage
-            </Link>
-          </div>
-          <details className="mt-6 text-left max-w-md mx-auto">
-            <summary className="text-sm text-primary-300 cursor-pointer">
-              Error details (for developers)
-            </summary>
-            <pre className="mt-2 text-xs text-primary-400 bg-primary-800 p-3 rounded overflow-auto">
-              {this.state.error?.message}
-            </pre>
-          </details>
-        </section>
-      );
-    }
-
-    return this.props.children;
-  }
+export function SheetErrorBoundary({ children, entityType, entityContext }: Props) {
+  return (
+    <SharedErrorBoundary 
+      contextName={`${entityContext} sheet`}
+      entityType={entityType}
+      entityContext={entityContext}
+    >
+      {children}
+    </SharedErrorBoundary>
+  );
 }

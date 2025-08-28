@@ -184,6 +184,7 @@ B. Component Patterns
 - Review component composition and reusability
 - Check for proper TypeScript integration and type safety
 - Assess error boundaries and error handling
+- Find instances ripe for replacement by ui and design-system components
 
 C. Event Handling & Side Effects
 

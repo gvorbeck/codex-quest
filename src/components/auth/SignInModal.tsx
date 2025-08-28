@@ -4,6 +4,7 @@ import { TextInput } from "@/components/ui/inputs";
 import { Modal } from "@/components/ui/feedback";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/layout/Tabs";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
+import { logger } from "@/utils/logger";
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -44,7 +45,7 @@ export default function SignInModal({
       }
       resetForms();
     } catch (error: unknown) {
-      console.error("Sign in error:", error);
+      logger.error("Sign in error:", error);
       const firebaseError = error as { code?: string };
       if (firebaseError.code === "auth/user-not-found") {
         setError("No account found with this email address.");
@@ -89,7 +90,7 @@ export default function SignInModal({
       }
       resetForms();
     } catch (error: unknown) {
-      console.error("Sign up error:", error);
+      logger.error("Sign up error:", error);
       const firebaseError = error as { code?: string };
       if (firebaseError.code === "auth/email-already-in-use") {
         setError("An account with this email already exists.");

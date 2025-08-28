@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { logger } from "@/utils/logger";
 import type { Class, Spell } from "@/types/character";
 
 export interface SpellGainInfo {
@@ -94,7 +95,7 @@ export function useSpellSelection({
       } catch (err) {
         const errorMessage = "Failed to load spells. Please try again.";
         setError(errorMessage);
-        console.error("Spell loading error:", err);
+        logger.error("Spell loading error:", err);
         setAvailableSpells([]);
       } finally {
         setIsLoadingSpells(false);

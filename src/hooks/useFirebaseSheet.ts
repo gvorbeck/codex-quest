@@ -3,6 +3,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/utils/logger";
 
 interface UseFirebaseSheetParams {
   userId: string | undefined;
@@ -61,7 +62,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
       });
 
       if (!userId || !entityId || !isOwner) {
-        console.error("🔥 useFirebaseSheet: Unauthorized access attempt", {
+        logger.error("🔥 useFirebaseSheet: Unauthorized access attempt", {
           userId,
           entityId,
           isOwner,
@@ -118,11 +119,11 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         await updateDoc(entityRef, cleanData);
         console.log("🔥 useFirebaseSheet: Firebase save successful!");
       } catch (err) {
-        console.error(
+        logger.error(
           `🔥 useFirebaseSheet: Error updating ${collection}:`,
           err
         );
-        console.error("🔥 useFirebaseSheet: Full error details:", {
+        logger.error("🔥 useFirebaseSheet: Full error details:", {
           errorMessage: err instanceof Error ? err.message : "Unknown error",
           errorCode: (err as { code?: string })?.code,
           errorDetails: (err as { details?: unknown })?.details,
@@ -183,7 +184,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
           );
         }
       } catch (err) {
-        console.error(`Error loading ${collection}:`, err);
+        logger.error(`Error loading ${collection}:`, err);
         setError(`Failed to load ${collection.slice(0, -1)}`);
       } finally {
         setLoading(false);

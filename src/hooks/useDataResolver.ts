@@ -9,6 +9,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
 
 interface ResolvedData {
@@ -286,7 +287,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
           });
         }
       } catch (error) {
-        console.error("Error resolving player data:", error);
+        logger.error("Error resolving player data:", error);
       } finally {
         if (mountedRef.current) {
           setIsLoading(false);

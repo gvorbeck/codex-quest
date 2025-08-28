@@ -6,6 +6,7 @@
 import type { Equipment, Spell } from "@/types/character";
 import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants/gameData";
 import { CACHE_KEYS } from "@/constants/storage";
+import { logger } from "@/utils/logger";
 
 // Cache for loaded data chunks
 const dataCache = new Map<string, unknown>();
@@ -59,7 +60,7 @@ export async function loadEquipmentByCategory(
     dataCache.set(cacheKey, categoryItems);
     return categoryItems;
   } catch (error) {
-    console.error(`Failed to load equipment category ${category}:`, error);
+    logger.error(`Failed to load equipment category ${category}:`, error);
     return [];
   }
 }
@@ -80,7 +81,7 @@ export async function loadAllEquipment(): Promise<Equipment[]> {
     dataCache.set(cacheKey, equipment);
     return equipment;
   } catch (error) {
-    console.error("Failed to load all equipment:", error);
+    logger.error("Failed to load all equipment:", error);
     return [];
   }
 }
@@ -123,7 +124,7 @@ export async function loadSpellsForClass(
     dataCache.set(cacheKey, filteredSpells);
     return filteredSpells;
   } catch (error) {
-    console.error(`Failed to load spells for ${classId}:`, error);
+    logger.error(`Failed to load spells for ${classId}:`, error);
     return [];
   }
 }
@@ -142,7 +143,7 @@ export async function preloadCriticalData(): Promise<void> {
       loadSpellsForClass(CHARACTER_CLASSES.CLERIC, 1),
     ]);
   } catch (error) {
-    console.error("Failed to preload critical data:", error);
+    logger.error("Failed to preload critical data:", error);
   }
 }
 

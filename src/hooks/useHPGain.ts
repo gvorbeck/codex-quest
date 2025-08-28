@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { roller } from "@/utils/dice";
 import { LEVEL_UP_CONSTANTS, type TwoHPClass } from "@/constants/levelUp";
 import type { Character, Class } from "@/types/character";
+import { logger } from "@/utils/logger";
 
 export interface HPGainResult {
   roll: number | null;
@@ -54,7 +55,7 @@ export function useHPGain({
       const errorMessage =
         err instanceof Error ? err.message : "Failed to calculate HP gain";
       setError(errorMessage);
-      console.error("HP gain calculation error:", err);
+      logger.error("HP gain calculation error:", err);
     }
   }, [
     character,

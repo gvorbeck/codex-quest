@@ -19,6 +19,7 @@ import { saveCharacter } from "@/services/characters";
 import { STORAGE_KEYS } from "@/constants/storage";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
+import { logger } from "@/utils/logger";
 
 const emptyCharacter: Character = {
   name: "",
@@ -103,23 +104,30 @@ function CharGen() {
   const [useCombinationClass, setUseCombinationClass] =
     useLocalStorage<boolean>(STORAGE_KEYS.USE_COMBINATION_CLASS, false);
 
-  // Create validation service instance
-  const validationService = useMemo(() => {
-    const filteredRaces = allRaces.filter(
-      (race) => includeSupplementalRace || !race.supplementalContent
-    );
-    const filteredClasses = allClasses.filter(
-      (cls) => includeSupplementalClass || !cls.supplementalContent
-    );
-    return new CharacterValidationService(filteredRaces, filteredClasses);
-  }, [includeSupplementalRace, includeSupplementalClass]);
+  // Memoize filtered data to prevent recreation of validation service
+  const filteredRaces = useMemo(
+    () => allRaces.filter(race => includeSupplementalRace || !race.supplementalContent),
+    [includeSupplementalRace]
+  );
 
-  // Initialize cascade validation hook
+  const filteredClasses = useMemo(
+    () => allClasses.filter(cls => includeSupplementalClass || !cls.supplementalContent),
+    [includeSupplementalClass]
+  );
+
+  // Create validation service instance - now memoized properly
+  const validationService = useMemo(() => {
+    return new CharacterValidationService(filteredRaces, filteredClasses);
+  }, [filteredRaces, filteredClasses]);
+
+  // Initialize cascade validation hook with memoized data
   useCascadeValidation({
     character,
     onCharacterChange: setCharacter,
     includeSupplementalRace,
     includeSupplementalClass,
+    filteredRaces,
+    filteredClasses,
   });
 
   // Reset combination class checkbox when race changes to one that doesn't support it
@@ -146,12 +154,12 @@ function CharGen() {
     if (isLastStep) {
       // This is the completion step
       if (!user) {
-        console.error("User not authenticated");
+        logger.error("User not authenticated");
         return;
       }
 
       if (!character.name?.trim()) {
-        console.error("Character name is required");
+        logger.error("Character name is required");
         return;
       }
 
@@ -167,7 +175,7 @@ function CharGen() {
         // Navigate to home
         setLocation("/");
       } catch (error) {
-        console.error("Failed to save character:", error);
+        logger.error("Failed to save character:", error);
         // TODO: Show error toast/notification
       }
     } else {
@@ -185,16 +193,6 @@ function CharGen() {
       const hasUser = !!user;
       const hasName = !!character.name?.trim();
       const disabled = !hasUser || !hasName;
-
-      console.log("Complete button validation:", {
-        step,
-        LAST_STEP_INDEX,
-        isLastStep,
-        hasUser,
-        hasName,
-        characterName: character.name,
-        disabled,
-      });
 
       return disabled;
     }
@@ -279,12 +277,6 @@ function CharGen() {
       },
     ];
 
-    console.log("Step items created:", {
-      totalSteps: items.length,
-      stepTitles: items.map((item) => item.title),
-      currentStep: step,
-    });
-
     return items;
   }, [
     character,
@@ -295,7 +287,6 @@ function CharGen() {
     setIncludeSupplementalClass,
     useCombinationClass,
     setUseCombinationClass,
-    step,
   ]);
 
   const breadcrumbItems = useMemo(

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-import type { Character } from "@/types/character";
+import type { Character, Race, Class } from "@/types/character";
 import { cascadeValidateCharacter } from "@/utils/characterValidation";
 
 interface UseCascadeValidationProps {
@@ -9,6 +9,8 @@ interface UseCascadeValidationProps {
   onCharacterChange: (character: Character) => void;
   includeSupplementalRace: boolean;
   includeSupplementalClass: boolean;
+  filteredRaces?: Race[];
+  filteredClasses?: Class[];
 }
 
 /**
@@ -20,6 +22,8 @@ export function useCascadeValidation({
   onCharacterChange,
   includeSupplementalRace,
   includeSupplementalClass,
+  filteredRaces,
+  filteredClasses,
 }: UseCascadeValidationProps) {
   // Use stable string for class array to avoid unnecessary effects
   const classArrayString = useMemo(
@@ -33,16 +37,22 @@ export function useCascadeValidation({
     return `${abilities.strength.value}-${abilities.dexterity.value}-${abilities.constitution.value}-${abilities.intelligence.value}-${abilities.wisdom.value}-${abilities.charisma.value}`;
   }, [character.abilities]);
 
+  // Use provided filtered data or fall back to filtering all data
+  const availableRaces = useMemo(() => 
+    filteredRaces || allRaces.filter(race => includeSupplementalRace || !race.supplementalContent),
+    [filteredRaces, includeSupplementalRace]
+  );
+
+  const availableClasses = useMemo(() =>
+    filteredClasses || allClasses.filter(cls => includeSupplementalClass || !cls.supplementalContent),
+    [filteredClasses, includeSupplementalClass]
+  );
+
   const validateAndUpdateCharacter = useCallback(() => {
     // Get the currently selected race
-    const selectedRace = allRaces.find((race) => race.id === character.race);
+    const selectedRace = availableRaces.find((race) => race.id === character.race);
 
-    // Filter available classes based on supplemental content setting
-    const availableClasses = allClasses.filter(
-      (cls) => includeSupplementalClass || !cls.supplementalContent
-    );
-
-    // Run cascade validation
+    // Run cascade validation with available classes
     const validatedCharacter = cascadeValidateCharacter(
       character,
       selectedRace,
@@ -58,7 +68,7 @@ export function useCascadeValidation({
     if (hasChanged) {
       onCharacterChange(validatedCharacter);
     }
-  }, [character, onCharacterChange, includeSupplementalClass]);
+  }, [character, onCharacterChange, availableRaces, availableClasses]);
 
   // Run validation whenever character abilities, race, class, or supplemental settings change
   useEffect(() => {
@@ -70,9 +80,6 @@ export function useCascadeValidation({
     character.race,
     // Watch for class changes (to clear invalid spells)
     classArrayString,
-    // Watch for supplemental content changes
-    includeSupplementalRace,
-    includeSupplementalClass,
     // Include the validation function
     validateAndUpdateCharacter,
   ]);

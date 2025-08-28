@@ -11,6 +11,7 @@ export { default as Notification } from "./Notification";
 export { default as NotificationContainer } from "./NotificationContainer";
 export { LoadingState } from "./LoadingState";
 export { ErrorBoundary } from "./ErrorBoundary";
+export { SharedErrorBoundary } from "./SharedErrorBoundary";
 export { NotificationErrorBoundary } from "./NotificationErrorBoundary";
 export { CharGenErrorBoundary } from "./CharGenErrorBoundary";
 export { GameGenErrorBoundary } from "./GameGenErrorBoundary";

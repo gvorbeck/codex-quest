@@ -3,6 +3,7 @@ import { DeleteCharacterModal } from "@/components/ui/feedback";
 import { CharacterCard } from "./CharacterCard";
 import { useCharacters, useAuth } from "@/hooks";
 import { deleteCharacter } from "@/services/characters";
+import { logger } from "@/utils/logger";
 import { useState } from "react";
 
 export function CharactersList() {
@@ -28,7 +29,7 @@ export function CharactersList() {
       setDeleteModalOpen(false);
       setCharacterToDelete(null);
     } catch (error) {
-      console.error('Failed to delete character:', error);
+      logger.error('Failed to delete character:', error);
       alert('Failed to delete character. Please try again.');
     } finally {
       setDeletingCharacter(null);

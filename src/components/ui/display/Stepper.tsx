@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useStepAnnouncements } from "@/hooks/useA11y";
-import { memo } from "react";
+import { useValidationAnnouncements } from "@/hooks/useValidationAnnouncements";
+import { memo, useEffect } from "react";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
 
@@ -36,6 +37,16 @@ function Stepper({
 
   // Announce step changes to screen readers
   useStepAnnouncements(safeCurrentStep, stepItems);
+
+  // Announce validation errors to screen readers
+  const { announceValidationErrors } = useValidationAnnouncements();
+
+  // Announce validation messages when they change
+  useEffect(() => {
+    if (validationMessage) {
+      announceValidationErrors([validationMessage], `Step ${safeCurrentStep + 1}`);
+    }
+  }, [validationMessage, safeCurrentStep, announceValidationErrors]);
 
   const handleStepChange = (direction: "next" | "previous") => {
     if (direction === "next") {
