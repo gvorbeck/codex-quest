@@ -115,7 +115,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
     return results;
   };
 
-  const setupRealTimeListener = (userId: string, characterId: string) => {
+  const setupRealTimeListener = useCallback((userId: string, characterId: string) => {
     const cacheKey = getCacheKey(userId, characterId);
     
     // Don't set up duplicate listeners
@@ -155,7 +155,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
     );
     
     activeListeners.set(cacheKey, unsubscribe);
-  };
+  }, []);
 
 
   const resolveMultiple = useCallback(async (playerData: Array<{ userId: string; characterId: string }>) => {
@@ -262,7 +262,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
         setIsLoading(false);
       }
     }
-  }, [enableRealTime]);
+  }, [enableRealTime, resolvedData, setupRealTimeListener]);
 
   const getResolvedData = useCallback((userId: string, characterId: string): ResolvedData | undefined => {
     const cacheKey = getCacheKey(userId, characterId);

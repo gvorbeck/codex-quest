@@ -174,7 +174,7 @@ function CharGen() {
       // Regular next step
       setStep(step + 1);
     }
-  }, [step, user, character, setLocation]);
+  }, [step, user, character, setLocation, LAST_STEP_INDEX]);
 
   // Memoize validation functions to prevent unnecessary re-computation
   const isNextDisabled = useMemo(() => {
@@ -200,7 +200,7 @@ function CharGen() {
     }
 
     return validationService.isStepDisabled(step, character);
-  }, [validationService, step, character, user]);
+  }, [validationService, step, character, user, LAST_STEP_INDEX]);
 
   const getValidationMessage = useMemo(() => {
     const isLastStep = step === LAST_STEP_INDEX;
@@ -216,7 +216,7 @@ function CharGen() {
     }
 
     return validationService.getStepValidationMessage(step, character);
-  }, [validationService, step, character, user]);
+  }, [validationService, step, character, user, LAST_STEP_INDEX]);
 
   const stepItems = useMemo(() => {
     const items = [

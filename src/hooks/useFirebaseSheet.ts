@@ -120,8 +120,8 @@ export function useFirebaseSheet<T extends Record<string, any>>({
       console.error(`🔥 useFirebaseSheet: Error updating ${collection}:`, err);
       console.error('🔥 useFirebaseSheet: Full error details:', {
         errorMessage: err instanceof Error ? err.message : 'Unknown error',
-        errorCode: (err as any)?.code,
-        errorDetails: (err as any)?.details
+        errorCode: (err as { code?: string })?.code,
+        errorDetails: (err as { details?: unknown })?.details
       });
       
       // Revert to previous state on error

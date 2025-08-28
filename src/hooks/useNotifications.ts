@@ -61,16 +61,29 @@ export function useNotifications(
       if (options.duration !== undefined && options.duration < 0) {
         throw new Error("Notification duration must be non-negative");
       }
-      
+
       if (options.title && typeof options.title !== "string") {
         throw new Error("Notification title must be a string");
       }
-      
-      if (options.priority && !["info", "success", "warning", "error"].includes(options.priority)) {
+
+      if (
+        options.priority &&
+        !["info", "success", "warning", "error"].includes(options.priority)
+      ) {
         throw new Error("Invalid notification priority");
       }
-      
-      if (options.position && !["top-right", "top-left", "bottom-right", "bottom-left", "top-center", "bottom-center"].includes(options.position)) {
+
+      if (
+        options.position &&
+        ![
+          "top-right",
+          "top-left",
+          "bottom-right",
+          "bottom-left",
+          "top-center",
+          "bottom-center",
+        ].includes(options.position)
+      ) {
         throw new Error("Invalid notification position");
       }
     },
@@ -115,6 +128,13 @@ export function useNotifications(
     []
   );
 
+  // Remove a notification by ID
+  const dismissNotification = useCallback((id: string) => {
+    setNotifications((prev) =>
+      prev.filter((notification) => notification.id !== id)
+    );
+  }, []);
+
   // Add a new notification
   const showNotification = useCallback(
     (
@@ -153,19 +173,21 @@ export function useNotifications(
       setNotifications((prev) => {
         // Add the new notification
         const newNotifications = [...prev, notification];
-        
+
         // If we exceed the maximum, trigger dismissal of the oldest notification
-        if (newNotifications.length > NOTIFICATION_CONSTANTS.MAX_NOTIFICATIONS) {
+        if (
+          newNotifications.length > NOTIFICATION_CONSTANTS.MAX_NOTIFICATIONS
+        ) {
           const oldestNotification = newNotifications[0];
-          
+
           // Use the existing dismiss mechanism for smooth animation
           setTimeout(() => {
             dismissNotification(oldestNotification!.id);
           }, 0); // Trigger immediately but asynchronously
-          
+
           return newNotifications;
         }
-        
+
         return newNotifications;
       });
 
@@ -188,15 +210,9 @@ export function useNotifications(
       createAnnouncementText,
       announce,
       validateNotificationOptions,
+      dismissNotification,
     ]
   );
-
-  // Remove a notification by ID
-  const dismissNotification = useCallback((id: string) => {
-    setNotifications((prev) =>
-      prev.filter((notification) => notification.id !== id)
-    );
-  }, []);
 
   // Clear all notifications
   const clearAll = useCallback(() => {
@@ -206,9 +222,9 @@ export function useNotifications(
   // Generic factory function for priority methods
   const createPriorityMethod = useCallback(
     (
-      priority: NotificationPriority,
-      defaultOverrides?: Partial<ShowNotificationOptions>
-    ) =>
+        priority: NotificationPriority,
+        defaultOverrides?: Partial<ShowNotificationOptions>
+      ) =>
       (
         message: string | React.ReactNode,
         options: Omit<ShowNotificationOptions, "priority"> = {}
