@@ -15,7 +15,11 @@ interface AppHeaderProps {
   onAlertClose?: () => void;
 }
 
-export function AppHeader({ setIsSignInModalOpen, alertMessage, onAlertClose }: AppHeaderProps) {
+export function AppHeader({
+  setIsSignInModalOpen,
+  alertMessage,
+  onAlertClose,
+}: AppHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useAuth();
 
@@ -197,8 +201,8 @@ export function AppHeader({ setIsSignInModalOpen, alertMessage, onAlertClose }: 
         </nav>
       </header>
       {alertMessage && (
-        <Alert 
-          message={alertMessage} 
+        <Alert
+          message={alertMessage}
           {...(onAlertClose && { onClose: onAlertClose })}
         />
       )}

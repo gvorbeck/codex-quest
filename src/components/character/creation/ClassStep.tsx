@@ -16,7 +16,7 @@ import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
 import { logger } from "@/utils/logger";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips, getSpellTypeInfo } from "@/utils/cantrips";
-import { DIVINE_CLASSES, ARCANE_CLASSES } from "@/constants/spellcasting";
+import { DIVINE_CLASSES, ARCANE_CLASSES, type ArcaneClass, type DivineClass } from "@/constants/spellcasting";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps {
@@ -185,10 +185,10 @@ function ClassStepComponent({
     let abilityBonus = 0;
     
     const hasArcane = newCharacter.class.some((classId) =>
-      ARCANE_CLASSES.includes(classId as any)
+      ARCANE_CLASSES.includes(classId as ArcaneClass)
     );
     const hasDivine = newCharacter.class.some((classId) =>
-      DIVINE_CLASSES.includes(classId as any)
+      DIVINE_CLASSES.includes(classId as DivineClass)
     );
 
     if (hasArcane) {

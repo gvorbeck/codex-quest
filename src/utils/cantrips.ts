@@ -1,7 +1,7 @@
 import type { Character, Cantrip } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import cantripData from "@/data/cantrips.json";
-import { DIVINE_CLASSES, ARCANE_CLASSES } from "@/constants/spellcasting";
+import { DIVINE_CLASSES, ARCANE_CLASSES, type ArcaneClass, type DivineClass } from "@/constants/spellcasting";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -43,10 +43,10 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
  */
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   const hasDivineClasses = character.class.some((classId) =>
-    DIVINE_CLASSES.includes(classId as any)
+    DIVINE_CLASSES.includes(classId as DivineClass)
   );
   const hasArcaneClasses = character.class.some((classId) =>
-    ARCANE_CLASSES.includes(classId as any)
+    ARCANE_CLASSES.includes(classId as ArcaneClass)
   );
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;

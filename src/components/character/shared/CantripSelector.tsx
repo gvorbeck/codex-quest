@@ -83,11 +83,7 @@ SectionHeader.displayName = "SectionHeader";
 const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>((props, ref) => {
   const { character, onCantripChange, className = "" } = props;
   
-  // Early return if character can't learn cantrips
-  if (!canLearnCantrips(character)) {
-    return null;
-  }
-
+  // All hooks must be called before any conditional returns
   const [showModal, setShowModal] = useState(false);
   const [selectedCantripName, setSelectedCantripName] = useState("");
 
@@ -129,6 +125,11 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>((props, re
     setShowModal(false);
     setSelectedCantripName("");
   }, []);
+
+  // Early return if character can't learn cantrips (after all hooks)
+  if (!canLearnCantrips(character)) {
+    return null;
+  }
 
   // Get props specific to mode
   const getTitle = () => {
