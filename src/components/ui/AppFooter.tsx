@@ -3,10 +3,7 @@ import Badge from "./design-system/Badge";
 
 export function AppFooter() {
   return (
-    <footer
-      role="contentinfo"
-      className="mt-auto py-8"
-    >
+    <footer role="contentinfo" className="mt-auto py-8">
       <div className="max-w-7xl mx-auto px-4">
         <Card variant="standard" shadow="standard" className="text-center">
           <div className="space-y-6">
@@ -67,17 +64,35 @@ export function AppFooter() {
                 </a>
               </div>
             </nav>
-            
+
             {/* Divider */}
             <div className="border-t border-zinc-600/50" />
-            
+
             {/* Copyright */}
-            <Typography 
-              variant="bodySmall" 
-              color="secondary" 
-              className="m-0"
-            >
-              &copy; 2025 Codex.Quest. A BFRPG character generator.
+            <Typography variant="bodySmall" color="secondary" className="m-0">
+              &copy; {new Date().getFullYear()}{" "}
+              <a
+                href="https://iamgarrett.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-300 hover:text-amber-400 transition-colors duration-200 font-medium underline decoration-amber-300/50 hover:decoration-amber-400"
+              >
+                J. Garrett Vorbeck
+              </a>
+            </Typography>
+            
+            {/* Game System Attribution */}
+            <Typography variant="bodySmall" color="secondary" className="m-0">
+              This site is based on the{" "}
+              <a
+                href="https://basicfantasy.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-300 hover:text-amber-400 transition-colors duration-200 font-medium underline decoration-amber-300/50 hover:decoration-amber-400"
+              >
+                Basic Fantasy Role-Playing Game
+              </a>
+              {" "}(4th Edition)
             </Typography>
           </div>
         </Card>
