@@ -11,4 +11,7 @@ export { useDebouncedUpdate } from "./useDebouncedUpdate";
 export { useHPGain } from "./useHPGain";
 export { useSpellSelection } from "./useSpellSelection";
 export { useValidationAnnouncements } from "./useValidationAnnouncements";
-export { useCharacterCreation, useCharacterCreationStep } from "./useCharacterCreation";
+export {
+  useCharacterCreation,
+  useCharacterCreationStep,
+} from "./useCharacterCreation";

@@ -7,7 +7,10 @@ type CharacterCreationAction =
   | { type: "SET_CHARACTER"; payload: Character }
   | { type: "UPDATE_CHARACTER"; payload: Partial<Character> }
   | { type: "SET_RACE_FILTER"; payload: { includeSupplemental: boolean } }
-  | { type: "SET_CLASS_FILTER"; payload: { includeSupplemental: boolean; useCombination: boolean } }
+  | {
+      type: "SET_CLASS_FILTER";
+      payload: { includeSupplemental: boolean; useCombination: boolean };
+    }
   | { type: "SET_CURRENT_STEP"; payload: number }
   | { type: "MARK_STEP_COMPLETE"; payload: number }
   | { type: "MARK_STEP_INCOMPLETE"; payload: number }
@@ -30,7 +33,7 @@ interface CharacterCreationContextType {
   character: Character;
   currentStep: number;
   completedSteps: Set<number>;
-  
+
   // Filters (backward compatibility)
   filteredRaces: Race[];
   filteredClasses: Class[];
@@ -40,7 +43,7 @@ interface CharacterCreationContextType {
   setIncludeSupplementalClass: (include: boolean) => void;
   useCombinationClass: boolean;
   setUseCombinationClass: (use: boolean) => void;
-  
+
   // Enhanced actions
   setCharacter: (character: Character) => void;
   updateCharacter: (updates: Partial<Character>) => void;
@@ -53,7 +56,9 @@ interface CharacterCreationContextType {
 }
 
 // Initial state
-const createInitialState = (initialCharacter?: Partial<Character>): CharacterCreationState => ({
+const createInitialState = (
+  initialCharacter?: Partial<Character>
+): CharacterCreationState => ({
   character: {
     id: "",
     name: "",
@@ -74,7 +79,8 @@ const createInitialState = (initialCharacter?: Partial<Character>): CharacterCre
   },
 });
 
-const CharacterCreationContext = createContext<CharacterCreationContextType | null>(null);
+const CharacterCreationContext =
+  createContext<CharacterCreationContextType | null>(null);
 
 // Reducer function
 function characterCreationReducer(
@@ -89,7 +95,10 @@ function characterCreationReducer(
     case "SET_RACE_FILTER":
       return {
         ...state,
-        filters: { ...state.filters, includeSupplementalRace: action.payload.includeSupplemental },
+        filters: {
+          ...state.filters,
+          includeSupplementalRace: action.payload.includeSupplemental,
+        },
       };
     case "SET_CLASS_FILTER":
       return {
@@ -126,14 +135,14 @@ interface CharacterCreationProviderProps {
   filteredClasses?: Class[];
 }
 
-export function CharacterCreationProvider({ 
-  children, 
+export function CharacterCreationProvider({
+  children,
   initialCharacter,
   filteredRaces = [],
-  filteredClasses = []
+  filteredClasses = [],
 }: CharacterCreationProviderProps) {
   const [state, dispatch] = useReducer(
-    characterCreationReducer, 
+    characterCreationReducer,
     createInitialState(initialCharacter)
   );
 
@@ -144,67 +153,70 @@ export function CharacterCreationProvider({
       character: state.character,
       currentStep: state.currentStep,
       completedSteps: state.completedSteps,
-      
+
       // Backward compatibility props
       filteredRaces,
       filteredClasses,
       includeSupplementalRace: state.filters.includeSupplementalRace,
       includeSupplementalClass: state.filters.includeSupplementalClass,
       useCombinationClass: state.filters.useCombinationClass,
-      
+
       // Actions
       setCharacter: (character: Character) => {
         dispatch({ type: "SET_CHARACTER", payload: character });
       },
-      
+
       updateCharacter: (updates: Partial<Character>) => {
         dispatch({ type: "UPDATE_CHARACTER", payload: updates });
       },
-      
+
       setIncludeSupplementalRace: (include: boolean) => {
-        dispatch({ type: "SET_RACE_FILTER", payload: { includeSupplemental: include } });
+        dispatch({
+          type: "SET_RACE_FILTER",
+          payload: { includeSupplemental: include },
+        });
       },
-      
+
       setIncludeSupplementalClass: (include: boolean) => {
-        dispatch({ 
-          type: "SET_CLASS_FILTER", 
-          payload: { 
-            includeSupplemental: include, 
-            useCombination: state.filters.useCombinationClass 
-          }
+        dispatch({
+          type: "SET_CLASS_FILTER",
+          payload: {
+            includeSupplemental: include,
+            useCombination: state.filters.useCombinationClass,
+          },
         });
       },
-      
+
       setUseCombinationClass: (use: boolean) => {
-        dispatch({ 
-          type: "SET_CLASS_FILTER", 
-          payload: { 
-            includeSupplemental: state.filters.includeSupplementalClass, 
-            useCombination: use 
-          }
+        dispatch({
+          type: "SET_CLASS_FILTER",
+          payload: {
+            includeSupplemental: state.filters.includeSupplementalClass,
+            useCombination: use,
+          },
         });
       },
-      
+
       setCurrentStep: (step: number) => {
         dispatch({ type: "SET_CURRENT_STEP", payload: step });
       },
-      
+
       markStepComplete: (step: number) => {
         dispatch({ type: "MARK_STEP_COMPLETE", payload: step });
       },
-      
+
       markStepIncomplete: (step: number) => {
         dispatch({ type: "MARK_STEP_INCOMPLETE", payload: step });
       },
-      
+
       isStepComplete: (step: number) => {
         return state.completedSteps.has(step);
       },
-      
+
       getCompletionPercentage: (totalSteps: number) => {
         return Math.round((state.completedSteps.size / totalSteps) * 100);
       },
-      
+
       resetCharacter: () => {
         dispatch({ type: "RESET" });
       },

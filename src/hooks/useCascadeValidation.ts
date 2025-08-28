@@ -38,19 +38,29 @@ export function useCascadeValidation({
   }, [character.abilities]);
 
   // Use provided filtered data or fall back to filtering all data
-  const availableRaces = useMemo(() => 
-    filteredRaces || allRaces.filter(race => includeSupplementalRace || !race.supplementalContent),
+  const availableRaces = useMemo(
+    () =>
+      filteredRaces ||
+      allRaces.filter(
+        (race) => includeSupplementalRace || !race.supplementalContent
+      ),
     [filteredRaces, includeSupplementalRace]
   );
 
-  const availableClasses = useMemo(() =>
-    filteredClasses || allClasses.filter(cls => includeSupplementalClass || !cls.supplementalContent),
+  const availableClasses = useMemo(
+    () =>
+      filteredClasses ||
+      allClasses.filter(
+        (cls) => includeSupplementalClass || !cls.supplementalContent
+      ),
     [filteredClasses, includeSupplementalClass]
   );
 
   const validateAndUpdateCharacter = useCallback(() => {
     // Get the currently selected race
-    const selectedRace = availableRaces.find((race) => race.id === character.race);
+    const selectedRace = availableRaces.find(
+      (race) => race.id === character.race
+    );
 
     // Run cascade validation with available classes
     const validatedCharacter = cascadeValidateCharacter(

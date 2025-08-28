@@ -1,53 +1,98 @@
-import { useState, useMemo, useCallback } from "react";
-import { Card, Typography, Badge } from "@/components/ui/design-system";
-import { Select, Button } from "@/components/ui/inputs";
+import { useState, useMemo, useCallback, memo, forwardRef } from "react";
+import { Card, Typography } from "@/components/ui/design-system";
+import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
-import { Modal } from "@/components/ui/feedback";
+import SafeHTML from "@/components/ui/SafeHTML";
 import type { Character, Cantrip } from "@/types/character";
-import { allClasses } from "@/data/classes";
-import cantripData from "@/data/cantrips.json";
+import { 
+  canLearnCantrips, 
+  getAvailableCantrips, 
+  getSpellTypeInfo, 
+  getCantripOptions,
+  type SpellTypeInfo 
+} from "@/utils/cantrips";
+import CantripCard from "./CantripCard";
+import CantripModal from "./CantripModal";
 
-interface CantripSelectorProps {
-  character: Character;
-  onCantripChange: (cantrips: Cantrip[]) => void;
-  mode?: "creation" | "edit";
-  title?: string;
-  description?: string;
-  className?: string;
+// Discriminated union for better type safety
+type CantripSelectorProps = 
+  | {
+      mode: "creation";
+      character: Character;
+      onCantripChange: (cantrips: Cantrip[]) => void;
+      title?: string;
+      description?: string;
+      className?: string;
+    }
+  | {
+      mode: "edit";
+      character: Character;
+      onCantripChange: (cantrips: Cantrip[]) => void;
+      title?: string;
+      className?: string;
+    };
+
+interface SectionHeaderProps {
+  spellTypeInfo: SpellTypeInfo;
+  title: string;
+  knownCantripsCount: number;
+  availableToAddCount: number;
+  isOwner: boolean;
+  onEditClick: () => void;
 }
 
-function canLearnCantrips(character: Character): boolean {
-  return character.class.some((classId) => {
-    const classData = allClasses.find((c) => c.id === classId);
-    return classData?.spellcasting !== undefined;
-  });
-}
+// Extracted component for section header
+const SectionHeader = memo(({ 
+  spellTypeInfo, 
+  title, 
+  knownCantripsCount, 
+  availableToAddCount,
+  isOwner,
+  onEditClick 
+}: SectionHeaderProps) => (
+  <div className="flex items-center justify-between">
+    <Typography variant="sectionHeading" as="h4">
+      {title}
+      {knownCantripsCount > 0 && (
+        <span 
+          className="text-sm font-normal text-zinc-400 ml-2"
+          aria-label={`${knownCantripsCount} ${spellTypeInfo.type} known`}
+        >
+          ({knownCantripsCount})
+        </span>
+      )}
+    </Typography>
+    
+    {isOwner && availableToAddCount > 0 && (
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={onEditClick}
+        aria-label={`Add or change ${spellTypeInfo.type}`}
+      >
+        <Icon name="plus" size="sm" aria-hidden={true} />
+        {knownCantripsCount > 0 ? "Change Selection" : `Add ${spellTypeInfo.capitalizedSingular}`}
+      </Button>
+    )}
+  </div>
+));
 
-function getAvailableCantrips(character: Character): Cantrip[] {
-  const characterClasses = character.class.map((classId) => {
-    // Map class IDs to cantrip class names
-    if (classId === "magic-user") return "magic-user";
-    return classId;
-  });
+SectionHeader.displayName = "SectionHeader";
 
-  return cantripData.filter((cantrip) =>
-    cantrip.classes.some((cantripClass) =>
-      characterClasses.includes(cantripClass)
-    )
-  );
-}
+// Main component
+const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>((props, ref) => {
+  const { character, onCantripChange, className = "" } = props;
+  
+  // Early return if character can't learn cantrips
+  if (!canLearnCantrips(character)) {
+    return null;
+  }
 
-export default function CantripSelector({
-  character,
-  onCantripChange,
-  mode = "creation",
-  title = "Cantrips",
-  description = "Select cantrips your character knows.",
-  className = "",
-}: CantripSelectorProps) {
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedCantripName, setSelectedCantripName] = useState("");
 
+  const spellTypeInfo = useMemo(() => getSpellTypeInfo(character), [character]);
+  
   const availableCantrips = useMemo(
     () => getAvailableCantrips(character),
     [character]
@@ -58,27 +103,18 @@ export default function CantripSelector({
     [character.cantrips]
   );
 
-  const availableToAdd = useMemo(
-    () =>
-      availableCantrips.filter(
-        (cantrip) => !knownCantrips.some((known) => known.name === cantrip.name)
-      ),
+  const cantripOptions = useMemo(
+    () => getCantripOptions(availableCantrips, knownCantrips),
     [availableCantrips, knownCantrips]
   );
 
-  const cantripOptions = availableToAdd.map((cantrip) => ({
-    value: cantrip.name,
-    label: cantrip.name,
-  }));
-
+  // Event handlers
   const handleAddCantrip = useCallback(() => {
-    const cantripToAdd = availableCantrips.find(
-      (c) => c.name === selectedCantripName
-    );
+    const cantripToAdd = availableCantrips.find((c) => c.name === selectedCantripName);
     if (cantripToAdd) {
       onCantripChange([...knownCantrips, cantripToAdd]);
       setSelectedCantripName("");
-      setShowAddModal(false);
+      setShowModal(false);
     }
   }, [availableCantrips, selectedCantripName, knownCantrips, onCantripChange]);
 
@@ -89,226 +125,114 @@ export default function CantripSelector({
     [knownCantrips, onCantripChange]
   );
 
-  // Don't render if character can't learn cantrips
-  if (!canLearnCantrips(character)) {
-    return null;
-  }
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false);
+    setSelectedCantripName("");
+  }, []);
 
-  // Creation mode - simple single cantrip selection
-  if (mode === "creation") {
+  // Get props specific to mode
+  const getTitle = () => {
+    if (props.title) return props.title;
+    if (props.mode === "creation") {
+      return `Starting ${spellTypeInfo.capitalized}`;
+    }
+    return spellTypeInfo.capitalized;
+  };
+
+  const getDescription = () => {
+    if (props.mode === "creation" && "description" in props) {
+      return props.description || "";
+    }
+    return "";
+  };
+
+  const getSectionClassName = () => {
+    const base = props.mode === "creation" ? "mb-8" : "space-y-4";
+    return `${base} ${className}`;
+  };
+
+  const title = getTitle();
+  const description = getDescription();
+
+  // Render empty state
+  if (knownCantrips.length === 0) {
+    const emptyMessage = props.mode === "creation" 
+      ? `No starting ${spellTypeInfo.type} (${spellTypeInfo.abilityScore} modifier may be negative).`
+      : `No ${spellTypeInfo.type} known yet.`;
+
     return (
-      <section className={`mb-8 ${className}`}>
+      <section className={getSectionClassName()} ref={ref}>
         <Typography variant="sectionHeading" as="h4" className="mb-3">
           {title}
         </Typography>
-        <div
-          className="text-sm text-zinc-400 mb-6"
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
-
-        <Card variant="standard" className="mb-6">
-          <Select
-            label="Choose a starting cantrip (optional)"
-            value={knownCantrips[0]?.name || ""}
-            onValueChange={(cantripName) => {
-              if (cantripName) {
-                const cantrip = availableCantrips.find(
-                  (c) => c.name === cantripName
-                );
-                if (cantrip) {
-                  onCantripChange([cantrip]);
-                }
-              } else {
-                onCantripChange([]);
-              }
-            }}
-            options={cantripOptions}
-            placeholder="Choose a cantrip"
-          />
-        </Card>
-
-        {knownCantrips[0] && (
-          <Card variant="info">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Icon
-                  name="lightning"
-                  size="lg"
-                  className="text-blue-400"
-                  aria-hidden={true}
-                />
-                <Typography variant="infoHeading">
-                  {knownCantrips[0].name}
-                </Typography>
-                <Badge variant="status">Cantrip</Badge>
-              </div>
-
-              <Card variant="nested">
-                <Typography variant="subHeadingSpaced">
-                  <Icon name="info" size="sm" aria-hidden={true} />
-                  Description
-                </Typography>
-                <Typography variant="description">
-                  {knownCantrips[0].description}
-                </Typography>
-              </Card>
-            </div>
-          </Card>
+        
+        {description && (
+          <div className="mb-6">
+            <SafeHTML content={description} variant="caption" className="text-sm text-zinc-400" />
+          </div>
         )}
+
+        <Card variant="standard" className="p-4">
+          <Typography variant="body" className="text-zinc-400 text-center">
+            {emptyMessage}
+          </Typography>
+        </Card>
       </section>
     );
   }
 
-  // Edit mode - full cantrip management
+  // Render with cantrips
   return (
-    <section className={`space-y-4 ${className}`}>
-      <div className="flex items-center justify-between">
-        <Typography variant="sectionHeading" as="h4">
-          {title}
-          {knownCantrips.length > 0 && (
-            <span className="text-sm font-normal text-zinc-400 ml-2">
-              ({knownCantrips.length})
-            </span>
-          )}
-        </Typography>
-        {availableToAdd.length > 0 && (
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={() => setShowAddModal(true)}
-          >
-            <Icon name="plus" size="sm" />
-            Add Cantrip
-          </Button>
-        )}
-      </div>
-
-      {knownCantrips.length === 0 ? (
-        <Card variant="standard" className="p-4">
-          <Typography variant="body" className="text-zinc-400 text-center">
-            No cantrips known yet.
-          </Typography>
-        </Card>
-      ) : (
-        <div className="space-y-3">
-          {knownCantrips.map((cantrip) => (
-            <Card key={cantrip.name} variant="standard" className="p-4">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Icon
-                      name="lightning"
-                      size="md"
-                      className="text-blue-400"
-                      aria-hidden={true}
-                    />
-                    <Typography variant="subHeading" className="text-zinc-100">
-                      {cantrip.name}
-                    </Typography>
-                    <Badge variant="status">Cantrip</Badge>
-                  </div>
-                  <Typography
-                    variant="caption"
-                    className="text-zinc-400 text-sm"
-                  >
-                    {cantrip.description}
-                  </Typography>
-                </div>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => handleRemoveCantrip(cantrip.name)}
-                  className="text-zinc-400 hover:text-red-400"
-                >
-                  <Icon name="trash" size="sm" />
-                </Button>
-              </div>
-            </Card>
-          ))}
+    <section className={getSectionClassName()} ref={ref}>
+      <Typography variant="sectionHeading" as="h4" className="mb-3">
+        {title}
+      </Typography>
+      
+      {description && (
+        <div className="mb-6">
+          <SafeHTML content={description} variant="caption" className="text-sm text-zinc-400" />
         </div>
       )}
 
-      {/* Add Cantrip Modal */}
-      <Modal
-        isOpen={showAddModal}
-        onClose={() => {
-          setShowAddModal(false);
-          setSelectedCantripName("");
-        }}
-        title="Add Cantrip"
-        size="md"
-      >
-        <div className="space-y-4">
-          <Typography variant="body" className="text-zinc-300">
-            Choose a cantrip to add to your character.
-          </Typography>
+      <div className="space-y-4">
+        <SectionHeader
+          spellTypeInfo={spellTypeInfo}
+          title={props.mode === "creation" ? `Your Starting ${spellTypeInfo.capitalized}` : title}
+          knownCantripsCount={knownCantrips.length}
+          availableToAddCount={cantripOptions.length}
+          isOwner={true} // Always true in this context
+          onEditClick={() => setShowModal(true)}
+        />
 
-          <Select
-            label="Available Cantrips"
-            value={selectedCantripName}
-            onValueChange={setSelectedCantripName}
-            options={cantripOptions}
-            placeholder="Choose a cantrip"
-          />
-
-          {selectedCantripName && (
-            <Card variant="info">
-              {(() => {
-                const cantrip = availableCantrips.find(
-                  (c) => c.name === selectedCantripName
-                );
-                if (!cantrip) return null;
-
-                return (
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Icon
-                        name="lightning"
-                        size="lg"
-                        className="text-blue-400"
-                        aria-hidden={true}
-                      />
-                      <Typography variant="infoHeading">
-                        {cantrip.name}
-                      </Typography>
-                      <Badge variant="status">Cantrip</Badge>
-                    </div>
-
-                    <Card variant="nested">
-                      <Typography variant="subHeadingSpaced">
-                        <Icon name="info" size="sm" aria-hidden={true} />
-                        Description
-                      </Typography>
-                      <Typography variant="description">
-                        {cantrip.description}
-                      </Typography>
-                    </Card>
-                  </div>
-                );
-              })()}
-            </Card>
-          )}
-
-          <div className="flex gap-3 pt-4">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setShowAddModal(false);
-                setSelectedCantripName("");
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleAddCantrip}
-              disabled={!selectedCantripName}
-            >
-              Add Cantrip
-            </Button>
-          </div>
+        <div className="space-y-3" role="list" aria-label={`Known ${spellTypeInfo.type}`}>
+          {knownCantrips.map((cantrip) => (
+            <div key={cantrip.name} role="listitem">
+              <CantripCard
+                cantrip={cantrip}
+                spellTypeInfo={spellTypeInfo}
+                onRemove={handleRemoveCantrip}
+                showRemove={true}
+              />
+            </div>
+          ))}
         </div>
-      </Modal>
+
+        <CantripModal
+          isOpen={showModal}
+          onClose={handleCloseModal}
+          onAdd={handleAddCantrip}
+          availableCantrips={availableCantrips}
+          selectedCantripName={selectedCantripName}
+          onSelectionChange={setSelectedCantripName}
+          spellTypeInfo={spellTypeInfo}
+          mode={props.mode}
+          cantripOptions={cantripOptions}
+        />
+      </div>
     </section>
   );
-}
+});
+
+CantripSelector.displayName = "CantripSelector";
+
+export default memo(CantripSelector);

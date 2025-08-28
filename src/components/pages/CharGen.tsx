@@ -106,12 +106,18 @@ function CharGen() {
 
   // Memoize filtered data to prevent recreation of validation service
   const filteredRaces = useMemo(
-    () => allRaces.filter(race => includeSupplementalRace || !race.supplementalContent),
+    () =>
+      allRaces.filter(
+        (race) => includeSupplementalRace || !race.supplementalContent
+      ),
     [includeSupplementalRace]
   );
 
   const filteredClasses = useMemo(
-    () => allClasses.filter(cls => includeSupplementalClass || !cls.supplementalContent),
+    () =>
+      allClasses.filter(
+        (cls) => includeSupplementalClass || !cls.supplementalContent
+      ),
     [includeSupplementalClass]
   );
 

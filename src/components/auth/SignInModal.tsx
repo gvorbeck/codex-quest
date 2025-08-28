@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui";
 import { TextInput } from "@/components/ui/inputs";
 import { Modal } from "@/components/ui/feedback";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/layout/Tabs";
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@/components/ui/layout/Tabs";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils/logger";
 
@@ -127,8 +133,17 @@ export default function SignInModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Authentication" size="sm">
-      <Tabs value={activeTab} onValueChange={handleTabChange} variant="underline">
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title="Authentication"
+      size="sm"
+    >
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        variant="underline"
+      >
         <TabList aria-label="Authentication options">
           <Tab value="signin">Sign In</Tab>
           <Tab value="signup">Sign Up</Tab>
@@ -230,9 +245,9 @@ export default function SignInModal({
               <Button
                 type="submit"
                 disabled={
-                  isLoading || 
-                  !signUpEmail || 
-                  !signUpPassword || 
+                  isLoading ||
+                  !signUpEmail ||
+                  !signUpPassword ||
                   !confirmPassword
                 }
                 className="w-full"

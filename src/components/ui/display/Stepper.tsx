@@ -44,7 +44,10 @@ function Stepper({
   // Announce validation messages when they change
   useEffect(() => {
     if (validationMessage) {
-      announceValidationErrors([validationMessage], `Step ${safeCurrentStep + 1}`);
+      announceValidationErrors(
+        [validationMessage],
+        `Step ${safeCurrentStep + 1}`
+      );
     }
   }, [validationMessage, safeCurrentStep, announceValidationErrors]);
 

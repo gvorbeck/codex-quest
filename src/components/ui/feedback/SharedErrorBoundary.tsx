@@ -38,7 +38,8 @@ export class SharedErrorBoundary extends Component<Props, State> {
   }
 
   private getErrorMessage(): { title: string; message: string } {
-    const { contextName, entityType, entityContext, fallbackMessage } = this.props;
+    const { contextName, entityType, entityContext, fallbackMessage } =
+      this.props;
 
     if (entityType && entityContext) {
       return {
@@ -55,25 +56,32 @@ export class SharedErrorBoundary extends Component<Props, State> {
     }
 
     // Default contextual messages
-    const contextMessages: Record<string, { title: string; message: string }> = {
-      "character creation": {
-        title: "Character Creation Unavailable",
-        message: "We're experiencing technical difficulties with the character creation system. Please try refreshing the page or start over.",
-      },
-      "game creation": {
-        title: "Game Creation Unavailable", 
-        message: "We're experiencing technical difficulties with the game creation system. Please try refreshing the page or start over.",
-      },
-      "home page": {
-        title: "Page Loading Error",
-        message: "We're experiencing technical difficulties loading the homepage. Please try refreshing the page.",
-      },
-    };
+    const contextMessages: Record<string, { title: string; message: string }> =
+      {
+        "character creation": {
+          title: "Character Creation Unavailable",
+          message:
+            "We're experiencing technical difficulties with the character creation system. Please try refreshing the page or start over.",
+        },
+        "game creation": {
+          title: "Game Creation Unavailable",
+          message:
+            "We're experiencing technical difficulties with the game creation system. Please try refreshing the page or start over.",
+        },
+        "home page": {
+          title: "Page Loading Error",
+          message:
+            "We're experiencing technical difficulties loading the homepage. Please try refreshing the page.",
+        },
+      };
 
-    return contextMessages[contextName.toLowerCase()] || {
-      title: "Something went wrong",
-      message: "We're sorry, but an unexpected error occurred. Please try refreshing the page.",
-    };
+    return (
+      contextMessages[contextName.toLowerCase()] || {
+        title: "Something went wrong",
+        message:
+          "We're sorry, but an unexpected error occurred. Please try refreshing the page.",
+      }
+    );
   }
 
   override render() {

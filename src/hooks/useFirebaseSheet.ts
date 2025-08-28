@@ -119,10 +119,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         await updateDoc(entityRef, cleanData);
         console.log("🔥 useFirebaseSheet: Firebase save successful!");
       } catch (err) {
-        logger.error(
-          `🔥 useFirebaseSheet: Error updating ${collection}:`,
-          err
-        );
+        logger.error(`🔥 useFirebaseSheet: Error updating ${collection}:`, err);
         logger.error("🔥 useFirebaseSheet: Full error details:", {
           errorMessage: err instanceof Error ? err.message : "Unknown error",
           errorCode: (err as { code?: string })?.code,

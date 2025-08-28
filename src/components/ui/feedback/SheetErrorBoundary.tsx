@@ -7,9 +7,13 @@ interface Props {
   entityContext: string; // "game" | "character"
 }
 
-export function SheetErrorBoundary({ children, entityType, entityContext }: Props) {
+export function SheetErrorBoundary({
+  children,
+  entityType,
+  entityContext,
+}: Props) {
   return (
-    <SharedErrorBoundary 
+    <SharedErrorBoundary
       contextName={`${entityContext} sheet`}
       entityType={entityType}
       entityContext={entityContext}

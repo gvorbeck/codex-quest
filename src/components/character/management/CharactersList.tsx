@@ -9,11 +9,19 @@ import { useState } from "react";
 export function CharactersList() {
   const { characters, loading, error, refetch } = useCharacters();
   const { user } = useAuth();
-  const [deletingCharacter, setDeletingCharacter] = useState<string | null>(null);
+  const [deletingCharacter, setDeletingCharacter] = useState<string | null>(
+    null
+  );
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [characterToDelete, setCharacterToDelete] = useState<{id: string, name: string} | null>(null);
+  const [characterToDelete, setCharacterToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
-  const handleDeleteCharacter = (characterId: string, characterName: string) => {
+  const handleDeleteCharacter = (
+    characterId: string,
+    characterName: string
+  ) => {
     if (!user) return;
     setCharacterToDelete({ id: characterId, name: characterName });
     setDeleteModalOpen(true);
@@ -29,8 +37,8 @@ export function CharactersList() {
       setDeleteModalOpen(false);
       setCharacterToDelete(null);
     } catch (error) {
-      logger.error('Failed to delete character:', error);
-      alert('Failed to delete character. Please try again.');
+      logger.error("Failed to delete character:", error);
+      alert("Failed to delete character. Please try again.");
     } finally {
       setDeletingCharacter(null);
     }
@@ -51,16 +59,17 @@ export function CharactersList() {
         emptyState={{
           icon: "plus",
           title: "No Characters Yet",
-          description: "Ready to start your adventure? Create your first character to get started!",
+          description:
+            "Ready to start your adventure? Create your first character to get started!",
           action: {
             label: "Create Your First Character",
-            href: "/new-character"
-          }
+            href: "/new-character",
+          },
         }}
         header={{
           title: "Your Characters",
           icon: "shield",
-          count: characters.length
+          count: characters.length,
         }}
         renderItem={(character) => (
           <CharacterCard
