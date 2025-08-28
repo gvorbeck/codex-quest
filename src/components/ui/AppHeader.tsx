@@ -102,7 +102,7 @@ export function AppHeader({ setIsSignInModalOpen }: AppHeaderProps) {
                     variant="secondary"
                     size="md"
                     onClick={() => setIsSignInModalOpen(true)}
-                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-primary-900 font-semibold px-6 py-2 shadow-lg hover:shadow-amber-500/25 transition-all duration-200"
+                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-semibold px-6 py-2 shadow-lg hover:shadow-amber-500/25 transition-all duration-200"
                   >
                     Sign In
                   </Button>
@@ -183,7 +183,7 @@ export function AppHeader({ setIsSignInModalOpen }: AppHeaderProps) {
                       setIsSignInModalOpen(true);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-primary-900 font-semibold px-6 py-3 rounded-lg transition-all duration-200 w-full shadow-lg"
+                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 w-full shadow-lg"
                   >
                     Sign In
                   </button>

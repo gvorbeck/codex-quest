@@ -128,7 +128,7 @@ function convertRaceToId(raceName: string): string {
 /**
  * Migrate legacy character data to current format
  */
-export function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyCharacterData {
+function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyCharacterData {
   const migrated = { ...legacyData };
 
   // Migrate abilities from separate modifiers/scores to combined structure

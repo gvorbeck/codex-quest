@@ -18,7 +18,8 @@
       "Bash(pkill:*)",
       "Bash(rg:*)",
       "Bash(npx eslint:*)",
-      "Bash(npx knip:*)"
+      "Bash(npx knip:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

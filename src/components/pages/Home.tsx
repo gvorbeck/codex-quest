@@ -1,5 +1,5 @@
-import { Link, useLocation } from "wouter";
-import { Button, Card, Typography } from "@/components/ui";
+import { useLocation } from "wouter";
+import { Card, Typography } from "@/components/ui";
 import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
 import { Icon } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
@@ -85,22 +85,6 @@ function Home() {
                 </li>
               </ul>
             </Card>
-
-            <div className="text-center space-y-4">
-              <Link href="/new-character" aria-describedby="create-char-desc">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="text-lg px-8 py-4"
-                >
-                  Start Creating Your Character
-                </Button>
-              </Link>
-              <Typography variant="helper" id="create-char-desc">
-                Begin the character creation process with our step-by-step
-                wizard
-              </Typography>
-            </div>
           </>
         )}
       </section>

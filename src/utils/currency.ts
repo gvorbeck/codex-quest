@@ -30,22 +30,6 @@ export function convertToGold(
   }
 }
 
-/**
- * Gets the total gold value of a character's currency
- * @param character - The character object
- * @returns Total currency value in gold pieces
- */
-export function getTotalGoldValue(character: Character): number {
-  const { currency } = character;
-  let total = currency.gold;
-
-  if (currency.silver) total += convertToGold(currency.silver, "sp");
-  if (currency.copper) total += convertToGold(currency.copper, "cp");
-  if (currency.electrum) total += convertToGold(currency.electrum, "ep");
-  if (currency.platinum) total += convertToGold(currency.platinum, "pp");
-
-  return Math.round(total * 100) / 100; // Round to 2 decimal places
-}
 
 /**
  * Updates a character's gold amount
@@ -79,5 +63,17 @@ export function canAfford(
   currency: "gp" | "sp" | "cp" | "ep" | "pp"
 ): boolean {
   const costInGold = convertToGold(cost, currency);
-  return getTotalGoldValue(character) >= costInGold;
+  
+  // Calculate total gold value inline
+  const { currency: charCurrency } = character;
+  let totalGold = charCurrency.gold;
+
+  if (charCurrency.silver) totalGold += convertToGold(charCurrency.silver, "sp");
+  if (charCurrency.copper) totalGold += convertToGold(charCurrency.copper, "cp");
+  if (charCurrency.electrum) totalGold += convertToGold(charCurrency.electrum, "ep");
+  if (charCurrency.platinum) totalGold += convertToGold(charCurrency.platinum, "pp");
+
+  const roundedTotalGold = Math.round(totalGold * 100) / 100;
+  
+  return roundedTotalGold >= costInGold;
 }

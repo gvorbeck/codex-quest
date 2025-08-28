@@ -39,6 +39,7 @@ export const signUpWithEmail = async (
   return convertFirebaseUser(result.user);
 };
 
+
 // Sign out
 export const signOut = async (): Promise<void> => {
   await firebaseSignOut(auth);
@@ -53,8 +54,3 @@ export const onAuthStateChange = (
   });
 };
 
-// Get current user
-export const getCurrentUser = (): AuthUser | null => {
-  const user = auth.currentUser;
-  return user ? convertFirebaseUser(user) : null;
-};
