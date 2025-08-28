@@ -182,9 +182,14 @@ function Stepper({
         <div className="lg:hidden mb-6">
           <div className="bg-zinc-800 rounded-lg p-4 border-2 border-zinc-600 shadow-[0_3px_0_0_#3f3f46]">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-zinc-100">
+              <Typography
+                variant="sectionHeading"
+                color="zinc"
+                as="h3"
+                className="mb-0"
+              >
                 Step {safeCurrentStep + 1} of {stepItems.length}
-              </h3>
+              </Typography>
               <div className="text-sm text-zinc-400">
                 {Math.round(((safeCurrentStep + 1) / stepItems.length) * 100)}%
               </div>

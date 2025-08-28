@@ -1,6 +1,7 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
+import { Typography } from "@/components/ui/design-system";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 
 interface StatCardProps {
@@ -35,22 +36,25 @@ interface StatCardProps {
 }
 
 const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
-  ({
-    label,
-    fullName,
-    value,
-    secondaryValue,
-    valueColor = DESIGN_TOKENS.colors.text.primary,
-    size = "md",
-    editable = false,
-    onChange,
-    minValue = 3,
-    maxValue = 25,
-    onClick,
-    onKeyDown,
-    className = "",
-    children,
-  }, ref) => {
+  (
+    {
+      label,
+      fullName,
+      value,
+      secondaryValue,
+      valueColor = DESIGN_TOKENS.colors.text.primary,
+      size = "md",
+      editable = false,
+      onChange,
+      minValue = 3,
+      maxValue = 25,
+      onClick,
+      onKeyDown,
+      className = "",
+      children,
+    },
+    ref
+  ) => {
     const currentSize = SIZE_STYLES[size];
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +78,7 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (editable && (e.key === 'Enter' || e.key === ' ')) {
+      if (editable && (e.key === "Enter" || e.key === " ")) {
         e.preventDefault();
         if (onChange) {
           setIsEditing(true);
@@ -96,7 +100,9 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
       setIsEditing(false);
     };
 
-    const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleInputKeyDown = (
+      event: React.KeyboardEvent<HTMLInputElement>
+    ) => {
       if (event.key === "Enter" || event.key === "Escape") {
         setIsEditing(false);
       }
@@ -126,7 +132,11 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         onClick={handleClick}
         role={editable ? "button" : undefined}
         tabIndex={editable ? 0 : undefined}
-        aria-label={editable && fullName ? `Edit ${fullName} (current: ${value})` : undefined}
+        aria-label={
+          editable && fullName
+            ? `Edit ${fullName} (current: ${value})`
+            : undefined
+        }
         onKeyDown={handleKeyDown}
       >
         {/* Subtle background pattern */}
@@ -137,16 +147,15 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
         {/* Content */}
         <div className="relative z-10">
           {/* Label */}
-          <h3
-            className={`
-              ${DESIGN_TOKENS.colors.text.accent} 
-              ${currentSize.abilityName}
-              group-hover/stat-card:text-amber-300
-              transition-colors duration-200
-            `}
+          <Typography
+            variant="bodySmall"
+            color="amber"
+            weight="medium"
+            as="h3"
+            className="group-hover/stat-card:text-amber-300 transition-colors duration-200"
           >
             {label}
-          </h3>
+          </Typography>
 
           {/* Custom content or default value display */}
           {children || (
@@ -156,7 +165,11 @@ const StatCard = forwardRef<HTMLDivElement, StatCardProps>(
                 <div className="mb-1">
                   <NumberInput
                     ref={inputRef}
-                    value={typeof value === 'number' ? value : parseInt(String(value))}
+                    value={
+                      typeof value === "number"
+                        ? value
+                        : parseInt(String(value))
+                    }
                     onChange={handleValueChange}
                     onBlur={handleInputBlur}
                     onKeyDown={handleInputKeyDown}

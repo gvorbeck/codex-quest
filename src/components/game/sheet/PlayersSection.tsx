@@ -2,6 +2,7 @@ import { memo, useEffect } from "react";
 import type { GamePlayer } from "@/types/game";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { HorizontalRule } from "@/components/ui/display";
+import { Typography } from "@/components/ui/design-system";
 import { useDataResolver } from "@/hooks/useDataResolver";
 
 interface PlayerCardProps {
@@ -57,11 +58,14 @@ const PlayerCard = memo(({ player, getResolvedData }: PlayerCardProps) => {
         )}
 
         <div className="flex-1 min-w-0">
-          <h3
-            className={`${GAME_SHEET_STYLES.colors.text.primary} font-medium truncate mb-1`}
+          <Typography
+            variant="bodySmall"
+            weight="medium"
+            as="h3"
+            className={`${GAME_SHEET_STYLES.colors.text.primary} truncate mb-1`}
           >
             {characterName}
-          </h3>
+          </Typography>
         </div>
       </div>
     </div>
@@ -79,7 +83,7 @@ export const PlayersSection = memo(
   ({ players, showDivider = false }: PlayersSectionProps) => {
     // Enable real-time updates for active game sessions to see character changes instantly
     const { resolveMultiple, getResolvedData, isLoading } = useDataResolver({
-      enableRealTime: true
+      enableRealTime: true,
     });
 
     // Resolve player data when players change

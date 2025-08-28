@@ -4,8 +4,13 @@ import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
 import { InfoTooltip } from "@/components/ui/feedback";
+import { Typography } from "@/components/ui/design-system";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import { calculateModifier, formatModifier, getAbilityScoreColor } from "@/utils/gameUtils";
+import {
+  calculateModifier,
+  formatModifier,
+  getAbilityScoreColor,
+} from "@/utils/gameUtils";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 
 interface AbilityScoresProps {
@@ -29,17 +34,20 @@ interface AbilityScoreCardProps {
 }
 
 const AbilityScoreCard = forwardRef<HTMLDivElement, AbilityScoreCardProps>(
-  ({
-    label,
-    fullName,
-    value,
-    modifier,
-    valueColor = DESIGN_TOKENS.colors.text.primary,
-    size = "md",
-    editable = false,
-    onChange,
-    onRoll,
-  }, ref) => {
+  (
+    {
+      label,
+      fullName,
+      value,
+      modifier,
+      valueColor = DESIGN_TOKENS.colors.text.primary,
+      size = "md",
+      editable = false,
+      onChange,
+      onRoll,
+    },
+    ref
+  ) => {
     const currentSize = SIZE_STYLES[size];
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -63,7 +71,7 @@ const AbilityScoreCard = forwardRef<HTMLDivElement, AbilityScoreCardProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onRoll();
       }
@@ -80,7 +88,9 @@ const AbilityScoreCard = forwardRef<HTMLDivElement, AbilityScoreCardProps>(
       setIsEditing(false);
     };
 
-    const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleInputKeyDown = (
+      event: React.KeyboardEvent<HTMLInputElement>
+    ) => {
       if (event.key === "Enter" || event.key === "Escape") {
         setIsEditing(false);
       }
@@ -105,12 +115,16 @@ const AbilityScoreCard = forwardRef<HTMLDivElement, AbilityScoreCardProps>(
           overflow-hidden
           cursor-pointer
         `}
-        title={`${fullName} - Click to roll d20${modifier >= 0 ? '+' : ''}${modifier}${editable ? ' • Double-click to edit' : ''}`}
+        title={`${fullName} - Click to roll d20${
+          modifier >= 0 ? "+" : ""
+        }${modifier}${editable ? " • Double-click to edit" : ""}`}
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
         role="button"
         tabIndex={0}
-        aria-label={`${fullName} (${value}, modifier ${formatModifier(modifier)}) - Click to roll ability check`}
+        aria-label={`${fullName} (${value}, modifier ${formatModifier(
+          modifier
+        )}) - Click to roll ability check`}
         onKeyDown={handleKeyDown}
       >
         {/* Subtle background pattern */}
@@ -121,16 +135,15 @@ const AbilityScoreCard = forwardRef<HTMLDivElement, AbilityScoreCardProps>(
         {/* Content */}
         <div className="relative z-10">
           {/* Label */}
-          <h3
-            className={`
-              ${DESIGN_TOKENS.colors.text.accent} 
-              ${currentSize.abilityName}
-              group-hover/stat-card:text-amber-300
-              transition-colors duration-200
-            `}
+          <Typography
+            variant="bodySmall"
+            color="amber"
+            weight="medium"
+            as="h3"
+            className="group-hover/stat-card:text-amber-300 transition-colors duration-200"
           >
             {label}
-          </h3>
+          </Typography>
 
           {/* Primary Value - with editing support */}
           {isEditing && onChange ? (
@@ -203,7 +216,6 @@ const AbilityScoreCard = forwardRef<HTMLDivElement, AbilityScoreCardProps>(
 
 AbilityScoreCard.displayName = "AbilityScoreCard";
 
-
 const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
   (
     {
@@ -227,7 +239,9 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
       { key: "charisma", label: "CHA", fullName: "Charisma" },
     ] as const;
 
-    const allScores = abilities.map(({ key }) => character.abilities[key].value);
+    const allScores = abilities.map(
+      ({ key }) => character.abilities[key].value
+    );
 
     const handleAbilityChange = (abilityKey: string) => (newValue: number) => {
       if (onAbilityChange) {
@@ -243,9 +257,9 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
     );
 
     return (
-      <CharacterSheetSectionWrapper 
-        ref={ref} 
-        title={titleWithTooltip} 
+      <CharacterSheetSectionWrapper
+        ref={ref}
+        title={titleWithTooltip}
         size={size}
         className={className}
       >

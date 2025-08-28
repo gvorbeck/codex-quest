@@ -2,6 +2,7 @@ import { memo } from "react";
 import type { GameCombatant } from "@/types/game";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { HorizontalRule } from "@/components/ui/display";
+import { Typography } from "@/components/ui/design-system";
 
 interface CombatantCardProps {
   combatant: GameCombatant;
@@ -29,7 +30,7 @@ const CombatantCard = memo(({ combatant }: CombatantCardProps) => {
             loading="lazy"
           />
         ) : (
-          <div 
+          <div
             className="w-12 h-12 rounded-full bg-zinc-700 border-2 border-zinc-600 flex items-center justify-center flex-shrink-0"
             aria-hidden="true"
           >
@@ -38,12 +39,17 @@ const CombatantCard = memo(({ combatant }: CombatantCardProps) => {
             </span>
           </div>
         )}
-        
+
         <div className="flex-1 min-w-0">
-          <h3 className={`${GAME_SHEET_STYLES.colors.text.primary} font-medium truncate mb-1`}>
+          <Typography
+            variant="bodySmall"
+            weight="medium"
+            as="h3"
+            className={`${GAME_SHEET_STYLES.colors.text.primary} truncate mb-1`}
+          >
             {combatant.name}
-          </h3>
-          
+          </Typography>
+
           <dl className="space-y-1 text-sm">
             <div className="flex gap-2">
               <dt className={GAME_SHEET_STYLES.colors.text.secondary}>AC:</dt>
@@ -51,9 +57,11 @@ const CombatantCard = memo(({ combatant }: CombatantCardProps) => {
                 {combatant.ac}
               </dd>
             </div>
-            
+
             <div className="flex gap-2">
-              <dt className={GAME_SHEET_STYLES.colors.text.secondary}>Initiative:</dt>
+              <dt className={GAME_SHEET_STYLES.colors.text.secondary}>
+                Initiative:
+              </dt>
               <dd className={GAME_SHEET_STYLES.colors.text.primary}>
                 {combatant.initiative}
               </dd>
@@ -72,33 +80,37 @@ interface CombatantsSectionProps {
   showDivider?: boolean;
 }
 
-export const CombatantsSection = memo(({ combatants, showDivider = false }: CombatantsSectionProps) => {
-  if (!combatants || combatants.length === 0) {
-    return null;
-  }
+export const CombatantsSection = memo(
+  ({ combatants, showDivider = false }: CombatantsSectionProps) => {
+    if (!combatants || combatants.length === 0) {
+      return null;
+    }
 
-  return (
-    <>
-      {showDivider && <HorizontalRule />}
-      <section aria-labelledby="combatants-heading">
-        <h2 
-          id="combatants-heading" 
-          className={`text-2xl font-bold ${GAME_SHEET_STYLES.colors.text.primary} ${GAME_SHEET_STYLES.spacing.element}`}
-        >
-          Combatants ({combatants.length})
-        </h2>
-        
-        <div className={`${GAME_SHEET_STYLES.layout.cardGrid} ${GAME_SHEET_STYLES.spacing.cardGap}`}>
-          {combatants.map((combatant, index) => (
-            <CombatantCard
-              key={`${combatant.name}-${index}`}
-              combatant={combatant}
-            />
-          ))}
-        </div>
-      </section>
-    </>
-  );
-});
+    return (
+      <>
+        {showDivider && <HorizontalRule />}
+        <section aria-labelledby="combatants-heading">
+          <h2
+            id="combatants-heading"
+            className={`text-2xl font-bold ${GAME_SHEET_STYLES.colors.text.primary} ${GAME_SHEET_STYLES.spacing.element}`}
+          >
+            Combatants ({combatants.length})
+          </h2>
+
+          <div
+            className={`${GAME_SHEET_STYLES.layout.cardGrid} ${GAME_SHEET_STYLES.spacing.cardGap}`}
+          >
+            {combatants.map((combatant, index) => (
+              <CombatantCard
+                key={`${combatant.name}-${index}`}
+                combatant={combatant}
+              />
+            ))}
+          </div>
+        </section>
+      </>
+    );
+  }
+);
 
 CombatantsSection.displayName = "CombatantsSection";
