@@ -169,25 +169,13 @@ export default function LevelUpModal({
 
   // Generate HP gain calculation when modal opens and character is eligible (memoized to prevent recalculation)
   const hpGainResult = useMemo(() => {
-    console.log('useMemo: Calculating HP gain result', {
-      hasPrimaryClass: !!primaryClass,
-      hasRequiredXP,
-      hitDie: primaryClass?.hitDie,
-      currentLevel: character.level,
-      nextLevel: nextLevel,
-      constitutionModifier: character.abilities.constitution.modifier,
-      isOpen
-    });
-    
     if (!primaryClass || !hasRequiredXP || !isOpen) {
-      console.log('useMemo: returning null due to missing requirements');
       return null;
     }
     
     const hitDie = primaryClass.hitDie; // e.g., "1d8"
     const dieParts = hitDie.split('d');
     if (dieParts.length !== 2) {
-      console.log('useMemo: invalid hit die format:', hitDie);
       return null;
     }
     const dieType = parseInt(dieParts[1] || '6', 10); // Extract die size (8 from "1d8"), default to 6
@@ -214,7 +202,6 @@ export default function LevelUpModal({
           isFixed: true
         };
         
-        console.log('useMemo: fixed HP gain result:', result);
         return result;
       }
       
@@ -231,7 +218,6 @@ export default function LevelUpModal({
         isFixed: false
       };
       
-      console.log('useMemo: rolled HP gain result:', result);
       return result;
     } catch (error) {
       console.error('Error calculating HP gain:', error);
@@ -259,23 +245,7 @@ export default function LevelUpModal({
   };
 
   const handleLevelUp = async () => {
-    console.log('Level up button clicked!', {
-      hasRequiredXP,
-      primaryClass: primaryClass?.name,
-      hpGainResult,
-      currentLevel: character.level,
-      nextLevel,
-      spellGainInfo,
-      selectedSpells
-    });
-    
     if (!canLevelUp || !hpGainResult) {
-      console.log('Level up blocked:', {
-        hasRequiredXP,
-        hasPrimaryClass: !!primaryClass,
-        hasHpGainResult: !!hpGainResult,
-        canLevelUp
-      });
       return;
     }
 
@@ -307,18 +277,8 @@ export default function LevelUpModal({
         ...(newSpells.length > 0 && { spells: newSpells })
       };
 
-      console.log('Calling onLevelUp with:', {
-        oldLevel: character.level,
-        newLevel: updatedCharacter.level,
-        oldMaxHp: character.hp.max,
-        newMaxHp: updatedCharacter.hp.max,
-        hpGain: hpGainResult.total
-      });
-
       if (onLevelUp) {
         onLevelUp(updatedCharacter);
-      } else {
-        console.warn('No onLevelUp callback provided!');
       }
 
       onClose();
@@ -595,11 +555,6 @@ export default function LevelUpModal({
           <Button
             variant="primary"
             onClick={() => {
-              console.log('🔥 BUTTON CLICKED DIRECTLY!', {
-                disabled: !canLevelUp || isProcessing,
-                canLevelUp,
-                isProcessing
-              });
               handleLevelUp();
             }}
             disabled={!canLevelUp || isProcessing}
