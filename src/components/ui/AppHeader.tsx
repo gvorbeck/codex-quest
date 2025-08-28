@@ -7,12 +7,15 @@ import { signOut } from "@/services/auth";
 import { logger } from "@/utils/logger";
 import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants/dom";
 import { Icon } from "@/components/ui/display/Icon";
+import { Alert } from "@/components/ui/Alert";
 
 interface AppHeaderProps {
   setIsSignInModalOpen: (open: boolean) => void;
+  alertMessage?: string | undefined;
+  onAlertClose?: (() => void) | undefined;
 }
 
-export function AppHeader({ setIsSignInModalOpen }: AppHeaderProps) {
+export function AppHeader({ setIsSignInModalOpen, alertMessage, onAlertClose }: AppHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useAuth();
 
@@ -193,6 +196,7 @@ export function AppHeader({ setIsSignInModalOpen }: AppHeaderProps) {
           </div>
         </nav>
       </header>
+      <Alert message={alertMessage} onClose={onAlertClose} />
     </>
   );
 }

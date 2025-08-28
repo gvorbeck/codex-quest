@@ -7,6 +7,7 @@ export * from "./display";
 export * from "./design-system";
 
 // App-specific components
+export { Alert } from "./Alert";
 export { AppHeader } from "./AppHeader";
 export { AppFooter } from "./AppFooter";
 export { AppRoutes } from "./AppRoutes";
