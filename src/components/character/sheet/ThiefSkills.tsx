@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import RollableButton from "@/components/ui/dice/RollableButton";
-import { InfoTooltip } from "@/components/ui/feedback";
 import Button from "@/components/ui/inputs/Button";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { allClasses } from "@/data/classes";
@@ -17,7 +16,7 @@ interface ThiefSkillsProps {
 // Define the skill names and their display labels
 const THIEF_SKILLS = {
   openLocks: "Open Locks",
-  removeTraps: "Remove Traps", 
+  removeTraps: "Remove Traps",
   pickPockets: "Pick Pockets",
   moveSilently: "Move Silently",
   climbWalls: "Climb Walls",
@@ -26,61 +25,69 @@ const THIEF_SKILLS = {
   poison: "Poison",
 } as const;
 
-// Help text for thief skills
-const getSkillsHelp = (isAssassin: boolean) => ({
-  title: `Rolling ${isAssassin ? 'Assassin Abilities' : 'Thief Skills'}:`,
-  rules: [
-    "• Roll percentile dice (d100)",
-    "• Roll equal to or under your skill percentage",
-    "• Natural 01-05 always succeeds",
-    "• Natural 96-00 always fails",
-    "• Some skills may have situational modifiers",
-    "• GM may adjust difficulty based on circumstances",
-  ],
-});
-
 const SKILL_DESCRIPTIONS = {
-  openLocks: "Attempt to unlock doors, chests, and other locked mechanisms without the proper key.",
-  removeTraps: "Detect and disarm mechanical traps on doors, chests, and other objects.", 
+  openLocks:
+    "Attempt to unlock doors, chests, and other locked mechanisms without the proper key.",
+  removeTraps:
+    "Detect and disarm mechanical traps on doors, chests, and other objects.",
   pickPockets: "Steal small items from others without being noticed.",
   moveSilently: "Move without making noise, useful for sneaking past enemies.",
   climbWalls: "Scale vertical surfaces like walls, cliffs, or buildings.",
   hide: "Conceal yourself in shadows or behind cover to avoid detection.",
   listen: "Detect sounds through doors or walls, overhear conversations.",
-  poison: "Create and use lethal poisons for weapons and assassination attempts.",
+  poison:
+    "Create and use lethal poisons for weapons and assassination attempts.",
 };
 
-export default function ThiefSkills({ character, className = "", size = "md" }: ThiefSkillsProps) {
+export default function ThiefSkills({
+  character,
+  className = "",
+  size = "md",
+}: ThiefSkillsProps) {
   const [showDetails, setShowDetails] = useState(false);
   const currentSize = SIZE_STYLES[size];
   const { rollPercentile } = useDiceRoll();
 
   // Check if character is a thief-like class (thief or assassin)
   const characterClassInfo = useMemo(() => {
-    const isThief = character.class?.some(classId => classId === "thief");
-    const isAssassin = character.class?.some(classId => classId === "assassin");
-    
+    const isThief = character.class?.some((classId) => classId === "thief");
+    const isAssassin = character.class?.some(
+      (classId) => classId === "assassin"
+    );
+
     if (isThief) {
-      return { hasThiefSkills: true, className: "thief", displayName: "Thief Skills" };
+      return {
+        hasThiefSkills: true,
+        className: "thief",
+        displayName: "Thief Skills",
+      };
     } else if (isAssassin) {
-      return { hasThiefSkills: true, className: "assassin", displayName: "Assassin Abilities" };
+      return {
+        hasThiefSkills: true,
+        className: "assassin",
+        displayName: "Assassin Abilities",
+      };
     }
-    
+
     return { hasThiefSkills: false, className: null, displayName: null };
   }, [character.class]);
 
   // Get thief skills for current level
   const thiefSkills = useMemo(() => {
-    if (!characterClassInfo.hasThiefSkills || !characterClassInfo.className) return null;
+    if (!characterClassInfo.hasThiefSkills || !characterClassInfo.className)
+      return null;
 
     // Find the appropriate class data
-    const classData = allClasses.find(cls => cls.id === characterClassInfo.className);
+    const classData = allClasses.find(
+      (cls) => cls.id === characterClassInfo.className
+    );
     if (!classData?.thiefSkills) return null;
 
     // Get skills for current level (or closest lower level)
     const level = character.level || 1;
-    const skillsForLevel = classData.thiefSkills[level] || classData.thiefSkills[1];
-    
+    const skillsForLevel =
+      classData.thiefSkills[level] || classData.thiefSkills[1];
+
     return skillsForLevel;
   }, [character.level, characterClassInfo]);
 
@@ -90,25 +97,17 @@ export default function ThiefSkills({ character, className = "", size = "md" }: 
   }
 
   const isAssassin = characterClassInfo.className === "assassin";
-  const skillsHelp = getSkillsHelp(isAssassin);
-
-  const tooltipContent = (
-    <div className="whitespace-normal max-w-xs">
-      <div className="font-semibold mb-1">{skillsHelp.title}</div>
-      <div className="space-y-1 text-xs">
-        {skillsHelp.rules.map((rule, index) => (
-          <div key={index}>{rule}</div>
-        ))}
-      </div>
-    </div>
-  );
 
   const detailsContent = (
     <div className="mt-4 p-4 bg-zinc-800 rounded-lg">
-      <h4 className="font-semibold mb-3 text-sm">{isAssassin ? 'Ability' : 'Skill'} Descriptions:</h4>
+      <h4 className="font-semibold mb-3 text-sm">
+        {isAssassin ? "Ability" : "Skill"} Descriptions:
+      </h4>
       <div className="space-y-2 text-xs">
         {Object.entries(SKILL_DESCRIPTIONS)
-          .filter(([key]) => Object.prototype.hasOwnProperty.call(thiefSkills, key)) // Only show skills this class actually has
+          .filter(([key]) =>
+            Object.prototype.hasOwnProperty.call(thiefSkills, key)
+          ) // Only show skills this class actually has
           .map(([key, description]) => (
             <div key={key} className="space-y-1">
               <div className="font-medium text-blue-300">
@@ -121,29 +120,19 @@ export default function ThiefSkills({ character, className = "", size = "md" }: 
       <div className="mt-3 pt-3 border-t border-zinc-700">
         <div className="text-xs text-zinc-400">
           <div className="font-medium mb-1">How Skills Work:</div>
-          <div className="space-y-1">
-            <div>• Skills improve automatically as you gain levels</div>
-            <div>• Success is based on rolling percentile dice (d100)</div>
-            <div>• Roll your skill percentage or lower to succeed</div>
-            <div>• Natural 1-5 always succeeds, 96-100 always fails</div>
-          </div>
+          <ul className="space-y-1 list-disc list-inside">
+            <li>Skills improve automatically as you gain levels</li>
+            <li>Success is based on rolling percentile dice (d100)</li>
+            <li>Roll your skill percentage or lower to succeed</li>
+          </ul>
         </div>
       </div>
     </div>
   );
 
   return (
-    <CharacterSheetSectionWrapper 
-      title={
-        <div className="flex items-center gap-2">
-          <span>{characterClassInfo.displayName}</span>
-          <InfoTooltip 
-            content={tooltipContent}
-            ariaLabel={`${isAssassin ? 'Assassin ability' : 'Thief skill'} rules`}
-            preferredPosition="above"
-          />
-        </div>
-      } 
+    <CharacterSheetSectionWrapper
+      title={characterClassInfo.displayName}
       size={size}
       className={className}
     >
@@ -165,7 +154,7 @@ export default function ThiefSkills({ character, className = "", size = "md" }: 
             );
           })}
         </div>
-        
+
         <div className="mt-4 pt-4 border-t border-zinc-700">
           <Button
             variant="secondary"
@@ -173,7 +162,8 @@ export default function ThiefSkills({ character, className = "", size = "md" }: 
             onClick={() => setShowDetails(!showDetails)}
             className="w-full text-xs"
           >
-            {showDetails ? "Hide" : "Show"} {isAssassin ? 'Ability' : 'Skill'} Details
+            {showDetails ? "Hide" : "Show"} {isAssassin ? "Ability" : "Skill"}{" "}
+            Details
           </Button>
         </div>
 
