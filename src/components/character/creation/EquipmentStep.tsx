@@ -4,15 +4,12 @@ import { SimpleRoller } from "@/components/ui/display";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
-import type { Character, Equipment } from "@/types/character";
+import type { Equipment, BaseStepProps } from "@/types/character";
 import { convertToGold, updateCharacterGold } from "@/utils/currency";
 import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/gameUtils";
 import { EquipmentSelector } from "../management";
 
-interface EquipmentStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
-}
+type EquipmentStepProps = BaseStepProps;
 
 function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   const [startingGold, setStartingGold] = useState<number | undefined>(

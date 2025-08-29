@@ -189,3 +189,9 @@ export interface Class {
   thiefSkills?: { [level: number]: { [skill: string]: number } }; // For thieves
   supplementalContent?: boolean; // Indicates if this class is part of supplemental content
 }
+
+// Base interface for character creation step props
+export interface BaseStepProps {
+  character: Character;
+  onCharacterChange: (character: Character) => void;
+}

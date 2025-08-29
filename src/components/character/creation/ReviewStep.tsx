@@ -11,12 +11,9 @@ import { characterNameSchema } from "@/utils/validationSchemas";
 import { sanitizeCharacterName } from "@/utils/sanitization";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-import type { Character } from "@/types/character";
+import type { BaseStepProps } from "@/types/character";
 
-interface ReviewStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
-}
+type ReviewStepProps = BaseStepProps;
 
 function ReviewStepComponent({
   character,

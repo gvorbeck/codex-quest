@@ -6,12 +6,9 @@ import { InfoCardHeader, RequirementCard } from "@/components/ui/display";
 import { logger } from "@/utils/logger";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Character } from "@/types/character";
+import type { BaseStepProps } from "@/types/character";
 
-interface HitPointsStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
-}
+type HitPointsStepProps = BaseStepProps;
 
 const HitPointsStep: React.FC<HitPointsStepProps> = ({
   character,

@@ -11,7 +11,7 @@ import {
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Character, Spell, Cantrip } from "@/types/character";
+import type { Character, Spell, Cantrip, BaseStepProps } from "@/types/character";
 import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
 import { logger } from "@/utils/logger";
 import { roller } from "@/utils/dice";
@@ -24,9 +24,7 @@ import {
 } from "@/constants/spellcasting";
 import { memo, useState, useEffect, useMemo } from "react";
 
-interface ClassStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
+interface ClassStepProps extends BaseStepProps {
   includeSupplementalClass: boolean;
   onIncludeSupplementalClassChange: (include: boolean) => void;
   useCombinationClass: boolean;

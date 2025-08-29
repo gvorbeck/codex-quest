@@ -4,12 +4,10 @@ import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection, Icon } from "@/components/ui/display";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-import type { Character } from "@/types/character";
+import type { BaseStepProps } from "@/types/character";
 import { memo, useMemo } from "react";
 
-interface RaceStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
+interface RaceStepProps extends BaseStepProps {
   includeSupplemental: boolean;
   onIncludeSupplementalChange: (includeSupplemental: boolean) => void;
 }

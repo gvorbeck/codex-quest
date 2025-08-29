@@ -5,17 +5,14 @@ import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
 import { calculateModifier } from "@/utils/gameUtils";
 import { logger } from "@/utils/logger";
-import type { Character, AbilityScore } from "@/types/character";
+import type { Character, AbilityScore, BaseStepProps } from "@/types/character";
 import { memo } from "react";
 import { useValidation } from "@/hooks";
 import { abilityScoreSchema } from "@/utils/validationSchemas";
 import { isValidAbilityScore, ABILITY_NAMES } from "@/utils/typeGuards";
 import type { AbilityName } from "@/utils/typeGuards";
 
-interface AbilityScoreStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
-}
+type AbilityScoreStepProps = BaseStepProps;
 
 function AbilityScoreStep({
   character,
