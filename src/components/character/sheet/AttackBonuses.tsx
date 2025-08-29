@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import RollableButton from "@/components/ui/dice/RollableButton";
-import { formatModifier } from "@/utils/gameUtils";
+import { calculateModifier, formatModifier } from "@/utils/gameUtils";
 import { allRaces } from "@/data/races";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
@@ -137,9 +137,7 @@ export default function AttackBonuses({
     // Get racial attack bonuses
     const racialBonuses = getRacialAttackBonuses();
 
-    // Calculate ability modifiers from values (D&D 3.x style: (value - 10) / 2, rounded down)
-    const calculateModifier = (value: number): number =>
-      Math.floor((value - 10) / 2);
+    // Import calculateModifier from gameUtils to use BFRPG system
 
     const strModifier = character.abilities.strength?.value
       ? calculateModifier(character.abilities.strength.value)

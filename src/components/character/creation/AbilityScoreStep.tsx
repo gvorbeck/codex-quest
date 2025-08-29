@@ -3,6 +3,7 @@ import { SimpleRoller } from "@/components/ui/display";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
+import { calculateModifier } from "@/utils/gameUtils";
 import { logger } from "@/utils/logger";
 import type { Character, AbilityScore } from "@/types/character";
 import { memo } from "react";
@@ -45,16 +46,7 @@ function AbilityScoreStep({
     ),
   };
 
-  // Calculate modifier based on ability score
-  const calculateModifier = (score: number): number => {
-    if (score <= 3) return -3;
-    if (score <= 5) return -2;
-    if (score <= 8) return -1;
-    if (score <= 12) return 0;
-    if (score <= 15) return 1;
-    if (score <= 17) return 2;
-    return 3;
-  };
+  // Using calculateModifier from gameUtils for consistent BFRPG system
 
   // Type-safe update function for ability scores
   const updateAbilityScore = (ability: AbilityName, value: number) => {

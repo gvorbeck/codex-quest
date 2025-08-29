@@ -1,5 +1,11 @@
 export const calculateModifier = (score: number): number => {
-  return Math.floor((score - 10) / 2);
+  if (score <= 3) return -3;
+  if (score <= 5) return -2;
+  if (score <= 8) return -1;
+  if (score <= 12) return 0;
+  if (score <= 15) return 1;
+  if (score <= 17) return 2;
+  return 3;
 };
 
 export const formatModifier = (modifier: number): string => {
