@@ -8,6 +8,7 @@ import {
   AttackBonuses,
   HitPoints,
   SavingThrows,
+  ThiefSkills,
   CharacterDefense,
   SpecialsRestrictions,
   CoinPurse,
@@ -290,6 +291,9 @@ export default function CharacterSheet() {
                 </div>
                 <div className="break-inside-avoid mb-6">
                   <SavingThrows character={character} />
+                </div>
+                <div className="break-inside-avoid mb-6">
+                  <ThiefSkills character={character} />
                 </div>
                 <div className="break-inside-avoid mb-6">
                   <AttackBonuses character={character} />

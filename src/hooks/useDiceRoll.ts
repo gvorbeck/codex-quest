@@ -34,7 +34,13 @@ interface AbilityRollOptions {
   modifier: number;
 }
 
-type RollOptions = AttackRollOptions | SavingThrowRollOptions | AbilityRollOptions;
+interface PercentileRollOptions {
+  type: "percentile";
+  skillName: string;
+  targetPercentage: number;
+}
+
+type RollOptions = AttackRollOptions | SavingThrowRollOptions | AbilityRollOptions | PercentileRollOptions;
 
 export function useDiceRoll() {
   const notifications = useNotificationContext();
@@ -101,6 +107,49 @@ export function useDiceRoll() {
               title: "Ability Check",
             }
           );
+        } else if (options.type === "percentile") {
+          const { skillName, targetPercentage } = options;
+          const percentileRoll = roller("1d100");
+          const result = percentileRoll.total;
+          
+          // Special cases: 01-05 always succeed, 96-100 always fail
+          const isAutoSuccess = result <= 5;
+          const isAutoFailure = result >= 96;
+          const isSuccess = isAutoSuccess || (!isAutoFailure && result <= targetPercentage);
+          
+          let resultMessage = `${skillName}: 1d100 = ${result} vs ${targetPercentage}%`;
+          
+          if (isAutoSuccess && result <= targetPercentage) {
+            resultMessage += " - Success!";
+            notifications.showSuccess(resultMessage, {
+              title: "Skill Check",
+            });
+          } else if (isAutoSuccess) {
+            resultMessage += " - Critical Success!";
+            notifications.showSuccess(resultMessage, {
+              title: "Skill Check",
+            });
+          } else if (isAutoFailure && result > targetPercentage) {
+            resultMessage += " - Failure";
+            notifications.showError(resultMessage, {
+              title: "Skill Check Failed",
+            });
+          } else if (isAutoFailure) {
+            resultMessage += " - Critical Failure!";
+            notifications.showError(resultMessage, {
+              title: "Skill Check Failed",
+            });
+          } else if (isSuccess) {
+            resultMessage += " - Success!";
+            notifications.showSuccess(resultMessage, {
+              title: "Skill Check",
+            });
+          } else {
+            resultMessage += " - Failure";
+            notifications.showError(resultMessage, {
+              title: "Skill Check Failed",
+            });
+          }
         }
       } catch {
         notifications.showError("Failed to roll dice", {
@@ -142,9 +191,17 @@ export function useDiceRoll() {
     [rollDice]
   );
 
+  const rollPercentile = useCallback(
+    (skillName: string, targetPercentage: number) => {
+      rollDice({ type: "percentile", skillName, targetPercentage });
+    },
+    [rollDice]
+  );
+
   return {
     rollAttack,
     rollSavingThrow,
     rollAbility,
+    rollPercentile,
   };
 }
