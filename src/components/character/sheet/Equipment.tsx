@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { useModal } from "@/hooks/useModal";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Card, Badge, Typography } from "@/components/ui/design-system";
 import { Button, Switch, TextInput, TextArea, Select, NumberInput } from "@/components/ui/inputs";
@@ -26,8 +27,8 @@ export default function Equipment({
   editable = false,
   onEquipmentChange,
 }: EquipmentProps) {
-  const [showSelector, setShowSelector] = useState(false);
-  const [showCustomModal, setShowCustomModal] = useState(false);
+  const { isOpen: showSelector, toggle: toggleSelector } = useModal();
+  const { isOpen: showCustomModal, open: openCustomModal, close: closeCustomModal } = useModal();
   const [editingItem, setEditingItem] = useState<{
     item: EquipmentItem;
     index: number;
@@ -77,7 +78,7 @@ export default function Equipment({
 
   const handleCustomEquipmentAdd = (newEquipment: EquipmentItem) => {
     addEquipmentToInventory(newEquipment);
-    setShowCustomModal(false);
+    closeCustomModal();
   };
 
   const handleEquipmentRemove = useCallback(
@@ -351,7 +352,7 @@ export default function Equipment({
           {editable && (
             <div className="flex gap-2">
               <Button
-                onClick={() => setShowSelector(!showSelector)}
+                onClick={toggleSelector}
                 variant="secondary"
                 size="sm"
                 aria-expanded={showSelector}
@@ -360,7 +361,7 @@ export default function Equipment({
                 {showSelector ? "Hide Shop" : "Add Equipment"}
               </Button>
               <Button
-                onClick={() => setShowCustomModal(true)}
+                onClick={openCustomModal}
                 variant="primary"
                 size="sm"
                 aria-label="Create custom equipment"
@@ -412,7 +413,7 @@ export default function Equipment({
         {/* Custom Equipment Modal */}
         <CustomEquipmentModal
           isOpen={showCustomModal}
-          onClose={() => setShowCustomModal(false)}
+          onClose={closeCustomModal}
           onEquipmentAdd={handleCustomEquipmentAdd}
         />
 

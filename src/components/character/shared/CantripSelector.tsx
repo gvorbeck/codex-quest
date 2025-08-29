@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, memo, forwardRef } from "react";
+import { useModal } from "@/hooks/useModal";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
@@ -89,7 +90,7 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
     const { character, onCantripChange, className = "" } = props;
 
     // All hooks must be called before any conditional returns
-    const [showModal, setShowModal] = useState(false);
+    const { isOpen: showModal, open: openModal, close: closeModal } = useModal();
     const [selectedCantripName, setSelectedCantripName] = useState("");
 
     const spellTypeInfo = useMemo(
@@ -120,13 +121,14 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
       if (cantripToAdd) {
         onCantripChange([...knownCantrips, cantripToAdd]);
         setSelectedCantripName("");
-        setShowModal(false);
+        closeModal();
       }
     }, [
       availableCantrips,
       selectedCantripName,
       knownCantrips,
       onCantripChange,
+      closeModal,
     ]);
 
     const handleRemoveCantrip = useCallback(
@@ -137,9 +139,9 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
     );
 
     const handleCloseModal = useCallback(() => {
-      setShowModal(false);
+      closeModal();
       setSelectedCantripName("");
-    }, []);
+    }, [closeModal]);
 
     // Early return if character can't learn cantrips (after all hooks)
     if (!canLearnCantrips(character)) {
@@ -230,7 +232,7 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
             knownCantripsCount={knownCantrips.length}
             availableToAddCount={cantripOptions.length}
             isOwner={true} // Always true in this context
-            onEditClick={() => setShowModal(true)}
+            onEditClick={openModal}
           />
 
           <div

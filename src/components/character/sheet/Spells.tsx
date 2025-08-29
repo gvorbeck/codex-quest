@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useModal } from "@/hooks/useModal";
 import type { Character, Spell, Cantrip } from "@/types/character";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Accordion } from "@/components/ui/layout";
@@ -98,7 +99,7 @@ export default function Spells({
   className = "",
   size = "md",
 }: SpellsProps) {
-  const [showCantripModal, setShowCantripModal] = useState(false);
+  const { isOpen: showCantripModal, open: openCantripModal, close: closeCantripModal } = useModal();
   const { knownSpells, cantrips } = useMemo(() => {
     if (!canCastSpells(character)) {
       return { knownSpells: [], cantrips: [] };
@@ -336,7 +337,7 @@ export default function Spells({
                     <Button
                       size="sm"
                       variant="secondary"
-                      onClick={() => setShowCantripModal(true)}
+                      onClick={openCantripModal}
                     >
                       <Icon name="edit" size="sm" />
                       Edit {(() => {
@@ -425,7 +426,7 @@ export default function Spells({
       {isOwner && onCharacterChange && (
         <Modal
           isOpen={showCantripModal}
-          onClose={() => setShowCantripModal(false)}
+          onClose={closeCantripModal}
           title={`Edit ${(() => {
             const hasDivineClasses = character.class.some(classId => 
               ["cleric", "druid"].includes(classId)
@@ -452,7 +453,7 @@ export default function Spells({
           <div className="flex justify-end pt-4 mt-6 border-t border-zinc-700">
             <Button
               variant="primary"
-              onClick={() => setShowCantripModal(false)}
+              onClick={closeCantripModal}
             >
               Done
             </Button>

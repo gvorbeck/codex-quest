@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
+import { useModal } from "@/hooks/useModal";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { SkillDescriptionItem } from "@/components/ui/display";
@@ -53,7 +54,7 @@ export default function ThiefAssassinSkills({
   size = "md",
   id = COMPONENT_ID_PREFIX,
 }: ThiefAssassinSkillsProps) {
-  const [showDetails, setShowDetails] = useState(false);
+  const { isOpen: showDetails, toggle: toggleDetails } = useModal();
   const currentSize = SIZE_STYLES[size];
   const { rollPercentile } = useDiceRoll();
 
@@ -188,7 +189,7 @@ export default function ThiefAssassinSkills({
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => setShowDetails(!showDetails)}
+            onClick={toggleDetails}
             className="w-full text-xs"
             aria-expanded={showDetails}
             aria-controls={detailsContentId}

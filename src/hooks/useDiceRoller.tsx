@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
 import { DiceRollerModal } from "@/components/ui/feedback";
 import { Icon } from "@/components/ui";
+import { useModal } from "./useModal";
 
 interface UseDiceRollerReturn {
   isOpen: boolean;
@@ -12,15 +13,7 @@ interface UseDiceRollerReturn {
 }
 
 export function useDiceRoller(): UseDiceRollerReturn {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openRoller = useCallback(() => {
-    setIsOpen(true);
-  }, []);
-
-  const closeRoller = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+  const { isOpen, open: openRoller, close: closeRoller } = useModal();
 
   const DiceRollerFAB = useCallback(
     ({ disabled }: { disabled?: boolean }) => (
