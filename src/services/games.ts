@@ -5,6 +5,7 @@ import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import type { AuthUser } from "./auth";
 import type { Game } from "@/types/game";
 import { logger } from "@/utils/logger";
+import { handleServiceError } from "@/utils/serviceErrorHandler";
 
 export type { Game };
 
@@ -32,8 +33,10 @@ export const getUserGames = async (user: AuthUser): Promise<Game[]> => {
     logger.info(`Fetched ${games.length} games for user ${user.uid}`);
     return games;
   } catch (error) {
-    logger.error("Error fetching games:", error);
-    throw new Error("Failed to fetch games");
+    handleServiceError(error, {
+      action: "fetching games",
+      context: { userId: user.uid }
+    });
   }
 };
 
@@ -46,7 +49,9 @@ export const deleteGame = async (userId: string, gameId: string): Promise<void> 
     await deleteDoc(gameRef);
     logger.info(`Deleted game ${gameId} for user ${userId}`);
   } catch (error) {
-    logger.error("Error deleting game:", error);
-    throw new Error("Failed to delete game");
+    handleServiceError(error, {
+      action: "deleting game",
+      context: { userId, gameId }
+    });
   }
 };

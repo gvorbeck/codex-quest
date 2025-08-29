@@ -6,6 +6,7 @@ import type { AuthUser } from "./auth";
 import type { Character } from "@/types/character";
 import { processCharacterData, isLegacyCharacter } from "./characterMigration";
 import { logger } from "@/utils/logger";
+import { handleServiceError } from "@/utils/serviceErrorHandler";
 
 // Simple interface for listing characters - we don't need the full Character type
 export interface CharacterListItem {
@@ -67,8 +68,10 @@ export const getUserCharacters = async (
 
     return characters;
   } catch (error) {
-    logger.error("Error fetching user characters:", error);
-    throw new Error("Failed to fetch characters");
+    handleServiceError(error, {
+      action: "fetching user characters",
+      context: { userId: user.uid }
+    });
   }
 };
 
@@ -107,8 +110,10 @@ export const getCharacterById = async (
       return null;
     }
   } catch (error) {
-    logger.error("Error fetching character:", error);
-    throw new Error("Failed to fetch character");
+    handleServiceError(error, {
+      action: "fetching character",
+      context: { userId, characterId }
+    });
   }
 };
 
@@ -145,8 +150,10 @@ export const saveCharacter = async (
       return docRef.id;
     }
   } catch (error) {
-    logger.error("Error saving character:", error);
-    throw new Error("Failed to save character");
+    handleServiceError(error, {
+      action: "saving character",
+      context: { userId, characterId, characterName: character.name }
+    });
   }
 };
 
@@ -162,7 +169,9 @@ export const deleteCharacter = async (
     await deleteDoc(characterRef);
     logger.info(`Successfully deleted character ${characterId}`);
   } catch (error) {
-    logger.error("Error deleting character:", error);
-    throw new Error("Failed to delete character");
+    handleServiceError(error, {
+      action: "deleting character",
+      context: { userId, characterId }
+    });
   }
 };

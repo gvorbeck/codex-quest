@@ -63,7 +63,7 @@ export async function loadEquipmentByCategory(
     dataCache.set(cacheKey, categoryItems);
     return categoryItems;
   } catch (error) {
-    logger.error(`Failed to load equipment category ${category}:`, error);
+    logger.error(`Error loading equipment category ${category}:`, error);
     return [];
   }
 }
@@ -84,7 +84,7 @@ export async function loadAllEquipment(): Promise<Equipment[]> {
     dataCache.set(cacheKey, equipment);
     return equipment;
   } catch (error) {
-    logger.error("Failed to load all equipment:", error);
+    logger.error("Error loading all equipment:", error);
     return [];
   }
 }
@@ -127,7 +127,7 @@ export async function loadSpellsForClass(
     dataCache.set(cacheKey, filteredSpells);
     return filteredSpells;
   } catch (error) {
-    logger.error(`Failed to load spells for ${classId}:`, error);
+    logger.error(`Error loading spells for ${classId}:`, error);
     return [];
   }
 }
@@ -146,7 +146,7 @@ export async function preloadCriticalData(): Promise<void> {
       loadSpellsForClass(CHARACTER_CLASSES.CLERIC, 1),
     ]);
   } catch (error) {
-    logger.error("Failed to preload critical data:", error);
+    logger.error("Error preloading critical data:", error);
   }
 }
 
