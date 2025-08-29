@@ -1,5 +1,6 @@
 import { forwardRef, useId } from "react";
 import type { InputHTMLAttributes } from "react";
+import { cn } from "@/constants/styles";
 
 interface SwitchProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {
@@ -124,31 +125,26 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     };
 
     // Combine track styles
-    const trackClasses = [
+    const trackClasses = cn(
       ...trackBaseStyles,
       ...trackVariantStyles,
       disabled ? "cursor-not-allowed" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     // Combine thumb styles
-    const thumbClasses = [...thumbBaseStyles, ...thumbVariantStyles]
-      .filter(Boolean)
-      .join(" ");
+    const thumbClasses = cn(
+      ...thumbBaseStyles,
+      ...thumbVariantStyles,
+    );
 
     // Label styles
-    const labelClasses = [
+    const labelClasses = cn(
       "font-medium text-zinc-100 cursor-pointer",
       config.text,
       disabled ? "cursor-not-allowed opacity-50" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
-    const combinedAriaDescribedBy = [ariaDescribedBy, helperTextId]
-      .filter(Boolean)
-      .join(" ");
+    const combinedAriaDescribedBy = cn(ariaDescribedBy, helperTextId);
 
     return (
       <div className={`flex flex-col ${className}`}>

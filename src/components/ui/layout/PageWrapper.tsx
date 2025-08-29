@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { cn } from "@/constants/styles";
 
 interface PageWrapperProps {
   children: React.ReactNode;
@@ -20,13 +21,11 @@ const PageWrapper = forwardRef<HTMLDivElement, PageWrapperProps>(
       full: "max-w-full"
     };
 
-    const containerClasses = [
+    const containerClasses = cn(
       maxWidthClasses[maxWidth],
       "mx-auto",
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <div ref={ref} className={containerClasses}>

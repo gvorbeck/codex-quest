@@ -8,6 +8,7 @@ import {
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
+import { cn } from "@/constants/styles";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -115,7 +116,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     };
 
     // Clean, simple container styles
-    const containerClasses = [
+    const containerClasses = cn(
       "bg-gradient-to-br from-amber-400 to-amber-500",
       "border-2 border-amber-600 rounded-xl",
       "shadow-[0_6px_0_0_#b45309]",
@@ -123,16 +124,16 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
       "text-zinc-900",
       currentSize.container,
       className,
-    ].join(" ");
+    );
 
     // Simple avatar container styles
-    const avatarContainerClasses = [
+    const avatarContainerClasses = cn(
       "bg-zinc-800 border-2 border-zinc-700 rounded-full",
       "shadow-[0_4px_0_0_#3f3f46]",
       "flex items-center justify-center overflow-hidden",
       "flex-shrink-0",
       currentSize.avatar,
-    ].join(" ");
+    );
 
     return (
       <>

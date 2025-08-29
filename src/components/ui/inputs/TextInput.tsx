@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
 import { Icon } from "@/components/ui";
+import { cn } from "@/constants/styles";
 
 type TextInputSize = "sm" | "md" | "lg";
 
@@ -158,16 +159,14 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     const inputPaddingClass = showClear ? "pr-10" : "";
 
     // Combine all styles
-    const inputClasses = [
+    const inputClasses = cn(
       ...baseStyles,
       ...errorStyles,
       ...shadowStyles,
       sizeStyles[size],
       inputPaddingClass,
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <div className="relative">
@@ -200,7 +199,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             id={clearButtonId}
             onClick={handleClear}
             aria-label="Clear input"
-            className={clearButtonStyles.join(" ")}
+            className={cn(...clearButtonStyles)}
           >
             <Icon name="close" size="sm" aria-hidden={true} />
           </button>

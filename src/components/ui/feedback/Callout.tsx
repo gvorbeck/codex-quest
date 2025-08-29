@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 import { Icon } from "@/components/ui/display/Icon";
 import { Typography } from "@/components/ui/design-system";
+import { cn } from "@/constants/styles";
 
 type CalloutVariant = "info" | "success" | "warning" | "error" | "neutral";
 
@@ -108,12 +109,12 @@ const Callout = forwardRef<HTMLDivElement, CalloutProps>(
     };
 
     // Combine all styles
-    const calloutClasses = [
+    const calloutClasses = cn(
       ...baseStyles,
       ...variantStyles[variant],
       sizeStyles[size],
       className,
-    ].join(" ");
+    );
 
     const displayIcon = icon || defaultIcons[variant];
 

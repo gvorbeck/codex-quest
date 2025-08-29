@@ -111,7 +111,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       className
     );
 
-    const labelClasses = labelStyles.join(" ");
+    const labelClasses = cn(...labelStyles);
 
     return (
       <div className="relative">

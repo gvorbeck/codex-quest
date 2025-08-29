@@ -4,6 +4,7 @@ import { useValidationAnnouncements } from "@/hooks/useValidationAnnouncements";
 import { memo, useEffect } from "react";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
+import { cn } from "@/constants/styles";
 
 interface StepItem {
   title: string;
@@ -130,9 +131,10 @@ function Stepper({
                       : "opacity-50 cursor-not-allowed",
                   ];
 
-              const stepClasses = [...stepBaseStyles, ...stepVariantStyles]
-                .filter(Boolean)
-                .join(" ");
+              const stepClasses = cn(
+                ...stepBaseStyles,
+                ...stepVariantStyles,
+              );
 
               // Step number styles with 3D effects
               const numberBaseStyles = [
@@ -146,12 +148,10 @@ function Stepper({
                 ? ["bg-zinc-900 text-lime-500 border-zinc-900"]
                 : ["bg-zinc-600 text-zinc-300 border-zinc-600"];
 
-              const numberClasses = [
+              const numberClasses = cn(
                 ...numberBaseStyles,
                 ...numberVariantStyles,
-              ]
-                .filter(Boolean)
-                .join(" ");
+              );
 
               return (
                 <li key={index}>

@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { SectionHeader } from "@/components/ui/display";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
+import { cn } from "@/constants/styles";
 
 interface CharacterSheetSectionWrapperProps {
   title: React.ReactNode;
@@ -11,7 +12,7 @@ interface CharacterSheetSectionWrapperProps {
 
 const CharacterSheetSectionWrapper = forwardRef<HTMLDivElement, CharacterSheetSectionWrapperProps>(
   ({ title, className = "", size = "md", children }, ref) => {
-    const containerClasses = [
+    const containerClasses = cn(
       DESIGN_TOKENS.colors.bg.accent,
       DESIGN_TOKENS.effects.rounded,
       "overflow-hidden relative",
@@ -22,9 +23,7 @@ const CharacterSheetSectionWrapper = forwardRef<HTMLDivElement, CharacterSheetSe
       "hover:shadow-[0_6px_0_0_#3f3f46,0_0_25px_rgba(0,0,0,0.4)]",
       "group",
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <div ref={ref} className={containerClasses}>

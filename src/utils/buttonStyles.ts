@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
+import { cn } from "@/constants/styles";
 
 export type ButtonVariant =
   | "primary"
@@ -148,7 +149,7 @@ export const combineButtonStyles = (
   size: string,
   className = ""
 ): string => {
-  return [...base, ...variant, size, className].join(" ");
+  return cn(...base, ...variant, size, className);
 };
 
 /**

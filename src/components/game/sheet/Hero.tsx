@@ -4,6 +4,7 @@ import type { Game } from "@/types/game";
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
+import { cn } from "@/constants/styles";
 
 interface GameHeroProps extends HTMLAttributes<HTMLDivElement> {
   game: Game;
@@ -106,24 +107,24 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
     };
 
     // Game-themed container styles (using different colors than character sheet)
-    const containerClasses = [
+    const containerClasses = cn(
       "bg-gradient-to-br from-lime-400 to-lime-500",
       "border-2 border-lime-600 rounded-xl",
       "shadow-[0_6px_0_0_#365314]",
       "transition-all duration-150",
       "text-zinc-900",
       currentSize.container,
-      className,
-    ].join(" ");
+      className
+    );
 
     // Game icon container styles
-    const iconContainerClasses = [
+    const iconContainerClasses = cn(
       "bg-zinc-800 border-2 border-zinc-700 rounded-full",
       "shadow-[0_4px_0_0_#3f3f46]",
       "flex items-center justify-center overflow-hidden",
       "flex-shrink-0",
-      currentSize.avatar,
-    ].join(" ");
+      currentSize.avatar
+    );
 
     const playerCount = game.players?.length || 0;
 

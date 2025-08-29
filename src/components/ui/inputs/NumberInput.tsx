@@ -1,4 +1,5 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
+import { cn } from "@/constants/styles";
 
 type NumberInputSize = "sm" | "md" | "lg";
 
@@ -167,15 +168,13 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     };
 
     // Combine all styles
-    const inputClasses = [
+    const inputClasses = cn(
       ...baseStyles,
       ...errorStyles,
       ...shadowStyles,
       sizeStyles[size],
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <input

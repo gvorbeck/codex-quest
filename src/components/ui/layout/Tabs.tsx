@@ -16,6 +16,7 @@ import type {
   MouseEvent,
 } from "react";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
+import { cn } from "@/constants/styles";
 
 // ============================================================================
 // Types and Interfaces
@@ -182,13 +183,11 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
       unregisterPanel,
     };
 
-    const containerClasses = [
+    const containerClasses = cn(
       "tabs",
       orientation === "vertical" ? "flex gap-4" : "space-y-2",
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <TabsContext.Provider value={contextValue}>
@@ -282,14 +281,12 @@ const TabList = forwardRef<HTMLDivElement, TabListProps>(
         ],
       };
 
-      return [
+      return cn(
         ...baseClasses,
         ...orientationClasses,
         ...variantClasses[variant],
         className,
-      ]
-        .filter(Boolean)
-        .join(" ");
+      );
     };
 
     return (
@@ -411,14 +408,12 @@ const Tab = forwardRef<HTMLButtonElement, TabProps>(
             ],
       };
 
-      return [
+      return cn(
         ...baseClasses,
         ...sizeClasses[size],
         ...variantClasses[variant],
         className,
-      ]
-        .filter(Boolean)
-        .join(" ");
+      );
     };
 
     return (
@@ -452,13 +447,11 @@ const TabPanels = forwardRef<HTMLDivElement, TabPanelsProps>(
     const { size } = useTabsContext();
     const currentSize = SIZE_STYLES[size];
 
-    const panelsClasses = [
+    const panelsClasses = cn(
       "tabs-panels",
       currentSize.container,
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <div ref={ref} className={panelsClasses} {...props}>
@@ -492,14 +485,12 @@ const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
       return null;
     }
 
-    const panelClasses = [
+    const panelClasses = cn(
       "tabs-panel",
       "focus:outline-none",
       !isSelected && !forceMount && "hidden",
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     return (
       <div

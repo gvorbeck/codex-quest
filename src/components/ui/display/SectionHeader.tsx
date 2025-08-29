@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
+import { cn } from "@/constants/styles";
 
 interface SectionHeaderProps {
   title: ReactNode;
@@ -17,7 +18,7 @@ export default function SectionHeader({
 }: SectionHeaderProps) {
   const currentSize = SIZE_STYLES[size];
 
-  const headerClasses = [
+  const headerClasses = cn(
     "flex items-center justify-between",
     `border-b-2 ${DESIGN_TOKENS.colors.border.secondary}`,
     currentSize.header,
@@ -25,9 +26,7 @@ export default function SectionHeader({
     "backdrop-blur-sm",
     "rounded-t-xl",
     className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  );
 
   return (
     <div className={headerClasses}>

@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
 import { Icon } from "@/components/ui/display/Icon";
+import { cn } from "@/constants/styles";
 
 type TextAreaSize = "sm" | "md" | "lg";
 
@@ -156,16 +157,14 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const inputPaddingClass = showClear ? "pr-6" : "";
 
     // Combine all styles for textarea
-    const textAreaClasses = [
+    const textAreaClasses = cn(
       ...baseStyles,
       ...errorStyles,
       sizeStyles[size],
       resizeStyles[resize],
       inputPaddingClass,
       className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    );
 
     const effectiveAriaLabel = ariaLabel || label;
 
@@ -212,7 +211,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               id={clearButtonId}
               onClick={handleClear}
               aria-label="Clear input"
-              className={clearButtonStyles.join(" ")}
+              className={cn(...clearButtonStyles)}
             >
               <Icon 
                 name="close" 
