@@ -2,33 +2,32 @@
 import { useState, useEffect, useCallback } from "react";
 import { getUserGames, type Game } from "@/services/games";
 import { useAuth } from "./useAuth";
+import { useLoadingState } from "./useLoadingState";
 
 export function useGames() {
   const { user } = useAuth();
   const [games, setGames] = useState<Game[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { loading, withLoading } = useLoadingState();
   const [error, setError] = useState<string | null>(null);
 
   const fetchGames = useCallback(async () => {
     if (!user) {
       setGames([]);
-      setLoading(false);
       return;
     }
 
-    setLoading(true);
     setError(null);
     
     try {
-      const userGames = await getUserGames(user);
-      setGames(userGames);
+      await withLoading(async () => {
+        const userGames = await getUserGames(user);
+        setGames(userGames);
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch games");
       setGames([]);
-    } finally {
-      setLoading(false);
     }
-  }, [user]);
+  }, [user, withLoading]);
 
   useEffect(() => {
     fetchGames();

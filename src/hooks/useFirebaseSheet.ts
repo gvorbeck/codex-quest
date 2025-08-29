@@ -3,6 +3,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import { useAuth } from "@/hooks/useAuth";
+import { useLoadingState } from "@/hooks/useLoadingState";
 import { logger } from "@/utils/logger";
 
 interface UseFirebaseSheetParams {
@@ -29,9 +30,9 @@ export function useFirebaseSheet<T extends Record<string, any>>({
   collection,
 }: UseFirebaseSheetParams): UseFirebaseSheetReturn<T> {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { loading, setLoading } = useLoadingState({ initialState: true });
+  const { loading: isUpdating, withLoading: withUpdating } = useLoadingState();
   const [error, setError] = useState<string | null>(null);
-  const [isUpdating, setIsUpdating] = useState(false);
   const { user } = useAuth();
 
   // Check if the current user owns this entity
@@ -71,53 +72,54 @@ export function useFirebaseSheet<T extends Record<string, any>>({
       }
 
       const previousData = data;
-      setIsUpdating(true);
       logger.debug("🔥 useFirebaseSheet: Starting update process");
 
       try {
-        // Optimistic update
-        if (optimistic) {
-          logger.debug("🔥 useFirebaseSheet: Applying optimistic update");
-          setData(updatedData);
-        }
+        await withUpdating(async () => {
+          // Optimistic update
+          if (optimistic) {
+            logger.debug("🔥 useFirebaseSheet: Applying optimistic update");
+            setData(updatedData);
+          }
 
-        // Clear any existing errors
-        if (error) {
-          setError(null);
-        }
+          // Clear any existing errors
+          if (error) {
+            setError(null);
+          }
 
-        // Update Firebase
-        const entityRef = doc(
-          db,
-          FIREBASE_COLLECTIONS.USERS,
-          userId,
-          FIREBASE_COLLECTIONS[collection],
-          entityId
-        );
+          // Update Firebase
+          const entityRef = doc(
+            db,
+            FIREBASE_COLLECTIONS.USERS,
+            userId,
+            FIREBASE_COLLECTIONS[collection],
+            entityId
+          );
 
-        logger.debug("🔥 useFirebaseSheet: Firebase document path:", {
-          users: FIREBASE_COLLECTIONS.USERS,
-          userId,
-          collection: FIREBASE_COLLECTIONS[collection],
-          entityId,
-          fullPath: `${FIREBASE_COLLECTIONS.USERS}/${userId}/${FIREBASE_COLLECTIONS[collection]}/${entityId}`,
+          logger.debug("🔥 useFirebaseSheet: Firebase document path:", {
+            users: FIREBASE_COLLECTIONS.USERS,
+            userId,
+            collection: FIREBASE_COLLECTIONS[collection],
+            entityId,
+            fullPath: `${FIREBASE_COLLECTIONS.USERS}/${userId}/${FIREBASE_COLLECTIONS[collection]}/${entityId}`,
+          });
+
+          // Create a clean object without the id field for Firebase
+          const cleanData = { ...updatedData };
+          if ("id" in cleanData) {
+            delete cleanData["id"];
+          }
+
+          logger.debug("🔥 useFirebaseSheet: About to save to Firebase:", {
+            cleanDataKeys: Object.keys(cleanData),
+            level: cleanData["level"],
+            hpMax: cleanData["hp"]?.["max"],
+            hpCurrent: cleanData["hp"]?.["current"],
+          });
+
+          await updateDoc(entityRef, cleanData);
+          logger.debug("🔥 useFirebaseSheet: Firebase save successful!");
         });
-
-        // Create a clean object without the id field for Firebase
-        const cleanData = { ...updatedData };
-        if ("id" in cleanData) {
-          delete cleanData["id"];
-        }
-
-        logger.debug("🔥 useFirebaseSheet: About to save to Firebase:", {
-          cleanDataKeys: Object.keys(cleanData),
-          level: cleanData["level"],
-          hpMax: cleanData["hp"]?.["max"],
-          hpCurrent: cleanData["hp"]?.["current"],
-        });
-
-        await updateDoc(entityRef, cleanData);
-        logger.debug("🔥 useFirebaseSheet: Firebase save successful!");
       } catch (err) {
         logger.error(`🔥 useFirebaseSheet: Error updating ${collection}:`, err);
         logger.error("🔥 useFirebaseSheet: Full error details:", {
@@ -139,12 +141,11 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         setTimeout(() => {
           setError(null);
         }, 5000);
-      } finally {
-        setIsUpdating(false);
-        logger.debug("🔥 useFirebaseSheet: Update process completed");
       }
+      
+      logger.debug("🔥 useFirebaseSheet: Update process completed");
     },
-    [userId, entityId, isOwner, data, error, collection]
+    [userId, entityId, isOwner, data, error, collection, withUpdating]
   );
 
   // Load entity data

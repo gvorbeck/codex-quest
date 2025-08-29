@@ -2,33 +2,32 @@
 import { useState, useEffect, useCallback } from "react";
 import { getUserCharacters, type CharacterListItem } from "@/services/characters";
 import { useAuth } from "./useAuth";
+import { useLoadingState } from "./useLoadingState";
 
 export function useCharacters() {
   const { user } = useAuth();
   const [characters, setCharacters] = useState<CharacterListItem[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { loading, withLoading } = useLoadingState();
   const [error, setError] = useState<string | null>(null);
 
   const fetchCharacters = useCallback(async () => {
     if (!user) {
       setCharacters([]);
-      setLoading(false);
       return;
     }
 
-    setLoading(true);
     setError(null);
     
     try {
-      const userCharacters = await getUserCharacters(user);
-      setCharacters(userCharacters);
+      await withLoading(async () => {
+        const userCharacters = await getUserCharacters(user);
+        setCharacters(userCharacters);
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch characters");
       setCharacters([]);
-    } finally {
-      setLoading(false);
     }
-  }, [user]);
+  }, [user, withLoading]);
 
   useEffect(() => {
     fetchCharacters();

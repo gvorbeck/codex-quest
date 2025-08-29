@@ -19,7 +19,8 @@
       "Bash(rg:*)",
       "Bash(npx eslint:*)",
       "Bash(npx knip:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

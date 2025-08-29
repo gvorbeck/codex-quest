@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { logger } from "@/utils/logger";
+import { useLoadingState } from "@/hooks/useLoadingState";
 import type { Class, Spell } from "@/types/character";
 
 export interface SpellGainInfo {
@@ -27,7 +28,7 @@ export function useSpellSelection({
     {}
   );
   const [selectedSpellCount, setSelectedSpellCount] = useState(0);
-  const [isLoadingSpells, setIsLoadingSpells] = useState(false);
+  const { loading: isLoadingSpells, withLoading: withSpellLoading } = useLoadingState();
   const [error, setError] = useState<string | null>(null);
 
   // Calculate spell gains for leveling up
@@ -83,27 +84,26 @@ export function useSpellSelection({
     const loadSpells = async () => {
       if (!spellGainInfo || !primaryClass) return;
 
-      setIsLoadingSpells(true);
       setError(null);
 
       try {
-        const spellsModule = await import("@/data/spells.json");
-        const allSpells: Spell[] = spellsModule.default;
-        setAvailableSpells(allSpells);
-        setSelectedSpells({});
-        setSelectedSpellCount(0);
+        await withSpellLoading(async () => {
+          const spellsModule = await import("@/data/spells.json");
+          const allSpells: Spell[] = spellsModule.default;
+          setAvailableSpells(allSpells);
+          setSelectedSpells({});
+          setSelectedSpellCount(0);
+        });
       } catch (err) {
         const errorMessage = "Failed to load spells. Please try again.";
         setError(errorMessage);
         logger.error("Spell loading error:", err);
         setAvailableSpells([]);
-      } finally {
-        setIsLoadingSpells(false);
       }
     };
 
     loadSpells();
-  }, [spellGainInfo, primaryClass]);
+  }, [spellGainInfo, primaryClass, withSpellLoading]);
 
   // Organize spells by level for UI rendering
   const organizedSpells = useMemo(() => {

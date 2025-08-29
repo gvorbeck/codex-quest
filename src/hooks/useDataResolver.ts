@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { logger } from "@/utils/logger";
+import { useLoadingState } from "@/hooks/useLoadingState";
 import type { Character } from "@/types/character";
 
 interface ResolvedData {
@@ -41,7 +42,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
   const [resolvedData, setResolvedData] = useState<Map<string, ResolvedData>>(
     new Map()
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading: isLoading, setLoading } = useLoadingState();
   const mountedRef = useRef(true);
   const { enableRealTime = false } = options;
 
@@ -182,7 +183,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
     async (playerData: Array<{ userId: string; characterId: string }>) => {
       if (playerData.length === 0) return;
 
-      setIsLoading(true);
+      setLoading(true);
 
       try {
         // Check cache first and filter out already resolved data
@@ -287,11 +288,11 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
         logger.error("Error resolving player data:", error);
       } finally {
         if (mountedRef.current) {
-          setIsLoading(false);
+          setLoading(false);
         }
       }
     },
-    [enableRealTime, resolvedData, setupRealTimeListener]
+    [enableRealTime, resolvedData, setupRealTimeListener, setLoading]
   );
 
   const getResolvedData = useCallback(
