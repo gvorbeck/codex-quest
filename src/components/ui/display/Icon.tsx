@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { logger } from "@/utils/logger";
 
 /**
  * Centralized icon component that replaces inline SVGs throughout the app.
@@ -324,7 +325,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
     const iconData = iconPaths[name];
 
     if (!iconData) {
-      console.warn(`Icon "${name}" not found`);
+      logger.warn(`Icon "${name}" not found`);
       return null;
     }
 

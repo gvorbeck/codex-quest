@@ -1,5 +1,6 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
+import { logger } from "@/utils/logger";
 
 interface Props {
   children: ReactNode;
@@ -28,7 +29,7 @@ export class NotificationErrorBoundary extends Component<Props, State> {
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log the error to console
-    console.error("Notification system error:", error, errorInfo);
+    logger.error("Notification system error:", error, errorInfo);
 
     // Call custom error handler if provided
     this.props.onError?.(error, errorInfo);

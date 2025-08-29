@@ -3,6 +3,7 @@ import { SimpleRoller } from "@/components/ui/display";
 import { Button, Card, Typography, Icon } from "@/components/ui";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, RequirementCard } from "@/components/ui/display";
+import { logger } from "@/utils/logger";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import type { Character } from "@/types/character";
@@ -131,7 +132,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         return dieSize + (character.abilities.constitution.modifier || 0);
       }
     } catch (error) {
-      console.error("Failed to parse hit die:", error);
+      logger.error("Failed to parse hit die:", error);
     }
 
     return 0;

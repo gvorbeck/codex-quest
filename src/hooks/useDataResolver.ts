@@ -120,10 +120,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
         });
       });
     } catch (error) {
-      console.warn(
-        `Failed to batch fetch character data for ${userId}:`,
-        error
-      );
+      logger.warn(`Failed to batch fetch character data for ${userId}:`, error);
       // Fallback: return character IDs as names
       characterIds.forEach((id) => {
         results.set(id, { name: id });
@@ -169,7 +166,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
           }
         },
         (error) => {
-          console.warn(
+          logger.warn(
             `Real-time listener error for ${userId}/${characterId}:`,
             error
           );

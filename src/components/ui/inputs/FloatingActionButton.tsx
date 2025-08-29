@@ -8,6 +8,7 @@ import {
 } from "@/utils/buttonStyles";
 import { TooltipWrapper } from "@/components/ui/feedback";
 import { Icon } from "@/components/ui/display";
+import { logger } from "@/utils/logger";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 import { useFocusManagement } from "@/hooks";
 import { validateFABProps, logValidationResults } from "@/utils/fabValidation";
@@ -126,7 +127,7 @@ const FloatingActionButton = forwardRef<
         if (onFABError) {
           onFABError(error);
         } else {
-          console.error("FloatingActionButton Error:", error);
+          logger.error("FloatingActionButton Error:", error);
         }
       },
       [onFABError]
@@ -210,7 +211,7 @@ const FABGroup: React.FC<FABGroupProps> = ({
       if (onFABGroupError) {
         onFABGroupError(error);
       } else {
-        console.error("FABGroup Error:", error);
+        logger.error("FABGroup Error:", error);
       }
     },
     [onFABGroupError]

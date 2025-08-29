@@ -1,6 +1,7 @@
 import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
 import { LevelUpModal } from "@/components/character/sheet";
+import { logger } from "@/utils/logger";
 import type { Character, Class } from "@/types/character";
 import { useAuth } from "@/hooks/useAuth";
 import { saveCharacter } from "@/services/characters";
@@ -22,24 +23,24 @@ interface ExperienceTrackerProps {
 const evaluateExpression = (expr: string, currentValue: number): number => {
   // Remove spaces and convert to lowercase
   const cleaned = expr.trim().toLowerCase();
-  
+
   // Check if it's a simple addition/subtraction expression
-  if (cleaned.startsWith('+') || cleaned.startsWith('-')) {
+  if (cleaned.startsWith("+") || cleaned.startsWith("-")) {
     const operation = cleaned[0];
     const numberStr = cleaned.slice(1);
     const number = parseFloat(numberStr);
-    
+
     if (!isNaN(number)) {
-      return operation === '+' ? currentValue + number : currentValue - number;
+      return operation === "+" ? currentValue + number : currentValue - number;
     }
   }
-  
+
   // If it's just a number, return it
   const directNumber = parseFloat(cleaned);
   if (!isNaN(directNumber)) {
     return directNumber;
   }
-  
+
   // If we can't parse it, return the current value
   return currentValue;
 };
@@ -68,38 +69,39 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   const canLevelUp = (): boolean => {
     // Find the character's primary class (first class in array)
     const primaryClassId = character.class[0];
-    
+
     if (!primaryClassId) {
-      console.log("Character has no classes");
+      logger.debug("Character has no classes");
       return false;
     }
-    
+
     // Try exact match first, then case-insensitive match for legacy data
-    let primaryClass = classes.find(c => c.id === primaryClassId);
-    
+    let primaryClass = classes.find((c) => c.id === primaryClassId);
+
     if (!primaryClass) {
       // Try case-insensitive match (for migrated data that might have 'Cleric' instead of 'cleric')
-      primaryClass = classes.find(c => 
-        c.id.toLowerCase() === primaryClassId.toLowerCase() ||
-        c.name.toLowerCase() === primaryClassId.toLowerCase()
+      primaryClass = classes.find(
+        (c) =>
+          c.id.toLowerCase() === primaryClassId.toLowerCase() ||
+          c.name.toLowerCase() === primaryClassId.toLowerCase()
       );
     }
-    
+
     if (!primaryClass) {
       return false;
     }
-    
+
     const currentLevel = character.level;
     const nextLevel = currentLevel + 1;
     const requiredXP = primaryClass.experienceTable[nextLevel];
-    
+
     return requiredXP !== undefined && character.xp >= requiredXP;
   };
 
   // Save XP to Firebase
   const saveXPToFirebase = async (newXP: number) => {
     if (!user) return;
-    
+
     try {
       // Only save if character has an ID (i.e., it's already saved to Firebase)
       if (character.id) {
@@ -108,7 +110,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
       }
       // If character doesn't have an ID, it's still in local storage and will be saved when character creation is completed
     } catch (error) {
-      console.error("Failed to save XP to Firebase:", error);
+      logger.error("Failed to save XP to Firebase:", error);
     }
   };
 
@@ -117,7 +119,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   };
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleInputSubmit();
     }
   };
@@ -125,7 +127,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   const handleInputSubmit = () => {
     const newXP = evaluateExpression(inputValue, character.xp);
     const clampedXP = Math.max(0, newXP); // Ensure XP doesn't go negative
-    
+
     setInputValue(clampedXP.toString());
     onChange?.(clampedXP);
     saveXPToFirebase(clampedXP);
@@ -149,7 +151,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   };
 
   const handleLevelUpComplete = async (updatedCharacter: Character) => {
-    console.log('ExperienceTracker: handleLevelUpComplete called with:', {
+    logger.debug("ExperienceTracker: handleLevelUpComplete called with:", {
       oldLevel: character.level,
       newLevel: updatedCharacter.level,
       oldMaxHp: character.hp.max,
@@ -157,22 +159,22 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
       hasUser: !!user,
       hasCharacterId: !!character.id,
       hasOnCharacterChange: !!onCharacterChange,
-      hasOnChange: !!onChange
+      hasOnChange: !!onChange,
     });
 
     try {
       // Call the character change callback to update the parent component
       // This should handle both local state update and Firebase save via useFirebaseSheet
       if (onCharacterChange) {
-        console.log('Calling onCharacterChange...');
+        logger.debug("Calling onCharacterChange...");
         await onCharacterChange(updatedCharacter);
-        console.log('✅ Level up save completed successfully!');
+        logger.debug("✅ Level up save completed successfully!");
       }
-      
+
       // DON'T call onChange for level ups - it would overwrite the full character update
       // onChange is only for XP-only changes, not full character updates
     } catch (error) {
-      console.error("Failed to update character after level up:", error);
+      logger.error("Failed to update character after level up:", error);
     } finally {
       setIsLevelUpModalOpen(false);
     }

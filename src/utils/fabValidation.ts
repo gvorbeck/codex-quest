@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import React from "react";
+import { logger } from "@/utils/logger";
 
 /**
  * Runtime prop validation utilities for FloatingActionButton components
@@ -172,11 +173,11 @@ export const logValidationResults = (
   const prefix = `[${componentName}]`;
 
   if (results.errors.length > 0) {
-    console.error(`${prefix} Validation Errors:`, results.errors);
+    logger.error(`${prefix} Validation Errors:`, results.errors);
   }
 
   if (results.warnings.length > 0) {
-    console.warn(`${prefix} Validation Warnings:`, results.warnings);
+    logger.warn(`${prefix} Validation Warnings:`, results.warnings);
   }
 };
 

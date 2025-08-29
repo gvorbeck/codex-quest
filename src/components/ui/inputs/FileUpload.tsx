@@ -1,5 +1,6 @@
 import React, { useRef, useState, useId } from "react";
 import { Button } from "@/components/ui";
+import { logger } from "@/utils/logger";
 
 interface FileUploadProps {
   onFileSelect: (file: File | null) => void;
@@ -76,7 +77,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     const validationError = validateFile(file);
     if (validationError) {
       // Could trigger an error callback here if needed
-      console.error("File validation error:", validationError);
+      logger.error("File validation error:", validationError);
       return;
     }
 

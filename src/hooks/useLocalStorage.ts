@@ -15,7 +15,7 @@ export function useLocalStorage<T>(
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : defaultValue;
     } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
+      logger.warn(`Error reading localStorage key "${key}":`, error);
       return defaultValue;
     }
   });
@@ -51,7 +51,7 @@ export function useLocalStorage<T>(
         setStoredValue(JSON.parse(item));
       }
     } catch (error) {
-      console.warn(`Error syncing localStorage key "${key}":`, error);
+      logger.warn(`Error syncing localStorage key "${key}":`, error);
     }
   }, [key]);
 

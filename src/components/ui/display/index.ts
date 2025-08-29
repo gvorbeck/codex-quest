@@ -6,6 +6,7 @@ export { default as Stepper } from "./Stepper";
 export { default as Details, type DescriptionItem } from "./Details";
 export { default as Icon, type IconName } from "./Icon";
 export { default as SimpleRoller } from "./SimpleRoller";
+export { default as SkillDescriptionItem, type SkillDescriptionItemVariant, type SkillDescriptionItemColor, type SkillDescriptionItemSemantic } from "./SkillDescriptionItem";
 export { default as StatCard } from "./StatCard";
 export {
   default as StatusIndicator,

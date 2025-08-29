@@ -52,7 +52,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
   // Update entity with optimistic updates and error handling
   const updateEntity = useCallback(
     async (updatedData: T, optimistic: boolean = true) => {
-      console.log("🔥 useFirebaseSheet: updateEntity called", {
+      logger.debug("🔥 useFirebaseSheet: updateEntity called", {
         userId,
         entityId,
         isOwner,
@@ -72,12 +72,12 @@ export function useFirebaseSheet<T extends Record<string, any>>({
 
       const previousData = data;
       setIsUpdating(true);
-      console.log("🔥 useFirebaseSheet: Starting update process");
+      logger.debug("🔥 useFirebaseSheet: Starting update process");
 
       try {
         // Optimistic update
         if (optimistic) {
-          console.log("🔥 useFirebaseSheet: Applying optimistic update");
+          logger.debug("🔥 useFirebaseSheet: Applying optimistic update");
           setData(updatedData);
         }
 
@@ -95,7 +95,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
           entityId
         );
 
-        console.log("🔥 useFirebaseSheet: Firebase document path:", {
+        logger.debug("🔥 useFirebaseSheet: Firebase document path:", {
           users: FIREBASE_COLLECTIONS.USERS,
           userId,
           collection: FIREBASE_COLLECTIONS[collection],
@@ -109,7 +109,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
           delete cleanData["id"];
         }
 
-        console.log("🔥 useFirebaseSheet: About to save to Firebase:", {
+        logger.debug("🔥 useFirebaseSheet: About to save to Firebase:", {
           cleanDataKeys: Object.keys(cleanData),
           level: cleanData["level"],
           hpMax: cleanData["hp"]?.["max"],
@@ -117,7 +117,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         });
 
         await updateDoc(entityRef, cleanData);
-        console.log("🔥 useFirebaseSheet: Firebase save successful!");
+        logger.debug("🔥 useFirebaseSheet: Firebase save successful!");
       } catch (err) {
         logger.error(`🔥 useFirebaseSheet: Error updating ${collection}:`, err);
         logger.error("🔥 useFirebaseSheet: Full error details:", {
@@ -128,7 +128,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
 
         // Revert to previous state on error
         if (optimistic && previousData) {
-          console.log("🔥 useFirebaseSheet: Reverting to previous state");
+          logger.debug("🔥 useFirebaseSheet: Reverting to previous state");
           setData(previousData);
         }
 
@@ -141,7 +141,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         }, 5000);
       } finally {
         setIsUpdating(false);
-        console.log("🔥 useFirebaseSheet: Update process completed");
+        logger.debug("🔥 useFirebaseSheet: Update process completed");
       }
     },
     [userId, entityId, isOwner, data, error, collection]

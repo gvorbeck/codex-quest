@@ -6,7 +6,7 @@ import {
   TabPanels,
   TabPanel,
 } from "@/components/ui/layout";
-import { type DescriptionItem } from "@/components/ui/display";
+import { type DescriptionItem, SkillDescriptionItem } from "@/components/ui/display";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
 import { Typography, Card } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";
@@ -139,20 +139,11 @@ export default function SpecialsRestrictions({
                         hover
                         className="group/card"
                       >
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
-                          <Typography
-                            variant="bodySmall"
-                            color="amber"
-                            weight="semibold"
-                            className="group-hover/card:text-amber-300 transition-colors duration-200"
-                          >
-                            {item.label}
-                          </Typography>
-                        </div>
-                        <div className="text-zinc-100 text-sm leading-relaxed">
-                          {item.children}
-                        </div>
+                        <SkillDescriptionItem
+                          title={String(item.label)}
+                          description={item.children}
+                          variant="decorated"
+                        />
                       </Card>
                     ))
                   ) : (
@@ -187,20 +178,11 @@ export default function SpecialsRestrictions({
                         hover
                         className="group/card"
                       >
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
-                          <Typography
-                            variant="bodySmall"
-                            color="amber"
-                            weight="semibold"
-                            className="group-hover/card:text-amber-300 transition-colors duration-200"
-                          >
-                            {item.label}
-                          </Typography>
-                        </div>
-                        <div className="text-zinc-100 text-sm leading-relaxed">
-                          {item.children}
-                        </div>
+                        <SkillDescriptionItem
+                          title={String(item.label)}
+                          description={item.children}
+                          variant="decorated"
+                        />
                       </Card>
                     ))
                   ) : (
@@ -235,18 +217,12 @@ export default function SpecialsRestrictions({
                       hover
                       className="group/card"
                     >
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-2 h-2 bg-lime-400 rounded-full group-hover/card:bg-lime-300 transition-colors duration-200"></div>
-                        <Typography
-                          variant="bodySmall"
-                          weight="semibold"
-                        >
-                          {item.label}
-                        </Typography>
-                      </div>
-                      <div className="text-zinc-100 text-sm leading-relaxed">
-                        {item.children}
-                      </div>
+                      <SkillDescriptionItem
+                        title={String(item.label)}
+                        description={item.children}
+                        variant="decorated"
+                        color="lime"
+                      />
                     </Card>
                   ))
                 ) : (

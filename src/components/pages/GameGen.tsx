@@ -4,6 +4,7 @@ import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
 import { Breadcrumb } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
+import { logger } from "@/utils/logger";
 import { STORAGE_KEYS } from "@/constants/storage";
 
 interface DraftGame {
@@ -27,11 +28,11 @@ function GameGen() {
   const [isSaving, setIsSaving] = useState(false);
 
   const handleNameChange = useCallback((name: string) => {
-    setGame(prev => ({ ...prev, name }));
+    setGame((prev) => ({ ...prev, name }));
   }, []);
 
   const handleNotesChange = useCallback((notes: string) => {
-    setGame(prev => ({ ...prev, notes }));
+    setGame((prev) => ({ ...prev, notes }));
   }, []);
 
   const handleSave = useCallback(async () => {
@@ -40,15 +41,15 @@ function GameGen() {
     setIsSaving(true);
     try {
       // TODO: Implement game saving service
-      console.log("Saving game:", game);
-      
+      logger.debug("Saving game:", game);
+
       // Clear localStorage draft
       localStorage.removeItem(STORAGE_KEYS.DRAFT_GAME);
-      
+
       // Navigate to home
       setLocation("/");
     } catch (error) {
-      console.error("Error saving game:", error);
+      logger.error("Error saving game:", error);
     } finally {
       setIsSaving(false);
     }
@@ -88,7 +89,10 @@ function GameGen() {
 
             {/* Game Name */}
             <div className="space-y-2">
-              <label htmlFor="game-name" className="block text-sm font-medium text-primary-300">
+              <label
+                htmlFor="game-name"
+                className="block text-sm font-medium text-primary-300"
+              >
                 Game Name *
               </label>
               <input
@@ -103,7 +107,10 @@ function GameGen() {
 
             {/* Game Notes */}
             <div className="space-y-2">
-              <label htmlFor="game-notes" className="block text-sm font-medium text-primary-300">
+              <label
+                htmlFor="game-notes"
+                className="block text-sm font-medium text-primary-300"
+              >
                 Notes (Optional)
               </label>
               <textarea
@@ -118,7 +125,9 @@ function GameGen() {
 
             {/* Placeholder for future features */}
             <div className="p-4 bg-zinc-800/50 rounded-lg border border-zinc-600">
-              <Typography variant="h4" className="mb-2">Coming Soon</Typography>
+              <Typography variant="h4" className="mb-2">
+                Coming Soon
+              </Typography>
               <Typography variant="body" color="secondary" className="text-sm">
                 Additional game setup features will be added here:
               </Typography>

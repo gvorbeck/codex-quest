@@ -1,16 +1,20 @@
 import { useState, useMemo } from "react";
 import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { Card, Typography } from "@/components/ui/design-system";
+import { SkillDescriptionItem } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import Button from "@/components/ui/inputs/Button";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { allClasses } from "@/data/classes";
+import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
 
-interface ThiefSkillsProps {
+interface ThiefAssassinSkillsProps {
   character: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
+  id?: string;
 }
 
 // Define the skill names and their display labels
@@ -24,6 +28,10 @@ const THIEF_SKILLS = {
   listen: "Listen",
   poison: "Poison",
 } as const;
+
+// Constants for skill system
+const DEFAULT_LEVEL = 1;
+const COMPONENT_ID_PREFIX = "thief-skills";
 
 const SKILL_DESCRIPTIONS = {
   openLocks:
@@ -39,11 +47,12 @@ const SKILL_DESCRIPTIONS = {
     "Create and use lethal poisons for weapons and assassination attempts.",
 };
 
-export default function ThiefSkills({
+export default function ThiefAssassinSkills({
   character,
   className = "",
   size = "md",
-}: ThiefSkillsProps) {
+  id = COMPONENT_ID_PREFIX,
+}: ThiefAssassinSkillsProps) {
   const [showDetails, setShowDetails] = useState(false);
   const currentSize = SIZE_STYLES[size];
   const { rollPercentile } = useDiceRoll();
@@ -74,19 +83,30 @@ export default function ThiefSkills({
 
   // Get thief skills for current level
   const thiefSkills = useMemo(() => {
-    if (!characterClassInfo.hasThiefSkills || !characterClassInfo.className)
+    if (!characterClassInfo.hasThiefSkills || !characterClassInfo.className) {
       return null;
+    }
 
     // Find the appropriate class data
     const classData = allClasses.find(
       (cls) => cls.id === characterClassInfo.className
     );
-    if (!classData?.thiefSkills) return null;
+    
+    if (!classData?.thiefSkills) {
+      logger.warn(`Missing thief skills for class: ${characterClassInfo.className}`);
+      return null;
+    }
 
     // Get skills for current level (or closest lower level)
-    const level = character.level || 1;
+    // Ensure level is at least 1
+    const level = Math.max(DEFAULT_LEVEL, character.level || DEFAULT_LEVEL);
     const skillsForLevel =
-      classData.thiefSkills[level] || classData.thiefSkills[1];
+      classData.thiefSkills[level] || classData.thiefSkills[DEFAULT_LEVEL];
+
+    if (!skillsForLevel) {
+      logger.warn(`No skill data found for ${characterClassInfo.className} level ${level}`);
+      return null;
+    }
 
     return skillsForLevel;
   }, [character.level, characterClassInfo]);
@@ -98,23 +118,32 @@ export default function ThiefSkills({
 
   const isAssassin = characterClassInfo.className === "assassin";
 
+  const detailsContentId = `${id}-details`;
+  
   const detailsContent = (
-    <div className="mt-4 p-4 bg-zinc-800 rounded-lg">
-      <h4 className="font-semibold mb-3 text-sm">
+    <Card 
+      id={detailsContentId} 
+      className="mt-4" 
+      variant="nested" 
+      size="compact"
+    >
+      <Typography 
+        variant="h4" 
+        weight="semibold" 
+        className="mb-3 text-sm"
+      >
         {isAssassin ? "Ability" : "Skill"} Descriptions:
-      </h4>
+      </Typography>
       <div className="space-y-2 text-xs">
         {Object.entries(SKILL_DESCRIPTIONS)
-          .filter(([key]) =>
-            Object.prototype.hasOwnProperty.call(thiefSkills, key)
-          ) // Only show skills this class actually has
+          .filter(([key]) => key in thiefSkills) // Only show skills this class actually has
           .map(([key, description]) => (
-            <div key={key} className="space-y-1">
-              <div className="font-medium text-blue-300">
-                {THIEF_SKILLS[key as keyof typeof THIEF_SKILLS]}:
-              </div>
-              <div className="text-zinc-300 pl-2">{description}</div>
-            </div>
+            <SkillDescriptionItem
+              key={key}
+              title={THIEF_SKILLS[key as keyof typeof THIEF_SKILLS]}
+              description={description}
+              variant="simple"
+            />
           ))}
       </div>
       <div className="mt-3 pt-3 border-t border-zinc-700">
@@ -127,7 +156,7 @@ export default function ThiefSkills({
           </ul>
         </div>
       </div>
-    </div>
+    </Card>
   );
 
   return (
@@ -148,7 +177,7 @@ export default function ThiefSkills({
                 label={skillLabel}
                 value={`${skillValue}%`}
                 onClick={() => rollPercentile(skillLabel, skillValue)}
-                tooltip={`Click to roll ${skillLabel.toLowerCase()} (need ${skillValue} or less on d100)`}
+                tooltip={`Roll ${skillLabel}: d100 vs ${skillValue}% (01-05 always succeed, 96-100 always fail)`}
                 size={size}
               />
             );
@@ -161,6 +190,8 @@ export default function ThiefSkills({
             size="sm"
             onClick={() => setShowDetails(!showDetails)}
             className="w-full text-xs"
+            aria-expanded={showDetails}
+            aria-controls={detailsContentId}
           >
             {showDetails ? "Hide" : "Show"} {isAssassin ? "Ability" : "Skill"}{" "}
             Details

@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Modal } from "@/components/ui/feedback";
 import { useHPGain, useSpellSelection } from "@/hooks";
+import { logger } from "@/utils/logger";
 import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
 import CurrentStatusCard from "./level-up/CurrentStatusCard";
 import HPGainPreview from "./level-up/HPGainPreview";
@@ -134,7 +135,7 @@ export default function LevelUpModal({
 
       onClose();
     } catch (error) {
-      console.error("Level up failed:", error);
+      logger.error("Level up failed:", error);
     } finally {
       setIsProcessing(false);
     }

@@ -3,6 +3,7 @@ import { SimpleRoller } from "@/components/ui/display";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
+import { logger } from "@/utils/logger";
 import type { Character, AbilityScore } from "@/types/character";
 import { memo } from "react";
 import { useValidation } from "@/hooks";
@@ -59,7 +60,7 @@ function AbilityScoreStep({
   const updateAbilityScore = (ability: AbilityName, value: number) => {
     // Validate the score before applying
     if (!isValidAbilityScore(value)) {
-      console.warn(`Invalid ability score ${value} for ${ability}`);
+      logger.warn(`Invalid ability score ${value} for ${ability}`);
       return;
     }
 

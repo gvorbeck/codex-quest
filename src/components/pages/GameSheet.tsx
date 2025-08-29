@@ -11,6 +11,7 @@ import {
 } from "@/components/game/sheet";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
+import { logger } from "@/utils/logger";
 import {
   GAME_SHEET_STYLES,
   ERROR_MESSAGES,
@@ -98,7 +99,7 @@ export default function GameSheet() {
   }
 
   if (import.meta.env.MODE === "development") {
-    console.log(
+    logger.debug(
       `🎲 GAME SHEET DEBUG | ${game.name?.toUpperCase() || "UNNAMED GAME"}`,
       game
     );

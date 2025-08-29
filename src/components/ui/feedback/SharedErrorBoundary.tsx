@@ -19,6 +19,7 @@ interface State {
   error?: Error;
 }
 
+
 /**
  * Shared error boundary component to reduce duplication
  * Can be customized for different contexts while maintaining consistency

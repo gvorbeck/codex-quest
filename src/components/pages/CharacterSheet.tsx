@@ -24,6 +24,7 @@ import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { allClasses } from "@/data/classes";
 import { calculateModifier } from "@/utils/gameUtils";
+import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
 
 export default function CharacterSheet() {
@@ -68,15 +69,15 @@ export default function CharacterSheet() {
   // Handle character changes (for avatar, etc.)
   const handleCharacterChange = useCallback(
     async (updatedCharacter: Character) => {
-      console.log("CharacterSheet: handleCharacterChange called with:", {
+      logger.debug("CharacterSheet: handleCharacterChange called with:", {
         oldLevel: character?.level,
         newLevel: updatedCharacter.level,
         oldMaxHp: character?.hp.max,
         newMaxHp: updatedCharacter.hp.max,
       });
-      console.log("CharacterSheet: About to call updateCharacter...");
+      logger.debug("CharacterSheet: About to call updateCharacter...");
       await updateCharacter(updatedCharacter);
-      console.log("CharacterSheet: updateCharacter completed");
+      logger.debug("CharacterSheet: updateCharacter completed");
     },
     [updateCharacter, character]
   );
@@ -208,7 +209,7 @@ export default function CharacterSheet() {
     );
   }
 
-  console.log(
+  logger.debug(
     `
 ⚔️  ═══════════════════════════════════════════════════════════════════════════════
 🛡️   CHARACTER SHEET DEBUG | ${character.name?.toUpperCase() || "UNNAMED HERO"}
@@ -326,16 +327,18 @@ export default function CharacterSheet() {
           </div>
 
           {/* Spells & Equipment Section - side-by-side on larger screens when both present */}
-          <div className={`grid grid-cols-1 gap-6 ${
-            (character.spells?.length || character.cantrips?.length) 
-              ? 'lg:grid-cols-2' 
-              : 'lg:grid-cols-1'
-          }`}>
+          <div
+            className={`grid grid-cols-1 gap-6 ${
+              character.spells?.length || character.cantrips?.length
+                ? "lg:grid-cols-2"
+                : "lg:grid-cols-1"
+            }`}
+          >
             {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
             {(character.spells?.length || character.cantrips?.length) && (
               <div className="break-inside-avoid">
-                <Spells 
-                  character={character} 
+                <Spells
+                  character={character}
                   onCharacterChange={handleCharacterChange}
                   isOwner={isOwner}
                 />

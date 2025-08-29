@@ -2,6 +2,7 @@ import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Button } from "@/components/ui";
 import { Typography } from "@/components/ui/design-system";
+import { logger } from "@/utils/logger";
 
 interface Props {
   children: ReactNode;
@@ -30,7 +31,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log the error to console in development
-    console.error("Error caught by ErrorBoundary:", error, errorInfo);
+    logger.error("Error caught by ErrorBoundary:", error, errorInfo);
 
     // In production, you might want to log this to an error reporting service
     // Example: errorReportingService.captureException(error, { extra: errorInfo });

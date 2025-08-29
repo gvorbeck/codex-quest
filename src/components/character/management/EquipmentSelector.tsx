@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, memo } from "react";
 import { Accordion, Card, InfoCardHeader, Typography } from "@/components/ui";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/ui/display/Icon";
+import { logger } from "@/utils/logger";
 import type { Character, Equipment } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 import { convertToGold } from "@/utils/currency";
@@ -22,22 +23,37 @@ interface EquipmentSelectorProps {
  * This handles cases where the restriction ID doesn't exactly match the equipment name format
  */
 const WEAPON_ID_MAPPING: Record<string, string[]> = {
-  "dagger": ["dagger"],
+  dagger: ["dagger"],
   "walking-staff": ["quarterstaff"],
-  "warhammer": ["warhammer"],
-  "mace": ["mace"],
-  "maul": ["maul"],
-  "club": ["club"],
-  "quarterstaff": ["quarterstaff"],
-  "sling": ["sling"],
-  "shortbow": ["shortbow"],
-  "sickle": ["sickle"],
-  "spade": ["spade"],
-  "scimitar": ["scimitar"],
-  "scythe": ["scythe"],
-  "greatsword": ["greatsword"],
-  "polearm": ["glaive", "halberd", "bill-guisarme", "bardiche", "bec-de-corbin", "fauchard", "glaive-guisarme", "guisarme", "lucern-hammer", "military-fork", "partisan", "ranseur", "spetum", "voulge"],
-  "longbow": ["longbow"]
+  warhammer: ["warhammer"],
+  mace: ["mace"],
+  maul: ["maul"],
+  club: ["club"],
+  quarterstaff: ["quarterstaff"],
+  sling: ["sling"],
+  shortbow: ["shortbow"],
+  sickle: ["sickle"],
+  spade: ["spade"],
+  scimitar: ["scimitar"],
+  scythe: ["scythe"],
+  greatsword: ["greatsword"],
+  polearm: [
+    "glaive",
+    "halberd",
+    "bill-guisarme",
+    "bardiche",
+    "bec-de-corbin",
+    "fauchard",
+    "glaive-guisarme",
+    "guisarme",
+    "lucern-hammer",
+    "military-fork",
+    "partisan",
+    "ranseur",
+    "spetum",
+    "voulge",
+  ],
+  longbow: ["longbow"],
 };
 
 /**
@@ -50,14 +66,17 @@ function createEquipmentId(name: string): string {
 /**
  * Checks if an equipment name matches a restriction ID
  */
-function isEquipmentMatchingRestriction(equipmentName: string, restrictionId: string): boolean {
+function isEquipmentMatchingRestriction(
+  equipmentName: string,
+  restrictionId: string
+): boolean {
   const equipmentId = createEquipmentId(equipmentName);
   const mappedNames = WEAPON_ID_MAPPING[restrictionId];
-  
+
   if (mappedNames) {
     return mappedNames.includes(equipmentId);
   }
-  
+
   // Fallback to direct ID comparison
   return equipmentId === restrictionId;
 }
@@ -65,34 +84,46 @@ function isEquipmentMatchingRestriction(equipmentName: string, restrictionId: st
 /**
  * Checks if an equipment item is restricted for the character based on race and class restrictions
  */
-function isEquipmentRestricted(equipment: Equipment, character: Character): { restricted: boolean; reason?: string } {
+function isEquipmentRestricted(
+  equipment: Equipment,
+  character: Character
+): { restricted: boolean; reason?: string } {
   // Only check weapon restrictions for items with damage (weapons)
   if (!equipment.damage) {
     return { restricted: false };
   }
-  
+
   // Get character's race data
-  const characterRace = allRaces.find(race => race.id === character.race);
-  
+  const characterRace = allRaces.find((race) => race.id === character.race);
+
   // Check race prohibitions
   if (characterRace?.prohibitedWeapons) {
     for (const prohibitedWeapon of characterRace.prohibitedWeapons) {
       if (isEquipmentMatchingRestriction(equipment.name, prohibitedWeapon)) {
-        return { restricted: true, reason: `${characterRace.name} Restriction` };
+        return {
+          restricted: true,
+          reason: `${characterRace.name} Restriction`,
+        };
       }
     }
-    
+
     // Check for size-based restrictions (Large weapons for small races)
-    if (equipment.size === "L" && characterRace.prohibitedWeapons.includes("large")) {
+    if (
+      equipment.size === "L" &&
+      characterRace.prohibitedWeapons.includes("large")
+    ) {
       return { restricted: true, reason: `${characterRace.name} Restriction` };
     }
   }
-  
+
   // Get character's class data and check weapon restrictions
   if (character.class && character.class.length > 0) {
     for (const classId of character.class) {
-      const characterClass = allClasses.find(cls => cls.id === classId);
-      if (characterClass?.allowedWeapons && characterClass.allowedWeapons.length > 0) {
+      const characterClass = allClasses.find((cls) => cls.id === classId);
+      if (
+        characterClass?.allowedWeapons &&
+        characterClass.allowedWeapons.length > 0
+      ) {
         // If class has weapon restrictions, check if this weapon is allowed
         let isAllowed = false;
         for (const allowedWeapon of characterClass.allowedWeapons) {
@@ -102,12 +133,15 @@ function isEquipmentRestricted(equipment: Equipment, character: Character): { re
           }
         }
         if (!isAllowed) {
-          return { restricted: true, reason: `${characterClass.name} Restriction` };
+          return {
+            restricted: true,
+            reason: `${characterClass.name} Restriction`,
+          };
         }
       }
     }
   }
-  
+
   return { restricted: false };
 }
 
@@ -125,7 +159,7 @@ function EquipmentSelector({
         const equipment = await loadAllEquipment();
         setAllEquipment(equipment as EquipmentWithIndex[]);
       } catch (error) {
-        console.error("Failed to load equipment data:", error);
+        logger.error("Failed to load equipment data:", error);
         setAllEquipment([]);
       } finally {
         setIsLoading(false);
@@ -191,7 +225,8 @@ function EquipmentSelector({
               size="sm"
               className="self-start"
             >
-              Add {!canAfford && "(Can't Afford)"} {!canUse && restriction.reason && `(${restriction.reason})`}
+              Add {!canAfford && "(Can't Afford)"}{" "}
+              {!canUse && restriction.reason && `(${restriction.reason})`}
             </Button>
           </div>
         </Card>

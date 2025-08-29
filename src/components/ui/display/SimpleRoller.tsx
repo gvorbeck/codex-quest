@@ -2,6 +2,7 @@ import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
 import { NumberInput } from "@/components/ui/inputs";
 import { roller } from "@/utils/dice";
+import { logger } from "@/utils/logger";
 
 interface SimpleRollerProps {
   /** The dice formula to roll (e.g., "3d6", "1d20+5") */
@@ -47,7 +48,7 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
       setValue(newValue);
       onChange?.(newValue);
     } catch (error) {
-      console.error("Failed to roll dice:", error);
+      logger.error("Failed to roll dice:", error);
       // Could add error handling UI here if needed
     }
   };
