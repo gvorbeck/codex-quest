@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Card } from "@/components/ui/design-system";
+import { cn } from "@/constants/styles";
 
 interface StatItem {
   label: string;
@@ -28,14 +29,14 @@ export function StatGrid({
 }: StatGridProps) {
   const getGridClasses = () => {
     const baseClass = `grid gap-3`;
-    const colClasses = [
-      columns.base && `grid-cols-${columns.base}`,
-      columns.sm && `sm:grid-cols-${columns.sm}`,
-      columns.md && `md:grid-cols-${columns.md}`,
-      columns.lg && `lg:grid-cols-${columns.lg}`,
-    ].filter(Boolean).join(" ");
+    const colClasses = cn(
+      columns.base ? `grid-cols-${columns.base}` : false,
+      columns.sm ? `sm:grid-cols-${columns.sm}` : false,
+      columns.md ? `md:grid-cols-${columns.md}` : false,
+      columns.lg ? `lg:grid-cols-${columns.lg}` : false
+    );
     
-    return `${baseClass} ${colClasses}`;
+    return cn(baseClass, colClasses);
   };
 
   const getStatItemClasses = () => {
@@ -97,7 +98,7 @@ export function StatGrid({
   const cardVariant = getCardVariant();
 
   return (
-    <div className={`${getGridClasses()} ${className}`}>
+    <div className={cn(getGridClasses(), className)}>
       {stats.map((stat, index) => {
         const content = (
           <>

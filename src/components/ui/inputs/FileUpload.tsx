@@ -1,6 +1,7 @@
 import React, { useRef, useState, useId } from "react";
 import { Button } from "@/components/ui";
 import { logger } from "@/utils/logger";
+import { cn } from "@/constants/styles";
 
 interface FileUploadProps {
   onFileSelect: (file: File | null) => void;
@@ -34,9 +35,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const helperTextId = helperText ? `${inputId}-helper` : undefined;
 
   // Combine all describedby IDs
-  const describedByIds =
-    [ariaDescribedBy, errorId, helperTextId].filter(Boolean).join(" ") ||
-    undefined;
+  const describedByIds = cn(ariaDescribedBy, errorId, helperTextId) || undefined;
 
   const validateFile = (file: File): string | null => {
     if (maxSizeBytes && file.size > maxSizeBytes) {

@@ -1,6 +1,7 @@
 import { forwardRef, useId } from "react";
 import type { SelectHTMLAttributes } from "react";
 import { Icon } from "@/components/ui/display/Icon";
+import { cn } from "@/constants/styles";
 
 export interface SelectOption {
   value: string;
@@ -45,9 +46,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const helperTextId = helperText ? `${selectId}-helper` : undefined;
 
     // Combine all describedby IDs
-    const describedByIds =
-      [ariaDescribedBy, errorId, helperTextId].filter(Boolean).join(" ") ||
-      undefined;
+    const describedByIds = cn(ariaDescribedBy, errorId, helperTextId) || undefined;
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
       const newValue = event.target.value;
@@ -104,15 +103,13 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ];
 
     // Combine all styles
-    const selectClasses = [
+    const selectClasses = cn(
       ...baseStyles,
       ...errorStyles,
       ...shadowStyles,
       sizeStyles[size],
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+      className
+    );
 
     const labelClasses = labelStyles.join(" ");
 

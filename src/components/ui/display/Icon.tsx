@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import { logger } from "@/utils/logger";
+import { cn } from "@/constants/styles";
 
 /**
  * Centralized icon component that replaces inline SVGs throughout the app.
@@ -333,7 +334,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
     const isDecorative = !title && !ariaLabel;
 
     // Build class names
-    const classes = [sizeClass, className].filter(Boolean).join(" ");
+    const classes = cn(sizeClass, className);
 
     return (
       <svg
