@@ -142,7 +142,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
           setError(null);
         }, 5000);
       }
-      
+
       logger.debug("🔥 useFirebaseSheet: Update process completed");
     },
     [userId, entityId, isOwner, data, error, collection, withUpdating]

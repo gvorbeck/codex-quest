@@ -9,6 +9,14 @@ import Button from "@/components/ui/inputs/Button";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { allClasses } from "@/data/classes";
 import { logger } from "@/utils/logger";
+import {
+  ALL_SKILLS,
+  SKILL_DESCRIPTIONS,
+  CLASSES_WITH_SKILLS,
+  SKILL_CONSTANTS,
+  type SkillKey,
+  type SkillClassKey,
+} from "@/constants/skills";
 import type { Character } from "@/types/character";
 
 interface ClassSkillsProps {
@@ -18,78 +26,39 @@ interface ClassSkillsProps {
   id?: string;
 }
 
-// Define all possible skill names and their display labels
-const ALL_SKILLS = {
-  openLocks: "Open Locks",
-  removeTraps: "Remove Traps",
-  pickPockets: "Pick Pockets",
-  moveSilently: "Move Silently",
-  climbWalls: "Climb Walls",
-  hide: "Hide",
-  listen: "Listen",
-  poison: "Poison",
-  tracking: "Tracking",
-} as const;
-
-// Constants for skill system
-const DEFAULT_LEVEL = 1;
-const COMPONENT_ID_PREFIX = "class-skills";
-
-const SKILL_DESCRIPTIONS = {
-  openLocks:
-    "Attempt to unlock doors, chests, and other locked mechanisms without the proper key.",
-  removeTraps:
-    "Detect and disarm mechanical traps on doors, chests, and other objects.",
-  pickPockets: "Steal small items from others without being noticed.",
-  moveSilently: "Move without making noise, useful for sneaking past enemies.",
-  climbWalls: "Scale vertical surfaces like walls, cliffs, or buildings.",
-  hide: "Conceal yourself in shadows or behind cover to avoid detection.",
-  listen: "Detect sounds through doors or walls, overhear conversations.",
-  poison:
-    "Create and use lethal poisons for weapons and assassination attempts.",
-  tracking:
-    "Follow tracks and signs left by creatures in wilderness areas. Rangers must roll once per hour traveled or lose the trail.",
-};
 
 export default function ClassSkills({
   character,
   className = "",
   size = "md",
-  id = COMPONENT_ID_PREFIX,
+  id = SKILL_CONSTANTS.COMPONENT_ID_PREFIX,
 }: ClassSkillsProps) {
   const { isOpen: showDetails, toggle: toggleDetails } = useModal();
   const currentSize = SIZE_STYLES[size];
   const { rollPercentile } = useDiceRoll();
 
-  // Check if character has a class with skills (thief, assassin, or ranger)
+  // Check if character has a class with skills using optimized lookup
   const characterClassInfo = useMemo(() => {
-    const isThief = character.class?.some((classId) => classId === "thief");
-    const isAssassin = character.class?.some(
-      (classId) => classId === "assassin"
+    const skillClass = character.class?.find((cls): cls is SkillClassKey => 
+      cls in CLASSES_WITH_SKILLS
     );
-    const isRanger = character.class?.some((classId) => classId === "ranger");
-
-    if (isThief) {
+    
+    if (skillClass) {
+      const classInfo = CLASSES_WITH_SKILLS[skillClass];
       return {
         hasSkills: true,
-        className: "thief",
-        displayName: "Thief Skills",
-      };
-    } else if (isAssassin) {
-      return {
-        hasSkills: true,
-        className: "assassin",
-        displayName: "Assassin Abilities",
-      };
-    } else if (isRanger) {
-      return {
-        hasSkills: true,
-        className: "ranger",
-        displayName: "Ranger Skills",
+        className: skillClass,
+        displayName: classInfo.displayName,
+        abilityType: classInfo.abilityType,
       };
     }
 
-    return { hasSkills: false, className: null, displayName: null };
+    return { 
+      hasSkills: false, 
+      className: null, 
+      displayName: null, 
+      abilityType: "Skill" as const 
+    };
   }, [character.class]);
 
   // Get class skills for current level
@@ -110,9 +79,12 @@ export default function ClassSkills({
 
     // Get skills for current level (or closest lower level)
     // Ensure level is at least 1
-    const level = Math.max(DEFAULT_LEVEL, character.level || DEFAULT_LEVEL);
+    const level = Math.max(
+      SKILL_CONSTANTS.DEFAULT_LEVEL, 
+      character.level || SKILL_CONSTANTS.DEFAULT_LEVEL
+    );
     const skillsForLevel =
-      classData.thiefSkills[level] || classData.thiefSkills[DEFAULT_LEVEL];
+      classData.thiefSkills[level] || classData.thiefSkills[SKILL_CONSTANTS.DEFAULT_LEVEL];
 
     if (!skillsForLevel) {
       logger.warn(`No skill data found for ${characterClassInfo.className} level ${level}`);
@@ -127,8 +99,9 @@ export default function ClassSkills({
     return null;
   }
 
-  const isAssassin = characterClassInfo.className === "assassin";
-  const isRanger = characterClassInfo.className === "ranger";
+  const { className: skillClassName, abilityType } = characterClassInfo;
+  const isRanger = skillClassName === "ranger";
+  const isScout = skillClassName === "scout";
 
   const detailsContentId = `${id}-details`;
   
@@ -144,7 +117,7 @@ export default function ClassSkills({
         weight="semibold" 
         className="mb-3 text-sm"
       >
-        {isAssassin ? "Ability" : "Skill"} Descriptions:
+        {abilityType} Descriptions:
       </Typography>
       <div className="space-y-2 text-xs">
         {Object.entries(SKILL_DESCRIPTIONS)
@@ -152,7 +125,7 @@ export default function ClassSkills({
           .map(([key, description]) => (
             <SkillDescriptionItem
               key={key}
-              title={ALL_SKILLS[key as keyof typeof ALL_SKILLS]}
+              title={ALL_SKILLS[key as SkillKey]}
               description={description}
               variant="simple"
             />
@@ -183,13 +156,20 @@ export default function ClassSkills({
             const skillValue = classSkills[skillKey];
             if (!skillValue) return null;
 
+            // Generate tooltip with class-specific modifiers
+            const baseTooltip = `Roll ${skillLabel}: d100 vs ${skillValue}% (01-05 always succeed, 96-100 always fail)`;
+            const trackingNote = (isRanger || isScout) && skillKey === 'tracking' ? ' (Wilderness only)' : '';
+            const urbanPenalty = isRanger && (skillKey === 'moveSilently' || skillKey === 'hide') 
+              ? ` (-${SKILL_CONSTANTS.URBAN_PENALTY}% penalty in urban areas)` : '';
+            const tooltip = `${baseTooltip}${trackingNote}${urbanPenalty}`;
+
             return (
               <RollableButton
                 key={skillKey}
                 label={skillLabel}
                 value={`${skillValue}%`}
                 onClick={() => rollPercentile(skillLabel, skillValue)}
-                tooltip={`Roll ${skillLabel}: d100 vs ${skillValue}% (01-05 always succeed, 96-100 always fail)${isRanger && skillKey === 'tracking' ? ' (Wilderness only)' : ''}${isRanger && (skillKey === 'moveSilently' || skillKey === 'hide') ? ' (-20% penalty in urban areas)' : ''}`}
+                tooltip={tooltip}
                 size={size}
               />
             );
@@ -205,8 +185,7 @@ export default function ClassSkills({
             aria-expanded={showDetails}
             aria-controls={detailsContentId}
           >
-            {showDetails ? "Hide" : "Show"} {isAssassin ? "Ability" : "Skill"}{" "}
-            Details
+            {showDetails ? "Hide" : "Show"} {abilityType} Details
           </Button>
         </div>
 
