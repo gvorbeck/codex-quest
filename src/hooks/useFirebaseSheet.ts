@@ -190,7 +190,7 @@ export function useFirebaseSheet<T extends Record<string, any>>({
     };
 
     loadEntity();
-  }, [userId, entityId, collection]);
+  }, [userId, entityId, collection, setLoading]);
 
   return {
     data,

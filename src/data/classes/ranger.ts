@@ -73,5 +73,107 @@ export const ranger: Class = {
     19: 1584000,
     20: 1716000,
   },
+  thiefSkills: {
+    1: {
+      moveSilently: 25,
+      hide: 10,
+      tracking: 40,
+    },
+    2: {
+      moveSilently: 30,
+      hide: 15,
+      tracking: 44,
+    },
+    3: {
+      moveSilently: 35,
+      hide: 20,
+      tracking: 48,
+    },
+    4: {
+      moveSilently: 40,
+      hide: 25,
+      tracking: 52,
+    },
+    5: {
+      moveSilently: 45,
+      hide: 30,
+      tracking: 56,
+    },
+    6: {
+      moveSilently: 50,
+      hide: 35,
+      tracking: 60,
+    },
+    7: {
+      moveSilently: 55,
+      hide: 40,
+      tracking: 64,
+    },
+    8: {
+      moveSilently: 60,
+      hide: 45,
+      tracking: 68,
+    },
+    9: {
+      moveSilently: 65,
+      hide: 50,
+      tracking: 72,
+    },
+    10: {
+      moveSilently: 68,
+      hide: 53,
+      tracking: 75,
+    },
+    11: {
+      moveSilently: 71,
+      hide: 56,
+      tracking: 78,
+    },
+    12: {
+      moveSilently: 74,
+      hide: 59,
+      tracking: 81,
+    },
+    13: {
+      moveSilently: 77,
+      hide: 62,
+      tracking: 84,
+    },
+    14: {
+      moveSilently: 80,
+      hide: 65,
+      tracking: 87,
+    },
+    15: {
+      moveSilently: 83,
+      hide: 68,
+      tracking: 90,
+    },
+    16: {
+      moveSilently: 85,
+      hide: 69,
+      tracking: 91,
+    },
+    17: {
+      moveSilently: 87,
+      hide: 70,
+      tracking: 92,
+    },
+    18: {
+      moveSilently: 89,
+      hide: 71,
+      tracking: 93,
+    },
+    19: {
+      moveSilently: 91,
+      hide: 72,
+      tracking: 94,
+    },
+    20: {
+      moveSilently: 93,
+      hide: 73,
+      tracking: 95,
+    },
+  },
   supplementalContent: true,
 };

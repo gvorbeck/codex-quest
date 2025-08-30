@@ -11,15 +11,15 @@ import { allClasses } from "@/data/classes";
 import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
 
-interface ThiefAssassinSkillsProps {
+interface ClassSkillsProps {
   character: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
   id?: string;
 }
 
-// Define the skill names and their display labels
-const THIEF_SKILLS = {
+// Define all possible skill names and their display labels
+const ALL_SKILLS = {
   openLocks: "Open Locks",
   removeTraps: "Remove Traps",
   pickPockets: "Pick Pockets",
@@ -28,11 +28,12 @@ const THIEF_SKILLS = {
   hide: "Hide",
   listen: "Listen",
   poison: "Poison",
+  tracking: "Tracking",
 } as const;
 
 // Constants for skill system
 const DEFAULT_LEVEL = 1;
-const COMPONENT_ID_PREFIX = "thief-skills";
+const COMPONENT_ID_PREFIX = "class-skills";
 
 const SKILL_DESCRIPTIONS = {
   openLocks:
@@ -46,45 +47,54 @@ const SKILL_DESCRIPTIONS = {
   listen: "Detect sounds through doors or walls, overhear conversations.",
   poison:
     "Create and use lethal poisons for weapons and assassination attempts.",
+  tracking:
+    "Follow tracks and signs left by creatures in wilderness areas. Rangers must roll once per hour traveled or lose the trail.",
 };
 
-export default function ThiefAssassinSkills({
+export default function ClassSkills({
   character,
   className = "",
   size = "md",
   id = COMPONENT_ID_PREFIX,
-}: ThiefAssassinSkillsProps) {
+}: ClassSkillsProps) {
   const { isOpen: showDetails, toggle: toggleDetails } = useModal();
   const currentSize = SIZE_STYLES[size];
   const { rollPercentile } = useDiceRoll();
 
-  // Check if character is a thief-like class (thief or assassin)
+  // Check if character has a class with skills (thief, assassin, or ranger)
   const characterClassInfo = useMemo(() => {
     const isThief = character.class?.some((classId) => classId === "thief");
     const isAssassin = character.class?.some(
       (classId) => classId === "assassin"
     );
+    const isRanger = character.class?.some((classId) => classId === "ranger");
 
     if (isThief) {
       return {
-        hasThiefSkills: true,
+        hasSkills: true,
         className: "thief",
         displayName: "Thief Skills",
       };
     } else if (isAssassin) {
       return {
-        hasThiefSkills: true,
+        hasSkills: true,
         className: "assassin",
         displayName: "Assassin Abilities",
       };
+    } else if (isRanger) {
+      return {
+        hasSkills: true,
+        className: "ranger",
+        displayName: "Ranger Skills",
+      };
     }
 
-    return { hasThiefSkills: false, className: null, displayName: null };
+    return { hasSkills: false, className: null, displayName: null };
   }, [character.class]);
 
-  // Get thief skills for current level
-  const thiefSkills = useMemo(() => {
-    if (!characterClassInfo.hasThiefSkills || !characterClassInfo.className) {
+  // Get class skills for current level
+  const classSkills = useMemo(() => {
+    if (!characterClassInfo.hasSkills || !characterClassInfo.className) {
       return null;
     }
 
@@ -94,7 +104,7 @@ export default function ThiefAssassinSkills({
     );
     
     if (!classData?.thiefSkills) {
-      logger.warn(`Missing thief skills for class: ${characterClassInfo.className}`);
+      logger.warn(`Missing skills for class: ${characterClassInfo.className}`);
       return null;
     }
 
@@ -112,12 +122,13 @@ export default function ThiefAssassinSkills({
     return skillsForLevel;
   }, [character.level, characterClassInfo]);
 
-  // Don't render if character doesn't have thief skills
-  if (!characterClassInfo.hasThiefSkills || !thiefSkills) {
+  // Don't render if character doesn't have class skills
+  if (!characterClassInfo.hasSkills || !classSkills) {
     return null;
   }
 
   const isAssassin = characterClassInfo.className === "assassin";
+  const isRanger = characterClassInfo.className === "ranger";
 
   const detailsContentId = `${id}-details`;
   
@@ -137,11 +148,11 @@ export default function ThiefAssassinSkills({
       </Typography>
       <div className="space-y-2 text-xs">
         {Object.entries(SKILL_DESCRIPTIONS)
-          .filter(([key]) => key in thiefSkills) // Only show skills this class actually has
+          .filter(([key]) => key in classSkills) // Only show skills this class actually has
           .map(([key, description]) => (
             <SkillDescriptionItem
               key={key}
-              title={THIEF_SKILLS[key as keyof typeof THIEF_SKILLS]}
+              title={ALL_SKILLS[key as keyof typeof ALL_SKILLS]}
               description={description}
               variant="simple"
             />
@@ -168,8 +179,8 @@ export default function ThiefAssassinSkills({
     >
       <div className={currentSize.container}>
         <div className="space-y-3">
-          {Object.entries(THIEF_SKILLS).map(([skillKey, skillLabel]) => {
-            const skillValue = thiefSkills[skillKey];
+          {Object.entries(ALL_SKILLS).map(([skillKey, skillLabel]) => {
+            const skillValue = classSkills[skillKey];
             if (!skillValue) return null;
 
             return (
@@ -178,7 +189,7 @@ export default function ThiefAssassinSkills({
                 label={skillLabel}
                 value={`${skillValue}%`}
                 onClick={() => rollPercentile(skillLabel, skillValue)}
-                tooltip={`Roll ${skillLabel}: d100 vs ${skillValue}% (01-05 always succeed, 96-100 always fail)`}
+                tooltip={`Roll ${skillLabel}: d100 vs ${skillValue}% (01-05 always succeed, 96-100 always fail)${isRanger && skillKey === 'tracking' ? ' (Wilderness only)' : ''}${isRanger && (skillKey === 'moveSilently' || skillKey === 'hide') ? ' (-20% penalty in urban areas)' : ''}`}
                 size={size}
               />
             );

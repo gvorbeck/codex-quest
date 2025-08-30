@@ -7,7 +7,7 @@ export { default as HitPoints } from "./HitPoints";
 export { default as CharacterDefense } from "./CharacterDefense";
 export { default as AttackBonuses } from "./AttackBonuses";
 export { default as SavingThrows } from "./SavingThrows";
-export { default as ThiefSkills } from "./ThiefAssassinSkills";
+export { default as ThiefSkills } from "./ClassSkills";
 export { default as SpecialsRestrictions } from "./SpecialsRestrictions";
 export { default as CoinPurse } from "./CoinPurse";
 export { default as Weight } from "./Weight";
