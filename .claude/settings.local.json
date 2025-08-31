@@ -20,7 +20,8 @@
       "Bash(npx eslint:*)",
       "Bash(npx knip:*)",
       "Bash(cat:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Read(//**)"
     ],
     "deny": [],
     "ask": []

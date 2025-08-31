@@ -25,6 +25,19 @@ export interface Cantrip {
   description: string;
 }
 
+export interface ScrollCreationProject {
+  id: string;
+  spellName: string;
+  spellLevel: number;
+  startDate: string; // ISO date string
+  daysRequired: number;
+  daysCompleted: number;
+  costTotal: number;
+  costPaid: number;
+  status: "in-progress" | "completed" | "paused" | "failed";
+  notes?: string;
+}
+
 export interface Equipment {
   name: string;
   costValue: number;
@@ -51,6 +64,10 @@ export interface Equipment {
   gold?: number;
   wearing?: boolean; // For armor and shields
   description?: string; // Optional description for the equipment
+  // Magic item properties for scrolls
+  isScroll?: boolean;
+  scrollSpell?: string;
+  scrollLevel?: number;
 }
 
 export interface Character {
@@ -89,6 +106,15 @@ export interface Character {
     version?: number; // Data format version for migration purposes
   };
   xp: number; // Total experience points
+  scrollCreation?: {
+    projects: ScrollCreationProject[];
+    totalScrollsCreated?: number;
+    bonuses?: {
+      researchRollBonus?: number; // +25% for Spellcrafters
+      timeReduction?: number; // 50% at 6th level
+      costReduction?: number; // 25% at 9th level
+    };
+  };
 }
 
 export interface RaceRequirement {

@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback, memo } from "react";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import { Accordion, Card, InfoCardHeader, Typography } from "@/components/ui";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/ui/display/Icon";
 import { logger } from "@/utils/logger";
-import type { Character, Equipment } from "@/types/character";
+import type { Character, Equipment, Race, Class } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
 import { convertToGold } from "@/utils/currency";
 import { allRaces } from "@/data/races";
@@ -81,28 +81,26 @@ function isEquipmentMatchingRestriction(
   return equipmentId === restrictionId;
 }
 
+
 /**
- * Checks if an equipment item is restricted for the character based on race and class restrictions
+ * Checks if an equipment item is restricted for the character based on pre-calculated restriction data
  */
-function isEquipmentRestricted(
+function isEquipmentRestrictedOptimized(
   equipment: Equipment,
-  character: Character
+  restrictionData: { race: Race | undefined; classes: Class[]; currency: number }
 ): { restricted: boolean; reason?: string } {
   // Only check weapon restrictions for items with damage (weapons)
   if (!equipment.damage) {
     return { restricted: false };
   }
 
-  // Get character's race data
-  const characterRace = allRaces.find((race) => race.id === character.race);
-
   // Check race prohibitions
-  if (characterRace?.prohibitedWeapons) {
-    for (const prohibitedWeapon of characterRace.prohibitedWeapons) {
+  if (restrictionData.race?.prohibitedWeapons) {
+    for (const prohibitedWeapon of restrictionData.race.prohibitedWeapons) {
       if (isEquipmentMatchingRestriction(equipment.name, prohibitedWeapon)) {
         return {
           restricted: true,
-          reason: `${characterRace.name} Restriction`,
+          reason: `${restrictionData.race.name} Restriction`,
         };
       }
     }
@@ -110,34 +108,28 @@ function isEquipmentRestricted(
     // Check for size-based restrictions (Large weapons for small races)
     if (
       equipment.size === "L" &&
-      characterRace.prohibitedWeapons.includes("large")
+      restrictionData.race.prohibitedWeapons.includes("large")
     ) {
-      return { restricted: true, reason: `${characterRace.name} Restriction` };
+      return { restricted: true, reason: `${restrictionData.race.name} Restriction` };
     }
   }
 
-  // Get character's class data and check weapon restrictions
-  if (character.class && character.class.length > 0) {
-    for (const classId of character.class) {
-      const characterClass = allClasses.find((cls) => cls.id === classId);
-      if (
-        characterClass?.allowedWeapons &&
-        characterClass.allowedWeapons.length > 0
-      ) {
-        // If class has weapon restrictions, check if this weapon is allowed
-        let isAllowed = false;
-        for (const allowedWeapon of characterClass.allowedWeapons) {
-          if (isEquipmentMatchingRestriction(equipment.name, allowedWeapon)) {
-            isAllowed = true;
-            break;
-          }
+  // Check class restrictions using pre-calculated class data
+  for (const characterClass of restrictionData.classes) {
+    if (characterClass?.allowedWeapons && characterClass.allowedWeapons.length > 0) {
+      // If class has weapon restrictions, check if this weapon is allowed
+      let isAllowed = false;
+      for (const allowedWeapon of characterClass.allowedWeapons) {
+        if (isEquipmentMatchingRestriction(equipment.name, allowedWeapon)) {
+          isAllowed = true;
+          break;
         }
-        if (!isAllowed) {
-          return {
-            restricted: true,
-            reason: `${characterClass.name} Restriction`,
-          };
-        }
+      }
+      if (!isAllowed) {
+        return {
+          restricted: true,
+          reason: `${characterClass.name} Restriction`,
+        };
       }
     }
   }
@@ -169,6 +161,20 @@ function EquipmentSelector({
     loadEquipmentData();
   }, []);
 
+  // Memoize character restriction data to avoid recalculating on every render
+  const characterRestrictionData = useMemo(() => {
+    const characterRace = allRaces.find((race) => race.id === character.race);
+    const characterClasses = character.class
+      .map(classId => allClasses.find((cls) => cls.id === classId))
+      .filter((cls): cls is Class => cls !== undefined);
+    
+    return {
+      race: characterRace,
+      classes: characterClasses,
+      currency: character.currency.gold,
+    };
+  }, [character.race, character.class, character.currency.gold]);
+
   const renderEquipmentItem = useCallback(
     (equipment: EquipmentWithIndex) => {
       const costDisplay = `${equipment.costValue} ${equipment.costCurrency}`;
@@ -183,8 +189,8 @@ function EquipmentSelector({
         equipment.costCurrency
       );
 
-      const canAfford = character.currency.gold >= costInGold;
-      const restriction = isEquipmentRestricted(equipment, character);
+      const canAfford = characterRestrictionData.currency >= costInGold;
+      const restriction = isEquipmentRestrictedOptimized(equipment, characterRestrictionData);
       const canUse = !restriction.restricted;
       const canAdd = canAfford && canUse;
 
@@ -232,7 +238,7 @@ function EquipmentSelector({
         </Card>
       );
     },
-    [character, onEquipmentAdd]
+    [characterRestrictionData, onEquipmentAdd]
   );
 
   return (

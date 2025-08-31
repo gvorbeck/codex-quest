@@ -19,6 +19,7 @@ import {
   Hero,
   Equipment,
   CharacterDescription,
+  ScrollCreation,
 } from "@/components/character/sheet";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
@@ -325,6 +326,15 @@ export default function CharacterSheet() {
               <Weight character={character} />
             </div>
           </div>
+
+          {/* Scroll Creation Section - only show for Spellcrafters */}
+          {character.class.includes("spellcrafter") && (
+            <ScrollCreation
+              character={character}
+              onCharacterChange={handleCharacterChange}
+              isOwner={isOwner}
+            />
+          )}
 
           {/* Spells & Equipment Section - side-by-side on larger screens when both present */}
           <div

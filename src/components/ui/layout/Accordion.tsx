@@ -1,6 +1,7 @@
-import React, { useState, useId, useMemo, useCallback } from "react";
+import React, { useState, useId, useMemo, useCallback, useEffect } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { Card } from "@/components/ui/design-system";
+import { useDebounce } from "@/hooks";
 
 interface AccordionItem {
   name: string;
@@ -103,15 +104,26 @@ function Accordion<T extends AccordionItem>({
 }: AccordionProps<T>) {
   const accordionId = useId();
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set()
   );
 
-  // Filter and group items
-  const { groupedItems, totalFilteredCount } = useMemo(() => {
-    const filtered = items.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // Pre-compute sorted items to avoid re-sorting on every search
+  const sortedItems = useMemo(() => {
+    return items.sort((a, b) =>
+      String(a[labelProperty]).localeCompare(String(b[labelProperty]))
     );
+  }, [items, labelProperty]);
+
+  // Filter and group items using debounced search term
+  const { groupedItems, totalFilteredCount } = useMemo(() => {
+    const searchLower = debouncedSearchTerm.toLowerCase();
+    const filtered = searchLower 
+      ? sortedItems.filter((item) =>
+          item.name.toLowerCase().includes(searchLower)
+        )
+      : sortedItems;
 
     const grouped = filtered.reduce((acc, item) => {
       const category = String(item[sortBy]);
@@ -122,16 +134,14 @@ function Accordion<T extends AccordionItem>({
       return acc;
     }, {} as Record<string, T[]>);
 
-    // Sort categories alphabetically and items within each category by name
+    // Categories are already sorted due to pre-sorted items
     const sortedGrouped: Record<string, T[]> = {};
     Object.keys(grouped)
       .sort()
       .forEach((category) => {
         const categoryItems = grouped[category];
         if (categoryItems) {
-          sortedGrouped[category] = categoryItems.sort((a, b) =>
-            String(a[labelProperty]).localeCompare(String(b[labelProperty]))
-          );
+          sortedGrouped[category] = categoryItems;
         }
       });
 
@@ -139,7 +149,7 @@ function Accordion<T extends AccordionItem>({
       groupedItems: sortedGrouped,
       totalFilteredCount: filtered.length,
     };
-  }, [items, sortBy, labelProperty, searchTerm]);
+  }, [sortedItems, sortBy, debouncedSearchTerm]);
 
   const handleSectionToggle = useCallback((category: string) => {
     setExpandedSections((prev) => {
@@ -156,13 +166,16 @@ function Accordion<T extends AccordionItem>({
   const handleSearchChange = useCallback(
     (value: string) => {
       setSearchTerm(value);
-      // If we're filtering, expand all sections with results for better UX
-      if (value.trim()) {
-        setExpandedSections(new Set(Object.keys(groupedItems)));
-      }
     },
-    [groupedItems]
+    []
   );
+
+  // Auto-expand sections when search is applied (using debounced search term)
+  useEffect(() => {
+    if (debouncedSearchTerm.trim()) {
+      setExpandedSections(new Set(Object.keys(groupedItems)));
+    }
+  }, [debouncedSearchTerm, groupedItems]);
 
   const handleSearchClear = useCallback(() => {
     setSearchTerm("");
@@ -187,8 +200,8 @@ function Accordion<T extends AccordionItem>({
             aria-live="polite"
             className="text-sm text-zinc-400 mt-2"
           >
-            {searchTerm
-              ? `Showing ${totalFilteredCount} items matching "${searchTerm}"`
+            {debouncedSearchTerm
+              ? `Showing ${totalFilteredCount} items matching "${debouncedSearchTerm}"`
               : `${items.length} total items`}
           </div>
         </Card>
@@ -199,7 +212,7 @@ function Accordion<T extends AccordionItem>({
         {Object.keys(groupedItems).length === 0 ? (
           <div className="bg-zinc-800 rounded-lg p-8 text-center border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
             <p className="text-zinc-400 text-lg">
-              {searchTerm
+              {debouncedSearchTerm
                 ? "No items match your search."
                 : "No items available."}
             </p>

@@ -222,78 +222,105 @@ function CharGen() {
     return validationService.getStepValidationMessage(step, character);
   }, [validationService, step, character, user, LAST_STEP_INDEX]);
 
+  // Memoize individual step components to prevent unnecessary re-renders
+  const abilityStep = useMemo(
+    () => (
+      <AbilityScoreStep
+        character={character}
+        onCharacterChange={setCharacter}
+      />
+    ),
+    [character, setCharacter]
+  );
+
+  const raceStep = useMemo(
+    () => (
+      <RaceStep
+        character={character}
+        onCharacterChange={setCharacter}
+        includeSupplemental={includeSupplementalRace}
+        onIncludeSupplementalChange={setIncludeSupplementalRace}
+      />
+    ),
+    [character, setCharacter, includeSupplementalRace, setIncludeSupplementalRace]
+  );
+
+  const classStep = useMemo(
+    () => (
+      <ClassStep
+        character={character}
+        onCharacterChange={setCharacter}
+        includeSupplementalClass={includeSupplementalClass}
+        onIncludeSupplementalClassChange={setIncludeSupplementalClass}
+        useCombinationClass={useCombinationClass}
+        onUseCombinationClassChange={setUseCombinationClass}
+      />
+    ),
+    [
+      character,
+      setCharacter,
+      includeSupplementalClass,
+      setIncludeSupplementalClass,
+      useCombinationClass,
+      setUseCombinationClass,
+    ]
+  );
+
+  const hitPointsStep = useMemo(
+    () => (
+      <HitPointsStep
+        character={character}
+        onCharacterChange={setCharacter}
+      />
+    ),
+    [character, setCharacter]
+  );
+
+  const equipmentStep = useMemo(
+    () => (
+      <EquipmentStep
+        character={character}
+        onCharacterChange={setCharacter}
+      />
+    ),
+    [character, setCharacter]
+  );
+
+  const reviewStep = useMemo(
+    () => (
+      <ReviewStep character={character} onCharacterChange={setCharacter} />
+    ),
+    [character, setCharacter]
+  );
+
   const stepItems = useMemo(() => {
-    const items = [
+    return [
       {
         title: "Abilities",
-        content: (
-          <AbilityScoreStep
-            character={character}
-            onCharacterChange={setCharacter}
-          />
-        ),
+        content: abilityStep,
       },
       {
         title: "Race",
-        content: (
-          <RaceStep
-            character={character}
-            onCharacterChange={setCharacter}
-            includeSupplemental={includeSupplementalRace}
-            onIncludeSupplementalChange={setIncludeSupplementalRace}
-          />
-        ),
+        content: raceStep,
       },
       {
         title: "Class",
-        content: (
-          <ClassStep
-            character={character}
-            onCharacterChange={setCharacter}
-            includeSupplementalClass={includeSupplementalClass}
-            onIncludeSupplementalClassChange={setIncludeSupplementalClass}
-            useCombinationClass={useCombinationClass}
-            onUseCombinationClassChange={setUseCombinationClass}
-          />
-        ),
+        content: classStep,
       },
       {
         title: "Hit Points",
-        content: (
-          <HitPointsStep
-            character={character}
-            onCharacterChange={setCharacter}
-          />
-        ),
+        content: hitPointsStep,
       },
       {
         title: "Equipment",
-        content: (
-          <EquipmentStep
-            character={character}
-            onCharacterChange={setCharacter}
-          />
-        ),
+        content: equipmentStep,
       },
       {
         title: "Review",
-        content: (
-          <ReviewStep character={character} onCharacterChange={setCharacter} />
-        ),
+        content: reviewStep,
       },
     ];
-
-    return items;
-  }, [
-    character,
-    setCharacter,
-    includeSupplementalRace,
-    setIncludeSupplementalRace,
-    includeSupplementalClass,
-    setIncludeSupplementalClass,
-    useCombinationClass,
-    setUseCombinationClass,
-  ]);
+  }, [abilityStep, raceStep, classStep, hitPointsStep, equipmentStep, reviewStep]);
 
   const breadcrumbItems = useMemo(
     () => [
