@@ -12,9 +12,9 @@ import {
   ClassStep,
   ReviewStep,
 } from "@/components/character/creation";
-import { useCascadeValidation, useLocalStorage, useAuth } from "@/hooks";
+import { useLocalStorage, useAuth } from "@/hooks";
 import type { Character } from "@/types/character";
-import { CharacterValidationService } from "@/services/characterValidation";
+import { useCascadeValidation, createCharacterValidationPipeline } from "@/validation";
 import { saveCharacter } from "@/services/characters";
 import { STORAGE_KEYS } from "@/constants/storage";
 import { allRaces } from "@/data/races";
@@ -121,9 +121,9 @@ function CharGen() {
     [includeSupplementalClass]
   );
 
-  // Create validation service instance - now memoized properly
-  const validationService = useMemo(() => {
-    return new CharacterValidationService(filteredRaces, filteredClasses);
+  // Create validation pipeline - now memoized properly
+  const validationPipeline = useMemo(() => {
+    return createCharacterValidationPipeline(filteredRaces, filteredClasses);
   }, [filteredRaces, filteredClasses]);
 
   // Initialize cascade validation hook with memoized data
@@ -203,8 +203,8 @@ function CharGen() {
       return disabled;
     }
 
-    return validationService.isStepDisabled(step, character);
-  }, [validationService, step, character, user, LAST_STEP_INDEX]);
+    return validationPipeline.isStepDisabled(step, character);
+  }, [validationPipeline, step, character, user, LAST_STEP_INDEX]);
 
   const getValidationMessage = useMemo(() => {
     const isLastStep = step === LAST_STEP_INDEX;
@@ -219,8 +219,8 @@ function CharGen() {
       return null; // No validation message when ready to complete
     }
 
-    return validationService.getStepValidationMessage(step, character);
-  }, [validationService, step, character, user, LAST_STEP_INDEX]);
+    return validationPipeline.validateStep(step, character).errors[0] || "";
+  }, [validationPipeline, step, character, user, LAST_STEP_INDEX]);
 
   // Memoize individual step components to prevent unnecessary re-renders
   const abilityStep = useMemo(

@@ -1,8 +1,26 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
-import type { Character, Race, Class } from "@/types/character";
-import { cascadeValidateCharacter } from "@/utils/characterValidation";
+/**
+ * Validation hooks
+ * Unified validation hooks replacing useValidation and useCascadeValidation
+ */
+
+import { useMemo, useCallback, useEffect } from 'react';
+import type { ValidationResult, ValidationSchema } from './types';
+import { validate } from './core';
+import type { Character, Race, Class } from '@/types/character';
+import { cascadeValidateCharacter } from './character';
+import { allRaces } from '@/data/races';
+import { allClasses } from '@/data/classes';
+
+/**
+ * Enhanced validation hook with type safety and detailed feedback
+ * Replaces the original useValidation hook
+ */
+export function useValidation<T>(
+  value: T,
+  schema: ValidationSchema<T>
+): ValidationResult {
+  return useMemo(() => validate(value, schema), [value, schema]);
+}
 
 interface UseCascadeValidationProps {
   character: Character;
@@ -14,8 +32,8 @@ interface UseCascadeValidationProps {
 }
 
 /**
- * Custom hook that handles cascade validation for character creation
- * Automatically clears invalid selections when prerequisites change
+ * Cascade validation hook
+ * Replaces the original useCascadeValidation hook
  */
 export function useCascadeValidation({
   character,
@@ -27,7 +45,7 @@ export function useCascadeValidation({
 }: UseCascadeValidationProps) {
   // Use stable string for class array to avoid unnecessary effects
   const classArrayString = useMemo(
-    () => character.class.join(","),
+    () => character.class.join(','),
     [character.class]
   );
 
@@ -69,10 +87,10 @@ export function useCascadeValidation({
       availableClasses
     );
 
-    // Only update if the character has actually changed (more efficient comparison)
+    // Only update if the character has actually changed
     const hasChanged =
       validatedCharacter.race !== character.race ||
-      validatedCharacter.class.join(",") !== character.class.join(",") ||
+      validatedCharacter.class.join(',') !== character.class.join(',') ||
       validatedCharacter.spells?.length !== character.spells?.length;
 
     if (hasChanged) {
@@ -84,17 +102,13 @@ export function useCascadeValidation({
   useEffect(() => {
     validateAndUpdateCharacter();
   }, [
-    // Use computed hashes instead of individual ability scores
     abilityScoresHash,
-    // Watch for race changes (to clear invalid class selections)
     character.race,
-    // Watch for class changes (to clear invalid spells)
     classArrayString,
-    // Include the validation function
     validateAndUpdateCharacter,
   ]);
 
-  // Return a function to manually trigger validation (useful when race changes)
+  // Return a function to manually trigger validation
   return {
     validateCharacter: validateAndUpdateCharacter,
   };

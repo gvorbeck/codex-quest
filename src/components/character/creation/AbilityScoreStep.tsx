@@ -7,10 +7,10 @@ import { calculateModifier } from "@/utils/gameUtils";
 import { logger } from "@/utils/logger";
 import type { Character, AbilityScore, BaseStepProps } from "@/types/character";
 import { memo } from "react";
-import { useValidation } from "@/hooks";
+import { useValidation } from "@/validation";
 import { abilityScoreSchema } from "@/utils/validationSchemas";
-import { isValidAbilityScore, ABILITY_NAMES } from "@/utils/typeGuards";
-import type { AbilityName } from "@/utils/typeGuards";
+import { Rules, ABILITY_NAMES } from "@/validation";
+import type { AbilityName } from "@/validation";
 
 type AbilityScoreStepProps = BaseStepProps;
 
@@ -48,7 +48,7 @@ function AbilityScoreStep({
   // Type-safe update function for ability scores
   const updateAbilityScore = (ability: AbilityName, value: number) => {
     // Validate the score before applying
-    if (!isValidAbilityScore(value)) {
+    if (!Rules.isValidAbilityScore.validate(value)) {
       logger.warn(`Invalid ability score ${value} for ${ability}`);
       return;
     }
@@ -76,7 +76,7 @@ function AbilityScoreStep({
       const total = result.total;
 
       // Ensure the rolled value is valid
-      if (isValidAbilityScore(total)) {
+      if (Rules.isValidAbilityScore.validate(total)) {
         newCharacter.abilities[ability] = {
           value: total,
           modifier: calculateModifier(total),

@@ -6,7 +6,7 @@ import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { StatGrid } from "@/components/ui/display";
 import { LanguageSelector } from "@/components/character/creation";
 import { AvatarSelector } from "@/components/character/management";
-import { useValidation } from "@/hooks";
+import { useValidation } from "@/validation";
 import { characterNameSchema } from "@/utils/validationSchemas";
 import { sanitizeCharacterName } from "@/utils/sanitization";
 import { allRaces } from "@/data/races";
