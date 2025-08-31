@@ -54,7 +54,8 @@ export type IconName =
   | "clipboard"
   | "language"
   | "map-pin"
-  | "trash";
+  | "trash"
+  | "copy";
 
 interface IconProps {
   name: IconName;
@@ -305,6 +306,14 @@ const iconPaths: Record<
     viewBox: "0 0 24 24",
     paths: [
       "M3 6h18m-2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2m-6 5v6m4-6v6",
+    ],
+    stroke: true,
+  },
+  copy: {
+    viewBox: "0 0 24 24",
+    paths: [
+      "M8 4v12a2 2 0 002 2h8a2 2 0 002-2V7.242a2 2 0 00-.602-1.43L16.083 2.57A2 2 0 0014.685 2H10a2 2 0 00-2 2z",
+      "M16 18v2a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 012-2h2",
     ],
     stroke: true,
   },

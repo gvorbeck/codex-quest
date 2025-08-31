@@ -1,6 +1,7 @@
 import { Typography } from "@/components/ui";
 import { BaseCard } from "@/components/ui/display";
 import type { Game } from "@/types/game";
+import { useNotificationContext } from "@/hooks/useNotificationContext";
 
 interface GameCardProps {
   game: Game;
@@ -10,12 +11,26 @@ interface GameCardProps {
 }
 
 export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
+  const { showSuccess, showError } = useNotificationContext();
   const href = `/u/${user?.uid}/g/${game.id}`;
-  
+
   // Truncate notes to a reasonable character limit with ellipsis
   const truncateText = (text: string, maxLength: number = 150): string => {
     if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength).trim() + '...';
+    return text.slice(0, maxLength).trim() + "...";
+  };
+
+  const handleCopyUrl = async (url: string, gameName: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      showSuccess(`Game URL copied for ${gameName}`, {
+        duration: 3000,
+      });
+    } catch {
+      showError("Failed to copy URL to clipboard", {
+        duration: 5000,
+      });
+    }
   };
 
   return (
@@ -25,13 +40,14 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
       user={user}
       href={href}
       onDelete={onDelete}
+      onCopy={handleCopyUrl}
       isDeleting={isDeleting || false}
     >
       {/* Game Header */}
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
-          <Typography 
-            variant="h4" 
+          <Typography
+            variant="h4"
             className="text-zinc-100 group-hover:text-amber-300 transition-colors duration-300 truncate font-bold tracking-wide"
           >
             {game.name}
@@ -44,17 +60,20 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-amber-500" />
-            <Typography variant="helper" className="text-zinc-400 uppercase tracking-wider font-medium text-xs">
+            <Typography
+              variant="helper"
+              className="text-zinc-400 uppercase tracking-wider font-medium text-xs"
+            >
               Notes
             </Typography>
           </div>
-          <Typography 
-            variant="body" 
+          <Typography
+            variant="body"
             className="text-zinc-300 text-sm overflow-hidden"
             style={{
-              display: '-webkit-box',
+              display: "-webkit-box",
               WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical' as const,
+              WebkitBoxOrient: "vertical" as const,
             }}
           >
             {truncateText(game.notes)}
@@ -66,7 +85,10 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
       {game.players && game.players.length > 0 && (
         <div className="pt-2">
           <div className="text-center p-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50">
-            <Typography variant="caption" className="text-zinc-400 uppercase tracking-wide text-xs">
+            <Typography
+              variant="caption"
+              className="text-zinc-400 uppercase tracking-wide text-xs"
+            >
               Players
             </Typography>
             <Typography variant="body" className="text-zinc-200 font-bold">

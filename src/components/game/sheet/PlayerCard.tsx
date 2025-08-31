@@ -1,0 +1,271 @@
+import { memo, useMemo } from "react";
+import type { GamePlayer } from "@/types/game";
+import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
+import { Icon } from "@/components/ui/display";
+import { Typography, Card, Badge } from "@/components/ui/design-system";
+import { Button } from "@/components/ui/inputs";
+import { allRaces } from "@/data/races";
+import { allClasses } from "@/data/classes";
+import type { SpecialAbility } from "@/types/character";
+
+interface PlayerCardProps {
+  player: GamePlayer;
+  getResolvedData: (
+    userId: string,
+    characterId: string
+  ) =>
+    | {
+        characterName?: string | undefined;
+        avatar?: string | undefined;
+        race?: string | undefined;
+        class?: string[] | undefined;
+        level?: number | undefined;
+      }
+    | undefined;
+  onDelete?: (player: GamePlayer) => void;
+}
+
+export const PlayerCard = memo(
+  ({ player, getResolvedData, onDelete }: PlayerCardProps) => {
+    // Generate initials for avatar fallback
+    const getInitials = (name: string) => {
+      return name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+    };
+
+    // Get resolved data from the resolver hook
+    const resolved = getResolvedData(player.user, player.character);
+
+    // Use resolved names if available, fallback to IDs
+    const characterName = resolved?.characterName || player.character;
+    const avatar = resolved?.avatar;
+    const characterRace = resolved?.race;
+    const characterLevel = resolved?.level;
+
+    // Character sheet URL
+    const characterSheetUrl = `/u/${player.user}/c/${player.character}`;
+
+    // Get special abilities from race and classes
+    const specialAbilities = useMemo(() => {
+      const abilities: Array<{
+        name: string;
+        source: "race" | "class";
+        effects?: SpecialAbility["effects"];
+      }> = [];
+
+      const currentClasses = resolved?.class || [];
+
+      // Add race abilities
+      if (characterRace) {
+        const race = allRaces.find((r) => r.id === characterRace);
+        if (race) {
+          race.specialAbilities.forEach((ability) => {
+            abilities.push({
+              name: ability.name,
+              source: "race",
+              effects: ability.effects,
+            });
+          });
+        }
+      }
+
+      // Add class abilities
+      currentClasses.forEach((classId) => {
+        const characterClass = allClasses.find((c) => c.id === classId);
+        if (characterClass) {
+          characterClass.specialAbilities.forEach((ability) => {
+            abilities.push({
+              name: ability.name,
+              source: "class",
+              effects: ability.effects,
+            });
+          });
+        }
+      });
+
+      return abilities;
+    }, [characterRace, resolved?.class]);
+
+    // Filter for key abilities to display as badges
+    const importantAbilities = useMemo(() => {
+      return specialAbilities.filter((ability) => {
+        const abilityName = ability.name.toLowerCase();
+        // Prioritize abilities that affect gameplay significantly and are useful for GMs
+        return (
+          ability.effects?.darkvision ||
+          abilityName.includes("darkvision") ||
+          abilityName.includes("turn undead") ||
+          abilityName.includes("sneak attack") ||
+          abilityName.includes("stealth") ||
+          abilityName.includes("backstab") ||
+          abilityName.includes("spellcasting") ||
+          abilityName.includes("immunity") ||
+          abilityName.includes("rage") ||
+          abilityName.includes("tracking") ||
+          abilityName.includes("detect") ||
+          abilityName.includes("secret door") ||
+          abilityName.includes("hide") ||
+          abilityName.includes("climb") ||
+          abilityName.includes("move silently") ||
+          abilityName.includes("ghoul immunity")
+        );
+      });
+    }, [specialAbilities]);
+
+    return (
+      <Card
+        variant="standard"
+        size="compact"
+        className="relative h-full flex flex-col"
+      >
+        <div className="flex-1">
+          <div className="flex items-start gap-3 mb-3">
+            {avatar ? (
+              <img
+                src={avatar}
+                alt=""
+                className="w-12 h-12 rounded-full object-cover border-2 border-zinc-600 flex-shrink-0"
+                loading="lazy"
+              />
+            ) : (
+              <div
+                className="w-12 h-12 rounded-full bg-zinc-700 border-2 border-zinc-600 flex items-center justify-center flex-shrink-0"
+                aria-hidden="true"
+              >
+                <span className="text-zinc-300 font-bold text-sm">
+                  {getInitials(characterName)}
+                </span>
+              </div>
+            )}
+
+            <div className="flex-1 min-w-0">
+              <Typography
+                variant="bodySmall"
+                weight="medium"
+                as="h3"
+                className={`${GAME_SHEET_STYLES.colors.text.primary} truncate mb-1`}
+              >
+                {characterName}
+              </Typography>
+
+              {/* Character Level and Race/Class info */}
+              {(characterLevel || characterRace || resolved?.class?.length) && (
+                <div className="text-xs text-zinc-400 mb-2">
+                  {characterLevel && `Level ${characterLevel} `}
+                  {characterRace && (
+                    <span className="capitalize">{characterRace}</span>
+                  )}
+                  {resolved?.class && resolved.class.length > 0 && (
+                    <span className="capitalize">
+                      {characterRace ? " " : ""}
+                      {resolved.class.join("/")}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Special Abilities Badges */}
+          {importantAbilities.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {importantAbilities.map((ability, index) => {
+                let variant:
+                  | "status"
+                  | "supplemental"
+                  | "primary"
+                  | "secondary"
+                  | "warning"
+                  | "danger"
+                  | "success" = "secondary";
+                let displayText = ability.name;
+
+                // Special formatting for darkvision with range
+                if (ability.effects?.darkvision) {
+                  displayText = `DV ${ability.effects.darkvision.range}'`;
+                  variant = "primary"; // Amber for vision abilities
+                } else {
+                  const abilityName = ability.name.toLowerCase();
+
+                  // Color code badges by ability type and importance
+                  if (abilityName.includes("darkvision")) {
+                    variant = "primary"; // Amber for vision abilities
+                  } else if (abilityName.includes("turn undead")) {
+                    variant = "warning"; // Amber for divine abilities
+                  } else if (
+                    abilityName.includes("sneak attack") ||
+                    abilityName.includes("backstab")
+                  ) {
+                    variant = "danger"; // Red for combat abilities
+                  } else if (abilityName.includes("immunity")) {
+                    variant = "success"; // Green for immunities
+                  } else if (
+                    abilityName.includes("detect") ||
+                    abilityName.includes("secret door")
+                  ) {
+                    variant = "supplemental"; // Lime for detection abilities
+                  } else if (ability.source === "race") {
+                    variant = "supplemental"; // Lime for other race abilities
+                  } else if (ability.source === "class") {
+                    variant = "status"; // Also lime but distinguishable for class abilities
+                  }
+
+                  // Truncate long ability names
+                  if (displayText.length > 15) {
+                    displayText = displayText.substring(0, 12) + "...";
+                  }
+                }
+
+                return (
+                  <Badge
+                    key={`${ability.name}-${index}`}
+                    variant={variant}
+                    size="sm"
+                    title={`${ability.name} (${ability.source})`}
+                  >
+                    {displayText}
+                  </Badge>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Action Buttons - Always at bottom */}
+        <div className="flex justify-end gap-2 pt-3 mt-3 border-t border-zinc-700/50">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="p-2 text-zinc-400 hover:text-amber-400 hover:bg-zinc-700/50 transition-colors duration-200"
+            title={`View ${characterName}'s character sheet`}
+            aria-label={`View ${characterName}'s character sheet`}
+            onClick={() => window.open(characterSheetUrl, "_blank")}
+          >
+            <Icon name="eye" size="sm" aria-hidden={true} />
+          </Button>
+          {onDelete && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="p-2 text-zinc-400 hover:text-red-400 hover:bg-zinc-700/50 transition-colors duration-200"
+              title={`Remove ${characterName} from game`}
+              aria-label={`Remove ${characterName} from game`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(player);
+              }}
+            >
+              <Icon name="trash" size="sm" aria-hidden={true} />
+            </Button>
+          )}
+        </div>
+      </Card>
+    );
+  }
+);
+
+PlayerCard.displayName = "PlayerCard";

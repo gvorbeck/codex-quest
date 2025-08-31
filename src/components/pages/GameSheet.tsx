@@ -88,6 +88,27 @@ export default function GameSheet() {
     [game, handleGameChange]
   );
 
+  // Handle removing players from the game
+  const handleDeletePlayer = useCallback(
+    (playerToDelete: GamePlayer) => {
+      if (!game) return;
+
+      const updatedPlayers = (game.players || []).filter(
+        (player) =>
+          player.user !== playerToDelete.user ||
+          player.character !== playerToDelete.character
+      );
+
+      const updatedGame = {
+        ...game,
+        players: updatedPlayers,
+      };
+
+      handleGameChange(updatedGame);
+    },
+    [game, handleGameChange]
+  );
+
   // Data loading is now handled by useFirebaseSheet hook
 
   // Memoized content check for empty state
@@ -162,7 +183,11 @@ export default function GameSheet() {
 
         {/* Game Sheet Content */}
         <main id="main-content" className={GAME_SHEET_STYLES.spacing.content}>
-          <PlayersSection players={game.players || []} showDivider={false} />
+          <PlayersSection
+            players={game.players || []}
+            showDivider={false}
+            {...(isGameMaster && { onDeletePlayer: handleDeletePlayer })}
+          />
 
           {/* Add Character section - only show for game master */}
           {isGameMaster && (

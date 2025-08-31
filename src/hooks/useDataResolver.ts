@@ -16,6 +16,9 @@ import type { Character } from "@/types/character";
 interface ResolvedData {
   characterName?: string | undefined;
   avatar?: string | undefined;
+  race?: string | undefined;
+  class?: string[] | undefined;
+  level?: number | undefined;
 }
 
 interface CacheEntry {
@@ -71,8 +74,28 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
   const fetchCharactersBatch = async (
     userId: string,
     characterIds: string[]
-  ): Promise<Map<string, { name: string; avatar?: string }>> => {
-    const results = new Map<string, { name: string; avatar?: string }>();
+  ): Promise<
+    Map<
+      string,
+      {
+        name: string;
+        avatar?: string;
+        race?: string;
+        class?: string[];
+        level?: number;
+      }
+    >
+  > => {
+    const results = new Map<
+      string,
+      {
+        name: string;
+        avatar?: string;
+        race?: string;
+        class?: string[];
+        level?: number;
+      }
+    >();
 
     try {
       if (characterIds.length === 0) return results;
@@ -92,13 +115,22 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
 
         const batchResults = new Map<
           string,
-          { name: string; avatar?: string }
+          {
+            name: string;
+            avatar?: string;
+            race?: string;
+            class?: string[];
+            level?: number;
+          }
         >();
         snapshot.forEach((doc) => {
           const characterData = doc.data() as Character;
           batchResults.set(doc.id, {
             name: characterData.name || doc.id,
             ...(characterData.avatar && { avatar: characterData.avatar }),
+            ...(characterData.race && { race: characterData.race }),
+            ...(characterData.class && { class: characterData.class }),
+            ...(characterData.level && { level: characterData.level }),
           });
         });
 
@@ -150,6 +182,9 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
             const resolved: ResolvedData = {
               characterName: characterData.name || characterId,
               avatar: characterData.avatar || undefined,
+              race: characterData.race || undefined,
+              class: characterData.class || undefined,
+              level: characterData.level || undefined,
             };
 
             // Update both cache and local state
@@ -241,7 +276,16 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
         // Create a lookup map for character data
         const characterLookup = new Map<
           string,
-          Map<string, { name: string; avatar?: string }>
+          Map<
+            string,
+            {
+              name: string;
+              avatar?: string;
+              race?: string;
+              class?: string[];
+              level?: number;
+            }
+          >
         >();
         characterResults.forEach(({ userId, characterData }) => {
           characterLookup.set(userId, characterData);
@@ -257,6 +301,9 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
           const resolved: ResolvedData = {
             characterName: characterData?.name || undefined,
             avatar: characterData?.avatar || undefined,
+            race: characterData?.race || undefined,
+            class: characterData?.class || undefined,
+            level: characterData?.level || undefined,
           };
 
           // Cache the result
