@@ -1,11 +1,11 @@
 import { useState, useCallback } from "react";
-import { useLocation } from "wouter";
 import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
 import { Breadcrumb } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
+import { useGameNavigation } from "@/hooks/useEntityNavigation";
 import { logger } from "@/utils/logger";
-import { STORAGE_KEYS } from "@/constants/storage";
+import { saveGame } from "@/services/games";
 
 interface DraftGame {
   name: string;
@@ -22,8 +22,8 @@ const emptyGame: DraftGame = {
 };
 
 function GameGen() {
-  const [, setLocation] = useLocation();
   const { user } = useAuth();
+  const { navigateToEntity, navigateHome } = useGameNavigation();
   const [game, setGame] = useState<DraftGame>(emptyGame);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -40,26 +40,27 @@ function GameGen() {
 
     setIsSaving(true);
     try {
-      // TODO: Implement game saving service
-      logger.debug("Saving game:", game);
+      // Save game to Firebase
+      const gameId = await saveGame(user.uid, {
+        name: game.name,
+        notes: game.notes,
+        combatants: game.combatants,
+        players: game.players,
+      });
 
-      // Clear localStorage draft
-      localStorage.removeItem(STORAGE_KEYS.DRAFT_GAME);
-
-      // Navigate to home
-      setLocation("/");
+      // Navigate to the newly created game sheet and clean up storage
+      navigateToEntity(user.uid, gameId);
     } catch (error) {
       logger.error("Error saving game:", error);
     } finally {
       setIsSaving(false);
     }
-  }, [user, game, setLocation]);
+  }, [user, game, navigateToEntity]);
 
   const handleCancel = useCallback(() => {
-    // Clear any draft data
-    localStorage.removeItem(STORAGE_KEYS.DRAFT_GAME);
-    setLocation("/");
-  }, [setLocation]);
+    // Clear any draft data and navigate to home
+    navigateHome(true);
+  }, [navigateHome]);
 
   const isValidGame = game.name.trim().length > 0;
 

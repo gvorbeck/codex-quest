@@ -1,5 +1,5 @@
 // Games service for Firebase Firestore operations
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import type { AuthUser } from "./auth";
@@ -36,6 +36,37 @@ export const getUserGames = async (user: AuthUser): Promise<Game[]> => {
     handleServiceError(error, {
       action: "fetching games",
       context: { userId: user.uid }
+    });
+  }
+};
+
+/**
+ * Save a game to Firebase
+ */
+export const saveGame = async (
+  userId: string,
+  game: Omit<Game, 'id'>,
+  gameId?: string
+): Promise<string> => {
+  try {
+    if (gameId) {
+      // Update existing game
+      const gameRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, "games", gameId);
+      await setDoc(gameRef, game);
+      logger.info(`Successfully updated game ${gameId}`);
+      return gameId;
+    } else {
+      // Create new game with auto-generated ID
+      const gamesRef = collection(db, FIREBASE_COLLECTIONS.USERS, userId, "games");
+      const docRef = doc(gamesRef);
+      await setDoc(docRef, game);
+      logger.info(`Successfully created game ${docRef.id}`);
+      return docRef.id;
+    }
+  } catch (error) {
+    handleServiceError(error, {
+      action: "saving game",
+      context: { userId, gameId, gameName: game["name"] }
     });
   }
 };

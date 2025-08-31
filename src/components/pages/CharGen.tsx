@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { useLocation } from "wouter";
 import Stepper from "@/components/ui/display/Stepper";
 import { Breadcrumb } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
@@ -13,6 +12,7 @@ import {
   ReviewStep,
 } from "@/components/character/creation";
 import { useLocalStorage, useAuth } from "@/hooks";
+import { useCharacterNavigation } from "@/hooks/useEntityNavigation";
 import type { Character } from "@/types/character";
 import { useCascadeValidation, createCharacterValidationPipeline } from "@/validation";
 import { saveCharacter } from "@/services/characters";
@@ -67,8 +67,8 @@ const emptyCharacter: Character = {
 };
 
 function CharGen() {
-  const [, setLocation] = useLocation();
   const { user } = useAuth();
+  const { navigateToEntity } = useCharacterNavigation();
 
   // Use custom localStorage hooks for persistent state management
   const [storedCharacter, setStoredCharacter] = useLocalStorage<Character>(
@@ -170,16 +170,10 @@ function CharGen() {
       }
 
       try {
-        await saveCharacter(user.uid, character);
+        const characterId = await saveCharacter(user.uid, character);
 
-        // Clear all character creation localStorage data for fresh start
-        localStorage.removeItem(STORAGE_KEYS.NEW_CHARACTER);
-        localStorage.removeItem(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_RACE);
-        localStorage.removeItem(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_CLASS);
-        localStorage.removeItem(STORAGE_KEYS.USE_COMBINATION_CLASS);
-
-        // Navigate to home
-        setLocation("/");
+        // Navigate to the newly created character sheet and clean up storage
+        navigateToEntity(user.uid, characterId);
       } catch (error) {
         logger.error("Failed to save character:", error);
         // TODO: Show error toast/notification
@@ -188,7 +182,7 @@ function CharGen() {
       // Regular next step
       setStep(step + 1);
     }
-  }, [step, user, character, setLocation, LAST_STEP_INDEX]);
+  }, [step, user, character, navigateToEntity, LAST_STEP_INDEX]);
 
   // Memoize validation functions to prevent unnecessary re-computation
   const isNextDisabled = useMemo(() => {
