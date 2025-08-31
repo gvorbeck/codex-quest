@@ -21,17 +21,44 @@ export default function Modal({
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  // Handle escape key
+  // Handle escape key and focus trapping
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isOpen) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isOpen || !modalRef.current) return;
+      
+      if (event.key === "Escape") {
         onClose();
+        return;
+      }
+      
+      // Focus trapping with Tab key
+      if (event.key === "Tab") {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
+        );
+        
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+        
+        if (event.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement?.focus();
+          }
+        } else {
+          // Tab
+          if (document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement?.focus();
+          }
+        }
       }
     };
 
     if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-      return () => document.removeEventListener("keydown", handleEscape);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
     return undefined;
   }, [isOpen, onClose]);
@@ -42,11 +69,26 @@ export default function Modal({
       previousFocusRef.current = document.activeElement as HTMLElement;
       // Focus the modal when it opens
       setTimeout(() => {
-        modalRef.current?.focus();
+        // Try to focus the first focusable element, fallback to modal container
+        const focusableElements = modalRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstFocusable = focusableElements?.[0] as HTMLElement;
+        
+        if (firstFocusable) {
+          firstFocusable.focus();
+        } else {
+          modalRef.current?.focus();
+        }
       }, 100);
-    } else if (previousFocusRef.current) {
-      // Return focus to the previously focused element
-      previousFocusRef.current.focus();
+    } else if (previousFocusRef.current && document.contains(previousFocusRef.current)) {
+      // Return focus to the previously focused element if it still exists
+      try {
+        previousFocusRef.current.focus();
+      } catch (error) {
+        // Fallback if focus restoration fails
+        console.warn('Could not restore focus to previous element:', error);
+      }
     }
   }, [isOpen]);
 

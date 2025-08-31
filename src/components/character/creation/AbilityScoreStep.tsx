@@ -12,6 +12,18 @@ import { abilityScoreSchema } from "@/utils/validationSchemas";
 import { Rules, ABILITY_NAMES } from "@/validation";
 import type { AbilityName } from "@/validation";
 
+// Helper function to describe what ability score modifiers mean in gameplay terms
+const getModifierDescription = (modifier: number): string => {
+  if (modifier >= 3) return "Exceptional bonus to rolls and abilities";
+  if (modifier === 2) return "Very good bonus to rolls and abilities";
+  if (modifier === 1) return "Good bonus to rolls and abilities";
+  if (modifier === 0) return "Average - no bonus or penalty";
+  if (modifier === -1) return "Slight penalty to rolls and abilities";
+  if (modifier === -2) return "Moderate penalty to rolls and abilities";
+  if (modifier <= -3) return "Severe penalty to rolls and abilities";
+  return "No effect";
+};
+
 type AbilityScoreStepProps = BaseStepProps;
 
 function AbilityScoreStep({
@@ -192,11 +204,17 @@ function AbilityScoreStep({
             <Card key={abilityName} variant="standard" hover={true}>
               {/* Ability Name */}
               <div className="flex items-center justify-between mb-3">
-                <label className="text-base font-semibold text-zinc-100 capitalize">
+                <label 
+                  className="text-base font-semibold text-zinc-100 capitalize"
+                  htmlFor={`ability-${abilityName}`}
+                >
                   {abilityName}
                 </label>
                 {ability.value > 0 && (
-                  <div className="text-sm text-zinc-300 bg-zinc-700 px-2 py-1 rounded border border-zinc-600">
+                  <div 
+                    className="text-sm text-zinc-300 bg-zinc-700 px-2 py-1 rounded border border-zinc-600"
+                    aria-label={`${abilityName} modifier: ${ability.modifier >= 0 ? "plus " : "minus "}${Math.abs(ability.modifier)}. ${getModifierDescription(ability.modifier)}`}
+                  >
                     <span className="font-medium">
                       Modifier: {ability.modifier >= 0 ? "+" : ""}
                       {ability.modifier}

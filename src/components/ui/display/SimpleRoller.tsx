@@ -31,10 +31,12 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
   containerProps,
 }) => {
   const [value, setValue] = useState<number | undefined>(initialValue);
+  const [lastRollResult, setLastRollResult] = useState<string>("");
   const componentId = useId();
   const inputId = `${componentId}-input`;
   const buttonId = `${componentId}-button`;
   const labelId = `${componentId}-label`;
+  const resultId = `${componentId}-result`;
 
   // Sync internal state with initialValue prop changes
   useEffect(() => {
@@ -47,9 +49,25 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
       const newValue = result.total;
       setValue(newValue);
       onChange?.(newValue);
+      
+      // Create detailed result description for screen readers
+      const rollDescription = `Rolled ${formula}: total result is ${newValue}${result.rolls ? ` (individual rolls: ${result.rolls.join(", ")})` : ""}`;
+      setLastRollResult(rollDescription);
+      
+      // Announce the result to screen readers
+      setTimeout(() => {
+        const announcer = document.getElementById("dice-announcer");
+        if (announcer) {
+          announcer.textContent = rollDescription;
+          // Clear after announcement
+          setTimeout(() => {
+            announcer.textContent = "";
+          }, 1000);
+        }
+      }, 100);
     } catch (error) {
       logger.error("Failed to roll dice:", error);
-      // Could add error handling UI here if needed
+      setLastRollResult(`Failed to roll ${formula}: ${error}`);
     }
   };
 
@@ -68,6 +86,16 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
         {effectiveLabel}
       </div>
 
+      {/* Global dice announcer - only create once per page */}
+      {!document.getElementById("dice-announcer") && (
+        <div 
+          id="dice-announcer" 
+          aria-live="polite" 
+          aria-atomic="true" 
+          className="sr-only"
+        />
+      )}
+
       <div className="flex">
         <NumberInput
           id={inputId}
@@ -75,20 +103,27 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
           onChange={handleInputChange}
           {...(minValue !== undefined && { minValue })}
           {...(maxValue !== undefined && { maxValue })}
-          aria-label={`Result of ${formula} roll`}
-          aria-describedby={buttonId}
+          aria-label={`Result of ${formula} roll${minValue !== undefined && maxValue !== undefined ? ` (range ${minValue}-${maxValue})` : ""}`}
+          aria-describedby={`${buttonId} ${resultId}`}
           className="rounded-r-none border-r-0 shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309] flex-1"
         />
         <Button
           id={buttonId}
           onClick={handleRoll}
-          aria-label={`Roll ${formula} dice`}
+          aria-label={`Roll ${formula} dice${minValue !== undefined && maxValue !== undefined ? `. Expected range: ${minValue} to ${maxValue}` : ""}`}
           aria-describedby={inputId}
           className="rounded-l-none"
         >
           {buttonText}
         </Button>
       </div>
+
+      {/* Hidden result description for screen readers */}
+      {lastRollResult && (
+        <div id={resultId} className="sr-only">
+          {lastRollResult}
+        </div>
+      )}
     </div>
   );
 };

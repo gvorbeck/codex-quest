@@ -21,7 +21,8 @@
       "Bash(npx knip:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
-      "Read(//**)"
+      "Read(//**)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

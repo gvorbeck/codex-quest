@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useStepAnnouncements } from "@/hooks/useA11y";
 import { useValidationAnnouncements } from "@/hooks/useValidationAnnouncements";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useCallback } from "react";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
 import { cn } from "@/constants/styles";
@@ -52,7 +52,7 @@ function Stepper({
     }
   }, [validationMessage, safeCurrentStep, announceValidationErrors]);
 
-  const handleStepChange = (direction: "next" | "previous") => {
+  const handleStepChange = useCallback((direction: "next" | "previous") => {
     if (direction === "next") {
       if (onNext) {
         onNext();
@@ -66,7 +66,32 @@ function Stepper({
         setStep(safeCurrentStep - 1);
       }
     }
-  };
+  }, [onNext, onPrevious, safeCurrentStep, setStep]);
+
+  // Add keyboard navigation for step controls
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Only handle keys when focus is within the stepper
+      if (!event.target || !(event.target as Element).closest('[role="region"]')) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        event.preventDefault();
+        if (safeCurrentStep > 0 && !prevDisabled) {
+          handleStepChange("previous");
+        }
+      } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        event.preventDefault();
+        if (safeCurrentStep < stepItems.length - 1 && !nextDisabled) {
+          handleStepChange("next");
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [safeCurrentStep, stepItems.length, nextDisabled, prevDisabled, handleStepChange]);
 
   const handleStepClick = (index: number) => {
     if (index <= safeCurrentStep) {
@@ -83,7 +108,12 @@ function Stepper({
       className="flex flex-col lg:flex-row gap-8"
       role="region"
       aria-labelledby="stepper-heading"
+      aria-describedby="stepper-instructions"
     >
+      {/* Hidden instructions for keyboard navigation */}
+      <div id="stepper-instructions" className="sr-only">
+        Use arrow keys to navigate between steps when focused within this area. Tab to navigate between interactive elements.
+      </div>
       {/* Screen reader announcement */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">
         Step {safeCurrentStep + 1} of {stepItems.length}:{" "}
