@@ -3,14 +3,14 @@ import { SectionHeader } from "@/components/ui/display";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 import { cn } from "@/constants/styles";
 
-interface CharacterSheetSectionWrapperProps {
+interface SectionWrapperProps {
   title: React.ReactNode;
   className?: string;
   size?: "sm" | "md" | "lg";
   children: React.ReactNode;
 }
 
-const CharacterSheetSectionWrapper = forwardRef<HTMLDivElement, CharacterSheetSectionWrapperProps>(
+const SectionWrapper = forwardRef<HTMLDivElement, SectionWrapperProps>(
   ({ title, className = "", size = "md", children }, ref) => {
     const containerClasses = cn(
       DESIGN_TOKENS.colors.bg.accent,
@@ -34,6 +34,6 @@ const CharacterSheetSectionWrapper = forwardRef<HTMLDivElement, CharacterSheetSe
   }
 );
 
-CharacterSheetSectionWrapper.displayName = "CharacterSheetSectionWrapper";
+SectionWrapper.displayName = "SectionWrapper";
 
-export default CharacterSheetSectionWrapper;
+export default SectionWrapper;

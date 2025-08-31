@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
@@ -353,7 +353,7 @@ export default function SavingThrows({ character, className = "", size = "md" }:
   );
 
   return (
-    <CharacterSheetSectionWrapper 
+    <SectionWrapper 
       title={
         <div className="flex items-center gap-2">
           <span>Saving Throws</span>
@@ -381,6 +381,6 @@ export default function SavingThrows({ character, className = "", size = "md" }:
           ))}
         </div>
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

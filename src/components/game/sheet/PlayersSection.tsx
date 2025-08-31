@@ -2,6 +2,7 @@ import { memo, useEffect } from "react";
 import type { GamePlayer } from "@/types/game";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { HorizontalRule } from "@/components/ui/display";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Typography } from "@/components/ui/design-system";
 import { useDataResolver } from "@/hooks/useDataResolver";
 
@@ -104,39 +105,31 @@ export const PlayersSection = memo(
     return (
       <>
         {showDivider && <HorizontalRule />}
-        <section aria-labelledby="players-heading">
-          <Typography
-            variant="h2"
-            as="h2"
-            id="players-heading"
-            weight="bold"
-            className={`${GAME_SHEET_STYLES.colors.text.primary} ${GAME_SHEET_STYLES.spacing.element}`}
-          >
-            Players ({players.length})
-          </Typography>
-
-          <div
-            className={`${GAME_SHEET_STYLES.layout.cardGrid} ${GAME_SHEET_STYLES.spacing.cardGap}`}
-          >
-            {players.map((player, index) => (
-              <PlayerCard
-                key={`${player.user}-${player.character}-${index}`}
-                player={player}
-                getResolvedData={getResolvedData}
-              />
-            ))}
-          </div>
-
-          {isLoading && (
-            <div className="text-center py-4">
-              <div
-                className={`text-sm ${GAME_SHEET_STYLES.colors.text.secondary}`}
-              >
-                Loading player data...
-              </div>
+        <SectionWrapper title={`Players (${players.length})`}>
+          <div className="p-4">
+            <div
+              className={`${GAME_SHEET_STYLES.layout.cardGrid} ${GAME_SHEET_STYLES.spacing.cardGap}`}
+            >
+              {players.map((player, index) => (
+                <PlayerCard
+                  key={`${player.user}-${player.character}-${index}`}
+                  player={player}
+                  getResolvedData={getResolvedData}
+                />
+              ))}
             </div>
-          )}
-        </section>
+
+            {isLoading && (
+              <div className="text-center py-4">
+                <div
+                  className={`text-sm ${GAME_SHEET_STYLES.colors.text.secondary}`}
+                >
+                  Loading player data...
+                </div>
+              </div>
+            )}
+          </div>
+        </SectionWrapper>
       </>
     );
   }

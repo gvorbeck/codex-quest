@@ -1,5 +1,5 @@
 import { NumberInput, TextArea } from "@/components/ui/inputs";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { StatusIndicator } from "@/components/ui/display";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
@@ -41,7 +41,7 @@ export default function HitPoints({
   };
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title="Hit Points"
       size={size}
       className={className}
@@ -141,6 +141,6 @@ export default function HitPoints({
           />
         </div>
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

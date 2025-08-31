@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Details } from "@/components/ui/display";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { allClasses } from "@/data/classes";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
@@ -115,7 +115,7 @@ export default function CharacterDefense({ character, className = "", size = "md
   ];
 
   return (
-    <CharacterSheetSectionWrapper 
+    <SectionWrapper 
       title="Defense & Movement" 
       size={size}
       className={className}
@@ -127,6 +127,6 @@ export default function CharacterDefense({ character, className = "", size = "md
           size={size}
         />
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/feedback";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import { calculateModifier, formatModifier } from "@/utils/gameUtils";
 import { allRaces } from "@/data/races";
@@ -188,7 +188,7 @@ export default function AttackBonuses({
   );
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title={titleWithTooltip}
       size={size}
       className={className}
@@ -211,6 +211,6 @@ export default function AttackBonuses({
           ))}
         </div>
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

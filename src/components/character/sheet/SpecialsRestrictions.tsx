@@ -7,7 +7,7 @@ import {
   TabPanel,
 } from "@/components/ui/layout";
 import { type DescriptionItem, SkillDescriptionItem } from "@/components/ui/display";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Typography, Card } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
@@ -106,7 +106,7 @@ export default function SpecialsRestrictions({
   }, [race, character.languages]);
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title="Restrictions & Special Abilities"
       size={size}
       className={className}
@@ -247,6 +247,6 @@ export default function SpecialsRestrictions({
           </TabPanels>
         </div>
       </Tabs>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

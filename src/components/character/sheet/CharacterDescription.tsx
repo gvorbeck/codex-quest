@@ -1,5 +1,5 @@
 import { TextArea } from "@/components/ui/inputs";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
 import type { Character } from "@/types/character";
 
@@ -29,7 +29,7 @@ export default function CharacterDescription({
   });
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title="Character Description"
       size={size}
       className={className}
@@ -66,6 +66,6 @@ export default function CharacterDescription({
           </div>
         )}
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

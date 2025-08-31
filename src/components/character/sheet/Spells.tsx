@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
 import type { Character, Spell, Cantrip } from "@/types/character";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Accordion } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
@@ -258,7 +258,7 @@ export default function Spells({
   const hasAnySpells = knownSpells.length > 0 || cantrips.length > 0;
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title="Spells & Cantrips"
       size={size}
       className={className}
@@ -460,6 +460,6 @@ export default function Spells({
           </div>
         </Modal>
       )}
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

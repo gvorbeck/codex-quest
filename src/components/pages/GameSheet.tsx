@@ -8,6 +8,7 @@ import {
   PlayersSection,
   GameNotesSection,
   GameSheetEmptyState,
+  AddChar,
 } from "@/components/game/sheet";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
@@ -17,7 +18,7 @@ import {
   ERROR_MESSAGES,
   LOADING_MESSAGES,
 } from "@/constants/gameSheetStyles";
-import type { Game } from "@/types/game";
+import type { Game, GamePlayer } from "@/types/game";
 
 export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
@@ -64,6 +65,22 @@ export default function GameSheet() {
       const updatedGame = {
         ...game,
         notes,
+      };
+
+      handleGameChange(updatedGame);
+    },
+    [game, handleGameChange]
+  );
+
+  // Handle adding players to the game
+  const handleAddPlayer = useCallback(
+    (newPlayer: GamePlayer) => {
+      if (!game) return;
+
+      const updatedPlayers = [...(game.players || []), newPlayer];
+      const updatedGame = {
+        ...game,
+        players: updatedPlayers,
       };
 
       handleGameChange(updatedGame);
@@ -147,9 +164,22 @@ export default function GameSheet() {
         <main id="main-content" className={GAME_SHEET_STYLES.spacing.content}>
           <PlayersSection players={game.players || []} showDivider={false} />
 
+          {/* Add Character section - only show for game master */}
+          {isGameMaster && (
+            <div className={GAME_SHEET_STYLES.spacing.section}>
+              <AddChar
+                onAddPlayer={handleAddPlayer}
+                disabled={isUpdating}
+                existingPlayers={game.players || []}
+              />
+            </div>
+          )}
+
           <GameNotesSection
             notes={game.notes || ""}
-            showDivider={!!(game.players && game.players.length > 0)}
+            showDivider={
+              !!(game.players && game.players.length > 0) || !!isGameMaster
+            }
             editable={!!isGameMaster}
             onNotesChange={handleNotesChange}
           />

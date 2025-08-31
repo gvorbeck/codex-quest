@@ -1,6 +1,6 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { Character } from "@/types/character";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
 import { InfoTooltip } from "@/components/ui/feedback";
@@ -257,7 +257,7 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
     );
 
     return (
-      <CharacterSheetSectionWrapper
+      <SectionWrapper
         ref={ref}
         title={titleWithTooltip}
         size={size}
@@ -288,7 +288,7 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
             })}
           </div>
         </div>
-      </CharacterSheetSectionWrapper>
+      </SectionWrapper>
     );
   }
 );

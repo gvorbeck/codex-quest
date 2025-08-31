@@ -1,5 +1,5 @@
 import { EditableValue } from "@/components/ui/inputs";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Card } from "@/components/ui/design-system";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
@@ -120,7 +120,7 @@ export default function CoinPurse({
   };
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title="Coin Purse"
       size={size}
       className={className}
@@ -202,6 +202,6 @@ export default function CoinPurse({
           })}
         </div>
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

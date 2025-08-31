@@ -204,11 +204,13 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
         if (uncachedData.length === 0) {
           // All data is cached, just update the resolved data state
           if (mountedRef.current) {
-            const newResolvedData = new Map(resolvedData);
-            cachedResults.forEach((data, key) => {
-              newResolvedData.set(key, data);
+            setResolvedData((prev) => {
+              const newResolvedData = new Map(prev);
+              cachedResults.forEach((data, key) => {
+                newResolvedData.set(key, data);
+              });
+              return newResolvedData;
             });
-            setResolvedData(newResolvedData);
           }
           return;
         }
@@ -268,14 +270,16 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
 
         // Combine cached and new results
         if (mountedRef.current) {
-          const finalResolvedData = new Map(resolvedData);
-          cachedResults.forEach((data, key) => {
-            finalResolvedData.set(key, data);
+          setResolvedData((prev) => {
+            const finalResolvedData = new Map(prev);
+            cachedResults.forEach((data, key) => {
+              finalResolvedData.set(key, data);
+            });
+            newResults.forEach((data, key) => {
+              finalResolvedData.set(key, data);
+            });
+            return finalResolvedData;
           });
-          newResults.forEach((data, key) => {
-            finalResolvedData.set(key, data);
-          });
-          setResolvedData(finalResolvedData);
         }
 
         // Set up real-time listeners if enabled (for active game sessions)
@@ -292,7 +296,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
         }
       }
     },
-    [enableRealTime, resolvedData, setupRealTimeListener, setLoading]
+    [enableRealTime, setupRealTimeListener, setLoading]
   );
 
   const getResolvedData = useCallback(

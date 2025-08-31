@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { ExperienceTracker } from "@/components/character/sheet";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
@@ -40,7 +40,7 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
     );
 
     return (
-      <CharacterSheetSectionWrapper 
+      <SectionWrapper 
         ref={ref} 
         title={titleWithTooltip} 
         size={size}
@@ -63,7 +63,7 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
             </div>
           )}
         </div>
-      </CharacterSheetSectionWrapper>
+      </SectionWrapper>
     );
   }
 );

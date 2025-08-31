@@ -199,7 +199,7 @@ Before conducting the standard code review, **FIRST** perform a thorough audit o
    - **Inputs**: Button, Select, TextInput, NumberInput, TextArea, Switch, OptionToggle, FileUpload, EditableValue, FloatingActionButton
    - **Feedback**: Modal, Notification, Tooltip, LoadingState, Callout, InfoTooltip, TooltipWrapper
    - **Display**: StatCard, ItemGrid, Stepper, BaseCard, DetailSection, Details, StatusIndicator, SectionHeader, Icon, HorizontalRule, Breadcrumb, SimpleRoller, SkillDescriptionItem, RequirementCard
-   - **Layout**: Accordion, Tabs, PageWrapper, StepWrapper, CharacterSheetSectionWrapper
+   - **Layout**: Accordion, Tabs, PageWrapper, StepWrapper, SectionWrapper
    - **Dice**: RollableButton
 
 3. **Code Duplication Red Flags:**

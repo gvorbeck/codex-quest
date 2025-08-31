@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
 import type { Character, ScrollCreationProject } from "@/types/character";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button, NumberInput, TextArea, TextInput } from "@/components/ui/inputs";
 import { Modal } from "@/components/ui/feedback";
@@ -338,7 +338,7 @@ export default function ScrollCreation({
 
   return (
     <>
-      <CharacterSheetSectionWrapper
+      <SectionWrapper
         title={
           <div className="flex justify-between items-center w-full gap-4">
             <span>Scroll Creation</span>
@@ -552,7 +552,7 @@ export default function ScrollCreation({
             )}
           </Card>
         )}
-      </CharacterSheetSectionWrapper>
+      </SectionWrapper>
 
       {/* Create Scroll Modal */}
       <Modal

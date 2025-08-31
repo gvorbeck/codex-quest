@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { SkillDescriptionItem } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
@@ -145,7 +145,7 @@ export default function ClassSkills({
   );
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title={characterClassInfo.displayName}
       size={size}
       className={className}
@@ -191,6 +191,6 @@ export default function ClassSkills({
 
         {showDetails && detailsContent}
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

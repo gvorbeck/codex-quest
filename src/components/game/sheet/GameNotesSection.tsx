@@ -1,7 +1,6 @@
 import { memo } from "react";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { HorizontalRule } from "@/components/ui/display";
-import { Typography } from "@/components/ui/design-system";
+import { SectionWrapper } from "@/components/ui/layout";
 import { TextArea } from "@/components/ui/inputs";
 import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
 
@@ -32,18 +31,8 @@ export const GameNotesSection = memo(
     return (
       <>
         {showDivider && <HorizontalRule />}
-        <section aria-labelledby="notes-heading">
-          <Typography
-            variant="h2"
-            as="h2"
-            id="notes-heading"
-            weight="bold"
-            className={`${GAME_SHEET_STYLES.colors.text.primary} ${GAME_SHEET_STYLES.spacing.element}`}
-          >
-            Game Notes
-          </Typography>
-
-          <div className={`${GAME_SHEET_STYLES.colors.card} p-6`}>
+        <SectionWrapper title="Game Notes">
+          <div className="p-6">
             {editable ? (
               <div className="space-y-2">
                 <TextArea
@@ -73,7 +62,7 @@ export const GameNotesSection = memo(
               </div>
             )}
           </div>
-        </section>
+        </SectionWrapper>
       </>
     );
   }

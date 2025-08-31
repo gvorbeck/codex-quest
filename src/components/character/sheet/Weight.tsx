@@ -1,4 +1,4 @@
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { StatusIndicator } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
@@ -189,7 +189,7 @@ export default function Weight({
   );
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title="Weight"
       size={size}
       className={className}
@@ -310,6 +310,6 @@ export default function Weight({
           </div>
         </div>
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }

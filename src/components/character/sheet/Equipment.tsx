@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
-import { CharacterSheetSectionWrapper } from "@/components/ui/layout";
+import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Badge, Typography } from "@/components/ui/design-system";
 import { Button, Switch, TextInput, TextArea, Select, NumberInput } from "@/components/ui/inputs";
 import { Modal } from "@/components/ui/feedback";
@@ -345,7 +345,7 @@ export default function Equipment({
   );
 
   return (
-    <CharacterSheetSectionWrapper
+    <SectionWrapper
       title={
         <div className="flex gap-2 items-center justify-between w-full">
           <span>Equipment</span>
@@ -619,6 +619,6 @@ export default function Equipment({
           </Modal>
         )}
       </div>
-    </CharacterSheetSectionWrapper>
+    </SectionWrapper>
   );
 }
