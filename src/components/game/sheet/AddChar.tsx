@@ -117,7 +117,12 @@ export const AddChar = memo(
     );
 
     return (
-      <SectionWrapper title="Add Character" className={className}>
+      <SectionWrapper
+        title="Add Character"
+        className={className}
+        collapsible={true}
+        collapsibleKey="add-character"
+      >
         <div className="p-4 space-y-3">
           {/* Horizontal layout for input and button */}
           <div className="flex gap-3 items-center">

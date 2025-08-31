@@ -2,7 +2,7 @@ import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
 import { Breadcrumb } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
-import { LoadingState } from "@/components/ui/feedback/LoadingState";
+import { LoadingState } from "@/components/ui/feedback";
 import {
   Hero,
   PlayersSection,

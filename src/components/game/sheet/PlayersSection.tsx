@@ -1,8 +1,9 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState, useCallback } from "react";
 import type { GamePlayer } from "@/types/game";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { HorizontalRule } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
+import { DeletePlayerModal } from "@/components/ui/feedback";
 import { useDataResolver } from "@/hooks/useDataResolver";
 import { PlayerCard } from "./PlayerCard";
 
@@ -18,6 +19,37 @@ export const PlayersSection = memo(
     const { resolveMultiple, getResolvedData, isLoading } = useDataResolver({
       enableRealTime: true,
     });
+
+    // Player deletion confirmation state
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [playerToDelete, setPlayerToDelete] = useState<GamePlayer | null>(
+      null
+    );
+
+    // Handle deletion confirmation
+    const handleDeletePlayer = useCallback((player: GamePlayer) => {
+      setPlayerToDelete(player);
+      setDeleteModalOpen(true);
+    }, []);
+
+    const handleConfirmDelete = useCallback(() => {
+      if (playerToDelete && onDeletePlayer) {
+        onDeletePlayer(playerToDelete);
+        setDeleteModalOpen(false);
+        setPlayerToDelete(null);
+      }
+    }, [playerToDelete, onDeletePlayer]);
+
+    const handleCloseDeleteModal = useCallback(() => {
+      setDeleteModalOpen(false);
+      setPlayerToDelete(null);
+    }, []);
+
+    // Get player name for the modal
+    const getPlayerName = (player: GamePlayer) => {
+      const resolved = getResolvedData(player.user, player.character);
+      return resolved?.characterName || player.character;
+    };
 
     // Resolve player data when players change
     useEffect(() => {
@@ -47,7 +79,7 @@ export const PlayersSection = memo(
                   key={`${player.user}-${player.character}-${index}`}
                   player={player}
                   getResolvedData={getResolvedData}
-                  {...(onDeletePlayer && { onDelete: onDeletePlayer })}
+                  {...(onDeletePlayer && { onDelete: handleDeletePlayer })}
                 />
               ))}
             </div>
@@ -63,6 +95,15 @@ export const PlayersSection = memo(
             )}
           </div>
         </SectionWrapper>
+
+        {/* Delete Player Confirmation Modal */}
+        <DeletePlayerModal
+          isOpen={deleteModalOpen}
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleConfirmDelete}
+          playerName={playerToDelete ? getPlayerName(playerToDelete) : ""}
+          isDeleting={false}
+        />
       </>
     );
   }
