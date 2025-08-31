@@ -1,23 +1,23 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface UseDebouncedUpdateOptions {
   delay?: number;
-  onUpdate: (value: string) => void | Promise<void>;
+  onUpdate: (value: string) => void;
 }
 
 interface UseDebouncedUpdateReturn {
   value: string;
-  setValue: (newValue: string) => void;
-  isPending: boolean;
-  flush: () => void;
+  onChange: (value: string) => void;
+  onBlur: () => void;
+  isSaving: boolean;
 }
 
 /**
- * Hook for debouncing text input updates to reduce Firebase writes
+ * Hook for debounced updates that prevents infinite re-render loops
  * 
- * @param initialValue - The initial value
+ * @param initialValue - The initial value from external source
  * @param options - Configuration options
- * @returns Object containing the current value, setter, pending state, and flush function
+ * @returns Object containing the current value, change handler, blur handler, and saving state
  */
 export function useDebouncedUpdate(
   initialValue: string,
@@ -25,61 +25,62 @@ export function useDebouncedUpdate(
 ): UseDebouncedUpdateReturn {
   const { delay = 500, onUpdate } = options;
   
-  const [value, setValue] = useState(initialValue);
-  const [isPending, setIsPending] = useState(false);
+  const [localValue, setLocalValue] = useState(initialValue || "");
+  const [isSaving, setIsSaving] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastUpdatedValueRef = useRef(initialValue);
+  const lastSavedRef = useRef(initialValue || "");
 
-  // Update internal value when external value changes
+  // Update local state when external value changes (but not when we're typing)
   useEffect(() => {
-    if (initialValue !== lastUpdatedValueRef.current) {
-      setValue(initialValue);
-      lastUpdatedValueRef.current = initialValue;
-      setIsPending(false);
+    if (initialValue !== lastSavedRef.current && initialValue !== localValue) {
+      setLocalValue(initialValue || "");
+      lastSavedRef.current = initialValue || "";
     }
-  }, [initialValue]);
+  }, [initialValue, localValue]);
 
-  // Flush pending updates immediately
-  const flush = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    
-    if (value !== lastUpdatedValueRef.current) {
-      setIsPending(false);
-      lastUpdatedValueRef.current = value;
-      onUpdate(value);
-    }
-  }, [value, onUpdate]);
-
-  // Handle value changes with debouncing
-  const handleValueChange = useCallback((newValue: string) => {
-    setValue(newValue);
+  // Handle text changes with debouncing
+  const onChange = (value: string) => {
+    setLocalValue(value);
     
     // Clear existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
-    // Don't set pending or create timeout if value hasn't actually changed
-    if (newValue === lastUpdatedValueRef.current) {
-      setIsPending(false);
+
+    // Don't set saving state or timeout if value hasn't actually changed
+    if (value === lastSavedRef.current) {
+      setIsSaving(false);
       return;
     }
-    
-    setIsPending(true);
-    
-    // Set new timeout
+
+    setIsSaving(true);
+
+    // Set new timeout for saving
     timeoutRef.current = setTimeout(() => {
-      setIsPending(false);
-      lastUpdatedValueRef.current = newValue;
-      onUpdate(newValue);
+      if (onUpdate && value !== lastSavedRef.current) {
+        lastSavedRef.current = value;
+        onUpdate(value);
+      }
+      setIsSaving(false);
       timeoutRef.current = null;
     }, delay);
-  }, [delay, onUpdate]);
+  };
 
-  // Cleanup on unmount
+  // Handle blur to save immediately
+  const onBlur = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    
+    if (localValue !== lastSavedRef.current && onUpdate) {
+      lastSavedRef.current = localValue;
+      onUpdate(localValue);
+    }
+    setIsSaving(false);
+  };
+
+  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
@@ -88,21 +89,10 @@ export function useDebouncedUpdate(
     };
   }, []);
 
-  // Flush on unmount if there are pending changes
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current && value !== lastUpdatedValueRef.current) {
-        // Flush immediately on unmount
-        clearTimeout(timeoutRef.current);
-        onUpdate(value);
-      }
-    };
-  }, [value, onUpdate]);
-
   return {
-    value,
-    setValue: handleValueChange,
-    isPending,
-    flush,
+    value: localValue,
+    onChange,
+    onBlur,
+    isSaving,
   };
 }

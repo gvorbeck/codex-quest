@@ -24,18 +24,15 @@ export default function HitPoints({
 }: HitPointsProps) {
   const currentSize = SIZE_STYLES[size];
 
-  // Debounced HP notes to reduce Firebase writes
-  const debouncedHPNotes = useDebouncedUpdate(
-    character.hp.desc || "",
-    {
-      delay: 500,
-      onUpdate: (value: string) => {
-        if (onHPNotesChange) {
-          onHPNotesChange(value);
-        }
-      },
-    }
-  );
+  // Use shared debounced update logic for HP notes
+  const debouncedHPNotes = useDebouncedUpdate(character.hp.desc || "", {
+    delay: 500,
+    onUpdate: (value: string) => {
+      if (onHPNotesChange) {
+        onHPNotesChange(value);
+      }
+    },
+  });
 
   const handleCurrentHPChange = (value: number | undefined) => {
     if (value !== undefined && onCurrentHPChange) {
@@ -102,7 +99,8 @@ export default function HitPoints({
               <>
                 <TextArea
                   value={debouncedHPNotes.value}
-                  onChange={debouncedHPNotes.setValue}
+                  onChange={debouncedHPNotes.onChange}
+                  onBlur={debouncedHPNotes.onBlur}
                   placeholder="HP notes (injuries, effects, etc.)"
                   maxLength={200}
                   size="sm"
@@ -111,7 +109,7 @@ export default function HitPoints({
                   aria-label="Hit point notes"
                   className="text-xs !bg-zinc-700/50 !border-zinc-600/50"
                 />
-                {debouncedHPNotes.isPending && (
+                {debouncedHPNotes.isSaving && (
                   <div className="text-xs text-zinc-500 mt-1">
                     Saving...
                   </div>

@@ -11,6 +11,12 @@ interface GameCardProps {
 
 export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
   const href = `/u/${user?.uid}/g/${game.id}`;
+  
+  // Truncate notes to a reasonable character limit with ellipsis
+  const truncateText = (text: string, maxLength: number = 150): string => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength).trim() + '...';
+  };
 
   return (
     <BaseCard
@@ -51,7 +57,7 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
               WebkitBoxOrient: 'vertical' as const,
             }}
           >
-            {game.notes}
+            {truncateText(game.notes)}
           </Typography>
         </div>
       )}

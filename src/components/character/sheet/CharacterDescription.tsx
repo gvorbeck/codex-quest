@@ -18,23 +18,15 @@ export default function CharacterDescription({
   editable = false,
   onDescriptionChange,
 }: CharacterDescriptionProps) {
-  // Debounced description updates to reduce Firebase writes
-  const debouncedDescription = useDebouncedUpdate(
-    character.desc || "",
-    {
-      delay: 500,
-      onUpdate: (value: string) => {
-        if (onDescriptionChange) {
-          onDescriptionChange(value);
-        }
-      },
-    }
-  );
-
-  // Handle blur to flush any pending changes
-  const handleBlur = () => {
-    debouncedDescription.flush();
-  };
+  // Use shared debounced update logic
+  const debouncedDescription = useDebouncedUpdate(character.desc || "", {
+    delay: 500,
+    onUpdate: (value: string) => {
+      if (onDescriptionChange) {
+        onDescriptionChange(value);
+      }
+    },
+  });
 
   return (
     <CharacterSheetSectionWrapper
@@ -46,8 +38,8 @@ export default function CharacterDescription({
         {editable ? (
           <TextArea
             value={debouncedDescription.value}
-            onChange={debouncedDescription.setValue}
-            onBlur={handleBlur}
+            onChange={debouncedDescription.onChange}
+            onBlur={debouncedDescription.onBlur}
             placeholder="Write your character's backstory, personality, appearance, notes, and anything else you'd like to remember..."
             maxLength={5000}
             size={size === "lg" ? "md" : "sm"}
@@ -69,7 +61,7 @@ export default function CharacterDescription({
           <div className="flex items-center justify-between text-xs text-zinc-500">
             <span>{debouncedDescription.value.length} / 5000 characters</span>
             <span className="text-zinc-600">
-              {debouncedDescription.isPending ? "Saving..." : "Saves automatically after you stop typing (500ms)"}
+              {debouncedDescription.isSaving ? "Saving..." : "Saves automatically after you stop typing (500ms)"}
             </span>
           </div>
         )}

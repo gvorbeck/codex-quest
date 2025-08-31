@@ -56,6 +56,21 @@ export default function GameSheet() {
     [updateGame]
   );
 
+  // Handle notes changes
+  const handleNotesChange = useCallback(
+    (notes: string) => {
+      if (!game) return;
+
+      const updatedGame = {
+        ...game,
+        notes,
+      };
+
+      handleGameChange(updatedGame);
+    },
+    [game, handleGameChange]
+  );
+
   // Data loading is now handled by useFirebaseSheet hook
 
   // Memoized content check for empty state
@@ -135,6 +150,8 @@ export default function GameSheet() {
           <GameNotesSection
             notes={game.notes || ""}
             showDivider={!!(game.players && game.players.length > 0)}
+            editable={!!isGameMaster}
+            onNotesChange={handleNotesChange}
           />
 
           {/* Empty state when no content */}
