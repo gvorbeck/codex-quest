@@ -117,10 +117,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           Avatar
         </Typography>
         <Card variant="info" size="compact" className="mb-6">
-          <p className="text-amber-100 text-sm m-0">
+          <Typography variant="helper" color="amber">
             Choose a stock avatar or upload your own image to represent your
             character.
-          </p>
+          </Typography>
         </Card>
       </header>
 
@@ -206,7 +206,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                 />
                 {isSelected && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-lime-400 rounded-full flex items-center justify-center">
-                    <span className="text-zinc-900 text-xs font-bold">✓</span>
+                    <Icon name="check" size="xs" className="text-zinc-900" />
                   </div>
                 )}
               </button>
@@ -234,10 +234,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
           aria-describedby="avatar-upload-info"
         />
         <Card variant="info" size="compact" className="mt-4">
-          <p className="text-amber-100 text-sm m-0">
+          <Typography variant="helper" color="amber">
             For best results, use a square image (1:1 aspect ratio) that's at
             least 128x128 pixels.
-          </p>
+          </Typography>
         </Card>
       </Card>
     </div>

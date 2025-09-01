@@ -1,5 +1,6 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
+import { TextHeader } from "@/components/ui/display";
 import type { Character, Class } from "@/types/character";
 
 interface CurrentStatusCardProps {
@@ -17,9 +18,9 @@ export default function CurrentStatusCard({
 }: CurrentStatusCardProps) {
   return (
     <Card variant="standard" size="default">
-      <Typography variant="sectionHeading" className="mb-4">
+      <TextHeader variant="h4" size="md">
         Current Status
-      </Typography>
+      </TextHeader>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex justify-between">
           <Typography variant="bodySmall" color="secondary">

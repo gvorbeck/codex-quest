@@ -4,6 +4,7 @@ import { SIZE_STYLES } from "@/constants/designTokens";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { InfoTooltip } from "@/components/ui/feedback";
+import { TextHeader } from "@/components/ui/display";
 import { calculateModifier } from "@/utils/gameUtils";
 import type { Character } from "@/types/character";
 
@@ -343,7 +344,9 @@ export default function SavingThrows({ character, className = "", size = "md" }:
 
   const tooltipContent = (
     <div className="whitespace-normal max-w-xs">
-      <div className="font-semibold mb-1">{SAVING_THROW_HELP.title}</div>
+      <TextHeader variant="h6" size="sm" underlined={false} className="mb-1">
+        {SAVING_THROW_HELP.title}
+      </TextHeader>
       <div className="space-y-1 text-xs">
         {SAVING_THROW_HELP.rules.map((rule, index) => (
           <div key={index}>{rule}</div>

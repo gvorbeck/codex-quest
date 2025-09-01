@@ -34,5 +34,6 @@ export interface Monster {
 
 export interface MonsterWithCategory extends Monster {
   category: string;
+  searchableText?: string; // Enhanced search text including variant names
   [key: string]: unknown; // For Accordion compatibility
 }

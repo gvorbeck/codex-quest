@@ -5,7 +5,7 @@ import { SectionWrapper } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button, NumberInput, TextArea, TextInput } from "@/components/ui/inputs";
 import { Modal } from "@/components/ui/feedback";
-import { SectionHeader } from "@/components/ui/display";
+import { SectionHeader, Icon } from "@/components/ui/display";
 
 // Constants for Spellcrafter bonuses and scroll creation rules (BFRPG Core Rules)
 const SCROLL_CREATION_CONSTANTS = {
@@ -369,19 +369,22 @@ export default function ScrollCreation({
               <SectionHeader title="Spellcrafter Bonuses" size="md" className="mb-3" />
               <Card className="p-4">
                 <div className="space-y-1 text-sm">
-                  <div>
-                    ✨ +{scrollCreationBonuses.researchRollBonus}% research roll
+                  <div className="flex items-center gap-2">
+                    <Icon name="star" size="sm" />
+                    +{scrollCreationBonuses.researchRollBonus}% research roll
                     bonus
                   </div>
                   {scrollCreationBonuses.timeReduction > 0 && (
-                    <div>
-                      ⚡ {scrollCreationBonuses.timeReduction}% time reduction
+                    <div className="flex items-center gap-2">
+                      <Icon name="lightning" size="sm" />
+                      {scrollCreationBonuses.timeReduction}% time reduction
                       (6th level)
                     </div>
                   )}
                   {scrollCreationBonuses.costReduction > 0 && (
-                    <div>
-                      💰 {scrollCreationBonuses.costReduction}% cost reduction
+                    <div className="flex items-center gap-2">
+                      <Icon name="coin" size="sm" />
+                      {scrollCreationBonuses.costReduction}% cost reduction
                       (9th level)
                     </div>
                   )}
@@ -429,7 +432,7 @@ export default function ScrollCreation({
                             onClick={() => handleDeleteProject(project.id)}
                             title="Delete scroll"
                           >
-                            ✕
+                            <Icon name="close" size="xs" />
                           </Button>
                         </div>
                       )}
@@ -526,7 +529,7 @@ export default function ScrollCreation({
                             onClick={() => handleDeleteProject(project.id)}
                             title="Delete completed scroll"
                           >
-                            ✕
+                            <Icon name="close" size="xs" />
                           </Button>
                         )}
                       </div>
@@ -541,7 +544,9 @@ export default function ScrollCreation({
         {/* Empty State */}
         {projects.length === 0 && (
           <Card className="p-6 text-center">
-            <div className="mx-auto mb-3 text-zinc-400 text-2xl">📜</div>
+            <div className="mx-auto mb-3">
+              <Icon name="clipboard" size="xl" className="text-zinc-400" />
+            </div>
             <Typography variant="body" className="text-zinc-400 mb-3">
               No scrolls created yet.
             </Typography>

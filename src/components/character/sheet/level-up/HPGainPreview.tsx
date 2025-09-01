@@ -1,5 +1,6 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
+import { TextHeader, Icon } from "@/components/ui/display";
 import type { Character, Class } from "@/types/character";
 import type { HPGainResult } from "@/hooks/useHPGain";
 
@@ -18,9 +19,12 @@ export default function HPGainPreview({
 }: HPGainPreviewProps) {
   return (
     <Card variant="success" size="default">
-      <Typography variant="sectionHeading" color="lime" className="mb-4">
-        🎉 Ready to Level Up!
-      </Typography>
+      <TextHeader variant="h4" size="md" className="text-lime-400">
+        <div className="flex items-center gap-2">
+          <Icon name="star" size="sm" />
+          Ready to Level Up!
+        </div>
+      </TextHeader>
       <div className="space-y-4">
         <Typography variant="body" color="primary">
           Your character is ready to advance to level {nextLevel}!

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useId } from "react";
 import { Button } from "@/components/ui";
+import { Icon } from "@/components/ui/display";
 import { logger } from "@/utils/logger";
 import { cn } from "@/constants/styles";
 
@@ -176,7 +177,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
       >
         {selectedFileName ? (
           <div>
-            <div>✓ {selectedFileName}</div>
+            <div className="flex items-center gap-1">
+              <Icon name="check" size="sm" />
+              {selectedFileName}
+            </div>
             <div>Click to change or drag a new file here</div>
             <Button
               type="button"
@@ -190,7 +194,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
           </div>
         ) : (
           <div>
-            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📁</div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              <Icon name="photo" size="xl" />
+            </div>
             <div style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>
               {dragOver ? "Drop your file here" : "Click to select a file"}
             </div>

@@ -1,65 +1,13 @@
 import { memo } from "react";
 import { Card, Typography } from "@/components/ui/design-system";
-import { StatCard } from "@/components/ui/display";
-import type { Monster, MonsterStats } from "@/types/monsters";
+import { MarkdownText, TextHeader } from "@/components/ui/display";
+import { MonsterStatsDisplay } from "./MonsterStatsDisplay";
+import type { Monster } from "@/types/monsters";
 
 interface MonsterItemProps {
   monster: Monster;
 }
 
-const MonsterStatsDisplay = memo(({ stats }: { stats: MonsterStats | Monster }) => {
-  // Handle missing or undefined stats
-  const displayValue = (value: string | undefined, fallback = "—") => value || fallback;
-  
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-      <StatCard
-        label="AC"
-        value={displayValue(stats.ac)}
-        size="sm"
-      />
-      
-      <StatCard
-        label="HD"
-        value={displayValue(stats.hitDice)}
-        size="sm"
-      />
-      
-      <StatCard
-        label="Attacks"
-        value={displayValue(stats.numAttacks)}
-        size="sm"
-      />
-      
-      <StatCard
-        label="Damage"
-        value={displayValue(stats.damage)}
-        size="sm"
-        className="font-mono text-xs"
-      />
-      
-      <StatCard
-        label="Movement"
-        value={displayValue(stats.movement)}
-        size="sm"
-      />
-      
-      <StatCard
-        label="Morale"
-        value={displayValue(stats.morale)}
-        size="sm"
-      />
-      
-      <StatCard
-        label="XP"
-        value={displayValue(stats.xp)}
-        size="sm"
-      />
-    </div>
-  );
-});
-
-MonsterStatsDisplay.displayName = "MonsterStatsDisplay";
 
 export const MonsterItem = memo(({ monster }: MonsterItemProps) => {
   const hasVariants = monster.variants && monster.variants.length > 0;
@@ -84,19 +32,21 @@ export const MonsterItem = memo(({ monster }: MonsterItemProps) => {
       {hasVariants ? (
         <div className="space-y-4">
           {/* Show main monster name */}
-          <Typography variant="subHeading" className="text-zinc-100 text-lg font-semibold border-b border-zinc-700 pb-2">
+          <TextHeader variant="h4" size="md" underlined={true}>
             {monster.name}
-          </Typography>
+          </TextHeader>
           
           {monster.variants?.map(([variantName, stats], index) => (
             <Card key={variantName || `variant-${index}`} variant="nested" className="p-4">
               {variantName && (
-                <Typography
-                  variant="subHeading"
+                <TextHeader
+                  variant="h5"
+                  size="sm"
+                  underlined={false}
                   className="text-zinc-200 mb-3"
                 >
                   {variantName}
-                </Typography>
+                </TextHeader>
               )}
               <MonsterStatsDisplay stats={stats} />
               
@@ -119,25 +69,42 @@ export const MonsterItem = memo(({ monster }: MonsterItemProps) => {
               </div>
             </Card>
           ))}
+          
+          {/* Monster description for variants */}
+          {monster.description && (
+            <Card variant="nested" className="p-4">
+              <TextHeader
+                variant="h5"
+                size="sm"
+                underlined={false}
+                className="text-zinc-300 mb-3"
+              >
+                Description
+              </TextHeader>
+              <MarkdownText content={monster.description} />
+            </Card>
+          )}
         </div>
       ) : (
         <div className="space-y-3">
           {/* Show main monster name */}
-          <Typography variant="subHeading" className="text-zinc-100 text-lg font-semibold border-b border-zinc-700 pb-2">
+          <TextHeader variant="h4" size="md" underlined={true}>
             {monster.name}
-          </Typography>
+          </TextHeader>
           
           <MonsterStatsDisplay stats={monster} />
           
           {/* Additional info for non-variant monsters */}
           {(monster.numAppear || monster.saveAs || monster.treasure) && (
             <Card variant="nested" className="p-3">
-              <Typography
-                variant="subHeading"
+              <TextHeader
+                variant="h5"
+                size="sm"
+                underlined={false}
                 className="text-zinc-300 mb-2"
               >
                 Additional Details
-              </Typography>
+              </TextHeader>
               <div className="flex flex-wrap gap-4 text-sm">
                 {monster.numAppear && (
                   <div>
@@ -158,6 +125,21 @@ export const MonsterItem = memo(({ monster }: MonsterItemProps) => {
                   </div>
                 )}
               </div>
+            </Card>
+          )}
+          
+          {/* Monster description for non-variants */}
+          {monster.description && (
+            <Card variant="nested" className="p-4">
+              <TextHeader
+                variant="h5"
+                size="sm"
+                underlined={false}
+                className="text-zinc-300 mb-3"
+              >
+                Description
+              </TextHeader>
+              <MarkdownText content={monster.description} />
             </Card>
           )}
         </div>

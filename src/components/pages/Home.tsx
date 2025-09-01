@@ -1,7 +1,7 @@
 import { useLocation } from "wouter";
 import { Card, Typography } from "@/components/ui";
 import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
-import { Icon } from "@/components/ui/display";
+import { Icon, TextHeader } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
   Tabs,
@@ -59,9 +59,9 @@ function Home() {
             </header>
 
             <Card variant="standard">
-              <Typography variant="h4" className="mb-4">
+              <TextHeader variant="h4" size="md">
                 Features
-              </Typography>
+              </TextHeader>
               <ul className="space-y-2 text-primary-300">
                 <li className="flex items-start gap-2">
                   <span className="text-highlight-400 mt-1">•</span>

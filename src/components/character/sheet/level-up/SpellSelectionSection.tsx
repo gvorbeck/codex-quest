@@ -1,6 +1,7 @@
 import { Select } from "@/components/ui/inputs";
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
+import { TextHeader, Icon } from "@/components/ui/display";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
 import type { SpellGainInfo } from "@/hooks/useSpellSelection";
@@ -36,9 +37,9 @@ export default function SpellSelectionSection({
   if (error) {
     return (
       <Card variant="standard" size="default">
-        <Typography variant="sectionHeading" color="accent" className="mb-4">
+        <TextHeader variant="h4" size="md" className="text-amber-400">
           Error Loading Spells
-        </Typography>
+        </TextHeader>
         <Typography variant="body" color="primary" className="mb-4">
           {error}
         </Typography>
@@ -54,9 +55,12 @@ export default function SpellSelectionSection({
 
   return (
     <Card variant="info" size="default">
-      <Typography variant="sectionHeading" color="amber" className="mb-4">
-        ✨ New Spells Available!
-      </Typography>
+      <TextHeader variant="h4" size="md" className="text-amber-400">
+        <div className="flex items-center gap-2">
+          <Icon name="star" size="sm" />
+          New Spells Available!
+        </div>
+      </TextHeader>
       <Typography variant="body" color="primary" className="mb-4">
         You gain {spellGainInfo.totalSpellsGained} new spell
         {spellGainInfo.totalSpellsGained > 1 ? "s" : ""} at level {nextLevel}!
@@ -104,13 +108,14 @@ function SpellLevelGroup({
 }: SpellLevelGroupProps) {
   return (
     <div className="space-y-4">
-      <Typography
-        variant="subHeading"
-        color="amber"
-        className="border-b border-amber-700/30 pb-2"
+      <TextHeader
+        variant="h4"
+        size="md"
+        className="text-amber-400 border-b-amber-700/30"
+        underlined={true}
       >
         Level {levelGroup.spellLevel} Spells ({levelGroup.count} to select)
-      </Typography>
+      </TextHeader>
 
       {Array.from({ length: levelGroup.count }).map((_, index) => {
         const selectionKey = `level-${levelGroup.spellLevel}-spell-${index}`;

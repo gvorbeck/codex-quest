@@ -23,25 +23,44 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Manual chunk splitting for better caching
-        manualChunks: {
-          // Core React chunk
-          react: ["react", "react-dom"],
-          // Router chunk
-          router: ["wouter"],
-          // Firebase chunk - only import what we use for better tree-shaking
-          firebase: [
-            "firebase/app", 
-            "firebase/auth", 
-            "firebase/firestore"
-          ],
-          // Data chunks - split by type for better caching
-          "race-data": ["./src/data/races/index.ts"],
-          "class-data": ["./src/data/classes/index.ts"],
-          // Utility chunks
-          utils: ["./src/utils/dice.ts", "./src/utils/characterValidation.ts"],
-          // Large data files - separate chunks for lazy loading
-          equipment: ["./src/data/equipment.json"],
-          spells: ["./src/data/spells.json"],
+        manualChunks: (id) => {
+          // Node modules chunking strategy
+          if (id.includes("node_modules")) {
+            // React core
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "react";
+            }
+            // Firebase - keep large but essential
+            if (id.includes("firebase")) {
+              return "firebase";
+            }
+            // Router
+            if (id.includes("wouter")) {
+              return "router";
+            }
+            // Other vendor libraries get grouped
+            return "vendor";
+          }
+          
+          // Data file chunking
+          if (id.includes("src/data/")) {
+            if (id.includes("races/index.ts")) return "race-data";
+            if (id.includes("classes/index.ts")) return "class-data";
+            if (id.includes("equipment.json")) return "equipment";
+            if (id.includes("spells.json")) return "spells";
+            // Let monsters be lazy loaded
+            if (id.includes("monsters.json")) return; // Return undefined for dynamic import
+          }
+          
+          // Utility chunking
+          if (id.includes("src/utils/")) {
+            return "utils";
+          }
+          
+          // UI component chunking for better caching
+          if (id.includes("src/components/ui/")) {
+            return "ui-components";
+          }
         },
       },
     },
@@ -49,6 +68,10 @@ export default defineConfig({
     chunkSizeWarningLimit: 600,
     // Source maps for debugging in production
     sourcemap: true,
+    // Module preload for critical chunks
+    modulePreload: {
+      polyfill: false, // Don't include polyfill
+    },
   },
   // Development optimizations
   server: {

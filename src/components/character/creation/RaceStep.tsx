@@ -102,10 +102,10 @@ function RaceStep({
                   aria-describedby={selectedRace ? "race-details" : undefined}
                 />
                 {raceOptions.length === 0 && (
-                  <p className="text-sm text-amber-400 mt-2">
+                  <Typography variant="helper" color="amber" className="mt-2">
                     No races available with current ability scores. Try rolling
                     different abilities or including supplemental content.
-                  </p>
+                  </Typography>
                 )}
               </div>
             </div>
@@ -134,9 +134,9 @@ function RaceStep({
 
             {/* Race Description */}
             <div className="mb-6">
-              <p className="text-amber-50 leading-relaxed m-0">
+              <Typography variant="description" color="primary">
                 {selectedRace.description}
-              </p>
+              </Typography>
             </div>
 
             {/* Race Information Grid */}
@@ -146,9 +146,9 @@ function RaceStep({
                 icon={<Icon name="user" />}
                 title="Physical Description"
               >
-                <p className="text-amber-50 text-sm leading-relaxed m-0">
+                <Typography variant="description" color="primary">
                   {selectedRace.physicalDescription}
-                </p>
+                </Typography>
               </DetailSection>
 
               {/* Ability Requirements */}
@@ -190,9 +190,9 @@ function RaceStep({
                         <div className="font-medium text-amber-100 mb-1">
                           {ability.name}
                         </div>
-                        <p className="text-amber-200 text-sm leading-relaxed m-0">
+                        <Typography variant="helper" color="amber">
                           {ability.description}
-                        </p>
+                        </Typography>
                       </div>
                     ))}
                   </div>
@@ -215,9 +215,9 @@ function RaceStep({
 
               {/* Lifespan */}
               <DetailSection icon={<Icon name="clock" />} title="Lifespan">
-                <p className="text-amber-50 text-sm m-0">
+                <Typography variant="helper" color="primary">
                   {selectedRace.lifespan}
-                </p>
+                </Typography>
               </DetailSection>
             </div>
           </Card>

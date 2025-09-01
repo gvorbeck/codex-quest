@@ -4,6 +4,7 @@ import { useValidationAnnouncements } from "@/hooks/useValidationAnnouncements";
 import { memo, useEffect, useCallback } from "react";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
+import { TextHeader } from "./TextHeader";
 import { cn } from "@/constants/styles";
 
 interface StepItem {
@@ -202,7 +203,9 @@ function Stepper({
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold">{item.title}</div>
+                      <TextHeader variant="h6" size="sm" underlined={false}>
+                        {item.title}
+                      </TextHeader>
                       {isActive && (
                         <div className="text-sm opacity-75 mt-1">
                           Current step

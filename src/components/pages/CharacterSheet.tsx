@@ -197,7 +197,9 @@ export default function CharacterSheet() {
   if (error) {
     return (
       <div className="status-message" role="alert">
-        <p className="text-red-400">Error: {error}</p>
+        <Typography variant="body" color="secondary">
+          Error: {error}
+        </Typography>
       </div>
     );
   }
@@ -205,7 +207,9 @@ export default function CharacterSheet() {
   if (!character) {
     return (
       <div className="status-message">
-        <p className="text-zinc-400">Character not found</p>
+        <Typography variant="body" color="muted">
+          Character not found
+        </Typography>
       </div>
     );
   }

@@ -439,9 +439,9 @@ export default function CustomEquipmentModal({
                   }
                   placeholder="e.g., arrows, bolts, stones"
                 />
-                <p className="text-xs text-zinc-400 mt-1">
+                <Typography variant="caption" color="muted" className="mt-1">
                   Separate multiple types with commas
-                </p>
+                </Typography>
               </div>
             )}
           </div>

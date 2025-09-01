@@ -1,5 +1,6 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
+import { Typography } from "@/components/ui/design-system";
 import { logger } from "@/utils/logger";
 
 interface Props {
@@ -49,9 +50,9 @@ export class NotificationErrorBoundary extends Component<Props, State> {
           aria-live="assertive"
           className="fixed top-4 right-4 z-50 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl p-4 max-w-sm"
         >
-          <p className="text-sm text-red-800 dark:text-red-200">
+          <Typography variant="helper" color="secondary">
             Notification system temporarily unavailable
-          </p>
+          </Typography>
         </div>
       );
     }

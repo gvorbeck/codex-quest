@@ -4,7 +4,7 @@ import { Card, Typography } from "@/components/ui/design-system";
 import { LoadingState } from "@/components/ui/feedback";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { CACHE_KEYS, GM_BINDER_MESSAGES } from "@/constants/gmBinderCategories";
-import { categorizeMonster } from "@/utils/gmBinderUtils";
+import { categorizeMonster, createSearchableText } from "@/utils/gmBinderUtils";
 import { logger } from "@/utils/logger";
 import { MonsterItem } from "./MonsterItem";
 import type { Monster, MonsterWithCategory } from "@/types/monsters";
@@ -29,10 +29,11 @@ export const BestiaryTab = memo(() => {
     try {
       const { default: allMonsters } = await import("@/data/monsters.json");
       
-      // Add category using utility function
+      // Add category and searchable text using utility functions
       const monstersWithCategory: MonsterWithCategory[] = (allMonsters as Monster[]).map(monster => ({
         ...monster,
         category: categorizeMonster(monster),
+        searchableText: createSearchableText(monster),
       }));
 
       monstersCache.set(cacheKey, monstersWithCategory);

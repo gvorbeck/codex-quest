@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
-import { StatCard } from "@/components/ui/display";
+import { StatCard, TextHeader } from "@/components/ui/display";
 import type { Spell } from "@/types/character";
 
 interface SpellItemProps {
@@ -17,23 +17,25 @@ export const SpellItem = memo(({ spell }: SpellItemProps) => {
       aria-labelledby={`${uniqueKey}-name`}
     >
       {/* Spell name */}
-      <Typography
+      <TextHeader
         variant="h4"
-        as="h4"
+        size="md"
         id={`${uniqueKey}-name`}
-        className="text-zinc-100 text-lg font-semibold border-b border-zinc-700 pb-2 mb-4"
+        underlined={true}
       >
         {spell.name}
-      </Typography>
+      </TextHeader>
 
       {/* Spell Properties */}
       <Card variant="nested" className="p-3">
-        <Typography
-          variant="subHeading"
+        <TextHeader
+          variant="h5"
+          size="sm"
+          underlined={false}
           className="text-zinc-300 mb-3"
         >
           Spell Properties
-        </Typography>
+        </TextHeader>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <StatCard
             label="Range"
@@ -75,13 +77,15 @@ export const SpellItem = memo(({ spell }: SpellItemProps) => {
 
       {/* Spell Description */}
       <Card variant="nested" className="p-3">
-        <Typography
-          variant="subHeading"
+        <TextHeader
+          variant="h5"
+          size="sm"
+          underlined={false}
           className="text-zinc-300 mb-2"
           id={`${uniqueKey}-description-label`}
         >
           Description
-        </Typography>
+        </TextHeader>
         <Typography
           variant="description"
           className="text-zinc-400 leading-relaxed"

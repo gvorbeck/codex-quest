@@ -24,7 +24,9 @@ export function OptionToggle({
         <Typography variant="baseSectionHeading" color="zinc">
           {title}
         </Typography>
-        <p className="text-sm text-zinc-400">{description}</p>
+        <Typography variant="helper" color="muted">
+          {description}
+        </Typography>
       </div>
       <Switch
         label={switchLabel}

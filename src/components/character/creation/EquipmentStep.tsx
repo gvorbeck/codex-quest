@@ -213,10 +213,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             title="Gold Information"
             className="mb-4"
           />
-          <p className="text-amber-50 leading-relaxed m-0">
+          <Typography variant="description" color="primary">
             Roll 3d6 × 10 for your character's starting gold pieces. Use this
             gold to purchase equipment and supplies.
-          </p>
+          </Typography>
         </Card>
 
         <Card variant="standard">
@@ -263,9 +263,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           <Card variant="standard">
             <div className="flex items-center gap-3">
               <Icon name="clipboard" size="md" className="text-zinc-400" />
-              <p className="text-zinc-400 italic m-0">
+              <Typography variant="body" color="muted" className="italic">
                 No equipment selected yet. Browse available equipment below.
-              </p>
+              </Typography>
             </div>
           </Card>
         ) : (
@@ -285,10 +285,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
               <div className="space-y-3 mb-6">
                 {cleanEquipmentArray(character.equipment).map((item, index) => (
-                  <Card
-                    key={`${item.name}-${index}`}
-                    variant="success"
-                  >
+                  <Card key={`${item.name}-${index}`} variant="success">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">

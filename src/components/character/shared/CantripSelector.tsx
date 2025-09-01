@@ -3,6 +3,7 @@ import { useModal } from "@/hooks/useModal";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
+import { TextHeader } from "@/components/ui/display";
 import SafeHTML from "@/components/ui/SafeHTML";
 import type { Character, Cantrip } from "@/types/character";
 import {
@@ -181,9 +182,9 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
 
       return (
         <section className={getSectionClassName()} ref={ref}>
-          <Typography variant="sectionHeading" as="h4" className="mb-3">
+          <TextHeader variant="h4" size="md">
             {title}
-          </Typography>
+          </TextHeader>
 
           {description && (
             <div className="mb-6">

@@ -50,10 +50,10 @@ export default function SettingsModal({
               >
                 Include Coin Weight
               </Typography>
-              <p className="text-xs text-zinc-400 mt-1">
+              <Typography variant="caption" color="muted" className="mt-1">
                 Whether coins contribute to your character's carrying capacity.
                 When enabled, 20 coins = 1 pound.
-              </p>
+              </Typography>
             </div>
             <div className="flex-shrink-0">
               <Switch

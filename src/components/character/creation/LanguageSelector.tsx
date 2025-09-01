@@ -158,10 +158,10 @@ function LanguageSelector({
           </div>
 
           {bonusLanguages.length === 0 && maxBonusLanguages > 0 && (
-            <p className="text-zinc-300 mb-4">
+            <Typography variant="body" color="secondary" className="mb-4">
               Your Intelligence bonus allows you to learn {maxBonusLanguages}{" "}
               additional language{maxBonusLanguages > 1 ? "s" : ""}.
-            </p>
+            </Typography>
           )}
 
           <div className="space-y-3">
@@ -183,7 +183,7 @@ function LanguageSelector({
                   aria-label={`Remove language ${index + 1}`}
                   className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
                 >
-                  ✕
+                  <Icon name="close" size="xs" />
                 </Button>
               </div>
             ))}
@@ -218,11 +218,11 @@ function LanguageSelector({
               No Bonus Languages Available
             </Typography>
           </div>
-          <p className="text-amber-100 text-sm m-0">
+          <Typography variant="helper" color="amber">
             Your Intelligence score ({character.abilities.intelligence.value})
             does not provide any bonus languages. You need Intelligence 13+ to
             learn additional languages.
-          </p>
+          </Typography>
         </Card>
       )}
 
@@ -235,11 +235,11 @@ function LanguageSelector({
               Common Languages to Consider
             </Typography>
           </div>
-          <p className="text-amber-100 text-sm m-0">
+          <Typography variant="helper" color="amber">
             Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll,
             Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other
             regional languages as determined by your GM.
-          </p>
+          </Typography>
         </Card>
       )}
     </div>

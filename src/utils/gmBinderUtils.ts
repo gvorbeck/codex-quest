@@ -49,3 +49,13 @@ export function categorizeMonster(monster: Monster): string {
   // Default category if no patterns match
   return MONSTER_CATEGORIES.MISCELLANEOUS;
 }
+
+/**
+ * Creates a searchable text string for a monster including all variant names
+ */
+export function createSearchableText(monster: Monster): string {
+  return [
+    monster.name,
+    ...(monster.variants || []).map(([variantName]) => variantName).filter(Boolean)
+  ].join(' ').toLowerCase();
+}

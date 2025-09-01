@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
-import { SkillDescriptionItem } from "@/components/ui/display";
+import { SkillDescriptionItem, TextHeader } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import Button from "@/components/ui/inputs/Button";
@@ -133,7 +133,9 @@ export default function ClassSkills({
       </div>
       <div className="mt-3 pt-3 border-t border-zinc-700">
         <div className="text-xs text-zinc-400">
-          <div className="font-medium mb-1">How Skills Work:</div>
+          <TextHeader variant="h6" size="sm" underlined={false} className="mb-1 text-xs">
+            How Skills Work:
+          </TextHeader>
           <ul className="space-y-1 list-disc list-inside">
             <li>Skills improve automatically as you gain levels</li>
             <li>Success is based on rolling percentile dice (d100)</li>

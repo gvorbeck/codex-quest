@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { Typography } from "@/components/ui/design-system";
+import { Icon } from "@/components/ui/display";
 
 interface GameSheetEmptyStateProps {
   gameName?: string;
@@ -9,8 +10,13 @@ interface GameSheetEmptyStateProps {
 export const GameSheetEmptyState = memo(
   ({ gameName }: GameSheetEmptyStateProps) => (
     <div className={GAME_SHEET_STYLES.layout.centeredContent}>
-      <div className="text-6xl mb-4" role="img" aria-label="Game dice">
-        🎲
+      <div className="mb-4">
+        <Icon
+          name="dice"
+          size="xl"
+          className="text-6xl"
+          aria-label="Game dice"
+        />
       </div>
       <Typography
         variant="h2"
@@ -20,12 +26,10 @@ export const GameSheetEmptyState = memo(
       >
         Ready to Play{gameName ? ` ${gameName}` : ""}!
       </Typography>
-      <p
-        className={`${GAME_SHEET_STYLES.colors.text.secondary} max-w-md mx-auto`}
-      >
+      <Typography variant="body" color="secondary" className="max-w-md mx-auto">
         This game is set up and ready. Players and combatants will appear here
         once added.
-      </p>
+      </Typography>
     </div>
   )
 );

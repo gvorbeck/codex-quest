@@ -1,5 +1,6 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
+import { TextHeader } from "@/components/ui/display";
 import type { Character } from "@/types/character";
 
 interface LevelUpRequirementsProps {
@@ -15,9 +16,9 @@ export default function LevelUpRequirements({
 }: LevelUpRequirementsProps) {
   return (
     <Card variant="standard" size="default">
-      <Typography variant="sectionHeading" className="mb-4">
+      <TextHeader variant="h4" size="md">
         Level Up Requirements
-      </Typography>
+      </TextHeader>
       <Typography variant="body" color="secondary">
         {requiredXP
           ? `You need ${(

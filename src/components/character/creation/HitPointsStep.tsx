@@ -271,10 +271,15 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                   aria-hidden={true}
                 />
                 <div>
-                  <p className="text-sm text-orange-200 font-medium mb-1">
+                  <Typography
+                    variant="helper"
+                    weight="medium"
+                    color="amber"
+                    className="mb-1"
+                  >
                     Racial Restriction Applied
-                  </p>
-                  <p className="text-sm text-orange-100">
+                  </Typography>
+                  <Typography variant="helper" color="primary">
                     <strong>{racialModificationInfo.abilityName}</strong>{" "}
                     {racialModificationInfo.modificationType ===
                       "restriction" && "restricts"}
@@ -285,7 +290,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                     your hit die from{" "}
                     <strong>{racialModificationInfo.originalHitDie}</strong> to{" "}
                     <strong>{racialModificationInfo.modifiedHitDie}</strong>
-                  </p>
+                  </Typography>
                 </div>
               </div>
             </div>
@@ -345,9 +350,14 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                   <Icon name="heart" size="sm" />
                   Hit Points
                 </Typography>
-                <p className="text-lime-50 text-lg font-bold m-0">
+                <Typography
+                  variant="body"
+                  weight="bold"
+                  color="lime"
+                  className="text-lg m-0"
+                >
                   {character.hp.current} / {character.hp.max} HP
-                </p>
+                </Typography>
               </Card>
 
               {constitutionBonus !== 0 && (
@@ -356,7 +366,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                     <Icon name="clock" size="sm" />
                     Breakdown
                   </Typography>
-                  <p className="text-lime-50 text-sm m-0">
+                  <Typography variant="helper" color="lime">
                     Base roll:{" "}
                     <strong>{character.hp.max - constitutionBonus}</strong>
                     <br />
@@ -365,7 +375,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
                       {constitutionBonus >= 0 ? "+" : ""}
                       {constitutionBonus}
                     </strong>
-                  </p>
+                  </Typography>
                 </Card>
               )}
             </div>

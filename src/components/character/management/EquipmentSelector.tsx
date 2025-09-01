@@ -81,13 +81,16 @@ function isEquipmentMatchingRestriction(
   return equipmentId === restrictionId;
 }
 
-
 /**
  * Checks if an equipment item is restricted for the character based on pre-calculated restriction data
  */
 function isEquipmentRestrictedOptimized(
   equipment: Equipment,
-  restrictionData: { race: Race | undefined; classes: Class[]; currency: number }
+  restrictionData: {
+    race: Race | undefined;
+    classes: Class[];
+    currency: number;
+  }
 ): { restricted: boolean; reason?: string } {
   // Only check weapon restrictions for items with damage (weapons)
   if (!equipment.damage) {
@@ -110,13 +113,19 @@ function isEquipmentRestrictedOptimized(
       equipment.size === "L" &&
       restrictionData.race.prohibitedWeapons.includes("large")
     ) {
-      return { restricted: true, reason: `${restrictionData.race.name} Restriction` };
+      return {
+        restricted: true,
+        reason: `${restrictionData.race.name} Restriction`,
+      };
     }
   }
 
   // Check class restrictions using pre-calculated class data
   for (const characterClass of restrictionData.classes) {
-    if (characterClass?.allowedWeapons && characterClass.allowedWeapons.length > 0) {
+    if (
+      characterClass?.allowedWeapons &&
+      characterClass.allowedWeapons.length > 0
+    ) {
       // If class has weapon restrictions, check if this weapon is allowed
       let isAllowed = false;
       for (const allowedWeapon of characterClass.allowedWeapons) {
@@ -165,9 +174,9 @@ function EquipmentSelector({
   const characterRestrictionData = useMemo(() => {
     const characterRace = allRaces.find((race) => race.id === character.race);
     const characterClasses = character.class
-      .map(classId => allClasses.find((cls) => cls.id === classId))
+      .map((classId) => allClasses.find((cls) => cls.id === classId))
       .filter((cls): cls is Class => cls !== undefined);
-    
+
     return {
       race: characterRace,
       classes: characterClasses,
@@ -190,7 +199,10 @@ function EquipmentSelector({
       );
 
       const canAfford = characterRestrictionData.currency >= costInGold;
-      const restriction = isEquipmentRestrictedOptimized(equipment, characterRestrictionData);
+      const restriction = isEquipmentRestrictedOptimized(
+        equipment,
+        characterRestrictionData
+      );
       const canUse = !restriction.restricted;
       const canAdd = canAfford && canUse;
 
@@ -251,14 +263,14 @@ function EquipmentSelector({
           title="Shopping Guide"
           className="mb-3"
         />
-        <p className="text-amber-50 leading-relaxed m-0">
+        <Typography variant="description" color="primary">
           Browse and select equipment for your character. Items are organized by
           category.
           <span className="hidden sm:inline">
             {" "}
             You can only purchase items you can afford with your current gold.
           </span>
-        </p>
+        </Typography>
       </Card>
 
       {isLoading ? (

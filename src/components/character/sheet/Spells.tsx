@@ -6,6 +6,7 @@ import { Accordion } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
+import { TextHeader } from "@/components/ui/display";
 import { Modal } from "@/components/ui/feedback";
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
@@ -173,13 +174,15 @@ export default function Spells({
         aria-labelledby={`spell-${spell.uniqueKey}-name`}
       >
         <Card variant="nested" className="p-3!">
-          <Typography
-            variant="subHeading"
+          <TextHeader
+            variant="h6"
+            size="sm"
+            underlined={false}
             className="text-zinc-300 mb-1"
             id={`spell-${spell.uniqueKey}-level-label`}
           >
             Level
-          </Typography>
+          </TextHeader>
           <div className="flex items-center">
             <Badge
               variant="status"
@@ -194,13 +197,15 @@ export default function Spells({
         {"range" in spell && "duration" in spell && (
           <>
             <Card variant="nested" className="p-3!">
-              <Typography
-                variant="subHeading"
+              <TextHeader
+                variant="h6"
+                size="sm"
+                underlined={false}
                 className="text-zinc-300 mb-1"
                 id={`spell-${spell.uniqueKey}-range-label`}
               >
                 Range
-              </Typography>
+              </TextHeader>
               <Typography
                 variant="caption"
                 className="text-zinc-400"
@@ -210,13 +215,15 @@ export default function Spells({
               </Typography>
             </Card>
             <Card variant="nested" className="p-3!">
-              <Typography
-                variant="subHeading"
+              <TextHeader
+                variant="h6"
+                size="sm"
+                underlined={false}
                 className="text-zinc-300 mb-1"
                 id={`spell-${spell.uniqueKey}-duration-label`}
               >
                 Duration
-              </Typography>
+              </TextHeader>
               <Typography
                 variant="caption"
                 className="text-zinc-400"

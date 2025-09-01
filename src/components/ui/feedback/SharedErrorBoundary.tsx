@@ -2,6 +2,7 @@ import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui";
+import { TextHeader } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import { logger } from "@/utils/logger";
 
@@ -18,7 +19,6 @@ interface State {
   hasError: boolean;
   error?: Error;
 }
-
 
 /**
  * Shared error boundary component to reduce duplication
@@ -92,10 +92,12 @@ export class SharedErrorBoundary extends Component<Props, State> {
 
       return (
         <section className="text-center py-16" role="alert">
-          <Typography variant="h2" color="primary" className="mb-4">
+          <TextHeader variant="h2" size="lg">
             {title}
+          </TextHeader>
+          <Typography variant="body" color="secondary" className="mb-6">
+            {message}
           </Typography>
-          <p className="text-primary-400 mb-6">{message}</p>
           <div className="space-x-4">
             <Button onClick={() => window.location.reload()}>
               Refresh Page

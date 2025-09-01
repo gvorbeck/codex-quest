@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal } from "@/components/ui/feedback";
 import { Button } from "@/components/ui/inputs";
 import { TextInput } from "@/components/ui/inputs";
-import { Icon } from "@/components/ui/display";
+import { Icon, TextHeader } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
 
@@ -30,10 +30,10 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
       // Create a detailed result message
       const resultMessage = (
         <div className="text-left">
-          <div className="font-bold text-lg mb-2 flex items-center gap-2">
+          <TextHeader variant="h5" size="md" underlined={false} className="flex items-center gap-2 mb-2">
             <Icon name="dice" size="sm" />
             Roll Result: {result.total}
-          </div>
+          </TextHeader>
           <div className="text-sm text-zinc-300 space-y-1">
             <div><strong>Formula:</strong> {result.formula}</div>
             <div><strong>Breakdown:</strong> {result.breakdown}</div>
@@ -78,7 +78,7 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="🎲 Dice Roller"
+      title="Dice Roller"
       size="md"
     >
       <div className="space-y-6">

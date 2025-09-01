@@ -66,14 +66,18 @@ function SpellSelectorComponent({
               placeholder="Choose a spell"
               required
               aria-describedby={
-                selectedSpell ? `${detailsId}-details ${detailsId}-spell-help` : `${detailsId}-spell-help`
+                selectedSpell
+                  ? `${detailsId}-details ${detailsId}-spell-help`
+                  : `${detailsId}-spell-help`
               }
               helperText="This spell will be available to cast once per day at 1st level"
             />
-            
+
             {/* Hidden helper text for screen readers */}
             <div id={`${detailsId}-spell-help`} className="sr-only">
-              Your starting spell depends on your class and intelligence modifier. This spell can be cast once per day and will be added to your spellbook.
+              Your starting spell depends on your class and intelligence
+              modifier. This spell can be cast once per day and will be added to
+              your spellbook.
             </div>
           </>
         )}
@@ -108,24 +112,26 @@ function SpellSelectorComponent({
                       <Icon name="map-pin" size="sm" aria-hidden={true} />
                       Range
                     </Typography>
-                    <p 
-                      className="text-amber-50 text-sm m-0"
+                    <Typography
+                      variant="helper"
+                      color="primary"
                       aria-label={`Spell range: ${spell.range}. This determines how far you can cast the spell from your location.`}
                     >
                       {spell.range}
-                    </p>
+                    </Typography>
                   </Card>
                   <Card variant="nested">
                     <Typography variant="subHeading">
                       <Icon name="clock" size="sm" aria-hidden={true} />
                       Duration
                     </Typography>
-                    <p 
-                      className="text-amber-50 text-sm m-0"
+                    <Typography
+                      variant="helper"
+                      color="primary"
                       aria-label={`Spell duration: ${spell.duration}. This is how long the spell's effects last.`}
                     >
                       {spell.duration}
-                    </p>
+                    </Typography>
                   </Card>
                 </div>
 

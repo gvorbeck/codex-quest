@@ -2,6 +2,7 @@ import { memo } from "react";
 import { HorizontalRule } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { TextArea } from "@/components/ui/inputs";
+import { Typography } from "@/components/ui/design-system";
 import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
 
 interface GameNotesSectionProps {
@@ -12,7 +13,12 @@ interface GameNotesSectionProps {
 }
 
 export const GameNotesSection = memo(
-  ({ notes, showDivider = false, editable = false, onNotesChange }: GameNotesSectionProps) => {
+  ({
+    notes,
+    showDivider = false,
+    editable = false,
+    onNotesChange,
+  }: GameNotesSectionProps) => {
     // Use shared debounced update logic
     const debouncedNotes = useDebouncedUpdate(notes || "", {
       delay: 500,
@@ -50,15 +56,21 @@ export const GameNotesSection = memo(
                 <div className="flex items-center justify-between text-xs text-zinc-500">
                   <span>{debouncedNotes.value.length} / 5000 characters</span>
                   <span className="text-zinc-600">
-                    {debouncedNotes.isSaving ? "Saving..." : "Saves automatically after you stop typing (500ms)"}
+                    {debouncedNotes.isSaving
+                      ? "Saving..."
+                      : "Saves automatically after you stop typing (500ms)"}
                   </span>
                 </div>
               </div>
             ) : (
               <div className="prose prose-zinc prose-invert max-w-none">
-                <p className="text-zinc-300 whitespace-pre-wrap leading-relaxed">
+                <Typography
+                  variant="body"
+                  color="secondary"
+                  className="whitespace-pre-wrap leading-relaxed"
+                >
                   {notes}
-                </p>
+                </Typography>
               </div>
             )}
           </div>

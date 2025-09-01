@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
-import { Breadcrumb } from "@/components/ui/display";
+import { Breadcrumb, TextHeader } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
 import { useGameNavigation } from "@/hooks/useEntityNavigation";
 import { logger } from "@/utils/logger";
@@ -126,9 +126,9 @@ function GameGen() {
 
             {/* Placeholder for future features */}
             <div className="p-4 bg-zinc-800/50 rounded-lg border border-zinc-600">
-              <Typography variant="h4" className="mb-2">
+              <TextHeader variant="h4" size="md" underlined={false} className="mb-2">
                 Coming Soon
-              </Typography>
+              </TextHeader>
               <Typography variant="body" color="secondary" className="text-sm">
                 Additional game setup features will be added here:
               </Typography>

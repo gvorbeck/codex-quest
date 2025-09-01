@@ -3,11 +3,13 @@ export { default as Breadcrumb } from "./Breadcrumb";
 export { default as HorizontalRule } from "./HorizontalRule";
 export { default as SectionHeader } from "./SectionHeader";
 export { default as Stepper } from "./Stepper";
+export { TextHeader } from "./TextHeader";
 export { default as Details, type DescriptionItem } from "./Details";
 export { default as Icon, type IconName } from "./Icon";
 export { default as SimpleRoller } from "./SimpleRoller";
 export { default as SkillDescriptionItem, type SkillDescriptionItemVariant, type SkillDescriptionItemColor, type SkillDescriptionItemSemantic } from "./SkillDescriptionItem";
 export { default as StatCard } from "./StatCard";
+export { MarkdownText } from "./MarkdownText";
 export {
   default as StatusIndicator,
   type StatusThreshold,

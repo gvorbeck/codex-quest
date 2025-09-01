@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Modal } from "@/components/ui/feedback";
+import { Typography } from "@/components/ui/design-system";
 import { useHPGain, useSpellSelection } from "@/hooks";
 import { logger } from "@/utils/logger";
 import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
@@ -204,8 +205,12 @@ export default function LevelUpModal({
         {/* Error Display */}
         {hasError && (
           <div className="p-4 bg-red-900/20 border border-red-700 rounded-lg">
-            <p className="text-red-300 mb-2">An error occurred:</p>
-            <p className="text-red-200 text-sm mb-3">{hpError || spellError}</p>
+            <Typography variant="body" color="secondary" className="mb-2">
+              An error occurred:
+            </Typography>
+            <Typography variant="helper" color="secondary" className="mb-3">
+              {hpError || spellError}
+            </Typography>
             <button
               onClick={clearErrors}
               className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"

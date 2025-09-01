@@ -10,3 +10,4 @@ export { SpellsTab } from "./SpellsTab";
 export { BestiaryTab } from "./BestiaryTab";
 export { SpellItem } from "./SpellItem";
 export { MonsterItem } from "./MonsterItem";
+export { MonsterStatsDisplay } from "./MonsterStatsDisplay";

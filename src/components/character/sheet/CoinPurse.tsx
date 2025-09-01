@@ -1,6 +1,7 @@
 import { EditableValue } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card } from "@/components/ui/design-system";
+import { Icon } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import type { Character } from "@/types/character";
 
@@ -30,11 +31,11 @@ const CURRENCY_VALUES: CurrencyConversions = {
 
 // Currency definitions for UI display
 const CURRENCY_DEFINITIONS = [
-  { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp', color: 'from-slate-300 to-slate-500', ring: 'ring-slate-400/30', icon: '⚪' },
-  { key: 'gold' as const, label: 'Gold', abbrev: 'gp', color: 'from-yellow-300 to-yellow-600', ring: 'ring-yellow-400/30', icon: '🟡' },
-  { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep', color: 'from-amber-200 to-amber-500', ring: 'ring-amber-400/30', icon: '🟠' },
-  { key: 'silver' as const, label: 'Silver', abbrev: 'sp', color: 'from-gray-200 to-gray-400', ring: 'ring-gray-400/30', icon: '⚫' },
-  { key: 'copper' as const, label: 'Copper', abbrev: 'cp', color: 'from-orange-400 to-orange-700', ring: 'ring-orange-400/30', icon: '🟤' },
+  { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp', color: 'from-slate-300 to-slate-500', ring: 'ring-slate-400/30' },
+  { key: 'gold' as const, label: 'Gold', abbrev: 'gp', color: 'from-yellow-300 to-yellow-600', ring: 'ring-yellow-400/30' },
+  { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep', color: 'from-amber-200 to-amber-500', ring: 'ring-amber-400/30' },
+  { key: 'silver' as const, label: 'Silver', abbrev: 'sp', color: 'from-gray-200 to-gray-400', ring: 'ring-gray-400/30' },
+  { key: 'copper' as const, label: 'Copper', abbrev: 'cp', color: 'from-orange-400 to-orange-700', ring: 'ring-orange-400/30' },
 ] as const;
 
 // Convert fractional amounts to smaller denominations
@@ -127,7 +128,7 @@ export default function CoinPurse({
     >
       <div className={currentSize.container}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {CURRENCY_DEFINITIONS.map(({ key, label, abbrev, color, ring, icon }) => {
+          {CURRENCY_DEFINITIONS.map(({ key, label, abbrev, color, ring }) => {
             const value = character.currency[key] || 0;
             
             return (
@@ -143,21 +144,20 @@ export default function CoinPurse({
               >
                 <div className="bg-zinc-900/80 backdrop-blur-sm rounded-[10px] p-3">
                   {/* Header with coin icon and label */}
-                  <div className="flex items-center gap-2 mb-2">
-                    <span 
-                      className="text-lg leading-none" 
-                      role="img" 
+                  <div className="flex items-center gap-1 mb-2">
+                    <Icon 
+                      name="coin" 
+                      size="sm" 
+                      className="flex-shrink-0"
                       aria-label={`${label} coin`}
-                    >
-                      {icon}
-                    </span>
+                    />
                     <label 
                       htmlFor={`currency-${key}`}
-                      className="text-xs font-semibold text-white drop-shadow-sm"
+                      className="text-xs font-semibold text-white drop-shadow-sm flex-1 min-w-0"
                     >
                       {label}
                     </label>
-                    <span className="text-[10px] font-mono text-zinc-300 ml-auto">
+                    <span className="text-[10px] font-mono text-zinc-300 ml-1">
                       {abbrev}
                     </span>
                   </div>

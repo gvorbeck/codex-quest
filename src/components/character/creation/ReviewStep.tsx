@@ -135,9 +135,9 @@ function ReviewStepComponent({
                       <Icon name="eye" size="sm" />
                       Race
                     </Typography>
-                    <p className="text-lime-50 font-medium m-0">
+                    <Typography variant="body" weight="medium" color="lime">
                       {raceDisplayName}
-                    </p>
+                    </Typography>
                   </Card>
 
                   <Card variant="success" size="compact">
@@ -145,9 +145,9 @@ function ReviewStepComponent({
                       <Icon name="briefcase" size="sm" />
                       Class
                     </Typography>
-                    <p className="text-lime-50 font-medium m-0">
+                    <Typography variant="body" weight="medium" color="lime">
                       {classDisplayNames}
-                    </p>
+                    </Typography>
                   </Card>
 
                   <Card variant="success" size="compact">
@@ -155,9 +155,14 @@ function ReviewStepComponent({
                       <Icon name="heart" size="sm" />
                       Hit Points
                     </Typography>
-                    <p className="text-lime-50 font-bold text-lg m-0">
+                    <Typography
+                      variant="body"
+                      weight="bold"
+                      color="lime"
+                      className="text-lg"
+                    >
                       {character.hp?.current || 0} / {character.hp?.max || 0} HP
-                    </p>
+                    </Typography>
                   </Card>
 
                   {character.currency.gold > 0 && (
@@ -166,9 +171,9 @@ function ReviewStepComponent({
                         <Icon name="coin" size="sm" />
                         Gold
                       </Typography>
-                      <p className="text-lime-50 font-medium m-0">
+                      <Typography variant="body" weight="medium" color="lime">
                         {character.currency.gold} gp
-                      </p>
+                      </Typography>
                     </Card>
                   )}
                 </div>

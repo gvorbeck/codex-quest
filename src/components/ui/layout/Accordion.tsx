@@ -1,6 +1,6 @@
 import React, { useState, useId, useMemo, useCallback, useEffect } from "react";
 import { TextInput } from "@/components/ui/inputs";
-import { Card } from "@/components/ui/design-system";
+import { Card, Typography } from "@/components/ui/design-system";
 import { useDebounce } from "@/hooks";
 
 interface AccordionItem {
@@ -119,7 +119,7 @@ function Accordion<T extends AccordionItem>({
   // Filter and group items using debounced search term
   const { groupedItems, totalFilteredCount } = useMemo(() => {
     const searchLower = debouncedSearchTerm.toLowerCase();
-    const filtered = searchLower 
+    const filtered = searchLower
       ? sortedItems.filter((item) =>
           item.name.toLowerCase().includes(searchLower)
         )
@@ -163,12 +163,9 @@ function Accordion<T extends AccordionItem>({
     });
   }, []);
 
-  const handleSearchChange = useCallback(
-    (value: string) => {
-      setSearchTerm(value);
-    },
-    []
-  );
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchTerm(value);
+  }, []);
 
   // Auto-expand sections when search is applied (using debounced search term)
   useEffect(() => {
@@ -211,11 +208,11 @@ function Accordion<T extends AccordionItem>({
       <div role="region" aria-label="Accordion content">
         {Object.keys(groupedItems).length === 0 ? (
           <div className="bg-zinc-800 rounded-lg p-8 text-center border border-zinc-700 shadow-[0_4px_0_0_#3f3f46]">
-            <p className="text-zinc-400 text-lg">
+            <Typography variant="body" color="muted" className="text-lg">
               {debouncedSearchTerm
                 ? "No items match your search."
                 : "No items available."}
-            </p>
+            </Typography>
           </div>
         ) : (
           Object.entries(groupedItems).map(([category, categoryItems]) => (

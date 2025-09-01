@@ -33,7 +33,7 @@ function StepWrapperComponent({
     <section {...sectionProps}>
       <header>
         <Typography variant="h4">{title}</Typography>
-        <p>{description}</p>
+        <Typography variant="description">{description}</Typography>
       </header>
 
       {children}
@@ -52,7 +52,7 @@ function StepWrapperComponent({
           aria-live="polite"
           aria-label="Step completion status"
         >
-          <p>{statusMessage}</p>
+          <Typography variant="helper">{statusMessage}</Typography>
         </div>
       )}
     </section>

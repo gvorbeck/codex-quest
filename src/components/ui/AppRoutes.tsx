@@ -1,6 +1,7 @@
 import { Route, Switch } from "wouter";
 import { Suspense, lazy } from "react";
 import { Link } from "wouter";
+import { TextHeader } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import {
   CharGenErrorBoundary,
@@ -26,7 +27,9 @@ export function AppRoutes() {
       <Suspense
         fallback={
           <div role="status" aria-live="polite" className="status-message">
-            <p className="text-primary-400">Loading...</p>
+            <Typography variant="body" color="secondary">
+              Loading...
+            </Typography>
           </div>
         }
       >
@@ -62,12 +65,12 @@ export function AppRoutes() {
 
           <Route>
             <section className="text-center py-16">
-              <Typography variant="h2" color="primary" className="mb-4">
+              <TextHeader variant="h2" size="lg">
                 Page Not Found
-              </Typography>
-              <p className="text-primary-400 mb-6">
+              </TextHeader>
+              <Typography variant="body" color="secondary" className="mb-6">
                 Sorry, the page you're looking for doesn't exist.
-              </p>
+              </Typography>
               <Link
                 href="/"
                 className="text-highlight hover:text-highlight-hover transition-colors"

@@ -1,8 +1,9 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
-import { Breadcrumb } from "@/components/ui/display";
+import { Breadcrumb, Icon } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
+import { Typography } from "@/components/ui/design-system";
 import {
   Hero,
   PlayersSection,
@@ -129,13 +130,15 @@ export default function GameSheet() {
     return (
       <div className={GAME_SHEET_STYLES.layout.statusMessage} role="alert">
         <div className="flex items-center justify-between">
-          <p className={GAME_SHEET_STYLES.colors.text.error}>Error: {error}</p>
+          <Typography variant="body" color="secondary">
+            Error: {error}
+          </Typography>
           <button
             onClick={clearError}
             className="text-zinc-400 hover:text-zinc-100 ml-4"
             aria-label="Dismiss error"
           >
-            ✕
+            <Icon name="close" size="sm" />
           </button>
         </div>
       </div>
@@ -145,9 +148,9 @@ export default function GameSheet() {
   if (!game) {
     return (
       <div className={GAME_SHEET_STYLES.layout.statusMessage}>
-        <p className={GAME_SHEET_STYLES.colors.text.loading}>
+        <Typography variant="body" color="muted">
           {ERROR_MESSAGES.gameNotFound}
-        </p>
+        </Typography>
       </div>
     );
   }

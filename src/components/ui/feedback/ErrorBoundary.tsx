@@ -49,10 +49,10 @@ export class ErrorBoundary extends Component<Props, State> {
           <Typography variant="h2" as="h2">
             Something went wrong
           </Typography>
-          <p>
+          <Typography variant="body">
             We're sorry, but an unexpected error occurred. Please try refreshing
             the page.
-          </p>
+          </Typography>
           <details>
             <summary>Error details (for developers)</summary>
             <pre>{this.state.error?.message}</pre>
