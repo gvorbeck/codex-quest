@@ -5,3 +5,8 @@ export { CombatantsSection } from "./CombatantsSection";
 export { GameNotesSection } from "./GameNotesSection";
 export { GameSheetEmptyState } from "./GameSheetEmptyState";
 export { AddChar } from "./AddChar";
+export { GMBinder } from "./GMBinder";
+export { SpellsTab } from "./SpellsTab";
+export { BestiaryTab } from "./BestiaryTab";
+export { SpellItem } from "./SpellItem";
+export { MonsterItem } from "./MonsterItem";

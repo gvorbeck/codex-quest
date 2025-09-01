@@ -9,6 +9,7 @@ import {
   GameNotesSection,
   GameSheetEmptyState,
   AddChar,
+  GMBinder,
 } from "@/components/game/sheet";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
@@ -199,6 +200,9 @@ export default function GameSheet() {
               />
             </div>
           )}
+
+          {/* GM Binder section - only show for game master */}
+          {isGameMaster && <GMBinder />}
 
           <GameNotesSection
             notes={game.notes || ""}
