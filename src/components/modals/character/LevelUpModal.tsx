@@ -1,7 +1,7 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { Modal } from "../base";
 import { Typography } from "@/components/ui/design-system";
-import { useHPGain, useSpellSelection } from "@/hooks";
+import { useHPGain, useSpellSelection, useLoadingState } from "@/hooks";
 import { logger } from "@/utils/logger";
 import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
 import CurrentStatusCard from "../../character/sheet/level-up/CurrentStatusCard";
@@ -26,7 +26,7 @@ export default function LevelUpModal({
   classes,
   onLevelUp,
 }: LevelUpModalProps) {
-  const [isProcessing, setIsProcessing] = useState(false);
+  const { loading: isProcessing, setLoading: setIsProcessing } = useLoadingState();
 
   // Get the character's primary class for level up calculations
   const getPrimaryClass = () => {

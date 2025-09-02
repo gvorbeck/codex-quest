@@ -9,6 +9,7 @@ import {
   TabPanels,
   TabPanel,
 } from "@/components/ui/layout/Tabs";
+import { useLoadingState } from "@/hooks";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils/logger";
 
@@ -25,7 +26,7 @@ export default function SignInModal({
 }: SignInModalProps) {
   // Shared state
   const [activeTab, setActiveTab] = useState("signin");
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading: isLoading, withLoading } = useLoadingState();
   const [error, setError] = useState("");
 
   // Sign in form state
@@ -40,33 +41,32 @@ export default function SignInModal({
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true);
 
-    try {
-      const userData = await signInWithEmail(signInEmail, signInPassword);
-      if (onSuccess) {
-        onSuccess(userData);
-      } else {
-        onClose();
+    await withLoading(async () => {
+      try {
+        const userData = await signInWithEmail(signInEmail, signInPassword);
+        if (onSuccess) {
+          onSuccess(userData);
+        } else {
+          onClose();
+        }
+        resetForms();
+      } catch (error: unknown) {
+        logger.error("Sign in error:", error);
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code === "auth/user-not-found") {
+          setError("No account found with this email address.");
+        } else if (firebaseError.code === "auth/wrong-password") {
+          setError("Incorrect password.");
+        } else if (firebaseError.code === "auth/invalid-email") {
+          setError("Invalid email address.");
+        } else if (firebaseError.code === "auth/too-many-requests") {
+          setError("Too many failed attempts. Please try again later.");
+        } else {
+          setError("Failed to sign in. Please try again.");
+        }
       }
-      resetForms();
-    } catch (error: unknown) {
-      logger.error("Sign in error:", error);
-      const firebaseError = error as { code?: string };
-      if (firebaseError.code === "auth/user-not-found") {
-        setError("No account found with this email address.");
-      } else if (firebaseError.code === "auth/wrong-password") {
-        setError("Incorrect password.");
-      } else if (firebaseError.code === "auth/invalid-email") {
-        setError("Invalid email address.");
-      } else if (firebaseError.code === "auth/too-many-requests") {
-        setError("Too many failed attempts. Please try again later.");
-      } else {
-        setError("Failed to sign in. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -85,31 +85,29 @@ export default function SignInModal({
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      const userData = await signUpWithEmail(signUpEmail, signUpPassword);
-      if (onSuccess) {
-        onSuccess(userData);
-      } else {
-        onClose();
+    await withLoading(async () => {
+      try {
+        const userData = await signUpWithEmail(signUpEmail, signUpPassword);
+        if (onSuccess) {
+          onSuccess(userData);
+        } else {
+          onClose();
+        }
+        resetForms();
+      } catch (error: unknown) {
+        logger.error("Sign up error:", error);
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code === "auth/email-already-in-use") {
+          setError("An account with this email already exists.");
+        } else if (firebaseError.code === "auth/invalid-email") {
+          setError("Invalid email address.");
+        } else if (firebaseError.code === "auth/weak-password") {
+          setError("Password is too weak. Please choose a stronger password.");
+        } else {
+          setError("Failed to create account. Please try again.");
+        }
       }
-      resetForms();
-    } catch (error: unknown) {
-      logger.error("Sign up error:", error);
-      const firebaseError = error as { code?: string };
-      if (firebaseError.code === "auth/email-already-in-use") {
-        setError("An account with this email already exists.");
-      } else if (firebaseError.code === "auth/invalid-email") {
-        setError("Invalid email address.");
-      } else if (firebaseError.code === "auth/weak-password") {
-        setError("Password is too weak. Please choose a stronger password.");
-      } else {
-        setError("Failed to create account. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   const resetForms = () => {

@@ -1,7 +1,7 @@
 import { ItemGrid } from "@/components/ui/display";
 import { DeleteCharacterModal } from "@/components/modals";
 import { CharacterCard } from "./CharacterCard";
-import { useCharacters, useAuth } from "@/hooks";
+import { useCharacters, useAuth, useNotificationContext } from "@/hooks";
 import { deleteCharacter } from "@/services/characters";
 import { logger } from "@/utils/logger";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { useState } from "react";
 export function CharactersList() {
   const { characters, loading, error, refetch } = useCharacters();
   const { user } = useAuth();
+  const { showError } = useNotificationContext();
   const [deletingCharacter, setDeletingCharacter] = useState<string | null>(
     null
   );
@@ -38,7 +39,9 @@ export function CharactersList() {
       setCharacterToDelete(null);
     } catch (error) {
       logger.error("Failed to delete character:", error);
-      alert("Failed to delete character. Please try again.");
+      showError("Failed to delete character. Please try again.", {
+        title: "Delete Failed"
+      });
     } finally {
       setDeletingCharacter(null);
     }

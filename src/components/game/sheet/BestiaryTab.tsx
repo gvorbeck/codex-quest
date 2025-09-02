@@ -2,6 +2,7 @@ import { memo, useState, useCallback, useEffect } from "react";
 import { Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { LoadingState } from "@/components/ui/feedback";
+import { useLoadingState } from "@/hooks";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { CACHE_KEYS, GM_BINDER_MESSAGES } from "@/constants/gmBinderCategories";
 import { categorizeMonster, createSearchableText } from "@/utils/gmBinderUtils";
@@ -19,7 +20,7 @@ interface BestiaryTabProps {
 
 export const BestiaryTab = memo(({ onAddToCombat }: BestiaryTabProps) => {
   const [monsters, setMonsters] = useState<MonsterWithCategory[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading: isLoading, withLoading } = useLoadingState();
 
   // Lazy load monsters data
   const loadMonsters = useCallback(async () => {
@@ -30,28 +31,27 @@ export const BestiaryTab = memo(({ onAddToCombat }: BestiaryTabProps) => {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const { default: allMonsters } = await import("@/data/monsters.json");
+    await withLoading(async () => {
+      try {
+        const { default: allMonsters } = await import("@/data/monsters.json");
 
-      // Add category and searchable text using utility functions
-      const monstersWithCategory: MonsterWithCategory[] = (
-        allMonsters as Monster[]
-      ).map((monster) => ({
-        ...monster,
-        category: categorizeMonster(monster),
-        searchableText: createSearchableText(monster),
-      }));
+        // Add category and searchable text using utility functions
+        const monstersWithCategory: MonsterWithCategory[] = (
+          allMonsters as Monster[]
+        ).map((monster) => ({
+          ...monster,
+          category: categorizeMonster(monster),
+          searchableText: createSearchableText(monster),
+        }));
 
-      monstersCache.set(cacheKey, monstersWithCategory);
-      setMonsters(monstersWithCategory);
-    } catch (error) {
-      logger.error("Failed to load monsters:", error);
-      setMonsters([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+        monstersCache.set(cacheKey, monstersWithCategory);
+        setMonsters(monstersWithCategory);
+      } catch (error) {
+        logger.error("Failed to load monsters:", error);
+        setMonsters([]);
+      }
+    });
+  }, [withLoading]);
 
   // Load data on mount
   useEffect(() => {

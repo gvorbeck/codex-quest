@@ -53,17 +53,8 @@ export function useFirebaseSheet<T extends Record<string, any>>({
   // Update entity with optimistic updates and error handling
   const updateEntity = useCallback(
     async (updatedData: T, optimistic: boolean = true) => {
-      logger.debug("🔥 useFirebaseSheet: updateEntity called", {
-        userId,
-        entityId,
-        isOwner,
-        collection,
-        hasUpdatedData: !!updatedData,
-        updatedDataKeys: updatedData ? Object.keys(updatedData) : [],
-      });
-
       if (!userId || !entityId || !isOwner) {
-        logger.error("🔥 useFirebaseSheet: Unauthorized access attempt", {
+        logger.error("useFirebaseSheet: Unauthorized access attempt", {
           userId,
           entityId,
           isOwner,
@@ -72,13 +63,11 @@ export function useFirebaseSheet<T extends Record<string, any>>({
       }
 
       const previousData = data;
-      logger.debug("🔥 useFirebaseSheet: Starting update process");
 
       try {
         await withUpdating(async () => {
           // Optimistic update
           if (optimistic) {
-            logger.debug("🔥 useFirebaseSheet: Applying optimistic update");
             setData(updatedData);
           }
 
@@ -96,41 +85,19 @@ export function useFirebaseSheet<T extends Record<string, any>>({
             entityId
           );
 
-          logger.debug("🔥 useFirebaseSheet: Firebase document path:", {
-            users: FIREBASE_COLLECTIONS.USERS,
-            userId,
-            collection: FIREBASE_COLLECTIONS[collection],
-            entityId,
-            fullPath: `${FIREBASE_COLLECTIONS.USERS}/${userId}/${FIREBASE_COLLECTIONS[collection]}/${entityId}`,
-          });
-
           // Create a clean object without the id field for Firebase
           const cleanData = { ...updatedData };
           if ("id" in cleanData) {
             delete cleanData["id"];
           }
 
-          logger.debug("🔥 useFirebaseSheet: About to save to Firebase:", {
-            cleanDataKeys: Object.keys(cleanData),
-            level: cleanData["level"],
-            hpMax: cleanData["hp"]?.["max"],
-            hpCurrent: cleanData["hp"]?.["current"],
-          });
-
           await updateDoc(entityRef, cleanData);
-          logger.debug("🔥 useFirebaseSheet: Firebase save successful!");
         });
       } catch (err) {
-        logger.error(`🔥 useFirebaseSheet: Error updating ${collection}:`, err);
-        logger.error("🔥 useFirebaseSheet: Full error details:", {
-          errorMessage: err instanceof Error ? err.message : "Unknown error",
-          errorCode: (err as { code?: string })?.code,
-          errorDetails: (err as { details?: unknown })?.details,
-        });
+        logger.error(`useFirebaseSheet: Error updating ${collection}:`, err);
 
         // Revert to previous state on error
         if (optimistic && previousData) {
-          logger.debug("🔥 useFirebaseSheet: Reverting to previous state");
           setData(previousData);
         }
 
@@ -142,8 +109,6 @@ export function useFirebaseSheet<T extends Record<string, any>>({
           setError(null);
         }, 5000);
       }
-
-      logger.debug("🔥 useFirebaseSheet: Update process completed");
     },
     [userId, entityId, isOwner, data, error, collection, withUpdating]
   );

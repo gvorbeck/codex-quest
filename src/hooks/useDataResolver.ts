@@ -33,6 +33,31 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 // Track active listeners for cleanup
 const activeListeners = new Map<string, () => void>();
 
+// Cleanup expired cache entries periodically
+let cacheCleanupTimer: NodeJS.Timeout | null = null;
+
+const startCacheCleanup = () => {
+  if (cacheCleanupTimer) return;
+  
+  cacheCleanupTimer = setInterval(() => {
+    const now = Date.now();
+    const expiredKeys: string[] = [];
+    
+    dataCache.forEach((entry, key) => {
+      if (now - entry.timestamp > CACHE_TTL) {
+        expiredKeys.push(key);
+      }
+    });
+    
+    expiredKeys.forEach(key => dataCache.delete(key));
+    
+    if (dataCache.size === 0 && cacheCleanupTimer) {
+      clearInterval(cacheCleanupTimer);
+      cacheCleanupTimer = null;
+    }
+  }, CACHE_TTL);
+};
+
 interface UseDataResolverOptions {
   enableRealTime?: boolean; // Enable real-time updates for active game sessions
 }
@@ -51,6 +76,8 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
 
   useEffect(() => {
     mountedRef.current = true;
+    startCacheCleanup(); // Start cache cleanup when first component mounts
+    
     return () => {
       mountedRef.current = false;
 

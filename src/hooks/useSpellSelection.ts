@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { logger } from "@/utils/logger";
 import { useLoadingState } from "@/hooks/useLoadingState";
+import { loadSpellsForClass } from "@/services/dataLoader";
 import type { Class, Spell } from "@/types/character";
 
 export interface SpellGainInfo {
@@ -88,8 +89,8 @@ export function useSpellSelection({
 
       try {
         await withSpellLoading(async () => {
-          const spellsModule = await import("@/data/spells.json");
-          const allSpells: Spell[] = spellsModule.default;
+          // Use optimized dataLoader service instead of dynamic import
+          const allSpells = await loadSpellsForClass(primaryClass.id);
           setAvailableSpells(allSpells);
           setSelectedSpells({});
           setSelectedSpellCount(0);
