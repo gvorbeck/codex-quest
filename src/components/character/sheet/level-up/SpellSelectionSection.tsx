@@ -43,11 +43,7 @@ export default function SpellSelectionSection({
         <Typography variant="body" color="primary" className="mb-4">
           {error}
         </Typography>
-        <Button
-          onClick={onClearError}
-          variant="destructive"
-          size="md"
-        >
+        <Button onClick={onClearError} variant="destructive" size="md">
           Try Again
         </Button>
       </Card>

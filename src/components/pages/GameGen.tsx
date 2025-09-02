@@ -126,7 +126,12 @@ function GameGen() {
 
             {/* Placeholder for future features */}
             <div className="p-4 bg-zinc-800/50 rounded-lg border border-zinc-600">
-              <TextHeader variant="h4" size="md" underlined={false} className="mb-2">
+              <TextHeader
+                variant="h4"
+                size="md"
+                underlined={false}
+                className="mb-2"
+              >
                 Coming Soon
               </TextHeader>
               <Typography variant="body" color="secondary" className="text-sm">
