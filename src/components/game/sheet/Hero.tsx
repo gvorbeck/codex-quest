@@ -1,7 +1,7 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
 import type { Game } from "@/types/game";
-import { TextInput } from "@/components/ui/inputs";
+import { TextInput, Button } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import { cn } from "@/constants/styles";
@@ -11,6 +11,7 @@ interface GameHeroProps extends HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";
   editable?: boolean;
   onGameChange?: (game: Game) => void;
+  onTreasureGenerate?: () => void;
 }
 
 const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
@@ -21,6 +22,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
       className = "",
       editable = false,
       onGameChange,
+      onTreasureGenerate,
       ...props
     },
     ref
@@ -239,6 +241,22 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                 />
               </div>
             </div>
+
+            {/* Action Buttons */}
+            {editable && onTreasureGenerate && (
+              <div className="flex-shrink-0">
+                <Button
+                  variant="secondary"
+                  size="md"
+                  onClick={onTreasureGenerate}
+                  className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                  aria-label="Generate treasure"
+                  title="Generate treasure"
+                >
+                  <Icon name="coin" size="md" />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </>

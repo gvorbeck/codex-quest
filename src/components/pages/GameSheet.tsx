@@ -1,5 +1,5 @@
 import { useRoute } from "wouter";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { Breadcrumb, Icon } from "@/components/ui/display";
 import { Button } from "@/components/ui/inputs";
 import { PageWrapper } from "@/components/ui/layout";
@@ -13,6 +13,7 @@ import {
   AddChar,
   GMBinder,
 } from "@/components/game/sheet";
+import TreasureGeneratorModal from "@/components/game/TreasureGeneratorModal";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { logger } from "@/utils/logger";
@@ -25,6 +26,7 @@ import type { Game, GamePlayer } from "@/types/game";
 
 export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
+  const [isTreasureModalOpen, setIsTreasureModalOpen] = useState(false);
 
   // Use the generic Firebase sheet hook
   const {
@@ -112,6 +114,15 @@ export default function GameSheet() {
     [game, handleGameChange]
   );
 
+  // Handle treasure generator modal
+  const handleTreasureGenerate = useCallback(() => {
+    setIsTreasureModalOpen(true);
+  }, []);
+
+  const handleTreasureModalClose = useCallback(() => {
+    setIsTreasureModalOpen(false);
+  }, []);
+
   // Data loading is now handled by useFirebaseSheet hook
 
   // Memoized content check for empty state
@@ -186,6 +197,7 @@ export default function GameSheet() {
           className={GAME_SHEET_STYLES.spacing.section}
           editable={!!isGameMaster}
           onGameChange={handleGameChange}
+          onTreasureGenerate={handleTreasureGenerate}
         />
 
         {/* Game Sheet Content */}
@@ -225,6 +237,12 @@ export default function GameSheet() {
 
         {/* Dice Roller Modal */}
         <DiceRollerModal />
+
+        {/* Treasure Generator Modal */}
+        <TreasureGeneratorModal
+          isOpen={isTreasureModalOpen}
+          onClose={handleTreasureModalClose}
+        />
       </PageWrapper>
 
       {/* Update loading indicator */}

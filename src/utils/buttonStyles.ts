@@ -71,12 +71,12 @@ export const createButtonStyles = (isFAB = false): ButtonStyleConfig => {
   // Variant styles with consistent color scheme but different shadows
   const variantStyles: Record<ButtonVariant, string[]> = {
     primary: [
-      "bg-amber-400 text-zinc-900 border-amber-500",
+      "bg-amber-500 text-white border-amber-600 font-bold",
       createShadow("#b45309", shadowConfig.base, shadowConfig.glow),
       createHoverShadow("#b45309", shadowConfig.hover, shadowConfig.glow),
-      "hover:bg-amber-300 hover:border-amber-400",
+      "hover:bg-amber-600 hover:text-white hover:border-amber-700",
       createActiveShadow("#b45309", shadowConfig.active, shadowConfig.glow),
-      ...(isFAB ? [] : ["active:bg-amber-500"]),
+      ...(isFAB ? [] : ["active:bg-amber-700 active:text-white"]),
     ],
     secondary: isFAB
       ? [
@@ -90,9 +90,9 @@ export const createButtonStyles = (isFAB = false): ButtonStyleConfig => {
           "bg-transparent text-amber-400 border-amber-400",
           createShadow("#b45309", shadowConfig.base),
           createHoverShadow("#b45309", shadowConfig.hover),
-          "hover:bg-amber-400 hover:text-zinc-900 hover:border-amber-500",
+          "hover:bg-amber-400 hover:text-white hover:border-amber-500",
           createActiveShadow("#b45309", shadowConfig.active),
-          "active:bg-amber-500 active:text-zinc-900",
+          "active:bg-amber-500 active:text-white",
         ],
     ghost: [
       isFAB ? "bg-zinc-800/80 backdrop-blur-sm" : "bg-transparent",
@@ -112,10 +112,10 @@ export const createButtonStyles = (isFAB = false): ButtonStyleConfig => {
       ...(isFAB ? [] : ["active:bg-red-600"]),
     ],
     accent: [
-      "bg-gradient-to-br from-amber-400 to-amber-500 text-zinc-900 border-amber-600",
+      "bg-gradient-to-br from-amber-500 to-amber-600 text-white border-amber-700 font-bold",
       createShadow("#b45309", shadowConfig.base, shadowConfig.glow),
       createHoverShadow("#b45309", shadowConfig.hover, shadowConfig.glow),
-      "hover:from-amber-300 hover:to-amber-400",
+      "hover:from-amber-600 hover:to-amber-700 hover:text-white",
       createActiveShadow("#b45309", shadowConfig.active, shadowConfig.glow),
     ],
   };
