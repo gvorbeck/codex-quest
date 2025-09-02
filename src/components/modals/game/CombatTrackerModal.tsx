@@ -1,13 +1,17 @@
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect } from "react";
 import { Modal } from "../base";
 import { Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { LoadingState } from "@/components/ui/feedback";
-import { StatCard, Icon } from "@/components/ui/display";
+import { Icon, Table } from "@/components/ui/display";
+import { SectionWrapper } from "@/components/ui/layout";
+import RollableButton from "@/components/ui/dice/RollableButton";
 import { useLoadingState } from "@/hooks/useLoadingState";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePlayerCharacters } from "@/hooks/usePlayerCharacters";
+import { useLocalStorage } from "@/hooks";
 import type { Game, GameCombatant } from "@/types/game";
+import type { TableColumn } from "@/components/ui/display";
 
 interface CombatTrackerModalProps {
   isOpen: boolean;
@@ -19,6 +23,46 @@ interface CombatTrackerModalProps {
 interface CombatantWithInitiative extends GameCombatant {
   initiative: number;
   isPlayer?: boolean;
+  _sortId?: number; // For stable sorting
+}
+
+// Constants for magic numbers
+const DICE_SIDES = 20;
+const MIN_ROLL = 1;
+
+// Combat state interface for persistence
+interface CombatState {
+  combatants: CombatantWithInitiative[];
+  currentTurn: number;
+  round: number;
+  isActive: boolean;
+}
+
+// Error Fallback Component
+function CombatErrorFallback({
+  error,
+  resetError,
+}: {
+  error: Error;
+  resetError: () => void;
+}) {
+  return (
+    <div className="text-center py-8">
+      <Typography variant="h6" color="zinc" className="mb-4 text-red-400">
+        Combat Tracker Error
+      </Typography>
+      <Typography variant="body" color="muted" className="mb-4">
+        Something went wrong with the combat tracker. This is usually due to
+        corrupted combat state.
+      </Typography>
+      <Typography variant="bodySmall" color="muted" className="mb-6">
+        Error: {error.message}
+      </Typography>
+      <Button onClick={resetError} variant="primary">
+        Reset Combat Tracker
+      </Button>
+    </div>
+  );
 }
 
 export default function CombatTrackerModal({
@@ -27,10 +71,33 @@ export default function CombatTrackerModal({
   game,
   onUpdateGame,
 }: CombatTrackerModalProps) {
-  const [combatants, setCombatants] = useState<CombatantWithInitiative[]>([]);
-  const [currentTurn, setCurrentTurn] = useState(0);
-  const [round, setRound] = useState(1);
-  const [isCombatActive, setIsCombatActive] = useState(false);
+  // Persistent combat state
+  const [combatState, setCombatState] = useLocalStorage<CombatState>(
+    `combat-tracker-${game?.id || "temp"}`,
+    {
+      combatants: [],
+      currentTurn: 0,
+      round: 1,
+      isActive: false,
+    }
+  );
+
+  // Extract state for easier access
+  const {
+    combatants,
+    currentTurn,
+    round,
+    isActive: isCombatActive,
+  } = combatState;
+
+  // Helper to update combat state
+  const updateCombatState = useCallback(
+    (updates: Partial<CombatState>) => {
+      const newState = { ...combatState, ...updates };
+      setCombatState(newState);
+    },
+    [combatState, setCombatState]
+  );
 
   // Hooks
   const { loading, withLoading } = useLoadingState();
@@ -135,18 +202,24 @@ export default function CombatTrackerModal({
       // Roll initiative for all combatants
       const combatantsWithInitiative = currentCombatants.map((combatant) => ({
         ...combatant,
-        initiative: Math.floor(Math.random() * 20) + 1, // Simple d20 roll
+        initiative: Math.floor(Math.random() * DICE_SIDES) + MIN_ROLL,
+        _sortId: Date.now() + Math.random(), // Stable sort identifier
       }));
 
       // Sort by initiative (descending)
-      const sortedCombatants = combatantsWithInitiative.sort(
-        (a, b) => b.initiative - a.initiative
-      );
+      const sortedCombatants = combatantsWithInitiative.sort((a, b) => {
+        if (b.initiative === a.initiative) {
+          return (b._sortId || 0) - (a._sortId || 0);
+        }
+        return b.initiative - a.initiative;
+      });
 
-      setCombatants(sortedCombatants);
-      setCurrentTurn(0);
-      setRound(1);
-      setIsCombatActive(true);
+      updateCombatState({
+        combatants: sortedCombatants,
+        currentTurn: 0,
+        round: 1,
+        isActive: true,
+      });
 
       showSuccess(
         `Combat initialized! ${sortedCombatants.length} combatants ready.`,
@@ -155,7 +228,14 @@ export default function CombatTrackerModal({
         }
       );
     });
-  }, [game, currentCombatants, withLoading, showSuccess, showError]);
+  }, [
+    game,
+    currentCombatants,
+    withLoading,
+    showSuccess,
+    showError,
+    updateCombatState,
+  ]);
 
   // Roll initiative for a specific combatant
   const rollInitiativeFor = useCallback(
@@ -163,24 +243,184 @@ export default function CombatTrackerModal({
       const combatant = combatants[combatantIndex];
       if (!combatant) return;
 
-      const newInitiative = Math.floor(Math.random() * 20) + 1;
+      const newInitiative = Math.floor(Math.random() * DICE_SIDES) + MIN_ROLL;
       const updatedCombatants = [...combatants];
       updatedCombatants[combatantIndex] = {
         ...combatant,
         initiative: newInitiative,
+        _sortId: Date.now() + Math.random(), // New sort ID for stable sorting
       };
 
-      // Re-sort by initiative
-      const sortedCombatants = updatedCombatants.sort(
-        (a, b) => b.initiative - a.initiative
-      );
-      setCombatants(sortedCombatants);
+      // Re-sort by initiative with stable sorting
+      const sortedCombatants = updatedCombatants.sort((a, b) => {
+        if (b.initiative === a.initiative) {
+          return (b._sortId || 0) - (a._sortId || 0);
+        }
+        return b.initiative - a.initiative;
+      });
+
+      updateCombatState({ combatants: sortedCombatants });
 
       showInfo(`${combatant.name} rolled ${newInitiative} for initiative`, {
         title: "Initiative Roll",
       });
     },
-    [combatants, showInfo]
+    [combatants, showInfo, updateCombatState]
+  );
+
+  // Combat table columns for initiative tracking
+  const combatColumns: TableColumn[] = useMemo(
+    () => [
+      {
+        key: "name",
+        header: "Combatant",
+        cell: (combatant: Record<string, unknown>) => {
+          const c = combatant as CombatantWithInitiative;
+          return (
+            <div className="flex items-center gap-3">
+              {c.avatar && typeof c.avatar === "string" && (
+                <img
+                  src={c.avatar}
+                  alt={`${c.name} avatar`}
+                  className="w-8 h-8 rounded-full"
+                />
+              )}
+              <div>
+                <Typography variant="body" color="zinc" className="font-medium">
+                  {c.name}
+                  {c.isPlayer && (
+                    <span className="ml-2 text-xs text-amber-400 font-semibold">
+                      PLAYER
+                    </span>
+                  )}
+                </Typography>
+                <Typography variant="bodySmall" color="secondary">
+                  AC {c.ac}
+                </Typography>
+              </div>
+            </div>
+          );
+        },
+        sortable: false,
+      },
+      {
+        key: "initiative",
+        header: "Initiative",
+        cell: (combatant: Record<string, unknown>) => {
+          const c = combatant as CombatantWithInitiative;
+          return (
+            <Typography
+              variant="body"
+              color="zinc"
+              className="font-mono text-lg"
+            >
+              {c.initiative}
+            </Typography>
+          );
+        },
+        sortable: true,
+        align: "center" as const,
+        width: "120px",
+      },
+      {
+        key: "actions",
+        header: "Actions",
+        cell: (combatant: Record<string, unknown>) => {
+          const c = combatant as CombatantWithInitiative;
+          const index = combatants.findIndex(
+            (cb) => cb.name === c.name && cb.initiative === c.initiative
+          );
+          return (
+            <div className="flex gap-2">
+              <RollableButton
+                label="Reroll"
+                value="🎲"
+                onClick={() => rollInitiativeFor(index)}
+                tooltip={`Re-roll initiative for ${c.name}`}
+                size="sm"
+              />
+            </div>
+          );
+        },
+        align: "right" as const,
+        width: "100px",
+      },
+    ],
+    [combatants, rollInitiativeFor]
+  );
+
+  // Combatant Card Component for non-combat sections
+  const CombatantCard = useCallback(
+    ({
+      combatant,
+      index,
+      variant,
+      onAction,
+      isActive = false,
+    }: {
+      combatant: CombatantWithInitiative;
+      index: number;
+      variant: "combat" | "available";
+      onAction?: (action: string, index: number) => void;
+      isActive?: boolean;
+    }) => (
+      <div
+        className={`p-3 rounded-lg border transition-all duration-200 ${
+          isActive
+            ? "border-amber-500 bg-amber-900/20"
+            : "border-zinc-600 bg-zinc-800/30 hover:border-zinc-500"
+        }`}
+        role="listitem"
+        aria-label={`${combatant.name}, ${
+          combatant.isPlayer ? "Player" : "Monster"
+        }, AC ${combatant.ac}`}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {combatant.avatar && typeof combatant.avatar === "string" && (
+              <img
+                src={combatant.avatar}
+                alt={`${combatant.name} avatar`}
+                className="w-6 h-6 rounded-full"
+              />
+            )}
+            <div>
+              <Typography variant="body" color="zinc">
+                {combatant.name}
+                {combatant.isPlayer && (
+                  <span className="ml-2 text-xs text-amber-400 font-semibold">
+                    PLAYER
+                  </span>
+                )}
+              </Typography>
+              <Typography variant="bodySmall" color="secondary">
+                AC {combatant.ac}
+              </Typography>
+            </div>
+          </div>
+          {variant === "combat" ? (
+            <Button
+              onClick={() => onAction?.("remove", index)}
+              variant="destructive"
+              size="sm"
+              aria-label={`Remove ${combatant.name} from combat`}
+            >
+              <Icon name="trash" size="sm" />
+            </Button>
+          ) : (
+            <Button
+              onClick={() => onAction?.("add", index)}
+              variant="primary"
+              size="sm"
+              aria-label={`Add ${combatant.name} to combat`}
+            >
+              Add to Combat
+            </Button>
+          )}
+        </div>
+      </div>
+    ),
+    []
   );
 
   // Next turn
@@ -189,26 +429,89 @@ export default function CombatTrackerModal({
 
     const newTurn = currentTurn + 1;
     if (newTurn >= combatants.length) {
-      setCurrentTurn(0);
-      setRound((prev) => prev + 1);
+      updateCombatState({
+        currentTurn: 0,
+        round: round + 1,
+      });
       showInfo(`Round ${round + 1} begins!`, { title: "New Round" });
     } else {
-      setCurrentTurn(newTurn);
+      updateCombatState({ currentTurn: newTurn });
     }
 
     const currentCombatant =
       combatants[newTurn >= combatants.length ? 0 : newTurn];
     showInfo(`${currentCombatant?.name}'s turn`, { title: "Turn Order" });
-  }, [combatants, currentTurn, round, showInfo]);
+  }, [combatants, currentTurn, round, showInfo, updateCombatState]);
 
   // End combat
   const endCombat = useCallback(() => {
-    setCombatants([]);
-    setCurrentTurn(0);
-    setRound(1);
-    setIsCombatActive(false);
+    updateCombatState({
+      combatants: [],
+      currentTurn: 0,
+      round: 1,
+      isActive: false,
+    });
     showSuccess("Combat ended", { title: "Combat Complete" });
-  }, [showSuccess]);
+  }, [showSuccess, updateCombatState]);
+
+  // Performance optimizations - memoized computations
+  const sortedCombatants = useMemo(() => {
+    return [...combatants].sort((a, b) => {
+      if (b.initiative === a.initiative) {
+        return (b._sortId || 0) - (a._sortId || 0);
+      }
+      return b.initiative - a.initiative;
+    });
+  }, [combatants]);
+
+  const currentCombatant = useMemo(() => {
+    return sortedCombatants[currentTurn];
+  }, [sortedCombatants, currentTurn]);
+
+  // Loading state consolidation
+  const isLoading = loading || charactersLoading;
+
+  // Keyboard shortcuts for common combat actions
+  useEffect(() => {
+    if (!isOpen || !isCombatActive) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Use Space and Arrow keys instead of Cmd/Ctrl shortcuts to avoid browser conflicts
+      if (!event.ctrlKey && !event.metaKey && !event.altKey) {
+        switch (event.key.toLowerCase()) {
+          case " ": // Spacebar for next turn
+            event.preventDefault();
+            nextTurn();
+            break;
+          case "r": // R key for reroll current combatant's initiative
+            event.preventDefault();
+            if (combatants[currentTurn]) {
+              rollInitiativeFor(currentTurn);
+            }
+            break;
+          case "e": // E key for end combat
+            event.preventDefault();
+            endCombat();
+            break;
+          case "arrowright": // Right arrow for next turn (alternative)
+            event.preventDefault();
+            nextTurn();
+            break;
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [
+    isOpen,
+    isCombatActive,
+    combatants,
+    currentTurn,
+    nextTurn,
+    rollInitiativeFor,
+    endCombat,
+  ]);
 
   if (!game) {
     return (
@@ -229,16 +532,14 @@ export default function CombatTrackerModal({
       title={`Combat Tracker - ${game.name}`}
       size="lg"
     >
-      <div className="space-y-6">
+      <div className="space-y-6 p-2">
         {/* Combat Controls */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-lg border border-zinc-700">
           <div className="flex items-center gap-4">
             {!isCombatActive ? (
               <Button
                 onClick={initializeCombat}
-                disabled={
-                  loading || charactersLoading || currentCombatants.length === 0
-                }
+                disabled={isLoading || currentCombatants.length === 0}
                 variant="primary"
               >
                 {loading ? "Initializing..." : "Start Combat"}
@@ -261,19 +562,20 @@ export default function CombatTrackerModal({
                 Round {round}
               </Typography>
               <Typography variant="bodySmall" color="secondary">
-                {combatants[currentTurn]?.name}'s turn
+                {currentCombatant?.name}'s turn
+              </Typography>
+              <Typography variant="bodySmall" color="muted" className="mt-1">
+                Shortcuts: Space (Next) • R (Reroll) • E (End)
               </Typography>
             </div>
           )}
         </div>
 
         {/* Loading State */}
-        {(loading || charactersLoading) && (
-          <LoadingState message="Loading combat data..." />
-        )}
+        {isLoading && <LoadingState message="Loading combat data..." />}
 
         {/* No Combatants */}
-        {!loading && !charactersLoading && currentCombatants.length === 0 && (
+        {!isLoading && currentCombatants.length === 0 && (
           <div className="text-center py-8" role="status">
             <Typography variant="body" color="secondary">
               No combatants available for combat.
@@ -285,239 +587,125 @@ export default function CombatTrackerModal({
           </div>
         )}
 
-        {/* Combatants List */}
-        {!loading && !charactersLoading && combatants.length > 0 && (
-          <div
-            className="space-y-3"
-            role="region"
-            aria-labelledby="initiative-order"
+        {/* Initiative Order with Table */}
+        {!isLoading && combatants.length > 0 && (
+          <SectionWrapper
+            title="Initiative Order"
+            collapsible
+            collapsibleKey="combat-initiative"
           >
-            <Typography variant="h6" id="initiative-order" color="zinc">
-              Initiative Order
-            </Typography>
-            {combatants.map((combatant, index) => (
-              <div
-                key={`${combatant.name}-${index}`}
-                className={`p-4 rounded-lg border-2 transition-colors ${
-                  index === currentTurn && isCombatActive
-                    ? "border-amber-500 bg-amber-900/20"
-                    : "border-zinc-600 bg-zinc-800/50"
-                }`}
-                role="listitem"
-                aria-label={`${combatant.name}, ${
-                  combatant.isPlayer ? "Player" : "NPC"
-                }, AC ${combatant.ac}, Initiative ${combatant.initiative}${
-                  index === currentTurn && isCombatActive
-                    ? ", Current turn"
-                    : ""
-                }`}
-                aria-current={
-                  index === currentTurn && isCombatActive ? "true" : "false"
+            <div className="p-3">
+              <Table
+                columns={combatColumns}
+                data={combatants}
+                sort={{ key: "initiative", direction: "desc" }}
+                onRowClick={(_combatant, index) => {
+                  // Optional: Set current turn when clicking a row
+                  updateCombatState({ currentTurn: index });
+                }}
+                hoverable
+                caption="Combat initiative order - click on a combatant to set their turn"
+                getRowKey={(
+                  combatant: Record<string, unknown>,
+                  index: number
+                ) =>
+                  `${(combatant as CombatantWithInitiative).name}-${
+                    (combatant as CombatantWithInitiative).initiative
+                  }-${index}`
                 }
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {combatant.avatar &&
-                      typeof combatant.avatar === "string" && (
-                        <img
-                          src={combatant.avatar}
-                          alt={`${combatant.name} avatar`}
-                          className="w-8 h-8 rounded-full"
-                        />
-                      )}
-                    <div>
-                      <Typography
-                        variant="body"
-                        color="zinc"
-                        className="font-medium"
-                      >
-                        {combatant.name}
-                        {combatant.isPlayer && (
-                          <span
-                            className="ml-2 text-xs text-amber-400 font-semibold"
-                            aria-label="Player character"
-                          >
-                            PLAYER
-                          </span>
-                        )}
-                        {index === currentTurn && isCombatActive && (
-                          <span
-                            className="ml-2 text-xs text-lime-400 font-semibold"
-                            aria-label="Current turn"
-                          >
-                            ACTIVE
-                          </span>
-                        )}
-                      </Typography>
-                      <Typography
-                        variant="bodySmall"
-                        color="secondary"
-                        aria-label={`Armor class ${combatant.ac}`}
-                      >
-                        AC {combatant.ac}
-                      </Typography>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <StatCard
-                      label="Initiative"
-                      value={combatant.initiative.toString()}
-                      size="sm"
-                    />
-                    <Button
-                      onClick={() => rollInitiativeFor(index)}
-                      variant="ghost"
-                      size="sm"
-                      disabled={!isCombatActive}
-                      aria-label={`Re-roll initiative for ${combatant.name}`}
-                    >
-                      <Icon name="dice" size="sm" />
-                    </Button>
-                  </div>
+              />
+              {isCombatActive && currentCombatant && (
+                <div className="mt-4 p-3 bg-amber-900/20 border border-amber-500 rounded-lg">
+                  <Typography
+                    variant="body"
+                    color="amber"
+                    className="font-semibold"
+                  >
+                    Current Turn: {currentCombatant.name} (Round {round})
+                  </Typography>
+                  <Typography
+                    variant="bodySmall"
+                    color="amber"
+                    className="mt-1"
+                  >
+                    Initiative: {currentCombatant.initiative} • AC:{" "}
+                    {currentCombatant.ac}
+                  </Typography>
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          </SectionWrapper>
         )}
 
         {/* Current Combatants (before combat starts) */}
-        {!loading &&
-          !charactersLoading &&
-          !isCombatActive &&
-          currentCombatants.length > 0 && (
-            <div
-              className="space-y-3"
-              role="region"
-              aria-labelledby="current-combatants"
-            >
-              <Typography variant="h6" id="current-combatants" color="zinc">
-                Combatants
-              </Typography>
+        {!isLoading && !isCombatActive && currentCombatants.length > 0 && (
+          <SectionWrapper
+            title="Combatants"
+            collapsible
+            collapsibleKey="current-combatants"
+          >
+            <div className="space-y-3 p-3">
               {currentCombatants.map((combatant, index) => (
-                <div
+                <CombatantCard
                   key={`${combatant.name}-${index}`}
-                  className="p-3 rounded-lg border border-zinc-600 bg-zinc-800/30"
-                  role="listitem"
-                  aria-label={`${combatant.name}, ${
-                    combatant.isPlayer ? "Player" : "Monster"
-                  }, AC ${combatant.ac}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {combatant.avatar &&
-                        typeof combatant.avatar === "string" && (
-                          <img
-                            src={combatant.avatar}
-                            alt={`${combatant.name} avatar`}
-                            className="w-6 h-6 rounded-full"
-                          />
-                        )}
-                      <div>
-                        <Typography variant="body" color="zinc">
-                          {combatant.name}
-                          {combatant.isPlayer && (
-                            <span
-                              className="ml-2 text-xs text-amber-400 font-semibold"
-                              aria-label="Player character"
-                            >
-                              PLAYER
-                            </span>
-                          )}
-                        </Typography>
-                        <Typography
-                          variant="bodySmall"
-                          color="secondary"
-                          aria-label={`Armor class ${combatant.ac}`}
-                        >
-                          AC {combatant.ac}
-                        </Typography>
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => removeCombatant(index)}
-                      variant="destructive"
-                      size="sm"
-                      aria-label={`Remove ${combatant.name} from combat`}
-                    >
-                      <Icon name="trash" size="sm" />
-                    </Button>
-                  </div>
-                </div>
+                  combatant={combatant}
+                  index={index}
+                  variant="combat"
+                  onAction={(action, idx) => {
+                    if (action === "remove") {
+                      removeCombatant(idx);
+                    }
+                  }}
+                />
               ))}
             </div>
-          )}
+          </SectionWrapper>
+        )}
 
         {/* Available Players (before combat starts) */}
-        {!loading &&
-          !charactersLoading &&
-          !isCombatActive &&
-          availablePlayers.length > 0 && (
-            <div
-              className="space-y-3"
-              role="region"
-              aria-labelledby="available-players"
-            >
-              <Typography variant="h6" id="available-players" color="zinc">
-                Available Players
-              </Typography>
+        {!isLoading && !isCombatActive && availablePlayers.length > 0 && (
+          <SectionWrapper
+            title="Available Players"
+            collapsible
+            collapsibleKey="available-players"
+          >
+            <div className="space-y-3 p-3">
               {availablePlayers.map((player, index) => (
-                <div
+                <CombatantCard
                   key={`${player.name}-${index}`}
-                  className="p-3 rounded-lg border border-zinc-600 bg-zinc-800/30"
-                  role="listitem"
-                  aria-label={`${player.name}, Player, AC ${player.ac}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {player.avatar && typeof player.avatar === "string" && (
-                        <img
-                          src={player.avatar}
-                          alt={`${player.name} avatar`}
-                          className="w-6 h-6 rounded-full"
-                        />
-                      )}
-                      <div>
-                        <Typography variant="body" color="zinc">
-                          {player.name}
-                          <span
-                            className="ml-2 text-xs text-amber-400 font-semibold"
-                            aria-label="Player character"
-                          >
-                            PLAYER
-                          </span>
-                        </Typography>
-                        <Typography
-                          variant="bodySmall"
-                          color="secondary"
-                          aria-label={`Armor class ${player.ac}`}
-                        >
-                          AC {player.ac}
-                        </Typography>
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() =>
+                  combatant={
+                    {
+                      ...player,
+                      avatar: player.avatar || undefined,
+                    } as CombatantWithInitiative
+                  }
+                  index={index}
+                  variant="available"
+                  onAction={(action, idx) => {
+                    if (action === "add") {
+                      const playerToAdd = availablePlayers[idx];
+                      if (playerToAdd) {
                         addPlayerToCombat({
-                          name: player.name,
-                          ac: player.ac,
-                          initiative: player.initiative,
-                          isPlayer: player.isPlayer,
-                          ...(player.avatar && { avatar: player.avatar }),
-                        })
+                          name: playerToAdd.name,
+                          ac: playerToAdd.ac,
+                          initiative: playerToAdd.initiative,
+                          isPlayer: playerToAdd.isPlayer,
+                          ...(playerToAdd.avatar && {
+                            avatar: playerToAdd.avatar,
+                          }),
+                        });
                       }
-                      variant="primary"
-                      size="sm"
-                      aria-label={`Add ${player.name} to combat`}
-                    >
-                      Add to Combat
-                    </Button>
-                  </div>
-                </div>
+                    }
+                  }}
+                />
               ))}
             </div>
-          )}
+          </SectionWrapper>
+        )}
       </div>
     </Modal>
   );
 }
+
+// Export the error fallback component for external error boundary usage
+export { CombatErrorFallback };
