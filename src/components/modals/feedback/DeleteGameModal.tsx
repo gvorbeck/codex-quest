@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../base/Modal";
 import { Button, Typography, TextInput, Callout } from "@/components/ui";
 import { Icon } from "@/components/ui/display";
 

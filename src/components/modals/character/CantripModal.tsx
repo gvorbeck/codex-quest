@@ -1,7 +1,7 @@
 import { useId, useEffect, useRef } from "react";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { Button, Select } from "@/components/ui/inputs";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import { Icon } from "@/components/ui";
 import type { Cantrip } from "@/types/character";
 import type { SpellTypeInfo } from "@/utils/cantrips";

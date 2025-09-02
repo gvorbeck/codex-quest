@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import { Button } from "@/components/ui/inputs";
 import { TextInput } from "@/components/ui/inputs";
 import { Icon, TextHeader } from "@/components/ui/display";

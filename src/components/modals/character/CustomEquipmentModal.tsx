@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import {
   Button,
   Select,

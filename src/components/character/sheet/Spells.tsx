@@ -7,7 +7,7 @@ import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
 import { TextHeader } from "@/components/ui/display";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "@/components/modals";
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 

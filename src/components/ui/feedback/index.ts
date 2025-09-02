@@ -1,9 +1,4 @@
-// Feedback Components - Modals, tooltips, alerts, and error handling
-export { default as Modal } from "./Modal";
-export { default as DeleteCharacterModal } from "./DeleteCharacterModal";
-export { default as DeleteGameModal } from "./DeleteGameModal";
-export { default as DeletePlayerModal } from "./DeletePlayerModal";
-export { default as DiceRollerModal } from "./DiceRollerModal";
+// Feedback Components - tooltips, alerts, and error handling
 export { default as Tooltip } from "./Tooltip";
 export { default as TooltipWrapper } from "./TooltipWrapper";
 export { default as InfoTooltip } from "./InfoTooltip";

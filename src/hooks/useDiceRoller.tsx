@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
-import { DiceRollerModal } from "@/components/ui/feedback";
+import { DiceRollerModal } from "@/components/modals";
 import { Icon } from "@/components/ui";
 import { useModal } from "./useModal";
 

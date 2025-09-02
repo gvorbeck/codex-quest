@@ -12,6 +12,7 @@ interface GameHeroProps extends HTMLAttributes<HTMLDivElement> {
   editable?: boolean;
   onGameChange?: (game: Game) => void;
   onTreasureGenerate?: () => void;
+  onCombatTrackerOpen?: () => void;
 }
 
 const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
@@ -23,6 +24,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
       editable = false,
       onGameChange,
       onTreasureGenerate,
+      onCombatTrackerOpen,
       ...props
     },
     ref
@@ -243,18 +245,32 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
             </div>
 
             {/* Action Buttons */}
-            {editable && onTreasureGenerate && (
-              <div className="flex-shrink-0">
-                <Button
-                  variant="secondary"
-                  size="md"
-                  onClick={onTreasureGenerate}
-                  className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
-                  aria-label="Generate treasure"
-                  title="Generate treasure"
-                >
-                  <Icon name="coin" size="md" />
-                </Button>
+            {editable && (onTreasureGenerate || onCombatTrackerOpen) && (
+              <div className="flex-shrink-0 flex gap-2">
+                {onCombatTrackerOpen && (
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    onClick={onCombatTrackerOpen}
+                    className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                    aria-label="Open combat tracker"
+                    title="Combat tracker"
+                  >
+                    <Icon name="shield" size="md" />
+                  </Button>
+                )}
+                {onTreasureGenerate && (
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    onClick={onTreasureGenerate}
+                    className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                    aria-label="Generate treasure"
+                    title="Generate treasure"
+                  >
+                    <Icon name="coin" size="md" />
+                  </Button>
+                )}
               </div>
             )}
           </div>

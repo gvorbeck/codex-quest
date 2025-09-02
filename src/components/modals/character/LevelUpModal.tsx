@@ -1,14 +1,14 @@
 import { useState, useMemo } from "react";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import { Typography } from "@/components/ui/design-system";
 import { useHPGain, useSpellSelection } from "@/hooks";
 import { logger } from "@/utils/logger";
 import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
-import CurrentStatusCard from "./level-up/CurrentStatusCard";
-import HPGainPreview from "./level-up/HPGainPreview";
-import LevelUpRequirements from "./level-up/LevelUpRequirements";
-import SpellSelectionSection from "./level-up/SpellSelectionSection";
-import ActionButtons from "./level-up/ActionButtons";
+import CurrentStatusCard from "../../character/sheet/level-up/CurrentStatusCard";
+import HPGainPreview from "../../character/sheet/level-up/HPGainPreview";
+import LevelUpRequirements from "../../character/sheet/level-up/LevelUpRequirements";
+import SpellSelectionSection from "../../character/sheet/level-up/SpellSelectionSection";
+import ActionButtons from "../../character/sheet/level-up/ActionButtons";
 import type { Character, Class, Spell } from "@/types/character";
 
 interface LevelUpModalProps {

@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import { Button, Select } from "@/components/ui/inputs";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Icon, type IconName } from "@/components/ui/display";

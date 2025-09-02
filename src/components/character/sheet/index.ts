@@ -14,5 +14,4 @@ export { default as Weight } from "./Weight";
 export { default as Spells } from "./Spells";
 export { default as Equipment } from "./Equipment";
 export { default as CharacterDescription } from "./CharacterDescription";
-export { default as LevelUpModal } from "./LevelUpModal";
 export { default as ScrollCreation } from "./ScrollCreation";

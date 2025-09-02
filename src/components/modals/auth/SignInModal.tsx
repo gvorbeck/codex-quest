@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui";
 import { TextInput } from "@/components/ui/inputs";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import {
   Tabs,
   TabList,

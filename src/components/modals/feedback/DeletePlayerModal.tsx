@@ -1,25 +1,25 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../base/Modal";
 import { Button, Typography, TextInput, Callout } from "@/components/ui";
 import { Icon } from "@/components/ui/display";
 
-interface DeleteCharacterModalProps {
+interface DeletePlayerModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  characterName: string;
+  playerName: string;
   isDeleting?: boolean;
 }
 
-export default function DeleteCharacterModal({
+export default function DeletePlayerModal({
   isOpen,
   onClose,
   onConfirm,
-  characterName,
+  playerName,
   isDeleting = false,
-}: DeleteCharacterModalProps) {
+}: DeletePlayerModalProps) {
   const [confirmText, setConfirmText] = useState("");
-  const expectedText = "DELETE";
+  const expectedText = "REMOVE";
   const isConfirmValid = confirmText.trim().toUpperCase() === expectedText;
 
   const handleConfirm = () => {
@@ -38,21 +38,21 @@ export default function DeleteCharacterModal({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="Permanent Deletion"
+      title="Remove Player from Game"
       size="md"
     >
       <div className="space-y-6">
         {/* Warning Section */}
         <Callout
-          variant="error"
-          title="You're about to destroy this character forever"
+          variant="warning"
+          title="You're about to remove this player from the game"
           size="lg"
         >
           <Typography variant="body" className="leading-relaxed">
-            <strong className="text-amber-300">"{characterName}"</strong> and
-            all their adventures, equipment, and memories will be lost to the
-            void. This action cannot be undone, reversed, or recovered by any
-            magic known to mortals.
+            <strong className="text-amber-300">"{playerName}"</strong> will be
+            removed from this game session. They will no longer appear in the
+            player list or have access to game features. This action can be
+            reversed by re-adding them to the game.
           </Typography>
         </Callout>
 
@@ -62,9 +62,9 @@ export default function DeleteCharacterModal({
             variant="helper"
             className="text-zinc-400 italic text-center leading-relaxed"
           >
-            "When an adventurer's tale ends, the echoes of their deeds fade from
-            tavern songs, their name forgotten by the very realms they once
-            protected..."
+            "Sometimes adventurers must part ways, taking different paths on
+            their journey. The bonds forged remain, even when the party
+            disbands..."
           </Typography>
         </Callout>
 
@@ -75,8 +75,8 @@ export default function DeleteCharacterModal({
             className="text-zinc-300"
             id="confirm-description"
           >
-            To confirm this irreversible action, type{" "}
-            <code className="px-2 py-1 bg-zinc-800 border border-zinc-600 rounded text-red-400 font-mono text-sm">
+            To confirm removing this player, type{" "}
+            <code className="px-2 py-1 bg-zinc-800 border border-zinc-600 rounded text-amber-400 font-mono text-sm">
               {expectedText}
             </code>{" "}
             in the field below:
@@ -90,7 +90,7 @@ export default function DeleteCharacterModal({
               disabled={isDeleting}
               error={confirmText.length > 0 && !isConfirmValid}
               className="font-mono"
-              aria-label="Type DELETE to confirm character deletion"
+              aria-label="Type REMOVE to confirm player removal"
               aria-describedby="confirm-description validation-message"
               showClearButton={false}
             />
@@ -134,14 +134,14 @@ export default function DeleteCharacterModal({
             onClick={handleConfirm}
             disabled={!isConfirmValid || isDeleting}
             loading={isDeleting}
-            loadingText="Banishing to the Void..."
+            loadingText="Removing Player..."
             className="flex-1"
             aria-describedby={
               !isConfirmValid ? "confirm-description" : undefined
             }
           >
             <Icon name="trash" size="sm" />
-            Delete
+            Remove Player
           </Button>
         </div>
       </div>

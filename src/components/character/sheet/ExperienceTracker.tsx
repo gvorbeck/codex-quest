@@ -1,6 +1,6 @@
 import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
-import { LevelUpModal } from "@/components/character/sheet";
+import { LevelUpModal } from "@/components/modals";
 import { logger } from "@/utils/logger";
 import type { Character, Class } from "@/types/character";
 import { useAuth } from "@/hooks/useAuth";

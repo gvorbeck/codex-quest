@@ -14,7 +14,7 @@ import {
   type SpellTypeInfo,
 } from "@/utils/cantrips";
 import CantripCard from "./CantripCard";
-import CantripModal from "./CantripModal";
+import { CantripModal } from "@/components/modals";
 
 // Discriminated union for better type safety
 type CantripSelectorProps =

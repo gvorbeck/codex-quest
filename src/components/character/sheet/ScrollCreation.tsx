@@ -4,7 +4,7 @@ import type { Character, ScrollCreationProject } from "@/types/character";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button, NumberInput, TextArea, TextInput } from "@/components/ui/inputs";
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "@/components/modals";
 import { SectionHeader, Icon } from "@/components/ui/display";
 
 // Constants for Spellcrafter bonuses and scroll creation rules (BFRPG Core Rules)

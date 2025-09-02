@@ -1,5 +1,5 @@
 import { ItemGrid } from "@/components/ui/display";
-import { DeleteCharacterModal } from "@/components/ui/feedback";
+import { DeleteCharacterModal } from "@/components/modals";
 import { CharacterCard } from "./CharacterCard";
 import { useCharacters, useAuth } from "@/hooks";
 import { deleteCharacter } from "@/services/characters";

@@ -1,5 +1,5 @@
 import { ItemGrid } from "@/components/ui/display";
-import { DeleteGameModal } from "@/components/ui/feedback";
+import { DeleteGameModal } from "@/components/modals";
 import { GameCard } from "./GameCard";
 import { useGames } from "@/hooks/useGames";
 import { useAuth, useNotifications } from "@/hooks";

@@ -1,4 +1,4 @@
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import { Switch } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";

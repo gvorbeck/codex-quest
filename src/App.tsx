@@ -12,7 +12,7 @@ import { useAppData } from "@/hooks/useAppData";
 import { useNotifications } from "@/hooks/useNotifications";
 import NotificationContext from "@/contexts/NotificationContext";
 
-const SignInModal = lazy(() => import("./components/auth/SignInModal"));
+const SignInModal = lazy(() => import("./components/modals/auth/SignInModal"));
 
 function App() {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);

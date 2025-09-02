@@ -1,4 +1,4 @@
-import { Modal } from "@/components/ui/feedback";
+import { Modal } from "../base";
 import { AvatarSelector } from "@/components/character/management";
 import type { Character } from "@/types/character";
 

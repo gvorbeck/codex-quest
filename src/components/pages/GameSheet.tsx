@@ -13,7 +13,7 @@ import {
   AddChar,
   GMBinder,
 } from "@/components/game/sheet";
-import TreasureGeneratorModal from "@/components/game/TreasureGeneratorModal";
+import { TreasureGeneratorModal, CombatTrackerModal } from "@/components/modals";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { logger } from "@/utils/logger";
@@ -27,6 +27,7 @@ import type { Game, GamePlayer } from "@/types/game";
 export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
   const [isTreasureModalOpen, setIsTreasureModalOpen] = useState(false);
+  const [isCombatTrackerModalOpen, setIsCombatTrackerModalOpen] = useState(false);
 
   // Use the generic Firebase sheet hook
   const {
@@ -123,6 +124,15 @@ export default function GameSheet() {
     setIsTreasureModalOpen(false);
   }, []);
 
+  // Handle combat tracker modal
+  const handleCombatTrackerOpen = useCallback(() => {
+    setIsCombatTrackerModalOpen(true);
+  }, []);
+
+  const handleCombatTrackerModalClose = useCallback(() => {
+    setIsCombatTrackerModalOpen(false);
+  }, []);
+
   // Data loading is now handled by useFirebaseSheet hook
 
   // Memoized content check for empty state
@@ -198,6 +208,7 @@ export default function GameSheet() {
           editable={!!isGameMaster}
           onGameChange={handleGameChange}
           onTreasureGenerate={handleTreasureGenerate}
+          onCombatTrackerOpen={handleCombatTrackerOpen}
         />
 
         {/* Game Sheet Content */}
@@ -242,6 +253,14 @@ export default function GameSheet() {
         <TreasureGeneratorModal
           isOpen={isTreasureModalOpen}
           onClose={handleTreasureModalClose}
+        />
+
+        {/* Combat Tracker Modal */}
+        <CombatTrackerModal
+          isOpen={isCombatTrackerModalOpen}
+          onClose={handleCombatTrackerModalClose}
+          game={game}
+          onUpdateGame={handleGameChange}
         />
       </PageWrapper>
 

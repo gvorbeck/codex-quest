@@ -4,7 +4,7 @@ import type { Character } from "@/types/character";
 import {
   AvatarChangeModal,
   SettingsModal,
-} from "@/components/character/management";
+} from "@/components/modals";
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";

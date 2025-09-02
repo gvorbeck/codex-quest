@@ -3,7 +3,7 @@ import type { GamePlayer } from "@/types/game";
 import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
 import { HorizontalRule } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import { DeletePlayerModal } from "@/components/ui/feedback";
+import { DeletePlayerModal } from "@/components/modals";
 import { useDataResolver } from "@/hooks/useDataResolver";
 import { PlayerCard } from "./PlayerCard";
 
