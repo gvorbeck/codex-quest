@@ -11,6 +11,7 @@ interface CombatControlsProps {
       }
     | undefined;
   round: number;
+  allCombatantsHaveInitiative?: boolean;
   onStartCombat: () => void | Promise<void>;
   onNextTurn: () => void;
   onEndCombat: () => void;
@@ -22,6 +23,7 @@ export default function CombatControls({
   currentCombatantsCount,
   currentCombatant,
   round,
+  allCombatantsHaveInitiative = true,
   onStartCombat,
   onNextTurn,
   onEndCombat,
@@ -39,7 +41,11 @@ export default function CombatControls({
           </Button>
         ) : (
           <>
-            <Button onClick={onNextTurn} variant="primary">
+            <Button 
+              onClick={onNextTurn} 
+              variant="primary"
+              disabled={!allCombatantsHaveInitiative}
+            >
               Next Turn
             </Button>
             <Button onClick={onEndCombat} variant="secondary">

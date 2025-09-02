@@ -27,6 +27,15 @@ interface CombatCharacterData {
     AC?: number;
     [key: string]: unknown;
   }>;
+  abilities?: {
+    dexterity?: {
+      value: number;
+      modifier: number;
+    };
+  };
+  hp?: { current?: number; max?: number } | number;
+  currentHp?: number;
+  maxHp?: number;
   [key: string]: unknown;
 }
 
@@ -41,6 +50,20 @@ interface CombatantWithInitiative extends GameCombatant {
   initiative: number;
   isPlayer?: boolean;
   _sortId?: number; // For stable sorting
+  dexterity?: number | undefined; // DEX score for initiative calculation
+  abilities?:
+    | {
+        dexterity?:
+          | {
+              value: number;
+              modifier: number;
+            }
+          | undefined;
+      }
+    | undefined;
+  currentHp?: number | undefined;
+  maxHp?: number | undefined;
+  hp?: { current?: number; max?: number } | number | undefined;
 }
 
 // Constants for magic numbers
@@ -154,9 +177,23 @@ export default function CombatTrackerModal({
           initiative: 0,
           isPlayer: true as const,
           avatar,
+          abilities: combatChar.abilities
+            ? {
+                dexterity: combatChar.abilities.dexterity,
+              }
+            : undefined,
+          dexterity: combatChar.abilities?.dexterity?.value,
+          hp: combatChar.hp,
+          currentHp: combatChar.currentHp,
+          maxHp: combatChar.maxHp,
         };
       });
   }, [playerCharacters, game]);
+
+  // Store for pre-combat initiative values
+  const [preCombatInitiatives, setPreCombatInitiatives] = useLocalStorage<
+    Record<string, number>
+  >(`pre-combat-initiatives-${game?.id || "temp"}`, {});
 
   // Get current combatants (monsters and players added to combat)
   const currentCombatants = useMemo(() => {
@@ -188,6 +225,15 @@ export default function CombatTrackerModal({
             ac: finalAC,
             initiative: 0,
             isPlayer: true,
+            abilities: combatChar.abilities
+              ? {
+                  dexterity: combatChar.abilities.dexterity,
+                }
+              : undefined,
+            dexterity: combatChar.abilities?.dexterity?.value,
+            hp: combatChar.hp,
+            currentHp: combatChar.currentHp,
+            maxHp: combatChar.maxHp,
           };
         }
       }
@@ -201,6 +247,22 @@ export default function CombatTrackerModal({
     });
   }, [game, playerCharacters]);
 
+  // Current combatants with stored pre-combat initiative values
+  const currentCombatantsWithInitiative = useMemo(() => {
+    return currentCombatants
+      .map((combatant) => ({
+        ...combatant,
+        initiative: preCombatInitiatives[combatant.name] || 0,
+        _sortId: Date.now() + Math.random(),
+      }))
+      .sort((a, b) => {
+        if (b.initiative === a.initiative) {
+          return (b._sortId || 0) - (a._sortId || 0);
+        }
+        return b.initiative - a.initiative;
+      });
+  }, [currentCombatants, preCombatInitiatives]);
+
   // Add player to combat
   const addPlayerToCombat = useCallback(
     (player: CombatantWithInitiative) => {
@@ -212,6 +274,8 @@ export default function CombatTrackerModal({
         initiative: 0,
         ...(player.avatar && { avatar: player.avatar }),
         isPlayer: true,
+        ...(player.abilities && { abilities: player.abilities }),
+        ...(player.dexterity && { dexterity: player.dexterity }),
       };
 
       const updatedCombatants = [...(game.combatants || []), newCombatant];
@@ -260,12 +324,18 @@ export default function CombatTrackerModal({
     }
 
     await withLoading(async () => {
-      // Roll initiative for all combatants
-      const combatantsWithInitiative = currentCombatants.map((combatant) => ({
-        ...combatant,
-        initiative: Math.floor(Math.random() * DICE_SIDES) + MIN_ROLL,
-        _sortId: Date.now() + Math.random(), // Stable sort identifier
-      }));
+      // Use pre-combat initiative values if available, otherwise roll initiative
+      const combatantsWithInitiative = currentCombatants.map((combatant) => {
+        const preCombatInitiative = preCombatInitiatives[combatant.name] || 0;
+        return {
+          ...combatant,
+          initiative:
+            preCombatInitiative > 0
+              ? preCombatInitiative
+              : Math.floor(Math.random() * DICE_SIDES) + MIN_ROLL,
+          _sortId: Date.now() + Math.random(), // Stable sort identifier
+        };
+      });
 
       // Sort by initiative (descending)
       const sortedCombatants = combatantsWithInitiative.sort((a, b) => {
@@ -292,6 +362,7 @@ export default function CombatTrackerModal({
   }, [
     game,
     currentCombatants,
+    preCombatInitiatives,
     withLoading,
     showSuccess,
     showError,
@@ -327,6 +398,88 @@ export default function CombatTrackerModal({
       });
     },
     [combatants, showInfo, updateCombatState]
+  );
+
+  // Performance optimizations - memoized computations
+  const sortedCombatants = useMemo(() => {
+    return [...combatants].sort((a, b) => {
+      if (b.initiative === a.initiative) {
+        return (b._sortId || 0) - (a._sortId || 0);
+      }
+      return b.initiative - a.initiative;
+    });
+  }, [combatants]);
+
+  // Update initiative for a specific combatant with a given value
+  const updateInitiativeFor = useCallback(
+    (sortedIndex: number, newInitiative: number) => {
+      // Find the combatant from the sorted array
+      const sortedCombatant = sortedCombatants[sortedIndex];
+      if (!sortedCombatant) return;
+
+      // Find the combatant in the original unsorted array
+      const originalIndex = combatants.findIndex(
+        (c) =>
+          c.name === sortedCombatant.name &&
+          c.initiative === sortedCombatant.initiative
+      );
+      if (originalIndex === -1) return;
+
+      const updatedCombatants = [...combatants];
+      updatedCombatants[originalIndex] = {
+        ...sortedCombatant,
+        initiative: newInitiative,
+        _sortId: Date.now() + Math.random(), // New sort ID for stable sorting
+      };
+
+      // Save the updated combatants (they will be re-sorted by the useMemo)
+      updateCombatState({ combatants: updatedCombatants });
+    },
+    [combatants, sortedCombatants, updateCombatState]
+  );
+
+  // Update pre-combat initiative for a specific combatant
+  const updatePreCombatInitiative = useCallback(
+    (sortedIndex: number, newInitiative: number) => {
+      const combatant = currentCombatantsWithInitiative[sortedIndex];
+      if (!combatant) return;
+
+      setPreCombatInitiatives({
+        ...preCombatInitiatives,
+        [combatant.name]: newInitiative,
+      });
+    },
+    [currentCombatantsWithInitiative, preCombatInitiatives, setPreCombatInitiatives]
+  );
+
+  // Update HP for a specific combatant
+  const updateCombatantHp = useCallback(
+    (sortedIndex: number, newHp: number) => {
+      // Find the combatant from the sorted array
+      const sortedCombatant = sortedCombatants[sortedIndex];
+      if (!sortedCombatant) return;
+
+      // Find the combatant in the original unsorted array
+      const originalIndex = combatants.findIndex(
+        (c) =>
+          c.name === sortedCombatant.name &&
+          c.initiative === sortedCombatant.initiative
+      );
+      if (originalIndex === -1) return;
+
+      const updatedCombatants = [...combatants];
+      updatedCombatants[originalIndex] = {
+        ...sortedCombatant,
+        currentHp: newHp,
+        hp:
+          typeof sortedCombatant.hp === "object"
+            ? { ...sortedCombatant.hp, current: newHp }
+            : newHp,
+      };
+
+      updateCombatState({ combatants: updatedCombatants });
+    },
+    [combatants, sortedCombatants, updateCombatState]
   );
 
   // Combatant Card Component for non-combat sections
@@ -434,19 +587,17 @@ export default function CombatTrackerModal({
     showSuccess("Combat ended", { title: "Combat Complete" });
   }, [showSuccess, updateCombatState]);
 
-  // Performance optimizations - memoized computations
-  const sortedCombatants = useMemo(() => {
-    return [...combatants].sort((a, b) => {
-      if (b.initiative === a.initiative) {
-        return (b._sortId || 0) - (a._sortId || 0);
-      }
-      return b.initiative - a.initiative;
-    });
-  }, [combatants]);
-
   const currentCombatant = useMemo(() => {
     return sortedCombatants[currentTurn];
   }, [sortedCombatants, currentTurn]);
+
+  // Check if all combatants have initiative values > 0
+  const allCombatantsHaveInitiative = useMemo(() => {
+    return (
+      combatants.length > 0 &&
+      combatants.every((combatant) => combatant.initiative > 0)
+    );
+  }, [combatants]);
 
   // Loading state consolidation
   const isLoading = loading || charactersLoading;
@@ -461,7 +612,9 @@ export default function CombatTrackerModal({
         switch (event.key.toLowerCase()) {
           case " ": // Spacebar for next turn
             event.preventDefault();
-            nextTurn();
+            if (allCombatantsHaveInitiative) {
+              nextTurn();
+            }
             break;
           case "r": // R key for reroll current combatant's initiative
             event.preventDefault();
@@ -475,7 +628,9 @@ export default function CombatTrackerModal({
             break;
           case "arrowright": // Right arrow for next turn (alternative)
             event.preventDefault();
-            nextTurn();
+            if (allCombatantsHaveInitiative) {
+              nextTurn();
+            }
             break;
         }
       }
@@ -488,6 +643,7 @@ export default function CombatTrackerModal({
     isCombatActive,
     combatants,
     currentTurn,
+    allCombatantsHaveInitiative,
     nextTurn,
     rollInitiativeFor,
     endCombat,
@@ -522,6 +678,7 @@ export default function CombatTrackerModal({
             currentCombatant ? { name: currentCombatant.name } : undefined
           }
           round={round}
+          allCombatantsHaveInitiative={allCombatantsHaveInitiative}
           onStartCombat={initializeCombat}
           onNextTurn={nextTurn}
           onEndCombat={endCombat}
@@ -545,51 +702,54 @@ export default function CombatTrackerModal({
 
         {/* Initiative Order with Table */}
         {!isLoading && combatants.length > 0 && (
-          <SectionWrapper
-            title="Initiative Order"
-            collapsible
-            collapsibleKey="combat-initiative"
-          >
-            <div className="p-3">
+          <SectionWrapper title="Initiative Order">
+            <div className="p-2">
               <InitiativeTable
-                combatants={combatants}
+                combatants={sortedCombatants}
                 currentTurn={currentTurn}
                 isCombatActive={isCombatActive}
-                onRerollInitiative={rollInitiativeFor}
+                onUpdateInitiative={updateInitiativeFor}
                 onSetCurrentTurn={(index) =>
                   updateCombatState({ currentTurn: index })
                 }
+                onUpdateHp={updateCombatantHp}
               />
-              {isCombatActive && currentCombatant && (
-                <div className="mt-4 p-3 bg-amber-900/20 border border-amber-500 rounded-lg">
-                  <Typography
-                    variant="body"
-                    color="amber"
-                    className="font-semibold"
-                  >
-                    Current Turn: {currentCombatant.name} (Round {round})
-                  </Typography>
-                  <Typography
-                    variant="bodySmall"
-                    color="amber"
-                    className="mt-1"
-                  >
-                    Initiative: {currentCombatant.initiative} • AC:{" "}
-                    {currentCombatant.ac}
-                  </Typography>
-                </div>
-              )}
             </div>
           </SectionWrapper>
         )}
 
+        {/* Pre-Combat Initiative Setting */}
+        {!isLoading &&
+          !isCombatActive &&
+          currentCombatants.length > 0 &&
+          combatants.length === 0 && (
+            <SectionWrapper
+              title="Set Initiative (Optional)"
+              collapsible
+              collapsibleKey="pre-combat-initiative"
+            >
+              <div className="p-2">
+                <div className="mb-3">
+                  <Typography variant="bodySmall" color="secondary">
+                    Set custom initiative values before starting combat, or
+                    leave at 0 to auto-roll when combat begins.
+                  </Typography>
+                </div>
+                <InitiativeTable
+                  combatants={currentCombatantsWithInitiative}
+                  currentTurn={-1}
+                  isCombatActive={false}
+                  onUpdateInitiative={updatePreCombatInitiative}
+                  onSetCurrentTurn={() => {}} // No-op for pre-combat
+                  onUpdateHp={() => {}} // No-op for pre-combat
+                />
+              </div>
+            </SectionWrapper>
+          )}
+
         {/* Current Combatants (before combat starts) */}
         {!isLoading && !isCombatActive && currentCombatants.length > 0 && (
-          <SectionWrapper
-            title="Combatants"
-            collapsible
-            collapsibleKey="current-combatants"
-          >
+          <SectionWrapper title="Combatants">
             <div className="space-y-3 p-3">
               {currentCombatants.map((combatant, index) => (
                 <CombatantCard
@@ -610,11 +770,7 @@ export default function CombatTrackerModal({
 
         {/* Available Players (before combat starts) */}
         {!isLoading && !isCombatActive && availablePlayers.length > 0 && (
-          <SectionWrapper
-            title="Available Players"
-            collapsible
-            collapsibleKey="available-players"
-          >
+          <SectionWrapper title="Available Players">
             <div className="space-y-3 p-3">
               {availablePlayers.map((player, index) => (
                 <CombatantCard

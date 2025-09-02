@@ -25,21 +25,23 @@ export default function Modal({
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen || !modalRef.current) return;
-      
+
       if (event.key === "Escape") {
         onClose();
         return;
       }
-      
+
       // Focus trapping with Tab key
       if (event.key === "Tab") {
         const focusableElements = modalRef.current.querySelectorAll(
           'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
         );
-        
+
         const firstElement = focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-        
+        const lastElement = focusableElements[
+          focusableElements.length - 1
+        ] as HTMLElement;
+
         if (event.shiftKey) {
           // Shift + Tab
           if (document.activeElement === firstElement) {
@@ -74,20 +76,23 @@ export default function Modal({
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
         const firstFocusable = focusableElements?.[0] as HTMLElement;
-        
+
         if (firstFocusable) {
           firstFocusable.focus();
         } else {
           modalRef.current?.focus();
         }
       }, 100);
-    } else if (previousFocusRef.current && document.contains(previousFocusRef.current)) {
+    } else if (
+      previousFocusRef.current &&
+      document.contains(previousFocusRef.current)
+    ) {
       // Return focus to the previously focused element if it still exists
       try {
         previousFocusRef.current.focus();
       } catch (error) {
         // Fallback if focus restoration fails
-        console.warn('Could not restore focus to previous element:', error);
+        console.warn("Could not restore focus to previous element:", error);
       }
     }
   }, [isOpen]);
@@ -153,7 +158,7 @@ export default function Modal({
         </div>
 
         {/* Body */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
+        <div className="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
           {children}
         </div>
       </div>
