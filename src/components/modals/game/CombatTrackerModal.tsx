@@ -3,15 +3,32 @@ import { Modal } from "../base";
 import { Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { LoadingState } from "@/components/ui/feedback";
-import { Icon, Table } from "@/components/ui/display";
+import { Icon } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import RollableButton from "@/components/ui/dice/RollableButton";
 import { useLoadingState } from "@/hooks/useLoadingState";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePlayerCharacters } from "@/hooks/usePlayerCharacters";
 import { useLocalStorage } from "@/hooks";
+import { calculateArmorClass } from "@/utils/characterCalculations";
+import CombatControls from "./combat/CombatControls";
+import InitiativeTable from "./combat/InitiativeTable";
 import type { Game, GameCombatant } from "@/types/game";
-import type { TableColumn } from "@/components/ui/display";
+
+// Combat-specific character data interface
+interface CombatCharacterData {
+  id: string;
+  name: string;
+  ac?: number;
+  armorClass?: number;
+  avatar?: string;
+  equipment?: Array<{
+    name: string;
+    wearing?: boolean;
+    AC?: number;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
 
 interface CombatTrackerModalProps {
   isOpen: boolean;
@@ -117,10 +134,23 @@ export default function CombatTrackerModal({
     return playerCharacters
       .filter((char) => !playersInCombat.has(char.name))
       .map((char) => {
-        const avatar = char["avatar"] as string | undefined;
+        const combatChar = char as CombatCharacterData;
+        const avatar = combatChar.avatar;
+
+        // First try direct AC properties that might be pre-calculated
+        let playerAC = combatChar.ac || combatChar.armorClass;
+
+        // If no direct AC, try to calculate from equipment
+        if (!playerAC || typeof playerAC !== "number") {
+          playerAC = calculateArmorClass(combatChar);
+        }
+
+        // Ensure we have a valid number
+        const finalAC = typeof playerAC === "number" ? playerAC : 10;
+
         return {
           name: char.name,
-          ac: (char["ac"] as number) || 10,
+          ac: finalAC,
           initiative: 0,
           isPlayer: true as const,
           avatar,
@@ -132,13 +162,44 @@ export default function CombatTrackerModal({
   const currentCombatants = useMemo(() => {
     if (!game) return [];
 
-    return (game.combatants || []).map((combatant) => ({
-      ...combatant,
-      ac: combatant.ac || 11,
-      initiative: 0,
-      isPlayer: false,
-    }));
-  }, [game]);
+    return (game.combatants || []).map((combatant) => {
+      // If this is a player, try to get their actual AC from character data
+      if (combatant["isPlayer"]) {
+        const playerChar = playerCharacters.find(
+          (char) => char.name === combatant.name
+        );
+        if (playerChar) {
+          const combatChar = playerChar as CombatCharacterData;
+
+          // First try direct AC properties that might be pre-calculated
+          let playerAC = combatChar.ac || combatChar.armorClass;
+
+          // If no direct AC, try to calculate from equipment
+          if (!playerAC || typeof playerAC !== "number") {
+            playerAC = calculateArmorClass(combatChar);
+          }
+
+          // Ensure we have a valid number
+          const finalAC =
+            typeof playerAC === "number" ? playerAC : combatant.ac || 11;
+
+          return {
+            ...combatant,
+            ac: finalAC,
+            initiative: 0,
+            isPlayer: true,
+          };
+        }
+      }
+
+      return {
+        ...combatant,
+        ac: combatant.ac || 11,
+        initiative: 0,
+        isPlayer: Boolean(combatant["isPlayer"]),
+      };
+    });
+  }, [game, playerCharacters]);
 
   // Add player to combat
   const addPlayerToCombat = useCallback(
@@ -266,87 +327,6 @@ export default function CombatTrackerModal({
       });
     },
     [combatants, showInfo, updateCombatState]
-  );
-
-  // Combat table columns for initiative tracking
-  const combatColumns: TableColumn[] = useMemo(
-    () => [
-      {
-        key: "name",
-        header: "Combatant",
-        cell: (combatant: Record<string, unknown>) => {
-          const c = combatant as CombatantWithInitiative;
-          return (
-            <div className="flex items-center gap-3">
-              {c.avatar && typeof c.avatar === "string" && (
-                <img
-                  src={c.avatar}
-                  alt={`${c.name} avatar`}
-                  className="w-8 h-8 rounded-full"
-                />
-              )}
-              <div>
-                <Typography variant="body" color="zinc" className="font-medium">
-                  {c.name}
-                  {c.isPlayer && (
-                    <span className="ml-2 text-xs text-amber-400 font-semibold">
-                      PLAYER
-                    </span>
-                  )}
-                </Typography>
-                <Typography variant="bodySmall" color="secondary">
-                  AC {c.ac}
-                </Typography>
-              </div>
-            </div>
-          );
-        },
-        sortable: false,
-      },
-      {
-        key: "initiative",
-        header: "Initiative",
-        cell: (combatant: Record<string, unknown>) => {
-          const c = combatant as CombatantWithInitiative;
-          return (
-            <Typography
-              variant="body"
-              color="zinc"
-              className="font-mono text-lg"
-            >
-              {c.initiative}
-            </Typography>
-          );
-        },
-        sortable: true,
-        align: "center" as const,
-        width: "120px",
-      },
-      {
-        key: "actions",
-        header: "Actions",
-        cell: (combatant: Record<string, unknown>) => {
-          const c = combatant as CombatantWithInitiative;
-          const index = combatants.findIndex(
-            (cb) => cb.name === c.name && cb.initiative === c.initiative
-          );
-          return (
-            <div className="flex gap-2">
-              <RollableButton
-                label="Reroll"
-                value="🎲"
-                onClick={() => rollInitiativeFor(index)}
-                tooltip={`Re-roll initiative for ${c.name}`}
-                size="sm"
-              />
-            </div>
-          );
-        },
-        align: "right" as const,
-        width: "100px",
-      },
-    ],
-    [combatants, rollInitiativeFor]
   );
 
   // Combatant Card Component for non-combat sections
@@ -534,42 +514,18 @@ export default function CombatTrackerModal({
     >
       <div className="space-y-6 p-2">
         {/* Combat Controls */}
-        <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-lg border border-zinc-700">
-          <div className="flex items-center gap-4">
-            {!isCombatActive ? (
-              <Button
-                onClick={initializeCombat}
-                disabled={isLoading || currentCombatants.length === 0}
-                variant="primary"
-              >
-                {loading ? "Initializing..." : "Start Combat"}
-              </Button>
-            ) : (
-              <>
-                <Button onClick={nextTurn} variant="primary">
-                  Next Turn
-                </Button>
-                <Button onClick={endCombat} variant="secondary">
-                  End Combat
-                </Button>
-              </>
-            )}
-          </div>
-
-          {isCombatActive && (
-            <div className="text-right" role="status" aria-live="polite">
-              <Typography variant="body" color="zinc" className="font-semibold">
-                Round {round}
-              </Typography>
-              <Typography variant="bodySmall" color="secondary">
-                {currentCombatant?.name}'s turn
-              </Typography>
-              <Typography variant="bodySmall" color="muted" className="mt-1">
-                Shortcuts: Space (Next) • R (Reroll) • E (End)
-              </Typography>
-            </div>
-          )}
-        </div>
+        <CombatControls
+          isCombatActive={isCombatActive}
+          isLoading={isLoading}
+          currentCombatantsCount={currentCombatants.length}
+          currentCombatant={
+            currentCombatant ? { name: currentCombatant.name } : undefined
+          }
+          round={round}
+          onStartCombat={initializeCombat}
+          onNextTurn={nextTurn}
+          onEndCombat={endCombat}
+        />
 
         {/* Loading State */}
         {isLoading && <LoadingState message="Loading combat data..." />}
@@ -595,23 +551,13 @@ export default function CombatTrackerModal({
             collapsibleKey="combat-initiative"
           >
             <div className="p-3">
-              <Table
-                columns={combatColumns}
-                data={combatants}
-                sort={{ key: "initiative", direction: "desc" }}
-                onRowClick={(_combatant, index) => {
-                  // Optional: Set current turn when clicking a row
-                  updateCombatState({ currentTurn: index });
-                }}
-                hoverable
-                caption="Combat initiative order - click on a combatant to set their turn"
-                getRowKey={(
-                  combatant: Record<string, unknown>,
-                  index: number
-                ) =>
-                  `${(combatant as CombatantWithInitiative).name}-${
-                    (combatant as CombatantWithInitiative).initiative
-                  }-${index}`
+              <InitiativeTable
+                combatants={combatants}
+                currentTurn={currentTurn}
+                isCombatActive={isCombatActive}
+                onRerollInitiative={rollInitiativeFor}
+                onSetCurrentTurn={(index) =>
+                  updateCombatState({ currentTurn: index })
                 }
               />
               {isCombatActive && currentCombatant && (

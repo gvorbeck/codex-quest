@@ -16,6 +16,27 @@ export interface TreasureResult {
 
 export type TreasureType = "lair" | "individual" | "unguarded";
 
+// Constants for magic item generation
+const MAGIC_ITEM_CATEGORIES = {
+  WEAPON: 25,
+  ARMOR: 70,
+  SCROLL: 79,
+  WAND_STAFF_ROD: 86,
+  MISCELLANEOUS: 96,
+  RARE: 100,
+} as const;
+
+const GEM_VALUE_ADJUSTMENTS = {
+  NEXT_LOWER: { roll: 2, multiplier: 0.25 },
+  HALF_VALUE: { roll: 3, multiplier: 0.5 },
+  THREE_QUARTER: { roll: 4, multiplier: 0.75 },
+  NORMAL_MIN: 5,
+  NORMAL_MAX: 9,
+  ONE_AND_HALF: { roll: 10, multiplier: 1.5 },
+  DOUBLE: { roll: 11, multiplier: 2 },
+  NEXT_HIGHER: { roll: 12, multiplier: 4 },
+} as const;
+
 // Lair treasure types
 export type LairTreasureType = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O";
 
@@ -148,14 +169,20 @@ function generateGem(): string {
   const adjustment = rollDice("2d6");
   let multiplier = 1;
   
-  switch (adjustment) {
-    case 2: multiplier = 0.25; break; // Next Lower Value Row
-    case 3: multiplier = 0.5; break;  // 1/2
-    case 4: multiplier = 0.75; break; // 3/4
-    case 5: case 6: case 7: case 8: case 9: multiplier = 1; break; // Normal Value
-    case 10: multiplier = 1.5; break; // 1.5 Times
-    case 11: multiplier = 2; break;   // 2 Times
-    case 12: multiplier = 4; break;   // Next Higher Value Row
+  if (adjustment === GEM_VALUE_ADJUSTMENTS.NEXT_LOWER.roll) {
+    multiplier = GEM_VALUE_ADJUSTMENTS.NEXT_LOWER.multiplier;
+  } else if (adjustment === GEM_VALUE_ADJUSTMENTS.HALF_VALUE.roll) {
+    multiplier = GEM_VALUE_ADJUSTMENTS.HALF_VALUE.multiplier;
+  } else if (adjustment === GEM_VALUE_ADJUSTMENTS.THREE_QUARTER.roll) {
+    multiplier = GEM_VALUE_ADJUSTMENTS.THREE_QUARTER.multiplier;
+  } else if (adjustment >= GEM_VALUE_ADJUSTMENTS.NORMAL_MIN && adjustment <= GEM_VALUE_ADJUSTMENTS.NORMAL_MAX) {
+    multiplier = 1; // Normal Value
+  } else if (adjustment === GEM_VALUE_ADJUSTMENTS.ONE_AND_HALF.roll) {
+    multiplier = GEM_VALUE_ADJUSTMENTS.ONE_AND_HALF.multiplier;
+  } else if (adjustment === GEM_VALUE_ADJUSTMENTS.DOUBLE.roll) {
+    multiplier = GEM_VALUE_ADJUSTMENTS.DOUBLE.multiplier;
+  } else if (adjustment === GEM_VALUE_ADJUSTMENTS.NEXT_HIGHER.roll) {
+    multiplier = GEM_VALUE_ADJUSTMENTS.NEXT_HIGHER.multiplier;
   }
   
   const finalValue = Math.round(baseValue * multiplier);
@@ -171,7 +198,7 @@ function generateJewelry(): string {
 function generateMagicItem(): string {
   const roll = rollPercentage();
   
-  if (roll <= 25) { // Weapon
+  if (roll <= MAGIC_ITEM_CATEGORIES.WEAPON) { // Weapon
     const weapon = MAGIC_WEAPONS[Math.floor(Math.random() * MAGIC_WEAPONS.length)]!;
     
     // Determine weapon bonus
@@ -189,7 +216,7 @@ function generateMagicItem(): string {
     else bonus = "Cursed, -2";
     
     return `${weapon} ${bonus}`;
-  } else if (roll <= 70) { // Armor
+  } else if (roll <= MAGIC_ITEM_CATEGORIES.ARMOR) { // Armor
     const armor = MAGIC_ARMOR[Math.floor(Math.random() * MAGIC_ARMOR.length)]!;
     const bonusRoll = rollPercentage();
     let bonus = "+1";
@@ -200,11 +227,11 @@ function generateMagicItem(): string {
     else bonus = "Cursed, AC 11";
     
     return `${armor} ${bonus}`;
-  } else if (roll <= 79) { // Scroll
+  } else if (roll <= MAGIC_ITEM_CATEGORIES.SCROLL) { // Scroll
     return SCROLLS[Math.floor(Math.random() * SCROLLS.length)]!;
-  } else if (roll <= 86) { // Wand, Staff, or Rod
+  } else if (roll <= MAGIC_ITEM_CATEGORIES.WAND_STAFF_ROD) { // Wand, Staff, or Rod
     return WANDS_STAVES_RODS[Math.floor(Math.random() * WANDS_STAVES_RODS.length)]!;
-  } else if (roll <= 96) { // Miscellaneous Items
+  } else if (roll <= MAGIC_ITEM_CATEGORIES.MISCELLANEOUS) { // Miscellaneous Items
     return MISCELLANEOUS_ITEMS[Math.floor(Math.random() * MISCELLANEOUS_ITEMS.length)]!;
   } else { // Rare Items
     return RARE_ITEMS[Math.floor(Math.random() * RARE_ITEMS.length)]!;

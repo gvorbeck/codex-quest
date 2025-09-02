@@ -7,7 +7,7 @@ import { StatGrid } from "@/components/ui/display";
 import { LanguageSelector } from "@/components/character/creation";
 import { AvatarSelector } from "@/components/character/management";
 import { useValidation } from "@/validation";
-import { characterNameSchema } from "@/utils/validationSchemas";
+import { characterNameSchema } from "@/utils/characterValidation";
 import { sanitizeCharacterName } from "@/utils/sanitization";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";

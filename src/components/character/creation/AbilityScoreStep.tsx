@@ -3,12 +3,12 @@ import { SimpleRoller } from "@/components/ui/display";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
-import { calculateModifier } from "@/utils/gameUtils";
+import { calculateModifier } from "@/utils/characterCalculations";
 import { logger } from "@/utils/logger";
 import type { Character, AbilityScore, BaseStepProps } from "@/types/character";
 import { memo } from "react";
 import { useValidation } from "@/validation";
-import { abilityScoreSchema } from "@/utils/validationSchemas";
+import { abilityScoreSchema } from "@/utils/characterValidation";
 import { Rules, ABILITY_NAMES } from "@/validation";
 import type { AbilityName } from "@/validation";
 

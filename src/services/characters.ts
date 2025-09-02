@@ -1,5 +1,12 @@
 // Character service for Firebase Firestore operations
-import { collection, getDocs, doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
 import type { AuthUser } from "./auth";
@@ -29,7 +36,12 @@ export const getUserCharacters = async (
 ): Promise<CharacterListItem[]> => {
   try {
     // Use the correct Firestore path structure: /users/{userId}/characters
-    const charactersRef = collection(db, FIREBASE_COLLECTIONS.USERS, user.uid, FIREBASE_COLLECTIONS.CHARACTERS);
+    const charactersRef = collection(
+      db,
+      FIREBASE_COLLECTIONS.USERS,
+      user.uid,
+      FIREBASE_COLLECTIONS.CHARACTERS
+    );
     const querySnapshot = await getDocs(charactersRef);
 
     const characters: CharacterListItem[] = [];
@@ -39,7 +51,7 @@ export const getUserCharacters = async (
       const data = docSnapshot.data();
       const wasLegacy = isLegacyCharacter(data);
       const processedData = processCharacterData(data);
-      
+
       characters.push({
         id: docSnapshot.id,
         name: processedData.name || "Unnamed Character", // Ensure name is always present
@@ -48,10 +60,21 @@ export const getUserCharacters = async (
 
       // If this was a legacy character, save the migrated data back to Firebase
       if (wasLegacy) {
-        const docRef = doc(db, FIREBASE_COLLECTIONS.USERS, user.uid, FIREBASE_COLLECTIONS.CHARACTERS, docSnapshot.id);
-        const migrationPromise = setDoc(docRef, processedData).catch((error) => {
-          logger.error(`Failed to persist migration for character ${docSnapshot.id}:`, error);
-        });
+        const docRef = doc(
+          db,
+          FIREBASE_COLLECTIONS.USERS,
+          user.uid,
+          FIREBASE_COLLECTIONS.CHARACTERS,
+          docSnapshot.id
+        );
+        const migrationPromise = setDoc(docRef, processedData).catch(
+          (error) => {
+            logger.error(
+              `Failed to persist migration for character ${docSnapshot.id}:`,
+              error
+            );
+          }
+        );
         migrationPromises.push(migrationPromise);
       }
     });
@@ -60,9 +83,13 @@ export const getUserCharacters = async (
     if (migrationPromises.length > 0) {
       try {
         await Promise.all(migrationPromises);
-        logger.info(`Successfully persisted ${migrationPromises.length} character migrations to Firebase`);
+        logger.info(
+          `Successfully persisted ${migrationPromises.length} character migrations to Firebase`
+        );
       } catch {
-        logger.warn("Some character migrations failed to persist, but continuing with fetched data");
+        logger.warn(
+          "Some character migrations failed to persist, but continuing with fetched data"
+        );
       }
     }
 
@@ -70,7 +97,7 @@ export const getUserCharacters = async (
   } catch (error) {
     handleServiceError(error, {
       action: "fetching user characters",
-      context: { userId: user.uid }
+      context: { userId: user.uid },
     });
   }
 };
@@ -83,7 +110,13 @@ export const getCharacterById = async (
   characterId: string
 ): Promise<CharacterListItem | null> => {
   try {
-    const characterRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS, characterId);
+    const characterRef = doc(
+      db,
+      FIREBASE_COLLECTIONS.USERS,
+      userId,
+      FIREBASE_COLLECTIONS.CHARACTERS,
+      characterId
+    );
     const docSnap = await getDoc(characterRef);
 
     if (docSnap.exists()) {
@@ -95,9 +128,14 @@ export const getCharacterById = async (
       if (wasLegacy) {
         try {
           await setDoc(characterRef, processedData);
-          logger.info(`Successfully persisted migration for character ${characterId}`);
+          logger.info(
+            `Successfully persisted migration for character ${characterId}`
+          );
         } catch (error) {
-          logger.error(`Failed to persist migration for character ${characterId}:`, error);
+          logger.error(
+            `Failed to persist migration for character ${characterId}:`,
+            error
+          );
         }
       }
 
@@ -112,7 +150,7 @@ export const getCharacterById = async (
   } catch (error) {
     handleServiceError(error, {
       action: "fetching character",
-      context: { userId, characterId }
+      context: { userId, characterId },
     });
   }
 };
@@ -134,16 +172,27 @@ export const saveCharacter = async (
         version: 2, // Current version
       },
     };
-    
+
     if (characterId) {
       // Update existing character
-      const characterRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS, characterId);
+      const characterRef = doc(
+        db,
+        FIREBASE_COLLECTIONS.USERS,
+        userId,
+        FIREBASE_COLLECTIONS.CHARACTERS,
+        characterId
+      );
       await setDoc(characterRef, dataToSave);
       logger.info(`Successfully updated character ${characterId}`);
       return characterId;
     } else {
       // Create new character with auto-generated ID
-      const charactersRef = collection(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS);
+      const charactersRef = collection(
+        db,
+        FIREBASE_COLLECTIONS.USERS,
+        userId,
+        FIREBASE_COLLECTIONS.CHARACTERS
+      );
       const docRef = doc(charactersRef);
       await setDoc(docRef, dataToSave);
       logger.info(`Successfully created character ${docRef.id}`);
@@ -152,7 +201,7 @@ export const saveCharacter = async (
   } catch (error) {
     handleServiceError(error, {
       action: "saving character",
-      context: { userId, characterId, characterName: character.name }
+      context: { userId, characterId, characterName: character.name },
     });
   }
 };
@@ -165,13 +214,19 @@ export const deleteCharacter = async (
   characterId: string
 ): Promise<void> => {
   try {
-    const characterRef = doc(db, FIREBASE_COLLECTIONS.USERS, userId, FIREBASE_COLLECTIONS.CHARACTERS, characterId);
+    const characterRef = doc(
+      db,
+      FIREBASE_COLLECTIONS.USERS,
+      userId,
+      FIREBASE_COLLECTIONS.CHARACTERS,
+      characterId
+    );
     await deleteDoc(characterRef);
     logger.info(`Successfully deleted character ${characterId}`);
   } catch (error) {
     handleServiceError(error, {
       action: "deleting character",
-      context: { userId, characterId }
+      context: { userId, characterId },
     });
   }
 };

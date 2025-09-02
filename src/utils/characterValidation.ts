@@ -4,7 +4,9 @@ import type {
   RaceRequirement,
   Class,
 } from "@/types/character";
+import type { ValidationSchema } from "@/validation";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { Rules } from "@/validation";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -282,3 +284,76 @@ export function cascadeValidateCharacter(
 export function hasValidHitPoints(character: Character): boolean {
   return character.hp && character.hp.max > 0 && character.hp.current > 0;
 }
+
+// Validation Schemas - moved from validationSchemas.ts
+
+/**
+ * Individual ability score validation
+ */
+export const abilityScoreSchema: ValidationSchema<number> = {
+  required: true,
+  rules: [
+    Rules.isValidAbilityScore,
+    Rules.isInteger,
+  ],
+};
+
+/**
+ * Character name validation
+ */
+export const characterNameSchema: ValidationSchema<string> = {
+  required: true,
+  rules: [Rules.characterName],
+};
+
+/**
+ * Race selection validation
+ */
+export const raceSelectionSchema: ValidationSchema<string> = {
+  required: true,
+  rules: [Rules.minLength(1)],
+};
+
+/**
+ * Class selection validation
+ */
+export const classSelectionSchema: ValidationSchema<string[]> = {
+  required: true,
+  rules: [Rules.nonEmptyArray],
+};
+
+/**
+ * Complete character validation schema
+ */
+export const characterSchema: ValidationSchema<Partial<Character>> = {
+  required: true,
+  rules: [
+    {
+      name: "hasName",
+      validate: (char: Partial<Character>) =>
+        typeof char.name === "string" && char.name.trim().length > 0,
+      message: "Character must have a name",
+    },
+    {
+      name: "hasAbilities",
+      validate: (char: Partial<Character>) =>
+        char.abilities !== undefined &&
+        Object.values(char.abilities).every((ability) =>
+          Rules.isValidAbilityScore.validate(ability.value)
+        ),
+      message: "Character must have valid ability scores",
+    },
+    {
+      name: "hasRace",
+      validate: (char: Partial<Character>) =>
+        typeof char.race === "string" && char.race.length > 0,
+      message: "Character must have a selected race",
+    },
+    {
+      name: "hasClass",
+      validate: (char: Partial<Character>) =>
+        Array.isArray(char.class) && char.class.length > 0,
+      message: "Character must have at least one selected class",
+    },
+  ],
+};

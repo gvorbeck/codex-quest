@@ -24,7 +24,7 @@ import {
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { allClasses } from "@/data/classes";
-import { calculateModifier } from "@/utils/gameUtils";
+import { calculateModifier } from "@/utils/characterCalculations";
 import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
 

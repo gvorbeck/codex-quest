@@ -49,31 +49,3 @@ export function updateCharacterGold(
     },
   };
 }
-
-/**
- * Checks if a character can afford a purchase
- * @param character - The character object
- * @param cost - The cost amount
- * @param currency - The currency type of the cost
- * @returns True if the character can afford the purchase
- */
-export function canAfford(
-  character: Character,
-  cost: number,
-  currency: "gp" | "sp" | "cp" | "ep" | "pp"
-): boolean {
-  const costInGold = convertToGold(cost, currency);
-  
-  // Calculate total gold value inline
-  const { currency: charCurrency } = character;
-  let totalGold = charCurrency.gold;
-
-  if (charCurrency.silver) totalGold += convertToGold(charCurrency.silver, "sp");
-  if (charCurrency.copper) totalGold += convertToGold(charCurrency.copper, "cp");
-  if (charCurrency.electrum) totalGold += convertToGold(charCurrency.electrum, "ep");
-  if (charCurrency.platinum) totalGold += convertToGold(charCurrency.platinum, "pp");
-
-  const roundedTotalGold = Math.round(totalGold * 100) / 100;
-  
-  return roundedTotalGold >= costInGold;
-}

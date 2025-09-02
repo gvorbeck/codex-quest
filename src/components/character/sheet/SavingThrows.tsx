@@ -5,7 +5,7 @@ import RollableButton from "@/components/ui/dice/RollableButton";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { TextHeader } from "@/components/ui/display";
-import { calculateModifier } from "@/utils/gameUtils";
+import { calculateModifier } from "@/utils/characterCalculations";
 import type { Character } from "@/types/character";
 
 // Constants

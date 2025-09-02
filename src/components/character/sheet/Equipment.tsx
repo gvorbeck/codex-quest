@@ -9,7 +9,7 @@ import { EquipmentSelector } from "@/components/character/management";
 import { CustomEquipmentModal } from "@/components/modals";
 import { Icon } from "@/components/ui/display/Icon";
 import { SIZE_STYLES } from "@/constants/designTokens";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/gameUtils";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
 import type { Character, Equipment as EquipmentItem } from "@/types/character";
 
 interface EquipmentProps {

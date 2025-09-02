@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import React from "react";
 import { logger } from "@/utils/logger";
 
 /**
@@ -13,96 +12,6 @@ export interface PropValidationResult {
   errors: string[];
 }
 
-/**
- * Validates FAB Group props at runtime
- */
-export const validateFABGroupProps = (props: {
-  actions?: Array<{ key: string; label: string; [key: string]: unknown }>;
-  mainAction?: { key: string; label: string; [key: string]: unknown };
-  position?: string;
-  expandDirection?: string;
-}): PropValidationResult => {
-  const result: PropValidationResult = {
-    isValid: true,
-    warnings: [],
-    errors: [],
-  };
-
-  const { actions = [], mainAction, position, expandDirection } = props;
-
-  // Validate actions array
-  if (actions.length === 0 && !mainAction) {
-    result.errors.push(
-      "FABGroup requires either actions array or mainAction to be provided"
-    );
-    result.isValid = false;
-  }
-
-  // Validate action structure
-  actions.forEach((action, index) => {
-    if (!action.key) {
-      result.errors.push(
-        `Action at index ${index} is missing required 'key' property`
-      );
-      result.isValid = false;
-    }
-
-    if (!action.label) {
-      result.errors.push(
-        `Action at index ${index} is missing required 'label' property`
-      );
-      result.isValid = false;
-    }
-
-    // Check for duplicate keys
-    const duplicateIndex = actions.findIndex(
-      (otherAction, otherIndex) =>
-        otherIndex !== index && otherAction.key === action.key
-    );
-    if (duplicateIndex !== -1) {
-      result.warnings.push(
-        `Duplicate key '${action.key}' found at indices ${index} and ${duplicateIndex}`
-      );
-    }
-  });
-
-  // Validate main action
-  if (mainAction) {
-    if (!mainAction.key) {
-      result.warnings.push("MainAction is missing 'key' property");
-    }
-    if (!mainAction.label) {
-      result.warnings.push("MainAction is missing 'label' property");
-    }
-  }
-
-  // Validate position
-  const validPositions = [
-    "bottom-right",
-    "bottom-left",
-    "top-right",
-    "top-left",
-  ];
-  if (position && !validPositions.includes(position)) {
-    result.warnings.push(
-      `Invalid position '${position}'. Valid options: ${validPositions.join(
-        ", "
-      )}`
-    );
-  }
-
-  // Validate expand direction
-  const validDirections = ["up", "down", "left", "right"];
-  if (expandDirection && !validDirections.includes(expandDirection)) {
-    result.warnings.push(
-      `Invalid expandDirection '${expandDirection}'. Valid options: ${validDirections.join(
-        ", "
-      )}`
-    );
-  }
-
-  return result;
-};
 
 /**
  * Validates individual FAB props
@@ -197,65 +106,4 @@ export const createFallbackProps = <T extends Record<string, unknown>>(
   });
 
   return result;
-};
-
-/**
- * Animation state management for performance optimization
- */
-export interface AnimationState {
-  isAnimating: boolean;
-  animationPhase: "entering" | "entered" | "exiting" | "exited";
-  shouldRender: boolean;
-}
-
-export const useAnimationState = (
-  isVisible: boolean,
-  duration: number = 200
-): AnimationState => {
-  const [state, setState] = React.useState<AnimationState>({
-    isAnimating: false,
-    animationPhase: "exited",
-    shouldRender: false,
-  });
-
-  React.useEffect(() => {
-    if (isVisible && state.animationPhase === "exited") {
-      setState({
-        isAnimating: true,
-        animationPhase: "entering",
-        shouldRender: true,
-      });
-
-      const timer = setTimeout(() => {
-        setState((prev) => ({
-          ...prev,
-          isAnimating: false,
-          animationPhase: "entered",
-        }));
-      }, duration);
-
-      return () => clearTimeout(timer);
-    } else if (!isVisible && state.animationPhase === "entered") {
-      setState({
-        isAnimating: true,
-        animationPhase: "exiting",
-        shouldRender: true,
-      });
-
-      const timer = setTimeout(() => {
-        setState({
-          isAnimating: false,
-          animationPhase: "exited",
-          shouldRender: false,
-        });
-      }, duration);
-
-      return () => clearTimeout(timer);
-    }
-
-    // Return undefined for the else case to satisfy TypeScript
-    return undefined;
-  }, [isVisible, duration, state.animationPhase]);
-
-  return state;
 };

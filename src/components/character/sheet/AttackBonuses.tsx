@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { SectionWrapper } from "@/components/ui/layout";
 import RollableButton from "@/components/ui/dice/RollableButton";
-import { calculateModifier, formatModifier } from "@/utils/gameUtils";
+import { calculateModifier, formatModifier } from "@/utils/characterCalculations";
 import { allRaces } from "@/data/races";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import { useDiceRoll } from "@/hooks/useDiceRoll";

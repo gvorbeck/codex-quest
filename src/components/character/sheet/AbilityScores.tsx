@@ -10,7 +10,7 @@ import {
   calculateModifier,
   formatModifier,
   getAbilityScoreColor,
-} from "@/utils/gameUtils";
+} from "@/utils/characterCalculations";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 
 interface AbilityScoresProps {

@@ -6,7 +6,7 @@ import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import type { Equipment, BaseStepProps } from "@/types/character";
 import { convertToGold, updateCharacterGold } from "@/utils/currency";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/gameUtils";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
 import { EquipmentSelector } from "../management";
 
 type EquipmentStepProps = BaseStepProps;
