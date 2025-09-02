@@ -9,6 +9,7 @@ export { default as Icon, type IconName } from "./Icon";
 export { default as SimpleRoller } from "./SimpleRoller";
 export { default as SkillDescriptionItem, type SkillDescriptionItemVariant, type SkillDescriptionItemColor, type SkillDescriptionItemSemantic } from "./SkillDescriptionItem";
 export { default as StatCard } from "./StatCard";
+export { default as Table, TableHeader, TableCell, type TableProps, type TableColumn, type TableHeaderProps, type TableCellProps } from "./Table";
 export { MarkdownText } from "./MarkdownText";
 export {
   default as StatusIndicator,

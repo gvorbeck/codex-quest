@@ -7,6 +7,8 @@ export const DESIGN_TOKENS = {
       abilityHover: "bg-gradient-to-br from-zinc-600 to-zinc-700",
       header: "bg-gradient-to-r from-zinc-700/50 to-zinc-750/30",
       label: "bg-zinc-750/40",
+      stripe: "bg-zinc-800/30",
+      hover: "hover:bg-zinc-700/30",
     },
     text: {
       primary: "text-zinc-100",
