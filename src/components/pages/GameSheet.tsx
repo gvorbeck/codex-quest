@@ -13,21 +13,26 @@ import {
   AddChar,
   GMBinder,
 } from "@/components/game/sheet";
-import { TreasureGeneratorModal, CombatTrackerModal } from "@/components/modals";
+import {
+  TreasureGeneratorModal,
+  CombatTrackerModal,
+} from "@/components/modals";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
+import { useNotifications } from "@/hooks/useNotifications";
 import { logger } from "@/utils/logger";
 import {
   GAME_SHEET_STYLES,
   ERROR_MESSAGES,
   LOADING_MESSAGES,
 } from "@/constants/gameSheetStyles";
-import type { Game, GamePlayer } from "@/types/game";
+import type { Game, GamePlayer, GameCombatant } from "@/types/game";
 
 export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
   const [isTreasureModalOpen, setIsTreasureModalOpen] = useState(false);
-  const [isCombatTrackerModalOpen, setIsCombatTrackerModalOpen] = useState(false);
+  const [isCombatTrackerModalOpen, setIsCombatTrackerModalOpen] =
+    useState(false);
 
   // Use the generic Firebase sheet hook
   const {
@@ -46,6 +51,9 @@ export default function GameSheet() {
 
   // Use the dice roller hook
   const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
+
+  // Use notifications
+  const { showSuccess } = useNotifications();
 
   const breadcrumbItems = useMemo(
     () => [
@@ -132,6 +140,27 @@ export default function GameSheet() {
   const handleCombatTrackerModalClose = useCallback(() => {
     setIsCombatTrackerModalOpen(false);
   }, []);
+
+  // Handle adding combatants to the game
+  const handleAddToCombat = useCallback(
+    (newCombatant: GameCombatant) => {
+      if (!game) return;
+
+      const updatedCombatants = [...(game.combatants || []), newCombatant];
+      const updatedGame = {
+        ...game,
+        combatants: updatedCombatants,
+      };
+
+      handleGameChange(updatedGame);
+
+      // Show success notification
+      showSuccess(`${newCombatant.name} added to Combat Tracker`, {
+        title: "Monster Added",
+      });
+    },
+    [game, handleGameChange, showSuccess]
+  );
 
   // Data loading is now handled by useFirebaseSheet hook
 
@@ -231,7 +260,9 @@ export default function GameSheet() {
           )}
 
           {/* GM Binder section - only show for game master */}
-          {isGameMaster && <GMBinder game={game} />}
+          {isGameMaster && (
+            <GMBinder game={game} onAddToCombat={handleAddToCombat} />
+          )}
 
           <GameNotesSection
             notes={game.notes || ""}

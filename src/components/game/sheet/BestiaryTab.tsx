@@ -8,18 +8,23 @@ import { categorizeMonster, createSearchableText } from "@/utils/gmBinderUtils";
 import { logger } from "@/utils/logger";
 import { MonsterItem } from "./MonsterItem";
 import type { Monster, MonsterWithCategory } from "@/types/monsters";
+import type { GameCombatant } from "@/types/game";
 
 // Cache for loaded data
 const monstersCache = new Map<string, MonsterWithCategory[]>();
 
-export const BestiaryTab = memo(() => {
+interface BestiaryTabProps {
+  onAddToCombat?: ((combatant: GameCombatant) => void) | undefined;
+}
+
+export const BestiaryTab = memo(({ onAddToCombat }: BestiaryTabProps) => {
   const [monsters, setMonsters] = useState<MonsterWithCategory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // Lazy load monsters data
   const loadMonsters = useCallback(async () => {
     const cacheKey = CACHE_KEYS.GM_BINDER_MONSTERS;
-    
+
     if (monstersCache.has(cacheKey)) {
       setMonsters(monstersCache.get(cacheKey) as MonsterWithCategory[]);
       return;
@@ -28,9 +33,11 @@ export const BestiaryTab = memo(() => {
     setIsLoading(true);
     try {
       const { default: allMonsters } = await import("@/data/monsters.json");
-      
+
       // Add category and searchable text using utility functions
-      const monstersWithCategory: MonsterWithCategory[] = (allMonsters as Monster[]).map(monster => ({
+      const monstersWithCategory: MonsterWithCategory[] = (
+        allMonsters as Monster[]
+      ).map((monster) => ({
         ...monster,
         category: categorizeMonster(monster),
         searchableText: createSearchableText(monster),
@@ -53,9 +60,12 @@ export const BestiaryTab = memo(() => {
     }
   }, [monsters.length, loadMonsters]);
 
-  const renderMonsterItem = useCallback((monster: MonsterWithCategory) => (
-    <MonsterItem monster={monster} />
-  ), []);
+  const renderMonsterItem = useCallback(
+    (monster: MonsterWithCategory) => (
+      <MonsterItem monster={monster} onAddToCombat={onAddToCombat} />
+    ),
+    [onAddToCombat]
+  );
 
   if (isLoading) {
     return <LoadingState message={GM_BINDER_MESSAGES.LOADING_MONSTERS} />;
@@ -64,7 +74,10 @@ export const BestiaryTab = memo(() => {
   if (monsters.length === 0) {
     return (
       <Card variant="standard" className="p-8 text-center">
-        <Typography variant="body" className={GAME_SHEET_STYLES.colors.text.secondary}>
+        <Typography
+          variant="body"
+          className={GAME_SHEET_STYLES.colors.text.secondary}
+        >
           {GM_BINDER_MESSAGES.NO_MONSTERS}
         </Typography>
       </Card>
