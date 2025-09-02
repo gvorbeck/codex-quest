@@ -25,6 +25,7 @@ export default function CombatTrackerModal({
   isOpen,
   onClose,
   game,
+  onUpdateGame,
 }: CombatTrackerModalProps) {
   const [combatants, setCombatants] = useState<CombatantWithInitiative[]>([]);
   const [currentTurn, setCurrentTurn] = useState(0);
@@ -38,44 +39,93 @@ export default function CombatTrackerModal({
     game || ({} as Game)
   );
 
-  // Combine player characters and NPCs into combat-ready list
-  const allCombatants = useMemo(() => {
-    if (!game) return [];
-
-    const players: CombatantWithInitiative[] = playerCharacters.map((char) => {
-      const basePlayer = {
+  // Get available players (not yet added to combat)
+  const availablePlayers = useMemo(() => {
+    return playerCharacters.map((char) => {
+      const avatar = char["avatar"] as string | undefined;
+      return {
         name: char.name,
         ac: (char["ac"] as number) || 10,
         initiative: 0,
         isPlayer: true as const,
+        avatar,
+      };
+    });
+  }, [playerCharacters]);
+
+  // Get current combatants (monsters and players added to combat)
+  const currentCombatants = useMemo(() => {
+    if (!game) return [];
+
+    return (game.combatants || []).map((combatant) => ({
+      ...combatant,
+      ac: combatant.ac || 11,
+      initiative: 0,
+      isPlayer: false,
+    }));
+  }, [game]);
+
+  // Add player to combat
+  const addPlayerToCombat = useCallback(
+    (player: CombatantWithInitiative) => {
+      if (!game || !onUpdateGame) return;
+
+      const newCombatant: GameCombatant = {
+        name: player.name,
+        ac: player.ac,
+        initiative: 0,
+        ...(player.avatar && { avatar: player.avatar }),
+        isPlayer: true,
       };
 
-      const avatar = char["avatar"] as string | undefined;
-      return avatar ? { ...basePlayer, avatar } : basePlayer;
-    });
+      const updatedCombatants = [...(game.combatants || []), newCombatant];
+      const updatedGame = {
+        ...game,
+        combatants: updatedCombatants,
+      };
 
-    const npcs: CombatantWithInitiative[] = (game.combatants || []).map(
-      (combatant) => ({
-        ...combatant,
-        ac: combatant.ac || 11,
-        initiative: 0,
-        isPlayer: false,
-      })
-    );
+      onUpdateGame(updatedGame);
+      showSuccess(`${player.name} added to combat`, {
+        title: "Player Added",
+      });
+    },
+    [game, onUpdateGame, showSuccess]
+  );
 
-    return [...players, ...npcs];
-  }, [playerCharacters, game]);
+  // Remove combatant from combat
+  const removeCombatant = useCallback(
+    (combatantIndex: number) => {
+      if (!game || !onUpdateGame) return;
+
+      const combatantToRemove = currentCombatants[combatantIndex];
+      if (!combatantToRemove) return;
+
+      const updatedCombatants = (game.combatants || []).filter(
+        (_, index) => index !== combatantIndex
+      );
+      const updatedGame = {
+        ...game,
+        combatants: updatedCombatants,
+      };
+
+      onUpdateGame(updatedGame);
+      showSuccess(`${combatantToRemove.name} removed from combat`, {
+        title: "Combatant Removed",
+      });
+    },
+    [game, onUpdateGame, currentCombatants, showSuccess]
+  );
 
   // Initialize combat with all combatants
   const initializeCombat = useCallback(async () => {
-    if (!game || allCombatants.length === 0) {
+    if (!game || currentCombatants.length === 0) {
       showError("No combatants available to start combat");
       return;
     }
 
     await withLoading(async () => {
       // Roll initiative for all combatants
-      const combatantsWithInitiative = allCombatants.map((combatant) => ({
+      const combatantsWithInitiative = currentCombatants.map((combatant) => ({
         ...combatant,
         initiative: Math.floor(Math.random() * 20) + 1, // Simple d20 roll
       }));
@@ -97,7 +147,7 @@ export default function CombatTrackerModal({
         }
       );
     });
-  }, [game, allCombatants, withLoading, showSuccess, showError]);
+  }, [game, currentCombatants, withLoading, showSuccess, showError]);
 
   // Roll initiative for a specific combatant
   const rollInitiativeFor = useCallback(
@@ -179,7 +229,7 @@ export default function CombatTrackerModal({
               <Button
                 onClick={initializeCombat}
                 disabled={
-                  loading || charactersLoading || allCombatants.length === 0
+                  loading || charactersLoading || currentCombatants.length === 0
                 }
                 variant="primary"
               >
@@ -215,13 +265,13 @@ export default function CombatTrackerModal({
         )}
 
         {/* No Combatants */}
-        {!loading && !charactersLoading && allCombatants.length === 0 && (
+        {!loading && !charactersLoading && currentCombatants.length === 0 && (
           <div className="text-center py-8" role="status">
             <Typography variant="body" color="secondary">
-              No players or combatants available for combat.
+              No combatants available for combat.
             </Typography>
             <Typography variant="bodySmall" color="muted" className="mt-2">
-              Add players to the game or define combatants to begin combat.
+              Add monsters from the Bestiary or players from below to begin combat.
             </Typography>
           </div>
         )}
@@ -322,26 +372,95 @@ export default function CombatTrackerModal({
           </div>
         )}
 
-        {/* Available Combatants (before combat starts) */}
+        {/* Available Players (before combat starts) */}
         {!loading &&
           !charactersLoading &&
           !isCombatActive &&
-          allCombatants.length > 0 && (
+          availablePlayers.length > 0 && (
             <div
               className="space-y-3"
               role="region"
-              aria-labelledby="available-combatants"
+              aria-labelledby="available-players"
             >
-              <Typography variant="h6" id="available-combatants" color="zinc">
-                Available Combatants
+              <Typography variant="h6" id="available-players" color="zinc">
+                Available Players
               </Typography>
-              {allCombatants.map((combatant, index) => (
+              {availablePlayers.map((player, index) => (
+                <div
+                  key={`${player.name}-${index}`}
+                  className="p-3 rounded-lg border border-zinc-600 bg-zinc-800/30"
+                  role="listitem"
+                  aria-label={`${player.name}, Player, AC ${player.ac}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      {player.avatar &&
+                        typeof player.avatar === "string" && (
+                          <img
+                            src={player.avatar}
+                            alt={`${player.name} avatar`}
+                            className="w-6 h-6 rounded-full"
+                          />
+                        )}
+                      <div>
+                        <Typography variant="body" color="zinc">
+                          {player.name}
+                          <span
+                            className="ml-2 text-xs text-amber-400 font-semibold"
+                            aria-label="Player character"
+                          >
+                            PLAYER
+                          </span>
+                        </Typography>
+                        <Typography
+                          variant="bodySmall"
+                          color="secondary"
+                          aria-label={`Armor class ${player.ac}`}
+                        >
+                          AC {player.ac}
+                        </Typography>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => addPlayerToCombat({
+                        name: player.name,
+                        ac: player.ac,
+                        initiative: player.initiative,
+                        isPlayer: player.isPlayer,
+                        ...(player.avatar && { avatar: player.avatar }),
+                      })}
+                      variant="primary"
+                      size="sm"
+                      aria-label={`Add ${player.name} to combat`}
+                    >
+                      Add to Combat
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+        {/* Current Combatants (before combat starts) */}
+        {!loading &&
+          !charactersLoading &&
+          !isCombatActive &&
+          currentCombatants.length > 0 && (
+            <div
+              className="space-y-3"
+              role="region"
+              aria-labelledby="current-combatants"
+            >
+              <Typography variant="h6" id="current-combatants" color="zinc">
+                Combatants
+              </Typography>
+              {currentCombatants.map((combatant, index) => (
                 <div
                   key={`${combatant.name}-${index}`}
                   className="p-3 rounded-lg border border-zinc-600 bg-zinc-800/30"
                   role="listitem"
                   aria-label={`${combatant.name}, ${
-                    combatant.isPlayer ? "Player" : "NPC"
+                    combatant.isPlayer ? "Player" : "Monster"
                   }, AC ${combatant.ac}`}
                 >
                   <div className="flex items-center justify-between">
@@ -354,25 +473,35 @@ export default function CombatTrackerModal({
                             className="w-6 h-6 rounded-full"
                           />
                         )}
-                      <Typography variant="body" color="zinc">
-                        {combatant.name}
-                        {combatant.isPlayer && (
-                          <span
-                            className="ml-2 text-xs text-amber-400 font-semibold"
-                            aria-label="Player character"
-                          >
-                            PLAYER
-                          </span>
-                        )}
-                      </Typography>
+                      <div>
+                        <Typography variant="body" color="zinc">
+                          {combatant.name}
+                          {combatant.isPlayer && (
+                            <span
+                              className="ml-2 text-xs text-amber-400 font-semibold"
+                              aria-label="Player character"
+                            >
+                              PLAYER
+                            </span>
+                          )}
+                        </Typography>
+                        <Typography
+                          variant="bodySmall"
+                          color="secondary"
+                          aria-label={`Armor class ${combatant.ac}`}
+                        >
+                          AC {combatant.ac}
+                        </Typography>
+                      </div>
                     </div>
-                    <Typography
-                      variant="bodySmall"
-                      color="secondary"
-                      aria-label={`Armor class ${combatant.ac}`}
+                    <Button
+                      onClick={() => removeCombatant(index)}
+                      variant="destructive"
+                      size="sm"
+                      aria-label={`Remove ${combatant.name} from combat`}
                     >
-                      AC {combatant.ac}
-                    </Typography>
+                      <Icon name="trash" size="sm" />
+                    </Button>
                   </div>
                 </div>
               ))}
