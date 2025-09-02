@@ -229,7 +229,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
               <div className="mt-4">
                 <Details
                   layout="horizontal"
-                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg"
+                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg inline-block"
                   items={[
                     {
                       label: "Players",
@@ -256,7 +256,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                     aria-label="Open combat tracker"
                     title="Combat tracker"
                   >
-                    <Icon name="shield" size="md" />
+                    <Icon name="sword" size="md" />
                   </Button>
                 )}
                 {onTreasureGenerate && (
