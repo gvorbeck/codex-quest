@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
+import { TextInput, TextArea } from "@/components/ui/inputs";
 import { Breadcrumb, TextHeader } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
 import { useGameNavigation } from "@/hooks/useEntityNavigation";
@@ -96,13 +97,12 @@ function GameGen() {
               >
                 Game Name *
               </label>
-              <input
+              <TextInput
                 id="game-name"
-                type="text"
                 value={game.name}
-                onChange={(e) => handleNameChange(e.target.value)}
+                onChange={handleNameChange}
                 placeholder="Enter your game name..."
-                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-600 rounded-lg text-primary-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+                size="md"
               />
             </div>
 
@@ -114,13 +114,13 @@ function GameGen() {
               >
                 Notes (Optional)
               </label>
-              <textarea
+              <TextArea
                 id="game-notes"
                 value={game.notes}
-                onChange={(e) => handleNotesChange(e.target.value)}
+                onChange={handleNotesChange}
                 placeholder="Add any notes about your game session..."
                 rows={4}
-                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-600 rounded-lg text-primary-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent resize-vertical"
+                size="md"
               />
             </div>
 

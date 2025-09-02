@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui/inputs";
+import { Select, Button } from "@/components/ui/inputs";
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader, Icon } from "@/components/ui/display";
@@ -43,12 +43,13 @@ export default function SpellSelectionSection({
         <Typography variant="body" color="primary" className="mb-4">
           {error}
         </Typography>
-        <button
+        <Button
           onClick={onClearError}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          variant="destructive"
+          size="md"
         >
           Try Again
-        </button>
+        </Button>
       </Card>
     );
   }

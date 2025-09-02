@@ -1,6 +1,7 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
 import { Breadcrumb, Icon } from "@/components/ui/display";
+import { Button } from "@/components/ui/inputs";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
 import { Typography } from "@/components/ui/design-system";
@@ -133,13 +134,15 @@ export default function GameSheet() {
           <Typography variant="body" color="secondary">
             Error: {error}
           </Typography>
-          <button
+          <Button
             onClick={clearError}
-            className="text-zinc-400 hover:text-zinc-100 ml-4"
+            variant="ghost"
+            size="sm"
             aria-label="Dismiss error"
+            className="ml-4"
           >
             <Icon name="close" size="sm" />
-          </button>
+          </Button>
         </div>
       </div>
     );
