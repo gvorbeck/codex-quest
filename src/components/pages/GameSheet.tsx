@@ -208,7 +208,7 @@ export default function GameSheet() {
           )}
 
           {/* GM Binder section - only show for game master */}
-          {isGameMaster && <GMBinder />}
+          {isGameMaster && <GMBinder game={game} />}
 
           <GameNotesSection
             notes={game.notes || ""}

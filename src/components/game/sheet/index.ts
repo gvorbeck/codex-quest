@@ -8,6 +8,7 @@ export { AddChar } from "./AddChar";
 export { GMBinder } from "./GMBinder";
 export { SpellsTab } from "./SpellsTab";
 export { BestiaryTab } from "./BestiaryTab";
+export { SkillsTab } from "./SkillsTab";
 export { SpellItem } from "./SpellItem";
 export { MonsterItem } from "./MonsterItem";
 export { MonsterStatsDisplay } from "./MonsterStatsDisplay";

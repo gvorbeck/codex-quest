@@ -1,14 +1,52 @@
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, useEffect } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel, SectionWrapper } from "@/components/ui/layout";
 import { SpellsTab } from "./SpellsTab";
 import { BestiaryTab } from "./BestiaryTab";
+import { SkillsTab } from "./SkillsTab";
+import { getCharacterById } from "@/services/characters";
+import { CLASSES_WITH_SKILLS } from "@/constants/skills";
+import type { Game } from "@/types/game";
 
 interface GMBinderProps {
   className?: string;
+  game?: Game;
 }
 
-export const GMBinder = memo(({ className }: GMBinderProps) => {
+export const GMBinder = memo(({ className, game }: GMBinderProps) => {
   const [selectedTab, setSelectedTab] = useState("spells");
+  const [hasSkillClasses, setHasSkillClasses] = useState(false);
+
+  // Check if any players have skill classes
+  useEffect(() => {
+    const checkForSkillClasses = async () => {
+      if (!game?.players?.length) {
+        setHasSkillClasses(false);
+        return;
+      }
+
+      try {
+        const characterPromises = game.players.map(player =>
+          getCharacterById(player.user, player.character)
+        );
+
+        const characterResults = await Promise.all(characterPromises);
+        const hasSkills = characterResults.some(result => {
+          if (!result?.class) return false;
+          const classes = Array.isArray(result.class) ? result.class : [result.class].filter(Boolean);
+          return classes.some((className: string) =>
+            className in CLASSES_WITH_SKILLS
+          );
+        });
+
+        setHasSkillClasses(hasSkills);
+      } catch (error) {
+        console.error("Error checking for skill classes:", error);
+        setHasSkillClasses(false);
+      }
+    };
+
+    checkForSkillClasses();
+  }, [game?.players]);
 
   const handleTabChange = useCallback((value: string) => {
     setSelectedTab(value);
@@ -31,6 +69,7 @@ export const GMBinder = memo(({ className }: GMBinderProps) => {
           <TabList aria-label="GM resources">
             <Tab value="spells">Spells</Tab>
             <Tab value="bestiary">Bestiary</Tab>
+            {hasSkillClasses && <Tab value="skills">Skills</Tab>}
           </TabList>
 
           <TabPanels>
@@ -41,6 +80,12 @@ export const GMBinder = memo(({ className }: GMBinderProps) => {
             <TabPanel value="bestiary">
               <BestiaryTab />
             </TabPanel>
+
+            {hasSkillClasses && game && (
+              <TabPanel value="skills">
+                <SkillsTab game={game} />
+              </TabPanel>
+            )}
           </TabPanels>
         </Tabs>
       </div>
