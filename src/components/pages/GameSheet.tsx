@@ -311,6 +311,8 @@ export default function GameSheet() {
         <EncounterGeneratorModal
           isOpen={isEncounterGeneratorModalOpen}
           onClose={handleEncounterGeneratorModalClose}
+          onAddToCombat={handleAddToCombat}
+          onOpenCombatTracker={handleCombatTrackerOpen}
         />
       </PageWrapper>
 

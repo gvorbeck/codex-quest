@@ -7,10 +7,13 @@ import { SectionWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
 import { roller } from "@/utils/dice";
 import { useNotifications } from "@/hooks/useNotifications";
+import type { GameCombatant } from "@/types/game";
 
 interface EncounterGeneratorModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onAddToCombat?: (combatant: GameCombatant) => void;
+  onOpenCombatTracker?: () => void;
 }
 
 /**
@@ -313,6 +316,8 @@ type CityType = keyof typeof CITY_ENCOUNTERS;
 export default function EncounterGeneratorModal({
   isOpen,
   onClose,
+  onAddToCombat,
+  onOpenCombatTracker,
 }: EncounterGeneratorModalProps) {
   const [encounterType, setEncounterType] = useState<EncounterType>("dungeon");
   const [dungeonLevel, setDungeonLevel] = useState<DungeonLevel>("Level 1");
@@ -353,6 +358,51 @@ export default function EncounterGeneratorModal({
         return [];
     }
   }, [encounterType, dungeonLevel, wildernessType, cityType]);
+
+  // Function to create a combatant from encounter result
+  const createCombatantFromEncounter = useCallback((encounterName: string): GameCombatant => {
+    // Parse encounter name to handle multiple creatures or special formatting
+    let baseName = encounterName;
+    
+    // Handle "NPC Party" encounters
+    if (baseName.includes("NPC Party:")) {
+      baseName = baseName.replace("NPC Party: ", "");
+    }
+    
+    // Remove special ability indicators (*)
+    baseName = baseName.replace(/\*/g, "");
+    
+    // Generate basic stats - these can be customized later in combat tracker
+    // Default AC for most creatures is around 12-16, with some variation
+    const defaultAC = 12 + roller("1d4").total; // AC 13-16
+    
+    return {
+      name: baseName.trim(),
+      ac: defaultAC,
+      initiative: 0, // Will be rolled during combat
+      isPlayer: false,
+    };
+  }, []);
+
+  // Function to add encounter to combat tracker
+  const handleAddToCombatTracker = useCallback(() => {
+    if (!currentEncounter || !onAddToCombat) return;
+    
+    const combatant = createCombatantFromEncounter(currentEncounter);
+    onAddToCombat(combatant);
+    
+    showSuccess(`${combatant.name} added to Combat Tracker`, {
+      title: "Added to Combat",
+      duration: 3000,
+    });
+    
+    // Optionally open the combat tracker
+    if (onOpenCombatTracker) {
+      setTimeout(() => {
+        onOpenCombatTracker();
+      }, 500); // Small delay to let the user see the success notification
+    }
+  }, [currentEncounter, onAddToCombat, onOpenCombatTracker, createCombatantFromEncounter, showSuccess]);
 
   const handleGenerateEncounter = useCallback(async () => {
     if (!currentTable.length) {
@@ -631,6 +681,15 @@ export default function EncounterGeneratorModal({
                         * indicates a creature with special abilities or
                         immunities
                       </Typography>
+                      {onAddToCombat && (
+                        <button
+                          onClick={handleAddToCombatTracker}
+                          className="mt-3 w-full bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                          aria-label={`Add ${currentEncounter} to combat tracker`}
+                        >
+                          Add to Combat Tracker
+                        </button>
+                      )}
                     </div>
                   )}
                 </>
