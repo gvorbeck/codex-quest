@@ -6,6 +6,7 @@ import { Icon } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
 import { roller } from "@/utils/dice";
+import { useNotifications } from "@/hooks/useNotifications";
 
 interface EncounterGeneratorModalProps {
   isOpen: boolean;
@@ -21,6 +22,15 @@ interface EncounterGeneratorModalProps {
  * - City/Town/Village encounters (Day and Night)
  * - Proper encounter frequency rules (1 in 6 for dungeons, 1 in 6 for wilderness)
  */
+
+// Constants for encounter generation
+const ENCOUNTER_CONSTANTS = {
+  OCCURRENCE_CHANCE: 1, // 1 in 6 chance for encounters
+  DICE_SIDES: 6,
+  TABLE_DICE: "1d12", // Most tables have 12 entries
+  GENERATION_DELAY: 500, // ms delay for UX
+  RESULT_DELAY: 300, // ms delay before showing result
+} as const;
 
 // Encounter Tables from BFRPG Rules
 const DUNGEON_ENCOUNTERS = {
@@ -136,6 +146,14 @@ export default function EncounterGeneratorModal({
   const [encounterOccurs, setEncounterOccurs] = useState<boolean | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Memoized hook for notifications
+  const { showSuccess, showError, showInfo } = useNotifications();
+
+  // Memoized key arrays for better performance
+  const dungeonLevels = useMemo(() => Object.keys(DUNGEON_ENCOUNTERS) as DungeonLevel[], []);
+  const wildernessTypes = useMemo(() => Object.keys(WILDERNESS_ENCOUNTERS) as WildernessType[], []);
+  const cityTypes = useMemo(() => Object.keys(CITY_ENCOUNTERS) as CityType[], []);
+
   // Get current encounter table
   const currentTable = useMemo(() => {
     switch (encounterType) {
@@ -151,7 +169,12 @@ export default function EncounterGeneratorModal({
   }, [encounterType, dungeonLevel, wildernessType, cityType]);
 
   const handleGenerateEncounter = useCallback(async () => {
-    if (!currentTable.length) return;
+    if (!currentTable.length) {
+      showError("No encounter table available for the selected type.", {
+        title: "Generation Error"
+      });
+      return;
+    }
 
     setIsGenerating(true);
     setCurrentEncounter(null);
@@ -159,32 +182,55 @@ export default function EncounterGeneratorModal({
 
     try {
       // Simulate rolling for encounter occurrence
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, ENCOUNTER_CONSTANTS.GENERATION_DELAY));
       
       // Roll 1d6 for encounter check (1 = encounter occurs)
       const encounterCheck = roller("1d6");
-      const encounterHappens = encounterCheck.total === 1;
+      const encounterHappens = encounterCheck.total === ENCOUNTER_CONSTANTS.OCCURRENCE_CHANCE;
       
       setEncounterOccurs(encounterHappens);
 
       if (encounterHappens) {
-        // Roll 1d12 for encounter table (most tables have 12 entries)
-        const roll = roller("1d12");
+        // Roll for encounter table selection
+        const roll = roller(ENCOUNTER_CONSTANTS.TABLE_DICE);
         const encounterIndex = Math.min(roll.total - 1, currentTable.length - 1);
         const encounter = currentTable[encounterIndex];
         
         // Add a small delay for UX
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise(resolve => setTimeout(resolve, ENCOUNTER_CONSTANTS.RESULT_DELAY));
         if (encounter) {
           setCurrentEncounter(encounter);
+          showSuccess(`Encounter generated: ${encounter}`, {
+            title: "Encounter!",
+            duration: 5000
+          });
+        } else {
+          showError("Failed to select encounter from table.", {
+            title: "Generation Error"
+          });
         }
+      } else {
+        showInfo("No encounter occurs this time.", {
+          title: "Peaceful Travel",
+          duration: 3000
+        });
       }
     } catch (error) {
       console.error("Error generating encounter:", error);
+      showError(
+        error instanceof Error ? error.message : "An unknown error occurred while generating the encounter.",
+        {
+          title: "Generation Failed",
+          dismissible: true
+        }
+      );
+      // Reset states on error
+      setEncounterOccurs(null);
+      setCurrentEncounter(null);
     } finally {
       setIsGenerating(false);
     }
-  }, [currentTable]);
+  }, [currentTable, showSuccess, showError, showInfo]);
 
   const handleTypeChange = useCallback((type: EncounterType) => {
     setEncounterType(type);
@@ -202,7 +248,7 @@ export default function EncounterGeneratorModal({
       <div className="space-y-6 p-2">
         {/* Encounter Type Selection */}
         <SectionWrapper title="Encounter Type">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Choose encounter type">
             {(["dungeon", "wilderness", "city"] as const).map((type) => (
               <Button
                 key={type}
@@ -210,6 +256,7 @@ export default function EncounterGeneratorModal({
                 size="sm"
                 onClick={() => handleTypeChange(type)}
                 className="capitalize"
+                aria-pressed={encounterType === type}
               >
                 {type}
               </Button>
@@ -220,13 +267,14 @@ export default function EncounterGeneratorModal({
         {/* Encounter Subtype Selection */}
         {encounterType === "dungeon" && (
           <SectionWrapper title="Dungeon Level">
-            <div className="flex flex-wrap gap-2">
-              {Object.keys(DUNGEON_ENCOUNTERS).map((level) => (
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Select dungeon level">
+              {dungeonLevels.map((level) => (
                 <Button
                   key={level}
                   variant={dungeonLevel === level ? "primary" : "secondary"}
                   size="sm"
-                  onClick={() => setDungeonLevel(level as DungeonLevel)}
+                  onClick={() => setDungeonLevel(level)}
+                  aria-pressed={dungeonLevel === level}
                 >
                   {level}
                 </Button>
@@ -237,14 +285,15 @@ export default function EncounterGeneratorModal({
 
         {encounterType === "wilderness" && (
           <SectionWrapper title="Terrain Type">
-            <div className="grid grid-cols-2 gap-2">
-              {Object.keys(WILDERNESS_ENCOUNTERS).map((terrain) => (
+            <div className="grid grid-cols-2 gap-2" role="group" aria-label="Select terrain type">
+              {wildernessTypes.map((terrain) => (
                 <Button
                   key={terrain}
                   variant={wildernessType === terrain ? "primary" : "secondary"}
                   size="sm"
-                  onClick={() => setWildernessType(terrain as WildernessType)}
+                  onClick={() => setWildernessType(terrain)}
                   className="text-xs"
+                  aria-pressed={wildernessType === terrain}
                 >
                   {terrain}
                 </Button>
@@ -255,13 +304,14 @@ export default function EncounterGeneratorModal({
 
         {encounterType === "city" && (
           <SectionWrapper title="Time of Day">
-            <div className="flex flex-wrap gap-2">
-              {Object.keys(CITY_ENCOUNTERS).map((time) => (
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Select time of day">
+              {cityTypes.map((time) => (
                 <Button
                   key={time}
                   variant={cityType === time ? "primary" : "secondary"}
                   size="sm"
-                  onClick={() => setCityType(time as CityType)}
+                  onClick={() => setCityType(time)}
+                  aria-pressed={cityType === time}
                 >
                   {time}
                 </Button>
@@ -300,22 +350,24 @@ export default function EncounterGeneratorModal({
             variant="primary"
             size="lg"
             onClick={handleGenerateEncounter}
-            disabled={isGenerating}
+            disabled={isGenerating || !currentTable.length}
             className="w-14 h-14 p-0"
-            aria-label="Generate random encounter"
-            title="Generate random encounter"
+            aria-label={`Generate random ${encounterType} encounter${currentTable.length ? '' : ' (no encounters available)'}`}
+            title={`Generate random ${encounterType} encounter`}
+            role="button"
           >
             <Icon
               name="dice"
               size="md"
               className={isGenerating ? "animate-spin" : ""}
+              aria-hidden={true}
             />
           </Button>
         </div>
 
         {/* Loading State */}
         {isGenerating && (
-          <div className="flex justify-center">
+          <div className="flex justify-center" role="status" aria-live="polite">
             <LoadingState
               variant="inline"
               message="Rolling for encounter..."
@@ -326,18 +378,30 @@ export default function EncounterGeneratorModal({
         {/* Results */}
         {!isGenerating && encounterOccurs !== null && (
           <SectionWrapper title="Encounter Result">
-            <div className="bg-zinc-800/50 rounded-lg p-4 text-center space-y-3">
+            <div 
+              className="bg-zinc-800/50 rounded-lg p-4 text-center space-y-3"
+              role="region"
+              aria-live="polite"
+              aria-label="Encounter generation result"
+            >
               {encounterOccurs ? (
                 <>
                   <div className="flex items-center justify-center gap-2 mb-4">
-                    <Icon name="exclamation-triangle" size="md" className="text-amber-400" />
+                    <Icon name="exclamation-triangle" size="md" className="text-amber-400" aria-hidden={true} />
                     <Typography variant="h6" color="primary" weight="bold">
                       Encounter Occurs!
                     </Typography>
                   </div>
                   {currentEncounter && (
                     <div className="bg-amber-400/10 border border-amber-400/30 rounded-lg p-4">
-                      <Typography variant="h5" color="primary" weight="bold" className="text-amber-300">
+                      <Typography 
+                        variant="h5" 
+                        color="primary" 
+                        weight="bold" 
+                        className="text-amber-300"
+                        role="heading"
+                        aria-level={3}
+                      >
                         {currentEncounter}
                       </Typography>
                       <Typography variant="bodySmall" color="muted" className="mt-2">
@@ -348,7 +412,7 @@ export default function EncounterGeneratorModal({
                 </>
               ) : (
                 <div className="flex items-center justify-center gap-2">
-                  <Icon name="check-circle" size="md" className="text-lime-400" />
+                  <Icon name="check-circle" size="md" className="text-lime-400" aria-hidden={true} />
                   <Typography variant="h6" color="secondary">
                     No Encounter
                   </Typography>
@@ -360,22 +424,34 @@ export default function EncounterGeneratorModal({
 
         {/* Instructions */}
         <SectionWrapper title="Usage Instructions">
-          <div className="bg-zinc-800/30 rounded-lg p-4 space-y-2">
-            <Typography variant="bodySmall" color="muted">
-              1. Select the type of encounter (Dungeon, Wilderness, or City)
-            </Typography>
-            <Typography variant="bodySmall" color="muted">
-              2. Choose the specific subtype (level, terrain, or time)
-            </Typography>
-            <Typography variant="bodySmall" color="muted">
-              3. Click the dice to roll for an encounter
-            </Typography>
-            <Typography variant="bodySmall" color="muted">
-              4. The system first checks if an encounter occurs (1 in 6 chance)
-            </Typography>
-            <Typography variant="bodySmall" color="muted">
-              5. If an encounter occurs, a creature is randomly selected from the appropriate table
-            </Typography>
+          <div className="bg-zinc-800/30 rounded-lg p-4 space-y-2" role="complementary" aria-label="How to use the encounter generator">
+            <ol className="list-decimal list-inside space-y-1">
+              <li>
+                <Typography variant="bodySmall" color="muted" className="inline">
+                  Select the type of encounter (Dungeon, Wilderness, or City)
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="bodySmall" color="muted" className="inline">
+                  Choose the specific subtype (level, terrain, or time)
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="bodySmall" color="muted" className="inline">
+                  Click the dice button to roll for an encounter
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="bodySmall" color="muted" className="inline">
+                  The system first checks if an encounter occurs (1 in 6 chance)
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="bodySmall" color="muted" className="inline">
+                  If an encounter occurs, a creature is randomly selected from the appropriate table
+                </Typography>
+              </li>
+            </ol>
           </div>
         </SectionWrapper>
       </div>
