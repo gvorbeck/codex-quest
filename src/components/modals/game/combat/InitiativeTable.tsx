@@ -150,13 +150,6 @@ export default function InitiativeTable({
               aria-label={`Current HP for ${c.name}`}
               className="w-14 text-center text-sm h-8"
             />
-            <Typography
-              variant="caption"
-              color="muted"
-              className="text-xs leading-none"
-            >
-              /{maxHp}
-            </Typography>
           </div>
         );
       },

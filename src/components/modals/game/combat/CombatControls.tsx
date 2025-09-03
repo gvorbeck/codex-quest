@@ -29,45 +29,53 @@ export default function CombatControls({
   onEndCombat,
 }: CombatControlsProps) {
   return (
-    <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-lg border border-zinc-700">
-      <div className="flex items-center gap-4">
-        {!isCombatActive ? (
-          <Button
-            onClick={onStartCombat}
-            disabled={isLoading || currentCombatantsCount === 0 || !allCombatantsHaveInitiative}
-            variant="primary"
-          >
-            {isLoading ? "Initializing..." : "Start Combat"}
-          </Button>
-        ) : (
-          <>
+    <>
+      <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-lg border border-zinc-700">
+        <div className="flex items-center gap-4">
+          {!isCombatActive ? (
             <Button
-              onClick={onNextTurn}
+              onClick={onStartCombat}
+              disabled={
+                isLoading ||
+                currentCombatantsCount === 0 ||
+                !allCombatantsHaveInitiative
+              }
               variant="primary"
-              disabled={!allCombatantsHaveInitiative}
             >
-              Next Turn
+              {isLoading ? "Initializing..." : "Start Combat"}
             </Button>
-            <Button onClick={onEndCombat} variant="secondary">
-              End Combat
-            </Button>
-          </>
+          ) : (
+            <>
+              <Button
+                onClick={onNextTurn}
+                variant="primary"
+                disabled={!allCombatantsHaveInitiative}
+              >
+                Next Turn
+              </Button>
+              <Button onClick={onEndCombat} variant="secondary">
+                End Combat
+              </Button>
+            </>
+          )}
+        </div>
+
+        {isCombatActive && (
+          <div className="text-right" role="status" aria-live="polite">
+            <Typography variant="body" color="zinc" className="font-semibold">
+              Round {round}
+            </Typography>
+            <Typography variant="bodySmall" color="secondary">
+              {currentCombatant?.name}'s turn
+            </Typography>
+          </div>
         )}
       </div>
-
       {isCombatActive && (
-        <div className="text-right" role="status" aria-live="polite">
-          <Typography variant="body" color="zinc" className="font-semibold">
-            Round {round}
-          </Typography>
-          <Typography variant="bodySmall" color="secondary">
-            {currentCombatant?.name}'s turn
-          </Typography>
-          <Typography variant="bodySmall" color="muted" className="mt-1">
-            Shortcuts: Space (Next) • R (Reroll) • E (End)
-          </Typography>
-        </div>
+        <Typography variant="bodySmall" color="muted">
+          Shortcuts: Space (Next) • R (Reroll) • E (End)
+        </Typography>
       )}
-    </div>
+    </>
   );
 }
