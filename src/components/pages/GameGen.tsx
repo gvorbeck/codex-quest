@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
-import { TextInput, TextArea } from "@/components/ui/inputs";
+import { TextInput, TextArea, FormField } from "@/components/ui/inputs";
 import { Breadcrumb, TextHeader } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
 import { useGameNavigation } from "@/hooks/useEntityNavigation";
@@ -90,39 +90,25 @@ function GameGen() {
             <Typography variant="h3">Game Details</Typography>
 
             {/* Game Name */}
-            <div className="space-y-2">
-              <label
-                htmlFor="game-name"
-                className="block text-sm font-medium text-primary-300"
-              >
-                Game Name *
-              </label>
+            <FormField label="Game Name" required>
               <TextInput
-                id="game-name"
                 value={game.name}
                 onChange={handleNameChange}
                 placeholder="Enter your game name..."
                 size="md"
               />
-            </div>
+            </FormField>
 
             {/* Game Notes */}
-            <div className="space-y-2">
-              <label
-                htmlFor="game-notes"
-                className="block text-sm font-medium text-primary-300"
-              >
-                Notes (Optional)
-              </label>
+            <FormField label="Notes (Optional)">
               <TextArea
-                id="game-notes"
                 value={game.notes}
                 onChange={handleNotesChange}
                 placeholder="Add any notes about your game session..."
                 rows={4}
                 size="md"
               />
-            </div>
+            </FormField>
 
             {/* Placeholder for future features */}
             <div className="p-4 bg-zinc-800/50 rounded-lg border border-zinc-600">

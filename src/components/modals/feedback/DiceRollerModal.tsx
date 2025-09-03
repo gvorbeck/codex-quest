@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Modal } from "../base";
-import { Button } from "@/components/ui/inputs";
-import { TextInput } from "@/components/ui/inputs";
+import { Button, TextInput, FormField } from "@/components/ui/inputs";
 import { Icon, TextHeader } from "@/components/ui/display";
 import { roller } from "@/utils/dice";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
@@ -82,27 +81,19 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
       size="md"
     >
       <div className="space-y-6">
-        <div>
-          <label
-            htmlFor="dice-notation"
-            className="block text-sm font-medium text-zinc-200 mb-2"
-          >
-            Dice Notation
-          </label>
+        <FormField 
+          label="Dice Notation"
+          hint="Examples: 1d20, 3d6+2, 4d6L (drop lowest), 2d20K (keep highest)"
+        >
           <TextInput
-            id="dice-notation"
             value={diceNotation}
             onChange={setDiceNotation}
             onKeyDown={handleKeyPress}
             placeholder="e.g., 3d6, 1d20+5, 4d6L"
             disabled={isRolling}
             aria-label="Enter dice notation"
-            aria-describedby="dice-notation-help"
           />
-          <div id="dice-notation-help" className="mt-2 text-xs text-zinc-400">
-            Examples: <span className="font-mono">1d20</span>, <span className="font-mono">3d6+2</span>, <span className="font-mono">4d6L</span> (drop lowest), <span className="font-mono">2d20K</span> (keep highest)
-          </div>
-        </div>
+        </FormField>
 
         <div className="flex justify-end gap-3">
           <Button

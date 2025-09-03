@@ -6,6 +6,7 @@ import {
   TextInput,
   TextArea,
   NumberInput,
+  FormField,
 } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
 import type { Equipment } from "@/types/character";
@@ -190,17 +191,13 @@ export default function CustomEquipmentModal({
           </Typography>
 
           {/* Name */}
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-2">
-              Name *
-            </label>
+          <FormField label="Name" required>
             <TextInput
               value={formData.name || ""}
               onChange={(value) => handleFieldChange("name", value)}
               placeholder="Enter equipment name..."
-              required
             />
-          </div>
+          </FormField>
 
           {/* Category */}
           <Select
@@ -213,29 +210,23 @@ export default function CustomEquipmentModal({
           />
 
           {/* Sub-Category */}
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-2">
-              Sub-Category (Optional)
-            </label>
+          <FormField label="Sub-Category (Optional)">
             <TextInput
               value={formData.subCategory || ""}
               onChange={(value) => handleFieldChange("subCategory", value)}
               placeholder="e.g., Longsword, Chain Mail, etc."
             />
-          </div>
+          </FormField>
 
           {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-2">
-              Description (Optional)
-            </label>
+          <FormField label="Description (Optional)">
             <TextArea
               value={formData.description || ""}
               onChange={(value) => handleFieldChange("description", value)}
               placeholder="Describe this equipment's appearance, properties, or special features..."
               rows={3}
             />
-          </div>
+          </FormField>
         </div>
 
         {/* Basic Properties */}
@@ -245,24 +236,18 @@ export default function CustomEquipmentModal({
           </Typography>
 
           {/* Amount */}
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-2">
-              Amount
-            </label>
+          <FormField label="Amount">
             <NumberInput
               value={formData.amount || 1}
               onChange={(value) => handleFieldChange("amount", value || 1)}
               placeholder="1"
               minValue={1}
             />
-          </div>
+          </FormField>
 
           {/* Cost */}
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Cost Value
-              </label>
+            <FormField label="Cost Value">
               <NumberInput
                 value={formData.costValue || 0}
                 onChange={(value) => handleFieldChange("costValue", value || 0)}
@@ -270,7 +255,7 @@ export default function CustomEquipmentModal({
                 minValue={0}
                 step={1}
               />
-            </div>
+            </FormField>
             <Select
               label="Currency"
               options={CURRENCIES}
@@ -282,10 +267,7 @@ export default function CustomEquipmentModal({
           </div>
 
           {/* Weight */}
-          <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-2">
-              Weight (lbs)
-            </label>
+          <FormField label="Weight (lbs)">
             <NumberInput
               value={formData.weight || 0}
               onChange={(value) => handleFieldChange("weight", value || 0)}
@@ -293,7 +275,7 @@ export default function CustomEquipmentModal({
               minValue={0}
               step={0.1}
             />
-          </div>
+          </FormField>
         </div>
 
         {/* Weapon-specific fields */}
@@ -330,22 +312,16 @@ export default function CustomEquipmentModal({
             />
 
             {/* Damage */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Damage
-              </label>
+            <FormField label="Damage">
               <TextInput
                 value={formData.damage || ""}
                 onChange={(value) => handleFieldChange("damage", value)}
                 placeholder="e.g., 1d8, 1d6+1, etc."
               />
-            </div>
+            </FormField>
 
             {/* Two-Handed Damage */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Two-Handed Damage (Optional)
-              </label>
+            <FormField label="Two-Handed Damage (Optional)">
               <TextInput
                 value={formData.twoHandedDamage || ""}
                 onChange={(value) =>
@@ -353,14 +329,11 @@ export default function CustomEquipmentModal({
                 }
                 placeholder="e.g., 1d10 (if different when used two-handed)"
               />
-            </div>
+            </FormField>
 
             {/* Range (for missile weapons) */}
             {(formData.type === "missile" || formData.type === "both") && (
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Range (Short/Medium/Long in feet)
-                </label>
+              <FormField label="Range (Short/Medium/Long in feet)">
                 <div className="grid grid-cols-3 gap-2">
                   <div>
                     <label className="block text-xs text-zinc-400 mb-1">
@@ -420,15 +393,15 @@ export default function CustomEquipmentModal({
                     />
                   </div>
                 </div>
-              </div>
+              </FormField>
             )}
 
             {/* Ammunition */}
             {(formData.type === "missile" || formData.type === "both") && (
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Ammunition Types (Optional)
-                </label>
+              <FormField 
+                label="Ammunition Types (Optional)"
+                hint="Separate multiple types with commas"
+              >
                 <TextInput
                   value={formData.ammo?.join(", ") || ""}
                   onChange={(value) =>
@@ -439,10 +412,7 @@ export default function CustomEquipmentModal({
                   }
                   placeholder="e.g., arrows, bolts, stones"
                 />
-                <Typography variant="caption" color="muted" className="mt-1">
-                  Separate multiple types with commas
-                </Typography>
-              </div>
+              </FormField>
             )}
           </div>
         )}
@@ -459,10 +429,7 @@ export default function CustomEquipmentModal({
             </Typography>
 
             {/* Armor Class */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Armor Class (AC)
-              </label>
+            <FormField label="Armor Class (AC)">
               <TextInput
                 value={formData.AC?.toString() || ""}
                 onChange={(value) => {
@@ -472,19 +439,16 @@ export default function CustomEquipmentModal({
                 }}
                 placeholder="e.g., 14, 12+Dex, etc."
               />
-            </div>
+            </FormField>
 
             {/* Missile AC */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Missile AC (Optional)
-              </label>
+            <FormField label="Missile AC (Optional)">
               <TextInput
                 value={formData.missileAC || ""}
                 onChange={(value) => handleFieldChange("missileAC", value)}
                 placeholder="e.g., 13 (if different from normal AC)"
               />
-            </div>
+            </FormField>
           </div>
         )}
 
@@ -500,10 +464,7 @@ export default function CustomEquipmentModal({
             </Typography>
 
             {/* Animal Weight */}
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Animal Weight (lbs)
-              </label>
+            <FormField label="Animal Weight (lbs)">
               <NumberInput
                 value={formData.animalWeight || 0}
                 onChange={(value) =>
@@ -512,14 +473,11 @@ export default function CustomEquipmentModal({
                 placeholder="0"
                 minValue={0}
               />
-            </div>
+            </FormField>
 
             {/* Load Capacities */}
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Low Capacity (lbs)
-                </label>
+              <FormField label="Low Capacity (lbs)">
                 <NumberInput
                   value={formData.lowCapacity || 0}
                   onChange={(value) =>
@@ -528,11 +486,8 @@ export default function CustomEquipmentModal({
                   placeholder="0"
                   minValue={0}
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Max Capacity (lbs)
-                </label>
+              </FormField>
+              <FormField label="Max Capacity (lbs)">
                 <NumberInput
                   value={formData.capacity || 0}
                   onChange={(value) =>
@@ -541,7 +496,7 @@ export default function CustomEquipmentModal({
                   placeholder="0"
                   minValue={0}
                 />
-              </div>
+              </FormField>
             </div>
           </div>
         )}
@@ -557,17 +512,14 @@ export default function CustomEquipmentModal({
               Trade Good Properties
             </Typography>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-2">
-                Gold Value (if applicable)
-              </label>
+            <FormField label="Gold Value (if applicable)">
               <NumberInput
                 value={formData.gold || 0}
                 onChange={(value) => handleFieldChange("gold", value || 0)}
                 placeholder="Gold pieces value"
                 minValue={0}
               />
-            </div>
+            </FormField>
           </div>
         )}
       </div>

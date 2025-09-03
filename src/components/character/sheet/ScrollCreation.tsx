@@ -3,7 +3,7 @@ import { useModal } from "@/hooks/useModal";
 import type { Character, ScrollCreationProject } from "@/types/character";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
-import { Button, NumberInput, TextArea, TextInput } from "@/components/ui/inputs";
+import { Button, NumberInput, TextArea, TextInput, FormField } from "@/components/ui/inputs";
 import { Modal } from "@/components/modals";
 import { SectionHeader, Icon } from "@/components/ui/display";
 
@@ -55,15 +55,6 @@ const createScrollCreationObject = (
   return result;
 };
 
-// Form label component for consistency with other character sheet components
-const FormLabel: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
-  children, 
-  className = "" 
-}) => (
-  <label className={`block text-sm font-medium text-zinc-200 mb-1 ${className}`}>
-    {children}
-  </label>
-);
 
 // Custom hook for scroll success rate calculation
 const useScrollSuccessRate = (
@@ -456,8 +447,7 @@ export default function ScrollCreation({
 
                     {isOwner && (
                       <div className="mt-3 grid grid-cols-2 gap-2">
-                        <div>
-                          <FormLabel className="text-xs">Days completed</FormLabel>
+                        <FormField label="Days completed" labelClassName="text-xs">
                           <NumberInput
                             value={project.daysCompleted}
                             onChange={(value) =>
@@ -468,9 +458,8 @@ export default function ScrollCreation({
                             minValue={0}
                             maxValue={project.daysRequired}
                           />
-                        </div>
-                        <div>
-                          <FormLabel className="text-xs">Cost paid (gp)</FormLabel>
+                        </FormField>
+                        <FormField label="Cost paid (gp)" labelClassName="text-xs">
                           <NumberInput
                             value={project.costPaid}
                             onChange={(value) =>
@@ -481,7 +470,7 @@ export default function ScrollCreation({
                             minValue={0}
                             maxValue={project.costTotal}
                           />
-                        </div>
+                        </FormField>
                       </div>
                     )}
                   </Card>
@@ -567,8 +556,7 @@ export default function ScrollCreation({
         size="md"
       >
         <div className="space-y-4">
-          <div>
-            <FormLabel>Spell Name</FormLabel>
+          <FormField label="Spell Name">
             <TextInput
               value={newProject.spellName}
               onChange={(value) =>
@@ -579,10 +567,9 @@ export default function ScrollCreation({
               }
               placeholder="Enter spell name..."
             />
-          </div>
+          </FormField>
 
-          <div>
-            <FormLabel>Spell Level</FormLabel>
+          <FormField label="Spell Level">
             <NumberInput
               value={newProject.spellLevel}
               onChange={(value) =>
@@ -591,7 +578,7 @@ export default function ScrollCreation({
               minValue={1}
               maxValue={9}
             />
-          </div>
+          </FormField>
 
           <div className="grid grid-cols-3 gap-4 p-3 bg-zinc-800 rounded-md">
             <div>
@@ -614,8 +601,7 @@ export default function ScrollCreation({
             </div>
           </div>
 
-          <div>
-            <FormLabel>Notes (Optional)</FormLabel>
+          <FormField label="Notes (Optional)">
             <TextArea
               value={newProject.notes}
               onChange={(value) =>
@@ -624,7 +610,7 @@ export default function ScrollCreation({
               placeholder="Add any notes about this project..."
               rows={3}
             />
-          </div>
+          </FormField>
 
           <div className="flex gap-3 pt-4">
             <Button

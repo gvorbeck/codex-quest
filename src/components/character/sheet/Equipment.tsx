@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Badge, Typography } from "@/components/ui/design-system";
-import { Button, Switch, TextInput, TextArea, Select, NumberInput } from "@/components/ui/inputs";
+import { Button, Switch, TextInput, TextArea, Select, NumberInput, FormField } from "@/components/ui/inputs";
 import { Modal } from "@/components/modals";
 import { Accordion } from "@/components/ui/layout";
 import { EquipmentSelector } from "@/components/character/management";
@@ -427,22 +427,16 @@ export default function Equipment({
           >
             <div className="space-y-4">
               {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Name
-                </label>
+              <FormField label="Name">
                 <TextInput
                   value={editForm.name}
                   onChange={(value) => updateEditForm("name", value)}
                   className="w-full"
                 />
-              </div>
+              </FormField>
 
               {/* Amount */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Amount
-                </label>
+              <FormField label="Amount">
                 <NumberInput
                   value={editForm.amount}
                   onChange={(value) => updateEditForm("amount", value || 1)}
@@ -450,14 +444,11 @@ export default function Equipment({
                   step={1}
                   className="w-full"
                 />
-              </div>
+              </FormField>
 
               {/* Cost */}
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-zinc-200 mb-2">
-                    Cost Value
-                  </label>
+                <FormField label="Cost Value">
                   <NumberInput
                     value={editForm.costValue}
                     onChange={(value) => updateEditForm("costValue", value || 0)}
@@ -465,30 +456,22 @@ export default function Equipment({
                     step={0.01}
                     className="w-full"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-zinc-200 mb-2">
-                    Currency
-                  </label>
-                  <Select
-                    label="Currency"
-                    value={editForm.costCurrency}
-                    onValueChange={(value) => updateEditForm("costCurrency", value as "gp" | "sp" | "cp")}
-                    options={[
-                      { value: "gp", label: "gp" },
-                      { value: "sp", label: "sp" },
-                      { value: "cp", label: "cp" }
-                    ]}
-                    className="w-full"
-                  />
-                </div>
+                </FormField>
+                <Select
+                  label="Currency"
+                  value={editForm.costCurrency}
+                  onValueChange={(value) => updateEditForm("costCurrency", value as "gp" | "sp" | "cp")}
+                  options={[
+                    { value: "gp", label: "gp" },
+                    { value: "sp", label: "sp" },
+                    { value: "cp", label: "cp" }
+                  ]}
+                  className="w-full"
+                />
               </div>
 
               {/* Weight */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Weight (lbs)
-                </label>
+              <FormField label="Weight (lbs)">
                 <NumberInput
                   value={editForm.weight}
                   onChange={(value) => updateEditForm("weight", value || 0)}
@@ -496,25 +479,19 @@ export default function Equipment({
                   step={0.1}
                   className="w-full"
                 />
-              </div>
+              </FormField>
 
               {/* Category */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Category
-                </label>
+              <FormField label="Category">
                 <TextInput
                   value={editForm.category || ""}
                   onChange={(value) => updateEditForm("category", value)}
                   className="w-full"
                 />
-              </div>
+              </FormField>
 
               {/* Description */}
-              <div>
-                <label className="block text-sm font-medium text-zinc-200 mb-2">
-                  Description
-                </label>
+              <FormField label="Description">
                 <TextArea
                   value={editForm.description || ""}
                   onChange={(value) => updateEditForm("description", value)}
@@ -522,7 +499,7 @@ export default function Equipment({
                   rows={3}
                   className="w-full"
                 />
-              </div>
+              </FormField>
 
               {/* Weapon properties */}
               {(editForm.damage || editForm.twoHandedDamage) && (
@@ -533,23 +510,17 @@ export default function Equipment({
 
                   <div className="grid grid-cols-2 gap-3">
                     {editForm.damage && (
-                      <div>
-                        <label className="block text-sm font-medium text-zinc-200 mb-2">
-                          Damage
-                        </label>
+                      <FormField label="Damage">
                         <TextInput
                           value={editForm.damage}
                           onChange={(value) => updateEditForm("damage", value)}
                           className="w-full"
                         />
-                      </div>
+                      </FormField>
                     )}
 
                     {editForm.twoHandedDamage && (
-                      <div>
-                        <label className="block text-sm font-medium text-zinc-200 mb-2">
-                          Two-Handed Damage
-                        </label>
+                      <FormField label="Two-Handed Damage">
                         <TextInput
                           value={editForm.twoHandedDamage}
                           onChange={(value) =>
@@ -557,7 +528,7 @@ export default function Equipment({
                           }
                           className="w-full"
                         />
-                      </div>
+                      </FormField>
                     )}
                   </div>
                 </div>
@@ -572,23 +543,17 @@ export default function Equipment({
 
                   <div className="grid grid-cols-1 gap-3">
                     {editForm.AC && (
-                      <div>
-                        <label className="block text-sm font-medium text-zinc-200 mb-2">
-                          Armor Class
-                        </label>
+                      <FormField label="Armor Class">
                         <TextInput
                           value={editForm.AC.toString()}
                           onChange={(value) => updateEditForm("AC", value)}
                           className="w-full"
                         />
-                      </div>
+                      </FormField>
                     )}
 
                     {editForm.missileAC && (
-                      <div>
-                        <label className="block text-sm font-medium text-zinc-200 mb-2">
-                          Missile AC
-                        </label>
+                      <FormField label="Missile AC">
                         <TextInput
                           value={editForm.missileAC}
                           onChange={(value) =>
@@ -596,7 +561,7 @@ export default function Equipment({
                           }
                           className="w-full"
                         />
-                      </div>
+                      </FormField>
                     )}
                   </div>
                 </div>
