@@ -145,16 +145,8 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
   const allCombatantsHaveInitiative = useMemo(() => {
     if (isCombatActive) {
       // During combat, check the active combatants
-      const result = combatants.length > 0 &&
+      return combatants.length > 0 &&
         combatants.every((combatant) => combatant.initiative > 0);
-      
-      console.log("allCombatantsHaveInitiative check during combat:", {
-        combatantsLength: combatants.length,
-        combatantInitiatives: combatants.map(c => ({ name: c.name, initiative: c.initiative })),
-        result
-      });
-      
-      return result;
     } else {
       // Before combat, check if all current combatants have pre-combat initiative set
       return (
@@ -321,39 +313,16 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
   // Update initiative during combat
   const updateInitiative = useCallback(
     (targetCombatant: CombatantWithInitiative, newInitiative: number) => {
-      console.log("updateInitiative called with:", {
-        targetCombatant: {
-          name: targetCombatant.name,
-          initiative: targetCombatant.initiative,
-          _sortId: targetCombatant._sortId
-        },
-        newInitiative,
-        availableCombatants: combatants.map(c => ({
-          name: c.name,
-          initiative: c.initiative,
-          _sortId: c._sortId
-        }))
-      });
-      
       const targetIndex = combatants.findIndex(
         (c) => {
           const sortIdMatch = targetCombatant._sortId && c._sortId && c._sortId === targetCombatant._sortId;
           const zeroInitiativeMatch = c.initiative === 0 && c.name === targetCombatant.name;
           const exactMatch = c.name === targetCombatant.name && c.initiative === targetCombatant.initiative;
           
-          console.log(`Checking ${c.name}:`, {
-            sortIdMatch,
-            zeroInitiativeMatch, 
-            exactMatch,
-            cInitiative: c.initiative,
-            targetInitiative: targetCombatant.initiative
-          });
-          
           return sortIdMatch || zeroInitiativeMatch || exactMatch;
         }
       );
       
-      console.log("Found target index:", targetIndex);
       if (targetIndex === -1) return;
 
       const foundCombatant = combatants[targetIndex];
@@ -368,8 +337,6 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
 
       const updatedCombatants = [...combatants];
       updatedCombatants[targetIndex] = updatedCombatant;
-
-      console.log("About to set combat state with:", updatedCombatants.map(c => ({ name: c.name, initiative: c.initiative })));
 
       // For players during combat, also update pre-combat storage for persistence
       if (targetCombatant.isPlayer) {

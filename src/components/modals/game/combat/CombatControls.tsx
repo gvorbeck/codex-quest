@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/inputs";
-import { Typography } from "@/components/ui/design-system";
+import { Typography, Card } from "@/components/ui/design-system";
 
 interface CombatControlsProps {
   isCombatActive: boolean;
@@ -30,7 +30,7 @@ export default function CombatControls({
 }: CombatControlsProps) {
   return (
     <>
-      <div className="flex items-center justify-between p-4 bg-zinc-800/30 rounded-lg border border-zinc-700">
+      <Card size="compact" variant="nested" className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {!isCombatActive ? (
             <Button
@@ -70,7 +70,7 @@ export default function CombatControls({
             </Typography>
           </div>
         )}
-      </div>
+      </Card>
       {isCombatActive && (
         <Typography variant="bodySmall" color="muted">
           Shortcuts: Space (Next) • E (End)
