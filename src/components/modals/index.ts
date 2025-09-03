@@ -14,6 +14,7 @@ export { default as SettingsModal } from "./character/SettingsModal";
 // Game Modals
 export { default as CombatTrackerModal } from "./game/CombatTrackerModal";
 export { default as TreasureGeneratorModal } from "./game/TreasureGeneratorModal";
+export { default as EncounterGeneratorModal } from "./game/EncounterGeneratorModal";
 
 // Feedback Modals
 export { default as DeleteCharacterModal } from "./feedback/DeleteCharacterModal";

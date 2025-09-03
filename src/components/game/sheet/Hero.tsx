@@ -13,6 +13,7 @@ interface GameHeroProps extends HTMLAttributes<HTMLDivElement> {
   onGameChange?: (game: Game) => void;
   onTreasureGenerate?: () => void;
   onCombatTrackerOpen?: () => void;
+  onEncounterGeneratorOpen?: () => void;
 }
 
 const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
@@ -25,6 +26,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
       onGameChange,
       onTreasureGenerate,
       onCombatTrackerOpen,
+      onEncounterGeneratorOpen,
       ...props
     },
     ref
@@ -225,34 +227,49 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
             </div>
 
             {/* Action Buttons */}
-            {editable && (onTreasureGenerate || onCombatTrackerOpen) && (
-              <div className="flex-shrink-0 flex gap-2">
-                {onCombatTrackerOpen && (
-                  <Button
-                    variant="secondary"
-                    size="md"
-                    onClick={onCombatTrackerOpen}
-                    className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
-                    aria-label="Open combat tracker"
-                    title="Combat tracker"
-                  >
-                    <Icon name="sword" size="md" />
-                  </Button>
-                )}
-                {onTreasureGenerate && (
-                  <Button
-                    variant="secondary"
-                    size="md"
-                    onClick={onTreasureGenerate}
-                    className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
-                    aria-label="Generate treasure"
-                    title="Generate treasure"
-                  >
-                    <Icon name="coin" size="md" />
-                  </Button>
-                )}
-              </div>
-            )}
+            {editable &&
+              (onTreasureGenerate ||
+                onCombatTrackerOpen ||
+                onEncounterGeneratorOpen) && (
+                <div className="flex-shrink-0 flex gap-2">
+                  {onCombatTrackerOpen && (
+                    <Button
+                      variant="secondary"
+                      size="md"
+                      onClick={onCombatTrackerOpen}
+                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                      aria-label="Open combat tracker"
+                      title="Combat tracker"
+                    >
+                      <Icon name="sword" size="md" />
+                    </Button>
+                  )}
+                  {onEncounterGeneratorOpen && (
+                    <Button
+                      variant="secondary"
+                      size="md"
+                      onClick={onEncounterGeneratorOpen}
+                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                      aria-label="Generate random encounters"
+                      title="Encounter generator"
+                    >
+                      <Icon name="map-pin" size="md" />
+                    </Button>
+                  )}
+                  {onTreasureGenerate && (
+                    <Button
+                      variant="secondary"
+                      size="md"
+                      onClick={onTreasureGenerate}
+                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                      aria-label="Generate treasure"
+                      title="Generate treasure"
+                    >
+                      <Icon name="coin" size="md" />
+                    </Button>
+                  )}
+                </div>
+              )}
           </div>
         </div>
       </>

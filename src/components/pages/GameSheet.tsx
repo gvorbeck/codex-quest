@@ -16,6 +16,7 @@ import {
 import {
   TreasureGeneratorModal,
   CombatTrackerModal,
+  EncounterGeneratorModal,
 } from "@/components/modals";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
@@ -32,6 +33,8 @@ export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
   const [isTreasureModalOpen, setIsTreasureModalOpen] = useState(false);
   const [isCombatTrackerModalOpen, setIsCombatTrackerModalOpen] =
+    useState(false);
+  const [isEncounterGeneratorModalOpen, setIsEncounterGeneratorModalOpen] =
     useState(false);
 
   // Use the generic Firebase sheet hook
@@ -141,6 +144,15 @@ export default function GameSheet() {
     setIsCombatTrackerModalOpen(false);
   }, []);
 
+  // Handle encounter generator modal
+  const handleEncounterGeneratorOpen = useCallback(() => {
+    setIsEncounterGeneratorModalOpen(true);
+  }, []);
+
+  const handleEncounterGeneratorModalClose = useCallback(() => {
+    setIsEncounterGeneratorModalOpen(false);
+  }, []);
+
   // Handle adding combatants to the game
   const handleAddToCombat = useCallback(
     (newCombatant: GameCombatant) => {
@@ -238,6 +250,7 @@ export default function GameSheet() {
           onGameChange={handleGameChange}
           onTreasureGenerate={handleTreasureGenerate}
           onCombatTrackerOpen={handleCombatTrackerOpen}
+          onEncounterGeneratorOpen={handleEncounterGeneratorOpen}
         />
 
         {/* Game Sheet Content */}
@@ -292,6 +305,12 @@ export default function GameSheet() {
           onClose={handleCombatTrackerModalClose}
           game={game}
           onUpdateGame={handleGameChange}
+        />
+
+        {/* Encounter Generator Modal */}
+        <EncounterGeneratorModal
+          isOpen={isEncounterGeneratorModalOpen}
+          onClose={handleEncounterGeneratorModalClose}
         />
       </PageWrapper>
 
