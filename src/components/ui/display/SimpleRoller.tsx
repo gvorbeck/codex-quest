@@ -47,13 +47,19 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
     try {
       const result = roller(formula);
       const newValue = result.total;
+      console.log(
+        `SimpleRoller.handleRoll: Rolling ${formula}, got ${newValue}, calling setValue and onChange`
+      );
       setValue(newValue);
       onChange?.(newValue);
-      
+      console.log(`SimpleRoller.handleRoll: Called onChange with ${newValue}`);
+
       // Create detailed result description for screen readers
-      const rollDescription = `Rolled ${formula}: total result is ${newValue}${result.rolls ? ` (individual rolls: ${result.rolls.join(", ")})` : ""}`;
+      const rollDescription = `Rolled ${formula}: total result is ${newValue}${
+        result.rolls ? ` (individual rolls: ${result.rolls.join(", ")})` : ""
+      }`;
       setLastRollResult(rollDescription);
-      
+
       // Announce the result to screen readers
       setTimeout(() => {
         const announcer = document.getElementById("dice-announcer");
@@ -72,8 +78,14 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
   };
 
   const handleInputChange = (newValue: number | undefined) => {
+    console.log(
+      `SimpleRoller.handleInputChange: Got ${newValue}, calling setValue and onChange`
+    );
     setValue(newValue);
     onChange?.(newValue);
+    console.log(
+      `SimpleRoller.handleInputChange: Called onChange with ${newValue}`
+    );
   };
 
   const effectiveLabel = label || `Roll ${formula}`;
@@ -88,10 +100,10 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
 
       {/* Global dice announcer - only create once per page */}
       {!document.getElementById("dice-announcer") && (
-        <div 
-          id="dice-announcer" 
-          aria-live="polite" 
-          aria-atomic="true" 
+        <div
+          id="dice-announcer"
+          aria-live="polite"
+          aria-atomic="true"
           className="sr-only"
         />
       )}
@@ -103,14 +115,22 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
           onChange={handleInputChange}
           {...(minValue !== undefined && { minValue })}
           {...(maxValue !== undefined && { maxValue })}
-          aria-label={`Result of ${formula} roll${minValue !== undefined && maxValue !== undefined ? ` (range ${minValue}-${maxValue})` : ""}`}
+          aria-label={`Result of ${formula} roll${
+            minValue !== undefined && maxValue !== undefined
+              ? ` (range ${minValue}-${maxValue})`
+              : ""
+          }`}
           aria-describedby={`${buttonId} ${resultId}`}
           className="rounded-r-none border-r-0 shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309] flex-1"
         />
         <Button
           id={buttonId}
           onClick={handleRoll}
-          aria-label={`Roll ${formula} dice${minValue !== undefined && maxValue !== undefined ? `. Expected range: ${minValue} to ${maxValue}` : ""}`}
+          aria-label={`Roll ${formula} dice${
+            minValue !== undefined && maxValue !== undefined
+              ? `. Expected range: ${minValue} to ${maxValue}`
+              : ""
+          }`}
           aria-describedby={inputId}
           className="rounded-l-none"
         >

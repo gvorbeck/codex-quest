@@ -24,8 +24,29 @@ export function useLocalStorage<T>(
   const setValue = useCallback(
     (value: T) => {
       try {
+        console.log(
+          `useLocalStorage.setValue: Setting key "${key}" to:`,
+          value
+        );
+        
+        // Update state first
         setStoredValue(value);
-        localStorage.setItem(key, JSON.stringify(value));
+        
+        // Then update localStorage
+        const serializedValue = JSON.stringify(value);
+        localStorage.setItem(key, serializedValue);
+        
+        // Verify the write was successful
+        const verifyValue = localStorage.getItem(key);
+        if (verifyValue !== serializedValue) {
+          console.error(`useLocalStorage.setValue: Verification failed for key "${key}"`);
+          console.error("Expected:", serializedValue);
+          console.error("Actual:", verifyValue);
+        } else {
+          console.log(
+            `useLocalStorage.setValue: Successfully saved to localStorage and verified`
+          );
+        }
       } catch (error) {
         logger.error(`Error setting localStorage key "${key}":`, error);
       }

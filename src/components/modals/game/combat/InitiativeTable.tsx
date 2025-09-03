@@ -34,9 +34,12 @@ interface InitiativeTableProps {
   combatants: CombatantWithInitiative[];
   currentTurn: number;
   isCombatActive: boolean;
-  onUpdateInitiative: (index: number, newInitiative: number) => void;
+  onUpdateInitiative: (
+    combatant: CombatantWithInitiative,
+    newInitiative: number
+  ) => void;
   onSetCurrentTurn: (index: number) => void;
-  onUpdateHp?: (index: number, newHp: number) => void;
+  onUpdateHp?: (combatant: CombatantWithInitiative, newHp: number) => void;
 }
 
 export default function InitiativeTable({
@@ -110,9 +113,6 @@ export default function InitiativeTable({
       header: "Initiative ↓",
       cell: (combatant: Record<string, unknown>) => {
         const c = combatant as CombatantWithInitiative;
-        const index = combatants.findIndex(
-          (cb) => cb.name === c.name && cb.initiative === c.initiative
-        );
 
         // Get DEX modifier - try multiple ways to access it
         let dexModifier = 0;
@@ -129,13 +129,24 @@ export default function InitiativeTable({
 
         return (
           <SimpleRoller
+            key={`${c.name}-stable`}
             formula={initiativeFormula}
             initialValue={c.initiative}
             minValue={1 + Math.min(0, dexModifier)}
             maxValue={6 + Math.max(0, dexModifier)}
             onChange={(value) => {
-              if (value !== undefined && value !== c.initiative) {
-                onUpdateInitiative(index, value);
+              console.log(
+                `InitiativeTable.onChange: ${c.name} - received value=${value}, current initiative=${c.initiative}`
+              );
+              if (value !== undefined) {
+                console.log(
+                  `InitiativeTable.onChange: ${c.name} - calling onUpdateInitiative with value ${value}`
+                );
+                onUpdateInitiative(c, value);
+              } else {
+                console.log(
+                  `InitiativeTable.onChange: ${c.name} - skipping update (value undefined)`
+                );
               }
             }}
             label={`Initiative for ${c.name}`}
@@ -154,9 +165,6 @@ export default function InitiativeTable({
       header: "HP",
       cell: (combatant: Record<string, unknown>) => {
         const c = combatant as CombatantWithInitiative;
-        const index = combatants.findIndex(
-          (cb) => cb.name === c.name && cb.initiative === c.initiative
-        );
 
         // Get current HP from various possible formats
         let currentHp = 0;
@@ -184,7 +192,7 @@ export default function InitiativeTable({
               value={currentHp}
               onChange={(value) => {
                 if (onUpdateHp && value !== undefined) {
-                  onUpdateHp(index, value);
+                  onUpdateHp(c, value);
                 }
               }}
               minValue={0}

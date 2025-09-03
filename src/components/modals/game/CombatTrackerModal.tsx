@@ -111,6 +111,27 @@ export default function CombatTrackerModal({
   game,
   onUpdateGame,
 }: CombatTrackerModalProps) {
+  // Clear any corrupted localStorage data on mount
+  useEffect(() => {
+    const keys = [
+      `combat-tracker-${game?.id || "temp"}`,
+      `pre-combat-initiatives-${game?.id || "temp"}`,
+    ];
+
+    keys.forEach((key) => {
+      try {
+        const item = localStorage.getItem(key);
+        if (item && item.includes("undefined")) {
+          console.log(`Clearing corrupted localStorage key: ${key}`);
+          localStorage.removeItem(key);
+        }
+      } catch {
+        console.log(`Clearing invalid localStorage key: ${key}`);
+        localStorage.removeItem(key);
+      }
+    });
+  }, [game?.id]);
+
   // Persistent combat state
   const [combatState, setCombatState] = useLocalStorage<CombatState>(
     `combat-tracker-${game?.id || "temp"}`,
@@ -130,14 +151,15 @@ export default function CombatTrackerModal({
     isActive: isCombatActive,
   } = combatState;
 
-  // Helper to update combat state
-  const updateCombatState = useCallback(
-    (updates: Partial<CombatState>) => {
-      const newState = { ...combatState, ...updates };
-      setCombatState(newState);
-    },
-    [combatState, setCombatState]
-  );
+  // Helper to update combat state - DISABLED to prevent conflicts
+  const updateCombatState = useCallback((updates: Partial<CombatState>) => {
+    console.log(
+      `CombatTrackerModal.updateCombatState: DISABLED - use setCombatState directly`,
+      updates
+    );
+    // DO NOT UPDATE - this was causing conflicts
+    return;
+  }, []);
 
   // Hooks
   const { loading, withLoading } = useLoadingState();
@@ -391,13 +413,16 @@ export default function CombatTrackerModal({
         return b.initiative - a.initiative;
       });
 
-      updateCombatState({ combatants: sortedCombatants });
+      setCombatState({
+        ...combatState,
+        combatants: sortedCombatants,
+      });
 
       showInfo(`${combatant.name} rolled ${newInitiative} for initiative`, {
         title: "Initiative Roll",
       });
     },
-    [combatants, showInfo, updateCombatState]
+    [combatants, combatState, showInfo, setCombatState]
   );
 
   // Performance optimizations - memoized computations
@@ -410,76 +435,46 @@ export default function CombatTrackerModal({
     });
   }, [combatants]);
 
-  // Update initiative for a specific combatant with a given value
-  const updateInitiativeFor = useCallback(
-    (sortedIndex: number, newInitiative: number) => {
-      // Find the combatant from the sorted array
-      const sortedCombatant = sortedCombatants[sortedIndex];
-      if (!sortedCombatant) return;
-
-      // Find the combatant in the original unsorted array
-      const originalIndex = combatants.findIndex(
-        (c) =>
-          c.name === sortedCombatant.name &&
-          c.initiative === sortedCombatant.initiative
-      );
-      if (originalIndex === -1) return;
-
-      const updatedCombatants = [...combatants];
-      updatedCombatants[originalIndex] = {
-        ...sortedCombatant,
-        initiative: newInitiative,
-        _sortId: Date.now() + Math.random(), // New sort ID for stable sorting
-      };
-
-      // Save the updated combatants (they will be re-sorted by the useMemo)
-      updateCombatState({ combatants: updatedCombatants });
-    },
-    [combatants, sortedCombatants, updateCombatState]
-  );
-
   // Update pre-combat initiative for a specific combatant
   const updatePreCombatInitiative = useCallback(
-    (sortedIndex: number, newInitiative: number) => {
-      const combatant = currentCombatantsWithInitiative[sortedIndex];
-      if (!combatant) return;
-
+    (combatant: CombatantWithInitiative, newInitiative: number) => {
       setPreCombatInitiatives({
         ...preCombatInitiatives,
         [combatant.name]: newInitiative,
       });
     },
-    [currentCombatantsWithInitiative, preCombatInitiatives, setPreCombatInitiatives]
+    [preCombatInitiatives, setPreCombatInitiatives]
   );
 
   // Update HP for a specific combatant
   const updateCombatantHp = useCallback(
-    (sortedIndex: number, newHp: number) => {
-      // Find the combatant from the sorted array
-      const sortedCombatant = sortedCombatants[sortedIndex];
-      if (!sortedCombatant) return;
+    (targetCombatant: CombatantWithInitiative, newHp: number) => {
+      // Create updated combatants array by mapping over the existing array
+      const updatedCombatants = combatants.map((combatant) => {
+        // Match by _sortId if available (most reliable), otherwise by name and initiative
+        const isMatch =
+          (combatant._sortId &&
+            targetCombatant._sortId &&
+            combatant._sortId === targetCombatant._sortId) ||
+          (combatant.name === targetCombatant.name &&
+            combatant.initiative === targetCombatant.initiative);
 
-      // Find the combatant in the original unsorted array
-      const originalIndex = combatants.findIndex(
-        (c) =>
-          c.name === sortedCombatant.name &&
-          c.initiative === sortedCombatant.initiative
-      );
-      if (originalIndex === -1) return;
-
-      const updatedCombatants = [...combatants];
-      updatedCombatants[originalIndex] = {
-        ...sortedCombatant,
-        currentHp: newHp,
-        hp:
-          typeof sortedCombatant.hp === "object"
-            ? { ...sortedCombatant.hp, current: newHp }
-            : newHp,
-      };
+        if (isMatch) {
+          return {
+            ...combatant,
+            currentHp: newHp,
+            hp:
+              typeof combatant.hp === "object"
+                ? { ...combatant.hp, current: newHp }
+                : newHp,
+          };
+        }
+        return combatant;
+      });
 
       updateCombatState({ combatants: updatedCombatants });
     },
-    [combatants, sortedCombatants, updateCombatState]
+    [combatants, updateCombatState]
   );
 
   // Combatant Card Component for non-combat sections
@@ -562,30 +557,34 @@ export default function CombatTrackerModal({
 
     const newTurn = currentTurn + 1;
     if (newTurn >= combatants.length) {
-      updateCombatState({
+      setCombatState({
+        ...combatState,
         currentTurn: 0,
         round: round + 1,
       });
       showInfo(`Round ${round + 1} begins!`, { title: "New Round" });
     } else {
-      updateCombatState({ currentTurn: newTurn });
+      setCombatState({
+        ...combatState,
+        currentTurn: newTurn,
+      });
     }
 
     const currentCombatant =
       combatants[newTurn >= combatants.length ? 0 : newTurn];
     showInfo(`${currentCombatant?.name}'s turn`, { title: "Turn Order" });
-  }, [combatants, currentTurn, round, showInfo, updateCombatState]);
+  }, [combatants, combatState, currentTurn, round, showInfo, setCombatState]);
 
   // End combat
   const endCombat = useCallback(() => {
-    updateCombatState({
+    setCombatState({
       combatants: [],
       currentTurn: 0,
       round: 1,
       isActive: false,
     });
     showSuccess("Combat ended", { title: "Combat Complete" });
-  }, [showSuccess, updateCombatState]);
+  }, [showSuccess, setCombatState]);
 
   const currentCombatant = useMemo(() => {
     return sortedCombatants[currentTurn];
@@ -708,10 +707,98 @@ export default function CombatTrackerModal({
                 combatants={sortedCombatants}
                 currentTurn={currentTurn}
                 isCombatActive={isCombatActive}
-                onUpdateInitiative={updateInitiativeFor}
-                onSetCurrentTurn={(index) =>
-                  updateCombatState({ currentTurn: index })
-                }
+                onUpdateInitiative={(targetCombatant, newInitiative) => {
+                  console.log(`=== INITIATIVE UPDATE START ===`);
+                  console.log(
+                    `Target: ${targetCombatant.name} -> ${newInitiative}`
+                  );
+                  console.log(
+                    `Current combatants:`,
+                    combatants.map((c) => `${c.name}(${c.initiative})`)
+                  );
+                  console.log(
+                    `InitiativeTable callback: ${targetCombatant.name} -> ${newInitiative}`
+                  );
+
+                  // Find the combatant in the original unsorted array and update it
+                  const targetIndex = combatants.findIndex(
+                    (c) => c.name === targetCombatant.name
+                  );
+                  if (targetIndex === -1) {
+                    console.error(
+                      `Could not find ${targetCombatant.name} in combatants array`
+                    );
+                    return;
+                  }
+
+                  const foundCombatant = combatants[targetIndex];
+                  if (!foundCombatant) {
+                    console.error(
+                      `Combatant at index ${targetIndex} is undefined`
+                    );
+                    return;
+                  }
+
+                  // Create a clean updated combatant with all required properties
+                  const updatedCombatant: CombatantWithInitiative = {
+                    name: foundCombatant.name,
+                    ac: foundCombatant.ac,
+                    initiative: newInitiative,
+                    isPlayer: foundCombatant.isPlayer ?? false,
+                    _sortId: Date.now() + Math.random(),
+                    // Only include optional properties if they exist
+                    ...(foundCombatant.avatar && {
+                      avatar: foundCombatant.avatar,
+                    }),
+                    ...(foundCombatant.dexterity && {
+                      dexterity: foundCombatant.dexterity,
+                    }),
+                    ...(foundCombatant.abilities && {
+                      abilities: foundCombatant.abilities,
+                    }),
+                    ...(foundCombatant.currentHp !== undefined && {
+                      currentHp: foundCombatant.currentHp,
+                    }),
+                    ...(foundCombatant.maxHp !== undefined && {
+                      maxHp: foundCombatant.maxHp,
+                    }),
+                    ...(foundCombatant.hp && { hp: foundCombatant.hp }),
+                  };
+
+                  const updatedCombatants = [...combatants];
+                  updatedCombatants[targetIndex] = updatedCombatant;
+
+                  console.log(
+                    `Directly updating combat state for ${targetCombatant.name}`
+                  );
+                  console.log("Updated combatant:", updatedCombatant);
+
+                  // Create a clean combat state with no undefined values
+                  const newCombatState: CombatState = {
+                    combatants: updatedCombatants,
+                    currentTurn: combatState.currentTurn,
+                    round: combatState.round,
+                    isActive: combatState.isActive,
+                  };
+
+                  console.log("New combat state before setCombatState:", newCombatState);
+                  setCombatState(newCombatState);
+                  
+                  // Force a sync check after state update
+                  setTimeout(() => {
+                    const storedState = localStorage.getItem(`combat-tracker-${game?.id || "temp"}`);
+                    console.log("State after setCombatState - localStorage check:", storedState ? JSON.parse(storedState) : null);
+                  }, 100);
+                  
+                  console.log(`=== INITIATIVE UPDATE END ===`);
+                }}
+                onSetCurrentTurn={(index) => {
+                  console.log(`Setting current turn to ${index}`);
+                  setCombatState({
+                    ...combatState,
+                    currentTurn: index,
+                  });
+                }}
                 onUpdateHp={updateCombatantHp}
               />
             </div>

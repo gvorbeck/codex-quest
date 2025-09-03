@@ -41,8 +41,8 @@ export default function CombatControls({
           </Button>
         ) : (
           <>
-            <Button 
-              onClick={onNextTurn} 
+            <Button
+              onClick={onNextTurn}
               variant="primary"
               disabled={!allCombatantsHaveInitiative}
             >
