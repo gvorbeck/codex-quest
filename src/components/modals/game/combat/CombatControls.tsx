@@ -34,7 +34,7 @@ export default function CombatControls({
         {!isCombatActive ? (
           <Button
             onClick={onStartCombat}
-            disabled={isLoading || currentCombatantsCount === 0}
+            disabled={isLoading || currentCombatantsCount === 0 || !allCombatantsHaveInitiative}
             variant="primary"
           >
             {isLoading ? "Initializing..." : "Start Combat"}

@@ -62,6 +62,7 @@ export default function CombatTrackerModal({
     removeCombatant,
     initializeCombat,
     updatePreCombatInitiative,
+    updateMultiplePreCombatInitiatives,
     updateInitiative,
     updateCombatantHp,
     setCurrentTurn,
@@ -184,22 +185,17 @@ export default function CombatTrackerModal({
             <PreCombatInitiativeSection
               combatants={currentCombatantsWithInitiative}
               onUpdateInitiative={updatePreCombatInitiative}
+              onUpdateMultipleInitiatives={updateMultiplePreCombatInitiatives}
+              onDeleteCombatant={(combatant) => {
+                // Find the actual index in currentCombatants based on the combatant from the sorted list
+                const actualIndex = currentCombatants.findIndex(c => c.name === combatant.name);
+                if (actualIndex !== -1) {
+                  removeCombatant(actualIndex);
+                }
+              }}
             />
           )}
 
-        {/* Current Combatants (before combat starts) */}
-        {!loading && !isCombatActive && currentCombatants.length > 0 && (
-          <CombatantsList
-            title="Combatants"
-            combatants={currentCombatants}
-            variant="combat"
-            onAction={(action, index) => {
-              if (action === "remove") {
-                removeCombatant(index);
-              }
-            }}
-          />
-        )}
 
         {/* Available Players (before combat starts) */}
         {!loading && !isCombatActive && availablePlayers.length > 0 && (

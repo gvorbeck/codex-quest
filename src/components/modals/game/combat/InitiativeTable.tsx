@@ -1,6 +1,6 @@
 import { Table, SimpleRoller } from "@/components/ui/display";
 import { Typography, Badge } from "@/components/ui/design-system";
-import { NumberInput } from "@/components/ui/inputs";
+import { NumberInput, Button } from "@/components/ui/inputs";
 import type { TableColumn } from "@/components/ui/display";
 import { formatModifier } from "@/utils/characterCalculations";
 
@@ -16,6 +16,11 @@ interface InitiativeTableProps {
   ) => void;
   onSetCurrentTurn: (index: number) => void;
   onUpdateHp?: (combatant: CombatantWithInitiative, newHp: number) => void;
+  onDeleteCombatant?: (
+    combatant: CombatantWithInitiative,
+    index: number
+  ) => void;
+  showHp?: boolean;
 }
 
 export default function InitiativeTable({
@@ -25,6 +30,8 @@ export default function InitiativeTable({
   onUpdateInitiative,
   onSetCurrentTurn,
   onUpdateHp,
+  onDeleteCombatant,
+  showHp = true,
 }: InitiativeTableProps) {
   const combatColumns: TableColumn[] = [
     {
@@ -39,7 +46,7 @@ export default function InitiativeTable({
 
         return (
           <div
-            className={`flex items-center gap-2 p-1 rounded transition-colors ${
+            className={`flex items-center gap-2 p-1 rounded transition-colors max-w-[250px] ${
               isCurrentTurn ? "bg-amber-900/30 border border-amber-500/50" : ""
             }`}
           >
@@ -108,7 +115,7 @@ export default function InitiativeTable({
             }}
             label={`Initiative for ${c.name}`}
             containerProps={{
-              className: "max-w-xs",
+              className: "max-w-xs min-w-[120px]",
             }}
           />
         );
@@ -117,7 +124,11 @@ export default function InitiativeTable({
       align: "center" as const,
       width: "35%",
     },
-    {
+  ];
+
+  // Conditionally add HP column if showHp is true
+  if (showHp) {
+    combatColumns.push({
       key: "hp",
       header: "HP",
       cell: (combatant: Record<string, unknown>) => {
@@ -150,9 +161,67 @@ export default function InitiativeTable({
         );
       },
       align: "center" as const,
-      width: "25%",
-    },
-  ];
+      width: onDeleteCombatant ? "20%" : "25%",
+    });
+  }
+
+  // Add delete column if onDeleteCombatant is provided
+  if (onDeleteCombatant) {
+    combatColumns.push({
+      key: "actions",
+      header: "",
+      cell: (combatant: Record<string, unknown>) => {
+        const c = combatant as CombatantWithInitiative;
+        const index = combatants.findIndex(
+          (cb) => cb.name === c.name && cb.initiative === c.initiative
+        );
+
+        return (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteCombatant(c, index);
+            }}
+            variant="destructive"
+            size="sm"
+            aria-label={`Remove ${c.name} from combat`}
+            className="p-2 min-w-0"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </Button>
+        );
+      },
+      sortable: false,
+      align: "center" as const,
+      width: "5%",
+    });
+
+    // Adjust column widths when delete column is present
+    if (showHp) {
+      // With HP column: Combatant | Initiative | HP | Delete
+      if (combatColumns[0]) combatColumns[0].width = "35%";
+      if (combatColumns[1]) combatColumns[1].width = "30%";
+      if (combatColumns[2]) combatColumns[2].width = "20%"; // HP column (adjusted)
+    } else {
+      // Without HP column: Combatant | Initiative | Delete
+      // Give more space to the initiative column so SimpleRoller doesn't get squeezed
+      if (combatColumns[0]) combatColumns[0].width = "40%";
+      if (combatColumns[1]) combatColumns[1].width = "50%"; // Initiative column (larger, needs more space for SimpleRoller)
+    }
+  }
 
   return (
     <Table

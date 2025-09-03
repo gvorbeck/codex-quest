@@ -143,11 +143,23 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
 
   // Check if all combatants have initiative values > 0
   const allCombatantsHaveInitiative = useMemo(() => {
-    return (
-      combatants.length > 0 &&
-      combatants.every((combatant) => combatant.initiative > 0)
-    );
-  }, [combatants]);
+    if (isCombatActive) {
+      // During combat, check the active combatants
+      return (
+        combatants.length > 0 &&
+        combatants.every((combatant) => combatant.initiative > 0)
+      );
+    } else {
+      // Before combat, check if all current combatants have pre-combat initiative set
+      return (
+        currentCombatants.length > 0 &&
+        currentCombatants.every((combatant) => {
+          const preCombatInitiative = preCombatInitiatives[combatant.name] || 0;
+          return preCombatInitiative > 0;
+        })
+      );
+    }
+  }, [combatants, currentCombatants, preCombatInitiatives, isCombatActive]);
 
   // Add player to combat
   const addPlayerToCombat = useCallback(
@@ -288,6 +300,18 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
     [preCombatInitiatives, setPreCombatInitiatives]
   );
 
+  // Update pre-combat initiative for multiple combatants at once
+  const updateMultiplePreCombatInitiatives = useCallback(
+    (updates: Array<{ combatant: CombatantWithInitiative; initiative: number }>) => {
+      const newInitiatives = { ...preCombatInitiatives };
+      updates.forEach(({ combatant, initiative }) => {
+        newInitiatives[combatant.name] = initiative;
+      });
+      setPreCombatInitiatives(newInitiatives);
+    },
+    [preCombatInitiatives, setPreCombatInitiatives]
+  );
+
   // Update initiative during combat
   const updateInitiative = useCallback(
     (targetCombatant: CombatantWithInitiative, newInitiative: number) => {
@@ -407,6 +431,7 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
     initializeCombat,
     rollInitiativeFor,
     updatePreCombatInitiative,
+    updateMultiplePreCombatInitiatives,
     updateInitiative,
     updateCombatantHp,
     setCurrentTurn,
