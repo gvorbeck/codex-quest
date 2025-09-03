@@ -47,12 +47,8 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
     try {
       const result = roller(formula);
       const newValue = result.total;
-      console.log(
-        `SimpleRoller.handleRoll: Rolling ${formula}, got ${newValue}, calling setValue and onChange`
-      );
       setValue(newValue);
       onChange?.(newValue);
-      console.log(`SimpleRoller.handleRoll: Called onChange with ${newValue}`);
 
       // Create detailed result description for screen readers
       const rollDescription = `Rolled ${formula}: total result is ${newValue}${
@@ -78,14 +74,8 @@ const SimpleRoller: React.FC<SimpleRollerProps> = ({
   };
 
   const handleInputChange = (newValue: number | undefined) => {
-    console.log(
-      `SimpleRoller.handleInputChange: Got ${newValue}, calling setValue and onChange`
-    );
     setValue(newValue);
     onChange?.(newValue);
-    console.log(
-      `SimpleRoller.handleInputChange: Called onChange with ${newValue}`
-    );
   };
 
   const effectiveLabel = label || `Roll ${formula}`;

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useEffect } from "react";
 import { Modal } from "../base";
-import { Typography } from "@/components/ui/design-system";
+import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { LoadingState } from "@/components/ui/feedback";
 import { Icon } from "@/components/ui/display";
@@ -9,7 +9,7 @@ import { useLoadingState } from "@/hooks/useLoadingState";
 import { useNotifications } from "@/hooks/useNotifications";
 import { usePlayerCharacters } from "@/hooks/usePlayerCharacters";
 import { useLocalStorage } from "@/hooks";
-import { calculateArmorClass } from "@/utils/characterCalculations";
+import { calculateArmorClass, calculateModifier } from "@/utils/characterCalculations";
 import CombatControls from "./combat/CombatControls";
 import InitiativeTable from "./combat/InitiativeTable";
 import type { Game, GameCombatant } from "@/types/game";
@@ -46,29 +46,64 @@ interface CombatTrackerModalProps {
   onUpdateGame?: (updatedGame: Game) => void;
 }
 
-interface CombatantWithInitiative extends GameCombatant {
-  initiative: number;
-  isPlayer?: boolean;
-  _sortId?: number; // For stable sorting
-  dexterity?: number | undefined; // DEX score for initiative calculation
-  abilities?:
-    | {
-        dexterity?:
-          | {
-              value: number;
-              modifier: number;
-            }
-          | undefined;
-      }
-    | undefined;
-  currentHp?: number | undefined;
-  maxHp?: number | undefined;
-  hp?: { current?: number; max?: number } | number | undefined;
+// Normalized HP interface
+interface CombatantHP {
+  current: number;
+  max: number;
 }
 
-// Constants for magic numbers
-const DICE_SIDES = 20;
-const MIN_ROLL = 1;
+// Simplified combatant interface
+interface CombatantWithInitiative extends GameCombatant {
+  initiative: number;
+  isPlayer: boolean;
+  _sortId: number; // Always present for stable sorting
+  dexModifier: number; // Pre-calculated DEX modifier
+  hp: CombatantHP; // Normalized HP format
+  avatar?: string;
+}
+
+// Constants for initiative dice (Basic Fantasy uses 1d6 for initiative)
+const INITIATIVE_DICE_SIDES = 6;
+const MIN_INITIATIVE_ROLL = 1;
+
+// Utility functions
+function calculateCombatantAC(character: CombatCharacterData): number {
+  return character.ac || character.armorClass || calculateArmorClass(character) || 10;
+}
+
+function normalizeCombatantHP(character: CombatCharacterData): CombatantHP {
+  let current = 0;
+  let max = 0;
+
+  if (character["currentHp"] !== undefined) {
+    current = character["currentHp"] as number;
+  } else if (typeof character.hp === "object" && character.hp?.current !== undefined) {
+    current = character.hp.current;
+  } else if (typeof character.hp === "number") {
+    current = character.hp;
+  }
+
+  if (character["maxHp"] !== undefined) {
+    max = character["maxHp"] as number;
+  } else if (typeof character.hp === "object" && character.hp?.max !== undefined) {
+    max = character.hp.max;
+  } else if (typeof character.hp === "number") {
+    max = character.hp;
+  }
+
+  return { current: Math.max(0, current), max: Math.max(1, max) };
+}
+
+function calculateDexModifier(character: CombatCharacterData): number {
+  if (character.abilities?.dexterity?.modifier !== undefined) {
+    return character.abilities.dexterity.modifier;
+  } else if (character.abilities?.dexterity?.value !== undefined) {
+    return calculateModifier(character.abilities.dexterity.value);
+  } else if (character["dexterity"] !== undefined) {
+    return calculateModifier(character["dexterity"] as number);
+  }
+  return 0;
+}
 
 // Combat state interface for persistence
 interface CombatState {
@@ -151,15 +186,6 @@ export default function CombatTrackerModal({
     isActive: isCombatActive,
   } = combatState;
 
-  // Helper to update combat state - DISABLED to prevent conflicts
-  const updateCombatState = useCallback((updates: Partial<CombatState>) => {
-    console.log(
-      `CombatTrackerModal.updateCombatState: DISABLED - use setCombatState directly`,
-      updates
-    );
-    // DO NOT UPDATE - this was causing conflicts
-    return;
-  }, []);
 
   // Hooks
   const { loading, withLoading } = useLoadingState();
@@ -180,35 +206,17 @@ export default function CombatTrackerModal({
       .filter((char) => !playersInCombat.has(char.name))
       .map((char) => {
         const combatChar = char as CombatCharacterData;
-        const avatar = combatChar.avatar;
-
-        // First try direct AC properties that might be pre-calculated
-        let playerAC = combatChar.ac || combatChar.armorClass;
-
-        // If no direct AC, try to calculate from equipment
-        if (!playerAC || typeof playerAC !== "number") {
-          playerAC = calculateArmorClass(combatChar);
-        }
-
-        // Ensure we have a valid number
-        const finalAC = typeof playerAC === "number" ? playerAC : 10;
 
         return {
           name: char.name,
-          ac: finalAC,
+          ac: calculateCombatantAC(combatChar),
           initiative: 0,
-          isPlayer: true as const,
-          avatar,
-          abilities: combatChar.abilities
-            ? {
-                dexterity: combatChar.abilities.dexterity,
-              }
-            : undefined,
-          dexterity: combatChar.abilities?.dexterity?.value,
-          hp: combatChar.hp,
-          currentHp: combatChar.currentHp,
-          maxHp: combatChar.maxHp,
-        };
+          isPlayer: true,
+          _sortId: Date.now() + Math.random(),
+          dexModifier: calculateDexModifier(combatChar),
+          hp: normalizeCombatantHP(combatChar),
+          avatar: combatChar.avatar,
+        } as CombatantWithInitiative;
       });
   }, [playerCharacters, game]);
 
@@ -222,7 +230,7 @@ export default function CombatTrackerModal({
     if (!game) return [];
 
     return (game.combatants || []).map((combatant) => {
-      // If this is a player, try to get their actual AC from character data
+      // If this is a player, try to get their actual data from character data
       if (combatant["isPlayer"]) {
         const playerChar = playerCharacters.find(
           (char) => char.name === combatant.name
@@ -230,42 +238,29 @@ export default function CombatTrackerModal({
         if (playerChar) {
           const combatChar = playerChar as CombatCharacterData;
 
-          // First try direct AC properties that might be pre-calculated
-          let playerAC = combatChar.ac || combatChar.armorClass;
-
-          // If no direct AC, try to calculate from equipment
-          if (!playerAC || typeof playerAC !== "number") {
-            playerAC = calculateArmorClass(combatChar);
-          }
-
-          // Ensure we have a valid number
-          const finalAC =
-            typeof playerAC === "number" ? playerAC : combatant.ac || 11;
-
           return {
-            ...combatant,
-            ac: finalAC,
+            name: combatant.name,
+            ac: calculateCombatantAC(combatChar),
             initiative: 0,
             isPlayer: true,
-            abilities: combatChar.abilities
-              ? {
-                  dexterity: combatChar.abilities.dexterity,
-                }
-              : undefined,
-            dexterity: combatChar.abilities?.dexterity?.value,
-            hp: combatChar.hp,
-            currentHp: combatChar.currentHp,
-            maxHp: combatChar.maxHp,
-          };
+            _sortId: Date.now() + Math.random(),
+            dexModifier: calculateDexModifier(combatChar),
+            hp: normalizeCombatantHP(combatChar),
+            avatar: combatChar.avatar,
+          } as CombatantWithInitiative;
         }
       }
 
       return {
-        ...combatant,
+        name: combatant.name,
         ac: combatant.ac || 11,
         initiative: 0,
         isPlayer: Boolean(combatant["isPlayer"]),
-      };
+        _sortId: Date.now() + Math.random(),
+        dexModifier: 0, // Default for monsters unless specified
+        hp: { current: 10, max: 10 }, // Default HP for monsters
+        avatar: combatant.avatar,
+      } as CombatantWithInitiative;
     });
   }, [game, playerCharacters]);
 
@@ -279,7 +274,7 @@ export default function CombatTrackerModal({
       }))
       .sort((a, b) => {
         if (b.initiative === a.initiative) {
-          return (b._sortId || 0) - (a._sortId || 0);
+          return b._sortId - a._sortId;
         }
         return b.initiative - a.initiative;
       });
@@ -296,8 +291,6 @@ export default function CombatTrackerModal({
         initiative: 0,
         ...(player.avatar && { avatar: player.avatar }),
         isPlayer: true,
-        ...(player.abilities && { abilities: player.abilities }),
-        ...(player.dexterity && { dexterity: player.dexterity }),
       };
 
       const updatedCombatants = [...(game.combatants || []), newCombatant];
@@ -354,7 +347,7 @@ export default function CombatTrackerModal({
           initiative:
             preCombatInitiative > 0
               ? preCombatInitiative
-              : Math.floor(Math.random() * DICE_SIDES) + MIN_ROLL,
+              : Math.floor(Math.random() * INITIATIVE_DICE_SIDES) + MIN_INITIATIVE_ROLL,
           _sortId: Date.now() + Math.random(), // Stable sort identifier
         };
       });
@@ -367,7 +360,7 @@ export default function CombatTrackerModal({
         return b.initiative - a.initiative;
       });
 
-      updateCombatState({
+      setCombatState({
         combatants: sortedCombatants,
         currentTurn: 0,
         round: 1,
@@ -388,7 +381,7 @@ export default function CombatTrackerModal({
     withLoading,
     showSuccess,
     showError,
-    updateCombatState,
+    setCombatState,
   ]);
 
   // Roll initiative for a specific combatant
@@ -397,7 +390,7 @@ export default function CombatTrackerModal({
       const combatant = combatants[combatantIndex];
       if (!combatant) return;
 
-      const newInitiative = Math.floor(Math.random() * DICE_SIDES) + MIN_ROLL;
+      const newInitiative = Math.floor(Math.random() * INITIATIVE_DICE_SIDES) + MIN_INITIATIVE_ROLL;
       const updatedCombatants = [...combatants];
       updatedCombatants[combatantIndex] = {
         ...combatant,
@@ -425,15 +418,15 @@ export default function CombatTrackerModal({
     [combatants, combatState, showInfo, setCombatState]
   );
 
-  // Performance optimizations - memoized computations
-  const sortedCombatants = useMemo(() => {
+  // Sort combatants by initiative (descending) with stable sorting
+  const sortCombatantsByInitiative = (combatants: CombatantWithInitiative[]) => {
     return [...combatants].sort((a, b) => {
       if (b.initiative === a.initiative) {
         return (b._sortId || 0) - (a._sortId || 0);
       }
       return b.initiative - a.initiative;
     });
-  }, [combatants]);
+  };
 
   // Update pre-combat initiative for a specific combatant
   const updatePreCombatInitiative = useCallback(
@@ -449,35 +442,30 @@ export default function CombatTrackerModal({
   // Update HP for a specific combatant
   const updateCombatantHp = useCallback(
     (targetCombatant: CombatantWithInitiative, newHp: number) => {
-      // Create updated combatants array by mapping over the existing array
       const updatedCombatants = combatants.map((combatant) => {
-        // Match by _sortId if available (most reliable), otherwise by name and initiative
         const isMatch =
-          (combatant._sortId &&
-            targetCombatant._sortId &&
-            combatant._sortId === targetCombatant._sortId) ||
+          combatant._sortId === targetCombatant._sortId ||
           (combatant.name === targetCombatant.name &&
             combatant.initiative === targetCombatant.initiative);
 
         if (isMatch) {
           return {
             ...combatant,
-            currentHp: newHp,
-            hp:
-              typeof combatant.hp === "object"
-                ? { ...combatant.hp, current: newHp }
-                : newHp,
+            hp: { ...combatant.hp, current: Math.max(0, newHp) },
           };
         }
         return combatant;
       });
 
-      updateCombatState({ combatants: updatedCombatants });
+      setCombatState({
+        ...combatState,
+        combatants: updatedCombatants,
+      });
     },
-    [combatants, updateCombatState]
+    [combatants, combatState, setCombatState]
   );
 
-  // Combatant Card Component for non-combat sections
+  // Combatant Card Component using design system Card
   const CombatantCard = useCallback(
     ({
       combatant,
@@ -492,12 +480,10 @@ export default function CombatTrackerModal({
       onAction?: (action: string, index: number) => void;
       isActive?: boolean;
     }) => (
-      <div
-        className={`p-3 rounded-lg border transition-all duration-200 ${
-          isActive
-            ? "border-amber-500 bg-amber-900/20"
-            : "border-zinc-600 bg-zinc-800/30 hover:border-zinc-500"
-        }`}
+      <Card
+        size="compact"
+        hover
+        className={isActive ? "border-amber-500 bg-amber-900/20" : undefined}
         role="listitem"
         aria-label={`${combatant.name}, ${
           combatant.isPlayer ? "Player" : "Monster"
@@ -509,18 +495,20 @@ export default function CombatTrackerModal({
               <img
                 src={combatant.avatar}
                 alt={`${combatant.name} avatar`}
-                className="w-6 h-6 rounded-full"
+                className="w-6 h-6 rounded-full flex-shrink-0"
               />
             )}
-            <div>
-              <Typography variant="body" color="zinc">
-                {combatant.name}
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <Typography variant="body" color="zinc">
+                  {combatant.name}
+                </Typography>
                 {combatant.isPlayer && (
-                  <span className="ml-2 text-xs text-amber-400 font-semibold">
+                  <Badge variant="secondary" size="sm">
                     PLAYER
-                  </span>
+                  </Badge>
                 )}
-              </Typography>
+              </div>
               <Typography variant="bodySmall" color="secondary">
                 AC {combatant.ac}
               </Typography>
@@ -546,7 +534,7 @@ export default function CombatTrackerModal({
             </Button>
           )}
         </div>
-      </div>
+      </Card>
     ),
     []
   );
@@ -587,8 +575,9 @@ export default function CombatTrackerModal({
   }, [showSuccess, setCombatState]);
 
   const currentCombatant = useMemo(() => {
-    return sortedCombatants[currentTurn];
-  }, [sortedCombatants, currentTurn]);
+    const sorted = sortCombatantsByInitiative(combatants);
+    return sorted[currentTurn];
+  }, [combatants, currentTurn]);
 
   // Check if all combatants have initiative values > 0
   const allCombatantsHaveInitiative = useMemo(() => {
@@ -704,7 +693,7 @@ export default function CombatTrackerModal({
           <SectionWrapper title="Initiative Order">
             <div className="p-2">
               <InitiativeTable
-                combatants={sortedCombatants}
+                combatants={sortCombatantsByInitiative(combatants)}
                 currentTurn={currentTurn}
                 isCombatActive={isCombatActive}
                 onUpdateInitiative={(targetCombatant, newInitiative) => {
@@ -724,45 +713,15 @@ export default function CombatTrackerModal({
                   const targetIndex = combatants.findIndex(
                     (c) => c.name === targetCombatant.name
                   );
-                  if (targetIndex === -1) {
-                    console.error(
-                      `Could not find ${targetCombatant.name} in combatants array`
-                    );
-                    return;
-                  }
+                  if (targetIndex === -1) return;
 
                   const foundCombatant = combatants[targetIndex];
-                  if (!foundCombatant) {
-                    console.error(
-                      `Combatant at index ${targetIndex} is undefined`
-                    );
-                    return;
-                  }
+                  if (!foundCombatant) return;
 
-                  // Create a clean updated combatant with all required properties
                   const updatedCombatant: CombatantWithInitiative = {
-                    name: foundCombatant.name,
-                    ac: foundCombatant.ac,
+                    ...foundCombatant,
                     initiative: newInitiative,
-                    isPlayer: foundCombatant.isPlayer ?? false,
                     _sortId: Date.now() + Math.random(),
-                    // Only include optional properties if they exist
-                    ...(foundCombatant.avatar && {
-                      avatar: foundCombatant.avatar,
-                    }),
-                    ...(foundCombatant.dexterity && {
-                      dexterity: foundCombatant.dexterity,
-                    }),
-                    ...(foundCombatant.abilities && {
-                      abilities: foundCombatant.abilities,
-                    }),
-                    ...(foundCombatant.currentHp !== undefined && {
-                      currentHp: foundCombatant.currentHp,
-                    }),
-                    ...(foundCombatant.maxHp !== undefined && {
-                      maxHp: foundCombatant.maxHp,
-                    }),
-                    ...(foundCombatant.hp && { hp: foundCombatant.hp }),
                   };
 
                   const updatedCombatants = [...combatants];
@@ -874,15 +833,7 @@ export default function CombatTrackerModal({
                     if (action === "add") {
                       const playerToAdd = availablePlayers[idx];
                       if (playerToAdd) {
-                        addPlayerToCombat({
-                          name: playerToAdd.name,
-                          ac: playerToAdd.ac,
-                          initiative: playerToAdd.initiative,
-                          isPlayer: playerToAdd.isPlayer,
-                          ...(playerToAdd.avatar && {
-                            avatar: playerToAdd.avatar,
-                          }),
-                        });
+                        addPlayerToCombat(playerToAdd);
                       }
                     }
                   }}
