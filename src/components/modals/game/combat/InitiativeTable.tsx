@@ -4,23 +4,7 @@ import { NumberInput } from "@/components/ui/inputs";
 import type { TableColumn } from "@/components/ui/display";
 import { formatModifier } from "@/utils/characterCalculations";
 
-// Normalized HP interface
-interface CombatantHP {
-  current: number;
-  max: number;
-}
-
-// Simplified combatant interface
-interface CombatantWithInitiative extends Record<string, unknown> {
-  name: string;
-  ac: number;
-  initiative: number;
-  isPlayer: boolean;
-  avatar?: string;
-  _sortId: number;
-  dexModifier: number;
-  hp: CombatantHP;
-}
+import type { CombatantWithInitiative } from "@/utils/combatUtils";
 
 interface InitiativeTableProps {
   combatants: CombatantWithInitiative[];

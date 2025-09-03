@@ -1,14 +1,7 @@
 import { Button } from "@/components/ui/inputs";
-import { Typography } from "@/components/ui/design-system";
+import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
-
-interface CombatantWithInitiative {
-  name: string;
-  ac: number;
-  initiative: number;
-  isPlayer?: boolean;
-  avatar?: string;
-}
+import type { CombatantWithInitiative } from "@/utils/combatUtils";
 
 interface CombatantCardProps {
   combatant: CombatantWithInitiative;
@@ -26,12 +19,10 @@ export default function CombatantCard({
   isActive = false,
 }: CombatantCardProps) {
   return (
-    <div
-      className={`p-3 rounded-lg border transition-all duration-200 ${
-        isActive
-          ? "border-amber-500 bg-amber-900/20"
-          : "border-zinc-600 bg-zinc-800/30 hover:border-zinc-500"
-      }`}
+    <Card
+      size="compact"
+      hover
+      className={isActive ? "border-amber-500 bg-amber-900/20" : undefined}
       role="listitem"
       aria-label={`${combatant.name}, ${
         combatant.isPlayer ? "Player" : "Monster"
@@ -43,18 +34,20 @@ export default function CombatantCard({
             <img
               src={combatant.avatar}
               alt={`${combatant.name} avatar`}
-              className="w-6 h-6 rounded-full"
+              className="w-6 h-6 rounded-full flex-shrink-0"
             />
           )}
-          <div>
-            <Typography variant="body" color="zinc">
-              {combatant.name}
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <Typography variant="body" color="zinc">
+                {combatant.name}
+              </Typography>
               {combatant.isPlayer && (
-                <span className="ml-2 text-xs text-amber-400 font-semibold">
+                <Badge variant="secondary" size="sm">
                   PLAYER
-                </span>
+                </Badge>
               )}
-            </Typography>
+            </div>
             <Typography variant="bodySmall" color="secondary">
               AC {combatant.ac}
             </Typography>
@@ -80,6 +73,6 @@ export default function CombatantCard({
           </Button>
         )}
       </div>
-    </div>
+    </Card>
   );
 }
