@@ -6,6 +6,16 @@ export { default as Callout } from "./Callout";
 export { default as Notification } from "./Notification";
 export { default as NotificationContainer } from "./NotificationContainer";
 export { LoadingState } from "./LoadingState";
+export { 
+  Skeleton, 
+  SkeletonText, 
+  SkeletonCard, 
+  SkeletonCircle, 
+  SkeletonStat, 
+  SkeletonTableRow,
+  SkeletonStatBlock,
+  SkeletonList
+} from "./Skeleton";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { SharedErrorBoundary } from "./SharedErrorBoundary";
 export {

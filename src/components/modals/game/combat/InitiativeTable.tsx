@@ -10,6 +10,7 @@ interface InitiativeTableProps {
   combatants: CombatantWithInitiative[];
   currentTurn: number;
   isCombatActive: boolean;
+  loading?: boolean;
   onUpdateInitiative: (
     combatant: CombatantWithInitiative,
     newInitiative: number
@@ -28,6 +29,7 @@ export default function InitiativeTable({
   combatants,
   currentTurn,
   isCombatActive,
+  loading = false,
   onUpdateInitiative,
   onSetCurrentTurn,
   onUpdateHp,
@@ -222,6 +224,7 @@ export default function InitiativeTable({
       <Table
         columns={combatColumns}
         data={combatants}
+        loading={loading}
         sort={{ key: "initiative", direction: "desc" }}
         onRowClick={(_combatant, index) => {
           onSetCurrentTurn(index);

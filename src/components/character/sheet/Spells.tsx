@@ -7,14 +7,16 @@ import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
 import { TextHeader } from "@/components/ui/display";
+import { SkeletonList } from "@/components/ui/feedback";
 import { Modal } from "@/components/modals";
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 
 interface SpellsProps {
-  character: Character;
+  character?: Character;
   onCharacterChange?: (character: Character) => void;
   isOwner?: boolean;
+  loading?: boolean;
   className?: string;
   size?: "sm" | "md" | "lg";
 }
@@ -97,12 +99,13 @@ export default function Spells({
   character,
   onCharacterChange,
   isOwner = false,
+  loading = false,
   className = "",
   size = "md",
 }: SpellsProps) {
   const { isOpen: showCantripModal, open: openCantripModal, close: closeCantripModal } = useModal();
   const { knownSpells, cantrips } = useMemo(() => {
-    if (!canCastSpells(character)) {
+    if (!character || !canCastSpells(character)) {
       return { knownSpells: [], cantrips: [] };
     }
 
@@ -145,6 +148,23 @@ export default function Spells({
 
     return { knownSpells: spells, cantrips: characterCantrips };
   }, [character]);
+
+  // Show skeleton while loading
+  if (loading || !character) {
+    return (
+      <SectionWrapper
+        title="Spells"
+        size={size}
+        className={className}
+      >
+        <SkeletonList 
+          items={4}
+          showAvatar={false}
+          label="Loading spells..."
+        />
+      </SectionWrapper>
+    );
+  }
 
   const renderSpell = (spell: DisplayableSpell) => (
     <div

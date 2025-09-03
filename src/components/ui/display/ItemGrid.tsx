@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Typography, Button } from "@/components/ui";
 import { Icon, type IconName } from "@/components/ui/display";
+import { SkeletonCard } from "@/components/ui/feedback";
 import type { ReactNode } from "react";
 
 interface ItemGridProps<T> {
@@ -36,11 +37,30 @@ export function ItemGrid<T extends { id: string }>({
 }: ItemGridProps<T>) {
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 space-y-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400" />
-        <Typography variant="helper" color="secondary">
-          Loading your {header.title.toLowerCase()}...
-        </Typography>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <Typography variant="h4" className="flex items-center gap-2">
+            <Icon name={header.icon} size="md" className="text-amber-400" />
+            {header.title}
+          </Typography>
+          <div className="flex items-center gap-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-400" />
+            <Typography variant="helper" color="secondary">
+              Loading...
+            </Typography>
+          </div>
+        </div>
+        
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {/* Show 6 skeleton cards while loading */}
+          {Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonCard 
+              key={index} 
+              size="lg"
+              label={`Loading ${header.title.toLowerCase().replace('your ', '')}...`}
+            />
+          ))}
+        </div>
       </div>
     );
   }

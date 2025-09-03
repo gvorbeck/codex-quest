@@ -8,15 +8,17 @@ import { Accordion } from "@/components/ui/layout";
 import { EquipmentSelector } from "@/components/character/management";
 import { CustomEquipmentModal } from "@/components/modals";
 import { Icon } from "@/components/ui/display/Icon";
+import { SkeletonList } from "@/components/ui/feedback";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
 import type { Character, Equipment as EquipmentItem } from "@/types/character";
 
 interface EquipmentProps {
-  character: Character;
+  character?: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
   editable?: boolean;
+  loading?: boolean;
   onEquipmentChange?: (equipment: EquipmentItem[]) => void;
 }
 
@@ -25,6 +27,7 @@ export default function Equipment({
   className = "",
   size = "md",
   editable = false,
+  loading = false,
   onEquipmentChange,
 }: EquipmentProps) {
   const { isOpen: showSelector, toggle: toggleSelector } = useModal();
@@ -41,7 +44,7 @@ export default function Equipment({
 
   // Shared helper function for adding equipment to inventory
   const addEquipmentToInventory = useCallback((newEquipment: EquipmentItem) => {
-    if (!onEquipmentChange) return;
+    if (!onEquipmentChange || !character) return;
 
     // Clean equipment array first, then work with clean data
     const cleanedEquipment = cleanEquipmentArray(character.equipment);
@@ -67,7 +70,7 @@ export default function Equipment({
       
       onEquipmentChange([...cleanedEquipment, equipmentToAdd]);
     }
-  }, [character.equipment, onEquipmentChange]);
+  }, [character, onEquipmentChange]);
 
   const handleEquipmentAdd = (newEquipment: EquipmentItem) => {
     // Ensure we're adding at least 1 item (EquipmentSelector sends items with amount: 0)
@@ -83,7 +86,7 @@ export default function Equipment({
 
   const handleEquipmentRemove = useCallback(
     (index: number) => {
-      if (!onEquipmentChange) return;
+      if (!onEquipmentChange || !character) return;
 
       const updatedEquipment = [...character.equipment];
       const item = updatedEquipment[index];
@@ -103,22 +106,23 @@ export default function Equipment({
 
       onEquipmentChange(updatedEquipment);
     },
-    [character.equipment, onEquipmentChange]
+    [character, onEquipmentChange]
   );
 
   const handleEquipmentEdit = useCallback(
     (index: number) => {
+      if (!character) return;
       const item = character.equipment[index];
       if (!item) return;
 
       setEditingItem({ item, index });
       setEditForm({ ...item });
     },
-    [character.equipment]
+    [character]
   );
 
   const handleEditSave = useCallback(() => {
-    if (!editForm || editingItem === null || !onEquipmentChange) return;
+    if (!editForm || editingItem === null || !onEquipmentChange || !character) return;
 
     const updatedEquipment = [...character.equipment];
     updatedEquipment[editingItem.index] = editForm;
@@ -126,7 +130,7 @@ export default function Equipment({
 
     setEditingItem(null);
     setEditForm(null);
-  }, [editForm, editingItem, character.equipment, onEquipmentChange]);
+  }, [editForm, editingItem, character, onEquipmentChange]);
 
   const handleEditCancel = useCallback(() => {
     setEditingItem(null);
@@ -158,7 +162,7 @@ export default function Equipment({
 
   const toggleWearing = useCallback(
     (index: number) => {
-      if (!onEquipmentChange) return;
+      if (!onEquipmentChange || !character) return;
 
       const updatedEquipment = [...character.equipment];
       const item = updatedEquipment[index];
@@ -196,7 +200,7 @@ export default function Equipment({
         onEquipmentChange(updatedEquipment);
       }
     },
-    [character.equipment, onEquipmentChange, isWearableItem, isArmorItem, isShieldItem]
+    [character, onEquipmentChange, isWearableItem, isArmorItem, isShieldItem]
   );
 
   const formatWeight = useCallback((weight: number, amount: number) => {
@@ -214,13 +218,14 @@ export default function Equipment({
 
   // Prepare equipment items for the Accordion component (memoized for performance)
   const equipmentForAccordion = useMemo(() => {
+    if (!character) return [];
     const cleanedEquipment = cleanEquipmentArray(character.equipment);
     return cleanedEquipment.map((item) => ({
       ...item,
       originalIndex: character.equipment.findIndex(origItem => origItem === item),
       category: item.category || "Other",
     }));
-  }, [character.equipment]);
+  }, [character]);
 
   // Render function for individual equipment items in the accordion
   const renderEquipmentItem = useCallback(
@@ -343,6 +348,23 @@ export default function Equipment({
       isWearableItem,
     ]
   );
+
+  // Show skeleton while loading
+  if (loading || !character) {
+    return (
+      <SectionWrapper
+        title="Equipment"
+        size={size}
+        className={className}
+      >
+        <SkeletonList 
+          items={5}
+          showAvatar={false}
+          label="Loading equipment..."
+        />
+      </SectionWrapper>
+    );
+  }
 
   return (
     <SectionWrapper

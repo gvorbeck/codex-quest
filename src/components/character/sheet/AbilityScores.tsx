@@ -3,7 +3,7 @@ import type { Character } from "@/types/character";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
-import { InfoTooltip } from "@/components/ui/feedback";
+import { InfoTooltip, SkeletonStatBlock } from "@/components/ui/feedback";
 import { Typography } from "@/components/ui/design-system";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import {
@@ -14,10 +14,11 @@ import {
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 
 interface AbilityScoresProps {
-  character: Character;
+  character?: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
   editable?: boolean;
+  loading?: boolean;
   onAbilityChange?: (abilityKey: string, value: number) => void;
 }
 
@@ -223,12 +224,31 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
       className = "",
       size = "md",
       editable = false,
+      loading = false,
       onAbilityChange,
     },
     ref
   ) => {
     const currentSize = SIZE_STYLES[size];
     const { rollAbility } = useDiceRoll();
+
+    // Show skeleton while loading
+    if (loading || !character) {
+      return (
+        <SectionWrapper
+          ref={ref}
+          title="Ability Scores"
+          size={size}
+          className={className}
+        >
+          <SkeletonStatBlock 
+            stats={6}
+            showTitle={false}
+            label="Loading ability scores..."
+          />
+        </SectionWrapper>
+      );
+    }
 
     const abilities = [
       { key: "strength", label: "STR", fullName: "Strength" },

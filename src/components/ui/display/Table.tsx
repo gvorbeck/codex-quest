@@ -2,7 +2,7 @@ import { forwardRef, useCallback } from "react";
 import type { ReactNode, HTMLAttributes, ThHTMLAttributes, TdHTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
-import { LoadingState } from "@/components/ui/feedback";
+import { SkeletonTableRow } from "@/components/ui/feedback";
 
 // Constants
 const HEADER_ROW_OFFSET = 2; // Header row is index 1, data rows start at 2
@@ -249,7 +249,70 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
     }, [getRowKey]);
 
     if (loading) {
-      return <LoadingState message="Loading table data..." variant="page" />;
+      return (
+        <div className={cn("overflow-x-auto", DESIGN_TOKENS.effects.rounded)}>
+          <table
+            ref={ref}
+            className={cn(
+              "w-full border-collapse",
+              currentSize.table,
+              DESIGN_TOKENS.colors.bg.primary,
+              bordered && `border-2 ${DESIGN_TOKENS.colors.border.primary}`,
+              className
+            )}
+            {...props}
+          >
+            {caption && (
+              <caption className={cn(
+                "caption-top mb-4 text-left font-semibold",
+                DESIGN_TOKENS.colors.text.accent
+              )}>
+                {caption} - Loading
+              </caption>
+            )}
+            
+            <thead>
+              <tr>
+                {columns.map((column) => (
+                  <TableHeader
+                    key={column.key}
+                    className={currentSize.header}
+                    style={column.width ? { width: column.width } : undefined}
+                    align={column.align ?? "left"}
+                    sortable={false}
+                    sorted={null}
+                    onSort={() => {}}
+                    aria-label={column.ariaLabel}
+                  >
+                    {column.header}
+                  </TableHeader>
+                ))}
+              </tr>
+            </thead>
+
+            <tbody>
+              {/* Show skeleton rows while loading */}
+              {Array.from({ length: 3 }).map((_, index) => (
+                <tr key={index}>
+                  {columns.map((column, colIndex) => (
+                    <TableCell
+                      key={`${index}-${column.key}`}
+                      className={currentSize.cell}
+                      align={column.align ?? "left"}
+                    >
+                      <SkeletonTableRow 
+                        size="sm" 
+                        width={colIndex === 0 ? "60%" : "40%"}
+                        label="Loading table data..."
+                      />
+                    </TableCell>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
     }
 
     if (data.length === 0) {
