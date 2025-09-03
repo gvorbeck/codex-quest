@@ -61,6 +61,7 @@ export default function CombatTrackerModal({
     addPlayerToCombat,
     removeCombatant,
     initializeCombat,
+    rollInitiativeForMonsters,
     updatePreCombatInitiative,
     updateMultiplePreCombatInitiatives,
     updateInitiative,
@@ -172,6 +173,7 @@ export default function CombatTrackerModal({
                 onUpdateInitiative={updateInitiative}
                 onSetCurrentTurn={setCurrentTurn}
                 onUpdateHp={updateCombatantHp}
+                onRollInitiativeForMonsters={rollInitiativeForMonsters}
               />
             </div>
           </SectionWrapper>

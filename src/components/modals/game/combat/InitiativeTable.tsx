@@ -1,8 +1,7 @@
-import { Table, SimpleRoller } from "@/components/ui/display";
+import { Table } from "@/components/ui/display";
 import { Typography, Badge } from "@/components/ui/design-system";
 import { NumberInput, Button } from "@/components/ui/inputs";
 import type { TableColumn } from "@/components/ui/display";
-import { formatModifier } from "@/utils/characterCalculations";
 
 import type { CombatantWithInitiative } from "@/utils/combatUtils";
 
@@ -20,6 +19,7 @@ interface InitiativeTableProps {
     combatant: CombatantWithInitiative,
     index: number
   ) => void;
+  onRollInitiativeForMonsters?: () => void;
   showHp?: boolean;
 }
 
@@ -31,6 +31,7 @@ export default function InitiativeTable({
   onSetCurrentTurn,
   onUpdateHp,
   onDeleteCombatant,
+  onRollInitiativeForMonsters,
   showHp = true,
 }: InitiativeTableProps) {
   const combatColumns: TableColumn[] = [
@@ -97,26 +98,18 @@ export default function InitiativeTable({
       cell: (combatant: Record<string, unknown>) => {
         const c = combatant as CombatantWithInitiative;
 
-        const dexModifier = c.dexModifier;
-        const initiativeFormula =
-          dexModifier === 0 ? "1d6" : `1d6${formatModifier(dexModifier)}`;
-
         return (
-          <SimpleRoller
-            key={`${c.name}-stable`}
-            formula={initiativeFormula}
-            initialValue={c.initiative}
-            minValue={1 + Math.min(0, dexModifier)}
-            maxValue={6 + Math.max(0, dexModifier)}
+          <NumberInput
+            value={c.initiative || 0}
             onChange={(value) => {
               if (value !== undefined) {
                 onUpdateInitiative(c, value);
               }
             }}
-            label={`Initiative for ${c.name}`}
-            containerProps={{
-              className: "max-w-xs min-w-[120px]",
-            }}
+            minValue={1}
+            maxValue={c.isPlayer ? 6 : 10}
+            aria-label={`Initiative for ${c.name}`}
+            className="w-20 text-center"
           />
         );
       },
@@ -216,20 +209,42 @@ export default function InitiativeTable({
     }
   }
 
+  // Check if there are monsters with initiative 0 during combat
+  const hasUnrolledMonsters = isCombatActive && 
+    combatants.some(c => !c.isPlayer && c.initiative === 0);
+
   return (
-    <Table
-      columns={combatColumns}
-      data={combatants}
-      sort={{ key: "initiative", direction: "desc" }}
-      onRowClick={(_combatant, index) => {
-        onSetCurrentTurn(index);
-      }}
-      hoverable
-      getRowKey={(combatant: Record<string, unknown>, index: number) =>
-        `${(combatant as CombatantWithInitiative).name}-${
-          (combatant as CombatantWithInitiative).initiative
-        }-${index}`
-      }
-    />
+    <div>
+      {hasUnrolledMonsters && onRollInitiativeForMonsters && (
+        <div className="mb-3">
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onRollInitiativeForMonsters();
+            }}
+            variant="secondary"
+            size="sm"
+          >
+            Roll Initiative for Monsters
+          </Button>
+        </div>
+      )}
+      
+      <Table
+        columns={combatColumns}
+        data={combatants}
+        sort={{ key: "initiative", direction: "desc" }}
+        onRowClick={(_combatant, index) => {
+          onSetCurrentTurn(index);
+        }}
+        hoverable
+        getRowKey={(combatant: Record<string, unknown>, index: number) =>
+          `${(combatant as CombatantWithInitiative).name}-${
+            (combatant as CombatantWithInitiative).initiative
+          }-${index}`
+        }
+      />
+    </div>
   );
 }

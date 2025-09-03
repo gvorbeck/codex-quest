@@ -73,7 +73,7 @@ export default function CombatControls({
       </div>
       {isCombatActive && (
         <Typography variant="bodySmall" color="muted">
-          Shortcuts: Space (Next) • R (Reroll) • E (End)
+          Shortcuts: Space (Next) • E (End)
         </Typography>
       )}
     </>
