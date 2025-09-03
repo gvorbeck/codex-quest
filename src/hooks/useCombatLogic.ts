@@ -192,12 +192,17 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
         combatants: updatedCombatants,
       };
 
+      // Remove the combatant's initiative value from pre-combat storage
+      const updatedPreCombatInitiatives = { ...preCombatInitiatives };
+      delete updatedPreCombatInitiatives[combatantToRemove.name];
+      setPreCombatInitiatives(updatedPreCombatInitiatives);
+
       onUpdateGame(updatedGame);
       showSuccess(`${combatantToRemove.name} removed from combat`, {
         title: "Combatant Removed",
       });
     },
-    [game, onUpdateGame, currentCombatants, showSuccess]
+    [game, onUpdateGame, currentCombatants, preCombatInitiatives, setPreCombatInitiatives, showSuccess]
   );
 
   // Initialize combat with all combatants

@@ -2,7 +2,7 @@ import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
 import type { Game } from "@/types/game";
 import { TextInput, Button } from "@/components/ui/inputs";
-import { Details, Icon } from "@/components/ui/display";
+import { Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import { cn } from "@/constants/styles";
 
@@ -130,8 +130,6 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
       currentSize.avatar
     );
 
-    const playerCount = game.players?.length || 0;
-
     return (
       <>
         <div
@@ -224,24 +222,6 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                   )}
                 </div>
               )}
-
-              {/* Game Details */}
-              <div className="mt-4">
-                <Details
-                  layout="horizontal"
-                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg inline-block"
-                  items={[
-                    {
-                      label: "Players",
-                      children: (
-                        <span className="text-zinc-100 font-medium">
-                          {playerCount}
-                        </span>
-                      ),
-                    },
-                  ]}
-                />
-              </div>
             </div>
 
             {/* Action Buttons */}
