@@ -171,14 +171,11 @@ const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
 const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
   ({ icon, children, className, ...props }, ref) => {
     const itemClasses = cn("flex items-start", icon ? "gap-2" : "", className);
+    const iconClasses = cn(LIST_DESIGN_TOKENS.icon, "mt-1 flex-shrink-0");
 
     return (
       <li ref={ref} className={itemClasses} {...props}>
-        {icon && (
-          <span className={cn(LIST_DESIGN_TOKENS.icon, "mt-1 flex-shrink-0")}>
-            {icon}
-          </span>
-        )}
+        {icon && <span className={iconClasses}>{icon}</span>}
         {children}
       </li>
     );
@@ -190,16 +187,15 @@ const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
  * Pre-configured with a bullet icon and secondary text color.
  */
 const FeatureListItem = forwardRef<HTMLLIElement, Omit<ListItemProps, "icon">>(
-  ({ children, className, ...props }, ref) => (
-    <ListItem
-      ref={ref}
-      icon="•"
-      className={cn(LIST_DESIGN_TOKENS.feature, className)}
-      {...props}
-    >
-      {children}
-    </ListItem>
-  )
+  ({ children, className, ...props }, ref) => {
+    const featureClasses = cn(LIST_DESIGN_TOKENS.feature, className);
+
+    return (
+      <ListItem ref={ref} icon="•" className={featureClasses} {...props}>
+        {children}
+      </ListItem>
+    );
+  }
 );
 
 /**
@@ -207,11 +203,15 @@ const FeatureListItem = forwardRef<HTMLLIElement, Omit<ListItemProps, "icon">>(
  * Used with ordered lists (variant="steps") for numbered instructions.
  */
 const StepListItem = forwardRef<HTMLLIElement, ListItemProps>(
-  ({ children, className, ...props }, ref) => (
-    <ListItem ref={ref} className={cn("", className)} {...props}>
-      {children}
-    </ListItem>
-  )
+  ({ children, className, ...props }, ref) => {
+    const stepClasses = cn("", className);
+
+    return (
+      <ListItem ref={ref} className={stepClasses} {...props}>
+        {children}
+      </ListItem>
+    );
+  }
 );
 
 /**
@@ -219,18 +219,22 @@ const StepListItem = forwardRef<HTMLLIElement, ListItemProps>(
  * Pre-configured with a small circular bullet and muted text color.
  */
 const GridListItem = forwardRef<HTMLLIElement, ListItemProps>(
-  ({ children, className, ...props }, ref) => (
-    <ListItem
-      ref={ref}
-      icon={
-        <span className="inline-block w-1 h-1 bg-zinc-400 dark:bg-zinc-500 rounded-full"></span>
-      }
-      className={cn(LIST_DESIGN_TOKENS.grid, "py-0.5", className)}
-      {...props}
-    >
-      {children}
-    </ListItem>
-  )
+  ({ children, className, ...props }, ref) => {
+    const gridClasses = cn(LIST_DESIGN_TOKENS.grid, "py-0.5", className);
+
+    return (
+      <ListItem
+        ref={ref}
+        icon={
+          <span className="inline-block w-1 h-1 bg-zinc-400 dark:bg-zinc-500 rounded-full"></span>
+        }
+        className={gridClasses}
+        {...props}
+      >
+        {children}
+      </ListItem>
+    );
+  }
 );
 
 // Display names

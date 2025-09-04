@@ -32,11 +32,7 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
   const navClasses = cn("flex items-center text-sm", className);
 
   return (
-    <nav
-      role="navigation"
-      aria-label="Breadcrumb"
-      className={navClasses}
-    >
+    <nav role="navigation" aria-label="Breadcrumb" className={navClasses}>
       <List variant="breadcrumb" role="list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -50,7 +46,10 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
               {/* Breadcrumb item */}
               <div className="flex items-center gap-1.5">
                 {item.icon && (
-                  <span className="flex items-center flex-shrink-0" aria-hidden="true">
+                  <span
+                    className="flex items-center flex-shrink-0"
+                    aria-hidden="true"
+                  >
                     {item.icon}
                   </span>
                 )}
@@ -78,7 +77,10 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
 
               {/* Separator - only show if not the last item */}
               {!isLast && (
-                <span className="flex items-center flex-shrink-0 ml-2" aria-hidden="true">
+                <span
+                  className="flex items-center flex-shrink-0 ml-2"
+                  aria-hidden="true"
+                >
                   {sep}
                 </span>
               )}

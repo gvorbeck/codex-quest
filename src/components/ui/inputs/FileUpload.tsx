@@ -125,6 +125,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
     handleFileSelect(file);
   };
 
+  const dropZoneClasses = cn(
+    "border-2 border-dashed rounded-lg p-6 text-center transition-colors mt-2",
+    dragOver
+      ? "border-amber-400 bg-amber-400/10"
+      : "border-zinc-600 hover:border-zinc-500",
+    disabled && "opacity-60 cursor-not-allowed"
+  );
+
   return (
     <div>
       <label htmlFor={inputId}>
@@ -153,13 +161,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={cn(
-          "border-2 border-dashed rounded-lg p-6 text-center transition-colors mt-2",
-          dragOver
-            ? "border-amber-400 bg-amber-400/10"
-            : "border-zinc-600 hover:border-zinc-500",
-          disabled && "opacity-60 cursor-not-allowed"
-        )}
+        className={dropZoneClasses}
       >
         {selectedFileName ? (
           <div className="space-y-4">

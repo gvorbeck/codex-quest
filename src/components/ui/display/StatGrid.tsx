@@ -35,7 +35,7 @@ export function StatGrid({
       columns.md ? `md:grid-cols-${columns.md}` : false,
       columns.lg ? `lg:grid-cols-${columns.lg}` : false
     );
-    
+
     return cn(baseClass, colClasses);
   };
 
@@ -96,31 +96,41 @@ export function StatGrid({
   const colors = getTextColors();
 
   const cardVariant = getCardVariant();
+  const gridClasses = cn(getGridClasses(), className);
 
   return (
-    <div className={cn(getGridClasses(), className)}>
+    <div className={gridClasses}>
       {stats.map((stat, index) => {
         const content = (
           <>
             {stat.icon && variant === "equipment" && (
               <div className="flex items-center gap-2 mb-1">
                 {stat.icon}
-                <div className={`text-xs uppercase tracking-wider font-medium ${colors.label}`}>
+                <div
+                  className={`text-xs uppercase tracking-wider font-medium ${colors.label}`}
+                >
                   {stat.label}
                 </div>
               </div>
             )}
             {!stat.icon && (
-              <div className={`text-xs uppercase tracking-wider font-medium mb-1 ${colors.label}`}>
+              <div
+                className={`text-xs uppercase tracking-wider font-medium mb-1 ${colors.label}`}
+              >
                 {variant === "ability" ? stat.label.slice(0, 3) : stat.label}
               </div>
             )}
             <div className={`text-lg font-bold ${colors.value}`}>
-              {(typeof stat.value === "number" && stat.value > 0) || typeof stat.value === "string" ? stat.value : "—"}
+              {(typeof stat.value === "number" && stat.value > 0) ||
+              typeof stat.value === "string"
+                ? stat.value
+                : "—"}
             </div>
             {stat.modifier !== undefined && (
               <div className={`text-xs ${colors.modifier}`}>
-                {typeof stat.modifier === "number" && stat.modifier >= 0 ? "+" : ""}
+                {typeof stat.modifier === "number" && stat.modifier >= 0
+                  ? "+"
+                  : ""}
                 {stat.modifier}
               </div>
             )}
@@ -128,7 +138,12 @@ export function StatGrid({
         );
 
         return cardVariant ? (
-          <Card key={`${stat.label}-${index}`} variant={cardVariant} size="compact" className={getStatItemClasses()}>
+          <Card
+            key={`${stat.label}-${index}`}
+            variant={cardVariant}
+            size="compact"
+            className={getStatItemClasses()}
+          >
             {content}
           </Card>
         ) : (

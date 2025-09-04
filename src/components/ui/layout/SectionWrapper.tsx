@@ -57,16 +57,18 @@ const SectionWrapper = forwardRef<HTMLDivElement, SectionWrapperProps>(
       className
     );
 
+    const collapseButtonClasses = cn(
+      "p-1 rounded transition-transform duration-200",
+      "hover:bg-white/10 focus:bg-white/10 focus:outline-none",
+      "focus:ring-2 focus:ring-amber-400/50",
+      isCollapsed && "rotate-180"
+    );
+
     // Create collapse button as extra content if collapsible
     const collapseButton = collapsible ? (
       <button
         onClick={toggleCollapse}
-        className={cn(
-          "p-1 rounded transition-transform duration-200",
-          "hover:bg-white/10 focus:bg-white/10 focus:outline-none",
-          "focus:ring-2 focus:ring-amber-400/50",
-          isCollapsed && "rotate-180"
-        )}
+        className={collapseButtonClasses}
         aria-label={isCollapsed ? "Expand section" : "Collapse section"}
         aria-expanded={!isCollapsed}
       >

@@ -21,24 +21,26 @@ export const TextHeader = ({
 }: TextHeaderProps) => {
   const sizeClasses = {
     sm: "text-base",
-    md: "text-lg", 
-    lg: "text-xl"
+    md: "text-lg",
+    lg: "text-xl",
   };
 
-  const underlineClasses = underlined 
-    ? "border-b border-zinc-700 pb-2 mb-4" 
+  const underlineClasses = underlined
+    ? "border-b border-zinc-700 pb-2 mb-4"
     : "";
+
+  const headerClasses = cn(
+    "text-zinc-100 font-semibold",
+    sizeClasses[size],
+    underlineClasses,
+    className
+  );
 
   return (
     <Typography
       variant={variant}
       as={variant}
-      className={cn(
-        "text-zinc-100 font-semibold",
-        sizeClasses[size],
-        underlineClasses,
-        className
-      )}
+      className={headerClasses}
       id={id}
     >
       {children}

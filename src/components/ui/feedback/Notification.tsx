@@ -126,7 +126,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       if (isVisible && priority === "error" && notificationRef.current) {
         // Store current focus before focusing the notification
         previousFocusRef.current = document.activeElement as HTMLElement;
-        
+
         // Focus error notifications for immediate attention
         // Small delay to ensure the notification is rendered and positioned
         const focusTimer = setTimeout(() => {
@@ -183,6 +183,16 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
       [styles, isVisible, isAnimatingOut, getAnimationClass, className]
     );
 
+    const accentClasses = cn(
+      "absolute left-0 top-0 bottom-0 w-1 rounded-l-xl",
+      styles.accent
+    );
+    const contentClasses = cn("pl-4", dismissible ? "pr-12" : "pr-4");
+    const progressClasses = cn(
+      "h-full transition-all ease-linear",
+      PRIORITY_PROGRESS_COLORS[priority]
+    );
+
     return (
       <div
         ref={(node) => {
@@ -201,7 +211,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         {...props}
       >
         {/* Accent bar */}
-        <div className={cn("absolute left-0 top-0 bottom-0 w-1 rounded-l-xl", styles.accent)} />
+        <div className={accentClasses} />
 
         {/* Close button */}
         {dismissible && (
@@ -217,9 +227,13 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         )}
 
         {/* Content */}
-        <div className={cn("pl-4", dismissible ? "pr-12" : "pr-4")}>
+        <div className={contentClasses}>
           {title && (
-            <Typography variant="h6" color={styles.titleColor} className="mb-2 font-semibold">
+            <Typography
+              variant="h6"
+              color={styles.titleColor}
+              className="mb-2 font-semibold"
+            >
               {title}
             </Typography>
           )}
@@ -237,10 +251,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         {duration > 0 && isVisible && !isAnimatingOut && (
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/5 dark:bg-white/5 overflow-hidden rounded-b-xl">
             <div
-              className={cn(
-                "h-full transition-all ease-linear",
-                PRIORITY_PROGRESS_COLORS[priority]
-              )}
+              className={progressClasses}
               style={{
                 animation: `shrink ${duration}ms linear forwards`,
               }}

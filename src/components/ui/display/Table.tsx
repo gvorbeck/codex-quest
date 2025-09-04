@@ -1,5 +1,10 @@
 import { forwardRef, useCallback } from "react";
-import type { ReactNode, HTMLAttributes, ThHTMLAttributes, TdHTMLAttributes } from "react";
+import type {
+  ReactNode,
+  HTMLAttributes,
+  ThHTMLAttributes,
+  TdHTMLAttributes,
+} from "react";
 import { cn } from "@/constants/styles";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 import { SkeletonTableRow } from "@/components/ui/feedback";
@@ -28,7 +33,8 @@ export interface TableColumn<T = Record<string, unknown>> {
 }
 
 // Table Props
-interface TableProps<T = Record<string, unknown>> extends Omit<HTMLAttributes<HTMLTableElement>, "children"> {
+interface TableProps<T = Record<string, unknown>>
+  extends Omit<HTMLAttributes<HTMLTableElement>, "children"> {
   /** Array of column definitions */
   columns: TableColumn<T>[];
   /** Array of data objects to display */
@@ -61,27 +67,28 @@ interface TableProps<T = Record<string, unknown>> extends Omit<HTMLAttributes<HT
 }
 
 // Table Header Cell Props
-interface TableHeaderProps extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
+interface TableHeaderProps
+  extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
   sortable?: boolean;
   sorted?: "asc" | "desc" | null;
   onSort?: () => void;
   align?: "left" | "center" | "right";
 }
 
-// Table Cell Props  
+// Table Cell Props
 interface TableCellProps extends TdHTMLAttributes<HTMLTableDataCellElement> {
   align?: "left" | "center" | "right";
 }
 
 // Helper function for better type safety
 const getCellContent = <T extends Record<string, unknown>>(
-  row: T, 
+  row: T,
   column: TableColumn<T>
 ): ReactNode => {
   if (column.cell) {
     return column.cell(row);
   }
-  
+
   const value = row[column.key as keyof T];
   return value as ReactNode;
 };
@@ -95,7 +102,7 @@ const sizeStyles = {
   },
   md: {
     table: "text-base",
-    header: "px-4 py-3", 
+    header: "px-4 py-3",
     cell: "px-4 py-3",
   },
   lg: {
@@ -107,71 +114,81 @@ const sizeStyles = {
 
 // Table Header Cell Component
 const TableHeader = forwardRef<HTMLTableHeaderCellElement, TableHeaderProps>(
-  ({ 
-    children, 
-    className, 
-    sortable = false, 
-    sorted = null, 
-    onSort, 
-    align = "left",
-    ...props 
-  }, ref) => {
+  (
+    {
+      children,
+      className,
+      sortable = false,
+      sorted = null,
+      onSort,
+      align = "left",
+      ...props
+    },
+    ref
+  ) => {
     const alignmentClass = {
       left: "text-left",
-      center: "text-center", 
+      center: "text-center",
       right: "text-right",
     }[align];
+
+    const headerClasses = cn(
+      "font-semibold tracking-wide uppercase border-b-2",
+      DESIGN_TOKENS.colors.bg.header,
+      DESIGN_TOKENS.colors.text.accent,
+      DESIGN_TOKENS.colors.border.accent,
+      alignmentClass,
+      sortable && "cursor-pointer select-none hover:bg-zinc-600/50",
+      sortable && DESIGN_TOKENS.effects.transition,
+      className
+    );
+
+    const ascIconClasses = cn(
+      `w-0 h-0 border-l-[${SORT_ICON_SIZE}px] border-r-[${SORT_ICON_SIZE}px] border-b-[${SORT_ICON_HEIGHT}px]`,
+      "border-l-transparent border-r-transparent",
+      sorted === "asc" ? "border-b-amber-400" : "border-b-zinc-500"
+    );
+
+    const descIconClasses = cn(
+      `w-0 h-0 border-l-[${SORT_ICON_SIZE}px] border-r-[${SORT_ICON_SIZE}px] border-t-[${SORT_ICON_HEIGHT}px] mt-0.5`,
+      "border-l-transparent border-r-transparent",
+      sorted === "desc" ? "border-t-amber-400" : "border-t-zinc-500"
+    );
 
     return (
       <th
         ref={ref}
-        className={cn(
-          "font-semibold tracking-wide uppercase border-b-2",
-          DESIGN_TOKENS.colors.bg.header,
-          DESIGN_TOKENS.colors.text.accent,
-          DESIGN_TOKENS.colors.border.accent,
-          alignmentClass,
-          sortable && "cursor-pointer select-none hover:bg-zinc-600/50",
-          sortable && DESIGN_TOKENS.effects.transition,
-          className
-        )}
+        className={headerClasses}
         onClick={sortable ? onSort : undefined}
         role={sortable ? "button" : undefined}
         tabIndex={sortable ? 0 : undefined}
         aria-sort={
-          sorted === "asc" ? "ascending" 
-          : sorted === "desc" ? "descending" 
-          : sortable ? "none" 
-          : undefined
+          sorted === "asc"
+            ? "ascending"
+            : sorted === "desc"
+            ? "descending"
+            : sortable
+            ? "none"
+            : undefined
         }
-        onKeyDown={sortable ? (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onSort?.();
-          }
-        } : undefined}
+        onKeyDown={
+          sortable
+            ? (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSort?.();
+                }
+              }
+            : undefined
+        }
         {...props}
       >
         <div className="flex items-center gap-2">
           {children}
           {sortable && (
             <span className="flex flex-col">
-              <span 
-                className={cn(
-                  `w-0 h-0 border-l-[${SORT_ICON_SIZE}px] border-r-[${SORT_ICON_SIZE}px] border-b-[${SORT_ICON_HEIGHT}px]`,
-                  "border-l-transparent border-r-transparent",
-                  sorted === "asc" ? "border-b-amber-400" : "border-b-zinc-500"
-                )}
-                aria-hidden
-              />
-              <span 
-                className={cn(
-                  `w-0 h-0 border-l-[${SORT_ICON_SIZE}px] border-r-[${SORT_ICON_SIZE}px] border-t-[${SORT_ICON_HEIGHT}px] mt-0.5`,
-                  "border-l-transparent border-r-transparent", 
-                  sorted === "desc" ? "border-t-amber-400" : "border-t-zinc-500"
-                )}
-                aria-hidden
-              />
+              <span className={ascIconClasses} aria-hidden />
+              <span className={descIconClasses} aria-hidden />
             </span>
           )}
         </div>
@@ -188,21 +205,19 @@ const TableCell = forwardRef<HTMLTableDataCellElement, TableCellProps>(
     const alignmentClass = {
       left: "text-left",
       center: "text-center",
-      right: "text-right", 
+      right: "text-right",
     }[align];
 
+    const cellClasses = cn(
+      "border-b",
+      DESIGN_TOKENS.colors.border.secondary,
+      DESIGN_TOKENS.colors.text.primary,
+      alignmentClass,
+      className
+    );
+
     return (
-      <td
-        ref={ref}
-        className={cn(
-          "border-b",
-          DESIGN_TOKENS.colors.border.secondary,
-          DESIGN_TOKENS.colors.text.primary,
-          alignmentClass,
-          className
-        )}
-        {...props}
-      >
+      <td ref={ref} className={cellClasses} {...props}>
         {children}
       </td>
     );
@@ -213,40 +228,50 @@ TableCell.displayName = "TableCell";
 
 // Main Table Component
 const Table = forwardRef<HTMLTableElement, TableProps>(
-  ({
-    columns,
-    data,
-    caption,
-    bordered = false,
-    striped = false,
-    hoverable = true,
-    size = "md",
-    loading = false,
-    emptyMessage = "No data available",
-    sort,
-    onSort,
-    onRowClick,
-    getRowKey,
-    className,
-    ...props
-  }, ref) => {
+  (
+    {
+      columns,
+      data,
+      caption,
+      bordered = false,
+      striped = false,
+      hoverable = true,
+      size = "md",
+      loading = false,
+      emptyMessage = "No data available",
+      sort,
+      onSort,
+      onRowClick,
+      getRowKey,
+      className,
+      ...props
+    },
+    ref
+  ) => {
     const currentSize = sizeStyles[size];
 
-    const handleSort = useCallback((columnKey: string) => {
-      if (!onSort) return;
-      
-      const newDirection = 
-        sort?.key === columnKey && sort?.direction === "asc" 
-          ? "desc" 
-          : "asc";
-      
-      onSort(columnKey, newDirection);
-    }, [onSort, sort]);
+    const handleSort = useCallback(
+      (columnKey: string) => {
+        if (!onSort) return;
 
-    const getDefaultRowKey = useCallback((rowData: Record<string, unknown>, index: number): string => {
-      if (getRowKey) return getRowKey(rowData as never, index);
-      return (rowData['id'] as string | number | undefined)?.toString() ?? index.toString();
-    }, [getRowKey]);
+        const newDirection =
+          sort?.key === columnKey && sort?.direction === "asc" ? "desc" : "asc";
+
+        onSort(columnKey, newDirection);
+      },
+      [onSort, sort]
+    );
+
+    const getDefaultRowKey = useCallback(
+      (rowData: Record<string, unknown>, index: number): string => {
+        if (getRowKey) return getRowKey(rowData as never, index);
+        return (
+          (rowData["id"] as string | number | undefined)?.toString() ??
+          index.toString()
+        );
+      },
+      [getRowKey]
+    );
 
     if (loading) {
       return (
@@ -263,14 +288,16 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
             {...props}
           >
             {caption && (
-              <caption className={cn(
-                "caption-top mb-4 text-left font-semibold",
-                DESIGN_TOKENS.colors.text.accent
-              )}>
+              <caption
+                className={cn(
+                  "caption-top mb-4 text-left font-semibold",
+                  DESIGN_TOKENS.colors.text.accent
+                )}
+              >
                 {caption} - Loading
               </caption>
             )}
-            
+
             <thead>
               <tr>
                 {columns.map((column) => (
@@ -300,8 +327,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
                       className={currentSize.cell}
                       align={column.align ?? "left"}
                     >
-                      <SkeletonTableRow 
-                        size="sm" 
+                      <SkeletonTableRow
+                        size="sm"
                         width={colIndex === 0 ? "60%" : "40%"}
                         label="Loading table data..."
                       />
@@ -317,7 +344,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
 
     if (data.length === 0) {
       return (
-        <div 
+        <div
           className={cn(
             DESIGN_TOKENS.colors.bg.primary,
             DESIGN_TOKENS.effects.rounded,
@@ -347,14 +374,16 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
           {...props}
         >
           {caption && (
-            <caption className={cn(
-              "caption-top mb-4 text-left font-semibold",
-              DESIGN_TOKENS.colors.text.accent
-            )}>
+            <caption
+              className={cn(
+                "caption-top mb-4 text-left font-semibold",
+                DESIGN_TOKENS.colors.text.accent
+              )}
+            >
               {caption}
             </caption>
           )}
-          
+
           <thead>
             <tr>
               {columns.map((column) => (
@@ -378,23 +407,31 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
             {data.map((row, index) => {
               const rowKey = getDefaultRowKey(row, index);
               const isClickable = !!onRowClick;
-              
+
               return (
                 <tr
                   key={rowKey}
                   className={cn(
-                    striped && index % 2 === 1 && DESIGN_TOKENS.colors.bg.stripe,
+                    striped &&
+                      index % 2 === 1 &&
+                      DESIGN_TOKENS.colors.bg.stripe,
                     hoverable && DESIGN_TOKENS.colors.bg.hover,
                     isClickable && "cursor-pointer",
                     isClickable && DESIGN_TOKENS.effects.transition
                   )}
-                  onClick={isClickable ? () => onRowClick(row, index) : undefined}
-                  onKeyDown={isClickable ? (e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      onRowClick?.(row, index);
-                    }
-                  } : undefined}
+                  onClick={
+                    isClickable ? () => onRowClick(row, index) : undefined
+                  }
+                  onKeyDown={
+                    isClickable
+                      ? (e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            onRowClick?.(row, index);
+                          }
+                        }
+                      : undefined
+                  }
                   role={isClickable ? "button" : undefined}
                   tabIndex={isClickable ? 0 : undefined}
                   aria-rowindex={index + HEADER_ROW_OFFSET}

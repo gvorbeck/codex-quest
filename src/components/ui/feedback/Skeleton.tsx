@@ -2,7 +2,13 @@ import { forwardRef } from "react";
 import type { HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 
-type SkeletonVariant = "text" | "card" | "circle" | "rect" | "stat" | "table-row";
+type SkeletonVariant =
+  | "text"
+  | "card"
+  | "circle"
+  | "rect"
+  | "stat"
+  | "table-row";
 type SkeletonSize = "sm" | "md" | "lg" | "xl";
 
 interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
@@ -41,7 +47,8 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     const baseStyles = cn(
       "bg-zinc-700 rounded",
       animate && "relative overflow-hidden",
-      animate && "before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-zinc-600/40 before:to-transparent before:animate-[shimmer_1.5s_infinite]"
+      animate &&
+        "before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-zinc-600/40 before:to-transparent before:animate-[shimmer_1.5s_infinite]"
     );
 
     // Variant-specific styles
@@ -115,14 +122,14 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     // Custom dimensions override size-based ones
     const getCustomStyles = () => {
       const styles: Record<string, string | number> = {};
-      
+
       if (width) {
         styles["width"] = typeof width === "number" ? `${width}px` : width;
       }
       if (height) {
         styles["height"] = typeof height === "number" ? `${height}px` : height;
       }
-      
+
       return styles;
     };
 
@@ -141,25 +148,25 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     // For text variant with multiple lines
     if (variant === "text" && lines > 1) {
       return (
-        <div 
-          ref={ref} 
-          className="space-y-2" 
-          role="status" 
+        <div
+          ref={ref}
+          className="space-y-2"
+          role="status"
           aria-label={label}
           aria-hidden="true"
           {...props}
         >
-          {Array.from({ length: lines }).map((_, index) => (
-            <div
-              key={index}
-              className={cn(
-                skeletonClasses,
-                // Make last line slightly shorter for more realistic look
-                index === lines - 1 && !hasCustomDimensions && "w-3/4"
-              )}
-              style={customStyles}
-            />
-          ))}
+          {Array.from({ length: lines }).map((_, index) => {
+            const lineClasses = cn(
+              skeletonClasses,
+              // Make last line slightly shorter for more realistic look
+              index === lines - 1 && !hasCustomDimensions && "w-3/4"
+            );
+
+            return (
+              <div key={index} className={lineClasses} style={customStyles} />
+            );
+          })}
         </div>
       );
     }
@@ -182,39 +189,34 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
 Skeleton.displayName = "Skeleton";
 
 // Compound components for common patterns
-export const SkeletonText = forwardRef<HTMLDivElement, Omit<SkeletonProps, "variant">>(
-  (props, ref) => (
-    <Skeleton ref={ref} variant="text" {...props} />
-  )
-);
+export const SkeletonText = forwardRef<
+  HTMLDivElement,
+  Omit<SkeletonProps, "variant">
+>((props, ref) => <Skeleton ref={ref} variant="text" {...props} />);
 SkeletonText.displayName = "SkeletonText";
 
-export const SkeletonCard = forwardRef<HTMLDivElement, Omit<SkeletonProps, "variant">>(
-  (props, ref) => (
-    <Skeleton ref={ref} variant="card" {...props} />
-  )
-);
+export const SkeletonCard = forwardRef<
+  HTMLDivElement,
+  Omit<SkeletonProps, "variant">
+>((props, ref) => <Skeleton ref={ref} variant="card" {...props} />);
 SkeletonCard.displayName = "SkeletonCard";
 
-export const SkeletonCircle = forwardRef<HTMLDivElement, Omit<SkeletonProps, "variant">>(
-  (props, ref) => (
-    <Skeleton ref={ref} variant="circle" {...props} />
-  )
-);
+export const SkeletonCircle = forwardRef<
+  HTMLDivElement,
+  Omit<SkeletonProps, "variant">
+>((props, ref) => <Skeleton ref={ref} variant="circle" {...props} />);
 SkeletonCircle.displayName = "SkeletonCircle";
 
-export const SkeletonStat = forwardRef<HTMLDivElement, Omit<SkeletonProps, "variant">>(
-  (props, ref) => (
-    <Skeleton ref={ref} variant="stat" {...props} />
-  )
-);
+export const SkeletonStat = forwardRef<
+  HTMLDivElement,
+  Omit<SkeletonProps, "variant">
+>((props, ref) => <Skeleton ref={ref} variant="stat" {...props} />);
 SkeletonStat.displayName = "SkeletonStat";
 
-export const SkeletonTableRow = forwardRef<HTMLDivElement, Omit<SkeletonProps, "variant">>(
-  (props, ref) => (
-    <Skeleton ref={ref} variant="table-row" {...props} />
-  )
-);
+export const SkeletonTableRow = forwardRef<
+  HTMLDivElement,
+  Omit<SkeletonProps, "variant">
+>((props, ref) => <Skeleton ref={ref} variant="table-row" {...props} />);
 SkeletonTableRow.displayName = "SkeletonTableRow";
 
 // Composite skeleton patterns for RPG-specific content
@@ -227,34 +229,39 @@ interface SkeletonStatBlockProps extends HTMLAttributes<HTMLDivElement> {
   label?: string;
 }
 
-export const SkeletonStatBlock = forwardRef<HTMLDivElement, SkeletonStatBlockProps>(
+export const SkeletonStatBlock = forwardRef<
+  HTMLDivElement,
+  SkeletonStatBlockProps
+>(
   (
-    { 
-      stats = 6, 
-      showTitle = true, 
+    {
+      stats = 6,
+      showTitle = true,
       label = "Loading character stats...",
       className,
-      ...props 
+      ...props
     },
     ref
-  ) => (
-    <div 
-      ref={ref} 
-      className={cn("space-y-4", className)}
-      role="status"
-      aria-label={label}
-      {...props}
-    >
-      {showTitle && (
-        <SkeletonText size="lg" width="60%" />
-      )}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {Array.from({ length: stats }).map((_, index) => (
-          <SkeletonStat key={index} size="md" />
-        ))}
+  ) => {
+    const blockClasses = cn("space-y-4", className);
+
+    return (
+      <div
+        ref={ref}
+        className={blockClasses}
+        role="status"
+        aria-label={label}
+        {...props}
+      >
+        {showTitle && <SkeletonText size="lg" width="60%" />}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {Array.from({ length: stats }).map((_, index) => (
+            <SkeletonStat key={index} size="md" />
+          ))}
+        </div>
       </div>
-    </div>
-  )
+    );
+  }
 );
 SkeletonStatBlock.displayName = "SkeletonStatBlock";
 
@@ -269,33 +276,37 @@ interface SkeletonListProps extends HTMLAttributes<HTMLDivElement> {
 
 export const SkeletonList = forwardRef<HTMLDivElement, SkeletonListProps>(
   (
-    { 
-      items = 3, 
-      showAvatar = false, 
+    {
+      items = 3,
+      showAvatar = false,
       label = "Loading list...",
       className,
-      ...props 
+      ...props
     },
     ref
-  ) => (
-    <div 
-      ref={ref} 
-      className={cn("space-y-3", className)}
-      role="status"
-      aria-label={label}
-      {...props}
-    >
-      {Array.from({ length: items }).map((_, index) => (
-        <div key={index} className="flex items-center gap-3">
-          {showAvatar && <SkeletonCircle size="md" />}
-          <div className="flex-1 space-y-2">
-            <SkeletonText size="md" width="40%" />
-            <SkeletonText size="sm" width="60%" />
+  ) => {
+    const listClasses = cn("space-y-3", className);
+
+    return (
+      <div
+        ref={ref}
+        className={listClasses}
+        role="status"
+        aria-label={label}
+        {...props}
+      >
+        {Array.from({ length: items }).map((_, index) => (
+          <div key={index} className="flex items-center gap-3">
+            {showAvatar && <SkeletonCircle size="md" />}
+            <div className="flex-1 space-y-2">
+              <SkeletonText size="md" width="40%" />
+              <SkeletonText size="sm" width="60%" />
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-  )
+        ))}
+      </div>
+    );
+  }
 );
 SkeletonList.displayName = "SkeletonList";
 
