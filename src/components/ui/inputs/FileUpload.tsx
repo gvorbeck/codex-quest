@@ -36,7 +36,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const helperTextId = helperText ? `${inputId}-helper` : undefined;
 
   // Combine all describedby IDs
-  const describedByIds = cn(ariaDescribedBy, errorId, helperTextId) || undefined;
+  const describedByIds =
+    cn(ariaDescribedBy, errorId, helperTextId) || undefined;
 
   const validateFile = (file: File): string | null => {
     if (maxSizeBytes && file.size > maxSizeBytes) {
@@ -124,14 +125,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
     handleFileSelect(file);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    // Allow Enter and Space to trigger file selection
-    if ((event.key === "Enter" || event.key === " ") && !disabled) {
-      event.preventDefault();
-      handleButtonClick();
-    }
-  };
-
   return (
     <div>
       <label htmlFor={inputId}>
@@ -157,51 +150,73 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       {/* Drop zone */}
       <div
-        role="button"
-        tabIndex={disabled ? -1 : 0}
-        onClick={handleButtonClick}
-        onKeyDown={handleKeyDown}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        aria-label={
-          selectedFileName
-            ? `Selected file: ${selectedFileName}. Click to change.`
-            : `Click to select a file or drag and drop`
-        }
-        aria-describedby={describedByIds}
-        style={{
-          cursor: disabled ? "not-allowed" : "pointer",
-          opacity: disabled ? 0.6 : 1,
-        }}
+        className={cn(
+          "border-2 border-dashed rounded-lg p-6 text-center transition-colors mt-2",
+          dragOver
+            ? "border-amber-400 bg-amber-400/10"
+            : "border-zinc-600 hover:border-zinc-500",
+          disabled && "opacity-60 cursor-not-allowed"
+        )}
       >
         {selectedFileName ? (
-          <div>
-            <div className="flex items-center gap-1">
+          <div className="space-y-4">
+            <div className="flex items-center justify-center gap-2 text-lime-400">
               <Icon name="check" size="sm" />
-              {selectedFileName}
+              <span className="font-medium">{selectedFileName}</span>
             </div>
-            <div>Click to change or drag a new file here</div>
-            <Button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleClear();
-              }}
-            >
-              Remove File
-            </Button>
+            <div className="text-zinc-400 text-sm">
+              Click to change or drag a new file here
+            </div>
+            <div className="flex gap-2 justify-center">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={handleButtonClick}
+                disabled={disabled}
+                aria-label={`Change selected file: ${selectedFileName}`}
+                aria-describedby={describedByIds}
+              >
+                Change File
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClear();
+                }}
+                disabled={disabled}
+              >
+                Remove File
+              </Button>
+            </div>
           </div>
         ) : (
-          <div>
-            <div style={{ marginBottom: "0.5rem" }}>
-              <Icon name="photo" size="xl" />
+          <div className="space-y-4">
+            <div className="text-zinc-400">
+              <Icon name="photo" size="xl" className="mx-auto mb-4" />
             </div>
-            <div style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>
-              {dragOver ? "Drop your file here" : "Click to select a file"}
-            </div>
-            <div style={{ fontSize: "0.875rem", color: "#6c757d" }}>
-              or drag and drop a file here
+            <div className="space-y-2">
+              <Button
+                type="button"
+                variant="secondary"
+                size="md"
+                onClick={handleButtonClick}
+                disabled={disabled}
+                aria-label="Click to select a file or drag and drop"
+                aria-describedby={describedByIds}
+              >
+                <Icon name="upload" size="sm" />
+                {dragOver ? "Drop your file here" : "Click to select a file"}
+              </Button>
+              <div className="text-zinc-500 text-sm">
+                or drag and drop a file here
+              </div>
             </div>
           </div>
         )}
