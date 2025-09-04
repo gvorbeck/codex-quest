@@ -3,7 +3,6 @@ import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader, Icon } from "@/components/ui/display";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
 import type { SpellGainInfo } from "@/hooks/useSpellSelection";
 import type { Spell } from "@/types/character";
 
@@ -191,12 +190,7 @@ function SpellDetails({ spell, selectionKey }: SpellDetailsProps) {
           </Typography>
         </div>
         <Typography variant="caption" color="secondary" className="text-xs">
-          {spell.description.length > LEVEL_UP_CONSTANTS.SPELL_DESCRIPTION_LIMIT
-            ? `${spell.description.substring(
-                0,
-                LEVEL_UP_CONSTANTS.SPELL_DESCRIPTION_LIMIT
-              )}...`
-            : spell.description}
+          {spell.description}
         </Typography>
       </div>
     </Card>

@@ -1,5 +1,6 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
+import { canCastSpells } from "@/utils/characterHelpers";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback/LoadingState";
@@ -188,6 +189,11 @@ export default function CharacterSheet() {
     [character, handleCharacterChange]
   );
 
+  // Helper function to check if custom class should show spells
+  const shouldShowSpellsForCustomClass = (character: Character): boolean => {
+    return canCastSpells(character, allClasses);
+  };
+
   // Data loading is now handled by useFirebaseSheet hook
 
   if (loading) {
@@ -343,13 +349,17 @@ export default function CharacterSheet() {
           {/* Spells & Equipment Section - side-by-side on larger screens when both present */}
           <div
             className={`grid grid-cols-1 gap-6 ${
-              character.spells?.length || character.cantrips?.length
+              character.spells?.length ||
+              character.cantrips?.length ||
+              shouldShowSpellsForCustomClass(character)
                 ? "lg:grid-cols-2"
                 : "lg:grid-cols-1"
             }`}
           >
-            {/* Spells & Cantrips Section - only show if character has spells or cantrips */}
-            {(character.spells?.length || character.cantrips?.length) && (
+            {/* Spells & Cantrips Section - only show if character has spells/cantrips or is a custom class that uses magic */}
+            {(character.spells?.length ||
+              character.cantrips?.length ||
+              shouldShowSpellsForCustomClass(character)) && (
               <div className="break-inside-avoid">
                 <Spells
                   character={character}

@@ -2,6 +2,7 @@ import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
 import { LevelUpModal } from "@/components/modals";
 import { logger } from "@/utils/logger";
+import { canLevelUp } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 import { useAuth } from "@/hooks/useAuth";
 import { saveCharacter } from "@/services/characters";
@@ -65,40 +66,8 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
     setInputValue(character.xp.toString());
   }, [character.xp]);
 
-  // Check if character can level up
-  const canLevelUp = (): boolean => {
-    // Find the character's primary class (first class in array)
-    const primaryClassId = character.class[0];
-
-    if (!primaryClassId) {
-      logger.debug("Character has no classes");
-      return false;
-    }
-
-    // Try exact match first, then case-insensitive match for legacy data
-    let primaryClass = classes.find((c) => c.id === primaryClassId);
-
-    if (!primaryClass) {
-      // Try case-insensitive match (for migrated data that might have 'Cleric' instead of 'cleric')
-      primaryClass = classes.find(
-        (c) =>
-          c.id.toLowerCase() === primaryClassId.toLowerCase() ||
-          c.name.toLowerCase() === primaryClassId.toLowerCase()
-      );
-    }
-
-    if (!primaryClass) {
-      return false;
-    }
-
-    const currentLevel = character.level;
-    const nextLevel = currentLevel + 1;
-    const requiredXP = primaryClass.experienceTable[nextLevel];
-
-    return requiredXP !== undefined && character.xp >= requiredXP;
-  };
-
-  // Save XP to Firebase
+  // Check if character can level up using utility function
+  const isLevelUpEnabled = canLevelUp(character, classes);
   const saveXPToFirebase = async (newXP: number) => {
     if (!user) return;
 
@@ -179,8 +148,6 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
       setIsLevelUpModalOpen(false);
     }
   };
-
-  const isLevelUpEnabled = canLevelUp();
 
   return (
     <>

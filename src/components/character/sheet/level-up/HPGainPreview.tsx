@@ -1,22 +1,27 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader, Icon } from "@/components/ui/display";
+import { getPrimaryClassInfo } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 import type { HPGainResult } from "@/hooks/useHPGain";
 
 interface HPGainPreviewProps {
   character: Character;
-  primaryClass: Class;
   hpGainResult: HPGainResult;
   nextLevel: number;
+  availableClasses: Class[];
 }
 
 export default function HPGainPreview({
   character,
-  primaryClass,
   hpGainResult,
   nextLevel,
+  availableClasses,
 }: HPGainPreviewProps) {
+  // Get hit die using utility function
+  const primaryClassInfo = getPrimaryClassInfo(character, availableClasses);
+  const hitDie = primaryClassInfo?.hitDie || "1d6";
+
   return (
     <Card variant="success" size="default">
       <TextHeader variant="h4" size="md" className="text-lime-400">
@@ -56,7 +61,7 @@ export default function HPGainPreview({
               <>
                 <div className="flex justify-between items-center">
                   <Typography variant="bodySmall" color="secondary">
-                    Roll ({primaryClass.hitDie}):
+                    Roll ({hitDie}):
                   </Typography>
                   <Typography variant="bodySmall" weight="semibold">
                     {hpGainResult.roll}

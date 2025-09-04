@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { logger } from "@/utils/logger";
 import { useLoadingState } from "@/hooks/useLoadingState";
 import { loadSpellsForClass } from "@/services/dataLoader";
-import type { Class, Spell } from "@/types/character";
+import { isCustomClass, getCustomClass } from "@/utils/characterHelpers";
+import type { Class, Spell, Character } from "@/types/character";
 
 export interface SpellGainInfo {
   level: number;
@@ -16,6 +17,7 @@ interface UseSpellSelectionProps {
   hasRequiredXP: boolean;
   currentLevel: number;
   nextLevel: number;
+  character?: Character;
 }
 
 export function useSpellSelection({
@@ -23,18 +25,45 @@ export function useSpellSelection({
   hasRequiredXP,
   currentLevel,
   nextLevel,
+  character,
 }: UseSpellSelectionProps) {
   const [availableSpells, setAvailableSpells] = useState<Spell[]>([]);
   const [selectedSpells, setSelectedSpells] = useState<Record<string, string>>(
     {}
   );
   const [selectedSpellCount, setSelectedSpellCount] = useState(0);
-  const { loading: isLoadingSpells, withLoading: withSpellLoading } = useLoadingState();
+  const { loading: isLoadingSpells, withLoading: withSpellLoading } =
+    useLoadingState();
   const [error, setError] = useState<string | null>(null);
 
   // Calculate spell gains for leveling up
   const spellGainInfo: SpellGainInfo | null = useMemo(() => {
-    if (!primaryClass?.spellcasting || !hasRequiredXP) return null;
+    if (!hasRequiredXP) return null;
+
+    // Handle custom classes
+    if (
+      character &&
+      character.class[0] &&
+      isCustomClass(character.class[0]) &&
+      character.customClasses
+    ) {
+      const primaryClassId = character.class[0];
+      const customClass = getCustomClass(character, primaryClassId);
+
+      if (customClass?.usesSpells) {
+        // For custom spellcasting classes, allow selection of 1 spell per level up
+        return {
+          level: nextLevel,
+          newSpells: [1], // Allow one 1st level spell
+          totalSpellsGained: 1,
+          spellsByLevel: [],
+        };
+      }
+      return null;
+    }
+
+    // Handle standard classes
+    if (!primaryClass?.spellcasting) return null;
 
     const currentSpells =
       primaryClass.spellcasting.spellsPerLevel[currentLevel] || [];
@@ -68,7 +97,7 @@ export function useSpellSelection({
           spellsByLevel: [],
         }
       : null;
-  }, [primaryClass, currentLevel, nextLevel, hasRequiredXP]);
+  }, [primaryClass, currentLevel, nextLevel, hasRequiredXP, character]);
 
   // Filter spells by level and class
   const filterSpellsByLevel = useCallback(
@@ -83,17 +112,36 @@ export function useSpellSelection({
   // Load available spells when spell gain is detected
   useEffect(() => {
     const loadSpells = async () => {
-      if (!spellGainInfo || !primaryClass) return;
+      if (!spellGainInfo) return;
 
       setError(null);
 
       try {
         await withSpellLoading(async () => {
-          // Use optimized dataLoader service instead of dynamic import
-          const allSpells = await loadSpellsForClass(primaryClass.id);
-          setAvailableSpells(allSpells);
-          setSelectedSpells({});
-          setSelectedSpellCount(0);
+          let classId = primaryClass?.id;
+
+          // For custom classes, use a default spell list (magic-user spells)
+          if (
+            character &&
+            character.class[0] &&
+            isCustomClass(character.class[0]) &&
+            character.customClasses
+          ) {
+            const primaryClassId = character.class[0];
+            const customClass = getCustomClass(character, primaryClassId);
+
+            if (customClass?.usesSpells) {
+              classId = "magic-user"; // Default to magic-user spell list for custom classes
+            }
+          }
+
+          if (classId) {
+            // Use optimized dataLoader service instead of dynamic import
+            const allSpells = await loadSpellsForClass(classId);
+            setAvailableSpells(allSpells);
+            setSelectedSpells({});
+            setSelectedSpellCount(0);
+          }
         });
       } catch (err) {
         const errorMessage = "Failed to load spells. Please try again.";
@@ -104,14 +152,24 @@ export function useSpellSelection({
     };
 
     loadSpells();
-  }, [spellGainInfo, primaryClass, withSpellLoading]);
+  }, [spellGainInfo, primaryClass, character, withSpellLoading]);
 
   // Organize spells by level for UI rendering
   const organizedSpells = useMemo(() => {
-    if (!spellGainInfo || !primaryClass || availableSpells.length === 0)
-      return [];
+    if (!spellGainInfo || availableSpells.length === 0) return [];
 
-    const classSpellKey = primaryClass.id;
+    let classSpellKey = primaryClass?.id || "magic-user";
+
+    // For custom classes, use magic-user as the spell key
+    if (
+      character &&
+      character.class[0] &&
+      isCustomClass(character.class[0]) &&
+      character.customClasses
+    ) {
+      classSpellKey = "magic-user";
+    }
+
     const spellsByLevel: Array<{
       spellLevel: number;
       count: number;
@@ -138,7 +196,13 @@ export function useSpellSelection({
     });
 
     return spellsByLevel;
-  }, [spellGainInfo, primaryClass, availableSpells, filterSpellsByLevel]);
+  }, [
+    spellGainInfo,
+    primaryClass,
+    availableSpells,
+    filterSpellsByLevel,
+    character,
+  ]);
 
   // Handle spell selection with count tracking
   const handleSpellSelection = useCallback(
@@ -158,6 +222,14 @@ export function useSpellSelection({
     },
     []
   );
+
+  // Sync selectedSpellCount with actual selected spells to prevent state drift
+  useEffect(() => {
+    const actualCount = Object.values(selectedSpells).filter(
+      (name) => name !== ""
+    ).length;
+    setSelectedSpellCount(actualCount);
+  }, [selectedSpells]);
 
   // Check if all required spells are selected
   const allSpellsSelected = useMemo(() => {

@@ -1,21 +1,28 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader } from "@/components/ui/display";
+import { getPrimaryClassInfo } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 
 interface CurrentStatusCardProps {
   character: Character;
-  primaryClass: Class | null;
   currentLevel: number;
   requiredXP: number | undefined;
+  availableClasses: Class[];
 }
 
 export default function CurrentStatusCard({
   character,
-  primaryClass,
   currentLevel,
   requiredXP,
+  availableClasses,
 }: CurrentStatusCardProps) {
+  // Get primary class info using utility function
+  const primaryClassInfo = getPrimaryClassInfo(character, availableClasses);
+
+  const className = primaryClassInfo?.name || "Unknown";
+  const hitDie = primaryClassInfo?.hitDie || "N/A";
+  const isCustomClass = primaryClassInfo?.isCustom || false;
   return (
     <Card variant="standard" size="default">
       <TextHeader variant="h4" size="md">
@@ -43,7 +50,7 @@ export default function CurrentStatusCard({
             Class:
           </Typography>
           <Typography variant="bodySmall" weight="semibold">
-            {primaryClass?.name || "Unknown"}
+            {className}
           </Typography>
         </div>
         <div className="flex justify-between">
@@ -51,7 +58,11 @@ export default function CurrentStatusCard({
             Next Level XP:
           </Typography>
           <Typography variant="bodySmall" weight="semibold">
-            {requiredXP ? requiredXP.toLocaleString() : "Max Level"}
+            {isCustomClass
+              ? "N/A (Custom)"
+              : requiredXP
+              ? requiredXP.toLocaleString()
+              : "Max Level"}
           </Typography>
         </div>
         <div className="flex justify-between">
@@ -67,7 +78,7 @@ export default function CurrentStatusCard({
             Hit Die:
           </Typography>
           <Typography variant="bodySmall" weight="semibold">
-            {primaryClass?.hitDie || "N/A"}
+            {hitDie}
           </Typography>
         </div>
       </div>

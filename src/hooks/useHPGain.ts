@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { roller } from "@/utils/dice";
 import { LEVEL_UP_CONSTANTS, type TwoHPClass } from "@/constants/levelUp";
+import { isCustomClass, getCustomClass } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 import { logger } from "@/utils/logger";
 
@@ -43,12 +44,24 @@ export function useHPGain({
 
   // Generate HP gain once when eligible
   useEffect(() => {
-    if (!primaryClass || !hasRequiredXP || !isOpen || generatedHPGain) {
+    if (!hasRequiredXP || !isOpen || generatedHPGain) {
+      return;
+    }
+
+    // Check if this is a custom class
+    const primaryClassId = character.class[0];
+    const isCustomClassCharacter = primaryClassId
+      ? isCustomClass(primaryClassId)
+      : false;
+
+    if (!isCustomClassCharacter && !primaryClass) {
       return;
     }
 
     try {
-      const result = calculateHPGain(character, primaryClass, nextLevel);
+      const result = isCustomClassCharacter
+        ? calculateHPGainForCustomClass(character, nextLevel)
+        : calculateHPGain(character, primaryClass!, nextLevel);
       setGeneratedHPGain(result);
       setError(null);
     } catch (err) {
@@ -70,6 +83,56 @@ export function useHPGain({
     hpGainResult: generatedHPGain,
     error,
     clearError: () => setError(null),
+  };
+}
+
+function calculateHPGainForCustomClass(
+  character: Character,
+  nextLevel: number
+): HPGainResult {
+  // For custom classes, get the hit die from the custom class data
+  const primaryClassId = character.class[0];
+  const customClass = primaryClassId
+    ? getCustomClass(character, primaryClassId)
+    : null;
+
+  if (!customClass) {
+    throw new Error("Custom class data not found");
+  }
+
+  const hitDie = customClass.hitDie || "1d6";
+  const dieParts = hitDie.split("d");
+
+  if (dieParts.length !== 2) {
+    throw new Error(`Invalid hit die format: ${hitDie}`);
+  }
+
+  const dieType = parseInt(dieParts[1] || "6", 10);
+  const constitutionModifier = character.abilities.constitution.modifier;
+
+  // After level 9, characters get fixed HP (use conservative 1 HP for custom classes)
+  if (character.level >= LEVEL_UP_CONSTANTS.FIXED_HP_LEVEL_THRESHOLD) {
+    return {
+      roll: null,
+      constitutionBonus: null,
+      total: 1, // Conservative fixed HP gain for custom classes
+      max: null,
+      breakdown: `Fixed HP gain (level ${nextLevel}): 1`,
+      isFixed: true,
+    };
+  }
+
+  // Levels 1-9: Roll hit die and add Constitution modifier
+  const diceResult = roller(hitDie);
+  const totalGain = Math.max(1, diceResult.total + constitutionModifier);
+
+  return {
+    roll: diceResult.total,
+    constitutionBonus: constitutionModifier,
+    total: totalGain,
+    max: dieType + constitutionModifier,
+    breakdown: `${diceResult.breakdown} + ${constitutionModifier} (Con) = ${totalGain}`,
+    isFixed: false,
   };
 }
 
