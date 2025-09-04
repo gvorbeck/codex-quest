@@ -112,7 +112,7 @@ const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
 
     // Special case for breadcrumb spacing
     const spacingClass =
-      variant === "breadcrumb" ? "space-x-2" : spacingStyles[spacing];
+      variant === "breadcrumb" ? "gap-2" : spacingStyles[spacing];
 
     // Grid spacing override
     const finalSpacing =
