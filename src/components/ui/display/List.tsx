@@ -1,6 +1,14 @@
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
+import { DESIGN_TOKENS } from "@/constants/designTokens";
+
+// List design token mappings
+const LIST_DESIGN_TOKENS = {
+  icon: DESIGN_TOKENS.colors.text.accent,
+  feature: DESIGN_TOKENS.colors.text.secondary,
+  grid: DESIGN_TOKENS.colors.text.muted,
+} as const;
 
 // List Types
 type ListVariant =
@@ -11,7 +19,8 @@ type ListVariant =
   | "feature" // Feature list with icons
   | "decimal" // Numbered list
   | "steps" // Step-by-step instructions
-  | "breadcrumb"; // Navigation breadcrumbs
+  | "breadcrumb" // Navigation breadcrumbs
+  | "animated"; // Animated list items
 
 type ListSize = "sm" | "md" | "lg";
 type ListSpacing = "tight" | "normal" | "loose";
@@ -65,15 +74,26 @@ const variantStyles = {
   bullet: "list-none",
   disc: "list-disc list-inside",
   custom: "list-none",
-  grid: "list-none grid grid-cols-1 sm:grid-cols-2",
+  grid: "list-none grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
   feature: "list-none",
   decimal: "list-decimal list-inside",
   steps: "list-decimal list-inside",
   breadcrumb: "list-none flex items-center",
+  animated:
+    "list-none space-y-2 [&>li]:transition-all [&>li]:duration-200 [&>li]:ease-in-out",
 };
 
-// List Component
-const List = forwardRef<HTMLElement, ListProps>(
+/**
+ * A flexible list component supporting multiple variants and styling options.
+ *
+ * @param variant - The visual style of the list (bullet, disc, custom, grid, feature, decimal, steps, breadcrumb)
+ * @param size - Text size and spacing (sm, md, lg)
+ * @param spacing - Vertical spacing between items (tight, normal, loose)
+ * @param ordered - Force ordered list element regardless of variant
+ * @param children - List content (typically ListItem components)
+ * @param className - Additional CSS classes to apply
+ */
+const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
   (
     {
       variant = "bullet",
@@ -100,37 +120,54 @@ const List = forwardRef<HTMLElement, ListProps>(
         ? `${spacingStyles[spacing].replace("space-y-", "gap-")} gap-1`
         : spacingClass;
 
-    const listClasses = cn(
-      variantStyles[variant],
-      sizeStyles[size].text,
-      finalSpacing,
-      variant === "steps" && "space-y-1", // Override for steps
-      className
+    // Memoize style calculations for performance
+    const listClasses = useMemo(
+      () =>
+        cn(
+          variantStyles[variant],
+          sizeStyles[size].text,
+          finalSpacing,
+          variant === "steps" && "space-y-1", // Override for steps
+          className
+        ),
+      [variant, size, finalSpacing, className]
     );
 
     const commonProps = {
       className: listClasses,
       role: variant === "breadcrumb" ? "list" : undefined,
+      "aria-label":
+        variant === "steps"
+          ? "Step-by-step instructions"
+          : variant === "feature"
+          ? "Feature list"
+          : undefined,
       ...props,
     };
 
     if (shouldBeOrdered) {
       return (
-        <ol ref={ref as React.ForwardedRef<HTMLOListElement>} {...commonProps}>
+        <ol ref={ref as React.RefObject<HTMLOListElement>} {...commonProps}>
           {children}
         </ol>
       );
     }
 
     return (
-      <ul ref={ref as React.ForwardedRef<HTMLUListElement>} {...commonProps}>
+      <ul ref={ref as React.RefObject<HTMLUListElement>} {...commonProps}>
         {children}
       </ul>
     );
   }
 );
 
-// List Item Component
+/**
+ * A flexible list item component that can display icons and custom content.
+ *
+ * @param icon - Optional icon or element to display before the content
+ * @param children - The main content of the list item
+ * @param className - Additional CSS classes to apply
+ */
 const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
   ({ icon, children, className, ...props }, ref) => {
     const itemClasses = cn("flex items-start", icon ? "gap-2" : "", className);
@@ -138,7 +175,9 @@ const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
     return (
       <li ref={ref} className={itemClasses} {...props}>
         {icon && (
-          <span className="text-highlight-400 mt-1 flex-shrink-0">{icon}</span>
+          <span className={cn(LIST_DESIGN_TOKENS.icon, "mt-1 flex-shrink-0")}>
+            {icon}
+          </span>
         )}
         {children}
       </li>
@@ -146,13 +185,16 @@ const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
   }
 );
 
-// Specialized List Item variants for common patterns
+/**
+ * Specialized list item for feature highlights with consistent bullet styling.
+ * Pre-configured with a bullet icon and secondary text color.
+ */
 const FeatureListItem = forwardRef<HTMLLIElement, Omit<ListItemProps, "icon">>(
   ({ children, className, ...props }, ref) => (
     <ListItem
       ref={ref}
       icon="•"
-      className={cn("text-primary-300", className)}
+      className={cn(LIST_DESIGN_TOKENS.feature, className)}
       {...props}
     >
       {children}
@@ -160,6 +202,10 @@ const FeatureListItem = forwardRef<HTMLLIElement, Omit<ListItemProps, "icon">>(
   )
 );
 
+/**
+ * Specialized list item for step-by-step instructions.
+ * Used with ordered lists (variant="steps") for numbered instructions.
+ */
 const StepListItem = forwardRef<HTMLLIElement, ListItemProps>(
   ({ children, className, ...props }, ref) => (
     <ListItem ref={ref} className={cn("", className)} {...props}>
@@ -168,6 +214,10 @@ const StepListItem = forwardRef<HTMLLIElement, ListItemProps>(
   )
 );
 
+/**
+ * Specialized list item for grid layouts with subtle bullet points.
+ * Pre-configured with a small circular bullet and muted text color.
+ */
 const GridListItem = forwardRef<HTMLLIElement, ListItemProps>(
   ({ children, className, ...props }, ref) => (
     <ListItem
@@ -175,7 +225,7 @@ const GridListItem = forwardRef<HTMLLIElement, ListItemProps>(
       icon={
         <span className="inline-block w-1 h-1 bg-zinc-400 dark:bg-zinc-500 rounded-full"></span>
       }
-      className={cn("text-zinc-700 dark:text-zinc-300 py-0.5", className)}
+      className={cn(LIST_DESIGN_TOKENS.grid, "py-0.5", className)}
       {...props}
     >
       {children}
