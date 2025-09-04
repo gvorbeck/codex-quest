@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { Icon } from "@/components/ui";
+import List, { ListItem } from "./List";
 
 interface BreadcrumbItem {
   label: string;
@@ -34,13 +35,13 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
       aria-label="Breadcrumb"
       className={`flex items-center space-x-2 text-sm ${className}`}
     >
-      <ol className="flex items-center space-x-2" role="list">
+      <List variant="breadcrumb" role="list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           const isCurrent = item.current || isLast;
 
           return (
-            <li
+            <ListItem
               key={`${item.label}-${index}`}
               className="flex items-center space-x-2"
             >
@@ -79,10 +80,10 @@ function Breadcrumb({ items, separator, className = "" }: BreadcrumbProps) {
                   {sep}
                 </span>
               )}
-            </li>
+            </ListItem>
           );
         })}
-      </ol>
+      </List>
     </nav>
   );
 }

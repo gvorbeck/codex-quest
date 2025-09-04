@@ -6,6 +6,7 @@ import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
 import { TextHeader } from "./TextHeader";
 import { cn } from "@/constants/styles";
+import List, { StepListItem } from "./List";
 
 interface StepItem {
   title: string;
@@ -53,27 +54,33 @@ function Stepper({
     }
   }, [validationMessage, safeCurrentStep, announceValidationErrors]);
 
-  const handleStepChange = useCallback((direction: "next" | "previous") => {
-    if (direction === "next") {
-      if (onNext) {
-        onNext();
+  const handleStepChange = useCallback(
+    (direction: "next" | "previous") => {
+      if (direction === "next") {
+        if (onNext) {
+          onNext();
+        } else {
+          setStep(safeCurrentStep + 1);
+        }
       } else {
-        setStep(safeCurrentStep + 1);
+        if (onPrevious) {
+          onPrevious();
+        } else {
+          setStep(safeCurrentStep - 1);
+        }
       }
-    } else {
-      if (onPrevious) {
-        onPrevious();
-      } else {
-        setStep(safeCurrentStep - 1);
-      }
-    }
-  }, [onNext, onPrevious, safeCurrentStep, setStep]);
+    },
+    [onNext, onPrevious, safeCurrentStep, setStep]
+  );
 
   // Add keyboard navigation for step controls
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Only handle keys when focus is within the stepper
-      if (!event.target || !(event.target as Element).closest('[role="region"]')) {
+      if (
+        !event.target ||
+        !(event.target as Element).closest('[role="region"]')
+      ) {
         return;
       }
 
@@ -92,7 +99,13 @@ function Stepper({
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [safeCurrentStep, stepItems.length, nextDisabled, prevDisabled, handleStepChange]);
+  }, [
+    safeCurrentStep,
+    stepItems.length,
+    nextDisabled,
+    prevDisabled,
+    handleStepChange,
+  ]);
 
   const handleStepClick = (index: number) => {
     if (index <= safeCurrentStep) {
@@ -113,7 +126,8 @@ function Stepper({
     >
       {/* Hidden instructions for keyboard navigation */}
       <div id="stepper-instructions" className="sr-only">
-        Use arrow keys to navigate between steps when focused within this area. Tab to navigate between interactive elements.
+        Use arrow keys to navigate between steps when focused within this area.
+        Tab to navigate between interactive elements.
       </div>
       {/* Screen reader announcement */}
       <div aria-live="polite" aria-atomic="true" className="sr-only">
@@ -129,7 +143,7 @@ function Stepper({
           className="sticky top-8"
         >
           <Typography variant="sectionHeading">Steps</Typography>
-          <ol className="space-y-3" aria-label="Progress steps">
+          <List variant="steps" spacing="loose" aria-label="Progress steps">
             {stepItems.map((item, index) => {
               const isActive = index === safeCurrentStep;
               const isCompleted = index < safeCurrentStep;
@@ -162,10 +176,7 @@ function Stepper({
                       : "opacity-50 cursor-not-allowed",
                   ];
 
-              const stepClasses = cn(
-                ...stepBaseStyles,
-                ...stepVariantStyles,
-              );
+              const stepClasses = cn(...stepBaseStyles, ...stepVariantStyles);
 
               // Step number styles with 3D effects
               const numberBaseStyles = [
@@ -181,11 +192,11 @@ function Stepper({
 
               const numberClasses = cn(
                 ...numberBaseStyles,
-                ...numberVariantStyles,
+                ...numberVariantStyles
               );
 
               return (
-                <li key={index}>
+                <StepListItem key={index}>
                   <button
                     onClick={() => handleStepClick(index)}
                     disabled={!isAccessible}
@@ -216,10 +227,10 @@ function Stepper({
                       )}
                     </div>
                   </button>
-                </li>
+                </StepListItem>
               );
             })}
-          </ol>
+          </List>
         </nav>
       </aside>
 
