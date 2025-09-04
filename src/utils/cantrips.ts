@@ -21,6 +21,11 @@ export interface SpellTypeInfo {
  */
 export function canLearnCantrips(character: Character): boolean {
   return character.class.some((classId) => {
+    // Check if it's a custom class that uses spells
+    if (character.customClasses && character.customClasses[classId]) {
+      return character.customClasses[classId].usesSpells;
+    }
+    
     const classData = allClasses.find((c) => c.id === classId);
     return classData?.spellcasting !== undefined;
   });
@@ -31,6 +36,14 @@ export function canLearnCantrips(character: Character): boolean {
  */
 export function getAvailableCantrips(character: Character): Cantrip[] {
   const mappedClasses = character.class.map((classId) => {
+    // For custom classes that use spells, default to magic-user cantrips
+    if (character.customClasses && character.customClasses[classId]) {
+      const customClass = character.customClasses[classId];
+      if (customClass.usesSpells) {
+        return "magic-user"; // Default custom spellcasters to arcane cantrips
+      }
+    }
+    
     // Map class IDs to cantrip class names
     if (classId === "magic-user") return "magic-user";
     return classId;
@@ -45,10 +58,18 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
  * Determines spell type terminology and ability score based on character classes
  */
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
+  // Check for custom classes first - default to arcane (Intelligence)
+  const hasCustomSpellcaster = character.class.some((classId) => {
+    if (character.customClasses && character.customClasses[classId]) {
+      return character.customClasses[classId].usesSpells;
+    }
+    return false;
+  });
+
   const hasDivineClasses = character.class.some((classId) =>
     DIVINE_CLASSES.includes(classId as DivineClass)
   );
-  const hasArcaneClasses = character.class.some((classId) =>
+  const hasArcaneClasses = hasCustomSpellcaster || character.class.some((classId) =>
     ARCANE_CLASSES.includes(classId as ArcaneClass)
   );
 

@@ -112,6 +112,13 @@ export function areCurrentSpellsStillValid(
 
   // Get spellcasting classes from character's class array
   const spellcastingClassIds = character.class.filter((classId) => {
+    // Check if it's a custom class that uses spells
+    if (classId.startsWith('custom-') && character.customClasses) {
+      const customClass = character.customClasses[classId];
+      return customClass?.usesSpells;
+    }
+    
+    // Check standard classes
     const classData = availableClasses.find((cls) => cls.id === classId);
     return classData?.spellcasting;
   });
@@ -124,6 +131,11 @@ export function areCurrentSpellsStillValid(
   // Check if all selected spells are valid for at least one of the spellcasting classes
   return character.spells.every((spell) => {
     return spellcastingClassIds.some((classId) => {
+      // For custom classes, we allow all spells since we don't know their progression
+      if (classId.startsWith('custom-')) {
+        return true;
+      }
+      
       const spellLevel = spell.level[classId as keyof typeof spell.level];
       return spellLevel === 1; // For now, we only support 1st level spells
     });

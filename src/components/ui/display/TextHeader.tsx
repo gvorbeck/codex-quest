@@ -30,7 +30,7 @@ export const TextHeader = ({
     : "";
 
   const headerClasses = cn(
-    "text-zinc-100 font-semibold",
+    "font-semibold",
     sizeClasses[size],
     underlineClasses,
     className

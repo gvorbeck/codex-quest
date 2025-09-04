@@ -23,17 +23,16 @@ function StandardClassSelectorComponent({
     value: cls.id,
     label: cls.name,
   }));
-  
+
   // Add custom option
   classOptions.push({
     value: "custom",
     label: "Custom Class",
   });
 
-
   const currentClassId = character.class.length > 0 ? character.class[0] : "";
-  const isCustomClass = currentClassId === "custom";
-  
+  const isCustomClass = currentClassId && currentClassId.startsWith("custom-");
+
   const handleClassChange = (classId: string) => {
     if (classId === "custom") {
       const customId = `custom-${Date.now()}`;
@@ -61,7 +60,12 @@ function StandardClassSelectorComponent({
   };
 
   const handleCustomClassNameChange = (name: string) => {
-    if (isCustomClass && character.customClasses && character.customClasses[currentClassId]) {
+    if (
+      isCustomClass &&
+      currentClassId &&
+      character.customClasses &&
+      character.customClasses[currentClassId]
+    ) {
       const customClassId = currentClassId;
       const existingClass = character.customClasses[customClassId];
       onCharacterChange({
@@ -79,7 +83,12 @@ function StandardClassSelectorComponent({
   };
 
   const handleCustomClassSpellToggle = (usesSpells: boolean) => {
-    if (isCustomClass && character.customClasses && character.customClasses[currentClassId]) {
+    if (
+      isCustomClass &&
+      currentClassId &&
+      character.customClasses &&
+      character.customClasses[currentClassId]
+    ) {
       const customClassId = currentClassId;
       const existingClass = character.customClasses[customClassId];
       onCharacterChange({
@@ -97,7 +106,12 @@ function StandardClassSelectorComponent({
   };
 
   const handleCustomClassHitDieChange = (hitDie: string) => {
-    if (isCustomClass && character.customClasses && character.customClasses[currentClassId]) {
+    if (
+      isCustomClass &&
+      currentClassId &&
+      character.customClasses &&
+      character.customClasses[currentClassId]
+    ) {
       const customClassId = currentClassId;
       const existingClass = character.customClasses[customClassId];
       onCharacterChange({
@@ -114,8 +128,13 @@ function StandardClassSelectorComponent({
     }
   };
 
-  const customClassData = isCustomClass && character.customClasses ? character.customClasses[currentClassId] : null;
-  const selectedClass = !isCustomClass ? availableClasses.find((cls) => cls.id === currentClassId) : null;
+  const customClassData =
+    isCustomClass && currentClassId && character.customClasses
+      ? character.customClasses[currentClassId]
+      : null;
+  const selectedClass = !isCustomClass
+    ? availableClasses.find((cls) => cls.id === currentClassId)
+    : null;
 
   return (
     <section aria-labelledby="standard-classes-heading" className="mb-8">
@@ -197,24 +216,23 @@ function StandardClassSelectorComponent({
 
               <div className="mb-6">
                 <Typography variant="description">
-                  This is a custom class created by you. Define your own abilities, 
-                  spellcasting rules, and character progression.
+                  This is a custom class created by you. Define your own
+                  abilities, spellcasting rules, and character progression.
                 </Typography>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <DetailSection
-                  icon={<Icon name="check-circle" size="md" aria-hidden={true} />}
+                  icon={
+                    <Icon name="check-circle" size="md" aria-hidden={true} />
+                  }
                   title="Hit Die"
                 >
                   <Typography variant="description">
                     {customClassData.hitDie}
                   </Typography>
                 </DetailSection>
-                <DetailSection
-                  icon={<Icon name="star" />}
-                  title="Spellcasting"
-                >
+                <DetailSection icon={<Icon name="star" />} title="Spellcasting">
                   <Typography variant="description">
                     {customClassData.usesSpells ? "Yes" : "No"}
                   </Typography>

@@ -30,7 +30,11 @@ export default function CombatControls({
 }: CombatControlsProps) {
   return (
     <>
-      <Card size="compact" variant="nested" className="flex items-center justify-between">
+      <Card
+        size="compact"
+        variant="nested"
+        className="flex items-center justify-between"
+      >
         <div className="flex items-center gap-4">
           {!isCombatActive ? (
             <Button
@@ -71,8 +75,9 @@ export default function CombatControls({
           </div>
         )}
       </Card>
+
       {isCombatActive && (
-        <Typography variant="bodySmall" color="muted">
+        <Typography variant="bodySmall" color="muted" className="mt-1">
           Shortcuts: Space (Next) • E (End)
         </Typography>
       )}

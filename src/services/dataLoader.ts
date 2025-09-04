@@ -133,6 +133,64 @@ export async function loadSpellsForClass(
 }
 
 /**
+ * Load all level 1 spells for custom classes
+ */
+export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
+  const cacheKey = 'spells-all-level-1';
+
+  if (dataCache.has(cacheKey)) {
+    return dataCache.get(cacheKey) as Spell[];
+  }
+
+  try {
+    const { default: allSpells } = await import("@/data/spells.json");
+
+    // Get all spells that are level 1 for any class
+    const level1Spells = (allSpells as Spell[]).filter((spell) => {
+      // Check if spell is level 1 for any class
+      return Object.values(spell.level).includes(1);
+    });
+
+    // Exclude Read Magic since spellcasters automatically know it
+    const filteredSpells = level1Spells.filter(
+      (spell) => spell.name !== "Read Magic"
+    );
+
+    dataCache.set(cacheKey, filteredSpells);
+    return filteredSpells;
+  } catch (error) {
+    logger.error("Error loading all first level spells:", error);
+    return [];
+  }
+}
+
+/**
+ * Load all spells for custom classes (all levels)
+ */
+export async function loadAllSpells(): Promise<Spell[]> {
+  const cacheKey = 'spells-all';
+
+  if (dataCache.has(cacheKey)) {
+    return dataCache.get(cacheKey) as Spell[];
+  }
+
+  try {
+    const { default: allSpells } = await import("@/data/spells.json");
+    
+    // Exclude Read Magic since spellcasters automatically know it
+    const filteredSpells = (allSpells as Spell[]).filter(
+      (spell) => spell.name !== "Read Magic"
+    );
+
+    dataCache.set(cacheKey, filteredSpells);
+    return filteredSpells;
+  } catch (error) {
+    logger.error("Error loading all spells:", error);
+    return [];
+  }
+}
+
+/**
  * Preload critical data for initial app load
  */
 export async function preloadCriticalData(): Promise<void> {

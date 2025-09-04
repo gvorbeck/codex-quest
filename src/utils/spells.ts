@@ -1,5 +1,5 @@
 import type { Spell } from "@/types/character";
-import { loadSpellsForClass } from "@/services/dataLoader";
+import { loadSpellsForClass, loadAllFirstLevelSpells, loadAllSpells } from "@/services/dataLoader";
 
 
 /**
@@ -8,7 +8,17 @@ import { loadSpellsForClass } from "@/services/dataLoader";
 export async function getFirstLevelSpellsForClass(
   classId: string
 ): Promise<Spell[]> {
+  if (classId === "all") {
+    return await loadAllFirstLevelSpells();
+  }
   return await loadSpellsForClass(classId, 1);
+}
+
+/**
+ * Get all spells for custom classes (all levels)
+ */
+export async function getAllSpellsForCustomClass(): Promise<Spell[]> {
+  return await loadAllSpells();
 }
 
 /**

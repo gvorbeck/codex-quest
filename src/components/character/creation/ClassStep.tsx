@@ -8,11 +8,12 @@ import {
   CombinationClassSelector,
   SpellSelector,
 } from "@/components/character/creation";
+import { SpellChecklistSelector } from "@/components/character/creation/SpellChecklistSelector";
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import type { Character, Spell, Cantrip, BaseStepProps } from "@/types/character";
-import { getFirstLevelSpellsForClass, hasSpellcasting } from "@/utils/spells";
+import { getFirstLevelSpellsForClass, getAllSpellsForCustomClass, hasSpellcasting } from "@/utils/spells";
 import { logger } from "@/utils/logger";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips, getSpellTypeInfo } from "@/utils/cantrips";
@@ -46,7 +47,9 @@ function ClassStepComponent({
 
   // State for managing available spells
   const [availableSpells, setAvailableSpells] = useState<Spell[]>([]);
+  const [allSpellsForCustomClass, setAllSpellsForCustomClass] = useState<Spell[]>([]);
   const [isLoadingSpells, setIsLoadingSpells] = useState(false);
+  const [isLoadingAllSpells, setIsLoadingAllSpells] = useState(false);
 
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = useMemo(() => {
@@ -125,45 +128,73 @@ function ClassStepComponent({
   // Load available spells when spellcasting class changes
   useEffect(() => {
     // Helper function to get the effective spellcasting class
-    const getEffectiveSpellcastingClass = (): string | null => {
+    const getEffectiveSpellcastingClass = (): { type: 'standard' | 'custom'; classId: string } | null => {
       // Check if any of the character's classes can cast spells
       for (const classId of character.class) {
         // Check if it's a custom class that uses spells
         if (character.customClasses && character.customClasses[classId]) {
           const customClass = character.customClasses[classId];
           if (customClass.usesSpells) {
-            // Return a default spellcasting class for custom classes (magic-user)
-            return "magic-user";
+            return { type: 'custom', classId };
           }
         } else {
           const classData = availableClasses.find((cls) => cls.id === classId);
           if (classData && hasSpellcasting(classData)) {
-            return classId;
+            return { type: 'standard', classId };
           }
         }
       }
       return null;
     };
 
-    const spellcastingClassId = getEffectiveSpellcastingClass();
-    if (spellcastingClassId) {
-      setIsLoadingSpells(true);
-      getFirstLevelSpellsForClass(spellcastingClassId)
-        .then((spells) => {
-          setAvailableSpells(spells);
-        })
-        .catch((error) => {
-          logger.error("Failed to load spells:", error);
-          setAvailableSpells([]);
-        })
-        .finally(() => {
-          setIsLoadingSpells(false);
-        });
+    const spellcastingClass = getEffectiveSpellcastingClass();
+    
+    if (spellcastingClass) {
+      if (spellcastingClass.type === 'custom') {
+        // Load all spells for custom classes
+        setIsLoadingAllSpells(true);
+        getAllSpellsForCustomClass()
+          .then((spells) => {
+            setAllSpellsForCustomClass(spells);
+          })
+          .catch((error) => {
+            logger.error("Failed to load all spells for custom class:", error);
+            setAllSpellsForCustomClass([]);
+          })
+          .finally(() => {
+            setIsLoadingAllSpells(false);
+          });
+        
+        // Clear standard spell loading
+        setAvailableSpells([]);
+        setIsLoadingSpells(false);
+      } else {
+        // Load level 1 spells for standard classes
+        setIsLoadingSpells(true);
+        getFirstLevelSpellsForClass(spellcastingClass.classId)
+          .then((spells) => {
+            setAvailableSpells(spells);
+          })
+          .catch((error) => {
+            logger.error("Failed to load spells:", error);
+            setAvailableSpells([]);
+          })
+          .finally(() => {
+            setIsLoadingSpells(false);
+          });
+        
+        // Clear custom spell loading
+        setAllSpellsForCustomClass([]);
+        setIsLoadingAllSpells(false);
+      }
     } else {
+      // No spellcasting classes
       setAvailableSpells([]);
+      setAllSpellsForCustomClass([]);
       setIsLoadingSpells(false);
+      setIsLoadingAllSpells(false);
     }
-  }, [character.class, availableClasses]);
+  }, [character.class, character.customClasses, availableClasses]);
 
   const handleSpellChange = (spellName: string) => {
     const selectedSpell = availableSpells.find(
@@ -176,6 +207,13 @@ function ClassStepComponent({
         spells: [selectedSpell], // Replace any existing spells with the new selection
       });
     }
+  };
+
+  const handleSpellsChange = (spells: Spell[]) => {
+    onCharacterChange({
+      ...character,
+      spells,
+    });
   };
 
   const handleCantripChange = (cantrips: Cantrip[]) => {
@@ -298,8 +336,17 @@ function ClassStepComponent({
     );
   }
 
+  // Determine if we have a custom spellcasting class
+  const hasCustomSpellcaster = character.class.some((classId) => {
+    if (character.customClasses && character.customClasses[classId]) {
+      return character.customClasses[classId].usesSpells;
+    }
+    return false;
+  });
+
   // Get spell-related data for current class configuration
-  const showSpellSelection = availableSpells.length > 0;
+  const showStandardSpellSelection = availableSpells.length > 0 && !hasCustomSpellcaster;
+  const showCustomSpellSelection = allSpellsForCustomClass.length > 0 && hasCustomSpellcaster;
 
   return (
     <StepWrapper
@@ -347,7 +394,8 @@ function ClassStepComponent({
             onCharacterChange={onCharacterChange}
           />
 
-          {showSpellSelection && (
+          {/* Standard spell selection for built-in classes */}
+          {showStandardSpellSelection && (
             <>
               <SpellSelector
                 character={character}
@@ -378,6 +426,38 @@ function ClassStepComponent({
               />
             </>
           )}
+
+          {/* Custom spell selection for custom classes */}
+          {showCustomSpellSelection && (
+            <>
+              <SpellChecklistSelector
+                character={character}
+                availableSpells={allSpellsForCustomClass}
+                onSpellsChange={handleSpellsChange}
+                title="Custom Class Spells"
+                description="Select all spells your custom class should know. Since this is a custom class, you can choose spells from any level and any class. <strong>Read Magic</strong> is automatically granted if you select any spells."
+                isLoading={isLoadingAllSpells}
+              />
+
+              <CantripSelector
+                character={character}
+                onCantripChange={handleCantripChange}
+                mode="creation"
+                title={(() => {
+                  const spellTypeInfo = getSpellTypeInfo(character);
+                  return `Starting ${spellTypeInfo.capitalized}`;
+                })()}
+                description={(() => {
+                  const spellTypeInfo = getSpellTypeInfo(character);
+                  return `You automatically know <strong>${
+                    character.cantrips?.length || 0
+                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    spellTypeInfo.abilityScore
+                  } bonus). You may change your selection below.`;
+                })()}
+              />
+            </>
+          )}
         </>
       ) : (
         <>
@@ -387,7 +467,8 @@ function ClassStepComponent({
             onCombinationChange={handleCombinationClassChange}
           />
 
-          {showSpellSelection && (
+          {/* Standard spell selection for built-in combination classes */}
+          {showStandardSpellSelection && (
             <>
               <SpellSelector
                 character={character}
@@ -397,6 +478,38 @@ function ClassStepComponent({
                 description="Your combination class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
                 detailsId="combination-spell-selection"
                 isLoading={isLoadingSpells}
+              />
+
+              <CantripSelector
+                character={character}
+                onCantripChange={handleCantripChange}
+                mode="creation"
+                title={(() => {
+                  const spellTypeInfo = getSpellTypeInfo(character);
+                  return `Starting ${spellTypeInfo.capitalized}`;
+                })()}
+                description={(() => {
+                  const spellTypeInfo = getSpellTypeInfo(character);
+                  return `You automatically know <strong>${
+                    character.cantrips?.length || 0
+                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    spellTypeInfo.abilityScore
+                  } bonus). You may change your selection below.`;
+                })()}
+              />
+            </>
+          )}
+
+          {/* Custom spell selection for custom combination classes */}
+          {showCustomSpellSelection && (
+            <>
+              <SpellChecklistSelector
+                character={character}
+                availableSpells={allSpellsForCustomClass}
+                onSpellsChange={handleSpellsChange}
+                title="Custom Class Spells"
+                description="Select all spells your custom combination class should know. Since this is a custom class, you can choose spells from any level and any class. <strong>Read Magic</strong> is automatically granted if you select any spells."
+                isLoading={isLoadingAllSpells}
               />
 
               <CantripSelector
