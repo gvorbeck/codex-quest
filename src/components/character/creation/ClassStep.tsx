@@ -12,17 +12,11 @@ import { SpellChecklistSelector } from "@/components/character/creation/SpellChe
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Character, Spell, Cantrip, BaseStepProps } from "@/types/character";
-import { getFirstLevelSpellsForClass, getAllSpellsForCustomClass, hasSpellcasting } from "@/utils/spells";
+import type { Spell, Cantrip, BaseStepProps } from "@/types/character";
+import { getFirstLevelSpellsForClass, getAllSpellsForCustomClass } from "@/utils/spells";
 import { logger } from "@/utils/logger";
-import { roller } from "@/utils/dice";
-import { getAvailableCantrips, getSpellTypeInfo } from "@/utils/cantrips";
-import {
-  DIVINE_CLASSES,
-  ARCANE_CLASSES,
-  type ArcaneClass,
-  type DivineClass,
-} from "@/constants/spellcasting";
+import { getSpellTypeInfo } from "@/utils/cantrips";
+import { getEffectiveSpellcastingClass, assignStartingCantrips } from "@/utils/characterCreation";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps extends BaseStepProps {
@@ -95,7 +89,7 @@ function ClassStepComponent({
     };
 
     // Auto-assign starting cantrips
-    const startingCantrips = assignStartingCantrips(newCharacter);
+    const startingCantrips = assignStartingCantrips(newCharacter, availableClasses);
 
     onCharacterChange({
       ...newCharacter,
@@ -116,7 +110,7 @@ function ClassStepComponent({
       };
 
       // Auto-assign starting cantrips
-      const startingCantrips = assignStartingCantrips(newCharacter);
+      const startingCantrips = assignStartingCantrips(newCharacter, availableClasses);
 
       onCharacterChange({
         ...newCharacter,
@@ -127,27 +121,7 @@ function ClassStepComponent({
 
   // Load available spells when spellcasting class changes
   useEffect(() => {
-    // Helper function to get the effective spellcasting class
-    const getEffectiveSpellcastingClass = (): { type: 'standard' | 'custom'; classId: string } | null => {
-      // Check if any of the character's classes can cast spells
-      for (const classId of character.class) {
-        // Check if it's a custom class that uses spells
-        if (character.customClasses && character.customClasses[classId]) {
-          const customClass = character.customClasses[classId];
-          if (customClass.usesSpells) {
-            return { type: 'custom', classId };
-          }
-        } else {
-          const classData = availableClasses.find((cls) => cls.id === classId);
-          if (classData && hasSpellcasting(classData)) {
-            return { type: 'standard', classId };
-          }
-        }
-      }
-      return null;
-    };
-
-    const spellcastingClass = getEffectiveSpellcastingClass();
+    const spellcastingClass = getEffectiveSpellcastingClass(character, availableClasses);
     
     if (spellcastingClass) {
       if (spellcastingClass.type === 'custom') {
@@ -194,7 +168,7 @@ function ClassStepComponent({
       setIsLoadingSpells(false);
       setIsLoadingAllSpells(false);
     }
-  }, [character.class, character.customClasses, availableClasses]);
+  }, [character, availableClasses]);
 
   const handleSpellChange = (spellName: string) => {
     const selectedSpell = availableSpells.find(
@@ -223,77 +197,6 @@ function ClassStepComponent({
     });
   };
 
-  // Use the shared utility function for getting available cantrips
-
-  // Function to auto-assign starting cantrips based on 1d4 + ability bonus
-  const assignStartingCantrips = (newCharacter: Character): Cantrip[] => {
-    // Don't auto-assign if character already has cantrips (manual selection)
-    if (newCharacter.cantrips && newCharacter.cantrips.length > 0) {
-      return newCharacter.cantrips;
-    }
-
-    // Check if any class can cast spells
-    const hasSpellcaster = newCharacter.class.some((classId) => {
-      // Check if it's a custom class that uses spells
-      if (newCharacter.customClasses && newCharacter.customClasses[classId]) {
-        return newCharacter.customClasses[classId].usesSpells;
-      }
-      
-      const classData = availableClasses.find((cls) => cls.id === classId);
-      return classData && hasSpellcasting(classData);
-    });
-
-    if (!hasSpellcaster) {
-      return [];
-    }
-
-    // Get relevant ability bonus
-    let abilityBonus = 0;
-
-    // Check for custom classes first - default to arcane (Intelligence)
-    const hasCustomSpellcaster = newCharacter.class.some((classId) => {
-      if (newCharacter.customClasses && newCharacter.customClasses[classId]) {
-        return newCharacter.customClasses[classId].usesSpells;
-      }
-      return false;
-    });
-
-    const hasArcane = hasCustomSpellcaster || newCharacter.class.some((classId) =>
-      ARCANE_CLASSES.includes(classId as ArcaneClass)
-    );
-    const hasDivine = !hasCustomSpellcaster && newCharacter.class.some((classId) =>
-      DIVINE_CLASSES.includes(classId as DivineClass)
-    );
-
-    if (hasArcane) {
-      abilityBonus = newCharacter.abilities.intelligence.modifier;
-    } else if (hasDivine) {
-      abilityBonus = newCharacter.abilities.wisdom.modifier;
-    }
-
-    // Roll 1d4 + ability bonus for number of starting cantrips
-    const rollResult = roller("1d4");
-    const numCantrips = Math.max(0, rollResult.total + abilityBonus);
-
-    if (numCantrips === 0) {
-      return [];
-    }
-
-    // Get available cantrips and randomly select
-    const availableCantrips = getAvailableCantrips(newCharacter);
-    const selectedCantrips: Cantrip[] = [];
-
-    // Shuffle available cantrips and pick the first numCantrips
-    const shuffled = [...availableCantrips].sort(() => Math.random() - 0.5);
-    for (let i = 0; i < Math.min(numCantrips, shuffled.length); i++) {
-      const cantrip = shuffled[i];
-      if (cantrip) {
-        selectedCantrips.push(cantrip);
-      }
-    }
-
-    return selectedCantrips;
-  };
 
   const handleCombinationToggle = (enabled: boolean) => {
     onUseCombinationClassChange(enabled);

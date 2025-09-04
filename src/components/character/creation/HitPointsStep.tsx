@@ -4,8 +4,7 @@ import { Button, Card, Typography, Icon } from "@/components/ui";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, RequirementCard } from "@/components/ui/display";
 import { logger } from "@/utils/logger";
-import { allClasses } from "@/data/classes";
-import { allRaces } from "@/data/races";
+import { calculateHitDie, getRacialModificationInfo } from "@/utils/hitDice";
 import type { BaseStepProps } from "@/types/character";
 
 type HitPointsStepProps = BaseStepProps;
@@ -15,117 +14,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   onCharacterChange,
 }) => {
   // Find the hit die for the character's class(es) with racial restrictions
-  const hitDie = useMemo(() => {
-    if (character.class.length === 0) return null;
-
-    // For combination classes, use the first class's hit die
-    const primaryClassId = character.class[0];
-
-    // Check if it's a custom class
-    if (
-      character.customClasses &&
-      primaryClassId &&
-      character.customClasses[primaryClassId]
-    ) {
-      return character.customClasses[primaryClassId].hitDie || "1d6";
-    }
-
-    const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
-
-    if (!primaryClass?.hitDie) return null;
-
-    // Check for racial hit dice modifications
-    const raceData = allRaces.find((race) => race.id === character.race);
-    let modifiedHitDie = primaryClass.hitDie;
-
-    if (raceData?.specialAbilities) {
-      for (const ability of raceData.specialAbilities) {
-        // Check for hit dice restrictions (maxSize)
-        const hitDiceRestriction = ability.effects?.hitDiceRestriction;
-        if (hitDiceRestriction) {
-          if (hitDiceRestriction.maxSize) {
-            // Apply the most restrictive dice size
-            const classHitDie = modifiedHitDie;
-            const restrictedDie = hitDiceRestriction.maxSize;
-
-            // Extract die sizes for comparison (e.g., "1d8" -> 8, "d6" -> 6)
-            const classMatch = classHitDie.match(/\d*d(\d+)/);
-            const restrictedMatch = restrictedDie.match(/d(\d+)/);
-
-            if (classMatch?.[1] && restrictedMatch?.[1]) {
-              const classDieSize = parseInt(classMatch[1], 10);
-              const restrictedDieSize = parseInt(restrictedMatch[1], 10);
-
-              // Use the smaller die size
-              if (restrictedDieSize < classDieSize) {
-                modifiedHitDie = `1${restrictedDie}`;
-              }
-            }
-          } else if (hitDiceRestriction.sizeDecrease) {
-            // Handle size decrease (Phaerim: d8->d6, d6->d4, d4->d3)
-            const match = modifiedHitDie.match(/\d*d(\d+)/);
-            if (match?.[1]) {
-              const currentSize = parseInt(match[1], 10);
-              let newSize;
-
-              switch (currentSize) {
-                case 12:
-                  newSize = 10;
-                  break;
-                case 10:
-                  newSize = 8;
-                  break;
-                case 8:
-                  newSize = 6;
-                  break;
-                case 6:
-                  newSize = 4;
-                  break;
-                case 4:
-                  newSize = 3;
-                  break;
-                default:
-                  newSize = currentSize;
-              }
-
-              modifiedHitDie = `1d${newSize}`;
-            }
-          }
-        }
-
-        // Check for hit dice bonuses (sizeIncrease for Half-Ogre, Bisren)
-        const hitDiceBonus = ability.effects?.hitDiceBonus;
-        if (hitDiceBonus?.sizeIncrease) {
-          const match = modifiedHitDie.match(/\d*d(\d+)/);
-          if (match?.[1]) {
-            const currentSize = parseInt(match[1], 10);
-            let newSize;
-
-            switch (currentSize) {
-              case 4:
-                newSize = 6;
-                break;
-              case 6:
-                newSize = 8;
-                break;
-              case 8:
-                newSize = 10;
-                break;
-              case 10:
-                newSize = 12;
-                break;
-              default:
-                newSize = currentSize;
-            }
-
-            modifiedHitDie = `1d${newSize}`;
-          }
-        }
-      }
-    }
-
-    return modifiedHitDie;
-  }, [character.class, character.race, character.customClasses]);
+  const hitDie = useMemo(() => calculateHitDie(character), [character]);
 
   // Calculate maximum possible HP for the hit die
   const maxPossibleHP = useMemo(() => {
@@ -152,62 +41,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   }, [character.abilities.constitution.modifier]);
 
   // Check if racial modification is being applied
-  const racialModificationInfo = useMemo(() => {
-    const primaryClassId = character.class[0];
-
-    // Custom classes don't have racial modifications
-    if (
-      character.customClasses &&
-      primaryClassId &&
-      character.customClasses[primaryClassId]
-    ) {
-      return null;
-    }
-
-    const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
-    const raceData = allRaces.find((race) => race.id === character.race);
-
-    if (!primaryClass?.hitDie || !raceData?.specialAbilities) return null;
-
-    for (const ability of raceData.specialAbilities) {
-      const hitDiceRestriction = ability.effects?.hitDiceRestriction;
-      const hitDiceBonus = ability.effects?.hitDiceBonus;
-
-      if (hitDiceRestriction?.maxSize) {
-        const classMatch = primaryClass.hitDie.match(/\d*d(\d+)/);
-        const restrictedMatch = hitDiceRestriction.maxSize.match(/d(\d+)/);
-
-        if (classMatch?.[1] && restrictedMatch?.[1]) {
-          const classDieSize = parseInt(classMatch[1], 10);
-          const restrictedDieSize = parseInt(restrictedMatch[1], 10);
-
-          if (restrictedDieSize < classDieSize) {
-            return {
-              abilityName: ability.name,
-              originalHitDie: primaryClass.hitDie,
-              modifiedHitDie: `1${hitDiceRestriction.maxSize}`,
-              modificationType: "restriction",
-            };
-          }
-        }
-      } else if (hitDiceRestriction?.sizeDecrease) {
-        return {
-          abilityName: ability.name,
-          originalHitDie: primaryClass.hitDie,
-          modifiedHitDie: hitDie, // Use the calculated hit die
-          modificationType: "decrease",
-        };
-      } else if (hitDiceBonus?.sizeIncrease) {
-        return {
-          abilityName: ability.name,
-          originalHitDie: primaryClass.hitDie,
-          modifiedHitDie: hitDie, // Use the calculated hit die
-          modificationType: "increase",
-        };
-      }
-    }
-    return null;
-  }, [character.class, character.race, character.customClasses, hitDie]);
+  const racialModificationInfo = useMemo(() => getRacialModificationInfo(character), [character]);
 
   const handleHPChange = (hp: number | undefined) => {
     if (hp === undefined) return;
@@ -339,7 +173,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
               />
             </div>
 
-            <Button onClick={handleMaxHP} variant="secondary" size="lg">
+            <Button onClick={handleMaxHP} variant="secondary" size="md">
               Use Max HP ({maxPossibleHP})
             </Button>
           </div>

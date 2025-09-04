@@ -1,0 +1,129 @@
+import type { Character, Cantrip } from "@/types/character";
+import { roller } from "@/utils/dice";
+import { getAvailableCantrips } from "@/utils/cantrips";
+import { hasSpellcasting } from "@/utils/spells";
+import {
+  DIVINE_CLASSES,
+  ARCANE_CLASSES,
+  type ArcaneClass,
+  type DivineClass,
+} from "@/constants/spellcasting";
+
+/**
+ * Determines the effective spellcasting class for a character
+ * Returns the type (standard/custom) and class ID of the first spellcasting class found
+ */
+export function getEffectiveSpellcastingClass(
+  character: Character,
+  availableClasses: Array<{ id: string; spellcasting?: unknown }>
+): { type: 'standard' | 'custom'; classId: string } | null {
+  // Check if any of the character's classes can cast spells
+  for (const classId of character.class) {
+    // Check if it's a custom class that uses spells
+    if (character.customClasses && character.customClasses[classId]) {
+      const customClass = character.customClasses[classId];
+      if (customClass.usesSpells) {
+        return { type: 'custom', classId };
+      }
+    } else {
+      const classData = availableClasses.find((cls) => cls.id === classId);
+      if (classData && hasSpellcasting(classData)) {
+        return { type: 'standard', classId };
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Determines if a character has any spellcasting classes
+ */
+export function hasSpellcastingClass(
+  character: Character,
+  availableClasses: Array<{ id: string; spellcasting?: unknown }>
+): boolean {
+  return character.class.some((classId) => {
+    // Check if it's a custom class that uses spells
+    if (character.customClasses && character.customClasses[classId]) {
+      return character.customClasses[classId].usesSpells;
+    }
+    
+    const classData = availableClasses.find((cls) => cls.id === classId);
+    return classData && hasSpellcasting(classData);
+  });
+}
+
+/**
+ * Gets the relevant ability modifier for spellcasting
+ * Returns the modifier based on whether the character has divine, arcane, or custom spellcasting
+ */
+export function getSpellcastingAbilityModifier(character: Character): number {
+  // Check for custom classes first - default to arcane (Intelligence)
+  const hasCustomSpellcaster = character.class.some((classId) => {
+    if (character.customClasses && character.customClasses[classId]) {
+      return character.customClasses[classId].usesSpells;
+    }
+    return false;
+  });
+
+  const hasArcane = hasCustomSpellcaster || character.class.some((classId) =>
+    ARCANE_CLASSES.includes(classId as ArcaneClass)
+  );
+  const hasDivine = !hasCustomSpellcaster && character.class.some((classId) =>
+    DIVINE_CLASSES.includes(classId as DivineClass)
+  );
+
+  if (hasArcane) {
+    return character.abilities.intelligence.modifier;
+  } else if (hasDivine) {
+    return character.abilities.wisdom.modifier;
+  }
+  
+  return 0;
+}
+
+/**
+ * Auto-assigns starting cantrips based on 1d4 + ability bonus
+ * Follows the game rules for determining number and selection of starting cantrips
+ */
+export function assignStartingCantrips(
+  character: Character,
+  availableClasses: Array<{ id: string; spellcasting?: unknown }>
+): Cantrip[] {
+  // Don't auto-assign if character already has cantrips (manual selection)
+  if (character.cantrips && character.cantrips.length > 0) {
+    return character.cantrips;
+  }
+
+  // Check if any class can cast spells
+  const hasSpellcaster = hasSpellcastingClass(character, availableClasses);
+  if (!hasSpellcaster) {
+    return [];
+  }
+
+  // Get relevant ability modifier
+  const abilityBonus = getSpellcastingAbilityModifier(character);
+
+  // Roll 1d4 + ability bonus for number of starting cantrips
+  const rollResult = roller("1d4");
+  const numCantrips = Math.max(0, rollResult.total + abilityBonus);
+
+  if (numCantrips === 0) {
+    return [];
+  }
+
+  // Get available cantrips and randomly select
+  const availableCantrips = getAvailableCantrips(character);
+  const selectedCantrips: Cantrip[] = [];
+
+  // Shuffle available cantrips and pick the first numCantrips
+  const shuffled = [...availableCantrips].sort(() => Math.random() - 0.5);
+  for (let i = 0; i < Math.min(numCantrips, shuffled.length); i++) {
+    const cantrip = shuffled[i];
+    if (cantrip) {
+      selectedCantrips.push(cantrip);
+    }
+  }
+
+  return selectedCantrips;
+}
