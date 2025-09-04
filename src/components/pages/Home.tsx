@@ -1,7 +1,12 @@
 import { useLocation } from "wouter";
 import { Card, Typography } from "@/components/ui";
 import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
-import { Icon, TextHeader } from "@/components/ui/display";
+import {
+  Icon,
+  TextHeader,
+  List,
+  FeatureListItem,
+} from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
   Tabs,
@@ -62,28 +67,21 @@ function Home() {
               <TextHeader variant="h4" size="md">
                 Features
               </TextHeader>
-              <ul className="space-y-2 text-primary-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-highlight-400 mt-1">•</span>
+              <List variant="feature" spacing="normal">
+                <FeatureListItem>
                   Interactive dice rolling for ability scores
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-highlight-400 mt-1">•</span>
+                </FeatureListItem>
+                <FeatureListItem>
                   Comprehensive race selection with special abilities
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-highlight-400 mt-1">•</span>
+                </FeatureListItem>
+                <FeatureListItem>
                   Multiple character classes and combination classes
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-highlight-400 mt-1">•</span>
-                  Equipment and gear selection
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-highlight-400 mt-1">•</span>
+                </FeatureListItem>
+                <FeatureListItem>Equipment and gear selection</FeatureListItem>
+                <FeatureListItem>
                   Character validation and requirements checking
-                </li>
-              </ul>
+                </FeatureListItem>
+              </List>
             </Card>
           </>
         )}

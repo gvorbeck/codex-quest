@@ -2,7 +2,12 @@ import { useState, useCallback } from "react";
 import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
 import { TextInput, TextArea, FormField } from "@/components/ui/inputs";
-import { Breadcrumb, TextHeader } from "@/components/ui/display";
+import {
+  Breadcrumb,
+  TextHeader,
+  List,
+  ListItem,
+} from "@/components/ui/display";
 import { useAuth } from "@/hooks";
 import { useGameNavigation } from "@/hooks/useEntityNavigation";
 import { logger } from "@/utils/logger";
@@ -123,12 +128,17 @@ function GameGen() {
               <Typography variant="body" color="secondary" className="text-sm">
                 Additional game setup features will be added here:
               </Typography>
-              <ul className="mt-2 text-sm text-primary-300 space-y-1">
-                <li>• Player management</li>
-                <li>• Combat tracker setup</li>
-                <li>• Initiative management</li>
-                <li>• Campaign settings</li>
-              </ul>
+              <List
+                variant="bullet"
+                spacing="tight"
+                size="sm"
+                className="mt-2 text-primary-300"
+              >
+                <ListItem icon="•">Player management</ListItem>
+                <ListItem icon="•">Combat tracker setup</ListItem>
+                <ListItem icon="•">Initiative management</ListItem>
+                <ListItem icon="•">Campaign settings</ListItem>
+              </List>
             </div>
           </div>
         </Card>

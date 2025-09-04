@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import Modal from "../base/Modal";
 import { Button } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
-import { Icon } from "@/components/ui/display";
+import { Icon, List, StepListItem } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
 import { roller } from "@/utils/dice";
@@ -360,49 +360,58 @@ export default function EncounterGeneratorModal({
   }, [encounterType, dungeonLevel, wildernessType, cityType]);
 
   // Function to create a combatant from encounter result
-  const createCombatantFromEncounter = useCallback((encounterName: string): GameCombatant => {
-    // Parse encounter name to handle multiple creatures or special formatting
-    let baseName = encounterName;
-    
-    // Handle "NPC Party" encounters
-    if (baseName.includes("NPC Party:")) {
-      baseName = baseName.replace("NPC Party: ", "");
-    }
-    
-    // Remove special ability indicators (*)
-    baseName = baseName.replace(/\*/g, "");
-    
-    // Generate basic stats - these can be customized later in combat tracker
-    // Default AC for most creatures is around 12-16, with some variation
-    const defaultAC = 12 + roller("1d4").total; // AC 13-16
-    
-    return {
-      name: baseName.trim(),
-      ac: defaultAC,
-      initiative: 0, // Will be rolled during combat
-      isPlayer: false,
-    };
-  }, []);
+  const createCombatantFromEncounter = useCallback(
+    (encounterName: string): GameCombatant => {
+      // Parse encounter name to handle multiple creatures or special formatting
+      let baseName = encounterName;
+
+      // Handle "NPC Party" encounters
+      if (baseName.includes("NPC Party:")) {
+        baseName = baseName.replace("NPC Party: ", "");
+      }
+
+      // Remove special ability indicators (*)
+      baseName = baseName.replace(/\*/g, "");
+
+      // Generate basic stats - these can be customized later in combat tracker
+      // Default AC for most creatures is around 12-16, with some variation
+      const defaultAC = 12 + roller("1d4").total; // AC 13-16
+
+      return {
+        name: baseName.trim(),
+        ac: defaultAC,
+        initiative: 0, // Will be rolled during combat
+        isPlayer: false,
+      };
+    },
+    []
+  );
 
   // Function to add encounter to combat tracker
   const handleAddToCombatTracker = useCallback(() => {
     if (!currentEncounter || !onAddToCombat) return;
-    
+
     const combatant = createCombatantFromEncounter(currentEncounter);
     onAddToCombat(combatant);
-    
+
     showSuccess(`${combatant.name} added to Combat Tracker`, {
       title: "Added to Combat",
       duration: 3000,
     });
-    
+
     // Optionally open the combat tracker
     if (onOpenCombatTracker) {
       setTimeout(() => {
         onOpenCombatTracker();
       }, 500); // Small delay to let the user see the success notification
     }
-  }, [currentEncounter, onAddToCombat, onOpenCombatTracker, createCombatantFromEncounter, showSuccess]);
+  }, [
+    currentEncounter,
+    onAddToCombat,
+    onOpenCombatTracker,
+    createCombatantFromEncounter,
+    showSuccess,
+  ]);
 
   const handleGenerateEncounter = useCallback(async () => {
     if (!currentTable.length) {
@@ -717,8 +726,8 @@ export default function EncounterGeneratorModal({
             role="complementary"
             aria-label="How to use the encounter generator"
           >
-            <ol className="list-decimal list-inside space-y-1">
-              <li>
+            <List variant="steps" spacing="tight">
+              <StepListItem>
                 <Typography
                   variant="bodySmall"
                   color="muted"
@@ -726,8 +735,8 @@ export default function EncounterGeneratorModal({
                 >
                   Select the type of encounter (Dungeon, Wilderness, or City)
                 </Typography>
-              </li>
-              <li>
+              </StepListItem>
+              <StepListItem>
                 <Typography
                   variant="bodySmall"
                   color="muted"
@@ -735,8 +744,8 @@ export default function EncounterGeneratorModal({
                 >
                   Choose the specific subtype (level, terrain, or time)
                 </Typography>
-              </li>
-              <li>
+              </StepListItem>
+              <StepListItem>
                 <Typography
                   variant="bodySmall"
                   color="muted"
@@ -744,8 +753,8 @@ export default function EncounterGeneratorModal({
                 >
                   Click the dice button to roll for an encounter
                 </Typography>
-              </li>
-              <li>
+              </StepListItem>
+              <StepListItem>
                 <Typography
                   variant="bodySmall"
                   color="muted"
@@ -753,8 +762,8 @@ export default function EncounterGeneratorModal({
                 >
                   The system first checks if an encounter occurs (1 in 6 chance)
                 </Typography>
-              </li>
-              <li>
+              </StepListItem>
+              <StepListItem>
                 <Typography
                   variant="bodySmall"
                   color="muted"
@@ -763,8 +772,8 @@ export default function EncounterGeneratorModal({
                   If an encounter occurs, a creature is randomly selected from
                   the appropriate table
                 </Typography>
-              </li>
-            </ol>
+              </StepListItem>
+            </List>
           </div>
         </SectionWrapper>
       </div>
