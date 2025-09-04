@@ -90,21 +90,20 @@ function SpellSelectorComponent({
             if (!spell) return null;
             return (
               <div aria-labelledby={`${detailsId}-info-heading`}>
-                <div className={`${LAYOUT_STYLES.iconTextLarge} mb-6`}>
+                <Typography
+                  variant="infoHeading"
+                  className={`${LAYOUT_STYLES.iconText} mb-6`}
+                  id={`${detailsId}-info-heading`}
+                >
                   <Icon
                     name="star"
-                    size="lg"
+                    size="md"
                     className="flex-shrink-0 text-amber-400"
                     aria-hidden={true}
                   />
-                  <Typography
-                    variant="infoHeading"
-                    id={`${detailsId}-info-heading`}
-                  >
-                    {spell.name}
-                  </Typography>
+                  {spell.name}
                   <Badge variant="status">Level 1</Badge>
-                </div>
+                </Typography>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                   <Card variant="nested">

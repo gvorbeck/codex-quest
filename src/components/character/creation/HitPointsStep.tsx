@@ -20,6 +20,12 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
 
     // For combination classes, use the first class's hit die
     const primaryClassId = character.class[0];
+    
+    // Check if it's a custom class
+    if (character.customClasses && primaryClassId && character.customClasses[primaryClassId]) {
+      return character.customClasses[primaryClassId].hitDie || "1d6";
+    }
+    
     const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
 
     if (!primaryClass?.hitDie) return null;
@@ -144,6 +150,12 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   // Check if racial modification is being applied
   const racialModificationInfo = useMemo(() => {
     const primaryClassId = character.class[0];
+    
+    // Custom classes don't have racial modifications
+    if (character.customClasses && primaryClassId && character.customClasses[primaryClassId]) {
+      return null;
+    }
+    
     const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
     const raceData = allRaces.find((race) => race.id === character.race);
 

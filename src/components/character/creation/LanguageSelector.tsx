@@ -140,22 +140,24 @@ function LanguageSelector({
       {/* Bonus Languages */}
       {maxBonusLanguages > 0 && (
         <Card variant="standard">
-          <div className={`${LAYOUT_STYLES.iconText} mb-4`}>
+          <Typography
+            variant="baseSectionHeading"
+            className={`${LAYOUT_STYLES.iconText} mb-4`}
+            color="zinc"
+          >
             <Icon
               name="plus"
               size="sm"
               className="text-zinc-400"
               aria-hidden={true}
             />
-            <Typography variant="baseSectionHeading" color="zinc">
-              Bonus Languages
-            </Typography>
+            Bonus Languages
             {maxBonusLanguages > 0 && (
-              <Typography variant="helper">
+              <Typography variant="helper" className="ml-2">
                 ({bonusLanguages.length}/{maxBonusLanguages} used)
               </Typography>
             )}
-          </div>
+          </Typography>
 
           {bonusLanguages.length === 0 && maxBonusLanguages > 0 && (
             <Typography variant="body" color="secondary" className="mb-4">
@@ -207,17 +209,19 @@ function LanguageSelector({
 
       {maxBonusLanguages === 0 && (
         <Card variant="info">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
+          <Typography
+            variant="baseSectionHeading"
+            className={`${LAYOUT_STYLES.iconText} mb-2`}
+            color="amber"
+          >
             <Icon
               name="exclamation-triangle"
-              size="md"
+              size="sm"
               className="text-amber-400"
               aria-hidden={true}
             />
-            <Typography variant="baseSectionHeading" color="amber">
-              No Bonus Languages Available
-            </Typography>
-          </div>
+            No Bonus Languages Available
+          </Typography>
           <Typography variant="helper" color="amber">
             Your Intelligence score ({character.abilities.intelligence.value})
             does not provide any bonus languages. You need Intelligence 13+ to
@@ -229,12 +233,14 @@ function LanguageSelector({
       {/* Common bonus languages suggestion */}
       {maxBonusLanguages > 0 && (
         <Card variant="info">
-          <div className={`${LAYOUT_STYLES.iconTextLarge} mb-2`}>
-            <Icon name="info" size="md" className="text-amber-400" />
-            <Typography variant="baseSectionHeading" color="amber">
-              Common Languages to Consider
-            </Typography>
-          </div>
+          <Typography
+            variant="baseSectionHeading"
+            className={`${LAYOUT_STYLES.iconText} mb-2`}
+            color="amber"
+          >
+            <Icon name="info" size="sm" className="text-amber-400" />
+            Common Languages to Consider
+          </Typography>
           <Typography variant="helper" color="amber">
             Elvish, Dwarvish, Halfling, Gnomish, Orcish, Goblin, Kobold, Gnoll,
             Draconic, Giant, Alignment tongues (Lawful, Chaotic), or other

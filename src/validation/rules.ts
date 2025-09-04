@@ -89,7 +89,7 @@ export const Rules = {
   validRace: (availableRaces: Race[]): ValidationRule<string> =>
     createRule(
       'validRace',
-      (value) => value === '' || availableRaces.some(r => r.id === value),
+      (value) => value === '' || value === 'custom' || availableRaces.some(r => r.id === value),
       'Selected race is not available'
     ),
   
@@ -100,7 +100,7 @@ export const Rules = {
       (classes) => Array.isArray(classes) && 
                    classes.every(classId => 
                      typeof classId === 'string' && 
-                     availableClasses.some(c => c.id === classId)
+                     (classId.startsWith('custom-') || availableClasses.some(c => c.id === classId))
                    ),
       'One or more selected classes are not available'
     ),

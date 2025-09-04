@@ -105,6 +105,19 @@ function validateRaceStep(character: Character, availableRaces: Race[]): Validat
     return baseResult;
   }
 
+  // Handle custom races
+  if (character.race === 'custom') {
+    // Custom races have no ability requirements
+    if (!character.customRace?.name || character.customRace.name.trim().length === 0) {
+      return {
+        isValid: false,
+        errors: ['Please enter a name for your custom race'],
+        warnings: [],
+      };
+    }
+    return { isValid: true, errors: [], warnings: [] };
+  }
+
   const selectedRace = availableRaces.find(r => r.id === character.race);
   if (!selectedRace) {
     return {
@@ -150,18 +163,32 @@ function validateClassStep(
     };
   }
 
-  const selectedRace = availableRaces.find(r => r.id === character.race);
-  if (!selectedRace) {
-    return {
-      isValid: false,
-      errors: ['Selected race is not available'],
-      warnings,
-    };
-  }
+  // Handle custom races - they have no class restrictions
+  if (character.race === 'custom') {
+    // Custom races can use any class, no validation needed for race restrictions
+    // Still need to validate that custom classes have names if they exist
+    for (const classId of character.class) {
+      if (classId.startsWith('custom-') && character.customClasses) {
+        const customClass = character.customClasses[classId];
+        if (!customClass?.name || customClass.name.trim().length === 0) {
+          errors.push('Please enter a name for your custom class');
+        }
+      }
+    }
+  } else {
+    const selectedRace = availableRaces.find(r => r.id === character.race);
+    if (!selectedRace) {
+      return {
+        isValid: false,
+        errors: ['Selected race is not available'],
+        warnings,
+      };
+    }
 
-  const classesStillValid = isCurrentClassStillValid(character, selectedRace, availableClasses);
-  if (!classesStillValid) {
-    errors.push(`Selected classes are not allowed for ${selectedRace.name}`);
+    const classesStillValid = isCurrentClassStillValid(character, selectedRace, availableClasses);
+    if (!classesStillValid) {
+      errors.push(`Selected classes are not allowed for ${selectedRace.name}`);
+    }
   }
 
   const hasRequiredSpells = hasRequiredStartingSpells(character, availableClasses);
@@ -174,8 +201,14 @@ function validateClassStep(
     }
   }
 
+  // For custom races, we don't use classesStillValid check
+  const isValidClass = character.race === 'custom' ? true : 
+                      availableRaces.find(r => r.id === character.race) ? 
+                      isCurrentClassStillValid(character, availableRaces.find(r => r.id === character.race)!, availableClasses) :
+                      false;
+
   return {
-    isValid: classesStillValid && hasRequiredSpells,
+    isValid: errors.length === 0 && isValidClass && hasRequiredSpells,
     errors,
     warnings,
   };

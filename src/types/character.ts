@@ -115,6 +115,17 @@ export interface Character {
       costReduction?: number; // 25% at 9th level
     };
   };
+  // Custom race and class support
+  customRace?: {
+    name: string;
+  };
+  customClasses?: {
+    [classId: string]: {
+      name: string;
+      usesSpells?: boolean;
+      hitDie?: string; // e.g., "1d6", "1d8", etc.
+    };
+  };
 }
 
 export interface RaceRequirement {

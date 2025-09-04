@@ -50,12 +50,19 @@ function ClassStepComponent({
 
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = useMemo(() => {
+    // Custom races have no class restrictions
+    if (character.race === "custom") {
+      return allClasses.filter(
+        (cls) => includeSupplementalClass || !cls.supplementalContent
+      );
+    }
+    
     return allClasses.filter(
       (cls) =>
         selectedRace?.allowedClasses.includes(cls.id) &&
         (includeSupplementalClass || !cls.supplementalContent)
     );
-  }, [selectedRace, includeSupplementalClass]);
+  }, [selectedRace, includeSupplementalClass, character.race]);
 
   // Valid combination classes for elves and dokkalfar
   const validCombinations = useMemo(() => {
@@ -67,10 +74,14 @@ function ClassStepComponent({
 
   // Check if the character's race can use combination classes
   const canUseCombinationClasses = useMemo(() => {
+    // Custom races can use combination classes
+    if (character.race === "custom") {
+      return true;
+    }
     return (
       selectedRace && ["elf", "dokkalfar", "half-elf"].includes(selectedRace.id)
     );
-  }, [selectedRace]);
+  }, [selectedRace, character.race]);
 
   const handleSingleClassChange = (classId: string) => {
     const newCharacter = {
@@ -117,9 +128,18 @@ function ClassStepComponent({
     const getEffectiveSpellcastingClass = (): string | null => {
       // Check if any of the character's classes can cast spells
       for (const classId of character.class) {
-        const classData = availableClasses.find((cls) => cls.id === classId);
-        if (classData && hasSpellcasting(classData)) {
-          return classId;
+        // Check if it's a custom class that uses spells
+        if (character.customClasses && character.customClasses[classId]) {
+          const customClass = character.customClasses[classId];
+          if (customClass.usesSpells) {
+            // Return a default spellcasting class for custom classes (magic-user)
+            return "magic-user";
+          }
+        } else {
+          const classData = availableClasses.find((cls) => cls.id === classId);
+          if (classData && hasSpellcasting(classData)) {
+            return classId;
+          }
         }
       }
       return null;
@@ -176,6 +196,11 @@ function ClassStepComponent({
 
     // Check if any class can cast spells
     const hasSpellcaster = newCharacter.class.some((classId) => {
+      // Check if it's a custom class that uses spells
+      if (newCharacter.customClasses && newCharacter.customClasses[classId]) {
+        return newCharacter.customClasses[classId].usesSpells;
+      }
+      
       const classData = availableClasses.find((cls) => cls.id === classId);
       return classData && hasSpellcasting(classData);
     });
@@ -187,10 +212,18 @@ function ClassStepComponent({
     // Get relevant ability bonus
     let abilityBonus = 0;
 
-    const hasArcane = newCharacter.class.some((classId) =>
+    // Check for custom classes first - default to arcane (Intelligence)
+    const hasCustomSpellcaster = newCharacter.class.some((classId) => {
+      if (newCharacter.customClasses && newCharacter.customClasses[classId]) {
+        return newCharacter.customClasses[classId].usesSpells;
+      }
+      return false;
+    });
+
+    const hasArcane = hasCustomSpellcaster || newCharacter.class.some((classId) =>
       ARCANE_CLASSES.includes(classId as ArcaneClass)
     );
-    const hasDivine = newCharacter.class.some((classId) =>
+    const hasDivine = !hasCustomSpellcaster && newCharacter.class.some((classId) =>
       DIVINE_CLASSES.includes(classId as DivineClass)
     );
 
@@ -246,7 +279,10 @@ function ClassStepComponent({
 
   // Get current class display name
 
-  if (!selectedRace) {
+  // Check if we have a race selected (either standard or custom)
+  const hasRaceSelected = character.race && character.race.length > 0;
+
+  if (!hasRaceSelected) {
     return (
       <StepWrapper
         title="Choose Your Class"
@@ -289,7 +325,7 @@ function ClassStepComponent({
                 <div className="border-t border-zinc-600 pt-6">
                   <OptionToggle
                     title="Combination Classes"
-                    description={`As an ${selectedRace.name}, you can choose a combination class that combines the abilities of two base classes.`}
+                    description={`As ${character.race === "custom" ? "a custom race" : `an ${selectedRace?.name}`}, you can choose a combination class that combines the abilities of two base classes.`}
                     switchLabel="Use Combination Class"
                     checked={useCombinationClass}
                     onCheckedChange={handleCombinationToggle}
@@ -308,6 +344,7 @@ function ClassStepComponent({
             character={character}
             availableClasses={availableClasses}
             onClassChange={handleSingleClassChange}
+            onCharacterChange={onCharacterChange}
           />
 
           {showSpellSelection && (

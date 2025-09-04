@@ -51,6 +51,7 @@ function StepWrapperComponent({
           role="status"
           aria-live="polite"
           aria-label="Step completion status"
+          className="sr-only"
         >
           <Typography variant="helper">{statusMessage}</Typography>
         </div>

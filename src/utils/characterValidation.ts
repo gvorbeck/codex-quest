@@ -84,12 +84,12 @@ export function isCurrentClassStillValid(
 
   // Check if all classes are allowed by the race
   const allClassesAllowed = character.class.every((classId) =>
-    selectedRace.allowedClasses.includes(classId)
+    classId.startsWith('custom-') || selectedRace.allowedClasses.includes(classId)
   );
 
   // Check if all classes exist in available classes (for supplemental content filtering)
   const allClassesExist = character.class.every((classId) =>
-    availableClasses.some((cls) => cls.id === classId)
+    classId.startsWith('custom-') || availableClasses.some((cls) => cls.id === classId)
   );
 
   return allClassesAllowed && allClassesExist;
@@ -144,6 +144,19 @@ export function hasRequiredStartingSpells(
 
   // Check each class the character has
   for (const classId of character.class) {
+    // Handle custom classes
+    if (classId.startsWith('custom-') && character.customClasses) {
+      const customClass = character.customClasses[classId];
+      if (!customClass?.usesSpells) continue;
+      
+      // Custom spellcasting classes need at least one spell selected
+      const spells = character.spells || [];
+      if (spells.length < 1) {
+        return false;
+      }
+      continue;
+    }
+    
     const charClass = availableClasses.find((cls) => cls.id === classId);
     if (!charClass || !charClass.spellcasting) continue;
 
