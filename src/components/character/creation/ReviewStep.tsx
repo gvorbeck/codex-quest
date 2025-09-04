@@ -25,19 +25,31 @@ function ReviewStepComponent({
   // Look up display names for race and classes
   const raceDisplayName = useMemo(() => {
     if (!character.race) return "None selected";
+    
+    // Handle custom races
+    if (character.race === "custom") {
+      return character.customRace?.name || "Custom Race";
+    }
+    
     const race = allRaces.find((r) => r.id === character.race);
     return race?.name || character.race;
-  }, [character.race]);
+  }, [character.race, character.customRace]);
 
   const classDisplayNames = useMemo(() => {
     if (character.class.length === 0) return "None selected";
     return character.class
       .map((classId) => {
+        // Handle custom classes
+        if (classId.startsWith('custom-') && character.customClasses) {
+          const customClass = character.customClasses[classId];
+          return customClass?.name || "Custom Class";
+        }
+        
         const classData = allClasses.find((c) => c.id === classId);
         return classData?.name || classId;
       })
       .join("/");
-  }, [character.class]);
+  }, [character.class, character.customClasses]);
 
   const handleNameChange = useCallback(
     (name: string) => {

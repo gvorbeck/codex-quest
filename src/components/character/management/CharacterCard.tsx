@@ -24,9 +24,15 @@ export function CharacterCard({
   // Memoized race name lookup for performance
   const raceName = useMemo(() => {
     if (!character.race) return null;
+    
+    // Handle custom races
+    if (character.race === "custom") {
+      return character.customRace?.name || "Custom Race";
+    }
+    
     const race = allRaces.find((r) => r.id === character.race);
     return race?.name || character.race;
-  }, [character.race]);
+  }, [character.race, character.customRace]);
 
   // Memoized class names lookup for performance
   const classNames = useMemo(() => {
@@ -35,10 +41,16 @@ export function CharacterCard({
       ? character.class
       : [character.class];
     return classes.map((classId) => {
+      // Handle custom classes
+      if (classId.startsWith('custom-') && character.customClasses) {
+        const customClass = character.customClasses[classId];
+        return { id: classId, name: customClass?.name || "Custom Class" };
+      }
+      
       const classData = allClasses.find((cls) => cls.id === classId);
       return { id: classId, name: classData?.name || classId };
     });
-  }, [character.class]);
+  }, [character.class, character.customClasses]);
 
   const href = `/u/${user?.uid}/c/${character.id}`;
 

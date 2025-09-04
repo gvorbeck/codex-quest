@@ -9,6 +9,8 @@ import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import { cn } from "@/constants/styles";
+import { allRaces } from "@/data/races";
+import { allClasses } from "@/data/classes";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -34,6 +36,33 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(character.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
+    
+    // Helper function to get display name for race
+    const getRaceDisplayName = (): string => {
+      if (character.race === "custom") {
+        return character.customRace?.name || "Custom";
+      }
+      const race = allRaces.find((r) => r.id === character.race);
+      return race?.name || character.race || "Unknown";
+    };
+
+    // Helper function to get display names for classes
+    const getClassDisplayNames = (): string => {
+      if (!character.class || character.class.length === 0) return "Unknown";
+      
+      const classNames = character.class.map((classId) => {
+        // Handle custom classes
+        if (classId.startsWith('custom-') && character.customClasses) {
+          const customClass = character.customClasses[classId];
+          return customClass?.name || "Custom Class";
+        }
+        
+        const classData = allClasses.find((cls) => cls.id === classId);
+        return classData?.name || classId;
+      });
+      
+      return classNames.join(" / ");
+    };
     const sizeStyles = {
       sm: {
         container: "p-4",
@@ -314,18 +343,16 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                     {
                       label: "Race",
                       children: (
-                        <span className="capitalize text-zinc-100 font-medium">
-                          {character.race}
+                        <span className="text-zinc-100 font-medium">
+                          {getRaceDisplayName()}
                         </span>
                       ),
                     },
                     {
                       label: "Class",
                       children: (
-                        <span className="capitalize text-zinc-100 font-medium">
-                          {Array.isArray(character.class)
-                            ? character.class.join(" / ")
-                            : character.class}
+                        <span className="text-zinc-100 font-medium">
+                          {getClassDisplayNames()}
                         </span>
                       ),
                     },

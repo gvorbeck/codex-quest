@@ -24,6 +24,17 @@ export interface CharacterListItem {
   level?: number;
   hp?: { current?: number; max?: number } | number;
   xp?: number;
+  // Custom race and class support
+  customRace?: {
+    name: string;
+  };
+  customClasses?: {
+    [classId: string]: {
+      name: string;
+      usesSpells?: boolean;
+      hitDie?: string;
+    };
+  };
   // Allow for additional properties that might exist
   [key: string]: unknown;
 }
