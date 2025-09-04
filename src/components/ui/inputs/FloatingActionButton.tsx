@@ -309,10 +309,13 @@ const FABGroup: React.FC<FABGroupProps> = ({
   // Determine if we're using vertical or horizontal layout
   const isVertical = expandDirection === "up" || expandDirection === "down";
 
+  // Determine alignment based on expand direction
+  const containerAlignment = isVertical ? "items-end" : "items-center";
+
   return (
     <div
       ref={containerRef}
-      className={`${positionStyles[position]} flex ${directionStyles[expandDirection]} items-center gap-4 z-50 ${className}`}
+      className={`${positionStyles[position]} flex ${directionStyles[expandDirection]} ${containerAlignment} gap-4 z-50 ${className}`}
       role="group"
       aria-label="Floating action menu"
       data-testid={testId}
