@@ -156,7 +156,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
             </div>
 
             {/* Game Info */}
-            <div className="flex-1 min-w-0 text-center sm:text-left">
+            <div className="flex-1 min-w-0 text-center">
               {isEditingName ? (
                 <div className="space-y-2" onKeyDown={handleNameKeyDown}>
                   <TextInput
@@ -175,7 +175,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                 </div>
               ) : (
                 <div
-                  className={`group flex items-center justify-center sm:justify-start gap-2 pr-8 sm:pr-12 ${
+                  className={`group relative flex items-center justify-center gap-2 ${
                     editable && onGameChange ? "cursor-pointer" : ""
                   }`}
                 >
@@ -214,7 +214,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
 
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onGameChange && (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                       <Icon
                         name="edit"
                         size="md"
