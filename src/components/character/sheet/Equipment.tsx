@@ -369,10 +369,10 @@ export default function Equipment({
   return (
     <SectionWrapper
       title={
-        <div className="flex gap-2 items-center justify-between w-full">
+        <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between w-full">
           <span>Equipment</span>
           {editable && (
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 sm:ml-auto">
               <Button
                 onClick={toggleSelector}
                 variant="secondary"

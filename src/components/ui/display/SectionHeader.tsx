@@ -32,9 +32,9 @@ export default function SectionHeader({
     <div className={headerClasses}>
       {title && (
         <div
-          className={`font-bold ${DESIGN_TOKENS.colors.text.primary} flex items-center gap-2`}
+          className={`font-bold ${DESIGN_TOKENS.colors.text.primary} flex items-start gap-2`}
         >
-          <div className="w-2 h-2 bg-amber-400 rounded-full shadow-sm"></div>
+          <div className="w-2 h-2 bg-amber-400 rounded-full shadow-sm mt-1.5"></div>
           {title}
         </div>
       )}

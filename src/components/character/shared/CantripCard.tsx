@@ -21,13 +21,13 @@ export default function CantripCard({
 }: CantripCardProps) {
   return (
     <Card 
-      className={`p-4 ${className}`}
+      className={className}
       variant="standard"
       role="article"
       aria-labelledby={`cantrip-${cantrip.name.replace(/\s+/g, '-').toLowerCase()}-title`}
     >
       <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-3 min-w-0">
           <div className="flex items-center gap-3">
             <Icon
               name="lightning"
@@ -62,7 +62,7 @@ export default function CantripCard({
             size="sm"
             variant="ghost"
             onClick={() => onRemove(cantrip.name)}
-            className="text-zinc-400 hover:text-red-400"
+            className="text-zinc-400 hover:text-red-400 flex-shrink-0"
             aria-label={`Remove ${cantrip.name} ${spellTypeInfo.singular}`}
           >
             <Icon name="trash" size="sm" aria-hidden={true} />

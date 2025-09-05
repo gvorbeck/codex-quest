@@ -1,12 +1,7 @@
 import { useLocation } from "wouter";
 import { Card, Typography } from "@/components/ui";
 import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
-import {
-  Icon,
-  TextHeader,
-  List,
-  FeatureListItem,
-} from "@/components/ui/display";
+import { Icon, TextHeader } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
   Tabs,
@@ -29,11 +24,11 @@ function Home() {
 
   return (
     <PageWrapper>
-      <section className="space-y-8">
+      <section className="space-y-6 sm:space-y-8 px-2 sm:px-6 lg:px-8">
         {/* Show character list for authenticated users */}
         {user && (
-          <Card variant="standard">
-            <Tabs defaultValue="characters" variant="underline">
+          <Card variant="standard" size="compact" className="sm:p-6">
+            <Tabs defaultValue="characters" variant="underline" size="sm">
               <TabList aria-label="Main navigation">
                 <Tab value="characters">Characters</Tab>
                 <Tab value="games">Games</Tab>
@@ -53,35 +48,141 @@ function Home() {
         {/* Welcome content - only show if user has no characters or not authenticated */}
         {showWelcomeContent && (
           <>
-            <header className="text-center space-y-4">
-              <Typography variant="h2">Welcome to Codex.Quest</Typography>
-              <Typography variant="body" color="secondary" className="text-lg">
-                Create your perfect Basic Fantasy RPG character with our
-                comprehensive character generator. Roll ability scores, choose
-                from various races and classes, and equip your adventurer for
-                their next quest.
-              </Typography>
-            </header>
+            {/* Hero Section with Atmospheric Background */}
+            <div className="relative">
+              {/* Background gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 rounded-3xl opacity-60"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-highlight-900/20 via-transparent to-transparent rounded-3xl"></div>
 
-            <Card variant="standard">
-              <TextHeader variant="h4" size="md">
-                Features
-              </TextHeader>
-              <List variant="feature" spacing="normal">
-                <FeatureListItem>
-                  Interactive dice rolling for ability scores
-                </FeatureListItem>
-                <FeatureListItem>
-                  Comprehensive race selection with special abilities
-                </FeatureListItem>
-                <FeatureListItem>
-                  Multiple character classes and combination classes
-                </FeatureListItem>
-                <FeatureListItem>Equipment and gear selection</FeatureListItem>
-                <FeatureListItem>
-                  Character validation and requirements checking
-                </FeatureListItem>
-              </List>
+              {/* Decorative elements */}
+              <div className="absolute top-8 left-8 w-32 h-32 bg-highlight-400/10 rounded-full blur-2xl"></div>
+              <div className="absolute bottom-8 right-8 w-40 h-40 bg-highlight-500/5 rounded-full blur-3xl"></div>
+
+              {/* Content */}
+              <header className="relative text-center space-y-8 px-8">
+                <div className="flex justify-center mb-6">
+                  <img
+                    src="/logo.webp"
+                    alt="Codex.Quest Logo"
+                    className="w-40 h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56"
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <Typography
+                    variant="h1"
+                    className="text-4xl lg:text-5xl xl:text-6xl font-title text-text-primary drop-shadow-lg"
+                  >
+                    Welcome to Codex.Quest
+                  </Typography>
+                  <div className="w-32 h-1 bg-gradient-to-r from-transparent via-highlight-400 to-transparent mx-auto"></div>
+                </div>
+
+                <Typography
+                  variant="body"
+                  color="secondary"
+                  className="text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed text-text-secondary"
+                >
+                  Forge your legendary hero with our comprehensive character
+                  generator for Basic Fantasy RPG. Roll ability scores, choose
+                  from diverse races and classes, and equip your adventurer for
+                  epic quests ahead.
+                </Typography>
+              </header>
+            </div>
+
+            {/* Features Section with Enhanced Styling */}
+            <Card
+              variant="standard"
+              className="bg-gradient-to-br from-background-secondary to-background-tertiary border-border/50"
+            >
+              <div className="relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-highlight-400/50 to-transparent"></div>
+
+                <div className="pt-4">
+                  <TextHeader
+                    variant="h3"
+                    size="lg"
+                    className="text-center mb-8 text-text-primary"
+                  >
+                    Forge Your Legend
+                  </TextHeader>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4 p-4 rounded-xl bg-primary-800/30 border border-border/30">
+                        <Icon
+                          name="dice"
+                          size="lg"
+                          className="text-highlight-400 mt-1 flex-shrink-0"
+                        />
+                        <div>
+                          <h4 className="font-semibold text-text-primary mb-2">
+                            Interactive Dice Rolling
+                          </h4>
+                          <p className="text-text-secondary text-sm">
+                            Experience the thrill of rolling ability scores with
+                            animated dice and multiple generation methods.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4 p-4 rounded-xl bg-primary-800/30 border border-border/30">
+                        <Icon
+                          name="user"
+                          size="lg"
+                          className="text-highlight-400 mt-1 flex-shrink-0"
+                        />
+                        <div>
+                          <h4 className="font-semibold text-text-primary mb-2">
+                            Rich Race & Class Options
+                          </h4>
+                          <p className="text-text-secondary text-sm">
+                            Choose from diverse races and classes, each with
+                            unique abilities and progression paths.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4 p-4 rounded-xl bg-primary-800/30 border border-border/30">
+                        <Icon
+                          name="sword"
+                          size="lg"
+                          className="text-highlight-400 mt-1 flex-shrink-0"
+                        />
+                        <div>
+                          <h4 className="font-semibold text-text-primary mb-2">
+                            Complete Equipment System
+                          </h4>
+                          <p className="text-text-secondary text-sm">
+                            Outfit your hero with weapons, armor, and gear with
+                            detailed stats and weight tracking.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4 p-4 rounded-xl bg-primary-800/30 border border-border/30">
+                        <Icon
+                          name="check-circle"
+                          size="lg"
+                          className="text-highlight-400 mt-1 flex-shrink-0"
+                        />
+                        <div>
+                          <h4 className="font-semibold text-text-primary mb-2">
+                            Smart Validation
+                          </h4>
+                          <p className="text-text-secondary text-sm">
+                            Automatic requirement checking ensures your
+                            character follows all BFRPG rules and restrictions.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Card>
           </>
         )}

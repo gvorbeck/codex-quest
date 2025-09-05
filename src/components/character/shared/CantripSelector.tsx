@@ -182,25 +182,56 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
 
       return (
         <section className={getSectionClassName()} ref={ref}>
-          <TextHeader variant="h4" size="md">
-            {title}
-          </TextHeader>
+          {props.mode === "creation" && (
+            <>
+              <TextHeader variant="h4" size="md">
+                {title}
+              </TextHeader>
 
-          {description && (
-            <div className="mb-6">
-              <SafeHTML
-                content={description}
-                variant="caption"
-                className="text-sm text-zinc-400"
-              />
-            </div>
+              {description && (
+                <div className="mb-6">
+                  <SafeHTML
+                    content={description}
+                    variant="caption"
+                    className="text-sm text-zinc-400"
+                  />
+                </div>
+              )}
+            </>
           )}
 
-          <Card variant="standard" className="p-4">
-            <Typography variant="body" className="text-zinc-400 text-center">
-              {emptyMessage}
-            </Typography>
-          </Card>
+          <div className="space-y-4">
+            <SectionHeader
+              spellTypeInfo={spellTypeInfo}
+              title={
+                props.mode === "creation"
+                  ? `Your Starting ${spellTypeInfo.capitalized}`
+                  : title
+              }
+              knownCantripsCount={knownCantrips.length}
+              availableToAddCount={cantripOptions.length}
+              isOwner={true} // Always true in this context
+              onEditClick={openModal}
+            />
+
+            <Card variant="standard" className="p-4">
+              <Typography variant="body" className="text-zinc-400 text-center">
+                {emptyMessage}
+              </Typography>
+            </Card>
+
+            <CantripModal
+              isOpen={showModal}
+              onClose={handleCloseModal}
+              onAdd={handleAddCantrip}
+              availableCantrips={availableCantrips}
+              selectedCantripName={selectedCantripName}
+              onSelectionChange={setSelectedCantripName}
+              spellTypeInfo={spellTypeInfo}
+              mode={props.mode}
+              cantripOptions={cantripOptions}
+            />
+          </div>
         </section>
       );
     }
@@ -208,18 +239,22 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
     // Render with cantrips
     return (
       <section className={getSectionClassName()} ref={ref}>
-        <Typography variant="sectionHeading" as="h4" className="mb-3">
-          {title}
-        </Typography>
+        {props.mode === "creation" && (
+          <>
+            <Typography variant="sectionHeading" as="h4" className="mb-3">
+              {title}
+            </Typography>
 
-        {description && (
-          <div className="mb-6">
-            <SafeHTML
-              content={description}
-              variant="caption"
-              className="text-sm text-zinc-400"
-            />
-          </div>
+            {description && (
+              <div className="mb-6">
+                <SafeHTML
+                  content={description}
+                  variant="caption"
+                  className="text-sm text-zinc-400"
+                />
+              </div>
+            )}
+          </>
         )}
 
         <div className="space-y-4">

@@ -157,7 +157,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
         <Typography variant="sectionHeading">Roll Hit Points</Typography>
 
         <Card variant="standard">
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
+          <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-end">
             <div className="flex-grow">
               <SimpleRoller
                 formula={`${hitDie}${

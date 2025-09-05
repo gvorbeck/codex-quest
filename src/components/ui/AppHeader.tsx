@@ -46,7 +46,7 @@ export function AppHeader({
           aria-label="Main navigation"
           className="max-w-4xl mx-auto"
         >
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-20 mx-1">
             {/* Logo & Brand */}
             <div className="flex items-center gap-3 flex-shrink-0">
               <Link

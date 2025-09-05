@@ -19,7 +19,7 @@ export function OptionToggle({
   className = "",
 }: OptionToggleProps) {
   return (
-    <div className={`flex items-center justify-between ${className}`}>
+    <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${className}`}>
       <div>
         <Typography variant="baseSectionHeading" color="zinc">
           {title}

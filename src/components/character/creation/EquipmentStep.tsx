@@ -6,7 +6,10 @@ import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
 import type { Equipment, BaseStepProps } from "@/types/character";
 import { convertToGold, updateCharacterGold } from "@/utils/currency";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
+import {
+  cleanEquipmentArray,
+  ensureEquipmentAmount,
+} from "@/utils/characterCalculations";
 import { EquipmentSelector } from "../management";
 
 type EquipmentStepProps = BaseStepProps;
@@ -270,77 +273,75 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
           </Card>
         ) : (
           <Card variant="success" className="p-0">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Icon name="clipboard" size="md" className="text-lime-400" />
-                <Typography
-                  variant="h5"
-                  color="zinc"
-                  weight="semibold"
-                  className="m-0"
-                >
-                  Equipment Inventory
-                </Typography>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                {cleanEquipmentArray(character.equipment).map((item, index) => (
-                  <Card key={`${item.name}-${index}`} variant="success">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="font-medium text-lime-100">
-                            {item.name}
-                          </span>
-                          {item.amount > 1 && (
-                            <Badge variant="status">× {item.amount}</Badge>
-                          )}
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
-                          {item.weight > 0 && (
-                            <span>
-                              {Math.round(item.weight * item.amount * 10) / 10}{" "}
-                              lbs
-                            </span>
-                          )}
-                          {item.costValue > 0 && (
-                            <span>
-                              {item.costValue * item.amount} {item.costCurrency}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleEquipmentRemove(item.name)}
-                        className="self-start sm:self-center"
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-
-              {/* Equipment Summary */}
-              <StatGrid
-                stats={[
-                  {
-                    label: "Total Weight",
-                    value: `${totalWeight} lbs`,
-                    icon: <Icon name="weight" size="sm" aria-hidden={true} />,
-                  },
-                  {
-                    label: "Total Value",
-                    value: `${totalValue} gp`,
-                    icon: <Icon name="coin" size="sm" aria-hidden={true} />,
-                  },
-                ]}
-                variant="equipment"
-                columns={{ base: 1, sm: 2 }}
-              />
+            <div className="flex items-center gap-3 mb-4">
+              <Icon name="clipboard" size="md" className="text-lime-400" />
+              <Typography
+                variant="h5"
+                color="zinc"
+                weight="semibold"
+                className="m-0"
+              >
+                Equipment Inventory
+              </Typography>
             </div>
+
+            <div className="space-y-3 mb-6">
+              {cleanEquipmentArray(character.equipment).map((item, index) => (
+                <Card key={`${item.name}-${index}`} variant="success">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium text-lime-100">
+                          {item.name}
+                        </span>
+                        {item.amount > 1 && (
+                          <Badge variant="status">× {item.amount}</Badge>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
+                        {item.weight > 0 && (
+                          <span>
+                            {Math.round(item.weight * item.amount * 10) / 10}{" "}
+                            lbs
+                          </span>
+                        )}
+                        {item.costValue > 0 && (
+                          <span>
+                            {item.costValue * item.amount} {item.costCurrency}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleEquipmentRemove(item.name)}
+                      className="self-start sm:self-center"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Equipment Summary */}
+            <StatGrid
+              stats={[
+                {
+                  label: "Total Weight",
+                  value: `${totalWeight} lbs`,
+                  icon: <Icon name="weight" size="sm" aria-hidden={true} />,
+                },
+                {
+                  label: "Total Value",
+                  value: `${totalValue} gp`,
+                  icon: <Icon name="coin" size="sm" aria-hidden={true} />,
+                },
+              ]}
+              variant="equipment"
+              columns={{ base: 1, sm: 2 }}
+            />
           </Card>
         )}
       </section>

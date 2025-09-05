@@ -37,8 +37,8 @@ export function ItemGrid<T extends { id: string }>({
 }: ItemGridProps<T>) {
   if (loading) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
           <Typography variant="h4" className="flex items-center gap-2">
             <Icon name={header.icon} size="md" className="text-amber-400" />
             {header.title}
@@ -51,7 +51,7 @@ export function ItemGrid<T extends { id: string }>({
           </div>
         </div>
         
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* Show 6 skeleton cards while loading */}
           {Array.from({ length: 6 }).map((_, index) => (
             <SkeletonCard 
@@ -111,13 +111,13 @@ export function ItemGrid<T extends { id: string }>({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
         <Typography variant="h4" className="flex items-center gap-2">
           <Icon name={header.icon} size="md" className="text-amber-400" />
           {header.title}
         </Typography>
-        <Typography variant="helper" color="secondary">
+        <Typography variant="helper" color="secondary" className="sm:text-right">
           {(() => {
             const title = header.title.toLowerCase();
             if (title.startsWith('your ')) {
@@ -130,7 +130,7 @@ export function ItemGrid<T extends { id: string }>({
         </Typography>
       </div>
       
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map(renderItem)}
       </div>
     </div>

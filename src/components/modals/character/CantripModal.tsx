@@ -50,15 +50,17 @@ export default function CantripModal({
 
   const modalTitle = mode === "creation" 
     ? `Change ${spellTypeInfo.capitalized} Selection`
-    : `Add ${spellTypeInfo.capitalizedSingular}`;
+    : `Add ${spellTypeInfo.capitalized}`;
 
   const instructionText = mode === "creation"
     ? `Replace one of your starting ${spellTypeInfo.type} with another option.`
-    : `Choose a ${spellTypeInfo.singular} to add to your character.`;
+    : `Choose ${spellTypeInfo.type} to add to your character. You can add multiple - the modal will stay open.`;
 
   const handleAdd = () => {
     if (selectedCantripName) {
       onAdd(selectedCantripName);
+      // Don't close modal, just reset selection to allow adding more
+      onSelectionChange("");
     }
   };
 

@@ -43,7 +43,7 @@ export const DESIGN_TOKENS = {
 
 export const SIZE_STYLES = {
   sm: {
-    container: "p-4",
+    container: "p-2",
     header: "px-4 py-3",
     abilityContainer: "p-3",
     abilityName: "text-xs font-semibold tracking-wide uppercase mb-2",

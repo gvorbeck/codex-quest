@@ -24,12 +24,12 @@ export function CharacterCard({
   // Memoized race name lookup for performance
   const raceName = useMemo(() => {
     if (!character.race) return null;
-    
+
     // Handle custom races
     if (character.race === "custom") {
       return character.customRace?.name || "Custom Race";
     }
-    
+
     const race = allRaces.find((r) => r.id === character.race);
     return race?.name || character.race;
   }, [character.race, character.customRace]);
@@ -42,11 +42,11 @@ export function CharacterCard({
       : [character.class];
     return classes.map((classId) => {
       // Handle custom classes
-      if (classId.startsWith('custom-') && character.customClasses) {
+      if (classId.startsWith("custom-") && character.customClasses) {
         const customClass = character.customClasses[classId];
         return { id: classId, name: customClass?.name || "Custom Class" };
       }
-      
+
       const classData = allClasses.find((cls) => cls.id === classId);
       return { id: classId, name: classData?.name || classId };
     });
@@ -82,14 +82,14 @@ export function CharacterCard({
         <div className="flex-1 min-w-0">
           <Typography
             variant="h4"
-            className="text-zinc-100 group-hover:text-amber-300 transition-colors duration-300 truncate font-bold tracking-wide"
+            className="text-zinc-100 group-hover:text-amber-300 transition-colors duration-300 truncate font-bold tracking-wide text-lg sm:text-xl"
           >
             {character.name}
           </Typography>
           {character.level && (
             <Typography
               variant="caption"
-              className="text-amber-400 font-medium mt-1"
+              className="text-amber-400 font-medium mt-1 text-sm"
             >
               Level {character.level}
             </Typography>
@@ -99,9 +99,9 @@ export function CharacterCard({
 
       {/* Character Race/Class Info */}
       {raceName && classNames.length > 0 && (
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-amber-500" />
+        <div className="space-y-2 sm:space-y-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
             <Typography
               variant="helper"
               className="text-zinc-400 uppercase tracking-wider font-medium text-xs"
@@ -109,40 +109,45 @@ export function CharacterCard({
               Race & Class
             </Typography>
           </div>
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="space-y-1.5 sm:space-y-0 sm:flex sm:items-center sm:gap-2 sm:flex-wrap">
             <Badge
               variant="primary"
-              size="md"
-              className="bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-900 font-semibold shadow-lg"
+              size="sm"
+              className="bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-900 font-semibold shadow-lg text-xs sm:text-sm w-fit"
             >
               {raceName}
             </Badge>
-            {classNames.map((classItem) => (
-              <Badge
-                key={classItem.id}
-                variant="secondary"
-                size="md"
-                className="bg-zinc-700 text-zinc-200 border border-zinc-600 font-medium hover:bg-zinc-600 transition-colors"
-              >
-                {classItem.name}
-              </Badge>
-            ))}
+            <div className="flex flex-wrap gap-1 sm:gap-2">
+              {classNames.map((classItem) => (
+                <Badge
+                  key={classItem.id}
+                  variant="secondary"
+                  size="sm"
+                  className="bg-zinc-700 text-zinc-200 border border-zinc-600 font-medium hover:bg-zinc-600 transition-colors text-xs sm:text-sm w-fit"
+                >
+                  {classItem.name}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {/* Character Stats/Info (if available) */}
       {(character.hp || character.xp !== undefined) && (
-        <div className="grid grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-1 sm:pt-2">
           {character.hp && (
-            <div className="text-center p-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50">
+            <div className="text-center p-2 sm:p-3 bg-zinc-800/50 rounded-lg border border-zinc-700/50 min-w-0">
               <Typography
                 variant="caption"
-                className="text-zinc-400 uppercase tracking-wide text-xs"
+                className="text-zinc-400 uppercase tracking-wide text-xs block"
               >
                 Health
               </Typography>
-              <Typography variant="body" className="text-zinc-200 font-bold">
+              <Typography
+                variant="body"
+                className="text-zinc-200 font-bold text-sm sm:text-base truncate"
+              >
                 {typeof character.hp === "object" && character.hp.max
                   ? `${character.hp.current || 0}/${character.hp.max}`
                   : String(character.hp)}
@@ -150,14 +155,17 @@ export function CharacterCard({
             </div>
           )}
           {character.xp !== undefined && (
-            <div className="text-center p-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50">
+            <div className="text-center p-2 sm:p-3 bg-zinc-800/50 rounded-lg border border-zinc-700/50 min-w-0">
               <Typography
                 variant="caption"
-                className="text-zinc-400 uppercase tracking-wide text-xs"
+                className="text-zinc-400 uppercase tracking-wide text-xs block"
               >
-                Experience
+                XP
               </Typography>
-              <Typography variant="body" className="text-zinc-200 font-bold">
+              <Typography
+                variant="body"
+                className="text-zinc-200 font-bold text-sm sm:text-base truncate"
+              >
                 {character.xp.toLocaleString()}
               </Typography>
             </div>

@@ -2,12 +2,7 @@ import { useState, useCallback } from "react";
 import { PageWrapper } from "@/components/ui/layout";
 import { Card, Typography, Button } from "@/components/ui";
 import { TextInput, TextArea, FormField } from "@/components/ui/inputs";
-import {
-  Breadcrumb,
-  TextHeader,
-  List,
-  ListItem,
-} from "@/components/ui/display";
+import { Breadcrumb } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
 import { useGameNavigation } from "@/hooks/useEntityNavigation";
 import { logger } from "@/utils/logger";
@@ -114,32 +109,6 @@ function GameGen() {
                 size="md"
               />
             </FormField>
-
-            {/* Placeholder for future features */}
-            <div className="p-4 bg-zinc-800/50 rounded-lg border border-zinc-600">
-              <TextHeader
-                variant="h4"
-                size="md"
-                underlined={false}
-                className="mb-2"
-              >
-                Coming Soon
-              </TextHeader>
-              <Typography variant="body" color="secondary" className="text-sm">
-                Additional game setup features will be added here:
-              </Typography>
-              <List
-                variant="bullet"
-                spacing="tight"
-                size="sm"
-                className="mt-2 text-primary-300"
-              >
-                <ListItem icon="•">Player management</ListItem>
-                <ListItem icon="•">Combat tracker setup</ListItem>
-                <ListItem icon="•">Initiative management</ListItem>
-                <ListItem icon="•">Campaign settings</ListItem>
-              </List>
-            </div>
           </div>
         </Card>
 
@@ -147,7 +116,7 @@ function GameGen() {
         <div className="flex justify-center gap-4 max-w-2xl mx-auto">
           <Button
             variant="ghost"
-            size="lg"
+            size="md"
             onClick={handleCancel}
             disabled={isSaving}
           >
@@ -155,7 +124,7 @@ function GameGen() {
           </Button>
           <Button
             variant="primary"
-            size="lg"
+            size="md"
             onClick={handleSave}
             disabled={!isValidGame || isSaving}
             loading={isSaving}

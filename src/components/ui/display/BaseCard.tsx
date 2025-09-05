@@ -26,7 +26,7 @@ export function BaseCard({
   children,
 }: BaseCardProps) {
   return (
-    <div className="group relative bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-2 border-zinc-700/50 rounded-xl p-6 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1">
+    <div className="group relative bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-2 border-zinc-700/50 rounded-xl p-4 sm:p-6 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1 min-w-0 w-full">
       {/* Clickable overlay for entire card */}
       <Link
         href={href}
@@ -47,11 +47,11 @@ export function BaseCard({
 
         {/* Action Area */}
         {user && (
-          <div className="flex justify-end gap-2 pt-3 border-t border-zinc-700/50">
+          <div className="flex justify-end gap-2 pt-2 sm:pt-3 border-t border-zinc-700/50">
             <Button
               variant="secondary"
               size="sm"
-              className="relative z-30 p-2 text-amber-400 bg-transparent border border-amber-600/40 shadow-none hover:text-white hover:bg-amber-600 hover:border-amber-600 hover:shadow-lg hover:shadow-amber-600/40 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-all duration-200 rounded-lg pointer-events-auto"
+              className="relative z-30 p-2 sm:p-2.5 text-amber-400 bg-transparent border border-amber-600/40 shadow-none hover:text-white hover:bg-amber-600 hover:border-amber-600 hover:shadow-lg hover:shadow-amber-600/40 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-all duration-200 rounded-lg pointer-events-auto touch-manipulation"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -66,7 +66,7 @@ export function BaseCard({
             <Button
               variant="secondary"
               size="sm"
-              className="relative z-30 p-2 text-red-400 bg-transparent border border-red-600/40 shadow-none hover:text-white hover:bg-red-600 hover:border-red-600 hover:shadow-lg hover:shadow-red-600/40 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-all duration-200 rounded-lg pointer-events-auto"
+              className="relative z-30 p-2 sm:p-2.5 text-red-400 bg-transparent border border-red-600/40 shadow-none hover:text-white hover:bg-red-600 hover:border-red-600 hover:shadow-lg hover:shadow-red-600/40 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-800 transition-all duration-200 rounded-lg pointer-events-auto touch-manipulation"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
