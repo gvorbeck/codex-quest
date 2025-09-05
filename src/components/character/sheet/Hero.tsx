@@ -65,28 +65,28 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     };
     const sizeStyles = {
       sm: {
-        container: "p-4",
-        gap: "gap-4",
-        avatar: "w-16 h-16",
-        name: "text-2xl",
+        container: "p-3 sm:p-4",
+        gap: "gap-3 sm:gap-4",
+        avatar: "w-12 h-12 sm:w-16 sm:h-16",
+        name: "text-xl sm:text-2xl",
         desc: "text-sm",
-        avatarText: "text-lg",
+        avatarText: "text-base sm:text-lg",
       },
       md: {
-        container: "p-6",
-        gap: "gap-6",
-        avatar: "w-24 h-24",
-        name: "text-3xl",
+        container: "p-4 sm:p-6",
+        gap: "gap-4 sm:gap-6",
+        avatar: "w-16 h-16 sm:w-24 sm:h-24",
+        name: "text-2xl sm:text-3xl",
         desc: "text-base",
-        avatarText: "text-2xl",
+        avatarText: "text-xl sm:text-2xl",
       },
       lg: {
-        container: "p-8",
-        gap: "gap-8",
-        avatar: "w-32 h-32",
-        name: "text-4xl",
+        container: "p-6 sm:p-8",
+        gap: "gap-6 sm:gap-8",
+        avatar: "w-20 h-20 sm:w-32 sm:h-32",
+        name: "text-3xl sm:text-4xl",
         desc: "text-lg",
-        avatarText: "text-4xl",
+        avatarText: "text-2xl sm:text-4xl",
       },
     };
 
@@ -183,7 +183,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   setIsSettingsModalOpen(true);
                 }
               }}
-              className="absolute top-4 right-6 p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80 border border-zinc-600 rounded-lg transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
+              className="absolute top-2 right-2 sm:top-4 sm:right-6 p-1.5 sm:p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80 border border-zinc-600 rounded-lg transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
               aria-label="Open character settings"
               title="Settings"
             >
@@ -196,9 +196,10 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
             </button>
           )}
 
-          <div className={`flex items-start ${currentSize.gap}`}>
+          {/* Mobile: Stack vertically, Desktop: Horizontal layout */}
+          <div className={`flex flex-col sm:flex-row sm:items-start ${currentSize.gap}`}>
             {/* Avatar with edit functionality */}
-            <div className="relative group">
+            <div className="relative group flex-shrink-0 self-center sm:self-start">
               <div className={avatarContainerClasses} aria-hidden="true">
                 {character.avatar ? (
                   <img
@@ -263,8 +264,8 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
               )}
             </div>
 
-            {/* Character Info - removed description */}
-            <div className="flex-1 min-w-0">
+            {/* Character Info */}
+            <div className="flex-1 min-w-0 text-center sm:text-left">
               {isEditingName ? (
                 <div className="space-y-2" onKeyDown={handleNameKeyDown}>
                   <TextInput
@@ -283,7 +284,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                 </div>
               ) : (
                 <div
-                  className={`group flex items-center gap-2 pr-12 ${
+                  className={`group flex items-center justify-center sm:justify-start gap-2 pr-8 sm:pr-12 ${
                     editable && onCharacterChange ? "cursor-pointer" : ""
                   }`}
                 >
@@ -335,10 +336,10 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
               )}
 
               {/* Character Details */}
-              <div className="mt-4">
+              <div className="mt-3 sm:mt-4">
                 <Details
                   layout="horizontal"
-                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg"
+                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg text-sm sm:text-base"
                   items={[
                     {
                       label: "Race",

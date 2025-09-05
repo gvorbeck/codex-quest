@@ -37,28 +37,28 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
 
     const sizeStyles = {
       sm: {
-        container: "p-4",
-        gap: "gap-4",
-        avatar: "w-16 h-16",
-        name: "text-2xl",
+        container: "p-3 sm:p-4",
+        gap: "gap-3 sm:gap-4",
+        avatar: "w-12 h-12 sm:w-16 sm:h-16",
+        name: "text-xl sm:text-2xl",
         desc: "text-sm",
-        avatarText: "text-lg",
+        avatarText: "text-base sm:text-lg",
       },
       md: {
-        container: "p-6",
-        gap: "gap-6",
-        avatar: "w-24 h-24",
-        name: "text-3xl",
+        container: "p-4 sm:p-6",
+        gap: "gap-4 sm:gap-6",
+        avatar: "w-16 h-16 sm:w-24 sm:h-24",
+        name: "text-2xl sm:text-3xl",
         desc: "text-base",
-        avatarText: "text-2xl",
+        avatarText: "text-xl sm:text-2xl",
       },
       lg: {
-        container: "p-8",
-        gap: "gap-8",
-        avatar: "w-32 h-32",
-        name: "text-4xl",
+        container: "p-6 sm:p-8",
+        gap: "gap-6 sm:gap-8",
+        avatar: "w-20 h-20 sm:w-32 sm:h-32",
+        name: "text-3xl sm:text-4xl",
         desc: "text-lg",
-        avatarText: "text-4xl",
+        avatarText: "text-2xl sm:text-4xl",
       },
     };
 
@@ -141,9 +141,10 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
           aria-labelledby="hero-game-name"
           {...props}
         >
-          <div className={`flex items-start ${currentSize.gap}`}>
+          {/* Mobile: Stack vertically, Desktop: Horizontal layout */}
+          <div className={`flex flex-col sm:flex-row sm:items-start ${currentSize.gap}`}>
             {/* Game Icon */}
-            <div className="relative group">
+            <div className="relative group flex-shrink-0 self-center sm:self-start">
               <div className={iconContainerClasses} aria-hidden="true">
                 <Icon
                   name="dice"
@@ -155,7 +156,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
             </div>
 
             {/* Game Info */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 text-center sm:text-left">
               {isEditingName ? (
                 <div className="space-y-2" onKeyDown={handleNameKeyDown}>
                   <TextInput
@@ -174,7 +175,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                 </div>
               ) : (
                 <div
-                  className={`group flex items-center gap-2 pr-12 ${
+                  className={`group flex items-center justify-center sm:justify-start gap-2 pr-8 sm:pr-12 ${
                     editable && onGameChange ? "cursor-pointer" : ""
                   }`}
                 >
@@ -231,17 +232,17 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
               (onTreasureGenerate ||
                 onCombatTrackerOpen ||
                 onEncounterGeneratorOpen) && (
-                <div className="flex-shrink-0 flex gap-2">
+                <div className="flex-shrink-0 flex flex-row sm:flex-col gap-1 sm:gap-2 justify-center sm:justify-start mt-2 sm:mt-0">
                   {onCombatTrackerOpen && (
                     <Button
                       variant="secondary"
                       size="md"
                       onClick={onCombatTrackerOpen}
-                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
                       aria-label="Open combat tracker"
                       title="Combat tracker"
                     >
-                      <Icon name="sword" size="md" />
+                      <Icon name="sword" size={size === "sm" ? "sm" : "md"} />
                     </Button>
                   )}
                   {onEncounterGeneratorOpen && (
@@ -249,11 +250,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       variant="secondary"
                       size="md"
                       onClick={onEncounterGeneratorOpen}
-                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
                       aria-label="Generate random encounters"
                       title="Encounter generator"
                     >
-                      <Icon name="map-pin" size="md" />
+                      <Icon name="map-pin" size={size === "sm" ? "sm" : "md"} />
                     </Button>
                   )}
                   {onTreasureGenerate && (
@@ -261,11 +262,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       variant="secondary"
                       size="md"
                       onClick={onTreasureGenerate}
-                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-12 h-12 p-0"
+                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
                       aria-label="Generate treasure"
                       title="Generate treasure"
                     >
-                      <Icon name="coin" size="md" />
+                      <Icon name="coin" size={size === "sm" ? "sm" : "md"} />
                     </Button>
                   )}
                 </div>
