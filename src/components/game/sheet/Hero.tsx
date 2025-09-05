@@ -142,7 +142,9 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
           {...props}
         >
           {/* Mobile: Stack vertically, Desktop: Horizontal layout */}
-          <div className={`flex flex-col sm:flex-row sm:items-start ${currentSize.gap}`}>
+          <div
+            className={`flex flex-col sm:flex-row sm:items-start ${currentSize.gap}`}
+          >
             {/* Game Icon */}
             <div className="relative group flex-shrink-0 self-center sm:self-start">
               <div className={iconContainerClasses} aria-hidden="true">
@@ -234,16 +236,18 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                 onEncounterGeneratorOpen) && (
                 <div className="flex-shrink-0 flex flex-row sm:flex-col gap-1 sm:gap-2 justify-center sm:justify-start mt-2 sm:mt-0">
                   {onCombatTrackerOpen && (
-                    <Button
-                      variant="secondary"
-                      size="md"
-                      onClick={onCombatTrackerOpen}
-                      className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
-                      aria-label="Open combat tracker"
-                      title="Combat tracker"
-                    >
-                      <Icon name="sword" size={size === "sm" ? "sm" : "md"} />
-                    </Button>
+                    <div className="hidden sm:block">
+                      <Button
+                        variant="secondary"
+                        size="md"
+                        onClick={onCombatTrackerOpen}
+                        className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                        aria-label="Open combat tracker"
+                        title="Combat tracker"
+                      >
+                        <Icon name="sword" size={size === "sm" ? "sm" : "md"} />
+                      </Button>
+                    </div>
                   )}
                   {onEncounterGeneratorOpen && (
                     <Button

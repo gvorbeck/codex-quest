@@ -265,7 +265,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
             </div>
 
             {/* Character Info */}
-            <div className="flex-1 min-w-0 text-center sm:text-left">
+            <div className="flex-1 min-w-0 text-center">
               {isEditingName ? (
                 <div className="space-y-2" onKeyDown={handleNameKeyDown}>
                   <TextInput
@@ -284,7 +284,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                 </div>
               ) : (
                 <div
-                  className={`group flex items-center justify-center sm:justify-start gap-2 pr-8 sm:pr-12 ${
+                  className={`group relative flex items-center justify-center gap-2 ${
                     editable && onCharacterChange ? "cursor-pointer" : ""
                   }`}
                 >
@@ -323,7 +323,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
 
                   {/* Edit icon - shows on hover when editable */}
                   {editable && onCharacterChange && (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                       <Icon
                         name="edit"
                         size="md"
@@ -337,36 +337,72 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
 
               {/* Character Details */}
               <div className="mt-3 sm:mt-4">
-                <Details
-                  layout="horizontal"
-                  className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg text-sm sm:text-base"
-                  items={[
-                    {
-                      label: "Race",
-                      children: (
-                        <span className="text-zinc-100 font-medium">
-                          {getRaceDisplayName()}
-                        </span>
-                      ),
-                    },
-                    {
-                      label: "Class",
-                      children: (
-                        <span className="text-zinc-100 font-medium">
-                          {getClassDisplayNames()}
-                        </span>
-                      ),
-                    },
-                    {
-                      label: "Level",
-                      children: (
-                        <span className="text-zinc-100 font-medium">
-                          {character.level}
-                        </span>
-                      ),
-                    },
-                  ]}
-                />
+                {/* Mobile: Vertical layout */}
+                <div className="sm:hidden">
+                  <Details
+                    layout="vertical"
+                    className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg text-sm"
+                    items={[
+                      {
+                        label: "Race",
+                        children: (
+                          <span className="text-zinc-100 font-medium">
+                            {getRaceDisplayName()}
+                          </span>
+                        ),
+                      },
+                      {
+                        label: "Class",
+                        children: (
+                          <span className="text-zinc-100 font-medium">
+                            {getClassDisplayNames()}
+                          </span>
+                        ),
+                      },
+                      {
+                        label: "Level",
+                        children: (
+                          <span className="text-zinc-100 font-medium">
+                            {character.level}
+                          </span>
+                        ),
+                      },
+                    ]}
+                  />
+                </div>
+                {/* Desktop: Horizontal layout */}
+                <div className="hidden sm:block">
+                  <Details
+                    layout="horizontal"
+                    className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg text-base"
+                    items={[
+                      {
+                        label: "Race",
+                        children: (
+                          <span className="text-zinc-100 font-medium">
+                            {getRaceDisplayName()}
+                          </span>
+                        ),
+                      },
+                      {
+                        label: "Class",
+                        children: (
+                          <span className="text-zinc-100 font-medium">
+                            {getClassDisplayNames()}
+                          </span>
+                        ),
+                      },
+                      {
+                        label: "Level",
+                        children: (
+                          <span className="text-zinc-100 font-medium">
+                            {character.level}
+                          </span>
+                        ),
+                      },
+                    ]}
+                  />
+                </div>
               </div>
             </div>
           </div>
