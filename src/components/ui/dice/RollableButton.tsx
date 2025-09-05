@@ -34,10 +34,10 @@ export default function RollableButton({
       `}
       title={tooltip}
     >
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full group-hover/item:bg-amber-400 transition-colors duration-200"></div>
+      <div className="flex items-center gap-3 min-w-0 flex-1">
+        <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full group-hover/item:bg-amber-400 transition-colors duration-200 flex-shrink-0"></div>
         <span
-          className={`text-amber-400 ${currentSize.labelText} group-hover/item:text-amber-300 transition-colors`}
+          className={`text-amber-400 ${currentSize.labelText} group-hover/item:text-amber-300 transition-colors text-left`}
         >
           {label}
         </span>

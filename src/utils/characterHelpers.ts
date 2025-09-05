@@ -165,3 +165,53 @@ export function getSpellLevel(
   }
   return 0;
 }
+
+/**
+ * Calculate spell slots for a character based on their class and level
+ */
+export function getSpellSlots(
+  character: Character,
+  availableClasses: Class[]
+): Record<number, number> {
+  const spellSlots: Record<number, number> = {};
+  
+  for (const classId of character.class) {
+    // Skip custom classes for now - they would need custom spell slot implementation
+    if (isCustomClass(classId)) {
+      const customClass = getCustomClass(character, classId);
+      if (customClass?.usesSpells) {
+        // For custom classes, we could provide basic spell slot progression
+        // For now, assume they get spell slots like a magic-user
+        const magicUserClass = availableClasses.find(c => c.id === "magic-user");
+        if (magicUserClass?.spellcasting) {
+          const slotsForLevel = magicUserClass.spellcasting.spellsPerLevel[character.level];
+          if (slotsForLevel) {
+            slotsForLevel.forEach((slots, spellLevel) => {
+              if (slots > 0) {
+                const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
+                spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
+              }
+            });
+          }
+        }
+      }
+      continue;
+    }
+
+    // Find the class data
+    const classData = availableClasses.find(c => c.id === classId);
+    if (!classData?.spellcasting) continue;
+
+    const slotsForLevel = classData.spellcasting.spellsPerLevel[character.level];
+    if (slotsForLevel) {
+      slotsForLevel.forEach((slots, spellLevel) => {
+        if (slots > 0) {
+          const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
+          spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
+        }
+      });
+    }
+  }
+
+  return spellSlots;
+}
