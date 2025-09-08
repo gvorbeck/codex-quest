@@ -1,11 +1,13 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
+import { useFormValidation } from "@/hooks/useFormValidation";
 import type { Character, ScrollCreationProject } from "@/types/character";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button, NumberInput, TextArea, TextInput, FormField } from "@/components/ui/inputs";
 import { Modal } from "@/components/modals";
 import { SectionHeader, Icon } from "@/components/ui/display";
+import { calculateSpellSuccessRate, calculateSpellCost, calculateSpellTime, formatSpellLevel } from "@/utils/spellSystem";
 
 // Constants for Spellcrafter bonuses and scroll creation rules (BFRPG Core Rules)
 const SCROLL_CREATION_CONSTANTS = {
@@ -19,11 +21,6 @@ const SCROLL_CREATION_CONSTANTS = {
   // BFRPG Core Rules for scroll creation
   BASE_COST_PER_LEVEL: 50, // 50 gp per spell level
   BASE_TIME_PER_LEVEL: 1, // 1 day per spell level
-  BASE_SUCCESS_RATE: 15, // 15% base success rate
-  SUCCESS_RATE_PER_LEVEL: 5, // +5% per caster level
-  SPELL_LEVEL_PENALTY: 10, // -10% per spell level being inscribed
-  MIN_SUCCESS_RATE: 5, // Minimum 5% success rate
-  MAX_SUCCESS_RATE: 95, // Maximum 95% success rate
   MIN_TIME_DAYS: 1, // Minimum 1 day for any scroll
 } as const;
 
@@ -63,16 +60,11 @@ const useScrollSuccessRate = (
   researchRollBonus?: number
 ) => {
   return useMemo(() => (spellLevel: number): number => {
-    const baseRate = 
-      SCROLL_CREATION_CONSTANTS.BASE_SUCCESS_RATE +
-      SCROLL_CREATION_CONSTANTS.SUCCESS_RATE_PER_LEVEL * spellcrafterLevel +
-      intelligenceScore;
-    const spellPenalty = spellLevel * SCROLL_CREATION_CONSTANTS.SPELL_LEVEL_PENALTY;
-    const spellcrafterBonus = researchRollBonus || 0;
-
-    return Math.max(
-      SCROLL_CREATION_CONSTANTS.MIN_SUCCESS_RATE,
-      Math.min(SCROLL_CREATION_CONSTANTS.MAX_SUCCESS_RATE, baseRate - spellPenalty + spellcrafterBonus)
+    return calculateSpellSuccessRate(
+      spellcrafterLevel,
+      intelligenceScore,
+      researchRollBonus || 0,
+      spellLevel
     );
   }, [spellcrafterLevel, intelligenceScore, researchRollBonus]);
 };
@@ -85,11 +77,6 @@ interface ScrollCreationProps {
   size?: "sm" | "md" | "lg";
 }
 
-interface NewScrollProjectForm {
-  spellName: string;
-  spellLevel: number;
-  notes: string;
-}
 
 export default function ScrollCreation({
   character,
@@ -104,11 +91,21 @@ export default function ScrollCreation({
     close: closeCreateModal,
   } = useModal();
 
-  const [newProject, setNewProject] = useState<NewScrollProjectForm>({
+  const initialProjectData = {
     spellName: "",
     spellLevel: 1,
     notes: "",
-  });
+  };
+
+  const {
+    formData: newProject,
+    handleFieldChange: handleProjectFieldChange,
+    resetForm: resetProjectForm,
+    isValid: isProjectValid,
+  } = useFormValidation(
+    initialProjectData,
+    (data) => Boolean(data.spellName.trim())
+  );
 
   // Check if character is a Spellcrafter and calculate bonuses
   const spellcrafterLevel = useMemo(() => {
@@ -147,16 +144,21 @@ export default function ScrollCreation({
   const completedProjects = projects.filter((p) => p.status === "completed");
 
   // Calculate scroll creation costs and time based on BFRPG Core Rules
-  const calculateScrollCost = (spellLevel: number): number => {
-    const baseCost = spellLevel * SCROLL_CREATION_CONSTANTS.BASE_COST_PER_LEVEL;
-    const reduction = scrollCreationBonuses?.costReduction || 0;
-    return Math.floor(baseCost * (1 - reduction / 100));
+  const calculateScrollCostLocal = (spellLevel: number): number => {
+    return calculateSpellCost(
+      spellLevel,
+      SCROLL_CREATION_CONSTANTS.BASE_COST_PER_LEVEL,
+      scrollCreationBonuses?.costReduction || 0
+    );
   };
 
-  const calculateScrollTime = (spellLevel: number): number => {
-    const baseDays = spellLevel * SCROLL_CREATION_CONSTANTS.BASE_TIME_PER_LEVEL;
-    const reduction = scrollCreationBonuses?.timeReduction || 0;
-    return Math.max(SCROLL_CREATION_CONSTANTS.MIN_TIME_DAYS, Math.floor(baseDays * (1 - reduction / 100)));
+  const calculateScrollTimeLocal = (spellLevel: number): number => {
+    return calculateSpellTime(
+      spellLevel,
+      SCROLL_CREATION_CONSTANTS.BASE_TIME_PER_LEVEL,
+      scrollCreationBonuses?.timeReduction || 0,
+      SCROLL_CREATION_CONSTANTS.MIN_TIME_DAYS
+    );
   };
 
   const handleCreateProject = () => {
@@ -168,9 +170,9 @@ export default function ScrollCreation({
       spellName: newProject.spellName.trim(),
       spellLevel: newProject.spellLevel,
       startDate: new Date().toISOString(),
-      daysRequired: calculateScrollTime(newProject.spellLevel),
+      daysRequired: calculateScrollTimeLocal(newProject.spellLevel),
       daysCompleted: 0,
-      costTotal: calculateScrollCost(newProject.spellLevel),
+      costTotal: calculateScrollCostLocal(newProject.spellLevel),
       costPaid: 0,
       status: "in-progress",
       ...(notes && { notes }),
@@ -190,12 +192,7 @@ export default function ScrollCreation({
     onCharacterChange(updatedCharacter);
 
     // Reset form
-    setNewProject({
-      spellName: "",
-      spellLevel: 1,
-      notes: "",
-    });
-
+    resetProjectForm();
     closeCreateModal();
   };
 
@@ -246,15 +243,7 @@ export default function ScrollCreation({
       scrollLevel: project.spellLevel,
       description: `A magical scroll containing the ${
         project.spellName
-      } spell (${project.spellLevel}${
-        project.spellLevel === 1
-          ? "st"
-          : project.spellLevel === 2
-          ? "nd"
-          : project.spellLevel === 3
-          ? "rd"
-          : "th"
-      } level).`,
+      } spell (${formatSpellLevel(project.spellLevel)} level).`,
     };
 
     const scrollCreation = createScrollCreationObject(
@@ -560,10 +549,7 @@ export default function ScrollCreation({
             <TextInput
               value={newProject.spellName}
               onChange={(value) =>
-                setNewProject((prev) => ({
-                  ...prev,
-                  spellName: value,
-                }))
+                handleProjectFieldChange("spellName", value)
               }
               placeholder="Enter spell name..."
             />
@@ -573,7 +559,7 @@ export default function ScrollCreation({
             <NumberInput
               value={newProject.spellLevel}
               onChange={(value) =>
-                setNewProject((prev) => ({ ...prev, spellLevel: value || 1 }))
+                handleProjectFieldChange("spellLevel", value || 1)
               }
               minValue={1}
               maxValue={9}
@@ -584,13 +570,13 @@ export default function ScrollCreation({
             <div>
               <strong>Estimated Cost:</strong>
               <br />
-              {calculateScrollCost(newProject.spellLevel)} gp
+              {calculateScrollCostLocal(newProject.spellLevel)} gp
             </div>
             <div>
               <strong>Estimated Time:</strong>
               <br />
-              {calculateScrollTime(newProject.spellLevel)}{" "}
-              {calculateScrollTime(newProject.spellLevel) === 1
+              {calculateScrollTimeLocal(newProject.spellLevel)}{" "}
+              {calculateScrollTimeLocal(newProject.spellLevel) === 1
                 ? "day"
                 : "days"}
             </div>
@@ -605,7 +591,7 @@ export default function ScrollCreation({
             <TextArea
               value={newProject.notes}
               onChange={(value) =>
-                setNewProject((prev) => ({ ...prev, notes: value }))
+                handleProjectFieldChange("notes", value)
               }
               placeholder="Add any notes about this project..."
               rows={3}
@@ -615,7 +601,7 @@ export default function ScrollCreation({
           <div className="flex gap-3 pt-4">
             <Button
               onClick={handleCreateProject}
-              disabled={!newProject.spellName.trim()}
+              disabled={!isProjectValid}
               className="flex-1"
             >
               Start Scroll

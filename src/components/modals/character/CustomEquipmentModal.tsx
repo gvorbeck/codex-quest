@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { Modal } from "../base";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
   FormField,
 } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
+import { useFormValidation } from "@/hooks/useFormValidation";
 import type { Equipment } from "@/types/character";
 
 interface CustomEquipmentModalProps {
@@ -52,38 +53,40 @@ export default function CustomEquipmentModal({
   onClose,
   onEquipmentAdd,
 }: CustomEquipmentModalProps) {
-  const [formData, setFormData] = useState<Partial<Equipment>>({
+  const initialFormData: Partial<Equipment> = {
     name: "",
     costValue: 0,
-    costCurrency: "gp",
+    costCurrency: "gp" as const,
     weight: 0,
     category: "",
     amount: 1,
     description: "",
-  });
+  };
 
-  const handleFieldChange = useCallback(
+  const {
+    formData,
+    handleFieldChange,
+    resetForm,
+    isValid: baseIsValid,
+  } = useFormValidation(
+    initialFormData,
+    (data) => Boolean(data.name && data.category),
+    onClose
+  );
+
+  const handleFieldChangeTyped = useCallback(
     (
       field: keyof Equipment,
       value: string | number | [number, number, number] | string[]
     ) => {
-      setFormData((prev) => ({ ...prev, [field]: value }));
+      handleFieldChange(field, value);
     },
-    []
+    [handleFieldChange]
   );
 
   const handleReset = useCallback(() => {
-    setFormData({
-      name: "",
-      costValue: 0,
-      costCurrency: "gp",
-      weight: 0,
-      category: "",
-      amount: 1,
-      description: "",
-    });
-    onClose();
-  }, [onClose]);
+    resetForm();
+  }, [resetForm]);
 
   const handleSubmit = useCallback(() => {
     if (!formData.name || !formData.category) return;
@@ -174,7 +177,7 @@ export default function CustomEquipmentModal({
   const isArmor =
     formData.category === "armor" || formData.category === "shield";
   const isAnimal = formData.category === "animal";
-  const isValid = formData.name && formData.category;
+  const isValid = baseIsValid;
 
   return (
     <Modal
@@ -194,7 +197,7 @@ export default function CustomEquipmentModal({
           <FormField label="Name" required>
             <TextInput
               value={formData.name || ""}
-              onChange={(value) => handleFieldChange("name", value)}
+              onChange={(value) => handleFieldChangeTyped("name", value)}
               placeholder="Enter equipment name..."
             />
           </FormField>
@@ -204,7 +207,7 @@ export default function CustomEquipmentModal({
             label="Category"
             options={EQUIPMENT_CATEGORIES}
             value={formData.category || ""}
-            onValueChange={(value) => handleFieldChange("category", value)}
+            onValueChange={(value) => handleFieldChangeTyped("category", value)}
             placeholder="Select a category..."
             required
           />
@@ -213,7 +216,7 @@ export default function CustomEquipmentModal({
           <FormField label="Sub-Category (Optional)">
             <TextInput
               value={formData.subCategory || ""}
-              onChange={(value) => handleFieldChange("subCategory", value)}
+              onChange={(value) => handleFieldChangeTyped("subCategory", value)}
               placeholder="e.g., Longsword, Chain Mail, etc."
             />
           </FormField>
@@ -222,7 +225,7 @@ export default function CustomEquipmentModal({
           <FormField label="Description (Optional)">
             <TextArea
               value={formData.description || ""}
-              onChange={(value) => handleFieldChange("description", value)}
+              onChange={(value) => handleFieldChangeTyped("description", value)}
               placeholder="Describe this equipment's appearance, properties, or special features..."
               rows={3}
             />
@@ -239,7 +242,7 @@ export default function CustomEquipmentModal({
           <FormField label="Amount">
             <NumberInput
               value={formData.amount || 1}
-              onChange={(value) => handleFieldChange("amount", value || 1)}
+              onChange={(value) => handleFieldChangeTyped("amount", value || 1)}
               placeholder="1"
               minValue={1}
             />
@@ -250,7 +253,7 @@ export default function CustomEquipmentModal({
             <FormField label="Cost Value">
               <NumberInput
                 value={formData.costValue || 0}
-                onChange={(value) => handleFieldChange("costValue", value || 0)}
+                onChange={(value) => handleFieldChangeTyped("costValue", value || 0)}
                 placeholder="0"
                 minValue={0}
                 step={1}
@@ -261,7 +264,7 @@ export default function CustomEquipmentModal({
               options={CURRENCIES}
               value={formData.costCurrency || "gp"}
               onValueChange={(value) =>
-                handleFieldChange("costCurrency", value as "gp" | "sp" | "cp")
+                handleFieldChangeTyped("costCurrency", value as "gp" | "sp" | "cp")
               }
             />
           </div>
@@ -270,7 +273,7 @@ export default function CustomEquipmentModal({
           <FormField label="Weight (lbs)">
             <NumberInput
               value={formData.weight || 0}
-              onChange={(value) => handleFieldChange("weight", value || 0)}
+              onChange={(value) => handleFieldChangeTyped("weight", value || 0)}
               placeholder="0"
               minValue={0}
               step={0.1}
@@ -295,7 +298,7 @@ export default function CustomEquipmentModal({
               options={WEAPON_TYPES}
               value={formData.type || ""}
               onValueChange={(value) =>
-                handleFieldChange("type", value as "melee" | "missile" | "both")
+                handleFieldChangeTyped("type", value as "melee" | "missile" | "both")
               }
               placeholder="Select weapon type..."
             />
@@ -306,7 +309,7 @@ export default function CustomEquipmentModal({
               options={WEAPON_SIZES}
               value={formData.size || ""}
               onValueChange={(value) =>
-                handleFieldChange("size", value as "S" | "M" | "L")
+                handleFieldChangeTyped("size", value as "S" | "M" | "L")
               }
               placeholder="Select weapon size..."
             />
@@ -315,7 +318,7 @@ export default function CustomEquipmentModal({
             <FormField label="Damage">
               <TextInput
                 value={formData.damage || ""}
-                onChange={(value) => handleFieldChange("damage", value)}
+                onChange={(value) => handleFieldChangeTyped("damage", value)}
                 placeholder="e.g., 1d8, 1d6+1, etc."
               />
             </FormField>
@@ -325,7 +328,7 @@ export default function CustomEquipmentModal({
               <TextInput
                 value={formData.twoHandedDamage || ""}
                 onChange={(value) =>
-                  handleFieldChange("twoHandedDamage", value)
+                  handleFieldChangeTyped("twoHandedDamage", value)
                 }
                 placeholder="e.g., 1d10 (if different when used two-handed)"
               />
@@ -344,7 +347,7 @@ export default function CustomEquipmentModal({
                       onChange={(value) => {
                         const numValue = value || 0;
                         const currentRange = formData.range || [0, 0, 0];
-                        handleFieldChange("range", [
+                        handleFieldChangeTyped("range", [
                           numValue,
                           currentRange[1],
                           currentRange[2],
@@ -363,7 +366,7 @@ export default function CustomEquipmentModal({
                       onChange={(value) => {
                         const numValue = value || 0;
                         const currentRange = formData.range || [0, 0, 0];
-                        handleFieldChange("range", [
+                        handleFieldChangeTyped("range", [
                           currentRange[0],
                           numValue,
                           currentRange[2],
@@ -382,7 +385,7 @@ export default function CustomEquipmentModal({
                       onChange={(value) => {
                         const numValue = value || 0;
                         const currentRange = formData.range || [0, 0, 0];
-                        handleFieldChange("range", [
+                        handleFieldChangeTyped("range", [
                           currentRange[0],
                           currentRange[1],
                           numValue,
@@ -405,7 +408,7 @@ export default function CustomEquipmentModal({
                 <TextInput
                   value={formData.ammo?.join(", ") || ""}
                   onChange={(value) =>
-                    handleFieldChange(
+                    handleFieldChangeTyped(
                       "ammo",
                       value ? value.split(", ").map((s) => s.trim()) : []
                     )
@@ -435,7 +438,7 @@ export default function CustomEquipmentModal({
                 onChange={(value) => {
                   // Try to parse as number, otherwise store as string
                   const numValue = parseInt(value);
-                  handleFieldChange("AC", isNaN(numValue) ? value : numValue);
+                  handleFieldChangeTyped("AC", isNaN(numValue) ? value : numValue);
                 }}
                 placeholder="e.g., 14, 12+Dex, etc."
               />
@@ -445,7 +448,7 @@ export default function CustomEquipmentModal({
             <FormField label="Missile AC (Optional)">
               <TextInput
                 value={formData.missileAC || ""}
-                onChange={(value) => handleFieldChange("missileAC", value)}
+                onChange={(value) => handleFieldChangeTyped("missileAC", value)}
                 placeholder="e.g., 13 (if different from normal AC)"
               />
             </FormField>
@@ -468,7 +471,7 @@ export default function CustomEquipmentModal({
               <NumberInput
                 value={formData.animalWeight || 0}
                 onChange={(value) =>
-                  handleFieldChange("animalWeight", value || 0)
+                  handleFieldChangeTyped("animalWeight", value || 0)
                 }
                 placeholder="0"
                 minValue={0}
@@ -481,7 +484,7 @@ export default function CustomEquipmentModal({
                 <NumberInput
                   value={formData.lowCapacity || 0}
                   onChange={(value) =>
-                    handleFieldChange("lowCapacity", value || 0)
+                    handleFieldChangeTyped("lowCapacity", value || 0)
                   }
                   placeholder="0"
                   minValue={0}
@@ -491,7 +494,7 @@ export default function CustomEquipmentModal({
                 <NumberInput
                   value={formData.capacity || 0}
                   onChange={(value) =>
-                    handleFieldChange("capacity", value || 0)
+                    handleFieldChangeTyped("capacity", value || 0)
                   }
                   placeholder="0"
                   minValue={0}
@@ -515,7 +518,7 @@ export default function CustomEquipmentModal({
             <FormField label="Gold Value (if applicable)">
               <NumberInput
                 value={formData.gold || 0}
-                onChange={(value) => handleFieldChange("gold", value || 0)}
+                onChange={(value) => handleFieldChangeTyped("gold", value || 0)}
                 placeholder="Gold pieces value"
                 minValue={0}
               />

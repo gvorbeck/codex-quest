@@ -5,8 +5,8 @@ import { Typography } from "@/components/ui/design-system";
 import { Icon, List, StepListItem } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
-import { roller } from "@/utils/dice";
 import { useNotifications } from "@/hooks/useNotifications";
+import { parseCreatureName, generateDefaultAC, getRandomTableResult, rollForEncounter, delay, SPELL_CONSTANTS } from "@/utils/spellSystem";
 import type { GameCombatant } from "@/types/game";
 
 interface EncounterGeneratorModalProps {
@@ -26,13 +26,10 @@ interface EncounterGeneratorModalProps {
  * - Proper encounter frequency rules (1 in 6 for dungeons, 1 in 6 for wilderness)
  */
 
-// Constants for encounter generation
+// Local constants for encounter generation (extending shared ones)
 const ENCOUNTER_CONSTANTS = {
-  OCCURRENCE_CHANCE: 1, // 1 in 6 chance for encounters
-  DICE_SIDES: 6,
-  TABLE_DICE: "1d12", // Most tables have 12 entries
-  GENERATION_DELAY: 500, // ms delay for UX
-  RESULT_DELAY: 300, // ms delay before showing result
+  ...SPELL_CONSTANTS, // Use shared constants
+  // Add any encounter-specific constants here if needed
 } as const;
 
 // Encounter Tables from BFRPG Rules
@@ -362,24 +359,9 @@ export default function EncounterGeneratorModal({
   // Function to create a combatant from encounter result
   const createCombatantFromEncounter = useCallback(
     (encounterName: string): GameCombatant => {
-      // Parse encounter name to handle multiple creatures or special formatting
-      let baseName = encounterName;
-
-      // Handle "NPC Party" encounters
-      if (baseName.includes("NPC Party:")) {
-        baseName = baseName.replace("NPC Party: ", "");
-      }
-
-      // Remove special ability indicators (*)
-      baseName = baseName.replace(/\*/g, "");
-
-      // Generate basic stats - these can be customized later in combat tracker
-      // Default AC for most creatures is around 12-16, with some variation
-      const defaultAC = 12 + roller("1d4").total; // AC 13-16
-
       return {
-        name: baseName.trim(),
-        ac: defaultAC,
+        name: parseCreatureName(encounterName),
+        ac: generateDefaultAC(),
         initiative: 0, // Will be rolled during combat
         isPlayer: false,
       };
@@ -427,30 +409,19 @@ export default function EncounterGeneratorModal({
 
     try {
       // Simulate rolling for encounter occurrence
-      await new Promise((resolve) =>
-        setTimeout(resolve, ENCOUNTER_CONSTANTS.GENERATION_DELAY)
-      );
+      await delay(ENCOUNTER_CONSTANTS.GENERATION_DELAY);
 
       // Roll 1d6 for encounter check (1 = encounter occurs)
-      const encounterCheck = roller("1d6");
-      const encounterHappens =
-        encounterCheck.total === ENCOUNTER_CONSTANTS.OCCURRENCE_CHANCE;
+      const encounterHappens = rollForEncounter();
 
       setEncounterOccurs(encounterHappens);
 
       if (encounterHappens) {
-        // Roll for encounter table selection
-        const roll = roller(ENCOUNTER_CONSTANTS.TABLE_DICE);
-        const encounterIndex = Math.min(
-          roll.total - 1,
-          currentTable.length - 1
-        );
-        const encounter = currentTable[encounterIndex];
+        // Get a random encounter from the table
+        const encounter = getRandomTableResult(currentTable);
 
         // Add a small delay for UX
-        await new Promise((resolve) =>
-          setTimeout(resolve, ENCOUNTER_CONSTANTS.RESULT_DELAY)
-        );
+        await delay(ENCOUNTER_CONSTANTS.RESULT_DELAY);
         if (encounter) {
           setCurrentEncounter(encounter);
           showSuccess(`Encounter generated: ${encounter}`, {
@@ -691,13 +662,15 @@ export default function EncounterGeneratorModal({
                         immunities
                       </Typography>
                       {onAddToCombat && (
-                        <button
+                        <Button
                           onClick={handleAddToCombatTracker}
-                          className="mt-3 w-full bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                          variant="primary"
+                          size="md"
+                          className="mt-3 w-full bg-red-600 hover:bg-red-700"
                           aria-label={`Add ${currentEncounter} to combat tracker`}
                         >
                           Add to Combat Tracker
-                        </button>
+                        </Button>
                       )}
                     </div>
                   )}

@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
+import { useEquipmentManager } from "@/hooks/useEquipmentManager";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Badge, Typography } from "@/components/ui/design-system";
 import { Button, Switch, TextInput, TextArea, Select, NumberInput, FormField } from "@/components/ui/inputs";
@@ -10,7 +11,7 @@ import { CustomEquipmentModal } from "@/components/modals";
 import { Icon } from "@/components/ui/display/Icon";
 import { SkeletonList } from "@/components/ui/feedback";
 import { SIZE_STYLES } from "@/constants/designTokens";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
+import { cleanEquipmentArray } from "@/utils/characterCalculations";
 import type { Character, Equipment as EquipmentItem } from "@/types/character";
 
 interface EquipmentProps {
@@ -42,35 +43,16 @@ export default function Equipment({
   // Performance optimization: Only show search for larger equipment inventories
   const SEARCH_THRESHOLD = 8; // Show search bar when equipment count exceeds this
 
-  // Shared helper function for adding equipment to inventory
-  const addEquipmentToInventory = useCallback((newEquipment: EquipmentItem) => {
-    if (!onEquipmentChange || !character) return;
-
-    // Clean equipment array first, then work with clean data
-    const cleanedEquipment = cleanEquipmentArray(character.equipment);
-    const existingIndex = cleanedEquipment.findIndex(
-      (item) => item.name === newEquipment.name
-    );
-
-    if (existingIndex >= 0) {
-      // Increase amount of existing item
-      const updatedEquipment = [...cleanedEquipment];
-      const existingItem = updatedEquipment[existingIndex];
-      
-      if (existingItem) {
-        updatedEquipment[existingIndex] = {
-          ...existingItem,
-          amount: existingItem.amount + newEquipment.amount,
-        };
-      }
-      onEquipmentChange(updatedEquipment);
-    } else {
-      // Add new item with proper amount to cleaned equipment array
-      const equipmentToAdd = ensureEquipmentAmount(newEquipment);
-      
-      onEquipmentChange([...cleanedEquipment, equipmentToAdd]);
-    }
-  }, [character, onEquipmentChange]);
+  // Use the equipment manager hook
+  const {
+    addEquipmentToInventory,
+    removeEquipmentFromInventory: handleEquipmentRemove,
+    updateEquipmentInInventory,
+    toggleWearing,
+    isWearableItem,
+    formatWeight,
+    formatCost,
+  } = useEquipmentManager(character, onEquipmentChange);
 
   const handleEquipmentAdd = (newEquipment: EquipmentItem) => {
     // Ensure we're adding at least 1 item (EquipmentSelector sends items with amount: 0)
@@ -84,30 +66,6 @@ export default function Equipment({
     closeCustomModal();
   };
 
-  const handleEquipmentRemove = useCallback(
-    (index: number) => {
-      if (!onEquipmentChange || !character) return;
-
-      const updatedEquipment = [...character.equipment];
-      const item = updatedEquipment[index];
-      
-      if (!item) return;
-
-      if (item.amount > 1) {
-        // Decrease amount by 1
-        updatedEquipment[index] = {
-          ...item,
-          amount: item.amount - 1
-        };
-      } else {
-        // Remove item completely if amount is 1 or less
-        updatedEquipment.splice(index, 1);
-      }
-
-      onEquipmentChange(updatedEquipment);
-    },
-    [character, onEquipmentChange]
-  );
 
   const handleEquipmentEdit = useCallback(
     (index: number) => {
@@ -122,35 +80,18 @@ export default function Equipment({
   );
 
   const handleEditSave = useCallback(() => {
-    if (!editForm || editingItem === null || !onEquipmentChange || !character) return;
+    if (!editForm || editingItem === null) return;
 
-    const updatedEquipment = [...character.equipment];
-    updatedEquipment[editingItem.index] = editForm;
-    onEquipmentChange(updatedEquipment);
-
+    updateEquipmentInInventory(editingItem.index, editForm);
     setEditingItem(null);
     setEditForm(null);
-  }, [editForm, editingItem, character, onEquipmentChange]);
+  }, [editForm, editingItem, updateEquipmentInInventory]);
 
   const handleEditCancel = useCallback(() => {
     setEditingItem(null);
     setEditForm(null);
   }, []);
 
-  // Utility functions for equipment type checking
-  const isArmorItem = useCallback((item: EquipmentItem) => 
-    item.category?.toLowerCase().includes("armor") ||
-    (item.AC !== undefined &&
-      !item.category?.toLowerCase().includes("shield"))
-  , []);
-
-  const isShieldItem = useCallback((item: EquipmentItem) => 
-    item.category?.toLowerCase().includes("shield")
-  , []);
-
-  const isWearableItem = useCallback((item: EquipmentItem) => 
-    isArmorItem(item) || isShieldItem(item)
-  , [isArmorItem, isShieldItem]);
 
   const updateEditForm = useCallback(
     (field: keyof EquipmentItem, value: string | number) => {
@@ -160,61 +101,6 @@ export default function Equipment({
     [editForm]
   );
 
-  const toggleWearing = useCallback(
-    (index: number) => {
-      if (!onEquipmentChange || !character) return;
-
-      const updatedEquipment = [...character.equipment];
-      const item = updatedEquipment[index];
-
-      if (!item) return;
-
-      if (isWearableItem(item)) {
-        const newWearingState = !item.wearing;
-
-        if (newWearingState) {
-          // If we're equipping this item, unequip any other item of the same type
-          if (isArmorItem(item)) {
-            // Unequip any currently worn armor
-            updatedEquipment.forEach((equipItem, i) => {
-              if (i !== index && equipItem.wearing && isArmorItem(equipItem)) {
-                updatedEquipment[i] = { ...equipItem, wearing: false };
-              }
-            });
-          } else if (isShieldItem(item)) {
-            // Unequip any currently worn shield
-            updatedEquipment.forEach((equipItem, i) => {
-              if (i !== index && equipItem.wearing && isShieldItem(equipItem)) {
-                updatedEquipment[i] = { ...equipItem, wearing: false };
-              }
-            });
-          }
-        }
-
-        // Toggle the current item's wearing state
-        updatedEquipment[index] = {
-          ...item,
-          wearing: newWearingState,
-        };
-
-        onEquipmentChange(updatedEquipment);
-      }
-    },
-    [character, onEquipmentChange, isWearableItem, isArmorItem, isShieldItem]
-  );
-
-  const formatWeight = useCallback((weight: number, amount: number) => {
-    const totalWeight = weight * amount;
-    return totalWeight > 0 ? `${Math.round(totalWeight * 100) / 100} lbs` : "—";
-  }, []);
-
-  const formatCost = useCallback(
-    (costValue: number, costCurrency: string, amount: number) => {
-      const totalCost = costValue * amount;
-      return `${totalCost} ${costCurrency}`;
-    },
-    []
-  );
 
   // Prepare equipment items for the Accordion component (memoized for performance)
   const equipmentForAccordion = useMemo(() => {
