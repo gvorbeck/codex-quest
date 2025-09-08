@@ -12,7 +12,7 @@ import { SpellChecklistSelector } from "@/components/character/creation/SpellChe
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Spell, Cantrip, BaseStepProps } from "@/types/character";
+import type { Spell, Cantrip, BaseStepProps, Character } from "@/types/character";
 import { getFirstLevelSpellsForClass, getAllSpellsForCustomClass } from "@/utils/spells";
 import { logger } from "@/utils/logger";
 import { getSpellTypeInfo } from "@/utils/cantrips";
@@ -197,6 +197,17 @@ function ClassStepComponent({
     });
   };
 
+  const handleShowCantripsChange = (showCantrips: boolean) => {
+    const updatedCharacter: Character = {
+      ...character,
+      settings: {
+        ...character.settings,
+        showCantrips,
+      },
+    };
+    onCharacterChange(updatedCharacter);
+  };
+
 
   const handleCombinationToggle = (enabled: boolean) => {
     onUseCombinationClassChange(enabled);
@@ -271,6 +282,16 @@ function ClassStepComponent({
                 onCheckedChange={onIncludeSupplementalClassChange}
               />
 
+              <div className="border-t border-zinc-600 pt-6">
+                <OptionToggle
+                  title="Use Cantrips/Orisons"
+                  description="Include 0-level spells (cantrips for Magic-Users, orisons for Clerics) in your character"
+                  switchLabel="Use Cantrips/Orisons"
+                  checked={character.settings?.showCantrips !== false}
+                  onCheckedChange={handleShowCantripsChange}
+                />
+              </div>
+
               {canUseCombinationClasses && (
                 <div className="border-t border-zinc-600 pt-6">
                   <OptionToggle
@@ -310,23 +331,25 @@ function ClassStepComponent({
                 isLoading={isLoadingSpells}
               />
 
-              <CantripSelector
-                character={character}
-                onCantripChange={handleCantripChange}
-                mode="creation"
-                title={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `Starting ${spellTypeInfo.capitalized}`;
-                })()}
-                description={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `You automatically know <strong>${
-                    character.cantrips?.length || 0
-                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                    spellTypeInfo.abilityScore
-                  } bonus). You may change your selection below.`;
-                })()}
-              />
+              {character.settings?.showCantrips !== false && (
+                <CantripSelector
+                  character={character}
+                  onCantripChange={handleCantripChange}
+                  mode="creation"
+                  title={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `Starting ${spellTypeInfo.capitalized}`;
+                  })()}
+                  description={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `You automatically know <strong>${
+                      character.cantrips?.length || 0
+                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                      spellTypeInfo.abilityScore
+                    } bonus). You may change your selection below.`;
+                  })()}
+                />
+              )}
             </>
           )}
 
@@ -342,23 +365,25 @@ function ClassStepComponent({
                 isLoading={isLoadingAllSpells}
               />
 
-              <CantripSelector
-                character={character}
-                onCantripChange={handleCantripChange}
-                mode="creation"
-                title={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `Starting ${spellTypeInfo.capitalized}`;
-                })()}
-                description={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `You automatically know <strong>${
-                    character.cantrips?.length || 0
-                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                    spellTypeInfo.abilityScore
-                  } bonus). You may change your selection below.`;
-                })()}
-              />
+              {character.settings?.showCantrips !== false && (
+                <CantripSelector
+                  character={character}
+                  onCantripChange={handleCantripChange}
+                  mode="creation"
+                  title={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `Starting ${spellTypeInfo.capitalized}`;
+                  })()}
+                  description={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `You automatically know <strong>${
+                      character.cantrips?.length || 0
+                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                      spellTypeInfo.abilityScore
+                    } bonus). You may change your selection below.`;
+                  })()}
+                />
+              )}
             </>
           )}
         </>
@@ -383,23 +408,25 @@ function ClassStepComponent({
                 isLoading={isLoadingSpells}
               />
 
-              <CantripSelector
-                character={character}
-                onCantripChange={handleCantripChange}
-                mode="creation"
-                title={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `Starting ${spellTypeInfo.capitalized}`;
-                })()}
-                description={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `You automatically know <strong>${
-                    character.cantrips?.length || 0
-                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                    spellTypeInfo.abilityScore
-                  } bonus). You may change your selection below.`;
-                })()}
-              />
+              {character.settings?.showCantrips !== false && (
+                <CantripSelector
+                  character={character}
+                  onCantripChange={handleCantripChange}
+                  mode="creation"
+                  title={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `Starting ${spellTypeInfo.capitalized}`;
+                  })()}
+                  description={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `You automatically know <strong>${
+                      character.cantrips?.length || 0
+                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                      spellTypeInfo.abilityScore
+                    } bonus). You may change your selection below.`;
+                  })()}
+                />
+              )}
             </>
           )}
 
@@ -415,23 +442,25 @@ function ClassStepComponent({
                 isLoading={isLoadingAllSpells}
               />
 
-              <CantripSelector
-                character={character}
-                onCantripChange={handleCantripChange}
-                mode="creation"
-                title={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `Starting ${spellTypeInfo.capitalized}`;
-                })()}
-                description={(() => {
-                  const spellTypeInfo = getSpellTypeInfo(character);
-                  return `You automatically know <strong>${
-                    character.cantrips?.length || 0
-                  }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                    spellTypeInfo.abilityScore
-                  } bonus). You may change your selection below.`;
-                })()}
-              />
+              {character.settings?.showCantrips !== false && (
+                <CantripSelector
+                  character={character}
+                  onCantripChange={handleCantripChange}
+                  mode="creation"
+                  title={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `Starting ${spellTypeInfo.capitalized}`;
+                  })()}
+                  description={(() => {
+                    const spellTypeInfo = getSpellTypeInfo(character);
+                    return `You automatically know <strong>${
+                      character.cantrips?.length || 0
+                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                      spellTypeInfo.abilityScore
+                    } bonus). You may change your selection below.`;
+                  })()}
+                />
+              )}
             </>
           )}
         </>
