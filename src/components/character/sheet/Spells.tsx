@@ -74,17 +74,15 @@ function getSpellSystemInfo(character: Character) {
     ["cleric", "druid"].includes(classId)
   );
   const hasArcaneClasses = character.class.some((classId) =>
-    [
-      "magic-user",
-      "illusionist",
-      "necromancer",
-      "spellcrafter",
-    ].includes(classId)
+    ["magic-user", "illusionist", "necromancer", "spellcrafter"].includes(
+      classId
+    )
   );
 
-  const spellType = hasDivineClasses && !hasArcaneClasses ? "Orisons" : "Cantrips";
+  const spellType =
+    hasDivineClasses && !hasArcaneClasses ? "Orisons" : "Cantrips";
   const spellTypeLower = spellType.toLowerCase();
-  
+
   let abilityBonus: string;
   if (hasDivineClasses && hasArcaneClasses) {
     abilityBonus = "Intelligence/Wisdom Bonus";
@@ -303,6 +301,16 @@ export default function Spells({
                   )}
               </div>
 
+              {/* Spell Usage Explainer for Magic-User types */}
+              {getCharacterSpellSystemType(character) === "magic-user" && (
+                <Typography
+                  variant="caption"
+                  className="text-zinc-500 text-xs mb-4"
+                >
+                  Daily Usage: Limited by spell slots shown above
+                </Typography>
+              )}
+
               {knownSpells.length > 0 ? (
                 <Accordion
                   items={knownSpells}
@@ -341,7 +349,7 @@ export default function Spells({
                     className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
                     aria-hidden="true"
                   />
-{getSpellSystemInfo(character).spellType}
+                  {getSpellSystemInfo(character).spellType}
                   {cantrips.length > 0 && (
                     <span
                       className="text-sm font-normal text-zinc-400"
@@ -359,7 +367,7 @@ export default function Spells({
                     onClick={openCantripModal}
                   >
                     <Icon name="edit" size="sm" />
-Edit {getSpellSystemInfo(character).spellType}
+                    Edit {getSpellSystemInfo(character).spellType}
                   </Button>
                 )}
               </div>
@@ -368,7 +376,7 @@ Edit {getSpellSystemInfo(character).spellType}
                 variant="caption"
                 className="text-zinc-500 text-xs mb-4"
               >
-Daily Uses: Level + {getSpellSystemInfo(character).abilityBonus} 
+                Daily Uses: Level + {getSpellSystemInfo(character).abilityBonus}
                 • No preparation required
               </Typography>
 
@@ -387,8 +395,11 @@ Daily Uses: Level + {getSpellSystemInfo(character).abilityBonus}
                     variant="body"
                     className="text-zinc-400 text-center"
                   >
-No {getSpellSystemInfo(character).spellTypeLower} known yet.
-                    {isOwner && ` Click 'Edit ${getSpellSystemInfo(character).spellType}' to add some.`}
+                    No {getSpellSystemInfo(character).spellTypeLower} known yet.
+                    {isOwner &&
+                      ` Click 'Edit ${
+                        getSpellSystemInfo(character).spellType
+                      }' to add some.`}
                   </Typography>
                 </Card>
               )}
@@ -413,7 +424,7 @@ No {getSpellSystemInfo(character).spellTypeLower} known yet.
         <Modal
           isOpen={showCantripModal}
           onClose={closeCantripModal}
-title={`Edit ${getSpellSystemInfo(character).spellType}`}
+          title={`Edit ${getSpellSystemInfo(character).spellType}`}
           size="lg"
         >
           <CantripSelector
