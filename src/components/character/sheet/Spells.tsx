@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useModal } from "@/hooks/useModal";
 import {
   canCastSpells,
@@ -9,12 +9,14 @@ import {
 import type { Character, Spell, Cantrip } from "@/types/character";
 import { SectionWrapper, Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
-import { Button } from "@/components/ui/inputs";
+import { Button, Select } from "@/components/ui/inputs";
+import type { SelectOption } from "@/components/ui/inputs/Select";
 import { Icon } from "@/components/ui";
 import { SkeletonList } from "@/components/ui/feedback";
 import { Modal } from "@/components/modals";
 import { CantripSelector, SpellDetails } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
+import { loadSpellsForClass } from "@/services/dataLoader";
 import MUAddSpellModal from "@/components/modals/character/MUAddSpellModal";
 
 interface SpellsProps {
@@ -115,14 +117,19 @@ export default function Spells({
 }: SpellsProps) {
   const cantripModal = useModal();
   const addSpellModal = useModal();
+  
+  // State for available spells for clerics (loaded dynamically)
+  const [availableSpells, setAvailableSpells] = useState<Record<number, Spell[]>>({});
+  const [loadingSpells, setLoadingSpells] = useState(false);
 
-  const { knownSpells, cantrips, spellSlots, spellSystemInfo, canCast } = useMemo(() => {
+  const { knownSpells, cantrips, spellSlots, spellSystemInfo, canCast, spellSystemType } = useMemo(() => {
     if (!character || !canCastSpells(character, allClasses)) {
-      return { knownSpells: [], cantrips: [], spellSlots: {} };
+      return { knownSpells: [], cantrips: [], spellSlots: {}, spellSystemType: "none" };
     }
 
     const characterSpells = character.spells || [];
     const hasReadMagic = hasReadMagicAbility(character);
+    const systemType = getCharacterSpellSystemType(character);
 
     const allSpells: SpellWithLevel[] = [];
 
@@ -138,15 +145,19 @@ export default function Spells({
       }
     }
 
-    // Add character's known spells
+    // Add character's spells based on spell system type
     characterSpells.forEach((spell, index) => {
       const spellLevel = getSpellLevel(spell, character.class);
       if (spellLevel > 0) {
-        allSpells.push({
-          ...spell,
-          spellLevel,
-          uniqueKey: `${spell.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
-        });
+        // For magic-user types, show spells without preparation metadata
+        // For cleric types, this will be handled separately in the prepared spells section
+        if (systemType === "magic-user" && !spell.preparation) {
+          allSpells.push({
+            ...spell,
+            spellLevel,
+            uniqueKey: `${spell.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
+          });
+        }
       }
     });
 
@@ -160,8 +171,52 @@ export default function Spells({
       spellSlots: characterSpellSlots,
       spellSystemInfo: getSpellSystemInfo(character),
       canCast: canCastSpells(character, allClasses),
+      spellSystemType: systemType,
     };
   }, [character]);
+
+  // Load available spells for cleric-type characters
+  useEffect(() => {
+    if (!character || spellSystemType !== "cleric" || !Object.keys(spellSlots).length) {
+      return;
+    }
+
+    const loadSpellsForSlots = async () => {
+      setLoadingSpells(true);
+      try {
+        const spellsByLevel: Record<number, Spell[]> = {};
+        const clericClassId = character.class.find(classId => 
+          ["cleric", "druid", "paladin"].includes(classId)
+        );
+        
+        if (clericClassId) {
+          // Load spells for each spell level the character has slots for
+          for (const levelStr of Object.keys(spellSlots)) {
+            const level = parseInt(levelStr);
+            const spellsForLevel = await loadSpellsForClass(clericClassId, level);
+            spellsByLevel[level] = spellsForLevel;
+          }
+        }
+        
+        setAvailableSpells(spellsByLevel);
+      } catch (error) {
+        console.error("Error loading spells for cleric:", error);
+      } finally {
+        setLoadingSpells(false);
+      }
+    };
+
+    loadSpellsForSlots();
+  }, [character, spellSystemType, spellSlots]);
+
+  // Get prepared spells from character spells array (for cleric types)
+  const preparedSpells = useMemo(() => {
+    if (!character?.spells || spellSystemType !== "cleric") {
+      return [];
+    }
+    
+    return character.spells.filter(spell => spell.preparation);
+  }, [character?.spells, spellSystemType]);
 
   // Show skeleton while loading
   if (loading || !character) {
@@ -177,10 +232,60 @@ export default function Spells({
     return null;
   }
 
-  // Computed values
-  const hasAnySpells = knownSpells.length > 0 || cantrips.length > 0;
+  // Helper functions for cleric spell preparation
+  const handleSpellPreparation = (slotLevel: number, slotIndex: number, spellName: string) => {
+    if (!character || !onCharacterChange) return;
+    
+    const selectedSpell = availableSpells[slotLevel]?.find(spell => spell.name === spellName);
+    if (!selectedSpell) return;
+    
+    const currentSpells = character.spells || [];
+    
+    // Remove any existing spell prepared in this slot
+    const filteredSpells = currentSpells.filter(
+      spell => !(spell.preparation?.slotLevel === slotLevel && spell.preparation?.slotIndex === slotIndex)
+    );
+    
+    // Add the new prepared spell
+    const newPreparedSpell: Spell = {
+      ...selectedSpell,
+      preparation: {
+        slotLevel,
+        slotIndex,
+      },
+    };
+    
+    onCharacterChange({
+      ...character,
+      spells: [...filteredSpells, newPreparedSpell],
+    });
+  };
+  
+  const clearSpellPreparation = (slotLevel: number, slotIndex: number) => {
+    if (!character || !onCharacterChange) return;
+    
+    const currentSpells = character.spells || [];
+    const filteredSpells = currentSpells.filter(
+      spell => !(spell.preparation?.slotLevel === slotLevel && spell.preparation?.slotIndex === slotIndex)
+    );
+    
+    onCharacterChange({
+      ...character,
+      spells: filteredSpells,
+    });
+  };
+  
+  const getPreparedSpellForSlot = (slotLevel: number, slotIndex: number): Spell | null => {
+    return preparedSpells.find(
+      spell => spell.preparation?.slotLevel === slotLevel && spell.preparation?.slotIndex === slotIndex
+    ) || null;
+  };
+
+  // Computed values  
+  const hasAnySpells = knownSpells.length > 0 || cantrips.length > 0 || preparedSpells.length > 0;
   const hasSpellSlots = Object.keys(spellSlots).length > 0;
-  const isMagicUser = getCharacterSpellSystemType(character) === "magic-user";
+  const isMagicUser = spellSystemType === "magic-user";
+  const isClericType = spellSystemType === "cleric";
   const canEdit = isOwner && onCharacterChange;
 
   const renderSpell = (spell: DisplayableSpell) => (
@@ -246,76 +351,216 @@ export default function Spells({
               </section>
             )}
 
-            {/* Known Spells */}
-            <section aria-labelledby="known-spells-heading">
-              <div className="flex items-baseline justify-between mb-4">
-                <Typography
-                  variant="sectionHeading"
-                  id="known-spells-heading"
-                  className="text-zinc-100 flex items-center gap-2"
-                  as="h3"
-                >
-                  <span
-                    className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0"
-                    aria-hidden="true"
-                  />
-                  Spells
-                  {knownSpells.length > 0 && (
-                    <span
-                      className="text-sm font-normal text-zinc-400"
-                      aria-label={`${knownSpells.length} spells known`}
-                    >
-                      ({knownSpells.length})
-                    </span>
-                  )}
-                </Typography>
-
-                {/* Add Spell button for Magic-User types */}
-                {canEdit && isMagicUser && (
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={addSpellModal.open}
+            {/* Known Spells (Magic-User types) */}
+            {isMagicUser && (
+              <section aria-labelledby="known-spells-heading">
+                <div className="flex items-baseline justify-between mb-4">
+                  <Typography
+                    variant="sectionHeading"
+                    id="known-spells-heading"
+                    className="text-zinc-100 flex items-center gap-2"
+                    as="h3"
                   >
-                    <Icon name="plus" size="sm" />
-                    Add Spell
-                  </Button>
-                )}
-              </div>
+                    <span
+                      className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                    Known Spells
+                    {knownSpells.length > 0 && (
+                      <span
+                        className="text-sm font-normal text-zinc-400"
+                        aria-label={`${knownSpells.length} spells known`}
+                      >
+                        ({knownSpells.length})
+                      </span>
+                    )}
+                  </Typography>
 
-              {/* Spell Usage Explainer for Magic-User types */}
-              {isMagicUser && (
+                  {canEdit && (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={addSpellModal.open}
+                    >
+                      <Icon name="plus" size="sm" />
+                      Add Spell
+                    </Button>
+                  )}
+                </div>
+
                 <Typography
                   variant="caption"
                   className="text-zinc-500 text-xs mb-4"
                 >
                   Daily Usage: Limited by spell slots shown above
                 </Typography>
-              )}
 
-              {knownSpells.length > 0 ? (
-                <Accordion
-                  items={knownSpells}
-                  sortBy="name"
-                  labelProperty="name"
-                  showSearch={false}
-                  renderItem={renderSpell}
-                  className="mb-6"
-                  showCounts={false}
-                />
-              ) : (
-                <Card variant="standard" className="p-4 mb-6">
+                {knownSpells.length > 0 ? (
+                  <Accordion
+                    items={knownSpells}
+                    sortBy="name"
+                    labelProperty="name"
+                    showSearch={false}
+                    renderItem={renderSpell}
+                    className="mb-6"
+                    showCounts={false}
+                  />
+                ) : (
+                  <Card variant="standard" className="p-4 mb-6">
+                    <Typography
+                      variant="body"
+                      className="text-zinc-400 text-center"
+                    >
+                      No spells known yet.
+                      {canEdit && " Click 'Add Spell' to learn your first spell."}
+                    </Typography>
+                  </Card>
+                )}
+              </section>
+            )}
+            
+            {/* Prepared Spells (Cleric types) */}
+            {isClericType && hasSpellSlots && (
+              <section aria-labelledby="prepared-spells-heading">
+                <div className="flex items-baseline justify-between mb-4">
                   <Typography
-                    variant="body"
-                    className="text-zinc-400 text-center"
+                    variant="sectionHeading"
+                    id="prepared-spells-heading"
+                    className="text-zinc-100 flex items-center gap-2"
+                    as="h3"
                   >
-                    No spells known yet.
-                    {canEdit && isMagicUser &&
-                      " Click 'Add Spell' to learn your first spell."}
+                    <span
+                      className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                    Daily Spell Preparation
+                    {preparedSpells.length > 0 && (
+                      <span
+                        className="text-sm font-normal text-zinc-400"
+                        aria-label={`${preparedSpells.length} spells prepared`}
+                      >
+                        ({preparedSpells.length})
+                      </span>
+                    )}
                   </Typography>
-                </Card>
-              )}
-            </section>
+                </div>
+
+                <Typography
+                  variant="caption"
+                  className="text-zinc-500 text-xs mb-6"
+                >
+                  You can prepare any spell of a level for which you have slots. Choose wisely - these are your spells for the day.
+                </Typography>
+
+                {loadingSpells ? (
+                  <SkeletonList items={3} showAvatar={false} label="Loading available spells..." />
+                ) : (
+                  <div className="space-y-6">
+                    {Object.entries(spellSlots)
+                      .sort(([a], [b]) => parseInt(a) - parseInt(b))
+                      .map(([levelStr, slotCount]) => {
+                        const level = parseInt(levelStr);
+                        const availableForLevel = availableSpells[level] || [];
+                        
+                        return (
+                          <div key={level} className="space-y-3">
+                            <Typography
+                              variant="subHeading"
+                              className="text-purple-300 flex items-center gap-2"
+                            >
+                              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-600/30 border border-purple-500/50">
+                                <Typography
+                                  variant="caption"
+                                  className="text-purple-200 text-xs font-bold leading-none"
+                                >
+                                  {level}
+                                </Typography>
+                              </div>
+                              Level {level} Spells ({slotCount} slot{slotCount !== 1 ? 's' : ''})
+                            </Typography>
+                            
+                            <div className="grid gap-3">
+                              {Array.from({ length: slotCount }, (_, index) => {
+                                const preparedSpell = getPreparedSpellForSlot(level, index);
+                                const selectOptions: SelectOption[] = [
+                                  { value: "", label: "-- Select a spell --" },
+                                  ...availableForLevel.map(spell => ({
+                                    value: spell.name,
+                                    label: spell.name,
+                                  }))
+                                ];
+                                
+                                return (
+                                  <div key={`${level}-${index}`} className="space-y-2">
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 items-end">
+                                      <div className="lg:col-span-2">
+                                        {canEdit ? (
+                                          <Select
+                                            label={`Slot ${index + 1}`}
+                                            options={selectOptions}
+                                            value={preparedSpell?.name || ""}
+                                            placeholder="-- Select a spell --"
+                                            onValueChange={(spellName) => {
+                                              if (spellName) {
+                                                handleSpellPreparation(level, index, spellName);
+                                              } else {
+                                                clearSpellPreparation(level, index);
+                                              }
+                                            }}
+                                            disabled={availableForLevel.length === 0}
+                                          />
+                                        ) : (
+                                          <div>
+                                            <Typography variant="caption" className="block text-zinc-400 mb-1">
+                                              Slot {index + 1}
+                                            </Typography>
+                                            <div className="px-4 py-3 bg-zinc-800 border-2 border-zinc-600 rounded-lg">
+                                              <Typography variant="body" className="text-zinc-100">
+                                                {preparedSpell?.name || "No spell prepared"}
+                                              </Typography>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                      
+                                      {canEdit && preparedSpell && (
+                                        <Button
+                                          size="sm"
+                                          variant="ghost"
+                                          onClick={() => clearSpellPreparation(level, index)}
+                                          className="self-end"
+                                        >
+                                          <Icon name="close" size="sm" />
+                                          Clear
+                                        </Button>
+                                      )}
+                                    </div>
+                                    
+                                    {preparedSpell && (
+                                      <Accordion
+                                        items={[{
+                                          ...preparedSpell,
+                                          uniqueKey: `prepared-${level}-${index}`,
+                                        }]}
+                                        sortBy="name"
+                                        labelProperty="name"
+                                        renderItem={(spell) => <SpellDetails spell={spell} />}
+                                        showSearch={false}
+                                        showCounts={false}
+                                        className="mt-2"
+                                      />
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+              </section>
+            )}
 
             {/* Cantrips/Orisons */}
             <section aria-labelledby="cantrips-heading">

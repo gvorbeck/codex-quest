@@ -17,6 +17,11 @@ export interface Spell {
   };
   duration: string;
   description: string;
+  // Optional preparation metadata for cleric-type characters
+  preparation?: {
+    slotLevel: number;
+    slotIndex: number;
+  };
 }
 
 export interface Cantrip {
