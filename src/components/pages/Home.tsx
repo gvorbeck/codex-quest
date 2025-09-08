@@ -1,7 +1,12 @@
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui";
 import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
-import { Icon, TextHeader, HeroSection, FeatureCard } from "@/components/ui/display";
+import {
+  Icon,
+  TextHeader,
+  HeroSection,
+  FeatureCard,
+} from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import {
   Tabs,
@@ -24,7 +29,7 @@ function Home() {
 
   return (
     <PageWrapper>
-      <section className="space-y-6 sm:space-y-8 px-2 sm:px-6 lg:px-8">
+      <section className="space-y-6 sm:space-y-8">
         {/* Show character list for authenticated users */}
         {user && (
           <Card variant="standard" size="compact" className="sm:p-6">
