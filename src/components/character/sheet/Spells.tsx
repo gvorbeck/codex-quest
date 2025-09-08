@@ -42,6 +42,18 @@ interface CantripWithLevel extends Cantrip {
 
 type DisplayableSpell = SpellWithLevel | CantripWithLevel;
 
+interface SpellSectionProps {
+  title: string;
+  items: DisplayableSpell[];
+  iconColor: string;
+  usageDescription?: string;
+  emptyStateMessage: string;
+  editButtonText?: string | undefined;
+  onEditClick?: (() => void) | undefined;
+  canEdit: boolean;
+  showSearch?: boolean;
+}
+
 const READ_MAGIC_SPELL: Spell = {
   name: "Read Magic",
   range: "0 (personal)",
@@ -344,6 +356,84 @@ export default function Spells({
     <SpellDetails spell={spell} />
   );
 
+  const SpellSection = ({
+    title,
+    items,
+    iconColor,
+    usageDescription,
+    emptyStateMessage,
+    editButtonText,
+    onEditClick,
+    canEdit,
+    showSearch = false,
+  }: SpellSectionProps) => (
+    <section aria-labelledby={`${title.toLowerCase().replace(/\s+/g, '-')}-heading`}>
+      <div className="flex items-baseline justify-between mb-4">
+        <Typography
+          variant="sectionHeading"
+          id={`${title.toLowerCase().replace(/\s+/g, '-')}-heading`}
+          className="text-zinc-100 flex items-center gap-2 !mb-0"
+          as="h3"
+        >
+          <span
+            className={`w-2 h-2 ${iconColor} rounded-full flex-shrink-0`}
+            aria-hidden="true"
+          />
+          {title}
+          {items.length > 0 && (
+            <span
+              className="text-sm font-normal text-zinc-400"
+              aria-label={`${items.length} ${title.toLowerCase()}`}
+            >
+              ({items.length})
+            </span>
+          )}
+        </Typography>
+
+        {canEdit && editButtonText && onEditClick && (
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={onEditClick}
+          >
+            <Icon name={editButtonText.includes('Add') ? 'plus' : 'edit'} size="sm" />
+            {editButtonText}
+          </Button>
+        )}
+      </div>
+
+      {usageDescription && (
+        <Typography
+          variant="caption"
+          className="text-zinc-500 text-xs block mb-4"
+        >
+          {usageDescription}
+        </Typography>
+      )}
+
+      {items.length > 0 ? (
+        <Accordion
+          items={items}
+          sortBy="name"
+          labelProperty="name"
+          showSearch={showSearch}
+          renderItem={renderSpell}
+          showCounts={false}
+          {...(editButtonText?.includes('Add') && { className: 'mb-6' })}
+        />
+      ) : (
+        <Card variant="standard" className={`p-4 ${editButtonText?.includes('Add') ? 'mb-6' : ''}`}>
+          <Typography
+            variant="body"
+            className="text-zinc-400 text-center"
+          >
+            {emptyStateMessage}
+          </Typography>
+        </Card>
+      )}
+    </section>
+  );
+
   return (
     <SectionWrapper title="Spells & Cantrips" size={size} className={className}>
       <div className="p-6">
@@ -405,71 +495,17 @@ export default function Spells({
 
             {/* Known Spells (Magic-User types) */}
             {isMagicUser && (
-              <section aria-labelledby="known-spells-heading">
-                <div className="flex items-baseline justify-between mb-4">
-                  <Typography
-                    variant="sectionHeading"
-                    id="known-spells-heading"
-                    className="text-zinc-100 flex items-center gap-2"
-                    as="h3"
-                  >
-                    <span
-                      className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0"
-                      aria-hidden="true"
-                    />
-                    Known Spells
-                    {knownSpells.length > 0 && (
-                      <span
-                        className="text-sm font-normal text-zinc-400"
-                        aria-label={`${knownSpells.length} spells known`}
-                      >
-                        ({knownSpells.length})
-                      </span>
-                    )}
-                  </Typography>
-
-                  {canEdit && (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={addSpellModal.open}
-                    >
-                      <Icon name="plus" size="sm" />
-                      Add Spell
-                    </Button>
-                  )}
-                </div>
-
-                <Typography
-                  variant="caption"
-                  className="text-zinc-500 text-xs mb-4"
-                >
-                  Daily Usage: Limited by spell slots shown above
-                </Typography>
-
-                {knownSpells.length > 0 ? (
-                  <Accordion
-                    items={knownSpells}
-                    sortBy="name"
-                    labelProperty="name"
-                    showSearch={false}
-                    renderItem={renderSpell}
-                    className="mb-6"
-                    showCounts={false}
-                  />
-                ) : (
-                  <Card variant="standard" className="p-4 mb-6">
-                    <Typography
-                      variant="body"
-                      className="text-zinc-400 text-center"
-                    >
-                      No spells known yet.
-                      {canEdit &&
-                        " Click 'Add Spell' to learn your first spell."}
-                    </Typography>
-                  </Card>
-                )}
-              </section>
+              <SpellSection
+                title="Known Spells"
+                items={knownSpells}
+                iconColor="bg-amber-400"
+                usageDescription="Daily Usage: Limited by spell slots shown above"
+                emptyStateMessage={`No spells known yet.${canEdit ? " Click 'Add Spell' to learn your first spell." : ""}`}
+                editButtonText={canEdit ? "Add Spell" : undefined}
+                onEditClick={canEdit ? addSpellModal.open : undefined}
+                canEdit={!!canEdit}
+                showSearch={false}
+              />
             )}
 
             {/* Prepared Spells (Cleric types) */}
@@ -651,71 +687,17 @@ export default function Spells({
 
             {/* Cantrips/Orisons */}
             {showCantrips && (
-              <section aria-labelledby="cantrips-heading">
-                <div className="flex items-baseline justify-between mb-4">
-                  <Typography
-                    variant="sectionHeading"
-                    id="cantrips-heading"
-                    className="text-zinc-100 flex items-center gap-2 !mb-0"
-                    as="h3"
-                  >
-                    <span
-                      className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
-                      aria-hidden="true"
-                    />
-                    {spellSystemInfo.spellType}
-                    {cantrips.length > 0 && (
-                      <span
-                        className="text-sm font-normal text-zinc-400"
-                        aria-label={`${cantrips.length} known`}
-                      >
-                        ({cantrips.length})
-                      </span>
-                    )}
-                  </Typography>
-
-                  {canEdit && (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={cantripModal.open}
-                    >
-                      <Icon name="edit" size="sm" />
-                      Edit {spellSystemInfo.spellType}
-                    </Button>
-                  )}
-                </div>
-
-                <Typography
-                  variant="caption"
-                  className="text-zinc-500 text-xs block mb-4"
-                >
-                  Daily Uses: Level + {spellSystemInfo.abilityBonus}• No
-                  preparation required
-                </Typography>
-
-                {cantrips.length > 0 ? (
-                  <Accordion
-                    items={cantrips}
-                    sortBy="name"
-                    labelProperty="name"
-                    showSearch={false}
-                    renderItem={renderSpell}
-                    showCounts={false}
-                  />
-                ) : (
-                  <Card variant="standard" className="p-4">
-                    <Typography
-                      variant="body"
-                      className="text-zinc-400 text-center"
-                    >
-                      No {spellSystemInfo.spellTypeLower} known yet.
-                      {canEdit &&
-                        ` Click 'Edit ${spellSystemInfo.spellType}' to add some.`}
-                    </Typography>
-                  </Card>
-                )}
-              </section>
+              <SpellSection
+                title={spellSystemInfo.spellType}
+                items={cantrips}
+                iconColor="bg-blue-400"
+                usageDescription={`Daily Uses: Level + ${spellSystemInfo.abilityBonus} • No preparation required`}
+                emptyStateMessage={`No ${spellSystemInfo.spellTypeLower} known yet.${canEdit ? ` Click 'Edit ${spellSystemInfo.spellType}' to add some.` : ""}`}
+                editButtonText={canEdit ? `Edit ${spellSystemInfo.spellType}` : undefined}
+                onEditClick={canEdit ? cantripModal.open : undefined}
+                canEdit={!!canEdit}
+                showSearch={false}
+              />
             )}
           </div>
         ) : (
