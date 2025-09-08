@@ -1,23 +1,26 @@
-import React, { useState, useMemo, useCallback, memo } from "react";
+import { useMemo, memo, useEffect } from "react";
 import { StepWrapper } from "@/components/ui/layout";
 import { SimpleRoller } from "@/components/ui/display";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
-import type { Equipment, BaseStepProps } from "@/types/character";
-import { convertToGold, updateCharacterGold } from "@/utils/currency";
-import {
-  cleanEquipmentArray,
-  ensureEquipmentAmount,
-} from "@/utils/characterCalculations";
+import type { BaseStepProps } from "@/types/character";
 import { EquipmentSelector } from "../management";
+import { useEquipmentManagement } from "@/hooks/useEquipmentManagement";
 
 type EquipmentStepProps = BaseStepProps;
 
 function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
-  const [startingGold, setStartingGold] = useState<number | undefined>(
-    character.currency.gold > 0 ? character.currency.gold : undefined
-  );
+  const {
+    startingGold,
+    handleGoldRoll,
+    handleEquipmentAdd,
+    handleEquipmentRemove,
+    totalWeight,
+    totalValue,
+    cleanedEquipment,
+    getStatusMessage,
+  } = useEquipmentManagement(character, onCharacterChange);
 
   // Auto-add spellbook for magic-users
   const isMagicUser = useMemo(
@@ -32,15 +35,15 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   );
 
   // Initialize character with spellbook if they're a magic-user and don't have one
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMagicUser && !hasSpellbook) {
-      const spellbook: Equipment = {
+      const spellbook = {
         name: "Spellbook (128 pages)",
         costValue: 25,
-        costCurrency: "gp",
+        costCurrency: "gp" as const,
         weight: 1,
-        category: "general-equipment",
-        subCategory: "wizards-wares",
+        category: "general-equipment" as const,
+        subCategory: "wizards-wares" as const,
         amount: 1,
       };
 
@@ -50,155 +53,6 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       });
     }
   }, [isMagicUser, hasSpellbook, character, onCharacterChange]);
-
-  const handleGoldRoll = (value: number | undefined) => {
-    // The value here is already the final result from 3d6*10
-    setStartingGold(value);
-    onCharacterChange({
-      ...character,
-      currency: {
-        ...character.currency,
-        gold: value || 0,
-      },
-    });
-  };
-
-  const handleEquipmentAdd = useCallback(
-    (equipment: Equipment) => {
-      // Calculate the cost in gold pieces using utility function
-      const costInGold = convertToGold(
-        equipment.costValue,
-        equipment.costCurrency
-      );
-
-      // Check if character has enough gold
-      if (character.currency.gold < costInGold) {
-        // Could add a toast notification here in the future
-        return;
-      }
-
-      // Clean the equipment array first, then work with the clean array
-      const cleanedEquipment = cleanEquipmentArray(character.equipment);
-      const existingItem = cleanedEquipment.find(
-        (item) => item.name === equipment.name
-      );
-
-      if (existingItem) {
-        // Increase amount of existing item and deduct gold
-        const updatedEquipment = cleanedEquipment.map((item) =>
-          item.name === equipment.name
-            ? { ...item, amount: item.amount + 1 }
-            : item
-        );
-        const updatedCharacter = updateCharacterGold(
-          character,
-          character.currency.gold - costInGold
-        );
-        setStartingGold(updatedCharacter.currency.gold);
-        onCharacterChange({
-          ...updatedCharacter,
-          equipment: updatedEquipment,
-        });
-      } else {
-        // Add new item with amount 1 and deduct gold
-        const updatedCharacter = updateCharacterGold(
-          character,
-          character.currency.gold - costInGold
-        );
-        setStartingGold(updatedCharacter.currency.gold);
-
-        // Clean equipment array and add new item with proper amount
-        const cleanedEquipment = cleanEquipmentArray(character.equipment);
-        const newEquipment = ensureEquipmentAmount(equipment);
-
-        onCharacterChange({
-          ...updatedCharacter,
-          equipment: [...cleanedEquipment, newEquipment],
-        });
-      }
-    },
-    [character, onCharacterChange, setStartingGold]
-  );
-
-  const handleEquipmentRemove = (equipmentName: string) => {
-    const existingItem = character.equipment.find(
-      (item) => item.name === equipmentName && item.amount > 0
-    );
-
-    if (existingItem) {
-      // Calculate refund in gold pieces using utility function
-      const refundInGold = convertToGold(
-        existingItem.costValue,
-        existingItem.costCurrency
-      );
-
-      if (existingItem.amount > 1) {
-        // Decrease amount and refund gold
-        const updatedEquipment = character.equipment.map((item) =>
-          item.name === equipmentName
-            ? { ...item, amount: item.amount - 1 }
-            : item
-        );
-        const updatedCharacter = updateCharacterGold(
-          character,
-          character.currency.gold + refundInGold
-        );
-        setStartingGold(updatedCharacter.currency.gold);
-        onCharacterChange({
-          ...updatedCharacter,
-          equipment: updatedEquipment,
-        });
-      } else {
-        // Remove item entirely and refund gold
-        const updatedEquipment = character.equipment.filter(
-          (item) => item.name !== equipmentName
-        );
-        const updatedCharacter = updateCharacterGold(
-          character,
-          character.currency.gold + refundInGold
-        );
-        setStartingGold(updatedCharacter.currency.gold);
-        onCharacterChange({
-          ...updatedCharacter,
-          equipment: updatedEquipment,
-        });
-      }
-    }
-  };
-
-  const totalWeight = useMemo(() => {
-    const weight = cleanEquipmentArray(character.equipment).reduce(
-      (total, item) => total + item.weight * item.amount,
-      0
-    );
-    // Round to 1 decimal place to avoid floating point precision errors
-    return Math.round(weight * 10) / 10;
-  }, [character.equipment]);
-
-  const totalValue = useMemo(() => {
-    const value = cleanEquipmentArray(character.equipment).reduce(
-      (total, item) => {
-        const itemValueInGold = convertToGold(
-          item.costValue * item.amount,
-          item.costCurrency
-        );
-        return total + itemValueInGold;
-      },
-      0
-    );
-    // Round to 2 decimal places to avoid floating point precision errors
-    return Math.round(value * 100) / 100;
-  }, [character.equipment]);
-
-  const getStatusMessage = () => {
-    const itemCount = cleanEquipmentArray(character.equipment).length;
-    if (character.currency.gold > 0 && itemCount > 0) {
-      return `${itemCount} items, ${character.currency.gold} gp remaining`;
-    } else if (character.currency.gold > 0) {
-      return `${character.currency.gold} gp available`;
-    }
-    return "";
-  };
 
   return (
     <StepWrapper
@@ -262,7 +116,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
       <section className="mb-8">
         <Typography variant="sectionHeading">Current Equipment</Typography>
 
-        {cleanEquipmentArray(character.equipment).length === 0 ? (
+        {cleanedEquipment.length === 0 ? (
           <Card variant="standard">
             <div className="flex items-center gap-3">
               <Icon name="clipboard" size="md" className="text-zinc-400" />
@@ -286,7 +140,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             </div>
 
             <div className="space-y-3 mb-6">
-              {cleanEquipmentArray(character.equipment).map((item, index) => (
+              {cleanedEquipment.map((item, index) => (
                 <Card key={`${item.name}-${index}`} variant="success">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                     <div className="flex-1">

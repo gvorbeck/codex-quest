@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/ui/display";
+import { Card } from "@/components/ui/design-system";
 import { CARD_DECORATION_SIZES } from "@/constants/theme";
 import type { ReactNode } from "react";
 
@@ -26,7 +27,11 @@ export function BaseCard({
   children,
 }: BaseCardProps) {
   return (
-    <div className="group relative bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-2 border-zinc-700/50 rounded-xl p-4 sm:p-6 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1 min-w-0 w-full">
+    <Card 
+      variant="gradient" 
+      size="default"
+      className="group relative min-w-0 w-full"
+    >
       {/* Clickable overlay for entire card */}
       <Link
         href={href}
@@ -85,6 +90,6 @@ export function BaseCard({
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

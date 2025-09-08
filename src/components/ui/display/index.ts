@@ -50,3 +50,5 @@ export { RequirementCard } from "./RequirementCard";
 // Generic Components
 export { ItemGrid } from "./ItemGrid";
 export { BaseCard } from "./BaseCard";
+export { HeroSection } from "./HeroSection";
+export { FeatureCard } from "./FeatureCard";

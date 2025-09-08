@@ -1,5 +1,5 @@
 import { useRoute } from "wouter";
-import { useMemo, useCallback, useState } from "react";
+import { useMemo, useCallback, useState, Suspense } from "react";
 import { Breadcrumb, Icon } from "@/components/ui/display";
 import { Button } from "@/components/ui/inputs";
 import { PageWrapper } from "@/components/ui/layout";
@@ -17,7 +17,7 @@ import {
   TreasureGeneratorModal,
   CombatTrackerModal,
   EncounterGeneratorModal,
-} from "@/components/modals";
+} from "@/components/modals/LazyModals";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -293,27 +293,31 @@ export default function GameSheet() {
         {/* Dice Roller Modal */}
         <DiceRollerModal />
 
-        {/* Treasure Generator Modal */}
-        <TreasureGeneratorModal
-          isOpen={isTreasureModalOpen}
-          onClose={handleTreasureModalClose}
-        />
+        {/* Lazy-loaded Modals with Suspense */}
+        <Suspense fallback={<LoadingState message="Loading treasure generator..." />}>
+          <TreasureGeneratorModal
+            isOpen={isTreasureModalOpen}
+            onClose={handleTreasureModalClose}
+          />
+        </Suspense>
 
-        {/* Combat Tracker Modal */}
-        <CombatTrackerModal
-          isOpen={isCombatTrackerModalOpen}
-          onClose={handleCombatTrackerModalClose}
-          game={game}
-          onUpdateGame={handleGameChange}
-        />
+        <Suspense fallback={<LoadingState message="Loading combat tracker..." />}>
+          <CombatTrackerModal
+            isOpen={isCombatTrackerModalOpen}
+            onClose={handleCombatTrackerModalClose}
+            game={game}
+            onUpdateGame={handleGameChange}
+          />
+        </Suspense>
 
-        {/* Encounter Generator Modal */}
-        <EncounterGeneratorModal
-          isOpen={isEncounterGeneratorModalOpen}
-          onClose={handleEncounterGeneratorModalClose}
-          onAddToCombat={handleAddToCombat}
-          onOpenCombatTracker={handleCombatTrackerOpen}
-        />
+        <Suspense fallback={<LoadingState message="Loading encounter generator..." />}>
+          <EncounterGeneratorModal
+            isOpen={isEncounterGeneratorModalOpen}
+            onClose={handleEncounterGeneratorModalClose}
+            onAddToCombat={handleAddToCombat}
+            onOpenCombatTracker={handleCombatTrackerOpen}
+          />
+        </Suspense>
       </PageWrapper>
 
       {/* Update loading indicator */}

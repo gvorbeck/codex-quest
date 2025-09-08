@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 
-type CardVariant = "info" | "success" | "standard" | "nested";
+type CardVariant = "info" | "success" | "standard" | "nested" | "gradient" | "hero";
 type CardSize = "compact" | "default";
 type CardShadow = "soft" | "standard" | "elevated";
 
@@ -36,6 +36,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       success: "bg-lime-950/20 border-lime-600", 
       standard: "bg-zinc-800 border-zinc-600",
       nested: "bg-zinc-800/50 border-amber-700/30",
+      gradient: "bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-zinc-700/50 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1",
+      hero: "bg-gradient-to-br from-background-secondary to-background-tertiary border-border/50 relative",
     };
 
     // Size styles
