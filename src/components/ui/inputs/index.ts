@@ -9,7 +9,6 @@ export { default as Checkbox } from "./Checkbox";
 export { default as FileUpload } from "./FileUpload";
 export { default as EditableValue } from "./EditableValue";
 export { default as FormField } from "./FormField";
-export { FloatingActionButton, FABGroup } from "./FloatingActionButton";
 
 // Character Creation Abstractions
 export { OptionToggle } from "./OptionToggle";

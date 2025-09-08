@@ -8,5 +8,4 @@ export { ReviewStep } from "./ReviewStep";
 export { StandardClassSelector } from "./StandardClassSelector";
 export { CombinationClassSelector } from "./CombinationClassSelector";
 export { SpellSelector } from "./SpellSelector";
-export { SpellChecklistSelector } from "./SpellChecklistSelector";
 export { default as LanguageSelector } from "./LanguageSelector";
