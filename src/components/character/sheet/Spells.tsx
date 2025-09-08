@@ -7,8 +7,7 @@ import {
   getCharacterSpellSystemType,
 } from "@/utils/characterHelpers";
 import type { Character, Spell, Cantrip } from "@/types/character";
-import { SectionWrapper } from "@/components/ui/layout";
-import { Accordion } from "@/components/ui/layout";
+import { SectionWrapper, Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
@@ -29,12 +28,12 @@ interface SpellsProps {
 
 interface SpellWithLevel extends Spell {
   spellLevel: number;
-  uniqueKey: string; // Unique identifier for accordion grouping
+  uniqueKey: string;
   [key: string]: unknown;
 }
 
 interface CantripWithLevel extends Cantrip {
-  spellLevel: 0; // Cantrips are always level 0
+  spellLevel: 0;
   uniqueKey: string;
   [key: string]: unknown;
 }
@@ -83,14 +82,11 @@ function getSpellSystemInfo(character: Character) {
     hasDivineClasses && !hasArcaneClasses ? "Orisons" : "Cantrips";
   const spellTypeLower = spellType.toLowerCase();
 
-  let abilityBonus: string;
-  if (hasDivineClasses && hasArcaneClasses) {
-    abilityBonus = "Intelligence/Wisdom Bonus";
-  } else if (hasDivineClasses) {
-    abilityBonus = "Wisdom Bonus";
-  } else {
-    abilityBonus = "Intelligence Bonus";
-  }
+  const abilityBonus = hasDivineClasses && hasArcaneClasses
+    ? "Intelligence/Wisdom Bonus"
+    : hasDivineClasses
+    ? "Wisdom Bonus"
+    : "Intelligence Bonus";
 
   return {
     hasDivineClasses,
@@ -102,13 +98,10 @@ function getSpellSystemInfo(character: Character) {
 }
 
 function getCharacterCantrips(character: Character): CantripWithLevel[] {
-  // Return only the cantrips that the character knows
   return (character.cantrips || []).map((cantrip, index) => ({
     ...cantrip,
     spellLevel: 0 as const,
-    uniqueKey: `cantrip-${cantrip.name
-      .toLowerCase()
-      .replace(/\s+/g, "-")}-${index}`,
+    uniqueKey: `cantrip-${cantrip.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
   }));
 }
 
@@ -120,18 +113,10 @@ export default function Spells({
   className = "",
   size = "md",
 }: SpellsProps) {
-  const {
-    isOpen: showCantripModal,
-    open: openCantripModal,
-    close: closeCantripModal,
-  } = useModal();
+  const cantripModal = useModal();
+  const addSpellModal = useModal();
 
-  const {
-    isOpen: showAddSpellModal,
-    open: openAddSpellModal,
-    close: closeAddSpellModal,
-  } = useModal();
-  const { knownSpells, cantrips, spellSlots } = useMemo(() => {
+  const { knownSpells, cantrips, spellSlots, spellSystemInfo, canCast } = useMemo(() => {
     if (!character || !canCastSpells(character, allClasses)) {
       return { knownSpells: [], cantrips: [], spellSlots: {} };
     }
@@ -160,26 +145,21 @@ export default function Spells({
         allSpells.push({
           ...spell,
           spellLevel,
-          uniqueKey: `${spell.name
-            .toLowerCase()
-            .replace(/\s+/g, "-")}-${index}`,
+          uniqueKey: `${spell.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
         });
       }
     });
 
-    // Get the character's known cantrips
     const characterCantrips = getCharacterCantrips(character);
-
-    // Separate spells and cantrips
     const spells = allSpells.filter((spell) => spell.spellLevel > 0);
-
-    // Calculate spell slots
     const characterSpellSlots = getSpellSlots(character, allClasses);
 
     return {
       knownSpells: spells,
       cantrips: characterCantrips,
       spellSlots: characterSpellSlots,
+      spellSystemInfo: getSpellSystemInfo(character),
+      canCast: canCastSpells(character, allClasses),
     };
   }, [character]);
 
@@ -192,16 +172,20 @@ export default function Spells({
     );
   }
 
-  const renderSpell = (spell: DisplayableSpell) => (
-    <SpellDetails spell={spell} />
-  );
-
   // Don't render if character can't cast spells
-  if (!canCastSpells(character, allClasses)) {
+  if (!canCast) {
     return null;
   }
 
+  // Computed values
   const hasAnySpells = knownSpells.length > 0 || cantrips.length > 0;
+  const hasSpellSlots = Object.keys(spellSlots).length > 0;
+  const isMagicUser = getCharacterSpellSystemType(character) === "magic-user";
+  const canEdit = isOwner && onCharacterChange;
+
+  const renderSpell = (spell: DisplayableSpell) => (
+    <SpellDetails spell={spell} />
+  );
 
   return (
     <SectionWrapper title="Spells & Cantrips" size={size} className={className}>
@@ -209,7 +193,7 @@ export default function Spells({
         {hasAnySpells ? (
           <div className="space-y-6">
             {/* Spell Slots */}
-            {Object.keys(spellSlots).length > 0 && (
+            {hasSpellSlots && (
               <section aria-labelledby="spell-slots-heading">
                 <Typography
                   variant="sectionHeading"
@@ -233,10 +217,10 @@ export default function Spells({
                       .map(([level, slots]) => (
                         <div
                           key={level}
-                          className="group relative flex items-center gap-2 bg-gradient-to-br from-purple-800/20 to-purple-900/40 border border-purple-700/50 rounded-lg px-3 py-2 shadow-sm hover:shadow-purple-500/10 hover:border-purple-600/60 transition-all duration-200"
+                          className="group relative flex items-center gap-2 rounded-lg px-3 py-2 bg-gradient-to-br from-purple-800/20 to-purple-900/40 border border-purple-700/50 shadow-sm transition-all duration-200 hover:shadow-purple-500/10 hover:border-purple-600/60"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="flex items-center justify-center w-6 h-6 bg-purple-600/30 border border-purple-500/50 rounded-full">
+                            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-600/30 border border-purple-500/50">
                               <Typography
                                 variant="caption"
                                 className="text-purple-200 text-xs font-bold leading-none"
@@ -244,7 +228,7 @@ export default function Spells({
                                 {level}
                               </Typography>
                             </div>
-                            <div className="flex items-center justify-center min-w-[28px] h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-md shadow-sm">
+                            <div className="flex items-center justify-center min-w-[28px] h-6 rounded-md shadow-sm bg-gradient-to-br from-amber-500 to-orange-500">
                               <Typography
                                 variant="caption"
                                 className="text-zinc-900 text-xs font-bold leading-none"
@@ -287,22 +271,20 @@ export default function Spells({
                 </Typography>
 
                 {/* Add Spell button for Magic-User types */}
-                {isOwner &&
-                  onCharacterChange &&
-                  getCharacterSpellSystemType(character) === "magic-user" && (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={openAddSpellModal}
-                    >
-                      <Icon name="plus" size="sm" />
-                      Add Spell
-                    </Button>
-                  )}
+                {canEdit && isMagicUser && (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={addSpellModal.open}
+                  >
+                    <Icon name="plus" size="sm" />
+                    Add Spell
+                  </Button>
+                )}
               </div>
 
               {/* Spell Usage Explainer for Magic-User types */}
-              {getCharacterSpellSystemType(character) === "magic-user" && (
+              {isMagicUser && (
                 <Typography
                   variant="caption"
                   className="text-zinc-500 text-xs mb-4"
@@ -328,8 +310,7 @@ export default function Spells({
                     className="text-zinc-400 text-center"
                   >
                     No spells known yet.
-                    {isOwner &&
-                      getCharacterSpellSystemType(character) === "magic-user" &&
+                    {canEdit && isMagicUser &&
                       " Click 'Add Spell' to learn your first spell."}
                   </Typography>
                 </Card>
@@ -349,7 +330,7 @@ export default function Spells({
                     className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
                     aria-hidden="true"
                   />
-                  {getSpellSystemInfo(character).spellType}
+                  {spellSystemInfo.spellType}
                   {cantrips.length > 0 && (
                     <span
                       className="text-sm font-normal text-zinc-400"
@@ -360,14 +341,14 @@ export default function Spells({
                   )}
                 </Typography>
 
-                {isOwner && onCharacterChange && (
+                {canEdit && (
                   <Button
                     size="sm"
                     variant="secondary"
-                    onClick={openCantripModal}
+                    onClick={cantripModal.open}
                   >
                     <Icon name="edit" size="sm" />
-                    Edit {getSpellSystemInfo(character).spellType}
+                    Edit {spellSystemInfo.spellType}
                   </Button>
                 )}
               </div>
@@ -376,7 +357,7 @@ export default function Spells({
                 variant="caption"
                 className="text-zinc-500 text-xs mb-4"
               >
-                Daily Uses: Level + {getSpellSystemInfo(character).abilityBonus}
+                Daily Uses: Level + {spellSystemInfo.abilityBonus}
                 • No preparation required
               </Typography>
 
@@ -395,42 +376,38 @@ export default function Spells({
                     variant="body"
                     className="text-zinc-400 text-center"
                   >
-                    No {getSpellSystemInfo(character).spellTypeLower} known yet.
-                    {isOwner &&
-                      ` Click 'Edit ${
-                        getSpellSystemInfo(character).spellType
-                      }' to add some.`}
+                    No {spellSystemInfo.spellTypeLower} known yet.
+                    {canEdit &&
+                      ` Click 'Edit ${spellSystemInfo.spellType}' to add some.`}
                   </Typography>
                 </Card>
               )}
             </section>
           </div>
         ) : (
-          <div className="status-message" role="status" aria-live="polite">
-            <div className="text-zinc-400 space-y-2">
-              <Typography variant="body" className="text-lg">
-                No spells known
-              </Typography>
-              <Typography variant="caption" className="text-sm">
-                This character doesn't know any spells yet.
-              </Typography>
-            </div>
+          <div className="status-message text-zinc-400 space-y-2" role="status" aria-live="polite">
+            <Typography variant="body" className="text-lg">
+              No spells known
+            </Typography>
+            <Typography variant="caption" className="text-sm">
+              This character doesn't know any spells yet.
+            </Typography>
           </div>
         )}
       </div>
 
       {/* Cantrip Edit Modal */}
-      {isOwner && onCharacterChange && (
+      {canEdit && (
         <Modal
-          isOpen={showCantripModal}
-          onClose={closeCantripModal}
-          title={`Edit ${getSpellSystemInfo(character).spellType}`}
+          isOpen={cantripModal.isOpen}
+          onClose={cantripModal.close}
+          title={`Edit ${spellSystemInfo.spellType}`}
           size="lg"
         >
           <CantripSelector
             character={character}
             onCantripChange={(cantrips) => {
-              onCharacterChange({
+              onCharacterChange!({
                 ...character,
                 cantrips,
               });
@@ -440,7 +417,7 @@ export default function Spells({
           />
 
           <div className="flex justify-end pt-4 mt-6 border-t border-zinc-700">
-            <Button variant="primary" onClick={closeCantripModal}>
+            <Button variant="primary" onClick={cantripModal.close}>
               Done
             </Button>
           </div>
@@ -448,22 +425,20 @@ export default function Spells({
       )}
 
       {/* Magic-User Add Spell Modal */}
-      {isOwner &&
-        onCharacterChange &&
-        getCharacterSpellSystemType(character) === "magic-user" && (
-          <MUAddSpellModal
-            isOpen={showAddSpellModal}
-            onClose={closeAddSpellModal}
-            character={character}
-            onSpellAdd={(newSpell) => {
-              const updatedSpells = [...(character.spells || []), newSpell];
-              onCharacterChange({
-                ...character,
-                spells: updatedSpells,
-              });
-            }}
-          />
-        )}
+      {canEdit && isMagicUser && (
+        <MUAddSpellModal
+          isOpen={addSpellModal.isOpen}
+          onClose={addSpellModal.close}
+          character={character}
+          onSpellAdd={(newSpell) => {
+            const updatedSpells = [...(character.spells || []), newSpell];
+            onCharacterChange!({
+              ...character,
+              spells: updatedSpells,
+            });
+          }}
+        />
+      )}
     </SectionWrapper>
   );
 }
