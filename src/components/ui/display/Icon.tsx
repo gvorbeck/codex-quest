@@ -56,7 +56,8 @@ export type IconName =
   | "language"
   | "map-pin"
   | "trash"
-  | "copy";
+  | "copy"
+  | "book";
 
 interface IconProps {
   name: IconName;
@@ -326,6 +327,13 @@ const iconPaths: Record<
       "M16 18v2a2 2 0 01-2 2H6a2 2 0 01-2-2V9a2 2 0 012-2h2",
     ],
     stroke: true,
+  },
+  book: {
+    viewBox: "0 0 20 20",
+    paths: [
+      "M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm2 3h8v1H6V6zm0 2h8v1H6V8zm0 2h5v1H6v-1z",
+    ],
+    fill: true,
   },
 };
 

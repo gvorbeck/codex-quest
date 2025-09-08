@@ -1,17 +1,22 @@
 import { useMemo } from "react";
 import { useModal } from "@/hooks/useModal";
-import { canCastSpells, getSpellLevel, getSpellSlots } from "@/utils/characterHelpers";
+import {
+  canCastSpells,
+  getSpellLevel,
+  getSpellSlots,
+  getCharacterSpellSystemType,
+} from "@/utils/characterHelpers";
 import type { Character, Spell, Cantrip } from "@/types/character";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Accordion } from "@/components/ui/layout";
-import { Badge, Card, Typography } from "@/components/ui/design-system";
+import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
-import { TextHeader } from "@/components/ui/display";
 import { SkeletonList } from "@/components/ui/feedback";
 import { Modal } from "@/components/modals";
-import { CantripSelector } from "@/components/character/shared";
+import { CantripSelector, SpellDetails } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
+import MUAddSpellModal from "@/components/modals/character/MUAddSpellModal";
 
 interface SpellsProps {
   character?: Character;
@@ -64,6 +69,40 @@ function hasReadMagicAbility(character: Character): boolean {
   });
 }
 
+function getSpellSystemInfo(character: Character) {
+  const hasDivineClasses = character.class.some((classId) =>
+    ["cleric", "druid"].includes(classId)
+  );
+  const hasArcaneClasses = character.class.some((classId) =>
+    [
+      "magic-user",
+      "illusionist",
+      "necromancer",
+      "spellcrafter",
+    ].includes(classId)
+  );
+
+  const spellType = hasDivineClasses && !hasArcaneClasses ? "Orisons" : "Cantrips";
+  const spellTypeLower = spellType.toLowerCase();
+  
+  let abilityBonus: string;
+  if (hasDivineClasses && hasArcaneClasses) {
+    abilityBonus = "Intelligence/Wisdom Bonus";
+  } else if (hasDivineClasses) {
+    abilityBonus = "Wisdom Bonus";
+  } else {
+    abilityBonus = "Intelligence Bonus";
+  }
+
+  return {
+    hasDivineClasses,
+    hasArcaneClasses,
+    spellType,
+    spellTypeLower,
+    abilityBonus,
+  };
+}
+
 function getCharacterCantrips(character: Character): CantripWithLevel[] {
   // Return only the cantrips that the character knows
   return (character.cantrips || []).map((cantrip, index) => ({
@@ -87,6 +126,12 @@ export default function Spells({
     isOpen: showCantripModal,
     open: openCantripModal,
     close: closeCantripModal,
+  } = useModal();
+
+  const {
+    isOpen: showAddSpellModal,
+    open: openAddSpellModal,
+    close: closeAddSpellModal,
   } = useModal();
   const { knownSpells, cantrips, spellSlots } = useMemo(() => {
     if (!character || !canCastSpells(character, allClasses)) {
@@ -133,7 +178,11 @@ export default function Spells({
     // Calculate spell slots
     const characterSpellSlots = getSpellSlots(character, allClasses);
 
-    return { knownSpells: spells, cantrips: characterCantrips, spellSlots: characterSpellSlots };
+    return {
+      knownSpells: spells,
+      cantrips: characterCantrips,
+      spellSlots: characterSpellSlots,
+    };
   }, [character]);
 
   // Show skeleton while loading
@@ -146,114 +195,7 @@ export default function Spells({
   }
 
   const renderSpell = (spell: DisplayableSpell) => (
-    <div
-      className="space-y-4"
-      role="article"
-      aria-labelledby={`spell-${spell.uniqueKey}-name`}
-    >
-      {/* Hidden spell name for screen readers */}
-      <Typography
-        variant="h4"
-        as="h4"
-        id={`spell-${spell.uniqueKey}-name`}
-        className="sr-only"
-      >
-        {spell.name} -{" "}
-        {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel} Spell`}
-      </Typography>
-
-      {/* Spell Details */}
-      <div
-        className={`grid grid-cols-1 gap-3 ${
-          "range" in spell && "duration" in spell
-            ? "sm:grid-cols-3"
-            : "sm:grid-cols-1"
-        }`}
-        role="group"
-        aria-labelledby={`spell-${spell.uniqueKey}-name`}
-      >
-        <Card variant="nested" className="p-3!">
-          <TextHeader
-            variant="h6"
-            size="sm"
-            underlined={false}
-            className="text-zinc-300 mb-1"
-            id={`spell-${spell.uniqueKey}-level-label`}
-          >
-            Level
-          </TextHeader>
-          <div className="flex items-center">
-            <Badge
-              variant="status"
-              className="text-xs"
-              role="text"
-              aria-labelledby={`spell-${spell.uniqueKey}-level-label`}
-            >
-              {spell.spellLevel === 0 ? "Cantrip" : `Level ${spell.spellLevel}`}
-            </Badge>
-          </div>
-        </Card>
-        {"range" in spell && "duration" in spell && (
-          <>
-            <Card variant="nested" className="p-3!">
-              <TextHeader
-                variant="h6"
-                size="sm"
-                underlined={false}
-                className="text-zinc-300 mb-1"
-                id={`spell-${spell.uniqueKey}-range-label`}
-              >
-                Range
-              </TextHeader>
-              <Typography
-                variant="caption"
-                className="text-zinc-400"
-                aria-labelledby={`spell-${spell.uniqueKey}-range-label`}
-              >
-                {"range" in spell ? String(spell.range) : ""}
-              </Typography>
-            </Card>
-            <Card variant="nested" className="p-3!">
-              <TextHeader
-                variant="h6"
-                size="sm"
-                underlined={false}
-                className="text-zinc-300 mb-1"
-                id={`spell-${spell.uniqueKey}-duration-label`}
-              >
-                Duration
-              </TextHeader>
-              <Typography
-                variant="caption"
-                className="text-zinc-400"
-                aria-labelledby={`spell-${spell.uniqueKey}-duration-label`}
-              >
-                {"duration" in spell ? String(spell.duration) : ""}
-              </Typography>
-            </Card>
-          </>
-        )}
-      </div>
-
-      {/* Spell Description */}
-      <Card variant="nested" className="p-3">
-        <Typography
-          variant="subHeading"
-          className="text-zinc-300 mb-2"
-          id={`spell-${spell.uniqueKey}-description-label`}
-        >
-          Description
-        </Typography>
-        <Typography
-          variant="description"
-          className="text-zinc-400"
-          aria-labelledby={`spell-${spell.uniqueKey}-description-label`}
-          role="text"
-        >
-          {spell.description}
-        </Typography>
-      </Card>
-    </div>
+    <SpellDetails spell={spell} />
   );
 
   // Don't render if character can't cast spells
@@ -283,7 +225,10 @@ export default function Spells({
                   />
                   Spell Slots per Day
                 </Typography>
-                <Card variant="nested" className="p-4 mb-6 bg-gradient-to-r from-purple-950/30 to-indigo-950/30 border-purple-800/30">
+                <Card
+                  variant="nested"
+                  className="p-4 mb-6 bg-gradient-to-r from-purple-950/30 to-indigo-950/30 border-purple-800/30"
+                >
                   <div className="flex flex-wrap gap-2">
                     {Object.entries(spellSlots)
                       .sort(([a], [b]) => parseInt(a) - parseInt(b))
@@ -320,8 +265,8 @@ export default function Spells({
             )}
 
             {/* Known Spells */}
-            {knownSpells.length > 0 && (
-              <section aria-labelledby="known-spells-heading">
+            <section aria-labelledby="known-spells-heading">
+              <div className="flex items-baseline justify-between mb-4">
                 <Typography
                   variant="sectionHeading"
                   id="known-spells-heading"
@@ -333,13 +278,32 @@ export default function Spells({
                     aria-hidden="true"
                   />
                   Spells
-                  <span
-                    className="text-sm font-normal text-zinc-400"
-                    aria-label={`${knownSpells.length} spells known`}
-                  >
-                    ({knownSpells.length})
-                  </span>
+                  {knownSpells.length > 0 && (
+                    <span
+                      className="text-sm font-normal text-zinc-400"
+                      aria-label={`${knownSpells.length} spells known`}
+                    >
+                      ({knownSpells.length})
+                    </span>
+                  )}
                 </Typography>
+
+                {/* Add Spell button for Magic-User types */}
+                {isOwner &&
+                  onCharacterChange &&
+                  getCharacterSpellSystemType(character) === "magic-user" && (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={openAddSpellModal}
+                    >
+                      <Icon name="plus" size="sm" />
+                      Add Spell
+                    </Button>
+                  )}
+              </div>
+
+              {knownSpells.length > 0 ? (
                 <Accordion
                   items={knownSpells}
                   sortBy="name"
@@ -349,106 +313,64 @@ export default function Spells({
                   className="mb-6"
                   showCounts={false}
                 />
-              </section>
-            )}
+              ) : (
+                <Card variant="standard" className="p-4 mb-6">
+                  <Typography
+                    variant="body"
+                    className="text-zinc-400 text-center"
+                  >
+                    No spells known yet.
+                    {isOwner &&
+                      getCharacterSpellSystemType(character) === "magic-user" &&
+                      " Click 'Add Spell' to learn your first spell."}
+                  </Typography>
+                </Card>
+              )}
+            </section>
 
             {/* Cantrips/Orisons */}
             <section aria-labelledby="cantrips-heading">
-              <div className="flex flex-col gap-2 mb-4">
-                <div className="flex items-center justify-between">
-                  <Typography
-                    variant="sectionHeading"
-                    id="cantrips-heading"
-                    className="text-zinc-100 flex items-center gap-2"
-                    as="h3"
-                  >
+              <div className="flex items-baseline justify-between mb-4">
+                <Typography
+                  variant="sectionHeading"
+                  id="cantrips-heading"
+                  className="text-zinc-100 flex items-center gap-2"
+                  as="h3"
+                >
+                  <span
+                    className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
+                    aria-hidden="true"
+                  />
+{getSpellSystemInfo(character).spellType}
+                  {cantrips.length > 0 && (
                     <span
-                      className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
-                      aria-hidden="true"
-                    />
-                    {(() => {
-                      const hasDivineClasses = character.class.some((classId) =>
-                        ["cleric", "druid"].includes(classId)
-                      );
-                      const hasArcaneClasses = character.class.some((classId) =>
-                        [
-                          "magic-user",
-                          "illusionist",
-                          "necromancer",
-                          "spellcrafter",
-                        ].includes(classId)
-                      );
-                      const spellType =
-                        hasDivineClasses && !hasArcaneClasses
-                          ? "Orisons"
-                          : "Cantrips";
-                      return spellType;
-                    })()}
-                    {cantrips.length > 0 && (
-                      <span
-                        className="text-sm font-normal text-zinc-400"
-                        aria-label={`${cantrips.length} known`}
-                      >
-                        ({cantrips.length})
-                      </span>
-                    )}
-                  </Typography>
-
-                  {isOwner && onCharacterChange && (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={openCantripModal}
+                      className="text-sm font-normal text-zinc-400"
+                      aria-label={`${cantrips.length} known`}
                     >
-                      <Icon name="edit" size="sm" />
-                      Edit{" "}
-                      {(() => {
-                        const hasDivineClasses = character.class.some(
-                          (classId) => ["cleric", "druid"].includes(classId)
-                        );
-                        const hasArcaneClasses = character.class.some(
-                          (classId) =>
-                            [
-                              "magic-user",
-                              "illusionist",
-                              "necromancer",
-                              "spellcrafter",
-                            ].includes(classId)
-                        );
-                        return hasDivineClasses && !hasArcaneClasses
-                          ? "Orisons"
-                          : "Cantrips";
-                      })()}
-                    </Button>
+                      ({cantrips.length})
+                    </span>
                   )}
-                </div>
-
-                <Typography variant="caption" className="text-zinc-500 text-xs">
-                  Daily Uses: Level +{" "}
-                  {(() => {
-                    const hasDivineClasses = character.class.some((classId) =>
-                      ["cleric", "druid"].includes(classId)
-                    );
-                    const hasArcaneClasses = character.class.some((classId) =>
-                      [
-                        "magic-user",
-                        "illusionist",
-                        "necromancer",
-                        "spellcrafter",
-                      ].includes(classId)
-                    );
-
-                    if (hasDivineClasses && hasArcaneClasses) {
-                      return "Intelligence/Wisdom Bonus";
-                    } else if (hasDivineClasses) {
-                      return "Wisdom Bonus";
-                    } else {
-                      return "Intelligence Bonus";
-                    }
-                  })()}{" "}
-                  • No preparation required
                 </Typography>
+
+                {isOwner && onCharacterChange && (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={openCantripModal}
+                  >
+                    <Icon name="edit" size="sm" />
+Edit {getSpellSystemInfo(character).spellType}
+                  </Button>
+                )}
               </div>
+
+              <Typography
+                variant="caption"
+                className="text-zinc-500 text-xs mb-4"
+              >
+Daily Uses: Level + {getSpellSystemInfo(character).abilityBonus} 
+                • No preparation required
+              </Typography>
 
               {cantrips.length > 0 ? (
                 <Accordion
@@ -465,42 +387,8 @@ export default function Spells({
                     variant="body"
                     className="text-zinc-400 text-center"
                   >
-                    No{" "}
-                    {(() => {
-                      const hasDivineClasses = character.class.some((classId) =>
-                        ["cleric", "druid"].includes(classId)
-                      );
-                      const hasArcaneClasses = character.class.some((classId) =>
-                        [
-                          "magic-user",
-                          "illusionist",
-                          "necromancer",
-                          "spellcrafter",
-                        ].includes(classId)
-                      );
-                      return hasDivineClasses && !hasArcaneClasses
-                        ? "orisons"
-                        : "cantrips";
-                    })()}{" "}
-                    known yet.
-                    {isOwner &&
-                      ` Click 'Edit ${(() => {
-                        const hasDivineClasses = character.class.some(
-                          (classId) => ["cleric", "druid"].includes(classId)
-                        );
-                        const hasArcaneClasses = character.class.some(
-                          (classId) =>
-                            [
-                              "magic-user",
-                              "illusionist",
-                              "necromancer",
-                              "spellcrafter",
-                            ].includes(classId)
-                        );
-                        return hasDivineClasses && !hasArcaneClasses
-                          ? "Orisons"
-                          : "Cantrips";
-                      })()}' to add some.`}
+No {getSpellSystemInfo(character).spellTypeLower} known yet.
+                    {isOwner && ` Click 'Edit ${getSpellSystemInfo(character).spellType}' to add some.`}
                   </Typography>
                 </Card>
               )}
@@ -525,22 +413,7 @@ export default function Spells({
         <Modal
           isOpen={showCantripModal}
           onClose={closeCantripModal}
-          title={`Edit ${(() => {
-            const hasDivineClasses = character.class.some((classId) =>
-              ["cleric", "druid"].includes(classId)
-            );
-            const hasArcaneClasses = character.class.some((classId) =>
-              [
-                "magic-user",
-                "illusionist",
-                "necromancer",
-                "spellcrafter",
-              ].includes(classId)
-            );
-            return hasDivineClasses && !hasArcaneClasses
-              ? "Orisons"
-              : "Cantrips";
-          })()}`}
+title={`Edit ${getSpellSystemInfo(character).spellType}`}
           size="lg"
         >
           <CantripSelector
@@ -562,6 +435,24 @@ export default function Spells({
           </div>
         </Modal>
       )}
+
+      {/* Magic-User Add Spell Modal */}
+      {isOwner &&
+        onCharacterChange &&
+        getCharacterSpellSystemType(character) === "magic-user" && (
+          <MUAddSpellModal
+            isOpen={showAddSpellModal}
+            onClose={closeAddSpellModal}
+            character={character}
+            onSpellAdd={(newSpell) => {
+              const updatedSpells = [...(character.spells || []), newSpell];
+              onCharacterChange({
+                ...character,
+                spells: updatedSpells,
+              });
+            }}
+          />
+        )}
     </SectionWrapper>
   );
 }

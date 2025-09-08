@@ -1,18 +1,15 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import { Modal } from "../base";
 import { Typography } from "@/components/ui/design-system";
-import { useHPGain, useSpellSelection, useLoadingState } from "@/hooks";
+import { useHPGain, useLoadingState } from "@/hooks";
 import { logger } from "@/utils/logger";
 import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
-import { loadSpellsForClass } from "@/services/dataLoader";
-import { isCustomClass, getCustomClass } from "@/utils/characterHelpers";
+import { isCustomClass } from "@/utils/characterHelpers";
 import CurrentStatusCard from "../../character/sheet/level-up/CurrentStatusCard";
 import HPGainPreview from "../../character/sheet/level-up/HPGainPreview";
 import LevelUpRequirements from "../../character/sheet/level-up/LevelUpRequirements";
-import SpellSelectionSection from "../../character/sheet/level-up/SpellSelectionSection";
 import ActionButtons from "../../character/sheet/level-up/ActionButtons";
-import { SpellChecklistSelector } from "../../character/creation/SpellChecklistSelector";
-import type { Character, Class, Spell } from "@/types/character";
+import type { Character, Class } from "@/types/character";
 
 interface LevelUpModalProps {
   isOpen: boolean;
@@ -31,13 +28,6 @@ export default function LevelUpModal({
 }: LevelUpModalProps) {
   const { loading: isProcessing, setLoading: setIsProcessing } =
     useLoadingState();
-  const [customClassSpells, setCustomClassSpells] = useState<Spell[]>([]);
-  const [availableSpellsForCustomClass, setAvailableSpellsForCustomClass] =
-    useState<Spell[]>([]);
-  const {
-    loading: isLoadingCustomSpells,
-    setLoading: setIsLoadingCustomSpells,
-  } = useLoadingState();
 
   // Get the character's primary class for level up calculations
   const getPrimaryClass = () => {
@@ -72,39 +62,6 @@ export default function LevelUpModal({
   const hasRequiredXP: boolean =
     isCustomClassCharacter ||
     (requiredXP !== undefined && character.xp >= requiredXP);
-  const customClass =
-    isCustomClassCharacter && primaryClassId
-      ? getCustomClass(character, primaryClassId)
-      : null;
-
-  // Load spells for custom classes that use magic
-  useEffect(() => {
-    const loadCustomClassSpells = async () => {
-      if (!isCustomClassCharacter || !customClass?.usesSpells || !isOpen)
-        return;
-
-      setIsLoadingCustomSpells(true);
-      try {
-        const spells = await loadSpellsForClass("magic-user"); // Use magic-user spell list as default
-        setAvailableSpellsForCustomClass(spells);
-        // Initialize custom class spells with current character spells
-        setCustomClassSpells(character.spells || []);
-      } catch (error) {
-        logger.error("Failed to load spells for custom class:", error);
-        setAvailableSpellsForCustomClass([]);
-      } finally {
-        setIsLoadingCustomSpells(false);
-      }
-    };
-
-    loadCustomClassSpells();
-  }, [
-    isCustomClassCharacter,
-    customClass?.usesSpells,
-    isOpen,
-    character.spells,
-    setIsLoadingCustomSpells,
-  ]);
 
   // Use HP gain hook
   const {
@@ -119,26 +76,6 @@ export default function LevelUpModal({
     nextLevel,
   });
 
-  // Use spell selection hook
-  const {
-    spellGainInfo,
-    organizedSpells,
-    selectedSpells,
-    selectedSpellCount,
-    isLoadingSpells,
-    error: spellError,
-    allSpellsSelected,
-    handleSpellSelection,
-    getSelectedSpellObjects,
-    clearError: clearSpellError,
-  } = useSpellSelection({
-    primaryClass: primaryClass || null,
-    hasRequiredXP,
-    currentLevel,
-    nextLevel,
-    character,
-  });
-
   // Check if character can level up
   const canLevelUp = useMemo(() => {
     if (!hasRequiredXP || !hpGainResult) return false;
@@ -146,19 +83,12 @@ export default function LevelUpModal({
     // For custom classes, we don't require a primary class object since they don't have experience tables
     if (!isCustomClassCharacter && !primaryClass) return false;
 
-    // For custom classes that use spells, we're always ready (no spell selection restrictions)
-    if (isCustomClassCharacter && customClass?.usesSpells) return true;
-
-    // For standard classes or custom classes without spells, check standard spell selection
-    return spellGainInfo ? allSpellsSelected : true;
+    return true;
   }, [
     hasRequiredXP,
     isCustomClassCharacter,
-    customClass?.usesSpells,
     primaryClass,
     hpGainResult,
-    spellGainInfo,
-    allSpellsSelected,
   ]);
 
   const handleLevelUp = async () => {
@@ -172,20 +102,7 @@ export default function LevelUpModal({
         setTimeout(resolve, LEVEL_UP_CONSTANTS.LEVEL_UP_PROCESSING_DELAY)
       );
 
-      // Prepare new spells if any were selected
-      let newSpells: Spell[] = [...(character.spells || [])];
-
-      // Handle custom class spells differently
-      if (isCustomClassCharacter && customClass?.usesSpells) {
-        // For custom classes, use the spells selected in the SpellChecklistSelector
-        newSpells = customClassSpells;
-      } else if (spellGainInfo && selectedSpellCount > 0) {
-        // For standard classes, add the newly selected spells
-        const spellsToAdd = getSelectedSpellObjects();
-        newSpells = [...newSpells, ...spellsToAdd];
-      }
-
-      // Create updated character with new level, HP, and spells
+      // Create updated character with new level and HP (no spell changes)
       const updatedCharacter: Character = {
         ...character,
         level: nextLevel,
@@ -194,9 +111,6 @@ export default function LevelUpModal({
           max: character.hp.max + hpGainResult.total,
           current: character.hp.max + hpGainResult.total, // Heal to new max
         },
-        ...(newSpells.length > (character.spells?.length || 0) && {
-          spells: newSpells,
-        }),
       };
 
       if (onLevelUp) {
@@ -218,10 +132,9 @@ export default function LevelUpModal({
   };
 
   // Handle errors
-  const hasError = hpError || spellError;
+  const hasError = hpError;
   const clearErrors = () => {
     clearHPError();
-    clearSpellError();
   };
 
   return (
@@ -256,38 +169,6 @@ export default function LevelUpModal({
           />
         )}
 
-        {/* Spell Selection */}
-        {hasRequiredXP && (
-          <>
-            {/* Custom class spell selection using SpellChecklistSelector */}
-            {isCustomClassCharacter && customClass?.usesSpells && (
-              <SpellChecklistSelector
-                character={{ ...character, spells: customClassSpells }}
-                availableSpells={availableSpellsForCustomClass}
-                onSpellsChange={setCustomClassSpells}
-                title="Spell Selection"
-                description="Select any spells your custom class should know. You can add or remove spells as needed for your character."
-                isLoading={isLoadingCustomSpells}
-                headerTitle="Level Up Spells"
-              />
-            )}
-
-            {/* Standard class spell selection */}
-            {!isCustomClassCharacter && spellGainInfo && primaryClass && (
-              <SpellSelectionSection
-                spellGainInfo={spellGainInfo}
-                organizedSpells={organizedSpells}
-                selectedSpells={selectedSpells}
-                selectedSpellCount={selectedSpellCount}
-                isLoadingSpells={isLoadingSpells}
-                error={spellError}
-                nextLevel={nextLevel}
-                onSpellSelection={handleSpellSelection}
-                onClearError={clearSpellError}
-              />
-            )}
-          </>
-        )}
 
         {/* Error Display */}
         {hasError && (
@@ -296,7 +177,7 @@ export default function LevelUpModal({
               An error occurred:
             </Typography>
             <Typography variant="helper" color="secondary" className="mb-3">
-              {hpError || spellError}
+              {hpError}
             </Typography>
             <button
               onClick={clearErrors}

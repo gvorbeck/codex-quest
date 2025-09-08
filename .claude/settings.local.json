@@ -22,7 +22,8 @@
       "Bash(cat:*)",
       "Bash(find:*)",
       "Read(//**)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(/compact)"
     ],
     "deny": [],
     "ask": []
