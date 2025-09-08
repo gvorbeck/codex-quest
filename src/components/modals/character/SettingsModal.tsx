@@ -27,8 +27,20 @@ export default function SettingsModal({
     onCharacterChange(updatedCharacter);
   };
 
+  const handleShowCantripsChange = (showCantrips: boolean) => {
+    const updatedCharacter: Character = {
+      ...character,
+      settings: {
+        ...character.settings,
+        showCantrips,
+      },
+    };
+    onCharacterChange(updatedCharacter);
+  };
+
   // Default to true if not set
   const useCoinWeight = character.settings?.useCoinWeight !== false;
+  const showCantrips = character.settings?.showCantrips !== false;
 
   return (
     <Modal
@@ -60,6 +72,32 @@ export default function SettingsModal({
                 label="Toggle coin weight"
                 checked={useCoinWeight}
                 onCheckedChange={handleUseCoinWeightChange}
+                size="md"
+              />
+            </div>
+          </div>
+
+          {/* Show Cantrips/Orisons Setting */}
+          <div className="flex items-start justify-between p-4 border border-zinc-600 rounded-lg bg-zinc-800/50">
+            <div className="flex-1 pr-4">
+              <Typography
+                variant="bodySmall"
+                color="zinc"
+                weight="medium"
+                as="h3"
+              >
+                Show Cantrips/Orisons
+              </Typography>
+              <Typography variant="caption" color="muted" className="mt-1">
+                Whether to display the cantrips/orisons section in the spells view.
+                When disabled, the section is hidden.
+              </Typography>
+            </div>
+            <div className="flex-shrink-0">
+              <Switch
+                label="Toggle cantrips visibility"
+                checked={showCantrips}
+                onCheckedChange={handleShowCantripsChange}
                 size="md"
               />
             </div>

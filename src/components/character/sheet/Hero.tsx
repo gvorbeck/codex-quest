@@ -1,10 +1,7 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
 import type { Character } from "@/types/character";
-import {
-  AvatarChangeModal,
-  SettingsModal,
-} from "@/components/modals";
+import { AvatarChangeModal, SettingsModal } from "@/components/modals";
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
@@ -19,12 +16,98 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   onCharacterChange?: (character: Character) => void;
 }
 
+// Helper functions moved outside component for better performance
+const getRaceDisplayName = (character: Character): string => {
+  if (character.race === "custom") {
+    return character.customRace?.name || "Custom";
+  }
+  const race = allRaces.find((r) => r.id === character.race);
+  return race?.name || character.race || "Unknown";
+};
+
+const getClassDisplayNames = (character: Character): string => {
+  if (!character.class || character.class.length === 0) return "Unknown";
+
+  const classNames = character.class.map((classId) => {
+    if (classId.startsWith("custom-") && character.customClasses) {
+      const customClass = character.customClasses[classId];
+      return customClass?.name || "Custom Class";
+    }
+
+    const classData = allClasses.find((cls) => cls.id === classId);
+    return classData?.name || classId;
+  });
+
+  return classNames.join(" / ");
+};
+
+const getAvatarFallback = (name: string): string => {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+};
+
+const getSizeStyles = (size: "sm" | "md" | "lg") => {
+  const styles = {
+    sm: {
+      container: "p-3 sm:p-4",
+      gap: "gap-3 sm:gap-4",
+      avatar: "w-12 h-12 sm:w-16 sm:h-16",
+      name: "text-xl sm:text-2xl",
+      avatarText: "text-base sm:text-lg",
+    },
+    md: {
+      container: "p-4 sm:p-6",
+      gap: "gap-4 sm:gap-6",
+      avatar: "w-16 h-16 sm:w-24 sm:h-24",
+      name: "text-2xl sm:text-3xl",
+      avatarText: "text-xl sm:text-2xl",
+    },
+    lg: {
+      container: "p-6 sm:p-8",
+      gap: "gap-6 sm:gap-8",
+      avatar: "w-20 h-20 sm:w-32 sm:h-32",
+      name: "text-3xl sm:text-4xl",
+      avatarText: "text-2xl sm:text-4xl",
+    },
+  };
+  return styles[size];
+};
+
+const getCharacterDetails = (character: Character) => [
+  {
+    label: "Race",
+    children: (
+      <span className="text-zinc-100 font-medium">
+        {getRaceDisplayName(character)}
+      </span>
+    ),
+  },
+  {
+    label: "Class",
+    children: (
+      <span className="text-zinc-100 font-medium">
+        {getClassDisplayNames(character)}
+      </span>
+    ),
+  },
+  {
+    label: "Level",
+    children: (
+      <span className="text-zinc-100 font-medium">{character.level}</span>
+    ),
+  },
+];
+
 const Hero = forwardRef<HTMLDivElement, HeroProps>(
   (
     {
       character,
       size = "md",
-      className = "",
+      className,
       editable = false,
       onCharacterChange,
       ...props
@@ -36,61 +119,9 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(character.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
-    
-    // Helper function to get display name for race
-    const getRaceDisplayName = (): string => {
-      if (character.race === "custom") {
-        return character.customRace?.name || "Custom";
-      }
-      const race = allRaces.find((r) => r.id === character.race);
-      return race?.name || character.race || "Unknown";
-    };
+    const currentSize = getSizeStyles(size);
 
-    // Helper function to get display names for classes
-    const getClassDisplayNames = (): string => {
-      if (!character.class || character.class.length === 0) return "Unknown";
-      
-      const classNames = character.class.map((classId) => {
-        // Handle custom classes
-        if (classId.startsWith('custom-') && character.customClasses) {
-          const customClass = character.customClasses[classId];
-          return customClass?.name || "Custom Class";
-        }
-        
-        const classData = allClasses.find((cls) => cls.id === classId);
-        return classData?.name || classId;
-      });
-      
-      return classNames.join(" / ");
-    };
-    const sizeStyles = {
-      sm: {
-        container: "p-3 sm:p-4",
-        gap: "gap-3 sm:gap-4",
-        avatar: "w-12 h-12 sm:w-16 sm:h-16",
-        name: "text-xl sm:text-2xl",
-        desc: "text-sm",
-        avatarText: "text-base sm:text-lg",
-      },
-      md: {
-        container: "p-4 sm:p-6",
-        gap: "gap-4 sm:gap-6",
-        avatar: "w-16 h-16 sm:w-24 sm:h-24",
-        name: "text-2xl sm:text-3xl",
-        desc: "text-base",
-        avatarText: "text-xl sm:text-2xl",
-      },
-      lg: {
-        container: "p-6 sm:p-8",
-        gap: "gap-6 sm:gap-8",
-        avatar: "w-20 h-20 sm:w-32 sm:h-32",
-        name: "text-3xl sm:text-4xl",
-        desc: "text-lg",
-        avatarText: "text-2xl sm:text-4xl",
-      },
-    };
-
-    const currentSize = sizeStyles[size];
+    const isEditable = editable && onCharacterChange;
 
     // Update local name value when character prop changes
     useEffect(() => {
@@ -106,7 +137,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     }, [isEditingName]);
 
     const handleNameClick = () => {
-      if (editable && onCharacterChange && !isEditingName) {
+      if (isEditable && !isEditingName) {
         setIsEditingName(true);
       }
     };
@@ -144,37 +175,73 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
       }
     };
 
-    // Clean, simple container styles
     const containerClasses = cn(
       "bg-gradient-to-br from-amber-400 to-amber-500",
       "border-2 border-amber-600 rounded-xl",
       "shadow-[0_6px_0_0_#b45309]",
       "transition-all duration-150",
-      "text-zinc-900",
+      "text-zinc-900 relative",
       currentSize.container,
-      className,
+      className
     );
 
-    // Simple avatar container styles
     const avatarContainerClasses = cn(
       "bg-zinc-800 border-2 border-zinc-700 rounded-full",
       "shadow-[0_4px_0_0_#3f3f46]",
-      "flex items-center justify-center overflow-hidden",
-      "flex-shrink-0",
-      currentSize.avatar,
+      "flex items-center justify-center overflow-hidden flex-shrink-0",
+      currentSize.avatar
+    );
+
+    const settingsButtonClasses = cn(
+      "absolute top-2 right-2 sm:top-4 sm:right-6 z-10",
+      "p-1.5 sm:p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80",
+      "border border-zinc-600 rounded-lg transition-colors duration-200 group",
+      "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
+    );
+
+    const avatarOverlayClasses = cn(
+      "absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100",
+      "transition-opacity duration-200 flex items-center justify-center cursor-pointer"
+    );
+
+    const layoutClasses = cn(
+      "flex flex-col sm:flex-row sm:items-start",
+      currentSize.gap
+    );
+
+    const avatarFallbackClasses = cn(
+      "text-zinc-300 font-bold",
+      currentSize.avatarText
+    );
+
+    const nameTypographyClasses = cn(
+      "break-words",
+      currentSize.name,
+      isEditable &&
+        "cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 focus:ring-offset-amber-400 rounded-sm"
+    );
+
+    const editIconClasses = cn(
+      "absolute -right-6 sm:right-12 top-1/2 -translate-y-1/2",
+      "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+      "flex items-center justify-center"
+    );
+
+    const avatarFallbackDynamicClasses = cn(
+      "avatar-fallback flex items-center justify-center w-full h-full text-zinc-300 font-bold",
+      currentSize.avatarText
     );
 
     return (
       <>
         <div
           ref={ref}
-          className={`${containerClasses} relative`}
+          className={containerClasses}
           role="banner"
           aria-labelledby="hero-character-name"
           {...props}
         >
-          {/* Settings Button - Top Right Corner */}
-          {editable && onCharacterChange && (
+          {isEditable && (
             <button
               onClick={() => setIsSettingsModalOpen(true)}
               onKeyDown={(e) => {
@@ -183,7 +250,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   setIsSettingsModalOpen(true);
                 }
               }}
-              className="absolute top-2 right-2 sm:top-4 sm:right-6 p-1.5 sm:p-2 bg-zinc-800/80 hover:bg-zinc-700/80 focus:bg-zinc-700/80 border border-zinc-600 rounded-lg transition-colors duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-amber-500"
+              className={settingsButtonClasses}
               aria-label="Open character settings"
               title="Settings"
             >
@@ -197,7 +264,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
           )}
 
           {/* Mobile: Stack vertically, Desktop: Horizontal layout */}
-          <div className={`flex flex-col sm:flex-row sm:items-start ${currentSize.gap}`}>
+          <div className={layoutClasses}>
             {/* Avatar with edit functionality */}
             <div className="relative group flex-shrink-0 self-center sm:self-start">
               <div className={avatarContainerClasses} aria-hidden="true">
@@ -213,36 +280,24 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                       const parent = target.parentElement;
                       if (parent && !parent.querySelector(".avatar-fallback")) {
                         const fallback = document.createElement("div");
-                        fallback.className = `avatar-fallback flex items-center justify-center w-full h-full text-zinc-300 font-bold ${currentSize.avatarText}`;
-                        fallback.textContent = character.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .toUpperCase()
-                          .slice(0, 2);
+                        fallback.className = avatarFallbackDynamicClasses;
+                        fallback.textContent = getAvatarFallback(
+                          character.name
+                        );
                         parent.appendChild(fallback);
                       }
                     }}
                   />
                 ) : (
-                  <div
-                    className={`text-zinc-300 font-bold ${currentSize.avatarText}`}
-                    aria-hidden="true"
-                  >
-                    {character.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase()
-                      .slice(0, 2)}
+                  <div className={avatarFallbackClasses} aria-hidden="true">
+                    {getAvatarFallback(character.name)}
                   </div>
                 )}
               </div>
 
-              {/* Avatar edit overlay - shows on hover when editable */}
-              {editable && onCharacterChange && (
+              {isEditable && (
                 <div
-                  className="absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer"
+                  className={avatarOverlayClasses}
                   onClick={() => setIsAvatarModalOpen(true)}
                   role="button"
                   tabIndex={0}
@@ -283,47 +338,32 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   </div>
                 </div>
               ) : (
-                <div
-                  className={`group relative flex items-center justify-center gap-2 ${
-                    editable && onCharacterChange ? "cursor-pointer" : ""
-                  }`}
-                >
+                <div className="group relative flex items-center justify-center gap-2">
                   <Typography
                     as="h1"
                     variant="h1"
                     color="primary"
                     weight="bold"
                     id="hero-character-name"
-                    className={`break-words ${currentSize.name} ${
-                      editable && onCharacterChange
-                        ? "focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 focus:ring-offset-amber-400 rounded-sm"
-                        : ""
-                    }`}
+                    className={nameTypographyClasses}
                     onClick={handleNameClick}
                     onKeyDown={(e) => {
-                      if (
-                        (e.key === "Enter" || e.key === " ") &&
-                        editable &&
-                        onCharacterChange
-                      ) {
+                      if ((e.key === "Enter" || e.key === " ") && isEditable) {
                         e.preventDefault();
                         handleNameClick();
                       }
                     }}
-                    tabIndex={editable && onCharacterChange ? 0 : undefined}
-                    role={editable && onCharacterChange ? "button" : undefined}
+                    tabIndex={isEditable ? 0 : undefined}
+                    role={isEditable ? "button" : undefined}
                     aria-label={
-                      editable && onCharacterChange
-                        ? "Click to edit character name"
-                        : undefined
+                      isEditable ? "Click to edit character name" : undefined
                     }
                   >
                     {character.name}
                   </Typography>
 
-                  {/* Edit icon - shows on hover when editable */}
-                  {editable && onCharacterChange && (
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                  {isEditable && (
+                    <div className={editIconClasses}>
                       <Icon
                         name="edit"
                         size="md"
@@ -337,70 +377,18 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
 
               {/* Character Details */}
               <div className="mt-3 sm:mt-4">
-                {/* Mobile: Vertical layout */}
                 <div className="sm:hidden">
                   <Details
                     layout="vertical"
                     className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg text-sm"
-                    items={[
-                      {
-                        label: "Race",
-                        children: (
-                          <span className="text-zinc-100 font-medium">
-                            {getRaceDisplayName()}
-                          </span>
-                        ),
-                      },
-                      {
-                        label: "Class",
-                        children: (
-                          <span className="text-zinc-100 font-medium">
-                            {getClassDisplayNames()}
-                          </span>
-                        ),
-                      },
-                      {
-                        label: "Level",
-                        children: (
-                          <span className="text-zinc-100 font-medium">
-                            {character.level}
-                          </span>
-                        ),
-                      },
-                    ]}
+                    items={getCharacterDetails(character)}
                   />
                 </div>
-                {/* Desktop: Horizontal layout */}
                 <div className="hidden sm:block">
                   <Details
                     layout="horizontal"
                     className="bg-zinc-800/50 border-zinc-700/ p-2 rounded-lg text-base"
-                    items={[
-                      {
-                        label: "Race",
-                        children: (
-                          <span className="text-zinc-100 font-medium">
-                            {getRaceDisplayName()}
-                          </span>
-                        ),
-                      },
-                      {
-                        label: "Class",
-                        children: (
-                          <span className="text-zinc-100 font-medium">
-                            {getClassDisplayNames()}
-                          </span>
-                        ),
-                      },
-                      {
-                        label: "Level",
-                        children: (
-                          <span className="text-zinc-100 font-medium">
-                            {character.level}
-                          </span>
-                        ),
-                      },
-                    ]}
+                    items={getCharacterDetails(character)}
                   />
                 </div>
               </div>
@@ -408,24 +396,21 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
           </div>
         </div>
 
-        {/* Avatar Change Modal */}
-        {editable && onCharacterChange && (
-          <AvatarChangeModal
-            isOpen={isAvatarModalOpen}
-            onClose={() => setIsAvatarModalOpen(false)}
-            character={character}
-            onCharacterChange={onCharacterChange}
-          />
-        )}
-
-        {/* Settings Modal */}
-        {editable && onCharacterChange && (
-          <SettingsModal
-            isOpen={isSettingsModalOpen}
-            onClose={() => setIsSettingsModalOpen(false)}
-            character={character}
-            onCharacterChange={onCharacterChange}
-          />
+        {isEditable && (
+          <>
+            <AvatarChangeModal
+              isOpen={isAvatarModalOpen}
+              onClose={() => setIsAvatarModalOpen(false)}
+              character={character}
+              onCharacterChange={onCharacterChange}
+            />
+            <SettingsModal
+              isOpen={isSettingsModalOpen}
+              onClose={() => setIsSettingsModalOpen(false)}
+              character={character}
+              onCharacterChange={onCharacterChange}
+            />
+          </>
         )}
       </>
     );

@@ -84,11 +84,12 @@ function getSpellSystemInfo(character: Character) {
     hasDivineClasses && !hasArcaneClasses ? "Orisons" : "Cantrips";
   const spellTypeLower = spellType.toLowerCase();
 
-  const abilityBonus = hasDivineClasses && hasArcaneClasses
-    ? "Intelligence/Wisdom Bonus"
-    : hasDivineClasses
-    ? "Wisdom Bonus"
-    : "Intelligence Bonus";
+  const abilityBonus =
+    hasDivineClasses && hasArcaneClasses
+      ? "Intelligence/Wisdom Bonus"
+      : hasDivineClasses
+      ? "Wisdom Bonus"
+      : "Intelligence Bonus";
 
   return {
     hasDivineClasses,
@@ -103,7 +104,9 @@ function getCharacterCantrips(character: Character): CantripWithLevel[] {
   return (character.cantrips || []).map((cantrip, index) => ({
     ...cantrip,
     spellLevel: 0 as const,
-    uniqueKey: `cantrip-${cantrip.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
+    uniqueKey: `cantrip-${cantrip.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")}-${index}`,
   }));
 }
 
@@ -117,14 +120,28 @@ export default function Spells({
 }: SpellsProps) {
   const cantripModal = useModal();
   const addSpellModal = useModal();
-  
+
   // State for available spells for clerics (loaded dynamically)
-  const [availableSpells, setAvailableSpells] = useState<Record<number, Spell[]>>({});
+  const [availableSpells, setAvailableSpells] = useState<
+    Record<number, Spell[]>
+  >({});
   const [loadingSpells, setLoadingSpells] = useState(false);
 
-  const { knownSpells, cantrips, spellSlots, spellSystemInfo, canCast, spellSystemType } = useMemo(() => {
+  const {
+    knownSpells,
+    cantrips,
+    spellSlots,
+    spellSystemInfo,
+    canCast,
+    spellSystemType,
+  } = useMemo(() => {
     if (!character || !canCastSpells(character, allClasses)) {
-      return { knownSpells: [], cantrips: [], spellSlots: {}, spellSystemType: "none" };
+      return {
+        knownSpells: [],
+        cantrips: [],
+        spellSlots: {},
+        spellSystemType: "none",
+      };
     }
 
     const characterSpells = character.spells || [];
@@ -155,7 +172,9 @@ export default function Spells({
           allSpells.push({
             ...spell,
             spellLevel,
-            uniqueKey: `${spell.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
+            uniqueKey: `${spell.name
+              .toLowerCase()
+              .replace(/\s+/g, "-")}-${index}`,
           });
         }
       }
@@ -177,7 +196,11 @@ export default function Spells({
 
   // Load available spells for cleric-type characters
   useEffect(() => {
-    if (!character || spellSystemType !== "cleric" || !Object.keys(spellSlots).length) {
+    if (
+      !character ||
+      spellSystemType !== "cleric" ||
+      !Object.keys(spellSlots).length
+    ) {
       return;
     }
 
@@ -185,19 +208,22 @@ export default function Spells({
       setLoadingSpells(true);
       try {
         const spellsByLevel: Record<number, Spell[]> = {};
-        const clericClassId = character.class.find(classId => 
+        const clericClassId = character.class.find((classId) =>
           ["cleric", "druid", "paladin"].includes(classId)
         );
-        
+
         if (clericClassId) {
           // Load spells for each spell level the character has slots for
           for (const levelStr of Object.keys(spellSlots)) {
             const level = parseInt(levelStr);
-            const spellsForLevel = await loadSpellsForClass(clericClassId, level);
+            const spellsForLevel = await loadSpellsForClass(
+              clericClassId,
+              level
+            );
             spellsByLevel[level] = spellsForLevel;
           }
         }
-        
+
         setAvailableSpells(spellsByLevel);
       } catch (error) {
         console.error("Error loading spells for cleric:", error);
@@ -214,8 +240,8 @@ export default function Spells({
     if (!character?.spells || spellSystemType !== "cleric") {
       return [];
     }
-    
-    return character.spells.filter(spell => spell.preparation);
+
+    return character.spells.filter((spell) => spell.preparation);
   }, [character?.spells, spellSystemType]);
 
   // Show skeleton while loading
@@ -233,19 +259,29 @@ export default function Spells({
   }
 
   // Helper functions for cleric spell preparation
-  const handleSpellPreparation = (slotLevel: number, slotIndex: number, spellName: string) => {
+  const handleSpellPreparation = (
+    slotLevel: number,
+    slotIndex: number,
+    spellName: string
+  ) => {
     if (!character || !onCharacterChange) return;
-    
-    const selectedSpell = availableSpells[slotLevel]?.find(spell => spell.name === spellName);
+
+    const selectedSpell = availableSpells[slotLevel]?.find(
+      (spell) => spell.name === spellName
+    );
     if (!selectedSpell) return;
-    
+
     const currentSpells = character.spells || [];
-    
+
     // Remove any existing spell prepared in this slot
     const filteredSpells = currentSpells.filter(
-      spell => !(spell.preparation?.slotLevel === slotLevel && spell.preparation?.slotIndex === slotIndex)
+      (spell) =>
+        !(
+          spell.preparation?.slotLevel === slotLevel &&
+          spell.preparation?.slotIndex === slotIndex
+        )
     );
-    
+
     // Add the new prepared spell
     const newPreparedSpell: Spell = {
       ...selectedSpell,
@@ -254,36 +290,52 @@ export default function Spells({
         slotIndex,
       },
     };
-    
+
     onCharacterChange({
       ...character,
       spells: [...filteredSpells, newPreparedSpell],
     });
   };
-  
+
   const clearSpellPreparation = (slotLevel: number, slotIndex: number) => {
     if (!character || !onCharacterChange) return;
-    
+
     const currentSpells = character.spells || [];
     const filteredSpells = currentSpells.filter(
-      spell => !(spell.preparation?.slotLevel === slotLevel && spell.preparation?.slotIndex === slotIndex)
+      (spell) =>
+        !(
+          spell.preparation?.slotLevel === slotLevel &&
+          spell.preparation?.slotIndex === slotIndex
+        )
     );
-    
+
     onCharacterChange({
       ...character,
       spells: filteredSpells,
     });
   };
-  
-  const getPreparedSpellForSlot = (slotLevel: number, slotIndex: number): Spell | null => {
-    return preparedSpells.find(
-      spell => spell.preparation?.slotLevel === slotLevel && spell.preparation?.slotIndex === slotIndex
-    ) || null;
+
+  const getPreparedSpellForSlot = (
+    slotLevel: number,
+    slotIndex: number
+  ): Spell | null => {
+    return (
+      preparedSpells.find(
+        (spell) =>
+          spell.preparation?.slotLevel === slotLevel &&
+          spell.preparation?.slotIndex === slotIndex
+      ) || null
+    );
   };
 
-  // Computed values  
-  const hasAnySpells = knownSpells.length > 0 || cantrips.length > 0 || preparedSpells.length > 0;
+  // Computed values
+  const showCantrips = character.settings?.showCantrips !== false; // Default to true if not set
   const hasSpellSlots = Object.keys(spellSlots).length > 0;
+  const hasAnySpells =
+    knownSpells.length > 0 ||
+    (showCantrips && cantrips.length > 0) ||
+    preparedSpells.length > 0 ||
+    hasSpellSlots;
   const isMagicUser = spellSystemType === "magic-user";
   const isClericType = spellSystemType === "cleric";
   const canEdit = isOwner && onCharacterChange;
@@ -412,13 +464,14 @@ export default function Spells({
                       className="text-zinc-400 text-center"
                     >
                       No spells known yet.
-                      {canEdit && " Click 'Add Spell' to learn your first spell."}
+                      {canEdit &&
+                        " Click 'Add Spell' to learn your first spell."}
                     </Typography>
                   </Card>
                 )}
               </section>
             )}
-            
+
             {/* Prepared Spells (Cleric types) */}
             {isClericType && hasSpellSlots && (
               <section aria-labelledby="prepared-spells-heading">
@@ -426,7 +479,7 @@ export default function Spells({
                   <Typography
                     variant="sectionHeading"
                     id="prepared-spells-heading"
-                    className="text-zinc-100 flex items-center gap-2"
+                    className="text-zinc-100 flex items-center gap-2 !mb-0"
                     as="h3"
                   >
                     <span
@@ -447,13 +500,18 @@ export default function Spells({
 
                 <Typography
                   variant="caption"
-                  className="text-zinc-500 text-xs mb-6"
+                  className="text-zinc-500 text-xs block mt-2 mb-4"
                 >
-                  You can prepare any spell of a level for which you have slots. Choose wisely - these are your spells for the day.
+                  You can prepare any spell of a level for which you have slots.
+                  Choose wisely - these are your spells for the day.
                 </Typography>
 
                 {loadingSpells ? (
-                  <SkeletonList items={3} showAvatar={false} label="Loading available spells..." />
+                  <SkeletonList
+                    items={3}
+                    showAvatar={false}
+                    label="Loading available spells..."
+                  />
                 ) : (
                   <div className="space-y-6">
                     {Object.entries(spellSlots)
@@ -461,7 +519,7 @@ export default function Spells({
                       .map(([levelStr, slotCount]) => {
                         const level = parseInt(levelStr);
                         const availableForLevel = availableSpells[level] || [];
-                        
+
                         return (
                           <div key={level} className="space-y-3">
                             <Typography
@@ -476,22 +534,29 @@ export default function Spells({
                                   {level}
                                 </Typography>
                               </div>
-                              Level {level} Spells ({slotCount} slot{slotCount !== 1 ? 's' : ''})
+                              Level {level} Spells ({slotCount} slot
+                              {slotCount !== 1 ? "s" : ""})
                             </Typography>
-                            
+
                             <div className="grid gap-3">
                               {Array.from({ length: slotCount }, (_, index) => {
-                                const preparedSpell = getPreparedSpellForSlot(level, index);
+                                const preparedSpell = getPreparedSpellForSlot(
+                                  level,
+                                  index
+                                );
                                 const selectOptions: SelectOption[] = [
-                                  { value: "", label: "-- Select a spell --" },
-                                  ...availableForLevel.map(spell => ({
+                                  { value: "", label: "Select a spell" },
+                                  ...availableForLevel.map((spell) => ({
                                     value: spell.name,
                                     label: spell.name,
-                                  }))
+                                  })),
                                 ];
-                                
+
                                 return (
-                                  <div key={`${level}-${index}`} className="space-y-2">
+                                  <div
+                                    key={`${level}-${index}`}
+                                    className="space-y-2"
+                                  >
                                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 items-end">
                                       <div className="lg:col-span-2">
                                         {canEdit ? (
@@ -499,35 +564,53 @@ export default function Spells({
                                             label={`Slot ${index + 1}`}
                                             options={selectOptions}
                                             value={preparedSpell?.name || ""}
-                                            placeholder="-- Select a spell --"
+                                            placeholder="Select a spell"
                                             onValueChange={(spellName) => {
                                               if (spellName) {
-                                                handleSpellPreparation(level, index, spellName);
+                                                handleSpellPreparation(
+                                                  level,
+                                                  index,
+                                                  spellName
+                                                );
                                               } else {
-                                                clearSpellPreparation(level, index);
+                                                clearSpellPreparation(
+                                                  level,
+                                                  index
+                                                );
                                               }
                                             }}
-                                            disabled={availableForLevel.length === 0}
+                                            disabled={
+                                              availableForLevel.length === 0
+                                            }
                                           />
                                         ) : (
                                           <div>
-                                            <Typography variant="caption" className="block text-zinc-400 mb-1">
+                                            <Typography
+                                              variant="caption"
+                                              className="block text-zinc-400 mb-1"
+                                            >
                                               Slot {index + 1}
                                             </Typography>
                                             <div className="px-4 py-3 bg-zinc-800 border-2 border-zinc-600 rounded-lg">
-                                              <Typography variant="body" className="text-zinc-100">
-                                                {preparedSpell?.name || "No spell prepared"}
+                                              <Typography
+                                                variant="body"
+                                                className="text-zinc-100"
+                                              >
+                                                {preparedSpell?.name ||
+                                                  "No spell prepared"}
                                               </Typography>
                                             </div>
                                           </div>
                                         )}
                                       </div>
-                                      
+
                                       {canEdit && preparedSpell && (
                                         <Button
                                           size="sm"
                                           variant="ghost"
-                                          onClick={() => clearSpellPreparation(level, index)}
+                                          onClick={() =>
+                                            clearSpellPreparation(level, index)
+                                          }
                                           className="self-end"
                                         >
                                           <Icon name="close" size="sm" />
@@ -535,16 +618,20 @@ export default function Spells({
                                         </Button>
                                       )}
                                     </div>
-                                    
+
                                     {preparedSpell && (
                                       <Accordion
-                                        items={[{
-                                          ...preparedSpell,
-                                          uniqueKey: `prepared-${level}-${index}`,
-                                        }]}
+                                        items={[
+                                          {
+                                            ...preparedSpell,
+                                            uniqueKey: `prepared-${level}-${index}`,
+                                          },
+                                        ]}
                                         sortBy="name"
                                         labelProperty="name"
-                                        renderItem={(spell) => <SpellDetails spell={spell} />}
+                                        renderItem={(spell) => (
+                                          <SpellDetails spell={spell} />
+                                        )}
                                         showSearch={false}
                                         showCounts={false}
                                         className="mt-2"
@@ -563,74 +650,80 @@ export default function Spells({
             )}
 
             {/* Cantrips/Orisons */}
-            <section aria-labelledby="cantrips-heading">
-              <div className="flex items-baseline justify-between mb-4">
-                <Typography
-                  variant="sectionHeading"
-                  id="cantrips-heading"
-                  className="text-zinc-100 flex items-center gap-2"
-                  as="h3"
-                >
-                  <span
-                    className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
-                    aria-hidden="true"
-                  />
-                  {spellSystemInfo.spellType}
-                  {cantrips.length > 0 && (
+            {showCantrips && (
+              <section aria-labelledby="cantrips-heading">
+                <div className="flex items-baseline justify-between mb-4">
+                  <Typography
+                    variant="sectionHeading"
+                    id="cantrips-heading"
+                    className="text-zinc-100 flex items-center gap-2 !mb-0"
+                    as="h3"
+                  >
                     <span
-                      className="text-sm font-normal text-zinc-400"
-                      aria-label={`${cantrips.length} known`}
+                      className="w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                    {spellSystemInfo.spellType}
+                    {cantrips.length > 0 && (
+                      <span
+                        className="text-sm font-normal text-zinc-400"
+                        aria-label={`${cantrips.length} known`}
+                      >
+                        ({cantrips.length})
+                      </span>
+                    )}
+                  </Typography>
+
+                  {canEdit && (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={cantripModal.open}
                     >
-                      ({cantrips.length})
-                    </span>
+                      <Icon name="edit" size="sm" />
+                      Edit {spellSystemInfo.spellType}
+                    </Button>
                   )}
+                </div>
+
+                <Typography
+                  variant="caption"
+                  className="text-zinc-500 text-xs block mb-4"
+                >
+                  Daily Uses: Level + {spellSystemInfo.abilityBonus}• No
+                  preparation required
                 </Typography>
 
-                {canEdit && (
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={cantripModal.open}
-                  >
-                    <Icon name="edit" size="sm" />
-                    Edit {spellSystemInfo.spellType}
-                  </Button>
+                {cantrips.length > 0 ? (
+                  <Accordion
+                    items={cantrips}
+                    sortBy="name"
+                    labelProperty="name"
+                    showSearch={false}
+                    renderItem={renderSpell}
+                    showCounts={false}
+                  />
+                ) : (
+                  <Card variant="standard" className="p-4">
+                    <Typography
+                      variant="body"
+                      className="text-zinc-400 text-center"
+                    >
+                      No {spellSystemInfo.spellTypeLower} known yet.
+                      {canEdit &&
+                        ` Click 'Edit ${spellSystemInfo.spellType}' to add some.`}
+                    </Typography>
+                  </Card>
                 )}
-              </div>
-
-              <Typography
-                variant="caption"
-                className="text-zinc-500 text-xs mb-4"
-              >
-                Daily Uses: Level + {spellSystemInfo.abilityBonus}
-                • No preparation required
-              </Typography>
-
-              {cantrips.length > 0 ? (
-                <Accordion
-                  items={cantrips}
-                  sortBy="name"
-                  labelProperty="name"
-                  showSearch={false}
-                  renderItem={renderSpell}
-                  showCounts={false}
-                />
-              ) : (
-                <Card variant="standard" className="p-4">
-                  <Typography
-                    variant="body"
-                    className="text-zinc-400 text-center"
-                  >
-                    No {spellSystemInfo.spellTypeLower} known yet.
-                    {canEdit &&
-                      ` Click 'Edit ${spellSystemInfo.spellType}' to add some.`}
-                  </Typography>
-                </Card>
-              )}
-            </section>
+              </section>
+            )}
           </div>
         ) : (
-          <div className="status-message text-zinc-400 space-y-2" role="status" aria-live="polite">
+          <div
+            className="status-message text-zinc-400 space-y-2"
+            role="status"
+            aria-live="polite"
+          >
             <Typography variant="body" className="text-lg">
               No spells known
             </Typography>
