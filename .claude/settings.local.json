@@ -4,7 +4,6 @@
       "Bash(npm run build:*)",
       "Bash(npm run lint)",
       "WebFetch(domain:ant.design)",
-      "Bash(npm run dev:*)",
       "Bash(grep:*)",
       "Bash(npm run lint:*)",
       "Bash(mv:*)",
@@ -23,9 +22,10 @@
       "Bash(find:*)",
       "Read(//**)",
       "Bash(python3:*)",
-      "Bash(/compact)"
+      "Bash(/compact)",
+      "Bash(cloc:*)"
     ],
-    "deny": [],
+    "deny": ["Bash(npm run dev)"],
     "ask": []
   }
 }
