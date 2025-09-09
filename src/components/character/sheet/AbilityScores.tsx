@@ -9,7 +9,7 @@ import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import {
   calculateModifier,
   formatModifier,
-  getAbilityScoreColor,
+  getAbilityScoreCategory,
 } from "@/utils/characterCalculations";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 
@@ -288,7 +288,9 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
           <div className={`grid ${currentSize.grid}`}>
             {abilities.map(({ key, label, fullName }) => {
               const ability = character.abilities[key];
-              const scoreColor = getAbilityScoreColor(ability.value, allScores);
+              const scoreCategory = getAbilityScoreCategory(ability.value, allScores);
+              const scoreColor = scoreCategory === 'highest' ? 'text-lime-400' : 
+                                scoreCategory === 'lowest' ? 'text-red-400' : 'text-zinc-400';
               const modifier = calculateModifier(ability.value);
 
               return (
