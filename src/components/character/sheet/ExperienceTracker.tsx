@@ -107,8 +107,10 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   };
 
   const handleInputBlur = () => {
-    // Reset to actual value if user didn't submit
-    setInputValue(character.xp.toString());
+    // Submit changes if input value is different, then reset to actual value
+    if (inputValue !== character.xp.toString()) {
+      handleInputSubmit();
+    }
   };
 
   const handleContextMenu = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -136,7 +138,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
       // This should handle both local state update and Firebase save via useFirebaseSheet
       if (onCharacterChange) {
         logger.debug("Calling onCharacterChange...");
-        await onCharacterChange(updatedCharacter);
+        onCharacterChange(updatedCharacter);
         logger.debug("✅ Level up save completed successfully!");
       }
 
