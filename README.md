@@ -20,6 +20,7 @@ Torchlight is a comprehensive web-based character creation and management system
 ### ✨ Key Features
 
 🧙‍♂️ **Character Creation & Management**
+
 - Step-by-step character creation wizard with guided experience
 - Complete BFRPG race and class support (Core + Supplemental)
 - Intelligent cascade validation system for automatic stat updates
@@ -27,6 +28,7 @@ Torchlight is a comprehensive web-based character creation and management system
 - Character sheet display and live editing capabilities
 
 🎲 **Gameplay Integration**
+
 - Comprehensive dice rolling system with modal interface
 - Spell and cantrip management per class
 - Equipment system with weight and currency calculations
@@ -34,21 +36,22 @@ Torchlight is a comprehensive web-based character creation and management system
 - Combat stats and saving throws
 
 🎮 **Game Master Tools**
+
 - Game session creation and management
 - Multi-player character linking and tracking
 - Encounter management with initiative tracking
 - Persistent game state across sessions
 
 🌐 **Modern User Experience**
+
 - Responsive design optimized for all devices
 - Accessibility-first approach with WCAG 2.1 AA compliance
 - Real-time data synchronization across devices
-- Dark/light theme support (planned)
-- Progressive loading and offline capabilities
 
 ## 🏗️ Architecture
 
 ### Frontend Stack
+
 - **React 19** with functional components and hooks
 - **TypeScript 5.9** for type-safe development
 - **Vite 7.1** for fast development and optimized builds
@@ -56,12 +59,14 @@ Torchlight is a comprehensive web-based character creation and management system
 - **Wouter 3.7** for lightweight client-side routing
 
 ### Backend & Services
+
 - **Firebase 12.2** for authentication and Firestore database
 - **Real-time synchronization** for multiplayer features
 - **Automated data migration** for schema evolution
 - **Secure user authentication** with email/password
 
 ### Data Management
+
 - **Type-safe character schemas** with runtime validation
 - **Modular game data** stored as TypeScript modules
 - **Cascade validation system** for dependent field updates
@@ -70,16 +75,16 @@ Torchlight is a comprehensive web-based character creation and management system
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Modern web browser
+
+- Node.js 18+
+- npm
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/torchlight.git
-cd torchlight
+git clone https://github.com/gvorbeck/codex-quest.git
+cd codex-quest
 
 # Install dependencies
 npm install
@@ -102,12 +107,12 @@ npm run dev
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build for production (TypeScript + Vite) |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint on TypeScript/React files |
+| Command           | Description                              |
+| ----------------- | ---------------------------------------- |
+| `npm run dev`     | Start development server with hot reload |
+| `npm run build`   | Build for production (TypeScript + Vite) |
+| `npm run preview` | Preview production build locally         |
+| `npm run lint`    | Run ESLint on TypeScript/React files     |
 
 ### Project Structure
 
@@ -138,59 +143,6 @@ src/
 └── hooks/                   # Custom React hooks
 ```
 
-### Code Quality
-
-- **Pre-commit hooks** with Husky for automated linting and building
-- **TypeScript strict mode** for maximum type safety  
-- **ESLint + React plugins** for code quality enforcement
-- **Component-driven architecture** with clear separation of concerns
-- **Accessibility testing** built into component design
-
-## 🎨 UI Component System
-
-Torchlight features a comprehensive design system with reusable components:
-
-### Design System Foundation
-- **Card** - Flexible container component with consistent styling
-- **Typography** - Text components with semantic hierarchy
-- **Badge** - Status indicators and labels
-
-### Input Components  
-- **Button** - Primary, secondary, and action variants
-- **Select** - Dropdown selection with search
-- **TextInput/NumberInput** - Form inputs with validation
-- **Switch/OptionToggle** - Binary and multi-option controls
-
-### Feedback & Display
-- **Modal** - Accessible dialog system
-- **Notification** - Toast and alert messaging
-- **LoadingState** - Consistent loading indicators
-- **StatCard** - Character stat display
-- **Stepper** - Multi-step process navigation
-
-## 🧪 Game Data System
-
-### Structured Data Organization
-- **Races**: Individual TypeScript modules with type-safe data
-- **Classes**: Complete class definitions with progression tables
-- **Equipment**: JSON database with detailed item properties
-- **Spells**: Comprehensive spell database with class restrictions
-- **Cantrips**: 0-level spells for applicable classes
-
-### Content Management
-- **Core vs Supplemental** content clearly marked
-- **Version tracking** for data compatibility
-- **Migration system** for schema updates
-- **Validation utilities** for data integrity
-
-## 🔐 Security & Privacy
-
-- **Firebase Authentication** for secure user management
-- **Client-side validation** with server-side enforcement
-- **Environment variable protection** for sensitive config
-- **No sensitive data logging** or exposure
-- **HTTPS enforcement** in production
-
 ## 📱 Accessibility Features
 
 - **WCAG 2.1 AA compliance** target
@@ -200,31 +152,18 @@ Torchlight features a comprehensive design system with reusable components:
 - **High contrast support** and readable typography
 - **Responsive design** for all device types
 
-## 🚢 Deployment
-
-### Build Process
-1. TypeScript compilation with strict type checking
-2. Vite production build with optimized chunks
-3. Asset optimization and compression
-4. Firebase deployment with hosting rules
-
-### Performance Optimization
-- **Code splitting** for React, Firebase, and game data
-- **Tree shaking** to eliminate unused code
-- **Asset bundling** with efficient caching strategies
-- **Lazy loading** for route-based components
-
 ## 🤝 Contributing
 
 We welcome contributions! Please:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a feature branch for your changes
 3. Follow the existing code style and component patterns
-4. Ensure all tests pass and linting is clean
+4. Ensure all and linting is clean
 5. Submit a pull request with a clear description
 
 ### Development Guidelines
+
 - Use existing UI components instead of creating custom implementations
 - Follow the established component structure and naming conventions
 - Write TypeScript interfaces for all data structures
@@ -240,10 +179,6 @@ This project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 
 ## 🙏 Acknowledgments
 
 - **Basic Fantasy RPG** community for the excellent open-source game system
-- **React and TypeScript** teams for amazing development tools
-- **Firebase** for reliable backend infrastructure
-- **TailwindCSS** for the utility-first CSS framework
-- **Vite** for blazing-fast build tooling
 
 ---
 
