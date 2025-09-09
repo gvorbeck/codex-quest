@@ -184,5 +184,5 @@ This project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 
 
 <div align="center">
   <strong>Ready to create your next character?</strong><br>
-  <em>Light up your adventures with Torchlight!</em> 🔥
+  <em>Light up your adventures with codex.quest!</em> 🔥
 </div>
