@@ -7,7 +7,7 @@ import { useMemo, useCallback, useEffect } from 'react';
 import type { ValidationResult, ValidationSchema } from './types';
 import { validate } from './core';
 import type { Character, Race, Class } from '@/types/character';
-import { cascadeValidateCharacter } from './character';
+import { cascadeValidateCharacter } from '../utils/characterValidation';
 import { allRaces } from '@/data/races';
 import { allClasses } from '@/data/classes';
 
