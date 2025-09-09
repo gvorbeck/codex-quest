@@ -22,15 +22,15 @@ export default defineConfig({
     // Optimize for production
     rollupOptions: {
       output: {
-        // Manual chunk splitting for better caching
+        // Balanced chunk splitting - avoid React initialization issues but keep sizes reasonable
         manualChunks: (id) => {
           // Node modules chunking strategy
           if (id.includes("node_modules")) {
-            // React core
+            // Keep React and React-DOM together to avoid initialization issues
             if (id.includes("react") || id.includes("react-dom")) {
               return "react";
             }
-            // Firebase - keep large but essential
+            // Firebase
             if (id.includes("firebase")) {
               return "firebase";
             }
@@ -38,18 +38,17 @@ export default defineConfig({
             if (id.includes("wouter")) {
               return "router";
             }
-            // Other vendor libraries get grouped
+            // Other vendor libraries
             return "vendor";
           }
           
-          // Data file chunking
+          // Data file chunking (keep these separate for lazy loading)
           if (id.includes("src/data/")) {
             if (id.includes("races/index.ts")) return "race-data";
             if (id.includes("classes/index.ts")) return "class-data";
             if (id.includes("equipment.json")) return "equipment";
             if (id.includes("spells.json")) return "spells";
-            // Let monsters be lazy loaded
-            if (id.includes("monsters.json")) return; // Return undefined for dynamic import
+            if (id.includes("monsters.json")) return "monsters";
           }
           
           // Utility chunking
@@ -57,7 +56,7 @@ export default defineConfig({
             return "utils";
           }
           
-          // UI component chunking for better caching
+          // UI component chunking
           if (id.includes("src/components/ui/")) {
             return "ui-components";
           }
@@ -70,7 +69,7 @@ export default defineConfig({
     sourcemap: true,
     // Module preload for critical chunks
     modulePreload: {
-      polyfill: false, // Don't include polyfill
+      polyfill: true, // Include polyfill for better compatibility
     },
   },
   // Development optimizations
