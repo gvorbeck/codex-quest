@@ -1,8 +1,9 @@
 // Character migration service for handling legacy data formats
 import { logger } from '@/utils/logger';
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from '@/constants/gameData';
+import { cleanFractionalCurrency } from '@/utils/currency';
 
-const CURRENT_VERSION = 2.2;
+const CURRENT_VERSION = 2.3;
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -230,6 +231,18 @@ function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyCharacte
     }
   }
 
+  // Clean up fractional currency (version 2.3 migration)
+  if (migrated['currency']) {
+    migrated['currency'] = cleanFractionalCurrency(migrated['currency'] as {
+      gold: number;
+      silver?: number;
+      copper?: number;
+      electrum?: number;
+      platinum?: number;
+    });
+    logger.debug('Cleaned fractional currency amounts', { currency: migrated['currency'] });
+  }
+  
   // Set version and preserve/create settings
   migrated['settings'] = {
     ...migrated['settings'],

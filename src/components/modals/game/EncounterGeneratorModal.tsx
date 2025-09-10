@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { logger } from "@/utils/logger";
 import Modal from "../base/Modal";
 import { Button } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
@@ -440,7 +441,7 @@ export default function EncounterGeneratorModal({
         });
       }
     } catch (error) {
-      console.error("Error generating encounter:", error);
+      logger.error("Error generating encounter:", error);
       showError(
         error instanceof Error
           ? error.message

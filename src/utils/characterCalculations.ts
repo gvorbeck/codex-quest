@@ -1,4 +1,5 @@
 import type { Character, Equipment } from "@/types/character";
+import { logger } from "@/utils/logger";
 
 // Constants for game mechanics
 const DEFAULT_UNARMORED_AC = 11;
@@ -45,7 +46,7 @@ const parseShieldBonus = (shieldAC: string | number, itemName: string): number =
   if (typeof shieldAC === "string" && shieldAC.startsWith("+")) {
     const bonusValue = parseInt(shieldAC.substring(1), 10);
     if (isNaN(bonusValue)) {
-      console.warn(`Invalid shield AC value for ${itemName}: ${shieldAC}`);
+      logger.warn(`Invalid shield AC value for ${itemName}: ${shieldAC}`);
       return 0;
     }
     return bonusValue;

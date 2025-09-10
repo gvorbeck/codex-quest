@@ -1,4 +1,5 @@
 import { memo, useState, useCallback, useEffect } from "react";
+import { logger } from "@/utils/logger";
 import {
   Tabs,
   TabList,
@@ -51,7 +52,7 @@ export const GMBinder = memo(
 
           setHasSkillClasses(hasSkills);
         } catch (error) {
-          console.error("Error checking for skill classes:", error);
+          logger.error("Error checking for skill classes:", error);
           setHasSkillClasses(false);
         }
       };

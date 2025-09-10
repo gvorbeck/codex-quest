@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { logger } from "@/utils/logger";
 import { Modal } from "../base";
 import { Button, Select } from "@/components/ui/inputs";
 import { Typography, Card } from "@/components/ui/design-system";
@@ -81,7 +82,7 @@ export default function TreasureGeneratorModal({
         duration: 3000,
       });
     } catch (error) {
-      console.error("Error generating treasure:", error);
+      logger.error("Error generating treasure:", error);
       const errorMessage =
         error instanceof Error
           ? error.message
@@ -108,7 +109,7 @@ export default function TreasureGeneratorModal({
         duration: 3000,
       });
     } catch (error) {
-      console.error("Failed to copy treasure:", error);
+      logger.error("Failed to copy treasure:", error);
 
       try {
         // Fallback for older browsers

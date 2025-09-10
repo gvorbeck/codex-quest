@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
+import { logger } from "@/utils/logger";
 import { Button, Icon } from "@/components/ui";
 import { Typography } from "@/components/ui/design-system";
 
@@ -92,7 +93,7 @@ export default function Modal({
         previousFocusRef.current.focus();
       } catch (error) {
         // Fallback if focus restoration fails
-        console.warn("Could not restore focus to previous element:", error);
+        logger.warn("Could not restore focus to previous element:", error);
       }
     }
   }, [isOpen]);

@@ -279,13 +279,34 @@ A. **UI Component Usage Analysis (HIGHEST PRIORITY)**
 - Flag any styling patterns that bypass the design system
 - **Rate UI component usage**: ✨ Excellent (100% usage) → 🔴 Critical (significant custom UI)
 
-B. **Code Duplication Analysis**
+B. **Code Duplication Analysis (SECOND HIGHEST PRIORITY)**
 
-- Identify duplicate logic within the component and across related files
-- Measure the extent of duplication (lines, functions, patterns)
-- Assess the maintainability risk of duplicated code
-- **Prioritize UI component consolidation over other refactoring**
-- Propose specific refactoring strategies with code examples
+**Logic Duplication Detection:**
+- **MANDATORY**: Scan for identical or near-identical functions across files
+- Identify repeated business logic patterns and algorithmic implementations
+- Find duplicated validation logic, data transformation functions, and utility methods
+- Map shared constants, magic numbers, and configuration values that appear in multiple places
+- **Calculate duplication metrics**: Lines of duplicate code, function similarity percentages
+- **Cross-reference patterns**: Look for similar event handlers, state management logic, and data processing
+
+**Utility Function Extraction Opportunities:**
+- Identify functions that could be extracted to shared utilities (`src/utils/`)
+- Find repeated calculations, formatting logic, and data manipulation patterns
+- Spot opportunities for creating reusable custom hooks for shared state logic
+- **Flag potential service layer extractions** for business logic that appears in multiple components
+
+**Data Structure Duplication:**
+- Identify repeated type definitions, interfaces, and data structures
+- Find duplicated constant arrays, configuration objects, and lookup tables
+- Spot similar data transformation and normalization patterns
+- **Measure impact**: Calculate potential line reduction and maintainability improvements
+
+**Refactoring Strategy Priorities:**
+1. **🔥 CRITICAL**: Extract identical utility functions that appear 3+ times
+2. **🔴 HIGH**: Consolidate similar business logic into shared services
+3. **🟡 MEDIUM**: Create reusable custom hooks for repeated state patterns
+4. **Prioritize UI component consolidation over other refactoring**
+- Propose specific refactoring strategies with detailed code examples showing before/after
 
 C. **Complexity & Readability**
 
@@ -376,73 +397,19 @@ C. **Event Handling & Side Effects**
 - Assess API integration patterns and error handling
 - Verify proper data transformation and validation
 
-**Deliverables**
+**Output Format**
 
-**Summary Report Structure**
+Provide a concise review with **UI Component Usage first**:
 
-Provide a comprehensive report with **UI Component Usage as the top section**:
+**🔥 UI Component Usage**: Rate ✨/🟢/🟡/🔴 with specific missing components and code examples
 
-1. **🔥 UI Component Usage Assessment** - Detailed analysis of existing UI component adoption vs custom implementations
-2. Executive Summary - Overall component health and key findings
-3. Strengths - What the component does well
-4. Critical Issues - High-priority problems requiring immediate attention
-5. Improvement Opportunities - Medium-priority enhancements
-6. Minor Issues - Low-priority polish items
-7. Code Quality Metrics - Before/after comparisons if applicable
-8. Specific Recommendations - Actionable items with code examples
-9. Implementation Roadmap - **UI component migration first**, then other changes
+**Critical Issues** (🔴): Immediate fixes required
+**Improvements** (🟡): Should address soon  
+**Strengths** (🟢): What works well
 
-**For Each Issue Identified:**
+**Each issue format:**
+- **Issue**: Brief description
+- **Fix**: Specific solution with code example
+- **Impact**: Why it matters
 
-- Severity Level (Critical/High/Medium/Low) - **UI component issues are automatically Critical**
-- Category (UI-Components/Performance/Security/Accessibility/Maintainability/etc.)
-- Current Code Example - Show the problematic pattern
-- Proposed Solution - **Provide specific UI component replacements**
-- Impact Assessment - Benefits of making the change
-- Implementation Notes - Any gotchas or considerations
-
-**Code Quality Scoring**
-
-Rate each area on a scale:
-
-- 🔴 Critical Issues - Must fix before production (**UI component non-usage is always Critical**)
-- 🟡 Needs Improvement - Should address soon
-- 🟢 Good - Meets standards
-- ✨ Excellent - Exemplary implementation
-
-**Additional Considerations**
-
-**Context Gathering**
-
-- Ask clarifying questions about the component's purpose and constraints
-- Consider the development team's skill level and codebase conventions
-- Account for technical debt vs new feature development priorities
-- Understand performance requirements and user experience goals
-- **Emphasize the importance of UI component consistency across the codebase**
-
-**Implementation Support**
-
-- **🔥 PRIORITY**: Provide working code examples showing UI component replacements
-- Consider backwards compatibility when proposing changes
-- Suggest migration strategies for breaking changes
-- Offer alternative solutions with trade-off analysis
-- **Focus first on UI component migration examples**
-
-**Follow-up Actions**
-
-- **🔥 TOP PRIORITY**: UI component adoption and custom UI elimination
-- Prioritize recommendations by impact and effort required
-- Suggest testing strategies for validating improvements
-- Recommend monitoring for performance or accessibility metrics
-- Identify opportunities for broader codebase improvements
-
-**Review Methodology Notes**
-
-- Be thorough but constructive - Focus on education and improvement
-- **🔥 EMPHASIZE**: The critical importance of using existing UI components over custom implementations
-- Provide concrete examples - Show don't just tell
-- Consider the bigger picture - How changes affect the overall application
-- Balance perfectionism with pragmatism - **UI component usage is non-negotiable**
-- Maintain coding standards - Ensure suggestions align with project conventions
-
-**Use this prompt to conduct systematic, comprehensive code reviews that prioritize UI component adoption, eliminate code duplication, and improve maintainability while ensuring excellent user experience and accessibility.**
+Keep total output under 500 words. Focus on actionable items with code examples.

@@ -6,7 +6,7 @@ import { LoadingState } from "@/components/ui/feedback";
 import { logger } from "@/utils/logger";
 import type { Character, Equipment, Race, Class } from "@/types/character";
 import { loadAllEquipment } from "@/services/dataLoader";
-import { convertToGold } from "@/utils/currency";
+import { convertToGoldFromAbbreviation } from "@/utils/currency";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 
@@ -301,9 +301,9 @@ function EquipmentSelector({
           : "—";
 
       // Calculate cost in gold pieces for affordability check
-      const costInGold = convertToGold(
+      const costInGold = convertToGoldFromAbbreviation(
         equipment.costValue,
-        equipment.costCurrency
+        equipment.costCurrency as "gp" | "sp" | "cp" | "ep" | "pp"
       );
 
       const canAfford = characterRestrictionData.currency >= costInGold;

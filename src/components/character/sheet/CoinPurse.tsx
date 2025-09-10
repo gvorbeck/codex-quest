@@ -3,7 +3,10 @@ import { SectionWrapper } from "@/components/ui/layout";
 import { Card } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
 import { SIZE_STYLES } from "@/constants/designTokens";
+import { convertToWholeCoins, cleanFractionalCurrency } from "@/utils/currency";
+import { CURRENCY_UI_CONFIG, type CurrencyKey } from "@/constants/currency";
 import type { Character } from "@/types/character";
+import { useEffect } from "react";
 
 interface CoinPurseProps {
   character: Character;
@@ -13,95 +16,6 @@ interface CoinPurseProps {
   onCurrencyChange?: (currency: Partial<Character["currency"]>) => void;
 }
 
-interface CurrencyConversions {
-  pp: number; // 1 pp = 5 gp
-  gp: number; // 1 gp = 10 sp
-  ep: number; // 1 ep = 5 sp
-  sp: number; // 1 sp = 10 cp
-  cp: number; // base unit
-}
-
-const CURRENCY_VALUES: CurrencyConversions = {
-  pp: 50, // 1 pp = 5 gp = 50 cp
-  gp: 10, // 1 gp = 10 sp = 100 cp
-  ep: 5,  // 1 ep = 5 sp = 50 cp
-  sp: 1,  // 1 sp = 10 cp
-  cp: 0.1 // 1 cp = 0.1 sp
-};
-
-// Currency definitions for UI display
-const CURRENCY_DEFINITIONS = [
-  { key: 'platinum' as const, label: 'Platinum', abbrev: 'pp', color: 'from-slate-300 to-slate-500', ring: 'ring-slate-400/30' },
-  { key: 'gold' as const, label: 'Gold', abbrev: 'gp', color: 'from-yellow-300 to-yellow-600', ring: 'ring-yellow-400/30' },
-  { key: 'electrum' as const, label: 'Electrum', abbrev: 'ep', color: 'from-amber-200 to-amber-500', ring: 'ring-amber-400/30' },
-  { key: 'silver' as const, label: 'Silver', abbrev: 'sp', color: 'from-gray-200 to-gray-400', ring: 'ring-gray-400/30' },
-  { key: 'copper' as const, label: 'Copper', abbrev: 'cp', color: 'from-orange-400 to-orange-700', ring: 'ring-orange-400/30' },
-] as const;
-
-// Convert fractional amounts to smaller denominations
-function convertFractionalCurrency(
-  amount: number,
-  currencyType: keyof CurrencyConversions,
-  currentCurrency: Character["currency"]
-): Partial<Character["currency"]> {
-  if (amount === Math.floor(amount)) {
-    // No fractional part, return as-is
-    return { [currencyType]: amount };
-  }
-
-  const fractionalPart = amount - Math.floor(amount);
-  const wholePart = Math.floor(amount);
-  const updates: Partial<Character["currency"]> = { [currencyType]: wholePart };
-
-  // Convert fractional part to copper pieces (base unit)
-  const fractionalInCopper = Math.round(fractionalPart * CURRENCY_VALUES[currencyType] * 10);
-
-  if (fractionalInCopper > 0) {
-    // Try to convert to the next smaller denomination
-    if (currencyType === 'pp') {
-      // Convert to gold pieces
-      const goldFromFraction = Math.floor(fractionalInCopper / 10);
-      if (goldFromFraction > 0) {
-        updates.gold = (currentCurrency.gold || 0) + goldFromFraction;
-        const remainingCopper = fractionalInCopper - (goldFromFraction * 10);
-        if (remainingCopper > 0) {
-          updates.copper = (currentCurrency.copper || 0) + remainingCopper;
-        }
-      } else {
-        updates.copper = (currentCurrency.copper || 0) + fractionalInCopper;
-      }
-    } else if (currencyType === 'gp') {
-      // Convert to silver pieces
-      const silverFromFraction = Math.floor(fractionalInCopper / 1);
-      if (silverFromFraction > 0) {
-        updates.silver = (currentCurrency.silver || 0) + silverFromFraction;
-        const remainingCopper = fractionalInCopper - silverFromFraction;
-        if (remainingCopper > 0) {
-          updates.copper = (currentCurrency.copper || 0) + remainingCopper;
-        }
-      } else {
-        updates.copper = (currentCurrency.copper || 0) + fractionalInCopper;
-      }
-    } else if (currencyType === 'ep') {
-      // Convert to silver pieces (1 ep = 5 sp, so fractional ep becomes silver)
-      const silverFromFraction = Math.floor(fractionalInCopper / 1);
-      if (silverFromFraction > 0) {
-        updates.silver = (currentCurrency.silver || 0) + silverFromFraction;
-        const remainingCopper = fractionalInCopper - silverFromFraction;
-        if (remainingCopper > 0) {
-          updates.copper = (currentCurrency.copper || 0) + remainingCopper;
-        }
-      } else {
-        updates.copper = (currentCurrency.copper || 0) + fractionalInCopper;
-      }
-    } else if (currencyType === 'sp') {
-      // Convert to copper pieces
-      updates.copper = (currentCurrency.copper || 0) + fractionalInCopper;
-    }
-  }
-
-  return updates;
-}
 
 export default function CoinPurse({
   character,
@@ -111,12 +25,24 @@ export default function CoinPurse({
   onCurrencyChange,
 }: CoinPurseProps) {
   const currentSize = SIZE_STYLES[size];
+  
+  // Auto-fix fractional currency when component mounts
+  useEffect(() => {
+    const hasFractionalCurrency = Object.values(character.currency).some(
+      amount => amount && !Number.isInteger(amount)
+    );
+    
+    if (hasFractionalCurrency && onCurrencyChange) {
+      const cleanedCurrency = cleanFractionalCurrency(character.currency);
+      onCurrencyChange(cleanedCurrency);
+    }
+  }, [character.currency, onCurrencyChange]);
 
-  const handleCurrencyChange = (currencyType: keyof Character["currency"]) => (value: number) => {
+  const handleCurrencyChange = (currencyType: CurrencyKey) => (value: number) => {
     if (!onCurrencyChange) return;
 
-    // Convert fractional amounts to smaller denominations
-    const updates = convertFractionalCurrency(value, currencyType as keyof CurrencyConversions, character.currency);
+    // Convert fractional amounts to whole coins
+    const updates = convertToWholeCoins(value, currencyType, character.currency);
     onCurrencyChange(updates);
   };
 
@@ -128,8 +54,9 @@ export default function CoinPurse({
     >
       <div className={currentSize.container}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {CURRENCY_DEFINITIONS.map(({ key, label, abbrev, color, ring }) => {
+          {CURRENCY_UI_CONFIG.map(({ key, label, abbrev, color, ring }) => {
             const value = character.currency[key] || 0;
+            // Display should show actual value - fractional amounts will be auto-converted by useEffect
             
             return (
               <Card

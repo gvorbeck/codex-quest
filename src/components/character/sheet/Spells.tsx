@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { logger } from "@/utils/logger";
 import { useModal } from "@/hooks/useModal";
 import {
   canCastSpells,
@@ -238,7 +239,7 @@ export default function Spells({
 
         setAvailableSpells(spellsByLevel);
       } catch (error) {
-        console.error("Error loading spells for cleric:", error);
+        logger.error("Error loading spells for cleric:", error);
       } finally {
         setLoadingSpells(false);
       }

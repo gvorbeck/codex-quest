@@ -19,5 +19,14 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      'no-console': 'error',
+    },
+  },
+  {
+    files: ['src/utils/logger.ts'],
+    rules: {
+      'no-console': 'off',
+    },
   },
 ])

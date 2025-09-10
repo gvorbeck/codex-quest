@@ -53,7 +53,6 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
           playerCount: game.players?.length
         });
         setError(errorMessage);
-        console.error(errorMessage, err);
       } finally {
         setLoading(false);
       }

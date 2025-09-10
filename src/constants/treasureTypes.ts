@@ -3,6 +3,7 @@ import type {
   IndividualTreasureType,
   UnguardedTreasureLevel,
 } from "@/utils/treasureGenerator";
+import { CURRENCY_UI_CONFIG, type CurrencyKey } from "@/constants/currency";
 
 export interface TreasureTypeConfig {
   value: string;
@@ -75,15 +76,14 @@ export const UNGUARDED_TREASURE_LEVELS: {
 ];
 
 export interface CoinConfig {
-  key: "platinum" | "gold" | "electrum" | "silver" | "copper";
+  key: CurrencyKey;
   label: string;
   color: string;
 }
 
-export const COIN_CONFIGS: CoinConfig[] = [
-  { key: "platinum", label: "pp", color: "text-purple-600" },
-  { key: "gold", label: "gp", color: "text-yellow-600" },
-  { key: "electrum", label: "ep", color: "text-blue-600" },
-  { key: "silver", label: "sp", color: "text-gray-600" },
-  { key: "copper", label: "cp", color: "text-orange-600" },
-];
+// Derived from unified currency configuration
+export const COIN_CONFIGS: CoinConfig[] = CURRENCY_UI_CONFIG.map(({ key, abbrev, textColor }) => ({
+  key,
+  label: abbrev,
+  color: textColor
+}));

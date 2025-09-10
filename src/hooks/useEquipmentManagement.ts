@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import type { Equipment, Character } from "@/types/character";
-import { convertToGold, updateCharacterGold } from "@/utils/currency";
+import { convertToGoldFromAbbreviation, updateCharacterCurrency } from "@/utils/currency";
 import {
   cleanEquipmentArray,
   ensureEquipmentAmount,
@@ -30,9 +30,9 @@ export function useEquipmentManagement(
 
   const handleEquipmentAdd = useCallback(
     (equipment: Equipment) => {
-      const costInGold = convertToGold(
+      const costInGold = convertToGoldFromAbbreviation(
         equipment.costValue,
-        equipment.costCurrency
+        equipment.costCurrency as "gp" | "sp" | "cp" | "ep" | "pp"
       );
 
       if (character.currency.gold < costInGold) {
@@ -50,8 +50,9 @@ export function useEquipmentManagement(
             ? { ...item, amount: item.amount + 1 }
             : item
         );
-        const updatedCharacter = updateCharacterGold(
+        const updatedCharacter = updateCharacterCurrency(
           character,
+          'gold',
           character.currency.gold - costInGold
         );
         setStartingGold(updatedCharacter.currency.gold);
@@ -60,8 +61,9 @@ export function useEquipmentManagement(
           equipment: updatedEquipment,
         });
       } else {
-        const updatedCharacter = updateCharacterGold(
+        const updatedCharacter = updateCharacterCurrency(
           character,
+          'gold',
           character.currency.gold - costInGold
         );
         setStartingGold(updatedCharacter.currency.gold);
@@ -85,9 +87,9 @@ export function useEquipmentManagement(
       );
 
       if (existingItem) {
-        const refundInGold = convertToGold(
+        const refundInGold = convertToGoldFromAbbreviation(
           existingItem.costValue,
-          existingItem.costCurrency
+          existingItem.costCurrency as "gp" | "sp" | "cp" | "ep" | "pp"
         );
 
         if (existingItem.amount > 1) {
@@ -96,8 +98,9 @@ export function useEquipmentManagement(
               ? { ...item, amount: item.amount - 1 }
               : item
           );
-          const updatedCharacter = updateCharacterGold(
+          const updatedCharacter = updateCharacterCurrency(
             character,
+            'gold',
             character.currency.gold + refundInGold
           );
           setStartingGold(updatedCharacter.currency.gold);
@@ -109,8 +112,9 @@ export function useEquipmentManagement(
           const updatedEquipment = character.equipment.filter(
             (item) => item.name !== equipmentName
           );
-          const updatedCharacter = updateCharacterGold(
+          const updatedCharacter = updateCharacterCurrency(
             character,
+            'gold',
             character.currency.gold + refundInGold
           );
           setStartingGold(updatedCharacter.currency.gold);
@@ -135,9 +139,9 @@ export function useEquipmentManagement(
   const totalValue = useMemo(() => {
     const value = cleanEquipmentArray(character.equipment).reduce(
       (total, item) => {
-        const itemValueInGold = convertToGold(
+        const itemValueInGold = convertToGoldFromAbbreviation(
           item.costValue * item.amount,
-          item.costCurrency
+          item.costCurrency as "gp" | "sp" | "cp" | "ep" | "pp"
         );
         return total + itemValueInGold;
       },
