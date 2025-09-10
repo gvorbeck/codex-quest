@@ -17,6 +17,7 @@ import { getFirstLevelSpellsForClass, getAllSpellsForCustomClass } from "@/utils
 import { logger } from "@/utils/logger";
 import { getSpellTypeInfo } from "@/utils/cantrips";
 import { getEffectiveSpellcastingClass, assignStartingCantrips } from "@/utils/characterCreation";
+import { getCharacterSpellSystemType } from "@/utils/characterHelpers";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps extends BaseStepProps {
@@ -259,7 +260,12 @@ function ClassStepComponent({
   });
 
   // Get spell-related data for current class configuration
-  const showStandardSpellSelection = availableSpells.length > 0 && !hasCustomSpellcaster;
+  // Only magic-user types get starting spells at level 1 (they have Read Magic)
+  // Cleric types start getting spells at level 2
+  const characterSpellSystemType = getCharacterSpellSystemType(character);
+  const shouldShowStartingSpells = characterSpellSystemType === "magic-user" || characterSpellSystemType === "custom";
+  
+  const showStandardSpellSelection = availableSpells.length > 0 && !hasCustomSpellcaster && shouldShowStartingSpells;
   const showCustomSpellSelection = allSpellsForCustomClass.length > 0 && hasCustomSpellcaster;
 
   return (

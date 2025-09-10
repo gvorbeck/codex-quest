@@ -96,6 +96,39 @@ Game data (races, classes, equipment, spells, cantrips) is stored as TypeScript 
 - Core BFRPG content vs supplemental material clearly marked
 - Version tracking for data compatibility
 
+**Class Magic System Types:**
+
+All character classes are categorized into magic system types based on their spellcasting abilities:
+
+**Magic-User Types** (get starting spells at level 1, have Read Magic ability):
+- `magic-user` - Core arcane spellcaster
+- `illusionist` - Supplemental, specializes in illusion magic
+- `necromancer` - Supplemental, specializes in necromancy
+- `spellcrafter` - Supplemental, enhanced spell preparation abilities
+
+**Cleric Types** (divine spellcasters, start casting at level 2):
+- `cleric` - Core divine spellcaster
+- `druid` - Supplemental, nature-focused divine spellcaster
+- `paladin` - Supplemental, holy warrior with limited divine magic (starts at level 10)
+
+**Non-Magic Classes** (no spellcasting abilities):
+- `fighter` - Core martial warrior
+- `thief` - Core stealth and skill specialist
+- `assassin` - Supplemental, enhanced combat specialist
+- `barbarian` - Supplemental, primitive warrior
+- `ranger` - Supplemental, wilderness warrior/scout
+- `scout` - Supplemental, reconnaissance specialist
+
+**Custom Classes:**
+- User-defined classes can optionally have spellcasting abilities
+- Custom spellcasters are treated as "magic-user" type for mechanics
+
+This classification is implemented in `src/utils/characterHelpers.ts` via the `getSpellSystemType()` function and determines:
+- Whether characters get starting spells during creation
+- Which spell lists are available
+- Which cantrip/orison types can be learned
+- Spellcasting ability score (Intelligence for magic-user types, Wisdom for cleric types)
+
 ### Firebase Integration
 
 **Authentication:** Email/password authentication
