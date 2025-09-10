@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./public/logo.webp" width="200" alt="Torchlight Logo" />
+  <img src="./public/logo.webp" width="200" alt="Codex.Quest Logo" />
   
-  # 🔥 Torchlight
+  # 🔥 Codex.Quest
   
   **Modern Character Creation for Basic Fantasy Role-Playing Game**
   
@@ -15,7 +15,7 @@
 
 ## 🎯 Overview
 
-Torchlight is a comprehensive web-based character creation and management system for Basic Fantasy Role-Playing Game (BFRPG). Built with modern React architecture and a beautiful, accessible interface, it provides players and Game Masters with powerful tools to create, manage, and track characters throughout their adventures.
+Codex.Quest is a comprehensive web-based character creation and management system for Basic Fantasy Role-Playing Game (BFRPG). Built with modern React architecture and a beautiful, accessible interface, it provides players and Game Masters with powerful tools to create, manage, and track characters throughout their adventures.
 
 ### ✨ Key Features
 
