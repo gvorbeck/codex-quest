@@ -12,7 +12,7 @@ Based on comprehensive codebase analysis - prioritized improvements for the BFRP
 Several components are extremely large and complex:
 
 - ✅ ~~`Spells.tsx` - 764 lines~~ **COMPLETED** (refactored to 301 lines with extracted components)
-- `EncounterGeneratorModal.tsx` - 755 lines
+- ✅ ~~`EncounterGeneratorModal.tsx` - 755 lines~~ **COMPLETED** (refactored to 116 lines with extracted components)
 - `ScrollCreation.tsx` - 617 lines
 - `treasureGenerator.ts` - 905 lines
 
@@ -25,8 +25,9 @@ Several components are extremely large and complex:
 - Create service classes for heavy utility functions
 - Implement feature-based component splitting
 
-**✅ Completed Example - Spells.tsx Refactor:**
+**✅ Completed Examples:**
 
+**Spells.tsx Refactor:**
 ```typescript
 // Successfully refactored from 764 lines to 301 lines:
 src/components/character/sheet/spells/
@@ -37,6 +38,21 @@ src/components/character/sheet/spells/
     ├── useSpellData.ts
     ├── useClericSpells.ts
     └── useSpellPreparation.ts
+```
+
+**EncounterGeneratorModal.tsx Refactor:**
+```typescript
+// Successfully refactored from 755 lines to 116 lines (85% reduction):
+src/components/modals/game/encounter/
+├── EncounterTypeSelector.tsx
+├── EncounterSubtypeSelector.tsx
+├── EncounterRules.tsx
+├── EncounterGeneratorButton.tsx
+├── EncounterResults.tsx
+├── EncounterInstructions.tsx
+└── hooks/
+    ├── useEncounterData.ts
+    └── useEncounterGeneration.ts
 ```
 
 **Remaining Refactor Targets:**
