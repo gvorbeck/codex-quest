@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const illusionist: Class = {
   name: "Illusionist",
   id: CHARACTER_CLASSES.ILLUSIONIST,
+  classType: CHARACTER_CLASSES.MAGIC_USER,
   description:
     "Illusionists are specialist Magic-Users who focus on the creation and manipulation of illusions, whether visual, auditory, or mental, and at higher levels quasi-real things made of tangible shadow. Though normal Magic-Users can create illusions, those created by a true Illusionist are superior in quality and realism.",
   hitDie: "1d4",

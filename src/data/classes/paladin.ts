@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const paladin: Class = {
   name: "Paladin",
   id: CHARACTER_CLASSES.PALADIN,
+  classType: CHARACTER_CLASSES.CLERIC,
   description:
     "Paladins are holy warriors dedicated to their faith and to justice. They are a subclass of Fighter with the same attack bonus and saving throws as Fighters of the same level, but they gain divine spellcasting abilities at higher levels and have special powers to combat evil.",
   hitDie: "1d8",

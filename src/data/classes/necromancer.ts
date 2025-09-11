@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const necromancer: Class = {
   name: "Necromancer",
   id: CHARACTER_CLASSES.NECROMANCER,
+  classType: CHARACTER_CLASSES.MAGIC_USER,
   description:
     "Necromancers are Magic-Users who practice necromancy, seeking expertise of the darker side of the arcane. They are rare due to the unsavory nature of their profession, often living in proximity to graveyards, burial mounds, and other places associated with the dead.",
   hitDie: "1d4",

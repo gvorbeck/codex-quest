@@ -1,3 +1,5 @@
+import { CHARACTER_CLASSES } from "@/constants/gameData";
+
 export interface AbilityScore {
   value: number;
   modifier: number;
@@ -218,6 +220,7 @@ export interface Race {
 export interface Class {
   name: string;
   id: string;
+  classType: typeof CHARACTER_CLASSES.FIGHTER | typeof CHARACTER_CLASSES.THIEF | typeof CHARACTER_CLASSES.CLERIC | typeof CHARACTER_CLASSES.MAGIC_USER;
   description: string;
   hitDie: string;
   primaryAttribute: keyof Character["abilities"];

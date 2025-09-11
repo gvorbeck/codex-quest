@@ -1,12 +1,7 @@
 import type { Character, Cantrip } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import cantripData from "@/data/cantrips.json";
-import {
-  DIVINE_CLASSES,
-  ARCANE_CLASSES,
-  type ArcaneClass,
-  type DivineClass,
-} from "@/constants/spellcasting";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -66,12 +61,16 @@ export function getSpellTypeInfo(character: Character): SpellTypeInfo {
     return false;
   });
 
-  const hasDivineClasses = character.class.some((classId) =>
-    DIVINE_CLASSES.includes(classId as DivineClass)
-  );
-  const hasArcaneClasses = hasCustomSpellcaster || character.class.some((classId) =>
-    ARCANE_CLASSES.includes(classId as ArcaneClass)
-  );
+  // Use classType property instead of hardcoded arrays
+  const hasDivineClasses = character.class.some((classId) => {
+    const classData = allClasses.find(c => c.id === classId);
+    return classData?.classType === CHARACTER_CLASSES.CLERIC;
+  });
+  
+  const hasArcaneClasses = hasCustomSpellcaster || character.class.some((classId) => {
+    const classData = allClasses.find(c => c.id === classId);
+    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER;
+  });
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;
 

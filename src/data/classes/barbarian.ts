@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const barbarian: Class = {
   name: "Barbarian",
   id: CHARACTER_CLASSES.BARBARIAN,
+  classType: CHARACTER_CLASSES.FIGHTER,
   description:
     "Barbarians are warriors born in savage lands, far from the mollifying comforts of civilization. They rely on hardiness, stealth, and foolhardy bravery to beat their enemies. They are a subclass of Fighter and have the same attack bonus and saving throws as Fighters of the same level.",
   hitDie: "1d10",

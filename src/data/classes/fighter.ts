@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const fighter: Class = {
   name: "Fighter",
   id: CHARACTER_CLASSES.FIGHTER,
+  classType: CHARACTER_CLASSES.FIGHTER,
   description:
     "Fighters include soldiers, guardsmen, barbarian warriors, and anyone else for whom fighting is a way of life. They train in combat, and they generally approach problems head-on, weapon in hand.",
   hitDie: "1d8",

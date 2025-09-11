@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const spellcrafter: Class = {
   name: "Spellcrafter",
   id: CHARACTER_CLASSES.SPELLCRAFTER,
+  classType: CHARACTER_CLASSES.MAGIC_USER,
   description:
     "Spellcrafters are special magicians who are subclass of Magic-Users. They have the same abilities as Magic-Users but with unique focuses on spell creation and modification.",
   hitDie: "1d4",

@@ -5,8 +5,8 @@ import type {
   Class,
 } from "@/types/character";
 import type { ValidationSchema } from "@/validation";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
 import { Rules } from "@/validation";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -173,10 +173,8 @@ export function hasRequiredStartingSpells(
     if (!charClass || !charClass.spellcasting) continue;
 
     // Magic-User-based classes start with "read magic" (automatically included) and one other 1st level spell
-    if (classId === CHARACTER_CLASSES.MAGIC_USER || 
-        classId === CHARACTER_CLASSES.ILLUSIONIST ||
-        classId === CHARACTER_CLASSES.NECROMANCER ||
-        classId === CHARACTER_CLASSES.SPELLCRAFTER) {
+    const classData = availableClasses.find(c => c.id === classId);
+    if (classData?.classType === CHARACTER_CLASSES.MAGIC_USER) {
       const spells = character.spells || [];
       const firstLevelSpells = spells.filter(
         (spell) => spell.level[classId as keyof typeof spell.level] === 1

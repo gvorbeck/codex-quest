@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const druid: Class = {
   name: "Druid",
   id: CHARACTER_CLASSES.DRUID,
+  classType: CHARACTER_CLASSES.CLERIC,
   description:
     "Druids are nature priests, revering the gods of the natural world. They advance at the same rate as Clerics, and they use the same combat and saving throw tables. Druids can cast spells of divine nature starting at 2nd level, and they have the power of Animal Affinity, working much like the Clerical ability to Turn Undead.",
   hitDie: "1d6",

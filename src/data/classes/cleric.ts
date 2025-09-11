@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const cleric: Class = {
   name: "Cleric",
   id: CHARACTER_CLASSES.CLERIC,
+  classType: CHARACTER_CLASSES.CLERIC,
   description:
     "Clerics are those who have devoted themselves to the service of a deity, pantheon or other belief system. Most Clerics spend their time in mundane forms of service such as preaching and ministering in a temple; but there are those who are called to go abroad from the temple and serve their deity in a more direct way, smiting undead monsters and aiding in the battle against evil and chaos. Player character Clerics are assumed to be among the latter group.",
   hitDie: "1d6",

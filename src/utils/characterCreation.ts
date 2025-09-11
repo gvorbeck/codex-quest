@@ -2,12 +2,8 @@ import type { Character, Cantrip } from "@/types/character";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips } from "@/utils/cantrips";
 import { hasSpellcasting } from "@/utils/spells";
-import {
-  DIVINE_CLASSES,
-  ARCANE_CLASSES,
-  type ArcaneClass,
-  type DivineClass,
-} from "@/constants/spellcasting";
+import { allClasses } from "@/data/classes";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
  * Determines the effective spellcasting class for a character
@@ -66,12 +62,14 @@ export function getSpellcastingAbilityModifier(character: Character): number {
     return false;
   });
 
-  const hasArcane = hasCustomSpellcaster || character.class.some((classId) =>
-    ARCANE_CLASSES.includes(classId as ArcaneClass)
-  );
-  const hasDivine = !hasCustomSpellcaster && character.class.some((classId) =>
-    DIVINE_CLASSES.includes(classId as DivineClass)
-  );
+  const hasArcane = hasCustomSpellcaster || character.class.some((classId) => {
+    const classData = allClasses.find(c => c.id === classId);
+    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER;
+  });
+  const hasDivine = !hasCustomSpellcaster && character.class.some((classId) => {
+    const classData = allClasses.find(c => c.id === classId);
+    return classData?.classType === CHARACTER_CLASSES.CLERIC;
+  });
 
   if (hasArcane) {
     return character.abilities.intelligence.modifier;

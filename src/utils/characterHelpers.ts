@@ -1,4 +1,5 @@
 import type { Character, Class } from "@/types/character";
+import { allClasses } from "@/data/classes";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
@@ -12,58 +13,7 @@ export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
 
 /**
  * Determine the spell system type for a character based on their classes
- * 
- * @param characterClasses - Array of class IDs for the character
- * @returns The type of spell system the character uses
- */
-export function getSpellSystemType(characterClasses: string[]): SpellSystemType {
-  if (!characterClasses.length) return "none";
-  
-  // Check for custom classes that use spells - we'll need the character object to determine this
-  // For now, if we see a custom class, we return "custom"
-  const hasCustomSpellcaster = characterClasses.some(classId => isCustomClass(classId));
-  if (hasCustomSpellcaster) {
-    return "custom"; // Will need character object to determine if they actually use spells
-  }
-  
-  // Magic-user spell system classes
-  const magicUserClasses = [
-    CHARACTER_CLASSES.MAGIC_USER,
-    CHARACTER_CLASSES.ILLUSIONIST,
-    CHARACTER_CLASSES.NECROMANCER,
-    CHARACTER_CLASSES.SPELLCRAFTER
-  ];
-  
-  // Cleric spell system classes  
-  const clericClasses = [
-    CHARACTER_CLASSES.CLERIC,
-    CHARACTER_CLASSES.DRUID,
-    CHARACTER_CLASSES.PALADIN
-  ];
-  
-  // Find any spellcasting class in the array
-  // Based on the valid multiclass combinations: fighter/magic-user and magic-user/thief
-  // There are only 2 multiclass combinations and only one involves spellcasting
-  const spellcastingClass = characterClasses.find(classId => 
-    (magicUserClasses as string[]).includes(classId) || (clericClasses as string[]).includes(classId)
-  );
-  
-  if (!spellcastingClass) return "none";
-  
-  // Determine which spell system the spellcasting class uses
-  if ((magicUserClasses as string[]).includes(spellcastingClass)) {
-    return "magic-user";
-  }
-  
-  if ((clericClasses as string[]).includes(spellcastingClass)) {
-    return "cleric";  
-  }
-  
-  return "none";
-}
-
-/**
- * Enhanced version that takes a character object to handle custom classes properly
+ * Handles both standard classes (via classType) and custom classes (via character data)
  * 
  * @param character - The character object
  * @returns The type of spell system the character uses
@@ -84,8 +34,17 @@ export function getCharacterSpellSystemType(character: Character): SpellSystemTy
     return "custom";
   }
   
-  // Use the basic function for standard classes
-  return getSpellSystemType(character.class);
+  // For standard classes, use classType property
+  const spellcastingClass = character.class.find(classId => {
+    const classData = allClasses.find(c => c.id === classId);
+    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER || classData?.classType === CHARACTER_CLASSES.CLERIC;
+  });
+  
+  if (!spellcastingClass) return "none";
+  
+  const classData = allClasses.find(c => c.id === spellcastingClass);
+  return classData?.classType === CHARACTER_CLASSES.MAGIC_USER ? "magic-user" : 
+         classData?.classType === CHARACTER_CLASSES.CLERIC ? "cleric" : "none";
 }
 
 /**

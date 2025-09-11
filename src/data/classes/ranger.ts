@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const ranger: Class = {
   name: "Ranger",
   id: CHARACTER_CLASSES.RANGER,
+  classType: CHARACTER_CLASSES.THIEF,
   description:
     "Rangers are specialized warriors who roam the borderlands, where their mission is to keep the beasts and monsters of the untamed lands at bay. They generally operate alone or in small groups, and rely on stealth and surprise to meet their objectives. Rangers are a subclass of Fighter.",
   hitDie: "1d8",

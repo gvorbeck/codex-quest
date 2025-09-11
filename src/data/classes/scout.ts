@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const scout: Class = {
   name: "Scout",
   id: CHARACTER_CLASSES.SCOUT,
+  classType: CHARACTER_CLASSES.THIEF,
   description:
     "Scouts are a subclass of Thief who have been toughened by self-sufficiency and isolation from the supplies and comforts of civilized lands. They have the same attack bonus and saving throws as Thieves but use a d6 for hit dice and advance at the same rate as Clerics.",
   hitDie: "1d6",

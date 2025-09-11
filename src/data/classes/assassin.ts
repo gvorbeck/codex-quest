@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const assassin: Class = {
   name: "Assassin",
   id: CHARACTER_CLASSES.ASSASSIN,
+  classType: CHARACTER_CLASSES.THIEF,
   description:
     "There are those who make their living dealing death from the shadows. These people are called assassins. Most are trained by secret guilds or societies; civilized lands generally forbid and destroy such organizations.",
   hitDie: "1d4",

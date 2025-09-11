@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 export const magicUser: Class = {
   name: "Magic-User",
   id: CHARACTER_CLASSES.MAGIC_USER,
+  classType: CHARACTER_CLASSES.MAGIC_USER,
   description:
     "Magic-Users are those who seek and use knowledge of the arcane. They do magic not as the Cleric does, by faith in a greater power, but rather through insight and understanding.",
   hitDie: "1d4",
