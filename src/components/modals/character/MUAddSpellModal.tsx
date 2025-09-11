@@ -130,10 +130,10 @@ export default function MUAddSpellModal({
           className="bg-amber-950/30 border-amber-800/50"
         >
           <Typography variant="caption" className="text-amber-300/80">
-            Magic-Users may learn spells by being taught by another Magic-User, or by studying 
-            another Magic-User's spellbook. If being taught, a spell can be learned in a single day. 
+            Arcane spellcasters may learn spells by being taught by another arcane spellcaster, or by studying 
+            another spellcaster's spellbook. If being taught, a spell can be learned in a single day. 
             Researching from a spellbook takes one day per spell level. In either case, the spell 
-            must be transcribed into the Magic-User's own spellbook, at a cost of 500 gp per spell level.
+            must be transcribed into the character's own spellbook, at a cost of 500 gp per spell level.
           </Typography>
         </Callout>
 
