@@ -76,7 +76,7 @@ export default function ClassSkills({
       (cls) => cls.id === characterClassInfo.className
     );
 
-    if (!classData?.thiefSkills) {
+    if (!classData?.skills) {
       logger.warn(`Missing skills for class: ${characterClassInfo.className}`);
       return null;
     }
@@ -88,8 +88,8 @@ export default function ClassSkills({
       character.level || SKILL_CONSTANTS.DEFAULT_LEVEL
     );
     const skillsForLevel =
-      classData.thiefSkills[level] ||
-      classData.thiefSkills[SKILL_CONSTANTS.DEFAULT_LEVEL];
+      classData.skills[level] ||
+      classData.skills[SKILL_CONSTANTS.DEFAULT_LEVEL];
 
     if (!skillsForLevel) {
       logger.warn(

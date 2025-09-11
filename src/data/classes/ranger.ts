@@ -74,7 +74,7 @@ export const ranger: Class = {
     19: 1584000,
     20: 1716000,
   },
-  thiefSkills: {
+  skills: {
     1: {
       moveSilently: 25,
       hide: 10,

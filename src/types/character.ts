@@ -232,7 +232,7 @@ export interface Class {
   };
   specialAbilities: SpecialAbility[];
   experienceTable: { [level: number]: number };
-  thiefSkills?: { [level: number]: { [skill: string]: number } }; // For thieves
+  skills?: { [level: number]: { [skill: string]: number } }; // For classes with skill progression
   supplementalContent?: boolean; // Indicates if this class is part of supplemental content
 }
 

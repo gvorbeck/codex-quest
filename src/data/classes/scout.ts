@@ -76,7 +76,7 @@ export const scout: Class = {
     19: 1080000,
     20: 1170000,
   },
-  thiefSkills: {
+  skills: {
     1: {
       openLocks: 10,
       detectTraps: 10,

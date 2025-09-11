@@ -1,6 +1,7 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
 import { canCastSpells } from "@/utils/characterHelpers";
+import { allClasses } from "@/data/classes";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback/LoadingState";
@@ -24,7 +25,6 @@ import {
 } from "@/components/character/sheet";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
-import { allClasses } from "@/data/classes";
 import { calculateModifier } from "@/utils/characterCalculations";
 import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
@@ -56,6 +56,16 @@ export default function CharacterSheet() {
     ],
     [character?.name]
   );
+
+  // Check if character has any classes with skills
+  const hasSkills = useMemo(() => {
+    if (!character?.class) return false;
+    
+    return character.class.some(classId => {
+      const classData = allClasses.find(cls => cls.id === classId);
+      return classData?.skills !== undefined;
+    });
+  }, [character?.class]);
 
   // Handle XP changes
   const handleXPChange = useCallback(
@@ -304,9 +314,11 @@ export default function CharacterSheet() {
                 <div className="break-inside-avoid mb-6">
                   <SavingThrows character={character} />
                 </div>
-                <div className="break-inside-avoid mb-6">
-                  <ThiefSkills character={character} />
-                </div>
+                {hasSkills && (
+                  <div className="break-inside-avoid mb-6">
+                    <ThiefSkills character={character} />
+                  </div>
+                )}
                 <div className="break-inside-avoid mb-6">
                   <AttackBonuses character={character} />
                 </div>{" "}

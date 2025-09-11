@@ -60,8 +60,8 @@ export const useSkillDataByClass = (
       const classData = allClasses.find(cls => cls.id === skillClassId);
       const classInfo = CLASSES_WITH_SKILLS[skillClassId];
 
-      if (!classData?.thiefSkills) {
-        logger.warn(`Missing thief skills data for class: ${skillClassId}`);
+      if (!classData?.skills) {
+        logger.warn(`Missing skills data for class: ${skillClassId}`);
         return {
           classId: skillClassId,
           displayName: classInfo.displayName,
@@ -74,7 +74,7 @@ export const useSkillDataByClass = (
       
       // Add level progression rows
       for (let level = 1; level <= 20; level++) {
-        const skillsForLevel = classData.thiefSkills[level];
+        const skillsForLevel = classData.skills[level];
         if (!skillsForLevel) continue;
 
         // Check if any player characters are at this level

@@ -46,7 +46,7 @@ export const thief: Class = {
     19: 900000,
     20: 975000,
   },
-  thiefSkills: {
+  skills: {
     1: {
       openLocks: 25,
       removeTraps: 20,

@@ -13,7 +13,7 @@ export const useSkillColumns = (classSkillData: ClassSkillData): TableColumn<Ski
     const skillsToShow = Object.keys(ALL_SKILLS).filter(skillKey => {
       // Only show skills that this class actually has
       const classData = allClasses.find(cls => cls.id === classSkillData.classId);
-      return classData?.thiefSkills?.[1]?.[skillKey] !== undefined;
+      return classData?.skills?.[1]?.[skillKey] !== undefined;
     }) as SkillKey[];
 
     const columns: TableColumn<SkillTableRow>[] = [
