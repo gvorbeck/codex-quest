@@ -173,7 +173,7 @@ export const saveCharacter = async (
       ...character,
       settings: {
         ...character.settings,
-        version: 2, // Current version
+        version: 2.4, // Current version
       },
     };
 

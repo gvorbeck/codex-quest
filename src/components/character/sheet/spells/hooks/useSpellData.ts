@@ -132,9 +132,9 @@ export function useSpellData(character?: Character): SpellDataResult {
     characterSpells.forEach((spell, index) => {
       const spellLevel = getSpellLevel(spell, character.class);
       if (spellLevel > 0) {
-        // For magic-user types, show spells without preparation metadata
+        // For magic-user types and custom classes, show spells without preparation metadata
         // For cleric types, this will be handled separately in the prepared spells section
-        if (systemType === "magic-user" && !spell.preparation) {
+        if ((systemType === "magic-user" || systemType === "custom") && !spell.preparation) {
           allSpells.push({
             ...spell,
             spellLevel,

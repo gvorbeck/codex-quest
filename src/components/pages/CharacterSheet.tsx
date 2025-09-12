@@ -1,6 +1,5 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
-import { canCastSpells } from "@/utils/characterHelpers";
 import { allClasses } from "@/data/classes";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
@@ -28,6 +27,7 @@ import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { calculateModifier } from "@/utils/characterCalculations";
 import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
+import { canCastSpells } from "@/utils/characterHelpers";
 
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
@@ -60,9 +60,9 @@ export default function CharacterSheet() {
   // Check if character has any classes with skills
   const hasSkills = useMemo(() => {
     if (!character?.class) return false;
-    
-    return character.class.some(classId => {
-      const classData = allClasses.find(cls => cls.id === classId);
+
+    return character.class.some((classId) => {
+      const classData = allClasses.find((cls) => cls.id === classId);
       return classData?.skills !== undefined;
     });
   }, [character?.class]);
@@ -199,11 +199,6 @@ export default function CharacterSheet() {
     [character, handleCharacterChange]
   );
 
-  // Helper function to check if custom class should show spells
-  const shouldShowSpellsForCustomClass = (character: Character): boolean => {
-    return canCastSpells(character);
-  };
-
   // Data loading is now handled by useFirebaseSheet hook
 
   if (loading) {
@@ -230,14 +225,7 @@ export default function CharacterSheet() {
     );
   }
 
-  logger.debug(
-    `
-⚔️  ═══════════════════════════════════════════════════════════════════════════════
-🛡️   CHARACTER SHEET DEBUG | ${character.name?.toUpperCase() || "UNNAMED HERO"}
-⚔️  ═══════════════════════════════════════════════════════════════════════════════
-`,
-    character
-  );
+  logger.info(JSON.stringify(character));
 
   return (
     <>
@@ -363,7 +351,7 @@ export default function CharacterSheet() {
             className={`grid grid-cols-1 gap-6 ${
               character.spells?.length ||
               character.cantrips?.length ||
-              shouldShowSpellsForCustomClass(character)
+              canCastSpells(character)
                 ? "lg:grid-cols-2"
                 : "lg:grid-cols-1"
             }`}
@@ -371,7 +359,7 @@ export default function CharacterSheet() {
             {/* Spells & Cantrips Section - only show if character has spells/cantrips or is a custom class that uses magic */}
             {(character.spells?.length ||
               character.cantrips?.length ||
-              shouldShowSpellsForCustomClass(character)) && (
+              canCastSpells(character)) && (
               <div className="break-inside-avoid">
                 <Spells
                   character={character}

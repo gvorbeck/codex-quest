@@ -7,7 +7,6 @@ import { TextHeader } from "@/components/ui/display";
 import SafeHTML from "@/components/ui/SafeHTML";
 import type { Character, Cantrip } from "@/types/character";
 import {
-  canLearnCantrips,
   getAvailableCantrips,
   getSpellTypeInfo,
   getCantripOptions,
@@ -15,6 +14,7 @@ import {
 } from "@/utils/cantrips";
 import CantripCard from "./CantripCard";
 import { CantripModal } from "@/components/modals";
+import { canCastSpells } from "@/utils/characterHelpers";
 
 // Discriminated union for better type safety
 type CantripSelectorProps =
@@ -91,7 +91,11 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
     const { character, onCantripChange, className = "" } = props;
 
     // All hooks must be called before any conditional returns
-    const { isOpen: showModal, open: openModal, close: closeModal } = useModal();
+    const {
+      isOpen: showModal,
+      open: openModal,
+      close: closeModal,
+    } = useModal();
     const [selectedCantripName, setSelectedCantripName] = useState("");
 
     const spellTypeInfo = useMemo(
@@ -145,7 +149,7 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
     }, [closeModal]);
 
     // Early return if character can't learn cantrips (after all hooks)
-    if (!canLearnCantrips(character)) {
+    if (!canCastSpells(character)) {
       return null;
     }
 

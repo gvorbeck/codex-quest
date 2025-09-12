@@ -1,11 +1,7 @@
 import type { Character, Cantrip } from "@/types/character";
 import cantripData from "@/data/cantrips.json";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
-import {
-  characterHasSpellcasting,
-  hasClassType,
-  hasCustomClasses,
-} from "@/utils/characterHelpers";
+import { hasClassType, hasCustomClasses } from "@/utils/characterHelpers";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -13,14 +9,6 @@ export interface SpellTypeInfo {
   capitalized: "Orisons" | "Cantrips";
   capitalizedSingular: "Orison" | "Cantrip";
   abilityScore: "Intelligence" | "Wisdom" | "Intelligence/Wisdom";
-}
-
-/**
- * Determines if a character can learn cantrips/orisons
- * Uses consolidated spellcasting detection logic
- */
-export function canLearnCantrips(character: Character): boolean {
-  return characterHasSpellcasting(character);
 }
 
 /**

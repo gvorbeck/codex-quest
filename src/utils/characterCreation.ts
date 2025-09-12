@@ -2,7 +2,7 @@ import type { Character, Cantrip } from "@/types/character";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips } from "@/utils/cantrips";
 import {
-  characterHasSpellcasting,
+  canCastSpells,
   hasClassType,
   isCustomClass,
 } from "@/utils/characterHelpers";
@@ -31,14 +31,6 @@ export function getEffectiveSpellcastingClass(
     }
   }
   return null;
-}
-
-/**
- * Determines if a character has any spellcasting classes
- * Uses consolidated spellcasting detection
- */
-export function hasSpellcastingClass(character: Character): boolean {
-  return characterHasSpellcasting(character);
 }
 
 /**
@@ -77,7 +69,7 @@ export function assignStartingCantrips(character: Character): Cantrip[] {
   }
 
   // Check if any class can cast spells
-  const hasSpellcaster = characterHasSpellcasting(character);
+  const hasSpellcaster = canCastSpells(character);
   if (!hasSpellcaster) {
     return [];
   }

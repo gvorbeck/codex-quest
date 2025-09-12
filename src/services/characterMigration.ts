@@ -3,7 +3,7 @@ import { logger } from '@/utils/logger';
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from '@/constants/gameData';
 import { cleanFractionalCurrency } from '@/utils/currency';
 
-const CURRENT_VERSION = 2.3;
+const CURRENT_VERSION = 2.4;
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -35,6 +35,12 @@ interface LegacyEquipmentItem {
   [key: string]: unknown;
 }
 
+interface LegacyCustomClass {
+  name?: string;
+  usesSpells?: boolean;
+  hitDie?: string;
+}
+
 interface LegacyCharacterData {
   name?: string;
   race?: string;
@@ -52,6 +58,7 @@ interface LegacyCharacterData {
   settings?: LegacySettings;
   useCoinWeight?: boolean;
   wearing?: boolean;
+  customClasses?: Record<string, LegacyCustomClass>;
   [key: string]: unknown;
 }
 
@@ -60,25 +67,27 @@ interface LegacyCharacterData {
  */
 export function isLegacyCharacter(data: LegacyCharacterData): boolean {
   // Check for legacy format indicators
-  const hasLegacyAbilities = 
+  const hasLegacyAbilities = Boolean(
     data['abilities']?.modifiers && 
-    data['abilities']?.scores;
+    data['abilities']?.scores
+  );
   
   const hasLegacyCurrency = 
     typeof data['gold'] === 'number' || 
     typeof data['silver'] === 'number' || 
     typeof data['copper'] === 'number';
   
-  const hasLegacyHp = 
-    data['hp']?.points !== undefined;
+  const hasLegacyHp = data['hp']?.points !== undefined;
 
   const hasLegacyClasses = hasLegacyClassNames(data);
 
   const hasReadMagicSpell = hasReadMagicInSpells(data);
 
-  const isNewVersion = data['settings']?.version === CURRENT_VERSION;
+  const hasCustomClassesProperty = typeof data['customClasses'] === 'object' && data['customClasses'] !== null;
+
+  const needsVersionUpdate = !data['settings']?.version || (typeof data['settings']?.version === 'number' && data['settings'].version < CURRENT_VERSION);
   
-  return (hasLegacyAbilities || hasLegacyCurrency || hasLegacyHp || hasLegacyClasses || hasReadMagicSpell) && !isNewVersion;
+  return (hasLegacyAbilities || hasLegacyCurrency || hasLegacyHp || hasLegacyClasses || hasReadMagicSpell || hasCustomClassesProperty || needsVersionUpdate);
 }
 
 /**
@@ -258,18 +267,85 @@ function migrateLegacyCharacter(legacyData: LegacyCharacterData): LegacyCharacte
 }
 
 /**
+ * Migrate character from version 2.3 to 2.4 (custom classes refactor)
+ */
+function migrateCustomClasses(data: LegacyCharacterData): LegacyCharacterData {
+  const migrated = { ...data };
+  
+  // If character has customClasses property, migrate it to the new format
+  if (data['customClasses'] && typeof data['customClasses'] === 'object') {
+    const customClasses = data['customClasses'] as Record<string, LegacyCustomClass>;
+    
+    // Get the first custom class (assuming single custom class for now)
+    const customClassIds = Object.keys(customClasses);
+    if (customClassIds.length > 0) {
+      const firstCustomClassId = customClassIds[0];
+      if (!firstCustomClassId) {
+        return migrated;
+      }
+      
+      const customClass = customClasses[firstCustomClassId];
+      if (!customClass) {
+        return migrated;
+      }
+      
+      // Move the class name to the character.class array
+      if (customClass.name) {
+        migrated['class'] = [customClass.name];
+        logger.info(`Migrated custom class name from customClasses.${firstCustomClassId}.name to class array: ${customClass.name}`);
+      }
+      
+      // Move the hit die to character.hp.die
+      if (customClass.hitDie) {
+        if (!migrated['hp']) {
+          migrated['hp'] = { current: 0, max: 0 };
+        }
+        migrated['hp'] = {
+          ...migrated['hp'],
+          die: customClass.hitDie
+        };
+        logger.info(`Migrated custom class hit die from customClasses.${firstCustomClassId}.hitDie to hp.die: ${customClass.hitDie}`);
+      }
+    }
+    
+    // Remove the customClasses property
+    delete migrated['customClasses'];
+    logger.info('Removed customClasses property after migration to 2.4 format');
+  }
+  
+  return migrated;
+}
+
+/**
  * Process character data and migrate if necessary
  */
 export function processCharacterData(data: LegacyCharacterData): LegacyCharacterData {
+  let migratedData = data;
+  
   if (isLegacyCharacter(data)) {
     logger.debug(`Migrating legacy character: ${data['name'] || 'Unknown'}`);
-    return migrateLegacyCharacter(data);
+    
+    // First handle the main legacy migration (pre-2.3)
+    migratedData = migrateLegacyCharacter(data);
+  }
+  
+  // Handle version 2.3 to 2.4 migration (custom classes refactor)
+  const currentVersion = migratedData['settings']?.version || 0;
+  if (currentVersion < 2.4) {
+    logger.debug(`Migrating character from version ${currentVersion} to 2.4: ${migratedData['name'] || 'Unknown'}`);
+    migratedData = migrateCustomClasses(migratedData);
+    
+    // Update version to 2.4
+    migratedData['settings'] = {
+      ...migratedData['settings'],
+      version: CURRENT_VERSION
+    };
   }
   
   // Ensure current characters have version set
-  if (!data['settings']?.version) {
-    data['settings'] = { ...data['settings'], version: CURRENT_VERSION };
+  if (!migratedData['settings']?.version) {
+    migratedData['settings'] = { ...migratedData['settings'], version: CURRENT_VERSION };
   }
   
-  return data;
+  return migratedData;
 }

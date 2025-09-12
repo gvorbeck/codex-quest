@@ -22,20 +22,6 @@ export function getCharacterSpellSystemType(
   character: Character
 ): SpellSystemType {
   if (!character.class.length) return "none";
-
-  // Check for custom classes that use spells (using isCustomClass helper)
-  // const customSpellcaster = character.class.find((classId) => {
-  //   if (isCustomClass(classId)) {
-  //     // Custom class - check if it uses spells
-  //     const customClass = character.customClasses?.[classId];
-  //     return customClass?.usesSpells || false;
-  //   }
-  //   return false;
-  // });
-
-  // if (customSpellcaster) {
-  //   return "custom";
-  // }
   if (hasCustomClasses(character)) {
     return "custom";
   }
@@ -63,7 +49,7 @@ export function getCharacterSpellSystemType(
  * Consolidated spellcasting detection - checks if any character class has spellcasting
  * Works for both standard classes (checks spellcasting property) and custom classes
  */
-export function characterHasSpellcasting(character: Character): boolean {
+export function canCastSpells(character: Character): boolean {
   return character.class.some((classId) => {
     // Check if it's a custom class
     if (isCustomClass(classId)) {
@@ -194,13 +180,6 @@ export function getPrimaryClassInfo(
         isCustom: true,
       }
     : null;
-}
-
-/**
- * Alias for characterHasSpellcasting for backward compatibility
- */
-export function canCastSpells(character: Character): boolean {
-  return characterHasSpellcasting(character);
 }
 
 /**

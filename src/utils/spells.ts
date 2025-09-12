@@ -1,6 +1,9 @@
 import type { Spell } from "@/types/character";
-import { loadSpellsForClass, loadAllFirstLevelSpells, loadAllSpells } from "@/services/dataLoader";
-
+import {
+  loadSpellsForClass,
+  loadAllFirstLevelSpells,
+  loadAllSpells,
+} from "@/services/dataLoader";
 
 /**
  * Get all first level spells available to a class (excluding Read Magic for magic-users)
@@ -22,7 +25,4 @@ export async function getAllSpellsForCustomClass(): Promise<Spell[]> {
 }
 
 // Re-export consolidated spellcasting functions from characterHelpers
-export { 
-  characterHasSpellcasting,
-  getFirstSpellcastingClass 
-} from "@/utils/characterHelpers";
+export { getFirstSpellcastingClass } from "@/utils/characterHelpers";
