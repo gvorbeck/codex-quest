@@ -60,12 +60,10 @@ function ClassStepComponent({
   >([]);
   const [isLoadingSpells, setIsLoadingSpells] = useState(false);
   const [isLoadingAllSpells, setIsLoadingAllSpells] = useState(false);
-  
+
   // Use localStorage for custom class magic toggle
-  const [customClassMagicToggle, setCustomClassMagicToggle] = useLocalStorage<boolean>(
-    STORAGE_KEYS.CUSTOM_CLASS_MAGIC_TOGGLE,
-    false
-  );
+  const [customClassMagicToggle, setCustomClassMagicToggle] =
+    useLocalStorage<boolean>(STORAGE_KEYS.CUSTOM_CLASS_MAGIC_TOGGLE, false);
 
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = useMemo(() => {
