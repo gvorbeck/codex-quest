@@ -6,23 +6,22 @@ import { Icon } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
 import { hasCustomClasses } from "@/utils/characterHelpers";
 import { memo } from "react";
+import { logger } from "@/utils/logger";
 
 interface StandardClassSelectorProps {
   character: Character;
   availableClasses: Class[];
   onClassChange: (classId: string) => void;
-  onCharacterChange: (character: Character) => void;
   customClassMagicToggle: boolean;
-  setCustomClassMagicToggle: (value: boolean) => void;
+  onCustomClassMagicToggle: (value: boolean) => void;
 }
 
 function StandardClassSelectorComponent({
   character,
   availableClasses,
   onClassChange,
-  onCharacterChange,
   customClassMagicToggle,
-  setCustomClassMagicToggle,
+  onCustomClassMagicToggle,
 }: StandardClassSelectorProps) {
   const classOptions = availableClasses.map((cls) => ({
     value: cls.id,
@@ -53,30 +52,31 @@ function StandardClassSelectorComponent({
   };
 
   const handleCustomClassSpellToggle = () => {
-    setCustomClassMagicToggle(!customClassMagicToggle);
+    onCustomClassMagicToggle(!customClassMagicToggle);
   };
 
   const handleCustomClassHitDieChange = (hitDie: string) => {
-    if (
-      isCustomClass &&
-      currentClassId &&
-      character.customClasses &&
-      character.customClasses[currentClassId]
-    ) {
-      const customClassId = currentClassId;
-      const existingClass = character.customClasses[customClassId];
-      onCharacterChange({
-        ...character,
-        customClasses: {
-          ...character.customClasses,
-          [customClassId]: {
-            name: existingClass?.name || "",
-            usesSpells: existingClass?.usesSpells || false,
-            hitDie,
-          },
-        },
-      });
-    }
+    logger.info(hitDie);
+    // if (
+    //   isCustomClass &&
+    //   currentClassId &&
+    //   character.customClasses &&
+    //   character.customClasses[currentClassId]
+    // ) {
+    //   const customClassId = currentClassId;
+    //   const existingClass = character.customClasses[customClassId];
+    //   onCharacterChange({
+    //     ...character,
+    //     customClasses: {
+    //       ...character.customClasses,
+    //       [customClassId]: {
+    //         name: existingClass?.name || "",
+    //         usesSpells: existingClass?.usesSpells || false,
+    //         hitDie,
+    //       },
+    //     },
+    //   });
+    // }
   };
 
   const showCustomClassUI = isCustomClass || currentClassId === "";

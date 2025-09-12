@@ -175,6 +175,9 @@ function CharGen() {
       try {
         const characterId = await saveCharacter(user.uid, character);
 
+        // Clean up localStorage when character is successfully saved
+        localStorage.removeItem(STORAGE_KEYS.CUSTOM_CLASS_MAGIC_TOGGLE);
+
         // Navigate to the newly created character sheet and clean up storage
         navigateToEntity(user.uid, characterId);
       } catch (error) {

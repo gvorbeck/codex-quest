@@ -12,6 +12,7 @@ import { sanitizeCharacterName } from "@/utils/sanitization";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 import type { BaseStepProps } from "@/types/character";
+import { isCustomClass } from "@/utils/characterHelpers";
 
 type ReviewStepProps = BaseStepProps;
 
@@ -40,16 +41,15 @@ function ReviewStepComponent({
     return character.class
       .map((classId) => {
         // Handle custom classes
-        if (classId.startsWith("custom-") && character.customClasses) {
-          const customClass = character.customClasses[classId];
-          return customClass?.name || "Custom Class";
+        if (isCustomClass(classId)) {
+          return classId || "Custom Class";
         }
 
         const classData = allClasses.find((c) => c.id === classId);
         return classData?.name || classId;
       })
       .join("/");
-  }, [character.class, character.customClasses]);
+  }, [character.class]);
 
   const handleNameChange = useCallback(
     (name: string) => {

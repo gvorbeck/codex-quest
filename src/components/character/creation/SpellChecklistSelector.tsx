@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui";
 import { InfoCardHeader } from "@/components/ui/display";
 import { TextInput, Checkbox } from "@/components/ui/inputs";
 import type { Character, Spell } from "@/types/character";
+import { logger } from "@/utils/logger";
 
 interface SpellChecklistSelectorProps {
   character: Character;
@@ -64,6 +65,7 @@ export function SpellChecklistSelector({
 
   const handleSpellToggle = useCallback(
     (spell: Spell, checked: boolean) => {
+      logger.info(JSON.stringify(character.spells));
       const currentSpells = character.spells || [];
 
       if (checked) {
@@ -156,19 +158,16 @@ export function SpellChecklistSelector({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {spells.map((spell) => (
-                    <div
+                    <Checkbox
                       key={spell.name}
+                      label={spell.name}
+                      checked={selectedSpellNames.has(spell.name)}
+                      onCheckedChange={(checked) =>
+                        handleSpellToggle(spell, checked)
+                      }
+                      size="sm"
                       className="p-3 bg-zinc-800/50 border border-zinc-700/50 rounded-lg hover:bg-zinc-700/50 transition-colors"
-                    >
-                      <Checkbox
-                        label={spell.name}
-                        checked={selectedSpellNames.has(spell.name)}
-                        onCheckedChange={(checked) =>
-                          handleSpellToggle(spell, checked)
-                        }
-                        size="sm"
-                      />
-                    </div>
+                    />
                   ))}
                 </div>
               </div>

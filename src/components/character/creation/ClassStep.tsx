@@ -29,6 +29,8 @@ import {
   assignStartingCantrips,
 } from "@/utils/characterCreation";
 import { getCharacterSpellSystemType } from "@/utils/characterHelpers";
+import { useLocalStorage } from "@/hooks";
+import { STORAGE_KEYS } from "@/constants/storage";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps extends BaseStepProps {
@@ -58,7 +60,12 @@ function ClassStepComponent({
   >([]);
   const [isLoadingSpells, setIsLoadingSpells] = useState(false);
   const [isLoadingAllSpells, setIsLoadingAllSpells] = useState(false);
-  const [customClassMagicToggle, setCustomClassMagicToggle] = useState(false);
+  
+  // Use localStorage for custom class magic toggle
+  const [customClassMagicToggle, setCustomClassMagicToggle] = useLocalStorage<boolean>(
+    STORAGE_KEYS.CUSTOM_CLASS_MAGIC_TOGGLE,
+    false
+  );
 
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = useMemo(() => {
@@ -343,9 +350,17 @@ function ClassStepComponent({
             character={character}
             availableClasses={availableClasses}
             onClassChange={handleSingleClassChange}
-            onCharacterChange={onCharacterChange}
             customClassMagicToggle={customClassMagicToggle}
-            setCustomClassMagicToggle={setCustomClassMagicToggle}
+            onCustomClassMagicToggle={(value) => {
+              setCustomClassMagicToggle(value);
+              // Clear spells when magic is toggled off
+              if (!value) {
+                onCharacterChange({
+                  ...character,
+                  spells: [],
+                });
+              }
+            }}
           />
 
           {/* Standard spell selection for built-in classes */}

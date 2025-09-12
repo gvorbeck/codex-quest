@@ -67,8 +67,7 @@ export function characterHasSpellcasting(character: Character): boolean {
   return character.class.some((classId) => {
     // Check if it's a custom class
     if (isCustomClass(classId)) {
-      const customClass = character.customClasses?.[classId];
-      return customClass?.usesSpells || false;
+      return !!character.spells?.length;
     }
 
     // Standard class - check spellcasting property
@@ -84,8 +83,7 @@ export function getFirstSpellcastingClass(character: Character): string | null {
   for (const classId of character.class) {
     // Check if it's a custom class
     if (isCustomClass(classId)) {
-      const customClass = character.customClasses?.[classId];
-      if (customClass?.usesSpells) {
+      if (character.spells?.length) {
         return classId;
       }
       continue;
@@ -123,10 +121,10 @@ export function isCustomClass(classId: string): boolean {
  * custom classes stored directly in character.class array
  */
 export function getCustomClass(character: Character, classId: string) {
-  if (!isCustomClass(classId) || !character.customClasses) {
+  if (!isCustomClass(classId)) {
     return null;
   }
-  return character.customClasses[classId] || null;
+  return character.class[0] || null;
 }
 
 /**
@@ -136,7 +134,7 @@ export function getClassName(character: Character, classId: string): string {
   // Check if it's a custom class first
   if (isCustomClass(classId)) {
     const customClass = getCustomClass(character, classId);
-    return customClass?.name || classId;
+    return customClass || classId;
   }
 
   // Standard class
@@ -187,13 +185,12 @@ export function getPrimaryClassInfo(
   }
 
   // Must be custom class (not found in allClasses)
-  const customClass = character.customClasses?.[primaryClassId];
-  return customClass
+  return isCustomClass(character.class[0] || "")
     ? {
-        id: primaryClassId,
-        name: customClass.name,
-        hitDie: customClass.hitDie || "1d6",
-        usesSpells: customClass.usesSpells || false,
+        id: character.class[0],
+        name: character.class[0],
+        hitDie: character.hp.die || "1d6",
+        usesSpells: !!character.spells?.length || false,
         isCustom: true,
       }
     : null;
@@ -286,8 +283,7 @@ export function getSpellSlots(
   for (const classId of character.class) {
     // Skip custom classes for now - they would need custom spell slot implementation
     if (isCustomClass(classId)) {
-      const customClass = getCustomClass(character, classId);
-      if (customClass?.usesSpells) {
+      if (character.spells?.length) {
         // For custom classes, we could provide basic spell slot progression
         // For now, assume they get spell slots like a magic-user
         const magicUserClass = availableClasses.find(

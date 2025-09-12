@@ -1,7 +1,11 @@
 import type { Character, Cantrip } from "@/types/character";
 import cantripData from "@/data/cantrips.json";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
-import { characterHasSpellcasting, hasClassType } from "@/utils/characterHelpers";
+import {
+  characterHasSpellcasting,
+  hasClassType,
+  hasCustomClasses,
+} from "@/utils/characterHelpers";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -25,13 +29,12 @@ export function canLearnCantrips(character: Character): boolean {
 export function getAvailableCantrips(character: Character): Cantrip[] {
   const mappedClasses = character.class.map((classId) => {
     // For custom classes that use spells, default to magic-user cantrips
-    if (character.customClasses && character.customClasses[classId]) {
-      const customClass = character.customClasses[classId];
-      if (customClass.usesSpells) {
+    if (hasCustomClasses(character)) {
+      if (character.spells?.length) {
         return "magic-user"; // Default custom spellcasters to arcane cantrips
       }
     }
-    
+
     // Map class IDs to cantrip class names
     if (classId === "magic-user") return "magic-user";
     return classId;
@@ -47,16 +50,14 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
  */
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   // Check for custom classes first - default to arcane (Intelligence)
-  const hasCustomSpellcaster = character.class.some((classId) => {
-    if (character.customClasses && character.customClasses[classId]) {
-      return character.customClasses[classId].usesSpells;
-    }
-    return false;
-  });
+  const hasCustomSpellcaster =
+    hasCustomClasses(character) && !!character.spells?.length;
 
   // Use consolidated class type checking
   const hasDivineClasses = hasClassType(character, CHARACTER_CLASSES.CLERIC);
-  const hasArcaneClasses = hasCustomSpellcaster || hasClassType(character, CHARACTER_CLASSES.MAGIC_USER);
+  const hasArcaneClasses =
+    hasCustomSpellcaster ||
+    hasClassType(character, CHARACTER_CLASSES.MAGIC_USER);
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;
 

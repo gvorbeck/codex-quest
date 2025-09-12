@@ -117,11 +117,10 @@ export function areCurrentSpellsStillValid(
   const spellcastingClassIds = character.class.filter((classId) => {
     // Check if it's a custom class that uses spells
     const custom = isCustomClass(classId);
-    if (custom && character.customClasses) {
-      const customClass = character.customClasses[classId];
-      return customClass?.usesSpells;
+    if (custom) {
+      return !!character.spells?.length;
     }
-    
+
     // Check standard classes
     const classData = availableClasses.find((cls) => cls.id === classId);
     return classData?.spellcasting;
@@ -140,7 +139,7 @@ export function areCurrentSpellsStillValid(
       if (custom) {
         return true;
       }
-      
+
       const spellLevel = spell.level[classId as keyof typeof spell.level];
       return spellLevel === 1; // For now, we only support 1st level spells
     });
@@ -162,11 +161,9 @@ export function hasRequiredStartingSpells(
   // Check each class the character has
   for (const classId of character.class) {
     // Handle custom classes
-    const custom = isCustomClass(classId);
-    if (custom && character.customClasses) {
-      const customClass = character.customClasses[classId];
-      if (!customClass?.usesSpells) continue;
-      
+    if (isCustomClass(classId)) {
+      if (!character.spells?.length) continue;
+
       // Custom spellcasting classes need at least one spell selected
       const spells = character.spells || [];
       if (spells.length < 1) {
@@ -174,12 +171,12 @@ export function hasRequiredStartingSpells(
       }
       continue;
     }
-    
+
     const charClass = availableClasses.find((cls) => cls.id === classId);
     if (!charClass || !charClass.spellcasting) continue;
 
     // Magic-User-based classes start with "read magic" (automatically included) and one other 1st level spell
-    const classData = availableClasses.find(c => c.id === classId);
+    const classData = availableClasses.find((c) => c.id === classId);
     if (classData?.classType === CHARACTER_CLASSES.MAGIC_USER) {
       const spells = character.spells || [];
       const firstLevelSpells = spells.filter(
@@ -321,10 +318,7 @@ export function hasValidHitPoints(character: Character): boolean {
  */
 export const abilityScoreSchema: ValidationSchema<number> = {
   required: true,
-  rules: [
-    Rules.isValidAbilityScore,
-    Rules.isInteger,
-  ],
+  rules: [Rules.isValidAbilityScore, Rules.isInteger],
 };
 
 /**

@@ -128,13 +128,6 @@ export interface Character {
   customRace?: {
     name: string;
   };
-  customClasses?: {
-    [classId: string]: {
-      name: string;
-      usesSpells?: boolean;
-      hitDie?: string; // e.g., "1d6", "1d8", etc.
-    };
-  };
 }
 
 export interface RaceRequirement {

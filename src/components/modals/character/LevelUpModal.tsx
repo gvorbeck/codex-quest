@@ -57,7 +57,7 @@ export default function LevelUpModal({
   // For custom classes, always allow level up since we have no way of knowing when they "should" level up
   const primaryClassId = character.class[0];
   const isCustomClassCharacter = Boolean(
-    primaryClassId && isCustomClass(primaryClassId) && character.customClasses
+    primaryClassId && isCustomClass(primaryClassId)
   );
   const hasRequiredXP: boolean =
     isCustomClassCharacter ||
@@ -84,12 +84,7 @@ export default function LevelUpModal({
     if (!isCustomClassCharacter && !primaryClass) return false;
 
     return true;
-  }, [
-    hasRequiredXP,
-    isCustomClassCharacter,
-    primaryClass,
-    hpGainResult,
-  ]);
+  }, [hasRequiredXP, isCustomClassCharacter, primaryClass, hpGainResult]);
 
   const handleLevelUp = async () => {
     if (!canLevelUp || !hpGainResult) return;
@@ -168,7 +163,6 @@ export default function LevelUpModal({
             nextLevel={nextLevel}
           />
         )}
-
 
         {/* Error Display */}
         {hasError && (

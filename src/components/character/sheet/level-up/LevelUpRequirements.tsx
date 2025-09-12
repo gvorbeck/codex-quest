@@ -18,7 +18,7 @@ export default function LevelUpRequirements({
   // Check if this is a custom class using utility function
   const primaryClassId = character.class[0];
   const isCustomClassCharacter = primaryClassId
-    ? isCustomClass(primaryClassId) && character.customClasses
+    ? isCustomClass(primaryClassId)
     : false;
 
   return (
