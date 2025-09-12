@@ -6,6 +6,7 @@
 import type { ValidationRule } from './types';
 import { createRule } from './core';
 import type { Character, Race, Class, AbilityScore } from '@/types/character';
+import { isCustomClass } from '@/utils/characterHelpers';
 
 // Ability score constants
 export const ABILITY_SCORE_RANGE = {
@@ -99,8 +100,8 @@ export const Rules = {
       'validClassArray',
       (classes) => Array.isArray(classes) && 
                    classes.every(classId => 
-                     typeof classId === 'string' && 
-                     (classId.startsWith('custom-') || availableClasses.some(c => c.id === classId))
+                     typeof classId === 'string' &&
+                     (isCustomClass(classId) || availableClasses.some(c => c.id === classId))
                    ),
       'One or more selected classes are not available'
     ),

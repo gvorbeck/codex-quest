@@ -7,6 +7,7 @@ import type {
 import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { isCustomClass } from "@/utils/characterHelpers";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -83,14 +84,16 @@ export function isCurrentClassStillValid(
   if (!character.class || character.class.length === 0) return true; // No classes selected
 
   // Check if all classes are allowed by the race
-  const allClassesAllowed = character.class.every((classId) =>
-    classId.startsWith('custom-') || selectedRace.allowedClasses.includes(classId)
-  );
+  const allClassesAllowed = character.class.every((classId) => {
+    const custom = isCustomClass(classId);
+    return custom || selectedRace.allowedClasses.includes(classId);
+  });
 
   // Check if all classes exist in available classes (for supplemental content filtering)
-  const allClassesExist = character.class.every((classId) =>
-    classId.startsWith('custom-') || availableClasses.some((cls) => cls.id === classId)
-  );
+  const allClassesExist = character.class.every((classId) => {
+    const custom = isCustomClass(classId);
+    return custom || availableClasses.some((cls) => cls.id === classId);
+  });
 
   return allClassesAllowed && allClassesExist;
 }
@@ -113,7 +116,8 @@ export function areCurrentSpellsStillValid(
   // Get spellcasting classes from character's class array
   const spellcastingClassIds = character.class.filter((classId) => {
     // Check if it's a custom class that uses spells
-    if (classId.startsWith('custom-') && character.customClasses) {
+    const custom = isCustomClass(classId);
+    if (custom && character.customClasses) {
       const customClass = character.customClasses[classId];
       return customClass?.usesSpells;
     }
@@ -132,7 +136,8 @@ export function areCurrentSpellsStillValid(
   return character.spells.every((spell) => {
     return spellcastingClassIds.some((classId) => {
       // For custom classes, we allow all spells since we don't know their progression
-      if (classId.startsWith('custom-')) {
+      const custom = isCustomClass(classId);
+      if (custom) {
         return true;
       }
       
@@ -157,7 +162,8 @@ export function hasRequiredStartingSpells(
   // Check each class the character has
   for (const classId of character.class) {
     // Handle custom classes
-    if (classId.startsWith('custom-') && character.customClasses) {
+    const custom = isCustomClass(classId);
+    if (custom && character.customClasses) {
       const customClass = character.customClasses[classId];
       if (!customClass?.usesSpells) continue;
       

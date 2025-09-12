@@ -7,6 +7,7 @@ import type { ValidationResult, CharacterValidationStep, CharacterValidationPipe
 import { validate, createSchema } from './core';
 import { Rules, TypeGuards } from './rules';
 import { CHARACTER_CLASSES } from '@/constants/gameData';
+import { isCustomClass } from '@/utils/characterHelpers';
 import {
   hasValidAbilityScores,
   hasValidHitPoints,
@@ -168,7 +169,8 @@ function validateClassStep(
     // Custom races can use any class, no validation needed for race restrictions
     // Still need to validate that custom classes have names if they exist
     for (const classId of character.class) {
-      if (classId.startsWith('custom-') && character.customClasses) {
+      const custom = isCustomClass(classId);
+      if (custom && character.customClasses) {
         const customClass = character.customClasses[classId];
         if (!customClass?.name || customClass.name.trim().length === 0) {
           errors.push('Please enter a name for your custom class');
