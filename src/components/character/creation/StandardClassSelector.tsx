@@ -54,26 +54,6 @@ function StandardClassSelectorComponent({
 
   const handleCustomClassSpellToggle = () => {
     setCustomClassMagicToggle(!customClassMagicToggle);
-    // if (
-    //   isCustomClass &&
-    //   currentClassId &&
-    //   character.customClasses &&
-    //   character.customClasses[currentClassId]
-    // ) {
-    //   const customClassId = currentClassId;
-    //   const existingClass = character.customClasses[customClassId];
-    //   onCharacterChange({
-    //     ...character,
-    //     customClasses: {
-    //       ...character.customClasses,
-    //       [customClassId]: {
-    //         name: existingClass?.name || "",
-    //         hitDie: existingClass?.hitDie || "1d6",
-    //         usesSpells,
-    //       },
-    //     },
-    //   });
-    // }
   };
 
   const handleCustomClassHitDieChange = (hitDie: string) => {
@@ -100,10 +80,6 @@ function StandardClassSelectorComponent({
   };
 
   const showCustomClassUI = isCustomClass || currentClassId === "";
-  // const customClassData =
-  //   isCustomClass && currentClassId && character.customClasses
-  //     ? character.customClasses[currentClassId]
-  //     : null;
   const selectedClass = !isCustomClass
     ? availableClasses.find((cls) => cls.id === currentClassId)
     : null;
@@ -206,7 +182,7 @@ function StandardClassSelectorComponent({
                 </DetailSection>
                 <DetailSection icon={<Icon name="star" />} title="Spellcasting">
                   <Typography variant="description">
-                    {character.spells ? "Yes" : "No"}
+                    {customClassMagicToggle ? "Yes" : "No"}
                   </Typography>
                 </DetailSection>
               </div>

@@ -384,7 +384,6 @@ function ClassStepComponent({
           )}
 
           {/* Custom spell selection for custom classes */}
-          {customClassMagicToggle && <div>fuck you</div>}
           {customClassMagicToggle && (
             <>
               <SpellChecklistSelector
