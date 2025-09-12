@@ -288,3 +288,11 @@ function applyModifiers(
     breakdown,
   };
 }
+
+/**
+ * Convenience function to roll a percentage (1d100)
+ * @returns A number between 1 and 100
+ */
+export function rollPercentage(): number {
+  return roller("1d100").total;
+}
