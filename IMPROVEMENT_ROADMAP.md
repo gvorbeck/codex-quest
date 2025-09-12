@@ -13,7 +13,7 @@ Several components are extremely large and complex:
 
 - ✅ ~~`Spells.tsx` - 764 lines~~ **COMPLETED** (refactored to 301 lines with extracted components)
 - ✅ ~~`EncounterGeneratorModal.tsx` - 755 lines~~ **COMPLETED** (refactored to 116 lines with extracted components)
-- `ScrollCreation.tsx` - 617 lines
+- ✅ ~~`ScrollCreation.tsx` - 617 lines~~ **COMPLETED** (refactored to 116 lines with extracted components)
 - `treasureGenerator.ts` - 905 lines
 
 **Impact:** Reduced maintainability, harder debugging, poor code reuse
@@ -53,6 +53,22 @@ src/components/modals/game/encounter/
 └── hooks/
     ├── useEncounterData.ts
     └── useEncounterGeneration.ts
+```
+
+**ScrollCreation.tsx Refactor:**
+```typescript
+// Successfully refactored from 617 lines to 116 lines (81% reduction):
+src/components/character/sheet/scroll-creation/
+├── ScrollCreation.tsx (main orchestrator)
+├── components/
+│   ├── SpellcrafterBonuses.tsx
+│   ├── ActiveScrolls.tsx
+│   ├── CompletedScrolls.tsx
+│   ├── ScrollCreationModal.tsx
+│   └── EmptyState.tsx
+└── hooks/
+    ├── useScrollCreation.ts
+    └── useScrollActions.ts
 ```
 
 **Remaining Refactor Targets:**
