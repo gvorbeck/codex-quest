@@ -4,6 +4,7 @@ import { Card, Typography } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection } from "@/components/ui/display";
 import { Icon } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
+import { hasCustomClasses } from "@/utils/characterHelpers";
 import { memo } from "react";
 
 interface StandardClassSelectorProps {
@@ -31,55 +32,20 @@ function StandardClassSelectorComponent({
   });
 
   const currentClassId = character.class.length > 0 ? character.class[0] : "";
-  const isCustomClass = currentClassId && currentClassId.startsWith("custom-");
+  const isCustomClass = hasCustomClasses(character);
+
+  const updateCharacterClass = (className: string) => {
+    onClassChange(className);
+  };
 
   const handleClassChange = (classId: string) => {
-    if (classId === "custom") {
-      const customId = `custom-${Date.now()}`;
-      const updatedCharacter = {
-        ...character,
-        class: [customId],
-        customClasses: {
-          ...character.customClasses,
-          [customId]: {
-            name: "",
-            usesSpells: false,
-            hitDie: "1d6",
-          },
-        },
-      };
-      onCharacterChange(updatedCharacter);
-    } else {
-      // Clear custom classes when selecting a standard class
-      const updatedCharacter = { ...character };
-      if (updatedCharacter.customClasses) {
-        delete updatedCharacter.customClasses;
-      }
-      onClassChange(classId);
-    }
+    // If custom is selected, clear the class array (user will type name)
+    // Otherwise set to the selected standard class
+    updateCharacterClass(classId === "custom" ? "" : classId);
   };
 
   const handleCustomClassNameChange = (name: string) => {
-    if (
-      isCustomClass &&
-      currentClassId &&
-      character.customClasses &&
-      character.customClasses[currentClassId]
-    ) {
-      const customClassId = currentClassId;
-      const existingClass = character.customClasses[customClassId];
-      onCharacterChange({
-        ...character,
-        customClasses: {
-          ...character.customClasses,
-          [customClassId]: {
-            name,
-            usesSpells: existingClass?.usesSpells || false,
-            hitDie: existingClass?.hitDie || "1d6",
-          },
-        },
-      });
-    }
+    updateCharacterClass(name);
   };
 
   const handleCustomClassSpellToggle = (usesSpells: boolean) => {
@@ -128,10 +94,11 @@ function StandardClassSelectorComponent({
     }
   };
 
-  const customClassData =
-    isCustomClass && currentClassId && character.customClasses
-      ? character.customClasses[currentClassId]
-      : null;
+  const showCustomClassUI = isCustomClass || currentClassId === "";
+  // const customClassData =
+  //   isCustomClass && currentClassId && character.customClasses
+  //     ? character.customClasses[currentClassId]
+  //     : null;
   const selectedClass = !isCustomClass
     ? availableClasses.find((cls) => cls.id === currentClassId)
     : null;
@@ -157,11 +124,11 @@ function StandardClassSelectorComponent({
           />
 
           {/* Custom Class Configuration */}
-          {isCustomClass && customClassData && (
+          {showCustomClassUI && (
             <div className="space-y-4 border-t border-zinc-600 pt-4">
               <FormField label="Custom Class Name" required>
                 <TextInput
-                  value={customClassData.name}
+                  value={character.class[0] || ""}
                   onChange={handleCustomClassNameChange}
                   placeholder="Enter your custom class name..."
                   required
@@ -172,7 +139,7 @@ function StandardClassSelectorComponent({
                 title="Spellcasting"
                 description="Does this class have spellcasting abilities?"
                 switchLabel="Uses Magic"
-                checked={customClassData.usesSpells || false}
+                checked={!!character.spells || false}
                 onCheckedChange={handleCustomClassSpellToggle}
               />
 
@@ -183,7 +150,7 @@ function StandardClassSelectorComponent({
                 </Typography>
                 <Select
                   label="Hit Die"
-                  value={customClassData.hitDie || "1d6"}
+                  value={character.hp.die || "1d6"}
                   onValueChange={handleCustomClassHitDieChange}
                   options={[
                     { value: "1d4", label: "d4" },
@@ -204,11 +171,11 @@ function StandardClassSelectorComponent({
       {/* Class Details */}
       {character.class.length > 0 && (
         <Card variant="info" id="class-details">
-          {isCustomClass && customClassData ? (
+          {showCustomClassUI ? (
             <div aria-labelledby="custom-class-info-heading">
               <InfoCardHeader
                 icon={<Icon name="edit" />}
-                title={customClassData.name || "Custom Class"}
+                title={character.class[0] || "Custom Class"}
                 iconSize="lg"
                 badge={{ text: "Custom" }}
                 className="mb-6"
@@ -229,12 +196,12 @@ function StandardClassSelectorComponent({
                   title="Hit Die"
                 >
                   <Typography variant="description">
-                    {customClassData.hitDie}
+                    {character.hp.die}
                   </Typography>
                 </DetailSection>
                 <DetailSection icon={<Icon name="star" />} title="Spellcasting">
                   <Typography variant="description">
-                    {customClassData.usesSpells ? "Yes" : "No"}
+                    {character.spells ? "Yes" : "No"}
                   </Typography>
                 </DetailSection>
               </div>

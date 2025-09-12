@@ -14,16 +14,18 @@ export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
 /**
  * Determine the spell system type for a character based on their classes
  * Handles both standard classes (via classType) and custom classes (via character data)
- * 
+ *
  * @param character - The character object
  * @returns The type of spell system the character uses
  */
-export function getCharacterSpellSystemType(character: Character): SpellSystemType {
+export function getCharacterSpellSystemType(
+  character: Character
+): SpellSystemType {
   if (!character.class.length) return "none";
-  
+
   // Check for custom classes that use spells (not found in allClasses)
-  const customSpellcaster = character.class.find(classId => {
-    const standardClass = allClasses.find(c => c.id === classId);
+  const customSpellcaster = character.class.find((classId) => {
+    const standardClass = allClasses.find((c) => c.id === classId);
     if (!standardClass) {
       // Custom class - check if it uses spells
       const customClass = character.customClasses?.[classId];
@@ -31,22 +33,28 @@ export function getCharacterSpellSystemType(character: Character): SpellSystemTy
     }
     return false;
   });
-  
+
   if (customSpellcaster) {
     return "custom";
   }
-  
+
   // For standard classes, use classType property
-  const spellcastingClass = character.class.find(classId => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER || classData?.classType === CHARACTER_CLASSES.CLERIC;
+  const spellcastingClass = character.class.find((classId) => {
+    const classData = allClasses.find((c) => c.id === classId);
+    return (
+      classData?.classType === CHARACTER_CLASSES.MAGIC_USER ||
+      classData?.classType === CHARACTER_CLASSES.CLERIC
+    );
   });
-  
+
   if (!spellcastingClass) return "none";
-  
-  const classData = allClasses.find(c => c.id === spellcastingClass);
-  return classData?.classType === CHARACTER_CLASSES.MAGIC_USER ? "magic-user" : 
-         classData?.classType === CHARACTER_CLASSES.CLERIC ? "cleric" : "none";
+
+  const classData = allClasses.find((c) => c.id === spellcastingClass);
+  return classData?.classType === CHARACTER_CLASSES.MAGIC_USER
+    ? "magic-user"
+    : classData?.classType === CHARACTER_CLASSES.CLERIC
+    ? "cleric"
+    : "none";
 }
 
 /**
@@ -54,15 +62,15 @@ export function getCharacterSpellSystemType(character: Character): SpellSystemTy
  * Works for both standard classes (checks spellcasting property) and custom classes
  */
 export function characterHasSpellcasting(character: Character): boolean {
-  return character.class.some(classId => {
+  return character.class.some((classId) => {
     // Check if it's a custom class
     if (isCustomClass(classId)) {
       const customClass = character.customClasses?.[classId];
       return customClass?.usesSpells || false;
     }
-    
+
     // Standard class - check spellcasting property
-    const standardClass = allClasses.find(c => c.id === classId);
+    const standardClass = allClasses.find((c) => c.id === classId);
     return standardClass?.spellcasting !== undefined;
   });
 }
@@ -80,9 +88,9 @@ export function getFirstSpellcastingClass(character: Character): string | null {
       }
       continue;
     }
-    
+
     // Standard class - check spellcasting property
-    const standardClass = allClasses.find(c => c.id === classId);
+    const standardClass = allClasses.find((c) => c.id === classId);
     if (standardClass?.spellcasting) {
       return classId;
     }
@@ -92,20 +100,19 @@ export function getFirstSpellcastingClass(character: Character): string | null {
 
 /**
  * Check if a character has any custom classes (not found in allClasses)
+ * (simplified)
  */
 export function hasCustomClasses(character: Character): boolean {
-  return character.class.some(classId => {
-    return !allClasses.find(c => c.id === classId);
-  });
+  return character.class.some((classId) => isCustomClass(classId));
 }
-
 
 /**
  * Check if a class ID represents a custom class (not found in allClasses)
  * This is the consolidated pattern for detecting custom classes
+ * (simplified)
  */
 export function isCustomClass(classId: string): boolean {
-  return !allClasses.find(c => c.id === classId);
+  return !allClasses.find((c) => c.id === classId);
 }
 
 /**
@@ -129,9 +136,9 @@ export function getClassName(character: Character, classId: string): string {
     const customClass = getCustomClass(character, classId);
     return customClass?.name || classId;
   }
-  
+
   // Standard class
-  const classData = allClasses.find(c => c.id === classId);
+  const classData = allClasses.find((c) => c.id === classId);
   return classData?.name || classId;
 }
 
@@ -139,13 +146,13 @@ export function getClassName(character: Character, classId: string): string {
  * Check if character has any classes of a specific type (magic-user or cleric)
  */
 export function hasClassType(character: Character, classType: string): boolean {
-  return character.class.some(classId => {
+  return character.class.some((classId) => {
     // Custom classes are handled separately by spell system type
     if (isCustomClass(classId)) {
       return false; // Custom class type checking handled elsewhere
     }
-    
-    const classData = allClasses.find(c => c.id === classId);
+
+    const classData = allClasses.find((c) => c.id === classId);
     return classData?.classType === classType;
   });
 }
@@ -168,8 +175,8 @@ export function getPrimaryClassInfo(
   if (!primaryClassId) return null;
 
   // Find standard class first
-  const standardClass = availableClasses.find(c => c.id === primaryClassId);
-  
+  const standardClass = availableClasses.find((c) => c.id === primaryClassId);
+
   if (standardClass) {
     return {
       ...standardClass,
@@ -273,7 +280,7 @@ export function getSpellSlots(
   availableClasses: Class[]
 ): Record<number, number> {
   const spellSlots: Record<number, number> = {};
-  
+
   for (const classId of character.class) {
     // Skip custom classes for now - they would need custom spell slot implementation
     if (isCustomClass(classId)) {
@@ -281,9 +288,12 @@ export function getSpellSlots(
       if (customClass?.usesSpells) {
         // For custom classes, we could provide basic spell slot progression
         // For now, assume they get spell slots like a magic-user
-        const magicUserClass = availableClasses.find(c => c.id === "magic-user");
+        const magicUserClass = availableClasses.find(
+          (c) => c.id === "magic-user"
+        );
         if (magicUserClass?.spellcasting) {
-          const slotsForLevel = magicUserClass.spellcasting.spellsPerLevel[character.level];
+          const slotsForLevel =
+            magicUserClass.spellcasting.spellsPerLevel[character.level];
           if (slotsForLevel) {
             slotsForLevel.forEach((slots, spellLevel) => {
               if (slots > 0) {
@@ -298,10 +308,11 @@ export function getSpellSlots(
     }
 
     // Find the class data
-    const classData = availableClasses.find(c => c.id === classId);
+    const classData = availableClasses.find((c) => c.id === classId);
     if (!classData?.spellcasting) continue;
 
-    const slotsForLevel = classData.spellcasting.spellsPerLevel[character.level];
+    const slotsForLevel =
+      classData.spellcasting.spellsPerLevel[character.level];
     if (slotsForLevel) {
       slotsForLevel.forEach((slots, spellLevel) => {
         if (slots > 0) {

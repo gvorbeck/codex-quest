@@ -14,7 +14,10 @@ import {
 import { useLocalStorage, useAuth } from "@/hooks";
 import { useCharacterNavigation } from "@/hooks/useEntityNavigation";
 import type { Character } from "@/types/character";
-import { useCascadeValidation, createCharacterValidationPipeline } from "@/validation";
+import {
+  useCascadeValidation,
+  createCharacterValidationPipeline,
+} from "@/validation";
 import { saveCharacter } from "@/services/characters";
 import { STORAGE_KEYS } from "@/constants/storage";
 import { allRaces } from "@/data/races";
@@ -236,7 +239,12 @@ function CharGen() {
         onIncludeSupplementalChange={setIncludeSupplementalRace}
       />
     ),
-    [character, setCharacter, includeSupplementalRace, setIncludeSupplementalRace]
+    [
+      character,
+      setCharacter,
+      includeSupplementalRace,
+      setIncludeSupplementalRace,
+    ]
   );
 
   const classStep = useMemo(
@@ -262,28 +270,20 @@ function CharGen() {
 
   const hitPointsStep = useMemo(
     () => (
-      <HitPointsStep
-        character={character}
-        onCharacterChange={setCharacter}
-      />
+      <HitPointsStep character={character} onCharacterChange={setCharacter} />
     ),
     [character, setCharacter]
   );
 
   const equipmentStep = useMemo(
     () => (
-      <EquipmentStep
-        character={character}
-        onCharacterChange={setCharacter}
-      />
+      <EquipmentStep character={character} onCharacterChange={setCharacter} />
     ),
     [character, setCharacter]
   );
 
   const reviewStep = useMemo(
-    () => (
-      <ReviewStep character={character} onCharacterChange={setCharacter} />
-    ),
+    () => <ReviewStep character={character} onCharacterChange={setCharacter} />,
     [character, setCharacter]
   );
 
@@ -314,7 +314,14 @@ function CharGen() {
         content: reviewStep,
       },
     ];
-  }, [abilityStep, raceStep, classStep, hitPointsStep, equipmentStep, reviewStep]);
+  }, [
+    abilityStep,
+    raceStep,
+    classStep,
+    hitPointsStep,
+    equipmentStep,
+    reviewStep,
+  ]);
 
   const breadcrumbItems = useMemo(
     () => [
@@ -323,6 +330,8 @@ function CharGen() {
     ],
     []
   );
+
+  logger.info(JSON.stringify(character));
 
   return (
     <PageWrapper>
