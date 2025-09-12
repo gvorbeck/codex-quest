@@ -1,8 +1,7 @@
 import type { Character, Cantrip } from "@/types/character";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips } from "@/utils/cantrips";
-import { hasSpellcasting } from "@/utils/spells";
-import { allClasses } from "@/data/classes";
+import { characterHasSpellcasting, hasClassType } from "@/utils/characterHelpers";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
@@ -23,7 +22,7 @@ export function getEffectiveSpellcastingClass(
       }
     } else {
       const classData = availableClasses.find((cls) => cls.id === classId);
-      if (classData && hasSpellcasting(classData)) {
+      if (classData?.spellcasting) {
         return { type: 'standard', classId };
       }
     }
@@ -33,20 +32,10 @@ export function getEffectiveSpellcastingClass(
 
 /**
  * Determines if a character has any spellcasting classes
+ * Uses consolidated spellcasting detection
  */
-export function hasSpellcastingClass(
-  character: Character,
-  availableClasses: Array<{ id: string; spellcasting?: unknown }>
-): boolean {
-  return character.class.some((classId) => {
-    // Check if it's a custom class that uses spells
-    if (character.customClasses && character.customClasses[classId]) {
-      return character.customClasses[classId].usesSpells;
-    }
-    
-    const classData = availableClasses.find((cls) => cls.id === classId);
-    return classData && hasSpellcasting(classData);
-  });
+export function hasSpellcastingClass(character: Character): boolean {
+  return characterHasSpellcasting(character);
 }
 
 /**
@@ -62,14 +51,8 @@ export function getSpellcastingAbilityModifier(character: Character): number {
     return false;
   });
 
-  const hasArcane = hasCustomSpellcaster || character.class.some((classId) => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER;
-  });
-  const hasDivine = !hasCustomSpellcaster && character.class.some((classId) => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.CLERIC;
-  });
+  const hasArcane = hasCustomSpellcaster || hasClassType(character, CHARACTER_CLASSES.MAGIC_USER);
+  const hasDivine = !hasCustomSpellcaster && hasClassType(character, CHARACTER_CLASSES.CLERIC);
 
   if (hasArcane) {
     return character.abilities.intelligence.modifier;
@@ -85,8 +68,7 @@ export function getSpellcastingAbilityModifier(character: Character): number {
  * Follows the game rules for determining number and selection of starting cantrips
  */
 export function assignStartingCantrips(
-  character: Character,
-  availableClasses: Array<{ id: string; spellcasting?: unknown }>
+  character: Character
 ): Cantrip[] {
   // Don't auto-assign if character already has cantrips (manual selection)
   if (character.cantrips && character.cantrips.length > 0) {
@@ -94,7 +76,7 @@ export function assignStartingCantrips(
   }
 
   // Check if any class can cast spells
-  const hasSpellcaster = hasSpellcastingClass(character, availableClasses);
+  const hasSpellcaster = characterHasSpellcasting(character);
   if (!hasSpellcaster) {
     return [];
   }

@@ -90,7 +90,7 @@ function ClassStepComponent({
     };
 
     // Auto-assign starting cantrips
-    const startingCantrips = assignStartingCantrips(newCharacter, availableClasses);
+    const startingCantrips = assignStartingCantrips(newCharacter);
 
     onCharacterChange({
       ...newCharacter,
@@ -111,7 +111,7 @@ function ClassStepComponent({
       };
 
       // Auto-assign starting cantrips
-      const startingCantrips = assignStartingCantrips(newCharacter, availableClasses);
+      const startingCantrips = assignStartingCantrips(newCharacter);
 
       onCharacterChange({
         ...newCharacter,

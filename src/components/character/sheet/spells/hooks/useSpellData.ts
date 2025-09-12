@@ -100,7 +100,7 @@ function getCharacterCantrips(character: Character): CantripWithLevel[] {
 
 export function useSpellData(character?: Character): SpellDataResult {
   return useMemo(() => {
-    if (!character || !canCastSpells(character, allClasses)) {
+    if (!character || !canCastSpells(character)) {
       return {
         knownSpells: [],
         cantrips: [],
@@ -155,7 +155,7 @@ export function useSpellData(character?: Character): SpellDataResult {
       cantrips: characterCantrips,
       spellSlots: characterSpellSlots,
       spellSystemInfo: getSpellSystemInfo(character),
-      canCast: canCastSpells(character, allClasses),
+      canCast: canCastSpells(character),
       spellSystemType: systemType,
     };
   }, [character]);

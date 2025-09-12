@@ -201,7 +201,7 @@ export default function CharacterSheet() {
 
   // Helper function to check if custom class should show spells
   const shouldShowSpellsForCustomClass = (character: Character): boolean => {
-    return canCastSpells(character, allClasses);
+    return canCastSpells(character);
   };
 
   // Data loading is now handled by useFirebaseSheet hook

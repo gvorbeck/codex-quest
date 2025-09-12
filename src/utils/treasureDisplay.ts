@@ -1,5 +1,7 @@
 import type { TreasureResult } from "./treasureGenerator";
 import { COIN_CONFIGS } from "@/constants/treasureTypes";
+import { convertToGold } from "@/utils/currency";
+import { CURRENCY_UI_CONFIG } from "@/constants/currency";
 
 /**
  * Utility function to render coin display components
@@ -26,19 +28,13 @@ export function hasCoins(treasure: TreasureResult): boolean {
 
 /**
  * Get total coin value in gold pieces for sorting/comparison
+ * Uses consolidated currency conversion logic from currency utility
  * @param treasure - The treasure result to evaluate
  * @returns Total value in gold piece equivalent
  */
 export function getTotalCoinValue(treasure: TreasureResult): number {
-  const conversionRates = {
-    platinum: 10,
-    gold: 1,
-    electrum: 0.5,
-    silver: 0.1,
-    copper: 0.01
-  };
-
-  return COIN_CONFIGS.reduce((total, coin) => {
-    return total + (treasure[coin.key] * conversionRates[coin.key]);
+  return CURRENCY_UI_CONFIG.reduce((total, coin) => {
+    const amount = treasure[coin.key];
+    return amount > 0 ? total + convertToGold(amount, coin.key) : total;
   }, 0);
 }

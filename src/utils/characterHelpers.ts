@@ -21,10 +21,12 @@ export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
 export function getCharacterSpellSystemType(character: Character): SpellSystemType {
   if (!character.class.length) return "none";
   
-  // Check for custom classes that use spells
+  // Check for custom classes that use spells (not found in allClasses)
   const customSpellcaster = character.class.find(classId => {
-    if (isCustomClass(classId)) {
-      const customClass = getCustomClass(character, classId);
+    const standardClass = allClasses.find(c => c.id === classId);
+    if (!standardClass) {
+      // Custom class - check if it uses spells
+      const customClass = character.customClasses?.[classId];
       return customClass?.usesSpells || false;
     }
     return false;
@@ -48,10 +50,104 @@ export function getCharacterSpellSystemType(character: Character): SpellSystemTy
 }
 
 /**
- * Check if a class ID represents a custom class
+ * Consolidated spellcasting detection - checks if any character class has spellcasting
+ * Works for both standard classes (checks spellcasting property) and custom classes
+ */
+export function characterHasSpellcasting(character: Character): boolean {
+  return character.class.some(classId => {
+    // Check if it's a custom class
+    if (isCustomClass(classId)) {
+      const customClass = character.customClasses?.[classId];
+      return customClass?.usesSpells || false;
+    }
+    
+    // Standard class - check spellcasting property
+    const standardClass = allClasses.find(c => c.id === classId);
+    return standardClass?.spellcasting !== undefined;
+  });
+}
+
+/**
+ * Get the first spellcasting class from a character's classes
+ */
+export function getFirstSpellcastingClass(character: Character): string | null {
+  for (const classId of character.class) {
+    // Check if it's a custom class
+    if (isCustomClass(classId)) {
+      const customClass = character.customClasses?.[classId];
+      if (customClass?.usesSpells) {
+        return classId;
+      }
+      continue;
+    }
+    
+    // Standard class - check spellcasting property
+    const standardClass = allClasses.find(c => c.id === classId);
+    if (standardClass?.spellcasting) {
+      return classId;
+    }
+  }
+  return null;
+}
+
+/**
+ * Check if a character has any custom classes (not found in allClasses)
+ */
+export function hasCustomClasses(character: Character): boolean {
+  return character.class.some(classId => {
+    return !allClasses.find(c => c.id === classId);
+  });
+}
+
+
+/**
+ * Check if a class ID represents a custom class (not found in allClasses)
+ * This is the consolidated pattern for detecting custom classes
  */
 export function isCustomClass(classId: string): boolean {
-  return classId.startsWith("custom-");
+  return !allClasses.find(c => c.id === classId);
+}
+
+/**
+ * Get custom class data for a given class ID
+ * Currently uses character.customClasses, but will eventually work with
+ * custom classes stored directly in character.class array
+ */
+export function getCustomClass(character: Character, classId: string) {
+  if (!isCustomClass(classId) || !character.customClasses) {
+    return null;
+  }
+  return character.customClasses[classId] || null;
+}
+
+/**
+ * Get class name by ID, handling both standard and custom classes
+ */
+export function getClassName(character: Character, classId: string): string {
+  // Check if it's a custom class first
+  if (isCustomClass(classId)) {
+    const customClass = getCustomClass(character, classId);
+    return customClass?.name || classId;
+  }
+  
+  // Standard class
+  const classData = allClasses.find(c => c.id === classId);
+  return classData?.name || classId;
+}
+
+/**
+ * Check if character has any classes of a specific type (magic-user or cleric)
+ */
+export function hasClassType(character: Character, classType: string): boolean {
+  return character.class.some(classId => {
+    // Custom classes are handled separately by spell system type
+    if (isCustomClass(classId)) {
+      return false; // Custom class type checking handled elsewhere
+    }
+    
+    const classData = allClasses.find(c => c.id === classId);
+    return classData?.classType === classType;
+  });
 }
 
 /**
@@ -59,26 +155,6 @@ export function isCustomClass(classId: string): boolean {
  */
 export function isCustomRace(character: Character): boolean {
   return character.race === "custom";
-}
-
-/**
- * Check if a character has any custom classes
- */
-export function hasCustomClasses(character: Character): boolean {
-  return (
-    character.class.some((classId) => isCustomClass(classId)) &&
-    !!character.customClasses
-  );
-}
-
-/**
- * Get custom class data for a given class ID
- */
-export function getCustomClass(character: Character, classId: string) {
-  if (!isCustomClass(classId) || !character.customClasses) {
-    return null;
-  }
-  return character.customClasses[classId] || null;
 }
 
 /**
@@ -91,54 +167,34 @@ export function getPrimaryClassInfo(
   const primaryClassId = character.class[0];
   if (!primaryClassId) return null;
 
-  // Check for custom class first
-  if (isCustomClass(primaryClassId)) {
-    const customClass = getCustomClass(character, primaryClassId);
-    return customClass
-      ? {
-          id: primaryClassId,
-          name: customClass.name,
-          hitDie: customClass.hitDie || "1d6",
-          usesSpells: customClass.usesSpells || false,
-          isCustom: true,
-        }
-      : null;
+  // Find standard class first
+  const standardClass = availableClasses.find(c => c.id === primaryClassId);
+  
+  if (standardClass) {
+    return {
+      ...standardClass,
+      isCustom: false,
+    };
   }
 
-  // Find standard class
-  const standardClass = availableClasses.find(
-    (c) =>
-      c.id === primaryClassId ||
-      c.id.toLowerCase() === primaryClassId.toLowerCase() ||
-      c.name.toLowerCase() === primaryClassId.toLowerCase()
-  );
-
-  return standardClass
+  // Must be custom class (not found in allClasses)
+  const customClass = character.customClasses?.[primaryClassId];
+  return customClass
     ? {
-        ...standardClass,
-        isCustom: false,
+        id: primaryClassId,
+        name: customClass.name,
+        hitDie: customClass.hitDie || "1d6",
+        usesSpells: customClass.usesSpells || false,
+        isCustom: true,
       }
     : null;
 }
 
 /**
- * Check if a character can cast spells (including custom spellcasting classes)
+ * Alias for characterHasSpellcasting for backward compatibility
  */
-export function canCastSpells(
-  character: Character,
-  availableClasses: Class[]
-): boolean {
-  return character.class.some((classId) => {
-    // Check custom classes first
-    if (isCustomClass(classId)) {
-      const customClass = getCustomClass(character, classId);
-      return customClass?.usesSpells || false;
-    }
-
-    // Check standard classes
-    const classData = availableClasses.find((c) => c.id === classId);
-    return classData?.spellcasting !== undefined;
-  });
+export function canCastSpells(character: Character): boolean {
+  return characterHasSpellcasting(character);
 }
 
 /**

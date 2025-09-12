@@ -7,7 +7,7 @@ import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import { cn } from "@/constants/styles";
 import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import { getClassName } from "@/utils/characterHelpers";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -28,15 +28,7 @@ const getRaceDisplayName = (character: Character): string => {
 const getClassDisplayNames = (character: Character): string => {
   if (!character.class || character.class.length === 0) return "Unknown";
 
-  const classNames = character.class.map((classId) => {
-    if (classId.startsWith("custom-") && character.customClasses) {
-      const customClass = character.customClasses[classId];
-      return customClass?.name || "Custom Class";
-    }
-
-    const classData = allClasses.find((cls) => cls.id === classId);
-    return classData?.name || classId;
-  });
+  const classNames = character.class.map((classId) => getClassName(character, classId));
 
   return classNames.join(" / ");
 };

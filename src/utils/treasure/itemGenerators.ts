@@ -10,7 +10,7 @@ import {
   MISCELLANEOUS_ITEMS,
   RARE_ITEMS
 } from "./constants";
-import { rollPercentage, roller } from "../dice";
+import { rollPercentage, roller, randomArrayElement } from "../dice";
 
 export function generateGem(): string {
   const roll = rollPercentage();
@@ -53,7 +53,7 @@ export function generateGem(): string {
 }
 
 export function generateJewelry(): string {
-  const type = JEWELRY_TYPES[Math.floor(Math.random() * JEWELRY_TYPES.length)]!;
+  const type = randomArrayElement(JEWELRY_TYPES);
   const baseValue = roller("2d8").total * 100; // Standard jewelry value
   return `${type} (${baseValue} gp)`;
 }
@@ -62,7 +62,7 @@ export function generateMagicItem(): string {
   const roll = rollPercentage();
   
   if (roll <= MAGIC_ITEM_CATEGORIES.WEAPON) { // Weapon
-    const weapon = MAGIC_WEAPONS[Math.floor(Math.random() * MAGIC_WEAPONS.length)]!;
+    const weapon = randomArrayElement(MAGIC_WEAPONS);
     
     // Determine weapon bonus
     let bonus = "+1";
@@ -80,7 +80,7 @@ export function generateMagicItem(): string {
     
     return `${weapon} ${bonus}`;
   } else if (roll <= MAGIC_ITEM_CATEGORIES.ARMOR) { // Armor
-    const armor = MAGIC_ARMOR[Math.floor(Math.random() * MAGIC_ARMOR.length)]!;
+    const armor = randomArrayElement(MAGIC_ARMOR);
     const bonusRoll = rollPercentage();
     let bonus = "+1";
     if (bonusRoll <= 50) bonus = "+1";
@@ -91,12 +91,12 @@ export function generateMagicItem(): string {
     
     return `${armor} ${bonus}`;
   } else if (roll <= MAGIC_ITEM_CATEGORIES.SCROLL) { // Scroll
-    return SCROLLS[Math.floor(Math.random() * SCROLLS.length)]!;
+    return randomArrayElement(SCROLLS);
   } else if (roll <= MAGIC_ITEM_CATEGORIES.WAND_STAFF_ROD) { // Wand, Staff, or Rod
-    return WANDS_STAVES_RODS[Math.floor(Math.random() * WANDS_STAVES_RODS.length)]!;
+    return randomArrayElement(WANDS_STAVES_RODS);
   } else if (roll <= MAGIC_ITEM_CATEGORIES.MISCELLANEOUS) { // Miscellaneous Items
-    return MISCELLANEOUS_ITEMS[Math.floor(Math.random() * MISCELLANEOUS_ITEMS.length)]!;
+    return randomArrayElement(MISCELLANEOUS_ITEMS);
   } else { // Rare Items
-    return RARE_ITEMS[Math.floor(Math.random() * RARE_ITEMS.length)]!;
+    return randomArrayElement(RARE_ITEMS);
   }
 }

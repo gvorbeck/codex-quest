@@ -1,24 +1,13 @@
 import type { Character, Equipment } from "@/types/character";
 import { logger } from "@/utils/logger";
-
-// Constants for game mechanics
-const DEFAULT_UNARMORED_AC = 11;
-const DEFAULT_MOVEMENT_RATE = "40'";
-const LEATHER_ARMOR_MOVEMENT = "30'";
-const METAL_ARMOR_MOVEMENT = "20'";
-
-// BFRPG ability score modifier thresholds
-const MODIFIER_THRESHOLDS = [
-  { max: 3, modifier: -3 },
-  { max: 5, modifier: -2 },
-  { max: 8, modifier: -1 },
-  { max: 12, modifier: 0 },
-  { max: 15, modifier: 1 },
-  { max: 17, modifier: 2 }
-] as const;
-
-// Default modifier for scores above highest threshold (18+)
-const DEFAULT_HIGH_MODIFIER = 3;
+import { 
+  DEFAULT_UNARMORED_AC,
+  DEFAULT_MOVEMENT_RATE,
+  LEATHER_ARMOR_MOVEMENT,
+  METAL_ARMOR_MOVEMENT,
+  MODIFIER_THRESHOLDS,
+  DEFAULT_HIGH_MODIFIER 
+} from "@/utils/gameConstants";
 
 // Equipment type guards
 export const isWornArmor = (item: Equipment): item is Equipment & { AC: number } =>

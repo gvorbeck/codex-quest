@@ -1,7 +1,7 @@
 import type { Character, Cantrip } from "@/types/character";
-import { allClasses } from "@/data/classes";
 import cantripData from "@/data/cantrips.json";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { characterHasSpellcasting, hasClassType } from "@/utils/characterHelpers";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -13,17 +13,10 @@ export interface SpellTypeInfo {
 
 /**
  * Determines if a character can learn cantrips/orisons
+ * Uses consolidated spellcasting detection logic
  */
 export function canLearnCantrips(character: Character): boolean {
-  return character.class.some((classId) => {
-    // Check if it's a custom class that uses spells
-    if (character.customClasses && character.customClasses[classId]) {
-      return character.customClasses[classId].usesSpells;
-    }
-    
-    const classData = allClasses.find((c) => c.id === classId);
-    return classData?.spellcasting !== undefined;
-  });
+  return characterHasSpellcasting(character);
 }
 
 /**
@@ -61,16 +54,9 @@ export function getSpellTypeInfo(character: Character): SpellTypeInfo {
     return false;
   });
 
-  // Use classType property instead of hardcoded arrays
-  const hasDivineClasses = character.class.some((classId) => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.CLERIC;
-  });
-  
-  const hasArcaneClasses = hasCustomSpellcaster || character.class.some((classId) => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER;
-  });
+  // Use consolidated class type checking
+  const hasDivineClasses = hasClassType(character, CHARACTER_CLASSES.CLERIC);
+  const hasArcaneClasses = hasCustomSpellcaster || hasClassType(character, CHARACTER_CLASSES.MAGIC_USER);
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;
 
