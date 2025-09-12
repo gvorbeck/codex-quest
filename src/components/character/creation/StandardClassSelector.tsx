@@ -12,6 +12,8 @@ interface StandardClassSelectorProps {
   availableClasses: Class[];
   onClassChange: (classId: string) => void;
   onCharacterChange: (character: Character) => void;
+  customClassMagicToggle: boolean;
+  setCustomClassMagicToggle: (value: boolean) => void;
 }
 
 function StandardClassSelectorComponent({
@@ -19,6 +21,8 @@ function StandardClassSelectorComponent({
   availableClasses,
   onClassChange,
   onCharacterChange,
+  customClassMagicToggle,
+  setCustomClassMagicToggle,
 }: StandardClassSelectorProps) {
   const classOptions = availableClasses.map((cls) => ({
     value: cls.id,
@@ -48,27 +52,28 @@ function StandardClassSelectorComponent({
     updateCharacterClass(name);
   };
 
-  const handleCustomClassSpellToggle = (usesSpells: boolean) => {
-    if (
-      isCustomClass &&
-      currentClassId &&
-      character.customClasses &&
-      character.customClasses[currentClassId]
-    ) {
-      const customClassId = currentClassId;
-      const existingClass = character.customClasses[customClassId];
-      onCharacterChange({
-        ...character,
-        customClasses: {
-          ...character.customClasses,
-          [customClassId]: {
-            name: existingClass?.name || "",
-            hitDie: existingClass?.hitDie || "1d6",
-            usesSpells,
-          },
-        },
-      });
-    }
+  const handleCustomClassSpellToggle = () => {
+    setCustomClassMagicToggle(!customClassMagicToggle);
+    // if (
+    //   isCustomClass &&
+    //   currentClassId &&
+    //   character.customClasses &&
+    //   character.customClasses[currentClassId]
+    // ) {
+    //   const customClassId = currentClassId;
+    //   const existingClass = character.customClasses[customClassId];
+    //   onCharacterChange({
+    //     ...character,
+    //     customClasses: {
+    //       ...character.customClasses,
+    //       [customClassId]: {
+    //         name: existingClass?.name || "",
+    //         hitDie: existingClass?.hitDie || "1d6",
+    //         usesSpells,
+    //       },
+    //     },
+    //   });
+    // }
   };
 
   const handleCustomClassHitDieChange = (hitDie: string) => {
@@ -135,14 +140,6 @@ function StandardClassSelectorComponent({
                 />
               </FormField>
 
-              <OptionToggle
-                title="Spellcasting"
-                description="Does this class have spellcasting abilities?"
-                switchLabel="Uses Magic"
-                checked={!!character.spells || false}
-                onCheckedChange={handleCustomClassSpellToggle}
-              />
-
               {/* Hit Die Selection - this will be handled in HitPointsStep */}
               <div>
                 <Typography variant="body" weight="medium" className="mb-2">
@@ -163,6 +160,14 @@ function StandardClassSelectorComponent({
                   required
                 />
               </div>
+
+              <OptionToggle
+                title="Spellcasting"
+                description="Does this class have spellcasting abilities?"
+                switchLabel="Uses Magic"
+                checked={customClassMagicToggle}
+                onCheckedChange={handleCustomClassSpellToggle}
+              />
             </div>
           )}
         </div>

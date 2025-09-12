@@ -68,7 +68,9 @@ export function SpellChecklistSelector({
 
       if (checked) {
         // Add spell if not already present
-        const isAlreadySelected = currentSpells.some((s) => s.name === spell.name);
+        const isAlreadySelected = currentSpells.some(
+          (s) => s.name === spell.name
+        );
         if (!isAlreadySelected) {
           onSpellsChange([...currentSpells, spell]);
         }

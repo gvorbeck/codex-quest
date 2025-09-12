@@ -23,18 +23,20 @@ export function getCharacterSpellSystemType(
 ): SpellSystemType {
   if (!character.class.length) return "none";
 
-  // Check for custom classes that use spells (not found in allClasses)
-  const customSpellcaster = character.class.find((classId) => {
-    const standardClass = allClasses.find((c) => c.id === classId);
-    if (!standardClass) {
-      // Custom class - check if it uses spells
-      const customClass = character.customClasses?.[classId];
-      return customClass?.usesSpells || false;
-    }
-    return false;
-  });
+  // Check for custom classes that use spells (using isCustomClass helper)
+  // const customSpellcaster = character.class.find((classId) => {
+  //   if (isCustomClass(classId)) {
+  //     // Custom class - check if it uses spells
+  //     const customClass = character.customClasses?.[classId];
+  //     return customClass?.usesSpells || false;
+  //   }
+  //   return false;
+  // });
 
-  if (customSpellcaster) {
+  // if (customSpellcaster) {
+  //   return "custom";
+  // }
+  if (hasCustomClasses(character)) {
     return "custom";
   }
 
