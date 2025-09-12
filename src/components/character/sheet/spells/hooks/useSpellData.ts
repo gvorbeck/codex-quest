@@ -134,7 +134,10 @@ export function useSpellData(character?: Character): SpellDataResult {
       if (spellLevel > 0) {
         // For magic-user types and custom classes, show spells without preparation metadata
         // For cleric types, this will be handled separately in the prepared spells section
-        if ((systemType === "magic-user" || systemType === "custom") && !spell.preparation) {
+        if (
+          (systemType === "magic-user" || systemType === "custom") &&
+          !spell.preparation
+        ) {
           allSpells.push({
             ...spell,
             spellLevel,
