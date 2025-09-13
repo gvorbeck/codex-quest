@@ -1,7 +1,11 @@
 import type { Character, Cantrip } from "@/types/character";
 import cantripData from "@/data/cantrips.json";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
-import { hasClassType, hasCustomClasses } from "@/utils/characterHelpers";
+import {
+  hasClassType,
+  hasCustomClasses,
+  isCustomClass,
+} from "@/utils/characterHelpers";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -16,15 +20,14 @@ export interface SpellTypeInfo {
  */
 export function getAvailableCantrips(character: Character): Cantrip[] {
   const mappedClasses = character.class.map((classId) => {
-    // For custom classes that use spells, default to magic-user cantrips
-    if (hasCustomClasses(character)) {
-      if (character.spells?.length) {
-        return "magic-user"; // Default custom spellcasters to arcane cantrips
-      }
+    // For custom spellcasting classes, default to magic-user cantrips
+    if (isCustomClass(classId) && character.spells?.length) {
+      return "magic-user";
     }
 
-    // Map class IDs to cantrip class names
-    if (classId === "magic-user") return "magic-user";
+    // Standard classes (and non-spellcasting custom classes) keep their original names
+    // Standard: necromancers get exclusive cantrips, others share the magic-user pool
+    // Custom: will be filtered out since no cantrips match the custom class ID
     return classId;
   });
 
