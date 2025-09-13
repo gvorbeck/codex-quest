@@ -10,7 +10,7 @@ import { useValidation } from "@/validation";
 import { characterNameSchema } from "@/utils/characterValidation";
 import { sanitizeCharacterName } from "@/utils/sanitization";
 import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import { getClassById } from "@/utils/characterHelpers";
 import type { BaseStepProps } from "@/types/character";
 import { isCustomClass } from "@/utils/characterHelpers";
 
@@ -45,7 +45,7 @@ function ReviewStepComponent({
           return classId || "Custom Class";
         }
 
-        const classData = allClasses.find((c) => c.id === classId);
+        const classData = getClassById(classId);
         return classData?.name || classId;
       })
       .join("/");

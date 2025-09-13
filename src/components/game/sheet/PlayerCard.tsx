@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/display";
 import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import { getClassById } from "@/utils/characterHelpers";
 import type { SpecialAbility } from "@/types/character";
 
 interface PlayerCardProps {
@@ -75,7 +75,7 @@ export const PlayerCard = memo(
 
       // Add class abilities
       currentClasses.forEach((classId) => {
-        const characterClass = allClasses.find((c) => c.id === classId);
+        const characterClass = getClassById(classId);
         if (characterClass) {
           characterClass.specialAbilities.forEach((ability) => {
             abilities.push({

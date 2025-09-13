@@ -1,4 +1,10 @@
 import type { Character, Class } from "@/types/character";
+/**
+ * Utility to get a class by ID from a list (defaults to allClasses)
+ */
+export function getClassById(classId: string, classes: Class[] = allClasses): Class | undefined {
+  return classes.find((c) => c.id === classId);
+}
 import { allClasses } from "@/data/classes";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
@@ -28,7 +34,7 @@ export function getCharacterSpellSystemType(
 
   // For standard classes, use classType property
   const spellcastingClass = character.class.find((classId) => {
-    const classData = allClasses.find((c) => c.id === classId);
+    const classData = getClassById(classId);
     return (
       classData?.classType === CHARACTER_CLASSES.MAGIC_USER ||
       classData?.classType === CHARACTER_CLASSES.CLERIC
@@ -37,7 +43,7 @@ export function getCharacterSpellSystemType(
 
   if (!spellcastingClass) return "none";
 
-  const classData = allClasses.find((c) => c.id === spellcastingClass);
+  const classData = getClassById(spellcastingClass);
   return classData?.classType === CHARACTER_CLASSES.MAGIC_USER
     ? "magic-user"
     : classData?.classType === CHARACTER_CLASSES.CLERIC
@@ -57,8 +63,8 @@ export function canCastSpells(character: Character): boolean {
     }
 
     // Standard class - check spellcasting property
-    const standardClass = allClasses.find((c) => c.id === classId);
-    return standardClass?.spellcasting !== undefined;
+  const standardClass = getClassById(classId);
+  return standardClass?.spellcasting !== undefined;
   });
 }
 
@@ -76,7 +82,7 @@ export function getFirstSpellcastingClass(character: Character): string | null {
     }
 
     // Standard class - check spellcasting property
-    const standardClass = allClasses.find((c) => c.id === classId);
+    const standardClass = getClassById(classId);
     if (standardClass?.spellcasting) {
       return classId;
     }
@@ -98,7 +104,7 @@ export function hasCustomClasses(character: Character): boolean {
  * (simplified)
  */
 export function isCustomClass(classId: string): boolean {
-  return !allClasses.find((c) => c.id === classId);
+  return !getClassById(classId);
 }
 
 /**
@@ -124,7 +130,7 @@ export function getClassName(character: Character, classId: string): string {
   }
 
   // Standard class
-  const classData = allClasses.find((c) => c.id === classId);
+  const classData = getClassById(classId);
   return classData?.name || classId;
 }
 
@@ -138,8 +144,8 @@ export function hasClassType(character: Character, classType: string): boolean {
       return false; // Custom class type checking handled elsewhere
     }
 
-    const classData = allClasses.find((c) => c.id === classId);
-    return classData?.classType === classType;
+  const classData = getClassById(classId);
+  return classData?.classType === classType;
   });
 }
 
