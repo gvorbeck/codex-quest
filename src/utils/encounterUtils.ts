@@ -30,7 +30,7 @@ export function getRandomTableResult<T>(table: readonly T[]): T | null {
  */
 export function parseCreatureName(encounterName: string): string {
   // Remove asterisk notation for special abilities
-  return encounterName.replace(/\*$/, '').trim();
+  return encounterName.replace(/\*$/, "").trim();
 }
 
 /**
@@ -46,13 +46,15 @@ export function generateDefaultAC(): number {
  * Create a delay for UX purposes
  */
 export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
  * Create a combatant from an encounter result
  */
-export function createCombatantFromEncounter(encounterName: string): GameCombatant {
+export function createCombatantFromEncounter(
+  encounterName: string
+): GameCombatant {
   return {
     name: parseCreatureName(encounterName),
     ac: generateDefaultAC(),
