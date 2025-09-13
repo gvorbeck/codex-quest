@@ -3,6 +3,22 @@ import { allClasses } from "@/data/classes";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
+ * Returns true if the character has one or more spells.
+ * @param character Character object
+ */
+export function hasSpells(character: Character): boolean {
+  return !!(character.spells && character.spells.length > 0);
+}
+
+/**
+ * Returns true if the character has one or more cantrips.
+ * @param character Character object
+ */
+export function hasCantrips(character: Character): boolean {
+  return !!(character.cantrips && character.cantrips.length > 0);
+}
+
+/**
  * Utility to get a class by ID from a list (defaults to allClasses)
  */
 export function getClassById(
@@ -73,7 +89,7 @@ export function canCastSpells(character: Character): boolean {
   return character.class.some((classId) => {
     // Check if it's a custom class
     if (isCustomClass(classId)) {
-      return !!character.spells?.length;
+      return hasSpells(character);
     }
 
     // Standard class - check spellcasting property
@@ -89,7 +105,7 @@ export function getFirstSpellcastingClass(character: Character): string | null {
   for (const classId of character.class) {
     // Check if it's a custom class
     if (isCustomClass(classId)) {
-      if (character.spells?.length) {
+      if (hasSpells(character)) {
         return classId;
       }
       continue;
@@ -196,7 +212,7 @@ export function getPrimaryClassInfo(
         id: primaryClassId,
         name: primaryClassId,
         hitDie: character.hp.die || "1d6",
-        usesSpells: !!character.spells?.length || false,
+        usesSpells: hasSpells(character),
         isCustom: true,
       }
     : null;
@@ -284,7 +300,7 @@ export function getSpellSlots(
   for (const classId of character.class) {
     // Skip custom classes for now - they would need custom spell slot implementation
     if (isCustomClass(classId)) {
-      if (character.spells?.length) {
+      if (hasSpells(character)) {
         // For custom classes, we could provide basic spell slot progression
         // For now, assume they get spell slots like a magic-user
         const magicUserClass = getClassFromAvailable(

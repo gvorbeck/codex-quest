@@ -1,11 +1,10 @@
 import { calculateArmorClass } from "@/utils/characterCalculations";
+import { roller } from "@/utils/dice";
 
 // Combat-specific character data interface
 export interface CombatCharacterData {
   id: string;
   name: string;
-  ac?: number;
-  armorClass?: number;
   avatar?: string;
   equipment?: Array<{
     name: string;
@@ -43,15 +42,9 @@ export interface CombatantWithInitiative extends Record<string, unknown> {
   avatar?: string;
 }
 
-// Constants for initiative dice (Basic Fantasy uses 1d6 for initiative)
-export const INITIATIVE_DICE_SIDES = 6;
-export const MIN_INITIATIVE_ROLL = 1;
-
 // Utility functions
 export function calculateCombatantAC(character: CombatCharacterData): number {
-  return (
-    character.ac || character.armorClass || calculateArmorClass(character) || 10
-  );
+  return calculateArmorClass(character) || 11;
 }
 
 export function normalizeCombatantHP(
@@ -99,9 +92,7 @@ export function sortCombatantsByInitiative(
 
 // Generate a random initiative roll
 export function rollInitiative(): number {
-  return (
-    Math.floor(Math.random() * INITIATIVE_DICE_SIDES) + MIN_INITIATIVE_ROLL
-  );
+  return roller("1d6").total;
 }
 
 // Clear corrupted localStorage data

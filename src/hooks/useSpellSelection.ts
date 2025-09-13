@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { logger } from "@/utils/logger";
 import { useLoadingState } from "@/hooks/useLoadingState";
 import { loadSpellsForClass } from "@/services/dataLoader";
-import { hasCustomClasses } from "@/utils/characterHelpers";
+import { hasCustomClasses, hasSpells } from "@/utils/characterHelpers";
 import type { Class, Spell, Character } from "@/types/character";
 
 export interface SpellGainInfo {
@@ -45,7 +45,7 @@ export function useSpellSelection({
       character &&
       character.class &&
       hasCustomClasses(character) &&
-      character.spells?.length
+      hasSpells(character)
     ) {
       // For custom spellcasting classes, allow selection of 1 spell per level up
       return {
@@ -119,7 +119,7 @@ export function useSpellSelection({
             character &&
             character.class &&
             hasCustomClasses(character) &&
-            character.spells?.length
+            hasSpells(character)
           ) {
             classId = "magic-user"; // Default to magic-user spell list for custom classes
           }

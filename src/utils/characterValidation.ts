@@ -7,7 +7,7 @@ import type {
 import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
-import { isCustomClass } from "@/utils/characterHelpers";
+import { hasSpells, isCustomClass } from "@/utils/characterHelpers";
 import { getClassFromAvailable } from "./characterHelpers";
 
 /**
@@ -119,7 +119,7 @@ export function areCurrentSpellsStillValid(
     // Check if it's a custom class that uses spells
     const custom = isCustomClass(classId);
     if (custom) {
-      return !!character.spells?.length;
+      return hasSpells(character);
     }
 
     // Check standard classes
@@ -163,7 +163,7 @@ export function hasRequiredStartingSpells(
   for (const classId of character.class) {
     // Handle custom classes
     if (isCustomClass(classId)) {
-      if (!character.spells?.length) continue;
+      if (!hasSpells(character)) continue;
 
       // Custom spellcasting classes need at least one spell selected
       const spells = character.spells || [];

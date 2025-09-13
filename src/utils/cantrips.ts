@@ -4,6 +4,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
 import {
   hasClassType,
   hasCustomClasses,
+  hasSpells,
   isCustomClass,
 } from "@/utils/characterHelpers";
 
@@ -21,7 +22,7 @@ export interface SpellTypeInfo {
 export function getAvailableCantrips(character: Character): Cantrip[] {
   const mappedClasses = character.class.map((classId) => {
     // For custom spellcasting classes, default to magic-user cantrips
-    if (isCustomClass(classId) && character.spells?.length) {
+    if (isCustomClass(classId) && hasSpells(character)) {
       return "magic-user";
     }
 
@@ -42,7 +43,7 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   // Check for custom classes first - default to arcane (Intelligence)
   const hasCustomSpellcaster =
-    hasCustomClasses(character) && !!character.spells?.length;
+    hasCustomClasses(character) && hasSpells(character);
 
   // Use consolidated class type checking
   const hasDivineClasses = hasClassType(character, CHARACTER_CLASSES.CLERIC);

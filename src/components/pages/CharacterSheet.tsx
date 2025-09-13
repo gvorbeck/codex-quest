@@ -27,7 +27,12 @@ import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { calculateModifier } from "@/utils/characterCalculations";
 import { logger } from "@/utils/logger";
 import type { Character } from "@/types/character";
-import { canCastSpells } from "@/utils/characterHelpers";
+import {
+  canCastSpells,
+  hasCantrips,
+  hasSpells,
+} from "@/utils/characterHelpers";
+import { cn } from "@/constants";
 
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
@@ -200,7 +205,6 @@ export default function CharacterSheet() {
   );
 
   // Data loading is now handled by useFirebaseSheet hook
-
   if (loading) {
     return <LoadingState message="Loading character..." />;
   }
@@ -224,6 +228,14 @@ export default function CharacterSheet() {
       </div>
     );
   }
+
+  const spellsEquipmentClassNames = cn(
+    `grid grid-cols-1 gap-6 ${
+      hasSpells(character) || hasCantrips(character) || canCastSpells(character)
+        ? "lg:grid-cols-2"
+        : "lg:grid-cols-1"
+    }`
+  );
 
   logger.info(JSON.stringify(character));
 
@@ -347,18 +359,10 @@ export default function CharacterSheet() {
           )}
 
           {/* Spells & Equipment Section - side-by-side on larger screens when both present */}
-          <div
-            className={`grid grid-cols-1 gap-6 ${
-              character.spells?.length ||
-              character.cantrips?.length ||
-              canCastSpells(character)
-                ? "lg:grid-cols-2"
-                : "lg:grid-cols-1"
-            }`}
-          >
+          <div className={spellsEquipmentClassNames}>
             {/* Spells & Cantrips Section - only show if character has spells/cantrips or is a custom class that uses magic */}
-            {(character.spells?.length ||
-              character.cantrips?.length ||
+            {(hasSpells(character) ||
+              hasCantrips(character) ||
               canCastSpells(character)) && (
               <div className="break-inside-avoid">
                 <Spells
