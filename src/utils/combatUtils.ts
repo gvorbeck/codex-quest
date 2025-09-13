@@ -1,4 +1,4 @@
-import { calculateArmorClass, calculateModifier } from "@/utils/characterCalculations";
+import { calculateArmorClass } from "@/utils/characterCalculations";
 
 // Combat-specific character data interface
 export interface CombatCharacterData {
@@ -49,16 +49,23 @@ export const MIN_INITIATIVE_ROLL = 1;
 
 // Utility functions
 export function calculateCombatantAC(character: CombatCharacterData): number {
-  return character.ac || character.armorClass || calculateArmorClass(character) || 10;
+  return (
+    character.ac || character.armorClass || calculateArmorClass(character) || 10
+  );
 }
 
-export function normalizeCombatantHP(character: CombatCharacterData): CombatantHP {
+export function normalizeCombatantHP(
+  character: CombatCharacterData
+): CombatantHP {
   let current = 0;
   let max = 0;
 
   if (character["currentHp"] !== undefined) {
     current = character["currentHp"] as number;
-  } else if (typeof character.hp === "object" && character.hp?.current !== undefined) {
+  } else if (
+    typeof character.hp === "object" &&
+    character.hp?.current !== undefined
+  ) {
     current = character.hp.current;
   } else if (typeof character.hp === "number") {
     current = character.hp;
@@ -66,7 +73,10 @@ export function normalizeCombatantHP(character: CombatCharacterData): CombatantH
 
   if (character["maxHp"] !== undefined) {
     max = character["maxHp"] as number;
-  } else if (typeof character.hp === "object" && character.hp?.max !== undefined) {
+  } else if (
+    typeof character.hp === "object" &&
+    character.hp?.max !== undefined
+  ) {
     max = character.hp.max;
   } else if (typeof character.hp === "number") {
     max = character.hp;
@@ -75,19 +85,10 @@ export function normalizeCombatantHP(character: CombatCharacterData): CombatantH
   return { current: Math.max(0, current), max: Math.max(1, max) };
 }
 
-export function calculateDexModifier(character: CombatCharacterData): number {
-  if (character.abilities?.dexterity?.modifier !== undefined) {
-    return character.abilities.dexterity.modifier;
-  } else if (character.abilities?.dexterity?.value !== undefined) {
-    return calculateModifier(character.abilities.dexterity.value);
-  } else if (character["dexterity"] !== undefined) {
-    return calculateModifier(character["dexterity"] as number);
-  }
-  return 0;
-}
-
 // Sort combatants by initiative (descending) with stable sorting
-export function sortCombatantsByInitiative(combatants: CombatantWithInitiative[]): CombatantWithInitiative[] {
+export function sortCombatantsByInitiative(
+  combatants: CombatantWithInitiative[]
+): CombatantWithInitiative[] {
   return [...combatants].sort((a, b) => {
     if (b.initiative === a.initiative) {
       return (b._sortId || 0) - (a._sortId || 0);
@@ -98,7 +99,9 @@ export function sortCombatantsByInitiative(combatants: CombatantWithInitiative[]
 
 // Generate a random initiative roll
 export function rollInitiative(): number {
-  return Math.floor(Math.random() * INITIATIVE_DICE_SIDES) + MIN_INITIATIVE_ROLL;
+  return (
+    Math.floor(Math.random() * INITIATIVE_DICE_SIDES) + MIN_INITIATIVE_ROLL
+  );
 }
 
 // Clear corrupted localStorage data

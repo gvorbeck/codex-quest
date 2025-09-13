@@ -5,6 +5,7 @@ import {
   canCastSpells,
   hasClassType,
   isCustomClass,
+  hasCustomClasses,
 } from "@/utils/characterHelpers";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
@@ -39,9 +40,7 @@ export function getEffectiveSpellcastingClass(
  */
 export function getSpellcastingAbilityModifier(character: Character): number {
   // Check for custom classes first - default to arcane (Intelligence)
-  const hasCustomSpellcaster = character.class.some((classId) =>
-    isCustomClass(classId)
-  );
+  const hasCustomSpellcaster = hasCustomClasses(character);
 
   const hasArcane =
     hasCustomSpellcaster ||

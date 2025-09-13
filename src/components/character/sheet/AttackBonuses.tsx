@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { SectionWrapper } from "@/components/ui/layout";
 import RollableButton from "@/components/ui/dice/RollableButton";
-import { calculateModifier, formatModifier } from "@/utils/characterCalculations";
+import { formatModifier } from "@/utils/characterCalculations";
 import { allRaces } from "@/data/races";
 import { SIZE_STYLES } from "@/constants/designTokens";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
@@ -38,15 +38,15 @@ export default function AttackBonuses({
         classLower === "paladin"
       ) {
         if (level >= 18) return 10; // 18-20
-        if (level >= 16) return 9;  // 16-17
-        if (level >= 13) return 8;  // 13-15
-        if (level >= 11) return 7;  // 11-12
-        if (level >= 8) return 6;   // 8-10
-        if (level >= 7) return 5;   // 7
-        if (level >= 5) return 4;   // 5-6
-        if (level >= 4) return 3;   // 4
-        if (level >= 2) return 2;   // 2-3
-        if (level >= 1) return 1;   // 1
+        if (level >= 16) return 9; // 16-17
+        if (level >= 13) return 8; // 13-15
+        if (level >= 11) return 7; // 11-12
+        if (level >= 8) return 6; // 8-10
+        if (level >= 7) return 5; // 7
+        if (level >= 5) return 4; // 5-6
+        if (level >= 4) return 3; // 4
+        if (level >= 2) return 2; // 2-3
+        if (level >= 1) return 1; // 1
         return 0; // NM (Normal Men)
       }
 
@@ -61,11 +61,11 @@ export default function AttackBonuses({
         if (level >= 18) return 8; // 18-20
         if (level >= 15) return 7; // 15-17
         if (level >= 12) return 6; // 12-14
-        if (level >= 9) return 5;  // 9-11
-        if (level >= 7) return 4;  // 7-8
-        if (level >= 5) return 3;  // 5-6
-        if (level >= 3) return 2;  // 3-4
-        if (level >= 1) return 1;  // 1-2
+        if (level >= 9) return 5; // 9-11
+        if (level >= 7) return 4; // 7-8
+        if (level >= 5) return 3; // 5-6
+        if (level >= 3) return 2; // 3-4
+        if (level >= 1) return 1; // 1-2
         return 0; // NM (Normal Men)
       }
 
@@ -79,10 +79,10 @@ export default function AttackBonuses({
         if (level >= 19) return 7; // 19-20
         if (level >= 16) return 6; // 16-18
         if (level >= 13) return 5; // 13-15
-        if (level >= 9) return 4;  // 9-12
-        if (level >= 6) return 3;  // 6-8
-        if (level >= 4) return 2;  // 4-5
-        if (level >= 1) return 1;  // 1-3
+        if (level >= 9) return 4; // 9-12
+        if (level >= 6) return 3; // 6-8
+        if (level >= 4) return 2; // 4-5
+        if (level >= 1) return 1; // 1-3
         return 0; // NM (Normal Men)
       }
 
@@ -137,14 +137,8 @@ export default function AttackBonuses({
     // Get racial attack bonuses
     const racialBonuses = getRacialAttackBonuses();
 
-    // Import calculateModifier from gameUtils to use BFRPG system
-
-    const strModifier = character.abilities.strength?.value
-      ? calculateModifier(character.abilities.strength.value)
-      : 0;
-    const dexModifier = character.abilities.dexterity?.value
-      ? calculateModifier(character.abilities.dexterity.value)
-      : 0;
+    const strModifier = character.abilities.strength?.modifier ?? 0;
+    const dexModifier = character.abilities.dexterity?.modifier ?? 0;
 
     // Calculate melee attack bonus (base + strength modifier + racial bonuses)
     const meleeAttackBonus =
@@ -163,8 +157,8 @@ export default function AttackBonuses({
   }, [
     character.level,
     character.class,
-    character.abilities.strength.value,
-    character.abilities.dexterity.value,
+    character.abilities.strength?.modifier,
+    character.abilities.dexterity?.modifier,
     character.race,
   ]);
 
@@ -188,11 +182,7 @@ export default function AttackBonuses({
   );
 
   return (
-    <SectionWrapper
-      title={titleWithTooltip}
-      size={size}
-      className={className}
-    >
+    <SectionWrapper title={titleWithTooltip} size={size} className={className}>
       <div className={currentSize.container}>
         <div className="space-y-3">
           {[

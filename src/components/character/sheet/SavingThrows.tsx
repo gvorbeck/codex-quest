@@ -5,7 +5,6 @@ import RollableButton from "@/components/ui/dice/RollableButton";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { TextHeader } from "@/components/ui/display";
-import { calculateModifier } from "@/utils/characterCalculations";
 import type { Character } from "@/types/character";
 
 // Constants
@@ -199,7 +198,9 @@ const SAVING_THROW_TABLES: SavingThrowTable = {
 };
 
 // Default saving throws for unknown classes (uses Fighter table level 1)
-const DEFAULT_SAVING_THROWS: [number, number, number, number, number] = [12, 13, 14, 15, 17];
+const DEFAULT_SAVING_THROWS: [number, number, number, number, number] = [
+  12, 13, 14, 15, 17,
+];
 
 // Saving throw help text for tooltips
 const SAVING_THROW_HELP = {
@@ -221,7 +222,11 @@ interface SavingThrowsProps {
   size?: "sm" | "md" | "lg";
 }
 
-export default function SavingThrows({ character, className = "", size = "md" }: SavingThrowsProps) {
+export default function SavingThrows({
+  character,
+  className = "",
+  size = "md",
+}: SavingThrowsProps) {
   const currentSize = SIZE_STYLES[size];
   const { rollSavingThrow } = useDiceRoll();
 
@@ -233,13 +238,19 @@ export default function SavingThrows({ character, className = "", size = "md" }:
      * @param characterClass - Character class name
      * @returns Array of 5 saving throw values
      */
-    const getBaseSavingThrows = (level: number, characterClass: string): [number, number, number, number, number] => {
+    const getBaseSavingThrows = (
+      level: number,
+      characterClass: string
+    ): [number, number, number, number, number] => {
       const classLower = characterClass.toLowerCase();
-      const classTable = SAVING_THROW_TABLES[classLower] || SAVING_THROW_TABLES['fighter'];
-      
+      const classTable =
+        SAVING_THROW_TABLES[classLower] || SAVING_THROW_TABLES["fighter"];
+
       // Find the first entry where character level meets minimum requirement
-      const entry = classTable?.find(tableEntry => level >= tableEntry.minLevel);
-      
+      const entry = classTable?.find(
+        (tableEntry) => level >= tableEntry.minLevel
+      );
+
       return entry?.saves || DEFAULT_SAVING_THROWS;
     };
 
@@ -248,10 +259,16 @@ export default function SavingThrows({ character, className = "", size = "md" }:
      * Bonuses are subtracted from target number (lower is better)
      * @returns Array of 5 racial bonus values
      */
-    const getRacialSavingThrowBonuses = (): [number, number, number, number, number] => {
+    const getRacialSavingThrowBonuses = (): [
+      number,
+      number,
+      number,
+      number,
+      number
+    ] => {
       // Initialize bonuses array [Death Ray/Poison, Magic Wands, Paralysis/Petrify, Dragon Breath, Spells]
       const bonuses: [number, number, number, number, number] = [0, 0, 0, 0, 0];
-      
+
       // Apply bonuses based on race (these are subtracted from the target number as lower is better)
       switch (character.race) {
         case "dwarf":
@@ -278,21 +295,24 @@ export default function SavingThrows({ character, className = "", size = "md" }:
           // Humans have no racial bonuses
           break;
       }
-      
+
       return bonuses;
     };
 
     // Get the primary class (first in array for multi-class characters)
     const primaryClass = character.class?.[0] || "";
-    
+
     // Calculate base saving throws
-    const baseSavingThrows = getBaseSavingThrows(character.level || 1, primaryClass);
-    
+    const baseSavingThrows = getBaseSavingThrows(
+      character.level || 1,
+      primaryClass
+    );
+
     // Get racial bonuses
     const racialBonuses = getRacialSavingThrowBonuses();
-    
+
     // Apply bonuses to base values (lower is better in BFRPG, minimum of 1)
-    const finalSavingThrows = baseSavingThrows.map((base, index) => 
+    const finalSavingThrows = baseSavingThrows.map((base, index) =>
       Math.max(MIN_SAVING_THROW, base - (racialBonuses[index] || 0))
     );
 
@@ -306,8 +326,8 @@ export default function SavingThrows({ character, className = "", size = "md" }:
     };
   }, [character.level, character.class, character.race]);
 
-  const conModifier = calculateModifier(character.abilities?.constitution?.value || 10);
-  const wisModifier = calculateModifier(character.abilities?.wisdom?.value || 10);
+  const conModifier = character.abilities?.constitution?.modifier ?? 0;
+  const wisModifier = character.abilities?.wisdom?.modifier ?? 0;
 
   const savingThrowItems = [
     {
@@ -356,17 +376,17 @@ export default function SavingThrows({ character, className = "", size = "md" }:
   );
 
   return (
-    <SectionWrapper 
+    <SectionWrapper
       title={
         <div className="flex items-center gap-2">
           <span>Saving Throws</span>
-          <InfoTooltip 
+          <InfoTooltip
             content={tooltipContent}
             ariaLabel="Saving throw rules"
             preferredPosition="above"
           />
         </div>
-      } 
+      }
       size={size}
       className={className}
     >
@@ -377,8 +397,22 @@ export default function SavingThrows({ character, className = "", size = "md" }:
               key={index}
               label={item.label}
               value={`${item.target}+`}
-              onClick={() => rollSavingThrow(item.label, item.target, item.usesModifier ? item.modifier : undefined)}
-              tooltip={`Click to roll ${item.label.toLowerCase()} save (need ${item.target}+ on d20)${item.usesModifier ? ` with ${item.modifier >= 0 ? '+' : ''}${item.modifier} modifier` : ''}`}
+              onClick={() =>
+                rollSavingThrow(
+                  item.label,
+                  item.target,
+                  item.usesModifier ? item.modifier : undefined
+                )
+              }
+              tooltip={`Click to roll ${item.label.toLowerCase()} save (need ${
+                item.target
+              }+ on d20)${
+                item.usesModifier
+                  ? ` with ${item.modifier >= 0 ? "+" : ""}${
+                      item.modifier
+                    } modifier`
+                  : ""
+              }`}
               size={size}
             />
           ))}
