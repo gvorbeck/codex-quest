@@ -317,26 +317,6 @@ function Stepper({
           </Button>
         </nav>
 
-        {/* Step Content */}
-        <section
-          aria-labelledby="step-content-heading"
-          role="tabpanel"
-          aria-live="polite"
-          className="mb-8"
-        >
-          <Typography
-            variant="h2"
-            as="h2"
-            id="step-content-heading"
-            weight="bold"
-            color="zinc"
-            className="mb-4"
-          >
-            {currentStepItem?.title || "Step"}
-          </Typography>
-          <div>{currentStepItem?.content}</div>
-        </section>
-
         {/* Validation Message */}
         {validationMessage && (
           <div className="mb-6">
@@ -357,6 +337,26 @@ function Stepper({
             </div>
           </div>
         )}
+
+        {/* Step Content */}
+        <section
+          aria-labelledby="step-content-heading"
+          role="tabpanel"
+          aria-live="polite"
+          className="mb-8"
+        >
+          <Typography
+            variant="h2"
+            as="h2"
+            id="step-content-heading"
+            weight="bold"
+            color="zinc"
+            className="mb-4"
+          >
+            {currentStepItem?.title || "Step"}
+          </Typography>
+          <div>{currentStepItem?.content}</div>
+        </section>
       </main>
     </div>
   );

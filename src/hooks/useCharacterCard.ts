@@ -1,9 +1,8 @@
 import { useMemo, useCallback } from "react";
 import type { CharacterListItem } from "@/services/characters";
-import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
-import { isCustomClass } from "@/utils/characterHelpers";
+import { isCustomClass, isCustomRace, getRaceById } from "@/utils/characterHelpers";
 
 export function useCharacterCard(character: CharacterListItem) {
   const { showSuccess, showError } = useNotificationContext();
@@ -12,14 +11,14 @@ export function useCharacterCard(character: CharacterListItem) {
   const raceName = useMemo(() => {
     if (!character.race) return null;
 
-    // Handle custom races
-    if (character.race === "custom") {
-      return character.customRace?.name || "Custom Race";
+    // Handle custom races using new helper function
+    if (isCustomRace(character.race)) {
+      return character.race;
     }
 
-    const race = allRaces.find((r) => r.id === character.race);
+    const race = getRaceById(character.race);
     return race?.name || character.race;
-  }, [character.race, character.customRace]);
+  }, [character.race]);
 
   // Memoized class names lookup for performance
   const classNames = useMemo(() => {

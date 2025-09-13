@@ -6,8 +6,7 @@ import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 import { cn } from "@/constants/styles";
-import { allRaces } from "@/data/races";
-import { getClassName } from "@/utils/characterHelpers";
+import { getClassName, isCustomRace, getRaceById } from "@/utils/characterHelpers";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -18,11 +17,14 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {
 
 // Helper functions moved outside component for better performance
 const getRaceDisplayName = (character: Character): string => {
-  if (character.race === "custom") {
-    return character.customRace?.name || "Custom";
+  if (!character.race) return "Unknown";
+  
+  if (isCustomRace(character.race)) {
+    return character.race;
   }
-  const race = allRaces.find((r) => r.id === character.race);
-  return race?.name || character.race || "Unknown";
+  
+  const race = getRaceById(character.race);
+  return race?.name || character.race;
 };
 
 const getClassDisplayNames = (character: Character): string => {

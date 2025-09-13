@@ -7,6 +7,7 @@ import {
   calculateArmorClass,
   calculateMovementRate,
 } from "@/utils/characterCalculations";
+import { calculateHitDie } from "@/utils/hitDice";
 import type { Character } from "@/types/character";
 
 interface CharacterDefenseProps {
@@ -33,38 +34,33 @@ export default function CharacterDefense({
 
   // Calculate Hit Dice
   const hitDice = useMemo(() => {
-    if (!character.class || character.class.length === 0) {
-      return "1d6"; // Default
-    }
-
-    // For multi-class characters, use the first class
-    const primaryClassId = character.class[0];
-    if (!primaryClassId) {
-      return "1d6"; // Default
-    }
-
-    const characterClass = allClasses.find((cls) => {
-      const normalizedClassId = cls.id.toLowerCase().trim();
-      const normalizedPrimaryId = primaryClassId.toLowerCase().trim();
-      return normalizedClassId === normalizedPrimaryId;
-    });
-
-    if (!characterClass) {
-      return "1d6"; // Default
+    // Get the base hit die (handles both standard and custom classes)
+    const baseHitDie = calculateHitDie(character);
+    if (!baseHitDie) {
+      return "1d6"; // Fallback
     }
 
     // Extract die type from hitDie string (e.g., "1d8" -> "d8")
-    const dieType = characterClass.hitDie.substring(1); // Remove the "1" at the beginning
+    const dieType = baseHitDie.substring(1); // Remove the "1" at the beginning
+
+    // For custom classes or levels 1-9, just multiply by level
+    if (character.level <= 9) {
+      return `${character.level}${dieType}`;
+    }
 
     // Handle levels above 9 - cap at 9 dice and add flat bonus
-    if (character.level > 9) {
+    // For custom classes, default to +1 HP per level after 9th
+    const primaryClassId = character.class[0];
+    const characterClass = allClasses.find((cls) => cls.id === primaryClassId);
+    
+    let hpPerLevel = 1; // Default +1 HP per level for custom classes
+    
+    if (characterClass) {
+      // Standard class - check if it gets +2 HP per level after 9th level
       const className = characterClass.name.toLowerCase();
-      let hpPerLevel = 1; // Default +1 HP per level
-
-      // Classes that get +2 HP per level after 9th level
       const twoHpClasses = [
         "fighter",
-        "thief",
+        "thief", 
         "assassin",
         "barbarian",
         "ranger",
@@ -74,15 +70,11 @@ export default function CharacterDefense({
       if (twoHpClasses.includes(className)) {
         hpPerLevel = 2;
       }
-
-      const bonusHitPoints = (character.level - 9) * hpPerLevel;
-      return `9${dieType}+${bonusHitPoints}`;
     }
 
-    // For levels 1-9, multiply by level
-    const result = `${character.level}${dieType}`;
-    return result;
-  }, [character.class, character.level]);
+    const bonusHitPoints = (character.level - 9) * hpPerLevel;
+    return `9${dieType}+${bonusHitPoints}`;
+  }, [character]);
 
   const detailsItems = [
     {

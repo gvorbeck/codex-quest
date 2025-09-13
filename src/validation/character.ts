@@ -11,7 +11,11 @@ import type {
 import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
-import { hasCustomClasses, isCustomClass } from "@/utils/characterHelpers";
+import {
+  hasCustomClasses,
+  isCustomClass,
+  hasCustomRace,
+} from "@/utils/characterHelpers";
 import {
   hasValidAbilityScores,
   hasValidHitPoints,
@@ -128,18 +132,9 @@ function validateRaceStep(
   }
 
   // Handle custom races
-  if (character.race === "custom") {
-    // Custom races have no ability requirements
-    if (
-      !character.customRace?.name ||
-      character.customRace.name.trim().length === 0
-    ) {
-      return {
-        isValid: false,
-        errors: ["Please enter a name for your custom race"],
-        warnings: [],
-      };
-    }
+  if (hasCustomRace(character)) {
+    // Custom races have no ability requirements and are always valid
+    // The race name is stored directly in character.race
     return { isValid: true, errors: [], warnings: [] };
   }
 
@@ -177,7 +172,7 @@ function validateClassStep(
   if (!character.class || character.class.length === 0) {
     return {
       isValid: false,
-      errors: ["Please select at least one class for your character"],
+      errors: ["Please select a class for your character"],
       warnings,
     };
   }
@@ -237,16 +232,15 @@ function validateClassStep(
   }
 
   // For custom races, we don't use classesStillValid check
-  const isValidClass =
-    character.race === "custom"
-      ? true
-      : availableRaces.find((r) => r.id === character.race)
-      ? isCurrentClassStillValid(
-          character,
-          availableRaces.find((r) => r.id === character.race)!,
-          availableClasses
-        )
-      : false;
+  const isValidClass = hasCustomRace(character)
+    ? true
+    : availableRaces.find((r) => r.id === character.race)
+    ? isCurrentClassStillValid(
+        character,
+        availableRaces.find((r) => r.id === character.race)!,
+        availableClasses
+      )
+    : false;
 
   return {
     isValid: errors.length === 0 && isValidClass && hasRequiredSpells,

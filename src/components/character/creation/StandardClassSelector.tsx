@@ -7,12 +7,12 @@ import type { Character, Class } from "@/types/character";
 import { getClassFromAvailable } from "@/utils/characterHelpers";
 import { hasCustomClasses } from "@/utils/characterHelpers";
 import { memo } from "react";
-import { logger } from "@/utils/logger";
 
 interface StandardClassSelectorProps {
   character: Character;
   availableClasses: Class[];
   onClassChange: (classId: string) => void;
+  onCharacterChange: (character: Character) => void;
   customClassMagicToggle: boolean;
   onCustomClassMagicToggle: (value: boolean) => void;
 }
@@ -21,6 +21,7 @@ function StandardClassSelectorComponent({
   character,
   availableClasses,
   onClassChange,
+  onCharacterChange,
   customClassMagicToggle,
   onCustomClassMagicToggle,
 }: StandardClassSelectorProps) {
@@ -37,6 +38,9 @@ function StandardClassSelectorComponent({
 
   const currentClassId = character.class.length > 0 ? character.class[0] : "";
   const isCustomClass = hasCustomClasses(character);
+  
+  // Determine what should be selected in the dropdown
+  const selectValue = isCustomClass ? "custom" : currentClassId;
 
   const updateCharacterClass = (className: string) => {
     onClassChange(className);
@@ -57,30 +61,17 @@ function StandardClassSelectorComponent({
   };
 
   const handleCustomClassHitDieChange = (hitDie: string) => {
-    logger.info(hitDie);
-    // if (
-    //   isCustomClass &&
-    //   currentClassId &&
-    //   character.customClasses &&
-    //   character.customClasses[currentClassId]
-    // ) {
-    //   const customClassId = currentClassId;
-    //   const existingClass = character.customClasses[customClassId];
-    //   onCharacterChange({
-    //     ...character,
-    //     customClasses: {
-    //       ...character.customClasses,
-    //       [customClassId]: {
-    //         name: existingClass?.name || "",
-    //         usesSpells: existingClass?.usesSpells || false,
-    //         hitDie,
-    //       },
-    //     },
-    //   });
-    // }
+    onCharacterChange({
+      ...character,
+      hp: {
+        ...character.hp,
+        die: hitDie,
+      },
+    });
   };
 
-  const showCustomClassUI = isCustomClass || currentClassId === "";
+
+  const showCustomClassUI = selectValue === "custom";
   const selectedClass =
     !isCustomClass && currentClassId
       ? getClassFromAvailable(currentClassId, availableClasses)
@@ -96,7 +87,7 @@ function StandardClassSelectorComponent({
         <div className="space-y-4">
           <Select
             label="Select Class"
-            value={isCustomClass ? "custom" : currentClassId}
+            value={selectValue}
             onValueChange={handleClassChange}
             options={classOptions}
             placeholder="Choose a class"
@@ -118,7 +109,7 @@ function StandardClassSelectorComponent({
                 />
               </FormField>
 
-              {/* Hit Die Selection - this will be handled in HitPointsStep */}
+              {/* Hit Die Selection */}
               <div>
                 <Typography variant="body" weight="medium" className="mb-2">
                   Hit Die

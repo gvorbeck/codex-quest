@@ -3,7 +3,7 @@ import { logger } from "@/utils/logger";
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants/gameData";
 import { cleanFractionalCurrency } from "@/utils/currency";
 
-const CURRENT_VERSION = 2.4;
+const CURRENT_VERSION = 2.5;
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -41,6 +41,10 @@ interface LegacyCustomClass {
   hitDie?: string;
 }
 
+interface LegacyCustomRace {
+  name?: string;
+}
+
 interface LegacyCharacterData {
   name?: string;
   race?: string;
@@ -59,6 +63,7 @@ interface LegacyCharacterData {
   useCoinWeight?: boolean;
   wearing?: boolean;
   customClasses?: Record<string, LegacyCustomClass>;
+  customRace?: LegacyCustomRace;
   [key: string]: unknown;
 }
 
@@ -85,6 +90,9 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
   const hasCustomClassesProperty =
     typeof data["customClasses"] === "object" && data["customClasses"] !== null;
 
+  const hasCustomRaceProperty =
+    typeof data["customRace"] === "object" && data["customRace"] !== null;
+
   const needsVersionUpdate =
     !data["settings"]?.version ||
     (typeof data["settings"]?.version === "number" &&
@@ -97,6 +105,7 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
     hasLegacyClasses ||
     hasReadMagicSpell ||
     hasCustomClassesProperty ||
+    hasCustomRaceProperty ||
     needsVersionUpdate
   );
 }
@@ -323,6 +332,32 @@ function migrateLegacyCharacter(
 }
 
 /**
+ * Migrate character from version 2.4 to 2.5 (custom races refactor)
+ */
+function migrateCustomRaces(data: LegacyCharacterData): LegacyCharacterData {
+  const migrated = { ...data };
+
+  // If character has customRace property, migrate it to the new format
+  if (data["customRace"] && typeof data["customRace"] === "object") {
+    const customRace = data["customRace"] as LegacyCustomRace;
+
+    // If character race is "custom" and has a customRace.name, use the name directly as the race
+    if (migrated["race"] === "custom" && customRace.name) {
+      migrated["race"] = customRace.name;
+      logger.info(
+        `Migrated custom race name from customRace.name to race field: ${customRace.name}`
+      );
+    }
+
+    // Remove the customRace property
+    delete migrated["customRace"];
+    logger.info("Removed customRace property after migration to 2.5 format");
+  }
+
+  return migrated;
+}
+
+/**
  * Migrate character from version 2.3 to 2.4 (custom classes refactor)
  */
 function migrateCustomClasses(data: LegacyCharacterData): LegacyCharacterData {
@@ -395,7 +430,7 @@ export function processCharacterData(
   }
 
   // Handle version 2.3 to 2.4 migration (custom classes refactor)
-  const currentVersion = migratedData["settings"]?.version || 0;
+  let currentVersion = migratedData["settings"]?.version || 0;
   if (currentVersion < 2.4) {
     logger.debug(
       `Migrating character from version ${currentVersion} to 2.4: ${
@@ -405,6 +440,23 @@ export function processCharacterData(
     migratedData = migrateCustomClasses(migratedData);
 
     // Update version to 2.4
+    migratedData["settings"] = {
+      ...migratedData["settings"],
+      version: 2.4,
+    };
+    currentVersion = 2.4;
+  }
+
+  // Handle version 2.4 to 2.5 migration (custom races refactor)
+  if (currentVersion < 2.5) {
+    logger.debug(
+      `Migrating character from version ${currentVersion} to 2.5: ${
+        migratedData["name"] || "Unknown"
+      }`
+    );
+    migratedData = migrateCustomRaces(migratedData);
+
+    // Update version to 2.5
     migratedData["settings"] = {
       ...migratedData["settings"],
       version: CURRENT_VERSION,

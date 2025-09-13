@@ -272,14 +272,6 @@ function ClassStepComponent({
     );
   }
 
-  // Determine if we have a custom spellcasting class
-  // const hasCustomSpellcaster = character.class.some((classId) => {
-  //   if (character.customClasses && character.customClasses[classId]) {
-  //     return character.customClasses[classId].usesSpells;
-  //   }
-  //   return false;
-  // });
-
   // Get spell-related data for current class configuration
   // Only magic-user types get starting spells at level 1 (they have Read Magic)
   // Cleric types start getting spells at level 2
@@ -348,6 +340,7 @@ function ClassStepComponent({
             character={character}
             availableClasses={availableClasses}
             onClassChange={handleSingleClassChange}
+            onCharacterChange={onCharacterChange}
             customClassMagicToggle={customClassMagicToggle}
             onCustomClassMagicToggle={(value) => {
               setCustomClassMagicToggle(value);

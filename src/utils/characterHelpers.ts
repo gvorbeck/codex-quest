@@ -1,5 +1,6 @@
-import type { Character, Class } from "@/types/character";
+import type { Character, Class, Race } from "@/types/character";
 import { allClasses } from "@/data/classes";
+import { allRaces } from "@/data/races";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
@@ -139,8 +140,7 @@ export function isCustomClass(classId: string): boolean {
 
 /**
  * Get custom class data for a given class ID
- * Currently uses character.customClasses, but will eventually work with
- * custom classes stored directly in character.class array
+ * For the unified class system, custom classes are stored directly in character.class
  */
 export function getCustomClass(character: Character, classId: string) {
   if (!isCustomClass(classId)) {
@@ -180,10 +180,106 @@ export function hasClassType(character: Character, classType: string): boolean {
 }
 
 /**
+ * Utility to get a race by ID from a list (defaults to allRaces)
+ */
+export function getRaceById(
+  raceId: string,
+  races: Race[] = allRaces
+): Race | undefined {
+  return races.find((r) => r.id === raceId);
+}
+
+/**
+ * Utility to get a race by ID from availableRaces (deduplication helper)
+ */
+export function getRaceFromAvailable(
+  raceId: string,
+  availableRaces: Race[]
+): Race | undefined {
+  return availableRaces.find((r) => r.id === raceId);
+}
+
+/**
+ * Check if a race ID represents a custom race (not found in allRaces)
+ * This is the consolidated pattern for detecting custom races
+ */
+export function isCustomRace(raceId: string): boolean {
+  return !getRaceById(raceId);
+}
+
+/**
  * Check if a character uses a custom race
  */
-export function isCustomRace(character: Character): boolean {
-  return character.race === "custom";
+export function hasCustomRace(character: Character): boolean {
+  return isCustomRace(character.race);
+}
+
+/**
+ * Get custom race data for a given race ID
+ * For the unified race system, custom races are stored directly in character.race
+ */
+export function getCustomRace(raceId: string) {
+  if (!isCustomRace(raceId)) {
+    return null;
+  }
+  // For custom races, return the race ID as the name
+  // This will be expanded when we implement full custom race data
+  return raceId;
+}
+
+/**
+ * Get race name by ID, handling both standard and custom races
+ */
+export function getRaceName(character: Character, raceId?: string): string {
+  const targetRaceId = raceId || character.race;
+  
+  // Check if it's a custom race first
+  if (isCustomRace(targetRaceId)) {
+    const customRace = getCustomRace(targetRaceId);
+    return customRace || targetRaceId;
+  }
+
+  // Standard race
+  const raceData = getRaceById(targetRaceId);
+  return raceData?.name || targetRaceId;
+}
+
+/**
+ * Get the primary race information (standard or custom)
+ */
+export function getPrimaryRaceInfo(
+  character: Character,
+  availableRaces: Race[]
+) {
+  const raceId = character.race;
+  if (!raceId) return null;
+
+  // Find standard race first
+  const standardRace = getRaceFromAvailable(raceId, availableRaces);
+
+  if (standardRace) {
+    return {
+      ...standardRace,
+      isCustom: false,
+    };
+  }
+
+  // Must be custom race (not found in allRaces)
+  return isCustomRace(raceId)
+    ? {
+        id: raceId,
+        name: getRaceName(character, raceId),
+        description: `Custom race: ${raceId}`,
+        physicalDescription: "User-defined custom race",
+        allowedClasses: [], // Custom races allow all classes
+        abilityRequirements: [], // Custom races have no ability requirements
+        specialAbilities: [],
+        savingThrows: [],
+        lifespan: "Variable",
+        languages: [],
+        isCustom: true,
+      }
+    : null;
 }
 
 /**
