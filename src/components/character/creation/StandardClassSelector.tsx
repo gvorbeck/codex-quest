@@ -4,6 +4,7 @@ import { Card, Typography } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection } from "@/components/ui/display";
 import { Icon } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
+import { getClassFromAvailable } from "@/utils/characterHelpers";
 import { hasCustomClasses } from "@/utils/characterHelpers";
 import { memo } from "react";
 import { logger } from "@/utils/logger";
@@ -80,9 +81,10 @@ function StandardClassSelectorComponent({
   };
 
   const showCustomClassUI = isCustomClass || currentClassId === "";
-  const selectedClass = !isCustomClass
-    ? availableClasses.find((cls) => cls.id === currentClassId)
-    : null;
+  const selectedClass =
+    !isCustomClass && currentClassId
+      ? getClassFromAvailable(currentClassId, availableClasses)
+      : null;
 
   return (
     <section aria-labelledby="standard-classes-heading" className="mb-8">

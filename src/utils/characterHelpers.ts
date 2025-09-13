@@ -1,12 +1,26 @@
 import type { Character, Class } from "@/types/character";
+import { allClasses } from "@/data/classes";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
+
 /**
  * Utility to get a class by ID from a list (defaults to allClasses)
  */
-export function getClassById(classId: string, classes: Class[] = allClasses): Class | undefined {
+export function getClassById(
+  classId: string,
+  classes: Class[] = allClasses
+): Class | undefined {
   return classes.find((c) => c.id === classId);
 }
-import { allClasses } from "@/data/classes";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+
+/**
+ * Utility to get a class by ID from availableClasses (deduplication helper)
+ */
+export function getClassFromAvailable(
+  classId: string,
+  availableClasses: Class[]
+): Class | undefined {
+  return availableClasses.find((c) => c.id === classId);
+}
 
 /**
  * Utility functions for working with custom classes and races
@@ -63,8 +77,8 @@ export function canCastSpells(character: Character): boolean {
     }
 
     // Standard class - check spellcasting property
-  const standardClass = getClassById(classId);
-  return standardClass?.spellcasting !== undefined;
+    const standardClass = getClassById(classId);
+    return standardClass?.spellcasting !== undefined;
   });
 }
 
@@ -144,8 +158,8 @@ export function hasClassType(character: Character, classType: string): boolean {
       return false; // Custom class type checking handled elsewhere
     }
 
-  const classData = getClassById(classId);
-  return classData?.classType === classType;
+    const classData = getClassById(classId);
+    return classData?.classType === classType;
   });
 }
 
@@ -167,7 +181,7 @@ export function getPrimaryClassInfo(
   if (!primaryClassId) return null;
 
   // Find standard class first
-  const standardClass = availableClasses.find((c) => c.id === primaryClassId);
+  const standardClass = getClassFromAvailable(primaryClassId, availableClasses);
 
   if (standardClass) {
     return {
@@ -177,10 +191,10 @@ export function getPrimaryClassInfo(
   }
 
   // Must be custom class (not found in allClasses)
-  return isCustomClass(character.class[0] || "")
+  return isCustomClass(primaryClassId || "")
     ? {
-        id: character.class[0],
-        name: character.class[0],
+        id: primaryClassId,
+        name: primaryClassId,
         hitDie: character.hp.die || "1d6",
         usesSpells: !!character.spells?.length || false,
         isCustom: true,
@@ -215,8 +229,10 @@ export function canLevelUp(
   }
 
   // Standard classes need to meet XP requirements
-  const standardClass = availableClasses.find(
-    (c) => c.id === primaryClassInfo.id
+  if (!primaryClassInfo.id) return false;
+  const standardClass = getClassFromAvailable(
+    primaryClassInfo.id,
+    availableClasses
   );
   if (!standardClass) return false;
 
@@ -271,8 +287,9 @@ export function getSpellSlots(
       if (character.spells?.length) {
         // For custom classes, we could provide basic spell slot progression
         // For now, assume they get spell slots like a magic-user
-        const magicUserClass = availableClasses.find(
-          (c) => c.id === "magic-user"
+        const magicUserClass = getClassFromAvailable(
+          "magic-user",
+          availableClasses
         );
         if (magicUserClass?.spellcasting) {
           const slotsForLevel =
@@ -291,7 +308,7 @@ export function getSpellSlots(
     }
 
     // Find the class data
-    const classData = availableClasses.find((c) => c.id === classId);
+    const classData = getClassFromAvailable(classId, availableClasses);
     if (!classData?.spellcasting) continue;
 
     const slotsForLevel =

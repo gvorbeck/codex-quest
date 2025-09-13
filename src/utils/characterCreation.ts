@@ -1,4 +1,4 @@
-import type { Character, Cantrip } from "@/types/character";
+import type { Character, Cantrip, Class } from "@/types/character";
 import { roller } from "@/utils/dice";
 import { getAvailableCantrips } from "@/utils/cantrips";
 import {
@@ -8,6 +8,7 @@ import {
   hasCustomClasses,
 } from "@/utils/characterHelpers";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { getClassFromAvailable } from "./characterHelpers";
 
 /**
  * Determines the effective spellcasting class for a character
@@ -15,7 +16,7 @@ import { CHARACTER_CLASSES } from "@/constants/gameData";
  */
 export function getEffectiveSpellcastingClass(
   character: Character,
-  availableClasses: Array<{ id: string; spellcasting?: unknown }>
+  availableClasses: Class[]
 ): { type: "standard" | "custom"; classId: string } | null {
   // Check if any of the character's classes can cast spells
   for (const classId of character.class) {
@@ -25,7 +26,7 @@ export function getEffectiveSpellcastingClass(
       return { type: "custom", classId };
     } else {
       // Standard class - check if it has spellcasting
-      const classData = availableClasses.find((cls) => cls.id === classId);
+      const classData = getClassFromAvailable(classId, availableClasses);
       if (classData?.spellcasting) {
         return { type: "standard", classId };
       }

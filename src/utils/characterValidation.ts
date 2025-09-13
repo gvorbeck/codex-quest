@@ -8,6 +8,7 @@ import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 import { isCustomClass } from "@/utils/characterHelpers";
+import { getClassFromAvailable } from "./characterHelpers";
 
 /**
  * Checks if a character can equip a specific item based on their race restrictions
@@ -122,7 +123,7 @@ export function areCurrentSpellsStillValid(
     }
 
     // Check standard classes
-    const classData = availableClasses.find((cls) => cls.id === classId);
+    const classData = getClassFromAvailable(classId, availableClasses);
     return classData?.spellcasting;
   });
 
@@ -172,11 +173,11 @@ export function hasRequiredStartingSpells(
       continue;
     }
 
-    const charClass = availableClasses.find((cls) => cls.id === classId);
+    const charClass = getClassFromAvailable(classId, availableClasses);
     if (!charClass || !charClass.spellcasting) continue;
 
     // Magic-User-based classes start with "read magic" (automatically included) and one other 1st level spell
-    const classData = availableClasses.find((c) => c.id === classId);
+    const classData = getClassFromAvailable(classId, availableClasses);
     if (classData?.classType === CHARACTER_CLASSES.MAGIC_USER) {
       const spells = character.spells || [];
       const firstLevelSpells = spells.filter(
