@@ -78,12 +78,9 @@ export default function CoinPurse({
                       className="flex-shrink-0"
                       aria-label={`${label} coin`}
                     />
-                    <label 
-                      htmlFor={`currency-${key}`}
-                      className="text-xs font-semibold text-white drop-shadow-sm flex-1 min-w-0"
-                    >
+                    <span className="text-xs font-semibold text-white drop-shadow-sm flex-1 min-w-0">
                       {label}
-                    </label>
+                    </span>
                     <span className="text-[10px] font-mono text-zinc-300 ml-1">
                       {abbrev}
                     </span>
@@ -103,7 +100,6 @@ export default function CoinPurse({
                     displayClassName="bg-zinc-800/90 border-2 border-zinc-600/50 rounded-lg px-3 py-2 text-sm min-h-[36px] flex items-center justify-center font-mono text-zinc-100 shadow-inner"
                     inputClassName="text-center font-mono !bg-zinc-800/90 !border-zinc-600/50 hover:!border-zinc-500 focus:!bg-zinc-700/90"
                     displayProps={{
-                      id: `currency-${key}`,
                       "aria-describedby": `currency-${key}-description`,
                     }}
                   />
