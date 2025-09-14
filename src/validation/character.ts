@@ -12,7 +12,6 @@ import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 import {
-  hasCustomClasses,
   isCustomClass,
   hasCustomRace,
 } from "@/utils/characterHelpers";
@@ -186,7 +185,7 @@ function validateClassStep(
   }
 
   // Handle custom races - they have no class restrictions
-  if (hasCustomClasses(character)) {
+  if (hasCustomRace(character)) {
     // Custom races can use any class, no validation needed for race restrictions
     // Still need to validate that custom classes have names if they exist
     for (const classId of character.class) {

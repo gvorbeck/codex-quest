@@ -6,7 +6,7 @@
 import type { ValidationRule } from './types';
 import { createRule } from './core';
 import type { Character, Race, Class, AbilityScore } from '@/types/character';
-import { isCustomClass } from '@/utils/characterHelpers';
+import { isCustomClass, isCustomRace } from '@/utils/characterHelpers';
 
 // Ability score constants
 export const ABILITY_SCORE_RANGE = {
@@ -90,7 +90,7 @@ export const Rules = {
   validRace: (availableRaces: Race[]): ValidationRule<string> =>
     createRule(
       'validRace',
-      (value) => value === '' || value === 'custom' || availableRaces.some(r => r.id === value),
+      (value) => value === '' || value === 'custom' || availableRaces.some(r => r.id === value) || isCustomRace(value),
       'Selected race is not available'
     ),
   

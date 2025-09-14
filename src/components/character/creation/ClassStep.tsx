@@ -28,7 +28,7 @@ import {
   getEffectiveSpellcastingClass,
   assignStartingCantrips,
 } from "@/utils/characterCreation";
-import { getCharacterSpellSystemType } from "@/utils/characterHelpers";
+import { getCharacterSpellSystemType, hasCustomRace } from "@/utils/characterHelpers";
 import { useLocalStorage } from "@/hooks";
 import { STORAGE_KEYS } from "@/constants/storage";
 import { memo, useState, useEffect, useMemo } from "react";
@@ -68,7 +68,7 @@ function ClassStepComponent({
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = useMemo(() => {
     // Custom races have no class restrictions
-    if (character.race === "custom") {
+    if (hasCustomRace(character)) {
       return allClasses.filter(
         (cls) => includeSupplementalClass || !cls.supplementalContent
       );
@@ -79,7 +79,7 @@ function ClassStepComponent({
         selectedRace?.allowedClasses.includes(cls.id) &&
         (includeSupplementalClass || !cls.supplementalContent)
     );
-  }, [selectedRace, includeSupplementalClass, character.race]);
+  }, [selectedRace, includeSupplementalClass, character]);
 
   // Valid combination classes for elves and dokkalfar
   const validCombinations = useMemo(() => {
@@ -92,13 +92,13 @@ function ClassStepComponent({
   // Check if the character's race can use combination classes
   const canUseCombinationClasses = useMemo(() => {
     // Custom races can use combination classes
-    if (character.race === "custom") {
+    if (hasCustomRace(character)) {
       return true;
     }
     return (
       selectedRace && ["elf", "dokkalfar", "half-elf"].includes(selectedRace.id)
     );
-  }, [selectedRace, character.race]);
+  }, [selectedRace, character]);
 
   const handleSingleClassChange = (classId: string) => {
     const newCharacter = {
@@ -318,7 +318,7 @@ function ClassStepComponent({
                   <OptionToggle
                     title="Combination Classes"
                     description={`As ${
-                      character.race === "custom"
+                      hasCustomRace(character)
                         ? "a custom race"
                         : `an ${selectedRace?.name}`
                     }, you can choose a combination class that combines the abilities of two base classes.`}
