@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { NumberInput } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui/display";
+import { DESIGN_TOKENS } from "@/constants/designTokens";
+import { cn } from "@/constants/styles";
 
 interface EditableValueProps {
   /** Current value */
@@ -33,8 +35,8 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
   ({
     value,
     onChange,
-    minValue = 3,
-    maxValue = 25,
+    minValue = DESIGN_TOKENS.inputs.editableValue.minValue,
+    maxValue = DESIGN_TOKENS.inputs.editableValue.maxValue,
     editable = false,
     displayValue,
     displayClassName = "",
@@ -84,6 +86,29 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       }
     };
 
+    // Compute class names outside of JSX
+    const inputClasses = cn(
+      "text-center",
+      DESIGN_TOKENS.colors.bg.input,
+      DESIGN_TOKENS.colors.border.input,
+      DESIGN_TOKENS.colors.text.primary,
+      inputClassName
+    );
+
+    const displayClasses = cn(
+      "relative",
+      DESIGN_TOKENS.effects.transition,
+      editable && "cursor-pointer",
+      displayClassName
+    );
+
+    const iconClasses = cn(
+      DESIGN_TOKENS.colors.text.secondary,
+      "opacity-0 group-hover:opacity-100",
+      "transition-opacity duration-200",
+      "absolute -top-1 right-2"
+    );
+
     if (isEditing && editable) {
       return (
         <NumberInput
@@ -95,7 +120,7 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
           minValue={minValue}
           maxValue={maxValue}
           size={size}
-          className={`text-center bg-zinc-700 border-amber-400 text-zinc-100 ${inputClassName}`}
+          className={inputClasses}
           {...(ariaLabel && { "aria-label": ariaLabel })}
         />
       );
@@ -104,11 +129,7 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
     return (
       <div
         ref={ref}
-        className={`
-          relative transition-colors duration-200
-          ${editable ? "cursor-pointer" : ""}
-          ${displayClassName}
-        `}
+        className={displayClasses}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         role={editable ? "button" : undefined}
@@ -121,12 +142,7 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
           <Icon
             name="edit"
             size="xs"
-            className="
-              text-zinc-400 
-              opacity-0 group-hover:opacity-100 
-              transition-opacity duration-200
-              absolute -top-1 right-2
-            "
+            className={iconClasses}
             aria-hidden={true}
           />
         )}
