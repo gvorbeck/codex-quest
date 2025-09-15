@@ -9,6 +9,7 @@ import {
 import {
   type DescriptionItem,
   SkillDescriptionItem,
+  StatusDot,
 } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Typography, Card } from "@/components/ui/design-system";
@@ -21,6 +22,29 @@ interface SpecialsRestrictionsProps {
   character: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
+}
+
+interface EmptyStateCardProps {
+  title: string;
+  description: string;
+}
+
+function EmptyStateCard({ title, description }: EmptyStateCardProps) {
+  return (
+    <Card variant="standard">
+      <div className="flex items-center gap-2 mb-3">
+        <StatusDot color="bg-zinc-500" />
+        <Typography
+          variant="bodySmall"
+          color="secondary"
+          weight="semibold"
+        >
+          {title}
+        </Typography>
+      </div>
+      <div className="text-zinc-300 text-sm">{description}</div>
+    </Card>
+  );
 }
 
 export default function SpecialsRestrictions({
@@ -137,7 +161,7 @@ export default function SpecialsRestrictions({
         </div>
 
         {/* Scrollable content area */}
-        <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600 hover:scrollbar-thumb-zinc-500">
+        <div className="max-h-96 overflow-y-auto">
           <TabPanels>
             {race && (
               <TabPanel value="race">
@@ -158,21 +182,10 @@ export default function SpecialsRestrictions({
                       </Card>
                     ))
                   ) : (
-                    <Card variant="standard">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                        <Typography
-                          variant="bodySmall"
-                          color="secondary"
-                          weight="semibold"
-                        >
-                          No Restrictions
-                        </Typography>
-                      </div>
-                      <div className="text-zinc-300 text-sm">
-                        No special abilities or restrictions for this race.
-                      </div>
-                    </Card>
+                    <EmptyStateCard
+                      title="No Restrictions"
+                      description="No special abilities or restrictions for this race."
+                    />
                   )}
                 </div>
               </TabPanel>
@@ -197,22 +210,10 @@ export default function SpecialsRestrictions({
                       </Card>
                     ))
                   ) : (
-                    <Card variant="standard">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                        <Typography
-                          variant="bodySmall"
-                          color="secondary"
-                          weight="semibold"
-                        >
-                          No Restrictions
-                        </Typography>
-                      </div>
-                      <div className="text-zinc-300 text-sm">
-                        No special abilities or restrictions for{" "}
-                        {classes.length === 1 ? "this class" : "these classes"}.
-                      </div>
-                    </Card>
+                    <EmptyStateCard
+                      title="No Restrictions"
+                      description={`No special abilities or restrictions for ${classes.length === 1 ? "this class" : "these classes"}.`}
+                    />
                   )}
                 </div>
               </TabPanel>
@@ -237,21 +238,10 @@ export default function SpecialsRestrictions({
                     </Card>
                   ))
                 ) : (
-                  <Card variant="standard">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                      <Typography
-                        variant="bodySmall"
-                        color="secondary"
-                        weight="semibold"
-                      >
-                        No Languages
-                      </Typography>
-                    </div>
-                    <div className="text-zinc-300 text-sm">
-                      No languages have been specified for this character.
-                    </div>
-                  </Card>
+                  <EmptyStateCard
+                    title="No Languages"
+                    description="No languages have been specified for this character."
+                  />
                 )}
               </div>
             </TabPanel>
