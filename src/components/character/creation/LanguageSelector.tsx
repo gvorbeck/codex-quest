@@ -1,15 +1,63 @@
 import { useCallback, useMemo } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { Button, Icon } from "@/components/ui";
-import { Card, Typography } from "@/components/ui/design-system";
+import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { allRaces } from "@/data/races";
-import { LAYOUT_STYLES } from "@/constants";
+import { LAYOUT_STYLES, cn } from "@/constants";
 import type { Character } from "@/types/character";
 
 interface LanguageSelectorProps {
   character: Character;
   onCharacterChange: (character: Character) => void;
 }
+
+interface LanguageInputProps {
+  language: string;
+  index: number;
+  onChange: (index: number, value: string) => void;
+  onBlur: (index: number, language: string) => void;
+  onRemove: (index: number) => void;
+  labelPrefix: string;
+}
+
+// Hoist styling constants
+const REMOVE_BUTTON_CLASSES = cn(
+  "text-red-400 hover:text-red-300 hover:bg-red-900/20"
+);
+
+const SECTION_HEADING_WITH_MARGIN_CLASSES = cn(LAYOUT_STYLES.iconText, "mb-4");
+const INFO_SECTION_CLASSES = cn(LAYOUT_STYLES.iconText, "mb-2");
+
+const LanguageInput = ({
+  language,
+  index,
+  onChange,
+  onBlur,
+  onRemove,
+  labelPrefix,
+}: LanguageInputProps) => (
+  <div className="flex items-center gap-3">
+    <div className="flex-1">
+      <TextInput
+        value={language}
+        onChange={(value) => onChange(index, value)}
+        onBlur={() => onBlur(index, language)}
+        placeholder="Enter language name"
+        maxLength={30}
+        aria-label={`${labelPrefix} language ${index + 1}`}
+      />
+    </div>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => onRemove(index)}
+      aria-label={`Remove language ${index + 1}`}
+      className={REMOVE_BUTTON_CLASSES}
+    >
+      <Icon name="close" size="xs" />
+    </Button>
+  </div>
+);
 
 function LanguageSelector({
   character,
@@ -47,13 +95,9 @@ function LanguageSelector({
       const updatedBonusLanguages = [...bonusLanguages];
       updatedBonusLanguages[index] = newLanguage;
 
-      // Filter out empty strings
-      const filteredBonusLanguages = updatedBonusLanguages.filter(
-        (lang) => lang.trim() !== ""
-      );
-
+      // Don't filter during typing - just update the array
       // Combine automatic and bonus languages
-      const allLanguages = [...automaticLanguages, ...filteredBonusLanguages];
+      const allLanguages = [...automaticLanguages, ...updatedBonusLanguages];
 
       onCharacterChange({
         ...character,
@@ -63,23 +107,43 @@ function LanguageSelector({
     [character, onCharacterChange, automaticLanguages, bonusLanguages]
   );
 
-  const handleAddLanguage = useCallback(() => {
-    if (remainingSlots > 0) {
-      const updatedBonusLanguages = [...bonusLanguages, ""];
-      const allLanguages = [...automaticLanguages, ...updatedBonusLanguages];
+  const handleLanguageBlur = useCallback(
+    (index: number, language: string) => {
+      // Clean up empty/whitespace-only languages when user moves away from field
+      const trimmedLanguage = language.trim();
+      if (trimmedLanguage === "") {
+        // Remove empty language
+        const updatedBonusLanguages = bonusLanguages.filter(
+          (_, i) => i !== index
+        );
+        const allLanguages = [...automaticLanguages, ...updatedBonusLanguages];
+        onCharacterChange({
+          ...character,
+          languages: allLanguages,
+        });
+      } else if (trimmedLanguage !== language) {
+        // Trim whitespace from language
+        const updatedBonusLanguages = [...bonusLanguages];
+        updatedBonusLanguages[index] = trimmedLanguage;
+        const allLanguages = [...automaticLanguages, ...updatedBonusLanguages];
+        onCharacterChange({
+          ...character,
+          languages: allLanguages,
+        });
+      }
+    },
+    [character, onCharacterChange, automaticLanguages, bonusLanguages]
+  );
 
-      onCharacterChange({
-        ...character,
-        languages: allLanguages,
-      });
-    }
-  }, [
-    character,
-    onCharacterChange,
-    automaticLanguages,
-    bonusLanguages,
-    remainingSlots,
-  ]);
+  const handleAddLanguage = useCallback(() => {
+    const updatedBonusLanguages = [...bonusLanguages, ""];
+    const allLanguages = [...automaticLanguages, ...updatedBonusLanguages];
+
+    onCharacterChange({
+      ...character,
+      languages: allLanguages,
+    });
+  }, [character, onCharacterChange, automaticLanguages, bonusLanguages]);
 
   const handleRemoveLanguage = useCallback(
     (index: number) => {
@@ -126,13 +190,10 @@ function LanguageSelector({
         </Typography>
         <div className="flex flex-wrap gap-2">
           {automaticLanguages.map((language, index) => (
-            <div
-              key={`auto-${index}`}
-              className="flex items-center gap-2 bg-zinc-700 px-3 py-2 rounded-md border border-zinc-600"
-            >
-              <span className="text-zinc-100 font-medium">{language}</span>
+            <Badge key={`auto-${index}`} variant="secondary" size="md" className="gap-2">
+              {language}
               <span className="text-zinc-400 text-sm">(automatic)</span>
-            </div>
+            </Badge>
           ))}
         </div>
       </Card>
@@ -142,7 +203,7 @@ function LanguageSelector({
         <Card variant="standard">
           <Typography
             variant="baseSectionHeading"
-            className={`${LAYOUT_STYLES.iconText} mb-4`}
+            className={SECTION_HEADING_WITH_MARGIN_CLASSES}
             color="zinc"
           >
             <Icon
@@ -168,65 +229,101 @@ function LanguageSelector({
 
           <div className="space-y-3">
             {bonusLanguages.map((language, index) => (
-              <div key={`bonus-${index}`} className="flex items-center gap-3">
-                <div className="flex-1">
-                  <TextInput
-                    value={language}
-                    onChange={(value) => handleLanguageChange(index, value)}
-                    placeholder="Enter language name"
-                    maxLength={30}
-                    aria-label={`Bonus language ${index + 1}`}
-                  />
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleRemoveLanguage(index)}
-                  aria-label={`Remove language ${index + 1}`}
-                  className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
-                >
-                  <Icon name="close" size="xs" />
-                </Button>
-              </div>
+              <LanguageInput
+                key={`bonus-${index}`}
+                language={language}
+                index={index}
+                onChange={handleLanguageChange}
+                onBlur={handleLanguageBlur}
+                onRemove={handleRemoveLanguage}
+                labelPrefix="Bonus"
+              />
             ))}
           </div>
 
-          {remainingSlots > 0 && (
-            <div className="mt-4">
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleAddLanguage}
-                className="w-full sm:w-auto"
-              >
-                <span className="mr-1">+</span>
-                Add Language ({remainingSlots} remaining)
-              </Button>
-            </div>
-          )}
+          <div className="mt-4">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleAddLanguage}
+              className="w-full sm:w-auto"
+            >
+              <span className="mr-1">+</span>
+              Add Language
+              {remainingSlots > 0 ? ` (${remainingSlots} remaining)` : ""}
+            </Button>
+            {remainingSlots <= 0 && maxBonusLanguages > 0 && (
+              <Typography variant="helper" color="amber" className="mt-2">
+                <Icon
+                  name="exclamation-triangle"
+                  size="xs"
+                  className="inline mr-1"
+                />
+                Adding beyond Intelligence limit - GM discretion required
+              </Typography>
+            )}
+          </div>
         </Card>
       )}
 
       {maxBonusLanguages === 0 && (
-        <Card variant="info">
+        <Card variant="standard">
           <Typography
             variant="baseSectionHeading"
-            className={`${LAYOUT_STYLES.iconText} mb-2`}
-            color="amber"
+            className={SECTION_HEADING_WITH_MARGIN_CLASSES}
+            color="zinc"
           >
             <Icon
-              name="exclamation-triangle"
+              name="plus"
               size="sm"
-              className="text-amber-400"
+              className="text-zinc-400"
               aria-hidden={true}
             />
-            No Bonus Languages Available
+            Additional Languages
+            <Typography variant="helper" className="ml-2">
+              ({bonusLanguages.length}/0 used)
+            </Typography>
           </Typography>
-          <Typography variant="helper" color="amber">
+
+          <Typography variant="body" color="secondary" className="mb-4">
             Your Intelligence score ({character.abilities.intelligence.value})
-            does not provide any bonus languages. You need Intelligence 13+ to
-            learn additional languages.
+            doesn't normally allow bonus languages, but your GM may permit
+            additional languages.
           </Typography>
+
+          <div className="space-y-3">
+            {bonusLanguages.map((language, index) => (
+              <LanguageInput
+                key={`bonus-${index}`}
+                language={language}
+                index={index}
+                onChange={handleLanguageChange}
+                onBlur={handleLanguageBlur}
+                onRemove={handleRemoveLanguage}
+                labelPrefix="Additional"
+              />
+            ))}
+          </div>
+
+          <div className="mt-4 flex gap-4 items-center">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleAddLanguage}
+              className="w-full sm:w-auto"
+            >
+              <span className="mr-1">+</span>
+              Add Language
+            </Button>
+            <Typography variant="helper" color="amber" className="mt-2">
+              <Icon
+                name="exclamation-triangle"
+                size="xs"
+                className="inline mr-1"
+              />
+              Beyond Intelligence limit - GM discretion required
+            </Typography>
+          </div>
         </Card>
       )}
 
@@ -235,7 +332,7 @@ function LanguageSelector({
         <Card variant="info">
           <Typography
             variant="baseSectionHeading"
-            className={`${LAYOUT_STYLES.iconText} mb-2`}
+            className={INFO_SECTION_CLASSES}
             color="amber"
           >
             <Icon name="info" size="sm" className="text-amber-400" />

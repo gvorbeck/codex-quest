@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Tabs,
   TabList,
@@ -11,23 +11,31 @@ import {
   SkillDescriptionItem,
 } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import { Typography, Card } from "@/components/ui/design-system";
+import { Card } from "@/components/ui/design-system";
+import { Callout } from "@/components/ui/feedback";
+import { Button, Icon } from "@/components/ui";
+import { LanguageEditModal } from "@/components/modals";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-// Removed unused imports
 
 interface SpecialsRestrictionsProps {
   character: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
+  isOwner?: boolean;
+  onCharacterChange?: (character: Character) => void;
 }
+
 
 export default function SpecialsRestrictions({
   character,
   className = "",
   size = "md",
+  isOwner = false,
+  onCharacterChange,
 }: SpecialsRestrictionsProps) {
+  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const race = useMemo(() => {
     return allRaces.find((r) => r.id === character.race?.toLowerCase());
   }, [character.race]);
@@ -136,8 +144,8 @@ export default function SpecialsRestrictions({
           </TabList>
         </div>
 
-        {/* Scrollable content area */}
-        <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-track-zinc-800 scrollbar-thumb-zinc-600 hover:scrollbar-thumb-zinc-500">
+        {/* Fixed height scrollable content area to prevent masonry reflow */}
+        <div className="h-96 overflow-y-auto">
           <TabPanels>
             {race && (
               <TabPanel value="race">
@@ -158,21 +166,9 @@ export default function SpecialsRestrictions({
                       </Card>
                     ))
                   ) : (
-                    <Card variant="standard">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                        <Typography
-                          variant="bodySmall"
-                          color="secondary"
-                          weight="semibold"
-                        >
-                          No Restrictions
-                        </Typography>
-                      </div>
-                      <div className="text-zinc-300 text-sm">
-                        No special abilities or restrictions for this race.
-                      </div>
-                    </Card>
+                    <Callout variant="neutral" title="No Restrictions">
+                      No special abilities or restrictions for this race.
+                    </Callout>
                   )}
                 </div>
               </TabPanel>
@@ -197,22 +193,9 @@ export default function SpecialsRestrictions({
                       </Card>
                     ))
                   ) : (
-                    <Card variant="standard">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                        <Typography
-                          variant="bodySmall"
-                          color="secondary"
-                          weight="semibold"
-                        >
-                          No Restrictions
-                        </Typography>
-                      </div>
-                      <div className="text-zinc-300 text-sm">
-                        No special abilities or restrictions for{" "}
-                        {classes.length === 1 ? "this class" : "these classes"}.
-                      </div>
-                    </Card>
+                    <Callout variant="neutral" title="No Restrictions">
+                      {`No special abilities or restrictions for ${classes.length === 1 ? "this class" : "these classes"}.`}
+                    </Callout>
                   )}
                 </div>
               </TabPanel>
@@ -237,27 +220,40 @@ export default function SpecialsRestrictions({
                     </Card>
                   ))
                 ) : (
-                  <Card variant="standard">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
-                      <Typography
-                        variant="bodySmall"
-                        color="secondary"
-                        weight="semibold"
-                      >
-                        No Languages
-                      </Typography>
-                    </div>
-                    <div className="text-zinc-300 text-sm">
-                      No languages have been specified for this character.
-                    </div>
-                  </Card>
+                  <Callout variant="neutral" title="No Languages">
+                    No languages have been specified for this character.
+                  </Callout>
+                )}
+
+                {/* Edit Languages Button */}
+                {isOwner && onCharacterChange && (
+                  <div className="flex justify-center mt-6">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setIsLanguageModalOpen(true)}
+                      className="flex items-center gap-2"
+                    >
+                      <Icon name="edit" size="xs" />
+                      Edit Languages
+                    </Button>
+                  </div>
                 )}
               </div>
             </TabPanel>
           </TabPanels>
         </div>
       </Tabs>
+
+      {/* Language Editing Modal */}
+      {onCharacterChange && (
+        <LanguageEditModal
+          isOpen={isLanguageModalOpen}
+          onClose={() => setIsLanguageModalOpen(false)}
+          character={character}
+          onCharacterChange={onCharacterChange}
+        />
+      )}
     </SectionWrapper>
   );
 }

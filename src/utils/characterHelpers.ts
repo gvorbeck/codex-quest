@@ -1,7 +1,17 @@
-import type { Character, Class, Race } from "@/types/character";
+import type { Character, Class, Race, SpecialAbility } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
+
+/**
+ * Generic utility to find an item by ID in a collection
+ */
+function findById<T extends { id: string }>(
+  id: string,
+  collection: T[]
+): T | undefined {
+  return collection.find((item) => item.id === id);
+}
 
 /**
  * Returns true if the character has one or more spells.
@@ -22,22 +32,18 @@ export function hasCantrips(character: Character): boolean {
 /**
  * Utility to get a class by ID from a list (defaults to allClasses)
  */
-export function getClassById(
+export const getClassById = (
   classId: string,
   classes: Class[] = allClasses
-): Class | undefined {
-  return classes.find((c) => c.id === classId);
-}
+): Class | undefined => findById(classId, classes);
 
 /**
  * Utility to get a class by ID from availableClasses (deduplication helper)
  */
-export function getClassFromAvailable(
+export const getClassFromAvailable = (
   classId: string,
   availableClasses: Class[]
-): Class | undefined {
-  return availableClasses.find((c) => c.id === classId);
-}
+): Class | undefined => findById(classId, availableClasses);
 
 /**
  * Utility functions for working with custom classes and races
@@ -47,6 +53,21 @@ export function getClassFromAvailable(
  * Spell system types for character classification
  */
 export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
+
+/**
+ * Mapping of class types to spell system types
+ */
+const CLASS_TYPE_TO_SPELL_SYSTEM: Record<string, SpellSystemType> = {
+  [CHARACTER_CLASSES.MAGIC_USER]: "magic-user",
+  [CHARACTER_CLASSES.CLERIC]: "cleric",
+};
+
+/**
+ * Check if a class type is a spellcasting type
+ */
+const isSpellcastingClassType = (classType: string | undefined): boolean => {
+  return classType !== undefined && classType in CLASS_TYPE_TO_SPELL_SYSTEM;
+};
 
 /**
  * Determine the spell system type for a character based on their classes
@@ -59,27 +80,18 @@ export function getCharacterSpellSystemType(
   character: Character
 ): SpellSystemType {
   if (!character.class.length) return "none";
-  if (hasCustomClasses(character)) {
-    return "custom";
-  }
+  if (hasCustomClasses(character)) return "custom";
 
-  // For standard classes, use classType property
+  // Find first spellcasting class
   const spellcastingClass = character.class.find((classId) => {
     const classData = getClassById(classId);
-    return (
-      classData?.classType === CHARACTER_CLASSES.MAGIC_USER ||
-      classData?.classType === CHARACTER_CLASSES.CLERIC
-    );
+    return isSpellcastingClassType(classData?.classType);
   });
 
   if (!spellcastingClass) return "none";
 
   const classData = getClassById(spellcastingClass);
-  return classData?.classType === CHARACTER_CLASSES.MAGIC_USER
-    ? "magic-user"
-    : classData?.classType === CHARACTER_CLASSES.CLERIC
-    ? "cleric"
-    : "none";
+  return classData?.classType ? CLASS_TYPE_TO_SPELL_SYSTEM[classData.classType] || "none" : "none";
 }
 
 /**
@@ -180,24 +192,35 @@ export function hasClassType(character: Character, classType: string): boolean {
 }
 
 /**
+ * Check if character has Turn Undead ability
+ * Works for cleric, paladin, and druid classes (and any custom classes with the ability)
+ */
+export function hasTurnUndeadAbility(character: Character): boolean {
+  return character.class.some((classId) => {
+    const classData = getClassById(classId);
+    if (!classData?.specialAbilities) return false;
+
+    return classData.specialAbilities.some(
+      (ability: { name: string }) => ability.name === "Turn Undead"
+    );
+  });
+}
+
+/**
  * Utility to get a race by ID from a list (defaults to allRaces)
  */
-export function getRaceById(
+export const getRaceById = (
   raceId: string,
   races: Race[] = allRaces
-): Race | undefined {
-  return races.find((r) => r.id === raceId);
-}
+): Race | undefined => findById(raceId, races);
 
 /**
  * Utility to get a race by ID from availableRaces (deduplication helper)
  */
-export function getRaceFromAvailable(
+export const getRaceFromAvailable = (
   raceId: string,
   availableRaces: Race[]
-): Race | undefined {
-  return availableRaces.find((r) => r.id === raceId);
-}
+): Race | undefined => findById(raceId, availableRaces);
 
 /**
  * Check if a race ID represents a custom race (not found in allRaces)
@@ -349,8 +372,8 @@ export function canLevelUp(
   if (!standardClass) return false;
 
   const nextLevel = character.level + 1;
-  const requiredXP = standardClass.experienceTable[nextLevel];
-  return requiredXP !== undefined && character.xp >= requiredXP;
+  const requiredXP = standardClass.experienceTable?.[nextLevel];
+  return requiredXP !== undefined && (character.xp ?? 0) >= requiredXP;
 }
 
 /**
@@ -363,20 +386,20 @@ export function getXPToNextLevel(
 ): number | null {
   // If no class or custom class, return null
   if (character.class.length === 0 || hasCustomClasses(character)) return null;
-  
+
   const nextLevel = character.level + 1;
-  
+
   // Calculate total XP required across all classes
   const totalXPRequired = character.class.reduce((total, classId) => {
     const classData = getClassFromAvailable(classId, availableClasses);
-    const xpRequired = classData?.experienceTable[nextLevel];
-    return xpRequired !== undefined ? total + xpRequired : total;
+    const xpRequired = classData?.experienceTable?.[nextLevel];
+    return xpRequired ?? total;
   }, 0);
-  
+
   // If no XP requirements found, character is at max level
   if (totalXPRequired === 0) return null;
-  
-  return totalXPRequired - character.xp;
+
+  return Math.max(0, totalXPRequired - (character.xp ?? 0));
 }
 
 /**
@@ -402,12 +425,58 @@ export function getSpellLevel(
       classId === "magic-user"
         ? "magic-user"
         : (classId as keyof typeof spell.level);
-    const level = spell.level[mappedClassId];
-    if (level !== null && level !== undefined) {
+    const level = spell.level?.[mappedClassId];
+    if (level != null) {
       return level;
     }
   }
   return 0;
+}
+
+/**
+ * Calculate spell slots for standard classes
+ */
+function calculateStandardClassSpellSlots(
+  classData: Class,
+  level: number,
+  spellSlots: Record<number, number>
+): void {
+  if (!classData.spellcasting) return;
+
+  const slotsForLevel = classData.spellcasting.spellsPerLevel[level];
+  if (!slotsForLevel) return;
+
+  slotsForLevel.forEach((slots, spellLevel) => {
+    if (slots > 0) {
+      const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
+      spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
+    }
+  });
+}
+
+/**
+ * Calculate spell slots for custom classes (uses magic-user progression)
+ */
+function calculateCustomClassSpellSlots(
+  character: Character,
+  availableClasses: Class[],
+  spellSlots: Record<number, number>
+): void {
+  if (!hasSpells(character)) return;
+
+  // Custom classes use magic-user spell progression as default
+  const magicUserClass = getClassFromAvailable("magic-user", availableClasses);
+  if (!magicUserClass?.spellcasting) return;
+
+  const slotsForLevel = magicUserClass.spellcasting.spellsPerLevel[character.level];
+  if (!slotsForLevel) return;
+
+  slotsForLevel.forEach((slots, spellLevel) => {
+    if (slots > 0) {
+      const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
+      spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
+    }
+  });
 }
 
 /**
@@ -420,46 +489,56 @@ export function getSpellSlots(
   const spellSlots: Record<number, number> = {};
 
   for (const classId of character.class) {
-    // Skip custom classes for now - they would need custom spell slot implementation
     if (isCustomClass(classId)) {
-      if (hasSpells(character)) {
-        // For custom classes, we could provide basic spell slot progression
-        // For now, assume they get spell slots like a magic-user
-        const magicUserClass = getClassFromAvailable(
-          "magic-user",
-          availableClasses
-        );
-        if (magicUserClass?.spellcasting) {
-          const slotsForLevel =
-            magicUserClass.spellcasting.spellsPerLevel[character.level];
-          if (slotsForLevel) {
-            slotsForLevel.forEach((slots, spellLevel) => {
-              if (slots > 0) {
-                const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
-                spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
-              }
-            });
-          }
-        }
-      }
+      calculateCustomClassSpellSlots(character, availableClasses, spellSlots);
       continue;
     }
 
-    // Find the class data
     const classData = getClassFromAvailable(classId, availableClasses);
-    if (!classData?.spellcasting) continue;
-
-    const slotsForLevel =
-      classData.spellcasting.spellsPerLevel[character.level];
-    if (slotsForLevel) {
-      slotsForLevel.forEach((slots, spellLevel) => {
-        if (slots > 0) {
-          const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
-          spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
-        }
-      });
+    if (classData) {
+      calculateStandardClassSpellSlots(classData, character.level, spellSlots);
     }
   }
 
   return spellSlots;
+}
+
+
+/**
+ * Filter special abilities to show only important ones for game display
+ * Prioritizes abilities that affect gameplay significantly and are useful for GMs
+ */
+export function getImportantAbilities(
+  specialAbilities: Array<{
+    name: string;
+    source: "race" | "class";
+    effects?: SpecialAbility["effects"];
+  }>
+): Array<{
+  name: string;
+  source: "race" | "class";
+  effects?: SpecialAbility["effects"];
+}> {
+  return specialAbilities.filter((ability) => {
+    const abilityName = ability.name.toLowerCase();
+    // Prioritize abilities that affect gameplay significantly and are useful for GMs
+    return (
+      ability.effects?.darkvision ||
+      abilityName.includes("darkvision") ||
+      abilityName.includes("turn undead") ||
+      abilityName.includes("sneak attack") ||
+      abilityName.includes("stealth") ||
+      abilityName.includes("backstab") ||
+      abilityName.includes("spellcasting") ||
+      abilityName.includes("immunity") ||
+      abilityName.includes("rage") ||
+      abilityName.includes("tracking") ||
+      abilityName.includes("detect") ||
+      abilityName.includes("secret door") ||
+      abilityName.includes("hide") ||
+      abilityName.includes("climb") ||
+      abilityName.includes("move silently") ||
+      abilityName.includes("ghoul immunity")
+    );
+  });
 }

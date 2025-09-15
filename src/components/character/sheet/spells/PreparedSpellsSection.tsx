@@ -1,10 +1,11 @@
 import type { Character, Spell } from "@/types/character";
 import type { SelectOption } from "@/components/ui/inputs/Select";
-import { Typography } from "@/components/ui/design-system";
-import { Button, Select } from "@/components/ui/inputs";
+import { Typography, Badge } from "@/components/ui/design-system";
+import { Button, Select, FormField } from "@/components/ui/inputs";
 import { Accordion } from "@/components/ui/layout";
 import { SkeletonList } from "@/components/ui/feedback";
 import { Icon } from "@/components/ui";
+import { SectionHeader } from "@/components/ui/display";
 import { SpellDetails } from "@/components/character/shared";
 
 interface PreparedSpellsSectionProps {
@@ -37,35 +38,24 @@ export default function PreparedSpellsSection({
 
   return (
     <section aria-labelledby="prepared-spells-heading">
-      <div className="flex items-baseline justify-between mb-4">
-        <Typography
-          variant="sectionHeading"
-          id="prepared-spells-heading"
-          className="text-zinc-100 flex items-center gap-2 !mb-0"
-          as="h3"
-        >
-          <span
-            className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0"
-            aria-hidden="true"
-          />
-          Daily Spell Preparation
-          {preparedSpells.length > 0 && (
-            <span
-              className="text-sm font-normal text-zinc-400"
-              aria-label={`${preparedSpells.length} spells prepared`}
-            >
-              ({preparedSpells.length})
-            </span>
-          )}
-        </Typography>
-      </div>
+      <SectionHeader
+        title="Daily Spell Preparation"
+        extra={
+          preparedSpells.length > 0 && (
+            <Badge variant="primary" size="sm">
+              {preparedSpells.length}
+            </Badge>
+          )
+        }
+        className="mb-4"
+      />
 
       <Typography
         variant="caption"
         className="text-zinc-500 text-xs block mt-2 mb-4"
       >
-        You can prepare any spell of a level for which you have slots.
-        Choose wisely - these are your spells for the day.
+        You can prepare any spell of a level for which you have slots. Choose
+        wisely - these are your spells for the day.
       </Typography>
 
       {loadingSpells ? (
@@ -88,14 +78,9 @@ export default function PreparedSpellsSection({
                     variant="subHeading"
                     className="text-purple-300 flex items-center gap-2"
                   >
-                    <div className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-600/30 border border-purple-500/50">
-                      <Typography
-                        variant="caption"
-                        className="text-purple-200 text-xs font-bold leading-none"
-                      >
-                        {level}
-                      </Typography>
-                    </div>
+                    <Badge variant="primary" size="sm">
+                      {level}
+                    </Badge>
                     Level {level} Spells ({slotCount} slot
                     {slotCount !== 1 ? "s" : ""})
                   </Typography>
@@ -115,10 +100,7 @@ export default function PreparedSpellsSection({
                       ];
 
                       return (
-                        <div
-                          key={`${level}-${index}`}
-                          className="space-y-2"
-                        >
+                        <div key={`${level}-${index}`} className="space-y-2">
                           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 items-end">
                             <div className="lg:col-span-2">
                               {canEdit ? (
@@ -135,24 +117,13 @@ export default function PreparedSpellsSection({
                                         spellName
                                       );
                                     } else {
-                                      onClearPreparation(
-                                        level,
-                                        index
-                                      );
+                                      onClearPreparation(level, index);
                                     }
                                   }}
-                                  disabled={
-                                    availableForLevel.length === 0
-                                  }
+                                  disabled={availableForLevel.length === 0}
                                 />
                               ) : (
-                                <div>
-                                  <Typography
-                                    variant="caption"
-                                    className="block text-zinc-400 mb-1"
-                                  >
-                                    Slot {index + 1}
-                                  </Typography>
+                                <FormField label={`Slot ${index + 1}`}>
                                   <div className="px-4 py-3 bg-zinc-800 border-2 border-zinc-600 rounded-lg">
                                     <Typography
                                       variant="body"
@@ -162,7 +133,7 @@ export default function PreparedSpellsSection({
                                         "No spell prepared"}
                                     </Typography>
                                   </div>
-                                </div>
+                                </FormField>
                               )}
                             </div>
 
@@ -170,9 +141,7 @@ export default function PreparedSpellsSection({
                               <Button
                                 size="sm"
                                 variant="ghost"
-                                onClick={() =>
-                                  onClearPreparation(level, index)
-                                }
+                                onClick={() => onClearPreparation(level, index)}
                                 className="self-end"
                               >
                                 <Icon name="close" size="sm" />

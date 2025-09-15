@@ -1,8 +1,9 @@
 import { Typography, Badge } from "@/components/ui";
-import { BaseCard } from "@/components/ui/display";
+import { BaseCard, StatusDot, StatCard } from "@/components/ui/display";
 import type { CharacterListItem } from "@/services/characters";
 import { memo } from "react";
 import { useCharacterCard } from "@/hooks/useCharacterCard";
+import { formatLargeNumber } from "@/utils/displayUtils";
 
 interface CharacterCardProps {
   character: CharacterListItem;
@@ -54,7 +55,7 @@ const CharacterCard = memo(function CharacterCard({
       {raceName && classNames.length > 0 && (
         <div className="space-y-2 sm:space-y-3">
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
+            <StatusDot status="active" className="flex-shrink-0" ariaLabel="Character race and class information" />
             <Typography
               variant="helper"
               className="text-zinc-400 uppercase tracking-wider font-medium text-xs"
@@ -90,38 +91,25 @@ const CharacterCard = memo(function CharacterCard({
       {(character.hp || character.xp !== undefined) && (
         <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-1 sm:pt-2">
           {character.hp && (
-            <div className="text-center p-2 sm:p-3 bg-zinc-800/50 rounded-lg border border-zinc-700/50 min-w-0">
-              <Typography
-                variant="caption"
-                className="text-zinc-400 uppercase tracking-wide text-xs block"
-              >
-                Health
-              </Typography>
-              <Typography
-                variant="body"
-                className="text-zinc-200 font-bold text-sm sm:text-base truncate"
-              >
-                {typeof character.hp === "object" && character.hp.max
+            <StatCard
+              label="Health"
+              value={
+                typeof character.hp === "object" && character.hp.max
                   ? `${character.hp.current || 0}/${character.hp.max}`
-                  : String(character.hp)}
-              </Typography>
-            </div>
+                  : String(character.hp)
+              }
+              size="sm"
+              className="min-w-0"
+            />
           )}
           {character.xp !== undefined && (
-            <div className="text-center p-2 sm:p-3 bg-zinc-800/50 rounded-lg border border-zinc-700/50 min-w-0">
-              <Typography
-                variant="caption"
-                className="text-zinc-400 uppercase tracking-wide text-xs block"
-              >
-                XP
-              </Typography>
-              <Typography
-                variant="body"
-                className="text-zinc-200 font-bold text-sm sm:text-base truncate"
-              >
-                {character.xp.toLocaleString()}
-              </Typography>
-            </div>
+            <StatCard
+              label="XP"
+              value={formatLargeNumber(character.xp)}
+              size="sm"
+              className="min-w-0"
+              fullName={`Experience Points: ${character.xp.toLocaleString()}`}
+            />
           )}
         </div>
       )}

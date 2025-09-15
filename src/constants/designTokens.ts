@@ -1,16 +1,38 @@
+/**
+ * BFRPG Design Token System
+ *
+ * Centralized design tokens for consistent theming across the application.
+ * Uses zinc color palette with amber accents for fantasy RPG aesthetic.
+ */
 export const DESIGN_TOKENS = {
   colors: {
     bg: {
       primary: "bg-zinc-800",
+      /** Subtle depth gradient for accent backgrounds */
       accent: "bg-gradient-to-br from-zinc-800 to-zinc-900",
+      /** Ability score card gradient with tactile depth */
       ability: "bg-gradient-to-br from-zinc-700 to-zinc-800",
+      /** Interactive hover state for ability scores */
       abilityHover: "bg-gradient-to-br from-zinc-600 to-zinc-700",
+      /** Semi-transparent header gradient for visual hierarchy */
       header: "bg-gradient-to-r from-zinc-700/50 to-zinc-750/30",
       label: "bg-zinc-750/40",
       stripe: "bg-zinc-800/30",
       hover: "hover:bg-zinc-700/30",
       input: "bg-zinc-700",
       inputHover: "hover:bg-zinc-600",
+      card: {
+        /** Main card gradient with depth and transparency */
+        base: "bg-gradient-to-b from-zinc-800/50 to-zinc-900/70",
+        /** Enhanced hover state with increased opacity */
+        hover: "hover:bg-gradient-to-b hover:from-zinc-750/60 hover:to-zinc-800/80",
+        /** Minimal card background for simple content */
+        simple: "bg-zinc-750/30",
+        simpleHover: "hover:bg-zinc-700/40",
+        /** Light vertical card background */
+        vertical: "bg-zinc-750/20",
+        verticalHover: "hover:bg-zinc-700/30",
+      },
     },
     text: {
       primary: "text-zinc-100",
@@ -29,19 +51,26 @@ export const DESIGN_TOKENS = {
     },
   },
   effects: {
+    // TailwindCSS v4 compatible: custom shadows use arbitrary values
     shadow: "shadow-[0_4px_0_0_#3f3f46,0_0_20px_rgba(0,0,0,0.3)]",
     shadowSm: "shadow-[0_2px_0_0_#52525b,0_0_10px_rgba(0,0,0,0.2)]",
     abilityShadow:
       "shadow-[0_3px_0_0_#3f3f46,inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+    // TailwindCSS v4: duration utilities work dynamically
     transition: "transition-all duration-200",
     rounded: "rounded-xl",
     roundedSm: "rounded-lg",
+    /** Combined hover effect: border glow, shadow, and subtle scale */
+    cardHover: "hover:border-amber-400/70 hover:shadow-lg hover:shadow-amber-400/5 hover:scale-[1.01]",
+    /** Animated top accent bar that appears on card hover */
+    cardAccent: "absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300",
   },
   interactions: {
-    tooltipDelay: 500,
-    animationDuration: 200,
-    staggerDelay: 50,
-    maxStaggerDelay: 300,
+    // Semantic timing tokens aligned with TailwindCSS duration classes
+    tooltipDelay: 500, // duration-500 - medium delay for tooltips
+    animationDuration: 200, // duration-200 - fast transitions for UI interactions
+    staggerDelay: 50, // Custom - minimal delay for staggered animations
+    maxStaggerDelay: 300, // duration-300 - maximum stagger to prevent lag
   },
   inputs: {
     editableValue: {

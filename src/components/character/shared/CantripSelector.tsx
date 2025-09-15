@@ -4,13 +4,13 @@ import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
 import { TextHeader } from "@/components/ui/display";
-import SafeHTML from "@/components/ui/SafeHTML";
+import { MarkdownText } from "@/components/ui/display";
+import { SectionHeader } from "@/components/ui/display";
 import type { Character, Cantrip } from "@/types/character";
 import {
   getAvailableCantrips,
   getSpellTypeInfo,
   getCantripOptions,
-  type SpellTypeInfo,
 } from "@/utils/cantrips";
 import CantripCard from "./CantripCard";
 import { CantripModal } from "@/components/modals";
@@ -34,56 +34,6 @@ type CantripSelectorProps =
       className?: string;
     };
 
-interface SectionHeaderProps {
-  spellTypeInfo: SpellTypeInfo;
-  title: string;
-  knownCantripsCount: number;
-  availableToAddCount: number;
-  isOwner: boolean;
-  onEditClick: () => void;
-}
-
-// Extracted component for section header
-const SectionHeader = memo(
-  ({
-    spellTypeInfo,
-    title,
-    knownCantripsCount,
-    availableToAddCount,
-    isOwner,
-    onEditClick,
-  }: SectionHeaderProps) => (
-    <div className="flex items-center justify-between">
-      <Typography variant="sectionHeading" as="h4">
-        {title}
-        {knownCantripsCount > 0 && (
-          <span
-            className="text-sm font-normal text-zinc-400 ml-2"
-            aria-label={`${knownCantripsCount} ${spellTypeInfo.type} known`}
-          >
-            ({knownCantripsCount})
-          </span>
-        )}
-      </Typography>
-
-      {isOwner && availableToAddCount > 0 && (
-        <Button
-          size="sm"
-          variant="secondary"
-          onClick={onEditClick}
-          aria-label={`Add or change ${spellTypeInfo.type}`}
-        >
-          <Icon name="plus" size="sm" aria-hidden={true} />
-          {knownCantripsCount > 0
-            ? "Change Selection"
-            : `Add ${spellTypeInfo.capitalizedSingular}`}
-        </Button>
-      )}
-    </div>
-  )
-);
-
-SectionHeader.displayName = "SectionHeader";
 
 // Main component
 const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
@@ -194,7 +144,7 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
 
               {description && (
                 <div className="mb-6">
-                  <SafeHTML
+                  <MarkdownText
                     content={description}
                     variant="caption"
                     className="text-sm text-zinc-400"
@@ -206,16 +156,36 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
 
           <div className="space-y-4">
             <SectionHeader
-              spellTypeInfo={spellTypeInfo}
               title={
-                props.mode === "creation"
-                  ? `Your Starting ${spellTypeInfo.capitalized}`
-                  : title
+                <>
+                  {props.mode === "creation"
+                    ? `Your Starting ${spellTypeInfo.capitalized}`
+                    : title}
+                  {knownCantrips.length > 0 && (
+                    <span
+                      className="text-sm font-normal text-zinc-400 ml-2"
+                      aria-label={`${knownCantrips.length} ${spellTypeInfo.type} known`}
+                    >
+                      ({knownCantrips.length})
+                    </span>
+                  )}
+                </>
               }
-              knownCantripsCount={knownCantrips.length}
-              availableToAddCount={cantripOptions.length}
-              isOwner={true} // Always true in this context
-              onEditClick={openModal}
+              extra={
+                cantripOptions.length > 0 && (
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={openModal}
+                    aria-label={`Add or change ${spellTypeInfo.type}`}
+                  >
+                    <Icon name="plus" size="sm" aria-hidden={true} />
+                    {knownCantrips.length > 0
+                      ? "Change Selection"
+                      : `Add ${spellTypeInfo.capitalizedSingular}`}
+                  </Button>
+                )
+              }
             />
 
             <Card variant="standard" className="p-4">
@@ -245,13 +215,13 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
       <section className={getSectionClassName()} ref={ref}>
         {props.mode === "creation" && (
           <>
-            <Typography variant="sectionHeading" as="h4" className="mb-3">
+            <TextHeader variant="h4" size="md">
               {title}
-            </Typography>
+            </TextHeader>
 
             {description && (
               <div className="mb-6">
-                <SafeHTML
+                <MarkdownText
                   content={description}
                   variant="caption"
                   className="text-sm text-zinc-400"
@@ -263,16 +233,36 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
 
         <div className="space-y-4">
           <SectionHeader
-            spellTypeInfo={spellTypeInfo}
             title={
-              props.mode === "creation"
-                ? `Your Starting ${spellTypeInfo.capitalized}`
-                : title
+              <>
+                {props.mode === "creation"
+                  ? `Your Starting ${spellTypeInfo.capitalized}`
+                  : title}
+                {knownCantrips.length > 0 && (
+                  <span
+                    className="text-sm font-normal text-zinc-400 ml-2"
+                    aria-label={`${knownCantrips.length} ${spellTypeInfo.type} known`}
+                  >
+                    ({knownCantrips.length})
+                  </span>
+                )}
+              </>
             }
-            knownCantripsCount={knownCantrips.length}
-            availableToAddCount={cantripOptions.length}
-            isOwner={true} // Always true in this context
-            onEditClick={openModal}
+            extra={
+              cantripOptions.length > 0 && (
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={openModal}
+                  aria-label={`Add or change ${spellTypeInfo.type}`}
+                >
+                  <Icon name="plus" size="sm" aria-hidden={true} />
+                  {knownCantrips.length > 0
+                    ? "Change Selection"
+                    : `Add ${spellTypeInfo.capitalizedSingular}`}
+                </Button>
+              )
+            }
           />
 
           <div

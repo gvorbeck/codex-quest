@@ -33,6 +33,7 @@ export {
   default as StatusIndicator,
   type StatusThreshold,
 } from "./StatusIndicator";
+export { default as StatusDot } from "./StatusDot";
 
 // Character Creation Abstractions
 export { InfoCardHeader } from "./InfoCardHeader";
