@@ -1,7 +1,8 @@
 import { Typography } from "@/components/ui";
-import { BaseCard } from "@/components/ui/display";
+import { BaseCard, StatusDot, StatCard } from "@/components/ui/display";
 import type { Game } from "@/types/game";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
+import { truncateText } from "@/utils/textHelpers";
 
 interface GameCardProps {
   game: Game;
@@ -14,11 +15,6 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
   const { showSuccess, showError } = useNotificationContext();
   const href = `/u/${user?.uid}/g/${game.id}`;
 
-  // Truncate notes to a reasonable character limit with ellipsis
-  const truncateText = (text: string, maxLength: number = 150): string => {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength).trim() + "...";
-  };
 
   const handleCopyUrl = async (url: string, gameName: string) => {
     try {
@@ -57,45 +53,39 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
 
       {/* Game Notes */}
       {game.notes && (
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-amber-500" />
+        <section aria-labelledby={`game-${game.id}-notes-label`}>
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <StatusDot color="bg-amber-500" />
+              <Typography
+                id={`game-${game.id}-notes-label`}
+                variant="helper"
+                className="text-zinc-400 uppercase tracking-wider font-medium text-xs"
+              >
+                Notes
+              </Typography>
+            </div>
             <Typography
-              variant="helper"
-              className="text-zinc-400 uppercase tracking-wider font-medium text-xs"
+              variant="body"
+              className="text-zinc-300 text-sm"
             >
-              Notes
+              {truncateText(game.notes)}
             </Typography>
           </div>
-          <Typography
-            variant="body"
-            className="text-zinc-300 text-sm overflow-hidden"
-            style={{
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical" as const,
-            }}
-          >
-            {truncateText(game.notes)}
-          </Typography>
-        </div>
+        </section>
       )}
 
       {/* Game Stats */}
       {game.players && game.players.length > 0 && (
-        <div className="pt-2">
-          <div className="text-center p-2 bg-zinc-800/50 rounded-lg border border-zinc-700/50">
-            <Typography
-              variant="caption"
-              className="text-zinc-400 uppercase tracking-wide text-xs"
-            >
-              Players
-            </Typography>
-            <Typography variant="body" className="text-zinc-200 font-bold">
-              {game.players.length}
-            </Typography>
-          </div>
-        </div>
+        <section aria-labelledby={`game-${game.id}-stats-label`} className="pt-2">
+          <StatCard
+            label="Players"
+            value={game.players.length}
+            size="sm"
+            className="bg-zinc-800/50 border-zinc-700/50"
+            fullName="Number of players in this game"
+          />
+        </section>
       )}
     </BaseCard>
   );

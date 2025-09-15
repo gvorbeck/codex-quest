@@ -5,7 +5,8 @@ import { Icon } from "@/components/ui/display";
 import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { allRaces } from "@/data/races";
-import { getClassById } from "@/utils/characterHelpers";
+import { getClassById, getImportantAbilities, ABILITY_BADGE_VARIANTS } from "@/utils/characterHelpers";
+import { truncateText } from "@/utils/textHelpers";
 import type { SpecialAbility } from "@/types/character";
 
 interface PlayerCardProps {
@@ -92,28 +93,7 @@ export const PlayerCard = memo(
 
     // Filter for key abilities to display as badges
     const importantAbilities = useMemo(() => {
-      return specialAbilities.filter((ability) => {
-        const abilityName = ability.name.toLowerCase();
-        // Prioritize abilities that affect gameplay significantly and are useful for GMs
-        return (
-          ability.effects?.darkvision ||
-          abilityName.includes("darkvision") ||
-          abilityName.includes("turn undead") ||
-          abilityName.includes("sneak attack") ||
-          abilityName.includes("stealth") ||
-          abilityName.includes("backstab") ||
-          abilityName.includes("spellcasting") ||
-          abilityName.includes("immunity") ||
-          abilityName.includes("rage") ||
-          abilityName.includes("tracking") ||
-          abilityName.includes("detect") ||
-          abilityName.includes("secret door") ||
-          abilityName.includes("hide") ||
-          abilityName.includes("climb") ||
-          abilityName.includes("move silently") ||
-          abilityName.includes("ghoul immunity")
-        );
-      });
+      return getImportantAbilities(specialAbilities);
     }, [specialAbilities]);
 
     return (
@@ -187,37 +167,25 @@ export const PlayerCard = memo(
                 // Special formatting for darkvision with range
                 if (ability.effects?.darkvision) {
                   displayText = `DV ${ability.effects.darkvision.range}'`;
-                  variant = "primary"; // Amber for vision abilities
+                  variant = "primary";
                 } else {
                   const abilityName = ability.name.toLowerCase();
 
-                  // Color code badges by ability type and importance
-                  if (abilityName.includes("darkvision")) {
-                    variant = "primary"; // Amber for vision abilities
-                  } else if (abilityName.includes("turn undead")) {
-                    variant = "warning"; // Amber for divine abilities
-                  } else if (
-                    abilityName.includes("sneak attack") ||
-                    abilityName.includes("backstab")
-                  ) {
-                    variant = "danger"; // Red for combat abilities
-                  } else if (abilityName.includes("immunity")) {
-                    variant = "success"; // Green for immunities
-                  } else if (
-                    abilityName.includes("detect") ||
-                    abilityName.includes("secret door")
-                  ) {
-                    variant = "supplemental"; // Lime for detection abilities
+                  // Use mapping for common abilities, fall back to source-based variants
+                  const mappedVariant = Object.entries(ABILITY_BADGE_VARIANTS).find(([key]) =>
+                    abilityName.includes(key)
+                  )?.[1];
+
+                  if (mappedVariant) {
+                    variant = mappedVariant;
                   } else if (ability.source === "race") {
-                    variant = "supplemental"; // Lime for other race abilities
+                    variant = "supplemental";
                   } else if (ability.source === "class") {
-                    variant = "status"; // Also lime but distinguishable for class abilities
+                    variant = "status";
                   }
 
                   // Truncate long ability names
-                  if (displayText.length > 15) {
-                    displayText = displayText.substring(0, 12) + "...";
-                  }
+                  displayText = truncateText(displayText, 12);
                 }
 
                 return (

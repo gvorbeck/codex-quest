@@ -1,52 +1,91 @@
+import { forwardRef } from "react";
 import { SIZE_STYLES } from "@/constants/designTokens";
+import { cn } from "@/constants/styles";
+import { StatusDot } from "@/components/ui/display";
+import Button from "@/components/ui/inputs/Button";
+import type { BaseButtonProps } from "@/utils/buttonStyles";
 
-interface RollableButtonProps {
+// Design tokens for RollableButton styling
+const ROLLABLE_BUTTON_STYLES = {
+  base: "w-full flex items-center justify-between py-3 px-4 gap-4 group/item",
+  colors: {
+    bg: "bg-zinc-750/20 border-zinc-600/60",
+    hover:
+      "hover:bg-zinc-700/30 hover:border-amber-400/20 hover:shadow-lg hover:shadow-amber-400/5",
+    text: {
+      label: "text-amber-400 group-hover/item:text-amber-300",
+      value: "text-zinc-100 group-hover/item:text-amber-300",
+    },
+  },
+} as const;
+
+interface RollableButtonProps extends Omit<BaseButtonProps, "children"> {
   label: string;
   value: string | number;
-  onClick: () => void;
   tooltip: string;
   size?: "sm" | "md" | "lg";
-  className?: string;
 }
 
-export default function RollableButton({
-  label,
-  value,
-  onClick,
-  tooltip,
-  size = "md",
-  className = "",
-}: RollableButtonProps) {
-  const currentSize = SIZE_STYLES[size];
+const RollableButton = forwardRef<HTMLButtonElement, RollableButtonProps>(
+  (
+    {
+      label,
+      value,
+      tooltip,
+      size = "md",
+      variant = "ghost",
+      className = "",
+      ...props
+    },
+    ref
+  ) => {
+    const currentSize = SIZE_STYLES[size];
 
-  return (
-    <button
-      onClick={onClick}
-      className={`
-        w-full flex items-center justify-between py-3 px-4 gap-4
-        rounded-lg
-        bg-zinc-750/20 border border-zinc-600/60
-        transition-all duration-200
-        hover:bg-zinc-700/30 hover:border-amber-400/20
-        hover:shadow-lg hover:shadow-amber-400/5
-        cursor-pointer group/item
-        ${className}
-      `}
-      title={tooltip}
-    >
-      <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full group-hover/item:bg-amber-400 transition-colors duration-200 flex-shrink-0"></div>
-        <span
-          className={`text-amber-400 ${currentSize.labelText} group-hover/item:text-amber-300 transition-colors text-left`}
-        >
-          {label}
-        </span>
-      </div>
-      <div
-        className={`text-zinc-100 ${currentSize.contentText} text-right group-hover/item:text-amber-300 transition-colors`}
+    const buttonClasses = cn(
+      ROLLABLE_BUTTON_STYLES.base,
+      ROLLABLE_BUTTON_STYLES.colors.bg,
+      ROLLABLE_BUTTON_STYLES.colors.hover,
+      "transition-all duration-200",
+      "!justify-between", // Override Button's justify-center
+      className
+    );
+
+    const labelClasses = cn(
+      ROLLABLE_BUTTON_STYLES.colors.text.label,
+      currentSize.labelText,
+      "transition-colors text-left"
+    );
+
+    const valueClasses = cn(
+      ROLLABLE_BUTTON_STYLES.colors.text.value,
+      currentSize.contentText,
+      "text-right transition-colors"
+    );
+
+    return (
+      <Button
+        ref={ref}
+        variant={variant}
+        className={buttonClasses}
+        title={tooltip}
+        aria-label={tooltip}
+        role="button"
+        {...props}
       >
-        {value}
-      </div>
-    </button>
-  );
-}
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <StatusDot
+            size="w-1.5 h-1.5"
+            color="bg-zinc-500"
+            className="group-hover/item:bg-amber-400 transition-colors duration-200 flex-shrink-0"
+          />
+          <span className={labelClasses}>{label}</span>
+        </div>
+        <div className={valueClasses}>{value}</div>
+      </Button>
+    );
+  }
+);
+
+RollableButton.displayName = "RollableButton";
+
+export default RollableButton;

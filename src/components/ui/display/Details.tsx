@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import type { ReactNode } from "react";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import { Typography } from "@/components/ui/design-system";
+import { cn } from "@/constants/styles";
 
 export interface DescriptionItem {
   label: ReactNode;
@@ -20,39 +21,48 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
   ({ items, size = "md", layout = "vertical", className = "" }, ref) => {
     const currentSize = SIZE_STYLES[size];
 
+    // Hoist class computations
+    const horizontalContainerClass = cn(
+      "flex flex-wrap",
+      currentSize.itemSpacing,
+      className
+    );
+
+    const horizontalCardClass = cn(
+      "relative group/card flex-1 min-w-0",
+      DESIGN_TOKENS.colors.bg.card.base,
+      DESIGN_TOKENS.effects.roundedSm,
+      "px-4 py-4.5 border border-zinc-600/60",
+      DESIGN_TOKENS.effects.transition,
+      DESIGN_TOKENS.colors.bg.card.hover,
+      DESIGN_TOKENS.effects.cardHover
+    );
+
+    const horizontalLabelClass = cn(
+      DESIGN_TOKENS.colors.text.accent,
+      currentSize.labelText,
+      "group-hover/card:text-amber-300 transition-colors duration-200 font-bold"
+    );
+
+    const horizontalContentClass = cn(
+      DESIGN_TOKENS.colors.text.primary,
+      currentSize.contentText,
+      "group-hover/card:text-zinc-50 transition-colors duration-200 font-semibold"
+    );
+
     if (layout === "horizontal") {
       return (
-        <div
-          ref={ref}
-          className={`flex flex-wrap ${currentSize.itemSpacing} ${className}`}
-        >
+        <div ref={ref} className={horizontalContainerClass}>
           {items.map((item, index) => (
-            <div
-              key={index}
-              className={`
-                relative group/card flex-1 min-w-0
-                bg-gradient-to-b from-zinc-800/50 to-zinc-900/70
-                ${DESIGN_TOKENS.effects.roundedSm} px-4 py-4.5
-                border border-zinc-600/60 
-                ${DESIGN_TOKENS.effects.transition}
-                hover:border-amber-400/70 hover:bg-gradient-to-b hover:from-zinc-750/60 hover:to-zinc-800/80
-                hover:shadow-lg hover:shadow-amber-400/5 hover:scale-[1.01]
-              `}
-            >
+            <div key={index} className={horizontalCardClass}>
               {/* Top accent line */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"></div>
+              <div className={DESIGN_TOKENS.effects.cardAccent} />
 
-              <div className="text-center space-y-2.5">
-                <div
-                  className={`${DESIGN_TOKENS.colors.text.accent} ${currentSize.labelText}
-                    group-hover/card:text-amber-300 transition-colors duration-200 font-bold`}
-                >
+              <div className="space-y-2.5">
+                <div className={horizontalLabelClass}>
                   {item.label}
                 </div>
-                <div
-                  className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} 
-                    group-hover/card:text-zinc-50 transition-colors duration-200 font-semibold`}
-                >
+                <div className={horizontalContentClass}>
                   {item.children}
                 </div>
               </div>
@@ -62,24 +72,37 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
       );
     }
 
+    // Hoist cards layout classes
+    const cardsContainerClass = cn("space-y-4", className);
+
+    const cardsCardClass = cn(
+      DESIGN_TOKENS.effects.roundedSm,
+      "p-4",
+      DESIGN_TOKENS.colors.bg.card.simple,
+      "border",
+      DESIGN_TOKENS.colors.border.secondary,
+      DESIGN_TOKENS.effects.transition,
+      DESIGN_TOKENS.colors.bg.card.simpleHover,
+      "hover:border-amber-400/30 group/card"
+    );
+
+    const cardsDotClass = "w-2 h-2 bg-amber-400 rounded-full shadow-sm group-hover/card:bg-amber-300 transition-colors duration-200";
+
+    const cardsContentClass = cn(
+      DESIGN_TOKENS.colors.text.primary,
+      currentSize.contentText,
+      "leading-relaxed"
+    );
+
     // Cards Layout - each item gets its own card
     if (layout === "cards") {
       return (
-        <div ref={ref} className={`space-y-4 ${className}`}>
+        <div ref={ref} className={cardsContainerClass}>
           {items.map((item, index) => (
-            <div
-              key={index}
-              className={`
-                ${DESIGN_TOKENS.effects.roundedSm} p-4
-                bg-zinc-750/30 border ${DESIGN_TOKENS.colors.border.secondary}
-                ${DESIGN_TOKENS.effects.transition}
-                hover:bg-zinc-700/40 hover:border-amber-400/30
-                group/card
-              `}
-            >
+            <div key={index} className={cardsCardClass}>
               {/* Card Header */}
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 bg-amber-400 rounded-full group-hover/card:bg-amber-300 transition-colors duration-200"></div>
+                <div className={cardsDotClass} />
                 <Typography
                   variant="bodySmall"
                   color="amber"
@@ -91,9 +114,7 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
               </div>
 
               {/* Card Content */}
-              <div
-                className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} leading-relaxed`}
-              >
+              <div className={cardsContentClass}>
                 {item.children}
               </div>
             </div>
@@ -102,32 +123,44 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
       );
     }
 
+    // Hoist vertical layout classes
+    const verticalContainerClass = cn("space-y-3", className);
+
+    const verticalItemClass = cn(
+      "flex items-center justify-between py-3 px-4 gap-4",
+      DESIGN_TOKENS.effects.roundedSm,
+      DESIGN_TOKENS.colors.bg.card.vertical,
+      "border",
+      DESIGN_TOKENS.colors.border.secondary,
+      DESIGN_TOKENS.effects.transition,
+      DESIGN_TOKENS.colors.bg.card.verticalHover,
+      "hover:border-amber-400/20 group/item"
+    );
+
+    const verticalDotClass = "w-1.5 h-1.5 bg-zinc-500 rounded-full shadow-sm group-hover/item:bg-amber-400 transition-colors duration-200";
+
+    const verticalLabelClass = cn(
+      DESIGN_TOKENS.colors.text.accent,
+      currentSize.labelText
+    );
+
+    const verticalContentClass = cn(
+      DESIGN_TOKENS.colors.text.primary,
+      currentSize.contentText
+    );
+
     // Vertical Layout (default)
     return (
-      <div ref={ref} className={`space-y-3 ${className}`}>
+      <div ref={ref} className={verticalContainerClass}>
         {items.map((item, index) => (
-          <div
-            key={index}
-            className={`
-              flex items-center justify-between py-3 px-4 gap-4
-              ${DESIGN_TOKENS.effects.roundedSm}
-              bg-zinc-750/20 border ${DESIGN_TOKENS.colors.border.secondary}
-              ${DESIGN_TOKENS.effects.transition}
-              hover:bg-zinc-700/30 hover:border-amber-400/20
-              group/item
-            `}
-          >
+          <div key={index} className={verticalItemClass}>
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full group-hover/item:bg-amber-400 transition-colors duration-200"></div>
-              <span
-                className={`${DESIGN_TOKENS.colors.text.accent} ${currentSize.labelText}`}
-              >
+              <div className={verticalDotClass} />
+              <span className={verticalLabelClass}>
                 {item.label}
               </span>
             </div>
-            <div
-              className={`${DESIGN_TOKENS.colors.text.primary} ${currentSize.contentText} text-right`}
-            >
+            <div className={verticalContentClass}>
               {item.children}
             </div>
           </div>
