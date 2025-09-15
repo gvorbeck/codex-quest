@@ -9,10 +9,10 @@ import {
 import {
   type DescriptionItem,
   SkillDescriptionItem,
-  StatusDot,
 } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import { Typography, Card } from "@/components/ui/design-system";
+import { Card } from "@/components/ui/design-system";
+import { Callout } from "@/components/ui/feedback";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
@@ -24,28 +24,6 @@ interface SpecialsRestrictionsProps {
   size?: "sm" | "md" | "lg";
 }
 
-interface EmptyStateCardProps {
-  title: string;
-  description: string;
-}
-
-function EmptyStateCard({ title, description }: EmptyStateCardProps) {
-  return (
-    <Card variant="standard">
-      <div className="flex items-center gap-2 mb-3">
-        <StatusDot status="inactive" ariaLabel="Special abilities and restrictions section" />
-        <Typography
-          variant="bodySmall"
-          color="secondary"
-          weight="semibold"
-        >
-          {title}
-        </Typography>
-      </div>
-      <div className="text-zinc-300 text-sm">{description}</div>
-    </Card>
-  );
-}
 
 export default function SpecialsRestrictions({
   character,
@@ -182,10 +160,9 @@ export default function SpecialsRestrictions({
                       </Card>
                     ))
                   ) : (
-                    <EmptyStateCard
-                      title="No Restrictions"
-                      description="No special abilities or restrictions for this race."
-                    />
+                    <Callout variant="neutral" title="No Restrictions">
+                      No special abilities or restrictions for this race.
+                    </Callout>
                   )}
                 </div>
               </TabPanel>
@@ -210,10 +187,9 @@ export default function SpecialsRestrictions({
                       </Card>
                     ))
                   ) : (
-                    <EmptyStateCard
-                      title="No Restrictions"
-                      description={`No special abilities or restrictions for ${classes.length === 1 ? "this class" : "these classes"}.`}
-                    />
+                    <Callout variant="neutral" title="No Restrictions">
+                      {`No special abilities or restrictions for ${classes.length === 1 ? "this class" : "these classes"}.`}
+                    </Callout>
                   )}
                 </div>
               </TabPanel>
@@ -238,10 +214,9 @@ export default function SpecialsRestrictions({
                     </Card>
                   ))
                 ) : (
-                  <EmptyStateCard
-                    title="No Languages"
-                    description="No languages have been specified for this character."
-                  />
+                  <Callout variant="neutral" title="No Languages">
+                    No languages have been specified for this character.
+                  </Callout>
                 )}
               </div>
             </TabPanel>
