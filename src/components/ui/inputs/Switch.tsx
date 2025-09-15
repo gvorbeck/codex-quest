@@ -51,26 +51,26 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       }
     };
 
-    // Size configurations for track and thumb
+    // Size configurations for track and thumb - FIXED WIDTH
     const sizeConfig = {
       sm: {
-        track: "w-10 h-5",
-        thumb: "w-4 h-4",
-        translate: "translate-x-4", // 40px - 16px - 4px (border) = 20px = translate-x-5 is too much
+        track: "w-10 h-5", // Fixed 40px width
+        thumb: "w-4 h-4", // Fixed 16px width
+        translate: "translate-x-5", // 40px - 16px - 4px = 20px
         text: "text-sm",
         gap: "gap-2",
       },
       md: {
-        track: "w-12 h-6",
-        thumb: "w-5 h-5",
-        translate: "translate-x-5", // 48px - 20px - 4px = 24px = translate-x-6 is too much
+        track: "w-12 h-6", // Fixed 48px width
+        thumb: "w-5 h-5", // Fixed 20px width
+        translate: "translate-x-6", // 48px - 20px - 4px = 24px
         text: "text-base",
         gap: "gap-3",
       },
       lg: {
-        track: "w-14 h-7",
-        thumb: "w-6 h-6",
-        translate: "translate-x-6", // 56px - 24px - 4px = 28px = translate-x-7 is too much
+        track: "w-14 h-7", // Fixed 56px width
+        thumb: "w-6 h-6", // Fixed 24px width
+        translate: "translate-x-7", // 56px - 24px - 4px = 28px
         text: "text-lg",
         gap: "gap-4",
       },
@@ -80,7 +80,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
     // Base track styles consistent with Button component
     const trackBaseStyles = [
-      "relative inline-flex items-center",
+      "relative inline-flex items-center flex-shrink-0",
       "border-2 rounded-full transition-all duration-150",
       "cursor-pointer",
       "focus-within:outline-none focus-within:ring-2 focus-within:ring-amber-400 focus-within:ring-offset-2 focus-within:ring-offset-zinc-900",
@@ -101,9 +101,9 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           "hover:bg-zinc-600 hover:border-zinc-500",
         ];
 
-    // Thumb styles
+    // Thumb styles - fixed positioning with animation
     const thumbBaseStyles = [
-      "absolute top-0 left-0.5",
+      "absolute top-0 left-0",
       "bg-white border border-zinc-300",
       "rounded-full transition-transform duration-150",
       "shadow-sm pointer-events-none",
@@ -128,27 +128,28 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     const trackClasses = cn(
       ...trackBaseStyles,
       ...trackVariantStyles,
-      disabled ? "cursor-not-allowed" : "",
+      disabled ? "cursor-not-allowed" : ""
     );
 
     // Combine thumb styles
-    const thumbClasses = cn(
-      ...thumbBaseStyles,
-      ...thumbVariantStyles,
-    );
+    const thumbClasses = cn(...thumbBaseStyles, ...thumbVariantStyles);
 
     // Label styles
     const labelClasses = cn(
       "font-medium text-zinc-100 cursor-pointer",
       config.text,
-      disabled ? "cursor-not-allowed opacity-50" : "",
+      disabled ? "cursor-not-allowed opacity-50" : ""
     );
 
     const combinedAriaDescribedBy = cn(ariaDescribedBy, helperTextId);
 
+    // Container styles
+    const containerClasses = cn("flex flex-col", className);
+    const switchContainerClasses = cn("flex items-center", config.gap);
+
     return (
-      <div className={`flex flex-col ${className}`}>
-        <div className={`flex items-center ${config.gap}`}>
+      <div className={containerClasses}>
+        <div className={switchContainerClasses}>
           <label htmlFor={switchId} className={labelClasses}>
             {label}
           </label>
