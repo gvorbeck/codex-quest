@@ -102,6 +102,7 @@ export interface Character {
     current: number;
     max: number;
     desc?: string;
+    die?: string; // e.g., "1d6", "1d8", etc.
   };
   level: number;
   cantrips?: Cantrip[]; // Names of cantrips known by the character
@@ -123,16 +124,10 @@ export interface Character {
       costReduction?: number; // 25% at 9th level
     };
   };
-  // Custom race and class support
+  // Custom race support - deprecated, use race field directly
+  // This field is kept temporarily for migration purposes
   customRace?: {
     name: string;
-  };
-  customClasses?: {
-    [classId: string]: {
-      name: string;
-      usesSpells?: boolean;
-      hitDie?: string; // e.g., "1d6", "1d8", etc.
-    };
   };
 }
 
@@ -220,7 +215,11 @@ export interface Race {
 export interface Class {
   name: string;
   id: string;
-  classType: typeof CHARACTER_CLASSES.FIGHTER | typeof CHARACTER_CLASSES.THIEF | typeof CHARACTER_CLASSES.CLERIC | typeof CHARACTER_CLASSES.MAGIC_USER;
+  classType:
+    | typeof CHARACTER_CLASSES.FIGHTER
+    | typeof CHARACTER_CLASSES.THIEF
+    | typeof CHARACTER_CLASSES.CLERIC
+    | typeof CHARACTER_CLASSES.MAGIC_USER;
   description: string;
   hitDie: string;
   primaryAttribute: keyof Character["abilities"];

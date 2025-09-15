@@ -1,8 +1,8 @@
 import { useMemo, useCallback } from "react";
 import type { CharacterListItem } from "@/services/characters";
-import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
 import { useNotificationContext } from "@/hooks/useNotificationContext";
+import { isCustomClass, isCustomRace, getRaceById } from "@/utils/characterHelpers";
 
 export function useCharacterCard(character: CharacterListItem) {
   const { showSuccess, showError } = useNotificationContext();
@@ -11,14 +11,14 @@ export function useCharacterCard(character: CharacterListItem) {
   const raceName = useMemo(() => {
     if (!character.race) return null;
 
-    // Handle custom races
-    if (character.race === "custom") {
-      return character.customRace?.name || "Custom Race";
+    // Handle custom races using new helper function
+    if (isCustomRace(character.race)) {
+      return character.race;
     }
 
-    const race = allRaces.find((r) => r.id === character.race);
+    const race = getRaceById(character.race);
     return race?.name || character.race;
-  }, [character.race, character.customRace]);
+  }, [character.race]);
 
   // Memoized class names lookup for performance
   const classNames = useMemo(() => {
@@ -28,15 +28,17 @@ export function useCharacterCard(character: CharacterListItem) {
       : [character.class];
     return classes.map((classId) => {
       // Handle custom classes
-      if (classId.startsWith("custom-") && character.customClasses) {
-        const customClass = character.customClasses[classId];
-        return { id: classId, name: customClass?.name || "Custom Class" };
+      if (isCustomClass(classId)) {
+        return {
+          id: classId,
+          name: classId || "Custom Class",
+        };
       }
 
       const classData = allClasses.find((cls) => cls.id === classId);
       return { id: classId, name: classData?.name || classId };
     });
-  }, [character.class, character.customClasses]);
+  }, [character.class]);
 
   const handleCopyUrl = useCallback(
     async (url: string, characterName: string) => {

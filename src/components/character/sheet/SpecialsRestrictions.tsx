@@ -6,7 +6,10 @@ import {
   TabPanels,
   TabPanel,
 } from "@/components/ui/layout";
-import { type DescriptionItem, SkillDescriptionItem } from "@/components/ui/display";
+import {
+  type DescriptionItem,
+  SkillDescriptionItem,
+} from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Typography, Card } from "@/components/ui/design-system";
 import type { Character } from "@/types/character";
@@ -78,32 +81,40 @@ export default function SpecialsRestrictions({
 
   const languageItems = useMemo((): DescriptionItem[] => {
     const items: DescriptionItem[] = [];
-    
+
     // Get all unique languages from race and character
     const allLanguages = new Set<string>();
-    
+
     // Add race languages
     if (race?.languages?.length) {
-      race.languages.forEach(lang => allLanguages.add(lang));
+      race.languages.forEach((lang) => allLanguages.add(lang));
     }
-    
+
     // Add character languages
     if (character.languages?.length) {
-      character.languages.forEach(lang => allLanguages.add(lang));
+      character.languages.forEach((lang) => allLanguages.add(lang));
     }
-    
+
     // Convert to sorted array and create items
     const sortedLanguages = Array.from(allLanguages).sort();
-    
+
     if (sortedLanguages.length > 0) {
       items.push({
         label: "Known Languages",
         children: sortedLanguages.join(", "),
       });
     }
-    
+
     return items;
   }, [race, character.languages]);
+
+  const availableTabs = useMemo(() => {
+    const tabs = [];
+    if (race) tabs.push("race");
+    if (classes.length > 0) tabs.push("class");
+    tabs.push("languages");
+    return tabs;
+  }, [race, classes.length]);
 
   return (
     <SectionWrapper
@@ -112,7 +123,7 @@ export default function SpecialsRestrictions({
       className={className}
     >
       {/* Tabs inside the component */}
-      <Tabs defaultValue="race" variant="underline">
+      <Tabs defaultValue={availableTabs[0]!} variant="underline">
         <div className="px-6 pt-4 border-b border-zinc-700/50">
           <TabList aria-label="Restrictions & Special Abilities">
             {race && <Tab value="race">{race.name}</Tab>}

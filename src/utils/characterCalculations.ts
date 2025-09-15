@@ -1,39 +1,32 @@
 import type { Character, Equipment } from "@/types/character";
 import { logger } from "@/utils/logger";
-
-// Constants for game mechanics
-const DEFAULT_UNARMORED_AC = 11;
-const DEFAULT_MOVEMENT_RATE = "40'";
-const LEATHER_ARMOR_MOVEMENT = "30'";
-const METAL_ARMOR_MOVEMENT = "20'";
-
-// BFRPG ability score modifier thresholds
-const MODIFIER_THRESHOLDS = [
-  { max: 3, modifier: -3 },
-  { max: 5, modifier: -2 },
-  { max: 8, modifier: -1 },
-  { max: 12, modifier: 0 },
-  { max: 15, modifier: 1 },
-  { max: 17, modifier: 2 }
-] as const;
-
-// Default modifier for scores above highest threshold (18+)
-const DEFAULT_HIGH_MODIFIER = 3;
+import {
+  DEFAULT_UNARMORED_AC,
+  DEFAULT_MOVEMENT_RATE,
+  LEATHER_ARMOR_MOVEMENT,
+  METAL_ARMOR_MOVEMENT,
+  MODIFIER_THRESHOLDS,
+  DEFAULT_HIGH_MODIFIER,
+} from "@/utils/gameConstants";
 
 // Equipment type guards
-export const isWornArmor = (item: Equipment): item is Equipment & { AC: number } =>
+export const isWornArmor = (
+  item: Equipment
+): item is Equipment & { AC: number } =>
   Boolean(
-    item.wearing && 
-    typeof item.AC === 'number' && 
-    item.category && 
-    !item.category.toLowerCase().includes("shield")
+    item.wearing &&
+      typeof item.AC === "number" &&
+      item.category &&
+      !item.category.toLowerCase().includes("shield")
   );
 
-export const isWornShield = (item: Equipment): item is Equipment & { AC: string } =>
+export const isWornShield = (
+  item: Equipment
+): item is Equipment & { AC: string } =>
   Boolean(
-    item.wearing && 
-    typeof item.AC === 'string' && 
-    item.category?.toLowerCase().includes("shield")
+    item.wearing &&
+      typeof item.AC === "string" &&
+      item.category?.toLowerCase().includes("shield")
   );
 
 /**
@@ -42,7 +35,10 @@ export const isWornShield = (item: Equipment): item is Equipment & { AC: string 
  * @param itemName - Name of the shield for error logging
  * @returns Parsed bonus value or 0 if invalid
  */
-const parseShieldBonus = (shieldAC: string | number, itemName: string): number => {
+const parseShieldBonus = (
+  shieldAC: string | number,
+  itemName: string
+): number => {
   if (typeof shieldAC === "string" && shieldAC.startsWith("+")) {
     const bonusValue = parseInt(shieldAC.substring(1), 10);
     if (isNaN(bonusValue)) {
@@ -75,38 +71,34 @@ interface EquipmentLike {
  * ]};
  * calculateArmorClass(character) // returns 13 (12 base + 1 shield bonus)
  */
-export function calculateArmorClass(character: Character | { equipment?: EquipmentLike[] }): number {
+export function calculateArmorClass(
+  character: Character | { equipment?: EquipmentLike[] }
+): number {
   const equipment = character.equipment;
-  
   if (!Array.isArray(equipment)) {
     return DEFAULT_UNARMORED_AC;
   }
 
+  // Ensure equipment is Equipment[] for type guards
+  const eqArr = equipment as Equipment[];
+
   let baseAC = DEFAULT_UNARMORED_AC;
   let shieldBonus = 0;
 
-  // Find worn armor (provides base AC)
-  const wornArmor = equipment.find((item: EquipmentLike) =>
-    item.wearing && 
-    typeof item.AC === 'number' && 
-    item.category && 
-    !item.category.toLowerCase().includes("shield")
-  );
-  
-  if (wornArmor) {
-    baseAC = wornArmor.AC as number;
+  // Use isWornArmor type guard to find worn armor
+  const wornArmor = eqArr.find(isWornArmor);
+  if (wornArmor && typeof wornArmor.AC === "number") {
+    baseAC = wornArmor.AC;
   }
 
-  // Find worn shields (provide AC bonuses)
-  const wornShields = equipment.filter((item: EquipmentLike) =>
-    item.wearing && 
-    typeof item.AC === 'string' && 
-    item.category?.toLowerCase().includes("shield")
-  );
-  
-  // Calculate total shield bonuses
-  wornShields.forEach((shield: EquipmentLike) => {
-    shieldBonus += parseShieldBonus(shield.AC as string, shield.name);
+  // Use isWornShield type guard to find all worn shields
+  const wornShields = eqArr.filter(isWornShield);
+  wornShields.forEach((shield) => {
+    // Defensive: fallback to 0 if AC or name is undefined
+    shieldBonus += parseShieldBonus(
+      shield.AC ?? 0,
+      shield.name ?? "Unknown Shield"
+    );
   });
 
   return baseAC + shieldBonus;
@@ -114,16 +106,16 @@ export function calculateArmorClass(character: Character | { equipment?: Equipme
 
 /**
  * Calculate movement rate for a character based on their worn equipment
- * 
+ *
  * BFRPG Movement Rules:
  * - Unarmored/Leather: 40' per round
- * - Chain/Scale/Splint: 30' per round  
+ * - Chain/Scale/Splint: 30' per round
  * - Plate: 20' per round
- * 
+ *
  * Note: This implementation uses simplified armor-based movement.
  * Full BFRPG encumbrance rules (based on total weight vs strength)
  * are not yet implemented. See BFRPG Core Rules p.44 for complete rules.
- * 
+ *
  * @param character - The character object with equipment
  * @returns Movement rate string (e.g., "40'", "30'", "20'")
  */
@@ -134,7 +126,7 @@ export function calculateMovementRate(character: Character): string {
 
   // Find worn armor to determine movement rate
   const wornArmor = character.equipment.find(isWornArmor);
-  
+
   if (!wornArmor) {
     return DEFAULT_MOVEMENT_RATE; // No armor worn
   }
@@ -165,9 +157,10 @@ export function calculateMovementRate(character: Character): string {
  * Calculate ability score modifier using BFRPG system
  * @param score - The ability score (3-18 typically)
  * @returns The modifier value (-3 to +3)
+ * last simplified
  */
 export const calculateModifier = (score: number): number => {
-  const threshold = MODIFIER_THRESHOLDS.find(t => score <= t.max);
+  const threshold = MODIFIER_THRESHOLDS.find((t) => score <= t.max);
   return threshold?.modifier ?? DEFAULT_HIGH_MODIFIER;
 };
 
@@ -177,7 +170,7 @@ export const calculateModifier = (score: number): number => {
  * @returns Formatted string with + or - prefix
  * @example
  * formatModifier(2) // returns "+2"
- * formatModifier(-1) // returns "-1"  
+ * formatModifier(-1) // returns "-1"
  * formatModifier(0) // returns "+0"
  */
 export const formatModifier = (modifier: number): string => {
@@ -193,19 +186,19 @@ export const formatModifier = (modifier: number): string => {
  * @example
  * const scores = [15, 12, 14, 10, 16, 8];
  * getAbilityScoreCategory(16, scores) // returns "highest"
- * getAbilityScoreCategory(8, scores) // returns "lowest" 
+ * getAbilityScoreCategory(8, scores) // returns "lowest"
  * getAbilityScoreCategory(12, scores) // returns "normal"
  */
 export const getAbilityScoreCategory = (
   score: number,
   allScores: number[]
-): 'highest' | 'lowest' | 'normal' => {
+): "highest" | "lowest" | "normal" => {
   const highestScore = Math.max(...allScores);
   const lowestScore = Math.min(...allScores);
-  
-  if (score === highestScore) return 'highest';
-  if (score === lowestScore) return 'lowest';
-  return 'normal';
+
+  if (score === highestScore) return "highest";
+  if (score === lowestScore) return "lowest";
+  return "normal";
 };
 
 // Equipment utilities

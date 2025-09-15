@@ -9,8 +9,7 @@ import { AvatarSelector } from "@/components/character/management";
 import { useValidation } from "@/validation";
 import { characterNameSchema } from "@/utils/characterValidation";
 import { sanitizeCharacterName } from "@/utils/sanitization";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import { getClassById, isCustomClass, isCustomRace, getRaceById } from "@/utils/characterHelpers";
 import type { BaseStepProps } from "@/types/character";
 
 type ReviewStepProps = BaseStepProps;
@@ -26,30 +25,29 @@ function ReviewStepComponent({
   const raceDisplayName = useMemo(() => {
     if (!character.race) return "None selected";
 
-    // Handle custom races
-    if (character.race === "custom") {
-      return character.customRace?.name || "Custom Race";
+    // Handle custom races using new helper
+    if (isCustomRace(character.race)) {
+      return character.race;
     }
 
-    const race = allRaces.find((r) => r.id === character.race);
+    const race = getRaceById(character.race);
     return race?.name || character.race;
-  }, [character.race, character.customRace]);
+  }, [character.race]);
 
   const classDisplayNames = useMemo(() => {
     if (character.class.length === 0) return "None selected";
     return character.class
       .map((classId) => {
         // Handle custom classes
-        if (classId.startsWith("custom-") && character.customClasses) {
-          const customClass = character.customClasses[classId];
-          return customClass?.name || "Custom Class";
+        if (isCustomClass(classId)) {
+          return classId || "Custom Class";
         }
 
-        const classData = allClasses.find((c) => c.id === classId);
+        const classData = getClassById(classId);
         return classData?.name || classId;
       })
       .join("/");
-  }, [character.class, character.customClasses]);
+  }, [character.class]);
 
   const handleNameChange = useCallback(
     (name: string) => {

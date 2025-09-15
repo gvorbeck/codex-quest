@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { roller } from "@/utils/dice";
 import { LEVEL_UP_CONSTANTS, type TwoHPClass } from "@/constants/levelUp";
-import { isCustomClass, getCustomClass } from "@/utils/characterHelpers";
+import { isCustomClass, hasCustomClasses } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 import { logger } from "@/utils/logger";
 
@@ -91,16 +91,12 @@ function calculateHPGainForCustomClass(
   nextLevel: number
 ): HPGainResult {
   // For custom classes, get the hit die from the custom class data
-  const primaryClassId = character.class[0];
-  const customClass = primaryClassId
-    ? getCustomClass(character, primaryClassId)
-    : null;
 
-  if (!customClass) {
+  if (!hasCustomClasses(character)) {
     throw new Error("Custom class data not found");
   }
 
-  const hitDie = customClass.hitDie || "1d6";
+  const hitDie = character.hp.die || "1d6";
   const dieParts = hitDie.split("d");
 
   if (dieParts.length !== 2) {

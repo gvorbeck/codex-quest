@@ -2,11 +2,19 @@
  * Character-specific validation logic
  */
 
-import type { Character, Race, Class } from '@/types/character';
-import type { ValidationResult, CharacterValidationStep, CharacterValidationPipeline } from './types';
-import { validate, createSchema } from './core';
-import { Rules, TypeGuards } from './rules';
-import { CHARACTER_CLASSES } from '@/constants/gameData';
+import type { Character, Race, Class } from "@/types/character";
+import type {
+  ValidationResult,
+  CharacterValidationStep,
+  CharacterValidationPipeline,
+} from "./types";
+import { validate, createSchema } from "./core";
+import { Rules, TypeGuards } from "./rules";
+import { CHARACTER_CLASSES } from "@/constants/gameData";
+import {
+  isCustomClass,
+  hasCustomRace,
+} from "@/utils/characterHelpers";
 import {
   hasValidAbilityScores,
   hasValidHitPoints,
@@ -14,7 +22,7 @@ import {
   isRaceEligible,
   isCurrentClassStillValid,
   cascadeValidateCharacter,
-} from '@/utils/characterValidation';
+} from "@/utils/characterValidation";
 
 /**
  * Character validation steps
@@ -26,33 +34,42 @@ export function createCharacterValidationSteps(
   return [
     {
       step: 0,
-      name: 'Abilities',
-      validate: (character: unknown) => validateAbilitiesStep(character as Character),
+      name: "Abilities",
+      validate: (character: unknown) =>
+        validateAbilitiesStep(character as Character),
     },
     {
       step: 1,
-      name: 'Race',
-      validate: (character: unknown) => validateRaceStep(character as Character, availableRaces),
+      name: "Race",
+      validate: (character: unknown) =>
+        validateRaceStep(character as Character, availableRaces),
     },
     {
       step: 2,
-      name: 'Class',
-      validate: (character: unknown) => validateClassStep(character as Character, availableRaces, availableClasses),
+      name: "Class",
+      validate: (character: unknown) =>
+        validateClassStep(
+          character as Character,
+          availableRaces,
+          availableClasses
+        ),
     },
     {
       step: 3,
-      name: 'Hit Points',
-      validate: (character: unknown) => validateHitPointsStep(character as Character),
+      name: "Hit Points",
+      validate: (character: unknown) =>
+        validateHitPointsStep(character as Character),
     },
     {
       step: 4,
-      name: 'Equipment',
+      name: "Equipment",
       validate: () => validateEquipmentStep(),
     },
     {
       step: 5,
-      name: 'Review',
-      validate: (character: unknown) => validateReviewStep(character as Character),
+      name: "Review",
+      validate: (character: unknown) =>
+        validateReviewStep(character as Character),
     },
   ];
 }
@@ -64,17 +81,24 @@ export function createCharacterValidationPipeline(
   availableRaces: Race[],
   availableClasses: Class[]
 ): CharacterValidationPipeline {
-  const steps = createCharacterValidationSteps(availableRaces, availableClasses);
-  
+  const steps = createCharacterValidationSteps(
+    availableRaces,
+    availableClasses
+  );
+
   return {
     steps,
     validateStep: (step: number, character: unknown) => {
       const validationStep = steps[step];
-      return validationStep ? validationStep.validate(character) : { isValid: true, errors: [], warnings: [] };
+      return validationStep
+        ? validationStep.validate(character)
+        : { isValid: true, errors: [], warnings: [] };
     },
     isStepDisabled: (step: number, character: unknown) => {
       const validationStep = steps[step];
-      return validationStep ? !validationStep.validate(character).isValid : false;
+      return validationStep
+        ? !validationStep.validate(character).isValid
+        : false;
     },
   };
 }
@@ -88,41 +112,36 @@ function validateAbilitiesStep(character: Character): ValidationResult {
   const warnings: string[] = [];
 
   if (!isValid) {
-    errors.push('Please roll or set all ability scores before proceeding.');
+    errors.push("Please roll or set all ability scores before proceeding.");
   }
 
   return { isValid, errors, warnings };
 }
 
-function validateRaceStep(character: Character, availableRaces: Race[]): ValidationResult {
-  const schema = createSchema([
-    Rules.validRace(availableRaces),
-  ], true);
-  
+function validateRaceStep(
+  character: Character,
+  availableRaces: Race[]
+): ValidationResult {
+  const schema = createSchema([Rules.validRace(availableRaces)], true);
+
   const baseResult = validate(character.race, schema);
-  
+
   if (!baseResult.isValid) {
     return baseResult;
   }
 
   // Handle custom races
-  if (character.race === 'custom') {
-    // Custom races have no ability requirements
-    if (!character.customRace?.name || character.customRace.name.trim().length === 0) {
-      return {
-        isValid: false,
-        errors: ['Please enter a name for your custom race'],
-        warnings: [],
-      };
-    }
+  if (hasCustomRace(character)) {
+    // Custom races have no ability requirements and are always valid
+    // The race name is stored directly in character.race
     return { isValid: true, errors: [], warnings: [] };
   }
 
-  const selectedRace = availableRaces.find(r => r.id === character.race);
+  const selectedRace = availableRaces.find((r) => r.id === character.race);
   if (!selectedRace) {
     return {
       isValid: false,
-      errors: ['Selected race is not available'],
+      errors: ["Selected race is not available"],
       warnings: [],
     };
   }
@@ -131,7 +150,9 @@ function validateRaceStep(character: Character, availableRaces: Race[]): Validat
   if (!meetsRequirements) {
     return {
       isValid: false,
-      errors: [`Character doesn't meet ability requirements for ${selectedRace.name}`],
+      errors: [
+        `Character doesn't meet ability requirements for ${selectedRace.name}`,
+      ],
       warnings: [],
     };
   }
@@ -140,8 +161,8 @@ function validateRaceStep(character: Character, availableRaces: Race[]): Validat
 }
 
 function validateClassStep(
-  character: Character, 
-  availableRaces: Race[], 
+  character: Character,
+  availableRaces: Race[],
   availableClasses: Class[]
 ): ValidationResult {
   const errors: string[] = [];
@@ -150,7 +171,7 @@ function validateClassStep(
   if (!character.class || character.class.length === 0) {
     return {
       isValid: false,
-      errors: ['Please select at least one class for your character'],
+      errors: ["Please select a class for your character"],
       warnings,
     };
   }
@@ -158,54 +179,67 @@ function validateClassStep(
   if (!character.race) {
     return {
       isValid: false,
-      errors: ['Please select a race before choosing classes'],
+      errors: ["Please select a race before choosing classes"],
       warnings,
     };
   }
 
   // Handle custom races - they have no class restrictions
-  if (character.race === 'custom') {
+  if (hasCustomRace(character)) {
     // Custom races can use any class, no validation needed for race restrictions
     // Still need to validate that custom classes have names if they exist
     for (const classId of character.class) {
-      if (classId.startsWith('custom-') && character.customClasses) {
-        const customClass = character.customClasses[classId];
-        if (!customClass?.name || customClass.name.trim().length === 0) {
-          errors.push('Please enter a name for your custom class');
+      if (isCustomClass(classId)) {
+        if (!classId || classId.trim().length === 0) {
+          errors.push("Please enter a name for your custom class");
         }
       }
     }
   } else {
-    const selectedRace = availableRaces.find(r => r.id === character.race);
+    const selectedRace = availableRaces.find((r) => r.id === character.race);
     if (!selectedRace) {
       return {
         isValid: false,
-        errors: ['Selected race is not available'],
+        errors: ["Selected race is not available"],
         warnings,
       };
     }
 
-    const classesStillValid = isCurrentClassStillValid(character, selectedRace, availableClasses);
+    const classesStillValid = isCurrentClassStillValid(
+      character,
+      selectedRace,
+      availableClasses
+    );
     if (!classesStillValid) {
       errors.push(`Selected classes are not allowed for ${selectedRace.name}`);
     }
   }
 
-  const hasRequiredSpells = hasRequiredStartingSpells(character, availableClasses);
+  const hasRequiredSpells = hasRequiredStartingSpells(
+    character,
+    availableClasses
+  );
   if (!hasRequiredSpells) {
     const isMagicUser = character.class.includes(CHARACTER_CLASSES.MAGIC_USER);
     if (isMagicUser) {
-      errors.push('Magic-Users must select one first level spell (Read Magic is automatically known).');
+      errors.push(
+        "Magic-Users must select one first level spell (Read Magic is automatically known)."
+      );
     } else {
-      errors.push('Please select required starting spells for your class.');
+      errors.push("Please select required starting spells for your class.");
     }
   }
 
   // For custom races, we don't use classesStillValid check
-  const isValidClass = character.race === 'custom' ? true : 
-                      availableRaces.find(r => r.id === character.race) ? 
-                      isCurrentClassStillValid(character, availableRaces.find(r => r.id === character.race)!, availableClasses) :
-                      false;
+  const isValidClass = hasCustomRace(character)
+    ? true
+    : availableRaces.find((r) => r.id === character.race)
+    ? isCurrentClassStillValid(
+        character,
+        availableRaces.find((r) => r.id === character.race)!,
+        availableClasses
+      )
+    : false;
 
   return {
     isValid: errors.length === 0 && isValidClass && hasRequiredSpells,
@@ -219,7 +253,7 @@ function validateHitPointsStep(character: Character): ValidationResult {
   const errors: string[] = [];
 
   if (!isValid) {
-    errors.push('Please roll or set your hit points before proceeding.');
+    errors.push("Please roll or set your hit points before proceeding.");
   }
 
   return { isValid, errors, warnings: [] };
@@ -232,9 +266,9 @@ function validateEquipmentStep(): ValidationResult {
 
 function validateReviewStep(character: Character): ValidationResult {
   if (!character.name || character.name.trim().length === 0) {
-    return validate('', createSchema([Rules.characterName], true));
+    return validate("", createSchema([Rules.characterName], true));
   }
-  
+
   return validate(character.name, createSchema([Rules.characterName], true));
 }
 
@@ -253,10 +287,10 @@ export function validateCharacter(
   };
 
   // Basic structure validation
-  if (typeof character !== 'object' || character === null) {
+  if (typeof character !== "object" || character === null) {
     return {
       isValid: false,
-      errors: ['Character must be an object'],
+      errors: ["Character must be an object"],
       warnings: [],
     };
   }
@@ -264,34 +298,43 @@ export function validateCharacter(
   const char = character as Record<string, unknown>;
 
   // Validate abilities structure
-  const abilitiesResult = validate(character, createSchema([TypeGuards.hasValidAbilitiesStructure]));
+  const abilitiesResult = validate(
+    character,
+    createSchema([TypeGuards.hasValidAbilitiesStructure])
+  );
   if (!abilitiesResult.isValid) {
     return {
       isValid: false,
-      errors: ['Invalid abilities structure'],
+      errors: ["Invalid abilities structure"],
       warnings: [],
     };
   }
 
   // Validate race
-  if (typeof char['race'] === 'string') {
-    const raceResult = validate(char['race'], createSchema([Rules.validRace(availableRaces)]));
+  if (typeof char["race"] === "string") {
+    const raceResult = validate(
+      char["race"],
+      createSchema([Rules.validRace(availableRaces)])
+    );
     if (!raceResult.isValid) {
       return {
         isValid: false,
-        errors: ['Invalid race selection'],
+        errors: ["Invalid race selection"],
         warnings: [],
       };
     }
   }
 
   // Validate class array
-  if (Array.isArray(char['class'])) {
-    const classResult = validate(char['class'], createSchema([Rules.validClassArray(availableClasses)]));
+  if (Array.isArray(char["class"])) {
+    const classResult = validate(
+      char["class"],
+      createSchema([Rules.validClassArray(availableClasses)])
+    );
     if (!classResult.isValid) {
       return {
         isValid: false,
-        errors: ['Invalid class selection'],
+        errors: ["Invalid class selection"],
         warnings: [],
       };
     }

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { logger } from "@/utils/logger";
 import { useLoadingState } from "@/hooks/useLoadingState";
 import { loadSpellsForClass } from "@/services/dataLoader";
-import { isCustomClass, getCustomClass } from "@/utils/characterHelpers";
+import { hasCustomClasses, hasSpells } from "@/utils/characterHelpers";
 import type { Class, Spell, Character } from "@/types/character";
 
 export interface SpellGainInfo {
@@ -43,23 +43,17 @@ export function useSpellSelection({
     // Handle custom classes
     if (
       character &&
-      character.class[0] &&
-      isCustomClass(character.class[0]) &&
-      character.customClasses
+      character.class &&
+      hasCustomClasses(character) &&
+      hasSpells(character)
     ) {
-      const primaryClassId = character.class[0];
-      const customClass = getCustomClass(character, primaryClassId);
-
-      if (customClass?.usesSpells) {
-        // For custom spellcasting classes, allow selection of 1 spell per level up
-        return {
-          level: nextLevel,
-          newSpells: [1], // Allow one 1st level spell
-          totalSpellsGained: 1,
-          spellsByLevel: [],
-        };
-      }
-      return null;
+      // For custom spellcasting classes, allow selection of 1 spell per level up
+      return {
+        level: nextLevel,
+        newSpells: [1], // Allow one 1st level spell
+        totalSpellsGained: 1,
+        spellsByLevel: [],
+      };
     }
 
     // Handle standard classes
@@ -123,16 +117,11 @@ export function useSpellSelection({
           // For custom classes, use a default spell list (magic-user spells)
           if (
             character &&
-            character.class[0] &&
-            isCustomClass(character.class[0]) &&
-            character.customClasses
+            character.class &&
+            hasCustomClasses(character) &&
+            hasSpells(character)
           ) {
-            const primaryClassId = character.class[0];
-            const customClass = getCustomClass(character, primaryClassId);
-
-            if (customClass?.usesSpells) {
-              classId = "magic-user"; // Default to magic-user spell list for custom classes
-            }
+            classId = "magic-user"; // Default to magic-user spell list for custom classes
           }
 
           if (classId) {
@@ -161,12 +150,7 @@ export function useSpellSelection({
     let classSpellKey = primaryClass?.id || "magic-user";
 
     // For custom classes, use magic-user as the spell key
-    if (
-      character &&
-      character.class[0] &&
-      isCustomClass(character.class[0]) &&
-      character.customClasses
-    ) {
+    if (character && character.class && hasCustomClasses(character)) {
       classSpellKey = "magic-user";
     }
 

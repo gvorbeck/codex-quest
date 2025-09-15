@@ -3,13 +3,13 @@
  * Unified validation hooks replacing useValidation and useCascadeValidation
  */
 
-import { useMemo, useCallback, useEffect } from 'react';
-import type { ValidationResult, ValidationSchema } from './types';
-import { validate } from './core';
-import type { Character, Race, Class } from '@/types/character';
-import { cascadeValidateCharacter } from '../utils/characterValidation';
-import { allRaces } from '@/data/races';
-import { allClasses } from '@/data/classes';
+import { useMemo, useCallback, useEffect } from "react";
+import type { ValidationResult, ValidationSchema } from "./types";
+import { validate } from "./core";
+import type { Character, Race, Class } from "@/types/character";
+import { cascadeValidateCharacter } from "../utils/characterValidation";
+import { allRaces } from "@/data/races";
+import { allClasses } from "@/data/classes";
 
 /**
  * Enhanced validation hook with type safety and detailed feedback
@@ -45,7 +45,7 @@ export function useCascadeValidation({
 }: UseCascadeValidationProps) {
   // Use stable string for class array to avoid unnecessary effects
   const classArrayString = useMemo(
-    () => character.class.join(','),
+    () => character.class.join(","),
     [character.class]
   );
 
@@ -90,7 +90,7 @@ export function useCascadeValidation({
     // Only update if the character has actually changed
     const hasChanged =
       validatedCharacter.race !== character.race ||
-      validatedCharacter.class.join(',') !== character.class.join(',') ||
+      validatedCharacter.class.join(",") !== character.class.join(",") ||
       validatedCharacter.spells?.length !== character.spells?.length;
 
     if (hasChanged) {

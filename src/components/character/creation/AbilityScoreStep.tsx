@@ -55,8 +55,6 @@ function AbilityScoreStep({
     ),
   };
 
-  // Using calculateModifier from gameUtils for consistent BFRPG system
-
   // Type-safe update function for ability scores
   const updateAbilityScore = (ability: AbilityName, value: number) => {
     // Validate the score before applying
@@ -204,16 +202,20 @@ function AbilityScoreStep({
             <Card key={abilityName} variant="standard" hover={true}>
               {/* Ability Name */}
               <div className="flex items-center justify-between mb-3">
-                <label 
+                <label
                   className="text-base font-semibold text-zinc-100 capitalize"
                   htmlFor={`ability-${abilityName}`}
                 >
                   {abilityName}
                 </label>
                 {ability.value > 0 && (
-                  <div 
+                  <div
                     className="text-sm text-zinc-300 bg-zinc-700 px-2 py-1 rounded border border-zinc-600"
-                    aria-label={`${abilityName} modifier: ${ability.modifier >= 0 ? "plus " : "minus "}${Math.abs(ability.modifier)}. ${getModifierDescription(ability.modifier)}`}
+                    aria-label={`${abilityName} modifier: ${
+                      ability.modifier >= 0 ? "plus " : "minus "
+                    }${Math.abs(ability.modifier)}. ${getModifierDescription(
+                      ability.modifier
+                    )}`}
                   >
                     <span className="font-medium">
                       Modifier: {ability.modifier >= 0 ? "+" : ""}

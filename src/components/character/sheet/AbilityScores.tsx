@@ -7,7 +7,6 @@ import { InfoTooltip, SkeletonStatBlock } from "@/components/ui/feedback";
 import { Typography } from "@/components/ui/design-system";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import {
-  calculateModifier,
   formatModifier,
   getAbilityScoreCategory,
 } from "@/utils/characterCalculations";
@@ -241,7 +240,7 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
           size={size}
           className={className}
         >
-          <SkeletonStatBlock 
+          <SkeletonStatBlock
             stats={6}
             showTitle={false}
             label="Loading ability scores..."
@@ -288,10 +287,16 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
           <div className={`grid ${currentSize.grid}`}>
             {abilities.map(({ key, label, fullName }) => {
               const ability = character.abilities[key];
-              const scoreCategory = getAbilityScoreCategory(ability.value, allScores);
-              const scoreColor = scoreCategory === 'highest' ? 'text-lime-400' : 
-                                scoreCategory === 'lowest' ? 'text-red-400' : 'text-zinc-400';
-              const modifier = calculateModifier(ability.value);
+              const scoreCategory = getAbilityScoreCategory(
+                ability.value,
+                allScores
+              );
+              const scoreColor =
+                scoreCategory === "highest"
+                  ? "text-lime-400"
+                  : scoreCategory === "lowest"
+                  ? "text-red-400"
+                  : "text-zinc-400";
 
               return (
                 <AbilityScoreCard
@@ -299,12 +304,12 @@ const AbilityScores = forwardRef<HTMLDivElement, AbilityScoresProps>(
                   label={label}
                   fullName={fullName}
                   value={ability.value}
-                  modifier={modifier}
+                  modifier={ability.modifier}
                   valueColor={scoreColor}
                   size={size}
                   editable={editable}
                   {...(editable && { onChange: handleAbilityChange(key) })}
-                  onRoll={() => rollAbility(fullName, modifier)}
+                  onRoll={() => rollAbility(fullName, ability.modifier)}
                 />
               );
             })}

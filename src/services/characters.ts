@@ -24,16 +24,10 @@ export interface CharacterListItem {
   level?: number;
   hp?: { current?: number; max?: number } | number;
   xp?: number;
-  // Custom race and class support
+  // Custom race support - deprecated, use race field directly
+  // This field is kept temporarily for migration compatibility
   customRace?: {
-    name: string;
-  };
-  customClasses?: {
-    [classId: string]: {
-      name: string;
-      usesSpells?: boolean;
-      hitDie?: string;
-    };
+    name?: string;
   };
   // Allow for additional properties that might exist
   [key: string]: unknown;
@@ -180,7 +174,7 @@ export const saveCharacter = async (
       ...character,
       settings: {
         ...character.settings,
-        version: 2, // Current version
+        version: 2.4, // Current version
       },
     };
 

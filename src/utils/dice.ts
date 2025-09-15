@@ -288,3 +288,21 @@ function applyModifiers(
     breakdown,
   };
 }
+
+/**
+ * Convenience function to roll a percentage (1d100)
+ * @returns A number between 1 and 100
+ */
+export function rollPercentage(): number {
+  return roller("1d100").total;
+}
+
+/**
+ * Select a random element from an array
+ * @param array - The array to select from
+ * @returns A random element from the array
+ */
+export function randomArrayElement<T>(array: readonly T[]): T {
+  const index = Math.floor(Math.random() * array.length);
+  return array[index]!;
+}

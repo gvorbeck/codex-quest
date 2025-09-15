@@ -5,6 +5,7 @@ import {
   getSpellLevel,
   getSpellSlots,
   getCharacterSpellSystemType,
+  getClassById,
 } from "@/utils/characterHelpers";
 import { allClasses } from "@/data/classes";
 
@@ -54,11 +55,11 @@ const READ_MAGIC_SPELL: Spell = {
 // Helper functions
 function hasReadMagicAbility(character: Character): boolean {
   return character.class.some((classId) => {
-    const classData = allClasses.find((c) => c.id === classId);
+    const classData = getClassById(classId);
     if (!classData?.specialAbilities) return false;
 
     return classData.specialAbilities.some(
-      (ability) => ability.name === "Read Magic"
+      (ability: { name: string }) => ability.name === "Read Magic"
     );
   });
 }
@@ -100,7 +101,7 @@ function getCharacterCantrips(character: Character): CantripWithLevel[] {
 
 export function useSpellData(character?: Character): SpellDataResult {
   return useMemo(() => {
-    if (!character || !canCastSpells(character, allClasses)) {
+    if (!character || !canCastSpells(character)) {
       return {
         knownSpells: [],
         cantrips: [],
@@ -132,9 +133,12 @@ export function useSpellData(character?: Character): SpellDataResult {
     characterSpells.forEach((spell, index) => {
       const spellLevel = getSpellLevel(spell, character.class);
       if (spellLevel > 0) {
-        // For magic-user types, show spells without preparation metadata
+        // For magic-user types and custom classes, show spells without preparation metadata
         // For cleric types, this will be handled separately in the prepared spells section
-        if (systemType === "magic-user" && !spell.preparation) {
+        if (
+          (systemType === "magic-user" || systemType === "custom") &&
+          !spell.preparation
+        ) {
           allSpells.push({
             ...spell,
             spellLevel,
@@ -155,7 +159,7 @@ export function useSpellData(character?: Character): SpellDataResult {
       cantrips: characterCantrips,
       spellSlots: characterSpellSlots,
       spellSystemInfo: getSpellSystemInfo(character),
-      canCast: canCastSpells(character, allClasses),
+      canCast: canCastSpells(character),
       spellSystemType: systemType,
     };
   }, [character]);

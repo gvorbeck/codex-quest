@@ -9,6 +9,8 @@ export const DESIGN_TOKENS = {
       label: "bg-zinc-750/40",
       stripe: "bg-zinc-800/30",
       hover: "hover:bg-zinc-700/30",
+      input: "bg-zinc-700",
+      inputHover: "hover:bg-zinc-600",
     },
     text: {
       primary: "text-zinc-100",
@@ -22,6 +24,8 @@ export const DESIGN_TOKENS = {
       secondary: "border-zinc-700/60",
       accent: "border-amber-500/20",
       ability: "border-zinc-600/80",
+      input: "border-amber-400",
+      inputFocus: "focus:border-amber-300",
     },
   },
   effects: {
@@ -38,6 +42,12 @@ export const DESIGN_TOKENS = {
     animationDuration: 200,
     staggerDelay: 50,
     maxStaggerDelay: 300,
+  },
+  inputs: {
+    editableValue: {
+      minValue: 0,
+      maxValue: 999999,
+    },
   },
 } as const;
 

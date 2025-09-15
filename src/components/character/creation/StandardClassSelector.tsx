@@ -4,6 +4,8 @@ import { Card, Typography } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection } from "@/components/ui/display";
 import { Icon } from "@/components/ui";
 import type { Character, Class } from "@/types/character";
+import { getClassFromAvailable } from "@/utils/characterHelpers";
+import { hasCustomClasses } from "@/utils/characterHelpers";
 import { memo } from "react";
 
 interface StandardClassSelectorProps {
@@ -11,6 +13,8 @@ interface StandardClassSelectorProps {
   availableClasses: Class[];
   onClassChange: (classId: string) => void;
   onCharacterChange: (character: Character) => void;
+  customClassMagicToggle: boolean;
+  onCustomClassMagicToggle: (value: boolean) => void;
 }
 
 function StandardClassSelectorComponent({
@@ -18,6 +22,8 @@ function StandardClassSelectorComponent({
   availableClasses,
   onClassChange,
   onCharacterChange,
+  customClassMagicToggle,
+  onCustomClassMagicToggle,
 }: StandardClassSelectorProps) {
   const classOptions = availableClasses.map((cls) => ({
     value: cls.id,
@@ -31,110 +37,45 @@ function StandardClassSelectorComponent({
   });
 
   const currentClassId = character.class.length > 0 ? character.class[0] : "";
-  const isCustomClass = currentClassId && currentClassId.startsWith("custom-");
+  const isCustomClass = hasCustomClasses(character);
+  
+  // Determine what should be selected in the dropdown
+  const selectValue = isCustomClass ? "custom" : currentClassId;
+
+  const updateCharacterClass = (className: string) => {
+    onClassChange(className);
+  };
 
   const handleClassChange = (classId: string) => {
-    if (classId === "custom") {
-      const customId = `custom-${Date.now()}`;
-      const updatedCharacter = {
-        ...character,
-        class: [customId],
-        customClasses: {
-          ...character.customClasses,
-          [customId]: {
-            name: "",
-            usesSpells: false,
-            hitDie: "1d6",
-          },
-        },
-      };
-      onCharacterChange(updatedCharacter);
-    } else {
-      // Clear custom classes when selecting a standard class
-      const updatedCharacter = { ...character };
-      if (updatedCharacter.customClasses) {
-        delete updatedCharacter.customClasses;
-      }
-      onClassChange(classId);
-    }
+    // If custom is selected, clear the class array (user will type name)
+    // Otherwise set to the selected standard class
+    updateCharacterClass(classId === "custom" ? "" : classId);
   };
 
   const handleCustomClassNameChange = (name: string) => {
-    if (
-      isCustomClass &&
-      currentClassId &&
-      character.customClasses &&
-      character.customClasses[currentClassId]
-    ) {
-      const customClassId = currentClassId;
-      const existingClass = character.customClasses[customClassId];
-      onCharacterChange({
-        ...character,
-        customClasses: {
-          ...character.customClasses,
-          [customClassId]: {
-            name,
-            usesSpells: existingClass?.usesSpells || false,
-            hitDie: existingClass?.hitDie || "1d6",
-          },
-        },
-      });
-    }
+    updateCharacterClass(name);
   };
 
-  const handleCustomClassSpellToggle = (usesSpells: boolean) => {
-    if (
-      isCustomClass &&
-      currentClassId &&
-      character.customClasses &&
-      character.customClasses[currentClassId]
-    ) {
-      const customClassId = currentClassId;
-      const existingClass = character.customClasses[customClassId];
-      onCharacterChange({
-        ...character,
-        customClasses: {
-          ...character.customClasses,
-          [customClassId]: {
-            name: existingClass?.name || "",
-            hitDie: existingClass?.hitDie || "1d6",
-            usesSpells,
-          },
-        },
-      });
-    }
+  const handleCustomClassSpellToggle = () => {
+    onCustomClassMagicToggle(!customClassMagicToggle);
   };
 
   const handleCustomClassHitDieChange = (hitDie: string) => {
-    if (
-      isCustomClass &&
-      currentClassId &&
-      character.customClasses &&
-      character.customClasses[currentClassId]
-    ) {
-      const customClassId = currentClassId;
-      const existingClass = character.customClasses[customClassId];
-      onCharacterChange({
-        ...character,
-        customClasses: {
-          ...character.customClasses,
-          [customClassId]: {
-            name: existingClass?.name || "",
-            usesSpells: existingClass?.usesSpells || false,
-            hitDie,
-          },
-        },
-      });
-    }
+    onCharacterChange({
+      ...character,
+      hp: {
+        ...character.hp,
+        die: hitDie,
+      },
+    });
   };
 
-  const customClassData =
-    isCustomClass && currentClassId && character.customClasses
-      ? character.customClasses[currentClassId]
+
+  const showCustomClassUI = selectValue === "custom";
+  const selectedClass =
+    !isCustomClass && currentClassId
+      ? getClassFromAvailable(currentClassId, availableClasses)
       : null;
-  const selectedClass = !isCustomClass
-    ? availableClasses.find((cls) => cls.id === currentClassId)
-    : null;
 
   return (
     <section aria-labelledby="standard-classes-heading" className="mb-8">
@@ -146,7 +87,7 @@ function StandardClassSelectorComponent({
         <div className="space-y-4">
           <Select
             label="Select Class"
-            value={isCustomClass ? "custom" : currentClassId}
+            value={selectValue}
             onValueChange={handleClassChange}
             options={classOptions}
             placeholder="Choose a class"
@@ -157,33 +98,25 @@ function StandardClassSelectorComponent({
           />
 
           {/* Custom Class Configuration */}
-          {isCustomClass && customClassData && (
+          {showCustomClassUI && (
             <div className="space-y-4 border-t border-zinc-600 pt-4">
               <FormField label="Custom Class Name" required>
                 <TextInput
-                  value={customClassData.name}
+                  value={character.class[0] || ""}
                   onChange={handleCustomClassNameChange}
                   placeholder="Enter your custom class name..."
                   required
                 />
               </FormField>
 
-              <OptionToggle
-                title="Spellcasting"
-                description="Does this class have spellcasting abilities?"
-                switchLabel="Uses Magic"
-                checked={customClassData.usesSpells || false}
-                onCheckedChange={handleCustomClassSpellToggle}
-              />
-
-              {/* Hit Die Selection - this will be handled in HitPointsStep */}
+              {/* Hit Die Selection */}
               <div>
                 <Typography variant="body" weight="medium" className="mb-2">
                   Hit Die
                 </Typography>
                 <Select
                   label="Hit Die"
-                  value={customClassData.hitDie || "1d6"}
+                  value={character.hp.die || "1d6"}
                   onValueChange={handleCustomClassHitDieChange}
                   options={[
                     { value: "1d4", label: "d4" },
@@ -196,6 +129,14 @@ function StandardClassSelectorComponent({
                   required
                 />
               </div>
+
+              <OptionToggle
+                title="Spellcasting"
+                description="Does this class have spellcasting abilities?"
+                switchLabel="Uses Magic"
+                checked={customClassMagicToggle}
+                onCheckedChange={handleCustomClassSpellToggle}
+              />
             </div>
           )}
         </div>
@@ -204,11 +145,11 @@ function StandardClassSelectorComponent({
       {/* Class Details */}
       {character.class.length > 0 && (
         <Card variant="info" id="class-details">
-          {isCustomClass && customClassData ? (
+          {showCustomClassUI ? (
             <div aria-labelledby="custom-class-info-heading">
               <InfoCardHeader
                 icon={<Icon name="edit" />}
-                title={customClassData.name || "Custom Class"}
+                title={character.class[0] || "Custom Class"}
                 iconSize="lg"
                 badge={{ text: "Custom" }}
                 className="mb-6"
@@ -229,12 +170,12 @@ function StandardClassSelectorComponent({
                   title="Hit Die"
                 >
                   <Typography variant="description">
-                    {customClassData.hitDie}
+                    {character.hp.die}
                   </Typography>
                 </DetailSection>
                 <DetailSection icon={<Icon name="star" />} title="Spellcasting">
                   <Typography variant="description">
-                    {customClassData.usesSpells ? "Yes" : "No"}
+                    {customClassMagicToggle ? "Yes" : "No"}
                   </Typography>
                 </DetailSection>
               </div>

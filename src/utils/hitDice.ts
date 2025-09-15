@@ -1,6 +1,7 @@
 import type { Character } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
+import { hasCustomClasses } from "./characterHelpers";
 
 export interface RacialModificationInfo {
   abilityName: string;
@@ -19,12 +20,8 @@ export function calculateHitDie(character: Character): string | null {
   const primaryClassId = character.class[0];
 
   // Check if it's a custom class
-  if (
-    character.customClasses &&
-    primaryClassId &&
-    character.customClasses[primaryClassId]
-  ) {
-    return character.customClasses[primaryClassId].hitDie || "1d6";
+  if (hasCustomClasses(character) && primaryClassId) {
+    return character.hp.die || "1d6";
   }
 
   const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
@@ -37,7 +34,10 @@ export function calculateHitDie(character: Character): string | null {
 /**
  * Applies racial hit dice modifications to a base hit die
  */
-export function applyRacialHitDiceModifications(raceId: string, baseHitDie: string): string {
+export function applyRacialHitDiceModifications(
+  raceId: string,
+  baseHitDie: string
+): string {
   const raceData = allRaces.find((race) => race.id === raceId);
   if (!raceData?.specialAbilities) return baseHitDie;
 
@@ -47,7 +47,10 @@ export function applyRacialHitDiceModifications(raceId: string, baseHitDie: stri
     // Apply restrictions (maxSize)
     const hitDiceRestriction = ability.effects?.hitDiceRestriction;
     if (hitDiceRestriction?.maxSize) {
-      modifiedHitDie = applyHitDiceRestriction(modifiedHitDie, hitDiceRestriction.maxSize);
+      modifiedHitDie = applyHitDiceRestriction(
+        modifiedHitDie,
+        hitDiceRestriction.maxSize
+      );
     } else if (hitDiceRestriction?.sizeDecrease) {
       modifiedHitDie = applyHitDiceDecrease(modifiedHitDie);
     }
@@ -65,7 +68,10 @@ export function applyRacialHitDiceModifications(raceId: string, baseHitDie: stri
 /**
  * Applies a maximum hit die size restriction
  */
-function applyHitDiceRestriction(currentHitDie: string, maxSizeRestriction: string): string {
+function applyHitDiceRestriction(
+  currentHitDie: string,
+  maxSizeRestriction: string
+): string {
   const classMatch = currentHitDie.match(/\d*d(\d+)/);
   const restrictedMatch = maxSizeRestriction.match(/d(\d+)/);
 
@@ -154,11 +160,7 @@ export function getRacialModificationInfo(
   const primaryClassId = character.class[0];
 
   // Custom classes don't have racial modifications
-  if (
-    character.customClasses &&
-    primaryClassId &&
-    character.customClasses[primaryClassId]
-  ) {
+  if (hasCustomClasses(character) && primaryClassId) {
     return null;
   }
 

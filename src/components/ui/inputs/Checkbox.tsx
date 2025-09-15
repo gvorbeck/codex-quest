@@ -156,10 +156,10 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     // Label styles using design tokens
     const labelClasses = cn(
-      "font-medium cursor-pointer select-none",
+      "font-medium select-none",
       DESIGN_TOKENS.colors.text.primary, // Using design token for text color
       config.text,
-      disabled ? "cursor-not-allowed opacity-50" : ""
+      disabled ? "opacity-50" : ""
     );
 
     // Helper text styles using design tokens
@@ -181,20 +181,23 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     return (
       <div className={containerClasses}>
         <div className={itemsContainerClasses}>
-          <div className="relative flex items-center">
-            <input
-              ref={ref}
-              id={checkboxId}
-              type="checkbox"
-              checked={isControlled ? checked : undefined}
-              defaultChecked={!isControlled ? defaultChecked : undefined}
-              onChange={handleChange}
-              disabled={disabled}
-              aria-checked={indeterminate ? "mixed" : checkboxChecked}
-              aria-describedby={combinedAriaDescribedBy || undefined}
-              className="sr-only"
-              {...props}
-            />
+          <input
+            ref={ref}
+            id={checkboxId}
+            type="checkbox"
+            checked={isControlled ? checked : undefined}
+            defaultChecked={!isControlled ? defaultChecked : undefined}
+            onChange={handleChange}
+            disabled={disabled}
+            aria-checked={indeterminate ? "mixed" : checkboxChecked}
+            aria-describedby={combinedAriaDescribedBy || undefined}
+            className="sr-only"
+            {...props}
+          />
+          <label
+            htmlFor={checkboxId}
+            className={cn("flex items-center cursor-pointer", config.gap)}
+          >
             <div className={checkboxClasses}>
               {indeterminate ? (
                 <Icon
@@ -212,10 +215,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 )
               )}
             </div>
-          </div>
-
-          <label htmlFor={checkboxId} className={labelClasses}>
-            {label}
+            <span className={labelClasses}>{label}</span>
           </label>
         </div>
 

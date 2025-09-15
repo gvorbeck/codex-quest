@@ -52,6 +52,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
     onCharacterChange({
       ...character,
       hp: {
+        ...character.hp,
         current: finalHP,
         max: finalHP,
       },
@@ -63,6 +64,7 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
     onCharacterChange({
       ...character,
       hp: {
+        ...character.hp,
         current: maxHP,
         max: maxHP,
       },

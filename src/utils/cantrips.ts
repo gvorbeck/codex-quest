@@ -1,7 +1,12 @@
 import type { Character, Cantrip } from "@/types/character";
-import { allClasses } from "@/data/classes";
 import cantripData from "@/data/cantrips.json";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
+import {
+  hasClassType,
+  hasCustomClasses,
+  hasSpells,
+  isCustomClass,
+} from "@/utils/characterHelpers";
 
 export interface SpellTypeInfo {
   type: "orisons" | "cantrips";
@@ -12,35 +17,18 @@ export interface SpellTypeInfo {
 }
 
 /**
- * Determines if a character can learn cantrips/orisons
- */
-export function canLearnCantrips(character: Character): boolean {
-  return character.class.some((classId) => {
-    // Check if it's a custom class that uses spells
-    if (character.customClasses && character.customClasses[classId]) {
-      return character.customClasses[classId].usesSpells;
-    }
-    
-    const classData = allClasses.find((c) => c.id === classId);
-    return classData?.spellcasting !== undefined;
-  });
-}
-
-/**
  * Gets available cantrips/orisons for character classes
  */
 export function getAvailableCantrips(character: Character): Cantrip[] {
   const mappedClasses = character.class.map((classId) => {
-    // For custom classes that use spells, default to magic-user cantrips
-    if (character.customClasses && character.customClasses[classId]) {
-      const customClass = character.customClasses[classId];
-      if (customClass.usesSpells) {
-        return "magic-user"; // Default custom spellcasters to arcane cantrips
-      }
+    // For custom spellcasting classes, default to magic-user cantrips
+    if (isCustomClass(classId) && hasSpells(character)) {
+      return "magic-user";
     }
-    
-    // Map class IDs to cantrip class names
-    if (classId === "magic-user") return "magic-user";
+
+    // Standard classes (and non-spellcasting custom classes) keep their original names
+    // Standard: necromancers get exclusive cantrips, others share the magic-user pool
+    // Custom: will be filtered out since no cantrips match the custom class ID
     return classId;
   });
 
@@ -54,23 +42,14 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
  */
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   // Check for custom classes first - default to arcane (Intelligence)
-  const hasCustomSpellcaster = character.class.some((classId) => {
-    if (character.customClasses && character.customClasses[classId]) {
-      return character.customClasses[classId].usesSpells;
-    }
-    return false;
-  });
+  const hasCustomSpellcaster =
+    hasCustomClasses(character) && hasSpells(character);
 
-  // Use classType property instead of hardcoded arrays
-  const hasDivineClasses = character.class.some((classId) => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.CLERIC;
-  });
-  
-  const hasArcaneClasses = hasCustomSpellcaster || character.class.some((classId) => {
-    const classData = allClasses.find(c => c.id === classId);
-    return classData?.classType === CHARACTER_CLASSES.MAGIC_USER;
-  });
+  // Use consolidated class type checking
+  const hasDivineClasses = hasClassType(character, CHARACTER_CLASSES.CLERIC);
+  const hasArcaneClasses =
+    hasCustomSpellcaster ||
+    hasClassType(character, CHARACTER_CLASSES.MAGIC_USER);
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;
 

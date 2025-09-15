@@ -2,6 +2,8 @@
  * Shared utilities for spell and encounter systems
  */
 
+import { roller } from "@/utils/dice";
+
 // Constants for spell-related calculations
 export const SPELL_CONSTANTS = {
   // Success rate calculations
@@ -10,12 +12,11 @@ export const SPELL_CONSTANTS = {
   SPELL_LEVEL_PENALTY: 10,
   MIN_SUCCESS_RATE: 5,
   MAX_SUCCESS_RATE: 95,
-  
+
   // Encounter constants
   ENCOUNTER_CHANCE: 1, // 1 in 6
-  DICE_SIDES: 6,
   TABLE_DICE: "1d12",
-  
+
   // Timing constants
   GENERATION_DELAY: 500,
   RESULT_DELAY: 300,
@@ -30,11 +31,11 @@ export function calculateSpellSuccessRate(
   bonusModifier: number = 0,
   spellLevel: number = 1
 ): number {
-  const baseRate = 
+  const baseRate =
     SPELL_CONSTANTS.BASE_SUCCESS_RATE +
     SPELL_CONSTANTS.SUCCESS_RATE_PER_LEVEL * casterLevel +
     intelligenceScore;
-  
+
   const spellPenalty = spellLevel * SPELL_CONSTANTS.SPELL_LEVEL_PENALTY;
   const totalRate = baseRate - spellPenalty + bonusModifier;
 
@@ -66,14 +67,17 @@ export function calculateSpellTime(
   minTimeDays: number = 1
 ): number {
   const baseDays = spellLevel * baseTimePerLevel;
-  return Math.max(minTimeDays, Math.floor(baseDays * (1 - timeReductionPercent / 100)));
+  return Math.max(
+    minTimeDays,
+    Math.floor(baseDays * (1 - timeReductionPercent / 100))
+  );
 }
 
 /**
  * Generate a random roll for encounter checks
  */
 export function rollForEncounter(): boolean {
-  return Math.floor(Math.random() * SPELL_CONSTANTS.DICE_SIDES) + 1 === SPELL_CONSTANTS.ENCOUNTER_CHANCE;
+  return roller("1d6").total === SPELL_CONSTANTS.ENCOUNTER_CHANCE;
 }
 
 /**
@@ -81,11 +85,11 @@ export function rollForEncounter(): boolean {
  */
 export function getRandomTableResult<T>(table: readonly T[]): T | null {
   if (table.length === 0) return null;
-  
+
   // Roll 1d12 but cap to table length
-  const roll = Math.floor(Math.random() * 12) + 1;
+  const roll = roller(SPELL_CONSTANTS.TABLE_DICE).total;
   const index = Math.min(roll - 1, table.length - 1);
-  
+
   return table[index] || null;
 }
 
@@ -93,12 +97,9 @@ export function getRandomTableResult<T>(table: readonly T[]): T | null {
  * Format spell level with proper ordinal suffix
  */
 export function formatSpellLevel(level: number): string {
-  const suffix = 
-    level === 1 ? "st" :
-    level === 2 ? "nd" :
-    level === 3 ? "rd" :
-    "th";
-  
+  const suffix =
+    level === 1 ? "st" : level === 2 ? "nd" : level === 3 ? "rd" : "th";
+
   return `${level}${suffix}`;
 }
 
@@ -124,12 +125,12 @@ export function parseCreatureName(encounterName: string): string {
  */
 export function generateDefaultAC(): number {
   // Default AC for most creatures is around 12-16, with some variation
-  return 12 + Math.floor(Math.random() * 4) + 1; // AC 13-16
+  return 12 + roller("1d4").total; // AC 13-16
 }
 
 /**
  * Delay execution for UX purposes
  */
 export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

@@ -5,8 +5,9 @@ import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection, Icon } from "@/components/ui/display";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
+import { isCustomRace, getRaceById } from "@/utils/characterHelpers";
 import type { BaseStepProps } from "@/types/character";
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState, useEffect } from "react";
 
 interface RaceStepProps extends BaseStepProps {
   includeSupplemental: boolean;
@@ -63,29 +64,44 @@ function RaceStep({
     return options;
   }, [availableRaces]);
 
+  const [customRaceName, setCustomRaceName] = useState("");
+  const [isInCustomMode, setIsInCustomMode] = useState(false);
+
+  // Initialize custom mode based on current character race
+  useEffect(() => {
+    const isCurrentRaceCustom = character.race && isCustomRace(character.race);
+    if (isCurrentRaceCustom) {
+      setIsInCustomMode(true);
+      setCustomRaceName(character.race);
+    }
+  }, [character.race]); // Include character.race dependency
+
   const handleRaceChange = (raceId: string) => {
     if (raceId === "custom") {
+      // Switch to custom race input mode
+      setIsInCustomMode(true);
+      setCustomRaceName("");
+      onCharacterChange({
+        ...character,
+        race: "", // Clear race until custom name is entered
+      });
+    } else {
+      // Standard race selected
+      setIsInCustomMode(false);
+      setCustomRaceName("");
       onCharacterChange({
         ...character,
         race: raceId,
-        customRace: character.customRace || { name: "" },
       });
-    } else {
-      // Clear custom race when selecting a standard race
-      const updatedCharacter = { ...character, race: raceId };
-      if (updatedCharacter.customRace) {
-        delete updatedCharacter.customRace;
-      }
-      onCharacterChange(updatedCharacter);
     }
   };
 
   const handleCustomRaceNameChange = (name: string) => {
+    setCustomRaceName(name);
+    // Store the custom race name directly in the race field
     onCharacterChange({
       ...character,
-      customRace: {
-        name,
-      },
+      race: name,
     });
   };
 
@@ -93,8 +109,14 @@ function RaceStep({
 
   // Find the selected race object for display purposes
   const selectedRace = character.race
-    ? allRaces.find((race) => race.id === character.race)
+    ? getRaceById(character.race)
     : null;
+
+  // Check if current race is custom
+  const isCurrentRaceCustom = character.race && isCustomRace(character.race);
+  
+  // Determine what should be selected in the dropdown
+  const selectValue = isInCustomMode ? "custom" : currentRaceId;
 
   return (
     <StepWrapper
@@ -120,7 +142,7 @@ function RaceStep({
                 <Select
                   label="Race"
                   options={raceOptions}
-                  value={currentRaceId}
+                  value={selectValue}
                   onValueChange={handleRaceChange}
                   placeholder="Select a race..."
                   required
@@ -128,11 +150,11 @@ function RaceStep({
                 />
 
                 {/* Custom Race Name Input */}
-                {currentRaceId === "custom" && (
+                {isInCustomMode && (
                   <div className="mt-4">
                     <FormField label="Custom Race Name" required>
                       <TextInput
-                        value={character.customRace?.name || ""}
+                        value={isCurrentRaceCustom ? character.race : customRaceName}
                         onChange={handleCustomRaceNameChange}
                         placeholder="Enter your custom race name..."
                         required
@@ -154,19 +176,19 @@ function RaceStep({
       </section>
 
       {/* Selected Race Details */}
-      {(selectedRace || currentRaceId === "custom") && (
+      {(selectedRace || isInCustomMode) && (
         <section aria-labelledby="race-details-heading" className="mb-8">
           <Typography variant="sectionHeading" id="race-details-heading">
             Race Details
           </Typography>
 
           <Card variant="info">
-            {currentRaceId === "custom" ? (
+            {isInCustomMode ? (
               <>
                 {/* Custom Race Header */}
                 <InfoCardHeader
                   icon={<Icon name="edit" />}
-                  title={character.customRace?.name || "Custom Race"}
+                  title={isCurrentRaceCustom ? character.race : (customRaceName || "Custom Race")}
                   iconSize="lg"
                   badge={{ text: "Custom" }}
                   className="mb-6"

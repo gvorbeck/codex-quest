@@ -12,12 +12,25 @@ import { SpellChecklistSelector } from "@/components/character/creation/SpellChe
 import { CantripSelector } from "@/components/character/shared";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import type { Spell, Cantrip, BaseStepProps, Character } from "@/types/character";
-import { getFirstLevelSpellsForClass, getAllSpellsForCustomClass } from "@/utils/spells";
+import type {
+  Spell,
+  Cantrip,
+  BaseStepProps,
+  Character,
+} from "@/types/character";
+import {
+  getFirstLevelSpellsForClass,
+  getAllSpellsForCustomClass,
+} from "@/utils/spells";
 import { logger } from "@/utils/logger";
 import { getSpellTypeInfo } from "@/utils/cantrips";
-import { getEffectiveSpellcastingClass, assignStartingCantrips } from "@/utils/characterCreation";
-import { getCharacterSpellSystemType } from "@/utils/characterHelpers";
+import {
+  getEffectiveSpellcastingClass,
+  assignStartingCantrips,
+} from "@/utils/characterCreation";
+import { getCharacterSpellSystemType, hasCustomRace } from "@/utils/characterHelpers";
+import { useLocalStorage } from "@/hooks";
+import { STORAGE_KEYS } from "@/constants/storage";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps extends BaseStepProps {
@@ -42,25 +55,31 @@ function ClassStepComponent({
 
   // State for managing available spells
   const [availableSpells, setAvailableSpells] = useState<Spell[]>([]);
-  const [allSpellsForCustomClass, setAllSpellsForCustomClass] = useState<Spell[]>([]);
+  const [allSpellsForCustomClass, setAllSpellsForCustomClass] = useState<
+    Spell[]
+  >([]);
   const [isLoadingSpells, setIsLoadingSpells] = useState(false);
   const [isLoadingAllSpells, setIsLoadingAllSpells] = useState(false);
+
+  // Use localStorage for custom class magic toggle
+  const [customClassMagicToggle, setCustomClassMagicToggle] =
+    useLocalStorage<boolean>(STORAGE_KEYS.CUSTOM_CLASS_MAGIC_TOGGLE, false);
 
   // Filter classes based on race restrictions and supplemental content setting
   const availableClasses = useMemo(() => {
     // Custom races have no class restrictions
-    if (character.race === "custom") {
+    if (hasCustomRace(character)) {
       return allClasses.filter(
         (cls) => includeSupplementalClass || !cls.supplementalContent
       );
     }
-    
+
     return allClasses.filter(
       (cls) =>
         selectedRace?.allowedClasses.includes(cls.id) &&
         (includeSupplementalClass || !cls.supplementalContent)
     );
-  }, [selectedRace, includeSupplementalClass, character.race]);
+  }, [selectedRace, includeSupplementalClass, character]);
 
   // Valid combination classes for elves and dokkalfar
   const validCombinations = useMemo(() => {
@@ -73,13 +92,13 @@ function ClassStepComponent({
   // Check if the character's race can use combination classes
   const canUseCombinationClasses = useMemo(() => {
     // Custom races can use combination classes
-    if (character.race === "custom") {
+    if (hasCustomRace(character)) {
       return true;
     }
     return (
       selectedRace && ["elf", "dokkalfar", "half-elf"].includes(selectedRace.id)
     );
-  }, [selectedRace, character.race]);
+  }, [selectedRace, character]);
 
   const handleSingleClassChange = (classId: string) => {
     const newCharacter = {
@@ -90,7 +109,7 @@ function ClassStepComponent({
     };
 
     // Auto-assign starting cantrips
-    const startingCantrips = assignStartingCantrips(newCharacter, availableClasses);
+    const startingCantrips = assignStartingCantrips(newCharacter);
 
     onCharacterChange({
       ...newCharacter,
@@ -111,7 +130,7 @@ function ClassStepComponent({
       };
 
       // Auto-assign starting cantrips
-      const startingCantrips = assignStartingCantrips(newCharacter, availableClasses);
+      const startingCantrips = assignStartingCantrips(newCharacter);
 
       onCharacterChange({
         ...newCharacter,
@@ -122,10 +141,13 @@ function ClassStepComponent({
 
   // Load available spells when spellcasting class changes
   useEffect(() => {
-    const spellcastingClass = getEffectiveSpellcastingClass(character, availableClasses);
-    
+    const spellcastingClass = getEffectiveSpellcastingClass(
+      character,
+      availableClasses
+    );
+
     if (spellcastingClass) {
-      if (spellcastingClass.type === 'custom') {
+      if (spellcastingClass.type === "custom") {
         // Load all spells for custom classes
         setIsLoadingAllSpells(true);
         getAllSpellsForCustomClass()
@@ -139,7 +161,7 @@ function ClassStepComponent({
           .finally(() => {
             setIsLoadingAllSpells(false);
           });
-        
+
         // Clear standard spell loading
         setAvailableSpells([]);
         setIsLoadingSpells(false);
@@ -157,7 +179,7 @@ function ClassStepComponent({
           .finally(() => {
             setIsLoadingSpells(false);
           });
-        
+
         // Clear custom spell loading
         setAllSpellsForCustomClass([]);
         setIsLoadingAllSpells(false);
@@ -209,7 +231,6 @@ function ClassStepComponent({
     onCharacterChange(updatedCharacter);
   };
 
-
   const handleCombinationToggle = (enabled: boolean) => {
     onUseCombinationClassChange(enabled);
     if (!enabled) {
@@ -251,22 +272,16 @@ function ClassStepComponent({
     );
   }
 
-  // Determine if we have a custom spellcasting class
-  const hasCustomSpellcaster = character.class.some((classId) => {
-    if (character.customClasses && character.customClasses[classId]) {
-      return character.customClasses[classId].usesSpells;
-    }
-    return false;
-  });
-
   // Get spell-related data for current class configuration
   // Only magic-user types get starting spells at level 1 (they have Read Magic)
   // Cleric types start getting spells at level 2
   const characterSpellSystemType = getCharacterSpellSystemType(character);
-  const shouldShowStartingSpells = characterSpellSystemType === "magic-user" || characterSpellSystemType === "custom";
-  
-  const showStandardSpellSelection = availableSpells.length > 0 && !hasCustomSpellcaster && shouldShowStartingSpells;
-  const showCustomSpellSelection = allSpellsForCustomClass.length > 0 && hasCustomSpellcaster;
+  const shouldShowStartingSpells =
+    characterSpellSystemType === "magic-user" ||
+    characterSpellSystemType === "custom";
+
+  const showStandardSpellSelection =
+    availableSpells.length > 0 && shouldShowStartingSpells;
 
   return (
     <StepWrapper
@@ -302,7 +317,11 @@ function ClassStepComponent({
                 <div className="border-t border-zinc-600 pt-6">
                   <OptionToggle
                     title="Combination Classes"
-                    description={`As ${character.race === "custom" ? "a custom race" : `an ${selectedRace?.name}`}, you can choose a combination class that combines the abilities of two base classes.`}
+                    description={`As ${
+                      hasCustomRace(character)
+                        ? "a custom race"
+                        : `an ${selectedRace?.name}`
+                    }, you can choose a combination class that combines the abilities of two base classes.`}
                     switchLabel="Use Combination Class"
                     checked={useCombinationClass}
                     onCheckedChange={handleCombinationToggle}
@@ -322,6 +341,17 @@ function ClassStepComponent({
             availableClasses={availableClasses}
             onClassChange={handleSingleClassChange}
             onCharacterChange={onCharacterChange}
+            customClassMagicToggle={customClassMagicToggle}
+            onCustomClassMagicToggle={(value) => {
+              setCustomClassMagicToggle(value);
+              // Clear spells when magic is toggled off
+              if (!value) {
+                onCharacterChange({
+                  ...character,
+                  spells: [],
+                });
+              }
+            }}
           />
 
           {/* Standard spell selection for built-in classes */}
@@ -360,7 +390,7 @@ function ClassStepComponent({
           )}
 
           {/* Custom spell selection for custom classes */}
-          {showCustomSpellSelection && (
+          {customClassMagicToggle && (
             <>
               <SpellChecklistSelector
                 character={character}
@@ -437,7 +467,7 @@ function ClassStepComponent({
           )}
 
           {/* Custom spell selection for custom combination classes */}
-          {showCustomSpellSelection && (
+          {customClassMagicToggle && (
             <>
               <SpellChecklistSelector
                 character={character}

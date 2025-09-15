@@ -8,7 +8,6 @@ import {
   type CombatCharacterData,
   calculateCombatantAC,
   normalizeCombatantHP,
-  calculateDexModifier,
   sortCombatantsByInitiative,
   rollInitiative,
   clearCorruptedCombatData,
@@ -22,7 +21,10 @@ interface CombatState {
   isActive: boolean;
 }
 
-export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) => void) {
+export function useCombatLogic(
+  game?: Game,
+  onUpdateGame?: (updatedGame: Game) => void
+) {
   const { showSuccess, showError, showInfo } = useNotifications();
   const { playerCharacters } = usePlayerCharacters(game || ({} as Game));
 
@@ -50,7 +52,12 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
   >(`pre-combat-initiatives-${game?.id || "temp"}`, {});
 
   // Extract state for easier access
-  const { combatants, currentTurn, round, isActive: isCombatActive } = combatState;
+  const {
+    combatants,
+    currentTurn,
+    round,
+    isActive: isCombatActive,
+  } = combatState;
 
   // Get available players (not yet added to combat)
   const availablePlayers = useMemo(() => {
@@ -73,7 +80,7 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
           initiative: 0,
           isPlayer: true,
           _sortId: Date.now() + Math.random(),
-          dexModifier: calculateDexModifier(combatChar),
+          dexModifier: combatChar.abilities?.dexterity?.modifier ?? 0,
           hp: normalizeCombatantHP(combatChar),
           avatar: combatChar.avatar,
         } as CombatantWithInitiative;
@@ -99,7 +106,7 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
             initiative: 0,
             isPlayer: true,
             _sortId: Date.now() + Math.random(),
-            dexModifier: calculateDexModifier(combatChar),
+            dexModifier: combatChar.abilities?.dexterity?.modifier ?? 0,
             hp: normalizeCombatantHP(combatChar),
             avatar: combatChar.avatar,
           } as CombatantWithInitiative;
@@ -145,8 +152,10 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
   const allCombatantsHaveInitiative = useMemo(() => {
     if (isCombatActive) {
       // During combat, check the active combatants
-      return combatants.length > 0 &&
-        combatants.every((combatant) => combatant.initiative > 0);
+      return (
+        combatants.length > 0 &&
+        combatants.every((combatant) => combatant.initiative > 0)
+      );
     } else {
       // Before combat, check if all current combatants have pre-combat initiative set
       return (
@@ -212,7 +221,14 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
         title: "Combatant Removed",
       });
     },
-    [game, onUpdateGame, currentCombatants, preCombatInitiatives, setPreCombatInitiatives, showSuccess]
+    [
+      game,
+      onUpdateGame,
+      currentCombatants,
+      preCombatInitiatives,
+      setPreCombatInitiatives,
+      showSuccess,
+    ]
   );
 
   // Initialize combat with all combatants
@@ -234,7 +250,9 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
     });
 
     // Sort by initiative (descending)
-    const sortedCombatants = sortCombatantsByInitiative(combatantsWithInitiative);
+    const sortedCombatants = sortCombatantsByInitiative(
+      combatantsWithInitiative
+    );
 
     setCombatState({
       combatants: sortedCombatants,
@@ -300,7 +318,9 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
 
   // Update pre-combat initiative for multiple combatants at once
   const updateMultiplePreCombatInitiatives = useCallback(
-    (updates: Array<{ combatant: CombatantWithInitiative; initiative: number }>) => {
+    (
+      updates: Array<{ combatant: CombatantWithInitiative; initiative: number }>
+    ) => {
       const newInitiatives = { ...preCombatInitiatives };
       updates.forEach(({ combatant, initiative }) => {
         newInitiatives[combatant.name] = initiative;
@@ -313,16 +333,20 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
   // Update initiative during combat
   const updateInitiative = useCallback(
     (targetCombatant: CombatantWithInitiative, newInitiative: number) => {
-      const targetIndex = combatants.findIndex(
-        (c) => {
-          const sortIdMatch = targetCombatant._sortId && c._sortId && c._sortId === targetCombatant._sortId;
-          const zeroInitiativeMatch = c.initiative === 0 && c.name === targetCombatant.name;
-          const exactMatch = c.name === targetCombatant.name && c.initiative === targetCombatant.initiative;
-          
-          return sortIdMatch || zeroInitiativeMatch || exactMatch;
-        }
-      );
-      
+      const targetIndex = combatants.findIndex((c) => {
+        const sortIdMatch =
+          targetCombatant._sortId &&
+          c._sortId &&
+          c._sortId === targetCombatant._sortId;
+        const zeroInitiativeMatch =
+          c.initiative === 0 && c.name === targetCombatant.name;
+        const exactMatch =
+          c.name === targetCombatant.name &&
+          c.initiative === targetCombatant.initiative;
+
+        return sortIdMatch || zeroInitiativeMatch || exactMatch;
+      });
+
       if (targetIndex === -1) return;
 
       const foundCombatant = combatants[targetIndex];
@@ -342,7 +366,7 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
       if (targetCombatant.isPlayer) {
         setPreCombatInitiatives({
           ...preCombatInitiatives,
-          [targetCombatant.name]: newInitiative
+          [targetCombatant.name]: newInitiative,
         });
       }
 
@@ -351,15 +375,21 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
         combatants: updatedCombatants,
       });
     },
-    [combatants, combatState, setCombatState, preCombatInitiatives, setPreCombatInitiatives]
+    [
+      combatants,
+      combatState,
+      setCombatState,
+      preCombatInitiatives,
+      setPreCombatInitiatives,
+    ]
   );
 
   // Roll initiative for all monsters during combat
   const rollInitiativeForMonsters = useCallback(() => {
-    const monsters = combatants.filter(c => !c.isPlayer);
+    const monsters = combatants.filter((c) => !c.isPlayer);
     if (monsters.length === 0) return;
 
-    const updatedCombatants = combatants.map(combatant => {
+    const updatedCombatants = combatants.map((combatant) => {
       if (!combatant.isPlayer) {
         return {
           ...combatant,
@@ -375,8 +405,8 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
       combatants: updatedCombatants,
     });
 
-    showInfo(`Rolled initiative for ${monsters.length} monsters`, { 
-      title: "Initiative Rolled" 
+    showInfo(`Rolled initiative for ${monsters.length} monsters`, {
+      title: "Initiative Rolled",
     });
   }, [combatants, combatState, setCombatState, showInfo]);
 
@@ -424,27 +454,32 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
     const newTurn = currentTurn + 1;
     if (newTurn >= combatants.length) {
       // Clear all initiative values for the new round
-      const combatantsWithClearedInitiative = combatants.map(combatant => ({
+      const combatantsWithClearedInitiative = combatants.map((combatant) => ({
         ...combatant,
         initiative: 0,
         _sortId: Date.now() + Math.random(), // New sort ID for re-sorting
       }));
-      
+
       setCombatState({
         ...combatState,
         combatants: combatantsWithClearedInitiative,
         currentTurn: 0,
         round: round + 1,
       });
-      showInfo(`Round ${round + 1} begins! Roll initiative for all combatants.`, { title: "New Round" });
+      showInfo(
+        `Round ${round + 1} begins! Roll initiative for all combatants.`,
+        { title: "New Round" }
+      );
     } else {
       setCombatState({
         ...combatState,
         currentTurn: newTurn,
       });
-      
+
       const currentCombatantInTurn = combatants[newTurn];
-      showInfo(`${currentCombatantInTurn?.name}'s turn`, { title: "Turn Order" });
+      showInfo(`${currentCombatantInTurn?.name}'s turn`, {
+        title: "Turn Order",
+      });
     }
   }, [combatants, combatState, currentTurn, round, showInfo, setCombatState]);
 
@@ -471,7 +506,7 @@ export function useCombatLogic(game?: Game, onUpdateGame?: (updatedGame: Game) =
     availablePlayers,
     currentCombatants,
     currentCombatantsWithInitiative,
-    
+
     // Actions
     addPlayerToCombat,
     removeCombatant,

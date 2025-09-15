@@ -8,6 +8,7 @@ export const STORAGE_KEYS = {
   INCLUDE_SUPPLEMENTAL_RACE: "includeSupplemental",
   INCLUDE_SUPPLEMENTAL_CLASS: "includeSupplementalClass",
   USE_COMBINATION_CLASS: "useCombinationClass",
+  CUSTOM_CLASS_MAGIC_TOGGLE: "customClassMagicToggle",
 } as const;
 
 /**

@@ -190,6 +190,15 @@ export function getTotalCurrencyValueInGold(currency: Character["currency"]): nu
 }
 
 /**
+ * Checks if a character's currency contains any fractional amounts
+ * @param currency - The character's currency object
+ * @returns True if any currency amount is fractional, false otherwise
+ */
+export function hasFractionalCurrency(currency: Character["currency"]): boolean {
+  return Object.values(currency).some(amount => amount && !Number.isInteger(amount));
+}
+
+/**
  * Cleans up fractional currency amounts by converting them to whole coins
  * Used for data migration to fix existing characters with fractional currency
  * @param currency - The character's currency object
