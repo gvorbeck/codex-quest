@@ -2,7 +2,7 @@ import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
 import { LevelUpModal } from "@/components/modals";
 import { logger } from "@/utils/logger";
-import { canLevelUp } from "@/utils/characterHelpers";
+import { canLevelUp, hasCustomClasses, getXPToNextLevel } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 import { useAuth } from "@/hooks/useAuth";
 import { saveCharacter } from "@/services/characters";
@@ -68,6 +68,11 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
 
   // Check if character can level up using utility function
   const isLevelUpEnabled = canLevelUp(character, classes);
+  
+  // Calculate XP needed to reach next level for standard classes
+  const xpToNextLevel = !hasCustomClasses(character) 
+    ? getXPToNextLevel(character, classes)
+    : null;
   const saveXPToFirebase = async (newXP: number) => {
     if (!user) return;
 
@@ -184,6 +189,16 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
             Level Up
           </Button>
         </div>
+
+        {/* Helper text for XP to next level (only for standard classes) */}
+        {xpToNextLevel !== null && (
+          <div className="mt-2 px-2 text-sm text-zinc-400">
+            {xpToNextLevel > 0 
+              ? `${xpToNextLevel.toLocaleString()} XP needed to reach level ${character.level + 1}`
+              : `Ready to level up to ${character.level + 1}!`
+            }
+          </div>
+        )}
       </div>
 
       <LevelUpModal

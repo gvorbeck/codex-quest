@@ -232,7 +232,7 @@ export function getCustomRace(raceId: string) {
  */
 export function getRaceName(character: Character, raceId?: string): string {
   const targetRaceId = raceId || character.race;
-  
+
   // Check if it's a custom race first
   if (isCustomRace(targetRaceId)) {
     const customRace = getCustomRace(targetRaceId);
@@ -351,6 +351,32 @@ export function canLevelUp(
   const nextLevel = character.level + 1;
   const requiredXP = standardClass.experienceTable[nextLevel];
   return requiredXP !== undefined && character.xp >= requiredXP;
+}
+
+/**
+ * Calculate XP needed to reach the next level for standard classes
+ * Returns null for custom classes or if already at max level
+ */
+export function getXPToNextLevel(
+  character: Character,
+  availableClasses: Class[]
+): number | null {
+  // If no class or custom class, return null
+  if (character.class.length === 0 || hasCustomClasses(character)) return null;
+  
+  const nextLevel = character.level + 1;
+  
+  // Calculate total XP required across all classes
+  const totalXPRequired = character.class.reduce((total, classId) => {
+    const classData = getClassFromAvailable(classId, availableClasses);
+    const xpRequired = classData?.experienceTable[nextLevel];
+    return xpRequired !== undefined ? total + xpRequired : total;
+  }, 0);
+  
+  // If no XP requirements found, character is at max level
+  if (totalXPRequired === 0) return null;
+  
+  return totalXPRequired - character.xp;
 }
 
 /**
