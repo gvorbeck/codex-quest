@@ -1,6 +1,8 @@
 import { Select } from "@/components/ui/inputs";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui";
+import { MarkdownText } from "@/components/ui/display";
+import { LoadingState } from "@/components/ui/feedback";
 import { LAYOUT_STYLES } from "@/constants";
 import type { Character, Spell } from "@/types/character";
 import { memo } from "react";
@@ -34,6 +36,64 @@ function SpellSelectorComponent({
       ? character.spells[0]?.name || ""
       : "";
 
+  const renderSpellDetails = (spell: Spell) => (
+    <div aria-labelledby={`${detailsId}-info-heading`}>
+      <Typography
+        variant="infoHeading"
+        className={`${LAYOUT_STYLES.iconText} mb-6`}
+        id={`${detailsId}-info-heading`}
+      >
+        <Icon
+          name="star"
+          size="md"
+          className="flex-shrink-0 text-amber-400"
+          aria-hidden={true}
+        />
+        {spell.name}
+        <Badge variant="status">Level 1</Badge>
+      </Typography>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <Card variant="nested">
+          <Typography variant="subHeading">
+            <Icon name="map-pin" size="sm" aria-hidden={true} />
+            Range
+          </Typography>
+          <Typography
+            variant="helper"
+            color="primary"
+            aria-label={`Spell range: ${spell.range}. This determines how far you can cast the spell from your location.`}
+          >
+            {spell.range}
+          </Typography>
+        </Card>
+        <Card variant="nested">
+          <Typography variant="subHeading">
+            <Icon name="clock" size="sm" aria-hidden={true} />
+            Duration
+          </Typography>
+          <Typography
+            variant="helper"
+            color="primary"
+            aria-label={`Spell duration: ${spell.duration}. This is how long the spell's effects last.`}
+          >
+            {spell.duration}
+          </Typography>
+        </Card>
+      </div>
+
+      <Card variant="nested">
+        <Typography variant="subHeadingSpaced">
+          <Icon name="info" size="sm" aria-hidden={true} />
+          Description
+        </Typography>
+        <Typography variant="description">
+          {spell.description}
+        </Typography>
+      </Card>
+    </div>
+  );
+
   return (
     <section aria-labelledby={`${detailsId}-heading`} className="mb-8">
       <Typography
@@ -45,17 +105,15 @@ function SpellSelectorComponent({
       >
         {title}
       </Typography>
-      <div
+      <MarkdownText
+        content={description}
+        variant="caption"
         className="text-sm text-zinc-400 mb-6"
-        dangerouslySetInnerHTML={{ __html: description }}
       />
 
       <Card variant="standard" className="mb-6">
         {isLoading ? (
-          <div className="flex items-center justify-center py-4">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-lime-400"></div>
-            <span className="ml-3 text-zinc-400">Loading spells...</span>
-          </div>
+          <LoadingState variant="inline" message="Loading spells..." className="py-4" />
         ) : (
           <>
             <Select
@@ -85,67 +143,7 @@ function SpellSelectorComponent({
 
       {selectedSpell && character.spells && character.spells.length > 0 && (
         <Card variant="info" id={`${detailsId}-details`}>
-          {(() => {
-            const spell = character.spells[0];
-            if (!spell) return null;
-            return (
-              <div aria-labelledby={`${detailsId}-info-heading`}>
-                <Typography
-                  variant="infoHeading"
-                  className={`${LAYOUT_STYLES.iconText} mb-6`}
-                  id={`${detailsId}-info-heading`}
-                >
-                  <Icon
-                    name="star"
-                    size="md"
-                    className="flex-shrink-0 text-amber-400"
-                    aria-hidden={true}
-                  />
-                  {spell.name}
-                  <Badge variant="status">Level 1</Badge>
-                </Typography>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  <Card variant="nested">
-                    <Typography variant="subHeading">
-                      <Icon name="map-pin" size="sm" aria-hidden={true} />
-                      Range
-                    </Typography>
-                    <Typography
-                      variant="helper"
-                      color="primary"
-                      aria-label={`Spell range: ${spell.range}. This determines how far you can cast the spell from your location.`}
-                    >
-                      {spell.range}
-                    </Typography>
-                  </Card>
-                  <Card variant="nested">
-                    <Typography variant="subHeading">
-                      <Icon name="clock" size="sm" aria-hidden={true} />
-                      Duration
-                    </Typography>
-                    <Typography
-                      variant="helper"
-                      color="primary"
-                      aria-label={`Spell duration: ${spell.duration}. This is how long the spell's effects last.`}
-                    >
-                      {spell.duration}
-                    </Typography>
-                  </Card>
-                </div>
-
-                <Card variant="nested">
-                  <Typography variant="subHeadingSpaced">
-                    <Icon name="info" size="sm" aria-hidden={true} />
-                    Description
-                  </Typography>
-                  <Typography variant="description">
-                    {spell.description}
-                  </Typography>
-                </Card>
-              </div>
-            );
-          })()}
+          {character.spells[0] && renderSpellDetails(character.spells[0])}
         </Card>
       )}
     </section>

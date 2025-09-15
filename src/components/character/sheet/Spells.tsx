@@ -3,16 +3,17 @@ import type { Character, Spell, Cantrip } from "@/types/character";
 import { SectionWrapper, Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
-import { Icon } from "@/components/ui";
+import { Icon, SectionHeader } from "@/components/ui";
 import { SkeletonList } from "@/components/ui/feedback";
 import { Modal } from "@/components/modals";
-import { CantripSelector, SpellDetails } from "@/components/character/shared";
+import { CantripSelector, SpellDetails, TurnUndeadSection } from "@/components/character/shared";
 import MUAddSpellModal from "@/components/modals/character/MUAddSpellModal";
 import PreparedSpellsSection from "./spells/PreparedSpellsSection";
 import SpellSlotDisplay from "./spells/SpellSlotDisplay";
 import { useSpellData } from "./spells/hooks/useSpellData";
 import { useClericSpells } from "./spells/hooks/useClericSpells";
 import { useSpellPreparation } from "./spells/hooks/useSpellPreparation";
+import { hasTurnUndeadAbility } from "@/utils/characterHelpers";
 
 interface SpellsProps {
   character?: Character;
@@ -40,7 +41,7 @@ type DisplayableSpell = SpellWithLevel | CantripWithLevel;
 interface SpellSectionProps {
   title: string;
   items: DisplayableSpell[];
-  iconColor: string;
+  dotColor?: string;
   usageDescription?: string;
   emptyStateMessage: string;
   editButtonText?: string | undefined;
@@ -94,23 +95,26 @@ export default function Spells({
     );
   }
 
-  // Don't render if character can't cast spells
-  if (!canCast) {
+  // Don't render if character can't cast spells and doesn't have Turn Undead
+  if (!canCast && !hasTurnUndeadAbility(character)) {
     return null;
   }
 
   // Computed values
   const showCantrips = character.settings?.showCantrips !== false; // Default to true if not set
   const hasSpellSlots = Object.keys(spellSlots).length > 0;
+  const hasTurnUndead = hasTurnUndeadAbility(character);
   const hasAnySpells =
     knownSpells.length > 0 ||
     (showCantrips && cantrips.length > 0) ||
     preparedSpells.length > 0 ||
-    hasSpellSlots;
+    hasSpellSlots ||
+    hasTurnUndead;
   const isMagicUser =
     spellSystemType === "magic-user" || spellSystemType === "custom";
   const isClericType = spellSystemType === "cleric";
   const canEdit = Boolean(isOwner && onCharacterChange);
+
 
   const renderSpell = (spell: DisplayableSpell) => (
     <SpellDetails spell={spell} />
@@ -119,7 +123,7 @@ export default function Spells({
   const SpellSection = ({
     title,
     items,
-    iconColor,
+    dotColor,
     usageDescription,
     emptyStateMessage,
     editButtonText,
@@ -130,38 +134,34 @@ export default function Spells({
     <section
       aria-labelledby={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
     >
-      <div className="flex items-baseline justify-between mb-4">
-        <Typography
-          variant="sectionHeading"
-          id={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
-          className="text-zinc-100 flex items-center gap-2 !mb-0"
-          as="h3"
-        >
-          <span
-            className={`w-2 h-2 ${iconColor} rounded-full flex-shrink-0`}
-            aria-hidden="true"
-          />
-          {title}
-          {items.length > 0 && (
-            <span
-              className="text-sm font-normal text-zinc-400"
-              aria-label={`${items.length} ${title.toLowerCase()}`}
-            >
-              ({items.length})
-            </span>
-          )}
-        </Typography>
-
-        {canEdit && editButtonText && onEditClick && (
-          <Button size="sm" variant="secondary" onClick={onEditClick}>
-            <Icon
-              name={editButtonText.includes("Add") ? "plus" : "edit"}
-              size="sm"
-            />
-            {editButtonText}
-          </Button>
-        )}
-      </div>
+      <SectionHeader
+        title={
+          <span className="flex items-center gap-2" id={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}>
+            {title}
+            {items.length > 0 && (
+              <span
+                className="text-sm font-normal text-zinc-400"
+                aria-label={`${items.length} ${title.toLowerCase()}`}
+              >
+                ({items.length})
+              </span>
+            )}
+          </span>
+        }
+        {...(dotColor && { dotColor })}
+        extra={
+          canEdit && editButtonText && onEditClick ? (
+            <Button size="sm" variant="secondary" onClick={onEditClick}>
+              <Icon
+                name={editButtonText.includes("Add") ? "plus" : "edit"}
+                size="sm"
+              />
+              {editButtonText}
+            </Button>
+          ) : undefined
+        }
+        className="mb-4"
+      />
 
       {usageDescription && (
         <Typography
@@ -208,7 +208,6 @@ export default function Spells({
               <SpellSection
                 title="Known Spells"
                 items={knownSpells}
-                iconColor="bg-amber-400"
                 usageDescription="Daily Usage: Limited by spell slots shown above"
                 emptyStateMessage={`No spells known yet.${
                   canEdit ? " Click 'Add Spell' to learn your first spell." : ""
@@ -240,7 +239,7 @@ export default function Spells({
               <SpellSection
                 title={spellSystemInfo.spellType}
                 items={cantrips}
-                iconColor="bg-blue-400"
+                dotColor="bg-blue-400"
                 usageDescription={`Daily Uses: Level + ${spellSystemInfo.abilityBonus} • No preparation required`}
                 emptyStateMessage={`No ${
                   spellSystemInfo.spellTypeLower
@@ -257,6 +256,9 @@ export default function Spells({
                 showSearch={false}
               />
             )}
+
+            {/* Turn Undead */}
+            {hasTurnUndead && <TurnUndeadSection />}
           </div>
         ) : (
           <div

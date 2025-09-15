@@ -4,6 +4,16 @@ import { allRaces } from "@/data/races";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
+ * Generic utility to find an item by ID in a collection
+ */
+function findById<T extends { id: string }>(
+  id: string,
+  collection: T[]
+): T | undefined {
+  return collection.find((item) => item.id === id);
+}
+
+/**
  * Returns true if the character has one or more spells.
  * @param character Character object
  */
@@ -26,7 +36,7 @@ export function getClassById(
   classId: string,
   classes: Class[] = allClasses
 ): Class | undefined {
-  return classes.find((c) => c.id === classId);
+  return findById(classId, classes);
 }
 
 /**
@@ -36,7 +46,7 @@ export function getClassFromAvailable(
   classId: string,
   availableClasses: Class[]
 ): Class | undefined {
-  return availableClasses.find((c) => c.id === classId);
+  return findById(classId, availableClasses);
 }
 
 /**
@@ -180,13 +190,28 @@ export function hasClassType(character: Character, classType: string): boolean {
 }
 
 /**
+ * Check if character has Turn Undead ability
+ * Works for cleric, paladin, and druid classes (and any custom classes with the ability)
+ */
+export function hasTurnUndeadAbility(character: Character): boolean {
+  return character.class.some((classId) => {
+    const classData = getClassById(classId);
+    if (!classData?.specialAbilities) return false;
+
+    return classData.specialAbilities.some(
+      (ability: { name: string }) => ability.name === "Turn Undead"
+    );
+  });
+}
+
+/**
  * Utility to get a race by ID from a list (defaults to allRaces)
  */
 export function getRaceById(
   raceId: string,
   races: Race[] = allRaces
 ): Race | undefined {
-  return races.find((r) => r.id === raceId);
+  return findById(raceId, races);
 }
 
 /**
@@ -196,7 +221,7 @@ export function getRaceFromAvailable(
   raceId: string,
   availableRaces: Race[]
 ): Race | undefined {
-  return availableRaces.find((r) => r.id === raceId);
+  return findById(raceId, availableRaces);
 }
 
 /**
@@ -349,8 +374,8 @@ export function canLevelUp(
   if (!standardClass) return false;
 
   const nextLevel = character.level + 1;
-  const requiredXP = standardClass.experienceTable[nextLevel];
-  return requiredXP !== undefined && character.xp >= requiredXP;
+  const requiredXP = standardClass.experienceTable?.[nextLevel];
+  return requiredXP !== undefined && (character.xp ?? 0) >= requiredXP;
 }
 
 /**
@@ -363,20 +388,20 @@ export function getXPToNextLevel(
 ): number | null {
   // If no class or custom class, return null
   if (character.class.length === 0 || hasCustomClasses(character)) return null;
-  
+
   const nextLevel = character.level + 1;
-  
+
   // Calculate total XP required across all classes
   const totalXPRequired = character.class.reduce((total, classId) => {
     const classData = getClassFromAvailable(classId, availableClasses);
-    const xpRequired = classData?.experienceTable[nextLevel];
-    return xpRequired !== undefined ? total + xpRequired : total;
+    const xpRequired = classData?.experienceTable?.[nextLevel];
+    return xpRequired ?? total;
   }, 0);
-  
+
   // If no XP requirements found, character is at max level
   if (totalXPRequired === 0) return null;
-  
-  return totalXPRequired - character.xp;
+
+  return Math.max(0, totalXPRequired - (character.xp ?? 0));
 }
 
 /**
@@ -402,12 +427,58 @@ export function getSpellLevel(
       classId === "magic-user"
         ? "magic-user"
         : (classId as keyof typeof spell.level);
-    const level = spell.level[mappedClassId];
-    if (level !== null && level !== undefined) {
+    const level = spell.level?.[mappedClassId];
+    if (level != null) {
       return level;
     }
   }
   return 0;
+}
+
+/**
+ * Calculate spell slots for standard classes
+ */
+function calculateStandardClassSpellSlots(
+  classData: Class,
+  level: number,
+  spellSlots: Record<number, number>
+): void {
+  if (!classData.spellcasting) return;
+
+  const slotsForLevel = classData.spellcasting.spellsPerLevel[level];
+  if (!slotsForLevel) return;
+
+  slotsForLevel.forEach((slots, spellLevel) => {
+    if (slots > 0) {
+      const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
+      spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
+    }
+  });
+}
+
+/**
+ * Calculate spell slots for custom classes (uses magic-user progression)
+ */
+function calculateCustomClassSpellSlots(
+  character: Character,
+  availableClasses: Class[],
+  spellSlots: Record<number, number>
+): void {
+  if (!hasSpells(character)) return;
+
+  // Custom classes use magic-user spell progression as default
+  const magicUserClass = getClassFromAvailable("magic-user", availableClasses);
+  if (!magicUserClass?.spellcasting) return;
+
+  const slotsForLevel = magicUserClass.spellcasting.spellsPerLevel[character.level];
+  if (!slotsForLevel) return;
+
+  slotsForLevel.forEach((slots, spellLevel) => {
+    if (slots > 0) {
+      const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
+      spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
+    }
+  });
 }
 
 /**
@@ -420,44 +491,14 @@ export function getSpellSlots(
   const spellSlots: Record<number, number> = {};
 
   for (const classId of character.class) {
-    // Skip custom classes for now - they would need custom spell slot implementation
     if (isCustomClass(classId)) {
-      if (hasSpells(character)) {
-        // For custom classes, we could provide basic spell slot progression
-        // For now, assume they get spell slots like a magic-user
-        const magicUserClass = getClassFromAvailable(
-          "magic-user",
-          availableClasses
-        );
-        if (magicUserClass?.spellcasting) {
-          const slotsForLevel =
-            magicUserClass.spellcasting.spellsPerLevel[character.level];
-          if (slotsForLevel) {
-            slotsForLevel.forEach((slots, spellLevel) => {
-              if (slots > 0) {
-                const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
-                spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
-              }
-            });
-          }
-        }
-      }
+      calculateCustomClassSpellSlots(character, availableClasses, spellSlots);
       continue;
     }
 
-    // Find the class data
     const classData = getClassFromAvailable(classId, availableClasses);
-    if (!classData?.spellcasting) continue;
-
-    const slotsForLevel =
-      classData.spellcasting.spellsPerLevel[character.level];
-    if (slotsForLevel) {
-      slotsForLevel.forEach((slots, spellLevel) => {
-        if (slots > 0) {
-          const level = spellLevel + 1; // spellLevel is 0-indexed, actual spell levels are 1-indexed
-          spellSlots[level] = Math.max(spellSlots[level] || 0, slots);
-        }
-      });
+    if (classData) {
+      calculateStandardClassSpellSlots(classData, character.level, spellSlots);
     }
   }
 

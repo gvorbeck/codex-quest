@@ -1,26 +1,30 @@
 import type { ReactNode } from "react";
 import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
 import { cn } from "@/constants/styles";
+import StatusDot from "./StatusDot";
 
 interface SectionHeaderProps {
   title: ReactNode;
   extra?: ReactNode;
   size?: "sm" | "md" | "lg";
   className?: string;
+  dotColor?: string;
 }
 
 
-export default function SectionHeader({ 
-  title, 
-  extra, 
-  size = "md", 
-  className = "" 
+export default function SectionHeader({
+  title,
+  extra,
+  size = "md",
+  className = "",
+  dotColor
 }: SectionHeaderProps) {
   const currentSize = SIZE_STYLES[size];
 
   const headerClasses = cn(
     "flex items-center justify-between",
-    `border-b-2 ${DESIGN_TOKENS.colors.border.secondary}`,
+    "border-b-2",
+    DESIGN_TOKENS.colors.border.secondary,
     currentSize.header,
     DESIGN_TOKENS.colors.bg.header,
     "backdrop-blur-sm",
@@ -34,7 +38,7 @@ export default function SectionHeader({
         <div
           className={`font-bold ${DESIGN_TOKENS.colors.text.primary} flex items-center gap-2`}
         >
-          <div className="w-2 h-2 bg-amber-400 rounded-full shadow-sm"></div>
+          <StatusDot {...(dotColor && { color: dotColor })} />
           {title}
         </div>
       )}
