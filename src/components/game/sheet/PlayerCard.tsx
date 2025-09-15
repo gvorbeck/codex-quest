@@ -5,7 +5,8 @@ import { Icon } from "@/components/ui/display";
 import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { allRaces } from "@/data/races";
-import { getClassById, getImportantAbilities, ABILITY_BADGE_VARIANTS } from "@/utils/characterHelpers";
+import { getClassById, getImportantAbilities } from "@/utils/characterHelpers";
+import { ABILITY_BADGE_VARIANTS } from "@/constants/gameData";
 import { truncateText } from "@/utils/textHelpers";
 import type { SpecialAbility } from "@/types/character";
 

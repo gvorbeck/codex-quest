@@ -38,7 +38,7 @@ export default function SectionHeader({
         <div
           className={`font-bold ${DESIGN_TOKENS.colors.text.primary} flex items-center gap-2`}
         >
-          <StatusDot {...(dotColor && { color: dotColor })} />
+          <StatusDot {...(dotColor && { color: dotColor })} ariaLabel="Section header indicator" />
           {title}
         </div>
       )}

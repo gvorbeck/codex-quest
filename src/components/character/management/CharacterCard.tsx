@@ -55,7 +55,7 @@ const CharacterCard = memo(function CharacterCard({
       {raceName && classNames.length > 0 && (
         <div className="space-y-2 sm:space-y-3">
           <div className="flex items-center gap-2 sm:gap-3">
-            <StatusDot color="bg-amber-500" className="flex-shrink-0" />
+            <StatusDot status="active" className="flex-shrink-0" ariaLabel="Character race and class information" />
             <Typography
               variant="helper"
               className="text-zinc-400 uppercase tracking-wider font-medium text-xs"

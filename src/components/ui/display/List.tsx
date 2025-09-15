@@ -3,12 +3,6 @@ import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/constants/styles";
 import { DESIGN_TOKENS } from "@/constants/designTokens";
 
-// List design token mappings
-const LIST_DESIGN_TOKENS = {
-  icon: DESIGN_TOKENS.colors.text.accent,
-  feature: DESIGN_TOKENS.colors.text.secondary,
-  grid: DESIGN_TOKENS.colors.text.muted,
-} as const;
 
 // List Types
 type ListVariant =
@@ -171,7 +165,7 @@ const List = forwardRef<HTMLUListElement | HTMLOListElement, ListProps>(
 const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
   ({ icon, children, className, ...props }, ref) => {
     const itemClasses = cn("flex items-start", icon ? "gap-2" : "", className);
-    const iconClasses = cn(LIST_DESIGN_TOKENS.icon, "mt-1 flex-shrink-0");
+    const iconClasses = cn(DESIGN_TOKENS.colors.text.accent, "mt-1 flex-shrink-0");
 
     return (
       <li ref={ref} className={itemClasses} {...props}>
@@ -188,7 +182,7 @@ const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
  */
 const FeatureListItem = forwardRef<HTMLLIElement, Omit<ListItemProps, "icon">>(
   ({ children, className, ...props }, ref) => {
-    const featureClasses = cn(LIST_DESIGN_TOKENS.feature, className);
+    const featureClasses = cn(DESIGN_TOKENS.colors.text.secondary, className);
 
     return (
       <ListItem ref={ref} icon="•" className={featureClasses} {...props}>
@@ -220,14 +214,12 @@ const StepListItem = forwardRef<HTMLLIElement, ListItemProps>(
  */
 const GridListItem = forwardRef<HTMLLIElement, ListItemProps>(
   ({ children, className, ...props }, ref) => {
-    const gridClasses = cn(LIST_DESIGN_TOKENS.grid, "py-0.5", className);
+    const gridClasses = cn(DESIGN_TOKENS.colors.text.muted, "py-0.5", className);
 
     return (
       <ListItem
         ref={ref}
-        icon={
-          <span className="inline-block w-1 h-1 bg-zinc-400 dark:bg-zinc-500 rounded-full"></span>
-        }
+        icon={<span className="w-1 h-1 rounded-full bg-zinc-400 dark:bg-zinc-500 flex-shrink-0" />}
         className={gridClasses}
         {...props}
       >

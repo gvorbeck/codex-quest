@@ -1,4 +1,4 @@
-import type { Character, Class, Race } from "@/types/character";
+import type { Character, Class, Race, SpecialAbility } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
@@ -32,22 +32,18 @@ export function hasCantrips(character: Character): boolean {
 /**
  * Utility to get a class by ID from a list (defaults to allClasses)
  */
-export function getClassById(
+export const getClassById = (
   classId: string,
   classes: Class[] = allClasses
-): Class | undefined {
-  return findById(classId, classes);
-}
+): Class | undefined => findById(classId, classes);
 
 /**
  * Utility to get a class by ID from availableClasses (deduplication helper)
  */
-export function getClassFromAvailable(
+export const getClassFromAvailable = (
   classId: string,
   availableClasses: Class[]
-): Class | undefined {
-  return findById(classId, availableClasses);
-}
+): Class | undefined => findById(classId, availableClasses);
 
 /**
  * Utility functions for working with custom classes and races
@@ -57,6 +53,21 @@ export function getClassFromAvailable(
  * Spell system types for character classification
  */
 export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
+
+/**
+ * Mapping of class types to spell system types
+ */
+const CLASS_TYPE_TO_SPELL_SYSTEM: Record<string, SpellSystemType> = {
+  [CHARACTER_CLASSES.MAGIC_USER]: "magic-user",
+  [CHARACTER_CLASSES.CLERIC]: "cleric",
+};
+
+/**
+ * Check if a class type is a spellcasting type
+ */
+const isSpellcastingClassType = (classType: string | undefined): boolean => {
+  return classType !== undefined && classType in CLASS_TYPE_TO_SPELL_SYSTEM;
+};
 
 /**
  * Determine the spell system type for a character based on their classes
@@ -69,27 +80,18 @@ export function getCharacterSpellSystemType(
   character: Character
 ): SpellSystemType {
   if (!character.class.length) return "none";
-  if (hasCustomClasses(character)) {
-    return "custom";
-  }
+  if (hasCustomClasses(character)) return "custom";
 
-  // For standard classes, use classType property
+  // Find first spellcasting class
   const spellcastingClass = character.class.find((classId) => {
     const classData = getClassById(classId);
-    return (
-      classData?.classType === CHARACTER_CLASSES.MAGIC_USER ||
-      classData?.classType === CHARACTER_CLASSES.CLERIC
-    );
+    return isSpellcastingClassType(classData?.classType);
   });
 
   if (!spellcastingClass) return "none";
 
   const classData = getClassById(spellcastingClass);
-  return classData?.classType === CHARACTER_CLASSES.MAGIC_USER
-    ? "magic-user"
-    : classData?.classType === CHARACTER_CLASSES.CLERIC
-    ? "cleric"
-    : "none";
+  return classData?.classType ? CLASS_TYPE_TO_SPELL_SYSTEM[classData.classType] || "none" : "none";
 }
 
 /**
@@ -207,22 +209,18 @@ export function hasTurnUndeadAbility(character: Character): boolean {
 /**
  * Utility to get a race by ID from a list (defaults to allRaces)
  */
-export function getRaceById(
+export const getRaceById = (
   raceId: string,
   races: Race[] = allRaces
-): Race | undefined {
-  return findById(raceId, races);
-}
+): Race | undefined => findById(raceId, races);
 
 /**
  * Utility to get a race by ID from availableRaces (deduplication helper)
  */
-export function getRaceFromAvailable(
+export const getRaceFromAvailable = (
   raceId: string,
   availableRaces: Race[]
-): Race | undefined {
-  return findById(raceId, availableRaces);
-}
+): Race | undefined => findById(raceId, availableRaces);
 
 /**
  * Check if a race ID represents a custom race (not found in allRaces)
@@ -503,4 +501,44 @@ export function getSpellSlots(
   }
 
   return spellSlots;
+}
+
+
+/**
+ * Filter special abilities to show only important ones for game display
+ * Prioritizes abilities that affect gameplay significantly and are useful for GMs
+ */
+export function getImportantAbilities(
+  specialAbilities: Array<{
+    name: string;
+    source: "race" | "class";
+    effects?: SpecialAbility["effects"];
+  }>
+): Array<{
+  name: string;
+  source: "race" | "class";
+  effects?: SpecialAbility["effects"];
+}> {
+  return specialAbilities.filter((ability) => {
+    const abilityName = ability.name.toLowerCase();
+    // Prioritize abilities that affect gameplay significantly and are useful for GMs
+    return (
+      ability.effects?.darkvision ||
+      abilityName.includes("darkvision") ||
+      abilityName.includes("turn undead") ||
+      abilityName.includes("sneak attack") ||
+      abilityName.includes("stealth") ||
+      abilityName.includes("backstab") ||
+      abilityName.includes("spellcasting") ||
+      abilityName.includes("immunity") ||
+      abilityName.includes("rage") ||
+      abilityName.includes("tracking") ||
+      abilityName.includes("detect") ||
+      abilityName.includes("secret door") ||
+      abilityName.includes("hide") ||
+      abilityName.includes("climb") ||
+      abilityName.includes("move silently") ||
+      abilityName.includes("ghoul immunity")
+    );
+  });
 }

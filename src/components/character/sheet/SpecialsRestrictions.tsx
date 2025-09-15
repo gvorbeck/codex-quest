@@ -33,7 +33,7 @@ function EmptyStateCard({ title, description }: EmptyStateCardProps) {
   return (
     <Card variant="standard">
       <div className="flex items-center gap-2 mb-3">
-        <StatusDot color="bg-zinc-500" />
+        <StatusDot status="inactive" ariaLabel="Special abilities and restrictions section" />
         <Typography
           variant="bodySmall"
           color="secondary"
@@ -160,8 +160,8 @@ export default function SpecialsRestrictions({
           </TabList>
         </div>
 
-        {/* Scrollable content area */}
-        <div className="max-h-96 overflow-y-auto">
+        {/* Fixed height scrollable content area to prevent masonry reflow */}
+        <div className="h-96 overflow-y-auto">
           <TabPanels>
             {race && (
               <TabPanel value="race">

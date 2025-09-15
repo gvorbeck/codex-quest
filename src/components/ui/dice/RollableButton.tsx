@@ -74,9 +74,10 @@ const RollableButton = forwardRef<HTMLButtonElement, RollableButtonProps>(
       >
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <StatusDot
-            size="w-1.5 h-1.5"
-            color="bg-zinc-500"
+            size="xs"
+            status="inactive"
             className="group-hover/item:bg-amber-400 transition-colors duration-200 flex-shrink-0"
+            ariaLabel="Rollable button indicator"
           />
           <span className={labelClasses}>{label}</span>
         </div>

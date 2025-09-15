@@ -56,7 +56,7 @@ export function GameCard({ game, user, onDelete, isDeleting }: GameCardProps) {
         <section aria-labelledby={`game-${game.id}-notes-label`}>
           <div className="space-y-2">
             <div className="flex items-center gap-3">
-              <StatusDot color="bg-amber-500" />
+              <StatusDot status="active" ariaLabel="Game notes section" />
               <Typography
                 id={`game-${game.id}-notes-label`}
                 variant="helper"
