@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Tabs,
   TabList,
@@ -13,15 +13,18 @@ import {
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card } from "@/components/ui/design-system";
 import { Callout } from "@/components/ui/feedback";
+import { Button, Icon } from "@/components/ui";
+import { LanguageEditModal } from "@/components/modals";
 import type { Character } from "@/types/character";
 import { allRaces } from "@/data/races";
 import { allClasses } from "@/data/classes";
-// Removed unused imports
 
 interface SpecialsRestrictionsProps {
   character: Character;
   className?: string;
   size?: "sm" | "md" | "lg";
+  isOwner?: boolean;
+  onCharacterChange?: (character: Character) => void;
 }
 
 
@@ -29,7 +32,10 @@ export default function SpecialsRestrictions({
   character,
   className = "",
   size = "md",
+  isOwner = false,
+  onCharacterChange,
 }: SpecialsRestrictionsProps) {
+  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const race = useMemo(() => {
     return allRaces.find((r) => r.id === character.race?.toLowerCase());
   }, [character.race]);
@@ -218,11 +224,36 @@ export default function SpecialsRestrictions({
                     No languages have been specified for this character.
                   </Callout>
                 )}
+
+                {/* Edit Languages Button */}
+                {isOwner && onCharacterChange && (
+                  <div className="flex justify-center mt-6">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setIsLanguageModalOpen(true)}
+                      className="flex items-center gap-2"
+                    >
+                      <Icon name="edit" size="xs" />
+                      Edit Languages
+                    </Button>
+                  </div>
+                )}
               </div>
             </TabPanel>
           </TabPanels>
         </div>
       </Tabs>
+
+      {/* Language Editing Modal */}
+      {onCharacterChange && (
+        <LanguageEditModal
+          isOpen={isLanguageModalOpen}
+          onClose={() => setIsLanguageModalOpen(false)}
+          character={character}
+          onCharacterChange={onCharacterChange}
+        />
+      )}
     </SectionWrapper>
   );
 }

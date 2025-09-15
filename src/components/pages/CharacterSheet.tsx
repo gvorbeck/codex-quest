@@ -4,6 +4,8 @@ import { allClasses } from "@/data/classes";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback/LoadingState";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Callout from "@/components/ui/feedback/Callout";
 import { Typography } from "@/components/ui/design-system";
 import {
   AttackBonuses,
@@ -80,7 +82,8 @@ export default function CharacterSheet() {
         updateCharacter(updatedCharacter);
       }
     },
-    [character, updateCharacter]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [updateCharacter]
   );
 
   // Handle character changes (for avatar, etc.)
@@ -96,7 +99,7 @@ export default function CharacterSheet() {
       await updateCharacter(updatedCharacter);
       logger.debug("CharacterSheet: updateCharacter completed");
     },
-    [updateCharacter, character]
+    [updateCharacter, character?.level, character?.hp.max]
   );
 
   // Handle ability score changes
@@ -117,7 +120,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle HP changes
@@ -135,7 +139,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle currency changes
@@ -153,7 +158,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle equipment changes
@@ -168,7 +174,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle HP notes changes
@@ -186,7 +193,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle description changes
@@ -201,7 +209,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Data loading is now handled by useFirebaseSheet hook
@@ -211,21 +220,21 @@ export default function CharacterSheet() {
 
   if (error) {
     return (
-      <div className="status-message" role="alert">
-        <Typography variant="body" color="secondary">
-          Error: {error}
-        </Typography>
-      </div>
+      <PageWrapper>
+        <Callout variant="error" title="Error loading character">
+          {error}
+        </Callout>
+      </PageWrapper>
     );
   }
 
   if (!character) {
     return (
-      <div className="status-message">
-        <Typography variant="body" color="muted">
-          Character not found
-        </Typography>
-      </div>
+      <PageWrapper>
+        <Callout variant="warning" title="Character not found">
+          The character you're looking for doesn't exist or has been deleted.
+        </Callout>
+      </PageWrapper>
     );
   }
 
@@ -237,7 +246,10 @@ export default function CharacterSheet() {
     }`
   );
 
-  logger.info(JSON.stringify(character));
+  // Development-only character logging
+  if (import.meta.env.DEV) {
+    logger.info(JSON.stringify(character));
+  }
 
   return (
     <>
@@ -246,10 +258,7 @@ export default function CharacterSheet() {
           <div className="flex items-center justify-between mb-4">
             <Breadcrumb items={breadcrumbItems} />
             {isUpdating && (
-              <div className="flex items-center gap-2 text-sm text-blue-400">
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-400 border-t-transparent"></div>
-                <span>Saving...</span>
-              </div>
+              <LoadingSpinner message="Saving..." size="sm" />
             )}
           </div>
         </header>
@@ -326,7 +335,11 @@ export default function CharacterSheet() {
                   <CharacterDefense character={character} />
                 </div>
                 <div className="break-inside-avoid mb-6">
-                  <SpecialsRestrictions character={character} />
+                  <SpecialsRestrictions
+                    character={character}
+                    isOwner={isOwner}
+                    onCharacterChange={handleCharacterChange}
+                  />
                 </div>
               </div>
             </section>
