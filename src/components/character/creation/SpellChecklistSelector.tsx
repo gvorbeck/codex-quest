@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui";
-import { InfoCardHeader } from "@/components/ui/display";
+import { InfoCardHeader, MarkdownText } from "@/components/ui/display";
 import { TextInput, Checkbox } from "@/components/ui/inputs";
 import type { Character, Spell } from "@/types/character";
 import { logger } from "@/utils/logger";
@@ -119,9 +119,10 @@ export function SpellChecklistSelector({
         />
 
         <div className="mb-6">
-          <Typography variant="description">
-            <span dangerouslySetInnerHTML={{ __html: description }} />
-          </Typography>
+          <MarkdownText
+            content={description}
+            variant="description"
+          />
         </div>
 
         {/* Search Filter */}
