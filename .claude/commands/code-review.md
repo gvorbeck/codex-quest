@@ -1,38 +1,93 @@
-You are a seasoned professional front-end React developer.
-Your goal is to look at code and find ways to improve it.
+# Code Review Command
 
-The files I need you to look at are:
-$ARGUMENTS
+World-class React expert code review focusing on UI component usage, accessibility, performance, and BFRPG-specific patterns.
 
-Also any files that are imported by these files.
+## Example
 
----
+```bash
+/code-review src/components/character/creation/SpellChecklistSelector.tsx
+```
 
-**Step 1: Discovery & Architecture Analysis**
+The files to review: $ARGUMENTS
 
-1. Locate the target component and all its dependencies (child components, utilities, types)
-2. Map the component hierarchy and data flow patterns
-3. Analyze the file's role within the larger application architecture
-4. Document import/export patterns and circular dependencies
-5. **PRIORITY:** Identify any preexisting UI patterns or design system components that can be reused to improve consistency and reduce redundancy
+## Review Process
 
----
+**Priority Order:**
 
-**Step 2: UI Component Usage Analysis**
+1. 🔥 UI Component Usage (Critical)
+2. 🔴 Code Duplication
+3. 🟡 Performance & Best Practices
+4. 🟢 Architecture & Maintainability
 
-1. Cross-reference every UI element with available components in `/src/components/ui/`
-2. Identify custom implementations that should use existing UI components
-3. Calculate potential code reduction from UI component adoption
-4. Flag any styling patterns that bypass the design system
-5. **Rate UI component usage**: ✨ Excellent (100% usage) → 🔴 Critical (significant custom UI)
+### 1. UI Component Audit (HIGHEST PRIORITY)
 
----
+- Cross-reference ALL UI elements with `/src/components/ui/` inventory
+- Flag custom implementations that should use existing components
+- Calculate potential LOC reduction from UI component adoption
+- Rate usage: ✨ Excellent → 🔴 Critical
 
-**Step 3: Code Duplication & Redundancy Analysis**
+**Available UI Components:**
 
-1. Scan for identical or near-identical functions across files
-2. Identify repeated business logic patterns and algorithmic implementations
-3. Find duplicated validation logic, data transformation functions, and utility methods
-4. Map shared constants, magic numbers, and configuration values that appear in multiple places
-5. **Calculate duplication metrics**: Lines of duplicate code, function similarity percentages
-6. **Cross-reference patterns**: Look for similar event handlers, state management logic, and data processing
+- **Design System**: Card, Typography, Badge
+- **Inputs**: Button, Select, TextInput, NumberInput, TextArea, Switch, Checkbox, OptionToggle, FileUpload, EditableValue, FloatingActionButton, FormField
+- **Feedback**: Notification, Tooltip, LoadingState, Callout, InfoTooltip, TooltipWrapper, Skeleton, ErrorBoundary
+- **Display**: StatCard, Icon, Table, List, MarkdownText, ItemGrid, Stepper, BaseCard, DetailSection, Details, StatusIndicator, SectionHeader, HorizontalRule, Breadcrumb, SimpleRoller, SkillDescriptionItem, RequirementCard, FeatureCard, HeroSection
+- **Layout**: PageWrapper, Tabs, Accordion, StepWrapper, SectionWrapper
+- **Dice**: RollableButton
+
+### 2. Code Duplication Analysis
+
+- Scan for identical/similar functions across codebase
+- Identify utility extraction opportunities
+- Find repeated business logic patterns
+- Flag constants/types that should be shared
+- Security vulnerabilities: XSS, input validation, data exposure
+
+### 3. React Best Practices
+
+- Hook dependency arrays and memoization
+- Component patterns (memo, forwardRef, composition)
+- Performance optimization opportunities
+- TypeScript usage and type safety
+- Accessibility (WCAG 2.1 AA): ARIA, keyboard nav, screen readers
+- SEO considerations: semantic HTML, meta tags, structured data
+
+### 4. BFRPG-Specific Patterns
+
+- Character data handling consistency
+- Game system integration
+- Magic system type usage
+- Validation and migration patterns
+- No rules should be guessed or made-up. Reference `/sources/BFRPG-rulebook.txt` for any and all rules questions or clarifications.
+
+## Output Format
+
+**🔥 UI Component Usage**: [Rating] - [Specific missing components]
+
+**🔴 Critical Issues**:
+
+- **Issue**: [Brief description]
+- **Fix**: [Specific solution with code example]
+- **Impact**: [Why it matters]
+
+**🟡 Improvements**:
+
+- **Issue**: [Description]
+- **Fix**: [Solution]
+- **Impact**: [Benefit]
+
+**🟢 Strengths**:
+
+- [What works well]
+
+**📊 Metrics**:
+
+- LOC reduction potential: [number]
+- UI components missing: [count]
+- Duplication instances: [count]
+
+**⚡ Quick Wins** (implement first):
+
+1. [Highest impact, lowest effort changes]
+
+Keep total output under 400 words. Focus on actionable items with code examples.
