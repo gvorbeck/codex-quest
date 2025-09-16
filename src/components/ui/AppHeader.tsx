@@ -4,8 +4,8 @@ import { Button } from "@/components/ui";
 import { Typography } from "@/components/ui/design-system";
 import { useAuth } from "@/hooks";
 import { signOut } from "@/services/auth";
-import { logger } from "@/utils/logger";
-import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants/dom";
+import { logger } from "@/utils";
+import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants";
 import { Icon } from "@/components/ui/display/Icon";
 import { Alert } from "@/components/ui/Alert";
 

@@ -23,9 +23,12 @@
       "Read(//**)",
       "Bash(python3:*)",
       "Bash(/compact)",
-      "Bash(cloc:*)"
+      "Bash(cloc:*)",
+      "Bash(xargs sed:*)"
     ],
-    "deny": ["Bash(npm run dev)"],
+    "deny": [
+      "Bash(npm run dev)"
+    ],
     "ask": []
   }
 }

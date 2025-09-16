@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Typography } from "@/components/ui/design-system";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
-import { cn } from "@/constants/styles";
+import { DESIGN_TOKENS } from "@/constants";
+import { cn } from "@/utils";
 import StatusDot from "./StatusDot";
 
 type SkillDescriptionItemVariant = "simple" | "decorated";
@@ -47,7 +47,7 @@ interface SkillDescriptionItemProps {
 /**
  * Reusable component for displaying skill/ability descriptions
  * with consistent styling and typography
- * 
+ *
  * @param variant - "simple" for basic styling, "decorated" for enhanced styling with bullet point
  * @param semantic - "div" for generic container, "dl" for description list semantics
  */
@@ -57,7 +57,7 @@ export default function SkillDescriptionItem({
   variant = "simple",
   color = "amber",
   semantic = "div",
-  className = ""
+  className = "",
 }: SkillDescriptionItemProps) {
   // Add prop validation with fallback
   const currentColorStyle = COLOR_STYLES[color] ?? COLOR_STYLES.amber;
@@ -69,18 +69,12 @@ export default function SkillDescriptionItem({
     STYLE_CONSTANTS.transition,
     currentColorStyle.bulletHover
   );
-  const titleClassName = cn(
-    STYLE_CONSTANTS.transition,
-    currentColorStyle.text
-  );
+  const titleClassName = cn(STYLE_CONSTANTS.transition, currentColorStyle.text);
   const decoratedDescClassName = cn(
     STYLE_CONSTANTS.decoratedDescription,
     "text-sm leading-relaxed"
   );
-  const simpleDescClassName = cn(
-    STYLE_CONSTANTS.simpleDescription,
-    "pl-2"
-  );
+  const simpleDescClassName = cn(STYLE_CONSTANTS.simpleDescription, "pl-2");
 
   if (variant === "decorated") {
     if (semantic === "dl") {
@@ -100,9 +94,7 @@ export default function SkillDescriptionItem({
               {title}
             </Typography>
           </dt>
-          <dd className={decoratedDescClassName}>
-            {description}
-          </dd>
+          <dd className={decoratedDescClassName}>{description}</dd>
         </dl>
       );
     }
@@ -123,9 +115,7 @@ export default function SkillDescriptionItem({
             {title}
           </Typography>
         </div>
-        <div className={decoratedDescClassName}>
-          {description}
-        </div>
+        <div className={decoratedDescClassName}>{description}</div>
       </div>
     );
   }
@@ -144,10 +134,7 @@ export default function SkillDescriptionItem({
           </Typography>
         </dt>
         <dd>
-          <Typography
-            variant="body"
-            className={simpleDescClassName}
-          >
+          <Typography variant="body" className={simpleDescClassName}>
             {description}
           </Typography>
         </dd>
@@ -164,14 +151,15 @@ export default function SkillDescriptionItem({
       >
         {title}:
       </Typography>
-      <Typography
-        variant="body"
-        className={simpleDescClassName}
-      >
+      <Typography variant="body" className={simpleDescClassName}>
         {description}
       </Typography>
     </div>
   );
 }
 
-export type { SkillDescriptionItemVariant, SkillDescriptionItemColor, SkillDescriptionItemSemantic };
+export type {
+  SkillDescriptionItemVariant,
+  SkillDescriptionItemColor,
+  SkillDescriptionItemSemantic,
+};

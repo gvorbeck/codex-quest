@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const bisren: Race = {
   name: "Bisren",
@@ -68,5 +68,13 @@ export const bisren: Race = {
   savingThrows: [],
   lifespan: "Around 150 years",
   languages: ["Common", "Minotaur"],
+  carryingCapacity: {
+    light: 60,
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    },
+  },
   supplementalContent: true,
 };

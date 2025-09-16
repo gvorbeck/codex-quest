@@ -3,12 +3,11 @@ import { Accordion, Card, InfoCardHeader, Typography } from "@/components/ui";
 import { Button } from "@/components/ui";
 import { Icon, type IconName } from "@/components/ui/display/Icon";
 import { LoadingState } from "@/components/ui/feedback";
-import { logger } from "@/utils/logger";
-import type { Character, Equipment, Race, Class } from "@/types/character";
+import { logger } from "@/utils";
+import type { Character, Equipment, Race, Class } from "@/types";
 import { loadAllEquipment } from "@/services/dataLoader";
-import { convertToGoldFromAbbreviation } from "@/utils/currency";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import { convertToGoldFromAbbreviation, findById } from "@/utils";
+import { allRaces, allClasses } from "@/data";
 
 type EquipmentWithIndex = Equipment & {
   [key: string]: unknown;
@@ -114,12 +113,12 @@ function isEquipmentMatchingRestriction(
 /**
  * Helper component for displaying an icon with text in a consistent format
  */
-function IconText({ 
-  icon, 
-  children 
-}: { 
-  icon: IconName; 
-  children: React.ReactNode; 
+function IconText({
+  icon,
+  children,
+}: {
+  icon: IconName;
+  children: React.ReactNode;
 }) {
   return (
     <span className="flex items-center gap-1">
@@ -132,7 +131,10 @@ function IconText({
 /**
  * Creates a restriction result object
  */
-function createRestriction(entityName: string): { restricted: true; reason: string } {
+function createRestriction(entityName: string): {
+  restricted: true;
+  reason: string;
+} {
   return {
     restricted: true,
     reason: `${entityName} Restriction`,
@@ -148,7 +150,7 @@ function isEquipmentInAllowedList(
   mapping: Record<string, string[]>
 ): boolean {
   const equipmentId = createEquipmentId(equipmentName);
-  
+
   for (const allowedItem of allowedList) {
     const mappedNames = mapping[allowedItem];
     if (mappedNames) {
@@ -162,24 +164,27 @@ function isEquipmentInAllowedList(
       }
     }
   }
-  
+
   return false;
 }
 
 /**
  * Creates button text with appropriate restriction messages
  */
-function createButtonText(canAfford: boolean, restrictionReason?: string): string {
+function createButtonText(
+  canAfford: boolean,
+  restrictionReason?: string
+): string {
   let text = "Add";
-  
+
   if (!canAfford) {
     text += " (Can't Afford)";
   }
-  
+
   if (restrictionReason) {
     text += ` (${restrictionReason})`;
   }
-  
+
   return text;
 }
 
@@ -223,7 +228,13 @@ function isEquipmentRestrictedOptimized(
         characterClass.allowedWeapons.length > 0
       ) {
         // If class has weapon restrictions, check if this weapon is allowed
-        if (!isEquipmentInAllowedList(equipment.name, characterClass.allowedWeapons, WEAPON_ID_MAPPING)) {
+        if (
+          !isEquipmentInAllowedList(
+            equipment.name,
+            characterClass.allowedWeapons,
+            WEAPON_ID_MAPPING
+          )
+        ) {
           return createRestriction(characterClass.name);
         }
       }
@@ -243,7 +254,13 @@ function isEquipmentRestrictedOptimized(
         }
 
         // Check if this armor type is in the allowed list
-        if (!isEquipmentInAllowedList(equipment.name, characterClass.allowedArmor, ARMOR_ID_MAPPING)) {
+        if (
+          !isEquipmentInAllowedList(
+            equipment.name,
+            characterClass.allowedArmor,
+            ARMOR_ID_MAPPING
+          )
+        ) {
           return createRestriction(characterClass.name);
         }
       }
@@ -280,9 +297,9 @@ function EquipmentSelector({
 
   // Memoize character restriction data to avoid recalculating on every render
   const characterRestrictionData = useMemo(() => {
-    const characterRace = allRaces.find((race) => race.id === character.race);
+    const characterRace = findById(character.race, allRaces);
     const characterClasses = character.class
-      .map((classId) => allClasses.find((cls) => cls.id === classId))
+      .map((classId) => findById(classId, allClasses))
       .filter((cls): cls is Class => cls !== undefined);
 
     return {
@@ -339,7 +356,10 @@ function EquipmentSelector({
               size="sm"
               className="self-start"
             >
-              {createButtonText(canAfford, !canUse ? restriction.reason : undefined)}
+              {createButtonText(
+                canAfford,
+                !canUse ? restriction.reason : undefined
+              )}
             </Button>
           </div>
         </Card>

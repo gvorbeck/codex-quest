@@ -1,14 +1,14 @@
 import { memo, useMemo } from "react";
-import type { GamePlayer } from "@/types/game";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
+import type { GamePlayer } from "@/types";
+import { GAME_SHEET_STYLES } from "@/constants";
 import { Icon } from "@/components/ui/display";
 import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
-import { allRaces } from "@/data/races";
-import { getClassById, getImportantAbilities } from "@/utils/characterHelpers";
-import { ABILITY_BADGE_VARIANTS } from "@/constants/gameData";
-import { truncateText } from "@/utils/textHelpers";
-import type { SpecialAbility } from "@/types/character";
+import { allRaces } from "@/data";
+import { getClassById, getImportantAbilities } from "@/utils";
+import { ABILITY_BADGE_VARIANTS } from "@/constants";
+import { truncateText } from "@/utils";
+import type { SpecialAbility } from "@/types";
 
 interface PlayerCardProps {
   player: GamePlayer;
@@ -173,9 +173,9 @@ export const PlayerCard = memo(
                   const abilityName = ability.name.toLowerCase();
 
                   // Use mapping for common abilities, fall back to source-based variants
-                  const mappedVariant = Object.entries(ABILITY_BADGE_VARIANTS).find(([key]) =>
-                    abilityName.includes(key)
-                  )?.[1];
+                  const mappedVariant = Object.entries(
+                    ABILITY_BADGE_VARIANTS
+                  ).find(([key]) => abilityName.includes(key))?.[1];
 
                   if (mappedVariant) {
                     variant = mappedVariant;

@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const elf: Race = {
   name: "Elf",
@@ -7,7 +7,14 @@ export const elf: Race = {
     "Elves are typically inquisitive, passionate, self-assured, and sometimes haughty. They are lithe and graceful with keen eyesight and hearing.",
   physicalDescription:
     "Elves are a slender race, with both males and females standing around five feet tall and weighing around 130 pounds. Most have dark hair, with little or no body or facial hair. Their skin is pale, and they have pointed ears and delicate features. Elves are lithe and graceful. They have keen eyesight and hearing.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "ranger", "scout"],
+  allowedClasses: [
+    "cleric",
+    "fighter",
+    "magic-user",
+    "thief",
+    "ranger",
+    "scout",
+  ],
   abilityRequirements: [
     {
       ability: "intelligence",
@@ -70,5 +77,13 @@ export const elf: Race = {
   ],
   lifespan: "A dozen centuries or more",
   languages: ["Common", "Elvish"],
+  carryingCapacity: {
+    light: 60,
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    },
+  },
   supplementalContent: false,
 };

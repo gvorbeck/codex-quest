@@ -2,8 +2,8 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui";
 import { Icon } from "@/components/ui/display";
 import { Card } from "@/components/ui/design-system";
-import { CARD_DECORATION_SIZES } from "@/constants/theme";
 import type { ReactNode } from "react";
+import { DESIGN_TOKENS } from "@/constants";
 
 interface BaseCardProps {
   id: string;
@@ -27,8 +27,8 @@ export function BaseCard({
   children,
 }: BaseCardProps) {
   return (
-    <Card 
-      variant="gradient" 
+    <Card
+      variant="gradient"
       size="default"
       className="group relative min-w-0 w-full"
     >
@@ -41,10 +41,10 @@ export function BaseCard({
 
       {/* Background decoration */}
       <div
-        className={`absolute top-0 right-0 ${CARD_DECORATION_SIZES.large} bg-gradient-to-bl from-amber-500/5 to-transparent rounded-xl pointer-events-none`}
+        className={`absolute top-0 right-0 ${DESIGN_TOKENS.decorations.large} bg-gradient-to-bl from-amber-500/5 to-transparent rounded-xl pointer-events-none`}
       />
       <div
-        className={`absolute bottom-0 left-0 ${CARD_DECORATION_SIZES.medium} bg-gradient-to-tr from-amber-500/5 to-transparent rounded-xl pointer-events-none`}
+        className={`absolute bottom-0 left-0 ${DESIGN_TOKENS.decorations.medium} bg-gradient-to-tr from-amber-500/5 to-transparent rounded-xl pointer-events-none`}
       />
 
       <div className="relative z-20 space-y-4 pointer-events-none">

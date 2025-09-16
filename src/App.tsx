@@ -8,8 +8,8 @@ import {
 import { AppHeader } from "@/components/ui/AppHeader";
 import { AppFooter } from "@/components/ui/AppFooter";
 import { AppRoutes } from "@/components/ui/AppRoutes";
-import { useAppData } from "@/hooks/useAppData";
-import { useNotifications } from "@/hooks/useNotifications";
+import { useAppData } from "@/hooks";
+import { useNotifications } from "@/hooks";
 import NotificationContext from "@/contexts/NotificationContext";
 
 const SignInModal = lazy(() => import("./components/modals/auth/SignInModal"));

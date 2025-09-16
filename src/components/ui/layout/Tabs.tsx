@@ -8,15 +8,15 @@ import {
   useImperativeHandle,
   useEffect,
 } from "react";
-import type { 
-  ReactNode, 
-  HTMLAttributes, 
+import type {
+  ReactNode,
+  HTMLAttributes,
   ButtonHTMLAttributes,
   KeyboardEvent,
   MouseEvent,
 } from "react";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import { cn } from "@/constants/styles";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
+import { cn } from "@/utils";
 
 // ============================================================================
 // Types and Interfaces
@@ -66,7 +66,8 @@ interface TabListProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-interface TabProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value"> {
+interface TabProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value"> {
   children: ReactNode;
   value: string;
   disabled?: boolean;
@@ -158,7 +159,9 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     }, []);
 
     const focusTab = useCallback((tabId: string) => {
-      const tabElement = document.querySelector(`[data-tab-id="${tabId}"]`) as HTMLElement;
+      const tabElement = document.querySelector(
+        `[data-tab-id="${tabId}"]`
+      ) as HTMLElement;
       tabElement?.focus();
     }, []);
 
@@ -186,7 +189,7 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     const containerClasses = cn(
       "tabs",
       orientation === "vertical" ? "flex gap-4" : "space-y-2",
-      className,
+      className
     );
 
     return (
@@ -212,7 +215,7 @@ const TabList = forwardRef<HTMLDivElement, TabListProps>(
     const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
       const { key } = event;
       const isHorizontal = orientation === "horizontal";
-      
+
       const nextKeys = isHorizontal ? ["ArrowRight"] : ["ArrowDown"];
       const prevKeys = isHorizontal ? ["ArrowLeft"] : ["ArrowUp"];
       const homeKey = "Home";
@@ -220,20 +223,24 @@ const TabList = forwardRef<HTMLDivElement, TabListProps>(
 
       if ([...nextKeys, ...prevKeys, homeKey, endKey].includes(key)) {
         event.preventDefault();
-        
+
         const tabElements = Array.from(
           event.currentTarget.querySelectorAll('[role="tab"]:not([disabled])')
         ) as HTMLElement[];
 
         if (tabElements.length === 0) return;
 
-        const currentIndex = tabElements.findIndex(tab => tab === document.activeElement);
+        const currentIndex = tabElements.findIndex(
+          (tab) => tab === document.activeElement
+        );
         let nextIndex = currentIndex;
 
         if (nextKeys.includes(key)) {
-          nextIndex = currentIndex + 1 >= tabElements.length ? 0 : currentIndex + 1;
+          nextIndex =
+            currentIndex + 1 >= tabElements.length ? 0 : currentIndex + 1;
         } else if (prevKeys.includes(key)) {
-          nextIndex = currentIndex - 1 < 0 ? tabElements.length - 1 : currentIndex - 1;
+          nextIndex =
+            currentIndex - 1 < 0 ? tabElements.length - 1 : currentIndex - 1;
         } else if (key === homeKey) {
           nextIndex = 0;
         } else if (key === endKey) {
@@ -253,14 +260,12 @@ const TabList = forwardRef<HTMLDivElement, TabListProps>(
     };
 
     const getListClasses = () => {
-      const baseClasses = [
-        "tabs-list",
-        "focus-within:outline-none",
-      ];
+      const baseClasses = ["tabs-list", "focus-within:outline-none"];
 
-      const orientationClasses = orientation === "horizontal" 
-        ? ["flex", "space-x-1"] 
-        : ["flex", "flex-col", "space-y-1"];
+      const orientationClasses =
+        orientation === "horizontal"
+          ? ["flex", "space-x-1"]
+          : ["flex", "flex-col", "space-y-1"];
 
       const variantClasses = {
         default: [
@@ -270,10 +275,7 @@ const TabList = forwardRef<HTMLDivElement, TabListProps>(
           "border",
           "p-1",
         ],
-        pills: [
-          "bg-transparent",
-          "space-x-2",
-        ],
+        pills: ["bg-transparent", "space-x-2"],
         underline: [
           "bg-transparent",
           "border-b",
@@ -285,7 +287,7 @@ const TabList = forwardRef<HTMLDivElement, TabListProps>(
         ...baseClasses,
         ...orientationClasses,
         ...variantClasses[variant],
-        className,
+        className
       );
     };
 
@@ -312,12 +314,21 @@ TabList.displayName = "TabList";
 // ============================================================================
 
 const Tab = forwardRef<HTMLButtonElement, TabProps>(
-  ({ children, value, disabled: tabDisabled = false, className = "", ...props }, ref) => {
-    const { 
-      selectedTab, 
-      onTabSelect, 
-      variant, 
-      size, 
+  (
+    {
+      children,
+      value,
+      disabled: tabDisabled = false,
+      className = "",
+      ...props
+    },
+    ref
+  ) => {
+    const {
+      selectedTab,
+      onTabSelect,
+      variant,
+      size,
       disabled: tabsDisabled,
       registerTab,
       unregisterTab,
@@ -412,7 +423,7 @@ const Tab = forwardRef<HTMLButtonElement, TabProps>(
         ...baseClasses,
         ...sizeClasses[size],
         ...variantClasses[variant],
-        className,
+        className
       );
     };
 
@@ -447,11 +458,7 @@ const TabPanels = forwardRef<HTMLDivElement, TabPanelsProps>(
     const { size } = useTabsContext();
     const currentSize = SIZE_STYLES[size];
 
-    const panelsClasses = cn(
-      "tabs-panels",
-      currentSize.container,
-      className,
-    );
+    const panelsClasses = cn("tabs-panels", currentSize.container, className);
 
     return (
       <div ref={ref} className={panelsClasses} {...props}>
@@ -489,7 +496,7 @@ const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
       "tabs-panel",
       "focus:outline-none",
       !isSelected && !forceMount && "hidden",
-      className,
+      className
     );
 
     return (
@@ -515,13 +522,7 @@ TabPanel.displayName = "TabPanel";
 // Exports
 // ============================================================================
 
-export {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-};
+export { Tabs, TabList, Tab, TabPanels, TabPanel };
 
 export type {
   TabsProps,

@@ -3,9 +3,8 @@ import FormField from "@/components/ui/inputs/FormField";
 import { Card, Typography } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection } from "@/components/ui/display";
 import { Icon } from "@/components/ui";
-import type { Character, Class } from "@/types/character";
-import { getClassFromAvailable } from "@/utils/characterHelpers";
-import { hasCustomClasses } from "@/utils/characterHelpers";
+import type { Character, Class } from "@/types";
+import { getClassFromAvailable, hasCustomClasses } from "@/utils";
 import { memo } from "react";
 
 interface StandardClassSelectorProps {
@@ -38,7 +37,7 @@ function StandardClassSelectorComponent({
 
   const currentClassId = character.class.length > 0 ? character.class[0] : "";
   const isCustomClass = hasCustomClasses(character);
-  
+
   // Determine what should be selected in the dropdown
   const selectValue = isCustomClass ? "custom" : currentClassId;
 
@@ -69,7 +68,6 @@ function StandardClassSelectorComponent({
       },
     });
   };
-
 
   const showCustomClassUI = selectValue === "custom";
   const selectedClass =

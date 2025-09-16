@@ -7,10 +7,15 @@ import { StatGrid } from "@/components/ui/display";
 import { LanguageSelector } from "@/components/character/creation";
 import { AvatarSelector } from "@/components/character/management";
 import { useValidation } from "@/validation";
-import { characterNameSchema } from "@/utils/characterValidation";
-import { sanitizeCharacterName } from "@/utils/sanitization";
-import { getClassById, isCustomClass, isCustomRace, getRaceById } from "@/utils/characterHelpers";
-import type { BaseStepProps } from "@/types/character";
+import {
+  sanitizeCharacterName,
+  getClassById,
+  isCustomClass,
+  isCustomRace,
+  getRaceById,
+  characterNameSchema,
+} from "@/utils";
+import type { BaseStepProps } from "@/types";
 
 type ReviewStepProps = BaseStepProps;
 

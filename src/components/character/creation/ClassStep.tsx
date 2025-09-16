@@ -10,27 +10,21 @@ import {
 } from "@/components/character/creation";
 import { SpellChecklistSelector } from "@/components/character/creation/SpellChecklistSelector";
 import { CantripSelector } from "@/components/character/shared";
-import { allClasses } from "@/data/classes";
-import { allRaces } from "@/data/races";
-import type {
-  Spell,
-  Cantrip,
-  BaseStepProps,
-  Character,
-} from "@/types/character";
+import { allClasses, allRaces } from "@/data";
 import {
+  findById,
   getFirstLevelSpellsForClass,
   getAllSpellsForCustomClass,
-} from "@/utils/spells";
-import { logger } from "@/utils/logger";
-import { getSpellTypeInfo } from "@/utils/cantrips";
-import {
+  logger,
+  getSpellTypeInfo,
   getEffectiveSpellcastingClass,
   assignStartingCantrips,
-} from "@/utils/characterCreation";
-import { getCharacterSpellSystemType, hasCustomRace } from "@/utils/characterHelpers";
+  getCharacterSpellSystemType,
+  hasCustomRace,
+} from "@/utils";
+import type { Spell, Cantrip, BaseStepProps, Character } from "@/types";
 import { useLocalStorage } from "@/hooks";
-import { STORAGE_KEYS } from "@/constants/storage";
+import { STORAGE_KEYS } from "@/constants";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps extends BaseStepProps {
@@ -50,7 +44,7 @@ function ClassStepComponent({
 }: ClassStepProps) {
   // Get the selected race data
   const selectedRace = useMemo(() => {
-    return allRaces.find((race) => race.id === character.race);
+    return findById(character.race, allRaces);
   }, [character.race]);
 
   // State for managing available spells

@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import type { Character, Spell } from "@/types/character";
+import type { Character, Spell } from "@/types";
 
 interface UseSpellPreparationProps {
   character: Character | undefined;
@@ -9,9 +9,16 @@ interface UseSpellPreparationProps {
 
 interface UseSpellPreparationResult {
   preparedSpells: Spell[];
-  handleSpellPreparation: (slotLevel: number, slotIndex: number, spellName: string) => void;
+  handleSpellPreparation: (
+    slotLevel: number,
+    slotIndex: number,
+    spellName: string
+  ) => void;
   clearSpellPreparation: (slotLevel: number, slotIndex: number) => void;
-  getPreparedSpellForSlot: (slotLevel: number, slotIndex: number) => Spell | null;
+  getPreparedSpellForSlot: (
+    slotLevel: number,
+    slotIndex: number
+  ) => Spell | null;
 }
 
 export function useSpellPreparation({

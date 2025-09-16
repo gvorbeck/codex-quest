@@ -1,19 +1,20 @@
-import { useModal } from "@/hooks/useModal";
-import type { Character, Spell, Cantrip } from "@/types/character";
+import { useModal } from "@/hooks";
+import type { Character, Spell, Cantrip } from "@/types";
 import { SectionWrapper, Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon, SectionHeader } from "@/components/ui";
 import { SkeletonList } from "@/components/ui/feedback";
 import { Modal } from "@/components/modals";
-import { CantripSelector, SpellDetails, TurnUndeadSection } from "@/components/character/shared";
+import CantripSelector from "@/components/character/shared/CantripSelector";
+import { SpellDetails, TurnUndeadSection } from "@/components/character/shared";
 import MUAddSpellModal from "@/components/modals/character/MUAddSpellModal";
 import PreparedSpellsSection from "./spells/PreparedSpellsSection";
 import SpellSlotDisplay from "./spells/SpellSlotDisplay";
 import { useSpellData } from "./spells/hooks/useSpellData";
 import { useClericSpells } from "./spells/hooks/useClericSpells";
 import { useSpellPreparation } from "./spells/hooks/useSpellPreparation";
-import { hasTurnUndeadAbility } from "@/utils/characterHelpers";
+import { hasTurnUndeadAbility } from "@/utils";
 
 interface SpellsProps {
   character?: Character;
@@ -115,7 +116,6 @@ export default function Spells({
   const isClericType = spellSystemType === "cleric";
   const canEdit = Boolean(isOwner && onCharacterChange);
 
-
   const renderSpell = (spell: DisplayableSpell) => (
     <SpellDetails spell={spell} />
   );
@@ -136,7 +136,10 @@ export default function Spells({
     >
       <SectionHeader
         title={
-          <span className="flex items-center gap-2" id={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}>
+          <span
+            className="flex items-center gap-2"
+            id={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
+          >
             {title}
             {items.length > 0 && (
               <span

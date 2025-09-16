@@ -1,5 +1,5 @@
-import type { Class } from "@/types/character";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import type { Class } from "@/types";
+import { CHARACTER_CLASSES } from "@/constants";
 
 export const barbarian: Class = {
   name: "Barbarian",

@@ -3,7 +3,7 @@ import { HorizontalRule } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { TextArea } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
-import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
+import { useDebouncedUpdate } from "@/hooks";
 
 interface GameNotesSectionProps {
   notes: string;

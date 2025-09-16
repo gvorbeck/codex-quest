@@ -1,6 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { logger } from "@/utils/logger";
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import { Button, Select } from "@/components/ui/inputs";
 import { Typography, Card } from "@/components/ui/design-system";
 import {
@@ -10,23 +9,27 @@ import {
   type IconName,
 } from "@/components/ui/display";
 import { LoadingState, ErrorBoundary } from "@/components/ui/feedback";
-import { useNotificationContext } from "@/hooks/useNotificationContext";
+import { useNotificationContext } from "@/hooks";
 import {
   generateTreasure,
   formatTreasureResult,
-  type TreasureType,
-  type LairTreasureType,
-  type IndividualTreasureType,
-  type UnguardedTreasureLevel,
-  type TreasureResult,
-} from "@/utils/treasureGenerator";
+  logger,
+  getCoinsToDisplay,
+  hasCoins,
+} from "@/utils";
 import {
   TREASURE_TYPES,
   LAIR_TREASURE_TYPES,
   INDIVIDUAL_TREASURE_TYPES,
   UNGUARDED_TREASURE_LEVELS,
-} from "@/constants/treasureTypes";
-import { getCoinsToDisplay, hasCoins } from "@/utils/treasureDisplay";
+} from "@/constants";
+import type {
+  IndividualTreasureType,
+  LairTreasureType,
+  TreasureResult,
+  TreasureType,
+  UnguardedTreasureLevel,
+} from "@/types";
 
 interface TreasureGeneratorModalProps {
   isOpen: boolean;

@@ -1,16 +1,16 @@
 import { useEffect } from "react";
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import { Typography } from "@/components/ui/design-system";
 import { LoadingState } from "@/components/ui/feedback";
 import { SectionWrapper } from "@/components/ui/layout";
-import { useLoadingState } from "@/hooks/useLoadingState";
-import { useCombatLogic } from "@/hooks/useCombatLogic";
-import { sortCombatantsByInitiative } from "@/utils/combatUtils";
+import { useLoadingState } from "@/hooks";
+import { useCombatLogic } from "@/hooks";
+import { sortCombatantsByInitiative } from "@/utils";
 import CombatControls from "./combat/CombatControls";
 import InitiativeTable from "./combat/InitiativeTable";
 import PreCombatInitiativeSection from "./combat/PreCombatInitiativeSection";
 import CombatantsList from "./combat/CombatantsList";
-import type { Game } from "@/types/game";
+import type { Game } from "@/types";
 
 interface CombatTrackerModalProps {
   isOpen: boolean;
@@ -20,11 +20,7 @@ interface CombatTrackerModalProps {
 }
 
 // Error Fallback Component
-function CombatErrorFallback({
-  error,
-}: {
-  error: Error;
-}) {
+function CombatErrorFallback({ error }: { error: Error }) {
   return (
     <div className="text-center py-8">
       <Typography variant="h6" color="zinc" className="mb-4 text-red-400">
@@ -190,14 +186,15 @@ export default function CombatTrackerModal({
               onUpdateMultipleInitiatives={updateMultiplePreCombatInitiatives}
               onDeleteCombatant={(combatant) => {
                 // Find the actual index in currentCombatants based on the combatant from the sorted list
-                const actualIndex = currentCombatants.findIndex(c => c.name === combatant.name);
+                const actualIndex = currentCombatants.findIndex(
+                  (c) => c.name === combatant.name
+                );
                 if (actualIndex !== -1) {
                   removeCombatant(actualIndex);
                 }
               }}
             />
           )}
-
 
         {/* Available Players (before combat starts) */}
         {!loading && !isCombatActive && availablePlayers.length > 0 && (

@@ -1,5 +1,5 @@
-import type { Class } from "@/types/character";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import type { Class } from "@/types";
+import { CHARACTER_CLASSES } from "@/constants";
 
 export const paladin: Class = {
   name: "Paladin",
@@ -48,8 +48,7 @@ export const paladin: Class = {
     },
     {
       name: "Detect Evil",
-      description:
-        "The Paladin can detect evil at will, as the spell.",
+      description: "The Paladin can detect evil at will, as the spell.",
     },
     {
       name: "Magic Weapon",

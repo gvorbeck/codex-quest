@@ -2,7 +2,7 @@
 export { default as AbilityScores } from "./AbilityScores";
 export { default as ExperienceTracker } from "./ExperienceTracker";
 export { default as ExperiencePoints } from "./ExperiencePoints";
-export { default as Hero } from "./Hero";
+export { default as CharacterHero } from "./Hero";
 export { default as HitPoints } from "./HitPoints";
 export { default as CharacterDefense } from "./CharacterDefense";
 export { default as AttackBonuses } from "./AttackBonuses";
@@ -15,3 +15,4 @@ export { default as Spells } from "./Spells";
 export { default as Equipment } from "./Equipment";
 export { default as CharacterDescription } from "./CharacterDescription";
 export { default as ScrollCreation } from "./scroll-creation/ScrollCreation";
+export { default as Hero } from "./Hero";

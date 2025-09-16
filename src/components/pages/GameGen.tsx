@@ -4,9 +4,9 @@ import { Card, Typography, Button } from "@/components/ui";
 import { TextInput, TextArea, FormField } from "@/components/ui/inputs";
 import { Breadcrumb } from "@/components/ui/display";
 import { useAuth } from "@/hooks";
-import { useGameNavigation } from "@/hooks/useEntityNavigation";
-import { logger } from "@/utils/logger";
-import { saveGame } from "@/services/games";
+import { useGameNavigation } from "@/hooks";
+import { logger } from "@/utils";
+import { saveGame } from "@/services";
 
 interface DraftGame {
   name: string;

@@ -3,10 +3,9 @@ import FormField from "@/components/ui/inputs/FormField";
 import { StepWrapper } from "@/components/ui/layout";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, DetailSection, Icon } from "@/components/ui/display";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
-import { isCustomRace, getRaceById } from "@/utils/characterHelpers";
-import type { BaseStepProps } from "@/types/character";
+import { allRaces, allClasses } from "@/data";
+import { isCustomRace, getRaceById } from "@/utils";
+import type { BaseStepProps } from "@/types";
 import { memo, useMemo, useState, useEffect } from "react";
 
 interface RaceStepProps extends BaseStepProps {
@@ -108,13 +107,11 @@ function RaceStep({
   const currentRaceId = character.race || "";
 
   // Find the selected race object for display purposes
-  const selectedRace = character.race
-    ? getRaceById(character.race)
-    : null;
+  const selectedRace = character.race ? getRaceById(character.race) : null;
 
   // Check if current race is custom
   const isCurrentRaceCustom = character.race && isCustomRace(character.race);
-  
+
   // Determine what should be selected in the dropdown
   const selectValue = isInCustomMode ? "custom" : currentRaceId;
 
@@ -154,7 +151,9 @@ function RaceStep({
                   <div className="mt-4">
                     <FormField label="Custom Race Name" required>
                       <TextInput
-                        value={isCurrentRaceCustom ? character.race : customRaceName}
+                        value={
+                          isCurrentRaceCustom ? character.race : customRaceName
+                        }
                         onChange={handleCustomRaceNameChange}
                         placeholder="Enter your custom race name..."
                         required
@@ -165,8 +164,9 @@ function RaceStep({
 
                 {raceOptions.length === 1 && ( // Only custom option available
                   <Typography variant="helper" color="amber" className="mt-2">
-                    No standard races available with current ability scores. Try rolling
-                    different abilities, including supplemental content, or use a custom race.
+                    No standard races available with current ability scores. Try
+                    rolling different abilities, including supplemental content,
+                    or use a custom race.
                   </Typography>
                 )}
               </div>
@@ -188,7 +188,11 @@ function RaceStep({
                 {/* Custom Race Header */}
                 <InfoCardHeader
                   icon={<Icon name="edit" />}
-                  title={isCurrentRaceCustom ? character.race : (customRaceName || "Custom Race")}
+                  title={
+                    isCurrentRaceCustom
+                      ? character.race
+                      : customRaceName || "Custom Race"
+                  }
                   iconSize="lg"
                   badge={{ text: "Custom" }}
                   className="mb-6"
@@ -197,8 +201,9 @@ function RaceStep({
                 {/* Custom Race Description */}
                 <div className="mb-6">
                   <Typography variant="description" color="primary">
-                    This is a custom race created by you. Custom races have no class restrictions
-                    and can pursue any available class combination.
+                    This is a custom race created by you. Custom races have no
+                    class restrictions and can pursue any available class
+                    combination.
                   </Typography>
                 </div>
 
@@ -225,7 +230,10 @@ function RaceStep({
                   </DetailSection>
 
                   {/* Custom Properties */}
-                  <DetailSection icon={<Icon name="star" />} title="Special Abilities">
+                  <DetailSection
+                    icon={<Icon name="star" />}
+                    title="Special Abilities"
+                  >
                     <Typography variant="helper" color="primary">
                       Define your own racial abilities and traits
                     </Typography>
@@ -279,22 +287,24 @@ function RaceStep({
                         title="Ability Requirements"
                       >
                         <div className="space-y-2">
-                          {selectedRace.abilityRequirements.map((req, index) => (
-                            <div
-                              key={index}
-                              className="flex justify-between items-center"
-                            >
-                              <span className="text-amber-100 font-medium">
-                                {req.ability.charAt(0).toUpperCase() +
-                                  req.ability.slice(1)}
-                              </span>
-                              <span className="text-amber-200 text-sm">
-                                {req.min && `min ${req.min}`}
-                                {req.min && req.max && " • "}
-                                {req.max && `max ${req.max}`}
-                              </span>
-                            </div>
-                          ))}
+                          {selectedRace.abilityRequirements.map(
+                            (req, index) => (
+                              <div
+                                key={index}
+                                className="flex justify-between items-center"
+                              >
+                                <span className="text-amber-100 font-medium">
+                                  {req.ability.charAt(0).toUpperCase() +
+                                    req.ability.slice(1)}
+                                </span>
+                                <span className="text-amber-200 text-sm">
+                                  {req.min && `min ${req.min}`}
+                                  {req.min && req.max && " • "}
+                                  {req.max && `max ${req.max}`}
+                                </span>
+                              </div>
+                            )
+                          )}
                         </div>
                       </DetailSection>
                     )}
@@ -306,16 +316,18 @@ function RaceStep({
                         title="Special Abilities"
                       >
                         <div className="space-y-3">
-                          {selectedRace.specialAbilities.map((ability, index) => (
-                            <div key={index}>
-                              <div className="font-medium text-amber-100 mb-1">
-                                {ability.name}
+                          {selectedRace.specialAbilities.map(
+                            (ability, index) => (
+                              <div key={index}>
+                                <div className="font-medium text-amber-100 mb-1">
+                                  {ability.name}
+                                </div>
+                                <Typography variant="helper" color="amber">
+                                  {ability.description}
+                                </Typography>
                               </div>
-                              <Typography variant="helper" color="amber">
-                                {ability.description}
-                              </Typography>
-                            </div>
-                          ))}
+                            )
+                          )}
                         </div>
                       </DetailSection>
                     )}
@@ -335,7 +347,10 @@ function RaceStep({
                     </DetailSection>
 
                     {/* Lifespan */}
-                    <DetailSection icon={<Icon name="clock" />} title="Lifespan">
+                    <DetailSection
+                      icon={<Icon name="clock" />}
+                      title="Lifespan"
+                    >
                       <Typography variant="helper" color="primary">
                         {selectedRace.lifespan}
                       </Typography>

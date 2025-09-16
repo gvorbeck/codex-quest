@@ -3,8 +3,7 @@ import { Typography, Badge } from "@/components/ui/design-system";
 import { NumberInput, Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui/display";
 import type { TableColumn } from "@/components/ui/display";
-
-import type { CombatantWithInitiative } from "@/utils/combatUtils";
+import type { CombatantWithInitiative } from "@/types";
 
 interface InitiativeTableProps {
   combatants: CombatantWithInitiative[];
@@ -200,8 +199,8 @@ export default function InitiativeTable({
   }
 
   // Check if there are monsters with initiative 0 during combat
-  const hasUnrolledMonsters = isCombatActive && 
-    combatants.some(c => !c.isPlayer && c.initiative === 0);
+  const hasUnrolledMonsters =
+    isCombatActive && combatants.some((c) => !c.isPlayer && c.initiative === 0);
 
   return (
     <div>
@@ -220,7 +219,7 @@ export default function InitiativeTable({
           </Button>
         </div>
       )}
-      
+
       <Table
         columns={combatColumns}
         data={combatants}

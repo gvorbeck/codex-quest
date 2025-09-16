@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const halfling: Race = {
   name: "Halfling",
@@ -107,5 +107,13 @@ export const halfling: Race = {
   ],
   lifespan: "About a hundred years",
   languages: ["Common", "Halfling"],
+  carryingCapacity: {
+    light: 50,
+    heavy: 100,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    },
+  },
   supplementalContent: false,
 };

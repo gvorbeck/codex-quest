@@ -15,9 +15,8 @@ import { Card } from "@/components/ui/design-system";
 import { Callout } from "@/components/ui/feedback";
 import { Button, Icon } from "@/components/ui";
 import { LanguageEditModal } from "@/components/modals";
-import type { Character } from "@/types/character";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import type { Character } from "@/types";
+import { allRaces, allClasses } from "@/data";
 
 interface SpecialsRestrictionsProps {
   character: Character;
@@ -26,7 +25,6 @@ interface SpecialsRestrictionsProps {
   isOwner?: boolean;
   onCharacterChange?: (character: Character) => void;
 }
-
 
 export default function SpecialsRestrictions({
   character,
@@ -194,7 +192,9 @@ export default function SpecialsRestrictions({
                     ))
                   ) : (
                     <Callout variant="neutral" title="No Restrictions">
-                      {`No special abilities or restrictions for ${classes.length === 1 ? "this class" : "these classes"}.`}
+                      {`No special abilities or restrictions for ${
+                        classes.length === 1 ? "this class" : "these classes"
+                      }.`}
                     </Callout>
                   )}
                 </div>

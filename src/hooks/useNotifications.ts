@@ -4,43 +4,10 @@ import type {
   NotificationPriority,
   NotificationPosition,
 } from "@/components/ui/feedback/Notification";
+import type { ShowNotificationOptions, NotificationSystem } from "@/types";
 import { useA11yAnnouncements } from "./useA11y";
-import { logger } from "@/utils/logger";
-import { NOTIFICATION_CONSTANTS } from "@/constants/notifications";
-
-export interface ShowNotificationOptions {
-  title?: string;
-  priority?: NotificationPriority;
-  position?: NotificationPosition;
-  duration?: number;
-  dismissible?: boolean;
-}
-
-export interface NotificationSystem {
-  notifications: NotificationData[];
-  showNotification: (
-    message: string | React.ReactNode,
-    options?: ShowNotificationOptions
-  ) => string;
-  dismissNotification: (id: string) => void;
-  clearAll: () => void;
-  showInfo: (
-    message: string | React.ReactNode,
-    options?: Omit<ShowNotificationOptions, "priority">
-  ) => string;
-  showSuccess: (
-    message: string | React.ReactNode,
-    options?: Omit<ShowNotificationOptions, "priority">
-  ) => string;
-  showWarning: (
-    message: string | React.ReactNode,
-    options?: Omit<ShowNotificationOptions, "priority">
-  ) => string;
-  showError: (
-    message: string | React.ReactNode,
-    options?: Omit<ShowNotificationOptions, "priority">
-  ) => string;
-}
+import { NOTIFICATION_CONSTANTS } from "@/constants";
+import { logger } from "@/utils";
 
 /**
  * Hook for managing notification state and providing notification methods
@@ -91,15 +58,15 @@ export function useNotifications(
     []
   );
 
-  // Constants for ID generation
-  const ID_RANDOM_OFFSET = 2;
-  const ID_RANDOM_LENGTH = 9;
-
   // Generate unique ID for notifications
   const generateId = useCallback(() => {
+    // Use crypto.randomUUID if available, fallback to Date + random string
+    if (typeof crypto !== "undefined" && crypto.randomUUID) {
+      return `notification-${crypto.randomUUID()}`;
+    }
     return `notification-${Date.now()}-${Math.random()
       .toString(36)
-      .substr(ID_RANDOM_OFFSET, ID_RANDOM_LENGTH)}`;
+      .substr(2, 9)}`;
   }, []);
 
   // Helper to create announcement text
@@ -259,6 +226,15 @@ export function useNotifications(
     [createPriorityMethod]
   );
 
+  // Placeholder methods for future functionality
+  const pauseAll = useCallback(() => {
+    // TODO: Implement pause functionality
+  }, []);
+
+  const resumeAll = useCallback(() => {
+    // TODO: Implement resume functionality
+  }, []);
+
   return {
     notifications,
     showNotification,
@@ -268,5 +244,7 @@ export function useNotifications(
     showSuccess,
     showWarning,
     showError,
+    pauseAll,
+    resumeAll,
   };
 }

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { preloadCriticalData } from "@/services/dataLoader";
-import { logger } from "@/utils/logger";
+import { preloadCriticalData } from "@/services";
+import { logger } from "@/utils";
 
 export function useAppData() {
   useEffect(() => {

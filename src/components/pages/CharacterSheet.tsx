@@ -1,40 +1,38 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback } from "react";
-import { allClasses } from "@/data/classes";
+import { allClasses } from "@/data";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback/LoadingState";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Callout from "@/components/ui/feedback/Callout";
 import { Typography } from "@/components/ui/design-system";
-import {
-  AttackBonuses,
-  HitPoints,
-  SavingThrows,
-  ThiefSkills,
-  CharacterDefense,
-  SpecialsRestrictions,
-  CoinPurse,
-  Weight,
-  Spells,
-  ExperiencePoints,
-  AbilityScores,
-  Hero,
-  Equipment,
-  CharacterDescription,
-  ScrollCreation,
-} from "@/components/character/sheet";
+import AttackBonuses from "@/components/character/sheet/AttackBonuses";
+import HitPoints from "@/components/character/sheet/HitPoints";
+import SavingThrows from "@/components/character/sheet/SavingThrows";
+import ThiefSkills from "@/components/character/sheet/ClassSkills";
+import CharacterDefense from "@/components/character/sheet/CharacterDefense";
+import SpecialsRestrictions from "@/components/character/sheet/SpecialsRestrictions";
+import CoinPurse from "@/components/character/sheet/CoinPurse";
+import Weight from "@/components/character/sheet/Weight";
+import Spells from "@/components/character/sheet/Spells";
+import ExperiencePoints from "@/components/character/sheet/ExperiencePoints";
+import AbilityScores from "@/components/character/sheet/AbilityScores";
+import Hero from "@/components/character/sheet/Hero";
+import Equipment from "@/components/character/sheet/Equipment";
+import CharacterDescription from "@/components/character/sheet/CharacterDescription";
+import ScrollCreation from "@/components/character/sheet/scroll-creation/ScrollCreation";
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
-import { calculateModifier } from "@/utils/characterCalculations";
-import { logger } from "@/utils/logger";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 import {
   canCastSpells,
   hasCantrips,
   hasSpells,
-} from "@/utils/characterHelpers";
-import { cn } from "@/constants";
+  calculateModifier,
+  logger,
+  cn,
+} from "@/utils";
 
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
@@ -257,9 +255,7 @@ export default function CharacterSheet() {
         <header className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <Breadcrumb items={breadcrumbItems} />
-            {isUpdating && (
-              <LoadingSpinner message="Saving..." size="sm" />
-            )}
+            {isUpdating && <LoadingSpinner message="Saving..." size="sm" />}
           </div>
         </header>
 

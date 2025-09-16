@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui";
 import { MarkdownText } from "@/components/ui/display";
 import { LoadingState } from "@/components/ui/feedback";
 import { LAYOUT_STYLES } from "@/constants";
-import type { Character, Spell } from "@/types/character";
+import type { Character, Spell } from "@/types";
 import { memo } from "react";
 
 interface SpellSelectorProps {
@@ -87,9 +87,7 @@ function SpellSelectorComponent({
           <Icon name="info" size="sm" aria-hidden={true} />
           Description
         </Typography>
-        <Typography variant="description">
-          {spell.description}
-        </Typography>
+        <Typography variant="description">{spell.description}</Typography>
       </Card>
     </div>
   );
@@ -113,7 +111,11 @@ function SpellSelectorComponent({
 
       <Card variant="standard" className="mb-6">
         {isLoading ? (
-          <LoadingState variant="inline" message="Loading spells..." className="py-4" />
+          <LoadingState
+            variant="inline"
+            message="Loading spells..."
+            className="py-4"
+          />
         ) : (
           <>
             <Select

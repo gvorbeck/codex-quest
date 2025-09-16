@@ -1,8 +1,8 @@
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
-import type { Cantrip } from "@/types/character";
-import type { SpellTypeInfo } from "@/utils/cantrips";
+import type { Cantrip } from "@/types";
+import type { SpellTypeInfo } from "@/types";
 
 interface CantripCardProps {
   cantrip: Cantrip;
@@ -20,11 +20,13 @@ export default function CantripCard({
   className = "",
 }: CantripCardProps) {
   return (
-    <Card 
+    <Card
       className={className}
       variant="standard"
       role="article"
-      aria-labelledby={`cantrip-${cantrip.name.replace(/\s+/g, '-').toLowerCase()}-title`}
+      aria-labelledby={`cantrip-${cantrip.name
+        .replace(/\s+/g, "-")
+        .toLowerCase()}-title`}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 space-y-3 min-w-0">
@@ -35,14 +37,16 @@ export default function CantripCard({
               className="text-blue-400"
               aria-hidden={true}
             />
-            <Typography 
-              variant="subHeading" 
+            <Typography
+              variant="subHeading"
               className="text-zinc-100"
-              id={`cantrip-${cantrip.name.replace(/\s+/g, '-').toLowerCase()}-title`}
+              id={`cantrip-${cantrip.name
+                .replace(/\s+/g, "-")
+                .toLowerCase()}-title`}
             >
               {cantrip.name}
             </Typography>
-            <Badge 
+            <Badge
               variant="status"
               aria-label={`This is a ${spellTypeInfo.singular}`}
             >
@@ -52,7 +56,9 @@ export default function CantripCard({
           <Typography
             variant="caption"
             className="text-zinc-400 text-sm"
-            aria-describedby={`cantrip-${cantrip.name.replace(/\s+/g, '-').toLowerCase()}-title`}
+            aria-describedby={`cantrip-${cantrip.name
+              .replace(/\s+/g, "-")
+              .toLowerCase()}-title`}
           >
             {cantrip.description}
           </Typography>

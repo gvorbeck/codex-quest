@@ -1,10 +1,7 @@
+import { combineButtonStyles, createButtonStyles } from "@/utils";
+import type { BaseButtonProps } from "@/types";
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
-import {
-  createButtonStyles,
-  combineButtonStyles,
-  type BaseButtonProps,
-} from "@/utils/buttonStyles";
 
 interface ButtonProps extends BaseButtonProps {
   children: ReactNode;

@@ -2,14 +2,16 @@ import { Button, Card, Typography, Icon } from "@/components/ui";
 import { SimpleRoller } from "@/components/ui/display";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
-import { roller } from "@/utils/dice";
-import { calculateModifier } from "@/utils/characterCalculations";
-import { logger } from "@/utils/logger";
-import type { Character, AbilityScore, BaseStepProps } from "@/types/character";
+import {
+  roller,
+  calculateModifier,
+  logger,
+  abilityScoreSchema,
+} from "@/utils";
+import { Rules, ABILITY_NAMES } from "@/validation/rules";
+import type { Character, AbilityScore, BaseStepProps } from "@/types";
 import { memo } from "react";
 import { useValidation } from "@/validation";
-import { abilityScoreSchema } from "@/utils/characterValidation";
-import { Rules, ABILITY_NAMES } from "@/validation";
 import type { AbilityName } from "@/validation";
 
 // Helper function to describe what ability score modifiers mean in gameplay terms

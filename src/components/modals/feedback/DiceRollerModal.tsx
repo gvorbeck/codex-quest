@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import { Button, TextInput, FormField } from "@/components/ui/inputs";
 import { Icon, TextHeader } from "@/components/ui/display";
-import { roller } from "@/utils/dice";
-import { useNotificationContext } from "@/hooks/useNotificationContext";
+import { roller } from "@/utils";
+import { useNotificationContext } from "@/hooks";
 
 interface DiceRollerModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProps) {
+export default function DiceRollerModal({
+  isOpen,
+  onClose,
+}: DiceRollerModalProps) {
   const [diceNotation, setDiceNotation] = useState("");
   const [isRolling, setIsRolling] = useState(false);
   const { showSuccess, showError } = useNotificationContext();
@@ -22,22 +25,33 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
     }
 
     setIsRolling(true);
-    
+
     try {
       const result = roller(diceNotation.trim());
-      
+
       // Create a detailed result message
       const resultMessage = (
         <div className="text-left">
-          <TextHeader variant="h5" size="md" underlined={false} className="flex items-center gap-2 mb-2">
+          <TextHeader
+            variant="h5"
+            size="md"
+            underlined={false}
+            className="flex items-center gap-2 mb-2"
+          >
             <Icon name="dice" size="sm" />
             Roll Result: {result.total}
           </TextHeader>
           <div className="text-sm text-zinc-300 space-y-1">
-            <div><strong>Formula:</strong> {result.formula}</div>
-            <div><strong>Breakdown:</strong> {result.breakdown}</div>
+            <div>
+              <strong>Formula:</strong> {result.formula}
+            </div>
+            <div>
+              <strong>Breakdown:</strong> {result.breakdown}
+            </div>
             {result.rolls.length > 0 && (
-              <div><strong>Individual Rolls:</strong> [{result.rolls.join(", ")}]</div>
+              <div>
+                <strong>Individual Rolls:</strong> [{result.rolls.join(", ")}]
+              </div>
             )}
           </div>
         </div>
@@ -45,15 +59,16 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
 
       showSuccess(resultMessage, {
         title: `Rolled ${result.formula}`,
-        dismissible: true
+        dismissible: true,
       });
 
       // Clear the input after successful roll
       setDiceNotation("");
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Invalid dice notation";
+      const errorMessage =
+        error instanceof Error ? error.message : "Invalid dice notation";
       showError(errorMessage, {
-        title: "Roll Failed"
+        title: "Roll Failed",
       });
     } finally {
       setIsRolling(false);
@@ -74,14 +89,9 @@ export default function DiceRollerModal({ isOpen, onClose }: DiceRollerModalProp
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title="Dice Roller"
-      size="md"
-    >
+    <Modal isOpen={isOpen} onClose={handleClose} title="Dice Roller" size="md">
       <div className="space-y-6">
-        <FormField 
+        <FormField
           label="Dice Notation"
           hint="Examples: 1d20, 3d6+2, 4d6L (drop lowest), 2d20K (keep highest)"
         >

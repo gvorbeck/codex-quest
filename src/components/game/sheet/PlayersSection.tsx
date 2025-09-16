@@ -1,10 +1,11 @@
 import { memo, useEffect, useState, useCallback } from "react";
-import type { GamePlayer } from "@/types/game";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
+import type { GamePlayer } from "@/types";
+import { GAME_SHEET_STYLES, LOADING_MESSAGES } from "@/constants";
 import { HorizontalRule } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import { DeletePlayerModal } from "@/components/modals";
-import { useDataResolver } from "@/hooks/useDataResolver";
+import { LoadingState } from "@/components/ui/feedback";
+import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
+import { useDataResolver } from "@/hooks";
 import { PlayerCard } from "./PlayerCard";
 
 interface PlayersSectionProps {
@@ -85,23 +86,22 @@ export const PlayersSection = memo(
             </div>
 
             {isLoading && (
-              <div className="text-center py-4">
-                <div
-                  className={`text-sm ${GAME_SHEET_STYLES.colors.text.secondary}`}
-                >
-                  Loading player data...
-                </div>
-              </div>
+              <LoadingState
+                message={LOADING_MESSAGES.loadingPlayerData}
+                variant="inline"
+                className="py-4"
+              />
             )}
           </div>
         </SectionWrapper>
 
         {/* Delete Player Confirmation Modal */}
-        <DeletePlayerModal
+        <DeletionModal
           isOpen={deleteModalOpen}
           onClose={handleCloseDeleteModal}
           onConfirm={handleConfirmDelete}
-          playerName={playerToDelete ? getPlayerName(playerToDelete) : ""}
+          entityType="player"
+          entityName={playerToDelete ? getPlayerName(playerToDelete) : ""}
           isDeleting={false}
         />
       </>

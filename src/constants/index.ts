@@ -1,6 +1,5 @@
-// Export all constants
-export * from "./storage";
-export * from "./styles";
-export * from "./fileUpload";
-export * from "./notifications";
-export * from "./theme";
+// Export all constants from organized files
+export * from "./infrastructure";
+export * from "./gameRules";
+export * from "./uiDesignSystem";
+export * from "./dataOrganization";

@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
-import { SIZE_STYLES } from "@/constants/designTokens";
-import { cn } from "@/constants/styles";
+import { SIZE_STYLES } from "@/constants";
+import { cn } from "@/utils";
+import type { BaseButtonProps } from "@/types";
 import { StatusDot } from "@/components/ui/display";
 import Button from "@/components/ui/inputs/Button";
-import type { BaseButtonProps } from "@/utils/buttonStyles";
 
 // Design tokens for RollableButton styling
 const ROLLABLE_BUTTON_STYLES = {

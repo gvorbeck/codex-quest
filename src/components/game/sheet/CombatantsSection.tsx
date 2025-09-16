@@ -1,6 +1,6 @@
 import { memo } from "react";
-import type { GameCombatant } from "@/types/game";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
+import type { GameCombatant } from "@/types";
+import { GAME_SHEET_STYLES } from "@/constants";
 import { HorizontalRule } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
 

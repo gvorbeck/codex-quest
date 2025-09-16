@@ -3,71 +3,27 @@ import Stepper from "@/components/ui/display/Stepper";
 import { Breadcrumb } from "@/components/ui/display";
 import { PageWrapper } from "@/components/ui/layout";
 import { Typography } from "@/components/ui/design-system";
-import {
-  AbilityScoreStep,
-  RaceStep,
-  HitPointsStep,
-  EquipmentStep,
-  ClassStep,
-  ReviewStep,
-} from "@/components/character/creation";
+import AbilityScoreStep from "@/components/character/creation/AbilityScoreStep";
+import RaceStep from "@/components/character/creation/RaceStep";
+import { ClassStep } from "@/components/character/creation/ClassStep";
+import HitPointsStep from "@/components/character/creation/HitPointsStep";
+import EquipmentStep from "@/components/character/creation/EquipmentStep";
+import { ReviewStep } from "@/components/character/creation/ReviewStep";
 import { useLocalStorage, useAuth } from "@/hooks";
-import { useCharacterNavigation } from "@/hooks/useEntityNavigation";
-import type { Character } from "@/types/character";
+import { useCharacterNavigation } from "@/hooks";
+import { useStepNavigation } from "@/hooks";
+import type { Character } from "@/types";
 import {
   useCascadeValidation,
   createCharacterValidationPipeline,
 } from "@/validation";
 import { saveCharacter } from "@/services/characters";
-import { STORAGE_KEYS } from "@/constants/storage";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
-import { logger } from "@/utils/logger";
+import { STORAGE_KEYS } from "@/constants";
+import { allRaces, allClasses } from "@/data";
+import { logger } from "@/utils";
+import { createEmptyCharacter } from "@/utils";
 
-const emptyCharacter: Character = {
-  name: "",
-  abilities: {
-    strength: {
-      value: 0,
-      modifier: 0,
-    },
-    dexterity: {
-      value: 0,
-      modifier: 0,
-    },
-    constitution: {
-      value: 0,
-      modifier: 0,
-    },
-    intelligence: {
-      value: 0,
-      modifier: 0,
-    },
-    wisdom: {
-      value: 0,
-      modifier: 0,
-    },
-    charisma: {
-      value: 0,
-      modifier: 0,
-    },
-  },
-  race: "",
-  class: [],
-  equipment: [],
-  currency: {
-    gold: 0,
-  },
-  hp: {
-    current: 0,
-    max: 0,
-  },
-  level: 1,
-  xp: 0,
-  settings: {
-    version: 2, // Current version for migration
-  },
-};
+const emptyCharacter: Character = createEmptyCharacter();
 
 function CharGen() {
   const { user } = useAuth();
@@ -152,14 +108,16 @@ function CharGen() {
     }
   }, [character.race, useCombinationClass, setUseCombinationClass]);
 
-  // Constants for step management
-  const TOTAL_STEPS = 6; // Abilities, Race, Class, Hit Points, Equipment, Review
-  const LAST_STEP_INDEX = TOTAL_STEPS - 1; // Review step is index 5 (0-based)
+  // Use step navigation hook for centralized step management
+  const { isLastStep, isNextDisabled, validationMessage } = useStepNavigation({
+    step,
+    character,
+    user,
+    validationPipeline,
+  });
 
   // Handle completion of character creation
   const handleNext = useCallback(async () => {
-    const isLastStep = step === LAST_STEP_INDEX;
-
     if (isLastStep) {
       // This is the completion step
       if (!user) {
@@ -188,82 +146,74 @@ function CharGen() {
       // Regular next step
       setStep(step + 1);
     }
-  }, [step, user, character, navigateToEntity, LAST_STEP_INDEX]);
+  }, [step, user, character, navigateToEntity, isLastStep]);
 
-  // Memoize validation functions to prevent unnecessary re-computation
-  const isNextDisabled = useMemo(() => {
-    const isLastStep = step === LAST_STEP_INDEX;
-
-    if (isLastStep) {
-      // For the completion step, check if user is authenticated and character has a valid name
-      const hasUser = !!user;
-      const hasName = !!character.name?.trim();
-      const disabled = !hasUser || !hasName;
-
-      return disabled;
-    }
-
-    return validationPipeline.isStepDisabled(step, character);
-  }, [validationPipeline, step, character, user, LAST_STEP_INDEX]);
-
-  const getValidationMessage = useMemo(() => {
-    const isLastStep = step === LAST_STEP_INDEX;
-
-    if (isLastStep) {
-      if (!user) {
-        return "Please sign in to save your character";
-      }
-      if (!character.name?.trim()) {
-        return "Please enter a character name to complete creation";
-      }
-      return null; // No validation message when ready to complete
-    }
-
-    return validationPipeline.validateStep(step, character).errors[0] || "";
-  }, [validationPipeline, step, character, user, LAST_STEP_INDEX]);
-
-  // Memoize individual step components to prevent unnecessary re-renders
-  const abilityStep = useMemo(
-    () => (
-      <AbilityScoreStep
-        character={character}
-        onCharacterChange={setCharacter}
-      />
-    ),
-    [character, setCharacter]
-  );
-
-  const raceStep = useMemo(
-    () => (
-      <RaceStep
-        character={character}
-        onCharacterChange={setCharacter}
-        includeSupplemental={includeSupplementalRace}
-        onIncludeSupplementalChange={setIncludeSupplementalRace}
-      />
-    ),
+  // Helper function to create step components
+  const createStepComponents = useCallback(
+    () => [
+      {
+        title: "Abilities",
+        content: (
+          <AbilityScoreStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Race",
+        content: (
+          <RaceStep
+            character={character}
+            onCharacterChange={setCharacter}
+            includeSupplemental={includeSupplementalRace}
+            onIncludeSupplementalChange={setIncludeSupplementalRace}
+          />
+        ),
+      },
+      {
+        title: "Class",
+        content: (
+          <ClassStep
+            character={character}
+            onCharacterChange={setCharacter}
+            includeSupplementalClass={includeSupplementalClass}
+            onIncludeSupplementalClassChange={setIncludeSupplementalClass}
+            useCombinationClass={useCombinationClass}
+            onUseCombinationClassChange={setUseCombinationClass}
+          />
+        ),
+      },
+      {
+        title: "Hit Points",
+        content: (
+          <HitPointsStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Equipment",
+        content: (
+          <EquipmentStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Review",
+        content: (
+          <ReviewStep character={character} onCharacterChange={setCharacter} />
+        ),
+      },
+    ],
     [
       character,
       setCharacter,
       includeSupplementalRace,
       setIncludeSupplementalRace,
-    ]
-  );
-
-  const classStep = useMemo(
-    () => (
-      <ClassStep
-        character={character}
-        onCharacterChange={setCharacter}
-        includeSupplementalClass={includeSupplementalClass}
-        onIncludeSupplementalClassChange={setIncludeSupplementalClass}
-        useCombinationClass={useCombinationClass}
-        onUseCombinationClassChange={setUseCombinationClass}
-      />
-    ),
-    [
-      character,
-      setCharacter,
       includeSupplementalClass,
       setIncludeSupplementalClass,
       useCombinationClass,
@@ -271,60 +221,7 @@ function CharGen() {
     ]
   );
 
-  const hitPointsStep = useMemo(
-    () => (
-      <HitPointsStep character={character} onCharacterChange={setCharacter} />
-    ),
-    [character, setCharacter]
-  );
-
-  const equipmentStep = useMemo(
-    () => (
-      <EquipmentStep character={character} onCharacterChange={setCharacter} />
-    ),
-    [character, setCharacter]
-  );
-
-  const reviewStep = useMemo(
-    () => <ReviewStep character={character} onCharacterChange={setCharacter} />,
-    [character, setCharacter]
-  );
-
-  const stepItems = useMemo(() => {
-    return [
-      {
-        title: "Abilities",
-        content: abilityStep,
-      },
-      {
-        title: "Race",
-        content: raceStep,
-      },
-      {
-        title: "Class",
-        content: classStep,
-      },
-      {
-        title: "Hit Points",
-        content: hitPointsStep,
-      },
-      {
-        title: "Equipment",
-        content: equipmentStep,
-      },
-      {
-        title: "Review",
-        content: reviewStep,
-      },
-    ];
-  }, [
-    abilityStep,
-    raceStep,
-    classStep,
-    hitPointsStep,
-    equipmentStep,
-    reviewStep,
-  ]);
+  const stepItems = createStepComponents();
 
   const breadcrumbItems = useMemo(
     () => [
@@ -334,7 +231,9 @@ function CharGen() {
     []
   );
 
-  logger.info(JSON.stringify(character));
+  if (import.meta.env.DEV) {
+    logger.info(JSON.stringify(character));
+  }
 
   return (
     <PageWrapper>
@@ -353,7 +252,7 @@ function CharGen() {
             setStep={setStep}
             nextDisabled={isNextDisabled}
             onNext={handleNext}
-            validationMessage={getValidationMessage || ""}
+            validationMessage={validationMessage || ""}
           />
         </section>
       </article>

@@ -2,12 +2,9 @@ import { useCallback, useState } from "react";
 import { FileUpload } from "@/components/ui/inputs";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography } from "@/components/ui/design-system";
-import {
-  LAYOUT_STYLES,
-  AVATAR_MAX_SIZE_BYTES,
-  AVATAR_MAX_SIZE_MB,
-} from "@/constants";
-import type { Character } from "@/types/character";
+import { LAYOUT_STYLES } from "@/constants";
+import type { Character } from "@/types";
+import { FILE_UPLOAD } from "@/constants";
 
 interface AvatarSelectorProps {
   character: Character;
@@ -74,8 +71,10 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
       }
 
       // Validate file size (max 2MB for avatars)
-      if (file.size > AVATAR_MAX_SIZE_BYTES) {
-        setUploadError(`Image must be smaller than ${AVATAR_MAX_SIZE_MB}MB`);
+      if (file.size > FILE_UPLOAD.AVATAR_MAX_SIZE_BYTES) {
+        setUploadError(
+          `Image must be smaller than ${FILE_UPLOAD.AVATAR_MAX_SIZE_MB}MB`
+        );
         return;
       }
 
@@ -226,9 +225,9 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
         </Typography>
         <FileUpload
           label="Upload Avatar Image"
-          helperText={`Upload your own avatar image. Accepts JPG, PNG, WebP. Max ${AVATAR_MAX_SIZE_MB}MB.`}
+          helperText={`Upload your own avatar image. Accepts JPG, PNG, WebP. Max ${FILE_UPLOAD.AVATAR_MAX_SIZE_MB}MB.`}
           accept="image/jpeg,image/png,image/webp"
-          maxSizeBytes={AVATAR_MAX_SIZE_BYTES}
+          maxSizeBytes={FILE_UPLOAD.AVATAR_MAX_SIZE_BYTES}
           onFileSelect={handleCustomUpload}
           error={uploadError}
           aria-describedby="avatar-upload-info"

@@ -5,8 +5,8 @@ import type {
   ThHTMLAttributes,
   TdHTMLAttributes,
 } from "react";
-import { cn } from "@/constants/styles";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
+import { cn } from "@/utils";
+import { DESIGN_TOKENS } from "@/constants";
 import { SkeletonTableRow } from "@/components/ui/feedback";
 
 // Constants

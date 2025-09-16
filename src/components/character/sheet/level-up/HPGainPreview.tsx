@@ -1,9 +1,9 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader, Icon } from "@/components/ui/display";
-import { getPrimaryClassInfo } from "@/utils/characterHelpers";
-import type { Character, Class } from "@/types/character";
-import type { HPGainResult } from "@/hooks/useHPGain";
+import { getPrimaryClassInfo } from "@/utils";
+import type { Character, Class } from "@/types";
+import type { HPGainResult } from "@/types";
 
 interface HPGainPreviewProps {
   character: Character;

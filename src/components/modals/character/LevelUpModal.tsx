@@ -1,15 +1,15 @@
 import { useMemo } from "react";
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import { Typography } from "@/components/ui/design-system";
 import { useHPGain, useLoadingState } from "@/hooks";
-import { logger } from "@/utils/logger";
-import { LEVEL_UP_CONSTANTS } from "@/constants/levelUp";
-import { isCustomClass } from "@/utils/characterHelpers";
+import { logger } from "@/utils";
+import { LEVEL_UP_CONSTANTS } from "@/constants";
+import { isCustomClass } from "@/utils";
 import CurrentStatusCard from "../../character/sheet/level-up/CurrentStatusCard";
 import HPGainPreview from "../../character/sheet/level-up/HPGainPreview";
 import LevelUpRequirements from "../../character/sheet/level-up/LevelUpRequirements";
 import ActionButtons from "../../character/sheet/level-up/ActionButtons";
-import type { Character, Class } from "@/types/character";
+import type { Character, Class } from "@/types";
 
 interface LevelUpModalProps {
   isOpen: boolean;

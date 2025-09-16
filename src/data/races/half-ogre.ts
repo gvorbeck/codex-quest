@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const halfOgre: Race = {
   name: "Half-Ogre",
@@ -40,8 +40,7 @@ export const halfOgre: Race = {
     },
     {
       name: "Fast Learning",
-      description:
-        "Half-ogres gain a bonus of +5% on all earned experience",
+      description: "Half-ogres gain a bonus of +5% on all earned experience",
       effects: {
         experienceBonus: {
           value: 5,
@@ -72,5 +71,13 @@ export const halfOgre: Race = {
   savingThrows: [],
   lifespan: "Around 100 years",
   languages: ["Common", "Orcish"],
+  carryingCapacity: {
+    light: 60,
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    },
+  },
   supplementalContent: true,
 };

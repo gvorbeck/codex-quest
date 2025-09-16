@@ -1,7 +1,7 @@
 import { TextArea } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
-import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
-import type { Character } from "@/types/character";
+import { useDebouncedUpdate } from "@/hooks";
+import type { Character } from "@/types";
 
 interface CharacterDescriptionProps {
   character: Character;
@@ -61,7 +61,9 @@ export default function CharacterDescription({
           <div className="flex items-center justify-between text-xs text-zinc-500">
             <span>{debouncedDescription.value.length} / 5000 characters</span>
             <span className="text-zinc-600">
-              {debouncedDescription.isSaving ? "Saving..." : "Saves automatically after you stop typing (500ms)"}
+              {debouncedDescription.isSaving
+                ? "Saving..."
+                : "Saves automatically after you stop typing (500ms)"}
             </span>
           </div>
         )}

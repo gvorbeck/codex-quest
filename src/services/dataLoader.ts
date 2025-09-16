@@ -3,10 +3,10 @@
  * Implements chunking and caching for better performance
  */
 
-import type { Equipment, Spell } from "@/types/character";
-import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants/gameData";
-import { CACHE_KEYS } from "@/constants/storage";
-import { logger } from "@/utils/logger";
+import type { Equipment, Spell } from "@/types";
+import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants";
+import { CACHE_KEYS } from "@/constants";
+import { logger } from "@/utils";
 
 // Cache for loaded data chunks
 const dataCache = new Map<string, unknown>();
@@ -136,7 +136,7 @@ export async function loadSpellsForClass(
  * Load all level 1 spells for custom classes
  */
 export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
-  const cacheKey = 'spells-all-level-1';
+  const cacheKey = "spells-all-level-1";
 
   if (dataCache.has(cacheKey)) {
     return dataCache.get(cacheKey) as Spell[];
@@ -168,7 +168,7 @@ export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
  * Load all spells for custom classes (all levels)
  */
 export async function loadAllSpells(): Promise<Spell[]> {
-  const cacheKey = 'spells-all';
+  const cacheKey = "spells-all";
 
   if (dataCache.has(cacheKey)) {
     return dataCache.get(cacheKey) as Spell[];
@@ -176,7 +176,7 @@ export async function loadAllSpells(): Promise<Spell[]> {
 
   try {
     const { default: allSpells } = await import("@/data/spells.json");
-    
+
     // Exclude Read Magic since spellcasters automatically know it
     const filteredSpells = (allSpells as Spell[]).filter(
       (spell) => spell.name !== "Read Magic"

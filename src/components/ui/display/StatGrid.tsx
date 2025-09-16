@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Card } from "@/components/ui/design-system";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
 interface StatItem {
   label: string;

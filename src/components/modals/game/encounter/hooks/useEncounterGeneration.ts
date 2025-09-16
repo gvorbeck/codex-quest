@@ -1,14 +1,14 @@
 import { useState, useCallback } from "react";
-import { logger } from "@/utils/logger";
-import { useNotifications } from "@/hooks/useNotifications";
-import { 
-  getRandomTableResult, 
-  rollForEncounter, 
-  delay, 
-  ENCOUNTER_CONSTANTS,
-  createCombatantFromEncounter
-} from "@/utils/encounterUtils";
-import type { GameCombatant } from "@/types/game";
+import { useNotifications } from "@/hooks";
+import {
+  getRandomTableResult,
+  rollForEncounter,
+  delay,
+  createCombatantFromEncounter,
+  logger,
+} from "@/utils";
+import type { GameCombatant } from "@/types";
+import { ENCOUNTER_CONSTANTS } from "@/constants";
 
 interface UseEncounterGenerationProps {
   currentTable: readonly string[];
@@ -45,12 +45,7 @@ export function useEncounterGeneration({
         onOpenCombatTracker();
       }, 500); // Small delay to let the user see the success notification
     }
-  }, [
-    currentEncounter,
-    onAddToCombat,
-    onOpenCombatTracker,
-    showSuccess,
-  ]);
+  }, [currentEncounter, onAddToCombat, onOpenCombatTracker, showSuccess]);
 
   const generateEncounter = useCallback(async () => {
     if (!currentTable.length) {

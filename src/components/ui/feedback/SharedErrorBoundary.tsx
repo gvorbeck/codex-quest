@@ -1,10 +1,8 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui";
-import { TextHeader } from "@/components/ui/display";
-import { Typography } from "@/components/ui/design-system";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
+import { TextHeader, Typography, Button } from "@/components/ui";
 
 interface Props {
   children: ReactNode;

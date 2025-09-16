@@ -1,8 +1,14 @@
 import { forwardRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
-type CardVariant = "info" | "success" | "standard" | "nested" | "gradient" | "hero";
+type CardVariant =
+  | "info"
+  | "success"
+  | "standard"
+  | "nested"
+  | "gradient"
+  | "hero";
 type CardSize = "compact" | "default";
 type CardShadow = "soft" | "standard" | "elevated";
 
@@ -33,10 +39,11 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     // Variant styles
     const variantStyles = {
       info: "bg-amber-950/20 border-amber-600",
-      success: "bg-lime-950/20 border-lime-600", 
+      success: "bg-lime-950/20 border-lime-600",
       standard: "bg-zinc-800 border-zinc-600",
       nested: "bg-zinc-800/50 border-amber-700/30",
-      gradient: "bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-zinc-700/50 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1",
+      gradient:
+        "bg-gradient-to-br from-zinc-800/50 to-zinc-900/80 border-zinc-700/50 transition-all duration-300 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1",
       hero: "bg-gradient-to-br from-background-secondary to-background-tertiary border-border/50 relative",
     };
 
@@ -48,22 +55,27 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
 
     // Shadow styles
     const shadowStyles = {
-      soft: variant === "info" ? "shadow-[0_2px_0_0_#d97706]" : "shadow-[0_2px_0_0_#52525b]",
-      standard: variant === "info" 
-        ? "shadow-[0_3px_0_0_#b45309]" 
-        : variant === "success"
-        ? "shadow-[0_3px_0_0_#65a30d]"
-        : "shadow-[0_3px_0_0_#3f3f46]",
-      elevated: variant === "info" 
-        ? "shadow-[0_4px_0_0_#92400e]" 
-        : variant === "success"
-        ? "shadow-[0_4px_0_0_#4d7c0f]"
-        : "shadow-[0_4px_0_0_#27272a]",
+      soft:
+        variant === "info"
+          ? "shadow-[0_2px_0_0_#d97706]"
+          : "shadow-[0_2px_0_0_#52525b]",
+      standard:
+        variant === "info"
+          ? "shadow-[0_3px_0_0_#b45309]"
+          : variant === "success"
+          ? "shadow-[0_3px_0_0_#65a30d]"
+          : "shadow-[0_3px_0_0_#3f3f46]",
+      elevated:
+        variant === "info"
+          ? "shadow-[0_4px_0_0_#92400e]"
+          : variant === "success"
+          ? "shadow-[0_4px_0_0_#4d7c0f]"
+          : "shadow-[0_4px_0_0_#27272a]",
     };
 
     // Hover styles
-    const hoverStyles = hover 
-      ? "transition-all duration-150 hover:shadow-[0_4px_0_0_#3f3f46] hover:-translate-y-0.5" 
+    const hoverStyles = hover
+      ? "transition-all duration-150 hover:shadow-[0_4px_0_0_#3f3f46] hover:-translate-y-0.5"
       : "";
 
     const cardClasses = cn(

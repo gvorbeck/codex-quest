@@ -2,9 +2,10 @@ import { useCallback, useMemo } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
-import { allRaces } from "@/data/races";
-import { LAYOUT_STYLES, cn } from "@/constants";
-import type { Character } from "@/types/character";
+import { allRaces } from "@/data";
+import { LAYOUT_STYLES } from "@/constants";
+import { cn, findById } from "@/utils";
+import type { Character } from "@/types";
 
 interface LanguageSelectorProps {
   character: Character;
@@ -70,7 +71,7 @@ function LanguageSelector({
 
   // Get the character's race data to determine automatic languages
   const raceData = useMemo(() => {
-    return allRaces.find((race) => race.id === character.race);
+    return findById(character.race, allRaces);
   }, [character.race]);
 
   const automaticLanguages = useMemo(() => {
@@ -190,7 +191,12 @@ function LanguageSelector({
         </Typography>
         <div className="flex flex-wrap gap-2">
           {automaticLanguages.map((language, index) => (
-            <Badge key={`auto-${index}`} variant="secondary" size="md" className="gap-2">
+            <Badge
+              key={`auto-${index}`}
+              variant="secondary"
+              size="md"
+              className="gap-2"
+            >
               {language}
               <span className="text-zinc-400 text-sm">(automatic)</span>
             </Badge>

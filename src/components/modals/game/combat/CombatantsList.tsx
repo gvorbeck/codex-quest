@@ -1,6 +1,6 @@
 import { SectionWrapper } from "@/components/ui/layout";
 import CombatantCard from "./CombatantCard";
-import type { CombatantWithInitiative } from "@/utils/combatUtils";
+import type { CombatantWithInitiative } from "@/types";
 
 interface CombatantsListProps {
   title: string;

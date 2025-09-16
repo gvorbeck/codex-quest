@@ -1,6 +1,6 @@
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import { AvatarSelector } from "@/components/character/management";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 
 interface AvatarChangeModalProps {
   isOpen: boolean;
@@ -17,7 +17,10 @@ export default function AvatarChangeModal({
 }: AvatarChangeModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Change Avatar" size="lg">
-      <AvatarSelector character={character} onCharacterChange={onCharacterChange} />
+      <AvatarSelector
+        character={character}
+        onCharacterChange={onCharacterChange}
+      />
     </Modal>
   );
 }

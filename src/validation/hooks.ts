@@ -6,10 +6,9 @@
 import { useMemo, useCallback, useEffect } from "react";
 import type { ValidationResult, ValidationSchema } from "./types";
 import { validate } from "./core";
-import type { Character, Race, Class } from "@/types/character";
-import { cascadeValidateCharacter } from "../utils/characterValidation";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
+import type { Character, Race, Class } from "@/types";
+import { allRaces, allClasses } from "@/data";
+import { cascadeValidateCharacter } from "@/utils";
 
 /**
  * Enhanced validation hook with type safety and detailed feedback

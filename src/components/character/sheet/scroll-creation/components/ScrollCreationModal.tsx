@@ -1,5 +1,11 @@
-import { useFormValidation } from "@/hooks/useFormValidation";
-import { Button, NumberInput, TextArea, TextInput, FormField } from "@/components/ui/inputs";
+import { useFormValidation } from "@/hooks";
+import {
+  Button,
+  NumberInput,
+  TextArea,
+  TextInput,
+  FormField,
+} from "@/components/ui/inputs";
 import { Modal } from "@/components/modals";
 
 interface ScrollCreationModalProps {
@@ -34,9 +40,8 @@ export const ScrollCreationModal = ({
     handleFieldChange: handleProjectFieldChange,
     resetForm: resetProjectForm,
     isValid: isProjectValid,
-  } = useFormValidation(
-    initialProjectData,
-    (data) => Boolean(data.spellName.trim())
+  } = useFormValidation(initialProjectData, (data) =>
+    Boolean(data.spellName.trim())
   );
 
   const handleCreateProject = () => {
@@ -58,9 +63,7 @@ export const ScrollCreationModal = ({
         <FormField label="Spell Name">
           <TextInput
             value={newProject.spellName}
-            onChange={(value) =>
-              handleProjectFieldChange("spellName", value)
-            }
+            onChange={(value) => handleProjectFieldChange("spellName", value)}
             placeholder="Enter spell name..."
           />
         </FormField>
@@ -86,9 +89,7 @@ export const ScrollCreationModal = ({
             <strong>Estimated Time:</strong>
             <br />
             {calculateScrollTime(newProject.spellLevel)}{" "}
-            {calculateScrollTime(newProject.spellLevel) === 1
-              ? "day"
-              : "days"}
+            {calculateScrollTime(newProject.spellLevel) === 1 ? "day" : "days"}
           </div>
           <div>
             <strong>Success Rate:</strong>
@@ -100,9 +101,7 @@ export const ScrollCreationModal = ({
         <FormField label="Notes (Optional)">
           <TextArea
             value={newProject.notes}
-            onChange={(value) =>
-              handleProjectFieldChange("notes", value)
-            }
+            onChange={(value) => handleProjectFieldChange("notes", value)}
             placeholder="Add any notes about this project..."
             rows={3}
           />

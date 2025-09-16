@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useModal } from "@/hooks/useModal";
+import { useModal } from "@/hooks";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import {
@@ -8,21 +8,19 @@ import {
   List,
   ListItem,
 } from "@/components/ui/display";
-import { SIZE_STYLES } from "@/constants/designTokens";
-import RollableButton from "@/components/ui/dice/RollableButton";
-import Button from "@/components/ui/inputs/Button";
-import { useDiceRoll } from "@/hooks/useDiceRoll";
-import { allClasses } from "@/data/classes";
-import { logger } from "@/utils/logger";
 import {
+  SIZE_STYLES,
   ALL_SKILLS,
   SKILL_DESCRIPTIONS,
   CLASSES_WITH_SKILLS,
   SKILL_CONSTANTS,
-  type SkillKey,
-  type SkillClassKey,
-} from "@/constants/skills";
-import type { Character } from "@/types/character";
+} from "@/constants";
+import RollableButton from "@/components/ui/dice/RollableButton";
+import Button from "@/components/ui/inputs/Button";
+import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { allClasses } from "@/data";
+import { logger } from "@/utils";
+import type { Character, SkillKey, SkillClassKey } from "@/types";
 
 interface ClassSkillsProps {
   character: Character;

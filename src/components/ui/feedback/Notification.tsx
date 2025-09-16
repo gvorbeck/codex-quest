@@ -7,7 +7,7 @@ import {
   useMemo,
 } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 import { Typography } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
 import { Button } from "@/components/ui/inputs";
@@ -17,7 +17,7 @@ import {
   POSITION_ANIMATIONS,
   PRIORITY_PROGRESS_COLORS,
   BASE_NOTIFICATION_STYLES,
-} from "@/constants/notifications";
+} from "@/constants";
 
 export type NotificationPriority = "info" | "success" | "warning" | "error";
 export type NotificationPosition =

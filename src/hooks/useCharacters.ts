@@ -1,6 +1,6 @@
 // Hook for managing character data
 import { useState, useEffect, useCallback } from "react";
-import { getUserCharacters, type CharacterListItem } from "@/services/characters";
+import { getUserCharacters, type CharacterListItem } from "@/services";
 import { useAuth } from "./useAuth";
 import { useLoadingState } from "./useLoadingState";
 
@@ -17,14 +17,16 @@ export function useCharacters() {
     }
 
     setError(null);
-    
+
     try {
       await withLoading(async () => {
         const userCharacters = await getUserCharacters(user);
         setCharacters(userCharacters);
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch characters");
+      setError(
+        err instanceof Error ? err.message : "Failed to fetch characters"
+      );
       setCharacters([]);
     }
   }, [user, withLoading]);
@@ -37,6 +39,6 @@ export function useCharacters() {
     characters,
     loading,
     error,
-    refetch: fetchCharacters
+    refetch: fetchCharacters,
   };
 }

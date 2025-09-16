@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import type { Character, Spell, Cantrip } from "@/types/character";
+import type { Character, Spell, Cantrip } from "@/types";
 import {
   canCastSpells,
   getSpellLevel,
   getSpellSlots,
   getCharacterSpellSystemType,
   getClassById,
-} from "@/utils/characterHelpers";
-import { allClasses } from "@/data/classes";
+} from "@/utils";
+import { allClasses } from "@/data";
 
 interface SpellWithLevel extends Spell {
   spellLevel: number;

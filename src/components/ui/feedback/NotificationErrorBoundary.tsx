@@ -1,7 +1,7 @@
 import { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react";
 import { Typography } from "@/components/ui/design-system";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 
 interface Props {
   children: ReactNode;

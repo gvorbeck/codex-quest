@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { FIREBASE_ENV_KEYS } from "@/constants/firebase";
+import { FIREBASE_ENV_KEYS } from "@/constants";
 
 // Validate required environment variables
 const requiredEnvVars = [
@@ -14,7 +14,7 @@ const requiredEnvVars = [
   FIREBASE_ENV_KEYS.APP_ID,
 ] as const;
 
-requiredEnvVars.forEach(varName => {
+requiredEnvVars.forEach((varName) => {
   if (!import.meta.env[varName]) {
     throw new Error(`Missing required environment variable: ${varName}`);
   }

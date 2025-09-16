@@ -1,6 +1,6 @@
 // Hook for managing games data
 import { useState, useEffect, useCallback } from "react";
-import { getUserGames, type Game } from "@/services/games";
+import { getUserGames, type Game } from "@/services";
 import { useAuth } from "./useAuth";
 import { useLoadingState } from "./useLoadingState";
 
@@ -17,7 +17,7 @@ export function useGames() {
     }
 
     setError(null);
-    
+
     try {
       await withLoading(async () => {
         const userGames = await getUserGames(user);
@@ -37,6 +37,6 @@ export function useGames() {
     games,
     loading,
     error,
-    refetch: fetchGames
+    refetch: fetchGames,
   };
 }

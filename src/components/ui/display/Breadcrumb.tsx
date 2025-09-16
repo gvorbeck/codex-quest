@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { Icon } from "@/components/ui";
 import List, { ListItem } from "./List";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
 interface BreadcrumbItem {
   label: string;

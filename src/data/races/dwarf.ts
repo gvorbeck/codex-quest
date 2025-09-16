@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const dwarf: Race = {
   name: "Dwarf",
@@ -59,5 +59,13 @@ export const dwarf: Race = {
   ],
   lifespan: "Three to four centuries",
   languages: ["Common", "Dwarvish"],
+  carryingCapacity: {
+    light: 60,
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    },
+  },
   supplementalContent: false,
 };

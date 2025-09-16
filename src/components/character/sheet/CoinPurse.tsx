@@ -2,16 +2,15 @@ import { EditableValue } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
-import { SIZE_STYLES } from "@/constants/designTokens";
 import {
   convertToWholeCoins,
   cleanFractionalCurrency,
   hasFractionalCurrency,
-} from "@/utils/currency";
-import { CURRENCY_UI_CONFIG, type CurrencyKey } from "@/constants/currency";
-import type { Character } from "@/types/character";
+  cn,
+} from "@/utils";
+import { CURRENCY_UI_CONFIG, SIZE_STYLES } from "@/constants";
+import type { CurrencyKey, Character } from "@/types";
 import { useEffect } from "react";
-import { cn } from "@/constants";
 
 interface CoinPurseProps {
   character: Character;

@@ -1,16 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { logger } from "@/utils/logger";
-import { useLoadingState } from "@/hooks/useLoadingState";
-import { loadSpellsForClass } from "@/services/dataLoader";
-import { hasCustomClasses, hasSpells } from "@/utils/characterHelpers";
-import type { Class, Spell, Character } from "@/types/character";
-
-export interface SpellGainInfo {
-  level: number;
-  newSpells: number[];
-  totalSpellsGained: number;
-  spellsByLevel: Array<{ spellLevel: number; count: number; spells: Spell[] }>;
-}
+import { useLoadingState } from "@/hooks";
+import { loadSpellsForClass } from "@/services";
+import type { Class, Spell, Character, SpellGainInfo } from "@/types";
+import { hasCustomClasses, hasSpells, logger } from "@/utils";
 
 interface UseSpellSelectionProps {
   primaryClass: Class | null;

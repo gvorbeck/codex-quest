@@ -1,7 +1,7 @@
 import { Select } from "@/components/ui/inputs";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 import { LAYOUT_STYLES } from "@/constants";
 import { memo } from "react";
 

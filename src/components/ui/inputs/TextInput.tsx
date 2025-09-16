@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
-import { Icon } from "@/components/ui";
-import { cn } from "@/constants/styles";
+import { Icon } from "@/components";
+import { cn } from "@/utils";
 
 type TextInputSize = "sm" | "md" | "lg";
 
@@ -165,7 +165,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       ...shadowStyles,
       sizeStyles[size],
       inputPaddingClass,
-      className,
+      className
     );
 
     return (

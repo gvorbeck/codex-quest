@@ -2,8 +2,8 @@ import { forwardRef } from "react";
 import { SectionWrapper } from "@/components/ui/layout";
 import { ExperienceTracker } from "@/components/character/sheet";
 import { InfoTooltip } from "@/components/ui/feedback";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import type { Character, Class } from "@/types/character";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
+import type { Character, Class } from "@/types";
 
 interface ExperiencePointsProps {
   character: Character & { id?: string };
@@ -14,7 +14,6 @@ interface ExperiencePointsProps {
   className?: string;
   size?: "sm" | "md" | "lg";
 }
-
 
 const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
   (
@@ -31,7 +30,6 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
   ) => {
     const currentSize = SIZE_STYLES[size];
 
-
     const titleWithTooltip = (
       <div className="flex items-center gap-2">
         Experience Points
@@ -40,9 +38,9 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
     );
 
     return (
-      <SectionWrapper 
-        ref={ref} 
-        title={titleWithTooltip} 
+      <SectionWrapper
+        ref={ref}
+        title={titleWithTooltip}
         size={size}
         className={className}
       >
@@ -57,7 +55,9 @@ const ExperiencePoints = forwardRef<HTMLDivElement, ExperiencePointsProps>(
             />
           ) : (
             <div className="text-center">
-              <div className={`${DESIGN_TOKENS.colors.text.primary} text-2xl font-bold`}>
+              <div
+                className={`${DESIGN_TOKENS.colors.text.primary} text-2xl font-bold`}
+              >
                 {character.xp}
               </div>
             </div>

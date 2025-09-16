@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 import { Button, Icon } from "@/components/ui";
 import { Typography } from "@/components/ui/design-system";
 

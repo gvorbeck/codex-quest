@@ -3,8 +3,8 @@ import { Card, Typography } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui";
 import { InfoCardHeader, MarkdownText } from "@/components/ui/display";
 import { TextInput, Checkbox } from "@/components/ui/inputs";
-import type { Character, Spell } from "@/types/character";
-import { logger } from "@/utils/logger";
+import type { Character, Spell } from "@/types";
+import { logger } from "@/utils";
 
 interface SpellChecklistSelectorProps {
   character: Character;
@@ -119,10 +119,7 @@ export function SpellChecklistSelector({
         />
 
         <div className="mb-6">
-          <MarkdownText
-            content={description}
-            variant="description"
-          />
+          <MarkdownText content={description} variant="description" />
         </div>
 
         {/* Search Filter */}

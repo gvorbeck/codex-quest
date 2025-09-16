@@ -9,9 +9,9 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { logger } from "@/utils/logger";
-import { useLoadingState } from "@/hooks/useLoadingState";
-import type { Character } from "@/types/character";
+import { useLoadingState } from "@/hooks";
+import type { Character } from "@/types";
+import { logger } from "@/utils";
 
 interface ResolvedData {
   characterName?: string | undefined;
@@ -38,19 +38,19 @@ let cacheCleanupTimer: NodeJS.Timeout | null = null;
 
 const startCacheCleanup = () => {
   if (cacheCleanupTimer) return;
-  
+
   cacheCleanupTimer = setInterval(() => {
     const now = Date.now();
     const expiredKeys: string[] = [];
-    
+
     dataCache.forEach((entry, key) => {
       if (now - entry.timestamp > CACHE_TTL) {
         expiredKeys.push(key);
       }
     });
-    
-    expiredKeys.forEach(key => dataCache.delete(key));
-    
+
+    expiredKeys.forEach((key) => dataCache.delete(key));
+
     if (dataCache.size === 0 && cacheCleanupTimer) {
       clearInterval(cacheCleanupTimer);
       cacheCleanupTimer = null;
@@ -77,7 +77,7 @@ export function useDataResolver(options: UseDataResolverOptions = {}) {
   useEffect(() => {
     mountedRef.current = true;
     startCacheCleanup(); // Start cache cleanup when first component mounts
-    
+
     return () => {
       mountedRef.current = false;
 

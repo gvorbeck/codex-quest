@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
-import type { EncounterType } from "@/types/encounters";
+import type { EncounterType } from "@/types";
 
 interface EncounterTypeSelectorProps {
   selectedType: EncounterType;

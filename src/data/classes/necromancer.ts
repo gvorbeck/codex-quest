@@ -1,5 +1,5 @@
-import type { Class } from "@/types/character";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import type { Class } from "@/types";
+import { CHARACTER_CLASSES } from "@/constants";
 
 export const necromancer: Class = {
   name: "Necromancer",
@@ -19,7 +19,14 @@ export const necromancer: Class = {
       min: 9,
     },
   ],
-  allowedWeapons: ["dagger", "walking-staff", "sickle", "spade", "scimitar", "scythe"],
+  allowedWeapons: [
+    "dagger",
+    "walking-staff",
+    "sickle",
+    "spade",
+    "scimitar",
+    "scythe",
+  ],
   allowedArmor: ["none"],
   spellcasting: {
     spellsPerLevel: {

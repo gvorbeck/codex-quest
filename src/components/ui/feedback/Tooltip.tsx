@@ -9,12 +9,8 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
-import {
-  createTooltipPositioner,
-  type TooltipPosition,
-  type PositioningOptions,
-} from "@/utils/tooltipUtils";
-import { logger } from "@/utils/logger";
+import { createTooltipPositioner, logger } from "@/utils";
+import type { TooltipPosition, PositioningOptions } from "@/types";
 
 // Constants
 const POSITIONING_DELAY = 0;
@@ -121,8 +117,8 @@ const Tooltip: React.FC<TooltipProps> = ({
       const result = positioner(triggerRect, tooltipRect);
 
       setPosition(result.position);
-      setIsBelow(result.isBelow);
-      setArrowOffset(result.arrowOffset);
+      setIsBelow(result.isBelow ?? false);
+      setArrowOffset(result.arrowOffset ?? 0);
     } catch (error) {
       logger.error("Tooltip positioning error:", error);
       // Fallback to simple center positioning

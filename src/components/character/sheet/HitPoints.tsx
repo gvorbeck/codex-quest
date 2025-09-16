@@ -1,9 +1,9 @@
 import { NumberInput, TextArea } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
 import { StatusIndicator } from "@/components/ui/display";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import { useDebouncedUpdate } from "@/hooks/useDebouncedUpdate";
-import type { Character } from "@/types/character";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
+import { useDebouncedUpdate } from "@/hooks";
+import type { Character } from "@/types";
 
 interface HitPointsProps {
   character: Character;
@@ -41,11 +41,7 @@ export default function HitPoints({
   };
 
   return (
-    <SectionWrapper
-      title="Hit Points"
-      size={size}
-      className={className}
-    >
+    <SectionWrapper title="Hit Points" size={size} className={className}>
       {/* HP Content */}
       <div className={currentSize.container}>
         <div className="space-y-2">
@@ -110,9 +106,7 @@ export default function HitPoints({
                   className="text-xs !bg-zinc-700/50 !border-zinc-600/50"
                 />
                 {debouncedHPNotes.isSaving && (
-                  <div className="text-xs text-zinc-500 mt-1">
-                    Saving...
-                  </div>
+                  <div className="text-xs text-zinc-500 mt-1">Saving...</div>
                 )}
               </>
             ) : (

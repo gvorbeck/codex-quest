@@ -1,4 +1,4 @@
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import type { CHARACTER_CLASSES } from "@/constants";
 
 export interface AbilityScore {
   value: number;
@@ -197,6 +197,15 @@ export interface SavingThrowBonus {
   bonus: number;
 }
 
+export interface CarryingCapacity {
+  light: number; // Maximum light load in pounds
+  heavy: number; // Maximum heavy load in pounds
+  strengthModifier: {
+    positive: number; // Multiplier for positive STR modifiers (e.g. 0.1 = +10% per +1)
+    negative: number; // Multiplier for negative STR modifiers (e.g. 0.2 = -20% per -1)
+  };
+}
+
 export interface Race {
   name: string;
   id: string;
@@ -209,6 +218,7 @@ export interface Race {
   savingThrows: SavingThrowBonus[];
   lifespan: string;
   languages: string[]; // Languages automatically known by this race
+  carryingCapacity: CarryingCapacity;
   supplementalContent?: boolean;
 }
 
@@ -239,4 +249,55 @@ export interface Class {
 export interface BaseStepProps {
   character: Character;
   onCharacterChange: (character: Character) => void;
+}
+
+// Game rules type exports - derived from gameRules constants
+export type CharacterClass =
+  (typeof CHARACTER_CLASSES)[keyof typeof CHARACTER_CLASSES];
+export type SkillKey =
+  | "openLocks"
+  | "removeTraps"
+  | "detectTraps"
+  | "pickPockets"
+  | "moveSilently"
+  | "climbWalls"
+  | "hide"
+  | "listen"
+  | "poison"
+  | "tracking";
+export type SkillClassKey = "thief" | "assassin" | "ranger" | "scout";
+export type TwoHPClass =
+  | "fighter"
+  | "thief"
+  | "assassin"
+  | "barbarian"
+  | "ranger"
+  | "paladin"
+  | "scout";
+
+// Character system types
+export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
+
+export interface RacialModificationInfo {
+  abilityName: string;
+  originalHitDie: string;
+  modifiedHitDie: string;
+  modificationType: "restriction" | "increase" | "decrease";
+}
+
+// Character progression types
+export interface HPGainResult {
+  roll: number | null;
+  constitutionBonus: number | null;
+  total: number;
+  max: number | null;
+  breakdown: string;
+  isFixed: boolean;
+}
+
+export interface SpellGainInfo {
+  level: number;
+  newSpells: number[];
+  totalSpellsGained: number;
+  spellsByLevel: Array<{ spellLevel: number; count: number; spells: Spell[] }>;
 }

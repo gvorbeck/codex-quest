@@ -1,49 +1,36 @@
 import { useMemo } from "react";
-import { allClasses } from "@/data/classes";
-import { 
-  CLASSES_WITH_SKILLS, 
-  type SkillClassKey 
-} from "@/constants/skills";
+import { allClasses } from "@/data";
+import { CLASSES_WITH_SKILLS } from "@/constants";
 import type { CharacterListItem } from "@/services/characters";
-import type { Game } from "@/types/game";
-import { logger } from "@/utils/logger";
-
-export interface SkillTableRow {
-  id: string;
-  level: number;
-  characterName?: string;
-  isPlayer: boolean;
-  userId: string | undefined;
-  characterId?: string;
-  [skillKey: string]: string | number | boolean | undefined;
-}
-
-export interface ClassSkillData {
-  classId: SkillClassKey;
-  displayName: string;
-  skills: SkillTableRow[];
-}
+import type {
+  SkillClassKey,
+  Game,
+  SkillTableRow,
+  ClassSkillData,
+} from "@/types";
+import { logger } from "@/utils";
 
 /**
  * Custom hook to organize player character skill data by class
  * Groups characters by skill classes and generates skill progression tables
  */
 export const useSkillDataByClass = (
-  playerCharacters: CharacterListItem[], 
+  playerCharacters: CharacterListItem[],
   game: Game
 ): ClassSkillData[] => {
   return useMemo((): ClassSkillData[] => {
     if (!playerCharacters.length) return [];
 
     // Group player characters by skill classes
-    const classGroups: Record<SkillClassKey, CharacterListItem[]> = {} as Record<SkillClassKey, CharacterListItem[]>;
-    
-    playerCharacters.forEach(character => {
-      const characterClasses = Array.isArray(character.class) 
-        ? character.class 
+    const classGroups: Record<SkillClassKey, CharacterListItem[]> =
+      {} as Record<SkillClassKey, CharacterListItem[]>;
+
+    playerCharacters.forEach((character) => {
+      const characterClasses = Array.isArray(character.class)
+        ? character.class
         : [character.class].filter(Boolean);
-        
-      characterClasses.forEach(className => {
+
+      characterClasses.forEach((className) => {
         if (className && className in CLASSES_WITH_SKILLS) {
           const skillClassName = className as SkillClassKey;
           if (!classGroups[skillClassName]) {
@@ -57,7 +44,7 @@ export const useSkillDataByClass = (
     // Build skill data for each class
     const result = Object.entries(classGroups).map(([classId, characters]) => {
       const skillClassId = classId as SkillClassKey;
-      const classData = allClasses.find(cls => cls.id === skillClassId);
+      const classData = allClasses.find((cls) => cls.id === skillClassId);
       const classInfo = CLASSES_WITH_SKILLS[skillClassId];
 
       if (!classData?.skills) {
@@ -65,30 +52,33 @@ export const useSkillDataByClass = (
         return {
           classId: skillClassId,
           displayName: classInfo.displayName,
-          skills: []
+          skills: [],
         };
       }
 
       // Generate rows for all levels (1-20) with player data highlighted
       const skillRows: SkillTableRow[] = [];
-      
+
       // Add level progression rows
       for (let level = 1; level <= 20; level++) {
         const skillsForLevel = classData.skills[level];
         if (!skillsForLevel) continue;
 
         // Check if any player characters are at this level
-        const playersAtLevel = characters.filter(char => (char.level as number) === level);
-        
+        const playersAtLevel = characters.filter(
+          (char) => (char.level as number) === level
+        );
+
         if (playersAtLevel.length > 0) {
           // Add a row for each player at this level
-          playersAtLevel.forEach(character => {
+          playersAtLevel.forEach((character) => {
             const row: SkillTableRow = {
-              id: `${skillClassId}-${level}-${character.name || 'unnamed'}`,
+              id: `${skillClassId}-${level}-${character.name || "unnamed"}`,
               level,
               characterName: character.name,
               isPlayer: true,
-              userId: game.players?.find(p => p.character === character.id)?.user,
+              userId: game.players?.find((p) => p.character === character.id)
+                ?.user,
               characterId: character.id,
             };
 
@@ -119,13 +109,13 @@ export const useSkillDataByClass = (
       return {
         classId: skillClassId,
         displayName: classInfo.displayName,
-        skills: skillRows
+        skills: skillRows,
       };
     });
 
     logger.debug("Generated skill data by class", {
       classCount: result.length,
-      totalSkillRows: result.reduce((sum, cls) => sum + cls.skills.length, 0)
+      totalSkillRows: result.reduce((sum, cls) => sum + cls.skills.length, 0),
     });
 
     return result;

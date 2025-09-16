@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
+import { GAME_SHEET_STYLES } from "@/constants";
 import { Typography } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
 

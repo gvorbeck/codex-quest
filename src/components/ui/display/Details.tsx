@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
 import { Typography } from "@/components/ui/design-system";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
 export interface DescriptionItem {
   label: ReactNode;
@@ -59,12 +59,8 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
               <div className={DESIGN_TOKENS.effects.cardAccent} />
 
               <div className="space-y-2.5">
-                <div className={horizontalLabelClass}>
-                  {item.label}
-                </div>
-                <div className={horizontalContentClass}>
-                  {item.children}
-                </div>
+                <div className={horizontalLabelClass}>{item.label}</div>
+                <div className={horizontalContentClass}>{item.children}</div>
               </div>
             </div>
           ))}
@@ -86,7 +82,8 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
       "hover:border-amber-400/30 group/card"
     );
 
-    const cardsDotClass = "w-2 h-2 bg-amber-400 rounded-full shadow-sm group-hover/card:bg-amber-300 transition-colors duration-200";
+    const cardsDotClass =
+      "w-2 h-2 bg-amber-400 rounded-full shadow-sm group-hover/card:bg-amber-300 transition-colors duration-200";
 
     const cardsContentClass = cn(
       DESIGN_TOKENS.colors.text.primary,
@@ -114,9 +111,7 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
               </div>
 
               {/* Card Content */}
-              <div className={cardsContentClass}>
-                {item.children}
-              </div>
+              <div className={cardsContentClass}>{item.children}</div>
             </div>
           ))}
         </div>
@@ -137,7 +132,8 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
       "hover:border-amber-400/20 group/item"
     );
 
-    const verticalDotClass = "w-1.5 h-1.5 bg-zinc-500 rounded-full shadow-sm group-hover/item:bg-amber-400 transition-colors duration-200";
+    const verticalDotClass =
+      "w-1.5 h-1.5 bg-zinc-500 rounded-full shadow-sm group-hover/item:bg-amber-400 transition-colors duration-200";
 
     const verticalLabelClass = cn(
       DESIGN_TOKENS.colors.text.accent,
@@ -156,13 +152,9 @@ const Details = forwardRef<HTMLDivElement, DetailsProps>(
           <div key={index} className={verticalItemClass}>
             <div className="flex items-center gap-3 min-w-0">
               <div className={verticalDotClass} />
-              <span className={verticalLabelClass}>
-                {item.label}
-              </span>
+              <span className={verticalLabelClass}>{item.label}</span>
             </div>
-            <div className={verticalContentClass}>
-              {item.children}
-            </div>
+            <div className={verticalContentClass}>{item.children}</div>
           </div>
         ))}
       </div>

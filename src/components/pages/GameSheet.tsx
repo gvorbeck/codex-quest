@@ -5,14 +5,12 @@ import { Button } from "@/components/ui/inputs";
 import { PageWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
 import { Typography } from "@/components/ui/design-system";
-import {
-  Hero,
-  PlayersSection,
-  GameNotesSection,
-  GameSheetEmptyState,
-  AddChar,
-  GMBinder,
-} from "@/components/game/sheet";
+import GameHero from "@/components/game/sheet/Hero";
+import { PlayersSection } from "@/components/game/sheet/PlayersSection";
+import { GameNotesSection } from "@/components/game/sheet/GameNotesSection";
+import { GameSheetEmptyState } from "@/components/game/sheet/GameSheetEmptyState";
+import { AddChar } from "@/components/game/sheet/AddChar";
+import { GMBinder } from "@/components/game/sheet/GMBinder";
 import {
   TreasureGeneratorModal,
   CombatTrackerModal,
@@ -21,13 +19,13 @@ import {
 import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { useNotifications } from "@/hooks/useNotifications";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 import {
   GAME_SHEET_STYLES,
   ERROR_MESSAGES,
   LOADING_MESSAGES,
-} from "@/constants/gameSheetStyles";
-import type { Game, GamePlayer, GameCombatant } from "@/types/game";
+} from "@/constants";
+import type { Game, GamePlayer, GameCombatant } from "@/types";
 
 export default function GameSheet() {
   const [, params] = useRoute("/u/:userId/g/:gameId");
@@ -243,7 +241,7 @@ export default function GameSheet() {
         </a>
 
         {/* Hero section with game info */}
-        <Hero
+        <GameHero
           game={game}
           className={GAME_SHEET_STYLES.spacing.section}
           editable={!!isGameMaster}
@@ -294,14 +292,18 @@ export default function GameSheet() {
         <DiceRollerModal />
 
         {/* Lazy-loaded Modals with Suspense */}
-        <Suspense fallback={<LoadingState message="Loading treasure generator..." />}>
+        <Suspense
+          fallback={<LoadingState message="Loading treasure generator..." />}
+        >
           <TreasureGeneratorModal
             isOpen={isTreasureModalOpen}
             onClose={handleTreasureModalClose}
           />
         </Suspense>
 
-        <Suspense fallback={<LoadingState message="Loading combat tracker..." />}>
+        <Suspense
+          fallback={<LoadingState message="Loading combat tracker..." />}
+        >
           <CombatTrackerModal
             isOpen={isCombatTrackerModalOpen}
             onClose={handleCombatTrackerModalClose}
@@ -310,7 +312,9 @@ export default function GameSheet() {
           />
         </Suspense>
 
-        <Suspense fallback={<LoadingState message="Loading encounter generator..." />}>
+        <Suspense
+          fallback={<LoadingState message="Loading encounter generator..." />}
+        >
           <EncounterGeneratorModal
             isOpen={isEncounterGeneratorModalOpen}
             onClose={handleEncounterGeneratorModalClose}

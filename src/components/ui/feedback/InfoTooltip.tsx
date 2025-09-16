@@ -1,10 +1,11 @@
 import { Tooltip } from "@/components/ui/feedback";
 import { Icon, type IconName } from "@/components/ui/display/Icon";
-import type { PositioningOptions } from "@/utils/tooltipUtils";
+import type { PositioningOptions } from "@/types";
 import type { ReactNode } from "react";
 
 // Default styles for consistent theming
-const DEFAULT_ICON_STYLES = "text-zinc-500 hover:text-zinc-300 cursor-help transition-colors duration-200";
+const DEFAULT_ICON_STYLES =
+  "text-zinc-500 hover:text-zinc-300 cursor-help transition-colors duration-200";
 
 interface InfoTooltipProps {
   /** The content to show in the tooltip */
@@ -14,11 +15,11 @@ interface InfoTooltipProps {
   /** Icon name to display */
   iconName?: IconName;
   /** Icon size */
-  iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  iconSize?: "xs" | "sm" | "md" | "lg" | "xl";
   /** Additional CSS classes for the icon */
   iconClassName?: string;
   /** Preferred position for the tooltip */
-  preferredPosition?: 'above' | 'below' | undefined;
+  preferredPosition?: "above" | "below" | undefined;
   /** Custom positioning options for the tooltip */
   positioningOptions?: Partial<PositioningOptions> | undefined;
   /** Whether to disable the tooltip */
@@ -32,8 +33,8 @@ interface InfoTooltipProps {
  * Provides better accessibility than the previous version
  * Allows customization of icon and positioning
  */
-export default function InfoTooltip({ 
-  content, 
+export default function InfoTooltip({
+  content,
   className = "",
   iconName = "info-question",
   iconSize = "sm",
@@ -41,12 +42,13 @@ export default function InfoTooltip({
   preferredPosition,
   positioningOptions,
   disabled = false,
-  ariaLabel = "More information"
+  ariaLabel = "More information",
 }: InfoTooltipProps) {
-  const finalIconClassName = iconClassName || `${DEFAULT_ICON_STYLES} ${className}`;
-  
+  const finalIconClassName =
+    iconClassName || `${DEFAULT_ICON_STYLES} ${className}`;
+
   return (
-    <Tooltip 
+    <Tooltip
       content={content}
       preferredPosition={preferredPosition}
       positioningOptions={positioningOptions}

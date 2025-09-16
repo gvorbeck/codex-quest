@@ -1,16 +1,13 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
 import { InfoTooltip, SkeletonStatBlock } from "@/components/ui/feedback";
 import { Typography } from "@/components/ui/design-system";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import {
-  formatModifier,
-  getAbilityScoreCategory,
-} from "@/utils/characterCalculations";
-import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
+import { formatModifier, getAbilityScoreCategory } from "@/utils";
+import { useDiceRoll } from "@/hooks";
 
 interface AbilityScoresProps {
   character?: Character;

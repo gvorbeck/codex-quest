@@ -1,13 +1,16 @@
-import { useCallback } from "react";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
-import type { Equipment, Character } from "@/types/character";
+import { useCallback, useMemo } from "react";
+import { allRaces } from "@/data";
+import type { Equipment, Character, Race } from "@/types";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils";
 
 /**
- * A reusable hook for managing equipment operations
- * 
+ * Hook for general equipment operations on existing characters
+ * Includes BFRPG-compliant carrying capacity and encumbrance calculations
+ * Used in character sheets and inventory management
+ *
  * @param character - The current character
  * @param onEquipmentChange - Callback to update the character's equipment
- * @returns Equipment management utilities
+ * @returns Equipment management utilities including carrying capacity and encumbrance
  */
 export function useEquipmentManager(
   character: Character | undefined,
@@ -88,7 +91,8 @@ export function useEquipmentManager(
   const isArmorItem = useCallback(
     (item: Equipment) =>
       item.category?.toLowerCase().includes("armor") ||
-      (item.AC !== undefined && !item.category?.toLowerCase().includes("shield")),
+      (item.AC !== undefined &&
+        !item.category?.toLowerCase().includes("shield")),
     []
   );
 
@@ -145,6 +149,49 @@ export function useEquipmentManager(
     [character, onEquipmentChange, isWearableItem, isArmorItem, isShieldItem]
   );
 
+  // Calculate carrying capacity using race data from BFRPG rules
+  const getCarryingCapacity = useCallback((character: Character) => {
+    if (!character) return { light: 60, heavy: 150 };
+
+    // Get race data to determine base carrying capacity
+    const raceData = allRaces.find((race: Race) => race.id === character.race);
+    const baseCapacity = raceData?.carryingCapacity || {
+      light: 60,
+      heavy: 150,
+      strengthModifier: { positive: 0.1, negative: 0.2 },
+    };
+
+    // Apply strength modifier per BFRPG rules
+    const strMod = character.abilities?.strength?.modifier || 0;
+    const { positive, negative } = baseCapacity.strengthModifier;
+    const capacityMultiplier =
+      strMod >= 0 ? 1 + strMod * positive : 1 + strMod * negative;
+
+    return {
+      light: Math.round((baseCapacity.light * capacityMultiplier) / 5) * 5, // Round to nearest 5
+      heavy: Math.round((baseCapacity.heavy * capacityMultiplier) / 5) * 5,
+    };
+  }, []);
+
+  // Calculate total equipment weight
+  const totalWeight = useMemo(() => {
+    if (!character) return 0;
+    const cleanedEquipment = cleanEquipmentArray(character.equipment);
+    return cleanedEquipment.reduce(
+      (total, item) => total + item.weight * item.amount,
+      0
+    );
+  }, [character]);
+
+  // Get encumbrance status based on BFRPG rules
+  const encumbranceStatus = useMemo(() => {
+    if (!character) return "light";
+    const capacity = getCarryingCapacity(character);
+    if (totalWeight > capacity.heavy) return "overloaded";
+    if (totalWeight > capacity.light) return "heavy";
+    return "light";
+  }, [character, totalWeight, getCarryingCapacity]);
+
   // Helper functions for formatting
   const formatWeight = useCallback((weight: number, amount: number) => {
     const totalWeight = weight * amount;
@@ -167,6 +214,9 @@ export function useEquipmentManager(
     isArmorItem,
     isShieldItem,
     isWearableItem,
+    getCarryingCapacity,
+    totalWeight,
+    encumbranceStatus,
     formatWeight,
     formatCost,
   };

@@ -1,5 +1,5 @@
-import { useModal } from "@/hooks/useModal";
-import type { Character } from "@/types/character";
+import { useModal } from "@/hooks";
+import type { Character } from "@/types";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Button } from "@/components/ui/inputs";
 
@@ -45,18 +45,14 @@ export default function ScrollCreation({
     calculateSuccessRate,
   } = useScrollCreation(character);
 
-  const {
-    createProject,
-    updateProject,
-    completeProject,
-    deleteProject,
-  } = useScrollActions({
-    character,
-    onCharacterChange,
-    scrollCreationBonuses,
-    calculateScrollCost,
-    calculateScrollTime,
-  });
+  const { createProject, updateProject, completeProject, deleteProject } =
+    useScrollActions({
+      character,
+      onCharacterChange,
+      scrollCreationBonuses,
+      calculateScrollCost,
+      calculateScrollTime,
+    });
 
   if (!canCreateScrolls) {
     return null; // Don't render for non-Spellcrafters

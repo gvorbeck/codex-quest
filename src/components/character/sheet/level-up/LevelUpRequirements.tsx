@@ -1,8 +1,8 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader } from "@/components/ui/display";
-import { isCustomClass } from "@/utils/characterHelpers";
-import type { Character } from "@/types/character";
+import { isCustomClass } from "@/utils";
+import type { Character } from "@/types";
 
 interface LevelUpRequirementsProps {
   character: Character;

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import { cn } from "@/constants/styles";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
+import { cn } from "@/utils";
 import StatusDot from "./StatusDot";
 
 interface SectionHeaderProps {
@@ -11,13 +11,12 @@ interface SectionHeaderProps {
   dotColor?: string;
 }
 
-
 export default function SectionHeader({
   title,
   extra,
   size = "md",
   className = "",
-  dotColor
+  dotColor,
 }: SectionHeaderProps) {
   const currentSize = SIZE_STYLES[size];
 
@@ -29,7 +28,7 @@ export default function SectionHeader({
     DESIGN_TOKENS.colors.bg.header,
     "backdrop-blur-sm",
     "rounded-t-xl",
-    className,
+    className
   );
 
   return (
@@ -38,13 +37,14 @@ export default function SectionHeader({
         <div
           className={`font-bold ${DESIGN_TOKENS.colors.text.primary} flex items-center gap-2`}
         >
-          <StatusDot {...(dotColor && { color: dotColor })} ariaLabel="Section header indicator" />
+          <StatusDot
+            {...(dotColor && { color: dotColor })}
+            ariaLabel="Section header indicator"
+          />
           {title}
         </div>
       )}
-      {extra && (
-        <div className={DESIGN_TOKENS.colors.text.muted}>{extra}</div>
-      )}
+      {extra && <div className={DESIGN_TOKENS.colors.text.muted}>{extra}</div>}
     </div>
   );
 }

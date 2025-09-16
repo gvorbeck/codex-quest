@@ -1,7 +1,7 @@
 import { SectionWrapper } from "@/components/ui/layout";
 import { StatusIndicator } from "@/components/ui/display";
-import { SIZE_STYLES } from "@/constants/designTokens";
-import type { Character } from "@/types/character";
+import { SIZE_STYLES } from "@/constants";
+import type { Character } from "@/types";
 import type { StatusThreshold } from "@/components/ui/display/StatusIndicator";
 
 interface WeightProps {
@@ -189,11 +189,7 @@ export default function Weight({
   );
 
   return (
-    <SectionWrapper
-      title="Weight"
-      size={size}
-      className={className}
-    >
+    <SectionWrapper title="Weight" size={size} className={className}>
       <div className={currentSize.container}>
         <div className="space-y-4">
           {/* Current Weight vs Capacity */}
