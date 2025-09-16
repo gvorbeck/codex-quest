@@ -42,24 +42,8 @@ export default defineConfig({
             return "vendor";
           }
 
-          // Split out large utility files
-          if (id.includes("src/utils/content.ts")) {
-            return "utils";
-          }
-
-          // Split large component groups that aren't immediately needed
-          if (id.includes("src/components/character/creation/") && !id.includes("src/components/character/creation/index")) {
-            return "character-creation";
-          }
-          
-          if (id.includes("src/components/game/sheet/") && !id.includes("src/components/game/sheet/index")) {
-            return "game-sheet-components";
-          }
-
-          // Split validation logic (used mainly in character creation)
-          if (id.includes("src/validation/")) {
-            return "validation";
-          }
+          // Ultra conservative approach - keep almost everything in main bundle
+          // Only split out components that are explicitly lazy-loaded and isolated
 
           // Only split out the largest data files to avoid breaking dependencies
           if (id.includes("src/data/")) {

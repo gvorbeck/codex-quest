@@ -7,8 +7,9 @@ import {
   calculateModifier,
   logger,
   abilityScoreSchema,
+  Rules,
+  ABILITY_NAMES,
 } from "@/utils";
-import { Rules, ABILITY_NAMES } from "@/validation/rules";
 import type { Character, AbilityScore, BaseStepProps } from "@/types";
 import { memo } from "react";
 import { useValidation } from "@/validation";
