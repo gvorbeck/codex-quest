@@ -10,7 +10,5 @@ export { default as LevelUpModal } from "./character/LevelUpModal";
 export { default as SettingsModal } from "./character/SettingsModal";
 
 // Feedback Modals
-export { default as DeleteCharacterModal } from "./feedback/DeleteCharacterModal";
-export { default as DeleteGameModal } from "./feedback/DeleteGameModal";
-export { default as DeletePlayerModal } from "./feedback/DeletePlayerModal";
+export { DeletionModal } from "./base/ConfirmationModal";
 export { default as DiceRollerModal } from "./feedback/DiceRollerModal";

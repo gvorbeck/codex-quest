@@ -6,7 +6,7 @@ import { Card, Badge, Typography } from "@/components/ui/design-system";
 import { Button, Switch, TextInput, TextArea, Select, NumberInput, FormField } from "@/components/ui/inputs";
 import { Modal } from "@/components/modals";
 import { Accordion } from "@/components/ui/layout";
-import { EquipmentSelector } from "@/components/character/management";
+import EquipmentSelector from "@/components/character/management/EquipmentSelector";
 import { CustomEquipmentModal } from "@/components/modals";
 import { Icon } from "@/components/ui/display/Icon";
 import { SkeletonList } from "@/components/ui/feedback";
@@ -21,6 +21,84 @@ interface EquipmentProps {
   editable?: boolean;
   loading?: boolean;
   onEquipmentChange?: (equipment: EquipmentItem[]) => void;
+}
+
+interface WeaponPropertiesProps {
+  editForm: EquipmentItem;
+  updateEditForm: (field: keyof EquipmentItem, value: string | number) => void;
+}
+
+function WeaponProperties({ editForm, updateEditForm }: WeaponPropertiesProps) {
+  return (
+    <div className="border-t border-zinc-600 pt-4">
+      <Typography variant="body" weight="medium" className="mb-3">
+        Weapon Properties
+      </Typography>
+
+      <div className="grid grid-cols-2 gap-3">
+        {editForm.damage && (
+          <FormField label="Damage">
+            <TextInput
+              value={editForm.damage}
+              onChange={(value) => updateEditForm("damage", value)}
+              className="w-full"
+            />
+          </FormField>
+        )}
+
+        {editForm.twoHandedDamage && (
+          <FormField label="Two-Handed Damage">
+            <TextInput
+              value={editForm.twoHandedDamage}
+              onChange={(value) =>
+                updateEditForm("twoHandedDamage", value)
+              }
+              className="w-full"
+            />
+          </FormField>
+        )}
+      </div>
+    </div>
+  );
+}
+
+interface ArmorPropertiesProps {
+  editForm: EquipmentItem;
+  updateEditForm: (field: keyof EquipmentItem, value: string | number) => void;
+}
+
+function ArmorProperties({ editForm, updateEditForm }: ArmorPropertiesProps) {
+  return (
+    <div className="border-t border-zinc-600 pt-4">
+      <Typography variant="body" weight="medium" className="mb-3">
+        Armor Properties
+      </Typography>
+
+      <div className="grid grid-cols-1 gap-3">
+        {editForm.AC && (
+          <FormField label="Armor Class">
+            <TextInput
+              value={editForm.AC.toString()}
+              onChange={(value) => updateEditForm("AC", value)}
+              className="w-full"
+            />
+          </FormField>
+        )}
+
+        {editForm.missileAC && (
+          <FormField label="Missile AC">
+            <TextInput
+              value={editForm.missileAC}
+              onChange={(value) =>
+                updateEditForm("missileAC", value)
+              }
+              className="w-full"
+            />
+          </FormField>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default function Equipment({
@@ -203,7 +281,6 @@ export default function Equipment({
                 onClick={() => handleEquipmentEdit(item.originalIndex)}
                 variant="secondary"
                 size="sm"
-                className="text-blue-400 hover:!text-blue-200 hover:bg-blue-900/30"
                 aria-label={`Edit ${item.name}`}
               >
                 Edit
@@ -212,9 +289,8 @@ export default function Equipment({
               {/* Remove button */}
               <Button
                 onClick={() => handleEquipmentRemove(item.originalIndex)}
-                variant="secondary"
+                variant="destructive"
                 size="sm"
-                className="text-red-400 hover:!text-red-200 hover:bg-red-900/30"
                 aria-label={`Remove ${item.name}`}
               >
                 Remove
@@ -411,68 +487,12 @@ export default function Equipment({
 
               {/* Weapon properties */}
               {(editForm.damage || editForm.twoHandedDamage) && (
-                <div className="border-t border-zinc-600 pt-4">
-                  <Typography variant="body" weight="medium" className="mb-3">
-                    Weapon Properties
-                  </Typography>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    {editForm.damage && (
-                      <FormField label="Damage">
-                        <TextInput
-                          value={editForm.damage}
-                          onChange={(value) => updateEditForm("damage", value)}
-                          className="w-full"
-                        />
-                      </FormField>
-                    )}
-
-                    {editForm.twoHandedDamage && (
-                      <FormField label="Two-Handed Damage">
-                        <TextInput
-                          value={editForm.twoHandedDamage}
-                          onChange={(value) =>
-                            updateEditForm("twoHandedDamage", value)
-                          }
-                          className="w-full"
-                        />
-                      </FormField>
-                    )}
-                  </div>
-                </div>
+                <WeaponProperties editForm={editForm} updateEditForm={updateEditForm} />
               )}
 
               {/* Armor properties */}
               {(editForm.AC || editForm.missileAC) && (
-                <div className="border-t border-zinc-600 pt-4">
-                  <Typography variant="body" weight="medium" className="mb-3">
-                    Armor Properties
-                  </Typography>
-
-                  <div className="grid grid-cols-1 gap-3">
-                    {editForm.AC && (
-                      <FormField label="Armor Class">
-                        <TextInput
-                          value={editForm.AC.toString()}
-                          onChange={(value) => updateEditForm("AC", value)}
-                          className="w-full"
-                        />
-                      </FormField>
-                    )}
-
-                    {editForm.missileAC && (
-                      <FormField label="Missile AC">
-                        <TextInput
-                          value={editForm.missileAC}
-                          onChange={(value) =>
-                            updateEditForm("missileAC", value)
-                          }
-                          className="w-full"
-                        />
-                      </FormField>
-                    )}
-                  </div>
-                </div>
+                <ArmorProperties editForm={editForm} updateEditForm={updateEditForm} />
               )}
 
               {/* Modal actions */}
