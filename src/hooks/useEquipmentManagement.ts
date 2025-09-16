@@ -6,6 +6,10 @@ import {
   ensureEquipmentAmount,
 } from "@/utils/characterCalculations";
 
+/**
+ * Hook for managing equipment during character creation with gold/currency management
+ * Used in character creation workflow to handle purchasing equipment with starting gold
+ */
 export function useEquipmentManagement(
   character: Character,
   onCharacterChange: (character: Character) => void

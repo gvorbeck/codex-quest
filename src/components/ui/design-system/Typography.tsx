@@ -2,16 +2,16 @@ import { forwardRef, createElement } from "react";
 import type { ReactNode, HTMLAttributes, ElementType } from "react";
 import { cn } from "@/constants/styles";
 
-type TypographyVariant = 
+type TypographyVariant =
   | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-  | "sectionHeading" | "baseSectionHeading" | "infoHeading" 
+  | "sectionHeading" | "baseSectionHeading" | "infoHeading"
   | "subHeading" | "subHeadingSpaced" | "subHeadingLime"
-  | "body" | "bodySmall" | "description" | "descriptionCompact" 
-  | "helper" | "caption";
+  | "body" | "bodySmall" | "description" | "descriptionCompact"
+  | "helper" | "caption" | "code";
 
-type TypographyColor = 
-  | "primary" | "secondary" | "muted" | "accent" 
-  | "amber" | "lime" | "zinc" | "white" | "slate";
+type TypographyColor =
+  | "primary" | "secondary" | "muted" | "accent"
+  | "amber" | "lime" | "zinc" | "white" | "slate" | "red";
 
 type TypographyWeight = "normal" | "medium" | "semibold" | "bold";
 
@@ -49,7 +49,7 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
     // Variant styles mapping
     const variantStyles = {
       h1: "text-4xl font-bold",
-      h2: "text-3xl font-bold", 
+      h2: "text-3xl font-bold",
       h3: "text-2xl font-bold",
       h4: "text-xl font-semibold",
       h5: "text-lg font-semibold",
@@ -66,28 +66,37 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
       descriptionCompact: "text-sm m-0 leading-relaxed",
       helper: "text-sm",
       caption: "text-xs",
+      code: "px-2 py-1 bg-zinc-800 border border-zinc-600 rounded font-mono text-sm",
+    } as const;
+
+    // Get variant-specific amber color
+    const getAmberColor = (variant: TypographyVariant): string => {
+      if (variant.includes('info')) return "text-amber-100";
+      if (variant.includes('sub')) return "text-amber-400";
+      return "text-amber-50";
     };
 
     // Color styles mapping
     const colorStyles = {
       primary: "text-primary-100", // zinc-100
-      secondary: "text-primary-400", // zinc-400  
+      secondary: "text-primary-400", // zinc-400
       muted: "text-primary-500", // zinc-500
       accent: "text-accent-100", // stone-100
-      amber: variant.includes('info') ? "text-amber-100" : variant.includes('sub') ? "text-amber-400" : "text-amber-50",
+      amber: getAmberColor(variant),
       lime: "text-lime-400",
       zinc: "text-zinc-100",
       white: "text-white",
       slate: "text-slate-800 dark:text-slate-200",
-    };
+      red: "text-red-400",
+    } as const;
 
     // Weight styles
     const weightStyles = {
       normal: "font-normal",
-      medium: "font-medium", 
+      medium: "font-medium",
       semibold: "font-semibold",
       bold: "font-bold",
-    };
+    } as const;
 
     // Auto-assign color based on variant if not explicitly provided
     const getDefaultColor = (variant: TypographyVariant): TypographyColor => {

@@ -70,5 +70,13 @@ export const elf: Race = {
   ],
   lifespan: "A dozen centuries or more",
   languages: ["Common", "Elvish"],
+  carryingCapacity: {
+    light: 60,
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    }
+  },
   supplementalContent: false,
 };

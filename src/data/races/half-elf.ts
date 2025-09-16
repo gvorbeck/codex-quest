@@ -58,5 +58,13 @@ export const halfElf: Race = {
   ],
   lifespan: "Several centuries",
   languages: ["Common", "Elvish"],
+  carryingCapacity: {
+    light: 60, // Default human/elf values (no specific rules mentioned)
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    }
+  },
   supplementalContent: true,
 };

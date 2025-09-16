@@ -91,15 +91,15 @@ export function useNotifications(
     []
   );
 
-  // Constants for ID generation
-  const ID_RANDOM_OFFSET = 2;
-  const ID_RANDOM_LENGTH = 9;
-
   // Generate unique ID for notifications
   const generateId = useCallback(() => {
+    // Use crypto.randomUUID if available, fallback to Date + random string
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return `notification-${crypto.randomUUID()}`;
+    }
     return `notification-${Date.now()}-${Math.random()
       .toString(36)
-      .substr(ID_RANDOM_OFFSET, ID_RANDOM_LENGTH)}`;
+      .substr(2, 9)}`;
   }, []);
 
   // Helper to create announcement text

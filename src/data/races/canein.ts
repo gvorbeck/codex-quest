@@ -54,5 +54,13 @@ export const canein: Race = {
   ],
   lifespan: "Around 60 years",
   languages: ["Common"],
+  carryingCapacity: {
+    light: 60,
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    }
+  },
   supplementalContent: true,
 };

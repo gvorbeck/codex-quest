@@ -71,5 +71,13 @@ export const phaerim: Race = {
   ],
   lifespan: "Around 300 years",
   languages: ["Common", "Sylvan"],
+  carryingCapacity: {
+    light: 50,
+    heavy: 100,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    }
+  },
   supplementalContent: true,
 };

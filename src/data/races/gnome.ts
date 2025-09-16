@@ -78,5 +78,13 @@ export const gnome: Race = {
   ],
   lifespan: "Between two and three centuries",
   languages: ["Common", "Gnomish"],
+  carryingCapacity: {
+    light: 50, // Treat gnomes as equivalent to halflings per BFRPG
+    heavy: 100,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    }
+  },
   supplementalContent: true,
 };

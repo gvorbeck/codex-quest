@@ -86,5 +86,13 @@ export const dokkalfar: Race = {
   ],
   lifespan: "A dozen centuries or more",
   languages: ["Common", "Dokkalfar Elvish"],
+  carryingCapacity: {
+    light: 60, // Elf subspecies - same as elves
+    heavy: 150,
+    strengthModifier: {
+      positive: 0.1, // +10% per +1 STR modifier
+      negative: 0.2, // -20% per -1 STR modifier
+    }
+  },
   supplementalContent: true,
 };
