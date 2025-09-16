@@ -5,13 +5,13 @@
 
 /**
  * Strips HTML tags from a string, leaving only the text content
+ * Uses regex to safely remove HTML without DOM manipulation
  * @param html - The HTML string to strip
  * @returns Plain text with HTML tags removed
  */
 function stripHtml(html: string): string {
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  return div.textContent || div.innerText || "";
+  // Remove HTML tags using regex (safer than innerHTML)
+  return html.replace(/<[^>]*>/g, '');
 }
 
 /**

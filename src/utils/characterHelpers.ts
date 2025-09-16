@@ -4,9 +4,60 @@ import { allRaces } from "@/data/races";
 import { CHARACTER_CLASSES } from "@/constants/gameData";
 
 /**
- * Generic utility to find an item by ID in a collection
+ * Create an empty character with default values for character creation
  */
-function findById<T extends { id: string }>(
+export function createEmptyCharacter(): Character {
+  return {
+    name: "",
+    abilities: {
+      strength: {
+        value: 0,
+        modifier: 0,
+      },
+      dexterity: {
+        value: 0,
+        modifier: 0,
+      },
+      constitution: {
+        value: 0,
+        modifier: 0,
+      },
+      intelligence: {
+        value: 0,
+        modifier: 0,
+      },
+      wisdom: {
+        value: 0,
+        modifier: 0,
+      },
+      charisma: {
+        value: 0,
+        modifier: 0,
+      },
+    },
+    race: "",
+    class: [],
+    equipment: [],
+    currency: {
+      gold: 0,
+    },
+    hp: {
+      current: 0,
+      max: 0,
+    },
+    level: 1,
+    xp: 0,
+    settings: {
+      version: 2, // Current version for migration
+    },
+  };
+}
+
+/**
+ * Generic utility to find an item by ID in a collection
+ * Exported for reuse across the application
+ */
+export function findById<T extends { id: string }>(
   id: string,
   collection: T[]
 ): T | undefined {
@@ -55,6 +106,14 @@ export const getClassFromAvailable = (
 export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
 
 /**
+ * Set of all spellcasting class types for efficient lookup
+ */
+export const SPELLCASTING_CLASS_TYPES = new Set([
+  CHARACTER_CLASSES.MAGIC_USER,
+  CHARACTER_CLASSES.CLERIC,
+]);
+
+/**
  * Mapping of class types to spell system types
  */
 const CLASS_TYPE_TO_SPELL_SYSTEM: Record<string, SpellSystemType> = {
@@ -64,9 +123,11 @@ const CLASS_TYPE_TO_SPELL_SYSTEM: Record<string, SpellSystemType> = {
 
 /**
  * Check if a class type is a spellcasting type
+ * Exported for reuse across validation and character logic
  */
-const isSpellcastingClassType = (classType: string | undefined): boolean => {
-  return classType !== undefined && classType in CLASS_TYPE_TO_SPELL_SYSTEM;
+export const isSpellcastingClassType = (classType: string | undefined): boolean => {
+  if (classType === undefined) return false;
+  return SPELLCASTING_CLASS_TYPES.has(classType as typeof CHARACTER_CLASSES.MAGIC_USER | typeof CHARACTER_CLASSES.CLERIC);
 };
 
 /**

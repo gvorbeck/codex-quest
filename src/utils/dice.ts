@@ -99,13 +99,13 @@ function parseMultiplicationExpression(parts: string[]): ParseResult {
     } else {
       // Subsequent parts - should be numbers for multiplication
       const numberMatch = part.match(/^(\d+)$/);
-      if (!numberMatch) {
+      if (!numberMatch || !numberMatch[1]) {
         throw new Error(
           `Invalid multiplier: ${part}. Only numbers are supported for multiplication.`
         );
       }
 
-      const multiplier = parseInt(numberMatch[1]!);
+      const multiplier = parseInt(numberMatch[1]);
 
       if (operator === "*") {
         total *= multiplier;
@@ -129,7 +129,9 @@ function parseDicePart(part: string): ParseResult {
   const numberMatch = part.match(/^(\d+)$/);
   if (numberMatch) {
     const numberStr = numberMatch[1];
-    if (!numberStr) throw new Error(`Invalid number format: ${part}`);
+    if (!numberStr) {
+      throw new Error(`Invalid number format: ${part}`);
+    }
     const value = parseInt(numberStr);
     return {
       total: value,
@@ -144,11 +146,17 @@ function parseDicePart(part: string): ParseResult {
     throw new Error(`Invalid dice notation: ${part}`);
   }
 
-  const numDice = parseInt(diceMatch[1] || "1");
+  const numDiceStr = diceMatch[1];
   const sidesStr = diceMatch[2];
-  if (!sidesStr) throw new Error(`Invalid dice format: ${part}`);
+  const modifierStr = diceMatch[3];
+
+  if (!sidesStr) {
+    throw new Error(`Invalid dice format: ${part}`);
+  }
+
+  const numDice = parseInt(numDiceStr || "1");
   const sides = parseInt(sidesStr);
-  const modifier = diceMatch[3] || "";
+  const modifier = modifierStr || "";
 
   if (numDice <= 0 || sides <= 0) {
     throw new Error("Number of dice and sides must be positive");

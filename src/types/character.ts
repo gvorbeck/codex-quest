@@ -197,6 +197,15 @@ export interface SavingThrowBonus {
   bonus: number;
 }
 
+export interface CarryingCapacity {
+  light: number; // Maximum light load in pounds
+  heavy: number; // Maximum heavy load in pounds
+  strengthModifier: {
+    positive: number; // Multiplier for positive STR modifiers (e.g. 0.1 = +10% per +1)
+    negative: number; // Multiplier for negative STR modifiers (e.g. 0.2 = -20% per -1)
+  };
+}
+
 export interface Race {
   name: string;
   id: string;
@@ -209,6 +218,7 @@ export interface Race {
   savingThrows: SavingThrowBonus[];
   lifespan: string;
   languages: string[]; // Languages automatically known by this race
+  carryingCapacity: CarryingCapacity;
   supplementalContent?: boolean;
 }
 

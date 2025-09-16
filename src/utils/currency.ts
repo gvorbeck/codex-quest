@@ -4,14 +4,50 @@
  */
 
 import type { Character } from "@/types/character";
-import { 
-  CURRENCY_TO_COPPER_RATES, 
-  type CurrencyKey, 
-  validateCurrencyAmount 
+import {
+  CURRENCY_TO_COPPER_RATES,
+  type CurrencyKey,
+  validateCurrencyAmount
 } from "@/constants/currency";
 
 /**
+ * Simple memoization cache for currency conversion rates
+ * Since conversion rates are constant, we can cache calculated rates indefinitely
+ */
+const conversionRateCache = new Map<string, number>();
+
+/**
+ * Creates a cache key for memoization
+ */
+function createCacheKey(fromCurrency: CurrencyKey, toCurrency: CurrencyKey): string {
+  return `${fromCurrency}->${toCurrency}`;
+}
+
+/**
+ * Gets the conversion rate between two currencies with memoization
+ * @param fromCurrency - Source currency type
+ * @param toCurrency - Target currency type
+ * @returns Conversion rate (amount to multiply by)
+ */
+function getConversionRate(fromCurrency: CurrencyKey, toCurrency: CurrencyKey): number {
+  if (fromCurrency === toCurrency) return 1;
+
+  const cacheKey = createCacheKey(fromCurrency, toCurrency);
+
+  if (conversionRateCache.has(cacheKey)) {
+    return conversionRateCache.get(cacheKey)!;
+  }
+
+  // Calculate rate: convert to copper first, then to target currency
+  const rate = CURRENCY_TO_COPPER_RATES[fromCurrency] / CURRENCY_TO_COPPER_RATES[toCurrency];
+  conversionRateCache.set(cacheKey, rate);
+
+  return rate;
+}
+
+/**
  * Universal currency converter - converts any currency to any other currency
+ * Uses memoized conversion rates for improved performance
  * @param amount - The amount to convert
  * @param fromCurrency - The source currency type
  * @param toCurrency - The target currency type
@@ -19,27 +55,27 @@ import {
  * @throws Error if invalid currency types or negative amounts
  */
 export function convertCurrency(
-  amount: number, 
-  fromCurrency: CurrencyKey, 
+  amount: number,
+  fromCurrency: CurrencyKey,
   toCurrency: CurrencyKey
 ): number {
   if (amount < 0) {
     throw new Error('Currency amounts cannot be negative');
   }
-  
+
   if (!CURRENCY_TO_COPPER_RATES[fromCurrency]) {
     throw new Error(`Invalid source currency: ${fromCurrency}`);
   }
-  
+
   if (!CURRENCY_TO_COPPER_RATES[toCurrency]) {
     throw new Error(`Invalid target currency: ${toCurrency}`);
   }
-  
+
   if (fromCurrency === toCurrency) return amount;
-  
-  // Convert to copper first, then to target currency
-  const copperAmount = amount * CURRENCY_TO_COPPER_RATES[fromCurrency];
-  return copperAmount / CURRENCY_TO_COPPER_RATES[toCurrency];
+
+  // Use memoized conversion rate
+  const conversionRate = getConversionRate(fromCurrency, toCurrency);
+  return amount * conversionRate;
 }
 
 /**

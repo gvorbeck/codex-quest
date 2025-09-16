@@ -3,6 +3,10 @@
  * Extracted from Tooltip component for better maintainability and reusability
  */
 
+// Memoization cache for expensive calculations
+const positionCache = new Map<string, TooltipPositionResult>();
+const CACHE_SIZE_LIMIT = 100;
+
 export interface TooltipPosition {
   top: number;
   left: number;
@@ -138,9 +142,29 @@ export const calculateHorizontalPosition = (
 };
 
 /**
+ * Creates a cache key for memoization
+ */
+function createCacheKey(triggerRect: DOMRect, tooltipRect: DOMRect, options: PositioningOptions): string {
+  return `${triggerRect.left},${triggerRect.top},${triggerRect.width},${triggerRect.height}|${tooltipRect.width},${tooltipRect.height}|${options.padding},${options.gap},${options.preferredPosition}`;
+}
+
+/**
+ * Manages cache size to prevent memory leaks
+ */
+function manageCacheSize(): void {
+  if (positionCache.size > CACHE_SIZE_LIMIT) {
+    const firstKey = positionCache.keys().next().value as string;
+    if (firstKey) {
+      positionCache.delete(firstKey);
+    }
+  }
+}
+
+/**
  * Main function to calculate optimal tooltip position
  * Handles viewport boundaries, collision detection, and arrow positioning
- * 
+ * Uses memoization for performance optimization
+ *
  * @param triggerRect - Bounding rectangle of trigger element
  * @param tooltipRect - Bounding rectangle of tooltip element
  * @param options - Positioning options
@@ -155,25 +179,37 @@ export const calculateTooltipPosition = (
     preferredPosition: 'above'
   }
 ): TooltipPositionResult => {
+  // Check cache first
+  const cacheKey = createCacheKey(triggerRect, tooltipRect, options);
+  if (positionCache.has(cacheKey)) {
+    return positionCache.get(cacheKey)!;
+  }
+
   const tooltipWidth = tooltipRect.width || 200; // Fallback width
   const tooltipHeight = tooltipRect.height || 40; // Fallback height
-  
+
   // Determine vertical positioning
   const isBelow = shouldPositionBelow(triggerRect, tooltipHeight, options);
-  
+
   // Calculate positions
   const top = calculateVerticalPosition(triggerRect, tooltipHeight, isBelow, options);
   const left = calculateHorizontalPosition(triggerRect, tooltipWidth, options);
-  
+
   // Calculate arrow offset
   const triggerCenterX = triggerRect.left + triggerRect.width / 2;
   const arrowOffset = calculateArrowOffset(triggerCenterX, left, tooltipWidth);
-  
-  return {
+
+  const result: TooltipPositionResult = {
     position: { top, left },
     isBelow,
     arrowOffset
   };
+
+  // Cache the result
+  manageCacheSize();
+  positionCache.set(cacheKey, result);
+
+  return result;
 };
 
 /**

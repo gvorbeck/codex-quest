@@ -1,7 +1,7 @@
 import type { Character } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import { hasCustomClasses } from "./characterHelpers";
+import { hasCustomClasses, findById } from "./characterHelpers";
 
 export interface RacialModificationInfo {
   abilityName: string;
@@ -24,7 +24,7 @@ export function calculateHitDie(character: Character): string | null {
     return character.hp.die || "1d6";
   }
 
-  const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
+  const primaryClass = primaryClassId ? findById(primaryClassId, allClasses) : undefined;
   if (!primaryClass?.hitDie) return null;
 
   // Apply racial modifications
@@ -38,7 +38,7 @@ export function applyRacialHitDiceModifications(
   raceId: string,
   baseHitDie: string
 ): string {
-  const raceData = allRaces.find((race) => race.id === raceId);
+  const raceData = findById(raceId, allRaces);
   if (!raceData?.specialAbilities) return baseHitDie;
 
   let modifiedHitDie = baseHitDie;
@@ -164,8 +164,8 @@ export function getRacialModificationInfo(
     return null;
   }
 
-  const primaryClass = allClasses.find((cls) => cls.id === primaryClassId);
-  const raceData = allRaces.find((race) => race.id === character.race);
+  const primaryClass = primaryClassId ? findById(primaryClassId, allClasses) : undefined;
+  const raceData = findById(character.race, allRaces);
 
   if (!primaryClass?.hitDie || !raceData?.specialAbilities) return null;
 
