@@ -1,4 +1,9 @@
-// Layout Styles
+/**
+ * UI Constants
+ * Consolidates layout styles and UI-related utilities
+ */
+
+// Layout Styles for common patterns
 export const LAYOUT_STYLES = {
   // Flex container with icon and text
   iconText: "flex items-center gap-2",
@@ -13,9 +18,10 @@ export const LAYOUT_STYLES = {
   tagContainer: "flex flex-wrap gap-2",
 } as const;
 
-// Removed unused component mapping constants
-
-// Utility function to combine styles
+/**
+ * Utility function to combine CSS classes
+ * Filters out falsy values and joins with spaces
+ */
 export const cn = (
   ...classes: (string | undefined | null | false)[]
 ): string => {

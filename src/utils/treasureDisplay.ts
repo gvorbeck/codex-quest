@@ -1,7 +1,6 @@
 import type { TreasureResult } from "./treasureGenerator";
-import { COIN_CONFIGS } from "@/constants";
 import { convertToGold } from "@/utils/currency";
-import { CURRENCY_UI_CONFIG } from "@/constants";
+import { CURRENCY_UI_CONFIG, COIN_CONFIGS } from "@/constants";
 
 /**
  * Utility function to render coin display components
@@ -9,12 +8,10 @@ import { CURRENCY_UI_CONFIG } from "@/constants";
  * @returns Array of coin configurations with their values
  */
 export function getCoinsToDisplay(treasure: TreasureResult) {
-  return COIN_CONFIGS
-    .filter(coin => treasure[coin.key] > 0)
-    .map(coin => ({
-      ...coin,
-      amount: treasure[coin.key]
-    }));
+  return COIN_CONFIGS.filter((coin) => treasure[coin.key] > 0).map((coin) => ({
+    ...coin,
+    amount: treasure[coin.key],
+  }));
 }
 
 /**
@@ -23,7 +20,7 @@ export function getCoinsToDisplay(treasure: TreasureResult) {
  * @returns True if any coin type has a value greater than 0
  */
 export function hasCoins(treasure: TreasureResult): boolean {
-  return COIN_CONFIGS.some(coin => treasure[coin.key] > 0);
+  return COIN_CONFIGS.some((coin) => treasure[coin.key] > 0);
 }
 
 /**
