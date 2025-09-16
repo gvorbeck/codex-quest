@@ -2,7 +2,7 @@ import { useId, cloneElement, isValidElement } from "react";
 import type { ReactNode } from "react";
 import { Typography } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
+import { DESIGN_TOKENS } from "@/constants";
 
 interface ValidationResult {
   isValid: boolean;

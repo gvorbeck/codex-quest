@@ -16,6 +16,8 @@ export const STORAGE_KEYS = {
  */
 export const CACHE_KEYS = {
   EQUIPMENT_ALL: "equipment-all",
+  GM_BINDER_SPELLS: "gm-binder-spells",
+  GM_BINDER_MONSTERS: "gm-binder-monsters",
 } as const;
 
 // Type for storage keys to ensure type safety

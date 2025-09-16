@@ -1,7 +1,7 @@
 import { forwardRef, useId } from "react";
 import type { SelectHTMLAttributes } from "react";
 import { Icon } from "@/components/ui/display/Icon";
-import { cn } from "@/constants/styles";
+import { cn } from "@/constants";
 
 export interface SelectOption {
   value: string;

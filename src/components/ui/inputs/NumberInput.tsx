@@ -1,5 +1,5 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/constants";
 
 type NumberInputSize = "sm" | "md" | "lg";
 

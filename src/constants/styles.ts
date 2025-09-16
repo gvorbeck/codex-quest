@@ -1,26 +1,3 @@
-/**
- * Centralized style constants to reduce repetition and ensure consistency
- */
-
-// Card Styles - removed unused CARD_STYLES constant
-
-// Icon Styles
-export const ICON_STYLES = {
-  // Small icons (most common)
-  sm: "w-4 h-4",
-
-  // Medium icons
-  md: "w-5 h-5",
-
-  // Large icons
-  lg: "w-6 h-6",
-
-  // Extra large icons
-  xl: "w-8 h-8",
-} as const;
-
-// Removed unused BADGE_STYLES and TEXT_STYLES constants
-
 // Layout Styles
 export const LAYOUT_STYLES = {
   // Flex container with icon and text
