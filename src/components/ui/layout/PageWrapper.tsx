@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/constants";
 
 interface PageWrapperProps {
   children: React.ReactNode;

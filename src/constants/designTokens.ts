@@ -78,6 +78,16 @@ export const DESIGN_TOKENS = {
       maxValue: 999999,
     },
   },
+  icons: {
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6",
+    xl: "w-8 h-8",
+  },
+  decorations: {
+    large: "w-24 h-24",
+    medium: "w-16 h-16",
+  },
 } as const;
 
 export const SIZE_STYLES = {
@@ -118,3 +128,7 @@ export const SIZE_STYLES = {
     grid: "grid-cols-1 gap-6",
   },
 } as const;
+
+// Legacy exports for backward compatibility
+export const ICON_STYLES = DESIGN_TOKENS.icons;
+export const CARD_DECORATION_SIZES = DESIGN_TOKENS.decorations;

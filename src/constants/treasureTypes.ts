@@ -3,7 +3,7 @@ import type {
   IndividualTreasureType,
   UnguardedTreasureLevel,
 } from "@/utils/treasureGenerator";
-import { CURRENCY_UI_CONFIG, type CurrencyKey } from "@/constants/currency";
+import { CURRENCY_UI_CONFIG, type CurrencyKey } from "@/constants";
 
 export interface TreasureTypeConfig {
   value: string;

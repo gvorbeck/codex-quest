@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { Button, Typography, TextInput, Callout } from "@/components/ui";
 import { Icon } from "@/components/ui/display";
-import { getEntityDeletionDescription } from "@/utils/modalUtils";
+import { getEntityDeletionDescription } from "@/utils/formatters";
 
 type EntityType = "character" | "game" | "player";
 

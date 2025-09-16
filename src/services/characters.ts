@@ -8,7 +8,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
+import { FIREBASE_COLLECTIONS } from "@/constants";
 import type { AuthUser } from "./auth";
 import type { Character } from "@/types/character";
 import { processCharacterData, isLegacyCharacter } from "./characterMigration";

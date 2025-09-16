@@ -85,11 +85,6 @@ export const MONSTER_NAME_PATTERNS = {
   ],
 } as const;
 
-// Cache keys for consistent caching
-export const CACHE_KEYS = {
-  GM_BINDER_SPELLS: "gm-binder-spells",
-  GM_BINDER_MONSTERS: "gm-binder-monsters",
-} as const;
 
 // Loading messages for consistency
 export const GM_BINDER_MESSAGES = {

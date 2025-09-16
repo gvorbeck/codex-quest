@@ -1,7 +1,7 @@
 import type { TreasureResult } from "./treasureGenerator";
-import { COIN_CONFIGS } from "@/constants/treasureTypes";
+import { COIN_CONFIGS } from "@/constants";
 import { convertToGold } from "@/utils/currency";
-import { CURRENCY_UI_CONFIG } from "@/constants/currency";
+import { CURRENCY_UI_CONFIG } from "@/constants";
 
 /**
  * Utility function to render coin display components

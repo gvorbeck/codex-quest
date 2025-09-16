@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
 import { Icon } from "@/components/ui";
-import { cn } from "@/constants/styles";
+import { cn } from "@/constants";
 
 type TextInputSize = "sm" | "md" | "lg";
 

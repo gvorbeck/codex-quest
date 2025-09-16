@@ -3,7 +3,7 @@ import { allClasses } from "@/data/classes";
 import { 
   CLASSES_WITH_SKILLS, 
   type SkillClassKey 
-} from "@/constants/skills";
+} from "@/constants";
 import type { CharacterListItem } from "@/services/characters";
 import type { Game } from "@/types/game";
 import { logger } from "@/utils/logger";

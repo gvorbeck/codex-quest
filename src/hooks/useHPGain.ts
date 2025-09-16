@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { roller } from "@/utils/dice";
-import { LEVEL_UP_CONSTANTS, type TwoHPClass } from "@/constants/levelUp";
+import { LEVEL_UP_CONSTANTS, type TwoHPClass } from "@/constants";
 import { isCustomClass, hasCustomClasses } from "@/utils/characterHelpers";
 import type { Character, Class } from "@/types/character";
 import { logger } from "@/utils/logger";

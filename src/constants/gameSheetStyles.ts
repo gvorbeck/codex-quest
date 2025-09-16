@@ -46,4 +46,5 @@ export const LOADING_MESSAGES = {
   loadingGame: 'Loading game...',
   updatingGame: 'Updating game...',
   savingChanges: 'Saving changes...',
+  loadingPlayerData: 'Loading player data...',
 } as const;

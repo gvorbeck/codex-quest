@@ -1,6 +1,6 @@
 import type { Character, Cantrip } from "@/types/character";
 import cantripData from "@/data/cantrips.json";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { CHARACTER_CLASSES } from "@/constants";
 import {
   hasClassType,
   hasCustomClasses,

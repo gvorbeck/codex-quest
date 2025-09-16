@@ -6,7 +6,7 @@ import type {
 } from "@/components/ui/feedback/Notification";
 import { useA11yAnnouncements } from "./useA11y";
 import { logger } from "@/utils/logger";
-import { NOTIFICATION_CONSTANTS } from "@/constants/notifications";
+import { NOTIFICATION_CONSTANTS } from "@/constants";
 
 export interface ShowNotificationOptions {
   title?: string;

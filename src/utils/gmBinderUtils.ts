@@ -9,7 +9,7 @@ import {
   SPELL_LEVEL_THRESHOLDS,
   MONSTER_CATEGORIES,
   MONSTER_NAME_PATTERNS,
-} from "@/constants/gmBinderCategories";
+} from "@/constants";
 
 /**
  * Categorizes a spell based on its maximum level across all classes

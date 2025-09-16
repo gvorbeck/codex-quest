@@ -10,7 +10,7 @@ import type {
 } from "./types";
 import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { CHARACTER_CLASSES } from "@/constants";
 import {
   isCustomClass,
   hasCustomRace,

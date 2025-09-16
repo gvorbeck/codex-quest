@@ -1,6 +1,6 @@
 // Character migration service for handling legacy data formats
 import { logger } from "@/utils/logger";
-import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants/gameData";
+import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants";
 import { cleanFractionalCurrency } from "@/utils/currency";
 
 const CURRENT_VERSION = 2.5;

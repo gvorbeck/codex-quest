@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { FIREBASE_ENV_KEYS } from "@/constants/firebase";
+import { FIREBASE_ENV_KEYS } from "@/constants";
 
 // Validate required environment variables
 const requiredEnvVars = [

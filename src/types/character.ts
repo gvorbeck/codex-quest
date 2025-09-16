@@ -1,4 +1,4 @@
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { CHARACTER_CLASSES } from "@/constants";
 
 export interface AbilityScore {
   value: number;

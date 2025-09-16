@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/constants";
 
 export type ButtonVariant =
   | "primary"

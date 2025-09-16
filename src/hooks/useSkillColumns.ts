@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { allClasses } from "@/data/classes";
-import { ALL_SKILLS, type SkillKey } from "@/constants/skills";
+import { ALL_SKILLS, type SkillKey } from "@/constants";
 import type { TableColumn } from "@/components/ui/display/Table";
 import type { ClassSkillData, SkillTableRow } from "./useSkillDataByClass";
 

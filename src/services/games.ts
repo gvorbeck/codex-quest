@@ -1,7 +1,7 @@
 // Games service for Firebase Firestore operations
 import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { FIREBASE_COLLECTIONS } from "@/constants/firebase";
+import { FIREBASE_COLLECTIONS } from "@/constants";
 import type { AuthUser } from "./auth";
 import type { Game } from "@/types/game";
 import { logger } from "@/utils/logger";

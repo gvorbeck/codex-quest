@@ -15,8 +15,8 @@ import type {
   KeyboardEvent,
   MouseEvent,
 } from "react";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
-import { cn } from "@/constants/styles";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
+import { cn } from "@/constants";
 
 // ============================================================================
 // Types and Interfaces

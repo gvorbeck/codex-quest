@@ -4,8 +4,8 @@
  */
 
 import type { Equipment, Spell } from "@/types/character";
-import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants/gameData";
-import { CACHE_KEYS } from "@/constants/storage";
+import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants";
+import { CACHE_KEYS } from "@/constants";
 import { logger } from "@/utils/logger";
 
 // Cache for loaded data chunks

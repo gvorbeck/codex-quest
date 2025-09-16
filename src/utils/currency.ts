@@ -8,7 +8,7 @@ import {
   CURRENCY_TO_COPPER_RATES,
   type CurrencyKey,
   validateCurrencyAmount
-} from "@/constants/currency";
+} from "@/constants";
 
 /**
  * Simple memoization cache for currency conversion rates

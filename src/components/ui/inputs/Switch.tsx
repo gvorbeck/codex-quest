@@ -1,6 +1,6 @@
 import { forwardRef, useId } from "react";
 import type { InputHTMLAttributes } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/constants";
 
 interface SwitchProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "size"> {

@@ -7,7 +7,7 @@ import {
   isCustomClass,
   hasCustomClasses,
 } from "@/utils/characterHelpers";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { CHARACTER_CLASSES } from "@/constants";
 import { getClassFromAvailable } from "./characterHelpers";
 
 /**

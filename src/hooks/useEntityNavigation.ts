@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useLocation } from "wouter";
-import { STORAGE_KEYS } from "@/constants/storage";
+import { STORAGE_KEYS } from "@/constants";
 
 interface EntityNavigationConfig {
   /** Storage keys to clear after successful creation */

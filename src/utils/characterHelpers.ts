@@ -1,7 +1,7 @@
 import type { Character, Class, Race, SpecialAbility } from "@/types/character";
 import { allClasses } from "@/data/classes";
 import { allRaces } from "@/data/races";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { CHARACTER_CLASSES } from "@/constants";
 
 /**
  * Create an empty character with default values for character creation

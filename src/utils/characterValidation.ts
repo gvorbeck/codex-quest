@@ -6,7 +6,7 @@ import type {
 } from "@/types/character";
 import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
-import { CHARACTER_CLASSES } from "@/constants/gameData";
+import { CHARACTER_CLASSES } from "@/constants";
 import { hasSpells, isCustomClass } from "@/utils/characterHelpers";
 import { getClassFromAvailable } from "./characterHelpers";
 
