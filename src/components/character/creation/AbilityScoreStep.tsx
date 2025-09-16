@@ -15,7 +15,7 @@ import { memo } from "react";
 import { useValidation } from "@/validation";
 import type { AbilityName } from "@/validation";
 
-// Helper function to describe what ability score modifiers mean in gameplay terms
+// Helper function to describe what ability-score modifiers mean in gameplay terms
 const getModifierDescription = (modifier: number): string => {
   if (modifier >= 3) return "Exceptional bonus to rolls and abilities";
   if (modifier === 2) return "Very good bonus to rolls and abilities";
