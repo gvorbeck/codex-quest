@@ -1,5 +1,5 @@
 import { ItemGrid } from "@/components/ui/display";
-import { DeleteCharacterModal } from "@/components/modals";
+import { DeletionModal } from "@/components/modals";
 import { CharacterCard } from "./CharacterCard";
 import { useCharacters, useAuth, useNotificationContext } from "@/hooks";
 import { deleteCharacter } from "@/services/characters";
@@ -10,47 +10,44 @@ export function CharactersList() {
   const { characters, loading, error, refetch } = useCharacters();
   const { user } = useAuth();
   const { showError } = useNotificationContext();
-  const [deletingCharacter, setDeletingCharacter] = useState<string | null>(
-    null
-  );
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [characterToDelete, setCharacterToDelete] = useState<{
-    id: string;
-    name: string;
-  } | null>(null);
+  const [deleteState, setDeleteState] = useState<{
+    isOpen: boolean;
+    character: { id: string; name: string } | null;
+    isDeleting: boolean;
+  }>({ isOpen: false, character: null, isDeleting: false });
 
   const handleDeleteCharacter = (
     characterId: string,
     characterName: string
   ) => {
     if (!user) return;
-    setCharacterToDelete({ id: characterId, name: characterName });
-    setDeleteModalOpen(true);
+    setDeleteState({
+      isOpen: true,
+      character: { id: characterId, name: characterName },
+      isDeleting: false,
+    });
   };
 
   const handleConfirmDelete = async () => {
-    if (!user || !characterToDelete) return;
+    if (!user || !deleteState.character) return;
 
-    setDeletingCharacter(characterToDelete.id);
+    setDeleteState(prev => ({ ...prev, isDeleting: true }));
     try {
-      await deleteCharacter(user.uid, characterToDelete.id);
+      await deleteCharacter(user.uid, deleteState.character.id);
       await refetch();
-      setDeleteModalOpen(false);
-      setCharacterToDelete(null);
+      setDeleteState({ isOpen: false, character: null, isDeleting: false });
     } catch (error) {
-      logger.error("Failed to delete character:", error);
+      logger.error("Failed to delete character:", { characterId: deleteState.character.id, error });
       showError("Failed to delete character. Please try again.", {
         title: "Delete Failed"
       });
-    } finally {
-      setDeletingCharacter(null);
+      setDeleteState(prev => ({ ...prev, isDeleting: false }));
     }
   };
 
   const handleCloseDeleteModal = () => {
-    if (deletingCharacter) return; // Prevent closing while deleting
-    setDeleteModalOpen(false);
-    setCharacterToDelete(null);
+    if (deleteState.isDeleting) return; // Prevent closing while deleting
+    setDeleteState({ isOpen: false, character: null, isDeleting: false });
   };
 
   return (
@@ -80,19 +77,20 @@ export function CharactersList() {
             character={character}
             user={user}
             onDelete={handleDeleteCharacter}
-            isDeleting={deletingCharacter === character.id}
+            isDeleting={deleteState.isDeleting && deleteState.character?.id === character.id}
           />
         )}
         onRetry={refetch}
       />
 
       {/* Delete Confirmation Modal */}
-      <DeleteCharacterModal
-        isOpen={deleteModalOpen}
+      <DeletionModal
+        isOpen={deleteState.isOpen}
         onClose={handleCloseDeleteModal}
         onConfirm={handleConfirmDelete}
-        characterName={characterToDelete?.name || ""}
-        isDeleting={!!deletingCharacter}
+        entityType="character"
+        entityName={deleteState.character?.name || ""}
+        isDeleting={deleteState.isDeleting}
       />
     </>
   );

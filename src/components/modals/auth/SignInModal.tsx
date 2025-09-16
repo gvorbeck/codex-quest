@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui";
-import { TextInput } from "@/components/ui/inputs";
+import { TextInput, FormField } from "@/components/ui/inputs";
+import { ErrorDisplay } from "@/components/ui/feedback";
 import { Modal } from "../base";
 import {
   Tabs,
@@ -12,6 +13,67 @@ import {
 import { useLoadingState } from "@/hooks";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils/logger";
+
+// Error message constants
+const AUTH_ERRORS = {
+  PASSWORDS_DONT_MATCH: "Passwords do not match.",
+  PASSWORD_TOO_SHORT: "Password must be at least 6 characters long.",
+  USER_NOT_FOUND: "No account found with this email address.",
+  WRONG_PASSWORD: "Incorrect password.",
+  INVALID_EMAIL: "Invalid email address.",
+  TOO_MANY_REQUESTS: "Too many failed attempts. Please try again later.",
+  EMAIL_IN_USE: "An account with this email already exists.",
+  WEAK_PASSWORD: "Password is too weak. Please choose a stronger password.",
+  SIGN_IN_FAILED: "Failed to sign in. Please try again.",
+  SIGN_UP_FAILED: "Failed to create account. Please try again.",
+} as const;
+
+// Custom hooks for form state management
+function useSignInForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const reset = () => {
+    setEmail("");
+    setPassword("");
+  };
+
+  const isValid = email && password;
+
+  return {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    reset,
+    isValid,
+  };
+}
+
+function useSignUpForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const reset = () => {
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const isValid = email && password && confirmPassword;
+
+  return {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    reset,
+    isValid,
+  };
+}
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -29,14 +91,9 @@ export default function SignInModal({
   const { loading: isLoading, withLoading } = useLoadingState();
   const [error, setError] = useState("");
 
-  // Sign in form state
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
-
-  // Sign up form state
-  const [signUpEmail, setSignUpEmail] = useState("");
-  const [signUpPassword, setSignUpPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  // Form state using custom hooks
+  const signInForm = useSignInForm();
+  const signUpForm = useSignUpForm();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +101,7 @@ export default function SignInModal({
 
     await withLoading(async () => {
       try {
-        const userData = await signInWithEmail(signInEmail, signInPassword);
+        const userData = await signInWithEmail(signInForm.email, signInForm.password);
         if (onSuccess) {
           onSuccess(userData);
         } else {
@@ -55,15 +112,15 @@ export default function SignInModal({
         logger.error("Sign in error:", error);
         const firebaseError = error as { code?: string };
         if (firebaseError.code === "auth/user-not-found") {
-          setError("No account found with this email address.");
+          setError(AUTH_ERRORS.USER_NOT_FOUND);
         } else if (firebaseError.code === "auth/wrong-password") {
-          setError("Incorrect password.");
+          setError(AUTH_ERRORS.WRONG_PASSWORD);
         } else if (firebaseError.code === "auth/invalid-email") {
-          setError("Invalid email address.");
+          setError(AUTH_ERRORS.INVALID_EMAIL);
         } else if (firebaseError.code === "auth/too-many-requests") {
-          setError("Too many failed attempts. Please try again later.");
+          setError(AUTH_ERRORS.TOO_MANY_REQUESTS);
         } else {
-          setError("Failed to sign in. Please try again.");
+          setError(AUTH_ERRORS.SIGN_IN_FAILED);
         }
       }
     });
@@ -74,20 +131,20 @@ export default function SignInModal({
     setError("");
 
     // Validate passwords match
-    if (signUpPassword !== confirmPassword) {
-      setError("Passwords do not match.");
+    if (signUpForm.password !== signUpForm.confirmPassword) {
+      setError(AUTH_ERRORS.PASSWORDS_DONT_MATCH);
       return;
     }
 
     // Validate password strength
-    if (signUpPassword.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (signUpForm.password.length < 6) {
+      setError(AUTH_ERRORS.PASSWORD_TOO_SHORT);
       return;
     }
 
     await withLoading(async () => {
       try {
-        const userData = await signUpWithEmail(signUpEmail, signUpPassword);
+        const userData = await signUpWithEmail(signUpForm.email, signUpForm.password);
         if (onSuccess) {
           onSuccess(userData);
         } else {
@@ -98,24 +155,21 @@ export default function SignInModal({
         logger.error("Sign up error:", error);
         const firebaseError = error as { code?: string };
         if (firebaseError.code === "auth/email-already-in-use") {
-          setError("An account with this email already exists.");
+          setError(AUTH_ERRORS.EMAIL_IN_USE);
         } else if (firebaseError.code === "auth/invalid-email") {
-          setError("Invalid email address.");
+          setError(AUTH_ERRORS.INVALID_EMAIL);
         } else if (firebaseError.code === "auth/weak-password") {
-          setError("Password is too weak. Please choose a stronger password.");
+          setError(AUTH_ERRORS.WEAK_PASSWORD);
         } else {
-          setError("Failed to create account. Please try again.");
+          setError(AUTH_ERRORS.SIGN_UP_FAILED);
         }
       }
     });
   };
 
   const resetForms = () => {
-    setSignInEmail("");
-    setSignInPassword("");
-    setSignUpEmail("");
-    setSignUpPassword("");
-    setConfirmPassword("");
+    signInForm.reset();
+    signUpForm.reset();
     setError("");
   };
 
@@ -150,42 +204,31 @@ export default function SignInModal({
         <TabPanels>
           <TabPanel value="signin">
             <form onSubmit={handleSignIn} className="space-y-4">
-              <div>
+              <FormField label="Email address" required>
                 <TextInput
                   type="email"
-                  value={signInEmail}
-                  onChange={setSignInEmail}
+                  value={signInForm.email}
+                  onChange={signInForm.setEmail}
                   placeholder="Enter your email"
-                  required
                   disabled={isLoading}
-                  aria-label="Email address"
                 />
-              </div>
+              </FormField>
 
-              <div>
+              <FormField label="Password" required>
                 <TextInput
                   type="password"
-                  value={signInPassword}
-                  onChange={setSignInPassword}
+                  value={signInForm.password}
+                  onChange={signInForm.setPassword}
                   placeholder="Enter your password"
-                  required
                   disabled={isLoading}
-                  aria-label="Password"
                 />
-              </div>
+              </FormField>
 
-              {error && (
-                <div
-                  role="alert"
-                  className="text-red-400 text-sm bg-red-950/20 border border-red-600/30 rounded-lg p-3"
-                >
-                  {error}
-                </div>
-              )}
+              <ErrorDisplay error={error} />
 
               <Button
                 type="submit"
-                disabled={isLoading || !signInEmail || !signInPassword}
+                disabled={isLoading || !signInForm.isValid}
                 className="w-full"
               >
                 {isLoading ? "Signing In..." : "Sign In"}
@@ -195,59 +238,41 @@ export default function SignInModal({
 
           <TabPanel value="signup">
             <form onSubmit={handleSignUp} className="space-y-4">
-              <div>
+              <FormField label="Email address" required>
                 <TextInput
                   type="email"
-                  value={signUpEmail}
-                  onChange={setSignUpEmail}
+                  value={signUpForm.email}
+                  onChange={signUpForm.setEmail}
                   placeholder="Enter your email"
-                  required
                   disabled={isLoading}
-                  aria-label="Email address for new account"
                 />
-              </div>
+              </FormField>
 
-              <div>
+              <FormField label="Password" required>
                 <TextInput
                   type="password"
-                  value={signUpPassword}
-                  onChange={setSignUpPassword}
+                  value={signUpForm.password}
+                  onChange={signUpForm.setPassword}
                   placeholder="Create a password"
-                  required
                   disabled={isLoading}
-                  aria-label="Password for new account"
                 />
-              </div>
+              </FormField>
 
-              <div>
+              <FormField label="Confirm password" required>
                 <TextInput
                   type="password"
-                  value={confirmPassword}
-                  onChange={setConfirmPassword}
+                  value={signUpForm.confirmPassword}
+                  onChange={signUpForm.setConfirmPassword}
                   placeholder="Confirm your password"
-                  required
                   disabled={isLoading}
-                  aria-label="Confirm password"
                 />
-              </div>
+              </FormField>
 
-              {error && (
-                <div
-                  role="alert"
-                  className="text-red-400 text-sm bg-red-950/20 border border-red-600/30 rounded-lg p-3"
-                >
-                  {error}
-                </div>
-              )}
+              <ErrorDisplay error={error} />
 
               <Button
                 type="submit"
-                disabled={
-                  isLoading ||
-                  !signUpEmail ||
-                  !signUpPassword ||
-                  !confirmPassword
-                }
+                disabled={isLoading || !signUpForm.isValid}
                 className="w-full"
               >
                 {isLoading ? "Creating Account..." : "Sign Up"}
