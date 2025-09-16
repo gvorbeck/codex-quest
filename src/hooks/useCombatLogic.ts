@@ -1,17 +1,22 @@
 import { useCallback, useMemo, useEffect } from "react";
-import { useLocalStorage } from "@/hooks";
-import { useNotifications } from "@/hooks/useNotifications";
-import { usePlayerCharacters } from "@/hooks/usePlayerCharacters";
-import type { Game, GameCombatant } from "@/types/game";
 import {
-  type CombatantWithInitiative,
-  type CombatCharacterData,
-  calculateCombatantAC,
-  normalizeCombatantHP,
-  sortCombatantsByInitiative,
-  rollInitiative,
+  usePlayerCharacters,
+  useNotifications,
+  useLocalStorage,
+} from "@/hooks";
+import type {
+  CombatantWithInitiative,
+  Game,
+  GameCombatant,
+  CombatCharacterData,
+} from "@/types";
+import {
+  calculateArmorClass,
   clearCorruptedCombatData,
-} from "@/utils/combatUtils";
+  normalizeCombatantHP,
+  rollInitiative,
+  sortCombatantsByInitiative,
+} from "@/utils";
 
 // Combat state interface for persistence
 interface CombatState {
@@ -76,7 +81,7 @@ export function useCombatLogic(
 
         return {
           name: char.name,
-          ac: calculateCombatantAC(combatChar),
+          ac: calculateArmorClass(combatChar),
           initiative: 0,
           isPlayer: true,
           _sortId: Date.now() + Math.random(),
@@ -102,7 +107,7 @@ export function useCombatLogic(
 
           return {
             name: combatant.name,
-            ac: calculateCombatantAC(combatChar),
+            ac: calculateArmorClass(combatChar),
             initiative: 0,
             isPlayer: true,
             _sortId: Date.now() + Math.random(),

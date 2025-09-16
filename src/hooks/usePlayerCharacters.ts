@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { getCharacterById, type CharacterListItem } from "@/services/characters";
-import type { Game } from "@/types/game";
-import { logger } from "@/utils/logger";
+import {
+  getCharacterById,
+  type CharacterListItem,
+} from "@/services/characters";
+import type { Game } from "@/types";
+import { logger } from "@/utils";
 
 interface UsePlayerCharactersReturn {
   playerCharacters: CharacterListItem[];
@@ -14,7 +17,9 @@ interface UsePlayerCharactersReturn {
  * Handles loading states and error management
  */
 export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
-  const [playerCharacters, setPlayerCharacters] = useState<CharacterListItem[]>([]);
+  const [playerCharacters, setPlayerCharacters] = useState<CharacterListItem[]>(
+    []
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,29 +33,32 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
 
       setLoading(true);
       setError(null);
-      
+
       try {
-        const characterPromises = game.players.map(player => 
+        const characterPromises = game.players.map((player) =>
           getCharacterById(player.user, player.character)
         );
-        
+
         const characterResults = await Promise.all(characterPromises);
-        const validCharacters = characterResults
-          .filter((char): char is NonNullable<typeof char> => char !== null);
-        
+        const validCharacters = characterResults.filter(
+          (char): char is NonNullable<typeof char> => char !== null
+        );
+
         setPlayerCharacters(validCharacters);
-        
+
         logger.debug("Successfully fetched player characters", {
-          gameId: game.name || 'unnamed-game',
+          gameId: game.name || "unnamed-game",
           playerCount: game.players.length,
-          validCharacterCount: validCharacters.length
+          validCharacterCount: validCharacters.length,
         });
       } catch (err) {
-        const errorMessage = `Failed to fetch player characters: ${err instanceof Error ? err.message : 'Unknown error'}`;
+        const errorMessage = `Failed to fetch player characters: ${
+          err instanceof Error ? err.message : "Unknown error"
+        }`;
         logger.error("Error fetching player characters", {
           error: err,
-          gameId: game.name || 'unnamed-game',
-          playerCount: game.players?.length
+          gameId: game.name || "unnamed-game",
+          playerCount: game.players?.length,
         });
         setError(errorMessage);
       } finally {

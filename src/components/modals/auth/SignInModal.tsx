@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui";
 import { TextInput, FormField } from "@/components/ui/inputs";
 import { ErrorDisplay } from "@/components/ui/feedback";
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import {
   Tabs,
   TabList,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/layout/Tabs";
 import { useLoadingState } from "@/hooks";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 
 // Error message constants
 const AUTH_ERRORS = {
@@ -101,7 +101,10 @@ export default function SignInModal({
 
     await withLoading(async () => {
       try {
-        const userData = await signInWithEmail(signInForm.email, signInForm.password);
+        const userData = await signInWithEmail(
+          signInForm.email,
+          signInForm.password
+        );
         if (onSuccess) {
           onSuccess(userData);
         } else {
@@ -144,7 +147,10 @@ export default function SignInModal({
 
     await withLoading(async () => {
       try {
-        const userData = await signUpWithEmail(signUpForm.email, signUpForm.password);
+        const userData = await signUpWithEmail(
+          signUpForm.email,
+          signUpForm.password
+        );
         if (onSuccess) {
           onSuccess(userData);
         } else {

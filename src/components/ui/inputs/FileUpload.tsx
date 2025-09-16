@@ -1,8 +1,7 @@
+import { cn, logger } from "@/utils";
 import React, { useRef, useState, useId } from "react";
-import { Button } from "@/components/ui";
-import { Icon } from "@/components/ui/display";
-import { logger } from "@/utils/logger";
-import { cn } from "@/constants/styles";
+import Button from "./Button";
+import { Icon } from "@/components/ui";
 
 interface FileUploadProps {
   onFileSelect: (file: File | null) => void;

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui/display";
 import { LoadingState } from "@/components/ui/feedback";
-import type { EncounterType } from "@/types/encounters";
+import type { EncounterType } from "@/types";
 
 interface EncounterGeneratorButtonProps {
   encounterType: EncounterType;

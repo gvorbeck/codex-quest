@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { roller } from "@/utils/dice";
-import { useNotificationContext } from "@/hooks/useNotificationContext";
+import { useNotificationContext } from "@/hooks";
+import { roller } from "@/utils";
 
 // Constants for dice rolling
 const CRITICAL_SUCCESS = 20;
@@ -40,7 +40,11 @@ interface PercentileRollOptions {
   targetPercentage: number;
 }
 
-type RollOptions = AttackRollOptions | SavingThrowRollOptions | AbilityRollOptions | PercentileRollOptions;
+type RollOptions =
+  | AttackRollOptions
+  | SavingThrowRollOptions
+  | AbilityRollOptions
+  | PercentileRollOptions;
 
 export function useDiceRoll() {
   const notifications = useNotificationContext();
@@ -67,17 +71,20 @@ export function useDiceRoll() {
           const { saveName, targetNumber, modifier } = options;
           const actualModifier = modifier ?? 0;
           const total = roll.total + actualModifier;
-          const isSuccess = total >= targetNumber || roll.total === CRITICAL_SUCCESS;
+          const isSuccess =
+            total >= targetNumber || roll.total === CRITICAL_SUCCESS;
           const isCriticalFailure = roll.total === CRITICAL_FAILURE;
 
           let resultMessage;
           if (actualModifier !== 0) {
             const formula = formatDiceFormula(actualModifier);
-            resultMessage = `${saveName}: ${formula} = ${roll.total}${actualModifier >= 0 ? "+" : ""}${actualModifier} = ${total} vs target ${targetNumber}`;
+            resultMessage = `${saveName}: ${formula} = ${roll.total}${
+              actualModifier >= 0 ? "+" : ""
+            }${actualModifier} = ${total} vs target ${targetNumber}`;
           } else {
             resultMessage = `${saveName}: 1d20 = ${roll.total} vs target ${targetNumber}`;
           }
-          
+
           if (isCriticalFailure) {
             resultMessage += " - Critical Failure!";
             notifications.showError(resultMessage, {
@@ -111,14 +118,15 @@ export function useDiceRoll() {
           const { skillName, targetPercentage } = options;
           const percentileRoll = roller("1d100");
           const result = percentileRoll.total;
-          
+
           // Special cases: 01-05 always succeed, 96-100 always fail
           const isAutoSuccess = result <= 5;
           const isAutoFailure = result >= 96;
-          const isSuccess = isAutoSuccess || (!isAutoFailure && result <= targetPercentage);
-          
+          const isSuccess =
+            isAutoSuccess || (!isAutoFailure && result <= targetPercentage);
+
           let resultMessage = `${skillName}: 1d100 = ${result} vs ${targetPercentage}%`;
-          
+
           if (isAutoSuccess && result <= targetPercentage) {
             resultMessage += " - Success!";
             notifications.showSuccess(resultMessage, {
@@ -174,11 +182,11 @@ export function useDiceRoll() {
         saveName,
         targetNumber,
       };
-      
+
       if (modifier !== undefined) {
         rollOptions.modifier = modifier;
       }
-      
+
       rollDice(rollOptions);
     },
     [rollDice]

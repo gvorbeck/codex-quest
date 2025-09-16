@@ -1,6 +1,7 @@
 import { forwardRef, useState, useCallback } from "react";
-import { SectionHeader } from "@/components/ui/display";
-import { DESIGN_TOKENS, cn } from "@/constants";
+import { SectionHeader } from "@/components";
+import { DESIGN_TOKENS } from "@/constants";
+import { cn } from "@/utils";
 import { useLocalStorage } from "@/hooks";
 
 interface SectionWrapperProps {

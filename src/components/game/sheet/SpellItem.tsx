@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { StatCard, TextHeader } from "@/components/ui/display";
-import type { Spell } from "@/types/character";
+import type { Spell } from "@/types";
 
 interface SpellItemProps {
   spell: Spell;
@@ -37,17 +37,9 @@ export const SpellItem = memo(({ spell }: SpellItemProps) => {
           Spell Properties
         </TextHeader>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <StatCard
-            label="Range"
-            value={spell.range}
-            size="sm"
-          />
+          <StatCard label="Range" value={spell.range} size="sm" />
 
-          <StatCard
-            label="Duration"
-            value={spell.duration}
-            size="sm"
-          />
+          <StatCard label="Duration" value={spell.duration} size="sm" />
 
           <div className="text-center">
             <Typography
@@ -58,15 +50,15 @@ export const SpellItem = memo(({ spell }: SpellItemProps) => {
               Classes & Levels
             </Typography>
             <div className="flex flex-wrap gap-1 justify-center">
-              {Object.entries(spell.level).map(([classId, level]) => 
+              {Object.entries(spell.level).map(([classId, level]) =>
                 level !== null ? (
-                  <Badge 
-                    key={classId} 
+                  <Badge
+                    key={classId}
                     variant="status"
                     size="sm"
                     className="text-xs"
                   >
-                    {classId.replace('-', ' ')}: {level}
+                    {classId.replace("-", " ")}: {level}
                   </Badge>
                 ) : null
               )}

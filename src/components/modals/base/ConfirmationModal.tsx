@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { Button, Typography, TextInput, Callout } from "@/components/ui";
 import { Icon } from "@/components/ui/display";
-import { getEntityDeletionDescription } from "@/utils/formatters";
+import { getEntityDeletionDescription } from "@/utils";
 
 type EntityType = "character" | "game" | "player";
 
@@ -30,21 +30,25 @@ interface DeletionModalProps {
   isDeleting?: boolean;
 }
 
-const ENTITY_CONFIGS: Record<EntityType, {
-  title: string;
-  confirmText: string;
-  variant: "error" | "warning";
-  description: string;
-  flavorText: string;
-  loadingText: string;
-  actionLabel: string;
-}> = {
+const ENTITY_CONFIGS: Record<
+  EntityType,
+  {
+    title: string;
+    confirmText: string;
+    variant: "error" | "warning";
+    description: string;
+    flavorText: string;
+    loadingText: string;
+    actionLabel: string;
+  }
+> = {
   character: {
     title: "Permanent Deletion",
     confirmText: "DELETE",
     variant: "error",
     description: "You're about to destroy this character forever",
-    flavorText: "When an adventurer's tale ends, the echoes of their deeds fade from tavern songs, their name forgotten by the very realms they once protected...",
+    flavorText:
+      "When an adventurer's tale ends, the echoes of their deeds fade from tavern songs, their name forgotten by the very realms they once protected...",
     loadingText: "Banishing to the Void...",
     actionLabel: "Delete",
   },
@@ -53,7 +57,8 @@ const ENTITY_CONFIGS: Record<EntityType, {
     confirmText: "DELETE",
     variant: "error",
     description: "You're about to destroy this game forever",
-    flavorText: "When a campaign ends, the stories fade from memory, the bonds between adventurers scatter to the winds, and the tales of heroism become whispers in the darkness...",
+    flavorText:
+      "When a campaign ends, the stories fade from memory, the bonds between adventurers scatter to the winds, and the tales of heroism become whispers in the darkness...",
     loadingText: "Banishing to the Void...",
     actionLabel: "Delete",
   },
@@ -62,7 +67,8 @@ const ENTITY_CONFIGS: Record<EntityType, {
     confirmText: "REMOVE",
     variant: "warning",
     description: "You're about to remove this player from the game",
-    flavorText: "Sometimes adventurers must part ways, taking different paths on their journey. The bonds forged remain, even when the party disbands...",
+    flavorText:
+      "Sometimes adventurers must part ways, taking different paths on their journey. The bonds forged remain, even when the party disbands...",
     loadingText: "Removing Player...",
     actionLabel: "Remove Player",
   },
@@ -100,19 +106,10 @@ export default function ConfirmationModal({
   const iconName = variant === "error" ? "trash" : "minus";
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title={title}
-      size="md"
-    >
+    <Modal isOpen={isOpen} onClose={handleClose} title={title} size="md">
       <div className="space-y-6">
         {/* Warning Section */}
-        <Callout
-          variant={variant}
-          title={description}
-          size="lg"
-        >
+        <Callout variant={variant} title={description} size="lg">
           <Typography variant="body" className="leading-relaxed">
             <strong className="text-accent-foreground">"{entityName}"</strong>{" "}
             {getEntityDeletionDescription(variant, entityName, title)}
@@ -136,7 +133,8 @@ export default function ConfirmationModal({
             className="text-foreground"
             id="confirm-description"
           >
-            To confirm this {variant === "error" ? "irreversible" : ""} action, type{" "}
+            To confirm this {variant === "error" ? "irreversible" : ""} action,
+            type{" "}
             <Typography
               variant="code"
               color={variant === "error" ? "red" : "amber"}
@@ -174,9 +172,7 @@ export default function ConfirmationModal({
                 <Icon
                   name={isConfirmValid ? "check-circle" : "x-circle"}
                   size="sm"
-                  className={
-                    isConfirmValid ? "text-success" : "text-warning"
-                  }
+                  className={isConfirmValid ? "text-success" : "text-warning"}
                   aria-hidden={true}
                 />
               </div>

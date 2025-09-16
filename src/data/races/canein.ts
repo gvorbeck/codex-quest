@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const canein: Race = {
   name: "Canein",
@@ -7,7 +7,21 @@ export const canein: Race = {
     "Caneins are a race of dog-like humanoids, known for their extreme sense of loyalty whether to liege, friend, or family. Caneins often form almost knight-like codes and attitudes, often serving a patron in exactly that capacity.",
   physicalDescription:
     "There is a great deal of physical variance among the individual Caneins, with some short and stocky, others leanly-muscled, and variations in the colorations of their coats. However, all Caneins share a similar facial structure similar to the various bulldog or boxer-type dog breeds, having jowls and squat features. Caneins vary in their height, but are rarely larger than the average human.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "assassin", "barbarian", "druid", "illusionist", "necromancer", "ranger", "paladin", "scout", "spellcrafter"],
+  allowedClasses: [
+    "cleric",
+    "fighter",
+    "magic-user",
+    "thief",
+    "assassin",
+    "barbarian",
+    "druid",
+    "illusionist",
+    "necromancer",
+    "ranger",
+    "paladin",
+    "scout",
+    "spellcrafter",
+  ],
   abilityRequirements: [
     {
       ability: "constitution",
@@ -60,7 +74,7 @@ export const canein: Race = {
     strengthModifier: {
       positive: 0.1, // +10% per +1 STR modifier
       negative: 0.2, // -20% per -1 STR modifier
-    }
+    },
   },
   supplementalContent: true,
 };

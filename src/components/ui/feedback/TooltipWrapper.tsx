@@ -1,7 +1,7 @@
 import React from "react";
-import Tooltip from "@/components/ui/feedback/Tooltip";
 import type { ReactNode } from "react";
-import type { PositioningOptions } from "@/utils/tooltipUtils";
+import type { PositioningOptions } from "@/types";
+import Tooltip from "./Tooltip";
 
 interface TooltipWrapperProps {
   /** The tooltip content to display */
@@ -15,7 +15,7 @@ interface TooltipWrapperProps {
   /** Additional className for the tooltip */
   tooltipClassName?: string | undefined;
   /** Preferred position for the tooltip */
-  preferredPosition?: 'above' | 'below' | undefined;
+  preferredPosition?: "above" | "below" | undefined;
   /** Custom positioning options for the tooltip */
   positioningOptions?: Partial<PositioningOptions> | undefined;
 }
@@ -36,25 +36,26 @@ const TooltipWrapper: React.FC<TooltipWrapperProps> = ({
   preferredPosition,
   positioningOptions,
 }) => {
-    // Only show tooltip if all conditions are met
-    const shouldShowTooltip = Boolean(tooltip?.trim()) && showTooltip && !disabled;
+  // Only show tooltip if all conditions are met
+  const shouldShowTooltip =
+    Boolean(tooltip?.trim()) && showTooltip && !disabled;
 
-    if (shouldShowTooltip && tooltip) {
-      return (
-        <Tooltip 
-          content={tooltip} 
-          className={tooltipClassName}
-          preferredPosition={preferredPosition}
-          positioningOptions={positioningOptions}
-          disabled={disabled}
-        >
-          {children}
-        </Tooltip>
-      );
-    }
+  if (shouldShowTooltip && tooltip) {
+    return (
+      <Tooltip
+        content={tooltip}
+        className={tooltipClassName}
+        preferredPosition={preferredPosition}
+        positioningOptions={positioningOptions}
+        disabled={disabled}
+      >
+        {children}
+      </Tooltip>
+    );
+  }
 
-    // Return children unwrapped if no tooltip should be shown
-    return <>{children}</>;
+  // Return children unwrapped if no tooltip should be shown
+  return <>{children}</>;
 };
 
 TooltipWrapper.displayName = "TooltipWrapper";

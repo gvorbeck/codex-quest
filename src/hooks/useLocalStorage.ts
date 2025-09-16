@@ -1,5 +1,5 @@
+import { logger } from "@/utils";
 import { useState, useEffect, useCallback } from "react";
-import { logger } from "@/utils/logger";
 
 /**
  * Custom hook for managing localStorage with automatic JSON serialization/deserialization

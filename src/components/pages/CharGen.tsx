@@ -10,19 +10,18 @@ import HitPointsStep from "@/components/character/creation/HitPointsStep";
 import EquipmentStep from "@/components/character/creation/EquipmentStep";
 import { ReviewStep } from "@/components/character/creation/ReviewStep";
 import { useLocalStorage, useAuth } from "@/hooks";
-import { useCharacterNavigation } from "@/hooks/useEntityNavigation";
-import { useStepNavigation } from "@/hooks/useStepNavigation";
-import type { Character } from "@/types/character";
+import { useCharacterNavigation } from "@/hooks";
+import { useStepNavigation } from "@/hooks";
+import type { Character } from "@/types";
 import {
   useCascadeValidation,
   createCharacterValidationPipeline,
 } from "@/validation";
 import { saveCharacter } from "@/services/characters";
-import { STORAGE_KEYS } from "@/constants/storage";
-import { allRaces } from "@/data/races";
-import { allClasses } from "@/data/classes";
-import { logger } from "@/utils/logger";
-import { createEmptyCharacter } from "@/utils/characterHelpers";
+import { STORAGE_KEYS } from "@/constants";
+import { allRaces, allClasses } from "@/data";
+import { logger } from "@/utils";
+import { createEmptyCharacter } from "@/utils";
 
 const emptyCharacter: Character = createEmptyCharacter();
 
@@ -110,11 +109,7 @@ function CharGen() {
   }, [character.race, useCombinationClass, setUseCombinationClass]);
 
   // Use step navigation hook for centralized step management
-  const {
-    isLastStep,
-    isNextDisabled,
-    validationMessage,
-  } = useStepNavigation({
+  const { isLastStep, isNextDisabled, validationMessage } = useStepNavigation({
     step,
     character,
     user,
@@ -154,68 +149,77 @@ function CharGen() {
   }, [step, user, character, navigateToEntity, isLastStep]);
 
   // Helper function to create step components
-  const createStepComponents = useCallback(() => [
-    {
-      title: "Abilities",
-      content: (
-        <AbilityScoreStep
-          character={character}
-          onCharacterChange={setCharacter}
-        />
-      ),
-    },
-    {
-      title: "Race",
-      content: (
-        <RaceStep
-          character={character}
-          onCharacterChange={setCharacter}
-          includeSupplemental={includeSupplementalRace}
-          onIncludeSupplementalChange={setIncludeSupplementalRace}
-        />
-      ),
-    },
-    {
-      title: "Class",
-      content: (
-        <ClassStep
-          character={character}
-          onCharacterChange={setCharacter}
-          includeSupplementalClass={includeSupplementalClass}
-          onIncludeSupplementalClassChange={setIncludeSupplementalClass}
-          useCombinationClass={useCombinationClass}
-          onUseCombinationClassChange={setUseCombinationClass}
-        />
-      ),
-    },
-    {
-      title: "Hit Points",
-      content: (
-        <HitPointsStep character={character} onCharacterChange={setCharacter} />
-      ),
-    },
-    {
-      title: "Equipment",
-      content: (
-        <EquipmentStep character={character} onCharacterChange={setCharacter} />
-      ),
-    },
-    {
-      title: "Review",
-      content: (
-        <ReviewStep character={character} onCharacterChange={setCharacter} />
-      ),
-    },
-  ], [
-    character,
-    setCharacter,
-    includeSupplementalRace,
-    setIncludeSupplementalRace,
-    includeSupplementalClass,
-    setIncludeSupplementalClass,
-    useCombinationClass,
-    setUseCombinationClass,
-  ]);
+  const createStepComponents = useCallback(
+    () => [
+      {
+        title: "Abilities",
+        content: (
+          <AbilityScoreStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Race",
+        content: (
+          <RaceStep
+            character={character}
+            onCharacterChange={setCharacter}
+            includeSupplemental={includeSupplementalRace}
+            onIncludeSupplementalChange={setIncludeSupplementalRace}
+          />
+        ),
+      },
+      {
+        title: "Class",
+        content: (
+          <ClassStep
+            character={character}
+            onCharacterChange={setCharacter}
+            includeSupplementalClass={includeSupplementalClass}
+            onIncludeSupplementalClassChange={setIncludeSupplementalClass}
+            useCombinationClass={useCombinationClass}
+            onUseCombinationClassChange={setUseCombinationClass}
+          />
+        ),
+      },
+      {
+        title: "Hit Points",
+        content: (
+          <HitPointsStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Equipment",
+        content: (
+          <EquipmentStep
+            character={character}
+            onCharacterChange={setCharacter}
+          />
+        ),
+      },
+      {
+        title: "Review",
+        content: (
+          <ReviewStep character={character} onCharacterChange={setCharacter} />
+        ),
+      },
+    ],
+    [
+      character,
+      setCharacter,
+      includeSupplementalRace,
+      setIncludeSupplementalRace,
+      includeSupplementalClass,
+      setIncludeSupplementalClass,
+      useCombinationClass,
+      setUseCombinationClass,
+    ]
+  );
 
   const stepItems = createStepComponents();
 

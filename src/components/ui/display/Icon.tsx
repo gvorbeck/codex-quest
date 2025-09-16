@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
-import { logger } from "@/utils/logger";
-import { cn } from "@/constants/styles";
+import { logger, cn } from "@/utils";
+import { DESIGN_TOKENS } from "@/constants";
 
 /**
  * Centralized icon component that replaces inline SVGs throughout the app.
@@ -67,14 +67,6 @@ interface IconProps {
   "aria-label"?: string;
   "aria-hidden"?: boolean;
 }
-
-const sizeClasses = {
-  xs: "w-3 h-3",
-  sm: "w-4 h-4",
-  md: "w-5 h-5",
-  lg: "w-6 h-6",
-  xl: "w-8 h-8",
-} as const;
 
 const iconPaths: Record<
   IconName,
@@ -357,7 +349,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
       return null;
     }
 
-    const sizeClass = sizeClasses[size];
+    const sizeClass = DESIGN_TOKENS.icons[size];
     const isDecorative = !title && !ariaLabel;
 
     // Build class names

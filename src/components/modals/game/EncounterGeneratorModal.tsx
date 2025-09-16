@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import Modal from "../base/Modal";
+import { Modal } from "@/components/modals";
 import EncounterTypeSelector from "./encounter/EncounterTypeSelector";
 import EncounterSubtypeSelector from "./encounter/EncounterSubtypeSelector";
 import EncounterRules from "./encounter/EncounterRules";
@@ -8,7 +8,7 @@ import EncounterResults from "./encounter/EncounterResults";
 import EncounterInstructions from "./encounter/EncounterInstructions";
 import { useEncounterData } from "./encounter/hooks/useEncounterData";
 import { useEncounterGeneration } from "./encounter/hooks/useEncounterGeneration";
-import type { GameCombatant } from "@/types/game";
+import type { GameCombatant } from "@/types";
 
 interface EncounterGeneratorModalProps {
   isOpen: boolean;
@@ -60,10 +60,13 @@ export default function EncounterGeneratorModal({
   });
 
   // Reset encounter when type changes
-  const handleTypeChangeWithReset = useCallback((type: typeof encounterType) => {
-    handleTypeChange(type);
-    resetEncounter();
-  }, [handleTypeChange, resetEncounter]);
+  const handleTypeChangeWithReset = useCallback(
+    (type: typeof encounterType) => {
+      handleTypeChange(type);
+      resetEncounter();
+    },
+    [handleTypeChange, resetEncounter]
+  );
 
   return (
     <Modal

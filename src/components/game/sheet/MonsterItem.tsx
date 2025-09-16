@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui/display";
 import { MarkdownText, TextHeader } from "@/components/ui/display";
 import { MonsterStatsDisplay } from "./MonsterStatsDisplay";
-import type { Monster } from "@/types/monsters";
-import type { GameCombatant } from "@/types/game";
+import type { Monster } from "@/types";
+import type { GameCombatant } from "@/types";
 
 interface MonsterItemProps {
   monster: Monster;
@@ -25,7 +25,7 @@ export const MonsterItem = memo(
         if (!onAddToCombat) return;
 
         // Import the conversion utility
-        import("@/utils/monsterToCombatant").then(({ monsterToCombatant }) => {
+        import("@/utils").then(({ monsterToCombatant }) => {
           const combatant = monsterToCombatant(monster, variantIndex);
           onAddToCombat(combatant);
         });

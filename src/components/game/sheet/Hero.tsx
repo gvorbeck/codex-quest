@@ -1,10 +1,10 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
-import type { Game } from "@/types/game";
+import type { Game } from "@/types";
 import { TextInput, Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
 interface GameHeroProps extends HTMLAttributes<HTMLDivElement> {
   game: Game;

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Badge, Typography } from "@/components/ui/design-system";
-import { LAYOUT_STYLES, ICON_STYLES } from "@/constants";
+import { DESIGN_TOKENS, LAYOUT_STYLES } from "@/constants";
 
 interface InfoCardHeaderProps {
   icon: ReactNode;
@@ -23,9 +23,9 @@ export function InfoCardHeader({
   className = "",
 }: InfoCardHeaderProps) {
   const iconSizeClass = {
-    sm: ICON_STYLES.sm,
-    md: ICON_STYLES.md,
-    lg: ICON_STYLES.lg,
+    sm: DESIGN_TOKENS.icons.sm,
+    md: DESIGN_TOKENS.icons.md,
+    lg: DESIGN_TOKENS.icons.lg,
   }[iconSize];
 
   return (

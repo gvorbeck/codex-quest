@@ -27,7 +27,11 @@ export default defineConfig({
           // Keep React core together in main bundle to prevent initialization issues
           if (id.includes("node_modules")) {
             // Keep ALL React-related modules in main bundle (critical for initialization)
-            if (id.includes("react") || id.includes("react-dom") || id.includes("react/jsx-runtime")) {
+            if (
+              id.includes("react") ||
+              id.includes("react-dom") ||
+              id.includes("react/jsx-runtime")
+            ) {
               return undefined; // Stay in main bundle
             }
             // Firebase can be separate (loaded after React is ready)
@@ -37,11 +41,31 @@ export default defineConfig({
             // Other vendor libraries
             return "vendor";
           }
+
+          // Split out large utility files
+          if (id.includes("src/utils/content.ts")) {
+            return "utils";
+          }
+
+          // Split large component groups that aren't immediately needed
+          if (id.includes("src/components/character/creation/") && !id.includes("src/components/character/creation/index")) {
+            return "character-creation";
+          }
           
+          if (id.includes("src/components/game/sheet/") && !id.includes("src/components/game/sheet/index")) {
+            return "game-sheet-components";
+          }
+
+          // Split validation logic (used mainly in character creation)
+          if (id.includes("src/validation/")) {
+            return "validation";
+          }
+
           // Only split out the largest data files to avoid breaking dependencies
           if (id.includes("src/data/")) {
             if (id.includes("spells.json")) return "spells";
             if (id.includes("monsters.json")) return "monsters";
+            if (id.includes("equipment.json")) return "equipment";
             // Keep everything else in main bundle
           }
         },

@@ -2,13 +2,14 @@ import { memo, useState, useCallback, useEffect } from "react";
 import { Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { LoadingState } from "@/components/ui/feedback";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
-import { CACHE_KEYS, GM_BINDER_MESSAGES } from "@/constants/gmBinderCategories";
-import { categorizeSpell } from "@/utils/gmBinderUtils";
-import { logger } from "@/utils/logger";
+import { GAME_SHEET_STYLES } from "@/constants";
+import { CACHE_KEYS } from "@/constants";
+import { GM_BINDER_MESSAGES } from "@/constants";
+import { categorizeSpell } from "@/utils";
+import { logger } from "@/utils";
 import { SpellItem } from "./SpellItem";
-import type { Spell } from "@/types/character";
-import type { SpellWithCategory } from "@/types/spells";
+import type { Spell } from "@/types";
+import type { SpellWithCategory } from "@/types";
 
 // Cache for loaded data
 const spellsCache = new Map<string, SpellWithCategory[]>();
@@ -20,7 +21,7 @@ export const SpellsTab = memo(() => {
   // Lazy load spells data
   const loadSpells = useCallback(async () => {
     const cacheKey = CACHE_KEYS.GM_BINDER_SPELLS;
-    
+
     if (spellsCache.has(cacheKey)) {
       setSpells(spellsCache.get(cacheKey) as SpellWithCategory[]);
       return;
@@ -29,9 +30,11 @@ export const SpellsTab = memo(() => {
     setIsLoading(true);
     try {
       const { default: allSpells } = await import("@/data/spells.json");
-      
+
       // Add category using utility function
-      const spellsWithCategory: SpellWithCategory[] = (allSpells as Spell[]).map(spell => ({
+      const spellsWithCategory: SpellWithCategory[] = (
+        allSpells as Spell[]
+      ).map((spell) => ({
         ...spell,
         category: categorizeSpell(spell),
       }));
@@ -53,9 +56,10 @@ export const SpellsTab = memo(() => {
     }
   }, [spells.length, loadSpells]);
 
-  const renderSpellItem = useCallback((spell: SpellWithCategory) => (
-    <SpellItem spell={spell} />
-  ), []);
+  const renderSpellItem = useCallback(
+    (spell: SpellWithCategory) => <SpellItem spell={spell} />,
+    []
+  );
 
   if (isLoading) {
     return <LoadingState message={GM_BINDER_MESSAGES.LOADING_SPELLS} />;
@@ -64,7 +68,10 @@ export const SpellsTab = memo(() => {
   if (spells.length === 0) {
     return (
       <Card variant="standard" className="p-8 text-center">
-        <Typography variant="body" className={GAME_SHEET_STYLES.colors.text.secondary}>
+        <Typography
+          variant="body"
+          className={GAME_SHEET_STYLES.colors.text.secondary}
+        >
           {GM_BINDER_MESSAGES.NO_SPELLS}
         </Typography>
       </Card>

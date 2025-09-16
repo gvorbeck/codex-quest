@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const chelonian: Race = {
   name: "Chelonian",
@@ -7,7 +7,21 @@ export const chelonian: Race = {
     "Inhabiting river and lake regions, Chelonian are a race of reptilian humanoids bearing some semblance to turtles. They are normally content to remain within their own societies, but on occasion a more adventurous individual can be found.",
   physicalDescription:
     "They are protected by thick scaly skin as well as a shell-like growth that covers their backside. Chelonian are seldom taller than 5' or so.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "assassin", "barbarian", "druid", "illusionist", "necromancer", "ranger", "paladin", "scout", "spellcrafter"],
+  allowedClasses: [
+    "cleric",
+    "fighter",
+    "magic-user",
+    "thief",
+    "assassin",
+    "barbarian",
+    "druid",
+    "illusionist",
+    "necromancer",
+    "ranger",
+    "paladin",
+    "scout",
+    "spellcrafter",
+  ],
   abilityRequirements: [
     {
       ability: "constitution",
@@ -56,7 +70,7 @@ export const chelonian: Race = {
     strengthModifier: {
       positive: 0.1, // +10% per +1 STR modifier
       negative: 0.2, // -20% per -1 STR modifier
-    }
+    },
   },
   supplementalContent: true,
 };

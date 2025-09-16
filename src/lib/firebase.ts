@@ -14,7 +14,7 @@ const requiredEnvVars = [
   FIREBASE_ENV_KEYS.APP_ID,
 ] as const;
 
-requiredEnvVars.forEach(varName => {
+requiredEnvVars.forEach((varName) => {
   if (!import.meta.env[varName]) {
     throw new Error(`Missing required environment variable: ${varName}`);
   }

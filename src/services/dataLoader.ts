@@ -3,13 +3,10 @@
  * Implements chunking and caching for better performance
  */
 
-import type { Equipment, Spell } from "@/types/character";
-import {
-  EQUIPMENT_CATEGORIES,
-  CHARACTER_CLASSES,
-  CACHE_KEYS,
-} from "@/constants";
-import { logger } from "@/utils/logger";
+import type { Equipment, Spell } from "@/types";
+import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants";
+import { CACHE_KEYS } from "@/constants";
+import { logger } from "@/utils";
 
 // Cache for loaded data chunks
 const dataCache = new Map<string, unknown>();

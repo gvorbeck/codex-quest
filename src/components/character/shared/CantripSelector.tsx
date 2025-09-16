@@ -1,20 +1,20 @@
 import { useState, useMemo, useCallback, memo, forwardRef } from "react";
-import { useModal } from "@/hooks/useModal";
+import { useModal } from "@/hooks";
 import { Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui";
 import { TextHeader } from "@/components/ui/display";
 import { MarkdownText } from "@/components/ui/display";
 import { SectionHeader } from "@/components/ui/display";
-import type { Character, Cantrip } from "@/types/character";
+import type { Character, Cantrip } from "@/types";
 import {
   getAvailableCantrips,
   getSpellTypeInfo,
   getCantripOptions,
-} from "@/utils/cantrips";
+  canCastSpells,
+} from "@/utils";
 import CantripCard from "./CantripCard";
-import { CantripModal } from "@/components/modals";
-import { canCastSpells } from "@/utils/characterHelpers";
+import { CantripModal } from "@/components/modals/LazyModals";
 
 // Discriminated union for better type safety
 type CantripSelectorProps =
@@ -33,7 +33,6 @@ type CantripSelectorProps =
       title?: string;
       className?: string;
     };
-
 
 // Main component
 const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(

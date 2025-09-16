@@ -3,13 +3,14 @@ import { Accordion } from "@/components/ui/layout";
 import { Card, Typography } from "@/components/ui/design-system";
 import { LoadingState } from "@/components/ui/feedback";
 import { useLoadingState } from "@/hooks";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
-import { CACHE_KEYS, GM_BINDER_MESSAGES } from "@/constants/gmBinderCategories";
-import { categorizeMonster, createSearchableText } from "@/utils/gmBinderUtils";
-import { logger } from "@/utils/logger";
+import { GAME_SHEET_STYLES } from "@/constants";
+import { CACHE_KEYS } from "@/constants";
+import { GM_BINDER_MESSAGES } from "@/constants";
+import { categorizeMonster, createSearchableText } from "@/utils";
+import { logger } from "@/utils";
 import { MonsterItem } from "./MonsterItem";
-import type { Monster, MonsterWithCategory } from "@/types/monsters";
-import type { GameCombatant } from "@/types/game";
+import type { Monster, MonsterWithCategory } from "@/types";
+import type { GameCombatant } from "@/types";
 
 // Cache for loaded data
 const monstersCache = new Map<string, MonsterWithCategory[]>();

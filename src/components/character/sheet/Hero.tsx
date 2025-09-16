@@ -1,12 +1,12 @@
 import { forwardRef, useState, useRef, useEffect } from "react";
 import type { HTMLAttributes } from "react";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 import { AvatarChangeModal, SettingsModal } from "@/components/modals";
 import { TextInput } from "@/components/ui/inputs";
 import { Details, Icon } from "@/components/ui/display";
 import { Typography } from "@/components/ui/design-system";
-import { cn } from "@/constants/styles";
-import { getClassName, isCustomRace, getRaceById } from "@/utils/characterHelpers";
+import { cn } from "@/utils";
+import { getClassName, isCustomRace, getRaceById } from "@/utils";
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {
   character: Character;
@@ -18,11 +18,11 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {
 // Helper functions moved outside component for better performance
 const getRaceDisplayName = (character: Character): string => {
   if (!character.race) return "Unknown";
-  
+
   if (isCustomRace(character.race)) {
     return character.race;
   }
-  
+
   const race = getRaceById(character.race);
   return race?.name || character.race;
 };
@@ -30,7 +30,9 @@ const getRaceDisplayName = (character: Character): string => {
 const getClassDisplayNames = (character: Character): string => {
   if (!character.class || character.class.length === 0) return "Unknown";
 
-  const classNames = character.class.map((classId) => getClassName(character, classId));
+  const classNames = character.class.map((classId) =>
+    getClassName(character, classId)
+  );
 
   return classNames.join(" / ");
 };

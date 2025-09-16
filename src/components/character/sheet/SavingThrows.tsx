@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { SectionWrapper } from "@/components/ui/layout";
-import { SIZE_STYLES } from "@/constants/designTokens";
+import { SIZE_STYLES } from "@/constants";
 import RollableButton from "@/components/ui/dice/RollableButton";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { TextHeader } from "@/components/ui/display";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 
 // Constants
 const MIN_SAVING_THROW = 1;

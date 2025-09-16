@@ -1,4 +1,4 @@
-import type { ScrollCreationProject } from "@/types/character";
+import type { ScrollCreationProject } from "@/types";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/inputs";
 import { SectionHeader, Icon } from "@/components/ui/display";
@@ -24,9 +24,7 @@ export const CompletedScrolls = ({
           <Card key={project.id} className="p-3">
             <div className="flex justify-between items-start">
               <div className="flex-1">
-                <Typography variant="body">
-                  {project.spellName}
-                </Typography>
+                <Typography variant="body">{project.spellName}</Typography>
                 <div className="flex items-center gap-2 mt-1">
                   <Badge size="sm">Level {project.spellLevel}</Badge>
                   <Badge variant="primary" size="sm">

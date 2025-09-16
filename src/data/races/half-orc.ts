@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const halfOrc: Race = {
   name: "Half-Orc",
@@ -7,7 +7,21 @@ export const halfOrc: Race = {
     "Half-orcs are the result of crossbreeding between humans and orcs. Such creatures tend to be outcasts within Human communities, but sometimes rise to positions of leadership within orcish communities.",
   physicalDescription:
     "Half-orcs are a bit shorter than humans. Their features tend to favor the orcish parent.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "assassin", "barbarian", "druid", "illusionist", "necromancer", "ranger", "paladin", "scout", "spellcrafter"],
+  allowedClasses: [
+    "cleric",
+    "fighter",
+    "magic-user",
+    "thief",
+    "assassin",
+    "barbarian",
+    "druid",
+    "illusionist",
+    "necromancer",
+    "ranger",
+    "paladin",
+    "scout",
+    "spellcrafter",
+  ],
   abilityRequirements: [
     {
       ability: "constitution",
@@ -22,8 +36,7 @@ export const halfOrc: Race = {
   specialAbilities: [
     {
       name: "Fast Learning",
-      description:
-        "Half-orcs gain a bonus of +5% on all earned experience",
+      description: "Half-orcs gain a bonus of +5% on all earned experience",
       effects: {
         experienceBonus: {
           value: 5,
@@ -65,7 +78,7 @@ export const halfOrc: Race = {
     strengthModifier: {
       positive: 0.1, // +10% per +1 STR modifier
       negative: 0.2, // -20% per -1 STR modifier
-    }
+    },
   },
   supplementalContent: true,
 };

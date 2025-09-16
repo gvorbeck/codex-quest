@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { ReactNode, HTMLAttributes } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
 type BadgeVariant =
   | "status"

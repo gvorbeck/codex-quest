@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const dokkalfar: Race = {
   name: "Dokkalfar",
@@ -7,7 +7,15 @@ export const dokkalfar: Race = {
     "Dokkalfar are typically haughty, cold-blooded, resentful, and lack empathy towards other races as they see them as completely inferior. Their negative attitude is strongest against all surface dwelling races, most especially Elves.",
   physicalDescription:
     "Dokkalfar are a subspecies of Elves, but they believe themselves far superior to any and all other types. Both males and females stand around five feet tall and weight around 130 pounds. Most have hair of monochromatic coloration ranging from jet black to pure white, and lack almost all body and facial hair. Their skin is a very pale white, and they have pointed ears and delicate features in common with other elven types. Their eyes are perhaps their most striking feature, being some very pale shade of blue, green, or grey, with the latter being the most common coloration.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "illusionist", "necromancer", "spellcrafter"],
+  allowedClasses: [
+    "cleric",
+    "fighter",
+    "magic-user",
+    "thief",
+    "illusionist",
+    "necromancer",
+    "spellcrafter",
+  ],
   abilityRequirements: [
     {
       ability: "intelligence",
@@ -92,7 +100,7 @@ export const dokkalfar: Race = {
     strengthModifier: {
       positive: 0.1, // +10% per +1 STR modifier
       negative: 0.2, // -20% per -1 STR modifier
-    }
+    },
   },
   supplementalContent: true,
 };

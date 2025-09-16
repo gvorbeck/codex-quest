@@ -1,4 +1,4 @@
-import { CHARACTER_CLASSES } from "@/constants";
+import type { CHARACTER_CLASSES } from "@/constants";
 
 export interface AbilityScore {
   value: number;
@@ -249,4 +249,55 @@ export interface Class {
 export interface BaseStepProps {
   character: Character;
   onCharacterChange: (character: Character) => void;
+}
+
+// Game rules type exports - derived from gameRules constants
+export type CharacterClass =
+  (typeof CHARACTER_CLASSES)[keyof typeof CHARACTER_CLASSES];
+export type SkillKey =
+  | "openLocks"
+  | "removeTraps"
+  | "detectTraps"
+  | "pickPockets"
+  | "moveSilently"
+  | "climbWalls"
+  | "hide"
+  | "listen"
+  | "poison"
+  | "tracking";
+export type SkillClassKey = "thief" | "assassin" | "ranger" | "scout";
+export type TwoHPClass =
+  | "fighter"
+  | "thief"
+  | "assassin"
+  | "barbarian"
+  | "ranger"
+  | "paladin"
+  | "scout";
+
+// Character system types
+export type SpellSystemType = "magic-user" | "cleric" | "custom" | "none";
+
+export interface RacialModificationInfo {
+  abilityName: string;
+  originalHitDie: string;
+  modifiedHitDie: string;
+  modificationType: "restriction" | "increase" | "decrease";
+}
+
+// Character progression types
+export interface HPGainResult {
+  roll: number | null;
+  constitutionBonus: number | null;
+  total: number;
+  max: number | null;
+  breakdown: string;
+  isFixed: boolean;
+}
+
+export interface SpellGainInfo {
+  level: number;
+  newSpells: number[];
+  totalSpellsGained: number;
+  spellsByLevel: Array<{ spellLevel: number; count: number; spells: Spell[] }>;
 }

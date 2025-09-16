@@ -2,8 +2,8 @@ import { Typography, Badge } from "@/components/ui";
 import { BaseCard, StatusDot, StatCard } from "@/components/ui/display";
 import type { CharacterListItem } from "@/services/characters";
 import { memo } from "react";
-import { useCharacterCard } from "@/hooks/useCharacterCard";
-import { formatLargeNumber } from "@/utils/displayUtils";
+import { useCharacterCard } from "@/hooks";
+import { formatLargeNumber } from "@/utils";
 
 interface CharacterCardProps {
   character: CharacterListItem;
@@ -55,7 +55,11 @@ const CharacterCard = memo(function CharacterCard({
       {raceName && classNames.length > 0 && (
         <div className="space-y-2 sm:space-y-3">
           <div className="flex items-center gap-2 sm:gap-3">
-            <StatusDot status="active" className="flex-shrink-0" ariaLabel="Character race and class information" />
+            <StatusDot
+              status="active"
+              className="flex-shrink-0"
+              ariaLabel="Character race and class information"
+            />
             <Typography
               variant="helper"
               className="text-zinc-400 uppercase tracking-wider font-medium text-xs"

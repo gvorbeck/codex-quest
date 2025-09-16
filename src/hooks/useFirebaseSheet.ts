@@ -2,9 +2,9 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants";
-import { useAuth } from "@/hooks/useAuth";
-import { useLoadingState } from "@/hooks/useLoadingState";
-import { logger } from "@/utils/logger";
+import { useAuth } from "@/hooks";
+import { useLoadingState } from "@/hooks";
+import { logger } from "@/utils";
 
 interface UseFirebaseSheetParams {
   userId: string | undefined;

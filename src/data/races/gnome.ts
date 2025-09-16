@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const gnome: Race = {
   name: "Gnome",
@@ -84,7 +84,7 @@ export const gnome: Race = {
     strengthModifier: {
       positive: 0.1, // +10% per +1 STR modifier
       negative: 0.2, // -20% per -1 STR modifier
-    }
+    },
   },
   supplementalContent: true,
 };

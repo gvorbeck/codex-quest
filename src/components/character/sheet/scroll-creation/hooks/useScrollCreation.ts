@@ -1,6 +1,10 @@
 import { useMemo } from "react";
-import type { Character, ScrollCreationProject } from "@/types/character";
-import { calculateSpellSuccessRate, calculateSpellCost, calculateSpellTime } from "@/utils/spellSystem";
+import type { Character, ScrollCreationProject } from "@/types";
+import {
+  calculateSpellSuccessRate,
+  calculateSpellCost,
+  calculateSpellTime,
+} from "@/utils";
 
 // Constants for Spellcrafter bonuses and scroll creation rules (BFRPG Core Rules)
 export const SCROLL_CREATION_CONSTANTS = {
@@ -10,7 +14,7 @@ export const SCROLL_CREATION_CONSTANTS = {
   TIME_REDUCTION_PERCENT: 50, // 50% time reduction at 6th level
   COST_REDUCTION_THRESHOLD: 9, // Level at which cost reduction kicks in
   COST_REDUCTION_PERCENT: 25, // 25% cost reduction at 9th level
-  
+
   // BFRPG Core Rules for scroll creation
   BASE_COST_PER_LEVEL: 50, // 50 gp per spell level
   BASE_TIME_PER_LEVEL: 1, // 1 day per spell level
@@ -61,12 +65,14 @@ export const useScrollCreation = (character: Character) => {
 
     return {
       researchRollBonus: SCROLL_CREATION_CONSTANTS.RESEARCH_ROLL_BONUS,
-      timeReduction: spellcrafterLevel >= SCROLL_CREATION_CONSTANTS.TIME_REDUCTION_THRESHOLD 
-        ? SCROLL_CREATION_CONSTANTS.TIME_REDUCTION_PERCENT 
-        : 0,
-      costReduction: spellcrafterLevel >= SCROLL_CREATION_CONSTANTS.COST_REDUCTION_THRESHOLD 
-        ? SCROLL_CREATION_CONSTANTS.COST_REDUCTION_PERCENT 
-        : 0,
+      timeReduction:
+        spellcrafterLevel >= SCROLL_CREATION_CONSTANTS.TIME_REDUCTION_THRESHOLD
+          ? SCROLL_CREATION_CONSTANTS.TIME_REDUCTION_PERCENT
+          : 0,
+      costReduction:
+        spellcrafterLevel >= SCROLL_CREATION_CONSTANTS.COST_REDUCTION_THRESHOLD
+          ? SCROLL_CREATION_CONSTANTS.COST_REDUCTION_PERCENT
+          : 0,
     };
   }, [spellcrafterLevel]);
 
@@ -103,7 +109,11 @@ export const useScrollCreation = (character: Character) => {
         spellLevel
       );
     };
-  }, [spellcrafterLevel, character.abilities.intelligence?.value, scrollCreationBonuses?.researchRollBonus]);
+  }, [
+    spellcrafterLevel,
+    character.abilities.intelligence?.value,
+    scrollCreationBonuses?.researchRollBonus,
+  ]);
 
   return {
     spellcrafterLevel,

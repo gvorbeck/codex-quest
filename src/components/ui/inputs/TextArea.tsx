@@ -1,6 +1,6 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
-import { Icon } from "@/components/ui/display/Icon";
-import { cn } from "@/constants";
+import { Icon } from "@/components";
+import { cn } from "@/utils";
 
 type TextAreaSize = "sm" | "md" | "lg";
 
@@ -61,7 +61,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const clearButtonId = `${inputId}-clear`;
     const [inputValue, setInputValue] = useState(value);
 
-    const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleTextAreaChange = (
+      event: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
       const newValue = event.target.value;
 
       // Respect maxLength constraint
@@ -163,7 +165,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       sizeStyles[size],
       resizeStyles[resize],
       inputPaddingClass,
-      className,
+      className
     );
 
     const effectiveAriaLabel = ariaLabel || label;
@@ -179,7 +181,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {required && <span className="text-red-400 ml-1">*</span>}
           </label>
         )}
-        
+
         <div className="relative">
           <textarea
             ref={ref}
@@ -199,7 +201,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             aria-label={effectiveAriaLabel}
             aria-describedby={ariaDescribedBy}
             aria-invalid={
-              error || (maxLength !== undefined && inputValue.length > maxLength)
+              error ||
+              (maxLength !== undefined && inputValue.length > maxLength)
             }
             className={textAreaClasses}
             {...props}
@@ -213,11 +216,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               aria-label="Clear input"
               className={cn(...clearButtonStyles)}
             >
-              <Icon 
-                name="close" 
-                size="xs" 
-                aria-hidden={true}
-              />
+              <Icon name="close" size="xs" aria-hidden={true} />
             </button>
           )}
         </div>

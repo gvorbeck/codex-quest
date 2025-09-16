@@ -1,4 +1,4 @@
-import type { Class } from "@/types/character";
+import type { Class } from "@/types";
 import { CHARACTER_CLASSES } from "@/constants";
 
 export const thief: Class = {

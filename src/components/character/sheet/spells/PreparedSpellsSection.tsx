@@ -1,4 +1,4 @@
-import type { Character, Spell } from "@/types/character";
+import type { Character, Spell } from "@/types";
 import type { SelectOption } from "@/components/ui/inputs/Select";
 import { Typography, Badge } from "@/components/ui/design-system";
 import { Button, Select, FormField } from "@/components/ui/inputs";

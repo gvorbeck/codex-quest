@@ -3,9 +3,8 @@ import { SimpleRoller } from "@/components/ui/display";
 import { Button, Card, Typography, Icon } from "@/components/ui";
 import { StepWrapper } from "@/components/ui/layout";
 import { InfoCardHeader, RequirementCard } from "@/components/ui/display";
-import { logger } from "@/utils/logger";
-import { calculateHitDie, getRacialModificationInfo } from "@/utils/hitDice";
-import type { BaseStepProps } from "@/types/character";
+import { logger, calculateHitDie, getRacialModificationInfo } from "@/utils";
+import type { BaseStepProps } from "@/types";
 
 type HitPointsStepProps = BaseStepProps;
 
@@ -41,7 +40,10 @@ const HitPointsStep: React.FC<HitPointsStepProps> = ({
   }, [character.abilities.constitution.modifier]);
 
   // Check if racial modification is being applied
-  const racialModificationInfo = useMemo(() => getRacialModificationInfo(character), [character]);
+  const racialModificationInfo = useMemo(
+    () => getRacialModificationInfo(character),
+    [character]
+  );
 
   const handleHPChange = (hp: number | undefined) => {
     if (hp === undefined) return;

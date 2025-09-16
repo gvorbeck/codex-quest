@@ -1,11 +1,11 @@
 import { memo, useEffect, useState, useCallback } from "react";
-import type { GamePlayer } from "@/types/game";
-import { GAME_SHEET_STYLES, LOADING_MESSAGES } from "@/constants/gameSheetStyles";
+import type { GamePlayer } from "@/types";
+import { GAME_SHEET_STYLES, LOADING_MESSAGES } from "@/constants";
 import { HorizontalRule } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
 import { LoadingState } from "@/components/ui/feedback";
-import { DeletionModal } from "@/components/modals";
-import { useDataResolver } from "@/hooks/useDataResolver";
+import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
+import { useDataResolver } from "@/hooks";
 import { PlayerCard } from "./PlayerCard";
 
 interface PlayersSectionProps {

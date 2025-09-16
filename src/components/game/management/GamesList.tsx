@@ -1,10 +1,10 @@
 import { ItemGrid } from "@/components/ui/display";
-import { DeletionModal } from "@/components/modals";
+import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { GameCard } from "./GameCard";
-import { useGames } from "@/hooks/useGames";
+import { useGames } from "@/hooks";
 import { useAuth, useNotifications } from "@/hooks";
-import { deleteGame } from "@/services/games";
-import { logger } from "@/utils/logger";
+import { deleteGame } from "@/services";
+import { logger } from "@/utils";
 import { useState } from "react";
 
 export function GamesList() {
@@ -19,13 +19,17 @@ export function GamesList() {
 
   const handleDeleteGame = (gameId: string, gameName: string) => {
     if (!user) return;
-    setDeleteState({ isOpen: true, game: { id: gameId, name: gameName }, isDeleting: false });
+    setDeleteState({
+      isOpen: true,
+      game: { id: gameId, name: gameName },
+      isDeleting: false,
+    });
   };
 
   const handleConfirmDelete = async () => {
     if (!user || !deleteState.game) return;
 
-    setDeleteState(prev => ({ ...prev, isDeleting: true }));
+    setDeleteState((prev) => ({ ...prev, isDeleting: true }));
     try {
       await deleteGame(user.uid, deleteState.game.id);
       await refetch();
@@ -38,7 +42,7 @@ export function GamesList() {
       logger.error("Failed to delete game:", error);
       showError("Failed to delete game. Please try again.", { duration: 5000 });
     } finally {
-      setDeleteState(prev => ({ ...prev, isDeleting: false }));
+      setDeleteState((prev) => ({ ...prev, isDeleting: false }));
     }
   };
 
@@ -74,7 +78,9 @@ export function GamesList() {
             game={game}
             user={user}
             onDelete={handleDeleteGame}
-            isDeleting={deleteState.isDeleting && deleteState.game?.id === game.id}
+            isDeleting={
+              deleteState.isDeleting && deleteState.game?.id === game.id
+            }
           />
         )}
         onRetry={refetch}

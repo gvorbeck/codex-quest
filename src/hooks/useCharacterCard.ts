@@ -1,8 +1,8 @@
 import { useMemo, useCallback } from "react";
-import type { CharacterListItem } from "@/services/characters";
-import { allClasses } from "@/data/classes";
-import { useNotificationContext } from "@/hooks/useNotificationContext";
-import { isCustomClass, isCustomRace, getRaceById } from "@/utils/characterHelpers";
+import type { CharacterListItem } from "@/services";
+import { allClasses } from "@/data";
+import { useNotificationContext } from "@/hooks";
+import { getRaceById, isCustomClass, isCustomRace } from "@/utils";
 
 export function useCharacterCard(character: CharacterListItem) {
   const { showSuccess, showError } = useNotificationContext();

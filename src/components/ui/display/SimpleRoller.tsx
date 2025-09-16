@@ -1,8 +1,7 @@
 import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
 import { NumberInput } from "@/components/ui/inputs";
-import { roller } from "@/utils/dice";
-import { logger } from "@/utils/logger";
+import { roller, logger } from "@/utils";
 
 interface SimpleRollerProps {
   /** The dice formula to roll (e.g., "3d6", "1d20+5") */

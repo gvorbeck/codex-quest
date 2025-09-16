@@ -10,10 +10,9 @@ import {
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import type { AuthUser } from "./auth";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 import { processCharacterData, isLegacyCharacter } from "./characterMigration";
-import { logger } from "@/utils/logger";
-import { handleServiceError } from "@/utils/serviceErrorHandler";
+import { handleServiceError, logger } from "@/utils";
 
 // Simple interface for listing characters - we don't need the full Character type
 export interface CharacterListItem {

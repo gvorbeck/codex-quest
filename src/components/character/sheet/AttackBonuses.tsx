@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/feedback";
 import { SectionWrapper } from "@/components/ui/layout";
 import RollableButton from "@/components/ui/dice/RollableButton";
-import { formatModifier } from "@/utils/characterCalculations";
-import { allRaces } from "@/data/races";
-import { SIZE_STYLES } from "@/constants/designTokens";
+import { formatModifier } from "@/utils";
+import { allRaces } from "@/data";
+import { SIZE_STYLES } from "@/constants";
 import { useDiceRoll } from "@/hooks/useDiceRoll";
-import type { Character, SpecialAbility } from "@/types/character";
+import type { Character, SpecialAbility } from "@/types";
 
 interface AttackBonusesProps {
   character: Character;

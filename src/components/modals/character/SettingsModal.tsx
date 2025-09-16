@@ -1,7 +1,7 @@
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import { Switch } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -89,8 +89,8 @@ export default function SettingsModal({
                 Show Cantrips/Orisons
               </Typography>
               <Typography variant="caption" color="muted" className="mt-1">
-                Whether to display the cantrips/orisons section in the spells view.
-                When disabled, the section is hidden.
+                Whether to display the cantrips/orisons section in the spells
+                view. When disabled, the section is hidden.
               </Typography>
             </div>
             <div className="flex-shrink-0">

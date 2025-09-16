@@ -2,8 +2,13 @@
  * Core validation engine with development-only runtime checks
  */
 
-import type { ValidationRule, ValidationSchema, ValidationResult, ValidationContext } from './types';
-import { logger } from '@/utils/logger';
+import { logger } from "@/utils";
+import type {
+  ValidationRule,
+  ValidationSchema,
+  ValidationResult,
+  ValidationContext,
+} from "./types";
 
 // Development-only validation context
 const VALIDATION_CONTEXT: ValidationContext = {
@@ -24,16 +29,22 @@ export function validate<T>(
   let isValid = true;
 
   // Check if value is required
-  if (schema.required && (value === null || value === undefined || value === '')) {
+  if (
+    schema.required &&
+    (value === null || value === undefined || value === "")
+  ) {
     return {
       isValid: false,
-      errors: ['This field is required'],
+      errors: ["This field is required"],
       warnings: [],
     };
   }
 
   // Skip validation if value is empty and not required
-  if (!schema.required && (value === null || value === undefined || value === '')) {
+  if (
+    !schema.required &&
+    (value === null || value === undefined || value === "")
+  ) {
     return {
       isValid: true,
       errors: [],
@@ -51,7 +62,7 @@ export function validate<T>(
     } catch (error) {
       errors.push(`Validation error: ${rule.name}`);
       isValid = false;
-      
+
       // Only log in development
       if (context.isDevelopment) {
         logger.error(`Validation rule "${rule.name}" failed:`, error);
@@ -77,7 +88,7 @@ export function createTypeGuard<T>(
     // In production, assume type correctness for performance
     return (_value: unknown): _value is T => true;
   }
-  
+
   return validator;
 }
 

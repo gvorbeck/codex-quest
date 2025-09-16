@@ -31,16 +31,16 @@ export default function FormField({
   validation,
 }: FormFieldProps) {
   const fieldId = useId();
-  
+
   // Use validation error if provided, otherwise use explicit error prop
   const finalError = validation?.error || error;
-  
+
   const errorId = finalError ? `${fieldId}-error` : undefined;
   const hintId = hint ? `${fieldId}-hint` : undefined;
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label 
+      <label
         htmlFor={fieldId}
         className={`block text-sm font-medium ${DESIGN_TOKENS.colors.text.primary} ${labelClassName}`}
       >
@@ -51,23 +51,26 @@ export default function FormField({
           </span>
         )}
       </label>
-      
+
       <div className="relative">
-        {isValidElement(children) 
-          ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
-              id: fieldId,
-              'aria-describedby': [errorId, hintId].filter(Boolean).join(' ') || undefined,
-              'aria-required': required || undefined,
-              'aria-invalid': finalError ? 'true' : undefined,
-            })
-          : children
-        }
+        {isValidElement(children)
+          ? cloneElement(
+              children as React.ReactElement<Record<string, unknown>>,
+              {
+                id: fieldId,
+                "aria-describedby":
+                  [errorId, hintId].filter(Boolean).join(" ") || undefined,
+                "aria-required": required || undefined,
+                "aria-invalid": finalError ? "true" : undefined,
+              }
+            )
+          : children}
       </div>
 
       {hint && (
-        <Typography 
-          variant="caption" 
-          color="muted" 
+        <Typography
+          variant="caption"
+          color="muted"
           id={hintId}
           className={DESIGN_TOKENS.colors.text.secondary}
         >
@@ -76,7 +79,7 @@ export default function FormField({
       )}
 
       {finalError && (
-        <div 
+        <div
           id={errorId}
           className="flex items-center gap-1 text-sm text-red-400"
           role="alert"

@@ -1,5 +1,5 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
-import { cn } from "@/constants";
+import { cn } from "@/utils";
 
 type NumberInputSize = "sm" | "md" | "lg";
 
@@ -97,7 +97,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       // Call custom onKeyDown handler first if provided
       onKeyDown?.(event);
-      
+
       // Allow: backspace, delete, tab, escape, enter
       if (
         [8, 9, 27, 13, 46].indexOf(event.keyCode) !== -1 ||
@@ -173,7 +173,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       ...errorStyles,
       ...shadowStyles,
       sizeStyles[size],
-      className,
+      className
     );
 
     return (

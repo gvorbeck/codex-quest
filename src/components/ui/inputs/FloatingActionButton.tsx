@@ -3,15 +3,14 @@ import type { ReactNode } from "react";
 import {
   createButtonStyles,
   combineButtonStyles,
-  type BaseButtonProps,
-  type ButtonVariant,
-} from "@/utils/buttonStyles";
-import { TooltipWrapper } from "@/components/ui/feedback";
-import { Icon } from "@/components/ui/display";
-import { logger } from "@/utils/logger";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
+  validateFABProps,
+  logValidationResults,
+  logger,
+} from "@/utils";
+import type { BaseButtonProps, ButtonVariant } from "@/types";
+import { Icon, TooltipWrapper } from "@/components";
+import { DESIGN_TOKENS } from "@/constants";
 import { useFocusManagement } from "@/hooks";
-import { validateFABProps, logValidationResults } from "@/utils/fabValidation";
 
 // FAB specific types - extends the base button variants
 type FABVariant = ButtonVariant;

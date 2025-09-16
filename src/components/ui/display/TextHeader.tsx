@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Typography } from "@/components/ui/design-system";
-import { cn } from "@/constants/styles";
+import { Typography } from "@/components";
+import { cn } from "@/utils";
 
 interface TextHeaderProps {
   children: ReactNode;

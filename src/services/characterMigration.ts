@@ -1,7 +1,6 @@
 // Character migration service for handling legacy data formats
-import { logger } from "@/utils/logger";
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants";
-import { cleanFractionalCurrency } from "@/utils/currency";
+import { cleanFractionalCurrency, logger } from "@/utils";
 
 const CURRENT_VERSION = 2.5;
 

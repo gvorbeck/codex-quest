@@ -5,5 +5,3 @@ export * from "./feedback";
 export * from "./layout";
 export * from "./display";
 export * from "./design-system";
-
-// App-specific components

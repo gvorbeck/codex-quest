@@ -1,9 +1,9 @@
 import { ItemGrid } from "@/components/ui/display";
-import { DeletionModal } from "@/components/modals";
+import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { CharacterCard } from "./CharacterCard";
 import { useCharacters, useAuth, useNotificationContext } from "@/hooks";
 import { deleteCharacter } from "@/services/characters";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 import { useState } from "react";
 
 export function CharactersList() {
@@ -31,17 +31,20 @@ export function CharactersList() {
   const handleConfirmDelete = async () => {
     if (!user || !deleteState.character) return;
 
-    setDeleteState(prev => ({ ...prev, isDeleting: true }));
+    setDeleteState((prev) => ({ ...prev, isDeleting: true }));
     try {
       await deleteCharacter(user.uid, deleteState.character.id);
       await refetch();
       setDeleteState({ isOpen: false, character: null, isDeleting: false });
     } catch (error) {
-      logger.error("Failed to delete character:", { characterId: deleteState.character.id, error });
-      showError("Failed to delete character. Please try again.", {
-        title: "Delete Failed"
+      logger.error("Failed to delete character:", {
+        characterId: deleteState.character.id,
+        error,
       });
-      setDeleteState(prev => ({ ...prev, isDeleting: false }));
+      showError("Failed to delete character. Please try again.", {
+        title: "Delete Failed",
+      });
+      setDeleteState((prev) => ({ ...prev, isDeleting: false }));
     }
   };
 
@@ -77,7 +80,10 @@ export function CharactersList() {
             character={character}
             user={user}
             onDelete={handleDeleteCharacter}
-            isDeleting={deleteState.isDeleting && deleteState.character?.id === character.id}
+            isDeleting={
+              deleteState.isDeleting &&
+              deleteState.character?.id === character.id
+            }
           />
         )}
         onRetry={refetch}

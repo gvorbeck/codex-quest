@@ -1,8 +1,8 @@
 import { forwardRef, useId } from "react";
 import type { InputHTMLAttributes } from "react";
-import { cn } from "@/constants/styles";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
-import { Icon } from "@/components/ui/display";
+import { cn } from "@/utils";
+import { DESIGN_TOKENS } from "@/constants";
+import { Icon } from "@/components/ui";
 
 /**
  * A customizable checkbox component with accessibility features and consistent styling.

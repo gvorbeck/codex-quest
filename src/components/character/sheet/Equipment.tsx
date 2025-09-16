@@ -1,18 +1,26 @@
 import { useState, useCallback, useMemo } from "react";
-import { useModal } from "@/hooks/useModal";
-import { useEquipmentManager } from "@/hooks/useEquipmentManager";
+import { useModal } from "@/hooks";
+import { useEquipmentManager } from "@/hooks";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Card, Badge, Typography } from "@/components/ui/design-system";
-import { Button, Switch, TextInput, TextArea, Select, NumberInput, FormField } from "@/components/ui/inputs";
+import {
+  Button,
+  Switch,
+  TextInput,
+  TextArea,
+  Select,
+  NumberInput,
+  FormField,
+} from "@/components/ui/inputs";
 import { Modal } from "@/components/modals";
 import { Accordion } from "@/components/ui/layout";
 import EquipmentSelector from "@/components/character/management/EquipmentSelector";
-import { CustomEquipmentModal } from "@/components/modals";
+import { CustomEquipmentModal } from "@/components/modals/LazyModals";
 import { Icon } from "@/components/ui/display/Icon";
 import { SkeletonList } from "@/components/ui/feedback";
-import { SIZE_STYLES } from "@/constants/designTokens";
-import { cleanEquipmentArray } from "@/utils/characterCalculations";
-import type { Character, Equipment as EquipmentItem } from "@/types/character";
+import { SIZE_STYLES } from "@/constants";
+import { cleanEquipmentArray } from "@/utils";
+import type { Character, Equipment as EquipmentItem } from "@/types";
 
 interface EquipmentProps {
   character?: Character;
@@ -50,9 +58,7 @@ function WeaponProperties({ editForm, updateEditForm }: WeaponPropertiesProps) {
           <FormField label="Two-Handed Damage">
             <TextInput
               value={editForm.twoHandedDamage}
-              onChange={(value) =>
-                updateEditForm("twoHandedDamage", value)
-              }
+              onChange={(value) => updateEditForm("twoHandedDamage", value)}
               className="w-full"
             />
           </FormField>
@@ -89,9 +95,7 @@ function ArmorProperties({ editForm, updateEditForm }: ArmorPropertiesProps) {
           <FormField label="Missile AC">
             <TextInput
               value={editForm.missileAC}
-              onChange={(value) =>
-                updateEditForm("missileAC", value)
-              }
+              onChange={(value) => updateEditForm("missileAC", value)}
               className="w-full"
             />
           </FormField>
@@ -110,14 +114,18 @@ export default function Equipment({
   onEquipmentChange,
 }: EquipmentProps) {
   const { isOpen: showSelector, toggle: toggleSelector } = useModal();
-  const { isOpen: showCustomModal, open: openCustomModal, close: closeCustomModal } = useModal();
+  const {
+    isOpen: showCustomModal,
+    open: openCustomModal,
+    close: closeCustomModal,
+  } = useModal();
   const [editingItem, setEditingItem] = useState<{
     item: EquipmentItem;
     index: number;
   } | null>(null);
   const [editForm, setEditForm] = useState<EquipmentItem | null>(null);
   const currentSize = SIZE_STYLES[size];
-  
+
   // Performance optimization: Only show search for larger equipment inventories
   const SEARCH_THRESHOLD = 8; // Show search bar when equipment count exceeds this
 
@@ -134,7 +142,10 @@ export default function Equipment({
 
   const handleEquipmentAdd = (newEquipment: EquipmentItem) => {
     // Ensure we're adding at least 1 item (EquipmentSelector sends items with amount: 0)
-    const equipmentToAdd = { ...newEquipment, amount: Math.max(1, newEquipment.amount) };
+    const equipmentToAdd = {
+      ...newEquipment,
+      amount: Math.max(1, newEquipment.amount),
+    };
     addEquipmentToInventory(equipmentToAdd);
     // Don't close selector anymore - let user add multiple items
   };
@@ -143,7 +154,6 @@ export default function Equipment({
     addEquipmentToInventory(newEquipment);
     closeCustomModal();
   };
-
 
   const handleEquipmentEdit = useCallback(
     (index: number) => {
@@ -170,7 +180,6 @@ export default function Equipment({
     setEditForm(null);
   }, []);
 
-
   const updateEditForm = useCallback(
     (field: keyof EquipmentItem, value: string | number) => {
       if (!editForm) return;
@@ -179,14 +188,15 @@ export default function Equipment({
     [editForm]
   );
 
-
   // Prepare equipment items for the Accordion component (memoized for performance)
   const equipmentForAccordion = useMemo(() => {
     if (!character) return [];
     const cleanedEquipment = cleanEquipmentArray(character.equipment);
     return cleanedEquipment.map((item) => ({
       ...item,
-      originalIndex: character.equipment.findIndex(origItem => origItem === item),
+      originalIndex: character.equipment.findIndex(
+        (origItem) => origItem === item
+      ),
       category: item.category || "Other",
     }));
   }, [character]);
@@ -314,12 +324,8 @@ export default function Equipment({
   // Show skeleton while loading
   if (loading || !character) {
     return (
-      <SectionWrapper
-        title="Equipment"
-        size={size}
-        className={className}
-      >
-        <SkeletonList 
+      <SectionWrapper title="Equipment" size={size} className={className}>
+        <SkeletonList
           items={5}
           showAvatar={false}
           label="Loading equipment..."
@@ -389,7 +395,9 @@ export default function Equipment({
             sortBy="category"
             searchPlaceholder="Search equipment..."
             renderItem={renderEquipmentItem}
-            showSearch={cleanEquipmentArray(character.equipment).length > SEARCH_THRESHOLD} // Only show search if there are many items
+            showSearch={
+              cleanEquipmentArray(character.equipment).length > SEARCH_THRESHOLD
+            } // Only show search if there are many items
             showCounts={true}
           />
         )}
@@ -435,7 +443,9 @@ export default function Equipment({
                 <FormField label="Cost Value">
                   <NumberInput
                     value={editForm.costValue}
-                    onChange={(value) => updateEditForm("costValue", value || 0)}
+                    onChange={(value) =>
+                      updateEditForm("costValue", value || 0)
+                    }
                     minValue={0}
                     step={0.01}
                     className="w-full"
@@ -444,11 +454,13 @@ export default function Equipment({
                 <Select
                   label="Currency"
                   value={editForm.costCurrency}
-                  onValueChange={(value) => updateEditForm("costCurrency", value as "gp" | "sp" | "cp")}
+                  onValueChange={(value) =>
+                    updateEditForm("costCurrency", value as "gp" | "sp" | "cp")
+                  }
                   options={[
                     { value: "gp", label: "gp" },
                     { value: "sp", label: "sp" },
-                    { value: "cp", label: "cp" }
+                    { value: "cp", label: "cp" },
                   ]}
                   className="w-full"
                 />
@@ -487,12 +499,18 @@ export default function Equipment({
 
               {/* Weapon properties */}
               {(editForm.damage || editForm.twoHandedDamage) && (
-                <WeaponProperties editForm={editForm} updateEditForm={updateEditForm} />
+                <WeaponProperties
+                  editForm={editForm}
+                  updateEditForm={updateEditForm}
+                />
               )}
 
               {/* Armor properties */}
               {(editForm.AC || editForm.missileAC) && (
-                <ArmorProperties editForm={editForm} updateEditForm={updateEditForm} />
+                <ArmorProperties
+                  editForm={editForm}
+                  updateEditForm={updateEditForm}
+                />
               )}
 
               {/* Modal actions */}

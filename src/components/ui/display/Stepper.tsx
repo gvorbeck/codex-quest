@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import { useStepAnnouncements } from "@/hooks/useA11y";
-import { useValidationAnnouncements } from "@/hooks/useValidationAnnouncements";
+import { useStepAnnouncements } from "@/hooks";
+import { useValidationAnnouncements } from "@/hooks";
 import { memo, useEffect, useCallback } from "react";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Button, Icon } from "@/components/ui";
 import { TextHeader } from "./TextHeader";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 import List, { StepListItem } from "./List";
 
 interface StepItem {

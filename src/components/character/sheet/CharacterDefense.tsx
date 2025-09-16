@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import { Details } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import { allClasses } from "@/data/classes";
-import { SIZE_STYLES } from "@/constants/designTokens";
+import { allClasses } from "@/data";
+import { SIZE_STYLES } from "@/constants";
 import {
   calculateArmorClass,
   calculateMovementRate,
-} from "@/utils/characterCalculations";
-import { calculateHitDie } from "@/utils/hitDice";
-import type { Character } from "@/types/character";
+  calculateHitDie,
+} from "@/utils";
+import type { Character } from "@/types";
 
 interface CharacterDefenseProps {
   character: Character;
@@ -52,15 +52,15 @@ export default function CharacterDefense({
     // For custom classes, default to +1 HP per level after 9th
     const primaryClassId = character.class[0];
     const characterClass = allClasses.find((cls) => cls.id === primaryClassId);
-    
+
     let hpPerLevel = 1; // Default +1 HP per level for custom classes
-    
+
     if (characterClass) {
       // Standard class - check if it gets +2 HP per level after 9th level
       const className = characterClass.name.toLowerCase();
       const twoHpClasses = [
         "fighter",
-        "thief", 
+        "thief",
         "assassin",
         "barbarian",
         "ranger",

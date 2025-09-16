@@ -1,7 +1,7 @@
 import { forwardRef, useId } from "react";
 import type { SelectHTMLAttributes } from "react";
 import { Icon } from "@/components/ui/display/Icon";
-import { cn } from "@/constants";
+import { cn } from "@/utils";
 
 export interface SelectOption {
   value: string;
@@ -46,7 +46,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const helperTextId = helperText ? `${selectId}-helper` : undefined;
 
     // Combine all describedby IDs
-    const describedByIds = cn(ariaDescribedBy, errorId, helperTextId) || undefined;
+    const describedByIds =
+      cn(ariaDescribedBy, errorId, helperTextId) || undefined;
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
       const newValue = event.target.value;
@@ -154,9 +155,9 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
           {/* Custom dropdown arrow */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <Icon 
-              name="chevron-down" 
-              size="md" 
+            <Icon
+              name="chevron-down"
+              size="md"
               className="text-zinc-400"
               aria-hidden={true}
             />

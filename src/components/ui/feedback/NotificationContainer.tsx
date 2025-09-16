@@ -1,9 +1,9 @@
 import { createPortal } from "react-dom";
 import { useMemo } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 import Notification from "./Notification";
 import type { NotificationProps, NotificationPosition } from "./Notification";
-import { NOTIFICATION_CONSTANTS } from "@/constants/notifications";
+import { NOTIFICATION_CONSTANTS } from "@/constants";
 
 export interface NotificationData
   extends Omit<NotificationProps, "onDismiss" | "isVisible"> {

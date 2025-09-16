@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 import { loadSpellsForClass } from "@/services/dataLoader";
-import type { Character, Spell } from "@/types/character";
+import type { Character, Spell } from "@/types";
 
 interface UseClericSpellsResult {
   availableSpells: Record<number, Spell[]>;
@@ -13,7 +13,9 @@ export function useClericSpells(
   spellSystemType: string,
   spellSlots: Record<number, number>
 ): UseClericSpellsResult {
-  const [availableSpells, setAvailableSpells] = useState<Record<number, Spell[]>>({});
+  const [availableSpells, setAvailableSpells] = useState<
+    Record<number, Spell[]>
+  >({});
   const [loadingSpells, setLoadingSpells] = useState(false);
 
   useEffect(() => {

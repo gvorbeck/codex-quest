@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Modal } from "../base";
+import { Modal } from "@/components/modals";
 import {
   Button,
   Select,
@@ -9,8 +9,8 @@ import {
   FormField,
 } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
-import { useFormValidation } from "@/hooks/useFormValidation";
-import type { Equipment } from "@/types/character";
+import { useFormValidation } from "@/hooks";
+import type { Equipment } from "@/types";
 
 interface CustomEquipmentModalProps {
   isOpen: boolean;
@@ -253,7 +253,9 @@ export default function CustomEquipmentModal({
             <FormField label="Cost Value">
               <NumberInput
                 value={formData.costValue || 0}
-                onChange={(value) => handleFieldChangeTyped("costValue", value || 0)}
+                onChange={(value) =>
+                  handleFieldChangeTyped("costValue", value || 0)
+                }
                 placeholder="0"
                 minValue={0}
                 step={1}
@@ -264,7 +266,10 @@ export default function CustomEquipmentModal({
               options={CURRENCIES}
               value={formData.costCurrency || "gp"}
               onValueChange={(value) =>
-                handleFieldChangeTyped("costCurrency", value as "gp" | "sp" | "cp")
+                handleFieldChangeTyped(
+                  "costCurrency",
+                  value as "gp" | "sp" | "cp"
+                )
               }
             />
           </div>
@@ -298,7 +303,10 @@ export default function CustomEquipmentModal({
               options={WEAPON_TYPES}
               value={formData.type || ""}
               onValueChange={(value) =>
-                handleFieldChangeTyped("type", value as "melee" | "missile" | "both")
+                handleFieldChangeTyped(
+                  "type",
+                  value as "melee" | "missile" | "both"
+                )
               }
               placeholder="Select weapon type..."
             />
@@ -401,7 +409,7 @@ export default function CustomEquipmentModal({
 
             {/* Ammunition */}
             {(formData.type === "missile" || formData.type === "both") && (
-              <FormField 
+              <FormField
                 label="Ammunition Types (Optional)"
                 hint="Separate multiple types with commas"
               >
@@ -438,7 +446,10 @@ export default function CustomEquipmentModal({
                 onChange={(value) => {
                   // Try to parse as number, otherwise store as string
                   const numValue = parseInt(value);
-                  handleFieldChangeTyped("AC", isNaN(numValue) ? value : numValue);
+                  handleFieldChangeTyped(
+                    "AC",
+                    isNaN(numValue) ? value : numValue
+                  );
                 }}
                 placeholder="e.g., 14, 12+Dex, etc."
               />

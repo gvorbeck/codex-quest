@@ -1,4 +1,4 @@
-import type { Race } from "@/types/character";
+import type { Race } from "@/types";
 
 export const phaerim: Race = {
   name: "Phaerim",
@@ -7,7 +7,21 @@ export const phaerim: Race = {
     "The beautiful Phaerim are related to fey such as booka, pixies, or similar faeries. Phaerim can be any class but generally gravitate to magical classes. If allowed by the GM, Phaerim will be more likely to pursue classes associated with nature than the standard fare.",
   physicalDescription:
     "Phaerim appear to be smaller than normal Elf-like folk, except that they have a pair of wings resembling those of dragonflies or sometimes butterflies. For unknown reasons, there are at least twice as many Phaerim females as there are males. Phaerim stand no taller than the average Halfling (3') but have a more slight build, seldom being heavier than 40 pounds.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "assassin", "barbarian", "druid", "illusionist", "necromancer", "ranger", "paladin", "scout", "spellcrafter"],
+  allowedClasses: [
+    "cleric",
+    "fighter",
+    "magic-user",
+    "thief",
+    "assassin",
+    "barbarian",
+    "druid",
+    "illusionist",
+    "necromancer",
+    "ranger",
+    "paladin",
+    "scout",
+    "spellcrafter",
+  ],
   abilityRequirements: [
     {
       ability: "dexterity",
@@ -77,7 +91,7 @@ export const phaerim: Race = {
     strengthModifier: {
       positive: 0.1, // +10% per +1 STR modifier
       negative: 0.2, // -20% per -1 STR modifier
-    }
+    },
   },
   supplementalContent: true,
 };

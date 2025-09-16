@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
-import { roller } from "@/utils/dice";
-import { LEVEL_UP_CONSTANTS, type TwoHPClass } from "@/constants";
-import { isCustomClass, hasCustomClasses } from "@/utils/characterHelpers";
-import type { Character, Class } from "@/types/character";
-import { logger } from "@/utils/logger";
-
-export interface HPGainResult {
-  roll: number | null;
-  constitutionBonus: number | null;
-  total: number;
-  max: number | null;
-  breakdown: string;
-  isFixed: boolean;
-}
+import { LEVEL_UP_CONSTANTS } from "@/constants";
+import type { Character, Class, TwoHPClass, HPGainResult } from "@/types";
+import { hasCustomClasses, isCustomClass, logger, roller } from "@/utils";
 
 interface UseHPGainProps {
   character: Character;

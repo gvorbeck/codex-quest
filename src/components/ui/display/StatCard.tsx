@@ -2,7 +2,7 @@ import { forwardRef, useState, useRef, useEffect } from "react";
 import { Icon } from "@/components/ui/display";
 import { NumberInput } from "@/components/ui/inputs";
 import { Typography } from "@/components/ui/design-system";
-import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants/designTokens";
+import { DESIGN_TOKENS, SIZE_STYLES } from "@/constants";
 
 interface StatCardProps {
   /** The main label/title for the stat */

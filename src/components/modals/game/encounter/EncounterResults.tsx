@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/inputs";
 import { Typography, Card } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
 import { SectionWrapper } from "@/components/ui/layout";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
+import { DESIGN_TOKENS } from "@/constants";
 
 interface EncounterResultsProps {
   encounterOccurs: boolean | null;
@@ -56,13 +56,8 @@ export default function EncounterResults({
                 >
                   {currentEncounter}
                 </Typography>
-                <Typography
-                  variant="bodySmall"
-                  color="muted"
-                  className="mt-2"
-                >
-                  * indicates a creature with special abilities or
-                  immunities
+                <Typography variant="bodySmall" color="muted" className="mt-2">
+                  * indicates a creature with special abilities or immunities
                 </Typography>
                 {onAddToCombat && (
                   <Button

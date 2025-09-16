@@ -4,9 +4,9 @@ import { SimpleRoller } from "@/components/ui/display";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/design-system";
 import { InfoCardHeader, StatGrid } from "@/components/ui/display";
-import type { BaseStepProps } from "@/types/character";
-import { EquipmentSelector } from "../management";
-import { useEquipmentManagement } from "@/hooks/useEquipmentManagement";
+import type { BaseStepProps } from "@/types";
+import { EquipmentSelector } from "@/components/character";
+import { useEquipmentManagement } from "@/hooks";
 
 type EquipmentStepProps = BaseStepProps;
 

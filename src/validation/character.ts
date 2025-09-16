@@ -2,7 +2,7 @@
  * Character-specific validation logic
  */
 
-import type { Character, Race, Class } from "@/types/character";
+import type { Character, Race, Class } from "@/types";
 import type {
   ValidationResult,
   CharacterValidationStep,
@@ -12,17 +12,14 @@ import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
 import { CHARACTER_CLASSES } from "@/constants";
 import {
-  isCustomClass,
   hasCustomRace,
-} from "@/utils/characterHelpers";
-import {
+  hasRequiredStartingSpells,
   hasValidAbilityScores,
   hasValidHitPoints,
-  hasRequiredStartingSpells,
-  isRaceEligible,
   isCurrentClassStillValid,
-  cascadeValidateCharacter,
-} from "@/utils/characterValidation";
+  isCustomClass,
+  isRaceEligible,
+} from "@/utils";
 
 /**
  * Character validation steps
@@ -342,8 +339,3 @@ export function validateCharacter(
 
   return result;
 }
-
-/**
- * Export cascade validation for backwards compatibility
- */
-export { cascadeValidateCharacter };

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/inputs";
 import { Typography, Card, Badge } from "@/components/ui/design-system";
 import { Icon } from "@/components/ui/display";
-import type { CombatantWithInitiative } from "@/utils/combatUtils";
+import type { CombatantWithInitiative } from "@/types";
 
 interface CombatantCardProps {
   combatant: CombatantWithInitiative;

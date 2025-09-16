@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { Character } from "@/types/character";
+import type { Character } from "@/types";
 import type { AuthUser } from "@/services/auth";
 import type { CharacterValidationPipeline } from "@/validation/types";
 

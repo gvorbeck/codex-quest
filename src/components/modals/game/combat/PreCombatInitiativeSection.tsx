@@ -2,8 +2,8 @@ import { Typography } from "@/components/ui/design-system";
 import { SectionWrapper } from "@/components/ui/layout";
 import { Button } from "@/components/ui/inputs";
 import InitiativeTable from "./InitiativeTable";
-import type { CombatantWithInitiative } from "@/utils/combatUtils";
-import { rollInitiative } from "@/utils/combatUtils";
+import type { CombatantWithInitiative } from "@/types";
+import { rollInitiative } from "@/utils";
 
 interface PreCombatInitiativeSectionProps {
   combatants: CombatantWithInitiative[];
@@ -37,27 +37,28 @@ export default function PreCombatInitiativeSection({
       <div className="p-2">
         <div className="mb-3">
           <Typography variant="bodySmall" color="secondary" className="mb-3">
-            Set custom initiative values before starting combat, or leave at 0 to auto-roll when combat begins.
+            Set custom initiative values before starting combat, or leave at 0
+            to auto-roll when combat begins.
           </Typography>
-          
-          {combatants.some(c => !c.isPlayer) && (
+
+          {combatants.some((c) => !c.isPlayer) && (
             <Button
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                
-                const monsters = combatants.filter(c => !c.isPlayer);
-                
+
+                const monsters = combatants.filter((c) => !c.isPlayer);
+
                 if (onUpdateMultipleInitiatives) {
                   // Use batch update if available
-                  const updates = monsters.map(combatant => ({
+                  const updates = monsters.map((combatant) => ({
                     combatant,
-                    initiative: rollInitiative()
+                    initiative: rollInitiative(),
                   }));
                   onUpdateMultipleInitiatives(updates);
                 } else {
                   // Fallback to individual updates
-                  monsters.forEach(combatant => {
+                  monsters.forEach((combatant) => {
                     const newInitiative = rollInitiative();
                     onUpdateInitiative(combatant, newInitiative);
                   });
@@ -71,7 +72,7 @@ export default function PreCombatInitiativeSection({
             </Button>
           )}
         </div>
-        
+
         <InitiativeTable
           combatants={combatants}
           currentTurn={-1}

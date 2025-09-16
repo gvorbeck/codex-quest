@@ -1,5 +1,21 @@
 export type EncounterType = "dungeon" | "wilderness" | "city";
 
-export type { DungeonLevel } from "@/data/encounters/dungeonEncounters";
-export type { WildernessType } from "@/data/encounters/wildernessEncounters";
-export type { CityType } from "@/data/encounters/cityEncounters";
+// Encounter table types - derived from gameRules constants
+export type CityType = "Day Encounter" | "Night Encounter";
+export type DungeonLevel =
+  | "Level 1"
+  | "Level 2"
+  | "Level 3"
+  | "Level 4-5"
+  | "Level 6-7"
+  | "Level 8+";
+export type WildernessType =
+  | "Desert or Barren"
+  | "Grassland"
+  | "Inhabited Territories"
+  | "Jungle"
+  | "Mountains or Hills"
+  | "Ocean"
+  | "River or Riverside"
+  | "Swamp"
+  | "Woods or Forest";

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { NumberInput } from "@/components/ui/inputs";
 import { Icon } from "@/components/ui/display";
-import { DESIGN_TOKENS } from "@/constants/designTokens";
-import { cn } from "@/constants/styles";
+import { DESIGN_TOKENS } from "@/constants";
+import { cn } from "@/utils";
 
 interface EditableValueProps {
   /** Current value */
@@ -32,20 +32,23 @@ interface EditableValueProps {
 }
 
 const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
-  ({
-    value,
-    onChange,
-    minValue = DESIGN_TOKENS.inputs.editableValue.minValue,
-    maxValue = DESIGN_TOKENS.inputs.editableValue.maxValue,
-    editable = false,
-    displayValue,
-    displayClassName = "",
-    inputClassName = "",
-    size = "md",
-    ariaLabel,
-    showEditIcon = true,
-    displayProps = {},
-  }, ref) => {
+  (
+    {
+      value,
+      onChange,
+      minValue = DESIGN_TOKENS.inputs.editableValue.minValue,
+      maxValue = DESIGN_TOKENS.inputs.editableValue.maxValue,
+      editable = false,
+      displayValue,
+      displayClassName = "",
+      inputClassName = "",
+      size = "md",
+      ariaLabel,
+      showEditIcon = true,
+      displayProps = {},
+    },
+    ref
+  ) => {
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -64,7 +67,7 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (editable && (e.key === 'Enter' || e.key === ' ')) {
+      if (editable && (e.key === "Enter" || e.key === " ")) {
         e.preventDefault();
         setIsEditing(true);
       }
@@ -80,7 +83,9 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       setIsEditing(false);
     };
 
-    const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleInputKeyDown = (
+      event: React.KeyboardEvent<HTMLInputElement>
+    ) => {
       if (event.key === "Enter" || event.key === "Escape") {
         setIsEditing(false);
       }

@@ -1,8 +1,8 @@
 import Card from "@/components/ui/design-system/Card";
 import Typography from "@/components/ui/design-system/Typography";
 import { TextHeader } from "@/components/ui/display";
-import { getPrimaryClassInfo } from "@/utils/characterHelpers";
-import type { Character, Class } from "@/types/character";
+import { getPrimaryClassInfo } from "@/utils";
+import type { Character, Class } from "@/types";
 
 interface CurrentStatusCardProps {
   character: Character;

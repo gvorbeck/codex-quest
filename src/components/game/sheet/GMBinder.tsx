@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, useEffect } from "react";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils";
 import {
   Tabs,
   TabList,
@@ -12,8 +12,8 @@ import { SpellsTab } from "./SpellsTab";
 import { BestiaryTab } from "./BestiaryTab";
 import { SkillsTab } from "./SkillsTab";
 import { getCharacterById } from "@/services/characters";
-import { CLASSES_WITH_SKILLS } from "@/constants/skills";
-import type { Game, GameCombatant } from "@/types/game";
+import { CLASSES_WITH_SKILLS } from "@/constants";
+import type { Game, GameCombatant } from "@/types";
 
 interface GMBinderProps {
   className?: string;

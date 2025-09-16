@@ -1,4 +1,4 @@
-import type { Class } from "@/types/character";
+import type { Class } from "@/types";
 import { CHARACTER_CLASSES } from "@/constants";
 
 export const scout: Class = {
@@ -20,13 +20,11 @@ export const scout: Class = {
   specialAbilities: [
     {
       name: "Move Silently",
-      description:
-        "Scouts can Move Silently, with percentages based on level.",
+      description: "Scouts can Move Silently, with percentages based on level.",
     },
     {
       name: "Hide",
-      description:
-        "Scouts can Hide, with percentages based on level.",
+      description: "Scouts can Hide, with percentages based on level.",
     },
     {
       name: "Listen",
@@ -35,18 +33,15 @@ export const scout: Class = {
     },
     {
       name: "Open Locks",
-      description:
-        "Scouts can Open Locks, with percentages based on level.",
+      description: "Scouts can Open Locks, with percentages based on level.",
     },
     {
       name: "Detect Traps",
-      description:
-        "Scouts can Detect Traps, with percentages based on level.",
+      description: "Scouts can Detect Traps, with percentages based on level.",
     },
     {
       name: "Climb Walls",
-      description:
-        "Scouts can Climb Walls, with percentages based on level.",
+      description: "Scouts can Climb Walls, with percentages based on level.",
     },
     {
       name: "Track",

@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils/characterCalculations";
-import { allRaces } from "@/data/races";
-import type { Equipment, Character, Race } from "@/types/character";
+import { allRaces } from "@/data";
+import type { Equipment, Character, Race } from "@/types";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils";
 
 /**
  * Hook for general equipment operations on existing characters
@@ -91,7 +91,8 @@ export function useEquipmentManager(
   const isArmorItem = useCallback(
     (item: Equipment) =>
       item.category?.toLowerCase().includes("armor") ||
-      (item.AC !== undefined && !item.category?.toLowerCase().includes("shield")),
+      (item.AC !== undefined &&
+        !item.category?.toLowerCase().includes("shield")),
     []
   );
 
@@ -157,19 +158,18 @@ export function useEquipmentManager(
     const baseCapacity = raceData?.carryingCapacity || {
       light: 60,
       heavy: 150,
-      strengthModifier: { positive: 0.1, negative: 0.2 }
+      strengthModifier: { positive: 0.1, negative: 0.2 },
     };
 
     // Apply strength modifier per BFRPG rules
     const strMod = character.abilities?.strength?.modifier || 0;
     const { positive, negative } = baseCapacity.strengthModifier;
-    const capacityMultiplier = strMod >= 0
-      ? 1 + (strMod * positive)
-      : 1 + (strMod * negative);
+    const capacityMultiplier =
+      strMod >= 0 ? 1 + strMod * positive : 1 + strMod * negative;
 
     return {
-      light: Math.round(baseCapacity.light * capacityMultiplier / 5) * 5, // Round to nearest 5
-      heavy: Math.round(baseCapacity.heavy * capacityMultiplier / 5) * 5
+      light: Math.round((baseCapacity.light * capacityMultiplier) / 5) * 5, // Round to nearest 5
+      heavy: Math.round((baseCapacity.heavy * capacityMultiplier) / 5) * 5,
     };
   }, []);
 
@@ -177,16 +177,19 @@ export function useEquipmentManager(
   const totalWeight = useMemo(() => {
     if (!character) return 0;
     const cleanedEquipment = cleanEquipmentArray(character.equipment);
-    return cleanedEquipment.reduce((total, item) => total + (item.weight * item.amount), 0);
+    return cleanedEquipment.reduce(
+      (total, item) => total + item.weight * item.amount,
+      0
+    );
   }, [character]);
 
   // Get encumbrance status based on BFRPG rules
   const encumbranceStatus = useMemo(() => {
-    if (!character) return 'light';
+    if (!character) return "light";
     const capacity = getCarryingCapacity(character);
-    if (totalWeight > capacity.heavy) return 'overloaded';
-    if (totalWeight > capacity.light) return 'heavy';
-    return 'light';
+    if (totalWeight > capacity.heavy) return "overloaded";
+    if (totalWeight > capacity.light) return "heavy";
+    return "light";
   }, [character, totalWeight, getCarryingCapacity]);
 
   // Helper functions for formatting

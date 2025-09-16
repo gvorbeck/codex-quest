@@ -1,17 +1,39 @@
 import { forwardRef, createElement } from "react";
 import type { ReactNode, HTMLAttributes, ElementType } from "react";
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
 type TypographyVariant =
-  | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
-  | "sectionHeading" | "baseSectionHeading" | "infoHeading"
-  | "subHeading" | "subHeadingSpaced" | "subHeadingLime"
-  | "body" | "bodySmall" | "description" | "descriptionCompact"
-  | "helper" | "caption" | "code";
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "sectionHeading"
+  | "baseSectionHeading"
+  | "infoHeading"
+  | "subHeading"
+  | "subHeadingSpaced"
+  | "subHeadingLime"
+  | "body"
+  | "bodySmall"
+  | "description"
+  | "descriptionCompact"
+  | "helper"
+  | "caption"
+  | "code";
 
 type TypographyColor =
-  | "primary" | "secondary" | "muted" | "accent"
-  | "amber" | "lime" | "zinc" | "white" | "slate" | "red";
+  | "primary"
+  | "secondary"
+  | "muted"
+  | "accent"
+  | "amber"
+  | "lime"
+  | "zinc"
+  | "white"
+  | "slate"
+  | "red";
 
 type TypographyWeight = "normal" | "medium" | "semibold" | "bold";
 
@@ -25,23 +47,16 @@ interface TypographyProps extends HTMLAttributes<HTMLElement> {
 
 const Typography = forwardRef<HTMLElement, TypographyProps>(
   (
-    {
-      children,
-      variant = "body",
-      color,
-      weight,
-      as,
-      className,
-      ...props
-    },
+    { children, variant = "body", color, weight, as, className, ...props },
     ref
   ) => {
     // Auto-detect element based on variant if 'as' not provided
     const getDefaultElement = (variant: TypographyVariant): ElementType => {
-      if (variant === 'caption' || variant === 'helper') return 'span';
-      if (variant.startsWith('h') && /^h[1-6]$/.test(variant)) return variant as ElementType;
-      if (variant.includes('Heading')) return 'h4';
-      return 'p';
+      if (variant === "caption" || variant === "helper") return "span";
+      if (variant.startsWith("h") && /^h[1-6]$/.test(variant))
+        return variant as ElementType;
+      if (variant.includes("Heading")) return "h4";
+      return "p";
     };
 
     const Element = as || getDefaultElement(variant);
@@ -71,8 +86,8 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
 
     // Get variant-specific amber color
     const getAmberColor = (variant: TypographyVariant): string => {
-      if (variant.includes('info')) return "text-amber-100";
-      if (variant.includes('sub')) return "text-amber-400";
+      if (variant.includes("info")) return "text-amber-100";
+      if (variant.includes("sub")) return "text-amber-400";
       return "text-amber-50";
     };
 
@@ -100,12 +115,12 @@ const Typography = forwardRef<HTMLElement, TypographyProps>(
 
     // Auto-assign color based on variant if not explicitly provided
     const getDefaultColor = (variant: TypographyVariant): TypographyColor => {
-      if (variant.includes('info')) return 'amber';
-      if (variant.includes('Lime')) return 'lime';
-      if (variant.includes('sub')) return 'amber';
-      if (variant.includes('helper')) return 'secondary';
-      if (variant.includes('Heading')) return 'primary';
-      return 'primary';
+      if (variant.includes("info")) return "amber";
+      if (variant.includes("Lime")) return "lime";
+      if (variant.includes("sub")) return "amber";
+      if (variant.includes("helper")) return "secondary";
+      if (variant.includes("Heading")) return "primary";
+      return "primary";
     };
 
     const finalColor = color || getDefaultColor(variant);

@@ -1,4 +1,4 @@
-import type { ScrollCreationProject } from "@/types/character";
+import type { ScrollCreationProject } from "@/types";
 import { Badge, Card, Typography } from "@/components/ui/design-system";
 import { Button, NumberInput, FormField } from "@/components/ui/inputs";
 import { SectionHeader, Icon } from "@/components/ui/display";
@@ -6,7 +6,10 @@ import { SectionHeader, Icon } from "@/components/ui/display";
 interface ActiveScrollsProps {
   projects: ScrollCreationProject[];
   isOwner: boolean;
-  onUpdateProject: (projectId: string, updates: Partial<ScrollCreationProject>) => void;
+  onUpdateProject: (
+    projectId: string,
+    updates: Partial<ScrollCreationProject>
+  ) => void;
   onCompleteProject: (project: ScrollCreationProject) => void;
   onDeleteProject: (projectId: string) => void;
 }
@@ -50,14 +53,10 @@ export const ActiveScrolls = ({
           <Card key={project.id} className="p-4">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <Typography variant="h5">
-                  {project.spellName}
-                </Typography>
+                <Typography variant="h5">{project.spellName}</Typography>
                 <div className="flex items-center gap-2 mt-1">
                   <Badge>Level {project.spellLevel}</Badge>
-                  <Badge
-                    variant={getStatusBadgeVariant(project.status)}
-                  >
+                  <Badge variant={getStatusBadgeVariant(project.status)}>
                     {project.status}
                   </Badge>
                 </div>

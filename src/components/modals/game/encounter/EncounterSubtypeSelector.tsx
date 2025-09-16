@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
-import type { EncounterType, DungeonLevel, WildernessType, CityType } from "@/types/encounters";
+import type {
+  EncounterType,
+  DungeonLevel,
+  WildernessType,
+  CityType,
+} from "@/types";
 
 interface EncounterSubtypeSelectorProps {
   encounterType: EncounterType;
@@ -15,11 +20,11 @@ interface EncounterSubtypeSelectorProps {
 // Move constants outside component for performance
 const DUNGEON_LEVELS: readonly DungeonLevel[] = [
   "Level 1",
-  "Level 2", 
+  "Level 2",
   "Level 3",
   "Level 4-5",
   "Level 6-7",
-  "Level 8+"
+  "Level 8+",
 ] as const;
 
 const WILDERNESS_TYPES: readonly WildernessType[] = [
@@ -31,12 +36,12 @@ const WILDERNESS_TYPES: readonly WildernessType[] = [
   "Ocean",
   "River or Riverside",
   "Swamp",
-  "Woods or Forest"
+  "Woods or Forest",
 ] as const;
 
 const CITY_TYPES: readonly CityType[] = [
   "Day Encounter",
-  "Night Encounter"
+  "Night Encounter",
 ] as const;
 
 export default function EncounterSubtypeSelector({

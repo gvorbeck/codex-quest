@@ -19,13 +19,25 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@/components": ["src/components"],
       "@/components/*": ["src/components/*"],
+      "@/types": ["src/types"],
       "@/types/*": ["src/types/*"],
+      "@/utils": ["src/utils"],
       "@/utils/*": ["src/utils/*"],
+      "@/data": ["src/data"],
       "@/data/*": ["src/data/*"],
       "@/assets/*": ["src/assets/*"],
+      "@/hooks": ["src/hooks"],
       "@/hooks/*": ["src/hooks/*"],
-      "@/constants/*": ["src/constants/*"]
+      "@/constants": ["src/constants"],
+      "@/constants/*": ["src/constants/*"],
+      "@/services": ["src/services"],
+      "@/services/*": ["src/services/*"],
+      "@/lib": ["src/lib"],
+      "@/lib/*": ["src/lib/*"],
+      "@/validation": ["src/validation"],
+      "@/validation/*": ["src/validation/*"]
     },
 
     /* Linting */

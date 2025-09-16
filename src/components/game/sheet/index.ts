@@ -1,4 +1,4 @@
-export { default as Hero } from "./Hero";
+export { default as GameHero } from "./Hero";
 export { PlayersSection } from "./PlayersSection";
 export { GameNotesSection } from "./GameNotesSection";
 export { GameSheetEmptyState } from "./GameSheetEmptyState";

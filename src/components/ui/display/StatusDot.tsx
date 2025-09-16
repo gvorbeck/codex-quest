@@ -1,6 +1,12 @@
-import { cn } from "@/constants/styles";
+import { cn } from "@/utils";
 
-type StatusType = 'active' | 'inactive' | 'warning' | 'error' | 'success' | 'custom';
+type StatusType =
+  | "active"
+  | "inactive"
+  | "warning"
+  | "error"
+  | "success"
+  | "custom";
 
 const STATUS_COLORS = {
   active: "bg-amber-500",
@@ -32,14 +38,17 @@ interface StatusDotProps {
 }
 
 export default function StatusDot({
-  status = 'active',
+  status = "active",
   color,
-  size = 'sm',
+  size = "sm",
   className = "",
   ariaLabel,
 }: StatusDotProps) {
   const colorClass = color || STATUS_COLORS[status];
-  const sizeClass = size in STATUS_SIZES ? STATUS_SIZES[size as keyof typeof STATUS_SIZES] : size;
+  const sizeClass =
+    size in STATUS_SIZES
+      ? STATUS_SIZES[size as keyof typeof STATUS_SIZES]
+      : size;
 
   const dotClassName = cn(
     sizeClass,
@@ -48,13 +57,7 @@ export default function StatusDot({
     className
   );
 
-  return (
-    <div
-      className={dotClassName}
-      role="status"
-      aria-label={ariaLabel}
-    />
-  );
+  return <div className={dotClassName} role="status" aria-label={ariaLabel} />;
 }
 
 export type { StatusType };

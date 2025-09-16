@@ -9,7 +9,7 @@ import {
   GameGenErrorBoundary,
   HomeErrorBoundary,
 } from "@/components/ui/feedback";
-import { DOM_IDS } from "@/constants/dom";
+import { DOM_IDS } from "@/constants";
 
 const Home = lazy(() => import("../pages/Home"));
 const CharGen = lazy(() => import("../pages/CharGen"));

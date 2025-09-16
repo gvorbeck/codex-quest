@@ -2,8 +2,8 @@ import { memo, useState, useCallback } from "react";
 import { TextInput } from "@/components/ui/inputs";
 import { Button } from "@/components/ui/inputs";
 import { SectionWrapper } from "@/components/ui/layout";
-import { GAME_SHEET_STYLES } from "@/constants/gameSheetStyles";
-import type { GamePlayer } from "@/types/game";
+import { GAME_SHEET_STYLES } from "@/constants";
+import type { GamePlayer } from "@/types";
 
 // Enhanced error messages for better user experience
 const ERROR_MESSAGES = {

@@ -1,10 +1,11 @@
 import { useState, useMemo, useCallback } from "react";
-import type { Equipment, Character } from "@/types/character";
-import { convertToGoldFromAbbreviation, updateCharacterCurrency } from "@/utils/currency";
+import type { Equipment, Character } from "@/types";
 import {
   cleanEquipmentArray,
+  convertToGoldFromAbbreviation,
   ensureEquipmentAmount,
-} from "@/utils/characterCalculations";
+  updateCharacterCurrency,
+} from "@/utils";
 
 /**
  * Hook for managing equipment during character creation with gold/currency management
@@ -56,7 +57,7 @@ export function useEquipmentManagement(
         );
         const updatedCharacter = updateCharacterCurrency(
           character,
-          'gold',
+          "gold",
           character.currency.gold - costInGold
         );
         setStartingGold(updatedCharacter.currency.gold);
@@ -67,7 +68,7 @@ export function useEquipmentManagement(
       } else {
         const updatedCharacter = updateCharacterCurrency(
           character,
-          'gold',
+          "gold",
           character.currency.gold - costInGold
         );
         setStartingGold(updatedCharacter.currency.gold);
@@ -104,7 +105,7 @@ export function useEquipmentManagement(
           );
           const updatedCharacter = updateCharacterCurrency(
             character,
-            'gold',
+            "gold",
             character.currency.gold + refundInGold
           );
           setStartingGold(updatedCharacter.currency.gold);
@@ -118,7 +119,7 @@ export function useEquipmentManagement(
           );
           const updatedCharacter = updateCharacterCurrency(
             character,
-            'gold',
+            "gold",
             character.currency.gold + refundInGold
           );
           setStartingGold(updatedCharacter.currency.gold);
