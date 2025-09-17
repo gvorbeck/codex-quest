@@ -9,6 +9,8 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
   [![Vite](https://img.shields.io/badge/Vite-7.1-646cff?style=flat&logo=vite)](https://vitejs.dev/)
   [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-06b6d4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
+  [![TanStack Query](https://img.shields.io/badge/TanStack%20Query-5.x-ff6b6b?style=flat&logo=react-query)](https://tanstack.com/query)
+  [![Zustand](https://img.shields.io/badge/Zustand-5.x-000000?style=flat&logo=zustand)](https://zustand-demo.pmnd.rs/)
   [![Firebase](https://img.shields.io/badge/Firebase-12.2-ffca28?style=flat&logo=firebase)](https://firebase.google.com/)
   
 </div>
@@ -47,6 +49,8 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - Responsive design optimized for all devices
 - Accessibility-first approach with WCAG 2.1 AA compliance
 - Real-time data synchronization across devices
+- Optimistic updates with automatic error recovery
+- Intelligent background data fetching and caching
 
 ## 🏗️ Architecture
 
@@ -57,6 +61,8 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - **Vite 7.1** for fast development and optimized builds
 - **TailwindCSS 4.1** with modern design tokens
 - **Wouter 3.7** for lightweight client-side routing
+- **TanStack Query 5.x** for server state management and caching
+- **Zustand 5.x** for client-side state management with persistence
 
 ### Backend & Services
 
@@ -65,12 +71,30 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - **Automated data migration** for schema evolution
 - **Secure user authentication** with email/password
 
-### Data Management
+### State Management & Data
 
-- **Type-safe character schemas** with runtime validation
-- **Modular game data** stored as TypeScript modules
+- **Unified state architecture** with TanStack Query (server state) + Zustand (client state)
+- **Intelligent caching** with automatic background updates and optimistic mutations
+- **Type-safe character schemas** with runtime validation and automatic migration
+- **Modular game data** stored as TypeScript modules with centralized query keys
 - **Cascade validation system** for dependent field updates
-- **localStorage integration** for draft characters
+- **Persistent client state** with automatic draft management and preference storage
+
+#### Modern Architecture Highlights
+
+🚀 **TanStack Query Integration**
+
+- Smart server state caching with configurable stale times
+- Automatic background refetching and error retry logic
+- Optimistic updates for seamless user experience
+- Type-safe query key factory for consistency
+
+⚡ **Zustand State Management**
+
+- Lightweight client-side state with persistence middleware
+- Separate stores for different concerns (characters, combat, UI)
+- Automatic localStorage synchronization for drafts and preferences
+- Zero boilerplate with excellent TypeScript support
 
 ## 🚀 Getting Started
 
@@ -114,35 +138,6 @@ npm run dev
 | `npm run preview` | Preview production build locally         |
 | `npm run lint`    | Run ESLint on TypeScript/React files     |
 
-### Project Structure
-
-```
-src/
-├── components/              # React components
-│   ├── ui/                     # Design system components
-│   │   ├── design-system/         # Card, Typography, Badge
-│   │   ├── inputs/                # Button, Select, TextInput, etc.
-│   │   ├── feedback/              # Modal, Notification, Tooltip
-│   │   ├── display/               # StatCard, ItemGrid, Stepper
-│   │   ├── layout/                # Accordion, Tabs, PageWrapper
-│   │   └── dice/                  # Dice rolling components
-│   ├── character/              # Character-specific components
-│   │   ├── creation/              # Character creation wizard steps
-│   │   ├── management/            # Character list and management
-│   │   ├── sheet/                 # Character sheet display
-│   │   └── shared/                # Shared character components
-│   ├── game/                   # Game session components
-│   │   ├── management/            # Game creation and listing
-│   │   └── sheet/                 # Game session management
-│   ├── pages/                  # Top-level page components
-│   └── auth/                   # Authentication components
-├── data/                    # Game data (races, classes, equipment)
-├── services/                # Firebase and business logic
-├── types/                   # TypeScript type definitions
-├── utils/                   # Utility functions
-└── hooks/                   # Custom React hooks
-```
-
 ## 📱 Accessibility Features
 
 - **WCAG 2.1 AA compliance** target
@@ -169,6 +164,14 @@ We welcome contributions! Please:
 - Write TypeScript interfaces for all data structures
 - Include accessibility considerations in new components
 - Test responsive behavior across device sizes
+
+#### State Management Patterns
+
+- **Server State**: Use TanStack Query hooks (`useCharacters`, `useCharacterSheet`, `useGame`)
+- **Client State**: Use appropriate Zustand store (`characterStore`, `combatStore`, `uiStore`)
+- **Query Keys**: Always use the centralized `queryKeys` factory for consistency
+- **Mutations**: Implement optimistic updates with proper error rollback
+- **Persistence**: Leverage Zustand persistence middleware for client preferences
 
 ## 📄 License
 
