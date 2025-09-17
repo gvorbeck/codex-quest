@@ -77,10 +77,7 @@ const saveCharacterSheet = async (
     },
   };
 
-  // Remove id field when saving to Firebase
-  const { ...cleanData } = dataToSave;
-
-  await setDoc(characterRef, cleanData);
+  await setDoc(characterRef, dataToSave);
   logger.info(`Successfully updated character sheet ${characterId}`);
 };
 
