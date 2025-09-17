@@ -395,10 +395,28 @@ export function useCharacterMutations() {
 
 **✅ Completion Criteria:**
 
-- [ ] useCharacters converted to TanStack Query
-- [ ] Character save/delete mutations with optimistic updates
-- [ ] Error handling and loading states working
-- [ ] Character list updates immediately on changes
+- [x] useCharacters converted to TanStack Query
+- [x] Character save/delete mutations with optimistic updates
+- [x] Error handling and loading states working
+- [x] Character list updates immediately on changes
+
+**✅ PHASE 2 COMPLETED (Date: 2025-09-17)**
+
+Successfully migrated character data management from custom hooks to TanStack Query:
+
+- **New useCharacters Query Hook**: Created `src/hooks/queries/useCharacters.ts` with proper stale time (2 min)
+- **Character Mutations**: Implemented `src/hooks/mutations/useCharacterMutations.ts` with optimistic updates
+- **Component Updates**: Updated `CharactersList.tsx` and `Home.tsx` to use new API
+- **Error Handling**: Proper error handling with rollback on mutation failures
+- **Loading States**: Integrated mutation loading states with UI components
+- **Optimistic Updates**: Instant UI updates with automatic rollback on error
+
+**Key Improvements:**
+
+- Character deletions now happen instantly with optimistic updates
+- Better error handling with automatic retries
+- Consistent loading states across all character operations
+- Reduced code complexity in components (no manual state management)
 
 **Phase 3: Character Sheet Migration (Week 3 - 6 hours)**
 

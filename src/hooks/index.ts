@@ -1,6 +1,6 @@
 export { useLocalStorage } from "./useLocalStorage";
 export { useAuth } from "./useAuth";
-export { useCharacters } from "./useCharacters";
+export { useCharacters } from "./queries/useCharacters";
 export { useFocusManagement } from "./useFocusManagement";
 export { useNotifications } from "./useNotifications";
 export { useFirebaseSheet } from "./useFirebaseSheet";
@@ -32,3 +32,6 @@ export { useEquipmentManager } from "./useEquipmentManager";
 export { useFormValidation } from "./useFormValidation";
 export { useCombatLogic } from "./useCombatLogic";
 export { useStepNavigation } from "./useStepNavigation";
+
+// TanStack Query hooks
+export { useCharacterMutations } from "./mutations/useCharacterMutations";

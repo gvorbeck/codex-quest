@@ -17,7 +17,7 @@ import { useAuth, useCharacters } from "@/hooks";
 
 function Home() {
   const { user } = useAuth();
-  const { characters, loading } = useCharacters();
+  const { data: characters = [], isLoading: loading } = useCharacters();
   const [, setLocation] = useLocation();
 
   const hasCharacters = characters.length > 0;
