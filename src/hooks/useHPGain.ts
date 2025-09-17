@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { LEVEL_UP_CONSTANTS } from "@/constants";
 import type { Character, Class, TwoHPClass, HPGainResult } from "@/types";
-import { hasCustomClasses, isCustomClass, logger, roller, getErrorMessage } from "@/utils";
+import {
+  hasCustomClasses,
+  isCustomClass,
+  logger,
+  roller,
+  getErrorMessage,
+} from "@/utils";
 
 interface UseHPGainProps {
   character: Character;

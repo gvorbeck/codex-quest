@@ -67,7 +67,7 @@ export default function DiceRollerModal({
       setDiceNotation("");
     } catch (error) {
       const errorMessage = getErrorMessage(error, "Invalid dice notation");
-      showError(errorMessage!, {
+      showError(errorMessage, {
         title: "Roll Failed",
       });
     } finally {

@@ -108,21 +108,21 @@ export function handleServiceErrorAsync<T>(
 
 /**
  * Extracts error message from unknown error type
- * Provides consistent error handling across components
+ * Always returns a string for consistent error handling across components
  */
 export function getErrorMessage(
   error: unknown,
-  fallbackMessage?: string
-): string | null {
+  fallbackMessage: string = "An unexpected error occurred"
+): string {
   if (error instanceof Error) {
     return error.message;
   }
-  
+
   if (typeof error === "string") {
     return error;
   }
-  
-  return fallbackMessage || null;
+
+  return fallbackMessage;
 }
 
 // ============================================================================

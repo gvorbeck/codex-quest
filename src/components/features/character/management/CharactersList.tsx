@@ -67,7 +67,7 @@ export function CharactersList() {
       <ItemGrid
         items={characters}
         loading={loading}
-        error={getErrorMessage(error)}
+        error={getErrorMessage(error, "Failed to load characters. Please try again.")}
         emptyState={{
           icon: "plus",
           title: "No Characters Yet",
