@@ -1,20 +1,30 @@
 import { ItemGrid } from "@/components/ui/composite";
 import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { CharacterCard } from "./CharacterCard";
-import { useCharacters, useAuth, useNotificationContext } from "@/hooks";
-import { deleteCharacter } from "@/services/characters";
-import { logger } from "@/utils";
+import {
+  useCharacters,
+  useAuth,
+  useNotificationContext,
+  useCharacterMutations,
+} from "@/hooks";
+import { logger, getErrorMessage } from "@/utils";
 import { useState } from "react";
 
 export function CharactersList() {
-  const { characters, loading, error, refetch } = useCharacters();
+  const {
+    data: characters = [],
+    isLoading: loading,
+    error,
+    refetch,
+  } = useCharacters();
   const { user } = useAuth();
   const { showError } = useNotificationContext();
+  const { deleteCharacter: deleteCharacterMutation, isDeleting } =
+    useCharacterMutations();
   const [deleteState, setDeleteState] = useState<{
     isOpen: boolean;
     character: { id: string; name: string } | null;
-    isDeleting: boolean;
-  }>({ isOpen: false, character: null, isDeleting: false });
+  }>({ isOpen: false, character: null });
 
   const handleDeleteCharacter = (
     characterId: string,
@@ -24,18 +34,18 @@ export function CharactersList() {
     setDeleteState({
       isOpen: true,
       character: { id: characterId, name: characterName },
-      isDeleting: false,
     });
   };
 
   const handleConfirmDelete = async () => {
     if (!user || !deleteState.character) return;
 
-    setDeleteState((prev) => ({ ...prev, isDeleting: true }));
     try {
-      await deleteCharacter(user.uid, deleteState.character.id);
-      await refetch();
-      setDeleteState({ isOpen: false, character: null, isDeleting: false });
+      deleteCharacterMutation({
+        userId: user.uid,
+        characterId: deleteState.character.id,
+      });
+      setDeleteState({ isOpen: false, character: null });
     } catch (error) {
       logger.error("Failed to delete character:", {
         characterId: deleteState.character.id,
@@ -44,13 +54,12 @@ export function CharactersList() {
       showError("Failed to delete character. Please try again.", {
         title: "Delete Failed",
       });
-      setDeleteState((prev) => ({ ...prev, isDeleting: false }));
     }
   };
 
   const handleCloseDeleteModal = () => {
-    if (deleteState.isDeleting) return; // Prevent closing while deleting
-    setDeleteState({ isOpen: false, character: null, isDeleting: false });
+    if (isDeleting) return; // Prevent closing while deleting
+    setDeleteState({ isOpen: false, character: null });
   };
 
   return (
@@ -58,7 +67,7 @@ export function CharactersList() {
       <ItemGrid
         items={characters}
         loading={loading}
-        error={error}
+        error={getErrorMessage(error, "Failed to load characters. Please try again.")}
         emptyState={{
           icon: "plus",
           title: "No Characters Yet",
@@ -81,8 +90,7 @@ export function CharactersList() {
             user={user}
             onDelete={handleDeleteCharacter}
             isDeleting={
-              deleteState.isDeleting &&
-              deleteState.character?.id === character.id
+              isDeleting && deleteState.character?.id === character.id
             }
           />
         )}
@@ -96,7 +104,7 @@ export function CharactersList() {
         onConfirm={handleConfirmDelete}
         entityType="character"
         entityName={deleteState.character?.name || ""}
-        isDeleting={deleteState.isDeleting}
+        isDeleting={isDeleting}
       />
     </>
   );

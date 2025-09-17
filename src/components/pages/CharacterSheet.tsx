@@ -22,7 +22,7 @@ import Hero from "@/components/features/character/sheet/Hero";
 import Equipment from "@/components/features/character/sheet/Equipment";
 import CharacterDescription from "@/components/features/character/sheet/CharacterDescription";
 import ScrollCreation from "@/components/features/character/sheet/scroll-creation/ScrollCreation";
-import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
+import { useCharacterSheet } from "@/hooks";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import type { Character } from "@/types";
 import {
@@ -37,19 +37,9 @@ import {
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
 
-  // Use the generic Firebase sheet hook
-  const {
-    data: character,
-    loading,
-    error,
-    isOwner,
-    isUpdating,
-    updateEntity: updateCharacter,
-  } = useFirebaseSheet<Character>({
-    userId: params?.userId,
-    entityId: params?.characterId,
-    collection: "CHARACTERS",
-  });
+  // Use the new TanStack Query character sheet hook
+  const { character, loading, error, isOwner, isUpdating, updateCharacter } =
+    useCharacterSheet(params?.userId || "", params?.characterId || "");
 
   // Use the dice roller hook
   const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
@@ -66,7 +56,7 @@ export default function CharacterSheet() {
   const hasSkills = useMemo(() => {
     if (!character?.class) return false;
 
-    return character.class.some((classId) => {
+    return character.class.some((classId: string) => {
       const classData = allClasses.find((cls) => cls.id === classId);
       return classData?.skills !== undefined;
     });

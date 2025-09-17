@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { useDataResolver } from "./useDataResolver";
+import { useMemo } from "react";
+import { useDataResolver } from "./queries/useDataResolver";
 import type { CharacterListItem } from "@/services/characters";
 import type { Game } from "@/types";
 import { logger } from "@/utils";
@@ -12,27 +12,19 @@ interface UsePlayerCharactersReturn {
 
 /**
  * Custom hook to fetch player character data for a game
- * Uses useDataResolver internally to leverage caching and batch fetching
+ * Uses TanStack Query-based useDataResolver for caching and batch fetching
  */
 export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
-  const [error, setError] = useState<string | null>(null);
+  // Prepare data requests for all players
+  const playerRequests =
+    game?.players?.map((player) => ({
+      userId: player.user,
+      characterId: player.character,
+    })) || [];
 
-  // Use the data resolver with real-time updates for active game sessions
-  const { resolveMultiple, getResolvedData, isLoading } = useDataResolver({
-    enableRealTime: true,
-  });
-
-  // Resolve player data when players change
-  useEffect(() => {
-    if (game?.players?.length) {
-      const playerData = game.players.map((player) => ({
-        userId: player.user,
-        characterId: player.character,
-      }));
-      resolveMultiple(playerData);
-      setError(null); // Clear any previous errors
-    }
-  }, [game?.players, resolveMultiple]);
+  // Use TanStack Query to resolve player data
+  const { getResolvedData, isLoading, hasError } =
+    useDataResolver(playerRequests);
 
   // Transform resolved data to match CharacterListItem interface
   const playerCharacters = useMemo(() => {
@@ -60,7 +52,7 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
       // Add any additional properties that might exist in resolved data
       if (resolved) {
         Object.keys(resolved).forEach((key) => {
-          if (!['characterName', 'race', 'class', 'level'].includes(key)) {
+          if (!["characterName", "race", "class", "level"].includes(key)) {
             character[key] = resolved[key as keyof typeof resolved];
           }
         });
@@ -81,6 +73,6 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
   return {
     playerCharacters,
     loading: isLoading,
-    error
+    error: hasError ? "Failed to load player character data" : null,
   };
 };

@@ -1,9 +1,6 @@
 import { useCallback, useMemo, useEffect } from "react";
-import {
-  usePlayerCharacters,
-  useNotifications,
-  useLocalStorage,
-} from "@/hooks";
+import { usePlayerCharacters, useNotifications } from "@/hooks";
+import { useCombatStore } from "@/stores";
 import type {
   CombatantWithInitiative,
   Game,
@@ -18,13 +15,7 @@ import {
   sortCombatantsByInitiative,
 } from "@/utils";
 
-// Combat state interface for persistence
-interface CombatState {
-  combatants: CombatantWithInitiative[];
-  currentTurn: number;
-  round: number;
-  isActive: boolean;
-}
+// Combat logic hook using Zustand combat store
 
 export function useCombatLogic(
   game?: Game,
@@ -40,21 +31,33 @@ export function useCombatLogic(
     }
   }, [game?.id]);
 
-  // Persistent combat state
-  const [combatState, setCombatState] = useLocalStorage<CombatState>(
-    `combat-tracker-${game?.id || "temp"}`,
-    {
-      combatants: [],
-      currentTurn: 0,
-      round: 1,
-      isActive: false,
-    }
+  // Combat store hooks
+  const {
+    getCombatState,
+    setCombatState,
+    getPreCombatInitiatives,
+    setPreCombatInitiatives,
+  } = useCombatStore();
+
+  const gameId = game?.id || "temp";
+  const combatState = getCombatState(gameId);
+  const preCombatInitiatives = getPreCombatInitiatives(gameId);
+
+  // Helper to update combat state
+  const updateCombatState = useCallback(
+    (newState: typeof combatState) => {
+      setCombatState(gameId, newState);
+    },
+    [gameId, setCombatState]
   );
 
-  // Store for pre-combat initiative values
-  const [preCombatInitiatives, setPreCombatInitiatives] = useLocalStorage<
-    Record<string, number>
-  >(`pre-combat-initiatives-${game?.id || "temp"}`, {});
+  // Helper to update pre-combat initiatives
+  const updatePreCombatInitiatives = useCallback(
+    (initiatives: Record<string, number>) => {
+      setPreCombatInitiatives(gameId, initiatives);
+    },
+    [gameId, setPreCombatInitiatives]
+  );
 
   // Extract state for easier access
   const {
@@ -219,7 +222,7 @@ export function useCombatLogic(
       // Remove the combatant's initiative value from pre-combat storage
       const updatedPreCombatInitiatives = { ...preCombatInitiatives };
       delete updatedPreCombatInitiatives[combatantToRemove.name];
-      setPreCombatInitiatives(updatedPreCombatInitiatives);
+      updatePreCombatInitiatives(updatedPreCombatInitiatives);
 
       onUpdateGame(updatedGame);
       showSuccess(`${combatantToRemove.name} removed from combat`, {
@@ -231,7 +234,7 @@ export function useCombatLogic(
       onUpdateGame,
       currentCombatants,
       preCombatInitiatives,
-      setPreCombatInitiatives,
+      updatePreCombatInitiatives,
       showSuccess,
     ]
   );
@@ -259,7 +262,7 @@ export function useCombatLogic(
       combatantsWithInitiative
     );
 
-    setCombatState({
+    updateCombatState({
       combatants: sortedCombatants,
       currentTurn: 0,
       round: 1,
@@ -278,7 +281,7 @@ export function useCombatLogic(
     preCombatInitiatives,
     showSuccess,
     showError,
-    setCombatState,
+    updateCombatState,
   ]);
 
   // Roll initiative for a specific combatant
@@ -298,7 +301,7 @@ export function useCombatLogic(
       // Re-sort by initiative with stable sorting
       const sortedCombatants = sortCombatantsByInitiative(updatedCombatants);
 
-      setCombatState({
+      updateCombatState({
         ...combatState,
         combatants: sortedCombatants,
       });
@@ -307,18 +310,18 @@ export function useCombatLogic(
         title: "Initiative Roll",
       });
     },
-    [combatants, combatState, showInfo, setCombatState]
+    [combatants, combatState, showInfo, updateCombatState]
   );
 
   // Update pre-combat initiative for a specific combatant
   const updatePreCombatInitiative = useCallback(
     (combatant: CombatantWithInitiative, newInitiative: number) => {
-      setPreCombatInitiatives({
+      updatePreCombatInitiatives({
         ...preCombatInitiatives,
         [combatant.name]: newInitiative,
       });
     },
-    [preCombatInitiatives, setPreCombatInitiatives]
+    [preCombatInitiatives, updatePreCombatInitiatives]
   );
 
   // Update pre-combat initiative for multiple combatants at once
@@ -330,9 +333,9 @@ export function useCombatLogic(
       updates.forEach(({ combatant, initiative }) => {
         newInitiatives[combatant.name] = initiative;
       });
-      setPreCombatInitiatives(newInitiatives);
+      updatePreCombatInitiatives(newInitiatives);
     },
-    [preCombatInitiatives, setPreCombatInitiatives]
+    [preCombatInitiatives, updatePreCombatInitiatives]
   );
 
   // Update initiative during combat
@@ -369,13 +372,13 @@ export function useCombatLogic(
 
       // For players during combat, also update pre-combat storage for persistence
       if (targetCombatant.isPlayer) {
-        setPreCombatInitiatives({
+        updatePreCombatInitiatives({
           ...preCombatInitiatives,
           [targetCombatant.name]: newInitiative,
         });
       }
 
-      setCombatState({
+      updateCombatState({
         ...combatState,
         combatants: updatedCombatants,
       });
@@ -383,9 +386,9 @@ export function useCombatLogic(
     [
       combatants,
       combatState,
-      setCombatState,
+      updateCombatState,
       preCombatInitiatives,
-      setPreCombatInitiatives,
+      updatePreCombatInitiatives,
     ]
   );
 
@@ -405,7 +408,7 @@ export function useCombatLogic(
       return combatant;
     });
 
-    setCombatState({
+    updateCombatState({
       ...combatState,
       combatants: updatedCombatants,
     });
@@ -413,7 +416,7 @@ export function useCombatLogic(
     showInfo(`Rolled initiative for ${monsters.length} monsters`, {
       title: "Initiative Rolled",
     });
-  }, [combatants, combatState, setCombatState, showInfo]);
+  }, [combatants, combatState, updateCombatState, showInfo]);
 
   // Update HP for a specific combatant
   const updateCombatantHp = useCallback(
@@ -433,23 +436,23 @@ export function useCombatLogic(
         return combatant;
       });
 
-      setCombatState({
+      updateCombatState({
         ...combatState,
         combatants: updatedCombatants,
       });
     },
-    [combatants, combatState, setCombatState]
+    [combatants, combatState, updateCombatState]
   );
 
   // Set current turn
   const setCurrentTurn = useCallback(
     (index: number) => {
-      setCombatState({
+      updateCombatState({
         ...combatState,
         currentTurn: index,
       });
     },
-    [combatState, setCombatState]
+    [combatState, updateCombatState]
   );
 
   // Next turn
@@ -465,7 +468,7 @@ export function useCombatLogic(
         _sortId: Date.now() + Math.random(), // New sort ID for re-sorting
       }));
 
-      setCombatState({
+      updateCombatState({
         ...combatState,
         combatants: combatantsWithClearedInitiative,
         currentTurn: 0,
@@ -476,7 +479,7 @@ export function useCombatLogic(
         { title: "New Round" }
       );
     } else {
-      setCombatState({
+      updateCombatState({
         ...combatState,
         currentTurn: newTurn,
       });
@@ -486,18 +489,25 @@ export function useCombatLogic(
         title: "Turn Order",
       });
     }
-  }, [combatants, combatState, currentTurn, round, showInfo, setCombatState]);
+  }, [
+    combatants,
+    combatState,
+    currentTurn,
+    round,
+    showInfo,
+    updateCombatState,
+  ]);
 
   // End combat
   const endCombat = useCallback(() => {
-    setCombatState({
+    updateCombatState({
       combatants: [],
       currentTurn: 0,
       round: 1,
       isActive: false,
     });
     showSuccess("Combat ended", { title: "Combat Complete" });
-  }, [showSuccess, setCombatState]);
+  }, [showSuccess, updateCombatState]);
 
   return {
     // State

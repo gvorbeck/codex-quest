@@ -10,7 +10,7 @@ import {
 import { SpellsTab } from "./SpellsTab";
 import { BestiaryTab } from "./BestiaryTab";
 import { SkillsTab } from "./SkillsTab";
-import { useDataResolver } from "@/hooks/useDataResolver";
+import { useDataResolver } from "@/hooks";
 import { CLASSES_WITH_SKILLS } from "@/constants";
 import type { Game, GameCombatant } from "@/types";
 
@@ -25,19 +25,17 @@ export const GMBinder = memo(
     const [selectedTab, setSelectedTab] = useState("spells");
     const [hasSkillClasses, setHasSkillClasses] = useState(false);
 
-    // Use data resolver to get character data
-    const { resolveMultiple, getResolvedData } = useDataResolver();
+    // Prepare data requests for all players
+    const playerRequests =
+      game?.players?.map((player) => ({
+        userId: player.user,
+        characterId: player.character,
+      })) || [];
 
-    // Resolve player data when players change
-    useEffect(() => {
-      if (game?.players?.length) {
-        const playerData = game.players.map((player) => ({
-          userId: player.user,
-          characterId: player.character,
-        }));
-        resolveMultiple(playerData);
-      }
-    }, [game?.players, resolveMultiple]);
+    // Use TanStack Query to resolve player data
+    const { getResolvedData } = useDataResolver(playerRequests);
+
+    // TanStack Query handles data resolution automatically
 
     // Check if any players have skill classes using resolved data
     useEffect(() => {

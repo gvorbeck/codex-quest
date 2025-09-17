@@ -1,4 +1,4 @@
-import { memo, useEffect, useState, useCallback } from "react";
+import { memo, useState, useCallback } from "react";
 import type { GamePlayer } from "@/types";
 import { GAME_SHEET_STYLES, LOADING_MESSAGES } from "@/constants";
 import { HorizontalRule } from "@/components/ui/composite";
@@ -16,10 +16,15 @@ interface PlayersSectionProps {
 
 export const PlayersSection = memo(
   ({ players, showDivider = false, onDeletePlayer }: PlayersSectionProps) => {
-    // Enable real-time updates for active game sessions to see character changes instantly
-    const { resolveMultiple, getResolvedData, isLoading } = useDataResolver({
-      enableRealTime: true,
-    });
+    // Prepare data requests for all players
+    const playerRequests =
+      players?.map((player) => ({
+        userId: player.user,
+        characterId: player.character,
+      })) || [];
+
+    // Use TanStack Query to resolve player data with automatic caching
+    const { getResolvedData, isLoading } = useDataResolver(playerRequests);
 
     // Player deletion confirmation state
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -52,16 +57,7 @@ export const PlayersSection = memo(
       return resolved?.characterName || player.character;
     };
 
-    // Resolve player data when players change
-    useEffect(() => {
-      if (players && players.length > 0) {
-        const playerData = players.map((player) => ({
-          userId: player.user,
-          characterId: player.character,
-        }));
-        resolveMultiple(playerData);
-      }
-    }, [players, resolveMultiple]);
+    // TanStack Query handles data resolution automatically
 
     if (!players || players.length === 0) {
       return null;

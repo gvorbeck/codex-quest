@@ -8,7 +8,7 @@ import { logger } from "@/utils";
 import { useState } from "react";
 
 export function GamesList() {
-  const { games, loading, error, refetch } = useGames();
+  const { data: games = [], isLoading: loading, error, refetch } = useGames();
   const { user } = useAuth();
   const { showSuccess, showError } = useNotifications();
   const [deleteState, setDeleteState] = useState<{
@@ -56,7 +56,7 @@ export function GamesList() {
       <ItemGrid
         items={games}
         loading={loading}
-        error={error}
+        error={error?.message || null}
         emptyState={{
           icon: "plus",
           title: "No Games Yet",

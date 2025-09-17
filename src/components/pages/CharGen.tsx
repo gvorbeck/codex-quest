@@ -1,67 +1,75 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo } from "react";
+import { useLocation } from "wouter";
 import Stepper from "@/components/ui/composite/Stepper";
 import { Breadcrumb } from "@/components/ui/composite";
 import { PageWrapper } from "@/components/ui/core/layout";
 import { Typography } from "@/components/ui/core/display";
+import Callout from "@/components/ui/core/feedback/Callout";
 import AbilityScoreStep from "@/components/features/character/creation/AbilityScoreStep";
 import RaceStep from "@/components/features/character/creation/RaceStep";
 import { ClassStep } from "@/components/features/character/creation/ClassStep";
 import HitPointsStep from "@/components/features/character/creation/HitPointsStep";
 import EquipmentStep from "@/components/features/character/creation/EquipmentStep";
 import { ReviewStep } from "@/components/features/character/creation/ReviewStep";
-import { useLocalStorage, useAuth } from "@/hooks";
-import { useCharacterNavigation } from "@/hooks";
-import { useStepNavigation } from "@/hooks";
-import type { Character } from "@/types";
+import { useAuth, useCharacterMutations, useStepNavigation } from "@/hooks";
+import { useCharacterStore } from "@/stores";
 import {
   useCascadeValidation,
   createCharacterValidationPipeline,
 } from "@/validation";
-import { saveCharacter } from "@/services/characters";
-import { STORAGE_KEYS } from "@/constants";
 import { allRaces, allClasses } from "@/data";
-import { logger } from "@/utils";
-import { createEmptyCharacter } from "@/utils";
-
-const emptyCharacter: Character = createEmptyCharacter();
+import { logger, createEmptyCharacter } from "@/utils";
 
 function CharGen() {
   const { user } = useAuth();
-  const { navigateToEntity } = useCharacterNavigation();
+  const [, setLocation] = useLocation();
 
-  // Use custom localStorage hooks for persistent state management
-  const [storedCharacter, setStoredCharacter] = useLocalStorage<Character>(
-    STORAGE_KEYS.NEW_CHARACTER,
-    emptyCharacter
-  );
+  // Replace multiple useLocalStorage calls with Zustand store
+  const {
+    draftCharacter: character,
+    currentStep: step,
+    preferences: {
+      includeSupplementalRace,
+      includeSupplementalClass,
+      useCombinationClass,
+    },
+    updateDraft: setCharacter,
+    setStep,
+    nextStep,
+    updatePreferences,
+  } = useCharacterStore();
 
-  // Ensure the character always has the complete structure by merging with emptyCharacter
-  const character = useMemo(
+  // Replace manual save logic with mutation
+  const { saveCharacter, isSaving, saveError } = useCharacterMutations({
+    onSaveSuccess: () => setLocation("/"),
+  });
+
+  // Ensure the character always has the complete structure by merging with empty character
+  const emptyCharacter = createEmptyCharacter();
+  const completeCharacter = useMemo(
     () => ({
       ...emptyCharacter,
-      ...storedCharacter,
-      hp: storedCharacter.hp || emptyCharacter.hp,
+      ...character,
+      hp: character.hp || emptyCharacter.hp,
     }),
-    [storedCharacter]
+    [character, emptyCharacter]
   );
 
-  const setCharacter = useCallback(
-    (newCharacter: Character) => {
-      setStoredCharacter(newCharacter);
-    },
-    [setStoredCharacter]
+  // Create wrapper functions for preference updates to match old API
+  const setIncludeSupplementalRace = useCallback(
+    (value: boolean) => updatePreferences({ includeSupplementalRace: value }),
+    [updatePreferences]
   );
 
-  const [step, setStep] = useState(0);
+  const setIncludeSupplementalClass = useCallback(
+    (value: boolean) => updatePreferences({ includeSupplementalClass: value }),
+    [updatePreferences]
+  );
 
-  const [includeSupplementalRace, setIncludeSupplementalRace] =
-    useLocalStorage<boolean>(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_RACE, false);
-
-  const [includeSupplementalClass, setIncludeSupplementalClass] =
-    useLocalStorage<boolean>(STORAGE_KEYS.INCLUDE_SUPPLEMENTAL_CLASS, false);
-
-  const [useCombinationClass, setUseCombinationClass] =
-    useLocalStorage<boolean>(STORAGE_KEYS.USE_COMBINATION_CLASS, false);
+  const setUseCombinationClass = useCallback(
+    (value: boolean) => updatePreferences({ useCombinationClass: value }),
+    [updatePreferences]
+  );
 
   // Memoize filtered data to prevent recreation of validation service
   const filteredRaces = useMemo(
@@ -87,7 +95,7 @@ function CharGen() {
 
   // Initialize cascade validation hook with memoized data
   useCascadeValidation({
-    character,
+    character: completeCharacter,
     onCharacterChange: setCharacter,
     includeSupplementalRace,
     includeSupplementalClass,
@@ -103,21 +111,21 @@ function CharGen() {
         selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
 
       if (!canUseCombinationClasses) {
-        setUseCombinationClass(false);
+        updatePreferences({ useCombinationClass: false });
       }
     }
-  }, [character.race, useCombinationClass, setUseCombinationClass]);
+  }, [character.race, useCombinationClass, updatePreferences]);
 
   // Use step navigation hook for centralized step management
   const { isLastStep, isNextDisabled, validationMessage } = useStepNavigation({
     step,
-    character,
+    character: completeCharacter,
     user,
     validationPipeline,
   });
 
   // Handle completion of character creation
-  const handleNext = useCallback(async () => {
+  const handleNext = useCallback(() => {
     if (isLastStep) {
       // This is the completion step
       if (!user) {
@@ -125,28 +133,22 @@ function CharGen() {
         return;
       }
 
-      if (!character.name?.trim()) {
+      if (!completeCharacter.name?.trim()) {
         logger.error("Character name is required");
         return;
       }
 
-      try {
-        const characterId = await saveCharacter(user.uid, character);
-
-        // Clean up localStorage when character is successfully saved
-        localStorage.removeItem(STORAGE_KEYS.CUSTOM_CLASS_MAGIC_TOGGLE);
-
-        // Navigate to the newly created character sheet and clean up storage
-        navigateToEntity(user.uid, characterId);
-      } catch (error) {
-        logger.error("Failed to save character:", error);
-        // TODO: Show error toast/notification
-      }
+      // Use TanStack Query mutation - handles optimistic updates and error handling
+      // The mutation's onSuccess callback will clear the draft and navigate
+      saveCharacter({
+        userId: user.uid,
+        character: completeCharacter,
+      });
     } else {
       // Regular next step
-      setStep(step + 1);
+      nextStep();
     }
-  }, [step, user, character, navigateToEntity, isLastStep]);
+  }, [user, completeCharacter, saveCharacter, nextStep, isLastStep]);
 
   // Helper function to create step components
   const createStepComponents = useCallback(
@@ -155,7 +157,7 @@ function CharGen() {
         title: "Abilities",
         content: (
           <AbilityScoreStep
-            character={character}
+            character={completeCharacter}
             onCharacterChange={setCharacter}
           />
         ),
@@ -164,7 +166,7 @@ function CharGen() {
         title: "Race",
         content: (
           <RaceStep
-            character={character}
+            character={completeCharacter}
             onCharacterChange={setCharacter}
             includeSupplemental={includeSupplementalRace}
             onIncludeSupplementalChange={setIncludeSupplementalRace}
@@ -175,7 +177,7 @@ function CharGen() {
         title: "Class",
         content: (
           <ClassStep
-            character={character}
+            character={completeCharacter}
             onCharacterChange={setCharacter}
             includeSupplementalClass={includeSupplementalClass}
             onIncludeSupplementalClassChange={setIncludeSupplementalClass}
@@ -188,7 +190,7 @@ function CharGen() {
         title: "Hit Points",
         content: (
           <HitPointsStep
-            character={character}
+            character={completeCharacter}
             onCharacterChange={setCharacter}
           />
         ),
@@ -197,7 +199,7 @@ function CharGen() {
         title: "Equipment",
         content: (
           <EquipmentStep
-            character={character}
+            character={completeCharacter}
             onCharacterChange={setCharacter}
           />
         ),
@@ -205,12 +207,15 @@ function CharGen() {
       {
         title: "Review",
         content: (
-          <ReviewStep character={character} onCharacterChange={setCharacter} />
+          <ReviewStep
+            character={completeCharacter}
+            onCharacterChange={setCharacter}
+          />
         ),
       },
     ],
     [
-      character,
+      completeCharacter,
       setCharacter,
       includeSupplementalRace,
       setIncludeSupplementalRace,
@@ -232,7 +237,7 @@ function CharGen() {
   );
 
   if (import.meta.env.DEV) {
-    logger.info(JSON.stringify(character));
+    logger.info(JSON.stringify(completeCharacter));
   }
 
   return (
@@ -250,11 +255,21 @@ function CharGen() {
             stepItems={stepItems}
             step={step}
             setStep={setStep}
-            nextDisabled={isNextDisabled}
+            nextDisabled={isNextDisabled || isSaving}
             onNext={handleNext}
             validationMessage={validationMessage || ""}
           />
         </section>
+
+        {/* Show save error if it occurs */}
+        {saveError && (
+          <div className="mt-4">
+            <Callout variant="error" title="Save Failed">
+              {saveError.message ||
+                "Failed to save character. Please try again."}
+            </Callout>
+          </div>
+        )}
       </article>
     </PageWrapper>
   );

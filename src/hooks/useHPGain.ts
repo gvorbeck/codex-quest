@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { LEVEL_UP_CONSTANTS } from "@/constants";
 import type { Character, Class, TwoHPClass, HPGainResult } from "@/types";
-import { hasCustomClasses, isCustomClass, logger, roller } from "@/utils";
+import {
+  hasCustomClasses,
+  isCustomClass,
+  logger,
+  roller,
+  getErrorMessage,
+} from "@/utils";
 
 interface UseHPGainProps {
   character: Character;
@@ -54,8 +60,7 @@ export function useHPGain({
       setGeneratedHPGain(result);
       setError(null);
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to calculate HP gain";
+      const errorMessage = getErrorMessage(err, "Failed to calculate HP gain");
       setError(errorMessage);
       logger.error("HP gain calculation error:", err);
     }

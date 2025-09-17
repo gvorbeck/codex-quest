@@ -1,8 +1,6 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback, useState, Suspense } from "react";
 import { Breadcrumb } from "@/components/ui/composite";
-import { Icon } from "@/components/ui/core/display";
-import { Button } from "@/components/ui/core/primitives";
 import { PageWrapper } from "@/components/ui/core/layout";
 import { LoadingState } from "@/components/ui/core/feedback";
 import { Typography } from "@/components/ui/core/display";
@@ -17,10 +15,10 @@ import {
   CombatTrackerModal,
   EncounterGeneratorModal,
 } from "@/components/modals/LazyModals";
-import { useFirebaseSheet } from "@/hooks/useFirebaseSheet";
+import { useGame } from "@/hooks";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { useNotifications } from "@/hooks/useNotifications";
-import { logger } from "@/utils";
+import { logger, getErrorMessage } from "@/utils";
 import {
   GAME_SHEET_STYLES,
   ERROR_MESSAGES,
@@ -36,20 +34,15 @@ export default function GameSheet() {
   const [isEncounterGeneratorModalOpen, setIsEncounterGeneratorModalOpen] =
     useState(false);
 
-  // Use the generic Firebase sheet hook
+  // Use TanStack Query game hook
   const {
     data: game,
-    loading,
+    isLoading: loading,
     error,
     isOwner: isGameMaster,
     isUpdating,
-    updateEntity: updateGame,
-    clearError,
-  } = useFirebaseSheet<Game>({
-    userId: params?.userId,
-    entityId: params?.gameId,
-    collection: "GAMES",
-  });
+    updateGame,
+  } = useGame(params?.userId, params?.gameId);
 
   // Use the dice roller hook
   const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
@@ -191,20 +184,9 @@ export default function GameSheet() {
   if (error) {
     return (
       <div className={GAME_SHEET_STYLES.layout.statusMessage} role="alert">
-        <div className="flex items-center justify-between">
-          <Typography variant="body" color="secondary">
-            Error: {error}
-          </Typography>
-          <Button
-            onClick={clearError}
-            variant="ghost"
-            size="sm"
-            aria-label="Dismiss error"
-            className="ml-4"
-          >
-            <Icon name="close" size="sm" />
-          </Button>
-        </div>
+        <Typography variant="body" color="secondary">
+          Error: {getErrorMessage(error, "Failed to load game")}
+        </Typography>
       </div>
     );
   }
