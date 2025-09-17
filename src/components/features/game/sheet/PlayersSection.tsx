@@ -17,10 +17,11 @@ interface PlayersSectionProps {
 export const PlayersSection = memo(
   ({ players, showDivider = false, onDeletePlayer }: PlayersSectionProps) => {
     // Prepare data requests for all players
-    const playerRequests = players?.map((player) => ({
-      userId: player.user,
-      characterId: player.character,
-    })) || [];
+    const playerRequests =
+      players?.map((player) => ({
+        userId: player.user,
+        characterId: player.character,
+      })) || [];
 
     // Use TanStack Query to resolve player data with automatic caching
     const { getResolvedData, isLoading } = useDataResolver(playerRequests);

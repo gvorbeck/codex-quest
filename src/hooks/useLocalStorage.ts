@@ -1,59 +1,53 @@
+import { useState, useEffect } from "react";
 import { logger } from "@/utils";
-import { useState, useEffect, useCallback } from "react";
 
 /**
- * Custom hook for managing localStorage with automatic JSON serialization/deserialization
- * Provides error handling and type safety for localStorage operations
+ * Minimal useLocalStorage implementation for remaining components
+ * This is a temporary solution while we complete the migration to Zustand
  */
 export function useLocalStorage<T>(
   key: string,
-  defaultValue: T
-): [T, (value: T) => void, () => void] {
-  // Initialize state with lazy evaluation to get value from localStorage
+  initialValue: T
+): [T, (value: T | ((val: T) => T)) => void] {
+  // Initialize state with value from localStorage or initialValue
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : defaultValue;
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       logger.warn(`Error reading localStorage key "${key}":`, error);
-      return defaultValue;
+      return initialValue;
     }
   });
 
-  // Setter function that updates both state and localStorage
-  const setValue = useCallback(
-    (value: T) => {
-      try {
-        setStoredValue(value);
-        localStorage.setItem(key, JSON.stringify(value));
-      } catch (error) {
-        logger.error(`Error setting localStorage key "${key}":`, error);
-      }
-    },
-    [key]
-  );
-
-  // Function to remove item from localStorage and reset to default
-  const removeValue = useCallback(() => {
+  // Function to set value
+  const setValue = (value: T | ((val: T) => T)) => {
     try {
-      localStorage.removeItem(key);
-      setStoredValue(defaultValue);
+      // Allow value to be a function so we have the same API as useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      logger.error(`Error removing localStorage key "${key}":`, error);
+      logger.warn(`Error setting localStorage key "${key}":`, error);
     }
-  }, [key, defaultValue]);
+  };
 
-  // Sync with localStorage when the key changes
+  // Listen for changes from other tabs/windows
   useEffect(() => {
-    try {
-      const item = localStorage.getItem(key);
-      if (item) {
-        setStoredValue(JSON.parse(item));
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === key && e.newValue !== null) {
+        try {
+          setStoredValue(JSON.parse(e.newValue));
+        } catch (error) {
+          logger.warn(`Error parsing localStorage change for "${key}":`, error);
+        }
       }
-    } catch (error) {
-      logger.warn(`Error syncing localStorage key "${key}":`, error);
-    }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [key]);
 
-  return [storedValue, setValue, removeValue];
+  return [storedValue, setValue];
 }

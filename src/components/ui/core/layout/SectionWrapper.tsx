@@ -2,7 +2,7 @@ import { forwardRef, useState, useCallback } from "react";
 import { SectionHeader } from "@/components";
 import { DESIGN_TOKENS } from "@/constants";
 import { cn } from "@/utils";
-import { useLocalStorage } from "@/hooks";
+import { useUiStore } from "@/stores";
 
 interface SectionWrapperProps {
   title: React.ReactNode;
@@ -25,24 +25,27 @@ const SectionWrapper = forwardRef<HTMLDivElement, SectionWrapperProps>(
     },
     ref
   ) => {
-    // Use localStorage to persist collapse state if collapsibleKey is provided
-    const [persistedCollapsed, setPersistedCollapsed] = useLocalStorage(
-      collapsibleKey ? `section-collapsed-${collapsibleKey}` : "temp-key",
-      false
+    // Use Zustand store to persist collapse state if collapsibleKey is provided
+    const isSectionCollapsed = useUiStore((state) => state.isSectionCollapsed);
+    const setSectionCollapsed = useUiStore(
+      (state) => state.setSectionCollapsed
     );
 
     // Use local state if no collapsibleKey provided
     const [localCollapsed, setLocalCollapsed] = useState(false);
 
     // Determine which state to use
-    const isCollapsed = collapsibleKey ? persistedCollapsed : localCollapsed;
-    const setIsCollapsed = collapsibleKey
-      ? setPersistedCollapsed
-      : setLocalCollapsed;
+    const isCollapsed = collapsibleKey
+      ? isSectionCollapsed(collapsibleKey)
+      : localCollapsed;
 
     const toggleCollapse = useCallback(() => {
-      setIsCollapsed(!isCollapsed);
-    }, [isCollapsed, setIsCollapsed]);
+      if (collapsibleKey) {
+        setSectionCollapsed(collapsibleKey, !isCollapsed);
+      } else {
+        setLocalCollapsed(!isCollapsed);
+      }
+    }, [isCollapsed, collapsibleKey, setSectionCollapsed]);
 
     const containerClasses = cn(
       DESIGN_TOKENS.colors.bg.accent,

@@ -16,13 +16,15 @@ interface UsePlayerCharactersReturn {
  */
 export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
   // Prepare data requests for all players
-  const playerRequests = game?.players?.map((player) => ({
-    userId: player.user,
-    characterId: player.character,
-  })) || [];
+  const playerRequests =
+    game?.players?.map((player) => ({
+      userId: player.user,
+      characterId: player.character,
+    })) || [];
 
   // Use TanStack Query to resolve player data
-  const { getResolvedData, isLoading, hasError } = useDataResolver(playerRequests);
+  const { getResolvedData, isLoading, hasError } =
+    useDataResolver(playerRequests);
 
   // Transform resolved data to match CharacterListItem interface
   const playerCharacters = useMemo(() => {
@@ -50,7 +52,7 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
       // Add any additional properties that might exist in resolved data
       if (resolved) {
         Object.keys(resolved).forEach((key) => {
-          if (!['characterName', 'race', 'class', 'level'].includes(key)) {
+          if (!["characterName", "race", "class", "level"].includes(key)) {
             character[key] = resolved[key as keyof typeof resolved];
           }
         });
@@ -71,6 +73,6 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
   return {
     playerCharacters,
     loading: isLoading,
-    error: hasError ? "Failed to load player character data" : null
+    error: hasError ? "Failed to load player character data" : null,
   };
 };

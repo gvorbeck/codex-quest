@@ -1,9 +1,7 @@
-export { useLocalStorage } from "./useLocalStorage";
 export { useAuth } from "./useAuth";
 export { useCharacters } from "./queries/useCharacters";
 export { useFocusManagement } from "./useFocusManagement";
 export { useNotifications } from "./useNotifications";
-export { useFirebaseSheet } from "./useFirebaseSheet";
 export { useDiceRoller } from "./useDiceRoller";
 export { useDebouncedUpdate } from "./useDebouncedUpdate";
 export { useDebounce } from "./useDebounce";
@@ -36,3 +34,4 @@ export { useStepNavigation } from "./useStepNavigation";
 // TanStack Query hooks
 export { useCharacterMutations } from "./mutations/useCharacterMutations";
 export { useCharacterSheet } from "./queries/useCharacterSheet";
+export { useGame } from "./queries/useGame";

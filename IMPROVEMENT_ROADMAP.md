@@ -645,7 +645,7 @@ export function useDataResolver(requests: DataRequest[]) {
 **✅ Completion Criteria:**
 
 - [x] useGames converted to TanStack Query
-- [x] useDataResolver simplified using useQueries  
+- [x] useDataResolver simplified using useQueries
 - [x] Global cache cleanup logic removed
 - [x] All Firebase operations use consistent patterns
 
@@ -677,10 +677,10 @@ export const queryKeys = {
 
 **✅ Completion Criteria:**
 
-- [ ] All deprecated state management hooks removed
-- [ ] Query key factory implemented for consistency
-- [ ] Bundle size reduced by removing duplicate logic
-- [ ] Performance monitoring shows improved cache hit rates
+- [x] All deprecated state management hooks removed
+- [x] Query key factory implemented for consistency
+- [x] Bundle size reduced by removing duplicate logic
+- [x] Performance monitoring shows improved cache hit rates
 
 **Final Success Metrics:**
 

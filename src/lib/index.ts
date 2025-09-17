@@ -8,3 +8,6 @@ export * from "./firebase";
 
 // TanStack Query configuration
 export { queryClient } from "./queryClient";
+
+// Query key factories
+export { queryKeys } from "./queryKeys";

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCharacterStore } from "@/stores";
+import { queryKeys } from "@/lib/queryKeys";
 import type { Character } from "@/types";
 import {
   saveCharacter,
@@ -28,17 +29,16 @@ export function useCharacterMutations() {
 
     onMutate: async (variables) => {
       await queryClient.cancelQueries({
-        queryKey: ["characters", variables.userId],
+        queryKey: queryKeys.characters.user(variables.userId),
       });
 
-      const previousCharacters = queryClient.getQueryData<CharacterListItem[]>([
-        "characters",
-        variables.userId,
-      ]);
+      const previousCharacters = queryClient.getQueryData<CharacterListItem[]>(
+        queryKeys.characters.user(variables.userId)
+      );
 
       // Optimistic update
       queryClient.setQueryData(
-        ["characters", variables.userId],
+        queryKeys.characters.user(variables.userId),
         (old: CharacterListItem[] = []) => {
           if (variables.characterId) {
             // Update existing
@@ -70,7 +70,7 @@ export function useCharacterMutations() {
     onError: (_, variables, context) => {
       if (context?.previousCharacters) {
         queryClient.setQueryData(
-          ["characters", variables.userId],
+          queryKeys.characters.user(variables.userId),
           context.previousCharacters
         );
       }
@@ -80,7 +80,7 @@ export function useCharacterMutations() {
       clearDraft();
       // Invalidate to get fresh data with real IDs
       queryClient.invalidateQueries({
-        queryKey: ["characters", variables.userId],
+        queryKey: queryKeys.characters.user(variables.userId),
       });
     },
   });
@@ -91,17 +91,16 @@ export function useCharacterMutations() {
 
     onMutate: async (variables) => {
       await queryClient.cancelQueries({
-        queryKey: ["characters", variables.userId],
+        queryKey: queryKeys.characters.user(variables.userId),
       });
 
-      const previousCharacters = queryClient.getQueryData<CharacterListItem[]>([
-        "characters",
-        variables.userId,
-      ]);
+      const previousCharacters = queryClient.getQueryData<CharacterListItem[]>(
+        queryKeys.characters.user(variables.userId)
+      );
 
       // Optimistic removal
       queryClient.setQueryData(
-        ["characters", variables.userId],
+        queryKeys.characters.user(variables.userId),
         (old: CharacterListItem[] = []) =>
           old.filter((char) => char.id !== variables.characterId)
       );
@@ -112,7 +111,7 @@ export function useCharacterMutations() {
     onError: (_, variables, context) => {
       if (context?.previousCharacters) {
         queryClient.setQueryData(
-          ["characters", variables.userId],
+          queryKeys.characters.user(variables.userId),
           context.previousCharacters
         );
       }
@@ -121,7 +120,7 @@ export function useCharacterMutations() {
     onSuccess: (_, variables) => {
       // Invalidate to ensure consistency
       queryClient.invalidateQueries({
-        queryKey: ["characters", variables.userId],
+        queryKey: queryKeys.characters.user(variables.userId),
       });
     },
   });

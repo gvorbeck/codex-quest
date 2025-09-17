@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserGames } from "@/services";
 import { useAuth } from "@/hooks/useAuth";
+import { queryKeys } from "@/lib/queryKeys";
 
 /**
  * TanStack Query hook for managing games data
@@ -10,7 +11,7 @@ export function useGames() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ["games", user?.uid],
+    queryKey: queryKeys.games.user(user?.uid || ""),
     queryFn: () => getUserGames(user!),
     enabled: !!user,
     staleTime: 5 * 60 * 1000, // Games change less frequently than characters

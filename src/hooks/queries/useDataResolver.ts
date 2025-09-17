@@ -1,6 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { queryKeys } from "@/lib/queryKeys";
 import { logger } from "@/utils";
 import type { Character } from "@/types";
 
@@ -62,7 +63,7 @@ async function getCharacterSummary(
 export function useDataResolver(requests: DataRequest[] = []) {
   const queries = useQueries({
     queries: requests.map(({ userId, characterId }) => ({
-      queryKey: ["character-summary", userId, characterId],
+      queryKey: queryKeys.characters.summary(userId, characterId),
       queryFn: () => getCharacterSummary(userId, characterId),
       staleTime: 2 * 60 * 1000, // Character summary data is relatively stable
       enabled: !!(userId && characterId),

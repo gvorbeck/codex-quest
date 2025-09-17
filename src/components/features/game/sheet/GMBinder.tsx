@@ -26,10 +26,11 @@ export const GMBinder = memo(
     const [hasSkillClasses, setHasSkillClasses] = useState(false);
 
     // Prepare data requests for all players
-    const playerRequests = game?.players?.map((player) => ({
-      userId: player.user,
-      characterId: player.character,
-    })) || [];
+    const playerRequests =
+      game?.players?.map((player) => ({
+        userId: player.user,
+        characterId: player.character,
+      })) || [];
 
     // Use TanStack Query to resolve player data
     const { getResolvedData } = useDataResolver(playerRequests);

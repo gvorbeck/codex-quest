@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib";
+import { queryKeys } from "@/lib/queryKeys";
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import { useAuth } from "@/hooks";
 import { processCharacterData, isLegacyCharacter } from "@/services";
@@ -91,7 +92,7 @@ export function useCharacterSheet(userId: string, characterId: string) {
   const isOwner = Boolean(user && userId === user.uid);
 
   const query = useQuery({
-    queryKey: ["character", userId, characterId],
+    queryKey: queryKeys.characters.detail(userId, characterId),
     queryFn: () => getCharacterSheet(userId, characterId),
     enabled: !!userId && !!characterId,
     staleTime: 30 * 1000, // 30 seconds - character sheets change frequently during play
@@ -103,18 +104,16 @@ export function useCharacterSheet(userId: string, characterId: string) {
 
     onMutate: async (newCharacter) => {
       await queryClient.cancelQueries({
-        queryKey: ["character", userId, characterId],
+        queryKey: queryKeys.characters.detail(userId, characterId),
       });
 
-      const previousCharacter = queryClient.getQueryData<Character>([
-        "character",
-        userId,
-        characterId,
-      ]);
+      const previousCharacter = queryClient.getQueryData<Character>(
+        queryKeys.characters.detail(userId, characterId)
+      );
 
       // Optimistic update
       queryClient.setQueryData(
-        ["character", userId, characterId],
+        queryKeys.characters.detail(userId, characterId),
         newCharacter
       );
 
@@ -124,7 +123,7 @@ export function useCharacterSheet(userId: string, characterId: string) {
     onError: (_, __, context) => {
       if (context?.previousCharacter) {
         queryClient.setQueryData(
-          ["character", userId, characterId],
+          queryKeys.characters.detail(userId, characterId),
           context.previousCharacter
         );
       }
@@ -133,7 +132,7 @@ export function useCharacterSheet(userId: string, characterId: string) {
     onSuccess: () => {
       // Also update the character in the characters list if it exists in cache
       queryClient.invalidateQueries({
-        queryKey: ["characters", userId],
+        queryKey: queryKeys.characters.user(userId),
       });
     },
   });
