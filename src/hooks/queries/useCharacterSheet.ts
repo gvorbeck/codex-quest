@@ -142,14 +142,5 @@ export function useCharacterSheet(userId: string, characterId: string) {
     isUpdating: updateMutation.isPending,
     updateCharacter: updateMutation.mutate,
     updateError: updateMutation.error?.message || null,
-    clearError: () => {
-      // TanStack Query automatically handles error clearing on retry/success
-    },
-    setError: () => {
-      // For compatibility with existing components, though TanStack Query handles this better
-      logger.warn(
-        "setError called on useCharacterSheet - consider using mutation error states instead"
-      );
-    },
   };
 }

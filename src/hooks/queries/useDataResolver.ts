@@ -99,10 +99,6 @@ export function useDataResolver(requests: DataRequest[] = []) {
     getResolvedData,
     isLoading,
     hasError,
-    // Keep compatibility with old API - will be replaced in components
-    resolveMultiple: () => {
-      // This is a no-op since TanStack Query handles the resolution automatically
-    },
   };
 }
 
