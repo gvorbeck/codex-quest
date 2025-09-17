@@ -5,7 +5,10 @@ import { FIREBASE_COLLECTIONS } from "@/constants";
 import { useAuth } from "@/hooks";
 import { useLoadingState } from "@/hooks";
 import { logger } from "@/utils";
-import { processCharacterData, isLegacyCharacter } from "@/services/characterMigration";
+import {
+  processCharacterData,
+  isLegacyCharacter,
+} from "@/services/characterMigration";
 
 interface UseFirebaseSheetParams {
   userId: string | undefined;
@@ -145,7 +148,11 @@ export function useFirebaseSheet<T extends Record<string, any>>({
             const wasLegacy = isLegacyCharacter(rawData);
 
             if (wasLegacy) {
-              logger.debug(`Migrating legacy character in useFirebaseSheet: ${rawData["name"] || "Unknown"}`);
+              logger.debug(
+                `Migrating legacy character in useFirebaseSheet: ${
+                  rawData["name"] || "Unknown"
+                }`
+              );
               const migratedData = processCharacterData(rawData);
 
               entityData = {
@@ -156,9 +163,14 @@ export function useFirebaseSheet<T extends Record<string, any>>({
               // Persist the migrated data back to Firebase
               try {
                 await setDoc(entityRef, migratedData);
-                logger.info(`Successfully persisted migration for character ${entitySnap.id}`);
+                logger.info(
+                  `Successfully persisted migration for character ${entitySnap.id}`
+                );
               } catch (migrationError) {
-                logger.error(`Failed to persist migration for character ${entitySnap.id}:`, migrationError);
+                logger.error(
+                  `Failed to persist migration for character ${entitySnap.id}:`,
+                  migrationError
+                );
                 // Continue with migrated data even if persistence fails
               }
             }
