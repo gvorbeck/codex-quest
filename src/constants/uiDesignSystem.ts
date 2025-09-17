@@ -372,7 +372,3 @@ export const LOADING_MESSAGES = {
 export function getCurrencyConfig(key: CurrencyKey) {
   return CURRENCY_UI_CONFIG.find((config) => config.key === key);
 }
-
-// Legacy exports for backward compatibility
-// export const ICON_STYLES = DESIGN_TOKENS.icons;
-// export const CARD_DECORATION_SIZES = DESIGN_TOKENS.decorations;

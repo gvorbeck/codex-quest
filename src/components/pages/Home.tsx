@@ -1,22 +1,22 @@
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui";
-import { FABGroup } from "@/components/ui/inputs/FloatingActionButton";
+import { FABGroup } from "@/components/ui/core/primitives/FloatingActionButton";
 import {
   Icon,
-  TextHeader,
   HeroSection,
   FeatureCard,
-} from "@/components/ui/display";
-import { PageWrapper } from "@/components/ui/layout";
+} from "@/components/ui/composite";
+import { TextHeader } from "@/components/ui/composite/TextHeader";
+import { PageWrapper } from "@/components/ui/core/layout";
 import {
   Tabs,
   TabList,
   Tab,
   TabPanels,
   TabPanel,
-} from "@/components/ui/layout/Tabs";
-import { CharactersList } from "@/components/character/management";
-import { GamesList } from "@/components/game/management";
+} from "@/components/ui/core/layout/Tabs";
+import { CharactersList } from "@/components/features/character/management";
+import { GamesList } from "@/components/features/game/management";
 import { useAuth, useCharacters } from "@/hooks";
 
 function Home() {

@@ -3,7 +3,7 @@
  * Consolidates common validation patterns from across the codebase
  */
 
-import type { ValidationRule } from "./types";
+import type { ValidationRule } from "@/types/validation";
 import { createRule } from "./core";
 import type { Character, Race, Class, AbilityScore } from "@/types";
 import { isCustomClass, isCustomRace } from "@/utils";

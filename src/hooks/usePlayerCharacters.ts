@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
-import {
-  getCharacterById,
-  type CharacterListItem,
-} from "@/services/characters";
+import { useState, useEffect, useMemo } from "react";
+import { useDataResolver } from "./useDataResolver";
+import type { CharacterListItem } from "@/services/characters";
 import type { Game } from "@/types";
 import { logger } from "@/utils";
 
@@ -14,60 +12,75 @@ interface UsePlayerCharactersReturn {
 
 /**
  * Custom hook to fetch player character data for a game
- * Handles loading states and error management
+ * Uses useDataResolver internally to leverage caching and batch fetching
  */
 export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
-  const [playerCharacters, setPlayerCharacters] = useState<CharacterListItem[]>(
-    []
-  );
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Use the data resolver with real-time updates for active game sessions
+  const { resolveMultiple, getResolvedData, isLoading } = useDataResolver({
+    enableRealTime: true,
+  });
+
+  // Resolve player data when players change
   useEffect(() => {
-    const fetchPlayerCharacters = async () => {
-      if (!game?.players?.length) {
-        setPlayerCharacters([]);
-        setLoading(false);
-        return;
+    if (game?.players?.length) {
+      const playerData = game.players.map((player) => ({
+        userId: player.user,
+        characterId: player.character,
+      }));
+      resolveMultiple(playerData);
+      setError(null); // Clear any previous errors
+    }
+  }, [game?.players, resolveMultiple]);
+
+  // Transform resolved data to match CharacterListItem interface
+  const playerCharacters = useMemo(() => {
+    if (!game?.players?.length) return [];
+
+    const characters: CharacterListItem[] = game.players.map((player) => {
+      const resolved = getResolvedData(player.user, player.character);
+
+      const character: CharacterListItem = {
+        id: player.character,
+        name: resolved?.characterName || player.character,
+      };
+
+      // Only add properties if they exist to avoid undefined values
+      if (resolved?.race) {
+        character.race = resolved.race;
+      }
+      if (resolved?.class) {
+        character.class = resolved.class;
+      }
+      if (resolved?.level) {
+        character.level = resolved.level;
       }
 
-      setLoading(true);
-      setError(null);
-
-      try {
-        const characterPromises = game.players.map((player) =>
-          getCharacterById(player.user, player.character)
-        );
-
-        const characterResults = await Promise.all(characterPromises);
-        const validCharacters = characterResults.filter(
-          (char): char is NonNullable<typeof char> => char !== null
-        );
-
-        setPlayerCharacters(validCharacters);
-
-        logger.debug("Successfully fetched player characters", {
-          gameId: game.name || "unnamed-game",
-          playerCount: game.players.length,
-          validCharacterCount: validCharacters.length,
+      // Add any additional properties that might exist in resolved data
+      if (resolved) {
+        Object.keys(resolved).forEach((key) => {
+          if (!['characterName', 'race', 'class', 'level'].includes(key)) {
+            character[key] = resolved[key as keyof typeof resolved];
+          }
         });
-      } catch (err) {
-        const errorMessage = `Failed to fetch player characters: ${
-          err instanceof Error ? err.message : "Unknown error"
-        }`;
-        logger.error("Error fetching player characters", {
-          error: err,
-          gameId: game.name || "unnamed-game",
-          playerCount: game.players?.length,
-        });
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
       }
-    };
 
-    fetchPlayerCharacters();
-  }, [game?.players, game?.name]);
+      return character;
+    });
 
-  return { playerCharacters, loading, error };
+    logger.debug("Generated player characters from resolved data", {
+      gameId: game.name || "unnamed-game",
+      playerCount: game.players.length,
+      resolvedCharacterCount: characters.length,
+    });
+
+    return characters;
+  }, [game?.players, game?.name, getResolvedData]);
+
+  return {
+    playerCharacters,
+    loading: isLoading,
+    error
+  };
 };

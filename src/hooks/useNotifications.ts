@@ -1,9 +1,9 @@
 import { useState, useCallback, useMemo } from "react";
-import type { NotificationData } from "@/components/ui/feedback/NotificationContainer";
+import type { NotificationData } from "@/components/ui/core/feedback/NotificationContainer";
 import type {
   NotificationPriority,
   NotificationPosition,
-} from "@/components/ui/feedback/Notification";
+} from "@/components/ui/core/feedback/Notification";
 import type { ShowNotificationOptions, NotificationSystem } from "@/types";
 import { useA11yAnnouncements } from "./useA11y";
 import { NOTIFICATION_CONSTANTS } from "@/constants";

@@ -93,3 +93,13 @@ export type { SpellWithCategory, SpellTypeInfo } from "./spells";
 
 // Monster types
 export type { MonsterStats, Monster, MonsterWithCategory } from "./monsters";
+
+// Validation types
+export type {
+  ValidationRule,
+  ValidationSchema,
+  ValidationResult,
+  ValidationContext,
+  CharacterValidationStep,
+  CharacterValidationPipeline,
+} from "./validation";

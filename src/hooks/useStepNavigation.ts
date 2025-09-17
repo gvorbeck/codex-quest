@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import type { Character } from "@/types";
-import type { AuthUser } from "@/services/auth";
-import type { CharacterValidationPipeline } from "@/validation/types";
+import type { Character, CharacterValidationPipeline } from "@/types";
+import type { AuthUser } from "@/services";
 
 interface UseStepNavigationProps {
   step: number;

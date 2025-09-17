@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui";
-import { TextInput, FormField } from "@/components/ui/inputs";
-import { ErrorDisplay } from "@/components/ui/feedback";
+import { TextInput, FormField } from "@/components/ui/core/primitives";
+import { ErrorDisplay } from "@/components/ui/core/feedback";
 import { Modal } from "@/components/modals";
 import {
   Tabs,
@@ -9,7 +9,7 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-} from "@/components/ui/layout/Tabs";
+} from "@/components/ui/core/layout/Tabs";
 import { useLoadingState } from "@/hooks";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils";

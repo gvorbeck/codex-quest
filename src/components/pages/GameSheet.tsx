@@ -1,16 +1,17 @@
 import { useRoute } from "wouter";
 import { useMemo, useCallback, useState, Suspense } from "react";
-import { Breadcrumb, Icon } from "@/components/ui/display";
-import { Button } from "@/components/ui/inputs";
-import { PageWrapper } from "@/components/ui/layout";
-import { LoadingState } from "@/components/ui/feedback";
-import { Typography } from "@/components/ui/design-system";
-import GameHero from "@/components/game/sheet/Hero";
-import { PlayersSection } from "@/components/game/sheet/PlayersSection";
-import { GameNotesSection } from "@/components/game/sheet/GameNotesSection";
-import { GameSheetEmptyState } from "@/components/game/sheet/GameSheetEmptyState";
-import { AddChar } from "@/components/game/sheet/AddChar";
-import { GMBinder } from "@/components/game/sheet/GMBinder";
+import { Breadcrumb } from "@/components/ui/composite";
+import { Icon } from "@/components/ui/core/display";
+import { Button } from "@/components/ui/core/primitives";
+import { PageWrapper } from "@/components/ui/core/layout";
+import { LoadingState } from "@/components/ui/core/feedback";
+import { Typography } from "@/components/ui/core/display";
+import GameHero from "@/components/features/game/sheet/Hero";
+import { PlayersSection } from "@/components/features/game/sheet/PlayersSection";
+import { GameNotesSection } from "@/components/features/game/sheet/GameNotesSection";
+import { GameSheetEmptyState } from "@/components/features/game/sheet/GameSheetEmptyState";
+import { AddChar } from "@/components/features/game/sheet/AddChar";
+import { GMBinder } from "@/components/features/game/sheet/GMBinder";
 import {
   TreasureGeneratorModal,
   CombatTrackerModal,

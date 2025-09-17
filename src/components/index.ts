@@ -6,11 +6,19 @@
 // UI components (reusable design system)
 export * from "./ui";
 
-// Character-related components
-export * from "./character";
+// Feature components
+export * from "./features/character";
+export * from "./features/game";
 
-// Game-related components
-export * from "./game";
+// Domain components
+export * from "./domain/dice";
+export * from "./domain/spells";
+export * from "./domain/equipment";
+
+// App components
+export * from "./app";
+
+// Game components removed - use features/game directly
 
 // Modal components
 export * from "./modals";

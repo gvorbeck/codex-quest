@@ -4,7 +4,7 @@
  */
 
 import { useMemo, useCallback, useEffect } from "react";
-import type { ValidationResult, ValidationSchema } from "./types";
+import type { ValidationResult, ValidationSchema } from "@/types/validation";
 import { validate } from "./core";
 import type { Character, Race, Class } from "@/types";
 import { allRaces, allClasses } from "@/data";
