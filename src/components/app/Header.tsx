@@ -56,7 +56,7 @@ export function Header({
               >
                 <div className="relative">
                   <img
-                    src="/logo.webp"
+                    src="/images/logo.webp"
                     alt="Codex.Quest logo"
                     className="w-10 h-10 sm:w-12 sm:h-12 transition-transform duration-200 group-hover:scale-105"
                     loading="eager"

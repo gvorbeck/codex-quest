@@ -11,7 +11,7 @@ interface AvatarSelectorProps {
   onCharacterChange: (character: Character) => void;
 }
 
-// List of stock avatars available in /public/faces/
+// List of stock avatars available in /public/avatars/
 const STOCK_AVATARS = [
   "cleric-man-1.webp",
   "dwarf-man-1.webp",
@@ -40,8 +40,8 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
 
   // Determine if current avatar is a stock avatar or custom upload
   const isCustomAvatar =
-    character.avatar && !character.avatar.startsWith("/faces/");
-  const selectedStockAvatar = character.avatar?.startsWith("/faces/")
+    character.avatar && !character.avatar.startsWith("/avatars/");
+  const selectedStockAvatar = character.avatar?.startsWith("/avatars/")
     ? character.avatar
     : null;
 
@@ -49,7 +49,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
     (avatarPath: string) => {
       onCharacterChange({
         ...character,
-        avatar: `/faces/${avatarPath}`,
+        avatar: `/avatars/${avatarPath}`,
       });
       setUploadError("");
     },
@@ -174,7 +174,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
         </Typography>
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
           {STOCK_AVATARS.map((avatar) => {
-            const avatarPath = `/faces/${avatar}`;
+            const avatarPath = `/avatars/${avatar}`;
             const isSelected = selectedStockAvatar === avatarPath;
 
             return (

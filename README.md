@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./public/logo.webp" width="200" alt="Codex.Quest Logo" />
+  <img src="./public/images/logo.webp" width="200" alt="Codex.Quest Logo" />
   
   # 🔥 Codex.Quest
   
