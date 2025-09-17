@@ -1,5 +1,4 @@
 import { memo, useState, useCallback, useEffect } from "react";
-import { logger } from "@/utils";
 import {
   Tabs,
   TabList,
@@ -11,7 +10,7 @@ import {
 import { SpellsTab } from "./SpellsTab";
 import { BestiaryTab } from "./BestiaryTab";
 import { SkillsTab } from "./SkillsTab";
-import { getCharacterById } from "@/services/characters";
+import { useDataResolver } from "@/hooks/useDataResolver";
 import { CLASSES_WITH_SKILLS } from "@/constants";
 import type { Game, GameCombatant } from "@/types";
 
@@ -26,39 +25,42 @@ export const GMBinder = memo(
     const [selectedTab, setSelectedTab] = useState("spells");
     const [hasSkillClasses, setHasSkillClasses] = useState(false);
 
-    // Check if any players have skill classes
+    // Use data resolver to get character data
+    const { resolveMultiple, getResolvedData } = useDataResolver();
+
+    // Resolve player data when players change
     useEffect(() => {
-      const checkForSkillClasses = async () => {
-        if (!game?.players?.length) {
-          setHasSkillClasses(false);
-          return;
-        }
+      if (game?.players?.length) {
+        const playerData = game.players.map((player) => ({
+          userId: player.user,
+          characterId: player.character,
+        }));
+        resolveMultiple(playerData);
+      }
+    }, [game?.players, resolveMultiple]);
 
-        try {
-          const characterPromises = game.players.map((player) =>
-            getCharacterById(player.user, player.character)
-          );
+    // Check if any players have skill classes using resolved data
+    useEffect(() => {
+      if (!game?.players?.length) {
+        setHasSkillClasses(false);
+        return;
+      }
 
-          const characterResults = await Promise.all(characterPromises);
-          const hasSkills = characterResults.some((result) => {
-            if (!result?.class) return false;
-            const classes = Array.isArray(result.class)
-              ? result.class
-              : [result.class].filter(Boolean);
-            return classes.some(
-              (className: string) => className in CLASSES_WITH_SKILLS
-            );
-          });
+      const hasSkills = game.players.some((player) => {
+        const resolved = getResolvedData(player.user, player.character);
+        if (!resolved?.class) return false;
 
-          setHasSkillClasses(hasSkills);
-        } catch (error) {
-          logger.error("Error checking for skill classes:", error);
-          setHasSkillClasses(false);
-        }
-      };
+        const classes = Array.isArray(resolved.class)
+          ? resolved.class
+          : [resolved.class].filter(Boolean);
 
-      checkForSkillClasses();
-    }, [game?.players]);
+        return classes.some(
+          (className: string) => className in CLASSES_WITH_SKILLS
+        );
+      });
+
+      setHasSkillClasses(hasSkills);
+    }, [game?.players, getResolvedData]);
 
     const handleTabChange = useCallback((value: string) => {
       setSelectedTab(value);
