@@ -24,7 +24,8 @@
       "Bash(python3:*)",
       "Bash(/compact)",
       "Bash(cloc:*)",
-      "Bash(xargs sed:*)"
+      "Bash(xargs sed:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [
       "Bash(npm run dev)"

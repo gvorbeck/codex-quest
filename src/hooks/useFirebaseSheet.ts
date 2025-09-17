@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import { useAuth } from "@/hooks";
 import { useLoadingState } from "@/hooks";
 import { logger } from "@/utils";
+import { processCharacterData, isLegacyCharacter } from "@/services/characterMigration";
 
 interface UseFirebaseSheetParams {
   userId: string | undefined;
@@ -133,10 +134,36 @@ export function useFirebaseSheet<T extends Record<string, any>>({
         const entitySnap = await getDoc(entityRef);
 
         if (entitySnap.exists()) {
-          const entityData = {
+          let entityData = {
             id: entitySnap.id,
             ...entitySnap.data(),
           } as T & { id: string };
+
+          // Apply character migration if this is a character
+          if (collection === "CHARACTERS") {
+            const rawData = entitySnap.data();
+            const wasLegacy = isLegacyCharacter(rawData);
+
+            if (wasLegacy) {
+              logger.debug(`Migrating legacy character in useFirebaseSheet: ${rawData["name"] || "Unknown"}`);
+              const migratedData = processCharacterData(rawData);
+
+              entityData = {
+                id: entitySnap.id,
+                ...migratedData,
+              } as T & { id: string };
+
+              // Persist the migrated data back to Firebase
+              try {
+                await setDoc(entityRef, migratedData);
+                logger.info(`Successfully persisted migration for character ${entitySnap.id}`);
+              } catch (migrationError) {
+                logger.error(`Failed to persist migration for character ${entitySnap.id}:`, migrationError);
+                // Continue with migrated data even if persistence fails
+              }
+            }
+          }
+
           setData(entityData);
         } else {
           setError(

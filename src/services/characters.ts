@@ -23,11 +23,6 @@ export interface CharacterListItem {
   level?: number;
   hp?: { current?: number; max?: number } | number;
   xp?: number;
-  // Custom race support - deprecated, use race field directly
-  // This field is kept temporarily for migration compatibility
-  customRace?: {
-    name?: string;
-  };
   // Allow for additional properties that might exist
   [key: string]: unknown;
 }

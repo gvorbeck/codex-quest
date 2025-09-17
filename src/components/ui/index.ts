@@ -1,7 +1,7 @@
 // UI Components - Reusable components
 // Re-export from subdirectories for backward compatibility and clean imports
-export * from "./inputs";
-export * from "./feedback";
-export * from "./layout";
-export * from "./display";
-export * from "./design-system";
+export * from "./core/primitives";
+export * from "./core/feedback";
+export * from "./core/layout";
+export * from "./core/display";
+export * from "./composite";

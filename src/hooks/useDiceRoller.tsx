@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { FloatingActionButton } from "@/components/ui/inputs/FloatingActionButton";
+import { FloatingActionButton } from "@/components/ui/core/primitives/FloatingActionButton";
 import { DiceRollerModal } from "@/components/modals/LazyModals";
 import { Icon } from "@/components/ui";
 import { useModal } from "./useModal";

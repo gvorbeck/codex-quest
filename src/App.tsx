@@ -4,10 +4,10 @@ import {
   ErrorBoundary,
   NotificationContainer,
   NotificationErrorBoundary,
-} from "@/components/ui/feedback";
-import { AppHeader } from "@/components/ui/AppHeader";
-import { AppFooter } from "@/components/ui/AppFooter";
-import { AppRoutes } from "@/components/ui/AppRoutes";
+} from "@/components/ui/core/feedback";
+import { Header } from "@/components/app/Header";
+import { Footer } from "@/components/app/Footer";
+import { Routes } from "@/components/app/Routes";
 import { useAppData } from "@/hooks";
 import { useNotifications } from "@/hooks";
 import NotificationContext from "@/contexts/NotificationContext";
@@ -35,15 +35,15 @@ function App() {
     <ErrorBoundary>
       <NotificationContext.Provider value={notifications}>
         <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
-          <AppHeader
+          <Header
             setIsSignInModalOpen={setIsSignInModalOpen}
             {...(alertMessage && {
               alertMessage,
               onAlertClose: handleAlertClose,
             })}
           />
-          <AppRoutes />
-          <AppFooter />
+          <Routes />
+          <Footer />
 
           {/* Sign In Modal - Lazy loaded */}
           {isSignInModalOpen && (

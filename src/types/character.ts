@@ -124,11 +124,6 @@ export interface Character {
       costReduction?: number; // 25% at 9th level
     };
   };
-  // Custom race support - deprecated, use race field directly
-  // This field is kept temporarily for migration purposes
-  customRace?: {
-    name: string;
-  };
 }
 
 export interface RaceRequirement {
