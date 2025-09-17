@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useMemo } from "react";
+import { useLocation } from "wouter";
 import Stepper from "@/components/ui/composite/Stepper";
 import { Breadcrumb } from "@/components/ui/composite";
 import { PageWrapper } from "@/components/ui/core/layout";
@@ -21,6 +22,7 @@ import { logger, createEmptyCharacter } from "@/utils";
 
 function CharGen() {
   const { user } = useAuth();
+  const [, setLocation] = useLocation();
 
   // Replace multiple useLocalStorage calls with Zustand store
   const {
@@ -38,7 +40,9 @@ function CharGen() {
   } = useCharacterStore();
 
   // Replace manual save logic with mutation
-  const { saveCharacter, isSaving, saveError } = useCharacterMutations();
+  const { saveCharacter, isSaving, saveError } = useCharacterMutations({
+    onSaveSuccess: () => setLocation("/"),
+  });
 
   // Ensure the character always has the complete structure by merging with empty character
   const emptyCharacter = useMemo(() => createEmptyCharacter(), []);
@@ -135,16 +139,11 @@ function CharGen() {
       }
 
       // Use TanStack Query mutation - handles optimistic updates and error handling
-      // The mutation's onSuccess callback will clear the draft
+      // The mutation's onSuccess callback will clear the draft and navigate
       saveCharacter({
         userId: user.uid,
         character: completeCharacter,
       });
-
-      // For now, simple navigation - can be improved later with proper success handling
-      setTimeout(() => {
-        window.location.href = `/`;
-      }, 1000);
     } else {
       // Regular next step
       nextStep();

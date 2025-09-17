@@ -19,7 +19,9 @@ interface DeleteCharacterParams {
   characterId: string;
 }
 
-export function useCharacterMutations() {
+export function useCharacterMutations(options?: {
+  onSaveSuccess?: () => void;
+}) {
   const queryClient = useQueryClient();
   const clearDraft = useCharacterStore((state) => state.clearDraft);
 
@@ -82,6 +84,8 @@ export function useCharacterMutations() {
       queryClient.invalidateQueries({
         queryKey: queryKeys.characters.user(variables.userId),
       });
+      // Call custom success handler if provided
+      options?.onSaveSuccess?.();
     },
   });
 
