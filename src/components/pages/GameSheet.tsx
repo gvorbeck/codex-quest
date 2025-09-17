@@ -18,7 +18,7 @@ import {
 import { useGame } from "@/hooks";
 import { useDiceRoller } from "@/hooks/useDiceRoller";
 import { useNotifications } from "@/hooks/useNotifications";
-import { logger } from "@/utils";
+import { logger, getErrorMessage } from "@/utils";
 import {
   GAME_SHEET_STYLES,
   ERROR_MESSAGES,
@@ -185,8 +185,7 @@ export default function GameSheet() {
     return (
       <div className={GAME_SHEET_STYLES.layout.statusMessage} role="alert">
         <Typography variant="body" color="secondary">
-          Error:{" "}
-          {error instanceof Error ? error.message : "Failed to load game"}
+          Error: {getErrorMessage(error, "Failed to load game")}
         </Typography>
       </div>
     );

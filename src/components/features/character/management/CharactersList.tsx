@@ -7,7 +7,7 @@ import {
   useNotificationContext,
   useCharacterMutations,
 } from "@/hooks";
-import { logger } from "@/utils";
+import { logger, getErrorMessage } from "@/utils";
 import { useState } from "react";
 
 export function CharactersList() {
@@ -67,7 +67,7 @@ export function CharactersList() {
       <ItemGrid
         items={characters}
         loading={loading}
-        error={error instanceof Error ? error.message : null}
+        error={getErrorMessage(error)}
         emptyState={{
           icon: "plus",
           title: "No Characters Yet",

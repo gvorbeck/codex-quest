@@ -106,6 +106,25 @@ export function handleServiceErrorAsync<T>(
   });
 }
 
+/**
+ * Extracts error message from unknown error type
+ * Provides consistent error handling across components
+ */
+export function getErrorMessage(
+  error: unknown,
+  fallbackMessage?: string
+): string | null {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  
+  if (typeof error === "string") {
+    return error;
+  }
+  
+  return fallbackMessage || null;
+}
+
 // ============================================================================
 // DATA SANITIZATION
 // ============================================================================

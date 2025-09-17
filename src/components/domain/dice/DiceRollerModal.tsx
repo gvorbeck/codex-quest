@@ -3,7 +3,7 @@ import { Modal } from "@/components/modals";
 import { Button, TextInput, FormField } from "@/components/ui/core/primitives";
 import { Icon } from "@/components/ui/core/display";
 import { TextHeader } from "@/components/ui/composite/TextHeader";
-import { roller } from "@/utils";
+import { roller, getErrorMessage } from "@/utils";
 import { useNotificationContext } from "@/hooks";
 
 interface DiceRollerModalProps {
@@ -66,9 +66,8 @@ export default function DiceRollerModal({
       // Clear the input after successful roll
       setDiceNotation("");
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Invalid dice notation";
-      showError(errorMessage, {
+      const errorMessage = getErrorMessage(error, "Invalid dice notation");
+      showError(errorMessage!, {
         title: "Roll Failed",
       });
     } finally {
