@@ -2,7 +2,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches-ignore: [main]
+    branches: [main]
 
 jobs:
   test:
