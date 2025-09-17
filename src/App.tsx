@@ -1,5 +1,8 @@
 import { Suspense, lazy, useState } from "react";
 import "./App.css";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { queryClient } from "@/lib/queryClient";
 import {
   ErrorBoundary,
   NotificationContainer,
@@ -32,40 +35,45 @@ function App() {
   };
 
   return (
-    <ErrorBoundary>
-      <NotificationContext.Provider value={notifications}>
-        <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
-          <Header
-            setIsSignInModalOpen={setIsSignInModalOpen}
-            {...(alertMessage && {
-              alertMessage,
-              onAlertClose: handleAlertClose,
-            })}
-          />
-          <Routes />
-          <Footer />
-
-          {/* Sign In Modal - Lazy loaded */}
-          {isSignInModalOpen && (
-            <Suspense fallback={<div>Loading...</div>}>
-              <SignInModal
-                isOpen={isSignInModalOpen}
-                onClose={() => setIsSignInModalOpen(false)}
-                onSuccess={handleSignInSuccess}
-              />
-            </Suspense>
-          )}
-
-          {/* Global Notification Container */}
-          <NotificationErrorBoundary>
-            <NotificationContainer
-              notifications={notifications.notifications}
-              onDismiss={notifications.dismissNotification}
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <NotificationContext.Provider value={notifications}>
+          <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
+            <Header
+              setIsSignInModalOpen={setIsSignInModalOpen}
+              {...(alertMessage && {
+                alertMessage,
+                onAlertClose: handleAlertClose,
+              })}
             />
-          </NotificationErrorBoundary>
-        </div>
-      </NotificationContext.Provider>
-    </ErrorBoundary>
+            <Routes />
+            <Footer />
+
+            {/* Sign In Modal - Lazy loaded */}
+            {isSignInModalOpen && (
+              <Suspense fallback={<div>Loading...</div>}>
+                <SignInModal
+                  isOpen={isSignInModalOpen}
+                  onClose={() => setIsSignInModalOpen(false)}
+                  onSuccess={handleSignInSuccess}
+                />
+              </Suspense>
+            )}
+
+            {/* Global Notification Container */}
+            <NotificationErrorBoundary>
+              <NotificationContainer
+                notifications={notifications.notifications}
+                onDismiss={notifications.dismissNotification}
+              />
+            </NotificationErrorBoundary>
+          </div>
+        </NotificationContext.Provider>
+      </ErrorBoundary>
+
+      {/* React Query DevTools - only in development */}
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+    </QueryClientProvider>
   );
 }
 

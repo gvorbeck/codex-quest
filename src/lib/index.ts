@@ -5,3 +5,6 @@
 
 // Firebase configuration and instances
 export * from "./firebase";
+
+// TanStack Query configuration
+export { queryClient } from "./queryClient";
