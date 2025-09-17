@@ -35,3 +35,4 @@ export { useStepNavigation } from "./useStepNavigation";
 
 // TanStack Query hooks
 export { useCharacterMutations } from "./mutations/useCharacterMutations";
+export { useCharacterSheet } from "./queries/useCharacterSheet";
