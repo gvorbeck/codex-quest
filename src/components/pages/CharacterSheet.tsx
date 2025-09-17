@@ -22,7 +22,8 @@ import Hero from "@/components/features/character/sheet/Hero";
 import Equipment from "@/components/features/character/sheet/Equipment";
 import CharacterDescription from "@/components/features/character/sheet/CharacterDescription";
 import ScrollCreation from "@/components/features/character/sheet/scroll-creation/ScrollCreation";
-import { useCharacterSheet, useDiceRoller } from "@/hooks";
+import { useCharacterSheet } from "@/hooks";
+import { useDiceRoller } from "@/hooks/useDiceRoller";
 import type { Character } from "@/types";
 import {
   canCastSpells,
