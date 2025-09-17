@@ -1,11 +1,7 @@
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui";
 import { FABGroup } from "@/components/ui/core/primitives/FloatingActionButton";
-import {
-  Icon,
-  HeroSection,
-  FeatureCard,
-} from "@/components/ui/composite";
+import { Icon, HeroSection, FeatureCard } from "@/components/ui/composite";
 import { TextHeader } from "@/components/ui/composite/TextHeader";
 import { PageWrapper } from "@/components/ui/core/layout";
 import {
@@ -58,9 +54,9 @@ function Home() {
               subtitle="Forge your legendary hero with our comprehensive character generator for Basic Fantasy RPG. Roll ability scores, choose from diverse races and classes, and equip your adventurer for epic quests ahead."
               logo={
                 <img
-                  src="/logo.webp"
+                  src="/images/logo.webp"
                   alt="Codex.Quest Logo"
-                  className="w-40 h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56"
+                  className="mb-8 max-w-64 mx-auto"
                 />
               }
             />
