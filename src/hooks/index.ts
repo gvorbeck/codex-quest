@@ -19,13 +19,13 @@ export {
   useCharacterNavigation,
   useGameNavigation,
 } from "./useEntityNavigation";
-export { useDataResolver } from "./useDataResolver";
+export { useDataResolver } from "./queries/useDataResolver";
 export { useSkillDataByClass } from "./useSkillDataByClass";
 export { useSkillColumns } from "./useSkillColumns";
 export { usePlayerCharacters } from "./usePlayerCharacters";
 export { useModal } from "./useModal";
 export { useLoadingState } from "./useLoadingState";
-export { useGames } from "./useGames";
+export { useGames } from "./queries/useGames";
 export { useEquipmentManagement } from "./useEquipmentManagement";
 export { useCharacterCard } from "./useCharacterCard";
 export { useEquipmentManager } from "./useEquipmentManager";

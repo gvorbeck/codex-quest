@@ -644,10 +644,10 @@ export function useDataResolver(requests: DataRequest[]) {
 
 **✅ Completion Criteria:**
 
-- [ ] useGames converted to TanStack Query
-- [ ] useDataResolver simplified using useQueries
-- [ ] Global cache cleanup logic removed
-- [ ] All Firebase operations use consistent patterns
+- [x] useGames converted to TanStack Query
+- [x] useDataResolver simplified using useQueries  
+- [x] Global cache cleanup logic removed
+- [x] All Firebase operations use consistent patterns
 
 **Phase 6: Cleanup & Optimization (Week 6 - 4 hours)**
 
