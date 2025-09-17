@@ -45,7 +45,7 @@ function CharGen() {
   });
 
   // Ensure the character always has the complete structure by merging with empty character
-  const emptyCharacter = useMemo(() => createEmptyCharacter(), []);
+  const emptyCharacter = createEmptyCharacter();
   const completeCharacter = useMemo(
     () => ({
       ...emptyCharacter,
