@@ -8,7 +8,7 @@ import type {
   ValidationSchema,
   ValidationResult,
   ValidationContext,
-} from "./types";
+} from "@/types/validation";
 
 // Development-only validation context
 const VALIDATION_CONTEXT: ValidationContext = {

@@ -7,7 +7,7 @@ import type {
   ValidationResult,
   CharacterValidationStep,
   CharacterValidationPipeline,
-} from "./types";
+} from "@/types/validation";
 import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
 import { CHARACTER_CLASSES } from "@/constants";

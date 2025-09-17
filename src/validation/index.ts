@@ -3,7 +3,7 @@
  * Consolidates validation logic into a single, comprehensive architecture
  */
 
-export * from './types';
+export * from '@/types/validation';
 export * from './core';
 export * from './rules';
 export * from './character';
