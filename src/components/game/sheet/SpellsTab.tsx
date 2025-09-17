@@ -29,7 +29,7 @@ export const SpellsTab = memo(() => {
 
     setIsLoading(true);
     try {
-      const { default: allSpells } = await import("@/data/spells.json");
+      const { default: allSpells } = await import("@/data/magic/spells.json");
 
       // Add category using utility function
       const spellsWithCategory: SpellWithCategory[] = (

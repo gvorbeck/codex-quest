@@ -103,7 +103,7 @@ export async function loadSpellsForClass(
   }
 
   try {
-    const { default: allSpells } = await import("@/data/spells.json");
+    const { default: allSpells } = await import("@/data/magic/spells.json");
 
     let filteredSpells = (allSpells as Spell[]).filter((spell) => {
       const spellLevel = spell.level[classId as keyof typeof spell.level];
@@ -143,7 +143,7 @@ export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
   }
 
   try {
-    const { default: allSpells } = await import("@/data/spells.json");
+    const { default: allSpells } = await import("@/data/magic/spells.json");
 
     // Get all spells that are level 1 for any class
     const level1Spells = (allSpells as Spell[]).filter((spell) => {
@@ -175,7 +175,7 @@ export async function loadAllSpells(): Promise<Spell[]> {
   }
 
   try {
-    const { default: allSpells } = await import("@/data/spells.json");
+    const { default: allSpells } = await import("@/data/magic/spells.json");
 
     // Exclude Read Magic since spellcasters automatically know it
     const filteredSpells = (allSpells as Spell[]).filter(
