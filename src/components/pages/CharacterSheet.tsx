@@ -155,14 +155,14 @@ export default function CharacterSheet() {
 
   // Handle HP notes change
   const handleHPNotesChange = useCallback(
-    (notes: string) => {
+    (desc: string) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
         hp: {
           ...character.hp,
-          notes,
+          desc,
         },
       };
 
@@ -173,12 +173,12 @@ export default function CharacterSheet() {
 
   // Handle character description change
   const handleDescriptionChange = useCallback(
-    (description: string) => {
+    (desc: string) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
-        description,
+        desc,
       };
 
       handleCharacterChange(updatedCharacter);
