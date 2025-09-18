@@ -3,16 +3,15 @@
  * Contains currency conversion, data sanitization, logging, error handling, and GMBinder utilities
  */
 import {
-  CURRENCY_TO_COPPER_RATES,
   SPELL_CATEGORIES,
   SPELL_LEVEL_THRESHOLDS,
   MONSTER_CATEGORIES,
   MONSTER_NAME_PATTERNS,
 } from "@/constants";
+import { convertCurrency as baseCurrencyConvert } from "./currency";
 import type {
   CurrencyKey,
   Monster,
-  Character,
   Spell,
   ServiceErrorOptions,
 } from "@/types";
@@ -147,38 +146,10 @@ export function sanitizeCharacterName(name: string): string {
 // CURRENCY UTILITIES
 // ============================================================================
 
-export function validateCurrencyAmount(amount: number): number {
-  return Math.max(0, Math.floor(amount));
-}
 
-const conversionRateCache = new Map<string, number>();
-
-function createCacheKey(
-  fromCurrency: CurrencyKey,
-  toCurrency: CurrencyKey
-): string {
-  return `${fromCurrency}->${toCurrency}`;
-}
-
-function getConversionRate(
-  fromCurrency: CurrencyKey,
-  toCurrency: CurrencyKey
-): number {
-  if (fromCurrency === toCurrency) return 1;
-
-  const cacheKey = createCacheKey(fromCurrency, toCurrency);
-
-  if (conversionRateCache.has(cacheKey)) {
-    return conversionRateCache.get(cacheKey)!;
-  }
-
-  // Calculate rate: convert to copper first, then to target currency
-  const rate =
-    CURRENCY_TO_COPPER_RATES[fromCurrency] /
-    CURRENCY_TO_COPPER_RATES[toCurrency];
-  conversionRateCache.set(cacheKey, rate);
-
-  return rate;
+// Helper function that maps CurrencyKey to CurrencyType for our base converter
+function mapCurrencyKeyToType(key: CurrencyKey): "platinum" | "gold" | "electrum" | "silver" | "copper" {
+  return key as "platinum" | "gold" | "electrum" | "silver" | "copper";
 }
 
 export function convertCurrency(
@@ -186,23 +157,11 @@ export function convertCurrency(
   fromCurrency: CurrencyKey,
   toCurrency: CurrencyKey
 ): number {
-  if (amount < 0) {
-    throw new Error("Currency amounts cannot be negative");
-  }
-
-  if (!CURRENCY_TO_COPPER_RATES[fromCurrency]) {
-    throw new Error(`Invalid source currency: ${fromCurrency}`);
-  }
-
-  if (!CURRENCY_TO_COPPER_RATES[toCurrency]) {
-    throw new Error(`Invalid target currency: ${toCurrency}`);
-  }
-
-  if (fromCurrency === toCurrency) return amount;
-
-  // Use memoized conversion rate
-  const conversionRate = getConversionRate(fromCurrency, toCurrency);
-  return amount * conversionRate;
+  return baseCurrencyConvert(
+    amount,
+    mapCurrencyKeyToType(fromCurrency),
+    mapCurrencyKeyToType(toCurrency)
+  );
 }
 
 export function convertToGold(
@@ -240,122 +199,7 @@ export function convertToGoldFromAbbreviation(
   return convertToGold(value, mapLegacyCurrency(currency));
 }
 
-export function convertToWholeCoins(
-  amount: number,
-  currency: CurrencyKey,
-  existingCurrency: Character["currency"]
-): Partial<Character["currency"]> {
-  // If amount is already a whole number, just validate and return
-  if (Number.isInteger(amount)) {
-    return { [currency]: validateCurrencyAmount(amount) };
-  }
 
-  const wholePart = Math.floor(amount);
-  const fractionalPart = amount - wholePart;
-  const result: Partial<Character["currency"]> = {};
-
-  // Set the whole part
-  if (wholePart > 0) {
-    result[currency] = wholePart;
-  }
-
-  // Convert fractional part to copper, then break down to larger denominations
-  let remainingCopper = Math.round(
-    fractionalPart * CURRENCY_TO_COPPER_RATES[currency]
-  );
-
-  // Convert copper to larger denominations, working from largest to smallest
-  // Skip platinum and electrum for simplicity (convert to gold, silver, copper only)
-  const denominations = [
-    { key: "gold" as const, copperValue: CURRENCY_TO_COPPER_RATES.gold },
-    { key: "silver" as const, copperValue: CURRENCY_TO_COPPER_RATES.silver },
-    { key: "copper" as const, copperValue: CURRENCY_TO_COPPER_RATES.copper },
-  ];
-
-  for (const { key, copperValue } of denominations) {
-    if (remainingCopper >= copperValue) {
-      const coins = Math.floor(remainingCopper / copperValue);
-      if (coins > 0) {
-        result[key] = (existingCurrency[key] || 0) + coins;
-        remainingCopper -= coins * copperValue;
-      }
-    }
-  }
-
-  return result;
-}
-
-export function updateCharacterCurrency(
-  character: Character,
-  currencyType: CurrencyKey,
-  newAmount: number
-): Character {
-  return {
-    ...character,
-    currency: {
-      ...character.currency,
-      [currencyType]: validateCurrencyAmount(newAmount),
-    },
-  };
-}
-
-export function getTotalCurrencyValueInCopper(
-  currency: Character["currency"]
-): number {
-  let total = 0;
-
-  for (const [currencyType, amount] of Object.entries(currency)) {
-    if (amount && CURRENCY_TO_COPPER_RATES[currencyType as CurrencyKey]) {
-      total += amount * CURRENCY_TO_COPPER_RATES[currencyType as CurrencyKey];
-    }
-  }
-
-  return total;
-}
-
-export function getTotalCurrencyValueInGold(
-  currency: Character["currency"]
-): number {
-  const totalCopper = getTotalCurrencyValueInCopper(currency);
-  return totalCopper / CURRENCY_TO_COPPER_RATES.gold;
-}
-
-export function hasFractionalCurrency(
-  currency: Character["currency"]
-): boolean {
-  return Object.values(currency).some(
-    (amount) => amount && !Number.isInteger(amount)
-  );
-}
-
-export function cleanFractionalCurrency(
-  currency: Character["currency"]
-): Character["currency"] {
-  const cleaned: Character["currency"] = {
-    platinum: 0,
-    gold: 0,
-    electrum: 0,
-    silver: 0,
-    copper: 0,
-  };
-
-  // Process each currency type, converting fractional amounts
-  for (const [currencyKey, amount] of Object.entries(currency)) {
-    if (amount && amount > 0) {
-      const key = currencyKey as CurrencyKey;
-      const wholeCoins = convertToWholeCoins(amount, key, cleaned);
-
-      // Merge the results
-      for (const [resultKey, resultAmount] of Object.entries(wholeCoins)) {
-        if (resultAmount) {
-          cleaned[resultKey as CurrencyKey] += resultAmount;
-        }
-      }
-    }
-  }
-
-  return cleaned;
-}
 
 // ============================================================================
 // GMBINDER UTILITIES
