@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { sendPasswordReset } from "@/services/auth";
+import { sendPasswordReset, signInWithGoogle } from "@/services/auth";
 import { getErrorMessage, logger } from "@/utils";
 
 /**
@@ -10,6 +10,13 @@ export function useAuthMutations() {
     mutationFn: (email: string) => sendPasswordReset(email),
     onError: (error) => {
       logger.error("Password reset error:", error);
+    },
+  });
+
+  const googleSignInMutation = useMutation({
+    mutationFn: () => signInWithGoogle(),
+    onError: (error) => {
+      logger.error("Google sign-in error:", error);
     },
   });
 
@@ -24,6 +31,17 @@ export function useAuthMutations() {
       isError: passwordResetMutation.isError,
       isSuccess: passwordResetMutation.isSuccess,
       reset: passwordResetMutation.reset,
+    },
+    signInWithGoogle: {
+      mutate: googleSignInMutation.mutate,
+      mutateAsync: googleSignInMutation.mutateAsync,
+      isPending: googleSignInMutation.isPending,
+      error: googleSignInMutation.error
+        ? getErrorMessage(googleSignInMutation.error)
+        : null,
+      isError: googleSignInMutation.isError,
+      isSuccess: googleSignInMutation.isSuccess,
+      reset: googleSignInMutation.reset,
     },
   };
 }

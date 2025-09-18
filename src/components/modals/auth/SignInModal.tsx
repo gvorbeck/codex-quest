@@ -13,6 +13,12 @@ import {
 import { useLoadingState, useAuthMutations } from "@/hooks";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils";
+import GoogleSignInSection from "./GoogleSignInSection";
+
+// Type guard for Firebase errors
+function isFirebaseError(error: unknown): error is { code?: string } {
+  return typeof error === "object" && error !== null && "code" in error;
+}
 
 // Error message constants
 const AUTH_ERRORS = {
@@ -28,6 +34,8 @@ const AUTH_ERRORS = {
   SIGN_UP_FAILED: "Failed to create account. Please try again.",
   PASSWORD_RESET_FAILED:
     "Failed to send password reset email. Please try again.",
+  GOOGLE_SIGN_IN_FAILED: "Failed to sign in with Google. Please try again.",
+  GOOGLE_SIGN_IN_CANCELLED: "Google sign-in was cancelled.",
 } as const;
 
 // Custom hooks for form state management
@@ -117,7 +125,7 @@ export default function SignInModal({
   const resetForm = usePasswordResetForm();
 
   // Auth mutations
-  const { sendPasswordReset } = useAuthMutations();
+  const { sendPasswordReset, signInWithGoogle } = useAuthMutations();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,15 +145,18 @@ export default function SignInModal({
         resetForms();
       } catch (error: unknown) {
         logger.error("Sign in error:", error);
-        const firebaseError = error as { code?: string };
-        if (firebaseError.code === "auth/user-not-found") {
-          setError(AUTH_ERRORS.USER_NOT_FOUND);
-        } else if (firebaseError.code === "auth/wrong-password") {
-          setError(AUTH_ERRORS.WRONG_PASSWORD);
-        } else if (firebaseError.code === "auth/invalid-email") {
-          setError(AUTH_ERRORS.INVALID_EMAIL);
-        } else if (firebaseError.code === "auth/too-many-requests") {
-          setError(AUTH_ERRORS.TOO_MANY_REQUESTS);
+        if (isFirebaseError(error)) {
+          if (error.code === "auth/user-not-found") {
+            setError(AUTH_ERRORS.USER_NOT_FOUND);
+          } else if (error.code === "auth/wrong-password") {
+            setError(AUTH_ERRORS.WRONG_PASSWORD);
+          } else if (error.code === "auth/invalid-email") {
+            setError(AUTH_ERRORS.INVALID_EMAIL);
+          } else if (error.code === "auth/too-many-requests") {
+            setError(AUTH_ERRORS.TOO_MANY_REQUESTS);
+          } else {
+            setError(AUTH_ERRORS.SIGN_IN_FAILED);
+          }
         } else {
           setError(AUTH_ERRORS.SIGN_IN_FAILED);
         }
@@ -183,13 +194,16 @@ export default function SignInModal({
         resetForms();
       } catch (error: unknown) {
         logger.error("Sign up error:", error);
-        const firebaseError = error as { code?: string };
-        if (firebaseError.code === "auth/email-already-in-use") {
-          setError(AUTH_ERRORS.EMAIL_IN_USE);
-        } else if (firebaseError.code === "auth/invalid-email") {
-          setError(AUTH_ERRORS.INVALID_EMAIL);
-        } else if (firebaseError.code === "auth/weak-password") {
-          setError(AUTH_ERRORS.WEAK_PASSWORD);
+        if (isFirebaseError(error)) {
+          if (error.code === "auth/email-already-in-use") {
+            setError(AUTH_ERRORS.EMAIL_IN_USE);
+          } else if (error.code === "auth/invalid-email") {
+            setError(AUTH_ERRORS.INVALID_EMAIL);
+          } else if (error.code === "auth/weak-password") {
+            setError(AUTH_ERRORS.WEAK_PASSWORD);
+          } else {
+            setError(AUTH_ERRORS.SIGN_UP_FAILED);
+          }
         } else {
           setError(AUTH_ERRORS.SIGN_UP_FAILED);
         }
@@ -208,13 +222,44 @@ export default function SignInModal({
       resetForm.reset();
     } catch (error: unknown) {
       logger.error("Password reset error:", error);
-      const firebaseError = error as { code?: string };
-      if (firebaseError.code === "auth/user-not-found") {
-        setError(AUTH_ERRORS.USER_NOT_FOUND);
-      } else if (firebaseError.code === "auth/invalid-email") {
-        setError(AUTH_ERRORS.INVALID_EMAIL);
+      if (isFirebaseError(error)) {
+        if (error.code === "auth/user-not-found") {
+          setError(AUTH_ERRORS.USER_NOT_FOUND);
+        } else if (error.code === "auth/invalid-email") {
+          setError(AUTH_ERRORS.INVALID_EMAIL);
+        } else {
+          setError(AUTH_ERRORS.PASSWORD_RESET_FAILED);
+        }
       } else {
         setError(AUTH_ERRORS.PASSWORD_RESET_FAILED);
+      }
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+
+    try {
+      const userData = await signInWithGoogle.mutateAsync();
+      if (onSuccess) {
+        onSuccess(userData);
+      } else {
+        onClose();
+      }
+      resetForms();
+    } catch (error: unknown) {
+      logger.error("Google sign-in error:", error);
+      if (isFirebaseError(error)) {
+        if (
+          error.code === "auth/cancelled-popup-request" ||
+          error.code === "auth/popup-closed-by-user"
+        ) {
+          setError(AUTH_ERRORS.GOOGLE_SIGN_IN_CANCELLED);
+        } else {
+          setError(AUTH_ERRORS.GOOGLE_SIGN_IN_FAILED);
+        }
+      } else {
+        setError(AUTH_ERRORS.GOOGLE_SIGN_IN_FAILED);
       }
     }
   };
@@ -258,6 +303,13 @@ export default function SignInModal({
 
         <TabPanels>
           <TabPanel value="signin">
+            <GoogleSignInSection
+              onClick={handleGoogleSignIn}
+              disabled={isLoading || signInWithGoogle.isPending}
+              isPending={signInWithGoogle.isPending}
+              dividerText="Or continue with email"
+            />
+
             <form onSubmit={handleSignIn} className="space-y-4">
               <FormField label="Email address" required>
                 <TextInput
@@ -280,14 +332,15 @@ export default function SignInModal({
               </FormField>
 
               <div className="text-right">
-                <button
+                <Button
                   type="button"
                   onClick={() => setActiveTab("reset")}
-                  className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
+                  variant="ghost"
+                  size="sm"
                   disabled={isLoading}
                 >
                   Forgot Password?
-                </button>
+                </Button>
               </div>
 
               <ErrorDisplay error={error} />
@@ -303,6 +356,13 @@ export default function SignInModal({
           </TabPanel>
 
           <TabPanel value="signup">
+            <GoogleSignInSection
+              onClick={handleGoogleSignIn}
+              disabled={isLoading || signInWithGoogle.isPending}
+              isPending={signInWithGoogle.isPending}
+              dividerText="Or create account with email"
+            />
+
             <form onSubmit={handleSignUp} className="space-y-4">
               <FormField label="Email address" required>
                 <TextInput
