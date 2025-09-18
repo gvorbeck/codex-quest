@@ -218,8 +218,8 @@ export default function MUAddSpellModal({
               <Button
                 variant="secondary"
                 size="sm"
+                disabled={isLoadingSpells}
                 onClick={() => {
-                  setHasAttemptedLoad(false);
                   loadSpells();
                 }}
               >
