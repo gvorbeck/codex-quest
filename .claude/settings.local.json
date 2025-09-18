@@ -25,7 +25,9 @@
       "Bash(/compact)",
       "Bash(cloc:*)",
       "Bash(xargs sed:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npm run test:run:*)",
+      "WebSearch"
     ],
     "deny": [
       "Bash(npm run dev)"

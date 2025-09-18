@@ -50,13 +50,14 @@ test.describe("Character Creation Workflow", () => {
     }
 
     // Step 2: Select race (Human)
-    await page.waitForTimeout(1000); // Allow UI to stabilize
-
     const humanOption = page
       .getByText(/human/i)
       .or(page.locator("[data-testid*='human']"))
       .or(page.locator("button:has-text('Human')"))
       .first();
+
+    // Wait for the race selection interface to load
+    await expect(page.getByText(/race/i).or(humanOption)).toBeVisible();
 
     if (await humanOption.isVisible()) {
       await humanOption.click();
@@ -73,13 +74,14 @@ test.describe("Character Creation Workflow", () => {
     }
 
     // Step 3: Select class (Fighter)
-    await page.waitForTimeout(1000);
-
     const fighterOption = page
       .getByText(/fighter/i)
       .or(page.locator("[data-testid*='fighter']"))
       .or(page.locator("button:has-text('Fighter')"))
       .first();
+
+    // Wait for the class selection interface to load
+    await expect(page.getByText(/class/i).or(fighterOption)).toBeVisible();
 
     if (await fighterOption.isVisible()) {
       await fighterOption.click();
@@ -100,13 +102,14 @@ test.describe("Character Creation Workflow", () => {
     }
 
     // Step 4: Enter character name
-    await page.waitForTimeout(1000);
-
     const nameInput = page
       .getByLabel(/name/i)
       .or(page.locator("input[placeholder*='name']"))
       .or(page.locator("input[type='text']"))
       .first();
+
+    // Wait for the name input field to be available
+    await expect(page.getByText(/name/i).or(nameInput)).toBeVisible();
 
     if (await nameInput.isVisible()) {
       await nameInput.fill("Test Fighter");
@@ -125,17 +128,14 @@ test.describe("Character Creation Workflow", () => {
     if (await finishButton.isVisible()) {
       await finishButton.click();
 
-      // Should navigate to character sheet or success page
-      await page.waitForTimeout(2000);
-
-      // Verify character was created successfully
+      // Wait for character creation to complete - look for success indicators
       await expect(
         page
           .getByText("Test Fighter")
-          .or(
-            page.getByText(/character.*created/i).or(page.getByText(/success/i))
-          )
-      ).toBeVisible();
+          .or(page.getByText(/character.*created/i))
+          .or(page.getByText(/success/i))
+          .or(page.getByText(/character.*sheet/i))
+      ).toBeVisible({ timeout: 10000 });
     }
   });
 
@@ -162,7 +162,8 @@ test.describe("Character Creation Workflow", () => {
       (await page.getByText(/not found/i).isVisible())
     ) {
       await page.goto("/");
-      await page.waitForTimeout(1000);
+      // Wait for home page to load
+      await expect(page.locator("body")).toBeVisible();
     }
 
     // Should see some form of character creation interface

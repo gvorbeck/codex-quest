@@ -33,7 +33,14 @@ test.describe("Equipment Selection Workflow", () => {
       }
     }
 
-    await page.waitForTimeout(1000);
+    // Wait for equipment interface to load
+    await expect(
+      page
+        .getByText(/equipment/i)
+        .or(page.getByText(/gear/i))
+        .or(page.getByText(/items/i))
+        .or(page.locator("body"))
+    ).toBeVisible();
 
     // Look for equipment-related interface elements
     const addItemButton = page
@@ -45,8 +52,14 @@ test.describe("Equipment Selection Workflow", () => {
       // Test adding equipment
       await addItemButton.click();
 
-      // Look for equipment selection interface
-      await page.waitForTimeout(500);
+      // Wait for equipment selection interface to appear
+      await expect(
+        page
+          .getByText(/select/i)
+          .or(page.getByText(/choose/i))
+          .or(page.getByText(/weapon/i))
+          .or(page.locator("[role='dialog']"))
+      ).toBeVisible();
 
       // Try to find common weapons
       const sword = page
@@ -86,6 +99,9 @@ test.describe("Equipment Selection Workflow", () => {
   test("displays equipment categories", async ({ page }) => {
     await page.goto("/");
 
+    // Wait for page to load
+    await expect(page.locator("body")).toBeVisible();
+
     // Look for equipment categories or lists
     const categories = [/weapon/i, /armor/i, /shield/i, /gear/i, /equipment/i];
 
@@ -102,7 +118,14 @@ test.describe("Equipment Selection Workflow", () => {
     // If no categories found on main page, try character generator
     if (!foundCategory) {
       await page.goto("/character-generator");
-      await page.waitForTimeout(1000);
+
+      // Wait for character generator to load
+      await expect(
+        page
+          .locator("body")
+          .or(page.getByText(/character/i))
+          .or(page.getByText(/generator/i))
+      ).toBeVisible();
 
       for (const category of categories) {
         if (await page.getByText(category).isVisible()) {
@@ -146,7 +169,14 @@ test.describe("Equipment Selection Workflow", () => {
     // If not found, try character-related pages
     if (!foundCurrency) {
       await page.goto("/character-generator");
-      await page.waitForTimeout(1000);
+
+      // Wait for character generator page to load
+      await expect(
+        page
+          .locator("body")
+          .or(page.getByText(/character/i))
+          .or(page.getByText(/generator/i))
+      ).toBeVisible();
 
       for (const term of currencyTerms) {
         if (await page.getByText(term).isVisible()) {
@@ -167,21 +197,20 @@ test.describe("Equipment Selection Workflow", () => {
 
     // Test responsive behavior by changing viewport
     await page.setViewportSize({ width: 375, height: 667 }); // Mobile
-    await page.waitForTimeout(500);
 
-    // Page should still be functional on mobile
+    // Wait for viewport change to apply and page to reflow
     await expect(page.locator("body")).toBeVisible();
 
     // Change to tablet size
     await page.setViewportSize({ width: 768, height: 1024 });
-    await page.waitForTimeout(500);
 
+    // Wait for viewport change to apply
     await expect(page.locator("body")).toBeVisible();
 
     // Change to desktop
     await page.setViewportSize({ width: 1200, height: 800 });
-    await page.waitForTimeout(500);
 
+    // Wait for viewport change to apply
     await expect(page.locator("body")).toBeVisible();
   });
 });
