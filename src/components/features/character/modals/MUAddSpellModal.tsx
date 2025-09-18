@@ -1,11 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Modal } from "@/components/modals/base";
 import { Typography } from "@/components/ui/core/display";
 import { Button, Select } from "@/components/ui/core/primitives";
-import { Callout } from "@/components/ui/core/feedback";
+import { Callout, LoadingState } from "@/components/ui/core/feedback";
 import { Icon } from "@/components/ui/core/display";
 import SpellDetails from "@/components/domain/spells/SpellDetails";
-import { allClasses, spellsData } from "@/data";
+import { allClasses } from "@/data";
+import { loadAllSpells } from "@/services/dataLoader";
 import type { Character, Spell } from "@/types";
 import { getSpellSlots } from "@/utils";
 
@@ -25,6 +26,8 @@ export default function MUAddSpellModal({
   const [selectedSpells, setSelectedSpells] = useState<Record<number, string>>(
     {}
   );
+  const [allSpells, setAllSpells] = useState<Spell[]>([]);
+  const [isLoadingSpells, setIsLoadingSpells] = useState(false);
 
   // Get character's spell slots to determine which spell levels they can learn
   const spellSlots = useMemo(
@@ -32,12 +35,36 @@ export default function MUAddSpellModal({
     [character]
   );
 
+  // Load spells when modal opens
+  useEffect(() => {
+    if (isOpen && allSpells.length === 0) {
+      const loadSpells = async () => {
+        setIsLoadingSpells(true);
+        try {
+          const spells = await loadAllSpells();
+          setAllSpells(spells);
+        } catch {
+          // Silent fail - modal will show "no spells available" state
+          setAllSpells([]);
+        } finally {
+          setIsLoadingSpells(false);
+        }
+      };
+      loadSpells();
+    }
+  }, [isOpen, allSpells.length]);
+
   // Filter spells that are available to magic-user type classes
   const availableSpellsByLevel = useMemo(() => {
     const spellsByLevel: Record<number, Spell[]> = {};
 
+    // Return empty if spells haven't loaded yet
+    if (allSpells.length === 0) {
+      return spellsByLevel;
+    }
+
     // Get all spells that magic-user classes can cast
-    const magicUserSpells = (spellsData as Spell[]).filter(
+    const magicUserSpells = allSpells.filter(
       (spell) =>
         spell.level["magic-user"] !== null ||
         spell.level.illusionist !== null ||
@@ -75,7 +102,7 @@ export default function MUAddSpellModal({
     });
 
     return spellsByLevel;
-  }, [character.class, spellSlots]);
+  }, [character.class, spellSlots, allSpells]);
 
   // Filter out spells the character already knows
   const filteredSpellsByLevel = useMemo(() => {
@@ -155,7 +182,13 @@ export default function MUAddSpellModal({
         </Callout>
 
         {/* Spell Selection */}
-        {availableLevels.length > 0 ? (
+        {isLoadingSpells ? (
+          <LoadingState
+            variant="inline"
+            message="Loading available spells..."
+            className="py-8"
+          />
+        ) : availableLevels.length > 0 ? (
           <div className="space-y-4">
             <Typography variant="sectionHeading" className="text-zinc-100">
               Available Spell Levels
