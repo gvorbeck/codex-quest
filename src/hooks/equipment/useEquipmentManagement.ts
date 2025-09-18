@@ -1,10 +1,11 @@
 import { useState, useMemo, useCallback } from "react";
 import type { Equipment, Character } from "@/types";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils";
 import {
-  cleanEquipmentArray,
-  ensureEquipmentAmount,
-} from "@/utils";
-import { updateCharacterCurrency, calculateTotalWeight, convertToGoldFromAbbreviation } from "@/utils/currency";
+  updateCharacterCurrency,
+  calculateTotalWeight,
+  convertToGoldFromAbbreviation,
+} from "@/utils/currency";
 
 /**
  * Hook for managing equipment during character creation with gold/currency management

@@ -25,4 +25,4 @@ export * from "./data";
 export * from "./content";
 
 // Re-export validation utilities from validation module
-export { Rules, ABILITY_NAMES } from '@/validation';
+export { Rules, ABILITY_NAMES } from "@/validation";

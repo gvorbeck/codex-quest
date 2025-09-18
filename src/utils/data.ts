@@ -8,11 +8,7 @@ import {
   MONSTER_CATEGORIES,
   MONSTER_NAME_PATTERNS,
 } from "@/constants";
-import type {
-  Monster,
-  Spell,
-  ServiceErrorOptions,
-} from "@/types";
+import type { Monster, Spell, ServiceErrorOptions } from "@/types";
 
 // ============================================================================
 // LOGGING
