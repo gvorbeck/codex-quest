@@ -4,8 +4,6 @@ import { LevelUpModal } from "@/components/modals/LazyModals";
 import { logger } from "@/utils";
 import { canLevelUp, hasCustomClasses, getXPToNextLevel } from "@/utils";
 import type { Character, Class } from "@/types";
-import { useAuth } from "@/hooks";
-import { saveCharacter } from "@/services/characters";
 
 interface ExperienceTrackerProps {
   /** The character whose XP to track */
@@ -55,7 +53,6 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState(character.xp.toString());
   const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
-  const { user } = useAuth();
   const componentId = useId();
   const inputId = `${componentId}-input`;
   const buttonId = `${componentId}-button`;
@@ -73,21 +70,6 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   const xpToNextLevel = !hasCustomClasses(character)
     ? getXPToNextLevel(character, classes)
     : null;
-  const saveXPToFirebase = async (newXP: number) => {
-    if (!user) return;
-
-    try {
-      // Only save if character has an ID (i.e., it's already saved to Firebase)
-      if (character.id) {
-        const updatedCharacter = { ...character, xp: newXP };
-        await saveCharacter(user.uid, updatedCharacter, character.id);
-      }
-      // If character doesn't have an ID, it's still in local storage and will be saved when character creation is completed
-    } catch (error) {
-      logger.error("Failed to save XP to Firebase:", error);
-    }
-  };
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -104,7 +86,6 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
 
     setInputValue(clampedXP.toString());
     onChange?.(clampedXP);
-    saveXPToFirebase(clampedXP);
   };
 
   const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -115,6 +96,9 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
     // Submit changes if input value is different, then reset to actual value
     if (inputValue !== character.xp.toString()) {
       handleInputSubmit();
+    } else {
+      // Ensure input shows current XP value even if no changes were made
+      setInputValue(character.xp.toString());
     }
   };
 
@@ -127,24 +111,11 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   };
 
   const handleLevelUpComplete = async (updatedCharacter: Character) => {
-    logger.debug("ExperienceTracker: handleLevelUpComplete called with:", {
-      oldLevel: character.level,
-      newLevel: updatedCharacter.level,
-      oldMaxHp: character.hp.max,
-      newMaxHp: updatedCharacter.hp.max,
-      hasUser: !!user,
-      hasCharacterId: !!character.id,
-      hasOnCharacterChange: !!onCharacterChange,
-      hasOnChange: !!onChange,
-    });
-
     try {
       // Call the character change callback to update the parent component
       // This should handle both local state update and Firebase save via useFirebaseSheet
       if (onCharacterChange) {
-        logger.debug("Calling onCharacterChange...");
         onCharacterChange(updatedCharacter);
-        logger.debug("✅ Level up save completed successfully!");
       }
 
       // DON'T call onChange for level ups - it would overwrite the full character update

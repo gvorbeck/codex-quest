@@ -24,7 +24,7 @@ import CharacterDescription from "@/components/features/character/sheet/Characte
 import ScrollCreation from "@/components/features/character/sheet/scroll-creation/ScrollCreation";
 import { useCharacterSheet } from "@/hooks";
 import { useDiceRoller } from "@/hooks/dice/useDiceRoller";
-import type { Character } from "@/types";
+import type { Character, Equipment as EquipmentItem } from "@/types";
 import {
   canCastSpells,
   hasCantrips,
@@ -77,17 +77,9 @@ export default function CharacterSheet() {
   // Handle character changes (for avatar, etc.)
   const handleCharacterChange = useCallback(
     async (updatedCharacter: Character) => {
-      logger.debug("CharacterSheet: handleCharacterChange called with:", {
-        oldLevel: character?.level,
-        newLevel: updatedCharacter.level,
-        oldMaxHp: character?.hp.max,
-        newMaxHp: updatedCharacter.hp.max,
-      });
-      logger.debug("CharacterSheet: About to call updateCharacter...");
       await updateCharacter(updatedCharacter);
-      logger.debug("CharacterSheet: updateCharacter completed");
     },
-    [updateCharacter, character?.level, character?.hp.max]
+    [updateCharacter]
   );
 
   // Handle ability score changes
@@ -150,14 +142,14 @@ export default function CharacterSheet() {
     [handleCharacterChange]
   );
 
-  // Handle equipment changes
+  // Handle equipment updates
   const handleEquipmentChange = useCallback(
-    (equipment: Character["equipment"]) => {
+    (newEquipment: EquipmentItem[]) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
-        equipment,
+        equipment: newEquipment,
       };
 
       handleCharacterChange(updatedCharacter);
@@ -166,16 +158,16 @@ export default function CharacterSheet() {
     [handleCharacterChange]
   );
 
-  // Handle HP notes changes
+  // Handle HP notes change
   const handleHPNotesChange = useCallback(
-    (value: string) => {
+    (desc: string) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
         hp: {
           ...character.hp,
-          desc: value,
+          desc,
         },
       };
 
@@ -185,7 +177,7 @@ export default function CharacterSheet() {
     [handleCharacterChange]
   );
 
-  // Handle description changes
+  // Handle character description change
   const handleDescriptionChange = useCallback(
     (desc: string) => {
       if (!character) return;
@@ -243,9 +235,13 @@ export default function CharacterSheet() {
     <>
       <PageWrapper>
         <header className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 relative">
             <Breadcrumb items={breadcrumbItems} />
-            {isUpdating && <LoadingSpinner message="Saving..." size="sm" />}
+            {isUpdating && (
+              <div className="absolute right-0 top-0 z-10">
+                <LoadingSpinner message="Saving..." size="sm" />
+              </div>
+            )}
           </div>
         </header>
 
