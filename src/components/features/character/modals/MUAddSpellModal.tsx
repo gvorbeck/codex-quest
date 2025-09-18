@@ -66,8 +66,8 @@ export default function MUAddSpellModal({
   const availableSpellsByLevel = useMemo(() => {
     const spellsByLevel: Record<number, Spell[]> = {};
 
-    // Return empty if spells haven't loaded yet
-    if (allSpells.length === 0) {
+    // Return empty if spells are loading or there was a load error
+    if (isLoadingSpells || loadError) {
       return spellsByLevel;
     }
 
@@ -110,7 +110,7 @@ export default function MUAddSpellModal({
     });
 
     return spellsByLevel;
-  }, [character.class, spellSlots, allSpells]);
+  }, [character.class, spellSlots, allSpells, isLoadingSpells, loadError]);
 
   // Filter out spells the character already knows
   const filteredSpellsByLevel = useMemo(() => {
