@@ -5,6 +5,8 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import type { User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -37,6 +39,13 @@ export const signUpWithEmail = async (
   password: string
 ): Promise<AuthUser> => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
+  return convertFirebaseUser(result.user);
+};
+
+// Sign in with Google
+export const signInWithGoogle = async (): Promise<AuthUser> => {
+  const provider = new GoogleAuthProvider();
+  const result = await signInWithPopup(auth, provider);
   return convertFirebaseUser(result.user);
 };
 
