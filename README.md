@@ -159,6 +159,8 @@ We welcome contributions! Please:
 
 ### Development Guidelines
 
+📚 **[Read our comprehensive Style Guide](./src/components/STYLE_GUIDE.md)** for detailed development patterns, TypeScript best practices, performance optimization, and component architecture.
+
 - Use existing UI components instead of creating custom implementations
 - Follow the established component structure and naming conventions
 - Write TypeScript interfaces for all data structures
