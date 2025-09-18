@@ -1,10 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib";
 import { queryKeys } from "@/lib/queryKeys";
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import { useAuth } from "@/hooks";
-import { processCharacterData, isLegacyCharacter } from "@/services";
+import {
+  processCharacterData,
+  isLegacyCharacter,
+  CURRENT_VERSION,
+} from "@/services";
 import { logger } from "@/utils";
 import type { Character } from "@/types";
 
@@ -73,11 +77,11 @@ const saveCharacterSheet = async (
     ...character,
     settings: {
       ...character.settings,
-      version: 2.4, // Current version
+      version: CURRENT_VERSION,
     },
   };
 
-  await setDoc(characterRef, dataToSave);
+  await updateDoc(characterRef, dataToSave);
   logger.info(`Successfully updated character sheet ${characterId}`);
 };
 

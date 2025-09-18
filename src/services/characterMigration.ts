@@ -2,7 +2,12 @@
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants";
 import { cleanFractionalCurrency, logger } from "@/utils";
 
-const CURRENT_VERSION = 2.5;
+// Define schema versions for migration steps
+export const CURRENT_VERSION = 2.5;
+
+// Migration step versions - keep these for historical migration logic
+const VERSION_CUSTOM_CLASSES = 2.4; // Version when custom classes were refactored
+const VERSION_CUSTOM_RACES = 2.5; // Version when custom races were refactored (current)
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -430,9 +435,9 @@ export function processCharacterData(
 
   // Handle version 2.3 to 2.4 migration (custom classes refactor)
   let currentVersion = migratedData["settings"]?.version || 0;
-  if (currentVersion < 2.4) {
+  if (currentVersion < VERSION_CUSTOM_CLASSES) {
     logger.debug(
-      `Migrating character from version ${currentVersion} to 2.4: ${
+      `Migrating character from version ${currentVersion} to ${VERSION_CUSTOM_CLASSES}: ${
         migratedData["name"] || "Unknown"
       }`
     );
@@ -441,21 +446,21 @@ export function processCharacterData(
     // Update version to 2.4
     migratedData["settings"] = {
       ...migratedData["settings"],
-      version: 2.4,
+      version: VERSION_CUSTOM_CLASSES,
     };
-    currentVersion = 2.4;
+    currentVersion = VERSION_CUSTOM_CLASSES;
   }
 
   // Handle version 2.4 to 2.5 migration (custom races refactor)
-  if (currentVersion < 2.5) {
+  if (currentVersion < VERSION_CUSTOM_RACES) {
     logger.debug(
-      `Migrating character from version ${currentVersion} to 2.5: ${
+      `Migrating character from version ${currentVersion} to ${VERSION_CUSTOM_RACES}: ${
         migratedData["name"] || "Unknown"
       }`
     );
     migratedData = migrateCustomRaces(migratedData);
 
-    // Update version to 2.5
+    // Update version to current
     migratedData["settings"] = {
       ...migratedData["settings"],
       version: CURRENT_VERSION,

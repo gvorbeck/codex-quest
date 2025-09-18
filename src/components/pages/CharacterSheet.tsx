@@ -24,7 +24,7 @@ import CharacterDescription from "@/components/features/character/sheet/Characte
 import ScrollCreation from "@/components/features/character/sheet/scroll-creation/ScrollCreation";
 import { useCharacterSheet } from "@/hooks";
 import { useDiceRoller } from "@/hooks/dice/useDiceRoller";
-import type { Character } from "@/types";
+import type { Character, Equipment as EquipmentItem } from "@/types";
 import {
   canCastSpells,
   hasCantrips,
@@ -70,24 +70,15 @@ export default function CharacterSheet() {
         updateCharacter(updatedCharacter);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateCharacter]
+    [character, updateCharacter]
   );
 
   // Handle character changes (for avatar, etc.)
   const handleCharacterChange = useCallback(
     async (updatedCharacter: Character) => {
-      logger.debug("CharacterSheet: handleCharacterChange called with:", {
-        oldLevel: character?.level,
-        newLevel: updatedCharacter.level,
-        oldMaxHp: character?.hp.max,
-        newMaxHp: updatedCharacter.hp.max,
-      });
-      logger.debug("CharacterSheet: About to call updateCharacter...");
       await updateCharacter(updatedCharacter);
-      logger.debug("CharacterSheet: updateCharacter completed");
     },
-    [updateCharacter, character?.level, character?.hp.max]
+    [updateCharacter]
   );
 
   // Handle ability score changes
@@ -108,8 +99,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle HP changes
@@ -127,8 +117,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle currency changes
@@ -146,59 +135,55 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
-  // Handle equipment changes
+  // Handle equipment updates
   const handleEquipmentChange = useCallback(
-    (equipment: Character["equipment"]) => {
+    (newEquipment: EquipmentItem[]) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
-        equipment,
+        equipment: newEquipment,
       };
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
-  // Handle HP notes changes
+  // Handle HP notes change
   const handleHPNotesChange = useCallback(
-    (value: string) => {
+    (notes: string) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
         hp: {
           ...character.hp,
-          desc: value,
+          notes,
         },
       };
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
-  // Handle description changes
+  // Handle character description change
   const handleDescriptionChange = useCallback(
-    (desc: string) => {
+    (description: string) => {
       if (!character) return;
 
       const updatedCharacter = {
         ...character,
-        desc,
+        description,
       };
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Data loading is now handled by useFirebaseSheet hook
@@ -243,9 +228,13 @@ export default function CharacterSheet() {
     <>
       <PageWrapper>
         <header className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 relative">
             <Breadcrumb items={breadcrumbItems} />
-            {isUpdating && <LoadingSpinner message="Saving..." size="sm" />}
+            {isUpdating && (
+              <div className="absolute right-0 top-0 z-10">
+                <LoadingSpinner message="Saving..." size="sm" />
+              </div>
+            )}
           </div>
         </header>
 

@@ -17,6 +17,7 @@ import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
 import { allClasses, allRaces } from "@/data";
 import { CHARACTER_CLASSES } from "@/constants";
+import { CURRENT_VERSION } from "@/services/characterMigration";
 // Note: Using direct imports here to avoid circular dependency with barrel file
 import { GAME_MECHANICS } from "./mechanics";
 import { logger } from "./data";
@@ -179,7 +180,7 @@ export function createEmptyCharacter(): Character {
     hp: { current: 0, max: 0 },
     level: 1,
     xp: 0,
-    settings: { version: 2 },
+    settings: { version: CURRENT_VERSION },
   };
 }
 
@@ -912,10 +913,13 @@ export function getXPToNextLevel(
 
   const nextLevel = character.level + 1;
 
-  const totalXPRequired = character.class.reduce((total, classId) => {
+  // BFRPG Rule: "Combination class characters must gain experience equal to the
+  // combined requirements of both base classes to advance in levels."
+  const totalXPRequired = character.class.reduce((totalXP, classId) => {
     const classData = getClassFromAvailable(classId, availableClasses);
     const xpRequired = classData?.experienceTable?.[nextLevel];
-    return xpRequired ?? total;
+    // For multi-class characters, sum the XP requirements (BFRPG official rule)
+    return totalXP + (xpRequired ?? 0);
   }, 0);
 
   if (totalXPRequired === 0) return null;

@@ -11,7 +11,11 @@ import { db } from "@/lib/firebase";
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import type { AuthUser } from "./auth";
 import type { Character } from "@/types";
-import { processCharacterData, isLegacyCharacter } from "./characterMigration";
+import {
+  processCharacterData,
+  isLegacyCharacter,
+  CURRENT_VERSION,
+} from "./characterMigration";
 import { handleServiceError, logger } from "@/utils";
 
 // Simple interface for listing characters - we don't need the full Character type
@@ -49,16 +53,23 @@ export const getUserCharacters = async (
     querySnapshot.forEach((docSnapshot) => {
       const data = docSnapshot.data();
       const wasLegacy = isLegacyCharacter(data);
-      const processedData = processCharacterData(data);
 
-      characters.push({
-        id: docSnapshot.id,
-        name: processedData.name || "Unnamed Character", // Ensure name is always present
-        ...processedData,
-      });
-
-      // If this was a legacy character, save the migrated data back to Firebase
       if (wasLegacy) {
+        // Only run full migration processing for legacy characters
+        logger.info(
+          `Migrating legacy character in list: ${
+            data["name"] || docSnapshot.id
+          }`
+        );
+        const processedData = processCharacterData(data);
+
+        characters.push({
+          id: docSnapshot.id,
+          name: processedData.name || "Unnamed Character",
+          ...processedData,
+        });
+
+        // Save the migrated data back to Firebase asynchronously
         const docRef = doc(
           db,
           FIREBASE_COLLECTIONS.USERS,
@@ -75,6 +86,13 @@ export const getUserCharacters = async (
           }
         );
         migrationPromises.push(migrationPromise);
+      } else {
+        // For current characters, use data as-is (much faster)
+        characters.push({
+          id: docSnapshot.id,
+          name: data["name"] || "Unnamed Character",
+          ...data,
+        });
       }
     });
 
@@ -90,6 +108,10 @@ export const getUserCharacters = async (
           "Some character migrations failed to persist, but continuing with fetched data"
         );
       }
+    } else {
+      logger.debug(
+        "No legacy characters found - all characters are current version"
+      );
     }
 
     return characters;
@@ -168,7 +190,7 @@ export const saveCharacter = async (
       ...character,
       settings: {
         ...character.settings,
-        version: 2.4, // Current version
+        version: CURRENT_VERSION,
       },
     };
 
