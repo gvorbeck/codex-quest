@@ -138,6 +138,32 @@ npm run dev
 | `npm run preview` | Preview production build locally         |
 | `npm run lint`    | Run ESLint on TypeScript/React files     |
 
+## 🧪 Testing
+
+We use a comprehensive two-layer testing approach for quality assurance:
+
+**📚 [Complete Testing Guide → TEST_PLAN.md](./TEST_PLAN.md)**
+
+### Quick Testing Commands
+
+| Command                 | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| `npm run test`          | Unit tests (watch mode) - run while coding    |
+| `npm run test:ui`       | Unit tests with beautiful visual interface ✨ |
+| `npm run test:run`      | Unit tests (run once) - for CI/commits        |
+| `npm run test:coverage` | Show code coverage gaps                       |
+| `npm run test:e2e`      | End-to-end tests (headless)                   |
+| `npm run test:e2e:ui`   | E2E tests with visual debugging ✨            |
+
+### Testing Architecture
+
+- **⚡ Unit Tests (Vitest)**: Fast feedback for individual functions and components
+- **🌐 E2E Tests (Playwright)**: Complete user workflow validation across browsers
+- **🎯 Visual Interfaces**: Beautiful web dashboards for both testing layers
+- **📊 Coverage Reports**: Track which code needs more testing
+
+**For detailed explanations of each command and when to use them, see [TEST_PLAN.md](./TEST_PLAN.md)**
+
 ## 📱 Accessibility Features
 
 - **WCAG 2.1 AA compliance** target

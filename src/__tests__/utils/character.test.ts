@@ -40,7 +40,9 @@ describe("Character Utilities", () => {
   describe("Armor Class Calculations", () => {
     it("returns default AC for character with no equipment", () => {
       const character = { equipment: [] };
-      expect(calculateArmorClass(character)).toBe(GAME_MECHANICS.DEFAULT_UNARMORED_AC);
+      expect(calculateArmorClass(character)).toBe(
+        GAME_MECHANICS.DEFAULT_UNARMORED_AC
+      );
     });
 
     it("calculates AC with worn armor", () => {
@@ -50,9 +52,9 @@ describe("Character Utilities", () => {
             name: "Chain Mail",
             AC: 15,
             wearing: true,
-            category: "armor"
-          } as Equipment
-        ]
+            category: "armor",
+          } as Equipment,
+        ],
       };
       expect(calculateArmorClass(character)).toBe(15);
     });
@@ -64,15 +66,15 @@ describe("Character Utilities", () => {
             name: "Leather Armor",
             AC: 12,
             wearing: true,
-            category: "armor"
+            category: "armor",
           } as Equipment,
           {
             name: "Shield",
             AC: "+1",
             wearing: true,
-            category: "shield"
-          } as Equipment
-        ]
+            category: "shield",
+          } as Equipment,
+        ],
       };
       expect(calculateArmorClass(character)).toBe(13);
     });
@@ -84,18 +86,22 @@ describe("Character Utilities", () => {
             name: "Chain Mail",
             AC: 15,
             wearing: false,
-            category: "armor"
-          } as Equipment
-        ]
+            category: "armor",
+          } as Equipment,
+        ],
       };
-      expect(calculateArmorClass(character)).toBe(GAME_MECHANICS.DEFAULT_UNARMORED_AC);
+      expect(calculateArmorClass(character)).toBe(
+        GAME_MECHANICS.DEFAULT_UNARMORED_AC
+      );
     });
   });
 
   describe("Movement Rate Calculations", () => {
     it("returns default movement for unarmored character", () => {
       const character = createEmptyCharacter();
-      expect(calculateMovementRate(character)).toBe(GAME_MECHANICS.DEFAULT_MOVEMENT_RATE);
+      expect(calculateMovementRate(character)).toBe(
+        GAME_MECHANICS.DEFAULT_MOVEMENT_RATE
+      );
     });
 
     it("reduces movement for leather armor", () => {
@@ -106,11 +112,13 @@ describe("Character Utilities", () => {
             name: "Leather Armor",
             AC: 12,
             wearing: true,
-            category: "armor"
-          } as Equipment
-        ]
+            category: "armor",
+          } as Equipment,
+        ],
       };
-      expect(calculateMovementRate(character)).toBe(GAME_MECHANICS.LEATHER_ARMOR_MOVEMENT);
+      expect(calculateMovementRate(character)).toBe(
+        GAME_MECHANICS.LEATHER_ARMOR_MOVEMENT
+      );
     });
 
     it("reduces movement for metal armor", () => {
@@ -121,18 +129,20 @@ describe("Character Utilities", () => {
             name: "Chain Mail",
             AC: 15,
             wearing: true,
-            category: "armor"
-          } as Equipment
-        ]
+            category: "armor",
+          } as Equipment,
+        ],
       };
-      expect(calculateMovementRate(character)).toBe(GAME_MECHANICS.METAL_ARMOR_MOVEMENT);
+      expect(calculateMovementRate(character)).toBe(
+        GAME_MECHANICS.METAL_ARMOR_MOVEMENT
+      );
     });
   });
 
   describe("Character Creation", () => {
     it("creates empty character with default values", () => {
       const character = createEmptyCharacter();
-      
+
       expect(character.name).toBe("");
       expect(character.race).toBe("");
       expect(character.class).toEqual([]);
@@ -142,9 +152,9 @@ describe("Character Utilities", () => {
       expect(character.currency.gold).toBe(0);
       expect(character.hp.current).toBe(0);
       expect(character.hp.max).toBe(0);
-      
+
       // Check all ability scores are initialized
-      Object.values(character.abilities).forEach(ability => {
+      Object.values(character.abilities).forEach((ability) => {
         expect(ability.value).toBe(0);
         expect(ability.modifier).toBe(0);
       });
@@ -171,19 +181,19 @@ describe("Character Utilities", () => {
     it("detects spellcasting characters", () => {
       const magicUser: Character = {
         ...createEmptyCharacter(),
-        class: ["magic-user"]
+        class: ["magic-user"],
       };
       expect(canCastSpells(magicUser)).toBe(true);
 
       const cleric: Character = {
         ...createEmptyCharacter(),
-        class: ["cleric"]
+        class: ["cleric"],
       };
       expect(canCastSpells(cleric)).toBe(true);
 
       const fighter: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter"]
+        class: ["fighter"],
       };
       expect(canCastSpells(fighter)).toBe(false);
     });
@@ -194,14 +204,14 @@ describe("Character Utilities", () => {
       const fighter: Character = {
         ...createEmptyCharacter(),
         class: ["fighter"],
-        race: "human"
+        race: "human",
       };
       expect(calculateHitDie(fighter)).toBe("1d8");
 
       const magicUser: Character = {
         ...createEmptyCharacter(),
         class: ["magic-user"],
-        race: "human"
+        race: "human",
       };
       expect(calculateHitDie(magicUser)).toBe("1d4");
     });
@@ -222,8 +232,8 @@ describe("Character Utilities", () => {
           constitution: { value: 12, modifier: 0 },
           intelligence: { value: 10, modifier: 0 },
           wisdom: { value: 11, modifier: 0 },
-          charisma: { value: 14, modifier: 1 }
-        }
+          charisma: { value: 14, modifier: 1 },
+        },
       };
 
       const elfRace: Race = {
@@ -232,9 +242,7 @@ describe("Character Utilities", () => {
         description: "Test elf",
         physicalDescription: "Tall and graceful",
         allowedClasses: ["fighter", "magic-user", "thief"],
-        abilityRequirements: [
-          { ability: "intelligence", min: 9 }
-        ],
+        abilityRequirements: [{ ability: "intelligence", min: 9 }],
         specialAbilities: [],
         savingThrows: [],
         lifespan: "Immortal",
@@ -242,8 +250,8 @@ describe("Character Utilities", () => {
         carryingCapacity: {
           light: 60,
           heavy: 150,
-          strengthModifier: { positive: 0.1, negative: 0.2 }
-        }
+          strengthModifier: { positive: 0.1, negative: 0.2 },
+        },
       };
 
       expect(isRaceEligible(character, elfRace)).toBe(true);
@@ -253,8 +261,8 @@ describe("Character Utilities", () => {
         ...character,
         abilities: {
           ...character.abilities,
-          intelligence: { value: 8, modifier: -1 }
-        }
+          intelligence: { value: 8, modifier: -1 },
+        },
       };
 
       expect(isRaceEligible(lowIntCharacter, elfRace)).toBe(false);
@@ -271,8 +279,8 @@ describe("Character Utilities", () => {
           constitution: { value: 12, modifier: 0 },
           intelligence: { value: 10, modifier: 0 },
           wisdom: { value: 11, modifier: 0 },
-          charisma: { value: 14, modifier: 1 }
-        }
+          charisma: { value: 14, modifier: 1 },
+        },
       };
       expect(hasValidAbilityScores(validCharacter)).toBe(true);
 
@@ -280,8 +288,8 @@ describe("Character Utilities", () => {
         ...validCharacter,
         abilities: {
           ...validCharacter.abilities,
-          strength: { value: 25, modifier: 7 } // Invalid high score
-        }
+          strength: { value: 25, modifier: 7 }, // Invalid high score
+        },
       };
       expect(hasValidAbilityScores(invalidCharacter)).toBe(false);
 
@@ -289,8 +297,8 @@ describe("Character Utilities", () => {
         ...validCharacter,
         abilities: {
           ...validCharacter.abilities,
-          strength: { value: 1, modifier: -4 } // Invalid low score
-        }
+          strength: { value: 1, modifier: -4 }, // Invalid low score
+        },
       };
       expect(hasValidAbilityScores(invalidLowCharacter)).toBe(false);
     });
@@ -302,7 +310,7 @@ describe("Character Utilities", () => {
         ...createEmptyCharacter(),
         race: "elf",
         class: ["fighter", "magic-user"],
-        spells: []
+        spells: [],
       };
 
       const humanRace: Race = {
@@ -319,12 +327,12 @@ describe("Character Utilities", () => {
         carryingCapacity: {
           light: 60,
           heavy: 150,
-          strengthModifier: { positive: 0.1, negative: 0.2 }
-        }
+          strengthModifier: { positive: 0.1, negative: 0.2 },
+        },
       };
 
       const result = cascadeValidateCharacter(character, humanRace, []);
-      
+
       // Multi-class should be cleared for humans
       expect(result.class).toEqual([]);
       expect(result.spells).toEqual([]);

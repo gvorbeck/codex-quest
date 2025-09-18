@@ -7,7 +7,12 @@ import type { Character } from "@/types";
 
 // Mock the dice roller to make tests deterministic
 vi.mock("@/utils/mechanics", () => ({
-  roller: vi.fn(() => ({ total: 15, rolls: [5, 5, 5], formula: "3d6", breakdown: "5, 5, 5" })),
+  roller: vi.fn(() => ({
+    total: 15,
+    rolls: [5, 5, 5],
+    formula: "3d6",
+    breakdown: "5, 5, 5",
+  })),
   GAME_MECHANICS: {
     ABILITY_MODIFIERS: [
       { max: 3, modifier: -3 },
@@ -18,12 +23,12 @@ vi.mock("@/utils/mechanics", () => ({
       { max: 17, modifier: 2 },
     ],
     DEFAULT_HIGH_MODIFIER: 3,
-  }
+  },
 }));
 
 describe("AbilityScoreStep Component", () => {
   const mockOnCharacterChange = vi.fn();
-  
+
   const defaultProps = {
     character: createEmptyCharacter(),
     onCharacterChange: mockOnCharacterChange,
@@ -36,20 +41,24 @@ describe("AbilityScoreStep Component", () => {
   describe("Initial Render", () => {
     it("renders the step title and description", () => {
       render(<AbilityScoreStep {...defaultProps} />);
-      
+
       expect(screen.getByText("Roll Ability Scores")).toBeInTheDocument();
-      expect(screen.getByText(/Roll 3d6 for each ability score/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Roll 3d6 for each ability score/)
+      ).toBeInTheDocument();
     });
 
     it("renders Roll All Abilities button", () => {
       render(<AbilityScoreStep {...defaultProps} />);
-      
-      expect(screen.getByRole("button", { name: /roll all abilities/i })).toBeInTheDocument();
+
+      expect(
+        screen.getByRole("button", { name: /roll all abilities/i })
+      ).toBeInTheDocument();
     });
 
     it("renders all six ability score sections", () => {
       render(<AbilityScoreStep {...defaultProps} />);
-      
+
       expect(screen.getByLabelText(/strength/i)).toBeInTheDocument();
       expect(screen.getByLabelText(/dexterity/i)).toBeInTheDocument();
       expect(screen.getByLabelText(/constitution/i)).toBeInTheDocument();
@@ -63,8 +72,10 @@ describe("AbilityScoreStep Component", () => {
     it("calls onCharacterChange when rolling all abilities", async () => {
       const user = userEvent.setup();
       render(<AbilityScoreStep {...defaultProps} />);
-      
-      const rollButton = screen.getByRole("button", { name: /roll all abilities/i });
+
+      const rollButton = screen.getByRole("button", {
+        name: /roll all abilities/i,
+      });
       await user.click(rollButton);
 
       expect(mockOnCharacterChange).toHaveBeenCalledWith(
@@ -76,7 +87,7 @@ describe("AbilityScoreStep Component", () => {
             intelligence: { value: 15, modifier: 1 },
             wisdom: { value: 15, modifier: 1 },
             charisma: { value: 15, modifier: 1 },
-          })
+          }),
         })
       );
     });
@@ -91,12 +102,19 @@ describe("AbilityScoreStep Component", () => {
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
           charisma: { value: 6, modifier: -2 },
-        }
+        },
       };
 
-      render(<AbilityScoreStep character={characterWithScores} onCharacterChange={mockOnCharacterChange} />);
-      
-      expect(screen.getByRole("button", { name: /flip all scores/i })).toBeInTheDocument();
+      render(
+        <AbilityScoreStep
+          character={characterWithScores}
+          onCharacterChange={mockOnCharacterChange}
+        />
+      );
+
+      expect(
+        screen.getByRole("button", { name: /flip all scores/i })
+      ).toBeInTheDocument();
     });
 
     it("flips ability scores correctly", async () => {
@@ -110,24 +128,31 @@ describe("AbilityScoreStep Component", () => {
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
           charisma: { value: 6, modifier: -2 },
-        }
+        },
       };
 
-      render(<AbilityScoreStep character={characterWithScores} onCharacterChange={mockOnCharacterChange} />);
-      
-      const flipButton = screen.getByRole("button", { name: /flip all scores/i });
+      render(
+        <AbilityScoreStep
+          character={characterWithScores}
+          onCharacterChange={mockOnCharacterChange}
+        />
+      );
+
+      const flipButton = screen.getByRole("button", {
+        name: /flip all scores/i,
+      });
       await user.click(flipButton);
 
       expect(mockOnCharacterChange).toHaveBeenCalledWith(
         expect.objectContaining({
           abilities: expect.objectContaining({
-            strength: { value: 6, modifier: -2 },  // 21 - 15 = 6
-            dexterity: { value: 9, modifier: -1 },  // 21 - 12 = 9
+            strength: { value: 6, modifier: -2 }, // 21 - 15 = 6
+            dexterity: { value: 9, modifier: -1 }, // 21 - 12 = 9
             constitution: { value: 13, modifier: 1 }, // 21 - 8 = 13
             intelligence: { value: 3, modifier: -3 }, // 21 - 18 = 3
-            wisdom: { value: 11, modifier: 0 },     // 21 - 10 = 11
-            charisma: { value: 15, modifier: 1 },   // 21 - 6 = 15
-          })
+            wisdom: { value: 11, modifier: 0 }, // 21 - 10 = 11
+            charisma: { value: 15, modifier: 1 }, // 21 - 6 = 15
+          }),
         })
       );
     });
@@ -144,11 +169,16 @@ describe("AbilityScoreStep Component", () => {
           intelligence: { value: 15, modifier: 1 },
           wisdom: { value: 10, modifier: 0 },
           charisma: { value: 6, modifier: -2 },
-        }
+        },
       };
 
-      render(<AbilityScoreStep character={characterWithScores} onCharacterChange={mockOnCharacterChange} />);
-      
+      render(
+        <AbilityScoreStep
+          character={characterWithScores}
+          onCharacterChange={mockOnCharacterChange}
+        />
+      );
+
       expect(screen.getByText("Modifier: +3")).toBeInTheDocument();
       expect(screen.getByText("Modifier: +0")).toBeInTheDocument();
       expect(screen.getByText("Modifier: -1")).toBeInTheDocument();
@@ -166,11 +196,16 @@ describe("AbilityScoreStep Component", () => {
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
           charisma: { value: 6, modifier: -2 },
-        }
+        },
       };
 
-      render(<AbilityScoreStep character={characterWithScores} onCharacterChange={mockOnCharacterChange} />);
-      
+      render(
+        <AbilityScoreStep
+          character={characterWithScores}
+          onCharacterChange={mockOnCharacterChange}
+        />
+      );
+
       expect(screen.getByText("Ability Scores Summary")).toBeInTheDocument();
     });
   });
@@ -178,8 +213,12 @@ describe("AbilityScoreStep Component", () => {
   describe("Accessibility", () => {
     it("has proper ARIA labels for form controls", () => {
       render(<AbilityScoreStep {...defaultProps} />);
-      
-      expect(screen.getByRole("group", { name: /ability score generation controls/i })).toBeInTheDocument();
+
+      expect(
+        screen.getByRole("group", {
+          name: /ability score generation controls/i,
+        })
+      ).toBeInTheDocument();
     });
 
     it("provides status messages for screen readers", () => {
@@ -192,11 +231,16 @@ describe("AbilityScoreStep Component", () => {
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
           charisma: { value: 6, modifier: -2 },
-        }
+        },
       };
 
-      render(<AbilityScoreStep character={characterWithInvalidScores} onCharacterChange={mockOnCharacterChange} />);
-      
+      render(
+        <AbilityScoreStep
+          character={characterWithInvalidScores}
+          onCharacterChange={mockOnCharacterChange}
+        />
+      );
+
       // The step should indicate there are validation errors
       // Note: This test depends on the validation implementation
     });
@@ -213,13 +257,20 @@ describe("AbilityScoreStep Component", () => {
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
           charisma: { value: 6, modifier: -2 },
-        }
+        },
       };
 
-      render(<AbilityScoreStep character={characterWithScores} onCharacterChange={mockOnCharacterChange} />);
-      
+      render(
+        <AbilityScoreStep
+          character={characterWithScores}
+          onCharacterChange={mockOnCharacterChange}
+        />
+      );
+
       expect(screen.getByText("Flip Scores Information")).toBeInTheDocument();
-      expect(screen.getByText(/You can flip all ability scores/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/You can flip all ability scores/)
+      ).toBeInTheDocument();
     });
   });
 });

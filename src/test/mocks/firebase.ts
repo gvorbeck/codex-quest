@@ -8,26 +8,26 @@ export const mockFirebaseAuth = {
   currentUser: {
     uid: "test-user-123",
     email: "test@example.com",
-    displayName: "Test User"
+    displayName: "Test User",
   },
-  
+
   signInWithEmailAndPassword: vi.fn().mockResolvedValue({
     user: {
       uid: "test-user-123",
-      email: "test@example.com"
-    }
+      email: "test@example.com",
+    },
   }),
-  
+
   createUserWithEmailAndPassword: vi.fn().mockResolvedValue({
     user: {
       uid: "test-user-123",
-      email: "test@example.com"
-    }
+      email: "test@example.com",
+    },
   }),
-  
+
   signOut: vi.fn().mockResolvedValue(undefined),
-  
-  onAuthStateChanged: vi.fn()
+
+  onAuthStateChanged: vi.fn(),
 };
 
 // Mock Firestore
@@ -36,28 +36,30 @@ export const mockFirestore = {
     doc: vi.fn(() => ({
       get: vi.fn().mockResolvedValue({
         exists: true,
-        data: vi.fn().mockReturnValue({ name: "Test Character" })
+        data: vi.fn().mockReturnValue({ name: "Test Character" }),
       }),
       set: vi.fn().mockResolvedValue(undefined),
       update: vi.fn().mockResolvedValue(undefined),
-      delete: vi.fn().mockResolvedValue(undefined)
+      delete: vi.fn().mockResolvedValue(undefined),
     })),
-    
+
     add: vi.fn().mockResolvedValue({
-      id: "test-doc-id"
+      id: "test-doc-id",
     }),
-    
+
     where: vi.fn().mockReturnThis(),
     orderBy: vi.fn().mockReturnThis(),
     limit: vi.fn().mockReturnThis(),
-    
+
     get: vi.fn().mockResolvedValue({
-      docs: [{
-        id: "test-doc-id",
-        data: vi.fn().mockReturnValue({ name: "Test Character" })
-      }]
-    })
-  }))
+      docs: [
+        {
+          id: "test-doc-id",
+          data: vi.fn().mockReturnValue({ name: "Test Character" }),
+        },
+      ],
+    }),
+  })),
 };
 
 // Helper to reset all mocks

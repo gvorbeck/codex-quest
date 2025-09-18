@@ -9,7 +9,7 @@ export const mockAbilityScores = {
   constitution: { value: 14, modifier: 1 },
   intelligence: { value: 12, modifier: 0 },
   wisdom: { value: 10, modifier: 0 },
-  charisma: { value: 8, modifier: -1 }
+  charisma: { value: 8, modifier: -1 },
 };
 
 export const mockEquipment: Equipment[] = [
@@ -21,7 +21,7 @@ export const mockEquipment: Equipment[] = [
     category: "weapon",
     amount: 1,
     damage: "1d8",
-    type: "melee"
+    type: "melee",
   },
   {
     name: "Leather Armor",
@@ -30,7 +30,7 @@ export const mockEquipment: Equipment[] = [
     weight: 15,
     category: "armor",
     amount: 1,
-    AC: 12
+    AC: 12,
   },
   {
     name: "Shield",
@@ -39,8 +39,8 @@ export const mockEquipment: Equipment[] = [
     weight: 6,
     category: "shield",
     amount: 1,
-    AC: 1
-  }
+    AC: 1,
+  },
 ];
 
 export const mockSpells: Spell[] = [
@@ -53,12 +53,12 @@ export const mockSpells: Spell[] = [
       "magic-user": 1,
       druid: null,
       illusionist: null,
-      necromancer: null
+      necromancer: null,
     },
     range: "150'",
     duration: "instantaneous",
-    description: "Automatically hits target for 1d4+1 damage"
-  }
+    description: "Automatically hits target for 1d4+1 damage",
+  },
 ];
 
 export const mockBasicCharacter: Character = {
@@ -71,7 +71,7 @@ export const mockBasicCharacter: Character = {
   hp: { current: 8, max: 8, die: "1d8" },
   equipment: mockEquipment,
   currency: { gold: 30, silver: 0, copper: 0 },
-  settings: { version: 2.5 }
+  settings: { version: 2.5 },
 };
 
 export const mockMagicUserCharacter: Character = {
@@ -79,7 +79,7 @@ export const mockMagicUserCharacter: Character = {
   abilities: {
     ...mockAbilityScores,
     intelligence: { value: 16, modifier: 2 },
-    constitution: { value: 10, modifier: 0 }
+    constitution: { value: 10, modifier: 0 },
   },
   race: "human",
   class: ["magic-user"],
@@ -95,19 +95,19 @@ export const mockMagicUserCharacter: Character = {
       category: "weapon",
       amount: 1,
       damage: "1d4",
-      type: "melee"
-    }
+      type: "melee",
+    },
   ],
   spells: mockSpells,
   currency: { gold: 25, silver: 0, copper: 0 },
-  settings: { version: 2.5 }
+  settings: { version: 2.5 },
 };
 
 export const mockMultiClassCharacter: Character = {
   name: "Test Fighter/Magic-User",
   abilities: {
     ...mockAbilityScores,
-    intelligence: { value: 14, modifier: 1 }
+    intelligence: { value: 14, modifier: 1 },
   },
   race: "elf",
   class: ["fighter", "magic-user"],
@@ -117,7 +117,7 @@ export const mockMultiClassCharacter: Character = {
   equipment: mockEquipment,
   spells: mockSpells,
   currency: { gold: 50, silver: 0, copper: 0 },
-  settings: { version: 2.5 }
+  settings: { version: 2.5 },
 };
 
 export const mockEmptyCharacter: Character = {
@@ -128,7 +128,7 @@ export const mockEmptyCharacter: Character = {
     constitution: { value: 0, modifier: 0 },
     intelligence: { value: 0, modifier: 0 },
     wisdom: { value: 0, modifier: 0 },
-    charisma: { value: 0, modifier: 0 }
+    charisma: { value: 0, modifier: 0 },
   },
   race: "",
   class: [],
@@ -137,5 +137,5 @@ export const mockEmptyCharacter: Character = {
   hp: { current: 0, max: 0 },
   equipment: [],
   currency: { gold: 0 },
-  settings: { version: 2.5 }
+  settings: { version: 2.5 },
 };

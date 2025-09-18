@@ -4,25 +4,27 @@ test.describe("Equipment Selection Workflow", () => {
   test("adds equipment and sees weight/cost updates", async ({ page }) => {
     // Navigate to equipment or character sheet page
     await page.goto("/");
-    
+
     // Try to find equipment section
     // This might be part of character creation or a separate equipment page
-    const equipmentLink = page.getByText(/equipment/i).or(
-      page.getByText(/gear/i).or(
-        page.getByText(/items/i)
-      )
-    ).first();
-    
+    const equipmentLink = page
+      .getByText(/equipment/i)
+      .or(page.getByText(/gear/i).or(page.getByText(/items/i)))
+      .first();
+
     if (await equipmentLink.isVisible()) {
       await equipmentLink.click();
     } else {
       // Try direct navigation
       await page.goto("/equipment");
-      
+
       // If that fails, try character generator which might have equipment step
-      if (page.url().includes("404") || await page.getByText(/not found/i).isVisible()) {
+      if (
+        page.url().includes("404") ||
+        (await page.getByText(/not found/i).isVisible())
+      ) {
         await page.goto("/character-generator");
-        
+
         // Look for equipment step in character creation
         const equipmentStep = page.getByText(/equipment/i);
         if (await equipmentStep.isVisible()) {
@@ -30,71 +32,65 @@ test.describe("Equipment Selection Workflow", () => {
         }
       }
     }
-    
+
     await page.waitForTimeout(1000);
-    
+
     // Look for equipment-related interface elements
-    const addItemButton = page.getByRole("button", { name: /add/i }).or(
-      page.getByText(/add item/i).or(
-        page.getByText(/add equipment/i)
-      )
-    ).first();
-    
+    const addItemButton = page
+      .getByRole("button", { name: /add/i })
+      .or(page.getByText(/add item/i).or(page.getByText(/add equipment/i)))
+      .first();
+
     if (await addItemButton.isVisible()) {
       // Test adding equipment
       await addItemButton.click();
-      
+
       // Look for equipment selection interface
       await page.waitForTimeout(500);
-      
+
       // Try to find common weapons
-      const sword = page.getByText(/sword/i).or(
-        page.getByText(/weapon/i)
-      ).first();
-      
+      const sword = page
+        .getByText(/sword/i)
+        .or(page.getByText(/weapon/i))
+        .first();
+
       if (await sword.isVisible()) {
         await sword.click();
-        
+
         // Should see item added to inventory
         await expect(page.getByText(/sword/i)).toBeVisible();
       }
     }
-    
+
     // Look for weight and cost displays
-    const weightDisplay = page.getByText(/weight/i).or(
-      page.getByText(/lbs/i).or(
-        page.getByText(/pounds/i)
-      )
-    );
-    
-    const costDisplay = page.getByText(/cost/i).or(
-      page.getByText(/gold/i).or(
-        page.getByText(/gp/i).or(
-          page.getByText(/price/i)
-        )
-      )
-    );
-    
+    const weightDisplay = page
+      .getByText(/weight/i)
+      .or(page.getByText(/lbs/i).or(page.getByText(/pounds/i)));
+
+    const costDisplay = page
+      .getByText(/cost/i)
+      .or(
+        page
+          .getByText(/gold/i)
+          .or(page.getByText(/gp/i).or(page.getByText(/price/i)))
+      );
+
     // At least one should be visible for equipment management
-    if (await weightDisplay.isVisible() || await costDisplay.isVisible()) {
-      expect(await weightDisplay.isVisible() || await costDisplay.isVisible()).toBe(true);
+    if ((await weightDisplay.isVisible()) || (await costDisplay.isVisible())) {
+      expect(
+        (await weightDisplay.isVisible()) || (await costDisplay.isVisible())
+      ).toBe(true);
     }
   });
 
   test("displays equipment categories", async ({ page }) => {
     await page.goto("/");
-    
+
     // Look for equipment categories or lists
-    const categories = [
-      /weapon/i,
-      /armor/i,
-      /shield/i,
-      /gear/i,
-      /equipment/i
-    ];
-    
+    const categories = [/weapon/i, /armor/i, /shield/i, /gear/i, /equipment/i];
+
     let foundCategory = false;
-    
+
     for (const category of categories) {
       if (await page.getByText(category).isVisible()) {
         foundCategory = true;
@@ -102,12 +98,12 @@ test.describe("Equipment Selection Workflow", () => {
         break;
       }
     }
-    
+
     // If no categories found on main page, try character generator
     if (!foundCategory) {
       await page.goto("/character-generator");
       await page.waitForTimeout(1000);
-      
+
       for (const category of categories) {
         if (await page.getByText(category).isVisible()) {
           foundCategory = true;
@@ -116,14 +112,14 @@ test.describe("Equipment Selection Workflow", () => {
         }
       }
     }
-    
+
     // Test passes if we found at least one equipment-related element
     // This is exploratory - we're discovering the app structure
   });
 
   test("handles currency calculations", async ({ page }) => {
     await page.goto("/");
-    
+
     // Look for any currency-related displays
     const currencyTerms = [
       /gold/i,
@@ -133,11 +129,11 @@ test.describe("Equipment Selection Workflow", () => {
       /sp/i,
       /cp/i,
       /coin/i,
-      /currency/i
+      /currency/i,
     ];
-    
+
     let foundCurrency = false;
-    
+
     // Check main page first
     for (const term of currencyTerms) {
       if (await page.getByText(term).isVisible()) {
@@ -146,12 +142,12 @@ test.describe("Equipment Selection Workflow", () => {
         break;
       }
     }
-    
+
     // If not found, try character-related pages
     if (!foundCurrency) {
       await page.goto("/character-generator");
       await page.waitForTimeout(1000);
-      
+
       for (const term of currencyTerms) {
         if (await page.getByText(term).isVisible()) {
           foundCurrency = true;
@@ -160,7 +156,7 @@ test.describe("Equipment Selection Workflow", () => {
         }
       }
     }
-    
+
     // This test explores currency features if they exist
     // It's designed to pass regardless, as we're in discovery mode
     expect(true).toBe(true);
@@ -168,24 +164,24 @@ test.describe("Equipment Selection Workflow", () => {
 
   test("responsive equipment interface", async ({ page }) => {
     await page.goto("/");
-    
+
     // Test responsive behavior by changing viewport
     await page.setViewportSize({ width: 375, height: 667 }); // Mobile
     await page.waitForTimeout(500);
-    
+
     // Page should still be functional on mobile
     await expect(page.locator("body")).toBeVisible();
-    
+
     // Change to tablet size
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.waitForTimeout(500);
-    
+
     await expect(page.locator("body")).toBeVisible();
-    
+
     // Change to desktop
     await page.setViewportSize({ width: 1200, height: 800 });
     await page.waitForTimeout(500);
-    
+
     await expect(page.locator("body")).toBeVisible();
   });
 });

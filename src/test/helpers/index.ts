@@ -1,9 +1,9 @@
 // Test helpers and utilities
 // Provides utility functions for testing including mock data generators and common assertions
 
-import { vi, expect } from 'vitest';
+import { vi, expect } from "vitest";
 import type { Character, AbilityScore, Equipment } from "@/types";
-import { mockBasicCharacter, mockAbilityScores } from '../mocks/character-data';
+import { mockBasicCharacter, mockAbilityScores } from "../mocks/character-data";
 
 type AbilityScores = {
   strength: AbilityScore;
@@ -17,27 +17,33 @@ type AbilityScores = {
 /**
  * Creates a mock character with customizable properties
  */
-export const createMockCharacter = (overrides: Partial<Character> = {}): Character => {
+export const createMockCharacter = (
+  overrides: Partial<Character> = {}
+): Character => {
   return {
     ...mockBasicCharacter,
-    ...overrides
+    ...overrides,
   };
 };
 
 /**
  * Creates mock ability scores with optional overrides
  */
-export const createMockAbilityScores = (overrides: Partial<AbilityScores> = {}): AbilityScores => {
+export const createMockAbilityScores = (
+  overrides: Partial<AbilityScores> = {}
+): AbilityScores => {
   return {
     ...mockAbilityScores,
-    ...overrides
+    ...overrides,
   };
 };
 
 /**
  * Creates a mock equipment item with customizable properties
  */
-export const createMockEquipment = (overrides: Partial<Equipment> = {}): Equipment => {
+export const createMockEquipment = (
+  overrides: Partial<Equipment> = {}
+): Equipment => {
   return {
     name: "Test Item",
     costValue: 10,
@@ -45,7 +51,7 @@ export const createMockEquipment = (overrides: Partial<Equipment> = {}): Equipme
     weight: 1,
     category: "misc",
     amount: 1,
-    ...overrides
+    ...overrides,
   };
 };
 
@@ -64,7 +70,8 @@ export const createMockDiceRoller = (results: number[]) => {
 /**
  * Waits for async operations to complete (useful for testing async components)
  */
-export const waitForAsync = () => new Promise(resolve => setTimeout(resolve, 0));
+export const waitForAsync = () =>
+  new Promise((resolve) => setTimeout(resolve, 0));
 
 /**
  * Creates a mock user event for testing component interactions
@@ -75,7 +82,7 @@ export const createMockUserEvent = () => {
     type: vi.fn(),
     clear: vi.fn(),
     selectOptions: vi.fn(),
-    upload: vi.fn()
+    upload: vi.fn(),
   };
 };
 
@@ -93,7 +100,10 @@ export const expectCharacterToBeValid = (character: Character) => {
 /**
  * Assertion helper for testing ability score calculations
  */
-export const expectAbilityScoreModifier = (value: number, expectedModifier: number) => {
+export const expectAbilityScoreModifier = (
+  value: number,
+  expectedModifier: number
+) => {
   const modifier = Math.floor((value - 10) / 2);
   expect(modifier).toBe(expectedModifier);
 };
@@ -103,7 +113,7 @@ export const expectAbilityScoreModifier = (value: number, expectedModifier: numb
  */
 export const mockLocalStorage = () => {
   const store: Record<string, string> = {};
-  
+
   return {
     getItem: vi.fn((key: string) => store[key] || null),
     setItem: vi.fn((key: string, value: string) => {
@@ -113,7 +123,7 @@ export const mockLocalStorage = () => {
       delete store[key];
     }),
     clear: vi.fn(() => {
-      Object.keys(store).forEach(key => delete store[key]);
-    })
+      Object.keys(store).forEach((key) => delete store[key]);
+    }),
   };
 };
