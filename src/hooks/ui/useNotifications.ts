@@ -5,7 +5,7 @@ import type {
   NotificationPosition,
 } from "@/components/ui/core/feedback/Notification";
 import type { ShowNotificationOptions, NotificationSystem } from "@/types";
-import { useA11yAnnouncements } from "./useA11y";
+import { useA11yAnnouncements } from "../a11y/useA11y";
 import { NOTIFICATION_CONSTANTS } from "@/constants";
 import { logger } from "@/utils";
 

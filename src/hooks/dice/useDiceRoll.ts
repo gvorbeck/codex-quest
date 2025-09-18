@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useNotificationContext } from "@/hooks";
+import { useNotificationContext } from "../ui";
 import { roller } from "@/utils";
 
 // Constants for dice rolling

@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { queryKeys } from "@/lib/queryKeys";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "../auth";
 import { logger } from "@/utils";
 import type { Game } from "@/types";
 

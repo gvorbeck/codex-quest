@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserCharacters } from "@/services";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "../auth";
 import { queryKeys } from "@/lib/queryKeys";
 
 export function useCharacters() {

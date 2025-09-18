@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useEffect } from "react";
-import { usePlayerCharacters, useNotifications } from "@/hooks";
+import { usePlayerCharacters } from "../character";
+import { useNotifications } from "../ui";
 import { useCombatStore } from "@/stores";
 import type {
   CombatantWithInitiative,

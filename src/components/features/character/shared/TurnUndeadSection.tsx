@@ -1,7 +1,7 @@
 import { Card, Typography } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
 import { Icon, SectionHeader } from "@/components/ui";
-import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 
 interface TurnUndeadSectionProps {
   className?: string;

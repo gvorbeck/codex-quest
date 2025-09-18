@@ -16,8 +16,8 @@ import {
   EncounterGeneratorModal,
 } from "@/components/modals/LazyModals";
 import { useGame } from "@/hooks";
-import { useDiceRoller } from "@/hooks/useDiceRoller";
-import { useNotifications } from "@/hooks/useNotifications";
+import { useDiceRoller } from "@/hooks/dice/useDiceRoller";
+import { useNotifications } from "@/hooks/ui/useNotifications";
 import { logger, getErrorMessage } from "@/utils";
 import {
   GAME_SHEET_STYLES,

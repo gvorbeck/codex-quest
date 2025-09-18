@@ -17,7 +17,7 @@ import {
 } from "@/constants";
 import RollableButton from "@/components/domain/dice/RollableButton";
 import Button from "@/components/ui/core/primitives/Button";
-import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 import { allClasses } from "@/data";
 import { logger } from "@/utils";
 import type { Character, SkillKey, SkillClassKey } from "@/types";

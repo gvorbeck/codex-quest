@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChange } from "@/services/auth";
 import type { AuthUser } from "@/services/auth";
-import { useLoadingState } from "./useLoadingState";
+import { useLoadingState } from "../ui/useLoadingState";
 
 export function useAuth() {
   const [user, setUser] = useState<AuthUser | null>(null);

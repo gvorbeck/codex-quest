@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserGames } from "@/services";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "../auth";
 import { queryKeys } from "@/lib/queryKeys";
 
 /**

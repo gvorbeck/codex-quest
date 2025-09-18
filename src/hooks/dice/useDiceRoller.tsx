@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { FloatingActionButton } from "@/components/ui/core/primitives/FloatingActionButton";
 import { DiceRollerModal } from "@/components/modals/LazyModals";
 import { Icon } from "@/components/ui";
-import { useModal } from "./useModal";
+import { useModal } from "../ui/useModal";
 
 interface UseDiceRollerReturn {
   isOpen: boolean;

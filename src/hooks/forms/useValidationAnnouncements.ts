@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useA11yAnnouncements } from "./useA11y";
+import { useA11yAnnouncements } from "../a11y/useA11y";
 
 /**
  * Hook for announcing validation errors to screen readers
