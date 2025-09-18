@@ -222,11 +222,14 @@ export default function SignInModal({
       resetForm.reset();
     } catch (error: unknown) {
       logger.error("Password reset error:", error);
-      const firebaseError = error as { code?: string };
-      if (firebaseError.code === "auth/user-not-found") {
-        setError(AUTH_ERRORS.USER_NOT_FOUND);
-      } else if (firebaseError.code === "auth/invalid-email") {
-        setError(AUTH_ERRORS.INVALID_EMAIL);
+      if (isFirebaseError(error)) {
+        if (error.code === "auth/user-not-found") {
+          setError(AUTH_ERRORS.USER_NOT_FOUND);
+        } else if (error.code === "auth/invalid-email") {
+          setError(AUTH_ERRORS.INVALID_EMAIL);
+        } else {
+          setError(AUTH_ERRORS.PASSWORD_RESET_FAILED);
+        }
       } else {
         setError(AUTH_ERRORS.PASSWORD_RESET_FAILED);
       }
@@ -246,12 +249,15 @@ export default function SignInModal({
       resetForms();
     } catch (error: unknown) {
       logger.error("Google sign-in error:", error);
-      const firebaseError = error as { code?: string };
-      if (
-        firebaseError.code === "auth/cancelled-popup-request" ||
-        firebaseError.code === "auth/popup-closed-by-user"
-      ) {
-        setError(AUTH_ERRORS.GOOGLE_SIGN_IN_CANCELLED);
+      if (isFirebaseError(error)) {
+        if (
+          error.code === "auth/cancelled-popup-request" ||
+          error.code === "auth/popup-closed-by-user"
+        ) {
+          setError(AUTH_ERRORS.GOOGLE_SIGN_IN_CANCELLED);
+        } else {
+          setError(AUTH_ERRORS.GOOGLE_SIGN_IN_FAILED);
+        }
       } else {
         setError(AUTH_ERRORS.GOOGLE_SIGN_IN_FAILED);
       }
