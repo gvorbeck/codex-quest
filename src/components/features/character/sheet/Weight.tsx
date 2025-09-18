@@ -1,6 +1,7 @@
 import { SectionWrapper } from "@/components/ui/core/layout";
 import { StatusIndicator } from "@/components/ui/composite";
 import { SIZE_STYLES } from "@/constants";
+import { calculateTotalCoinCount, calculateCoinWeight } from "@/utils/currency";
 import type { Character } from "@/types";
 import type { StatusThreshold } from "@/components/ui/composite/StatusIndicator";
 
@@ -76,15 +77,8 @@ function calculateTotalWeight(character: Character): number {
   let coinWeight = 0;
   const shouldUseCoinWeight = character.settings?.useCoinWeight !== false;
   if (shouldUseCoinWeight) {
-    // 1 gold piece = 1/20th of a pound
-    const totalCoins =
-      (character.currency.gold || 0) +
-      (character.currency.silver || 0) +
-      (character.currency.copper || 0) +
-      (character.currency.electrum || 0) +
-      (character.currency.platinum || 0);
-
-    coinWeight = totalCoins / 20;
+    const totalCoins = calculateTotalCoinCount(character.currency);
+    coinWeight = calculateCoinWeight(totalCoins);
   }
 
   return equipmentWeight + coinWeight;
@@ -175,12 +169,7 @@ export default function Weight({
   }, 0);
   const coinWeight =
     character.settings?.useCoinWeight !== false
-      ? ((character.currency.gold || 0) +
-          (character.currency.silver || 0) +
-          (character.currency.copper || 0) +
-          (character.currency.electrum || 0) +
-          (character.currency.platinum || 0)) /
-        20
+      ? calculateCoinWeight(calculateTotalCoinCount(character.currency))
       : 0;
 
   // Check if character has any beasts of burden
