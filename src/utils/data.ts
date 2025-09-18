@@ -8,9 +8,7 @@ import {
   MONSTER_CATEGORIES,
   MONSTER_NAME_PATTERNS,
 } from "@/constants";
-import { convertCurrency as baseCurrencyConvert } from "./currency";
 import type {
-  CurrencyKey,
   Monster,
   Spell,
   ServiceErrorOptions,
@@ -141,65 +139,6 @@ export function sanitizeCharacterName(name: string): string {
   // This matches the validation schema pattern
   return plainText.replace(/[^a-zA-Z\s\-'.]/g, "").trim();
 }
-
-// ============================================================================
-// CURRENCY UTILITIES
-// ============================================================================
-
-
-// Helper function that maps CurrencyKey to CurrencyType for our base converter
-function mapCurrencyKeyToType(key: CurrencyKey): "platinum" | "gold" | "electrum" | "silver" | "copper" {
-  return key as "platinum" | "gold" | "electrum" | "silver" | "copper";
-}
-
-export function convertCurrency(
-  amount: number,
-  fromCurrency: CurrencyKey,
-  toCurrency: CurrencyKey
-): number {
-  return baseCurrencyConvert(
-    amount,
-    mapCurrencyKeyToType(fromCurrency),
-    mapCurrencyKeyToType(toCurrency)
-  );
-}
-
-export function convertToGold(
-  amount: number,
-  fromCurrency: CurrencyKey
-): number {
-  return convertCurrency(amount, fromCurrency, "gold");
-}
-
-export function convertToCopper(
-  amount: number,
-  fromCurrency: CurrencyKey
-): number {
-  return convertCurrency(amount, fromCurrency, "copper");
-}
-
-function mapLegacyCurrency(
-  currency: "gp" | "sp" | "cp" | "ep" | "pp"
-): CurrencyKey {
-  const currencyMap: Record<"gp" | "sp" | "cp" | "ep" | "pp", CurrencyKey> = {
-    gp: "gold",
-    sp: "silver",
-    cp: "copper",
-    ep: "electrum",
-    pp: "platinum",
-  };
-
-  return currencyMap[currency];
-}
-
-export function convertToGoldFromAbbreviation(
-  value: number,
-  currency: "gp" | "sp" | "cp" | "ep" | "pp"
-): number {
-  return convertToGold(value, mapLegacyCurrency(currency));
-}
-
-
 
 // ============================================================================
 // GMBINDER UTILITIES

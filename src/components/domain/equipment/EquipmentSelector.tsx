@@ -6,7 +6,8 @@ import { LoadingState } from "@/components/ui/core/feedback";
 import { logger } from "@/utils";
 import type { Character, Equipment, Race, Class } from "@/types";
 import { loadAllEquipment } from "@/services/dataLoader";
-import { convertToGoldFromAbbreviation, findById } from "@/utils";
+import { findById } from "@/utils";
+import { convertToGoldFromAbbreviation } from "@/utils/currency";
 import { allRaces, allClasses } from "@/data";
 
 type EquipmentWithIndex = Equipment & {

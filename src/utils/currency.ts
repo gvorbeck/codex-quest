@@ -5,6 +5,7 @@
 
 import { ENCUMBRANCE } from "./mechanics";
 import { CURRENCY_TO_COPPER_RATES, CURRENCY_ORDER } from "@/constants";
+import type { CurrencyKey } from "@/types";
 
 // Shared currency interface
 export interface CurrencyAmount {
@@ -315,4 +316,36 @@ export function getTotalCurrencyValueInCopper(
     (currency.silver || 0) * CURRENCY_TO_COPPER_RATES.silver +
     (currency.copper || 0) * CURRENCY_TO_COPPER_RATES.copper
   );
+}
+
+// ============================================================================
+// LEGACY CURRENCY UTILITIES (moved from data.ts)
+// ============================================================================
+
+/**
+ * Map legacy currency abbreviations to modern CurrencyKey format
+ */
+function mapLegacyCurrency(
+  currency: "gp" | "sp" | "cp" | "ep" | "pp"
+): CurrencyKey {
+  const currencyMap: Record<"gp" | "sp" | "cp" | "ep" | "pp", CurrencyKey> = {
+    gp: "gold",
+    sp: "silver",
+    cp: "copper",
+    ep: "electrum",
+    pp: "platinum",
+  };
+
+  return currencyMap[currency];
+}
+
+/**
+ * Convert legacy currency abbreviation to gold value
+ */
+export function convertToGoldFromAbbreviation(
+  value: number,
+  currency: "gp" | "sp" | "cp" | "ep" | "pp"
+): number {
+  const currencyKey = mapLegacyCurrency(currency);
+  return convertCurrency(value, currencyKey as CurrencyType, "gold");
 }

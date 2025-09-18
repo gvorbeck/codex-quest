@@ -15,7 +15,10 @@ export * from "./magic";
 // UI utilities (formatting, styling, positioning, validation)
 export * from "./ui";
 
-// Data utilities (currency, sanitization, logging, errors, GMBinder)
+// Currency utilities (BFRPG currency conversion, weights, normalization)
+export * from "./currency";
+
+// Data utilities (sanitization, logging, errors, GMBinder)
 export * from "./data";
 
 // Game content (monsters, treasure generation)

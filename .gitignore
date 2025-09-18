@@ -27,6 +27,10 @@ sources/*
 
 .env
 
-# Playwright test artifacts
+# Testing artifacts
 playwright-report/
 test-results/
+coverage/
+
+# Vitest UI cache
+.vitest/
