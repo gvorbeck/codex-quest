@@ -26,10 +26,15 @@ export default function MUAddSpellModal({
   const [selectedSpells, setSelectedSpells] = useState<Record<number, string>>(
     {}
   );
-  const [allSpells, setAllSpells] = useState<Spell[]>([]);
-  const [isLoadingSpells, setIsLoadingSpells] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false);
+  const [spellsState, setSpellsState] = useState({
+    allSpells: [] as Spell[],
+    isLoadingSpells: false,
+    loadError: null as string | null,
+    hasAttemptedLoad: false,
+  });
+
+  const { allSpells, isLoadingSpells, loadError, hasAttemptedLoad } =
+    spellsState;
 
   // Get character's spell slots to determine which spell levels they can learn
   const spellSlots = useMemo(
@@ -39,19 +44,28 @@ export default function MUAddSpellModal({
 
   // Extracted spell loading function that can be called directly
   const loadSpells = useCallback(async () => {
-    setIsLoadingSpells(true);
-    setLoadError(null);
+    setSpellsState((prev) => ({
+      ...prev,
+      isLoadingSpells: true,
+      loadError: null,
+    }));
     try {
       const spells = await loadAllSpells();
-      setAllSpells(spells);
+      setSpellsState((prev) => ({ ...prev, allSpells: spells }));
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Failed to load spells";
-      setLoadError(errorMessage);
-      setAllSpells([]);
+      setSpellsState((prev) => ({
+        ...prev,
+        loadError: errorMessage,
+        allSpells: [],
+      }));
     } finally {
-      setIsLoadingSpells(false);
-      setHasAttemptedLoad(true);
+      setSpellsState((prev) => ({
+        ...prev,
+        isLoadingSpells: false,
+        hasAttemptedLoad: true,
+      }));
     }
   }, []);
 
@@ -155,7 +169,7 @@ export default function MUAddSpellModal({
   const handleClose = () => {
     setSelectedSpells({});
     // Reset error state when modal closes
-    setLoadError(null);
+    setSpellsState((prev) => ({ ...prev, loadError: null }));
     onClose();
   };
 
