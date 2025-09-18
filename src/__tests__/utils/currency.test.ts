@@ -6,6 +6,7 @@ import {
   calculateTotalWeight,
   calculateCoinWeight,
   calculateTotalCoinCount,
+  convertToGoldFromAbbreviation,
   CURRENCY_RATES,
 } from "@/utils/currency";
 
@@ -143,6 +144,35 @@ describe("Currency Utilities", () => {
       expect(CURRENCY_RATES.GOLD_TO_COPPER).toBe(100);
       expect(CURRENCY_RATES.PLATINUM_TO_COPPER).toBe(500);
       expect(CURRENCY_RATES.ELECTRUM_TO_COPPER).toBe(50);
+    });
+  });
+
+  describe("Legacy Currency Conversions", () => {
+    it("converts legacy abbreviations to gold correctly", () => {
+      expect(convertToGoldFromAbbreviation(1, "gp")).toBe(1);
+      expect(convertToGoldFromAbbreviation(10, "sp")).toBe(1);
+      expect(convertToGoldFromAbbreviation(100, "cp")).toBe(1);
+      expect(convertToGoldFromAbbreviation(1, "pp")).toBe(5);
+      expect(convertToGoldFromAbbreviation(5, "ep")).toBe(2.5);
+    });
+
+    it("handles fractional conversions for legacy abbreviations", () => {
+      expect(convertToGoldFromAbbreviation(5, "sp")).toBe(0.5);
+      expect(convertToGoldFromAbbreviation(50, "cp")).toBe(0.5);
+      expect(convertToGoldFromAbbreviation(2, "ep")).toBe(1);
+    });
+  });
+
+  describe("Enhanced Currency Conversions", () => {
+    it("supports electrum to gold conversion", () => {
+      // 1 electrum = 5 silver = 0.5 gold, so 5 electrum = 2.5 gold
+      expect(convertCurrency(5, "electrum", "gold")).toBe(2.5);
+      expect(convertCurrency(2, "electrum", "gold")).toBe(1);
+    });
+
+    it("handles multi-step conversions correctly", () => {
+      // Test silver to platinum (requires two conversion steps)
+      expect(convertCurrency(50, "silver", "platinum")).toBe(1); // 50 silver = 5 gold = 1 platinum
     });
   });
 });

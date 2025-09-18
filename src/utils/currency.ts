@@ -56,6 +56,7 @@ type SupportedConversionKey =
   | "silver-gold"
   | "silver-platinum"
   | "silver-electrum"
+  | "electrum-gold"
   | "copper-silver"
   | "copper-gold"
   | "copper-platinum"
@@ -77,6 +78,7 @@ const CONVERSION_MAP: Record<SupportedConversionKey, number> = {
   "silver-platinum":
     1 / CURRENCY_RATES.PLATINUM_TO_GOLD / CURRENCY_RATES.GOLD_TO_SILVER, // silver -> gold -> platinum
   "silver-electrum": 1 / CURRENCY_RATES.ELECTRUM_TO_SILVER,
+  "electrum-gold": CURRENCY_RATES.ELECTRUM_TO_SILVER / CURRENCY_RATES.GOLD_TO_SILVER, // electrum -> silver -> gold
   "copper-silver": 1 / CURRENCY_RATES.SILVER_TO_COPPER,
   "copper-gold": 1 / CURRENCY_RATES.GOLD_TO_COPPER,
   "copper-platinum": 1 / CURRENCY_RATES.PLATINUM_TO_COPPER,
@@ -185,7 +187,9 @@ export function normalizeCurrency(currency: CurrencyAmount): CurrencyAmount {
     copper: currency.copper || 0,
   };
 
-  // Maximum iterations to prevent infinite loops
+  // Maximum iterations to prevent infinite loops during currency normalization
+  // 10 iterations is sufficient because BFRPG has 5 currency types maximum,
+  // and each iteration can only create one new fractional amount at most
   const MAX_ITERATIONS = 10;
   let iterations = 0;
 
@@ -325,6 +329,7 @@ export function getTotalCurrencyValueInCopper(
 
 /**
  * Map legacy currency abbreviations to modern CurrencyKey format
+ * Note: CurrencyKey values are identical to CurrencyType values for type safety
  */
 function mapLegacyCurrency(
   currency: "gp" | "sp" | "cp" | "ep" | "pp"
@@ -342,11 +347,13 @@ function mapLegacyCurrency(
 
 /**
  * Convert legacy currency abbreviation to gold value
+ * Uses type assertion since CurrencyKey and CurrencyType have identical values
  */
 export function convertToGoldFromAbbreviation(
   value: number,
   currency: "gp" | "sp" | "cp" | "ep" | "pp"
 ): number {
   const currencyKey = mapLegacyCurrency(currency);
+  // Safe type assertion: CurrencyKey and CurrencyType have identical string values
   return convertCurrency(value, currencyKey as CurrencyType, "gold");
 }
