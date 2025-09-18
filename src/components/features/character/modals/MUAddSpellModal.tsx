@@ -40,24 +40,42 @@ export default function MUAddSpellModal({
   // Load spells when modal opens
   useEffect(() => {
     if (isOpen && !hasAttemptedLoad) {
+      let isMounted = true;
+      const abortController = new AbortController();
+
       const loadSpells = async () => {
         setIsLoadingSpells(true);
         setLoadError(null);
         try {
           const spells = await loadAllSpells();
-          setAllSpells(spells);
+          if (isMounted && !abortController.signal.aborted) {
+            setAllSpells(spells);
+          }
         } catch (error) {
-          const errorMessage =
-            error instanceof Error ? error.message : "Failed to load spells";
-          setLoadError(errorMessage);
-          setAllSpells([]);
+          if (isMounted && !abortController.signal.aborted) {
+            const errorMessage =
+              error instanceof Error ? error.message : "Failed to load spells";
+            setLoadError(errorMessage);
+            setAllSpells([]);
+          }
         } finally {
-          setIsLoadingSpells(false);
-          setHasAttemptedLoad(true);
+          if (isMounted && !abortController.signal.aborted) {
+            setIsLoadingSpells(false);
+            setHasAttemptedLoad(true);
+          }
         }
       };
+
       loadSpells();
+
+      return () => {
+        isMounted = false;
+        abortController.abort();
+      };
     }
+
+    // Return empty cleanup function if effect doesn't run
+    return () => {};
   }, [isOpen, hasAttemptedLoad]);
 
   // Filter spells that are available to magic-user type classes
@@ -217,6 +235,7 @@ export default function MUAddSpellModal({
                 variant="secondary"
                 size="sm"
                 onClick={() => {
+                  setIsLoadingSpells(true);
                   setHasAttemptedLoad(false);
                   setLoadError(null);
                 }}
