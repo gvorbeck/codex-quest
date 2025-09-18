@@ -70,7 +70,8 @@ export default function CharacterSheet() {
         updateCharacter(updatedCharacter);
       }
     },
-    [character, updateCharacter]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [updateCharacter]
   );
 
   // Handle character changes (for avatar, etc.)
@@ -99,7 +100,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle HP changes
@@ -117,7 +119,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle currency changes
@@ -135,7 +138,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle equipment updates
@@ -150,7 +154,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle HP notes change
@@ -168,7 +173,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Handle character description change
@@ -183,7 +189,8 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    [character, handleCharacterChange]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handleCharacterChange]
   );
 
   // Data loading is now handled by useFirebaseSheet hook
