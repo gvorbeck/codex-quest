@@ -1,11 +1,11 @@
 import { useState, useMemo, useCallback } from "react";
 import type { Equipment, Character } from "@/types";
+import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils";
 import {
-  cleanEquipmentArray,
-  convertToGoldFromAbbreviation,
-  ensureEquipmentAmount,
   updateCharacterCurrency,
-} from "@/utils";
+  calculateTotalWeight,
+  convertToGoldFromAbbreviation,
+} from "@/utils/currency";
 
 /**
  * Hook for managing equipment during character creation with gold/currency management
@@ -134,10 +134,8 @@ export function useEquipmentManagement(
   );
 
   const totalWeight = useMemo(() => {
-    const weight = cleanEquipmentArray(character.equipment).reduce(
-      (total, item) => total + item.weight * item.amount,
-      0
-    );
+    const cleanedEquipment = cleanEquipmentArray(character.equipment);
+    const weight = calculateTotalWeight(cleanedEquipment);
     return Math.round(weight * 10) / 10;
   }, [character.equipment]);
 

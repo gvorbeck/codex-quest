@@ -51,6 +51,7 @@ The files to review: $ARGUMENTS
 - TypeScript usage and type safety
 - Accessibility (WCAG 2.1 AA): ARIA, keyboard nav, screen readers
 - SEO considerations: semantic HTML, meta tags, structured data
+- Compliance with /src/components/STYLE_GUIDE.md
 
 ### 4. BFRPG-Specific Patterns
 

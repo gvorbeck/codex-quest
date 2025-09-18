@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { allRaces } from "@/data";
 import type { Equipment, Character, Race } from "@/types";
 import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils";
+import { calculateTotalWeight } from "@/utils/currency";
 
 /**
  * Hook for general equipment operations on existing characters
@@ -177,10 +178,7 @@ export function useEquipmentManager(
   const totalWeight = useMemo(() => {
     if (!character) return 0;
     const cleanedEquipment = cleanEquipmentArray(character.equipment);
-    return cleanedEquipment.reduce(
-      (total, item) => total + item.weight * item.amount,
-      0
-    );
+    return calculateTotalWeight(cleanedEquipment);
   }, [character]);
 
   // Get encumbrance status based on BFRPG rules

@@ -229,3 +229,4 @@ This command provides focused analysis of:
 - BFRPG-specific patterns and integration
 
 The command produces concise, actionable reports under 400 words with specific code examples and priority-ranked improvements.
+- BFRPG rules are located in /sources/BFRPG-rulebook.txt

@@ -26,3 +26,11 @@ dist-ssr
 sources/*
 
 .env
+
+# Testing artifacts
+playwright-report/
+test-results/
+coverage/
+
+# Vitest UI cache
+.vitest/

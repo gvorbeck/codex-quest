@@ -818,6 +818,8 @@ const useCharacterMutation = () => {
 
 **Priority: High (Developer Efficiency)**
 
+**📋 [Complete Testing Implementation Plan → TEST_PLAN.md](./TEST_PLAN.md)**
+
 **Problem:**
 Zero test coverage in a complex character creation system with intricate business rules, validation chains, and Firebase integration. Manual testing is becoming a bottleneck.
 
@@ -829,48 +831,36 @@ Zero test coverage in a complex character creation system with intricate busines
 - Risk of Firebase migration bugs corrupting user data
 - Fear of refactoring due to regression uncertainty
 
-**Smart Testing Strategy (Not "Test Everything"):**
+**Smart Testing Strategy (Two-Layer Approach):**
 
-**Phase 1: Critical Path Testing (Week 1 - 4 hours setup)**
+**Layer 1: Vitest + React Testing Library (Fast Unit/Integration Tests)**
+
+- Business logic testing: character validation, currency calculations, spell systems
+- Component behavior testing: form interactions, state updates
+- Fast development feedback (milliseconds)
+
+**Layer 2: Playwright (Visual End-to-End Tests)**
+
+- Complete user workflows with visual confirmation
+- Character creation wizard flows with button click verification
+- Equipment selection with real-time cost/weight updates
+- Cross-browser testing capabilities
+
+**Proof of Concept Implementation:**
 
 ```bash
-# Minimal setup - integrates with existing Vite config
-npm install -D vitest @testing-library/react @testing-library/jest-dom
+# Setup both testing layers
+npm install -D vitest @testing-library/react @testing-library/jest-dom @playwright/test
+npx playwright install
 ```
 
-Focus on user-breaking scenarios:
+**Target Files for POC (4-6 hours total):**
 
-- Character creation wizard completion (all race/class combos)
-- Equipment selection affecting derived stats
-- Spell system behavior across different caster types
-- Currency calculations and weight limits
-- Character save/load with Firebase mocking
-
-**Phase 2: Business Logic Testing (Week 2 - 6 hours)**
-Target your complex utilities that change frequently:
-
-- `characterValidation.ts` - cascade validation logic
-- `characterHelpers.ts` - spell system categorization
-- `currency.ts` - conversion and weight calculations
-- Character migration logic (prevent data corruption)
-
-**Phase 3: Integration Testing (Ongoing - 2 hours per new feature)**
-Test component interactions, not individual components:
-
-```typescript
-// One test covers entire character creation flow
-test("creating elf magic-user gives starting spells", () => {
-  const wizard = renderCharacterWizard();
-
-  selectRace("Elf");
-  selectClass("Magic-User");
-  rollStats({ intelligence: 16 });
-
-  expect(getSpellSlots()).toEqual({ level1: 2 });
-  expect(getStartingSpells()).toHaveLength(2);
-  expect(hasReadMagicSpell()).toBe(true);
-});
-```
+- `src/utils/currency.ts` - Unit tests for currency conversion logic
+- `src/utils/character.ts` - Unit tests for character validation helpers
+- `src/components/.../AbilityScoreStep.tsx` - Component interaction tests
+- E2E test: Basic character creation flow (Race → Class → Save)
+- E2E test: Equipment selection with visual cost updates
 
 **What NOT to Test:**
 
@@ -886,26 +876,42 @@ test("creating elf magic-user gives starting spells", () => {
 - **Break-even**: After 30-40 deploys (2-3 months)
 - **Bonus**: Confidence to refactor those 700+ line components
 
-**Implementation Strategy:**
+**Expected POC Outcomes:**
+
+```bash
+# Fast unit tests during development
+npm run test
+
+# Visual E2E tests with UI mode
+npx playwright test --ui
+```
+
+**You'll See:**
+
+- ✅ Unit tests running in milliseconds with instant feedback
+- ✅ Playwright UI showing character wizard steps being clicked automatically
+- ✅ Visual confirmation of equipment weight/cost updates
+- ✅ Screenshots when tests fail showing exactly what broke
+- ✅ Time-travel debugging through each test step
+
+**Sample Test Output:**
 
 ```typescript
-// vitest.config.ts (5 minutes to configure)
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./src/test/setup.ts",
-  },
+// Unit test example - fast business logic validation
+test("calculates equipment weight correctly", () => {
+  const equipment = [
+    { name: "Sword", weight: 3, quantity: 1 },
+    { name: "Shield", weight: 5, quantity: 1 },
+  ];
+  expect(calculateTotalWeight(equipment)).toBe(8);
 });
 
-// High-value test example
-test("character migration preserves user data", () => {
-  const oldCharacter = createLegacyCharacter({ version: "1.0" });
-  const migrated = migrateCharacter(oldCharacter);
-
-  expect(migrated.version).toBe("2.0");
-  expect(migrated.name).toBe(oldCharacter.name);
-  expect(migrated.hitPoints).toBeGreaterThan(0);
+// E2E test example - visual workflow confirmation
+test("creates human fighter with visual confirmation", async ({ page }) => {
+  await page.goto("/character-generator");
+  await page.getByTestId("race-human").click();
+  await expect(page.getByText("Human")).toBeVisible();
+  // ... continue through wizard with visual verification
 });
 ```
 

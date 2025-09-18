@@ -2,12 +2,8 @@ import { EditableValue } from "@/components/ui/core/primitives";
 import { SectionWrapper } from "@/components/ui/core/layout";
 import { Card } from "@/components/ui/core/display";
 import { Icon } from "@/components/ui/core/display";
-import {
-  convertToWholeCoins,
-  cleanFractionalCurrency,
-  hasFractionalCurrency,
-  cn,
-} from "@/utils";
+import { cn } from "@/utils";
+import { normalizeCurrency, hasFractionalCurrency } from "@/utils/currency";
 import { CURRENCY_UI_CONFIG, SIZE_STYLES } from "@/constants";
 import type { CurrencyKey, Character } from "@/types";
 import { useEffect } from "react";
@@ -29,11 +25,11 @@ export default function CoinPurse({
 }: CoinPurseProps) {
   const currentSize = SIZE_STYLES[size];
 
-  // Auto-fix fractional currency when component mounts
+  // Auto-normalize fractional currency when component mounts (BFRPG compliance)
   useEffect(() => {
     if (hasFractionalCurrency(character.currency) && onCurrencyChange) {
-      const cleanedCurrency = cleanFractionalCurrency(character.currency);
-      onCurrencyChange(cleanedCurrency);
+      const normalizedCurrency = normalizeCurrency(character.currency);
+      onCurrencyChange(normalizedCurrency);
     }
   }, [character.currency, onCurrencyChange]);
 
@@ -41,13 +37,15 @@ export default function CoinPurse({
     (currencyType: CurrencyKey) => (value: number) => {
       if (!onCurrencyChange) return;
 
-      // Convert fractional amounts to whole coins
-      const updates = convertToWholeCoins(
-        value,
-        currencyType,
-        character.currency
-      );
-      onCurrencyChange(updates);
+      // Update the specific currency type
+      const updatedCurrency = {
+        ...character.currency,
+        [currencyType]: Math.max(0, value),
+      };
+
+      // Normalize to ensure BFRPG compliance (no fractional pieces)
+      const normalizedCurrency = normalizeCurrency(updatedCurrency);
+      onCurrencyChange(normalizedCurrency);
     };
 
   return (
@@ -56,7 +54,7 @@ export default function CoinPurse({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {CURRENCY_UI_CONFIG.map(({ key, label, abbrev, color, ring }) => {
             const value = character.currency[key] || 0;
-            // Display should show actual value - fractional amounts will be auto-converted by useEffect
+            // BFRPG Rule: Currency is always whole numbers (discrete pieces)
 
             const coinCardClassName = cn(
               "relative group transition-all duration-200 hover:scale-105",

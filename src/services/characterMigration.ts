@@ -1,6 +1,7 @@
 // Character migration service for handling legacy data formats
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants";
-import { cleanFractionalCurrency, logger } from "@/utils";
+import { logger } from "@/utils";
+import { normalizeCurrency } from "@/utils/currency";
 
 // Define schema versions for migration steps
 export const CURRENT_VERSION = 2.5;
@@ -306,7 +307,7 @@ function migrateLegacyCharacter(
 
   // Clean up fractional currency (version 2.3 migration)
   if (migrated["currency"]) {
-    migrated["currency"] = cleanFractionalCurrency(
+    migrated["currency"] = normalizeCurrency(
       migrated["currency"] as {
         gold: number;
         silver?: number;

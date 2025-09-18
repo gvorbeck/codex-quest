@@ -12,8 +12,8 @@ import type {
   IndividualTreasureType,
   UnguardedTreasureLevel,
 } from "@/types";
-import { CURRENCY_UI_CONFIG } from "@/constants";
 import { COIN_CONFIGS } from "@/constants";
+import { calculateTotalGoldValue } from "./currency";
 
 // Note: Using direct import here to avoid circular dependency with barrel file
 import { rollPercentage, roller } from "./mechanics";
@@ -767,16 +767,5 @@ export function hasCoins(treasure: TreasureResult): boolean {
 
 export function getTotalCoinValue(treasure: TreasureResult): number {
   // Note: Minimal currency conversion to avoid circular dependency
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { CURRENCY_TO_COPPER_RATES } = require("@/constants/gameRules");
-
-  const convertToGold = (amount: number, fromCurrency: string): number => {
-    const copperValue = amount * CURRENCY_TO_COPPER_RATES[fromCurrency];
-    return copperValue / CURRENCY_TO_COPPER_RATES.gold;
-  };
-
-  return CURRENCY_UI_CONFIG.reduce((total, coin) => {
-    const amount = treasure[coin.key];
-    return amount > 0 ? total + convertToGold(amount, coin.key) : total;
-  }, 0);
+  return calculateTotalGoldValue(treasure);
 }
