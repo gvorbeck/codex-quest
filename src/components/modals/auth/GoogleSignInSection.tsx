@@ -21,7 +21,7 @@ export default function GoogleSignInSection({
         onClick={onClick}
         disabled={disabled}
         variant="secondary"
-        className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 shadow-sm"
+        className="w-full flex items-center justify-center gap-3 bg-zinc-900 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 shadow-sm"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24">
           <path

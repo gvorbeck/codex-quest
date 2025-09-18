@@ -15,6 +15,11 @@ import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils";
 import GoogleSignInSection from "./GoogleSignInSection";
 
+// Type guard for Firebase errors
+function isFirebaseError(error: unknown): error is { code?: string } {
+  return typeof error === "object" && error !== null && "code" in error;
+}
+
 // Error message constants
 const AUTH_ERRORS = {
   PASSWORDS_DONT_MATCH: "Passwords do not match.",
@@ -140,15 +145,18 @@ export default function SignInModal({
         resetForms();
       } catch (error: unknown) {
         logger.error("Sign in error:", error);
-        const firebaseError = error as { code?: string };
-        if (firebaseError.code === "auth/user-not-found") {
-          setError(AUTH_ERRORS.USER_NOT_FOUND);
-        } else if (firebaseError.code === "auth/wrong-password") {
-          setError(AUTH_ERRORS.WRONG_PASSWORD);
-        } else if (firebaseError.code === "auth/invalid-email") {
-          setError(AUTH_ERRORS.INVALID_EMAIL);
-        } else if (firebaseError.code === "auth/too-many-requests") {
-          setError(AUTH_ERRORS.TOO_MANY_REQUESTS);
+        if (isFirebaseError(error)) {
+          if (error.code === "auth/user-not-found") {
+            setError(AUTH_ERRORS.USER_NOT_FOUND);
+          } else if (error.code === "auth/wrong-password") {
+            setError(AUTH_ERRORS.WRONG_PASSWORD);
+          } else if (error.code === "auth/invalid-email") {
+            setError(AUTH_ERRORS.INVALID_EMAIL);
+          } else if (error.code === "auth/too-many-requests") {
+            setError(AUTH_ERRORS.TOO_MANY_REQUESTS);
+          } else {
+            setError(AUTH_ERRORS.SIGN_IN_FAILED);
+          }
         } else {
           setError(AUTH_ERRORS.SIGN_IN_FAILED);
         }
@@ -186,13 +194,16 @@ export default function SignInModal({
         resetForms();
       } catch (error: unknown) {
         logger.error("Sign up error:", error);
-        const firebaseError = error as { code?: string };
-        if (firebaseError.code === "auth/email-already-in-use") {
-          setError(AUTH_ERRORS.EMAIL_IN_USE);
-        } else if (firebaseError.code === "auth/invalid-email") {
-          setError(AUTH_ERRORS.INVALID_EMAIL);
-        } else if (firebaseError.code === "auth/weak-password") {
-          setError(AUTH_ERRORS.WEAK_PASSWORD);
+        if (isFirebaseError(error)) {
+          if (error.code === "auth/email-already-in-use") {
+            setError(AUTH_ERRORS.EMAIL_IN_USE);
+          } else if (error.code === "auth/invalid-email") {
+            setError(AUTH_ERRORS.INVALID_EMAIL);
+          } else if (error.code === "auth/weak-password") {
+            setError(AUTH_ERRORS.WEAK_PASSWORD);
+          } else {
+            setError(AUTH_ERRORS.SIGN_UP_FAILED);
+          }
         } else {
           setError(AUTH_ERRORS.SIGN_UP_FAILED);
         }
