@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Modal } from "@/components/modals/base";
 import { Typography } from "@/components/ui/core/display";
 import { Button, Select } from "@/components/ui/core/primitives";
@@ -37,46 +37,30 @@ export default function MUAddSpellModal({
     [character]
   );
 
+  // Extracted spell loading function that can be called directly
+  const loadSpells = useCallback(async () => {
+    setIsLoadingSpells(true);
+    setLoadError(null);
+    try {
+      const spells = await loadAllSpells();
+      setAllSpells(spells);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to load spells";
+      setLoadError(errorMessage);
+      setAllSpells([]);
+    } finally {
+      setIsLoadingSpells(false);
+      setHasAttemptedLoad(true);
+    }
+  }, []);
+
   // Load spells when modal opens
   useEffect(() => {
     if (isOpen && !hasAttemptedLoad) {
-      let isMounted = true;
-      const abortController = new AbortController();
-
-      const loadSpells = async () => {
-        setIsLoadingSpells(true);
-        setLoadError(null);
-        try {
-          const spells = await loadAllSpells();
-          if (isMounted && !abortController.signal.aborted) {
-            setAllSpells(spells);
-          }
-        } catch (error) {
-          if (isMounted && !abortController.signal.aborted) {
-            const errorMessage =
-              error instanceof Error ? error.message : "Failed to load spells";
-            setLoadError(errorMessage);
-            setAllSpells([]);
-          }
-        } finally {
-          if (isMounted && !abortController.signal.aborted) {
-            setIsLoadingSpells(false);
-            setHasAttemptedLoad(true);
-          }
-        }
-      };
-
       loadSpells();
-
-      return () => {
-        isMounted = false;
-        abortController.abort();
-      };
     }
-
-    // Return empty cleanup function if effect doesn't run
-    return () => {};
-  }, [isOpen, hasAttemptedLoad]);
+  }, [isOpen, hasAttemptedLoad, loadSpells]);
 
   // Filter spells that are available to magic-user type classes
   const availableSpellsByLevel = useMemo(() => {
@@ -235,9 +219,8 @@ export default function MUAddSpellModal({
                 variant="secondary"
                 size="sm"
                 onClick={() => {
-                  setIsLoadingSpells(true);
                   setHasAttemptedLoad(false);
-                  setLoadError(null);
+                  loadSpells();
                 }}
               >
                 Try Again
