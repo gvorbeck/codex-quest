@@ -1,11 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Modal } from "@/components/modals/base";
 import { Typography } from "@/components/ui/core/display";
 import { Button, Select } from "@/components/ui/core/primitives";
-import { Callout } from "@/components/ui/core/feedback";
+import { Callout, LoadingState } from "@/components/ui/core/feedback";
 import { Icon } from "@/components/ui/core/display";
 import SpellDetails from "@/components/domain/spells/SpellDetails";
-import { allClasses, spellsData } from "@/data";
+import { allClasses } from "@/data";
+import { loadAllSpells } from "@/services/dataLoader";
 import type { Character, Spell } from "@/types";
 import { getSpellSlots } from "@/utils";
 
@@ -25,6 +26,15 @@ export default function MUAddSpellModal({
   const [selectedSpells, setSelectedSpells] = useState<Record<number, string>>(
     {}
   );
+  const [spellsState, setSpellsState] = useState({
+    allSpells: [] as Spell[],
+    isLoadingSpells: false,
+    loadError: null as string | null,
+    hasAttemptedLoad: false,
+  });
+
+  const { allSpells, isLoadingSpells, loadError, hasAttemptedLoad } =
+    spellsState;
 
   // Get character's spell slots to determine which spell levels they can learn
   const spellSlots = useMemo(
@@ -32,12 +42,51 @@ export default function MUAddSpellModal({
     [character]
   );
 
+  // Extracted spell loading function that can be called directly
+  const loadSpells = useCallback(async () => {
+    setSpellsState((prev) => ({
+      ...prev,
+      isLoadingSpells: true,
+      loadError: null,
+    }));
+    try {
+      const spells = await loadAllSpells();
+      setSpellsState((prev) => ({ ...prev, allSpells: spells }));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to load spells";
+      setSpellsState((prev) => ({
+        ...prev,
+        loadError: errorMessage,
+        allSpells: [],
+      }));
+    } finally {
+      setSpellsState((prev) => ({
+        ...prev,
+        isLoadingSpells: false,
+        hasAttemptedLoad: true,
+      }));
+    }
+  }, []);
+
+  // Load spells when modal opens
+  useEffect(() => {
+    if (isOpen && !hasAttemptedLoad) {
+      loadSpells();
+    }
+  }, [isOpen, hasAttemptedLoad, loadSpells]);
+
   // Filter spells that are available to magic-user type classes
   const availableSpellsByLevel = useMemo(() => {
     const spellsByLevel: Record<number, Spell[]> = {};
 
+    // Return empty if spells are loading or there was a load error
+    if (isLoadingSpells || loadError) {
+      return spellsByLevel;
+    }
+
     // Get all spells that magic-user classes can cast
-    const magicUserSpells = (spellsData as Spell[]).filter(
+    const magicUserSpells = allSpells.filter(
       (spell) =>
         spell.level["magic-user"] !== null ||
         spell.level.illusionist !== null ||
@@ -75,7 +124,7 @@ export default function MUAddSpellModal({
     });
 
     return spellsByLevel;
-  }, [character.class, spellSlots]);
+  }, [character.class, spellSlots, allSpells, isLoadingSpells, loadError]);
 
   // Filter out spells the character already knows
   const filteredSpellsByLevel = useMemo(() => {
@@ -119,6 +168,8 @@ export default function MUAddSpellModal({
 
   const handleClose = () => {
     setSelectedSpells({});
+    // Reset error state when modal closes
+    setSpellsState((prev) => ({ ...prev, loadError: null }));
     onClose();
   };
 
@@ -155,7 +206,42 @@ export default function MUAddSpellModal({
         </Callout>
 
         {/* Spell Selection */}
-        {availableLevels.length > 0 ? (
+        {isLoadingSpells ? (
+          <LoadingState
+            variant="inline"
+            message="Loading available spells..."
+            className="py-8"
+          />
+        ) : loadError ? (
+          <div className="text-center py-8">
+            <Callout
+              variant="error"
+              title="Failed to Load Spells"
+              icon={
+                <Icon
+                  name="exclamation-circle"
+                  size="md"
+                  className="text-red-400"
+                />
+              }
+              className="mb-4"
+            >
+              <Typography variant="body" className="text-red-300 mb-3">
+                {loadError}
+              </Typography>
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={isLoadingSpells}
+                onClick={() => {
+                  loadSpells();
+                }}
+              >
+                Try Again
+              </Button>
+            </Callout>
+          </div>
+        ) : availableLevels.length > 0 ? (
           <div className="space-y-4">
             <Typography variant="sectionHeading" className="text-zinc-100">
               Available Spell Levels
