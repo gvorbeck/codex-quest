@@ -28,6 +28,8 @@ export default function MUAddSpellModal({
   );
   const [allSpells, setAllSpells] = useState<Spell[]>([]);
   const [isLoadingSpells, setIsLoadingSpells] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false);
 
   // Get character's spell slots to determine which spell levels they can learn
   const spellSlots = useMemo(
@@ -37,22 +39,26 @@ export default function MUAddSpellModal({
 
   // Load spells when modal opens
   useEffect(() => {
-    if (isOpen && allSpells.length === 0) {
+    if (isOpen && !hasAttemptedLoad) {
       const loadSpells = async () => {
         setIsLoadingSpells(true);
+        setLoadError(null);
         try {
           const spells = await loadAllSpells();
           setAllSpells(spells);
-        } catch {
-          // Silent fail - modal will show "no spells available" state
+        } catch (error) {
+          const errorMessage =
+            error instanceof Error ? error.message : "Failed to load spells";
+          setLoadError(errorMessage);
           setAllSpells([]);
         } finally {
           setIsLoadingSpells(false);
+          setHasAttemptedLoad(true);
         }
       };
       loadSpells();
     }
-  }, [isOpen, allSpells.length]);
+  }, [isOpen, hasAttemptedLoad]);
 
   // Filter spells that are available to magic-user type classes
   const availableSpellsByLevel = useMemo(() => {
@@ -146,6 +152,8 @@ export default function MUAddSpellModal({
 
   const handleClose = () => {
     setSelectedSpells({});
+    // Reset error state when modal closes
+    setLoadError(null);
     onClose();
   };
 
@@ -188,6 +196,35 @@ export default function MUAddSpellModal({
             message="Loading available spells..."
             className="py-8"
           />
+        ) : loadError ? (
+          <div className="text-center py-8">
+            <Callout
+              variant="error"
+              title="Failed to Load Spells"
+              icon={
+                <Icon
+                  name="exclamation-circle"
+                  size="md"
+                  className="text-red-400"
+                />
+              }
+              className="mb-4"
+            >
+              <Typography variant="body" className="text-red-300 mb-3">
+                {loadError}
+              </Typography>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  setHasAttemptedLoad(false);
+                  setLoadError(null);
+                }}
+              >
+                Try Again
+              </Button>
+            </Callout>
+          </div>
         ) : availableLevels.length > 0 ? (
           <div className="space-y-4">
             <Typography variant="sectionHeading" className="text-zinc-100">
