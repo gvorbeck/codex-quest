@@ -26,3 +26,7 @@ dist-ssr
 sources/*
 
 .env
+
+# Playwright test artifacts
+playwright-report/
+test-results/
