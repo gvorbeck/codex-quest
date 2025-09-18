@@ -70,8 +70,7 @@ export default function CharacterSheet() {
         updateCharacter(updatedCharacter);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [updateCharacter]
+    [character, updateCharacter]
   );
 
   // Handle character changes (for avatar, etc.)
@@ -82,7 +81,7 @@ export default function CharacterSheet() {
     [updateCharacter]
   );
 
-  // Handle ability score changes
+    // Handle ability score changes
   const handleAbilityChange = useCallback(
     (abilityKey: string, value: number) => {
       if (!character) return;
@@ -92,7 +91,7 @@ export default function CharacterSheet() {
         abilities: {
           ...character.abilities,
           [abilityKey]: {
-            value: value,
+            value,
             modifier: calculateModifier(value),
           },
         },
@@ -100,8 +99,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle HP changes
@@ -119,8 +117,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle currency changes
@@ -138,8 +135,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle equipment updates
@@ -154,8 +150,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle HP notes change
@@ -173,8 +168,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Handle character description change
@@ -189,8 +183,7 @@ export default function CharacterSheet() {
 
       handleCharacterChange(updatedCharacter);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handleCharacterChange]
+    [character, handleCharacterChange]
   );
 
   // Data loading is now handled by useFirebaseSheet hook
