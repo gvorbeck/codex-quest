@@ -55,4 +55,4 @@ export {
   useGame,
   useGames,
 } from "./queries";
-export { useCharacterMutations } from "./mutations";
+export { useCharacterMutations, useAuthMutations } from "./mutations";
