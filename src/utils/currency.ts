@@ -53,6 +53,7 @@ type SupportedConversionKey =
   // Bidirectional conversions
   | "gold-platinum"
   | "silver-gold"
+  | "silver-platinum"
   | "silver-electrum"
   | "copper-silver"
   | "copper-gold"
@@ -72,6 +73,7 @@ const CONVERSION_MAP: Record<SupportedConversionKey, number> = {
   // Bidirectional upward conversions
   "gold-platinum": 1 / CURRENCY_RATES.PLATINUM_TO_GOLD,
   "silver-gold": 1 / CURRENCY_RATES.GOLD_TO_SILVER,
+  "silver-platinum": 1 / CURRENCY_RATES.PLATINUM_TO_GOLD / CURRENCY_RATES.GOLD_TO_SILVER, // silver -> gold -> platinum
   "silver-electrum": 1 / CURRENCY_RATES.ELECTRUM_TO_SILVER,
   "copper-silver": 1 / CURRENCY_RATES.SILVER_TO_COPPER,
   "copper-gold": 1 / CURRENCY_RATES.GOLD_TO_COPPER,

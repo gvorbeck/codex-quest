@@ -59,9 +59,11 @@ describe("Currency Utilities", () => {
       expect(() => convertCurrency(-1, 'electrum', 'silver')).toThrow("electrum amount cannot be negative");
     });
 
-    it("throws error for unsupported conversions", () => {
-      expect(() => convertCurrency(1, 'copper', 'gold')).toThrow("Conversion from copper to gold is not supported");
-      expect(() => convertCurrency(1, 'silver', 'platinum')).toThrow("Conversion from silver to platinum is not supported");
+    it("supports bidirectional conversions", () => {
+      expect(convertCurrency(100, 'copper', 'gold')).toBe(1); // 100 copper = 1 gold
+      expect(convertCurrency(10, 'silver', 'platinum')).toBe(0.2); // 10 silver = 0.2 platinum
+      expect(convertCurrency(1, 'gold', 'platinum')).toBe(0.2); // 1 gold = 0.2 platinum
+      expect(convertCurrency(50, 'copper', 'silver')).toBe(5); // 50 copper = 5 silver
     });
   });
 

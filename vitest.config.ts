@@ -12,6 +12,30 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     // Exclude e2e tests
     exclude: ["e2e/**/*", "node_modules/**/*"],
+    // Coverage configuration
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: [
+        "coverage/**",
+        "dist/**",
+        "e2e/**",
+        "**/*.d.ts",
+        "**/*.config.{js,ts}",
+        "**/test/**",
+        "**/__tests__/**",
+        "**/node_modules/**",
+        "src/test/**",
+      ],
+      thresholds: {
+        global: {
+          branches: 80,
+          functions: 80,
+          lines: 80,
+          statements: 80,
+        },
+      },
+    },
   },
   resolve: {
     alias: {

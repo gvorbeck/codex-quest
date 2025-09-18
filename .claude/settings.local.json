@@ -27,7 +27,8 @@
       "Bash(xargs sed:*)",
       "Bash(mkdir:*)",
       "Bash(npm run test:run:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm run test:coverage:*)"
     ],
     "deny": [
       "Bash(npm run dev)"

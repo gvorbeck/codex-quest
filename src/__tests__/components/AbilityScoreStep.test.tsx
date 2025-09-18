@@ -101,7 +101,7 @@ describe("AbilityScoreStep Component", () => {
           constitution: { value: 8, modifier: -1 },
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
-          charisma: { value: 6, modifier: -2 },
+          charisma: { value: 6, modifier: -1 },
         },
       };
 
@@ -127,7 +127,7 @@ describe("AbilityScoreStep Component", () => {
           constitution: { value: 8, modifier: -1 },
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
-          charisma: { value: 6, modifier: -2 },
+          charisma: { value: 6, modifier: -1 },
         },
       };
 
@@ -146,8 +146,8 @@ describe("AbilityScoreStep Component", () => {
       expect(mockOnCharacterChange).toHaveBeenCalledWith(
         expect.objectContaining({
           abilities: expect.objectContaining({
-            strength: { value: 6, modifier: -2 }, // 21 - 15 = 6
-            dexterity: { value: 9, modifier: -1 }, // 21 - 12 = 9
+            strength: { value: 6, modifier: -1 }, // 21 - 15 = 6 (6-8 range = -1)
+            dexterity: { value: 9, modifier: 0 }, // 21 - 12 = 9 (9-12 range = 0)
             constitution: { value: 13, modifier: 1 }, // 21 - 8 = 13
             intelligence: { value: 3, modifier: -3 }, // 21 - 18 = 3
             wisdom: { value: 11, modifier: 0 }, // 21 - 10 = 11
@@ -168,7 +168,7 @@ describe("AbilityScoreStep Component", () => {
           constitution: { value: 8, modifier: -1 },
           intelligence: { value: 15, modifier: 1 },
           wisdom: { value: 10, modifier: 0 },
-          charisma: { value: 6, modifier: -2 },
+          charisma: { value: 6, modifier: -1 },
         },
       };
 
@@ -180,10 +180,9 @@ describe("AbilityScoreStep Component", () => {
       );
 
       expect(screen.getByText("Modifier: +3")).toBeInTheDocument();
-      expect(screen.getByText("Modifier: +0")).toBeInTheDocument();
-      expect(screen.getByText("Modifier: -1")).toBeInTheDocument();
+      expect(screen.getAllByText("Modifier: +0")).toHaveLength(2);
+      expect(screen.getAllByText("Modifier: -1")).toHaveLength(2);
       expect(screen.getByText("Modifier: +1")).toBeInTheDocument();
-      expect(screen.getByText("Modifier: -2")).toBeInTheDocument();
     });
 
     it("shows ability scores summary when scores are rolled", () => {
@@ -195,7 +194,7 @@ describe("AbilityScoreStep Component", () => {
           constitution: { value: 8, modifier: -1 },
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
-          charisma: { value: 6, modifier: -2 },
+          charisma: { value: 6, modifier: -1 },
         },
       };
 
@@ -230,7 +229,7 @@ describe("AbilityScoreStep Component", () => {
           constitution: { value: 8, modifier: -1 },
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
-          charisma: { value: 6, modifier: -2 },
+          charisma: { value: 6, modifier: -1 },
         },
       };
 
@@ -256,7 +255,7 @@ describe("AbilityScoreStep Component", () => {
           constitution: { value: 8, modifier: -1 },
           intelligence: { value: 18, modifier: 3 },
           wisdom: { value: 10, modifier: 0 },
-          charisma: { value: 6, modifier: -2 },
+          charisma: { value: 6, modifier: -1 },
         },
       };
 
