@@ -81,7 +81,7 @@ export default function CharacterSheet() {
     [updateCharacter]
   );
 
-    // Handle ability score changes
+  // Handle ability score changes
   const handleAbilityChange = useCallback(
     (abilityKey: string, value: number) => {
       if (!character) return;
