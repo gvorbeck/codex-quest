@@ -10,7 +10,7 @@ import {
   TabPanels,
   TabPanel,
 } from "@/components/ui/core/layout/Tabs";
-import { useLoadingState } from "@/hooks";
+import { useLoadingState, useAuthMutations } from "@/hooks";
 import { signInWithEmail, signUpWithEmail } from "@/services/auth";
 import { logger } from "@/utils";
 
@@ -26,6 +26,8 @@ const AUTH_ERRORS = {
   WEAK_PASSWORD: "Password is too weak. Please choose a stronger password.",
   SIGN_IN_FAILED: "Failed to sign in. Please try again.",
   SIGN_UP_FAILED: "Failed to create account. Please try again.",
+  PASSWORD_RESET_FAILED:
+    "Failed to send password reset email. Please try again.",
 } as const;
 
 // Custom hooks for form state management
@@ -75,6 +77,23 @@ function useSignUpForm() {
   };
 }
 
+function usePasswordResetForm() {
+  const [email, setEmail] = useState("");
+
+  const reset = () => {
+    setEmail("");
+  };
+
+  const isValid = email;
+
+  return {
+    email,
+    setEmail,
+    reset,
+    isValid,
+  };
+}
+
 interface SignInModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -90,10 +109,15 @@ export default function SignInModal({
   const [activeTab, setActiveTab] = useState("signin");
   const { loading: isLoading, withLoading } = useLoadingState();
   const [error, setError] = useState("");
+  const [resetSuccess, setResetSuccess] = useState(false);
 
   // Form state using custom hooks
   const signInForm = useSignInForm();
   const signUpForm = useSignUpForm();
+  const resetForm = usePasswordResetForm();
+
+  // Auth mutations
+  const { sendPasswordReset } = useAuthMutations();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,10 +197,34 @@ export default function SignInModal({
     });
   };
 
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setResetSuccess(false);
+
+    try {
+      await sendPasswordReset.mutateAsync(resetForm.email);
+      setResetSuccess(true);
+      resetForm.reset();
+    } catch (error: unknown) {
+      logger.error("Password reset error:", error);
+      const firebaseError = error as { code?: string };
+      if (firebaseError.code === "auth/user-not-found") {
+        setError(AUTH_ERRORS.USER_NOT_FOUND);
+      } else if (firebaseError.code === "auth/invalid-email") {
+        setError(AUTH_ERRORS.INVALID_EMAIL);
+      } else {
+        setError(AUTH_ERRORS.PASSWORD_RESET_FAILED);
+      }
+    }
+  };
+
   const resetForms = () => {
     signInForm.reset();
     signUpForm.reset();
+    resetForm.reset();
     setError("");
+    setResetSuccess(false);
   };
 
   const handleClose = () => {
@@ -205,6 +253,7 @@ export default function SignInModal({
         <TabList aria-label="Authentication options">
           <Tab value="signin">Sign In</Tab>
           <Tab value="signup">Sign Up</Tab>
+          <Tab value="reset">Reset Password</Tab>
         </TabList>
 
         <TabPanels>
@@ -229,6 +278,17 @@ export default function SignInModal({
                   disabled={isLoading}
                 />
               </FormField>
+
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("reset")}
+                  className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
+                  disabled={isLoading}
+                >
+                  Forgot Password?
+                </button>
+              </div>
 
               <ErrorDisplay error={error} />
 
@@ -284,6 +344,64 @@ export default function SignInModal({
                 {isLoading ? "Creating Account..." : "Sign Up"}
               </Button>
             </form>
+          </TabPanel>
+
+          <TabPanel value="reset">
+            {resetSuccess ? (
+              <div className="space-y-4 text-center">
+                <div className="text-green-400">
+                  <p className="font-medium">Password reset email sent!</p>
+                  <p className="text-sm text-zinc-400 mt-2">
+                    Check your email for instructions to reset your password.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => setActiveTab("signin")}
+                  variant="ghost"
+                  className="w-full"
+                >
+                  Back to Sign In
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handlePasswordReset} className="space-y-4">
+                <div className="text-center text-sm text-zinc-400 mb-4">
+                  Enter your email address and we'll send you a link to reset
+                  your password.
+                </div>
+
+                <FormField label="Email address" required>
+                  <TextInput
+                    type="email"
+                    value={resetForm.email}
+                    onChange={resetForm.setEmail}
+                    placeholder="Enter your email"
+                    disabled={sendPasswordReset.isPending}
+                  />
+                </FormField>
+
+                <ErrorDisplay error={error} />
+
+                <Button
+                  type="submit"
+                  disabled={sendPasswordReset.isPending || !resetForm.isValid}
+                  className="w-full"
+                >
+                  {sendPasswordReset.isPending
+                    ? "Sending..."
+                    : "Send Reset Email"}
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={() => setActiveTab("signin")}
+                  variant="ghost"
+                  className="w-full"
+                >
+                  Back to Sign In
+                </Button>
+              </form>
+            )}
           </TabPanel>
         </TabPanels>
       </Tabs>
