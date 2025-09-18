@@ -1,37 +1,58 @@
-export { useAuth } from "./useAuth";
-export { useCharacters } from "./queries/useCharacters";
-export { useFocusManagement } from "./useFocusManagement";
-export { useNotifications } from "./useNotifications";
-export { useDiceRoller } from "./useDiceRoller";
-export { useDebouncedUpdate } from "./useDebouncedUpdate";
-export { useDebounce } from "./useDebounce";
-export { useHPGain } from "./useHPGain";
-export { useSpellSelection } from "./useSpellSelection";
-export { useValidationAnnouncements } from "./useValidationAnnouncements";
-export { useStepAnnouncements } from "./useA11y";
-export { useAppData } from "./useAppData";
-export { useNotificationContext } from "./useNotificationContext";
-export { useDiceRoll } from "./useDiceRoll";
+// Auth hooks
+export { useAuth } from "./auth";
+
+// UI hooks
+export {
+  useModal,
+  useLoadingState,
+  useNotifications,
+  useNotificationContext,
+  useModalFormState,
+} from "./ui";
+
+// Form and validation hooks
+export {
+  useFormValidation,
+  useDebounce,
+  useDebouncedUpdate,
+  useValidationAnnouncements,
+} from "./forms";
+
+// Character hooks
+export { useCharacterCard, usePlayerCharacters, useHPGain } from "./character";
+
+// Equipment hooks
+export { useEquipmentManagement, useEquipmentManager } from "./equipment";
+
+// Dice and combat hooks
+export { useDiceRoll, useDiceRoller, useCombatLogic } from "./dice";
+
+// Data and skill hooks
+export {
+  useAppData,
+  useSkillDataByClass,
+  useSkillColumns,
+  useSpellSelection,
+} from "./data";
+
+// Navigation hooks
 export {
   useEntityNavigation,
   useCharacterNavigation,
   useGameNavigation,
-} from "./useEntityNavigation";
-export { useDataResolver } from "./queries/useDataResolver";
-export { useSkillDataByClass } from "./useSkillDataByClass";
-export { useSkillColumns } from "./useSkillColumns";
-export { usePlayerCharacters } from "./usePlayerCharacters";
-export { useModal } from "./useModal";
-export { useLoadingState } from "./useLoadingState";
-export { useGames } from "./queries/useGames";
-export { useEquipmentManagement } from "./useEquipmentManagement";
-export { useCharacterCard } from "./useCharacterCard";
-export { useEquipmentManager } from "./useEquipmentManager";
-export { useFormValidation } from "./useFormValidation";
-export { useCombatLogic } from "./useCombatLogic";
-export { useStepNavigation } from "./useStepNavigation";
+  useStepNavigation,
+  useFocusManagement,
+} from "./navigation";
+
+// Accessibility hooks
+export { useStepAnnouncements } from "./a11y";
 
 // TanStack Query hooks
-export { useCharacterMutations } from "./mutations/useCharacterMutations";
-export { useCharacterSheet } from "./queries/useCharacterSheet";
-export { useGame } from "./queries/useGame";
+export {
+  useCharacters,
+  useCharacterSheet,
+  useDataResolver,
+  useGame,
+  useGames,
+} from "./queries";
+export { useCharacterMutations } from "./mutations";

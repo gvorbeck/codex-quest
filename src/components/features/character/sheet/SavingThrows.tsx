@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { SectionWrapper } from "@/components/ui/core/layout";
 import { SIZE_STYLES } from "@/constants";
 import RollableButton from "@/components/domain/dice/RollableButton";
-import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 import { InfoTooltip } from "@/components/ui/core/feedback";
 import { TextHeader } from "@/components/ui/composite/TextHeader";
 import type { Character } from "@/types";

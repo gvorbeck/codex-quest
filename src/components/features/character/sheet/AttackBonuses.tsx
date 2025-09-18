@@ -5,7 +5,7 @@ import RollableButton from "@/components/domain/dice/RollableButton";
 import { formatModifier } from "@/utils";
 import { allRaces } from "@/data";
 import { SIZE_STYLES } from "@/constants";
-import { useDiceRoll } from "@/hooks/useDiceRoll";
+import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 import type { Character, SpecialAbility } from "@/types";
 
 interface AttackBonusesProps {

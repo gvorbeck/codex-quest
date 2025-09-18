@@ -2,239 +2,210 @@
 
 ## Core Architecture
 
-**React 19 + TypeScript + Vite** application for creating Basic Fantasy Role-Playing Game (BFRPG) characters. Uses **Wouter** for lightweight routing, **TailwindCSS v4** for styling, and **Firebase** for auth/database.
-
-### Key Data Flow Pattern
-
-Character creation follows a **wizard-based flow** with persistent state:
-
-- `CharGen.tsx` orchestrates multi-step creation process with `Stepper` component
-- Character data persisted in `localStorage` during creation, synced to Firebase when authenticated
-- **Cascade validation system** automatically clears invalid selections when prerequisites change via `useCascadeValidation`
-- All character state uses the `Character` interface from `src/types/character.ts`
-- **Custom Class/Race System**: Unified utility functions in `src/utils/characterHelpers.ts` handle both standard and custom content
+**React 19 + TypeScript + Vite** application for Basic Fantasy Role-Playing Game (BFRPG) character management. Uses **TanStack Query** for server state, **Zustand** for client state, **Wouter** for routing, **TailwindCSS v4** for styling, and **Firebase** for auth/database.
 
 ## Essential Development Commands
 
 ```bash
 npm run dev          # Development server with hot reload
-npm run build        # Production build (runs TypeScript check first)
+npm run build        # Production build (TypeScript check + Vite)
 npm run lint         # ESLint on all TypeScript/React files
 npm run preview      # Preview production build locally
 ```
 
-## Critical Architecture Patterns
+## State Management Architecture
 
-### 1. State Management Strategy
+### TanStack Query (Server State)
 
-- **Local State**: React hooks + custom `useLocalStorage` hook for persistence
-- **Global State**: Custom hooks pattern (`useAuth`, `useCharacters`, `useCascadeValidation`)
-- **No global state library** - uses React context sparingly, prefers prop drilling for clarity
-- **Validation**: Cascade system that auto-updates dependent fields via `useCascadeValidation`
-- **Custom Content**: Character helpers provide unified API for standard/custom classes and races
+**Query Keys**: Centralized in `src/lib/queryKeys.ts` with factory pattern
 
-### 2. Component Organization (Strict Hierarchy)
+```typescript
+queryKeys.characters.user(userId); // User's character list
+queryKeys.characters.detail(userId, charId); // Full character sheet
+queryKeys.characters.summary(userId, charId); // Character summary for lists
+```
+
+**Key Hooks**:
+
+- `useCharacters()` - Character list with 2min stale time
+- `useCharacterSheet()` - Full character with optimistic updates
+- `useDataResolver()` - Batch character summaries with caching
+- `useGame()` - Game session management
+
+**Query Configuration**:
+
+- Default 5min stale time, 10min garbage collection
+- Auto-retry except 4xx errors (auth/permissions)
+- Optimistic updates for character modifications
+
+### Zustand (Client State)
+
+**Character Store** (`src/stores/characterStore.ts`):
+
+```typescript
+useCharacterStore(); // Draft character during creation, preferences, step navigation
+```
+
+**UI Store** (`src/stores/uiStore.ts`):
+
+```typescript
+useUiStore(); // Collapsed sections, UI preferences with persistence
+```
+
+**Combat Store** (`src/stores/combatStore.ts`):
+
+```typescript
+useCombatStore(); // Game session combat state management
+```
+
+## Component Architecture
 
 ```
 src/components/
-├── ui/                    # Reusable design system components
-│   ├── design-system/     # Core components (Card, Typography, Badge)
-│   ├── inputs/           # Form inputs (Button, Select, TextInput, etc.)
-│   ├── feedback/         # User feedback (Modal, Notification, Tooltip)
-│   ├── display/          # Data display (StatCard, ItemGrid, Stepper)
-│   ├── layout/           # Layout components (Accordion, Tabs, PageWrapper)
-│   └── dice/             # Dice rolling components
-├── character/            # Character-specific functionality
-│   ├── creation/         # Character creation wizard steps
-│   ├── management/       # Character list and management
-│   ├── sheet/           # Character sheet display and editing
-│   └── shared/          # Shared character components
-├── game/                # Game management features
-├── auth/                # Authentication components
-├── modals/              # Application modals
-└── pages/               # Top-level page components
+├── app/              # Core app structure (Header, Footer, Routes)
+├── domain/           # Domain-specific (dice, spells, equipment)
+├── features/         # Feature modules (character/, game/)
+│   ├── character/
+│   │   ├── creation/ # Wizard steps (AbilityScoreStep, RaceStep, etc.)
+│   │   ├── management/ # Character lists and actions
+│   │   └── sheet/    # Character sheet components
+├── modals/           # Application modals
+├── pages/            # Top-level pages (CharGen, CharacterSheet, etc.)
+└── ui/               # Design system components
+    ├── core/         # Primitives (Button, Card, Typography)
+    └── composite/    # Complex UI (Stepper, ItemGrid, StatGrid)
 ```
 
-### 3. Data Layer Architecture
+## Critical Data Flow Patterns
 
-- **Game Data**: TypeScript modules in `src/data/` (races, classes as .ts files, equipment/spells as JSON)
-- **Services Layer**: `src/services/` handles Firebase operations, validation, migration
-- **Character Migration**: Built-in system handles schema evolution via `characterMigration.ts`
-- **Firebase Structure**: `/users/{userId}/characters/{characterId}`
-- **Utility Layer**: `src/utils/characterHelpers.ts` provides unified API for standard/custom content
+### Character Creation Wizard
 
-### 4. Bundle Optimization Strategy
-
-Vite config includes **manual chunk splitting**:
-
-- React, Firebase, router, and game data get separate chunks
-- Path aliases configured: `@/components`, `@/types`, `@/utils`, etc.
-- Critical game data preloaded via `useAppData` hook
-
-## Project-Specific Conventions
-
-### Character Schema Design
+**State Management**: Zustand store persists draft character + preferences across sessions
+**Validation Pipeline**: `src/validation/character.ts` with step-by-step validation
+**Cascade Validation**: `useCascadeValidation()` auto-clears invalid selections when race/class changes
 
 ```typescript
-// Character interface supports multi-class via array
-class: string[];  // ["fighter"] or ["magic-user", "thief"] for combinations
-
-// Abilities use combined value+modifier structure
-abilities: {
-  strength: { value: number, modifier: number }
-}
-
-// Custom classes and races support
-customClasses?: {
-  [classId: string]: {
-    name: string;
-    usesSpells?: boolean;
-    hitDie?: string;
-  }
-};
-customRace?: {
-  name: string;
-  // Additional custom race properties...
-};
-
-// Settings object handles versioning for migration
-settings: { version: number, useCoinWeight?: boolean }
+// Character creation flow
+CharGen.tsx → useCharacterStore() → AbilityScoreStep → RaceStep → ClassStep → etc.
 ```
 
-### Custom Content System
+**Step Validation**: Each step validates independently, enabling/disabling navigation
+**Save Pattern**: Authentication required to persist to Firebase via `useCharacterMutations()`
 
-Use `src/utils/characterHelpers.ts` for unified standard/custom content handling:
+### Firebase Integration
+
+**Services Layer**: `src/services/` handles all Firebase operations
 
 ```typescript
-// Check if class ID is custom
+src / services / characters.ts; // CRUD operations with migration
+src / services / auth.ts; // Authentication wrapper
+src / services / games.ts; // Game session management
+```
+
+**Data Structure**: `/users/{userId}/characters/{characterId}` and `/users/{userId}/games/{gameId}`
+**Migration System**: Automatic schema evolution via `processCharacterData()`
+
+### Character Validation System
+
+**Cascade Validation**: When race changes, incompatible classes auto-clear
+
+```typescript
+useCascadeValidation({
+  character,
+  onCharacterChange,
+  includeSupplementalRace,
+  includeSupplementalClass,
+});
+```
+
+**Validation Pipeline**: Step-by-step validation with detailed error messages
+**Custom Content**: Unified handling of standard + custom races/classes via character utils
+
+## Firebase Configuration
+
+**Required Environment Variables** (in `.env.local`):
+
+```bash
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+```
+
+**Authentication**: Email/password only, handled via `useAuth()` hook
+**Error Handling**: Use `getErrorMessage(error, fallback)` for consistent error display
+
+## Character System Specifics
+
+### Character Schema
+
+```typescript
+// Multi-class support via arrays
+class: string[]  // ["fighter"] or ["magic-user", "thief"]
+
+// Abilities with value + modifier
+abilities: { strength: { value: 15, modifier: 1 } }
+
+// Custom content support
+customClasses?: { [id: string]: CustomClass }
+customRace?: CustomRace
+```
+
+### Character Utilities (`src/utils/character.ts`)
+
+**Essential Functions**:
+
+```typescript
 isCustomClass(classId: string): boolean
-
-// Check if character can cast spells (handles custom classes)
-canCastSpells(character: Character, availableClasses: Class[]): boolean
-
-// Get primary class info (standard or custom)
-getPrimaryClassInfo(character: Character, availableClasses: Class[])
-
-// Check if character can level up
-canLevelUp(character: Character, availableClasses: Class[]): boolean
+canCastSpells(character: Character, classes: Class[]): boolean
+cascadeValidateCharacter(character: Character, race?: Race, classes: Class[]): Character
+getHitDie(character: Character, classes: Class[]): string
 ```
 
-### Validation & Migration Pattern
+**Game Rules**: Multi-class limited to elves/dokkalfar, custom races have no restrictions
 
-1. **Cascade Validation**: When race changes, incompatible classes auto-clear via `useCascadeValidation`
-2. **Data Migration**: Version-controlled schema evolution in `characterMigration.ts`
-3. **Type Guards**: `src/utils/typeGuards.ts` for runtime type safety
-4. **Character Helpers**: Centralized utilities handle standard/custom class logic
+## Build & Bundle Optimization
 
-### Firebase Integration Specifics
-
-- **Authentication**: Email/password only (no social providers)
-- **Environment Variables**: All start with `VITE_FIREBASE_` prefix
-- **Error Handling**: Services throw Error objects, UI components catch and display
-- **Auto-migration**: Legacy character data migrated on read operations
-
-### Design System Usage
-
-- **Design Tokens**: Centralized in `src/constants/designTokens.ts` with size variants
-- **TailwindCSS v4**: Custom theme with RPG-appropriate color scheme (zinc/amber)
-- **Component Hierarchy**: UI components strictly organized by function (design-system, inputs, feedback, display, layout)
-- **Accessibility**: WCAG 2.1 AA compliance target - use semantic HTML, ARIA labels
-- **Component Pattern**: UI components accept `className` prop for customization
-
-### Critical Game System Knowledge
-
-- **BFRPG System**: Basic Fantasy RPG with supplemental content (see: `/sources/BFRPG-rulebook.txt`)
-- **Dice Notation**: Comprehensive parser in `utils/dice.ts` supports "3d6", "4d6L", etc.
-- **Currency System**: Gold/silver/copper with conversion utilities
-- **Multi-class Support**: Only elves and dokkalfar can use combination classes
-- **Custom Classes**: Support user-defined classes with custom spellcasting and hit dice
-
-## Integration Points & Data Flow
-
-### Character Creation Wizard Flow
-
-1. **AbilityScoreStep** → sets base stats with dice rolling
-2. **RaceStep** → triggers cascade validation, may clear invalid classes
-3. **ClassStep** → validates against race restrictions, handles combinations and custom classes
-4. **HitPointsStep** → calculates based on class hit die + constitution (uses `getHitDie()`)
-5. **EquipmentStep** → filters by class/race restrictions
-6. **ReviewStep** → final validation, requires authentication to save
-
-### Level-Up System
-
-- **LevelUpModal**: Manages character advancement with HP gain and spell selection
-- **Spell Selection**: Uses `canCastSpells()` to determine if character needs spell selection
-- **HP Calculation**: Uses `getHitDie()` from character helpers for appropriate hit die
-- **Custom Class Support**: Level-up system handles both standard and custom spellcasting classes
-
-### Error Boundary Strategy
-
-- **Page-level boundaries**: `HomeErrorBoundary`, `CharGenErrorBoundary`, etc.
-- **Lazy loading**: All page components are lazy-loaded with Suspense
-- **Graceful degradation**: Components handle missing data without crashing
-
-### Performance Optimization Patterns
-
-- **Memoization**: Heavy use of `useMemo` for validation functions and filtered data
-- **Bundle splitting**: Manual chunks for game data to enable lazy loading
-- **Local storage**: Aggressive caching of character creation state
-- **Data Resolution**: `useDataResolver` hook for efficient batch fetching with caching
-
-## Custom Hooks Architecture
-
-### Core Data Hooks
+**Vite Configuration**: Manual chunk splitting to prevent React initialization issues
 
 ```typescript
-useAuth(); // Authentication state
-useCharacters(); // User's character list
-useLocalStorage(); // Persistent local state
-useAppData(); // Preloaded game data
+// Keep React core in main bundle (critical)
+// Separate chunks: firebase, spells, monsters, equipment
+// Path aliases: @/components, @/types, @/utils, etc.
 ```
 
-### Character-Specific Hooks
+**Performance Patterns**:
 
-```typescript
-useCascadeValidation(); // Auto-validates character data consistency
-useSpellSelection(); // Manages spell selection for level-up
-useHPGain(); // Handles hit point calculations
-useFirebaseSheet(); // Firebase character sheet sync
-```
+- Heavy `useMemo()` usage for expensive calculations
+- Lazy-loaded page components with Suspense
+- TanStack Query caching reduces Firebase calls
 
-### Utility Hooks
+## Development Workflow Patterns
 
-```typescript
-useDataResolver(); // Batch character data fetching with caching
-useValidationAnnouncements(); // Screen reader accessibility
-useFocusManagement(); // Keyboard navigation support
-useDiceRoller(); // Dice rolling functionality
-```
+### Adding New Features
 
-## Testing & Quality Patterns
+1. Update TypeScript interfaces in `src/types/` if needed
+2. Add services layer functions in `src/services/`
+3. Create TanStack Query hooks in `src/hooks/queries/`
+4. Add Zustand store slice if client state needed
+5. Update validation in `src/validation/`
+6. Create UI components following design system hierarchy
+7. Test with character creation → save → reload cycle
 
-**No test framework currently configured** - focus on TypeScript strict mode and ESLint for quality.
+### Common Code Patterns
 
-### Code Quality Checks
+- **Error Handling**: Always use `getErrorMessage(error, fallback)`
+- **Character Utilities**: Use centralized functions, don't duplicate logic
+- **Memoization**: Wrap expensive calculations in `useMemo()`
+- **Query Invalidation**: Invalidate related queries after mutations
+- **Type Safety**: Prefer TypeScript interfaces over `any`
 
-- TypeScript strict mode enabled with enhanced type checking in `tsconfig.app.json`
-- ESLint with React hooks rules and TypeScript integration
-- Manual testing workflow: create character → save → reload → verify persistence
+### Debugging Tips
 
-### Development Workflow
-
-When adding features:
-
-1. Update `Character` interface if needed
-2. Add migration logic if schema changes
-3. Update validation in cascade validation system
-4. Use character helpers for standard/custom class logic
-5. Test cascade validation scenarios (race change clearing classes)
-6. Verify Firebase persistence and migration on existing data
-7. Ensure level-up system works with new content
-
-### Common Patterns to Follow
-
-1. **Function vs Variable**: Always call utility functions - `isCustomClass()` not `isCustomClass`
-2. **Character Helpers**: Use centralized utilities instead of inline logic
-3. **Memoization**: Heavy use of `useMemo` for expensive calculations
-4. **Error Boundaries**: Wrap major features with error boundaries
-5. **Accessibility**: Include ARIA labels and semantic HTML structure
+- Use TanStack Query DevTools (enabled in dev mode)
+- Character state logged to console in development
+- Firebase operations include structured logging
+- Validation errors provide specific step-by-step feedback

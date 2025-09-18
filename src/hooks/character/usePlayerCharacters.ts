@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useDataResolver } from "./queries/useDataResolver";
+import { useDataResolver } from "../queries/useDataResolver";
 import type { CharacterListItem } from "@/services/characters";
 import type { Game } from "@/types";
 import { logger } from "@/utils";
