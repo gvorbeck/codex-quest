@@ -132,7 +132,7 @@ export class GlobalErrorHandler {
   /**
    * Error type detection helpers
    */
-  private isNetworkError(error: Error): boolean {
+  public isNetworkError(error: Error): boolean {
     return (
       error.message.includes('NetworkError') ||
       error.message.includes('Failed to fetch') ||
@@ -141,7 +141,7 @@ export class GlobalErrorHandler {
     );
   }
 
-  private isAuthError(error: Error): boolean {
+  public isAuthError(error: Error): boolean {
     const errorObj = error as unknown as Record<string, unknown>;
     return (
       error.message.includes('auth/') ||
@@ -151,7 +151,7 @@ export class GlobalErrorHandler {
     );
   }
 
-  private isPermissionError(error: Error): boolean {
+  public isPermissionError(error: Error): boolean {
     const errorObj = error as unknown as Record<string, unknown>;
     return (
       error.message.includes('permission') ||
@@ -161,7 +161,7 @@ export class GlobalErrorHandler {
     );
   }
 
-  private isValidationError(error: Error): boolean {
+  public isValidationError(error: Error): boolean {
     const errorObj = error as unknown as Record<string, unknown>;
     return (
       error.message.includes('validation') ||
@@ -185,17 +185,17 @@ export function createEnhancedQueryClient(notifications: NotificationSystem): Qu
         gcTime: 10 * 60 * 1000, // 10 minutes
         retry: (failureCount, error) => {
           // Don't retry on auth/permission errors
-          if (errorHandler['isAuthError'](error) || errorHandler['isPermissionError'](error)) {
+          if (errorHandler.isAuthError(error) || errorHandler.isPermissionError(error)) {
             return false;
           }
 
           // Don't retry on validation errors
-          if (errorHandler['isValidationError'](error)) {
+          if (errorHandler.isValidationError(error)) {
             return false;
           }
 
           // Retry network errors up to 3 times
-          if (errorHandler['isNetworkError'](error)) {
+          if (errorHandler.isNetworkError(error)) {
             if (failureCount < 3) {
               errorHandler.handleRetryAttempt(failureCount + 1, 3);
               return true;
@@ -209,7 +209,7 @@ export function createEnhancedQueryClient(notifications: NotificationSystem): Qu
       mutations: {
         retry: (failureCount, error) => {
           // Only retry network errors for mutations
-          if (errorHandler['isNetworkError'](error)) {
+          if (errorHandler.isNetworkError(error)) {
             return failureCount < 1;
           }
           return false;

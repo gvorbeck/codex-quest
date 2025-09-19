@@ -6,18 +6,27 @@ import type { NotificationSystem, ShowNotificationOptions } from "@/types";
  * Provides the core notification system implementation
  */
 export function useNotifications(): NotificationSystem {
-  const [notifications, setNotifications] = useState<NotificationSystem["notifications"]>([]);
+  const [notifications, setNotifications] = useState<
+    NotificationSystem["notifications"]
+  >([]);
 
   const generateId = useCallback(() => {
-    return `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `notification-${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 11)}`;
   }, []);
 
   const dismissNotification = useCallback((id: string) => {
-    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+    setNotifications((prev) =>
+      prev.filter((notification) => notification.id !== id)
+    );
   }, []);
 
   const showNotification = useCallback(
-    (message: string | React.ReactNode, options: ShowNotificationOptions = {}) => {
+    (
+      message: string | React.ReactNode,
+      options: ShowNotificationOptions = {}
+    ) => {
       const id = generateId();
       const notification = {
         id,
@@ -44,29 +53,45 @@ export function useNotifications(): NotificationSystem {
   );
 
   const showInfo = useCallback(
-    (message: string | React.ReactNode, options: Omit<ShowNotificationOptions, "priority"> = {}) => {
+    (
+      message: string | React.ReactNode,
+      options: Omit<ShowNotificationOptions, "priority"> = {}
+    ) => {
       return showNotification(message, { ...options, priority: "info" });
     },
     [showNotification]
   );
 
   const showSuccess = useCallback(
-    (message: string | React.ReactNode, options: Omit<ShowNotificationOptions, "priority"> = {}) => {
+    (
+      message: string | React.ReactNode,
+      options: Omit<ShowNotificationOptions, "priority"> = {}
+    ) => {
       return showNotification(message, { ...options, priority: "success" });
     },
     [showNotification]
   );
 
   const showWarning = useCallback(
-    (message: string | React.ReactNode, options: Omit<ShowNotificationOptions, "priority"> = {}) => {
+    (
+      message: string | React.ReactNode,
+      options: Omit<ShowNotificationOptions, "priority"> = {}
+    ) => {
       return showNotification(message, { ...options, priority: "warning" });
     },
     [showNotification]
   );
 
   const showError = useCallback(
-    (message: string | React.ReactNode, options: Omit<ShowNotificationOptions, "priority"> = {}) => {
-      return showNotification(message, { ...options, priority: "error", duration: options.duration ?? 8000 });
+    (
+      message: string | React.ReactNode,
+      options: Omit<ShowNotificationOptions, "priority"> = {}
+    ) => {
+      return showNotification(message, {
+        ...options,
+        priority: "error",
+        duration: options.duration ?? 8000,
+      });
     },
     [showNotification]
   );
