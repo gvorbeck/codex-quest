@@ -32,12 +32,15 @@ export function Header({
     }
   };
 
+  const getDevUtils = () => {
+    return (
+      devUtils || (window as unknown as { devUtils?: typeof devUtils }).devUtils
+    );
+  };
+
   const handleResetMockData = () => {
     if (isMockMode()) {
-      // Try devUtils from import first, then fallback to window
-      const utils =
-        devUtils ||
-        (window as unknown as { devUtils?: typeof devUtils }).devUtils;
+      const utils = getDevUtils();
       if (utils) {
         utils.resetAllData();
         // Reload the page to see the reset data

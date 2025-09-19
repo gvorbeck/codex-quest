@@ -63,10 +63,15 @@ export const getUserCharacters = async (
         );
         const processedData = processCharacterData(data);
 
+        // Ensure name is always present
+        const characterData = {
+          ...processedData,
+          name: processedData.name || "Unnamed Character",
+        };
+
         characters.push({
           id: docSnapshot.id,
-          ...processedData,
-          name: processedData.name || "Unnamed Character", // Ensure name is always present
+          ...characterData,
         });
 
         // Save the migrated data back to Firebase asynchronously

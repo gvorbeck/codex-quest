@@ -4,11 +4,17 @@
  */
 
 import type { Character } from "@/types";
+/**
+ * Mock Character Service
+ * Simulates Firebase operations for development and testing
+ */
+
 import type { AuthUser } from "./auth";
 import type { CharacterListItem } from "./characters";
 import { getAllSampleCharacters } from "@/data/sampleCharacters";
 import { logger } from "@/utils";
-
+// Mock service constants
+const MOCK_NETWORK_DELAY_MS = 100;
 const STORAGE_KEY = "mock_characters";
 const SAMPLE_DATA_INITIALIZED_KEY = "mock_characters_sample_initialized";
 
@@ -22,7 +28,9 @@ const initializeSampleData = (): void => {
     const sampleCharacters = getAllSampleCharacters();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleCharacters));
     localStorage.setItem(SAMPLE_DATA_INITIALIZED_KEY, "true");
-    logger.info(`🎭 Mock mode: Initialized with ${sampleCharacters.length} sample characters`);
+    logger.info(
+      `🎭 Mock mode: Initialized with ${sampleCharacters.length} sample characters`
+    );
   }
 };
 
@@ -62,18 +70,19 @@ export const getUserCharacters = async (
   _user: AuthUser
 ): Promise<CharacterListItem[]> => {
   // Simulate network delay for realistic feel
-  await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, MOCK_NETWORK_DELAY_MS));
 
   const characters = getStoredCharacters();
 
   // Transform to CharacterListItem format (matching Firebase service interface)
   return characters.map((character): CharacterListItem => {
-    const characterClass: string | string[] = character.class && character.class.length === 1
-      ? character.class[0]!
-      : character.class || [];
+    const characterClass: string | string[] =
+      character.class && character.class.length === 1
+        ? character.class[0]!
+        : character.class || [];
 
     return {
-      id: character.name.toLowerCase().replace(/\s+/g, '-'),
+      id: character.name.toLowerCase().replace(/\s+/g, "-"),
       name: character.name,
       race: character.race,
       class: characterClass,
@@ -95,10 +104,12 @@ export const getCharacterById = async (
   characterId: string
 ): Promise<Character | null> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 150));
+  await new Promise((resolve) => setTimeout(resolve, 150));
 
   const characters = getStoredCharacters();
-  const character = characters.find(c => c.name.toLowerCase().replace(/\s+/g, '-') === characterId);
+  const character = characters.find(
+    (c) => c.name.toLowerCase().replace(/\s+/g, "-") === characterId
+  );
 
   if (!character) {
     throw new Error(`Character with ID ${characterId} not found`);
@@ -117,17 +128,20 @@ export const saveCharacter = async (
   characterId?: string
 ): Promise<string> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 200));
 
   const characters = getStoredCharacters();
-  const finalCharacterId = characterId || character.name.toLowerCase().replace(/\s+/g, '-');
+  const finalCharacterId =
+    characterId || character.name.toLowerCase().replace(/\s+/g, "-");
 
   // Character to save
   const characterToSave: Character = character;
 
   if (characterId) {
     // Update existing character
-    const existingIndex = characters.findIndex(c => c.name.toLowerCase().replace(/\s+/g, '-') === characterId);
+    const existingIndex = characters.findIndex(
+      (c) => c.name.toLowerCase().replace(/\s+/g, "-") === characterId
+    );
     if (existingIndex >= 0) {
       characters[existingIndex] = characterToSave;
     } else {
@@ -140,7 +154,9 @@ export const saveCharacter = async (
   }
 
   saveCharacters(characters);
-  logger.info(`🎭 Mock mode: Saved character "${character.name}" (${finalCharacterId})`);
+  logger.info(
+    `🎭 Mock mode: Saved character "${character.name}" (${finalCharacterId})`
+  );
 
   return finalCharacterId;
 };
@@ -153,10 +169,12 @@ export const deleteCharacter = async (
   characterId: string
 ): Promise<void> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, MOCK_NETWORK_DELAY_MS));
 
   const characters = getStoredCharacters();
-  const characterIndex = characters.findIndex(c => c.name.toLowerCase().replace(/\s+/g, '-') === characterId);
+  const characterIndex = characters.findIndex(
+    (c) => c.name.toLowerCase().replace(/\s+/g, "-") === characterId
+  );
 
   if (characterIndex === -1) {
     throw new Error(`Character with ID ${characterId} not found`);
@@ -166,7 +184,9 @@ export const deleteCharacter = async (
   characters.splice(characterIndex, 1);
   saveCharacters(characters);
 
-  logger.info(`🎭 Mock mode: Deleted character "${deletedCharacter?.name}" (${characterId})`);
+  logger.info(
+    `🎭 Mock mode: Deleted character "${deletedCharacter?.name}" (${characterId})`
+  );
 };
 
 /**

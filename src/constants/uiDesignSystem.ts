@@ -4,6 +4,7 @@
  */
 
 import type { CurrencyKey } from "@/types";
+import { isMockMode } from "@/lib/mockMode";
 
 // Core Design Tokens
 export const DESIGN_TOKENS = {
@@ -408,15 +409,9 @@ export function getInitialAlerts(): AlertConfig[] {
   alerts.push(WELCOME_ALERT);
 
   // Add mock mode alert if in mock mode
-  // Dynamic import to avoid issues during build
   if (typeof window !== "undefined") {
     try {
-      // Check for mock mode indicators
-      const isMockMode =
-        import.meta.env?.["VITE_MOCK_FIREBASE"] === "true" ||
-        !import.meta.env?.["VITE_FIREBASE_API_KEY"];
-
-      if (isMockMode) {
+      if (isMockMode()) {
         alerts.push(MOCK_MODE_ALERT);
       }
     } catch (error) {
