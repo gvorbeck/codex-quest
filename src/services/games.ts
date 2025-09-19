@@ -3,6 +3,7 @@ import {
   collection,
   getDocs,
   doc,
+  getDoc,
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
@@ -46,6 +47,35 @@ export const getUserGames = async (user: AuthUser): Promise<Game[]> => {
     handleServiceError(error, {
       action: "fetching games",
       context: { userId: user.uid },
+    });
+  }
+};
+
+/**
+ * Get a specific game by ID
+ */
+export const getGameById = async (
+  userId: string,
+  gameId: string
+): Promise<Game | null> => {
+  try {
+    const gameRef = doc(
+      db,
+      FIREBASE_COLLECTIONS.USERS,
+      userId,
+      "games",
+      gameId
+    );
+    const gameDoc = await getDoc(gameRef);
+
+    if (gameDoc.exists()) {
+      return { id: gameDoc.id, ...gameDoc.data() } as Game;
+    }
+    return null;
+  } catch (error) {
+    handleServiceError(error, {
+      action: "fetching game",
+      context: { userId, gameId },
     });
   }
 };

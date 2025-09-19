@@ -16,6 +16,7 @@ import {
 // Note: Using direct import here to avoid circular dependency with barrel file
 import { roller } from "./mechanics";
 import { canCastSpells, getSpellcastingAbilityModifier } from "./character";
+import { allClasses } from "@/data/classes";
 
 // ============================================================================
 // SPELL CONSTANTS
@@ -115,8 +116,6 @@ export function formatSpellLevel(level: number): string {
 export function getAvailableCantrips(character: Character): Cantrip[] {
   // Note: Import moved to avoid circular dependency
   const isCustomClass = (classId: string): boolean => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { allClasses } = require("@/data/classes");
     return !allClasses.find((cls: { id: string }) => cls.id === classId);
   };
 
@@ -142,8 +141,6 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   // Note: Minimal duplicate functions to avoid circular dependency
   const hasCustomClasses = (char: Character): boolean => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { allClasses } = require("@/data/classes");
     return char.class.some(
       (classId) => !allClasses.find((cls: { id: string }) => cls.id === classId)
     );
@@ -154,8 +151,6 @@ export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   };
 
   const hasClassType = (char: Character, classType: string): boolean => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { allClasses } = require("@/data/classes");
     return char.class.some((classId) => {
       const classData = allClasses.find(
         (cls: { id: string; classType?: string }) => cls.id === classId

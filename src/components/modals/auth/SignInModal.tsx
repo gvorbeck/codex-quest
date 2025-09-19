@@ -11,7 +11,7 @@ import {
   TabPanel,
 } from "@/components/ui/core/layout/Tabs";
 import { useLoadingState, useAuthMutations } from "@/hooks";
-import { signInWithEmail, signUpWithEmail } from "@/services/auth";
+import { signInWithEmail, signUpWithEmail } from "@/services";
 import { logger } from "@/utils";
 import GoogleSignInSection from "./GoogleSignInSection";
 

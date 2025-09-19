@@ -63,10 +63,15 @@ export const getUserCharacters = async (
         );
         const processedData = processCharacterData(data);
 
+        // Ensure name is always present
+        const characterData = {
+          ...processedData,
+          name: processedData.name || "Unnamed Character",
+        };
+
         characters.push({
           id: docSnapshot.id,
-          name: processedData.name || "Unnamed Character",
-          ...processedData,
+          ...characterData,
         });
 
         // Save the migrated data back to Firebase asynchronously
@@ -129,7 +134,7 @@ export const getUserCharacters = async (
 export const getCharacterById = async (
   userId: string,
   characterId: string
-): Promise<CharacterListItem | null> => {
+): Promise<Character | null> => {
   try {
     const characterRef = doc(
       db,
@@ -160,11 +165,7 @@ export const getCharacterById = async (
         }
       }
 
-      return {
-        id: docSnap.id,
-        name: processedData.name || "Unnamed Character", // Ensure name is always present
-        ...processedData,
-      };
+      return processedData;
     } else {
       return null;
     }

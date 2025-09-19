@@ -2,6 +2,7 @@
 import { EQUIPMENT_CATEGORIES, CURRENCY_TYPES } from "@/constants";
 import { logger } from "@/utils";
 import { normalizeCurrency } from "@/utils/currency";
+import type { Character } from "@/types";
 
 // Define schema versions for migration steps
 export const CURRENT_VERSION = 2.5;
@@ -424,7 +425,7 @@ function migrateCustomClasses(data: LegacyCharacterData): LegacyCharacterData {
  */
 export function processCharacterData(
   data: LegacyCharacterData
-): LegacyCharacterData {
+): Character {
   let migratedData = data;
 
   if (isLegacyCharacter(data)) {
@@ -476,5 +477,7 @@ export function processCharacterData(
     };
   }
 
-  return migratedData;
+  // After migration, legacy data should now conform to current Character interface
+  // The migration functions ensure all required fields are present with proper defaults
+  return migratedData as unknown as Character;
 }

@@ -1,7 +1,11 @@
 import { useState, useCallback } from "react";
 import { PageWrapper } from "@/components/ui/core/layout";
 import { Card, Typography, Button } from "@/components/ui";
-import { TextInput, TextArea, FormField } from "@/components/ui/core/primitives";
+import {
+  TextInput,
+  TextArea,
+  FormField,
+} from "@/components/ui/core/primitives";
 import { Breadcrumb } from "@/components/ui/composite";
 import { useAuth } from "@/hooks";
 import { useGameNavigation } from "@/hooks";

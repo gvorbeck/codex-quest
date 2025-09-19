@@ -4,6 +4,7 @@
  */
 
 import type { CurrencyKey } from "@/types";
+import { isMockMode } from "@/lib/mockMode";
 
 // Core Design Tokens
 export const DESIGN_TOKENS = {
@@ -367,6 +368,63 @@ export const LOADING_MESSAGES = {
   savingChanges: "Saving changes...",
   loadingPlayerData: "Loading player data...",
 } as const;
+
+// Alert System Configuration
+export interface AlertConfig {
+  message: string;
+  type: "info" | "warning" | "error" | "success";
+  dismissible: boolean;
+  autoHide?: boolean;
+  duration?: number; // in milliseconds
+}
+
+/**
+ * Welcome alert shown to users on app load
+ */
+export const WELCOME_ALERT: AlertConfig = {
+  message:
+    "Welcome to Codex.Quest 3.0! Find bugs and report them on GitHub (link in footer).",
+  type: "info",
+  dismissible: true,
+  autoHide: false,
+};
+
+/**
+ * Alert for mock mode users
+ */
+export const MOCK_MODE_ALERT: AlertConfig = {
+  message: "Running in mock mode - data is stored locally.",
+  type: "warning",
+  dismissible: true,
+  autoHide: false,
+};
+
+/**
+ * Get the appropriate alerts based on app state
+ */
+export function getInitialAlerts(): AlertConfig[] {
+  const alerts: AlertConfig[] = [];
+
+  // Always show welcome alert first
+  alerts.push(WELCOME_ALERT);
+
+  // Add mock mode alert if in mock mode
+  if (typeof window !== "undefined") {
+    try {
+      if (isMockMode()) {
+        alerts.push(MOCK_MODE_ALERT);
+      }
+    } catch (error) {
+      // Fallback: if we can't determine mock mode, don't add the alert
+      // Use logger when available, otherwise silently fail
+      if (typeof error === "object" && error !== null) {
+        // Silent fallback - don't show alert if we can't determine mode
+      }
+    }
+  }
+
+  return alerts;
+}
 
 // Helper function for currency configuration
 export function getCurrencyConfig(key: CurrencyKey) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { onAuthStateChange } from "@/services/auth";
-import type { AuthUser } from "@/services/auth";
+import { onAuthStateChange } from "@/services";
+import type { AuthUser } from "@/services";
 import { useLoadingState } from "../ui/useLoadingState";
 
 export function useAuth() {

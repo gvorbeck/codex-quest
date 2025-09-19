@@ -3,21 +3,22 @@ import { useState } from "react";
 import { Button } from "@/components/ui";
 import { Typography } from "@/components/ui/core/display";
 import { useAuth } from "@/hooks";
-import { signOut } from "@/services/auth";
+import { signOut, isMockMode, devUtils } from "@/services";
 import { logger } from "@/utils";
 import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants";
 import { Icon } from "@/components/ui/core/display/Icon";
 import { GlobalAlert } from "@/components/app/GlobalAlert";
+import type { AlertConfig } from "@/constants";
 
 interface HeaderProps {
   setIsSignInModalOpen: (open: boolean) => void;
-  alertMessage?: string;
-  onAlertClose?: () => void;
+  alerts: AlertConfig[];
+  onAlertClose: (alertIndex: number) => void;
 }
 
 export function Header({
   setIsSignInModalOpen,
-  alertMessage,
+  alerts,
   onAlertClose,
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -28,6 +29,31 @@ export function Header({
       await signOut();
     } catch (error) {
       logger.error("Sign out error:", error);
+    }
+  };
+
+  const getDevUtils = () => {
+    return (
+      devUtils || (window as unknown as { devUtils?: typeof devUtils }).devUtils
+    );
+  };
+
+  const handleResetMockData = () => {
+    if (isMockMode()) {
+      const utils = getDevUtils();
+      if (utils) {
+        utils.resetAllData();
+        // Reload the page to see the reset data
+        window.location.reload();
+      } else {
+        // Manual fallback if devUtils isn't available
+        logger.warn("devUtils not available, clearing localStorage manually");
+        localStorage.removeItem("mock_characters");
+        localStorage.removeItem("mock_characters_sample_initialized");
+        localStorage.removeItem("mock_games");
+        localStorage.removeItem("mock_games_sample_initialized");
+        window.location.reload();
+      }
     }
   };
 
@@ -51,13 +77,15 @@ export function Header({
             <div className="flex items-center gap-3 flex-shrink-0">
               <Link
                 href="/"
-                aria-label="Codex.Quest - Go to homepage"
+                aria-label={`${
+                  isMockMode() ? "Codex.Mock" : "Codex.Quest"
+                } - Go to homepage`}
                 className="flex items-center gap-3 hover:opacity-90 transition-opacity duration-200 group"
               >
                 <div className="relative">
                   <img
                     src="/images/logo.webp"
-                    alt="Codex.Quest logo"
+                    alt={`${isMockMode() ? "Codex.Mock" : "Codex.Quest"} logo`}
                     className="w-10 h-10 sm:w-12 sm:h-12 transition-transform duration-200 group-hover:scale-105"
                     loading="eager"
                   />
@@ -69,10 +97,25 @@ export function Header({
                   color="amber"
                   className="font-title font-bold text-2xl sm:text-3xl tracking-tight bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent group-hover:from-amber-200 group-hover:to-amber-400 transition-all duration-200"
                 >
-                  Codex.Quest
+                  {isMockMode() ? "Codex.Mock" : "Codex.Quest"}
                 </Typography>
               </Link>
             </div>
+
+            {/* Mock Mode Reset Button */}
+            {isMockMode() && (
+              <div className="flex items-center">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleResetMockData}
+                  title="Reset all data to original sample data"
+                >
+                  <Icon name="settings" className="w-4 h-4 mr-2" />
+                  Reset Sample Data
+                </Button>
+              </div>
+            )}
 
             {/* Desktop Authentication */}
             <div className="hidden md:block">
@@ -95,12 +138,7 @@ export function Header({
                         Signed in
                       </Typography>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={handleSignOut}
-                      className="text-primary-200 hover:text-amber-300 hover:bg-primary-700/50 px-4 py-2 transition-all duration-200"
-                    >
+                    <Button variant="ghost" size="sm" onClick={handleSignOut}>
                       Sign Out
                     </Button>
                   </div>
@@ -109,7 +147,6 @@ export function Header({
                     variant="secondary"
                     size="md"
                     onClick={() => setIsSignInModalOpen(true)}
-                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-semibold px-6 py-2 shadow-lg hover:shadow-amber-500/25 transition-all duration-200"
                   >
                     Sign In
                   </Button>
@@ -119,9 +156,9 @@ export function Header({
 
             {/* Mobile menu button */}
             <div className="md:hidden">
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="relative p-3 rounded-lg text-primary-100 hover:text-amber-300 hover:bg-primary-700/50 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-200 group"
                 aria-controls="mobile-menu"
                 aria-expanded={isMobileMenuOpen}
                 aria-label="Toggle mobile menu"
@@ -135,7 +172,7 @@ export function Header({
                   className="transition-transform duration-200 group-hover:scale-110"
                   aria-hidden={true}
                 />
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -169,12 +206,12 @@ export function Header({
                         {user.email}
                       </Typography>
                     </div>
-                    <button
+                    <Button
+                      variant="ghost"
                       onClick={() => {
                         handleSignOut();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="text-primary-200 hover:text-amber-300 hover:bg-primary-700/50 flex items-center px-4 py-3 rounded-lg font-medium transition-all duration-200 w-full group"
                     >
                       <span>Sign Out</span>
                       <Icon
@@ -182,29 +219,34 @@ export function Header({
                         size="sm"
                         className="ml-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
                       />
-                    </button>
+                    </Button>
                   </div>
                 ) : (
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={() => {
                       setIsSignInModalOpen(true);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 w-full shadow-lg"
                   >
                     Sign In
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
           </div>
         </nav>
       </header>
-      {alertMessage && (
-        <GlobalAlert
-          message={alertMessage}
-          {...(onAlertClose && { onClose: onAlertClose })}
-        />
+      {alerts.length > 0 && (
+        <div className="space-y-0">
+          {alerts.map((alert, index) => (
+            <GlobalAlert
+              key={`alert-${index}`}
+              alert={alert}
+              onClose={() => onAlertClose(index)}
+            />
+          ))}
+        </div>
       )}
     </>
   );
