@@ -142,7 +142,11 @@ export function ItemGrid<T extends { id: string }>({
       </div>
 
       <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map(renderItem)}
+        {items.map((item) => (
+          <div key={item.id}>
+            {renderItem(item)}
+          </div>
+        ))}
       </div>
     </div>
   );

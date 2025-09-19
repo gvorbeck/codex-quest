@@ -22,7 +22,7 @@ export default function CombatantsList({
       <div className="space-y-3 p-3">
         {combatants.map((combatant, index) => (
           <CombatantCard
-            key={`${combatant.name}-${index}`}
+            key={`combatant-${combatant.name}-${combatant.ac || 'no-ac'}-${index}`}
             combatant={combatant}
             index={index}
             variant={variant}

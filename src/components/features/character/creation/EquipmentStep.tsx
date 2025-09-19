@@ -141,7 +141,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
             <div className="space-y-3 mb-6">
               {cleanedEquipment.map((item, index) => (
-                <Card key={`${item.name}-${index}`} variant="success">
+                <Card key={`${item.name}-${item.category}-${item.subCategory}-${index}`} variant="success">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">

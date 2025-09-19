@@ -1,3 +1,3 @@
 // TanStack Query mutations for data modification
-export { useCharacterMutations } from "./useCharacterMutations";
+export { useCharacterMutations, useGameMutations } from "./useEnhancedMutations";
 export { useAuthMutations } from "./useAuthMutations";

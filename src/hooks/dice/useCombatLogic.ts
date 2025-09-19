@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useEffect } from "react";
 import { usePlayerCharacters } from "../character";
-import { useNotifications } from "../ui";
+import { useNotificationContext } from "../ui";
 import { useCombatStore } from "@/stores";
 import type {
   CombatantWithInitiative,
@@ -22,7 +22,7 @@ export function useCombatLogic(
   game?: Game,
   onUpdateGame?: (updatedGame: Game) => void
 ) {
-  const { showSuccess, showError, showInfo } = useNotifications();
+  const { showSuccess, showError, showInfo } = useNotificationContext();
   const { playerCharacters } = usePlayerCharacters(game || ({} as Game));
 
   // Clear corrupted data on mount

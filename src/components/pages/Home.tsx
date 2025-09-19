@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/core/layout/Tabs";
 import { CharactersList } from "@/components/features/character/management";
 import { GamesList } from "@/components/features/game/management";
-import { useAuth, useCharacters } from "@/hooks";
+import { useAuth } from "@/hooks";
+import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
 
 function Home() {
   const { user } = useAuth();
-  const { data: characters = [], isLoading: loading } = useCharacters();
+  const { data: characters = [], isLoading: loading } = useEnhancedCharacters();
   const [, setLocation] = useLocation();
 
   const hasCharacters = characters.length > 0;
@@ -116,7 +117,7 @@ function Home() {
               label: "New Character",
               variant: "primary" as const,
               size: "lg" as const,
-              onClick: () => setLocation("/new-character"),
+              onClick: () => setLocation("/new-character?new=true"),
               children: <Icon name="dice" size="lg" aria-hidden />,
             },
             {

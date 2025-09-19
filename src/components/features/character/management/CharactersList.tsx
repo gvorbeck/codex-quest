@@ -1,13 +1,9 @@
 import { ItemGrid } from "@/components/ui/composite";
 import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { CharacterCard } from "./CharacterCard";
-import {
-  useCharacters,
-  useAuth,
-  useNotificationContext,
-  useCharacterMutations,
-} from "@/hooks";
-import { logger } from "@/utils";
+import { useAuth } from "@/hooks";
+import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
+import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useState } from "react";
 
 export function CharactersList() {
@@ -16,11 +12,9 @@ export function CharactersList() {
     isLoading: loading,
     error,
     refetch,
-  } = useCharacters();
+  } = useEnhancedCharacters();
   const { user } = useAuth();
-  const { showError } = useNotificationContext();
-  const { deleteCharacter: deleteCharacterMutation, isDeleting } =
-    useCharacterMutations();
+  const { deleteCharacter, isDeleting } = useCharacterMutations();
   const [deleteState, setDeleteState] = useState<{
     isOpen: boolean;
     character: { id: string; name: string } | null;
@@ -37,24 +31,15 @@ export function CharactersList() {
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = () => {
     if (!user || !deleteState.character) return;
 
-    try {
-      deleteCharacterMutation({
-        userId: user.uid,
-        characterId: deleteState.character.id,
-      });
-      setDeleteState({ isOpen: false, character: null });
-    } catch (error) {
-      logger.error("Failed to delete character:", {
-        characterId: deleteState.character.id,
-        error,
-      });
-      showError("Failed to delete character. Please try again.", {
-        title: "Delete Failed",
-      });
-    }
+    deleteCharacter({
+      userId: user.uid,
+      characterId: deleteState.character.id,
+    });
+
+    setDeleteState({ isOpen: false, character: null });
   };
 
   const handleCloseDeleteModal = () => {
@@ -75,7 +60,7 @@ export function CharactersList() {
             "Ready to start your adventure? Create your first character to get started!",
           action: {
             label: "Create Your First Character",
-            href: "/new-character",
+            href: "/new-character?new=true",
           },
         }}
         header={{
@@ -85,7 +70,6 @@ export function CharactersList() {
         }}
         renderItem={(character) => (
           <CharacterCard
-            key={character.id}
             character={character}
             user={user}
             onDelete={handleDeleteCharacter}

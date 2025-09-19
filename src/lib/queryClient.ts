@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 
+// Basic query client for initialization - will be enhanced with error handling in App.tsx
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

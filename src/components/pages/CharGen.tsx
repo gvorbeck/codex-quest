@@ -11,7 +11,8 @@ import { ClassStep } from "@/components/features/character/creation/ClassStep";
 import HitPointsStep from "@/components/features/character/creation/HitPointsStep";
 import EquipmentStep from "@/components/features/character/creation/EquipmentStep";
 import { ReviewStep } from "@/components/features/character/creation/ReviewStep";
-import { useAuth, useCharacterMutations, useStepNavigation } from "@/hooks";
+import { useAuth, useStepNavigation } from "@/hooks";
+import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useCharacterStore } from "@/stores";
 import {
   useCascadeValidation,
@@ -37,11 +38,24 @@ function CharGen() {
     setStep,
     nextStep,
     updatePreferences,
+    clearDraft,
   } = useCharacterStore();
+
+  // Check for new character creation via URL parameter
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('new') === 'true') {
+      clearDraft();
+      // Clean up the URL parameter
+      urlParams.delete('new');
+      const newUrl = `${window.location.pathname}${urlParams.toString() ? '?' + urlParams.toString() : ''}`;
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, [clearDraft]);
 
   // Replace manual save logic with mutation
   const { saveCharacter, isSaving, saveError } = useCharacterMutations({
-    onSaveSuccess: () => setLocation("/"),
+    onSaveSuccess: (characterId) => setLocation(`/u/${user?.uid}/c/${characterId}`),
   });
 
   // Ensure the character always has the complete structure by merging with empty character

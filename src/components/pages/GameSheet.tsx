@@ -15,9 +15,11 @@ import {
   CombatTrackerModal,
   EncounterGeneratorModal,
 } from "@/components/modals/LazyModals";
-import { useGame } from "@/hooks";
+import { useEnhancedGame } from "@/hooks/queries/useEnhancedQueries";
+import { useGameMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useDiceRoller } from "@/hooks/dice/useDiceRoller";
-import { useNotifications } from "@/hooks/ui/useNotifications";
+import { useNotificationContext } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { logger, getErrorMessage } from "@/utils";
 import {
   GAME_SHEET_STYLES,
@@ -27,6 +29,7 @@ import {
 import type { Game, GamePlayer, GameCombatant } from "@/types";
 
 export default function GameSheet() {
+  const { user } = useAuth();
   const [, params] = useRoute("/u/:userId/g/:gameId");
   const [isTreasureModalOpen, setIsTreasureModalOpen] = useState(false);
   const [isCombatTrackerModalOpen, setIsCombatTrackerModalOpen] =
@@ -34,21 +37,24 @@ export default function GameSheet() {
   const [isEncounterGeneratorModalOpen, setIsEncounterGeneratorModalOpen] =
     useState(false);
 
-  // Use TanStack Query game hook
+  // Use enhanced game hook with error handling
   const {
-    data: game,
+    data: gameData,
     isLoading: loading,
     error,
-    isOwner: isGameMaster,
-    isUpdating,
-    updateGame,
-  } = useGame(params?.userId, params?.gameId);
+  } = useEnhancedGame(params?.userId || "", params?.gameId || "");
+
+  const game = gameData?.game;
+  const isGameMaster = gameData?.isOwner || false;
+
+  // Use enhanced game mutations
+  const { saveGame, isSaving } = useGameMutations();
 
   // Use the dice roller hook
   const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
 
   // Use notifications
-  const { showSuccess } = useNotifications();
+  const { showSuccess } = useNotificationContext();
 
   const breadcrumbItems = useMemo(
     () => [
@@ -58,12 +64,18 @@ export default function GameSheet() {
     [game?.name]
   );
 
-  // Handle game changes using the generic update function
+  // Handle game changes using enhanced mutations
   const handleGameChange = useCallback(
-    async (updatedGame: Game) => {
-      await updateGame(updatedGame);
+    (updatedGame: Game) => {
+      if (!user || !params?.gameId) return;
+
+      saveGame({
+        userId: user.uid,
+        game: updatedGame,
+        gameId: params.gameId,
+      });
     },
-    [updateGame]
+    [user, params?.gameId, saveGame]
   );
 
   // Handle notes changes
@@ -247,7 +259,7 @@ export default function GameSheet() {
             <div className={GAME_SHEET_STYLES.spacing.section}>
               <AddChar
                 onAddPlayer={handleAddPlayer}
-                disabled={isUpdating}
+                disabled={isSaving}
                 existingPlayers={game.players || []}
               />
             </div>
@@ -308,7 +320,7 @@ export default function GameSheet() {
       </PageWrapper>
 
       {/* Update loading indicator */}
-      {isUpdating && (
+      {isSaving && (
         <LoadingState
           message={LOADING_MESSAGES.updatingGame}
           variant="overlay"
@@ -316,7 +328,7 @@ export default function GameSheet() {
       )}
 
       {/* Dice Roller FAB */}
-      <DiceRollerFAB disabled={isUpdating} />
+      <DiceRollerFAB disabled={isSaving} />
     </>
   );
 }
