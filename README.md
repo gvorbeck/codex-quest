@@ -103,7 +103,9 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - Node.js 18+
 - npm
 
-### Installation
+### Quick Start (Mock Mode)
+
+**Perfect for contributors and trying out the app:**
 
 ```bash
 # Clone the repository
@@ -113,8 +115,18 @@ cd codex-quest
 # Install dependencies
 npm install
 
-# Set up Firebase environment variables
-# Create .env.local with your Firebase config:
+# Start development server (auto-detects mock mode)
+npm run dev
+```
+
+🎉 **That's it!** The app automatically detects missing Firebase credentials and runs in mock mode with sample data.
+
+### Production Installation
+
+**For production deployment with Firebase:**
+
+```bash
+# Follow the steps above, then create .env.local with your Firebase config:
 # VITE_FIREBASE_API_KEY=your_api_key
 # VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
 # VITE_FIREBASE_PROJECT_ID=your_project_id
@@ -123,20 +135,93 @@ npm install
 # VITE_FIREBASE_APP_ID=your_app_id
 # VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 
-# Start development server
-npm run dev
+# Build for production
+npm run build
 ```
 
 ## 🛠️ Development
 
 ### Available Scripts
 
-| Command           | Description                              |
-| ----------------- | ---------------------------------------- |
-| `npm run dev`     | Start development server with hot reload |
-| `npm run build`   | Build for production (TypeScript + Vite) |
-| `npm run preview` | Preview production build locally         |
-| `npm run lint`    | Run ESLint on TypeScript/React files     |
+| Command              | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| `npm run dev`        | Start development server in **mock mode**      |
+| `npm run dev:firebase` | Start development server with Firebase      |
+| `npm run build`      | Build for production (TypeScript + Vite)      |
+| `npm run preview`    | Preview production build locally              |
+| `npm run lint`       | Run ESLint on TypeScript/React files          |
+
+## 🎭 Mock Mode for Contributors
+
+Codex.Quest features an intelligent mock mode that **automatically activates** when Firebase credentials aren't available. This provides a **zero-setup experience** for contributors and demos.
+
+### 🚀 Auto-Detection Features
+
+- **Instant Setup**: Works immediately without any configuration
+- **Rich Sample Data**: 5 pre-built characters and 5 game sessions showcase all features
+- **Full Functionality**: Character creation, editing, game management - everything works
+- **Persistent Storage**: Data survives browser refresh using localStorage
+- **Safe Environment**: Can't accidentally touch production data
+- **Visual Indicators**: Header shows "Codex.Mock", orange favicon, reset button
+
+### 🎮 Sample Data Included
+
+**Characters:**
+- **Thorin Ironforge** - Human Fighter (tank build)
+- **Elara Moonwhisper** - Elf Magic-User (spellcaster)
+- **Pip Lightfinger** - Halfling Thief (stealth specialist)
+- **Brother Marcus** - Dwarf Cleric (support character)
+- **Gareth the Versatile** - Multi-class Fighter/Thief
+
+**Game Sessions:**
+- **The Tavern Mystery** - Classic murder mystery investigation
+- **Ruins of the Ancient Temple** - Dungeon crawl with undead
+- **Journey to Dragonspear Castle** - Wilderness adventure
+- **Conspiracy in Waterdeep** - Urban political intrigue
+- **New Campaign** - Empty session ready for customization
+
+### 🛠️ Development Utilities
+
+When in mock mode, additional debugging tools are available:
+
+#### UI Reset Button
+- **Reset Sample Data** button appears in the header (orange button next to "Codex.Mock")
+- Instantly resets all data back to original sample characters and games
+- Reloads the page automatically to show fresh data
+
+#### Console Commands
+```javascript
+// Available in browser console as window.devUtils
+devUtils.resetAllData()          // Reset to sample data
+devUtils.clearAllData()          // Clear all data
+devUtils.signInAsUser(userData)  // Test different users
+devUtils.exportCharacterData()   // Export for debugging
+devUtils.exportGameData()        // Export game data
+```
+
+### ⚡ Manual Mock Mode
+
+Force mock mode even with Firebase credentials:
+
+```bash
+VITE_MOCK_FIREBASE=true npm run dev
+```
+
+### 🧪 Testing Mock Mode
+
+To test the mock mode implementation:
+
+```bash
+# Start in mock mode (auto-detects if no Firebase config)
+npm run dev
+
+# Or force mock mode explicitly
+VITE_MOCK_FIREBASE=true npm run dev
+
+# Then visit: http://localhost:5173 (or whatever port is shown)
+```
+
+The app will automatically populate with sample characters and games that you can interact with immediately.
 
 ## 🧪 Testing
 

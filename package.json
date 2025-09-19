@@ -5,7 +5,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "VITE_MOCK_FIREBASE=true vite",
+    "dev:firebase": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -16,7 +17,9 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "test:all": "npm run test:run && npm run test:e2e",
+    "test:ci": "npm run lint && npm run build && npm run test:all"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
