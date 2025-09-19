@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { allClasses } from "@/data";
 import { CLASSES_WITH_SKILLS } from "@/constants";
-import type { CharacterListItem } from "@/services/characters";
+import type { CharacterListItem } from "@/services";
 import type {
   SkillClassKey,
   Game,

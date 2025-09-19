@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { sendPasswordReset, signInWithGoogle } from "@/services/auth";
+import { sendPasswordReset, signInWithGoogle } from "@/services";
 import { getErrorMessage, logger } from "@/utils";
 
 /**

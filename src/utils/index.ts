@@ -24,5 +24,8 @@ export * from "./data";
 // Game content (monsters, treasure generation)
 export * from "./content";
 
+// App utilities (favicon, dynamic theming)
+export * from "./favicon";
+
 // Re-export validation utilities from validation module
 export { Rules, ABILITY_NAMES } from "@/validation";

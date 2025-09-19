@@ -1,6 +1,6 @@
 import { Typography, Badge } from "@/components/ui";
 import { BaseCard, StatusDot, StatCard } from "@/components/ui/composite";
-import type { CharacterListItem } from "@/services/characters";
+import type { CharacterListItem } from "@/services";
 import { memo } from "react";
 import { useCharacterCard } from "@/hooks";
 import { formatLargeNumber } from "@/utils";

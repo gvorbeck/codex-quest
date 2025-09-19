@@ -1,89 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib";
 import { queryKeys } from "@/lib/queryKeys";
-import { FIREBASE_COLLECTIONS } from "@/constants";
 import { useAuth } from "@/hooks";
-import {
-  processCharacterData,
-  isLegacyCharacter,
-  CURRENT_VERSION,
-} from "@/services";
-import { logger } from "@/utils";
+import { getCharacterById, saveCharacter } from "@/services";
 import type { Character } from "@/types";
-
-/**
- * Get a full character by ID for character sheet usage
- */
-const getCharacterSheet = async (
-  userId: string,
-  characterId: string
-): Promise<Character> => {
-  const characterRef = doc(
-    db,
-    FIREBASE_COLLECTIONS.USERS,
-    userId,
-    FIREBASE_COLLECTIONS.CHARACTERS,
-    characterId
-  );
-
-  const docSnap = await getDoc(characterRef);
-
-  if (!docSnap.exists()) {
-    throw new Error("Character not found");
-  }
-
-  const data = docSnap.data();
-  const wasLegacy = isLegacyCharacter(data);
-  const processedData = processCharacterData(data);
-
-  // If this was a legacy character, save the migrated data back to Firebase
-  if (wasLegacy) {
-    try {
-      await setDoc(characterRef, processedData);
-      logger.info(
-        `Successfully persisted migration for character ${characterId}`
-      );
-    } catch (error) {
-      logger.error(
-        `Failed to persist migration for character ${characterId}:`,
-        error
-      );
-      // Continue with migrated data even if persistence fails
-    }
-  }
-
-  return processedData as unknown as Character;
-};
-
-/**
- * Save character sheet changes
- */
-const saveCharacterSheet = async (
-  userId: string,
-  characterId: string,
-  character: Character
-): Promise<void> => {
-  const characterRef = doc(
-    db,
-    FIREBASE_COLLECTIONS.USERS,
-    userId,
-    FIREBASE_COLLECTIONS.CHARACTERS,
-    characterId
-  );
-
-  // Ensure character has current version
-  const dataToSave = {
-    ...character,
-    settings: {
-      ...character.settings,
-      version: CURRENT_VERSION,
-    },
-  };
-
-  await updateDoc(characterRef, dataToSave);
-  logger.info(`Successfully updated character sheet ${characterId}`);
-};
 
 export function useCharacterSheet(userId: string, characterId: string) {
   const { user } = useAuth();
@@ -92,16 +11,16 @@ export function useCharacterSheet(userId: string, characterId: string) {
   // Check if the current user owns this character
   const isOwner = Boolean(user && userId === user.uid);
 
-  const query = useQuery({
+  const query = useQuery<Character | null>({
     queryKey: queryKeys.characters.detail(userId, characterId),
-    queryFn: () => getCharacterSheet(userId, characterId),
+    queryFn: () => getCharacterById(userId, characterId),
     enabled: !!userId && !!characterId,
     staleTime: 30 * 1000, // 30 seconds - character sheets change frequently during play
   });
 
   const updateMutation = useMutation({
     mutationFn: (character: Character) =>
-      saveCharacterSheet(userId, characterId, character),
+      saveCharacter(userId, character, characterId),
 
     onMutate: async (newCharacter) => {
       await queryClient.cancelQueries({

@@ -43,6 +43,7 @@ function GameGen() {
     try {
       // Save game to Firebase
       const gameId = await saveGame(user.uid, {
+        id: "",
         name: game.name,
         notes: game.notes,
         combatants: game.combatants,
