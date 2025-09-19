@@ -1,149 +1,108 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Character Creation Workflow", () => {
-  test("creates basic human fighter character", async ({ page }) => {
-    // Navigate to character generator
-    await page.goto("/");
+  test("can roll ability scores", async ({ page }) => {
+    // Navigate directly to character generator
+    await page.goto("/new-character");
 
-    // Should see the main page
-    await expect(page).toHaveTitle(/Codex.Quest/);
-
-    // Look for character creation entry point
-    // This will need to be adjusted based on actual UI structure
-    const createButton = page
-      .getByRole("button", { name: /create/i })
-      .or(page.getByRole("link", { name: /create/i }))
-      .or(page.getByText(/character/i))
-      .first();
-
-    if (await createButton.isVisible()) {
-      await createButton.click();
-    } else {
-      // If no specific button, try navigating directly to character generator
-      await page.goto("/character-generator");
-    }
-
-    // Should be on character creation page
-    await expect(
-      page.getByText(/ability score/i).or(page.getByText(/roll/i))
-    ).toBeVisible();
+    // Should see the character creation page with ability scores step
+    await expect(page.getByRole("heading", { name: "Roll Ability Scores" })).toBeVisible();
 
     // Step 1: Roll ability scores
-    const rollButton = page.getByRole("button", {
-      name: /roll all abilities/i,
-    });
-    if (await rollButton.isVisible()) {
-      await rollButton.click();
+    const rollButton = page.getByRole("button", { name: "Roll All Abilities" });
+    await expect(rollButton).toBeVisible();
+    await rollButton.click();
 
-      // Wait for scores to appear
-      await expect(page.getByText(/strength/i)).toBeVisible();
-      await expect(page.getByText(/modifier/i).first()).toBeVisible();
-    }
+    // Verify ability scores section appears after rolling
+    await expect(page.getByRole("heading", { name: "Ability Scores", exact: true })).toBeVisible();
 
-    // Look for next step button
-    const nextButton = page
-      .getByRole("button", { name: /next/i })
-      .or(page.getByRole("button", { name: /continue/i }));
+    // Should see some ability score content (numbers) - check for any numeric content
+    await expect(page.locator('[id*="ability-"]')).toBeVisible();
+  });
 
-    if (await nextButton.isVisible()) {
-      await nextButton.click();
-    }
+  test("creates basic human fighter character", async ({ page }) => {
+    // Navigate directly to character generator
+    await page.goto("/new-character");
 
-    // Step 2: Select race (Human)
-    const humanOption = page
-      .getByText(/human/i)
-      .or(page.locator("[data-testid*='human']"))
-      .or(page.locator("button:has-text('Human')"))
-      .first();
+    // Step 1: Roll ability scores
+    await expect(page.getByRole("heading", { name: "Roll Ability Scores" })).toBeVisible();
 
-    // Wait for the race selection interface to load
-    await expect(page.getByText(/race/i).or(humanOption)).toBeVisible();
+    const rollButton = page.getByRole("button", { name: "Roll All Abilities" });
+    await rollButton.click();
 
-    if (await humanOption.isVisible()) {
-      await humanOption.click();
-      await expect(humanOption).toBeVisible();
-    }
+    // Wait for ability scores to be rolled and Next button to be enabled
+    await expect(page.getByRole("heading", { name: "Ability Scores", exact: true })).toBeVisible();
 
-    // Continue to next step
-    const raceNextButton = page
-      .getByRole("button", { name: /next/i })
-      .or(page.getByRole("button", { name: /continue/i }));
+    // Click Next to go to Race step
+    const nextButton = page.getByRole("button", { name: /next/i });
+    await expect(nextButton).toBeEnabled();
+    await nextButton.click();
 
-    if (await raceNextButton.isVisible()) {
-      await raceNextButton.click();
-    }
+    // Step 2: Select Human race
+    await expect(page.getByRole("heading", { name: "Choose Your Race" })).toBeVisible();
 
-    // Step 3: Select class (Fighter)
-    const fighterOption = page
-      .getByText(/fighter/i)
-      .or(page.locator("[data-testid*='fighter']"))
-      .or(page.locator("button:has-text('Fighter')"))
-      .first();
-
-    // Wait for the class selection interface to load
-    await expect(page.getByText(/class/i).or(fighterOption)).toBeVisible();
-
-    if (await fighterOption.isVisible()) {
-      await fighterOption.click();
-
-      // Should see fighter details
-      await expect(
-        page.getByText(/hit die/i).or(page.getByText(/d8/i))
-      ).toBeVisible();
-    }
+    // Find the race dropdown and select Human
+    const raceSelect = page.getByLabel("Race*");
+    await expect(raceSelect).toBeVisible();
+    await raceSelect.selectOption("human");
 
     // Continue to next step
-    const classNextButton = page
-      .getByRole("button", { name: /next/i })
-      .or(page.getByRole("button", { name: /continue/i }));
+    await nextButton.click();
 
-    if (await classNextButton.isVisible()) {
-      await classNextButton.click();
-    }
+    // Step 3: Select Fighter class
+    await expect(page.getByRole("heading", { name: "Choose Your Class" })).toBeVisible();
 
-    // Step 4: Enter character name
-    const nameInput = page
-      .getByLabel(/name/i)
-      .or(page.locator("input[placeholder*='name']"))
-      .or(page.locator("input[type='text']"))
-      .first();
+    // Find the class dropdown and select Fighter
+    const classSelect = page.getByLabel("Class*");
+    await expect(classSelect).toBeVisible();
+    await classSelect.selectOption("fighter");
 
-    // Wait for the name input field to be available
-    await expect(page.getByText(/name/i).or(nameInput)).toBeVisible();
+    // Continue to next step
+    await nextButton.click();
 
-    if (await nameInput.isVisible()) {
-      await nameInput.fill("Test Fighter");
-      await expect(nameInput).toHaveValue("Test Fighter");
-    }
+    // Step 4: Hit Points - need to roll
+    await expect(page.locator('#step-content-heading').filter({ hasText: 'Hit Points' })).toBeVisible();
 
-    // Step 5: Complete character creation
-    const finishButton = page
-      .getByRole("button", { name: /finish/i })
-      .or(
-        page
-          .getByRole("button", { name: /create character/i })
-          .or(page.getByRole("button", { name: /save/i }))
-      );
+    // Roll hit points
+    const rollHpButton = page.getByRole("button", { name: /roll.*d8/i });
+    await expect(rollHpButton).toBeVisible();
+    await rollHpButton.click();
 
-    if (await finishButton.isVisible()) {
-      await finishButton.click();
+    // Continue to next step
+    await nextButton.click();
 
-      // Wait for character creation to complete - look for success indicators
-      await expect(
-        page
-          .getByText("Test Fighter")
-          .or(page.getByText(/character.*created/i))
-          .or(page.getByText(/success/i))
-          .or(page.getByText(/character.*sheet/i))
-      ).toBeVisible({ timeout: 10000 });
-    }
+    // Step 5: Equipment - skip for now
+    await expect(page.locator('#step-content-heading').filter({ hasText: 'Equipment' })).toBeVisible();
+
+    // Continue to final step (equipment step allows skipping)
+    await nextButton.click();
+
+    // Step 6: Review and Name
+    await expect(page.getByRole("heading", { name: "Review & Finalize" })).toBeVisible();
+
+    // Enter character name
+    const nameInput = page.getByLabel(/character name/i);
+    await expect(nameInput).toBeVisible();
+    await nameInput.fill("Test Fighter");
+
+    // Verify character data is shown in review - look for the complete summary
+    await expect(page.getByText("Test Fighter - Human Fighter")).toBeVisible();
+
+    // Successfully created a basic human fighter character through all steps!
+    // The character has:
+    // - Rolled ability scores
+    // - Selected Human race
+    // - Selected Fighter class
+    // - Rolled hit points
+    // - Skipped equipment (optional)
+    // - Named "Test Fighter"
   });
 
   test("handles character creation navigation", async ({ page }) => {
     await page.goto("/");
 
     // Test basic navigation and page structure
-    await expect(page.getByRole("main").or(page.locator("body"))).toBeVisible();
+    await expect(page.getByRole("main")).toBeVisible();
 
     // Look for any character-related navigation
     const characterLink = page.getByText(/character/i).first();
@@ -153,32 +112,18 @@ test.describe("Character Creation Workflow", () => {
   });
 
   test("displays character creation form elements", async ({ page }) => {
-    // Try to navigate directly to character generator
-    await page.goto("/character-generator");
+    // Navigate to character generator
+    await page.goto("/new-character");
 
-    // If that doesn't work, try from home page
-    if (
-      page.url().includes("404") ||
-      (await page.getByText(/not found/i).isVisible())
-    ) {
-      await page.goto("/");
-      // Wait for home page to load
-      await expect(page.locator("body")).toBeVisible();
-    }
+    // Should see the main character creation interface
+    await expect(page.getByRole("heading", { name: "Roll Ability Scores" })).toBeVisible();
 
-    // Should see some form of character creation interface
-    const body = await page.locator("body");
-    await expect(body).toBeVisible();
+    // Should see the Roll All Abilities button
+    await expect(
+      page.getByRole("button", { name: "Roll All Abilities" })
+    ).toBeVisible();
 
-    // Look for common character creation elements
-    const hasAbilityScores = await page.getByText(/ability/i).isVisible();
-    const hasRaceSelection = await page.getByText(/race/i).isVisible();
-    const hasClassSelection = await page.getByText(/class/i).isVisible();
-    const hasNameField = await page.locator("input").isVisible();
-
-    // At least one of these should be present for a character creation interface
-    expect(
-      hasAbilityScores || hasRaceSelection || hasClassSelection || hasNameField
-    ).toBe(true);
+    // Should see step navigation indicating this is character creation
+    await expect(page.getByRole("heading", { name: "Character Creation" })).toBeVisible();
   });
 });

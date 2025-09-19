@@ -23,7 +23,7 @@ test.describe("Equipment Selection Workflow", () => {
         page.url().includes("404") ||
         (await page.getByText(/not found/i).isVisible())
       ) {
-        await page.goto("/character-generator");
+        await page.goto("/new-character");
 
         // Look for equipment step in character creation
         const equipmentStep = page.getByText(/equipment/i);
@@ -117,7 +117,7 @@ test.describe("Equipment Selection Workflow", () => {
 
     // If no categories found on main page, try character generator
     if (!foundCategory) {
-      await page.goto("/character-generator");
+      await page.goto("/new-character");
 
       // Wait for character generator to load
       await expect(
@@ -168,7 +168,7 @@ test.describe("Equipment Selection Workflow", () => {
 
     // If not found, try character-related pages
     if (!foundCurrency) {
-      await page.goto("/character-generator");
+      await page.goto("/new-character");
 
       // Wait for character generator page to load
       await expect(

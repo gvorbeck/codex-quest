@@ -68,5 +68,7 @@ export default defineConfig({
   server: {
     // Fast refresh
     hmr: true,
+    // Set default port for consistent testing
+    port: 5173,
   },
 });
