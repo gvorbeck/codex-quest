@@ -75,14 +75,14 @@ export const getUserCharacters = async (
   const characters = getStoredCharacters();
 
   // Transform to CharacterListItem format (matching Firebase service interface)
-  return characters.map((character, index): CharacterListItem => {
+  return characters.map((character): CharacterListItem => {
     const characterClass: string | string[] =
       character.class && character.class.length === 1
         ? character.class[0]!
         : character.class || [];
 
     return {
-      id: `${character.name.toLowerCase().replace(/\s+/g, "-")}-${index}`,
+      id: character.name.toLowerCase().replace(/\s+/g, "-"),
       name: character.name,
       race: character.race,
       class: characterClass,
