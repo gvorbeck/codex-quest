@@ -8,6 +8,7 @@ import {
   SheetErrorBoundary,
   GameGenErrorBoundary,
   HomeErrorBoundary,
+  LoadingState,
 } from "@/components/ui/core/feedback";
 import { DOM_IDS } from "@/constants";
 
@@ -25,13 +26,7 @@ export function Routes() {
       className="flex-1 max-w-7xl mx-auto w-full px-4 py-8"
     >
       <Suspense
-        fallback={
-          <div role="status" aria-live="polite" className="status-message">
-            <Typography variant="body" color="secondary">
-              Loading...
-            </Typography>
-          </div>
-        }
+        fallback={<LoadingState variant="page" message="Loading page..." />}
       >
         <Switch>
           <Route path="/">

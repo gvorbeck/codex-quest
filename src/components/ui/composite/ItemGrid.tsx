@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Typography, Button } from "@/components/ui";
 import { Icon } from "@/components/ui/core/display";
 import type { IconName } from "@/components/ui/core/display";
-import { SkeletonCard } from "@/components/ui/core/feedback";
+import { SkeletonCard, LoadingState } from "@/components/ui/core/feedback";
 import type { ReactNode } from "react";
 
 interface ItemGridProps<T> {
@@ -34,7 +34,7 @@ export function ItemGrid<T extends { id: string }>({
   emptyState,
   header,
   renderItem,
-  onRetry
+  onRetry,
 }: ItemGridProps<T>) {
   if (loading) {
     return (
@@ -44,21 +44,24 @@ export function ItemGrid<T extends { id: string }>({
             <Icon name={header.icon} size="md" className="text-amber-400" />
             {header.title}
           </Typography>
-          <div className="flex items-center gap-2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-400" />
-            <Typography variant="helper" color="secondary">
-              Loading...
-            </Typography>
-          </div>
+          <LoadingState
+            variant="inline"
+            message={`Loading ${header.title
+              .toLowerCase()
+              .replace("your ", "")}...`}
+            className="sm:justify-end"
+          />
         </div>
-        
+
         <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* Show 6 skeleton cards while loading */}
           {Array.from({ length: 6 }).map((_, index) => (
-            <SkeletonCard 
-              key={index} 
+            <SkeletonCard
+              key={index}
               size="lg"
-              label={`Loading ${header.title.toLowerCase().replace('your ', '')}...`}
+              label={`Loading ${header.title
+                .toLowerCase()
+                .replace("your ", "")}...`}
             />
           ))}
         </div>
@@ -73,8 +76,8 @@ export function ItemGrid<T extends { id: string }>({
         <Typography variant="body" className="text-red-400 text-center">
           Error loading {header.title.toLowerCase()}: {String(error)}
         </Typography>
-        <Button 
-          variant="secondary" 
+        <Button
+          variant="secondary"
           size="sm"
           onClick={onRetry || (() => window.location.reload())}
           className="mt-2"
@@ -118,19 +121,26 @@ export function ItemGrid<T extends { id: string }>({
           <Icon name={header.icon} size="md" className="text-amber-400" />
           {header.title}
         </Typography>
-        <Typography variant="helper" color="secondary" className="sm:text-right">
+        <Typography
+          variant="helper"
+          color="secondary"
+          className="sm:text-right"
+        >
           {(() => {
             const title = header.title.toLowerCase();
-            if (title.startsWith('your ')) {
-              const baseTitle = title.replace('your ', '');
-              const singularTitle = header.count === 1 ? baseTitle.replace(/s$/, '') : baseTitle;
+            if (title.startsWith("your ")) {
+              const baseTitle = title.replace("your ", "");
+              const singularTitle =
+                header.count === 1 ? baseTitle.replace(/s$/, "") : baseTitle;
               return `${header.count} ${singularTitle}`;
             }
-            return `${header.count} ${header.count === 1 ? title.replace(/s$/, '') : title}`;
+            return `${header.count} ${
+              header.count === 1 ? title.replace(/s$/, "") : title
+            }`;
           })()}
         </Typography>
       </div>
-      
+
       <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map(renderItem)}
       </div>
