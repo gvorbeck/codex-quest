@@ -1,56 +1,61 @@
-import type { ReactNode } from "react";
 import { Typography } from "@/components/ui/core/display";
 import { Icon } from "@/components/ui/core/display/Icon";
 import { Button } from "@/components/ui";
-
-type AlertPriority = "info" | "warning" | "error";
+import type { AlertConfig } from "@/constants";
 
 interface GlobalAlertProps {
-  message?: string | ReactNode;
+  alert: AlertConfig;
   onClose?: () => void;
-  priority?: AlertPriority;
   className?: string;
 }
 
 export function GlobalAlert({
-  message,
+  alert,
   onClose,
-  priority = "info",
   className = "",
 }: GlobalAlertProps) {
-  if (!message) {
+  if (!alert.message) {
     return null;
   }
 
+  // Style mapping for different alert types
+  const alertStyles = {
+    info: "bg-blue-50 border-blue-400 text-blue-800",
+    warning: "bg-amber-50 border-amber-400 text-amber-800",
+    error: "bg-red-50 border-red-400 text-red-800",
+    success: "bg-green-50 border-green-400 text-green-800",
+  };
+
+  const buttonStyles = {
+    info: "hover:bg-blue-100 text-blue-700",
+    warning: "hover:bg-amber-100 text-amber-700",
+    error: "hover:bg-red-100 text-red-700",
+    success: "hover:bg-green-100 text-green-700",
+  };
+
+  const currentAlertStyle = alertStyles[alert.type] || alertStyles.info;
+  const currentButtonStyle = buttonStyles[alert.type] || buttonStyles.info;
+
   return (
     <div
-      className={`bg-amber-100 border-l-4 border-amber-500 p-4 shadow-sm ${className}`}
+      className={`${currentAlertStyle} border-l-4 p-4 shadow-sm ${className}`}
       role="alert"
-      aria-live={priority === "error" ? "assertive" : "polite"}
+      aria-live={alert.type === "error" ? "assertive" : "polite"}
       aria-atomic="true"
     >
       <div className="flex items-center justify-between">
-        <Typography
-          variant="bodySmall"
-          color="primary"
-          className="text-amber-800 flex-1"
-        >
-          {message}
+        <Typography variant="bodySmall" color="primary" className="flex-1">
+          {alert.message}
         </Typography>
-        {onClose && (
+        {alert.dismissible && onClose && (
           <Button
             variant="ghost"
             size="sm"
             onClick={onClose}
-            aria-label={`Close ${priority} alert`}
-            className="p-1 ml-4 hover:bg-amber-200"
+            aria-label={`Close ${alert.type} alert`}
+            className={`p-1 ml-4 ${currentButtonStyle}`}
           >
-            <Icon
-              name="close"
-              size="sm"
-              className="text-amber-700"
-              aria-hidden={true}
-            />
+            <Icon name="close" size="sm" aria-hidden={true} />
           </Button>
         )}
       </div>

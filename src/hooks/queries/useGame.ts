@@ -29,7 +29,9 @@ export function useGame(userId?: string, gameId?: string) {
   const updateMutation = useMutation({
     mutationFn: (updates: Partial<Game>) => {
       const updatedGame = { ...gameQuery.data!, ...updates };
-      return saveGame(userId!, updatedGame, gameId!);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id, ...gameWithoutId } = updatedGame;
+      return saveGame(userId!, gameWithoutId, gameId!);
     },
 
     onMutate: async (updates) => {

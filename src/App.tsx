@@ -15,7 +15,7 @@ import { useAppData } from "@/hooks";
 import { useNotifications } from "@/hooks";
 import NotificationContext from "@/contexts/NotificationContext";
 import { initializeFavicon } from "@/utils/favicon";
-import { getInitialAlert } from "@/constants";
+import { getInitialAlerts, type AlertConfig } from "@/constants";
 
 const SignInModal = lazy(() => import("./components/modals/auth/SignInModal"));
 
@@ -30,9 +30,7 @@ const ReactQueryDevtools = import.meta.env.DEV
 
 function App() {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string | undefined>(
-    getInitialAlert()?.message
-  );
+  const [alerts, setAlerts] = useState<AlertConfig[]>(() => getInitialAlerts());
   const notifications = useNotifications();
 
   useAppData();
@@ -46,17 +44,16 @@ function App() {
     setIsSignInModalOpen(false);
   };
 
-  const handleAlertClose = () => {
-    setAlertMessage(undefined);
+  const handleAlertClose = (alertIndex: number) => {
+    setAlerts((prevAlerts) =>
+      prevAlerts.filter((_, index) => index !== alertIndex)
+    );
   };
 
-  // Prepare header props with cleaner conditional logic
   const headerProps = {
     setIsSignInModalOpen,
-    ...(alertMessage && {
-      alertMessage,
-      onAlertClose: handleAlertClose,
-    }),
+    alerts,
+    onAlertClose: handleAlertClose,
   };
 
   return (

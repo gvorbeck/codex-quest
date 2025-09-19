@@ -8,16 +8,17 @@ import { logger } from "@/utils";
 import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants";
 import { Icon } from "@/components/ui/core/display/Icon";
 import { GlobalAlert } from "@/components/app/GlobalAlert";
+import type { AlertConfig } from "@/constants";
 
 interface HeaderProps {
   setIsSignInModalOpen: (open: boolean) => void;
-  alertMessage?: string;
-  onAlertClose?: () => void;
+  alerts: AlertConfig[];
+  onAlertClose: (alertIndex: number) => void;
 }
 
 export function Header({
   setIsSignInModalOpen,
-  alertMessage,
+  alerts,
   onAlertClose,
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -233,11 +234,16 @@ export function Header({
           </div>
         </nav>
       </header>
-      {alertMessage && (
-        <GlobalAlert
-          message={alertMessage}
-          {...(onAlertClose && { onClose: onAlertClose })}
-        />
+      {alerts.length > 0 && (
+        <div className="space-y-0">
+          {alerts.map((alert, index) => (
+            <GlobalAlert
+              key={`alert-${index}`}
+              alert={alert}
+              onClose={() => onAlertClose(index)}
+            />
+          ))}
+        </div>
       )}
     </>
   );

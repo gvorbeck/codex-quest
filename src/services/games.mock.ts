@@ -21,7 +21,9 @@ const initializeSampleData = (): void => {
     const sampleGames = getAllSampleGames();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleGames));
     localStorage.setItem(SAMPLE_DATA_INITIALIZED_KEY, "true");
-    logger.info(`🎭 Mock mode: Initialized with ${sampleGames.length} sample games`);
+    logger.info(
+      `🎭 Mock mode: Initialized with ${sampleGames.length} sample games`
+    );
   }
 };
 
@@ -61,7 +63,7 @@ export const getUserGames = async (
   _user: AuthUser
 ): Promise<Game[]> => {
   // Simulate network delay for realistic feel
-  await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   const games = getStoredGames();
   logger.info(`🎭 Mock mode: Retrieved ${games.length} games`);
@@ -77,16 +79,12 @@ export const getGameById = async (
   gameId: string
 ): Promise<Game | null> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 150));
+  await new Promise((resolve) => setTimeout(resolve, 150));
 
   const games = getStoredGames();
-  const game = games.find(g => g.id === gameId);
+  const game = games.find((g) => g.id === gameId);
 
-  if (!game) {
-    throw new Error(`Game with ID ${gameId} not found`);
-  }
-
-  return game;
+  return game ?? null;
 };
 
 /**
@@ -95,24 +93,27 @@ export const getGameById = async (
  */
 export const saveGame = async (
   _userId: string,
-  game: Game,
+  game: Omit<Game, "id">,
   gameId?: string
 ): Promise<string> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 200));
 
   const games = getStoredGames();
-  const finalGameId = gameId || game.name.toLowerCase().replace(/\s+/g, '-');
+  const gameName =
+    typeof game["name"] === "string" ? game["name"] : "unnamed-game";
+  const finalGameId = gameId || gameName.toLowerCase().replace(/\s+/g, "-");
 
   // Ensure game has the correct ID
   const gameToSave: Game = {
-    ...game,
     id: finalGameId,
+    name: gameName,
+    ...game,
   };
 
   if (gameId) {
     // Update existing game
-    const existingIndex = games.findIndex(g => g.id === gameId);
+    const existingIndex = games.findIndex((g) => g.id === gameId);
     if (existingIndex >= 0) {
       games[existingIndex] = gameToSave;
     } else {
@@ -125,7 +126,7 @@ export const saveGame = async (
   }
 
   saveGames(games);
-  logger.info(`🎭 Mock mode: Saved game "${game.name}" (${finalGameId})`);
+  logger.info(`🎭 Mock mode: Saved game "${gameName}" (${finalGameId})`);
 
   return finalGameId;
 };
@@ -138,10 +139,10 @@ export const deleteGame = async (
   gameId: string
 ): Promise<void> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   const games = getStoredGames();
-  const gameIndex = games.findIndex(g => g.id === gameId);
+  const gameIndex = games.findIndex((g) => g.id === gameId);
 
   if (gameIndex === -1) {
     throw new Error(`Game with ID ${gameId} not found`);

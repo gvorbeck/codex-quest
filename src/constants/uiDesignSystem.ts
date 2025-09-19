@@ -399,11 +399,36 @@ export const MOCK_MODE_ALERT: AlertConfig = {
 };
 
 /**
- * Get the appropriate alert based on app state
+ * Get the appropriate alerts based on app state
  */
-export function getInitialAlert(): AlertConfig | null {
-  // Could be extended to show different alerts based on user state, feature flags, etc.
-  return WELCOME_ALERT;
+export function getInitialAlerts(): AlertConfig[] {
+  const alerts: AlertConfig[] = [];
+
+  // Always show welcome alert first
+  alerts.push(WELCOME_ALERT);
+
+  // Add mock mode alert if in mock mode
+  // Dynamic import to avoid issues during build
+  if (typeof window !== "undefined") {
+    try {
+      // Check for mock mode indicators
+      const isMockMode =
+        import.meta.env?.["VITE_MOCK_FIREBASE"] === "true" ||
+        !import.meta.env?.["VITE_FIREBASE_API_KEY"];
+
+      if (isMockMode) {
+        alerts.push(MOCK_MODE_ALERT);
+      }
+    } catch (error) {
+      // Fallback: if we can't determine mock mode, don't add the alert
+      // Use logger when available, otherwise silently fail
+      if (typeof error === "object" && error !== null) {
+        // Silent fallback - don't show alert if we can't determine mode
+      }
+    }
+  }
+
+  return alerts;
 }
 
 // Helper function for currency configuration
