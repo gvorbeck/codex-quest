@@ -209,3 +209,9 @@ getHitDie(character: Character, classes: Class[]): string
 - Character state logged to console in development
 - Firebase operations include structured logging
 - Validation errors provide specific step-by-step feedback
+
+## Code Review Process
+
+### `/code-review` Command
+
+When using the `/code-review` command, **ALWAYS** follow the structured review process defined in `.claude/commands/code-review.md`. This ensures consistent, comprehensive code reviews with actionable feedback and metrics-driven analysis specific to the Codex.Quest project architecture and BFRPG domain requirements.

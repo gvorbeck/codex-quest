@@ -368,6 +368,44 @@ export const LOADING_MESSAGES = {
   loadingPlayerData: "Loading player data...",
 } as const;
 
+// Alert System Configuration
+export interface AlertConfig {
+  message: string;
+  type: "info" | "warning" | "error" | "success";
+  dismissible: boolean;
+  autoHide?: boolean;
+  duration?: number; // in milliseconds
+}
+
+/**
+ * Welcome alert shown to users on app load
+ */
+export const WELCOME_ALERT: AlertConfig = {
+  message:
+    "Welcome to Codex.Quest 3.0! Find bugs and report them on GitHub (link in footer).",
+  type: "info",
+  dismissible: true,
+  autoHide: false,
+};
+
+/**
+ * Alert for mock mode users
+ */
+export const MOCK_MODE_ALERT: AlertConfig = {
+  message: "Running in mock mode - data is stored locally.",
+  type: "warning",
+  dismissible: true,
+  autoHide: false,
+};
+
+/**
+ * Get the appropriate alert based on app state
+ */
+export function getInitialAlert(): AlertConfig | null {
+  // Could be extended to show different alerts based on user state, feature flags, etc.
+  return WELCOME_ALERT;
+}
+
 // Helper function for currency configuration
 export function getCurrencyConfig(key: CurrencyKey) {
   return CURRENCY_UI_CONFIG.find((config) => config.key === key);
