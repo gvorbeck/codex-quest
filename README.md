@@ -12,6 +12,8 @@
   [![TanStack Query](https://img.shields.io/badge/TanStack%20Query-5.x-ff6b6b?style=flat&logo=react-query)](https://tanstack.com/query)
   [![Zustand](https://img.shields.io/badge/Zustand-5.x-000000?style=flat&logo=zustand)](https://zustand-demo.pmnd.rs/)
   [![Firebase](https://img.shields.io/badge/Firebase-12.2-ffca28?style=flat&logo=firebase)](https://firebase.google.com/)
+  [![Vitest](https://img.shields.io/badge/Vitest-3.2-729b1b?style=flat&logo=vitest)](https://vitest.dev/)
+  [![Playwright](https://img.shields.io/badge/Playwright-1.55-45ba4b?style=flat&logo=playwright)](https://playwright.dev/)
   
 </div>
 
@@ -21,36 +23,15 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 
 ### ✨ Key Features
 
-🧙‍♂️ **Character Creation & Management**
-
 - Step-by-step character creation wizard with guided experience
-- Complete BFRPG race and class support (Core + Supplemental)
-- Intelligent cascade validation system for automatic stat updates
+- Complete BFRPG race and class support (Core + Supplemental + custom race and class creation)
 - Persistent character storage with Firebase integration
 - Character sheet display and live editing capabilities
-
-🎲 **Gameplay Integration**
-
-- Comprehensive dice rolling system with modal interface
-- Spell and cantrip management per class
-- Equipment system with weight and currency calculations
-- Experience tracking and level progression
-- Combat stats and saving throws
-
-🎮 **Game Master Tools**
-
+- Comprehensive dice rolling system
 - Game session creation and management
-- Multi-player character linking and tracking
 - Encounter management with initiative tracking
-- Persistent game state across sessions
-
-🌐 **Modern User Experience**
-
-- Responsive design optimized for all devices
-- Accessibility-first approach with WCAG 2.1 AA compliance
+- Encount and Treasure generation tools
 - Real-time data synchronization across devices
-- Optimistic updates with automatic error recovery
-- Intelligent background data fetching and caching
 
 ## 🏗️ Architecture
 
@@ -69,32 +50,7 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - **Firebase 12.2** for authentication and Firestore database
 - **Real-time synchronization** for multiplayer features
 - **Automated data migration** for schema evolution
-- **Secure user authentication** with email/password
-
-### State Management & Data
-
-- **Unified state architecture** with TanStack Query (server state) + Zustand (client state)
-- **Intelligent caching** with automatic background updates and optimistic mutations
-- **Type-safe character schemas** with runtime validation and automatic migration
-- **Modular game data** stored as TypeScript modules with centralized query keys
-- **Cascade validation system** for dependent field updates
-- **Persistent client state** with automatic draft management and preference storage
-
-#### Modern Architecture Highlights
-
-🚀 **TanStack Query Integration**
-
-- Smart server state caching with configurable stale times
-- Automatic background refetching and error retry logic
-- Optimistic updates for seamless user experience
-- Type-safe query key factory for consistency
-
-⚡ **Zustand State Management**
-
-- Lightweight client-side state with persistence middleware
-- Separate stores for different concerns (characters, combat, UI)
-- Automatic localStorage synchronization for drafts and preferences
-- Zero boilerplate with excellent TypeScript support
+- **Secure user authentication** with email/password and Google OAuth
 
 ## 🚀 Getting Started
 
@@ -126,7 +82,7 @@ npm run dev
 **For production deployment with Firebase:**
 
 ```bash
-# Follow the steps above, then create .env.local with your Firebase config:
+# Follow the steps above, then create .env with your Firebase config:
 # VITE_FIREBASE_API_KEY=your_api_key
 # VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
 # VITE_FIREBASE_PROJECT_ID=your_project_id
@@ -143,60 +99,46 @@ npm run build
 
 ### Available Scripts
 
-| Command              | Description                                    |
-| -------------------- | ---------------------------------------------- |
-| `npm run dev`        | Start development server in **mock mode**      |
-| `npm run dev:firebase` | Start development server with Firebase      |
-| `npm run build`      | Build for production (TypeScript + Vite)      |
-| `npm run preview`    | Preview production build locally              |
-| `npm run lint`       | Run ESLint on TypeScript/React files          |
+| Command                   | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `npm run dev`             | Start development server in **mock mode** |
+| `npm run dev:firebase`    | Start development server with Firebase    |
+| `npm run build`           | Build for production (TypeScript + Vite)  |
+| `npm run preview`         | Preview production build locally          |
+| `npm run lint`            | Run ESLint on TypeScript/React files      |
+| `npm run test`            | Run unit tests in watch mode              |
+| `npm run test:ui`         | Run unit tests with visual interface      |
+| `npm run test:run`        | Run unit tests once (for CI/commits)      |
+| `npm run test:coverage`   | Run unit tests with coverage report       |
+| `npm run test:e2e`        | Run end-to-end tests (headless)           |
+| `npm run test:e2e:ui`     | Run E2E tests with visual debugging       |
+| `npm run test:e2e:headed` | Run E2E tests with browser visible        |
+| `npm run test:all`        | Run all tests (unit + E2E)                |
+| `npm run test:ci`         | Full CI pipeline (lint + build + tests)   |
 
 ## 🎭 Mock Mode for Contributors
 
 Codex.Quest features an intelligent mock mode that **automatically activates** when Firebase credentials aren't available. This provides a **zero-setup experience** for contributors and demos.
-
-### 🚀 Auto-Detection Features
-
-- **Instant Setup**: Works immediately without any configuration
-- **Rich Sample Data**: 5 pre-built characters and 5 game sessions showcase all features
-- **Full Functionality**: Character creation, editing, game management - everything works
-- **Persistent Storage**: Data survives browser refresh using localStorage
-- **Safe Environment**: Can't accidentally touch production data
-- **Visual Indicators**: Header shows "Codex.Mock", orange favicon, reset button
-
-### 🎮 Sample Data Included
-
-**Characters:**
-- **Thorin Ironforge** - Human Fighter (tank build)
-- **Elara Moonwhisper** - Elf Magic-User (spellcaster)
-- **Pip Lightfinger** - Halfling Thief (stealth specialist)
-- **Brother Marcus** - Dwarf Cleric (support character)
-- **Gareth the Versatile** - Multi-class Fighter/Thief
-
-**Game Sessions:**
-- **The Tavern Mystery** - Classic murder mystery investigation
-- **Ruins of the Ancient Temple** - Dungeon crawl with undead
-- **Journey to Dragonspear Castle** - Wilderness adventure
-- **Conspiracy in Waterdeep** - Urban political intrigue
-- **New Campaign** - Empty session ready for customization
 
 ### 🛠️ Development Utilities
 
 When in mock mode, additional debugging tools are available:
 
 #### UI Reset Button
+
 - **Reset Sample Data** button appears in the header (orange button next to "Codex.Mock")
 - Instantly resets all data back to original sample characters and games
 - Reloads the page automatically to show fresh data
 
 #### Console Commands
+
 ```javascript
 // Available in browser console as window.devUtils
-devUtils.resetAllData()          // Reset to sample data
-devUtils.clearAllData()          // Clear all data
-devUtils.signInAsUser(userData)  // Test different users
-devUtils.exportCharacterData()   // Export for debugging
-devUtils.exportGameData()        // Export game data
+devUtils.resetAllData(); // Reset to sample data
+devUtils.clearAllData(); // Clear all data
+devUtils.signInAsUser(userData); // Test different users
+devUtils.exportCharacterData(); // Export for debugging
+devUtils.exportGameData(); // Export game data
 ```
 
 ### ⚡ Manual Mock Mode
@@ -207,47 +149,18 @@ Force mock mode even with Firebase credentials:
 VITE_MOCK_FIREBASE=true npm run dev
 ```
 
-### 🧪 Testing Mock Mode
-
-To test the mock mode implementation:
-
-```bash
-# Start in mock mode (auto-detects if no Firebase config)
-npm run dev
-
-# Or force mock mode explicitly
-VITE_MOCK_FIREBASE=true npm run dev
-
-# Then visit: http://localhost:5173 (or whatever port is shown)
-```
-
-The app will automatically populate with sample characters and games that you can interact with immediately.
-
 ## 🧪 Testing
 
 We use a comprehensive two-layer testing approach for quality assurance:
 
 **📚 [Complete Testing Guide → TEST_PLAN.md](./TEST_PLAN.md)**
 
-### Quick Testing Commands
-
-| Command                 | Description                                   |
-| ----------------------- | --------------------------------------------- |
-| `npm run test`          | Unit tests (watch mode) - run while coding    |
-| `npm run test:ui`       | Unit tests with beautiful visual interface ✨ |
-| `npm run test:run`      | Unit tests (run once) - for CI/commits        |
-| `npm run test:coverage` | Show code coverage gaps                       |
-| `npm run test:e2e`      | End-to-end tests (headless)                   |
-| `npm run test:e2e:ui`   | E2E tests with visual debugging ✨            |
-
 ### Testing Architecture
 
 - **⚡ Unit Tests (Vitest)**: Fast feedback for individual functions and components
 - **🌐 E2E Tests (Playwright)**: Complete user workflow validation across browsers
 - **🎯 Visual Interfaces**: Beautiful web dashboards for both testing layers
-- **📊 Coverage Reports**: Track which code needs more testing
-
-**For detailed explanations of each command and when to use them, see [TEST_PLAN.md](./TEST_PLAN.md)**
+- **📊 Coverage Reports**: Track which code needs more testing\*\*
 
 ## 📱 Accessibility Features
 
@@ -258,33 +171,9 @@ We use a comprehensive two-layer testing approach for quality assurance:
 - **High contrast support** and readable typography
 - **Responsive design** for all device types
 
-## 🤝 Contributing
-
-We welcome contributions! Please:
-
-1. Fork the repository
-2. Create a feature branch for your changes
-3. Follow the existing code style and component patterns
-4. Ensure all and linting is clean
-5. Submit a pull request with a clear description
-
 ### Development Guidelines
 
 📚 **[Read our comprehensive Style Guide](./src/components/STYLE_GUIDE.md)** for detailed development patterns, TypeScript best practices, performance optimization, and component architecture.
-
-- Use existing UI components instead of creating custom implementations
-- Follow the established component structure and naming conventions
-- Write TypeScript interfaces for all data structures
-- Include accessibility considerations in new components
-- Test responsive behavior across device sizes
-
-#### State Management Patterns
-
-- **Server State**: Use TanStack Query hooks (`useCharacters`, `useCharacterSheet`, `useGame`)
-- **Client State**: Use appropriate Zustand store (`characterStore`, `combatStore`, `uiStore`)
-- **Query Keys**: Always use the centralized `queryKeys` factory for consistency
-- **Mutations**: Implement optimistic updates with proper error rollback
-- **Persistence**: Leverage Zustand persistence middleware for client preferences
 
 ## 📄 License
 
