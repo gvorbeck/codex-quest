@@ -191,7 +191,7 @@ export const PlayerCard = memo(
 
                 return (
                   <Badge
-                    key={`${ability.name}-${index}`}
+                    key={`ability-${ability.name}-${ability.source}-${index}`}
                     variant={variant}
                     size="sm"
                     title={`${ability.name} (${ability.source})`}

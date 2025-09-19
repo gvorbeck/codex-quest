@@ -1,54 +1,42 @@
 import { ItemGrid } from "@/components/ui/composite";
 import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { GameCard } from "./GameCard";
-import { useGames } from "@/hooks";
-import { useAuth, useNotifications } from "@/hooks";
-import { deleteGame } from "@/services";
-import { logger } from "@/utils";
+import { useEnhancedGames } from "@/hooks/queries/useEnhancedQueries";
+import { useGameMutations } from "@/hooks/mutations/useEnhancedMutations";
+import { useAuth } from "@/hooks";
 import { useState } from "react";
 
 export function GamesList() {
-  const { data: games = [], isLoading: loading, error, refetch } = useGames();
+  const { data: games = [], isLoading: loading, error, refetch } = useEnhancedGames();
   const { user } = useAuth();
-  const { showSuccess, showError } = useNotifications();
+  const { deleteGame, isDeleting } = useGameMutations();
   const [deleteState, setDeleteState] = useState<{
     isOpen: boolean;
     game: { id: string; name: string } | null;
-    isDeleting: boolean;
-  }>({ isOpen: false, game: null, isDeleting: false });
+  }>({ isOpen: false, game: null });
 
   const handleDeleteGame = (gameId: string, gameName: string) => {
     if (!user) return;
     setDeleteState({
       isOpen: true,
       game: { id: gameId, name: gameName },
-      isDeleting: false,
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = () => {
     if (!user || !deleteState.game) return;
 
-    setDeleteState((prev) => ({ ...prev, isDeleting: true }));
-    try {
-      await deleteGame(user.uid, deleteState.game.id);
-      await refetch();
-      setDeleteState({ isOpen: false, game: null, isDeleting: false });
-      showSuccess(
-        `Game "${deleteState.game.name}" has been deleted successfully.`,
-        { duration: 4000 }
-      );
-    } catch (error) {
-      logger.error("Failed to delete game:", error);
-      showError("Failed to delete game. Please try again.", { duration: 5000 });
-    } finally {
-      setDeleteState((prev) => ({ ...prev, isDeleting: false }));
-    }
+    deleteGame({
+      userId: user.uid,
+      gameId: deleteState.game.id,
+    });
+
+    setDeleteState({ isOpen: false, game: null });
   };
 
   const handleCloseDeleteModal = () => {
-    if (deleteState.isDeleting) return; // Prevent closing while deleting
-    setDeleteState({ isOpen: false, game: null, isDeleting: false });
+    if (isDeleting) return; // Prevent closing while deleting
+    setDeleteState({ isOpen: false, game: null });
   };
 
   return (
@@ -79,7 +67,7 @@ export function GamesList() {
             user={user}
             onDelete={handleDeleteGame}
             isDeleting={
-              deleteState.isDeleting && deleteState.game?.id === game.id
+              isDeleting && deleteState.game?.id === game.id
             }
           />
         )}
@@ -93,7 +81,7 @@ export function GamesList() {
         onConfirm={handleConfirmDelete}
         entityType="game"
         entityName={deleteState.game?.name || ""}
-        isDeleting={deleteState.isDeleting}
+        isDeleting={isDeleting}
       />
     </>
   );

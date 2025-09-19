@@ -22,7 +22,8 @@ import Hero from "@/components/features/character/sheet/Hero";
 import Equipment from "@/components/features/character/sheet/Equipment";
 import CharacterDescription from "@/components/features/character/sheet/CharacterDescription";
 import ScrollCreation from "@/components/features/character/sheet/scroll-creation/ScrollCreation";
-import { useCharacterSheet } from "@/hooks";
+import { useEnhancedCharacterSheet } from "@/hooks/queries/useEnhancedQueries";
+import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useDiceRoller } from "@/hooks/dice/useDiceRoller";
 import type { Character, Equipment as EquipmentItem } from "@/types";
 import {
@@ -37,9 +38,14 @@ import {
 export default function CharacterSheet() {
   const [, params] = useRoute("/u/:userId/c/:characterId");
 
-  // Use the new TanStack Query character sheet hook
-  const { character, loading, error, isOwner, isUpdating, updateCharacter } =
-    useCharacterSheet(params?.userId || "", params?.characterId || "");
+  // Use the enhanced character sheet hook and mutations
+  const characterQuery = useEnhancedCharacterSheet(params?.userId || "", params?.characterId || "");
+  const { saveCharacter, isSaving } = useCharacterMutations();
+
+  const character = characterQuery.data?.character;
+  const isOwner = characterQuery.data?.isOwner || false;
+  const loading = characterQuery.isLoading;
+  const error = characterQuery.error;
 
   // Use the dice roller hook
   const { DiceRollerFAB, DiceRollerModal } = useDiceRoller();
@@ -65,20 +71,30 @@ export default function CharacterSheet() {
   // Handle XP changes
   const handleXPChange = useCallback(
     (newXP: number) => {
-      if (character) {
+      if (character && params?.userId && params?.characterId) {
         const updatedCharacter = { ...character, xp: newXP };
-        updateCharacter(updatedCharacter);
+        saveCharacter({
+          userId: params.userId,
+          character: updatedCharacter,
+          characterId: params.characterId,
+        });
       }
     },
-    [character, updateCharacter]
+    [character, saveCharacter, params?.userId, params?.characterId]
   );
 
   // Handle character changes (for avatar, etc.)
   const handleCharacterChange = useCallback(
-    async (updatedCharacter: Character) => {
-      await updateCharacter(updatedCharacter);
+    (updatedCharacter: Character) => {
+      if (params?.userId && params?.characterId) {
+        saveCharacter({
+          userId: params.userId,
+          character: updatedCharacter,
+          characterId: params.characterId,
+        });
+      }
     },
-    [updateCharacter]
+    [saveCharacter, params?.userId, params?.characterId]
   );
 
   // Handle ability score changes
@@ -195,7 +211,7 @@ export default function CharacterSheet() {
     return (
       <PageWrapper>
         <Callout variant="error" title="Error loading character">
-          {error}
+          {error?.message || "An unexpected error occurred"}
         </Callout>
       </PageWrapper>
     );
@@ -230,7 +246,7 @@ export default function CharacterSheet() {
         <header className="mb-8">
           <div className="flex items-center justify-between mb-4 relative">
             <Breadcrumb items={breadcrumbItems} />
-            {isUpdating && (
+            {isSaving && (
               <div className="absolute right-0 top-0 z-10">
                 <LoadingSpinner message="Saving..." size="sm" />
               </div>

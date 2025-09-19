@@ -69,7 +69,7 @@ export const {
   onAuthStateChange,
 } = authService;
 
-// Legacy exports for backward compatibility
+// Export migration and data utilities
 export * from "./characterMigration";
 export * from "./dataLoader";
 

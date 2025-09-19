@@ -105,7 +105,7 @@ export const CombatantsSection = memo(
           >
             {combatants.map((combatant, index) => (
               <CombatantCard
-                key={`${combatant.name}-${index}`}
+                key={`combatant-${combatant.name}-${combatant.ac || 'no-ac'}-${index}`}
                 combatant={combatant}
               />
             ))}

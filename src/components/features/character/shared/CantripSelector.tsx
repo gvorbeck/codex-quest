@@ -269,8 +269,8 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
             role="list"
             aria-label={`Known ${spellTypeInfo.type}`}
           >
-            {knownCantrips.map((cantrip) => (
-              <div key={cantrip.name} role="listitem">
+            {knownCantrips.map((cantrip, cantripIndex) => (
+              <div key={`known-${cantrip.name}-${cantripIndex}`} role="listitem">
                 <CantripCard
                   cantrip={cantrip}
                   spellTypeInfo={spellTypeInfo}

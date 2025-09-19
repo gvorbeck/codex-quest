@@ -359,7 +359,7 @@ function ClassStepComponent({
                 availableSpells={availableSpells}
                 onSpellChange={handleSpellChange}
                 title="Starting Spell"
-                description="Your class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
+                description="Your class grants you the ability to cast spells. You begin knowing the **Read Magic** spell and one additional first-level spell of your choosing."
                 detailsId="spell-selection"
                 isLoading={isLoadingSpells}
               />
@@ -375,9 +375,9 @@ function ClassStepComponent({
                   })()}
                   description={(() => {
                     const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know <strong>${
+                    return `You automatically know **${
                       character.cantrips?.length || 0
-                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
                       spellTypeInfo.abilityScore
                     } bonus). You may change your selection below.`;
                   })()}
@@ -394,7 +394,7 @@ function ClassStepComponent({
                 availableSpells={allSpellsForCustomClass}
                 onSpellsChange={handleSpellsChange}
                 title="Custom Class Spells"
-                description="Select all spells your custom class should know. Since this is a custom class, you can choose spells from any level and any class. <strong>Read Magic</strong> is automatically granted if you select any spells."
+                description="Select all spells your custom class should know. Since this is a custom class, you can choose spells from any level and any class. **Read Magic** is automatically granted if you select any spells."
                 isLoading={isLoadingAllSpells}
               />
 
@@ -409,9 +409,9 @@ function ClassStepComponent({
                   })()}
                   description={(() => {
                     const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know <strong>${
+                    return `You automatically know **${
                       character.cantrips?.length || 0
-                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
                       spellTypeInfo.abilityScore
                     } bonus). You may change your selection below.`;
                   })()}
@@ -436,7 +436,7 @@ function ClassStepComponent({
                 availableSpells={availableSpells}
                 onSpellChange={handleSpellChange}
                 title="Starting Spell"
-                description="Your combination class grants you the ability to cast spells. You begin knowing the <strong>Read Magic</strong> spell and one additional first-level spell of your choosing."
+                description="Your combination class grants you the ability to cast spells. You begin knowing the **Read Magic** spell and one additional first-level spell of your choosing."
                 detailsId="combination-spell-selection"
                 isLoading={isLoadingSpells}
               />
@@ -452,9 +452,9 @@ function ClassStepComponent({
                   })()}
                   description={(() => {
                     const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know <strong>${
+                    return `You automatically know **${
                       character.cantrips?.length || 0
-                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
                       spellTypeInfo.abilityScore
                     } bonus). You may change your selection below.`;
                   })()}
@@ -471,7 +471,7 @@ function ClassStepComponent({
                 availableSpells={allSpellsForCustomClass}
                 onSpellsChange={handleSpellsChange}
                 title="Custom Class Spells"
-                description="Select all spells your custom combination class should know. Since this is a custom class, you can choose spells from any level and any class. <strong>Read Magic</strong> is automatically granted if you select any spells."
+                description="Select all spells your custom combination class should know. Since this is a custom class, you can choose spells from any level and any class. **Read Magic** is automatically granted if you select any spells."
                 isLoading={isLoadingAllSpells}
               />
 
@@ -486,9 +486,9 @@ function ClassStepComponent({
                   })()}
                   description={(() => {
                     const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know <strong>${
+                    return `You automatically know **${
                       character.cantrips?.length || 0
-                    }</strong> starting ${spellTypeInfo.type} (rolled 1d4 + ${
+                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
                       spellTypeInfo.abilityScore
                     } bonus). You may change your selection below.`;
                   })()}

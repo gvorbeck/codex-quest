@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useNotifications } from "@/hooks";
+import { useNotificationContext } from "@/hooks";
 import {
   getRandomTableResult,
   rollForEncounter,
@@ -25,7 +25,7 @@ export function useEncounterGeneration({
   const [encounterOccurs, setEncounterOccurs] = useState<boolean | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const { showSuccess, showError, showInfo } = useNotifications();
+  const { showSuccess, showError, showInfo } = useNotificationContext();
 
   // Function to add encounter to combat tracker
   const handleAddToCombatTracker = useCallback(() => {

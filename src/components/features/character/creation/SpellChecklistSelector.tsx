@@ -155,9 +155,9 @@ export function SpellChecklistSelector({
                 </Typography>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {spells.map((spell) => (
+                  {spells.map((spell, spellIndex) => (
                     <Checkbox
-                      key={spell.name}
+                      key={`${spell.name}-${spell.level}-${spellIndex}`}
                       label={spell.name}
                       checked={selectedSpellNames.has(spell.name)}
                       onCheckedChange={(checked) =>

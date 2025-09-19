@@ -11,8 +11,8 @@ import {
 import { Header } from "@/components/app/Header";
 import { Footer } from "@/components/app/Footer";
 import { Routes } from "@/components/app/Routes";
-import { useAppData } from "@/hooks";
-import { useNotifications } from "@/hooks";
+import { useAppData, useNetworkStatus } from "@/hooks";
+import { useNotifications } from "@/hooks/ui/useNotifications";
 import NotificationContext from "@/contexts/NotificationContext";
 import { initializeFavicon } from "@/utils/favicon";
 import { getInitialAlerts, type AlertConfig } from "@/constants";
@@ -28,10 +28,11 @@ const ReactQueryDevtools = import.meta.env.DEV
     )
   : null;
 
-function App() {
+// Inner app component that uses the notification context
+function AppContent() {
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [alerts, setAlerts] = useState<AlertConfig[]>(() => getInitialAlerts());
-  const notifications = useNotifications();
+  useNetworkStatus(); // This will automatically handle offline/online notifications
 
   useAppData();
 
@@ -57,37 +58,45 @@ function App() {
   };
 
   return (
+    <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
+      <Header {...headerProps} />
+      <Routes />
+      <Footer />
+
+      {/* Sign In Modal - Lazy loaded */}
+      {isSignInModalOpen && (
+        <Suspense
+          fallback={
+            <LoadingState message="Loading sign in..." variant="inline" />
+          }
+        >
+          <SignInModal
+            isOpen={isSignInModalOpen}
+            onClose={() => setIsSignInModalOpen(false)}
+            onSuccess={handleSignInSuccess}
+          />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const notifications = useNotifications();
+
+  return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
         <NotificationContext.Provider value={notifications}>
-          <div className="app dark bg-primary text-primary min-h-screen flex flex-col">
-            <Header {...headerProps} />
-            <Routes />
-            <Footer />
+          <AppContent />
 
-            {/* Sign In Modal - Lazy loaded */}
-            {isSignInModalOpen && (
-              <Suspense
-                fallback={
-                  <LoadingState message="Loading sign in..." variant="inline" />
-                }
-              >
-                <SignInModal
-                  isOpen={isSignInModalOpen}
-                  onClose={() => setIsSignInModalOpen(false)}
-                  onSuccess={handleSignInSuccess}
-                />
-              </Suspense>
-            )}
-
-            {/* Global Notification Container */}
-            <NotificationErrorBoundary>
-              <NotificationContainer
-                notifications={notifications.notifications}
-                onDismiss={notifications.dismissNotification}
-              />
-            </NotificationErrorBoundary>
-          </div>
+          {/* Global Notification Container */}
+          <NotificationErrorBoundary>
+            <NotificationContainer
+              notifications={notifications.notifications}
+              onDismiss={notifications.dismissNotification}
+            />
+          </NotificationErrorBoundary>
         </NotificationContext.Provider>
       </ErrorBoundary>
 
