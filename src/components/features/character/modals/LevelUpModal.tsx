@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Modal } from "@/components/modals";
 import { Typography } from "@/components/ui/core/display";
+import { Button } from "@/components/ui/core/primitives";
 import { useHPGain, useLoadingState } from "@/hooks";
 import { logger } from "@/utils";
 import { LEVEL_UP_CONSTANTS } from "@/constants";
@@ -173,12 +174,9 @@ export default function LevelUpModal({
             <Typography variant="helper" color="secondary" className="mb-3">
               {hpError}
             </Typography>
-            <button
-              onClick={clearErrors}
-              className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
-            >
+            <Button onClick={clearErrors} variant="destructive" size="sm">
               Dismiss
-            </button>
+            </Button>
           </div>
         )}
 
