@@ -28,7 +28,8 @@
       "Bash(mkdir:*)",
       "Bash(npm run test:run:*)",
       "WebSearch",
-      "Bash(npm run test:coverage:*)"
+      "Bash(npm run test:coverage:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": [
       "Bash(npm run dev)"
