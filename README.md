@@ -17,11 +17,11 @@
   
 </div>
 
-## 🎯 Overview
+## Overview
 
 Codex.Quest is a comprehensive web-based character creation and management system for Basic Fantasy Role-Playing Game (BFRPG). Built with modern React architecture and a beautiful, accessible interface, it provides players and Game Masters with powerful tools to create, manage, and track characters throughout their adventures.
 
-### ✨ Key Features
+### Key Features
 
 - Step-by-step character creation wizard with guided experience
 - Complete BFRPG race and class support (Core + Supplemental + custom race and class creation)
@@ -33,7 +33,7 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - Encount and Treasure generation tools
 - Real-time data synchronization across devices
 
-## 🏗️ Architecture
+## Architecture
 
 ### Frontend Stack
 
@@ -52,7 +52,7 @@ Codex.Quest is a comprehensive web-based character creation and management syste
 - **Automated data migration** for schema evolution
 - **Secure user authentication** with email/password and Google OAuth
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -95,7 +95,7 @@ npm run dev
 npm run build
 ```
 
-## 🛠️ Development
+## Development
 
 ### Available Scripts
 
@@ -116,11 +116,11 @@ npm run build
 | `npm run test:all`        | Run all tests (unit + E2E)                |
 | `npm run test:ci`         | Full CI pipeline (lint + build + tests)   |
 
-## 🎭 Mock Mode for Contributors
+## Mock Mode for Contributors
 
 Codex.Quest features an intelligent mock mode that **automatically activates** when Firebase credentials aren't available. This provides a **zero-setup experience** for contributors and demos.
 
-### 🛠️ Development Utilities
+### Development Utilities
 
 When in mock mode, additional debugging tools are available:
 
@@ -141,7 +141,7 @@ devUtils.exportCharacterData(); // Export for debugging
 devUtils.exportGameData(); // Export game data
 ```
 
-### ⚡ Manual Mock Mode
+### Manual Mock Mode
 
 Force mock mode even with Firebase credentials:
 
@@ -149,20 +149,20 @@ Force mock mode even with Firebase credentials:
 VITE_MOCK_FIREBASE=true npm run dev
 ```
 
-## 🧪 Testing
+## Testing
 
 We use a comprehensive two-layer testing approach for quality assurance:
 
-**📚 [Complete Testing Guide → TEST_PLAN.md](./TEST_PLAN.md)**
+**[Complete Testing Guide → TEST_PLAN.md](./TEST_PLAN.md)**
 
 ### Testing Architecture
 
-- **⚡ Unit Tests (Vitest)**: Fast feedback for individual functions and components
-- **🌐 E2E Tests (Playwright)**: Complete user workflow validation across browsers
-- **🎯 Visual Interfaces**: Beautiful web dashboards for both testing layers
-- **📊 Coverage Reports**: Track which code needs more testing\*\*
+- **Unit Tests (Vitest)**: Fast feedback for individual functions and components
+- **E2E Tests (Playwright)**: Complete user workflow validation across browsers
+- **Visual Interfaces**: Beautiful web dashboards for both testing layers
+- **Coverage Reports**: Track which code needs more testing\*\*
 
-## 📱 Accessibility Features
+## Accessibility Features
 
 - **WCAG 2.1 AA compliance** target
 - **Screen reader support** with proper ARIA labels
@@ -173,15 +173,15 @@ We use a comprehensive two-layer testing approach for quality assurance:
 
 ### Development Guidelines
 
-📚 **[Read our comprehensive Style Guide](./src/components/STYLE_GUIDE.md)** for detailed development patterns, TypeScript best practices, performance optimization, and component architecture.
+**[Read our comprehensive Style Guide](./src/components/STYLE_GUIDE.md)** for detailed development patterns, TypeScript best practices, performance optimization, and component architecture.
 
-## 📄 License
+## License
 
 This project is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
 [![CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Basic Fantasy RPG** community for the excellent open-source game system
 
