@@ -32,7 +32,8 @@
       "Bash(npx playwright test:*)",
       "Bash(gh pr view:*)",
       "WebFetch(domain:github.com)",
-      "Bash(npm run test:ci:*)"
+      "Bash(npm run test:ci:*)",
+      "Bash(gh api:*)"
     ],
     "deny": [
       "Bash(npm run dev)"
