@@ -12,6 +12,8 @@ import type {
   SpecialAbility,
   SpellSystemType,
   RacialModificationInfo,
+  EquipmentPack,
+  PackApplicationResult,
 } from "@/types";
 import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
@@ -21,6 +23,8 @@ import { CURRENT_VERSION } from "@/services/characterMigration";
 // Note: Using direct imports here to avoid circular dependency with barrel file
 import { GAME_MECHANICS } from "./mechanics";
 import { logger } from "./data";
+import { formatCurrency } from "./currency";
+import equipmentData from "@/data/equipment.json";
 
 // ============================================================================
 // EQUIPMENT TYPE GUARDS & CALCULATIONS
@@ -1105,3 +1109,265 @@ export const characterSchema: ValidationSchema<Partial<Character>> = {
     },
   ],
 };
+
+// ============================================================================
+// EQUIPMENT PACK UTILITIES
+// ============================================================================
+
+// Equipment lookup cache for performance
+const equipmentCache = new Map<string, Equipment | null>();
+
+/**
+ * Type guard for raw equipment data from JSON
+ */
+function isValidRawEquipment(item: Record<string, unknown>): boolean {
+  return (
+    typeof item['name'] === 'string' &&
+    typeof item['costValue'] === 'number' &&
+    (item['costCurrency'] === 'gp' || item['costCurrency'] === 'sp' || item['costCurrency'] === 'cp') &&
+    typeof item['weight'] === 'number' &&
+    typeof item['category'] === 'string'
+  );
+}
+
+/**
+ * Find equipment by name with caching and type safety
+ */
+function findEquipmentByName(name: string): Equipment | null {
+  // Check cache first
+  if (equipmentCache.has(name)) {
+    return equipmentCache.get(name) || null;
+  }
+
+  const rawEquipment = equipmentData.find((item: Record<string, unknown>) => item['name'] === name);
+  if (!rawEquipment || !isValidRawEquipment(rawEquipment)) {
+    equipmentCache.set(name, null);
+    return null;
+  }
+
+  const equipment: Equipment = {
+    name: rawEquipment['name'] as string,
+    costValue: rawEquipment['costValue'] as number,
+    costCurrency: rawEquipment['costCurrency'] as "gp" | "sp" | "cp",
+    weight: rawEquipment['weight'] as number,
+    category: rawEquipment['category'] as string,
+    subCategory: typeof rawEquipment['subCategory'] === 'string' ? rawEquipment['subCategory'] : "",
+    amount: 1, // Default amount, will be overridden by pack quantity
+  };
+
+  // Copy optional properties with type safety
+  if (rawEquipment['size'] && typeof rawEquipment['size'] === 'string') {
+    equipment.size = rawEquipment['size'] as "S" | "M" | "L";
+  }
+  if (rawEquipment['damage'] && typeof rawEquipment['damage'] === 'string') {
+    equipment.damage = rawEquipment['damage'];
+  }
+  if (rawEquipment['twoHandedDamage'] && typeof rawEquipment['twoHandedDamage'] === 'string') {
+    equipment.twoHandedDamage = rawEquipment['twoHandedDamage'];
+  }
+  if (rawEquipment['type'] && typeof rawEquipment['type'] === 'string') {
+    equipment.type = rawEquipment['type'] as "melee" | "missile" | "both";
+  }
+  if (Array.isArray(rawEquipment['range']) && rawEquipment['range'].length === 3) {
+    equipment.range = rawEquipment['range'] as [number, number, number];
+  }
+  if (Array.isArray(rawEquipment['ammo'])) {
+    equipment.ammo = rawEquipment['ammo'] as string[];
+  }
+  if (typeof rawEquipment['AC'] === 'number' || typeof rawEquipment['AC'] === 'string') {
+    equipment.AC = rawEquipment['AC'];
+  }
+  if (typeof rawEquipment['missileAC'] === 'string') {
+    equipment.missileAC = rawEquipment['missileAC'];
+  }
+  if (typeof rawEquipment['lowCapacity'] === 'number') {
+    equipment.lowCapacity = rawEquipment['lowCapacity'];
+  }
+  if (typeof rawEquipment['capacity'] === 'number') {
+    equipment.capacity = rawEquipment['capacity'];
+  }
+  if (typeof rawEquipment['animalWeight'] === 'number') {
+    equipment.animalWeight = rawEquipment['animalWeight'];
+  }
+
+  // Cache the result
+  equipmentCache.set(name, equipment);
+  return equipment;
+}
+
+/**
+ * Convert cost to gold pieces for calculation
+ */
+function convertToGold(costValue: number, costCurrency: "gp" | "sp" | "cp"): number {
+  switch (costCurrency) {
+    case "gp":
+      return costValue;
+    case "sp":
+      return costValue / 10;
+    case "cp":
+      return costValue / 100;
+    default:
+      return costValue;
+  }
+}
+
+/**
+ * Process pack items to calculate totals - shared logic for validation and application
+ */
+function processPackItems(packItems: EquipmentPack['items']): {
+  missingItems: string[];
+  totalCost: number;
+  totalWeight: number;
+  validEquipment: Array<{ equipment: Equipment; quantity: number }>;
+} {
+  const missingItems: string[] = [];
+  const validEquipment: Array<{ equipment: Equipment; quantity: number }> = [];
+  let totalCost = 0;
+  let totalWeight = 0;
+
+  for (const packItem of packItems) {
+    const equipment = findEquipmentByName(packItem.equipmentName);
+
+    if (!equipment) {
+      missingItems.push(packItem.equipmentName);
+      continue;
+    }
+
+    validEquipment.push({ equipment, quantity: packItem.quantity });
+    totalCost += convertToGold(equipment.costValue, equipment.costCurrency) * packItem.quantity;
+    totalWeight += equipment.weight * packItem.quantity;
+  }
+
+  return { missingItems, totalCost, totalWeight, validEquipment };
+}
+
+/**
+ * Apply an equipment pack to a character
+ */
+export function applyEquipmentPack(
+  character: Character,
+  pack: EquipmentPack
+): PackApplicationResult {
+  // Check if character has enough gold
+  if (character.currency.gold < pack.cost) {
+    return {
+      success: false,
+      error: `Not enough gold. Need ${pack.cost} gp but only have ${formatCurrency(character.currency)}.`,
+    };
+  }
+
+  const { missingItems, totalCost, totalWeight } = processPackItems(pack.items);
+
+  // If there are missing items, return error
+  if (missingItems.length > 0) {
+    return {
+      success: false,
+      error: `Could not find equipment items: ${missingItems.join(", ")}. Please check that these items exist in the equipment database.`,
+      missingItems,
+    };
+  }
+
+  return {
+    success: true,
+    totalCost,
+    totalWeight,
+  };
+}
+
+/**
+ * Apply equipment pack to character and return updated character
+ */
+export function applyEquipmentPackToCharacter(
+  character: Character,
+  pack: EquipmentPack
+): { character: Character; result: PackApplicationResult } {
+  const result = applyEquipmentPack(character, pack);
+
+  if (!result.success) {
+    return { character, result };
+  }
+
+  const { validEquipment } = processPackItems(pack.items);
+
+  // Build new equipment list by merging with existing equipment
+  const newEquipment = [...character.equipment];
+
+  for (const { equipment, quantity } of validEquipment) {
+    // Check if equipment already exists in character's inventory
+    const existingIndex = newEquipment.findIndex(
+      (item) => item.name === equipment.name
+    );
+
+    if (existingIndex >= 0 && newEquipment[existingIndex]) {
+      // Add to existing quantity
+      newEquipment[existingIndex] = {
+        ...newEquipment[existingIndex],
+        amount: newEquipment[existingIndex].amount + quantity,
+      };
+    } else {
+      // Add new equipment with the specified quantity
+      const equipmentWithQuantity: Equipment = {
+        ...equipment,
+        amount: quantity,
+      };
+      newEquipment.push(equipmentWithQuantity);
+    }
+  }
+
+  // Deduct gold from character
+  const updatedCharacter: Character = {
+    ...character,
+    equipment: newEquipment,
+    currency: {
+      ...character.currency,
+      gold: character.currency.gold - pack.cost,
+    },
+  };
+
+  return {
+    character: updatedCharacter,
+    result,
+  };
+}
+
+/**
+ * Get recommended equipment packs for a character based on class and race
+ */
+export function getRecommendedPacks(
+  character: Character,
+  allPacks: EquipmentPack[]
+): EquipmentPack[] {
+  return allPacks.filter((pack) => {
+    // If pack doesn't specify suitability, it's suitable for everyone
+    if (!pack.suitableFor) return true;
+
+    const { classes, races } = pack.suitableFor;
+
+    // Check if character can afford the pack
+    if (character.currency.gold < pack.cost) return false;
+
+    // Check class compatibility
+    if (classes && !character.class.some((charClass) => classes.includes(charClass))) {
+      return false;
+    }
+
+    // Check race compatibility
+    if (races && !races.includes(character.race)) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+/**
+ * Calculate total cost and weight of a pack
+ */
+export function calculatePackTotals(pack: EquipmentPack): {
+  totalCost: number;
+  totalWeight: number;
+  missingItems: string[];
+} {
+  const { missingItems, totalCost, totalWeight } = processPackItems(pack.items);
+  return { totalCost, totalWeight, missingItems };
+}

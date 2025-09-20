@@ -31,7 +31,8 @@
       "Bash(npm run test:coverage:*)",
       "Bash(npx playwright test:*)",
       "Bash(gh pr view:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npm run test:ci:*)"
     ],
     "deny": [
       "Bash(npm run dev)"

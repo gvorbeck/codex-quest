@@ -1,12 +1,18 @@
-import { useMemo, memo, useEffect } from "react";
-import { StepWrapper } from "@/components/ui/core/layout";
+import { useMemo, memo, useEffect, useState } from "react";
+import { StepWrapper, Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/core/layout";
 import { SimpleRoller } from "@/components/domain/dice";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { InfoCardHeader, StatGrid } from "@/components/ui/composite";
+import { ErrorDisplay } from "@/components/ui/core/feedback";
 import type { BaseStepProps } from "@/types";
+import type { EquipmentPack } from "@/types/character";
 import { EquipmentSelector } from "@/components/domain/equipment";
 import { useEquipmentManagement } from "@/hooks";
+import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
+import { formatCurrency } from "@/utils/currency";
+import { getCharacterSpellSystemType } from "@/utils/character";
+import EquipmentPackSelector from "./EquipmentPackSelector";
 
 type EquipmentStepProps = BaseStepProps;
 
@@ -22,11 +28,41 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     getStatusMessage,
   } = useEquipmentManagement(character, onCharacterChange);
 
+  // Equipment pack state
+  const [showPackSelector, setShowPackSelector] = useState(true);
+  const [selectedPack, setSelectedPack] = useState<EquipmentPack | null>(null);
+
+  // Equipment pack mutations
+  const { applyEquipmentPack, isApplyingPack, packError } = useCharacterMutations({
+    onPackApplied: () => {
+      setShowPackSelector(false);
+    },
+  });
+
+  // Handle pack selection
+  const handlePackSelected = async (pack: EquipmentPack) => {
+    try {
+      const { character: updatedCharacter } = await applyEquipmentPack({ character, pack });
+      onCharacterChange(updatedCharacter);
+      setSelectedPack(pack);
+    } catch {
+      // Error is handled by the mutation hook
+    }
+  };
+
+  const handleRemovePack = () => {
+    setSelectedPack(null);
+    setShowPackSelector(true);
+    // Note: We don't remove the equipment here - user can remove items individually if needed
+  };
+
   // Auto-add spellbook for magic-users
-  const isMagicUser = useMemo(
-    () => character.class.includes("magic-user"),
-    [character.class]
+  const spellSystemType = useMemo(
+    () => getCharacterSpellSystemType(character),
+    [character]
   );
+
+  const isMagicUser = spellSystemType === "magic-user";
 
   const hasSpellbook = useMemo(
     () =>
@@ -96,7 +132,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                   aria-hidden={true}
                 />
                 <span className="font-medium text-zinc-100">
-                  Current: {character.currency.gold} gp
+                  Current: {formatCurrency(character.currency)}
                 </span>
               </div>
               {startingGold !== character.currency.gold && (
@@ -140,8 +176,10 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
             </div>
 
             <div className="space-y-3 mb-6">
-              {cleanedEquipment.map((item, index) => (
-                <Card key={`${item.name}-${item.category}-${item.subCategory}-${index}`} variant="success">
+              {cleanedEquipment.map((item) => {
+                const itemKey = `${item.name}-${item.category || 'no-cat'}-${item.subCategory || 'no-sub'}-${item.costValue || 0}-${item.weight || 0}`;
+                return (
+                <Card key={itemKey} variant="success">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -176,7 +214,8 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                     </Button>
                   </div>
                 </Card>
-              ))}
+                );
+              })}
             </div>
 
             {/* Equipment Summary */}
@@ -200,11 +239,84 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         )}
       </section>
 
-      {/* Available Equipment Section */}
-      <EquipmentSelector
-        character={character}
-        onEquipmentAdd={handleEquipmentAdd}
-      />
+      {/* Equipment Selection Tabs */}
+      <section className="mb-8">
+        <Typography variant="sectionHeading" className="mb-6">Equipment Selection</Typography>
+
+        <Tabs defaultValue="equipment-packs" variant="underline" size="md">
+          <TabList aria-label="Equipment selection methods">
+            <Tab value="equipment-packs">Equipment Packs</Tab>
+            <Tab value="individual-items">Individual Items</Tab>
+          </TabList>
+
+          <TabPanels>
+            <TabPanel value="equipment-packs">
+              {/* Equipment Pack Error */}
+              <ErrorDisplay error={packError?.message} className="mb-6" />
+
+              {/* Equipment Pack Selector */}
+              {showPackSelector && (
+                <EquipmentPackSelector
+                  character={character}
+                  onPackSelected={handlePackSelected}
+                  isLoading={isApplyingPack}
+                />
+              )}
+
+              {/* Selected Pack Summary */}
+              {selectedPack && !showPackSelector && (
+                <div className="mb-8">
+                  <Card variant="success" className="mb-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Icon name="check" size="sm" className="text-lime-400" />
+                          <Typography variant="h6" className="m-0">
+                            {selectedPack.name}
+                          </Typography>
+                        </div>
+                        <Typography variant="bodySmall" color="secondary" className="mb-3">
+                          {selectedPack.description}
+                        </Typography>
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-1">
+                            <Icon name="coin" size="sm" className="text-amber-400" />
+                            <span className="text-sm font-medium">{selectedPack.cost} gp spent</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Icon name="weight" size="sm" className="text-zinc-400" />
+                            <span className="text-sm text-zinc-400">{selectedPack.weight} lb added</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleRemovePack}
+                        className="flex items-center gap-1"
+                      >
+                        <Icon name="plus" size="sm" />
+                        Add Another Pack
+                      </Button>
+                    </div>
+                  </Card>
+
+                  <Typography variant="bodySmall" color="secondary">
+                    You can still add or remove individual equipment items in the "Individual Items" tab.
+                  </Typography>
+                </div>
+              )}
+            </TabPanel>
+
+            <TabPanel value="individual-items">
+              <EquipmentSelector
+                character={character}
+                onEquipmentAdd={handleEquipmentAdd}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </section>
     </StepWrapper>
   );
 }

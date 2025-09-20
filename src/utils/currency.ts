@@ -34,7 +34,22 @@ const CURRENCY_RATES = {
 // Export for tests
 export { CURRENCY_RATES };
 
-// Currency types for conversion
+/**
+ * Maps currency abbreviations to their full names
+ * Used for equipment cost calculations and refunds
+ */
+export function getCurrencyTypeFromAbbreviation(abbreviation: string): CurrencyType {
+  const currencyMap: Record<string, CurrencyType> = {
+    pp: "platinum",
+    gp: "gold",
+    ep: "electrum",
+    sp: "silver",
+    cp: "copper"
+  };
+  return currencyMap[abbreviation] || "gold";
+}
+
+// Currency types for conversion (full names, not abbreviations)
 export type CurrencyType =
   | "platinum"
   | "gold"
@@ -356,4 +371,30 @@ export function convertToGoldFromAbbreviation(
   const currencyKey = mapLegacyCurrency(currency);
   // Safe type assertion: CurrencyKey and CurrencyType have identical string values
   return convertCurrency(value, currencyKey as CurrencyType, "gold");
+}
+
+/**
+ * Format currency amounts as a human-readable string
+ * Only displays non-zero amounts in standard BFRPG abbreviations
+ */
+export function formatCurrency(currency: CurrencyAmount): string {
+  const parts: string[] = [];
+
+  if (currency.platinum && currency.platinum > 0) {
+    parts.push(`${currency.platinum} pp`);
+  }
+  if (currency.gold && currency.gold > 0) {
+    parts.push(`${currency.gold} gp`);
+  }
+  if (currency.electrum && currency.electrum > 0) {
+    parts.push(`${currency.electrum} ep`);
+  }
+  if (currency.silver && currency.silver > 0) {
+    parts.push(`${currency.silver} sp`);
+  }
+  if (currency.copper && currency.copper > 0) {
+    parts.push(`${currency.copper} cp`);
+  }
+
+  return parts.join(", ") || "0 gp";
 }

@@ -77,6 +77,52 @@ export interface Equipment {
   scrollLevel?: number;
 }
 
+export interface PackItem {
+  /** The exact name of the equipment item as it appears in equipment.json */
+  equipmentName: string;
+  /** How many of this item to include in the pack */
+  quantity: number;
+  /** Optional description of why this item is included in the pack */
+  description?: string;
+}
+
+export interface EquipmentPack {
+  /** Unique identifier for the pack */
+  id: string;
+  /** Display name of the pack */
+  name: string;
+  /** Description explaining what the pack is for */
+  description: string;
+  /** Total cost in gold pieces */
+  cost: number;
+  /** Total weight in pounds */
+  weight: number;
+  /** List of equipment items included in this pack */
+  items: PackItem[];
+  /** Optional criteria for when this pack is recommended */
+  suitableFor?: {
+    /** Classes that would benefit from this pack */
+    classes?: string[];
+    /** Races that would benefit from this pack */
+    races?: string[];
+    /** Character levels where this pack is most useful */
+    levels?: number[];
+  };
+}
+
+export interface PackApplicationResult {
+  /** Whether the pack was successfully applied */
+  success: boolean;
+  /** Error message if application failed */
+  error?: string;
+  /** Items that couldn't be found in equipment.json */
+  missingItems?: string[];
+  /** Total cost of items that were successfully added */
+  totalCost?: number;
+  /** Total weight of items that were successfully added */
+  totalWeight?: number;
+}
+
 export interface Character {
   name: string;
   race: string;

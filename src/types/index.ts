@@ -29,6 +29,9 @@ export type {
   RacialModificationInfo,
   HPGainResult,
   SpellGainInfo,
+  PackItem,
+  EquipmentPack,
+  PackApplicationResult,
 } from "./character";
 
 // Game and currency types

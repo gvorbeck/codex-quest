@@ -52,6 +52,7 @@ The files to review: $ARGUMENTS
 - Accessibility (WCAG 2.1 AA): ARIA, keyboard nav, screen readers
 - SEO considerations: semantic HTML, meta tags, structured data
 - Compliance with /src/components/STYLE_GUIDE.md
+- Follows established Data Management and caching strategies
 
 ### 4. BFRPG-Specific Patterns
 
