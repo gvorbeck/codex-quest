@@ -16,8 +16,9 @@ The files to review: $ARGUMENTS
 
 1. 🔥 UI Component Usage (Critical)
 2. 🔴 Code Duplication
-3. 🟡 Performance & Best Practices
-4. 🟢 Architecture & Maintainability
+3. 🔵 Data Management & Caching
+4. 🟡 Performance & Best Practices
+5. 🟢 Architecture & Maintainability
 
 ### 1. UI Component Audit (HIGHEST PRIORITY)
 
@@ -43,7 +44,14 @@ The files to review: $ARGUMENTS
 - Flag constants/types that should be shared
 - Security vulnerabilities: XSS, input validation, data exposure
 
-### 3. React Best Practices
+### 3. Data Management & Caching Analysis
+
+- **Query Implementation**: Check for proper use of `useEnhancedQueries` vs manual `useQuery`, query key consistency with `queryKeys` structure
+- **Mutation Patterns**: Verify use of `useCharacterMutations`/`useGameMutations` vs manual mutations, optimistic update implementation, error handling consistency
+- **Store Usage**: Assess Zustand store patterns - proper action organization, persistence configuration, state shape optimization
+- **Cache Strategy**: Review staleTime settings, invalidation patterns, query dependencies, data transformation in `select` functions
+
+### 4. React Best Practices & Performance
 
 - Hook dependency arrays and memoization
 - Component patterns (memo, forwardRef, composition)
@@ -52,9 +60,8 @@ The files to review: $ARGUMENTS
 - Accessibility (WCAG 2.1 AA): ARIA, keyboard nav, screen readers
 - SEO considerations: semantic HTML, meta tags, structured data
 - Compliance with /src/components/STYLE_GUIDE.md
-- Follows established Data Management and caching strategies
 
-### 4. BFRPG-Specific Patterns
+### 5. BFRPG-Specific Patterns
 
 - Character data handling consistency
 - Game system integration
@@ -78,6 +85,12 @@ The files to review: $ARGUMENTS
 - **Fix**: [Solution]
 - **Impact**: [Benefit]
 
+**🔵 Data Management**:
+
+- **Query Strategy**: [TanStack Query usage, caching, invalidation]
+- **State Management**: [Zustand store patterns, persistence]
+- **Mutations**: [Error handling, optimistic updates, rollback]
+
 **🟢 Strengths**:
 
 - [What works well]
@@ -87,6 +100,8 @@ The files to review: $ARGUMENTS
 - LOC reduction potential: [number]
 - UI components missing: [count]
 - Duplication instances: [count]
+- Query/mutation optimization opportunities: [count]
+- Store usage consistency: [rating]
 
 **⚡ Quick Wins** (implement first):
 
