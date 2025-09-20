@@ -15,11 +15,11 @@ import { applyEquipmentPackToCharacter } from "@/utils/character";
 
 // Type guards for query data safety
 function isCharacterListArray(data: unknown): data is CharacterListItem[] {
-  return Array.isArray(data) && (data.length === 0 || (data[0] && typeof data[0] === 'object' && 'id' in data[0]));
+  return Array.isArray(data) && (data.length === 0 || data.every(item => typeof item === 'object' && item !== null && 'id' in item));
 }
 
 function isGameArray(data: unknown): data is Game[] {
-  return Array.isArray(data) && (data.length === 0 || (data[0] && typeof data[0] === 'object' && 'id' in data[0]));
+  return Array.isArray(data) && (data.length === 0 || data.every(item => typeof item === 'object' && item !== null && 'id' in item));
 }
 
 // Shared utility functions for optimistic updates

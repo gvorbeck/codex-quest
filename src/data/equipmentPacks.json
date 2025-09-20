@@ -154,7 +154,7 @@
       { "equipmentName": "Paper or Parchment, per sheet", "quantity": 10 },
       { "equipmentName": "Writing Ink (per vial)", "quantity": 1 },
       { "equipmentName": "Quill Knife", "quantity": 1 },
-      { "equipmentName": "Chalk", "quantity": 1 }
+      { "equipmentName": "Chalk, small bag of pieces", "quantity": 1 }
     ],
     "suitableFor": {
       "classes": ["magic-user", "cleric", "thief", "scout"]

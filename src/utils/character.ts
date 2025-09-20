@@ -18,7 +18,8 @@ import type {
 import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
 import { allClasses, allRaces } from "@/data";
-import { CHARACTER_CLASSES } from "@/constants";
+import { convertToGoldFromAbbreviation } from "@/utils/currency";
+import { CHARACTER_CLASSES, CURRENCY_TYPES } from "@/constants";
 import { CURRENT_VERSION } from "@/services/characterMigration";
 // Note: Using direct imports here to avoid circular dependency with barrel file
 import { GAME_MECHANICS } from "./mechanics";
@@ -1117,6 +1118,21 @@ export const characterSchema: ValidationSchema<Partial<Character>> = {
 // Equipment lookup cache for performance
 const equipmentCache = new Map<string, Equipment | null>();
 
+// Pre-built equipment lookup map for O(1) performance
+const equipmentLookupMap = new Map<string, Record<string, unknown>>();
+
+// Initialize equipment lookup map on module load
+(function initializeEquipmentMap() {
+  for (const item of equipmentData) {
+    if (typeof item === 'object' && item && typeof item['name'] === 'string') {
+      equipmentLookupMap.set(item['name'] as string, item as Record<string, unknown>);
+    }
+  }
+})();
+
+// Supported currencies for equipment costs
+const SUPPORTED_EQUIPMENT_CURRENCIES = [CURRENCY_TYPES.GOLD, CURRENCY_TYPES.SILVER, CURRENCY_TYPES.COPPER] as const;
+
 /**
  * Type guard for raw equipment data from JSON
  */
@@ -1124,7 +1140,7 @@ function isValidRawEquipment(item: Record<string, unknown>): boolean {
   return (
     typeof item['name'] === 'string' &&
     typeof item['costValue'] === 'number' &&
-    (item['costCurrency'] === 'gp' || item['costCurrency'] === 'sp' || item['costCurrency'] === 'cp') &&
+    SUPPORTED_EQUIPMENT_CURRENCIES.includes(item['costCurrency'] as typeof SUPPORTED_EQUIPMENT_CURRENCIES[number]) &&
     typeof item['weight'] === 'number' &&
     typeof item['category'] === 'string'
   );
@@ -1139,7 +1155,7 @@ function findEquipmentByName(name: string): Equipment | null {
     return equipmentCache.get(name) || null;
   }
 
-  const rawEquipment = equipmentData.find((item: Record<string, unknown>) => item['name'] === name);
+  const rawEquipment = equipmentLookupMap.get(name);
   if (!rawEquipment || !isValidRawEquipment(rawEquipment)) {
     equipmentCache.set(name, null);
     return null;
@@ -1195,21 +1211,6 @@ function findEquipmentByName(name: string): Equipment | null {
   return equipment;
 }
 
-/**
- * Convert cost to gold pieces for calculation
- */
-function convertToGold(costValue: number, costCurrency: "gp" | "sp" | "cp"): number {
-  switch (costCurrency) {
-    case "gp":
-      return costValue;
-    case "sp":
-      return costValue / 10;
-    case "cp":
-      return costValue / 100;
-    default:
-      return costValue;
-  }
-}
 
 /**
  * Process pack items to calculate totals - shared logic for validation and application
@@ -1234,7 +1235,7 @@ function processPackItems(packItems: EquipmentPack['items']): {
     }
 
     validEquipment.push({ equipment, quantity: packItem.quantity });
-    totalCost += convertToGold(equipment.costValue, equipment.costCurrency) * packItem.quantity;
+    totalCost += convertToGoldFromAbbreviation(equipment.costValue, equipment.costCurrency) * packItem.quantity;
     totalWeight += equipment.weight * packItem.quantity;
   }
 
