@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import type { Character } from "@/types";
 import type { EquipmentPack } from "@/types/character";
-import { getRecommendedPacks } from "@/utils/character";
-import equipmentPacksData from "@/data/equipmentPacks.json";
+import { getEquipmentPacksByClass } from "@/utils/character";
+import equipmentPacksData from "@/data/equipment/equipmentPacks.json";
 
 /**
  * Custom hook for equipment pack logic
@@ -11,9 +11,12 @@ import equipmentPacksData from "@/data/equipmentPacks.json";
 export function useEquipmentPacks(character: Character) {
   const allPacks = equipmentPacksData as EquipmentPack[];
 
-  const { recommendedPacks, affordablePacks, cheapestPackCost } = useMemo(() => {
+  const packsById = useMemo(() =>
+    new Map(allPacks.map(pack => [pack.id, pack])), [allPacks]);
+
+  const { recommendedPacks, affordablePacks, cheapestPackCost, gold } = useMemo(() => {
     const gold = character.currency.gold;
-    const recommended = getRecommendedPacks(character, allPacks);
+    const recommended = getEquipmentPacksByClass(character);
     const affordable = recommended.filter(pack => gold >= pack.cost);
     const cheapest = recommended.length > 0 ? Math.min(...recommended.map(p => p.cost)) : 0;
 
@@ -21,12 +24,17 @@ export function useEquipmentPacks(character: Character) {
       recommendedPacks: recommended,
       affordablePacks: affordable,
       cheapestPackCost: cheapest,
+      gold,
     };
-  }, [character, allPacks]);
+  }, [character]);
 
   const hasAffordablePacks = affordablePacks.length > 0;
 
-  const getPackById = (id: string) => allPacks.find(pack => pack.id === id);
+  const isPackAffordable = (pack: EquipmentPack) => {
+    return gold >= pack.cost;
+  };
+
+  const getPackById = (id: string) => packsById.get(id);
 
   const isPackRecommended = (pack: EquipmentPack) => {
     return recommendedPacks.includes(pack);
@@ -40,5 +48,6 @@ export function useEquipmentPacks(character: Character) {
     cheapestPackCost,
     getPackById,
     isPackRecommended,
+    isPackAffordable,
   };
 }

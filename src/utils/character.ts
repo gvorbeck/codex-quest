@@ -25,7 +25,8 @@ import { CURRENT_VERSION } from "@/services/characterMigration";
 import { GAME_MECHANICS } from "./mechanics";
 import { logger } from "./data";
 import { formatCurrency } from "./currency";
-import equipmentData from "@/data/equipment.json";
+import equipmentData from "@/data/equipment/equipment.json";
+import equipmentPacks from "@/data/equipment/equipmentPacks.json";
 
 // ============================================================================
 // EQUIPMENT TYPE GUARDS & CALCULATIONS
@@ -74,6 +75,15 @@ interface EquipmentLike {
   category?: string;
 }
 
+const isEquipmentArray = (equipment: unknown[]): equipment is Equipment[] => {
+  return equipment.every((item): item is Equipment =>
+    typeof item === 'object' &&
+    item !== null &&
+    'name' in item &&
+    typeof item.name === 'string'
+  );
+};
+
 export function calculateArmorClass(
   character: Character | { equipment?: EquipmentLike[] }
 ): number {
@@ -82,16 +92,20 @@ export function calculateArmorClass(
     return GAME_MECHANICS.DEFAULT_UNARMORED_AC;
   }
 
-  const eqArr = equipment as Equipment[];
+  if (!isEquipmentArray(equipment)) {
+    logger.warn('Invalid equipment array passed to calculateArmorClass');
+    return GAME_MECHANICS.DEFAULT_UNARMORED_AC;
+  }
+
   let baseAC = GAME_MECHANICS.DEFAULT_UNARMORED_AC;
   let shieldBonus = 0;
 
-  const wornArmor = eqArr.find(isWornArmor);
+  const wornArmor = equipment.find(isWornArmor);
   if (wornArmor && typeof wornArmor.AC === "number") {
     baseAC = wornArmor.AC;
   }
 
-  const wornShields = eqArr.filter(isWornShield);
+  const wornShields = equipment.filter(isWornShield);
   wornShields.forEach((shield) => {
     shieldBonus += parseShieldBonus(
       shield.AC ?? 0,
@@ -132,23 +146,27 @@ export function calculateMovementRate(character: Character): string {
   return GAME_MECHANICS.DEFAULT_MOVEMENT_RATE;
 }
 
+// Ability score ranges and their modifiers
+const ABILITY_SCORE_RANGES = {
+  VERY_LOW: { min: 1, max: 3, modifier: -3 },
+  LOW: { min: 4, max: 5, modifier: -2 },
+  BELOW_AVERAGE: { min: 6, max: 8, modifier: -1 },
+  AVERAGE: { min: 9, max: 12, modifier: 0 },
+  ABOVE_AVERAGE: { min: 13, max: 15, modifier: 1 },
+  HIGH: { min: 16, max: 17, modifier: 2 },
+  VERY_HIGH: { min: 18, max: Infinity, modifier: 3 },
+} as const;
+
 // Optimized O(1) ability modifier lookup table
 const MODIFIER_LOOKUP: Record<number, number> = (() => {
   const lookup: Record<number, number> = {};
 
-  // Scores 1-3: -3 modifier
-  for (let i = 1; i <= 3; i++) lookup[i] = -3;
-  // Scores 4-5: -2 modifier
-  for (let i = 4; i <= 5; i++) lookup[i] = -2;
-  // Scores 6-8: -1 modifier
-  for (let i = 6; i <= 8; i++) lookup[i] = -1;
-  // Scores 9-12: 0 modifier
-  for (let i = 9; i <= 12; i++) lookup[i] = 0;
-  // Scores 13-15: +1 modifier
-  for (let i = 13; i <= 15; i++) lookup[i] = 1;
-  // Scores 16-17: +2 modifier
-  for (let i = 16; i <= 17; i++) lookup[i] = 2;
-  // Scores 18+: +3 modifier (handled by default case)
+  Object.values(ABILITY_SCORE_RANGES).forEach(({ min, max, modifier }) => {
+    const actualMax = max === Infinity ? 25 : max; // Reasonable upper bound
+    for (let i = min; i <= actualMax; i++) {
+      lookup[i] = modifier;
+    }
+  });
 
   return lookup;
 })();
@@ -1228,32 +1246,6 @@ function convertRawToEquipment(rawEquipment: Record<string, unknown>): Equipment
   return equipment;
 }
 
-/**
- * Find equipment by name with caching and type safety
- * @deprecated Use equipmentLookup with IDs instead for better performance
- */
-function findEquipmentByName(name: string): Equipment | null {
-  // Ensure maps are initialized
-  initializeEquipmentMaps();
-
-  // Check cache first
-  const cacheKey = `name:${name}`;
-  if (equipmentCache.has(cacheKey)) {
-    return equipmentCache.get(cacheKey) || null;
-  }
-
-  const rawEquipment = equipmentLookupMapByName!.get(name);
-  if (!rawEquipment || !isValidRawEquipment(rawEquipment)) {
-    equipmentCache.set(cacheKey, null);
-    return null;
-  }
-
-  const equipment = convertRawToEquipment(rawEquipment);
-
-  // Cache the result
-  equipmentCache.set(cacheKey, equipment);
-  return equipment;
-}
 
 /**
  * Find equipment by ID with caching and type safety
@@ -1311,12 +1303,12 @@ function processPackItems(packItems: EquipmentPack['items']): {
     // Check if this is the old format (equipmentName) or new format (equipmentId)
     const equipment = 'equipmentId' in packItem
       ? findEquipmentById(packItem.equipmentId)
-      : findEquipmentByName((packItem as Record<string, unknown>)['equipmentName'] as string);
+      : null; // Legacy format no longer supported
 
     if (!equipment) {
       const itemIdentifier = 'equipmentId' in packItem
         ? packItem.equipmentId
-        : (packItem as Record<string, unknown>)['equipmentName'] as string;
+        : 'legacy_equipment_format';
       missingItems.push(itemIdentifier);
       continue;
     }
@@ -1419,32 +1411,29 @@ export function applyEquipmentPackToCharacter(
 }
 
 /**
- * Get recommended equipment packs for a character based on class and race
+ * Get equipment packs suitable for a character's class
+ * Uses the suitableFor property to match against character's class types
  */
-export function getRecommendedPacks(
-  character: Character,
-  allPacks: EquipmentPack[]
-): EquipmentPack[] {
-  return allPacks.filter((pack) => {
-    // If pack doesn't specify suitability, it's suitable for everyone
-    if (!pack.suitableFor) return true;
+export function getEquipmentPacksByClass(character: Character): EquipmentPack[] {
+  // Get the character's class types
+  const characterClassTypes = new Set<string>();
 
-    const { classes, races } = pack.suitableFor;
+  for (const classId of character.class) {
+    const classData = getClassById(classId);
+    if (classData?.classType) {
+      characterClassTypes.add(classData.classType);
+    }
+  }
 
-    // Check if character can afford the pack
-    if (character.currency.gold < pack.cost) return false;
-
-    // Check class compatibility
-    if (classes && !character.class.some((charClass) => classes.includes(charClass))) {
-      return false;
+  // Filter packs based on suitableFor property
+  return equipmentPacks.filter(pack => {
+    // If suitableFor is empty, pack is suitable for all classes
+    if (pack.suitableFor.length === 0) {
+      return true;
     }
 
-    // Check race compatibility
-    if (races && !races.includes(character.race)) {
-      return false;
-    }
-
-    return true;
+    // Check if any of the character's class types match the pack's suitableFor
+    return pack.suitableFor.some(classType => characterClassTypes.has(classType));
   });
 }
 

@@ -78,6 +78,16 @@ export interface Equipment {
 }
 
 export interface PackItem {
+  /** The unique ID of the equipment item from equipment.json */
+  equipmentId: string;
+  /** How many of this item to include in the pack */
+  quantity: number;
+  /** Optional description of why this item is included in the pack */
+  description?: string;
+}
+
+/** @deprecated Use PackItem with equipmentId instead */
+export interface LegacyPackItem {
   /** The exact name of the equipment item as it appears in equipment.json */
   equipmentName: string;
   /** How many of this item to include in the pack */
@@ -99,15 +109,8 @@ export interface EquipmentPack {
   weight: number;
   /** List of equipment items included in this pack */
   items: PackItem[];
-  /** Optional criteria for when this pack is recommended */
-  suitableFor?: {
-    /** Classes that would benefit from this pack */
-    classes?: string[];
-    /** Races that would benefit from this pack */
-    races?: string[];
-    /** Character levels where this pack is most useful */
-    levels?: number[];
-  };
+  /** Array of class types this pack is suitable for. Empty array means suitable for all classes */
+  suitableFor: string[];
 }
 
 export interface PackApplicationResult {
