@@ -3,7 +3,7 @@ import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { Icon, Button } from "@/components/ui";
 import Details from "@/components/ui/composite/Details";
 import type { EquipmentPack } from "@/types/character";
-import { equipmentLookup } from "@/utils/equipment";
+import { findEquipmentById } from "@/utils/equipment";
 import { cn } from "@/utils";
 
 interface EquipmentPackCardProps {
@@ -100,10 +100,8 @@ function EquipmentPackCard({
             children: (
               <div className="space-y-1">
                 {pack.items.map((item, index) => {
-                  // Get equipment name from ID lookup or fall back to old format
-                  const equipmentName = 'equipmentId' in item
-                    ? equipmentLookup([item.equipmentId])[0]?.name || `Unknown (${item.equipmentId})`
-                    : (item as Record<string, unknown>)['equipmentName'] as string;
+                  const equipment = findEquipmentById(item.equipmentId);
+                  const equipmentName = equipment?.name || `Unknown (${item.equipmentId})`;
 
                   return (
                     <div key={index} className="flex justify-between">
