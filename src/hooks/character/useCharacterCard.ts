@@ -1,8 +1,12 @@
 import { useMemo, useCallback } from "react";
 import type { CharacterListItem } from "@/services";
-import { allClasses } from "@/data";
 import { useNotificationContext } from "@/hooks";
-import { getRaceById, isCustomClass, isCustomRace } from "@/utils";
+import {
+  getRaceById,
+  getClassById,
+  isCustomClass,
+  isCustomRace,
+} from "@/utils";
 
 export function useCharacterCard(character: CharacterListItem) {
   const { showSuccess, showError } = useNotificationContext();
@@ -35,7 +39,7 @@ export function useCharacterCard(character: CharacterListItem) {
         };
       }
 
-      const classData = allClasses.find((cls) => cls.id === classId);
+      const classData = getClassById(classId);
       return { id: classId, name: classData?.name || classId };
     });
   }, [character.class]);

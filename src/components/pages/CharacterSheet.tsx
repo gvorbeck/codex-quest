@@ -31,6 +31,7 @@ import {
   hasCantrips,
   hasSpells,
   calculateModifier,
+  getClassById,
   logger,
   cn,
 } from "@/utils";
@@ -63,7 +64,7 @@ export default function CharacterSheet() {
     if (!character?.class) return false;
 
     return character.class.some((classId: string) => {
-      const classData = allClasses.find((cls) => cls.id === classId);
+      const classData = getClassById(classId);
       return classData?.skills !== undefined;
     });
   }, [character?.class]);

@@ -19,7 +19,7 @@ import {
   createCharacterValidationPipeline,
 } from "@/validation";
 import { allRaces, allClasses } from "@/data";
-import { logger, createEmptyCharacter } from "@/utils";
+import { logger, createEmptyCharacter, getRaceById } from "@/utils";
 
 function CharGen() {
   const { user } = useAuth();
@@ -120,7 +120,7 @@ function CharGen() {
   // Reset combination class checkbox when race changes to one that doesn't support it
   useEffect(() => {
     if (useCombinationClass && character.race) {
-      const selectedRace = allRaces.find((race) => race.id === character.race);
+      const selectedRace = getRaceById(character.race);
       const canUseCombinationClasses =
         selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
 

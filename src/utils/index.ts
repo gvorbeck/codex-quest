@@ -6,6 +6,9 @@
 // Character utilities
 export * from "./character";
 
+// Equipment utilities (type checking, packs, calculations)
+export * from "./equipment";
+
 // Game mechanics (dice, combat, constants)
 export * from "./mechanics";
 

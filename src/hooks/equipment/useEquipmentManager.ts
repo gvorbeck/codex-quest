@@ -1,29 +1,40 @@
 import { useCallback, useMemo } from "react";
-import { allRaces } from "@/data";
-import type { Equipment, Character, Race } from "@/types";
-import { cleanEquipmentArray, ensureEquipmentAmount } from "@/utils";
+import type { Equipment, Character } from "@/types";
+import { getRaceById } from "@/utils";
+import {
+  cleanEquipmentArray,
+  ensureEquipmentAmount,
+  isArmorItem,
+  isShieldItem,
+  isWearableItem,
+  formatWeight,
+  formatCost,
+  CAPACITY_ROUNDING_FACTOR,
+} from "@/utils/equipment";
 import { calculateTotalWeight } from "@/utils/currency";
 
 /**
- * Hook for general equipment operations on existing characters
+ * Core hook for equipment operations on existing characters
  * Includes BFRPG-compliant carrying capacity and encumbrance calculations
  * Used in character sheets and inventory management
  *
- * @param character - The current character
+ * @param character - The current character (can be undefined)
  * @param onEquipmentChange - Callback to update the character's equipment
  * @returns Equipment management utilities including carrying capacity and encumbrance
  */
-export function useEquipmentManager(
+function useEquipmentManagerCore(
   character: Character | undefined,
   onEquipmentChange?: (equipment: Equipment[]) => void
 ) {
+  // Memoized clean equipment array to avoid repeated calculations
+  const cleanedEquipment = useMemo(() => {
+    return character ? cleanEquipmentArray(character.equipment) : [];
+  }, [character]);
   // Shared helper function for adding equipment to inventory
   const addEquipmentToInventory = useCallback(
     (newEquipment: Equipment) => {
       if (!onEquipmentChange || !character) return;
 
-      // Clean equipment array first, then work with clean data
-      const cleanedEquipment = cleanEquipmentArray(character.equipment);
       const existingIndex = cleanedEquipment.findIndex(
         (item) => item.name === newEquipment.name
       );
@@ -46,14 +57,14 @@ export function useEquipmentManager(
         onEquipmentChange([...cleanedEquipment, equipmentToAdd]);
       }
     },
-    [character, onEquipmentChange]
+    [cleanedEquipment, onEquipmentChange, character]
   );
 
   const removeEquipmentFromInventory = useCallback(
     (index: number) => {
       if (!onEquipmentChange || !character) return;
 
-      const updatedEquipment = [...character.equipment];
+      const updatedEquipment = [...cleanedEquipment];
       const item = updatedEquipment[index];
 
       if (!item) return;
@@ -71,7 +82,7 @@ export function useEquipmentManager(
 
       onEquipmentChange(updatedEquipment);
     },
-    [character, onEquipmentChange]
+    [cleanedEquipment, onEquipmentChange, character]
   );
 
   const updateEquipmentInInventory = useCallback(
@@ -88,24 +99,6 @@ export function useEquipmentManager(
     [character, onEquipmentChange]
   );
 
-  // Utility functions for equipment type checking
-  const isArmorItem = useCallback(
-    (item: Equipment) =>
-      item.category?.toLowerCase().includes("armor") ||
-      (item.AC !== undefined &&
-        !item.category?.toLowerCase().includes("shield")),
-    []
-  );
-
-  const isShieldItem = useCallback(
-    (item: Equipment) => item.category?.toLowerCase().includes("shield"),
-    []
-  );
-
-  const isWearableItem = useCallback(
-    (item: Equipment) => isArmorItem(item) || isShieldItem(item),
-    [isArmorItem, isShieldItem]
-  );
 
   const toggleWearing = useCallback(
     (index: number) => {
@@ -147,7 +140,7 @@ export function useEquipmentManager(
         onEquipmentChange(updatedEquipment);
       }
     },
-    [character, onEquipmentChange, isWearableItem, isArmorItem, isShieldItem]
+    [character, onEquipmentChange]
   );
 
   // Calculate carrying capacity using race data from BFRPG rules
@@ -155,7 +148,7 @@ export function useEquipmentManager(
     if (!character) return { light: 60, heavy: 150 };
 
     // Get race data to determine base carrying capacity
-    const raceData = allRaces.find((race: Race) => race.id === character.race);
+    const raceData = getRaceById(character.race);
     const baseCapacity = raceData?.carryingCapacity || {
       light: 60,
       heavy: 150,
@@ -169,17 +162,15 @@ export function useEquipmentManager(
       strMod >= 0 ? 1 + strMod * positive : 1 + strMod * negative;
 
     return {
-      light: Math.round((baseCapacity.light * capacityMultiplier) / 5) * 5, // Round to nearest 5
-      heavy: Math.round((baseCapacity.heavy * capacityMultiplier) / 5) * 5,
+      light: Math.round((baseCapacity.light * capacityMultiplier) / CAPACITY_ROUNDING_FACTOR) * CAPACITY_ROUNDING_FACTOR,
+      heavy: Math.round((baseCapacity.heavy * capacityMultiplier) / CAPACITY_ROUNDING_FACTOR) * CAPACITY_ROUNDING_FACTOR,
     };
   }, []);
 
   // Calculate total equipment weight
   const totalWeight = useMemo(() => {
-    if (!character) return 0;
-    const cleanedEquipment = cleanEquipmentArray(character.equipment);
     return calculateTotalWeight(cleanedEquipment);
-  }, [character]);
+  }, [cleanedEquipment]);
 
   // Get encumbrance status based on BFRPG rules
   const encumbranceStatus = useMemo(() => {
@@ -190,19 +181,6 @@ export function useEquipmentManager(
     return "light";
   }, [character, totalWeight, getCarryingCapacity]);
 
-  // Helper functions for formatting
-  const formatWeight = useCallback((weight: number, amount: number) => {
-    const totalWeight = weight * amount;
-    return totalWeight > 0 ? `${Math.round(totalWeight * 100) / 100} lbs` : "—";
-  }, []);
-
-  const formatCost = useCallback(
-    (costValue: number, costCurrency: string, amount: number) => {
-      const totalCost = costValue * amount;
-      return `${totalCost} ${costCurrency}`;
-    },
-    []
-  );
 
   return {
     addEquipmentToInventory,
@@ -215,6 +193,38 @@ export function useEquipmentManager(
     getCarryingCapacity,
     totalWeight,
     encumbranceStatus,
+    formatWeight,
+    formatCost,
+  };
+}
+
+/**
+ * Public hook for equipment operations that handles optional characters
+ * Provides safer operations when character is undefined
+ *
+ * @param character - The current character (optional)
+ * @param onEquipmentChange - Callback to update the character's equipment
+ * @returns Equipment management utilities including carrying capacity and encumbrance
+ */
+export function useEquipmentManager(
+  character: Character | undefined,
+  onEquipmentChange?: (equipment: Equipment[]) => void
+) {
+  // Use the core hook but with safer guard clauses
+  const result = useEquipmentManagerCore(character, onEquipmentChange);
+
+  // Return the result with null object pattern applied for undefined character
+  return character ? result : {
+    addEquipmentToInventory: () => {},
+    removeEquipmentFromInventory: () => {},
+    updateEquipmentInInventory: () => {},
+    toggleWearing: () => {},
+    isArmorItem,
+    isShieldItem,
+    isWearableItem,
+    getCarryingCapacity: () => ({ light: 60, heavy: 150 }),
+    totalWeight: 0,
+    encumbranceStatus: "light" as const,
     formatWeight,
     formatCost,
   };

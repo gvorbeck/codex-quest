@@ -1,11 +1,15 @@
-import { Select, OptionToggle, TextInput } from "@/components/ui/core/primitives";
+import {
+  Select,
+  OptionToggle,
+  TextInput,
+} from "@/components/ui/core/primitives";
 import FormField from "@/components/ui/core/primitives/FormField";
 import { StepWrapper } from "@/components/ui/core/layout";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { Icon } from "@/components/ui/core/display";
 import { InfoCardHeader, DetailSection } from "@/components/ui/composite";
-import { allRaces, allClasses } from "@/data";
-import { isCustomRace, getRaceById } from "@/utils";
+import { allRaces } from "@/data";
+import { isCustomRace, getRaceById, getClassById } from "@/utils";
 import type { BaseStepProps } from "@/types";
 import { memo, useMemo, useState, useEffect } from "react";
 
@@ -22,7 +26,7 @@ function RaceStep({
 }: RaceStepProps) {
   // Helper function to get class name from ID
   const getClassName = (classId: string): string => {
-    const classData = allClasses.find((cls) => cls.id === classId);
+    const classData = getClassById(classId);
     return classData?.name || classId;
   };
 

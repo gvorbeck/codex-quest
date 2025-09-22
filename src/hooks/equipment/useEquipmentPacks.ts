@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { Character } from "@/types";
 import type { EquipmentPack } from "@/types/character";
-import { getEquipmentPacksByClass } from "@/utils/character";
+import { getEquipmentPacksByClass } from "@/utils/equipment";
 import equipmentPacksData from "@/data/equipment/equipmentPacks.json";
 
 /**

@@ -4,8 +4,7 @@ import { GAME_SHEET_STYLES } from "@/constants";
 import { Icon } from "@/components/ui/core/display";
 import { Typography, Card, Badge } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
-import { allRaces } from "@/data";
-import { getClassById, getImportantAbilities } from "@/utils";
+import { getClassById, getRaceById, getImportantAbilities } from "@/utils";
 import { ABILITY_BADGE_VARIANTS } from "@/constants";
 import { truncateText } from "@/utils";
 import type { SpecialAbility } from "@/types";
@@ -63,7 +62,7 @@ export const PlayerCard = memo(
 
       // Add race abilities
       if (characterRace) {
-        const race = allRaces.find((r) => r.id === characterRace);
+        const race = getRaceById(characterRace);
         if (race) {
           race.specialAbilities.forEach((ability) => {
             abilities.push({

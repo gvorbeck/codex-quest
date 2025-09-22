@@ -23,10 +23,11 @@ function EquipmentPackSelector({
   const [selectedPackId, setSelectedPackId] = useState<string | null>(null);
 
   const {
-    affordablePacks,
+    recommendedPacks,
     hasAffordablePacks,
     cheapestPackCost,
     isPackRecommended,
+    isPackAffordable,
   } = useEquipmentPacks(character);
 
   const handlePackSelect = (pack: EquipmentPack) => {
@@ -53,12 +54,13 @@ function EquipmentPackSelector({
       </Card>
 
       <div className="space-y-4 mb-6">
-        {affordablePacks.map((pack) => (
+        {recommendedPacks.map((pack) => (
           <EquipmentPackCard
             key={pack.id}
             pack={pack}
             isSelected={selectedPackId === pack.id}
             isRecommended={isPackRecommended(pack)}
+            isAffordable={isPackAffordable(pack)}
             characterClasses={character.class}
             onSelect={handlePackSelect}
             onConfirm={handleConfirmSelection}
@@ -68,16 +70,30 @@ function EquipmentPackSelector({
       </div>
 
       {/* No affordable packs message */}
-      {!hasAffordablePacks && (
+      {recommendedPacks.length > 0 && !hasAffordablePacks && (
         <Callout
           variant="warning"
-          title="Not enough gold for equipment packs"
+          title="Equipment packs require more gold"
           className="mb-6"
         >
           <Typography variant="bodySmall" color="secondary">
             You need at least {cheapestPackCost} gp
             for the cheapest recommended pack. Roll for more starting gold or
             select individual equipment below.
+          </Typography>
+        </Callout>
+      )}
+
+      {/* No recommended packs message */}
+      {recommendedPacks.length === 0 && (
+        <Callout
+          variant="info"
+          title="No equipment packs available"
+          className="mb-6"
+        >
+          <Typography variant="bodySmall" color="secondary">
+            No equipment packs are recommended for your character's class combination.
+            Use the "Individual Items" tab to select equipment.
           </Typography>
         </Callout>
       )}

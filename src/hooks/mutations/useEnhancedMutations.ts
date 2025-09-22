@@ -11,7 +11,7 @@ import {
   saveGame as saveGameService,
   deleteGame as deleteGameService
 } from "@/services";
-import { applyEquipmentPackToCharacter } from "@/utils/character";
+import { applyEquipmentPackToCharacter } from "@/utils/equipment";
 
 // Type guards for query data safety
 function isCharacterListArray(data: unknown): data is CharacterListItem[] {
