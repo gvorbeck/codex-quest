@@ -8,8 +8,76 @@ import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants";
 import { CACHE_KEYS } from "@/constants";
 import { logger } from "@/utils";
 
-// Cache for loaded data chunks
-const dataCache = new Map<string, unknown>();
+// Constants for excluded spells
+const EXCLUDED_SPELLS = {
+  READ_MAGIC: "Read Magic",
+} as const;
+
+// Valid character class IDs for validation
+const VALID_CLASS_IDS = new Set(Object.values(CHARACTER_CLASSES) as string[]);
+
+// Type for raw equipment data from JSON (without amount property)
+interface RawEquipmentData {
+  id?: string;
+  name: string;
+  costValue: number;
+  costCurrency: "gp" | "sp" | "cp";
+  weight: number;
+  category: string;
+  subCategory?: string;
+  // Weapon properties
+  size?: "S" | "M" | "L";
+  damage?: string;
+  range?: [number, number, number];
+  type?: string;
+  ammo?: string[];
+  twoHandedDamage?: string;
+  // Armor properties
+  AC?: number | string;
+  // Animal properties
+  animalWeight?: number;
+  // Container properties
+  lowCapacity?: number;
+  capacity?: number;
+}
+
+// Cache entry with TTL
+interface CacheEntry<T = unknown> {
+  data: T;
+  timestamp: number;
+}
+
+// Cache for loaded data chunks with TTL (30 minutes)
+const dataCache = new Map<string, CacheEntry>();
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+/**
+ * Check if cache entry is valid (not expired)
+ */
+function isCacheValid(entry: CacheEntry): boolean {
+  return Date.now() - entry.timestamp < CACHE_TTL;
+}
+
+/**
+ * Get data from cache if valid
+ */
+function getCachedData<T>(key: string): T | null {
+  const entry = dataCache.get(key) as CacheEntry<T> | undefined;
+  if (entry && isCacheValid(entry)) {
+    return entry.data;
+  }
+  if (entry) {
+    dataCache.delete(key); // Remove expired entry
+  }
+  return null;
+}
+
+/**
+ * Set data in cache with timestamp
+ */
+function setCachedData<T>(key: string, data: T): void {
+  dataCache.set(key, { data, timestamp: Date.now() });
+}
 
 // Equipment categories for chunking - using centralized constants
 export const DATA_LOADER_CATEGORIES = {
@@ -44,23 +112,26 @@ export async function loadEquipmentByCategory(
 ): Promise<Equipment[]> {
   const cacheKey = `equipment-${category}`;
 
-  if (dataCache.has(cacheKey)) {
-    return dataCache.get(cacheKey) as Equipment[];
+  const cached = getCachedData<Equipment[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
     // Import the full equipment data (we'll optimize this further)
-    const { default: allEquipment } = await import("@/data/equipment.json");
+    const { default: allEquipment } = await import("@/data/equipment/equipment.json");
 
-    // Filter by category
-    const categoryItems = (allEquipment as Equipment[]).filter((item) =>
-      (DATA_LOADER_CATEGORIES[category] as readonly string[]).includes(
-        item.category
+    // Filter by category and add default amount
+    const categoryItems = (allEquipment as RawEquipmentData[])
+      .filter((item) =>
+        (DATA_LOADER_CATEGORIES[category] as readonly string[]).includes(
+          item.category
+        )
       )
-    );
+      .map((item) => ({ ...item, amount: 0 })) as Equipment[];
 
     // Cache the result
-    dataCache.set(cacheKey, categoryItems);
+    setCachedData(cacheKey, categoryItems);
     return categoryItems;
   } catch (error) {
     logger.error(`Error loading equipment category ${category}:`, error);
@@ -74,14 +145,15 @@ export async function loadEquipmentByCategory(
 export async function loadAllEquipment(): Promise<Equipment[]> {
   const cacheKey = CACHE_KEYS.EQUIPMENT_ALL;
 
-  if (dataCache.has(cacheKey)) {
-    return dataCache.get(cacheKey) as Equipment[];
+  const cached = getCachedData<Equipment[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
-    const { default: allEquipment } = await import("@/data/equipment.json");
-    const equipment = allEquipment as Equipment[];
-    dataCache.set(cacheKey, equipment);
+    const { default: allEquipment } = await import("@/data/equipment/equipment.json");
+    const equipment = (allEquipment as RawEquipmentData[]).map((item) => ({ ...item, amount: 0 })) as Equipment[];
+    setCachedData(cacheKey, equipment);
     return equipment;
   } catch (error) {
     logger.error("Error loading all equipment:", error);
@@ -96,10 +168,16 @@ export async function loadSpellsForClass(
   classId: string,
   level?: number
 ): Promise<Spell[]> {
+  // Validate classId for known classes (allow custom classes to pass through)
+  if (!VALID_CLASS_IDS.has(classId) && !classId.startsWith('custom-')) {
+    logger.warn(`Unknown class ID: ${classId}`);
+  }
+
   const cacheKey = level ? `spells-${classId}-${level}` : `spells-${classId}`;
 
-  if (dataCache.has(cacheKey)) {
-    return dataCache.get(cacheKey) as Spell[];
+  const cached = getCachedData<Spell[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -120,11 +198,11 @@ export async function loadSpellsForClass(
     // For magic-users at level 1, exclude Read Magic since they automatically know it
     if (classId === CHARACTER_CLASSES.MAGIC_USER && level === 1) {
       filteredSpells = filteredSpells.filter(
-        (spell) => spell.name !== "Read Magic"
+        (spell) => spell.name !== EXCLUDED_SPELLS.READ_MAGIC
       );
     }
 
-    dataCache.set(cacheKey, filteredSpells);
+    setCachedData(cacheKey, filteredSpells);
     return filteredSpells;
   } catch (error) {
     logger.error(`Error loading spells for ${classId}:`, error);
@@ -138,8 +216,9 @@ export async function loadSpellsForClass(
 export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
   const cacheKey = "spells-all-level-1";
 
-  if (dataCache.has(cacheKey)) {
-    return dataCache.get(cacheKey) as Spell[];
+  const cached = getCachedData<Spell[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -153,10 +232,10 @@ export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
 
     // Exclude Read Magic since spellcasters automatically know it
     const filteredSpells = level1Spells.filter(
-      (spell) => spell.name !== "Read Magic"
+      (spell) => spell.name !== EXCLUDED_SPELLS.READ_MAGIC
     );
 
-    dataCache.set(cacheKey, filteredSpells);
+    setCachedData(cacheKey, filteredSpells);
     return filteredSpells;
   } catch (error) {
     logger.error("Error loading all first level spells:", error);
@@ -170,8 +249,9 @@ export async function loadAllFirstLevelSpells(): Promise<Spell[]> {
 export async function loadAllSpells(): Promise<Spell[]> {
   const cacheKey = "spells-all";
 
-  if (dataCache.has(cacheKey)) {
-    return dataCache.get(cacheKey) as Spell[];
+  const cached = getCachedData<Spell[]>(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
@@ -179,10 +259,10 @@ export async function loadAllSpells(): Promise<Spell[]> {
 
     // Exclude Read Magic since spellcasters automatically know it
     const filteredSpells = (allSpells as Spell[]).filter(
-      (spell) => spell.name !== "Read Magic"
+      (spell) => spell.name !== EXCLUDED_SPELLS.READ_MAGIC
     );
 
-    dataCache.set(cacheKey, filteredSpells);
+    setCachedData(cacheKey, filteredSpells);
     return filteredSpells;
   } catch (error) {
     logger.error("Error loading all spells:", error);

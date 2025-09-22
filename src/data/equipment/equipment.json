@@ -1,374 +1,420 @@
 [
   {
+    "id": "cooking-supplies-per-week-001",
     "name": "Cooking Supplies (per week)",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "fire-grate-002",
     "name": "Fire grate",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "fishhook-003",
     "name": "Fishhook",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "iron-pan-frying-004",
     "name": "Iron Pan (Frying)",
     "costValue": 8,
     "costCurrency": "sp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "iron-pot-005",
     "name": "Iron Pot",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "backpack-standard-or-halfling-006",
     "name": "Backpack (Standard or Halfling)",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "bags-and-pouches",
-    "amount": 0
+    "subCategory": "bags-and-pouches"
   },
   {
+    "id": "belt-pouch-007",
     "name": "Belt Pouch",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "bags-and-pouches",
-    "amount": 0
+    "subCategory": "bags-and-pouches"
   },
   {
+    "id": "large-pouch-or-purse-007a",
+    "name": "Large Pouch or Purse",
+    "costValue": 2,
+    "costCurrency": "gp",
+    "weight": 0.1,
+    "category": "general-equipment",
+    "subCategory": "bags-and-pouches"
+  },
+  {
+    "id": "belt-hook-or-ring-007",
+    "name": "Belt Hook or Ring",
+    "costValue": 1,
+    "costCurrency": "sp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "bags-and-pouches"
+  },
+  {
+    "id": "belt-money-belt-007",
+    "name": "Belt, Money Belt",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "bags-and-pouches"
+  },
+  {
+    "id": "belt-weapon-belt-007",
+    "name": "Belt, Weapon Belt",
+    "costValue": 1,
+    "costCurrency": "gp",
+    "weight": 2,
+    "category": "general-equipment",
+    "subCategory": "bags-and-pouches"
+  },
+  {
+    "id": "bell-small-008",
     "name": "Bell, small",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "bellows-009",
     "name": "Bellows",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "block-and-tackle-010",
     "name": "Block and tackle",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "bucket-up-to-5-gal-011",
     "name": "Bucket (up to 5 gal)",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "bit-and-bridle-012",
     "name": "Bit and bridle",
     "costValue": 15,
     "costCurrency": "sp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "tack-and-harness",
-    "amount": 0
+    "subCategory": "tack-and-harness"
   },
   {
+    "id": "bed-roll-013",
     "name": "Bed Roll",
     "costValue": 6,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "canvas-per-sq-yard-014",
     "name": "Canvas (per sq. yard)",
     "costValue": 4,
     "costCurrency": "sp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "chain-heavy-015",
     "name": "Chain, heavy",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "chain-light-016",
     "name": "Chain, light",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "chisel-017",
     "name": "Chisel",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "crowbar-3-018",
     "name": "Crowbar (3')",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "fishing-net-10-ft-sq-019",
     "name": "Fishing net, 10 ft. sq.",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "grease-pot-020",
     "name": "Grease Pot",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "hammer-or-mallet-021",
     "name": "Hammer or Mallet",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "hand-drill-022",
     "name": "Hand Drill",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "hourglass-hour-023",
     "name": "Hourglass (Hour)",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "marbles-bag-024",
     "name": "Marbles, Bag",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "candles-12-025",
     "name": "Candles, 12",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "chalk-colored-small-bag-of-pieces-026",
     "name": "Chalk, colored, small bag of pieces",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "chalk-small-bag-of-pieces-027",
     "name": "Chalk, small bag of pieces",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "charcoal-sticks-028",
     "name": "Charcoal sticks",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "coal-keeper-029",
     "name": "Coal Keeper",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "cordstrap-per-3-030",
     "name": "Cord/Strap, per 3'",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "flask-silver-031",
     "name": "Flask, Silver",
     "costValue": 20,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "flask-steel-032",
     "name": "Flask, Steel",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "cloak-033",
     "name": "Cloak",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "outerwear",
-    "amount": 0
+    "subCategory": "outerwear"
   },
   {
+    "id": "belt-007",
+    "name": "Belt",
+    "costValue": 6,
+    "costCurrency": "sp",
+    "weight": 0.1,
+    "category": "general-equipment",
+    "subCategory": "outerwear"
+  },
+  {
+    "id": "clothing-common-outfit-034",
     "name": "Clothing, common outfit",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "outfit",
-    "amount": 0
+    "subCategory": "outfit"
   },
   {
+    "id": "vial-glass-035",
     "name": "Vial, glass",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "wax-beeswax-036",
     "name": "Wax, beeswax",
     "costValue": 3,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "wooden-stake-037",
     "name": "Wooden Stake",
     "costValue": 2,
     "costCurrency": "cp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "grappling-hook-038",
     "name": "Grappling Hook",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 4,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "hammock-039",
     "name": "Hammock",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "holy-symbol-040",
     "name": "Holy Symbol",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "class-items",
-    "amount": 0
+    "subCategory": "class-items"
   },
   {
+    "id": "holy-symbol-ornate-041",
     "name": "Holy Symbol, Ornate",
     "costValue": 50,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "class-items",
-    "amount": 0
+    "subCategory": "class-items"
   },
   {
+    "id": "holy-water-per-vial-042",
     "name": "Holy Water, per vial",
     "costValue": 10,
     "costCurrency": "gp",
@@ -376,163 +422,172 @@
     "category": "general-equipment",
     "subCategory": "class-items",
     "type": "missile",
-    "range": [10, 30, 50],
-    "amount": 0
+    "range": [10, 30, 50]
   },
   {
+    "id": "horseshoes-shoeing-043",
     "name": "Horseshoes & shoeing",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
-    "subCategory": "tack-and-harness",
-    "amount": 0
+    "subCategory": "tack-and-harness"
   },
   {
+    "id": "writing-ink-per-vial-044",
     "name": "Writing Ink (per vial)",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 0.5,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "writing-board-044",
+    "name": "Writing Board",
+    "costValue": 15,
+    "costCurrency": "gp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "personal-equipment"
+  },
+  {
+    "id": "iron-spikes-12-045",
     "name": "Iron Spikes, 12",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "jar-or-bottle-ceramic-046",
     "name": "Jar or Bottle, Ceramic",
     "costValue": 4,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "jar-or-bottle-glass-047",
     "name": "Jar or Bottle, Glass",
     "costValue": 12,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "ladder-10-ft-048",
     "name": "Ladder, 10 ft.",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 20,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "lantern-049",
     "name": "Lantern",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "lantern-bullseye-050",
     "name": "Lantern, Bullseye",
     "costValue": 14,
     "costCurrency": "gp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "lantern-hooded-051",
     "name": "Lantern, Hooded",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "lens-small-052",
     "name": "Lens, small",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "manacles-without-padlock-053",
     "name": "Manacles (without padlock)",
     "costValue": 6,
     "costCurrency": "gp",
     "weight": 4,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "map-or-scroll-case-054",
     "name": "Map or scroll case",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.5,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "mess-kit-055",
     "name": "Mess Kit",
     "costValue": 8,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "sealing-wax-056",
     "name": "Sealing Wax",
     "costValue": 3,
     "costCurrency": "sp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "signet-ring-or-personal-seal-057",
     "name": "Signet Ring or personal seal",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "smoking-pipe-058",
     "name": "Smoking Pipe",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "smoking-pouch-059",
     "name": "Smoking pouch",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "oil-per-flask-060",
     "name": "Oil (per flask)",
     "costValue": 1,
     "costCurrency": "gp",
@@ -540,604 +595,640 @@
     "category": "general-equipment",
     "subCategory": "dungeon-exploration",
     "type": "missile",
-    "range": [10, 30, 50],
-    "amount": 0
+    "range": [10, 30, 50]
   },
   {
+    "id": "padlock-with-2-keys-061",
     "name": "Padlock (with 2 keys)",
     "costValue": 12,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "fine-paper-or-vellum-per-sheet-062",
     "name": "Fine Paper or Vellum, per sheet",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "paper-or-parchment-per-sheet-063",
     "name": "Paper or Parchment, per sheet",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "quill-064",
     "name": "Quill",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "wizards-wares",
-    "amount": 0
+    "subCategory": "wizards-wares"
   },
   {
+    "id": "quill-knife-065",
     "name": "Quill Knife",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "wizards-wares",
-    "amount": 0
+    "subCategory": "wizards-wares"
   },
   {
+    "id": "quiver-or-bolt-case-20-066",
     "name": "Quiver or Bolt case (20)",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "class-items",
-    "amount": 0
+    "subCategory": "class-items"
   },
   {
+    "id": "rations-dry-one-week-067",
     "name": "Rations, Dry, one week",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 14,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "common-spices-067",
+    "name": "Common Spices",
+    "costValue": 5,
+    "costCurrency": "sp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "cooking"
+  },
+  {
+    "id": "cured-meats-067",
+    "name": "Cured Meats",
+    "costValue": 4,
+    "costCurrency": "gp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "cooking"
+  },
+  {
+    "id": "rations-elven-waybread-one-week-068",
     "name": "Rations, Elven Waybread, one week",
     "costValue": 35,
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "rations-standard-perishable-one-day-069",
     "name": "Rations, Standard (perishable), one day",
     "costValue": 6,
     "costCurrency": "sp",
     "weight": 4,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "tea-pot-070",
     "name": "Tea pot",
     "costValue": 3,
     "costCurrency": "sp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "tripod-cooking-071",
     "name": "Tripod, cooking",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
-    "subCategory": "cooking",
-    "amount": 0
+    "subCategory": "cooking"
   },
   {
+    "id": "rope-hemp-per-50-ft-072",
     "name": "Rope, Hemp (per 50 ft.)",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "rope-silk-per-50-ft-073",
     "name": "Rope, Silk (per 50 ft.)",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "sack-large-074",
     "name": "Sack, Large",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "bags-and-pouches",
-    "amount": 0
+    "subCategory": "bags-and-pouches"
   },
   {
+    "id": "sack-small-075",
     "name": "Sack, Small",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "bags-and-pouches",
-    "amount": 0
+    "subCategory": "bags-and-pouches"
   },
   {
+    "id": "saddle-pack-076",
     "name": "Saddle, Pack",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 15,
     "category": "general-equipment",
-    "subCategory": "bags-and-pouches",
-    "amount": 0
+    "subCategory": "bags-and-pouches"
   },
   {
+    "id": "saddle-riding-077",
     "name": "Saddle, Riding",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 35,
     "category": "general-equipment",
-    "subCategory": "tack-and-harness",
-    "amount": 0
+    "subCategory": "tack-and-harness"
   },
   {
+    "id": "saddlebags-pair-078",
     "name": "Saddlebags, pair",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
-    "subCategory": "bags-and-pouches",
-    "amount": 0
+    "subCategory": "bags-and-pouches"
   },
   {
+    "id": "satchel-oilskin-079",
+    "name": "Satchel, Oilskin (water resistant)",
+    "costValue": 6,
+    "costCurrency": "gp",
+    "weight": 0,
+    "category": "general-equipment",
+    "subCategory": "bags-and-pouches"
+  },
+  {
+    "id": "baldric-belt-sash-080",
+    "name": "Baldric, Belt Sash",
+    "costValue": 8,
+    "costCurrency": "sp",
+    "weight": 1,
+    "category": "general-equipment",
+    "subCategory": "bags-and-pouches"
+  },
+  {
+    "id": "bandages-081",
     "name": "Bandages",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "crutches-080",
     "name": "Crutches",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 4,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "oil-per-flask-scentedrubbing-081",
     "name": "Oil (per flask), scented/rubbing",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "perfume-per-vial-082",
     "name": "Perfume (per vial)",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 0.5,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "razor-083",
     "name": "Razor",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "soap-per-lb-084",
     "name": "Soap (per lb)",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "soap-perfumed-per-lb-085",
     "name": "Soap, perfumed (per lb)",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "health",
-    "amount": 0
+    "subCategory": "health"
   },
   {
+    "id": "spellbook-128-pages-086",
     "name": "Spellbook (128 pages)",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "wizards-wares",
-    "amount": 0
+    "subCategory": "wizards-wares"
   },
   {
+    "id": "air-bladder-087",
     "name": "Air Bladder",
     "costValue": 15,
     "costCurrency": "gp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "caltrops-088",
     "name": "Caltrops",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "crampons-089",
     "name": "Crampons",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "hunters-horn-090",
     "name": "Hunter's Horn",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "piton-climbing-091",
     "name": "Piton, climbing",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "skates-092",
     "name": "Skates",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "snow-skis-093",
     "name": "Snow skis",
     "costValue": 15,
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "tent-large-ten-men-094",
     "name": "Tent, Large (ten men)",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 20,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "tent-pavillion-095",
     "name": "Tent, Pavillion",
     "costValue": 100,
     "costCurrency": "gp",
     "weight": 40,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "tent-small-one-man-096",
     "name": "Tent, Small (one man)",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "trap-small-animal-097",
     "name": "Trap, small animal",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "trap-medium-animal-098",
     "name": "Trap, medium animal",
     "costValue": 7,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "trap-large-animal-099",
     "name": "Trap, large animal",
     "costValue": 14,
     "costCurrency": "gp",
     "weight": 5,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "travois-100",
     "name": "Travois",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 15,
     "category": "general-equipment",
-    "subCategory": "outdoor",
-    "amount": 0
+    "subCategory": "outdoor"
   },
   {
+    "id": "journal-blank-101",
     "name": "Journal (blank)",
     "costValue": 20,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "thieves-picks-and-tools-102",
     "name": "Thieves' picks and tools",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "class-items",
-    "amount": 0
+    "subCategory": "class-items"
   },
   {
+    "id": "tinderbox-flint-and-steel-103",
     "name": "Tinderbox, flint and steel",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "torches-6-104",
     "name": "Torches, 6",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "whetstone-105",
     "name": "Whetstone",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "class-items",
-    "amount": 0
+    "subCategory": "class-items"
   },
   {
+    "id": "magnet-small-106",
     "name": "Magnet, small",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "magnifying-glass-107",
     "name": "Magnifying glass",
     "costValue": 100,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "mirror-small-metal-108",
     "name": "Mirror, small metal",
     "costValue": 7,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "mirror-small-silver-109",
     "name": "Mirror, small silver",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 0.1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "nails-iron-20-110",
     "name": "Nails, Iron (20)",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "nails-silver-20-111",
     "name": "Nails, Silver (20)",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "needle-magnitized-112",
     "name": "Needle, magnitized",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "needle-sewing-113",
     "name": "Needle, sewing",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "paint-per-gallon-114",
     "name": "Paint, per gallon",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 4,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "paint-small-pot-115",
     "name": "Paint, small pot",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "pick-axe-mining-116",
     "name": "Pick Axe, mining",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "pliers-117",
     "name": "Pliers",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "pole-10-collapsing-118",
     "name": "Pole, 10' collapsing",
     "costValue": 50,
     "costCurrency": "gp",
     "weight": 15,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "pole-10-wooden-119",
     "name": "Pole, 10' wooden",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 10,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "scissors-120",
     "name": "Scissors",
     "costValue": 5,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "tools",
-    "amount": 0
+    "subCategory": "tools"
   },
   {
+    "id": "signal-whistle-121",
     "name": "Signal whistle",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "stringtwine-100-ft-122",
     "name": "String/Twine, 100 ft.",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 1,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "stringtwine-silk-100-ft-123",
     "name": "String/Twine, Silk, 100 ft.",
     "costValue": 6,
     "costCurrency": "sp",
     "weight": 0.5,
     "category": "general-equipment",
-    "subCategory": "dungeon-exploration",
-    "amount": 0
+    "subCategory": "dungeon-exploration"
   },
   {
+    "id": "wineskinwaterskin-124",
     "name": "Wineskin/Waterskin",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 2,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "wineskinwaterskin-gallon-125",
     "name": "Wineskin/Waterskin, gallon",
     "costValue": 3,
     "costCurrency": "gp",
     "weight": 7,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "winter-blanket-126",
     "name": "Winter blanket",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 3,
     "category": "general-equipment",
-    "subCategory": "personal-equipment",
-    "amount": 0
+    "subCategory": "personal-equipment"
   },
   {
+    "id": "hand-axe-127",
     "name": "Hand Axe",
     "costValue": 4,
     "costCurrency": "gp",
@@ -1146,10 +1237,10 @@
     "damage": "1d6",
     "category": "axes",
     "type": "both",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "battle-axe-128",
     "name": "Battle Axe",
     "costValue": 7,
     "costCurrency": "gp",
@@ -1157,10 +1248,10 @@
     "weight": 7,
     "damage": "1d8",
     "category": "axes",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "great-axe-129",
     "name": "Great Axe",
     "costValue": 14,
     "costCurrency": "gp",
@@ -1168,10 +1259,10 @@
     "weight": 15,
     "damage": "1d10",
     "category": "axes",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "pickaxe-military-pick-130",
     "name": "Pickaxe (Military Pick)",
     "costValue": 6,
     "costCurrency": "gp",
@@ -1179,10 +1270,10 @@
     "weight": 4,
     "damage": "1d6",
     "category": "axes",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "mattock-footmans-pick-131",
     "name": "Mattock (Footman's Pick)",
     "costValue": 8,
     "costCurrency": "gp",
@@ -1190,10 +1281,10 @@
     "weight": 6,
     "damage": "1d8",
     "category": "axes",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "shortbow-132",
     "name": "Shortbow",
     "costValue": 25,
     "costCurrency": "gp",
@@ -1202,10 +1293,10 @@
     "category": "bows",
     "type": "missile",
     "range": [50, 100, 150],
-    "amount": 0,
     "ammo": ["Shortbow Arrow", "Silver† Shortbow Arrow"]
   },
   {
+    "id": "longbow-133",
     "name": "Longbow",
     "costValue": 60,
     "costCurrency": "gp",
@@ -1214,10 +1305,10 @@
     "category": "bows",
     "type": "missile",
     "range": [70, 140, 210],
-    "amount": 0,
     "ammo": ["Longbow Arrow", "Silver† Longbow Arrow"]
   },
   {
+    "id": "light-crossbow-134",
     "name": "Light Crossbow",
     "costValue": 30,
     "costCurrency": "gp",
@@ -1226,10 +1317,10 @@
     "category": "bows",
     "type": "missile",
     "range": [60, 120, 180],
-    "amount": 0,
     "ammo": ["Light Quarrel", "Silver† Light Quarrel"]
   },
   {
+    "id": "heavy-crossbow-135",
     "name": "Heavy Crossbow",
     "costValue": 50,
     "costCurrency": "gp",
@@ -1238,10 +1329,10 @@
     "category": "bows",
     "type": "missile",
     "range": [80, 160, 240],
-    "amount": 0,
     "ammo": ["Heavy Quarrel", "Silver† Heavy Quarrel"]
   },
   {
+    "id": "hand-crossbow-136",
     "name": "Hand Crossbow",
     "costValue": 150,
     "costCurrency": "gp",
@@ -1250,10 +1341,10 @@
     "category": "bows",
     "type": "missile",
     "range": [30, 60, 90],
-    "amount": 0,
     "ammo": ["Hand Quarrel", "Silver† Hand Quarrel"]
   },
   {
+    "id": "bullet-crossbow-137",
     "name": "Bullet Crossbow",
     "costValue": 30,
     "costCurrency": "gp",
@@ -1261,10 +1352,10 @@
     "weight": 7,
     "category": "bows",
     "type": "missile",
-    "amount": 0,
     "ammo": ["Bullet", "Silver† Bullet"]
   },
   {
+    "id": "dagger-138",
     "name": "Dagger",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1273,10 +1364,10 @@
     "damage": "1d4",
     "category": "daggers",
     "type": "both",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "defending-dagger-139",
     "name": "Defending Dagger",
     "costValue": 7,
     "costCurrency": "gp",
@@ -1284,10 +1375,10 @@
     "weight": 2,
     "damage": "1d4",
     "category": "daggers",
-    "type": "both",
-    "amount": 0
+    "type": "both"
   },
   {
+    "id": "silver-dagger-140",
     "name": "Silver† Dagger",
     "costValue": 25,
     "costCurrency": "gp",
@@ -1295,10 +1386,10 @@
     "weight": 1,
     "damage": "1d4",
     "category": "daggers",
-    "type": "both",
-    "amount": 0
+    "type": "both"
   },
   {
+    "id": "shortswordcutlass-141",
     "name": "Shortsword/Cutlass",
     "costValue": 6,
     "costCurrency": "gp",
@@ -1306,10 +1397,10 @@
     "weight": 3,
     "damage": "1d6",
     "category": "swords",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "longswordscimitar-142",
     "name": "Longsword/Scimitar",
     "costValue": 10,
     "costCurrency": "gp",
@@ -1317,10 +1408,10 @@
     "weight": 4,
     "damage": "1d8",
     "category": "swords",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "twohanded-sword-143",
     "name": "Two-Handed Sword",
     "costValue": 18,
     "costCurrency": "gp",
@@ -1328,10 +1419,10 @@
     "weight": 10,
     "damage": "1d10",
     "category": "swords",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "warhammer-144",
     "name": "Warhammer",
     "costValue": 4,
     "costCurrency": "gp",
@@ -1340,10 +1431,10 @@
     "damage": "1d6",
     "category": "hammers-and-maces",
     "type": "both",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "light-mace-145",
     "name": "Light Mace",
     "costValue": 5,
     "costCurrency": "gp",
@@ -1351,10 +1442,10 @@
     "weight": 5,
     "damage": "1d6",
     "category": "hammers-and-maces",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "mace-146",
     "name": "Mace",
     "costValue": 6,
     "costCurrency": "gp",
@@ -1362,10 +1453,10 @@
     "weight": 10,
     "damage": "1d8",
     "category": "hammers-and-maces",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "morningstar-147",
     "name": "Morningstar",
     "costValue": 7,
     "costCurrency": "gp",
@@ -1373,10 +1464,10 @@
     "weight": 7,
     "damage": "1d8",
     "category": "hammers-and-maces",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "maulgreat-mace-148",
     "name": "Maul/Great Mace",
     "costValue": 10,
     "costCurrency": "gp",
@@ -1384,10 +1475,10 @@
     "weight": 16,
     "damage": "1d10",
     "category": "hammers-and-maces",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "clubcudgelwalking-staff-149",
     "name": "Club/Cudgel/Walking Staff",
     "costValue": 2,
     "costCurrency": "sp",
@@ -1395,10 +1486,10 @@
     "weight": 1,
     "damage": "1d4",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "silver-walking-stickstaff-150",
     "name": "Silver Walking Stick/Staff†",
     "costValue": 4,
     "costCurrency": "gp",
@@ -1406,10 +1497,10 @@
     "weight": 1,
     "damage": "1d4",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "greatclub-151",
     "name": "Greatclub",
     "costValue": 3,
     "costCurrency": "gp",
@@ -1417,10 +1508,10 @@
     "weight": 8,
     "damage": "1d8",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "sapblackjack-152",
     "name": "Sap/Blackjack**",
     "costValue": 1,
     "costCurrency": "gp",
@@ -1428,10 +1519,10 @@
     "weight": 1,
     "damage": "1d4",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "hook-153",
     "name": "Hook",
     "costValue": 6,
     "costCurrency": "sp",
@@ -1439,10 +1530,10 @@
     "weight": 1,
     "damage": "1d4",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "sickle-154",
     "name": "Sickle",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1450,10 +1541,10 @@
     "weight": 2,
     "damage": "1d6",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "scythe-155",
     "name": "Scythe",
     "costValue": 7,
     "costCurrency": "gp",
@@ -1461,10 +1552,10 @@
     "weight": 10,
     "damage": "1d8",
     "category": "other-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "quarterstaff-156",
     "name": "Quarterstaff",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1472,10 +1563,10 @@
     "weight": 4,
     "damage": "1d6",
     "category": "spears-and-polearms",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "pole-arm-157",
     "name": "Pole Arm",
     "costValue": 9,
     "costCurrency": "gp",
@@ -1483,10 +1574,10 @@
     "weight": 15,
     "damage": "1d10",
     "category": "spears-and-polearms",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "spade-158",
     "name": "Spade",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1494,10 +1585,10 @@
     "weight": 4,
     "damage": "1d6",
     "category": "improvised-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "crowbar-159",
     "name": "Crowbar",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1505,10 +1596,10 @@
     "weight": 5,
     "damage": "1d6",
     "category": "improvised-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "pitchfork-160",
     "name": "Pitchfork",
     "costValue": 1,
     "costCurrency": "gp",
@@ -1516,10 +1607,10 @@
     "weight": 3,
     "damage": "1d6",
     "category": "improvised-weapons",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "chain-161",
     "name": "Chain††",
     "costValue": 9,
     "costCurrency": "gp",
@@ -1527,10 +1618,10 @@
     "weight": 3,
     "damage": "1d4",
     "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "flail-162",
     "name": "Flail",
     "costValue": 8,
     "costCurrency": "gp",
@@ -1538,10 +1629,10 @@
     "weight": 6,
     "damage": "1d8",
     "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "great-flail-163",
     "name": "Great Flail",
     "costValue": 12,
     "costCurrency": "gp",
@@ -1549,10 +1640,10 @@
     "weight": 15,
     "damage": "1d10",
     "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "whip-164",
     "name": "Whip",
     "costValue": 3,
     "costCurrency": "gp",
@@ -1560,10 +1651,10 @@
     "weight": 2,
     "damage": "1d3",
     "category": "chain-and-flail",
-    "type": "melee",
-    "amount": 0
+    "type": "melee"
   },
   {
+    "id": "sling-165",
     "name": "Sling",
     "costValue": 1,
     "costCurrency": "gp",
@@ -1572,10 +1663,10 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [30, 60, 90],
-    "amount": 0,
     "ammo": ["Stone"]
   },
   {
+    "id": "bola-e-166",
     "name": "Bola (E)",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1584,10 +1675,10 @@
     "category": "slings-and-hurled-weapons",
     "damage": "1d3",
     "type": "missile",
-    "range": [20, 40, 60],
-    "amount": 0
+    "range": [20, 40, 60]
   },
   {
+    "id": "dartthrowing-blade-167",
     "name": "Dart/Throwing Blade",
     "costValue": 1,
     "costCurrency": "gp",
@@ -1596,10 +1687,10 @@
     "category": "slings-and-hurled-weapons",
     "damage": "1d3",
     "type": "missile",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "javelin-168",
     "name": "Javelin",
     "costValue": 1,
     "costCurrency": "gp",
@@ -1608,10 +1699,10 @@
     "category": "slings-and-hurled-weapons",
     "damage": "1d4",
     "type": "missile",
-    "range": [20, 40, 60],
-    "amount": 0
+    "range": [20, 40, 60]
   },
   {
+    "id": "blowgun-169",
     "name": "Blowgun",
     "costValue": 2,
     "costCurrency": "gp",
@@ -1620,10 +1711,10 @@
     "category": "slings-and-hurled-weapons",
     "type": "missile",
     "range": [10, 20, 30],
-    "amount": 0,
     "ammo": ["Dart/Throwing Blade"]
   },
   {
+    "id": "net-e-170",
     "name": "Net (E)",
     "costValue": 20,
     "costCurrency": "gp",
@@ -1631,10 +1722,10 @@
     "weight": 5,
     "category": "slings-and-hurled-weapons",
     "type": "missile",
-    "range": [10, 15, 20],
-    "amount": 0
+    "range": [10, 15, 20]
   },
   {
+    "id": "spear-171",
     "name": "Spear",
     "costValue": 5,
     "costCurrency": "gp",
@@ -1644,10 +1735,10 @@
     "damage": "1d6",
     "twoHandedDamage": "1d8",
     "type": "both",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "forktrident-e-172",
     "name": "Fork/Trident (E)",
     "costValue": 6,
     "costCurrency": "gp",
@@ -1657,10 +1748,10 @@
     "damage": "1d6",
     "twoHandedDamage": "1d8",
     "type": "both",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "boar-spear-173",
     "name": "Boar Spear",
     "costValue": 6,
     "costCurrency": "gp",
@@ -1670,10 +1761,10 @@
     "damage": "1d6",
     "twoHandedDamage": "1d8",
     "type": "both",
-    "range": [10, 20, 30],
-    "amount": 0
+    "range": [10, 20, 30]
   },
   {
+    "id": "lance-174",
     "name": "Lance",
     "costValue": 10,
     "costCurrency": "gp",
@@ -1681,412 +1772,411 @@
     "weight": 10,
     "category": "spears-and-polearms",
     "damage": "1d8",
-    "type": "both",
-    "amount": 0
+    "type": "both"
   },
   {
+    "id": "shortbow-arrow-175",
     "name": "Shortbow Arrow",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "silver-shortbow-arrow-176",
     "name": "Silver† Shortbow Arrow",
     "costValue": 2,
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "longbow-arrow-177",
     "name": "Longbow Arrow",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "silver-longbow-arrow-178",
     "name": "Silver† Longbow Arrow",
     "costValue": 4,
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "light-quarrel-179",
     "name": "Light Quarrel",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "silver-light-quarrel-180",
     "name": "Silver† Light Quarrel",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d6",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "heavy-quarrel-181",
     "name": "Heavy Quarrel",
     "costValue": 4,
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "silver-heavy-quarrel-182",
     "name": "Silver† Heavy Quarrel",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d8",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "hand-quarrel-183",
     "name": "Hand Quarrel",
     "costValue": 2,
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d3",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "silver-hand-quarrel-184",
     "name": "Silver† Hand Quarrel",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d3",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "bullet-185",
     "name": "Bullet",
     "costValue": 1,
     "costCurrency": "sp",
     "weight": 0.1,
     "damage": "1d4",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "silver-bullet-186",
     "name": "Silver† Bullet",
     "costValue": 1,
     "costCurrency": "gp",
     "weight": 0.1,
     "damage": "1d4",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "stone-187",
     "name": "Stone",
     "costValue": 0,
     "costCurrency": "cp",
     "weight": 0.1,
     "damage": "1d3",
-    "category": "ammunition",
-    "amount": 0
+    "category": "ammunition"
   },
   {
+    "id": "paddedquilted-armor-188",
     "name": "Padded/Quilted Armor",
     "costValue": 15,
     "costCurrency": "gp",
     "weight": 10,
     "AC": 12,
     "category": "armor",
-    "amount": 0,
     "type": 1
   },
   {
+    "id": "hide-armor-189",
     "name": "Hide Armor",
     "costValue": 10,
     "costCurrency": "gp",
     "weight": 30,
     "AC": 13,
     "category": "armor",
-    "amount": 0,
     "type": 1
   },
   {
+    "id": "leather-armor-190",
     "name": "Leather Armor",
     "costValue": 20,
     "costCurrency": "gp",
     "weight": 15,
     "AC": 13,
     "category": "armor",
-    "amount": 0,
     "type": 1
   },
   {
+    "id": "studded-leather-armor-191",
     "name": "Studded Leather Armor",
     "costValue": 30,
     "costCurrency": "gp",
     "weight": 25,
     "AC": 14,
     "category": "armor",
-    "amount": 0,
     "type": 1
   },
   {
+    "id": "ring-mail-192",
     "name": "Ring Mail",
     "costValue": 25,
     "costCurrency": "gp",
     "weight": 30,
     "AC": 14,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "brigandine-armor-193",
     "name": "Brigandine Armor",
     "costValue": 80,
     "costCurrency": "gp",
     "weight": 30,
     "AC": 15,
     "category": "armor",
-    "amount": 0,
     "type": 1
   },
   {
+    "id": "chain-mail-194",
     "name": "Chain Mail",
     "costValue": 60,
     "costCurrency": "gp",
     "weight": 40,
     "AC": 15,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "scale-mail-195",
     "name": "Scale Mail",
     "costValue": 80,
     "costCurrency": "gp",
     "weight": 55,
     "AC": 16,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "splint-mail-196",
     "name": "Splint Mail",
     "costValue": 100,
     "costCurrency": "gp",
     "weight": 45,
     "AC": 16,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "banded-mail-197",
     "name": "Banded Mail",
     "costValue": 200,
     "costCurrency": "gp",
     "weight": 35,
     "AC": 16,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "plate-mail-198",
     "name": "Plate Mail",
     "costValue": 300,
     "costCurrency": "gp",
     "weight": 50,
     "AC": 17,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "field-plate-mail-199",
     "name": "Field Plate Mail",
     "costValue": 500,
     "costCurrency": "gp",
     "weight": 70,
     "AC": 18,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "full-plate-mail-200",
     "name": "Full Plate Mail",
     "costValue": 1500,
     "costCurrency": "gp",
     "weight": 80,
     "AC": 19,
     "category": "armor",
-    "amount": 0,
     "type": 2
   },
   {
+    "id": "buckler-shield-201",
     "name": "Buckler Shield",
     "costValue": 5,
     "costCurrency": "gp",
     "weight": 2,
     "AC": "+1",
     "missileAC": "+0",
-    "category": "shields",
-    "amount": 0
+    "category": "shields"
   },
   {
+    "id": "shield-202",
     "name": "Shield",
     "costValue": 7,
     "costCurrency": "gp",
     "weight": 5,
     "AC": "+1",
     "missileAC": "+1",
-    "category": "shields",
-    "amount": 0
+    "category": "shields"
   },
   {
+    "id": "tower-shield-203",
     "name": "Tower Shield",
     "costValue": 15,
     "costCurrency": "gp",
     "weight": 12,
     "AC": "+1",
     "missileAC": "+3",
-    "category": "shields",
-    "amount": 0
+    "category": "shields"
   },
   {
+    "id": "light-barding-204",
     "name": "Light Barding",
     "costValue": 120,
     "costCurrency": "gp",
     "weight": 0,
     "animalWeight": 50,
     "AC": "+2",
-    "category": "barding",
-    "amount": 0
+    "category": "barding"
   },
   {
+    "id": "mail-barding-205",
     "name": "Mail Barding",
     "costValue": 400,
     "costCurrency": "gp",
     "weight": 0,
     "animalWeight": 80,
     "AC": "+4",
-    "category": "barding",
-    "amount": 0
+    "category": "barding"
   },
   {
+    "id": "plate-barding-206",
     "name": "Plate Barding",
     "costValue": 1200,
     "costCurrency": "gp",
     "weight": 0,
     "animalWeight": 100,
     "AC": "+6",
-    "category": "barding",
-    "amount": 0
+    "category": "barding"
   },
   {
+    "id": "horse-draft-207",
     "name": "Horse, Draft",
     "costValue": 120,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 350,
     "capacity": 700
   },
   {
+    "id": "horse-war-208",
     "name": "Horse, War",
     "costValue": 200,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 350,
     "capacity": 700
   },
   {
+    "id": "horse-riding-209",
     "name": "Horse, Riding",
     "costValue": 75,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 250,
     "capacity": 500
   },
   {
+    "id": "pony-210",
     "name": "Pony*",
     "costValue": 40,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 275,
     "capacity": 550
   },
   {
+    "id": "pony-war-211",
     "name": "Pony, War*",
     "costValue": 80,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 275,
     "capacity": 550
   },
   {
+    "id": "camel-212",
     "name": "Camel",
     "costValue": 75,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 400,
     "capacity": 800
   },
   {
+    "id": "donkey-mule-or-ass-213",
     "name": "Donkey, mule, or ass",
     "costValue": 40,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 70,
     "capacity": 140
   },
   {
+    "id": "elephant-labor-214",
     "name": "Elephant, Labor",
     "costValue": 200,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 7000,
     "capacity": 14000
   },
   {
+    "id": "elephant-war-215",
     "name": "Elephant, War",
     "costValue": 500,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 7000,
     "capacity": 14000
   },
   {
+    "id": "war-ram-216",
     "name": "War Ram",
     "costValue": 200,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 0,
     "capacity": 0
   },
   {
+    "id": "riding-dog-217",
     "name": "Riding Dog",
     "costValue": 80,
     "costCurrency": "gp",
     "category": "beasts-of-burden",
-    "amount": 0,
     "lowCapacity": 150,
     "capacity": 300
   }

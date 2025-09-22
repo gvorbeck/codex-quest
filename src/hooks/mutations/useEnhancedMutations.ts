@@ -3,6 +3,7 @@ import { useNotificationContext } from "@/hooks";
 import { createMutationHandlers } from "@/lib/globalErrorHandler";
 import { queryKeys } from "@/lib/queryKeys";
 import type { Character, Game } from "@/types";
+import type { EquipmentPack } from "@/types/character";
 import type { CharacterListItem } from "@/services/characters";
 import {
   saveCharacter as saveCharacterService,
@@ -10,6 +11,38 @@ import {
   saveGame as saveGameService,
   deleteGame as deleteGameService
 } from "@/services";
+import { applyEquipmentPackToCharacter } from "@/utils/equipment";
+
+// Type guards for query data safety
+function isCharacterListArray(data: unknown): data is CharacterListItem[] {
+  return Array.isArray(data) && (data.length === 0 || data.every(item => typeof item === 'object' && item !== null && 'id' in item));
+}
+
+function isGameArray(data: unknown): data is Game[] {
+  return Array.isArray(data) && (data.length === 0 || data.every(item => typeof item === 'object' && item !== null && 'id' in item));
+}
+
+// Shared utility functions for optimistic updates
+function createOptimisticSaveUpdate<T extends { id?: string }>(
+  items: T[],
+  entity: T,
+  entityId?: string
+): T[] {
+  if (entityId) {
+    return items.map((item) =>
+      item.id === entityId ? { ...entity, id: entityId } : item
+    );
+  } else {
+    return [...items, { ...entity, id: `temp-${crypto.randomUUID()}` }];
+  }
+}
+
+function createOptimisticDeleteUpdate<T extends { id?: string }>(
+  items: T[],
+  entityId: string
+): T[] {
+  return items.filter((item) => item.id !== entityId);
+}
 
 /**
  * Enhanced character mutations with consistent error handling and user feedback
@@ -17,6 +50,7 @@ import {
 export function useCharacterMutations(options?: {
   onSaveSuccess?: (characterId: string) => void;
   onDeleteSuccess?: () => void;
+  onPackApplied?: () => void;
 }) {
   const queryClient = useQueryClient();
   const notifications = useNotificationContext();
@@ -54,20 +88,14 @@ export function useCharacterMutations(options?: {
       // Optimistic update
       queryClient.setQueryData(
         queryKeys.characters.user(variables.userId),
-        (old: CharacterListItem[]) => {
-          if (!old) return [{ ...variables.character, id: `temp-${Date.now()}` } as CharacterListItem];
-
-          if (variables.characterId) {
-            // Update existing
-            return old.map((char) =>
-              char.id === variables.characterId
-                ? { ...variables.character, id: variables.characterId } as CharacterListItem
-                : char
-            );
-          } else {
-            // Add new with temporary ID
-            return [...old, { ...variables.character, id: `temp-${Date.now()}` } as CharacterListItem];
-          }
+        (old: unknown) => {
+          const characters = isCharacterListArray(old) ? old : [];
+          const characterListItem = { ...variables.character, id: variables.characterId || `temp-${crypto.randomUUID()}` } as CharacterListItem;
+          return createOptimisticSaveUpdate(
+            characters,
+            characterListItem,
+            variables.characterId
+          );
         }
       );
 
@@ -128,13 +156,16 @@ export function useCharacterMutations(options?: {
       );
 
       // Find character name for feedback
-      const characters = previousCharacters as CharacterListItem[] || [];
+      const characters = isCharacterListArray(previousCharacters) ? previousCharacters : [];
       const character = characters.find(c => c.id === variables.characterId);
 
       // Optimistic removal
       queryClient.setQueryData(
         queryKeys.characters.user(variables.userId),
-        (old: CharacterListItem[]) => old?.filter((char) => char.id !== variables.characterId) || []
+        (old: unknown) => {
+          const characters = isCharacterListArray(old) ? old : [];
+          return createOptimisticDeleteUpdate(characters, variables.characterId);
+        }
       );
 
       return { previousCharacters, characterName: character?.name };
@@ -166,13 +197,47 @@ export function useCharacterMutations(options?: {
     },
   });
 
+  const applyPackMutation = useMutation({
+    mutationFn: ({ character, pack }: { character: Character; pack: EquipmentPack }) => {
+      return new Promise<{ character: Character; pack: EquipmentPack }>((resolve, reject) => {
+        const { character: updatedCharacter, result } = applyEquipmentPackToCharacter(character, pack);
+
+        if (result.success) {
+          resolve({ character: updatedCharacter, pack });
+        } else {
+          reject(new Error(result.error || "Failed to apply equipment pack"));
+        }
+      });
+    },
+
+    onSuccess: ({ pack }) => {
+      onSuccess({
+        operation: "Apply",
+        entityType: "equipment pack",
+        entityName: pack.name,
+      });
+      options?.onPackApplied?.();
+    },
+
+    onError: (error, variables) => {
+      onError(error, {
+        operation: "Apply",
+        entityType: "equipment pack",
+        entityName: variables?.pack?.name || "Unknown pack",
+      });
+    },
+  });
+
   return {
     saveCharacter: saveMutation.mutate,
     deleteCharacter: deleteMutation.mutate,
+    applyEquipmentPack: applyPackMutation.mutateAsync,
     isSaving: saveMutation.isPending,
     isDeleting: deleteMutation.isPending,
+    isApplyingPack: applyPackMutation.isPending,
     saveError: saveMutation.error,
     deleteError: deleteMutation.error,
+    packError: applyPackMutation.error,
   };
 }
 
@@ -206,18 +271,9 @@ export function useGameMutations(options?: {
       // Optimistic update
       queryClient.setQueryData(
         queryKeys.games.user(variables.userId),
-        (old: Game[]) => {
-          if (!old) return [variables.game];
-
-          if (variables.gameId) {
-            return old.map((game) =>
-              game.id === variables.gameId
-                ? { ...variables.game, id: variables.gameId }
-                : game
-            );
-          } else {
-            return [...old, { ...variables.game, id: `temp-${Date.now()}` }];
-          }
+        (old: unknown) => {
+          const games = isGameArray(old) ? old : [];
+          return createOptimisticSaveUpdate(games, variables.game, variables.gameId);
         }
       );
 
@@ -269,12 +325,15 @@ export function useGameMutations(options?: {
         queryKeys.games.user(variables.userId)
       );
 
-      const games = previousGames as Game[] || [];
+      const games = isGameArray(previousGames) ? previousGames : [];
       const game = games.find(g => g.id === variables.gameId);
 
       queryClient.setQueryData(
         queryKeys.games.user(variables.userId),
-        (old: Game[]) => old?.filter((game) => game.id !== variables.gameId) || []
+        (old: unknown) => {
+          const games = isGameArray(old) ? old : [];
+          return createOptimisticDeleteUpdate(games, variables.gameId);
+        }
       );
 
       return { previousGames, gameName: game?.name };

@@ -16,7 +16,7 @@ import { Callout } from "@/components/ui/core/feedback";
 import { Button, Icon } from "@/components/ui";
 import { LanguageEditModal } from "@/components/modals";
 import type { Character } from "@/types";
-import { allRaces, allClasses } from "@/data";
+import { getRaceById, getClassById } from "@/utils";
 
 interface SpecialsRestrictionsProps {
   character: Character;
@@ -35,12 +35,12 @@ export default function SpecialsRestrictions({
 }: SpecialsRestrictionsProps) {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const race = useMemo(() => {
-    return allRaces.find((r) => r.id === character.race?.toLowerCase());
+    return getRaceById(character.race?.toLowerCase() || "");
   }, [character.race]);
 
   const classes = useMemo(() => {
     return character.class
-      .map((classId) => allClasses.find((c) => c.id === classId?.toLowerCase()))
+      .map((classId) => getClassById(classId?.toLowerCase() || ""))
       .filter(Boolean);
   }, [character.class]);
 

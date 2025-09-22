@@ -21,29 +21,12 @@ import { CURRENT_VERSION } from "@/services/characterMigration";
 // Note: Using direct imports here to avoid circular dependency with barrel file
 import { GAME_MECHANICS } from "./mechanics";
 import { logger } from "./data";
+import { isWornArmor, isWornShield } from "@/utils/equipment";
 
 // ============================================================================
 // EQUIPMENT TYPE GUARDS & CALCULATIONS
 // ============================================================================
 
-export const isWornArmor = (
-  item: Equipment
-): item is Equipment & { AC: number } =>
-  Boolean(
-    item.wearing &&
-      typeof item.AC === "number" &&
-      item.category &&
-      !item.category.toLowerCase().includes("shield")
-  );
-
-export const isWornShield = (
-  item: Equipment
-): item is Equipment & { AC: string } =>
-  Boolean(
-    item.wearing &&
-      typeof item.AC === "string" &&
-      item.category?.toLowerCase().includes("shield")
-  );
 
 const parseShieldBonus = (
   shieldAC: string | number,
@@ -69,6 +52,15 @@ interface EquipmentLike {
   category?: string;
 }
 
+const isEquipmentArray = (equipment: unknown[]): equipment is Equipment[] => {
+  return equipment.every((item): item is Equipment =>
+    typeof item === 'object' &&
+    item !== null &&
+    'name' in item &&
+    typeof item.name === 'string'
+  );
+};
+
 export function calculateArmorClass(
   character: Character | { equipment?: EquipmentLike[] }
 ): number {
@@ -77,16 +69,20 @@ export function calculateArmorClass(
     return GAME_MECHANICS.DEFAULT_UNARMORED_AC;
   }
 
-  const eqArr = equipment as Equipment[];
+  if (!isEquipmentArray(equipment)) {
+    logger.warn('Invalid equipment array passed to calculateArmorClass');
+    return GAME_MECHANICS.DEFAULT_UNARMORED_AC;
+  }
+
   let baseAC = GAME_MECHANICS.DEFAULT_UNARMORED_AC;
   let shieldBonus = 0;
 
-  const wornArmor = eqArr.find(isWornArmor);
+  const wornArmor = equipment.find(isWornArmor);
   if (wornArmor && typeof wornArmor.AC === "number") {
     baseAC = wornArmor.AC;
   }
 
-  const wornShields = eqArr.filter(isWornShield);
+  const wornShields = equipment.filter(isWornShield);
   wornShields.forEach((shield) => {
     shieldBonus += parseShieldBonus(
       shield.AC ?? 0,
@@ -127,11 +123,33 @@ export function calculateMovementRate(character: Character): string {
   return GAME_MECHANICS.DEFAULT_MOVEMENT_RATE;
 }
 
+// Ability score ranges and their modifiers
+const ABILITY_SCORE_RANGES = {
+  VERY_LOW: { min: 1, max: 3, modifier: -3 },
+  LOW: { min: 4, max: 5, modifier: -2 },
+  BELOW_AVERAGE: { min: 6, max: 8, modifier: -1 },
+  AVERAGE: { min: 9, max: 12, modifier: 0 },
+  ABOVE_AVERAGE: { min: 13, max: 15, modifier: 1 },
+  HIGH: { min: 16, max: 17, modifier: 2 },
+  VERY_HIGH: { min: 18, max: Infinity, modifier: 3 },
+} as const;
+
+// Optimized O(1) ability modifier lookup table
+const MODIFIER_LOOKUP: Record<number, number> = (() => {
+  const lookup: Record<number, number> = {};
+
+  Object.values(ABILITY_SCORE_RANGES).forEach(({ min, max, modifier }) => {
+    const actualMax = max === Infinity ? 25 : max; // Reasonable upper bound
+    for (let i = min; i <= actualMax; i++) {
+      lookup[i] = modifier;
+    }
+  });
+
+  return lookup;
+})();
+
 export const calculateModifier = (score: number): number => {
-  const threshold = GAME_MECHANICS.ABILITY_MODIFIERS.find(
-    (t) => score <= t.max
-  );
-  return threshold?.modifier ?? GAME_MECHANICS.DEFAULT_HIGH_MODIFIER;
+  return MODIFIER_LOOKUP[score] ?? GAME_MECHANICS.DEFAULT_HIGH_MODIFIER;
 };
 
 export const formatModifier = (modifier: number): string => {
@@ -150,13 +168,6 @@ export const getAbilityScoreCategory = (
   return "normal";
 };
 
-export const cleanEquipmentArray = (equipment: Equipment[]): Equipment[] => {
-  return equipment.filter((item) => item.amount > 0);
-};
-
-export const ensureEquipmentAmount = (equipment: Equipment): Equipment => {
-  return { ...equipment, amount: Math.max(1, equipment.amount || 0) };
-};
 
 // ============================================================================
 // CHARACTER CREATION
@@ -1105,3 +1116,4 @@ export const characterSchema: ValidationSchema<Partial<Character>> = {
     },
   ],
 };
+

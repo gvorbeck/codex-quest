@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/core/primitives";
 import { useHPGain, useLoadingState } from "@/hooks";
 import { logger } from "@/utils";
 import { LEVEL_UP_CONSTANTS } from "@/constants";
-import { isCustomClass } from "@/utils";
+import { isCustomClass, getClassById } from "@/utils";
 import CurrentStatusCard from "../../character/sheet/level-up/CurrentStatusCard";
 import HPGainPreview from "../../character/sheet/level-up/HPGainPreview";
 import LevelUpRequirements from "../../character/sheet/level-up/LevelUpRequirements";
@@ -36,7 +36,7 @@ export default function LevelUpModal({
     if (!primaryClassId) return null;
 
     // Try exact match first, then case-insensitive match for legacy data
-    let primaryClass = classes.find((c) => c.id === primaryClassId);
+    let primaryClass = getClassById(primaryClassId, classes);
 
     if (!primaryClass) {
       // Try case-insensitive match (for migrated data)

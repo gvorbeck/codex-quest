@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { allClasses } from "@/data";
 import { CLASSES_WITH_SKILLS } from "@/constants";
 import type { CharacterListItem } from "@/services";
 import type {
@@ -8,7 +7,7 @@ import type {
   SkillTableRow,
   ClassSkillData,
 } from "@/types";
-import { logger } from "@/utils";
+import { logger, getClassById } from "@/utils";
 
 /**
  * Custom hook to organize player character skill data by class
@@ -44,7 +43,7 @@ export const useSkillDataByClass = (
     // Build skill data for each class
     const result = Object.entries(classGroups).map(([classId, characters]) => {
       const skillClassId = classId as SkillClassKey;
-      const classData = allClasses.find((cls) => cls.id === skillClassId);
+      const classData = getClassById(skillClassId);
       const classInfo = CLASSES_WITH_SKILLS[skillClassId];
 
       if (!classData?.skills) {

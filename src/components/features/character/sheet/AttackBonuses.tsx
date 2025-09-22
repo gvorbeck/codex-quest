@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/core/feedback";
 import { SectionWrapper } from "@/components/ui/core/layout";
 import RollableButton from "@/components/domain/dice/RollableButton";
-import { formatModifier } from "@/utils";
-import { allRaces } from "@/data";
+import { formatModifier, getRaceById } from "@/utils";
 import { SIZE_STYLES } from "@/constants";
 import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 import type { Character, SpecialAbility } from "@/types";
@@ -93,7 +92,7 @@ export default function AttackBonuses({
     // Extract racial attack bonuses from special abilities
     const getRacialAttackBonuses = () => {
       // Find the race object from the races data
-      const raceData = allRaces.find((race) => race.id === character.race);
+      const raceData = getRaceById(character.race);
       if (!raceData?.specialAbilities) return { melee: 0, missile: 0 };
 
       let meleeBonus = 0;
