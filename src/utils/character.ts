@@ -132,11 +132,29 @@ export function calculateMovementRate(character: Character): string {
   return GAME_MECHANICS.DEFAULT_MOVEMENT_RATE;
 }
 
+// Optimized O(1) ability modifier lookup table
+const MODIFIER_LOOKUP: Record<number, number> = (() => {
+  const lookup: Record<number, number> = {};
+
+  // Scores 1-3: -3 modifier
+  for (let i = 1; i <= 3; i++) lookup[i] = -3;
+  // Scores 4-5: -2 modifier
+  for (let i = 4; i <= 5; i++) lookup[i] = -2;
+  // Scores 6-8: -1 modifier
+  for (let i = 6; i <= 8; i++) lookup[i] = -1;
+  // Scores 9-12: 0 modifier
+  for (let i = 9; i <= 12; i++) lookup[i] = 0;
+  // Scores 13-15: +1 modifier
+  for (let i = 13; i <= 15; i++) lookup[i] = 1;
+  // Scores 16-17: +2 modifier
+  for (let i = 16; i <= 17; i++) lookup[i] = 2;
+  // Scores 18+: +3 modifier (handled by default case)
+
+  return lookup;
+})();
+
 export const calculateModifier = (score: number): number => {
-  const threshold = GAME_MECHANICS.ABILITY_MODIFIERS.find(
-    (t) => score <= t.max
-  );
-  return threshold?.modifier ?? GAME_MECHANICS.DEFAULT_HIGH_MODIFIER;
+  return MODIFIER_LOOKUP[score] ?? GAME_MECHANICS.DEFAULT_HIGH_MODIFIER;
 };
 
 export const formatModifier = (modifier: number): string => {
@@ -1118,17 +1136,29 @@ export const characterSchema: ValidationSchema<Partial<Character>> = {
 // Equipment lookup cache for performance
 const equipmentCache = new Map<string, Equipment | null>();
 
-// Pre-built equipment lookup map for O(1) performance
-const equipmentLookupMap = new Map<string, Record<string, unknown>>();
+// Lazy-initialized equipment lookup maps for O(1) performance
+let equipmentLookupMapByName: Map<string, Record<string, unknown>> | null = null;
+let equipmentLookupMapById: Map<string, Record<string, unknown>> | null = null;
 
-// Initialize equipment lookup map on module load
-(function initializeEquipmentMap() {
-  for (const item of equipmentData) {
-    if (typeof item === 'object' && item && typeof item['name'] === 'string') {
-      equipmentLookupMap.set(item['name'] as string, item as Record<string, unknown>);
-    }
+// Lazy initialization of equipment lookup maps - only when needed
+function initializeEquipmentMaps() {
+  if (equipmentLookupMapByName && equipmentLookupMapById) {
+    return; // Already initialized
   }
-})();
+
+  equipmentLookupMapByName = new Map();
+  equipmentLookupMapById = new Map();
+
+  equipmentData.forEach(item => {
+    if (typeof item === 'object' && item && typeof item['name'] === 'string' && typeof item['id'] === 'string') {
+      const itemRecord = item as Record<string, unknown>;
+      equipmentLookupMapByName!.set(item['name'] as string, itemRecord);
+      equipmentLookupMapById!.set(item['id'] as string, itemRecord);
+    }
+  });
+
+  logger.info(`Initialized equipment lookup with ${equipmentLookupMapById.size} items`);
+}
 
 // Supported currencies for equipment costs
 const SUPPORTED_EQUIPMENT_CURRENCIES = [CURRENCY_TYPES.GOLD, CURRENCY_TYPES.SILVER, CURRENCY_TYPES.COPPER] as const;
@@ -1147,20 +1177,9 @@ function isValidRawEquipment(item: Record<string, unknown>): boolean {
 }
 
 /**
- * Find equipment by name with caching and type safety
+ * Convert raw equipment data to Equipment type with proper type safety
  */
-function findEquipmentByName(name: string): Equipment | null {
-  // Check cache first
-  if (equipmentCache.has(name)) {
-    return equipmentCache.get(name) || null;
-  }
-
-  const rawEquipment = equipmentLookupMap.get(name);
-  if (!rawEquipment || !isValidRawEquipment(rawEquipment)) {
-    equipmentCache.set(name, null);
-    return null;
-  }
-
+function convertRawToEquipment(rawEquipment: Record<string, unknown>): Equipment {
   const equipment: Equipment = {
     name: rawEquipment['name'] as string,
     costValue: rawEquipment['costValue'] as number,
@@ -1206,9 +1225,71 @@ function findEquipmentByName(name: string): Equipment | null {
     equipment.animalWeight = rawEquipment['animalWeight'];
   }
 
-  // Cache the result
-  equipmentCache.set(name, equipment);
   return equipment;
+}
+
+/**
+ * Find equipment by name with caching and type safety
+ * @deprecated Use equipmentLookup with IDs instead for better performance
+ */
+function findEquipmentByName(name: string): Equipment | null {
+  // Ensure maps are initialized
+  initializeEquipmentMaps();
+
+  // Check cache first
+  const cacheKey = `name:${name}`;
+  if (equipmentCache.has(cacheKey)) {
+    return equipmentCache.get(cacheKey) || null;
+  }
+
+  const rawEquipment = equipmentLookupMapByName!.get(name);
+  if (!rawEquipment || !isValidRawEquipment(rawEquipment)) {
+    equipmentCache.set(cacheKey, null);
+    return null;
+  }
+
+  const equipment = convertRawToEquipment(rawEquipment);
+
+  // Cache the result
+  equipmentCache.set(cacheKey, equipment);
+  return equipment;
+}
+
+/**
+ * Find equipment by ID with caching and type safety
+ * This is the preferred method for looking up equipment
+ */
+function findEquipmentById(id: string): Equipment | null {
+  // Ensure maps are initialized
+  initializeEquipmentMaps();
+
+  // Check cache first
+  const cacheKey = `id:${id}`;
+  if (equipmentCache.has(cacheKey)) {
+    return equipmentCache.get(cacheKey) || null;
+  }
+
+  const rawEquipment = equipmentLookupMapById!.get(id);
+  if (!rawEquipment || !isValidRawEquipment(rawEquipment)) {
+    equipmentCache.set(cacheKey, null);
+    return null;
+  }
+
+  const equipment = convertRawToEquipment(rawEquipment);
+
+  // Cache the result
+  equipmentCache.set(cacheKey, equipment);
+  return equipment;
+}
+
+/**
+ * Efficient equipment lookup using an array of equipment IDs
+ * Returns an array of Equipment items matching the provided IDs
+ */
+export function equipmentLookup(equipmentIds: string[]): Equipment[] {
+  return equipmentIds
+    .map(id => findEquipmentById(id))
+    .filter((equipment): equipment is Equipment => equipment !== null);
 }
 
 
@@ -1227,10 +1308,16 @@ function processPackItems(packItems: EquipmentPack['items']): {
   let totalWeight = 0;
 
   for (const packItem of packItems) {
-    const equipment = findEquipmentByName(packItem.equipmentName);
+    // Check if this is the old format (equipmentName) or new format (equipmentId)
+    const equipment = 'equipmentId' in packItem
+      ? findEquipmentById(packItem.equipmentId)
+      : findEquipmentByName((packItem as Record<string, unknown>)['equipmentName'] as string);
 
     if (!equipment) {
-      missingItems.push(packItem.equipmentName);
+      const itemIdentifier = 'equipmentId' in packItem
+        ? packItem.equipmentId
+        : (packItem as Record<string, unknown>)['equipmentName'] as string;
+      missingItems.push(itemIdentifier);
       continue;
     }
 

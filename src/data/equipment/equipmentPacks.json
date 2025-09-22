@@ -1,0 +1,394 @@
+[
+  {
+    "id": "bag-option-1",
+    "name": "Bag Option 1",
+    "description": "Basic bag setup for all adventurers",
+    "cost": 7,
+    "weight": 2.2,
+    "items": [
+      {
+        "equipmentId": "backpack-standard-or-halfling-006",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "belt-weapon-belt-007",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "large-pouch-or-purse-007a",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": []
+  },
+  {
+    "id": "bag-option-2",
+    "name": "Bag Option 2",
+    "description": "Premium storage solution with multiple pouches",
+    "cost": 19,
+    "weight": 3.4,
+    "items": [
+      {
+        "equipmentId": "satchel-oilskin-079",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "baldric-belt-sash-080",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "belt-weapon-belt-007",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "large-pouch-or-purse-007a",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "belt-pouch-007",
+        "quantity": 2
+      }
+    ],
+    "suitableFor": []
+  },
+  {
+    "id": "adventurer-pack-1",
+    "name": "Adventurer Pack 1 - Adventuring Basics",
+    "description": "Essential gear for dungeon exploration",
+    "cost": 20,
+    "weight": 29,
+    "items": [
+      {
+        "equipmentId": "chalk-small-bag-of-pieces-027",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "grappling-hook-038",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "rope-hemp-per-50-ft-072",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "lantern-hooded-051",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "oil-per-flask-060",
+        "quantity": 3
+      },
+      {
+        "equipmentId": "tent-small-one-man-096",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": []
+  },
+  {
+    "id": "adventurer-pack-2",
+    "name": "Adventurer Pack 2 - Ready for anything",
+    "description": "Tools for the prepared adventurer",
+    "cost": 10,
+    "weight": 12,
+    "items": [
+      {
+        "equipmentId": "jar-or-bottle-glass-047",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "iron-spikes-12-045",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "pole-10-wooden-119",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "map-or-scroll-case-054",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "mirror-small-metal-108",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": []
+  },
+  {
+    "id": "fighter-pack",
+    "name": "Fighter Pack - Camp and battle basics",
+    "description": "Essential gear for warriors and front-line fighters",
+    "cost": 21,
+    "weight": 22.8,
+    "items": [
+      {
+        "equipmentId": "bandages-079",
+        "quantity": 5
+      },
+      {
+        "equipmentId": "oil-per-flask-060",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "iron-pot-005",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "rations-dry-one-week-067",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "sack-large-074",
+        "quantity": 3
+      },
+      {
+        "equipmentId": "tinderbox-flint-and-steel-103",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "torches-6-104",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "wineskinwaterskin-124",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "whetstone-105",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": ["fighter"]
+  },
+  {
+    "id": "magic-user-pack",
+    "name": "Magic-User Pack - Scholar & Spellcaster",
+    "description": "Scholarly supplies and spellcasting materials",
+    "cost": 37,
+    "weight": 18.7,
+    "items": [
+      {
+        "equipmentId": "writing-ink-per-vial-044",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "quill-064",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "paper-or-parchment-per-sheet-063",
+        "quantity": 5
+      },
+      {
+        "equipmentId": "map-or-scroll-case-054",
+        "quantity": 2
+      },
+      {
+        "equipmentId": "spellbook-128-pages-086",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "mirror-small-metal-108",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "rations-dry-one-week-067",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "torches-6-104",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "tinderbox-flint-and-steel-103",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "vial-glass-035",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": ["magic-user"]
+  },
+  {
+    "id": "cleric-pack",
+    "name": "Cleric Pack - Protect and spread the faith",
+    "description": "Divine implements and healing supplies",
+    "cost": 60,
+    "weight": 18.3,
+    "items": [
+      {
+        "equipmentId": "bandages-079",
+        "quantity": 10
+      },
+      {
+        "equipmentId": "holy-symbol-040",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "holy-water-per-vial-042",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "paper-or-parchment-per-sheet-063",
+        "quantity": 2
+      },
+      {
+        "equipmentId": "writing-ink-per-vial-044",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "quill-064",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "rations-dry-one-week-067",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "tinderbox-flint-and-steel-103",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "wineskinwaterskin-124",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": ["cleric"]
+  },
+  {
+    "id": "thief-pack",
+    "name": "Thief Pack - Tools of the trade",
+    "description": "Specialized equipment for stealth and infiltration",
+    "cost": 58,
+    "weight": 31.2,
+    "items": [
+      {
+        "equipmentId": "candles-12-025",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "crowbar-3-018",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "grappling-hook-038",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "hammer-or-mallet-021",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "iron-spikes-12-045",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "rations-dry-one-week-067",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "sack-large-074",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "lens-small-052",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "thieves-picks-and-tools-102",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "tinderbox-flint-and-steel-103",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "wineskinwaterskin-124",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "whetstone-105",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": ["thief"]
+  },
+  {
+    "id": "dungeon-mapper",
+    "name": "Dungeon Mapper",
+    "description": "Perfect for the party cartographer",
+    "cost": 17,
+    "weight": 1.2,
+    "items": [
+      {
+        "equipmentId": "paper-or-parchment-per-sheet-063",
+        "quantity": 10
+      },
+      {
+        "equipmentId": "writing-ink-per-vial-044",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "quill-064",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "quill-knife-065",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "writing-board-044",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "chalk-small-bag-of-pieces-027",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": []
+  },
+  {
+    "id": "camp-cook",
+    "name": "Camp Cook",
+    "description": "Keep the party fed and happy",
+    "cost": 24,
+    "weight": 23,
+    "items": [
+      {
+        "equipmentId": "iron-pan-frying-004",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "iron-pot-005",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "fire-grate-002",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "mess-kit-055",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "common-spices-067",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "cured-meats-067",
+        "quantity": 1
+      },
+      {
+        "equipmentId": "rations-standard-perishable-one-day-069",
+        "quantity": 5
+      },
+      {
+        "equipmentId": "tea-pot-070",
+        "quantity": 1
+      }
+    ],
+    "suitableFor": []
+  }
+]
