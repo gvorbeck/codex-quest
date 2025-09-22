@@ -3,8 +3,7 @@ import { useMemo, useCallback } from "react";
 import { allClasses } from "@/data";
 import { Breadcrumb, HorizontalRule } from "@/components/ui/composite";
 import { PageWrapper } from "@/components/ui/core/layout";
-import { LoadingState } from "@/components/ui/core/feedback/LoadingState";
-import LoadingSpinner from "@/components/app/LoadingSpinner";
+import { LoadingState } from "@/components/ui/core/feedback";
 import Callout from "@/components/ui/core/feedback/Callout";
 import { Typography } from "@/components/ui/core/display";
 import AttackBonuses from "@/components/features/character/sheet/AttackBonuses";
@@ -248,9 +247,7 @@ export default function CharacterSheet() {
           <div className="flex items-center justify-between mb-4 relative">
             <Breadcrumb items={breadcrumbItems} />
             {isSaving && (
-              <div className="absolute right-0 top-0 z-10">
-                <LoadingSpinner message="Saving..." size="sm" />
-              </div>
+              <LoadingState message="Saving..." variant="overlay" />
             )}
           </div>
         </header>

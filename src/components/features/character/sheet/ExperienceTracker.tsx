@@ -1,5 +1,6 @@
 import React, { useState, useId, useEffect } from "react";
 import { Button } from "@/components/ui";
+import { TextInput } from "@/components/ui/core/primitives";
 import { LevelUpModal } from "@/components/modals/LazyModals";
 import { logger } from "@/utils";
 import { canLevelUp, hasCustomClasses, getXPToNextLevel } from "@/utils";
@@ -70,8 +71,8 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
   const xpToNextLevel = !hasCustomClasses(character)
     ? getXPToNextLevel(character, classes)
     : null;
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
   };
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -136,19 +137,21 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
         </div>
 
         <div className="flex">
-          <input
-            id={inputId}
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
-            onContextMenu={handleContextMenu}
-            aria-label="Experience Points"
-            aria-describedby={buttonId}
-            className="w-full transition-all duration-150 border-2 rounded-l-lg rounded-r-none border-r-0 bg-zinc-800 text-zinc-100 border-zinc-600 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:border-amber-400 focus:bg-zinc-700 px-4 py-3 text-base min-h-[44px] shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309]"
-          />
+          <div onContextMenu={handleContextMenu}>
+            <TextInput
+              id={inputId}
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              aria-label="Experience Points"
+              aria-describedby={buttonId}
+              showClearButton={false}
+              className="rounded-r-none border-r-0"
+            />
+          </div>
           <Button
             id={buttonId}
             onClick={handleLevelUp}
