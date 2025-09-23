@@ -31,7 +31,9 @@ export default function TurnUndeadSection({
             variant="secondary"
             onClick={handleTurnUndeadRoll}
             icon="dice"
-          />
+          >
+            Roll d20
+          </Button>
         }
         className="mb-4"
       />
