@@ -2,7 +2,6 @@ import type { ScrollCreationProject } from "@/types";
 import { Badge, Card, Typography } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
 import { SectionHeader } from "@/components/ui/composite";
-import { Icon } from "@/components/ui/core/display";
 
 interface CompletedScrollsProps {
   projects: ScrollCreationProject[];
@@ -51,10 +50,10 @@ export const CompletedScrolls = ({
                     size="sm"
                     variant="secondary"
                     onClick={() => onDeleteProject(project.id)}
+                    icon="close"
+                    iconClasses="w-3 h-3"
                     title="Delete completed scroll"
-                  >
-                    <Icon name="close" size="xs" />
-                  </Button>
+                  />
                 )}
               </div>
             </div>

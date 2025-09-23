@@ -1,7 +1,6 @@
 import { memo, useMemo } from "react";
 import type { GamePlayer } from "@/types";
 import { GAME_SHEET_STYLES } from "@/constants";
-import { Icon } from "@/components/ui/core/display";
 import { Typography, Card, Badge } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
 import { getClassById, getRaceById, getImportantAbilities } from "@/utils";
@@ -212,8 +211,9 @@ export const PlayerCard = memo(
             title={`View ${characterName}'s character sheet`}
             aria-label={`View ${characterName}'s character sheet`}
             onClick={() => window.open(characterSheetUrl, "_blank")}
+            icon="eye"
+            iconClasses="w-4 h-4"
           >
-            <Icon name="eye" size="sm" aria-hidden={true} />
           </Button>
           {onDelete && (
             <Button
@@ -226,8 +226,9 @@ export const PlayerCard = memo(
                 e.stopPropagation();
                 onDelete(player);
               }}
+              icon="trash"
+              iconClasses="w-4 h-4"
             >
-              <Icon name="trash" size="sm" aria-hidden={true} />
             </Button>
           )}
         </div>

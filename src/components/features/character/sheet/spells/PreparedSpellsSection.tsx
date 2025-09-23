@@ -4,7 +4,6 @@ import { Typography, Badge } from "@/components/ui/core/display";
 import { Button, Select, FormField } from "@/components/ui/core/primitives";
 import { Accordion } from "@/components/ui/core/layout";
 import { SkeletonList } from "@/components/ui/core/feedback";
-import { Icon } from "@/components/ui";
 import { SectionHeader } from "@/components/ui/composite";
 import SpellDetails from "@/components/domain/spells/SpellDetails";
 
@@ -142,9 +141,10 @@ export default function PreparedSpellsSection({
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => onClearPreparation(level, index)}
+                                icon="close"
+                                iconClasses="w-4 h-4"
                                 className="self-end"
                               >
-                                <Icon name="close" size="sm" />
                                 Clear
                               </Button>
                             )}

@@ -13,7 +13,7 @@ import {
 import { SectionWrapper } from "@/components/ui/core/layout";
 import { Card } from "@/components/ui/core/display";
 import { Callout } from "@/components/ui/core/feedback";
-import { Button, Icon } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { LanguageEditModal } from "@/components/modals";
 import type { Character } from "@/types";
 import { getRaceById, getClassById } from "@/utils";
@@ -233,8 +233,9 @@ export default function SpecialsRestrictions({
                       size="sm"
                       onClick={() => setIsLanguageModalOpen(true)}
                       className="flex items-center gap-2"
+                      icon="edit"
+                      iconClasses="w-3 h-3"
                     >
-                      <Icon name="edit" size="xs" />
                       Edit Languages
                     </Button>
                   </div>

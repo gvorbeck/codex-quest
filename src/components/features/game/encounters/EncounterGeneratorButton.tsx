@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/core/primitives";
-import { Icon } from "@/components/ui/core/display";
 import { LoadingState } from "@/components/ui/core/feedback";
 import type { EncounterType } from "@/types";
 
@@ -26,19 +25,14 @@ export default function EncounterGeneratorButton({
           onClick={onGenerate}
           disabled={isGenerating || !hasTable}
           className="w-14 h-14 p-0"
+          icon="dice"
+          iconClasses={`w-5 h-5 ${isGenerating ? "animate-spin" : ""}`}
           aria-label={`Generate random ${encounterType} encounter${
             hasTable ? "" : " (no encounters available)"
           }`}
           title={`Generate random ${encounterType} encounter`}
           role="button"
-        >
-          <Icon
-            name="dice"
-            size="md"
-            className={isGenerating ? "animate-spin" : ""}
-            aria-hidden={true}
-          />
-        </Button>
+        />
       </div>
 
       {/* Loading State */}

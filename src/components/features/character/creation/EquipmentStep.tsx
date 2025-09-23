@@ -294,8 +294,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                         size="sm"
                         onClick={handleRemovePack}
                         className="flex items-center gap-1"
+                        icon="plus"
+                        iconClasses="w-4 h-4"
                       >
-                        <Icon name="plus" size="sm" />
                         Add Another Pack
                       </Button>
                     </div>

@@ -2,7 +2,6 @@ import { useState, useMemo, useCallback, memo, forwardRef } from "react";
 import { useModal } from "@/hooks";
 import { Card, Typography } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
-import { Icon } from "@/components/ui";
 import { TextHeader } from "@/components/ui/composite";
 import { MarkdownText } from "@/components/ui/composite";
 import { SectionHeader } from "@/components/ui/composite";
@@ -177,8 +176,9 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
                     variant="secondary"
                     onClick={openModal}
                     aria-label={`Add or change ${spellTypeInfo.type}`}
+                    icon="plus"
+                    iconClasses="w-4 h-4"
                   >
-                    <Icon name="plus" size="sm" aria-hidden={true} />
                     {knownCantrips.length > 0
                       ? "Change Selection"
                       : `Add ${spellTypeInfo.capitalizedSingular}`}
@@ -254,8 +254,9 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
                   variant="secondary"
                   onClick={openModal}
                   aria-label={`Add or change ${spellTypeInfo.type}`}
+                  icon="plus"
+                  iconClasses="w-4 h-4"
                 >
-                  <Icon name="plus" size="sm" aria-hidden={true} />
                   {knownCantrips.length > 0
                     ? "Change Selection"
                     : `Add ${spellTypeInfo.capitalizedSingular}`}

@@ -1,6 +1,6 @@
 import { Card, Typography } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
-import { Icon, SectionHeader } from "@/components/ui";
+import { SectionHeader } from "@/components/ui";
 import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 
 interface TurnUndeadSectionProps {
@@ -26,10 +26,12 @@ export default function TurnUndeadSection({
         }
         dotColor="bg-purple-400"
         extra={
-          <Button size="sm" variant="secondary" onClick={handleTurnUndeadRoll}>
-            <Icon name="dice" size="sm" />
-            Roll d20
-          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={handleTurnUndeadRoll}
+            icon="dice"
+          />
         }
         className="mb-4"
       />

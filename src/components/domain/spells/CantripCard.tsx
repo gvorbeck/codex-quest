@@ -70,9 +70,8 @@ export default function CantripCard({
             onClick={() => onRemove(cantrip.name)}
             className="text-zinc-400 hover:text-red-400 flex-shrink-0"
             aria-label={`Remove ${cantrip.name} ${spellTypeInfo.singular}`}
-          >
-            <Icon name="trash" size="sm" aria-hidden={true} />
-          </Button>
+            icon="trash"
+          />
         )}
       </div>
     </Card>

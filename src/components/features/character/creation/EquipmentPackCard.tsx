@@ -127,8 +127,9 @@ function EquipmentPackCard({
             className="w-full flex items-center justify-center gap-2"
             loading={isLoading}
             disabled={isLoading || !isAffordable}
+            icon="check"
+            iconClasses="w-4 h-4"
           >
-            <Icon name="check" size="sm" />
             {isAffordable ? `Equip This Pack (${pack.cost} gp)` : `Cannot Afford (${pack.cost} gp)`}
           </Button>
         </div>

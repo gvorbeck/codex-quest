@@ -242,11 +242,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                         size="md"
                         onClick={onCombatTrackerOpen}
                         className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                        icon="sword"
+                        iconClasses={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
                         aria-label="Open combat tracker"
                         title="Combat tracker"
-                      >
-                        <Icon name="sword" size={size === "sm" ? "sm" : "md"} />
-                      </Button>
+                      />
                     </div>
                   )}
                   {onEncounterGeneratorOpen && (
@@ -255,11 +255,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       size="md"
                       onClick={onEncounterGeneratorOpen}
                       className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                      icon="map-pin"
+                      iconClasses={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
                       aria-label="Generate random encounters"
                       title="Encounter generator"
-                    >
-                      <Icon name="map-pin" size={size === "sm" ? "sm" : "md"} />
-                    </Button>
+                    />
                   )}
                   {onTreasureGenerate && (
                     <Button
@@ -267,11 +267,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       size="md"
                       onClick={onTreasureGenerate}
                       className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                      icon="coin"
+                      iconClasses={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
                       aria-label="Generate treasure"
                       title="Generate treasure"
-                    >
-                      <Icon name="coin" size={size === "sm" ? "sm" : "md"} />
-                    </Button>
+                    />
                   )}
                 </div>
               )}

@@ -1,7 +1,6 @@
 import { memo, useCallback } from "react";
 import { Card, Typography } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
-import { Icon } from "@/components/ui/core/display";
 import { MarkdownText, TextHeader } from "@/components/ui/composite";
 import { MonsterStatsDisplay } from "./MonsterStatsDisplay";
 import type { Monster } from "@/types";
@@ -81,13 +80,14 @@ export const MonsterItem = memo(
                       onClick={() => handleAddToCombat(index)}
                       variant="secondary"
                       size="sm"
+                      icon="plus"
+                      iconClasses="w-4 h-4 mr-1"
                       aria-label={`Add ${
                         variantName
                           ? `${monster.name} (${variantName})`
                           : monster.name
                       } to Combat Tracker`}
                     >
-                      <Icon name="plus" size="sm" className="mr-1" />
                       Add to Combat
                     </Button>
                   </div>
@@ -150,9 +150,10 @@ export const MonsterItem = memo(
                   onClick={() => handleAddToCombat(0)}
                   variant="secondary"
                   size="sm"
+                  icon="plus"
+                  iconClasses="w-4 h-4 mr-1"
                   aria-label={`Add ${monster.name} to Combat Tracker`}
                 >
-                  <Icon name="plus" size="sm" className="mr-1" />
                   Add to Combat
                 </Button>
               </div>

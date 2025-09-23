@@ -191,15 +191,12 @@ export default function TreasureGeneratorModal({
                 size="md"
                 onClick={() => setTreasureType(type.value as TreasureType)}
                 className="h-12 flex items-center justify-center gap-2 font-medium transition-all hover:scale-[1.02] focus:scale-[1.02]"
+                icon={type.icon as IconName}
+                iconClasses="w-4 h-4"
                 role="radio"
                 aria-checked={treasureType === type.value}
                 aria-label={`Select ${type.label}`}
               >
-                <Icon
-                  name={type.icon as IconName}
-                  size="sm"
-                  aria-hidden={true}
-                />
                 <span>{type.label}</span>
               </Button>
             ))}
@@ -292,16 +289,12 @@ export default function TreasureGeneratorModal({
             onClick={handleGenerate}
             disabled={isGenerating}
             className="w-14 h-14 p-0"
+            icon="dice"
+            iconClasses={`w-5 h-5 ${isGenerating ? "animate-spin" : ""}`}
             aria-label="Generate treasure"
             title="Generate treasure"
             aria-describedby={error ? "generation-error" : undefined}
-          >
-            <Icon
-              name="dice"
-              size="md"
-              className={isGenerating ? "animate-spin" : ""}
-            />
-          </Button>
+          />
         </div>
 
         {/* Loading State */}
@@ -363,18 +356,18 @@ export default function TreasureGeneratorModal({
                       variant="ghost"
                       size="sm"
                       onClick={handleCopy}
+                      icon="copy"
+                      iconClasses="w-4 h-4"
                       title="Copy treasure to clipboard"
-                    >
-                      <Icon name="copy" size="sm" />
-                    </Button>
+                    />
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={handleReset}
+                      icon="close"
+                      iconClasses="w-4 h-4"
                       title="Clear treasure result"
-                    >
-                      <Icon name="close" size="sm" />
-                    </Button>
+                    />
                   </div>
                 </div>
 

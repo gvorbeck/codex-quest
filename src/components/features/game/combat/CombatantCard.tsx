@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/core/primitives";
 import { Typography, Card, Badge } from "@/components/ui/core/display";
-import { Icon } from "@/components/ui/core/display";
 import type { CombatantWithInitiative } from "@/types";
 
 interface CombatantCardProps {
@@ -58,10 +57,10 @@ export default function CombatantCard({
             onClick={() => onAction?.("remove", index)}
             variant="destructive"
             size="sm"
+            icon="trash"
+            iconClasses="w-4 h-4"
             aria-label={`Remove ${combatant.name} from combat`}
-          >
-            <Icon name="trash" size="sm" />
-          </Button>
+          />
         ) : (
           <Button
             onClick={() => onAction?.("add", index)}

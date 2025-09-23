@@ -1,7 +1,6 @@
 import { Table } from "@/components/ui/composite";
 import { Typography, Badge } from "@/components/ui/core/display";
 import { NumberInput, Button } from "@/components/ui/core/primitives";
-import { Icon } from "@/components/ui/core/display";
 import type { TableColumn } from "@/components/ui/composite";
 import type { CombatantWithInitiative } from "@/types";
 
@@ -172,11 +171,11 @@ export default function InitiativeTable({
             }}
             variant="destructive"
             size="sm"
+            icon="trash"
+            iconClasses="w-4 h-4"
             aria-label={`Remove ${c.name} from combat`}
             className="p-2 min-w-0"
-          >
-            <Icon name="trash" size="sm" />
-          </Button>
+          />
         );
       },
       sortable: false,

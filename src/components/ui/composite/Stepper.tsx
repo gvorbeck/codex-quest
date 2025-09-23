@@ -275,18 +275,14 @@ function Stepper({
             variant="ghost"
             size="lg"
             className="w-full sm:w-auto whitespace-nowrap"
+            icon="chevron-left"
+            iconClasses="w-5 h-5 mr-2 flex-shrink-0"
             aria-label={`Go to previous step: ${
               safeCurrentStep > 0
                 ? stepItems[safeCurrentStep - 1]?.title || "Previous step"
                 : ""
             }`}
           >
-            <Icon
-              name="chevron-left"
-              size="md"
-              className="mr-2 flex-shrink-0"
-              aria-hidden={true}
-            />
             Previous
           </Button>
 
@@ -299,6 +295,10 @@ function Stepper({
             variant="primary"
             size="lg"
             className="w-full sm:w-auto sm:ml-auto whitespace-nowrap"
+            {...(safeCurrentStep < stepItems.length - 1 && {
+              icon: "chevron-right",
+              iconClasses: "w-5 h-5 ml-2 flex-shrink-0"
+            })}
             aria-label={`Go to next step: ${
               safeCurrentStep < stepItems.length - 1
                 ? stepItems[safeCurrentStep + 1]?.title || "Next step"
@@ -306,14 +306,6 @@ function Stepper({
             }`}
           >
             {safeCurrentStep === stepItems.length - 1 ? "Complete" : "Next"}
-            {safeCurrentStep < stepItems.length - 1 && (
-              <Icon
-                name="chevron-right"
-                size="md"
-                className="ml-2 flex-shrink-0"
-                aria-hidden={true}
-              />
-            )}
           </Button>
         </nav>
 

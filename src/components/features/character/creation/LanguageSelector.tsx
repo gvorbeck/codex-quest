@@ -54,9 +54,8 @@ const LanguageInput = ({
       onClick={() => onRemove(index)}
       aria-label={`Remove language ${index + 1}`}
       className={REMOVE_BUTTON_CLASSES}
-    >
-      <Icon name="close" size="xs" />
-    </Button>
+      icon="close"
+    />
   </div>
 );
 
@@ -253,8 +252,8 @@ function LanguageSelector({
               size="sm"
               onClick={handleAddLanguage}
               className="w-full sm:w-auto"
+              icon="plus"
             >
-              <span className="mr-1">+</span>
               Add Language
               {remainingSlots > 0 ? ` (${remainingSlots} remaining)` : ""}
             </Button>
@@ -317,8 +316,8 @@ function LanguageSelector({
               size="sm"
               onClick={handleAddLanguage}
               className="w-full sm:w-auto"
+              icon="plus"
             >
-              <span className="mr-1">+</span>
               Add Language
             </Button>
             <Typography variant="helper" color="amber" className="mt-2">

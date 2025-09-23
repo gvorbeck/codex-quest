@@ -104,8 +104,7 @@ export function ItemGrid<T extends { id: string }>({
         </div>
         {emptyState.action && (
           <Link href={emptyState.action.href}>
-            <Button variant="primary" size="lg" className="mt-4">
-              <Icon name="plus" size="sm" className="mr-2" />
+            <Button variant="primary" size="lg" className="mt-4" icon="plus" iconClasses="w-4 h-4 mr-2">
               {emptyState.action.label}
             </Button>
           </Link>

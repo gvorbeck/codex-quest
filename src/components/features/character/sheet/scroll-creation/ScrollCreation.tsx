@@ -75,8 +75,9 @@ export default function ScrollCreation({
                     ? "Must be a Spellcrafter to create scrolls"
                     : "Start new scroll"
                 }
+                icon="plus"
               >
-                + New Scroll
+                New Scroll
               </Button>
             )}
           </div>

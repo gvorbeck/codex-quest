@@ -2,15 +2,20 @@ import { combineButtonStyles, createButtonStyles } from "@/utils";
 import type { BaseButtonProps } from "@/types";
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
+import Icon, { type IconName } from "@/components/ui/core/display/Icon";
 
 interface ButtonProps extends BaseButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
+  icon?: IconName;
+  iconClasses?: string;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
+      icon,
+      iconClasses,
       loading = false,
       loadingText = "Loading...",
       disabled,
@@ -56,6 +61,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <span
           className={`flex items-center gap-2 ${loading ? "opacity-0" : ""}`}
         >
+          {icon && <Icon name={icon} className={iconClasses || ""} />}
           {children}
         </span>
         {loading && <span className="sr-only">{loadingText}</span>}
