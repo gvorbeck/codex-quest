@@ -1,5 +1,4 @@
 import { Typography } from "@/components/ui/core/display";
-import { Icon } from "@/components/ui/core/display/Icon";
 import { Button } from "@/components/ui";
 import type { AlertConfig } from "@/constants";
 
@@ -54,9 +53,8 @@ export function GlobalAlert({
             onClick={onClose}
             aria-label={`Close ${alert.type} alert`}
             className={`p-1 ml-4 ${currentButtonStyle}`}
-          >
-            <Icon name="close" size="sm" aria-hidden={true} />
-          </Button>
+            icon="close"
+          />
         )}
       </div>
     </div>

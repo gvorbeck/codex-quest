@@ -2,7 +2,6 @@ import type { ScrollCreationProject } from "@/types";
 import { Badge, Card, Typography } from "@/components/ui/core/display";
 import { Button, NumberInput, FormField } from "@/components/ui/core/primitives";
 import { SectionHeader } from "@/components/ui/composite";
-import { Icon } from "@/components/ui/core/display";
 
 interface ActiveScrollsProps {
   projects: ScrollCreationProject[];
@@ -78,10 +77,10 @@ export const ActiveScrolls = ({
                     size="sm"
                     variant="secondary"
                     onClick={() => onDeleteProject(project.id)}
+                    icon="close"
+                    iconSize="xs"
                     title="Delete scroll"
-                  >
-                    <Icon name="close" size="xs" />
-                  </Button>
+                  />
                 </div>
               )}
             </div>

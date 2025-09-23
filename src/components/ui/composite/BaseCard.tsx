@@ -63,11 +63,11 @@ export function BaseCard({
                 const fullUrl = `${window.location.origin}${href}`;
                 onCopy(fullUrl, name);
               }}
+              icon="copy"
+              iconSize="xs"
               aria-label={`Copy character sheet URL for ${name}`}
               title={`Copy character sheet URL for ${name}`}
-            >
-              <Icon name="copy" size="xs" />
-            </Button>
+            />
             <Button
               variant="secondary"
               size="sm"

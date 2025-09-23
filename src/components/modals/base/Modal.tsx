@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { logger } from "@/utils";
-import { Button, Icon } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { Typography } from "@/components/ui/core/display";
 
 interface ModalProps {
@@ -153,9 +153,9 @@ export default function Modal({
             onClick={onClose}
             aria-label="Close modal"
             className="p-2"
-          >
-            <Icon name="close" size="md" aria-hidden={true} />
-          </Button>
+            icon="close"
+            iconSize="lg"
+          />
         </div>
 
         {/* Body */}

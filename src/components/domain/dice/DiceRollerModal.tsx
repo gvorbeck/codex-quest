@@ -120,11 +120,9 @@ export default function DiceRollerModal({
             loadingText="Rolling..."
             disabled={!diceNotation.trim()}
             className="min-w-[100px]"
+            icon="dice"
           >
-            <div className="flex items-center gap-2">
-              <Icon name="dice" size="sm" />
-              Roll
-            </div>
+            Roll
           </Button>
         </div>
       </div>

@@ -242,11 +242,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                         size="md"
                         onClick={onCombatTrackerOpen}
                         className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                        icon="sword"
+                        iconSize={size === "sm" ? "sm" : "md"}
                         aria-label="Open combat tracker"
                         title="Combat tracker"
-                      >
-                        <Icon name="sword" size={size === "sm" ? "sm" : "md"} />
-                      </Button>
+                      />
                     </div>
                   )}
                   {onEncounterGeneratorOpen && (
@@ -255,11 +255,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       size="md"
                       onClick={onEncounterGeneratorOpen}
                       className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                      icon="map-pin"
+                      iconSize={size === "sm" ? "sm" : "md"}
                       aria-label="Generate random encounters"
                       title="Encounter generator"
-                    >
-                      <Icon name="map-pin" size={size === "sm" ? "sm" : "md"} />
-                    </Button>
+                    />
                   )}
                   {onTreasureGenerate && (
                     <Button
@@ -267,11 +267,11 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       size="md"
                       onClick={onTreasureGenerate}
                       className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
+                      icon="coin"
+                      iconSize={size === "sm" ? "sm" : "md"}
                       aria-label="Generate treasure"
                       title="Generate treasure"
-                    >
-                      <Icon name="coin" size={size === "sm" ? "sm" : "md"} />
-                    </Button>
+                    />
                   )}
                 </div>
               )}

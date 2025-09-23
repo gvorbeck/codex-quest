@@ -375,7 +375,7 @@ function EquipmentSelector({
 
       <Card variant="info" className="mb-6">
         <InfoCardHeader
-          icon={<Icon name="info" />}
+          icon="info"
           title="Shopping Guide"
           className="mb-3"
         />

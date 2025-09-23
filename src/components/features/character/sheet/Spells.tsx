@@ -3,7 +3,7 @@ import type { Character, Spell, Cantrip } from "@/types";
 import { SectionWrapper, Accordion } from "@/components/ui/core/layout";
 import { Card, Typography } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
-import { Icon, SectionHeader } from "@/components/ui";
+import { SectionHeader } from "@/components/ui";
 import { SkeletonList } from "@/components/ui/core/feedback";
 import { Modal } from "@/components/modals";
 import CantripSelector from "@/components/features/character/shared/CantripSelector";
@@ -155,11 +155,12 @@ export default function Spells({
         {...(dotColor && { dotColor })}
         extra={
           canEdit && editButtonText && onEditClick ? (
-            <Button size="sm" variant="secondary" onClick={onEditClick}>
-              <Icon
-                name={editButtonText.includes("Add") ? "plus" : "edit"}
-                size="sm"
-              />
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={onEditClick}
+              icon={editButtonText.includes("Add") ? "plus" : "edit"}
+            >
               {editButtonText}
             </Button>
           ) : undefined

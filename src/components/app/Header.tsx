@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks";
 import { signOut, isMockMode, devUtils } from "@/services";
 import { logger } from "@/utils";
 import { DOM_IDS, CSS_CLASSES, HTML_ROLES } from "@/constants";
-import { Icon } from "@/components/ui/core/display/Icon";
 import { GlobalAlert } from "@/components/app/GlobalAlert";
 import type { AlertConfig } from "@/constants";
 
@@ -110,8 +109,8 @@ export function Header({
                   size="sm"
                   onClick={handleResetMockData}
                   title="Reset all data to original sample data"
+                  icon="settings"
                 >
-                  <Icon name="settings" className="w-4 h-4 mr-2" />
                   Reset Sample Data
                 </Button>
               </div>
@@ -162,16 +161,13 @@ export function Header({
                 aria-controls="mobile-menu"
                 aria-expanded={isMobileMenuOpen}
                 aria-label="Toggle mobile menu"
+                icon={!isMobileMenuOpen ? "menu" : "close"}
+                iconSize="lg"
+                iconClassName="transition-transform duration-200 group-hover:scale-110"
               >
                 <span className="sr-only">
                   {isMobileMenuOpen ? "Close main menu" : "Open main menu"}
                 </span>
-                <Icon
-                  name={!isMobileMenuOpen ? "menu" : "close"}
-                  size="lg"
-                  className="transition-transform duration-200 group-hover:scale-110"
-                  aria-hidden={true}
-                />
               </Button>
             </div>
           </div>
@@ -212,13 +208,11 @@ export function Header({
                         handleSignOut();
                         setIsMobileMenuOpen(false);
                       }}
+                      icon="close"
+                      iconSize="sm"
+                      iconClassName="ml-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
                     >
                       <span>Sign Out</span>
-                      <Icon
-                        name="close"
-                        size="sm"
-                        className="ml-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
-                      />
                     </Button>
                   </div>
                 ) : (

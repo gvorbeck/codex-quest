@@ -200,8 +200,9 @@ export default function ConfirmationModal({
             aria-describedby={
               !isConfirmValid ? "confirm-description" : undefined
             }
+            icon={iconName}
+            iconSize="sm"
           >
-            <Icon name={iconName} size="sm" />
             {actionLabel}
           </Button>
         </div>

@@ -9,7 +9,6 @@ import {
 import type { ReactNode, HTMLAttributes } from "react";
 import { cn } from "@/utils";
 import { Typography } from "@/components/ui/core/display";
-import { Icon } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
 import {
   NOTIFICATION_CONSTANTS,
@@ -221,8 +220,9 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
             size="sm"
             className="absolute top-3 right-3 w-7 h-7 !p-0 !min-h-0 !border-0 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors"
             aria-label="Dismiss notification"
+            icon="close"
+            iconSize="sm"
           >
-            <Icon name="close" size="sm" aria-hidden />
           </Button>
         )}
 
