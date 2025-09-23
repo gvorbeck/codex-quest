@@ -58,7 +58,7 @@ export default function CombatantCard({
             variant="destructive"
             size="sm"
             icon="trash"
-            iconClasses="w-4 h-4"
+            iconSize="sm"
             aria-label={`Remove ${combatant.name} from combat`}
           />
         ) : (

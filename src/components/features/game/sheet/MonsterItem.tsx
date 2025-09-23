@@ -81,7 +81,8 @@ export const MonsterItem = memo(
                       variant="secondary"
                       size="sm"
                       icon="plus"
-                      iconClasses="w-4 h-4 mr-1"
+                      iconSize="sm"
+                      iconClassName="mr-1"
                       aria-label={`Add ${
                         variantName
                           ? `${monster.name} (${variantName})`
@@ -151,7 +152,8 @@ export const MonsterItem = memo(
                   variant="secondary"
                   size="sm"
                   icon="plus"
-                  iconClasses="w-4 h-4 mr-1"
+                  iconSize="sm"
+                  iconClassName="mr-1"
                   aria-label={`Add ${monster.name} to Combat Tracker`}
                 >
                   Add to Combat

@@ -177,7 +177,7 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
                     onClick={openModal}
                     aria-label={`Add or change ${spellTypeInfo.type}`}
                     icon="plus"
-                    iconClasses="w-4 h-4"
+                    iconSize="sm"
                   >
                     {knownCantrips.length > 0
                       ? "Change Selection"
@@ -255,7 +255,7 @@ const CantripSelector = forwardRef<HTMLElement, CantripSelectorProps>(
                   onClick={openModal}
                   aria-label={`Add or change ${spellTypeInfo.type}`}
                   icon="plus"
-                  iconClasses="w-4 h-4"
+                  iconSize="sm"
                 >
                   {knownCantrips.length > 0
                     ? "Change Selection"

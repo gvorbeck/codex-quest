@@ -142,7 +142,7 @@ export default function PreparedSpellsSection({
                                 variant="ghost"
                                 onClick={() => onClearPreparation(level, index)}
                                 icon="close"
-                                iconClasses="w-4 h-4"
+                                iconSize="sm"
                                 className="self-end"
                               >
                                 Clear

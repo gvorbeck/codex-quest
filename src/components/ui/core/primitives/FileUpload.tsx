@@ -212,7 +212,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 aria-label="Click to select a file or drag and drop"
                 aria-describedby={describedByIds}
                 icon="upload"
-                iconClasses="w-4 h-4"
+                iconSize="sm"
               >
                 {dragOver ? "Drop your file here" : "Click to select a file"}
               </Button>

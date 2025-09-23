@@ -221,7 +221,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
             className="absolute top-3 right-3 w-7 h-7 !p-0 !min-h-0 !border-0 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors"
             aria-label="Dismiss notification"
             icon="close"
-            iconClasses="w-4 h-4"
+            iconSize="sm"
           >
           </Button>
         )}

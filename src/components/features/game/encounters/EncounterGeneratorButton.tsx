@@ -26,7 +26,8 @@ export default function EncounterGeneratorButton({
           disabled={isGenerating || !hasTable}
           className="w-14 h-14 p-0"
           icon="dice"
-          iconClasses={`w-5 h-5 ${isGenerating ? "animate-spin" : ""}`}
+          iconSize="md"
+          iconClassName={isGenerating ? "animate-spin" : ""}
           aria-label={`Generate random ${encounterType} encounter${
             hasTable ? "" : " (no encounters available)"
           }`}

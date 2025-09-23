@@ -172,7 +172,7 @@ export default function InitiativeTable({
             variant="destructive"
             size="sm"
             icon="trash"
-            iconClasses="w-4 h-4"
+            iconSize="sm"
             aria-label={`Remove ${c.name} from combat`}
             className="p-2 min-w-0"
           />

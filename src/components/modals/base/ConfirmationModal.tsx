@@ -201,7 +201,7 @@ export default function ConfirmationModal({
               !isConfirmValid ? "confirm-description" : undefined
             }
             icon={iconName}
-            iconClasses="w-4 h-4"
+            iconSize="sm"
           >
             {actionLabel}
           </Button>

@@ -78,7 +78,7 @@ export const ActiveScrolls = ({
                     variant="secondary"
                     onClick={() => onDeleteProject(project.id)}
                     icon="close"
-                    iconClasses="w-3 h-3"
+                    iconSize="xs"
                     title="Delete scroll"
                   />
                 </div>

@@ -7,7 +7,8 @@ import Icon, { type IconName } from "@/components/ui/core/display/Icon";
 interface ButtonProps extends BaseButtonProps {
   children?: ReactNode;
   icon?: IconName;
-  iconClasses?: string;
+  iconSize?: "xs" | "sm" | "md" | "lg" | "xl";
+  iconClassName?: string;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -15,7 +16,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       children,
       icon,
-      iconClasses,
+      iconSize = "sm",
+      iconClassName,
       loading = false,
       loadingText = "Loading...",
       disabled,
@@ -61,7 +63,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <span
           className={`flex items-center gap-2 ${loading ? "opacity-0" : ""}`}
         >
-          {icon && <Icon name={icon} className={iconClasses || ""} />}
+          {icon && <Icon name={icon} size={iconSize} className={iconClassName || ""} />}
           {children}
         </span>
         {loading && <span className="sr-only">{loadingText}</span>}

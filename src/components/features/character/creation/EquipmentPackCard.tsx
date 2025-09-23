@@ -128,7 +128,7 @@ function EquipmentPackCard({
             loading={isLoading}
             disabled={isLoading || !isAffordable}
             icon="check"
-            iconClasses="w-4 h-4"
+            iconSize="sm"
           >
             {isAffordable ? `Equip This Pack (${pack.cost} gp)` : `Cannot Afford (${pack.cost} gp)`}
           </Button>

@@ -234,7 +234,7 @@ export default function SpecialsRestrictions({
                       onClick={() => setIsLanguageModalOpen(true)}
                       className="flex items-center gap-2"
                       icon="edit"
-                      iconClasses="w-3 h-3"
+                      iconSize="xs"
                     >
                       Edit Languages
                     </Button>

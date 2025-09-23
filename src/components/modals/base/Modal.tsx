@@ -154,7 +154,7 @@ export default function Modal({
             aria-label="Close modal"
             className="p-2"
             icon="close"
-            iconClasses="w-6 h-6"
+            iconSize="lg"
           />
         </div>
 

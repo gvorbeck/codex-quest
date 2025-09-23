@@ -162,7 +162,8 @@ export function Header({
                 aria-expanded={isMobileMenuOpen}
                 aria-label="Toggle mobile menu"
                 icon={!isMobileMenuOpen ? "menu" : "close"}
-                iconClasses="w-6 h-6 transition-transform duration-200 group-hover:scale-110"
+                iconSize="lg"
+                iconClassName="transition-transform duration-200 group-hover:scale-110"
               >
                 <span className="sr-only">
                   {isMobileMenuOpen ? "Close main menu" : "Open main menu"}
@@ -208,7 +209,8 @@ export function Header({
                         setIsMobileMenuOpen(false);
                       }}
                       icon="close"
-                      iconClasses="w-4 h-4 ml-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
+                      iconSize="sm"
+                      iconClassName="ml-auto opacity-60 group-hover:opacity-100 transition-opacity duration-200"
                     >
                       <span>Sign Out</span>
                     </Button>

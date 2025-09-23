@@ -64,7 +64,7 @@ export function BaseCard({
                 onCopy(fullUrl, name);
               }}
               icon="copy"
-              iconClasses="w-3 h-3"
+              iconSize="xs"
               aria-label={`Copy character sheet URL for ${name}`}
               title={`Copy character sheet URL for ${name}`}
             />

@@ -212,7 +212,7 @@ export const PlayerCard = memo(
             aria-label={`View ${characterName}'s character sheet`}
             onClick={() => window.open(characterSheetUrl, "_blank")}
             icon="eye"
-            iconClasses="w-4 h-4"
+            iconSize="sm"
           >
           </Button>
           {onDelete && (
@@ -227,7 +227,7 @@ export const PlayerCard = memo(
                 onDelete(player);
               }}
               icon="trash"
-              iconClasses="w-4 h-4"
+              iconSize="sm"
             >
             </Button>
           )}

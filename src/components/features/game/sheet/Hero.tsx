@@ -243,7 +243,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                         onClick={onCombatTrackerOpen}
                         className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
                         icon="sword"
-                        iconClasses={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
+                        iconSize={size === "sm" ? "sm" : "md"}
                         aria-label="Open combat tracker"
                         title="Combat tracker"
                       />
@@ -256,7 +256,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       onClick={onEncounterGeneratorOpen}
                       className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
                       icon="map-pin"
-                      iconClasses={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
+                      iconSize={size === "sm" ? "sm" : "md"}
                       aria-label="Generate random encounters"
                       title="Encounter generator"
                     />
@@ -268,7 +268,7 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
                       onClick={onTreasureGenerate}
                       className="bg-zinc-800/80 border-zinc-700 text-lime-100 hover:bg-zinc-700/80 w-10 h-10 sm:w-12 sm:h-12 p-0"
                       icon="coin"
-                      iconClasses={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
+                      iconSize={size === "sm" ? "sm" : "md"}
                       aria-label="Generate treasure"
                       title="Generate treasure"
                     />
