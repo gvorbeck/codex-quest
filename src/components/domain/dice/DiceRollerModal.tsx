@@ -121,7 +121,9 @@ export default function DiceRollerModal({
             disabled={!diceNotation.trim()}
             className="min-w-[100px]"
             icon="dice"
-          />
+          >
+            Roll
+          </Button>
         </div>
       </div>
     </Modal>
