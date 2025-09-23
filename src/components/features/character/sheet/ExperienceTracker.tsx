@@ -149,7 +149,7 @@ const ExperienceTracker: React.FC<ExperienceTrackerProps> = ({
               aria-label="Experience Points"
               aria-describedby={buttonId}
               showClearButton={false}
-              className="rounded-r-none border-r-0"
+              className="rounded-r-none border-r-0 shadow-[0_3px_0_0_#3f3f46] focus:shadow-[0_4px_0_0_#b45309] flex-1 min-h-[48px] py-4"
             />
           </div>
           <Button
