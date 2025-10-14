@@ -67,25 +67,28 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       const numericValue = parseFloat(inputVal);
 
       if (!isNaN(numericValue)) {
-        // Validate against min/max constraints
-        let validatedValue = numericValue;
-
-        if (minValue !== undefined && numericValue < minValue) {
-          validatedValue = minValue;
-        }
-
-        if (maxValue !== undefined && numericValue > maxValue) {
-          validatedValue = maxValue;
-        }
-
-        onChange?.(validatedValue);
+        // Allow any numeric value during typing - validation happens on blur
+        onChange?.(numericValue);
       }
     };
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      // Update display value to match the actual value on blur
+      // Validate and clamp value on blur
       if (value !== undefined) {
-        setInputValue(value.toString());
+        let validatedValue = value;
+
+        if (minValue !== undefined && value < minValue) {
+          validatedValue = minValue;
+          onChange?.(validatedValue);
+        }
+
+        if (maxValue !== undefined && value > maxValue) {
+          validatedValue = maxValue;
+          onChange?.(validatedValue);
+        }
+
+        // Update display value to match the validated value
+        setInputValue(validatedValue.toString());
       }
       onBlur?.(event);
     };
