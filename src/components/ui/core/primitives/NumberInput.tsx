@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useId, useEffect } from "react";
 import { cn } from "@/utils";
+import { DESIGN_TOKENS } from "@/constants";
 
 type NumberInputSize = "sm" | "md" | "lg";
 
@@ -80,15 +81,16 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         if (minValue !== undefined && value < minValue) {
           validatedValue = minValue;
           onChange?.(validatedValue);
-        }
-
-        if (maxValue !== undefined && value > maxValue) {
+        } else if (maxValue !== undefined && value > maxValue) {
           validatedValue = maxValue;
           onChange?.(validatedValue);
         }
 
         // Update display value to match the validated value
         setInputValue(validatedValue.toString());
+      } else if (inputValue === "" && required) {
+        // Handle required empty field - keep it empty but maintain state
+        setInputValue("");
       }
       onBlur?.(event);
     };
@@ -103,26 +105,38 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
       // Allow: backspace, delete, tab, escape, enter
       if (
-        [8, 9, 27, 13, 46].indexOf(event.keyCode) !== -1 ||
-        // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-        (event.keyCode === 65 && event.ctrlKey === true) ||
-        (event.keyCode === 67 && event.ctrlKey === true) ||
-        (event.keyCode === 86 && event.ctrlKey === true) ||
-        (event.keyCode === 88 && event.ctrlKey === true) ||
-        // Allow: home, end, left, right, up, down
-        (event.keyCode >= 35 && event.keyCode <= 40)
+        [
+          "Backspace",
+          "Delete",
+          "Tab",
+          "Escape",
+          "Enter",
+          "Home",
+          "End",
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowDown",
+        ].includes(event.key)
+      ) {
+        return;
+      }
+
+      // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X (or Cmd on Mac)
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        ["a", "c", "v", "x"].includes(event.key.toLowerCase())
       ) {
         return;
       }
 
       // Ensure that it is a number and stop the keypress if not
+      // Allow: digits, decimal point, minus sign
       if (
-        (event.shiftKey || event.keyCode < 48 || event.keyCode > 57) &&
-        (event.keyCode < 96 || event.keyCode > 105) &&
-        // Allow decimal point and minus sign
-        event.keyCode !== 190 &&
-        event.keyCode !== 189 &&
-        event.keyCode !== 109
+        event.key.length === 1 &&
+        !/^[0-9.-]$/.test(event.key) &&
+        !event.ctrlKey &&
+        !event.metaKey
       ) {
         event.preventDefault();
       }
@@ -139,12 +153,14 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     // Base styles consistent with Button component
     const baseStyles = [
-      "w-full transition-all duration-150",
+      "w-full",
+      DESIGN_TOKENS.effects.transition,
       "border-2 rounded-lg",
-      "bg-zinc-800 text-zinc-100 border-zinc-600",
+      DESIGN_TOKENS.colors.bg.input,
+      DESIGN_TOKENS.colors.text.primary,
       "placeholder:text-zinc-400",
       "focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-zinc-900",
-      "focus:border-amber-400 focus:bg-zinc-700",
+      DESIGN_TOKENS.colors.border.inputFocus,
       "disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-zinc-900",
     ];
 
@@ -183,6 +199,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       <input
         ref={ref}
         type="number"
+        inputMode="numeric"
         id={inputId}
         name={name}
         value={inputValue}
