@@ -8,13 +8,19 @@ import type {
   Class,
   EquipmentPack,
   PackApplicationResult,
+  RestrictionData,
+  RestrictionResult,
 } from "@/types";
 import { allClasses } from "@/data";
 import {
   convertToGoldFromAbbreviation,
   formatCurrency,
 } from "@/utils/currency";
-import { CURRENCY_TYPES } from "@/constants";
+import {
+  CURRENCY_TYPES,
+  WEAPON_ID_MAPPING,
+  ARMOR_ID_MAPPING,
+} from "@/constants";
 import { logger } from "./data";
 import equipmentData from "@/data/equipment/equipment.json";
 import equipmentPacks from "@/data/equipment/equipmentPacks.json";
@@ -427,4 +433,211 @@ export function calculatePackTotals(pack: EquipmentPack): {
 } {
   const { missingItems, totalCost, totalWeight } = processPackItems(pack.items);
   return { totalCost, totalWeight, missingItems };
+}
+
+// ============================================================================
+// EQUIPMENT RESTRICTION UTILITIES
+// ============================================================================
+
+/**
+ * Creates an equipment ID from the equipment name by converting to lowercase and replacing spaces with hyphens
+ */
+export function createEquipmentId(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, "-");
+}
+
+/**
+ * Checks if an equipment name matches a restriction ID
+ */
+export function isEquipmentMatchingRestriction(
+  equipmentName: string,
+  restrictionId: string
+): boolean {
+  const equipmentId = createEquipmentId(equipmentName);
+  const mappedNames = WEAPON_ID_MAPPING[restrictionId];
+
+  if (mappedNames) {
+    return mappedNames.includes(equipmentId);
+  }
+
+  // Fallback to direct ID comparison
+  return equipmentId === restrictionId;
+}
+
+/**
+ * Creates a restriction result object
+ */
+export function createRestriction(entityName: string): RestrictionResult {
+  return {
+    restricted: true,
+    reason: `${entityName} Restriction`,
+  };
+}
+
+/**
+ * Checks if equipment is allowed based on a list of allowed items and mapping
+ */
+export function isEquipmentInAllowedList(
+  equipmentName: string,
+  allowedList: string[],
+  mapping: Record<string, string[]>
+): boolean {
+  const equipmentId = createEquipmentId(equipmentName);
+
+  for (const allowedItem of allowedList) {
+    const mappedNames = mapping[allowedItem];
+    if (mappedNames) {
+      if (mappedNames.includes(equipmentId)) {
+        return true;
+      }
+    } else {
+      // Fallback to direct ID comparison
+      if (equipmentId === allowedItem) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Checks if an equipment item is restricted for the character based on pre-calculated restriction data
+ *
+ * For combination classes (multi-class characters), uses UNION logic:
+ * - If ANY class allows the equipment, the character can use it
+ * - This matches BFRPG rules where combination classes get the best of both classes
+ *
+ * CRITICAL: Empty allowedWeapons/allowedArmor arrays mean NO restrictions!
+ * - Fighter has allowedWeapons: [] = can use ALL weapons
+ * - Fighter has allowedArmor: [] = can use ALL armor
+ *
+ * @param equipment - The equipment item to check
+ * @param restrictionData - Character's race, classes, and currency data
+ * @returns Restriction result with boolean and optional reason
+ */
+export function isEquipmentRestricted(
+  equipment: Equipment,
+  restrictionData: RestrictionData
+): RestrictionResult {
+  const isWeapon = !!equipment.damage;
+  const isArmor = equipment.category === "armor";
+
+  // Check weapon restrictions for items with damage (weapons)
+  if (isWeapon) {
+    // Check race prohibitions (these apply regardless of class)
+    if (restrictionData.race?.prohibitedWeapons) {
+      for (const prohibitedWeapon of restrictionData.race.prohibitedWeapons) {
+        if (isEquipmentMatchingRestriction(equipment.name, prohibitedWeapon)) {
+          return createRestriction(restrictionData.race.name);
+        }
+      }
+
+      // Check for size-based restrictions (Large weapons for small races)
+      if (
+        equipment.size === "L" &&
+        restrictionData.race.prohibitedWeapons.includes("large")
+      ) {
+        return createRestriction(restrictionData.race.name);
+      }
+    }
+
+    // Check class weapon restrictions using UNION logic for multi-class
+    // Empty allowedWeapons array means NO restrictions (can use all weapons)
+    const hasUnrestrictedClass = restrictionData.classes.some(
+      (cls) => cls?.allowedWeapons && cls.allowedWeapons.length === 0
+    );
+
+    // If ANY class has no weapon restrictions, all weapons are allowed
+    if (hasUnrestrictedClass) {
+      return { restricted: false };
+    }
+
+    // Get classes that DO have weapon restrictions (non-empty allowedWeapons)
+    const classesWithWeaponRestrictions = restrictionData.classes.filter(
+      (cls) => cls?.allowedWeapons && cls.allowedWeapons.length > 0
+    );
+
+    // If no classes have restrictions, all weapons allowed
+    if (classesWithWeaponRestrictions.length === 0) {
+      return { restricted: false };
+    }
+
+    // For multi-class with restrictions: check if ANY class allows this weapon
+    const isAllowedByAnyClass = classesWithWeaponRestrictions.some(
+      (characterClass) =>
+        isEquipmentInAllowedList(
+          equipment.name,
+          characterClass.allowedWeapons,
+          WEAPON_ID_MAPPING
+        )
+    );
+
+    // If at least one class allows it, the weapon is usable
+    if (!isAllowedByAnyClass) {
+      // All classes with restrictions prohibit this weapon
+      const restrictingClass = classesWithWeaponRestrictions[0];
+      return createRestriction(restrictingClass!.name);
+    }
+  }
+
+  // Check armor restrictions for armor items
+  if (isArmor) {
+    // Empty allowedArmor array means NO restrictions (can use all armor)
+    const hasUnrestrictedClass = restrictionData.classes.some(
+      (cls) => cls?.allowedArmor && cls.allowedArmor.length === 0
+    );
+
+    // If ANY class has no armor restrictions, all armor is allowed
+    if (hasUnrestrictedClass) {
+      return { restricted: false };
+    }
+
+    // Get classes that DO have armor restrictions (non-empty allowedArmor)
+    const classesWithArmorRestrictions = restrictionData.classes.filter(
+      (cls) => cls?.allowedArmor && cls.allowedArmor.length > 0
+    );
+
+    // If no classes have restrictions, all armor allowed
+    if (classesWithArmorRestrictions.length === 0) {
+      return { restricted: false };
+    }
+
+    // Check for "none" restriction (absolute prohibition on armor)
+    const hasNoArmorClass = classesWithArmorRestrictions.some(
+      (characterClass) => characterClass.allowedArmor.includes("none")
+    );
+
+    // If ANY class prohibits all armor, check if ALL classes prohibit it
+    if (hasNoArmorClass) {
+      // Only restrict if ALL classes with armor restrictions say "none"
+      const allClassesProhibitArmor = classesWithArmorRestrictions.every(
+        (characterClass) => characterClass.allowedArmor.includes("none")
+      );
+
+      if (allClassesProhibitArmor) {
+        const restrictingClass = classesWithArmorRestrictions[0];
+        return createRestriction(restrictingClass!.name);
+      }
+    }
+
+    // For multi-class: check if ANY class allows this armor
+    const isAllowedByAnyClass = classesWithArmorRestrictions.some(
+      (characterClass) =>
+        !characterClass.allowedArmor.includes("none") &&
+        isEquipmentInAllowedList(
+          equipment.name,
+          characterClass.allowedArmor,
+          ARMOR_ID_MAPPING
+        )
+    );
+
+    if (!isAllowedByAnyClass) {
+      // No class allows this armor
+      const restrictingClass = classesWithArmorRestrictions[0];
+      return createRestriction(restrictingClass!.name);
+    }
+  }
+
+  return { restricted: false };
 }

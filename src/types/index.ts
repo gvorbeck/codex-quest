@@ -12,7 +12,6 @@ export type {
   Spell,
   Cantrip,
   ScrollCreationProject,
-  Equipment,
   Character,
   RaceRequirement,
   SpecialAbility,
@@ -29,9 +28,6 @@ export type {
   RacialModificationInfo,
   HPGainResult,
   SpellGainInfo,
-  PackItem,
-  EquipmentPack,
-  PackApplicationResult,
 } from "./character";
 
 // Game and currency types
@@ -39,7 +35,6 @@ export type {
   GameCombatant,
   GamePlayer,
   Game,
-  EquipmentCategory,
   CurrencyKey,
   CurrencyType,
   TreasureTypeConfig,
@@ -106,3 +101,15 @@ export type {
   CharacterValidationStep,
   CharacterValidationPipeline,
 } from "./validation";
+
+// Equipment types
+export type {
+  Equipment,
+  PackItem,
+  LegacyPackItem,
+  EquipmentPack,
+  PackApplicationResult,
+  EquipmentCategory,
+  RestrictionData,
+  RestrictionResult,
+} from "./equipment";

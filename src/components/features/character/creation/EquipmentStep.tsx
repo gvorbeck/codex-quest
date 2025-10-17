@@ -1,12 +1,19 @@
 import { useMemo, memo, useEffect, useState } from "react";
-import { StepWrapper, Tabs, TabList, Tab, TabPanels, TabPanel } from "@/components/ui/core/layout";
+import {
+  StepWrapper,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from "@/components/ui/core/layout";
 import { SimpleRoller } from "@/components/domain/dice";
 import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { InfoCardHeader, StatGrid } from "@/components/ui/composite";
 import { ErrorDisplay } from "@/components/ui/core/feedback";
 import type { BaseStepProps } from "@/types";
-import type { EquipmentPack } from "@/types/character";
+import type { EquipmentPack } from "@/types";
 import { EquipmentSelector } from "@/components/domain/equipment";
 import { useEquipmentManagement } from "@/hooks";
 import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
@@ -33,16 +40,20 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
   const [selectedPack, setSelectedPack] = useState<EquipmentPack | null>(null);
 
   // Equipment pack mutations
-  const { applyEquipmentPack, isApplyingPack, packError } = useCharacterMutations({
-    onPackApplied: () => {
-      setShowPackSelector(false);
-    },
-  });
+  const { applyEquipmentPack, isApplyingPack, packError } =
+    useCharacterMutations({
+      onPackApplied: () => {
+        setShowPackSelector(false);
+      },
+    });
 
   // Handle pack selection
   const handlePackSelected = async (pack: EquipmentPack) => {
     try {
-      const { character: updatedCharacter } = await applyEquipmentPack({ character, pack });
+      const { character: updatedCharacter } = await applyEquipmentPack({
+        character,
+        pack,
+      });
       onCharacterChange(updatedCharacter);
       setSelectedPack(pack);
     } catch {
@@ -177,43 +188,45 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
             <div className="space-y-3 mb-6">
               {cleanedEquipment.map((item) => {
-                const itemKey = `${item.name}-${item.category || 'no-cat'}-${item.subCategory || 'no-sub'}-${item.costValue || 0}-${item.weight || 0}`;
+                const itemKey = `${item.name}-${item.category || "no-cat"}-${
+                  item.subCategory || "no-sub"
+                }-${item.costValue || 0}-${item.weight || 0}`;
                 return (
-                <Card key={itemKey} variant="success">
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="font-medium text-lime-100">
-                          {item.name}
-                        </span>
-                        {item.amount > 1 && (
-                          <Badge variant="status">× {item.amount}</Badge>
-                        )}
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
-                        {item.weight > 0 && (
-                          <span>
-                            {Math.round(item.weight * item.amount * 10) / 10}{" "}
-                            lbs
+                  <Card key={itemKey} variant="success">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="font-medium text-lime-100">
+                            {item.name}
                           </span>
-                        )}
-                        {item.costValue > 0 && (
-                          <span>
-                            {item.costValue * item.amount} {item.costCurrency}
-                          </span>
-                        )}
+                          {item.amount > 1 && (
+                            <Badge variant="status">× {item.amount}</Badge>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-sm text-lime-200">
+                          {item.weight > 0 && (
+                            <span>
+                              {Math.round(item.weight * item.amount * 10) / 10}{" "}
+                              lbs
+                            </span>
+                          )}
+                          {item.costValue > 0 && (
+                            <span>
+                              {item.costValue * item.amount} {item.costCurrency}
+                            </span>
+                          )}
+                        </div>
                       </div>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleEquipmentRemove(item.name)}
+                        className="self-start sm:self-center"
+                      >
+                        Remove
+                      </Button>
                     </div>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleEquipmentRemove(item.name)}
-                      className="self-start sm:self-center"
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </Card>
+                  </Card>
                 );
               })}
             </div>
@@ -241,7 +254,9 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
 
       {/* Equipment Selection Tabs */}
       <section className="mb-8">
-        <Typography variant="sectionHeading" className="mb-6">Equipment Selection</Typography>
+        <Typography variant="sectionHeading" className="mb-6">
+          Equipment Selection
+        </Typography>
 
         <Tabs defaultValue="equipment-packs" variant="underline" size="md">
           <TabList aria-label="Equipment selection methods">
@@ -270,22 +285,42 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <Icon name="check" size="sm" className="text-lime-400" />
+                          <Icon
+                            name="check"
+                            size="sm"
+                            className="text-lime-400"
+                          />
                           <Typography variant="h6" className="m-0">
                             {selectedPack.name}
                           </Typography>
                         </div>
-                        <Typography variant="bodySmall" color="secondary" className="mb-3">
+                        <Typography
+                          variant="bodySmall"
+                          color="secondary"
+                          className="mb-3"
+                        >
                           {selectedPack.description}
                         </Typography>
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1">
-                            <Icon name="coin" size="sm" className="text-amber-400" />
-                            <span className="text-sm font-medium">{selectedPack.cost} gp spent</span>
+                            <Icon
+                              name="coin"
+                              size="sm"
+                              className="text-amber-400"
+                            />
+                            <span className="text-sm font-medium">
+                              {selectedPack.cost} gp spent
+                            </span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Icon name="weight" size="sm" className="text-zinc-400" />
-                            <span className="text-sm text-zinc-400">{selectedPack.weight} lb added</span>
+                            <Icon
+                              name="weight"
+                              size="sm"
+                              className="text-zinc-400"
+                            />
+                            <span className="text-sm text-zinc-400">
+                              {selectedPack.weight} lb added
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -303,7 +338,8 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
                   </Card>
 
                   <Typography variant="bodySmall" color="secondary">
-                    You can still add or remove individual equipment items in the "Individual Items" tab.
+                    You can still add or remove individual equipment items in
+                    the "Individual Items" tab.
                   </Typography>
                 </div>
               )}

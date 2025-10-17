@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { Character } from "@/types";
-import type { EquipmentPack } from "@/types/character";
+import type { EquipmentPack } from "@/types";
 import { getEquipmentPacksByClass } from "@/utils/equipment";
 import equipmentPacksData from "@/data/equipment/equipmentPacks.json";
 
@@ -11,22 +11,28 @@ import equipmentPacksData from "@/data/equipment/equipmentPacks.json";
 export function useEquipmentPacks(character: Character) {
   const allPacks = equipmentPacksData as EquipmentPack[];
 
-  const packsById = useMemo(() =>
-    new Map(allPacks.map(pack => [pack.id, pack])), [allPacks]);
+  const packsById = useMemo(
+    () => new Map(allPacks.map((pack) => [pack.id, pack])),
+    [allPacks]
+  );
 
-  const { recommendedPacks, affordablePacks, cheapestPackCost, gold } = useMemo(() => {
-    const gold = character.currency.gold;
-    const recommended = getEquipmentPacksByClass(character);
-    const affordable = recommended.filter(pack => gold >= pack.cost);
-    const cheapest = recommended.length > 0 ? Math.min(...recommended.map(p => p.cost)) : 0;
+  const { recommendedPacks, affordablePacks, cheapestPackCost, gold } =
+    useMemo(() => {
+      const gold = character.currency.gold;
+      const recommended = getEquipmentPacksByClass(character);
+      const affordable = recommended.filter((pack) => gold >= pack.cost);
+      const cheapest =
+        recommended.length > 0
+          ? Math.min(...recommended.map((p) => p.cost))
+          : 0;
 
-    return {
-      recommendedPacks: recommended,
-      affordablePacks: affordable,
-      cheapestPackCost: cheapest,
-      gold,
-    };
-  }, [character]);
+      return {
+        recommendedPacks: recommended,
+        affordablePacks: affordable,
+        cheapestPackCost: cheapest,
+        gold,
+      };
+    }, [character]);
 
   const hasAffordablePacks = affordablePacks.length > 0;
 

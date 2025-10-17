@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { Icon, Button } from "@/components/ui";
 import Details from "@/components/ui/composite/Details";
-import type { EquipmentPack } from "@/types/character";
+import type { EquipmentPack } from "@/types";
 import { findEquipmentById } from "@/utils/equipment";
 import { cn } from "@/utils";
 
@@ -25,11 +25,11 @@ function EquipmentPackCard({
   characterClasses,
   onSelect,
   onConfirm,
-  isLoading = false
+  isLoading = false,
 }: EquipmentPackCardProps) {
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't select the pack if clicking on the confirm button or if not affordable
-    if ((e.target as HTMLElement).closest('button')) return;
+    if ((e.target as HTMLElement).closest("button")) return;
     if (!isAffordable) return;
     onSelect(pack);
   };
@@ -101,11 +101,14 @@ function EquipmentPackCard({
               <div className="space-y-1">
                 {pack.items.map((item, index) => {
                   const equipment = findEquipmentById(item.equipmentId);
-                  const equipmentName = equipment?.name || `Unknown (${item.equipmentId})`;
+                  const equipmentName =
+                    equipment?.name || `Unknown (${item.equipmentId})`;
 
                   return (
                     <div key={index} className="flex justify-between">
-                      <span>{item.quantity}× {equipmentName}</span>
+                      <span>
+                        {item.quantity}× {equipmentName}
+                      </span>
                     </div>
                   );
                 })}
@@ -130,7 +133,9 @@ function EquipmentPackCard({
             icon="check"
             iconSize="sm"
           >
-            {isAffordable ? `Equip This Pack (${pack.cost} gp)` : `Cannot Afford (${pack.cost} gp)`}
+            {isAffordable
+              ? `Equip This Pack (${pack.cost} gp)`
+              : `Cannot Afford (${pack.cost} gp)`}
           </Button>
         </div>
       )}
