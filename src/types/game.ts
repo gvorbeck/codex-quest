@@ -25,21 +25,7 @@ export interface Game {
   [key: string]: unknown;
 }
 
-// Equipment and currency types - derived from gameRules constants
-export type EquipmentCategory =
-  | "general-equipment"
-  | "swords"
-  | "axes"
-  | "bows"
-  | "daggers"
-  | "hammers-and-maces"
-  | "chain-and-flail"
-  | "spears-and-polearms"
-  | "slings-and-hurled-weapons"
-  | "other-weapons"
-  | "improvised-weapons"
-  | "beasts-of-burden"
-  | "barding";
+// Currency types - derived from gameRules constants
 export type CurrencyKey =
   | "platinum"
   | "gold"

@@ -6,9 +6,10 @@ import type {
   Character,
   Equipment,
   Class,
-  Race,
   EquipmentPack,
   PackApplicationResult,
+  RestrictionData,
+  RestrictionResult,
 } from "@/types";
 import { allClasses } from "@/data";
 import {
@@ -437,23 +438,6 @@ export function calculatePackTotals(pack: EquipmentPack): {
 // ============================================================================
 // EQUIPMENT RESTRICTION UTILITIES
 // ============================================================================
-
-/**
- * Restriction data structure for equipment validation
- */
-export interface RestrictionData {
-  race: Race | undefined;
-  classes: Class[];
-  currency: number;
-}
-
-/**
- * Restriction result structure
- */
-export interface RestrictionResult {
-  restricted: boolean;
-  reason?: string;
-}
 
 /**
  * Creates an equipment ID from the equipment name by converting to lowercase and replacing spaces with hyphens
