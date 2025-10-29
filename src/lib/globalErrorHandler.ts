@@ -198,7 +198,16 @@ export class GlobalErrorHandler {
       case "add":
         return "added";
       default:
-        // For regular verbs, just add 'ed'
+        // For regular verbs, handle consonant + 'y' ending
+        if (lowerOp.length >= 2 && lowerOp.endsWith("y")) {
+          const secondToLast = lowerOp[lowerOp.length - 2];
+          if (secondToLast && !"aeiou".includes(secondToLast)) {
+            // Replace 'y' with 'ied'
+            return `${lowerOp.slice(0, -1)}ied`;
+          }
+        }
+
+        // Just add 'ed' for other regular verbs
         return lowerOp.endsWith("e") ? `${lowerOp}d` : `${lowerOp}ed`;
     }
   }
