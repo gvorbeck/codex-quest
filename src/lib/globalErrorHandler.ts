@@ -88,9 +88,11 @@ export class GlobalErrorHandler {
     let message = `${context.operation} completed successfully.`;
 
     if (context.entityType && context.entityName) {
-      message = `${context.entityType} "${context.entityName}" ${context.operation.toLowerCase()}d successfully.`;
+      const pastTense = this.getPastTenseOperation(context.operation);
+      message = `${context.entityType} "${context.entityName}" ${pastTense} successfully.`;
     } else if (context.entityType) {
-      message = `${context.entityType} ${context.operation.toLowerCase()}d successfully.`;
+      const pastTense = this.getPastTenseOperation(context.operation);
+      message = `${context.entityType} ${pastTense} successfully.`;
     }
 
     this.notifications.showSuccess(message, { duration: 4000 });
@@ -169,6 +171,34 @@ export class GlobalErrorHandler {
       error.message.includes('required') ||
       errorObj['status'] === 400
     );
+  }
+
+  /**
+   * Convert operation verb to past tense for success messages
+   */
+  private getPastTenseOperation(operation: string): string {
+    const lowerOp = operation.toLowerCase();
+    
+    // Handle irregular verbs and special cases
+    switch (lowerOp) {
+      case 'apply':
+        return 'applied';
+      case 'save':
+        return 'saved';
+      case 'delete':
+        return 'deleted';
+      case 'update':
+        return 'updated';
+      case 'create':
+        return 'created';
+      case 'remove':
+        return 'removed';
+      case 'add':
+        return 'added';
+      default:
+        // For regular verbs, just add 'ed'
+        return lowerOp.endsWith('e') ? `${lowerOp}d` : `${lowerOp}ed`;
+    }
   }
 }
 
