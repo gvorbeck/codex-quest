@@ -24,7 +24,8 @@ export class GlobalErrorHandler {
     let title = "Error";
 
     if (this.isNetworkError(error)) {
-      userMessage = "Network connection problem. Please check your internet connection.";
+      userMessage =
+        "Network connection problem. Please check your internet connection.";
       title = "Connection Error";
     } else if (this.isAuthError(error)) {
       userMessage = "Authentication failed. Please sign in again.";
@@ -57,10 +58,14 @@ export class GlobalErrorHandler {
     let title = `${context.operation} Failed`;
 
     if (context.entityType && context.entityName) {
-      userMessage = `Failed to ${context.operation.toLowerCase()} ${context.entityType} "${context.entityName}".`;
+      userMessage = `Failed to ${context.operation.toLowerCase()} ${
+        context.entityType
+      } "${context.entityName}".`;
       title = `${context.operation} ${context.entityType} Failed`;
     } else if (context.entityType) {
-      userMessage = `Failed to ${context.operation.toLowerCase()} ${context.entityType}.`;
+      userMessage = `Failed to ${context.operation.toLowerCase()} ${
+        context.entityType
+      }.`;
       title = `${context.operation} ${context.entityType} Failed`;
     }
 
@@ -78,13 +83,11 @@ export class GlobalErrorHandler {
   /**
    * Handle mutation success with appropriate feedback
    */
-  handleMutationSuccess = (
-    context: {
-      operation: string;
-      entityType?: string;
-      entityName?: string;
-    }
-  ) => {
+  handleMutationSuccess = (context: {
+    operation: string;
+    entityType?: string;
+    entityName?: string;
+  }) => {
     let message = `${context.operation} completed successfully.`;
 
     if (context.entityType && context.entityName) {
@@ -106,7 +109,7 @@ export class GlobalErrorHandler {
       "You're currently offline. Changes will be saved when you reconnect.",
       {
         title: "Offline Mode",
-        duration: 0 // Keep visible until online
+        duration: 0, // Keep visible until online
       }
     );
   };
@@ -116,10 +119,9 @@ export class GlobalErrorHandler {
    */
   handleRetryAttempt = (attempt: number, maxRetries: number) => {
     if (attempt === 1) {
-      this.notifications.showInfo(
-        `Retrying... (${attempt}/${maxRetries})`,
-        { duration: 2000 }
-      );
+      this.notifications.showInfo(`Retrying... (${attempt}/${maxRetries})`, {
+        duration: 2000,
+      });
     }
   };
 
@@ -136,40 +138,40 @@ export class GlobalErrorHandler {
    */
   public isNetworkError(error: Error): boolean {
     return (
-      error.message.includes('NetworkError') ||
-      error.message.includes('Failed to fetch') ||
-      error.message.includes('ERR_NETWORK') ||
-      error.name === 'NetworkError'
+      error.message.includes("NetworkError") ||
+      error.message.includes("Failed to fetch") ||
+      error.message.includes("ERR_NETWORK") ||
+      error.name === "NetworkError"
     );
   }
 
   public isAuthError(error: Error): boolean {
     const errorObj = error as unknown as Record<string, unknown>;
     return (
-      error.message.includes('auth/') ||
-      error.message.includes('unauthorized') ||
-      error.message.includes('Authentication') ||
-      (errorObj['code']?.toString().startsWith('auth/') ?? false)
+      error.message.includes("auth/") ||
+      error.message.includes("unauthorized") ||
+      error.message.includes("Authentication") ||
+      (errorObj["code"]?.toString().startsWith("auth/") ?? false)
     );
   }
 
   public isPermissionError(error: Error): boolean {
     const errorObj = error as unknown as Record<string, unknown>;
     return (
-      error.message.includes('permission') ||
-      error.message.includes('forbidden') ||
-      error.message.includes('access denied') ||
-      errorObj['status'] === 403
+      error.message.includes("permission") ||
+      error.message.includes("forbidden") ||
+      error.message.includes("access denied") ||
+      errorObj["status"] === 403
     );
   }
 
   public isValidationError(error: Error): boolean {
     const errorObj = error as unknown as Record<string, unknown>;
     return (
-      error.message.includes('validation') ||
-      error.message.includes('invalid') ||
-      error.message.includes('required') ||
-      errorObj['status'] === 400
+      error.message.includes("validation") ||
+      error.message.includes("invalid") ||
+      error.message.includes("required") ||
+      errorObj["status"] === 400
     );
   }
 
@@ -178,26 +180,26 @@ export class GlobalErrorHandler {
    */
   private getPastTenseOperation(operation: string): string {
     const lowerOp = operation.toLowerCase();
-    
+
     // Handle irregular verbs and special cases
     switch (lowerOp) {
-      case 'apply':
-        return 'applied';
-      case 'save':
-        return 'saved';
-      case 'delete':
-        return 'deleted';
-      case 'update':
-        return 'updated';
-      case 'create':
-        return 'created';
-      case 'remove':
-        return 'removed';
-      case 'add':
-        return 'added';
+      case "apply":
+        return "applied";
+      case "save":
+        return "saved";
+      case "delete":
+        return "deleted";
+      case "update":
+        return "updated";
+      case "create":
+        return "created";
+      case "remove":
+        return "removed";
+      case "add":
+        return "added";
       default:
         // For regular verbs, just add 'ed'
-        return lowerOp.endsWith('e') ? `${lowerOp}d` : `${lowerOp}ed`;
+        return lowerOp.endsWith("e") ? `${lowerOp}d` : `${lowerOp}ed`;
     }
   }
 }
@@ -205,7 +207,9 @@ export class GlobalErrorHandler {
 /**
  * Enhanced query client with global error handling
  */
-export function createEnhancedQueryClient(notifications: NotificationSystem): QueryClient {
+export function createEnhancedQueryClient(
+  notifications: NotificationSystem
+): QueryClient {
   const errorHandler = new GlobalErrorHandler(notifications);
 
   return new QueryClient({
@@ -215,7 +219,10 @@ export function createEnhancedQueryClient(notifications: NotificationSystem): Qu
         gcTime: 10 * 60 * 1000, // 10 minutes
         retry: (failureCount, error) => {
           // Don't retry on auth/permission errors
-          if (errorHandler.isAuthError(error) || errorHandler.isPermissionError(error)) {
+          if (
+            errorHandler.isAuthError(error) ||
+            errorHandler.isPermissionError(error)
+          ) {
             return false;
           }
 
