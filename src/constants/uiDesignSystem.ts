@@ -406,7 +406,7 @@ export function getInitialAlerts(): AlertConfig[] {
   const alerts: AlertConfig[] = [];
 
   // Always show welcome alert first
-  alerts.push(WELCOME_ALERT);
+  // alerts.push(WELCOME_ALERT);
 
   // Add mock mode alert if in mock mode
   if (typeof window !== "undefined") {
