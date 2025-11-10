@@ -113,7 +113,8 @@ export default function CustomSpellModal({
 
     onSpellAdd(newSpell);
     handleReset();
-  }, [formData, onSpellAdd, handleReset]);
+    onClose();
+  }, [formData, onSpellAdd, handleReset, onClose]);
 
   const handleCancel = useCallback(() => {
     handleReset();
@@ -195,6 +196,7 @@ export default function CustomSpellModal({
               onChange={(value) => setFormData((prev) => ({ ...prev, description: value }))}
               placeholder="Describe the spell's effects and how it works..."
               rows={5}
+              error={attemptedSubmit && !formData.description}
             />
           </FormField>
         </div>
