@@ -22,6 +22,10 @@ export const CustomEquipmentModal = lazy(() =>
   import('../domain/equipment/CustomEquipmentModal').then(m => ({ default: m.default }))
 );
 
+export const CustomSpellModal = lazy(() =>
+  import('../domain/spells/CustomSpellModal').then(m => ({ default: m.default }))
+);
+
 export const CantripModal = lazy(() =>
   import('../features/character/modals/CantripModal').then(m => ({ default: m.default }))
 );

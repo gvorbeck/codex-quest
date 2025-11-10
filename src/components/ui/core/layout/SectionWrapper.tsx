@@ -26,7 +26,7 @@ const SectionWrapper = forwardRef<HTMLDivElement, SectionWrapperProps>(
     ref
   ) => {
     // Use Zustand store to persist collapse state if collapsibleKey is provided
-    const isSectionCollapsed = useUiStore((state) => state.isSectionCollapsed);
+    const collapsedSections = useUiStore((state) => state.collapsedSections);
     const setSectionCollapsed = useUiStore(
       (state) => state.setSectionCollapsed
     );
@@ -36,16 +36,18 @@ const SectionWrapper = forwardRef<HTMLDivElement, SectionWrapperProps>(
 
     // Determine which state to use
     const isCollapsed = collapsibleKey
-      ? isSectionCollapsed(collapsibleKey)
+      ? (collapsedSections[collapsibleKey] || false)
       : localCollapsed;
 
-    const toggleCollapse = useCallback(() => {
+    const toggleCollapse = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
       if (collapsibleKey) {
         setSectionCollapsed(collapsibleKey, !isCollapsed);
       } else {
         setLocalCollapsed(!isCollapsed);
       }
-    }, [isCollapsed, collapsibleKey, setSectionCollapsed]);
+    }, [isCollapsed, collapsibleKey, setSectionCollapsed, setLocalCollapsed]);
 
     const containerClasses = cn(
       DESIGN_TOKENS.colors.bg.accent,
@@ -70,6 +72,7 @@ const SectionWrapper = forwardRef<HTMLDivElement, SectionWrapperProps>(
     // Create collapse button as extra content if collapsible
     const collapseButton = collapsible ? (
       <button
+        type="button"
         onClick={toggleCollapse}
         className={collapseButtonClasses}
         aria-label={isCollapsed ? "Expand section" : "Collapse section"}

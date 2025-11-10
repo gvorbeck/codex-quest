@@ -1,4 +1,4 @@
-import { useModal } from "@/hooks";
+import { useModal, useNotificationContext } from "@/hooks";
 import type { Character, Spell, Cantrip } from "@/types";
 import { SectionWrapper, Accordion } from "@/components/ui/core/layout";
 import { Card, Typography } from "@/components/ui/core/display";
@@ -10,6 +10,7 @@ import CantripSelector from "@/components/features/character/shared/CantripSelec
 import SpellDetails from "@/components/domain/spells/SpellDetails";
 import { TurnUndeadSection } from "@/components/features/character/shared";
 import MUAddSpellModal from "@/components/features/character/modals/MUAddSpellModal";
+import { CustomSpellModal } from "@/components/modals/LazyModals";
 import PreparedSpellsSection from "./spells/PreparedSpellsSection";
 import SpellSlotDisplay from "./spells/SpellSlotDisplay";
 import { useSpellData } from "./spells/hooks/useSpellData";
@@ -62,6 +63,8 @@ export default function Spells({
 }: SpellsProps) {
   const cantripModal = useModal();
   const addSpellModal = useModal();
+  const customSpellModal = useModal();
+  const { showSuccess } = useNotificationContext();
 
   // Use extracted hooks for spell data processing
   const {
@@ -201,7 +204,25 @@ export default function Spells({
   );
 
   return (
-    <SectionWrapper title="Spells & Cantrips" size={size} className={className}>
+    <SectionWrapper
+      title={
+        <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between w-full">
+          <span>Spells & Cantrips</span>
+          {canEdit && (
+            <Button
+              onClick={customSpellModal.open}
+              variant="primary"
+              size="sm"
+              aria-label="Create custom spell"
+            >
+              Create Custom
+            </Button>
+          )}
+        </div>
+      }
+      size={size}
+      className={className}
+    >
       <div className="p-6">
         {hasAnySpells ? (
           <div className="space-y-6">
@@ -321,6 +342,22 @@ export default function Spells({
               ...character,
               spells: updatedSpells,
             });
+          }}
+        />
+      )}
+
+      {/* Custom Spell Modal */}
+      {canEdit && (
+        <CustomSpellModal
+          isOpen={customSpellModal.isOpen}
+          onClose={customSpellModal.close}
+          onSpellAdd={(newSpell) => {
+            const updatedSpells = [...(character.spells || []), newSpell];
+            onCharacterChange!({
+              ...character,
+              spells: updatedSpells,
+            });
+            showSuccess(`Custom spell "${newSpell.name}" has been added to your spellbook!`);
           }}
         />
       )}
