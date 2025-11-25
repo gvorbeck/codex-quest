@@ -532,9 +532,12 @@ export function processCharacterData(
   }
 
   // Handle version 2.5 to 2.6 migration (combination classes refactor)
-  if (currentVersion < VERSION_COMBINATION_CLASSES) {
+  // ALWAYS run if class is still an array, regardless of version number
+  const needsClassMigration = currentVersion < VERSION_COMBINATION_CLASSES || Array.isArray(migratedData["class"]);
+
+  if (needsClassMigration) {
     logger.debug(
-      `Migrating character from version ${currentVersion} to ${VERSION_COMBINATION_CLASSES}: ${
+      `Migrating character class from version ${currentVersion} to ${VERSION_COMBINATION_CLASSES}: ${
         migratedData["name"] || "Unknown"
       }`
     );
