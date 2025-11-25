@@ -441,20 +441,14 @@ function migrateCombinationClasses(
       const sorted = [...classArray].sort();
 
       // Fighter + Magic-User = fighter-magic-user
-      if (
-        (sorted[0] === "fighter" && sorted[1] === "magic-user") ||
-        (sorted[0] === "magic-user" && sorted[1] === "fighter")
-      ) {
+      if (sorted[0] === "fighter" && sorted[1] === "magic-user") {
         migrated["class"] = "fighter-magic-user";
         logger.info(
           `Migrated combination class ${JSON.stringify(classArray)} to fighter-magic-user`
         );
       }
       // Magic-User + Thief = magic-user-thief
-      else if (
-        (sorted[0] === "magic-user" && sorted[1] === "thief") ||
-        (sorted[0] === "thief" && sorted[1] === "magic-user")
-      ) {
+      else if (sorted[0] === "magic-user" && sorted[1] === "thief") {
         migrated["class"] = "magic-user-thief";
         logger.info(
           `Migrated combination class ${JSON.stringify(classArray)} to magic-user-thief`

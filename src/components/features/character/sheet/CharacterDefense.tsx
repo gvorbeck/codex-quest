@@ -56,7 +56,8 @@ export default function CharacterDefense({
 
     if (characterClass) {
       // Standard class - check if it gets +2 HP per level after 9th level
-      const className = characterClass.name.toLowerCase();
+      // Use class ID instead of name to properly handle combination classes
+      const classId = characterClass.id;
       const twoHpClasses = [
         "fighter",
         "thief",
@@ -65,8 +66,9 @@ export default function CharacterDefense({
         "ranger",
         "paladin",
         "scout",
+        "fighter-magic-user", // Combination class gets +2 (Fighter component)
       ];
-      if (twoHpClasses.includes(className)) {
+      if (twoHpClasses.includes(classId)) {
         hpPerLevel = 2;
       }
     }
