@@ -29,13 +29,8 @@ const getRaceDisplayName = (character: Character): string => {
 };
 
 const getClassDisplayNames = (character: Character): string => {
-  if (!character.class || character.class.length === 0) return "Unknown";
-
-  const classNames = character.class.map((classId) =>
-    getClassName(character, classId)
-  );
-
-  return classNames.join(" / ");
+  if (!character.class) return "Unknown";
+  return getClassName(character, character.class);
 };
 
 const getAvatarFallback = (name: string): string => {

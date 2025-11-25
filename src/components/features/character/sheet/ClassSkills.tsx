@@ -41,11 +41,9 @@ export default function ClassSkills({
 
   // Check if character has a class with skills using optimized lookup
   const characterClassInfo = useMemo(() => {
-    const skillClass = character.class?.find(
-      (cls): cls is SkillClassKey => cls in CLASSES_WITH_SKILLS
-    );
+    const skillClass = character.class as SkillClassKey;
 
-    if (skillClass) {
+    if (skillClass && skillClass in CLASSES_WITH_SKILLS) {
       const classInfo = CLASSES_WITH_SKILLS[skillClass];
       return {
         hasSkills: true,

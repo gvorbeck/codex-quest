@@ -18,6 +18,8 @@ export const CHARACTER_CLASSES = {
   PALADIN: "paladin",
   SCOUT: "scout",
   SPELLCRAFTER: "spellcrafter",
+  FIGHTER_MAGIC_USER: "fighter-magic-user",
+  MAGIC_USER_THIEF: "magic-user-thief",
 } as const;
 
 // Equipment Categories

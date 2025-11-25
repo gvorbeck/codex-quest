@@ -14,6 +14,8 @@ export const elf: Race = {
     "thief",
     "ranger",
     "scout",
+    "fighter-magic-user",
+    "magic-user-thief",
   ],
   abilityRequirements: [
     {

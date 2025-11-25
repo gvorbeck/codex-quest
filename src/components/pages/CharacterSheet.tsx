@@ -62,10 +62,8 @@ export default function CharacterSheet() {
   const hasSkills = useMemo(() => {
     if (!character?.class) return false;
 
-    return character.class.some((classId: string) => {
-      const classData = getClassById(classId);
-      return classData?.skills !== undefined;
-    });
+    const classData = getClassById(character.class);
+    return classData?.skills !== undefined;
   }, [character?.class]);
 
   // Handle XP changes
@@ -352,7 +350,7 @@ export default function CharacterSheet() {
           </div>
 
           {/* Scroll Creation Section - only show for Spellcrafters */}
-          {character.class.includes("spellcrafter") && (
+          {character.class === "spellcrafter" && (
             <ScrollCreation
               character={character}
               onCharacterChange={handleCharacterChange}

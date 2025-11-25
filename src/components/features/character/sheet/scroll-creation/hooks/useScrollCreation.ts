@@ -52,10 +52,7 @@ export const createScrollCreationObject = (
 export const useScrollCreation = (character: Character) => {
   // Check if character is a Spellcrafter and calculate bonuses
   const spellcrafterLevel = useMemo(() => {
-    const spellcrafterClass = character.class.find(
-      (cls) => cls === "spellcrafter"
-    );
-    return spellcrafterClass ? character.level : 0;
+    return character.class === "spellcrafter" ? character.level : 0;
   }, [character.class, character.level]);
 
   const canCreateScrolls = spellcrafterLevel >= 1;

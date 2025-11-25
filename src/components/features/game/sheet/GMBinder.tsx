@@ -48,13 +48,8 @@ export const GMBinder = memo(
         const resolved = getResolvedData(player.user, player.character);
         if (!resolved?.class) return false;
 
-        const classes = Array.isArray(resolved.class)
-          ? resolved.class
-          : [resolved.class].filter(Boolean);
-
-        return classes.some(
-          (className: string) => className in CLASSES_WITH_SKILLS
-        );
+        // Check if the character's class has skills
+        return resolved.class in CLASSES_WITH_SKILLS;
       });
 
       setHasSkillClasses(hasSkills);

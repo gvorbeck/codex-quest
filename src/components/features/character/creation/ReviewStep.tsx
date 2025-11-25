@@ -41,18 +41,15 @@ function ReviewStepComponent({
   }, [character.race]);
 
   const classDisplayNames = useMemo(() => {
-    if (character.class.length === 0) return "None selected";
-    return character.class
-      .map((classId) => {
-        // Handle custom classes
-        if (isCustomClass(classId)) {
-          return classId || "Custom Class";
-        }
+    if (!character.class) return "None selected";
 
-        const classData = getClassById(classId);
-        return classData?.name || classId;
-      })
-      .join("/");
+    // Handle custom classes
+    if (isCustomClass(character.class)) {
+      return character.class || "Custom Class";
+    }
+
+    const classData = getClassById(character.class);
+    return classData?.name || character.class;
   }, [character.class]);
 
   const handleNameChange = useCallback(
@@ -287,19 +284,26 @@ function ReviewStepComponent({
 
               <Card variant="success" size="compact">
                 <div className="space-y-2">
-                  {character.class.includes("magic-user") && (
-                    <div className="flex items-center gap-2">
-                      <span className="bg-amber-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
-                        Auto
-                      </span>
-                      <span className="text-lime-200 font-medium">
-                        Read Magic
-                      </span>
-                      <span className="text-lime-300 text-sm">
-                        (automatically known)
-                      </span>
-                    </div>
-                  )}
+                  {(() => {
+                    // Check if class has Read Magic ability (magic-user types and combination classes)
+                    const classData = getClassById(character.class);
+                    const hasReadMagic = classData?.specialAbilities?.some(
+                      (ability) => ability.name === "Read Magic"
+                    );
+                    return hasReadMagic && (
+                      <div className="flex items-center gap-2">
+                        <span className="bg-amber-600 text-zinc-900 text-xs font-medium px-2 py-1 rounded">
+                          Auto
+                        </span>
+                        <span className="text-lime-200 font-medium">
+                          Read Magic
+                        </span>
+                        <span className="text-lime-300 text-sm">
+                          (automatically known)
+                        </span>
+                      </div>
+                    );
+                  })()}
                   {character.spells.map((spell, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <Badge variant="status">L1</Badge>

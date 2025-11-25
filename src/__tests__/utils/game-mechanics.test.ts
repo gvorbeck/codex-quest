@@ -149,7 +149,7 @@ describe("Game Mechanics Tests", () => {
       const character: Character = {
         ...testCharacter,
         race: "elf",
-        class: ["fighter", "magic-user"], // Multi-class elf
+        class: "fighter-magic-user", // Combination class elf
         spells: [
           {
             name: "Magic Missile",
@@ -189,8 +189,8 @@ describe("Game Mechanics Tests", () => {
 
       const result = cascadeValidateCharacter(character, humanRace, []);
 
-      // Humans can't multi-class, so class should be cleared
-      expect(result.class).toEqual([]);
+      // Humans can't multi-class, so combination class should be cleared
+      expect(result.class).toBe("");
       expect(result.spells).toEqual([]);
     });
   });
@@ -199,34 +199,34 @@ describe("Game Mechanics Tests", () => {
     it("correctly identifies spellcasting classes", () => {
       const magicUser: Character = {
         ...createEmptyCharacter(),
-        class: ["magic-user"],
+        class: "magic-user",
       };
       expect(canCastSpells(magicUser)).toBe(true);
 
       const cleric: Character = {
         ...createEmptyCharacter(),
-        class: ["cleric"],
+        class: "cleric",
       };
       expect(canCastSpells(cleric)).toBe(true);
 
       const fighter: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter"],
+        class: "fighter",
       };
       expect(canCastSpells(fighter)).toBe(false);
 
       const multiClass: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter", "magic-user"],
+        class: "fighter-magic-user",
       };
       expect(canCastSpells(multiClass)).toBe(true);
     });
 
     it("determines correct spell system types", () => {
-      const magicUser: Character = { ...createEmptyCharacter(), class: ["magic-user"] };
-      const illusionist: Character = { ...createEmptyCharacter(), class: ["illusionist"] };
-      const cleric: Character = { ...createEmptyCharacter(), class: ["cleric"] };
-      const fighter: Character = { ...createEmptyCharacter(), class: ["fighter"] };
+      const magicUser: Character = { ...createEmptyCharacter(), class: "magic-user" };
+      const illusionist: Character = { ...createEmptyCharacter(), class: "illusionist" };
+      const cleric: Character = { ...createEmptyCharacter(), class: "cleric" };
+      const fighter: Character = { ...createEmptyCharacter(), class: "fighter" };
 
       expect(getCharacterSpellSystemType(magicUser)).toBe("magic-user");
       expect(getCharacterSpellSystemType(illusionist)).toBe("magic-user");
@@ -239,28 +239,28 @@ describe("Game Mechanics Tests", () => {
     it("calculates correct hit dice for different classes", () => {
       const fighter: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter"],
+        class: "fighter",
         race: "human",
       };
       expect(calculateHitDie(fighter)).toBe("1d8");
 
       const magicUser: Character = {
         ...createEmptyCharacter(),
-        class: ["magic-user"],
+        class: "magic-user",
         race: "human",
       };
       expect(calculateHitDie(magicUser)).toBe("1d4");
 
       const cleric: Character = {
         ...createEmptyCharacter(),
-        class: ["cleric"],
+        class: "cleric",
         race: "human",
       };
       expect(calculateHitDie(cleric)).toBe("1d6");
 
       const thief: Character = {
         ...createEmptyCharacter(),
-        class: ["thief"],
+        class: "thief",
         race: "human",
       };
       expect(calculateHitDie(thief)).toBe("1d4");
@@ -269,7 +269,7 @@ describe("Game Mechanics Tests", () => {
     it("handles multi-class hit dice correctly", () => {
       const multiClass: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter", "magic-user"],
+        class: "fighter-magic-user",
         race: "elf", // Elves can multi-class
       };
 
@@ -280,7 +280,7 @@ describe("Game Mechanics Tests", () => {
     it("returns null for characters without classes", () => {
       const noClass: Character = {
         ...createEmptyCharacter(),
-        class: [],
+        class: "",
       };
       expect(calculateHitDie(noClass)).toBe(null);
     });
@@ -323,7 +323,7 @@ describe("Game Mechanics Tests", () => {
       const customCharacter: Character = {
         ...createEmptyCharacter(),
         race: "custom-dragonborn",
-        class: ["custom-paladin"],
+        class: "custom-paladin",
       };
 
       // Custom classes should be treated as non-spellcasting by default
@@ -335,7 +335,7 @@ describe("Game Mechanics Tests", () => {
       const complexMultiClass: Character = {
         ...createEmptyCharacter(),
         race: "elf",
-        class: ["fighter", "magic-user", "thief"], // Triple class
+        class: "fighter-magic-user", // Combination class for elf
         abilities: {
           strength: { value: 15, modifier: 1 },
           dexterity: { value: 16, modifier: 2 },

@@ -165,7 +165,7 @@ function validateClassStep(
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  if (!character.class || character.class.length === 0) {
+  if (!character.class) {
     return {
       isValid: false,
       errors: ["Please select a class for your character"],
@@ -185,11 +185,9 @@ function validateClassStep(
   if (hasCustomRace(character)) {
     // Custom races can use any class, no validation needed for race restrictions
     // Still need to validate that custom classes have names if they exist
-    for (const classId of character.class) {
-      if (isCustomClass(classId)) {
-        if (!classId || classId.trim().length === 0) {
-          errors.push("Please enter a name for your custom class");
-        }
+    if (isCustomClass(character.class)) {
+      if (!character.class || character.class.trim().length === 0) {
+        errors.push("Please enter a name for your custom class");
       }
     }
   } else {
@@ -208,7 +206,7 @@ function validateClassStep(
       availableClasses
     );
     if (!classesStillValid) {
-      errors.push(`Selected classes are not allowed for ${selectedRace.name}`);
+      errors.push(`Selected class is not allowed for ${selectedRace.name}`);
     }
   }
 
@@ -217,7 +215,9 @@ function validateClassStep(
     availableClasses
   );
   if (!hasRequiredSpells) {
-    const isMagicUser = character.class.includes(CHARACTER_CLASSES.MAGIC_USER);
+    const isMagicUser = character.class === CHARACTER_CLASSES.MAGIC_USER ||
+      character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
+      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF;
     if (isMagicUser) {
       errors.push(
         "Magic-Users must select one first level spell (Read Magic is automatically known)."

@@ -42,9 +42,9 @@ export function useCascadeValidation({
   filteredRaces,
   filteredClasses,
 }: UseCascadeValidationProps) {
-  // Use stable string for class array to avoid unnecessary effects
-  const classArrayString = useMemo(
-    () => character.class.join(","),
+  // Use stable reference for class to avoid unnecessary effects
+  const classString = useMemo(
+    () => character.class,
     [character.class]
   );
 
@@ -89,7 +89,7 @@ export function useCascadeValidation({
     // Only update if the character has actually changed
     const hasChanged =
       validatedCharacter.race !== character.race ||
-      validatedCharacter.class.join(",") !== character.class.join(",") ||
+      validatedCharacter.class !== character.class ||
       validatedCharacter.spells?.length !== character.spells?.length;
 
     if (hasChanged) {
@@ -103,7 +103,7 @@ export function useCascadeValidation({
   }, [
     abilityScoresHash,
     character.race,
-    classArrayString,
+    classString,
     validateAndUpdateCharacter,
   ]);
 

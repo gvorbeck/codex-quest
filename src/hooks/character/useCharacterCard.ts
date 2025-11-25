@@ -24,24 +24,22 @@ export function useCharacterCard(character: CharacterListItem) {
     return race?.name || character.race;
   }, [character.race]);
 
-  // Memoized class names lookup for performance
+  // Memoized class name lookup for performance
   const classNames = useMemo(() => {
     if (!character.class) return [];
-    const classes = Array.isArray(character.class)
-      ? character.class
-      : [character.class];
-    return classes.map((classId) => {
-      // Handle custom classes
-      if (isCustomClass(classId)) {
-        return {
-          id: classId,
-          name: classId || "Custom Class",
-        };
-      }
 
-      const classData = getClassById(classId);
-      return { id: classId, name: classData?.name || classId };
-    });
+    const classId = character.class;
+
+    // Handle custom classes
+    if (isCustomClass(classId)) {
+      return [{
+        id: classId,
+        name: classId || "Custom Class",
+      }];
+    }
+
+    const classData = getClassById(classId);
+    return [{ id: classId, name: classData?.name || classId }];
   }, [character.class]);
 
   const handleCopyUrl = useCallback(

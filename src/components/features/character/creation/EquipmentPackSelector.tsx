@@ -61,7 +61,7 @@ function EquipmentPackSelector({
               isSelected={selectedPackId === pack.id}
               isRecommended={isPackRecommended(pack)}
               isAffordable={isPackAffordable(pack)}
-              characterClasses={character.class}
+              characterClasses={character.class || ""}
               onSelect={handlePackSelect}
               onConfirm={handleConfirmSelection}
               isLoading={isLoading}

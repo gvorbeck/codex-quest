@@ -145,7 +145,7 @@ describe("Character Utilities", () => {
 
       expect(character.name).toBe("");
       expect(character.race).toBe("");
-      expect(character.class).toEqual([]);
+      expect(character.class).toBe("");
       expect(character.level).toBe(1);
       expect(character.xp).toBe(0);
       expect(character.equipment).toEqual([]);
@@ -181,19 +181,19 @@ describe("Character Utilities", () => {
     it("detects spellcasting characters", () => {
       const magicUser: Character = {
         ...createEmptyCharacter(),
-        class: ["magic-user"],
+        class: "magic-user",
       };
       expect(canCastSpells(magicUser)).toBe(true);
 
       const cleric: Character = {
         ...createEmptyCharacter(),
-        class: ["cleric"],
+        class: "cleric",
       };
       expect(canCastSpells(cleric)).toBe(true);
 
       const fighter: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter"],
+        class: "fighter",
       };
       expect(canCastSpells(fighter)).toBe(false);
     });
@@ -203,14 +203,14 @@ describe("Character Utilities", () => {
     it("returns hit die for standard classes", () => {
       const fighter: Character = {
         ...createEmptyCharacter(),
-        class: ["fighter"],
+        class: "fighter",
         race: "human",
       };
       expect(calculateHitDie(fighter)).toBe("1d8");
 
       const magicUser: Character = {
         ...createEmptyCharacter(),
-        class: ["magic-user"],
+        class: "magic-user",
         race: "human",
       };
       expect(calculateHitDie(magicUser)).toBe("1d4");
@@ -309,7 +309,7 @@ describe("Character Utilities", () => {
       const character: Character = {
         ...createEmptyCharacter(),
         race: "elf",
-        class: ["fighter", "magic-user"],
+        class: "fighter-magic-user",
         spells: [],
       };
 
@@ -333,8 +333,8 @@ describe("Character Utilities", () => {
 
       const result = cascadeValidateCharacter(character, humanRace, []);
 
-      // Multi-class should be cleared for humans
-      expect(result.class).toEqual([]);
+      // Combination class should be cleared for humans (they can't multi-class)
+      expect(result.class).toBe("");
       expect(result.spells).toEqual([]);
     });
   });

@@ -7,7 +7,7 @@ export const halfElf: Race = {
     "Half-elves are the result of crossbreeding between elves and humans. Half-elves are well tolerated by humans in most cases, but are often shunned (or at best, ignored) by elven society.",
   physicalDescription:
     "An average half-elf male stands around 5 ft. 6 in. in height, with females averaging an inch shorter. They have pointed ears, but their features tend to favor the human parent a bit more than the elf.",
-  allowedClasses: ["cleric", "fighter", "magic-user", "thief"], // Same as elves
+  allowedClasses: ["cleric", "fighter", "magic-user", "thief", "fighter-magic-user", "magic-user-thief"], // Same as elves plus combination classes
   abilityRequirements: [
     {
       ability: "intelligence",

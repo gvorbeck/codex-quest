@@ -78,14 +78,6 @@ function ClassStepComponent({
     );
   }, [selectedRace, includeSupplementalClass, character]);
 
-  // Valid combination classes for elves and dokkalfar
-  const validCombinations = useMemo(() => {
-    return [
-      { ids: ["fighter", "magic-user"], name: "Fighter/Magic-User" },
-      { ids: ["magic-user", "thief"], name: "Magic-User/Thief" },
-    ];
-  }, []);
-
   // Check if the character's race can use combination classes
   const canUseCombinationClasses = useMemo(() => {
     // Custom races can use combination classes
@@ -100,7 +92,7 @@ function ClassStepComponent({
   const handleSingleClassChange = (classId: string) => {
     const newCharacter = {
       ...character,
-      class: [classId],
+      class: classId,
       spells: [], // Reset spells when changing class
       cantrips: [], // Reset cantrips to allow auto-assignment
     };
@@ -114,26 +106,21 @@ function ClassStepComponent({
     });
   };
 
-  const handleCombinationClassChange = (combinationName: string) => {
-    const combination = validCombinations.find(
-      (combo) => combo.name === combinationName
-    );
-    if (combination) {
-      const newCharacter = {
-        ...character,
-        class: combination.ids,
-        spells: [], // Reset spells when changing class
-        cantrips: [], // Reset cantrips to allow auto-assignment
-      };
+  const handleCombinationClassChange = (combinationClassId: string) => {
+    const newCharacter = {
+      ...character,
+      class: combinationClassId,
+      spells: [], // Reset spells when changing class
+      cantrips: [], // Reset cantrips to allow auto-assignment
+    };
 
-      // Auto-assign starting cantrips
-      const startingCantrips = assignStartingCantrips(newCharacter);
+    // Auto-assign starting cantrips
+    const startingCantrips = assignStartingCantrips(newCharacter);
 
-      onCharacterChange({
-        ...newCharacter,
-        cantrips: startingCantrips,
-      });
-    }
+    onCharacterChange({
+      ...newCharacter,
+      cantrips: startingCantrips,
+    });
   };
 
   // Load available spells when spellcasting class changes
@@ -230,22 +217,13 @@ function ClassStepComponent({
 
   const handleCombinationToggle = (enabled: boolean) => {
     onUseCombinationClassChange(enabled);
-    if (!enabled) {
-      // Clear to single class when toggling off
-      const firstClass = character.class[0];
-      onCharacterChange({
-        ...character,
-        class: firstClass ? [firstClass] : [],
-        spells: [], // Clear spells when switching class types
-      });
-    } else {
-      // Clear classes when toggling on
-      onCharacterChange({
-        ...character,
-        class: [],
-        spells: [], // Clear spells when switching class types
-      });
-    }
+    // Clear class selection when toggling to allow fresh selection
+    onCharacterChange({
+      ...character,
+      class: "",
+      spells: [], // Clear spells when switching class types
+      cantrips: [], // Clear cantrips when switching class types
+    });
   };
 
   // Get current class display name
@@ -424,7 +402,6 @@ function ClassStepComponent({
         <>
           <CombinationClassSelector
             character={character}
-            validCombinations={validCombinations}
             onCombinationChange={handleCombinationClassChange}
           />
 

@@ -49,7 +49,7 @@ export interface ScrollCreationProject {
 export interface Character {
   name: string;
   race: string;
-  class: string[]; // Array of class IDs - single item for normal class, multiple for combination
+  class: string; // Class ID (e.g., "fighter", "magic-user", "fighter-magic-user")
   abilities: {
     strength: AbilityScore;
     dexterity: AbilityScore;
@@ -122,7 +122,7 @@ export interface SpecialAbility {
     // Other mechanical effects can be added here as needed
     experienceBonus?: {
       value: number; // percentage bonus
-      conditions?: string[]; // e.g., ["not combination class"]
+      conditions?: string[]; // e.g., ["not fighter-magic-user", "not magic-user-thief"]
     };
     // Vision/detection abilities
     darkvision?: {

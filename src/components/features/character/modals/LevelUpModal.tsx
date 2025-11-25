@@ -30,20 +30,19 @@ export default function LevelUpModal({
   const { loading: isProcessing, setLoading: setIsProcessing } =
     useLoadingState();
 
-  // Get the character's primary class for level up calculations
+  // Get the character's class for level up calculations
   const getPrimaryClass = () => {
-    const primaryClassId = character.class[0];
-    if (!primaryClassId) return null;
+    if (!character.class) return null;
 
     // Try exact match first, then case-insensitive match for legacy data
-    let primaryClass = getClassById(primaryClassId, classes);
+    let primaryClass = getClassById(character.class, classes);
 
     if (!primaryClass) {
       // Try case-insensitive match (for migrated data)
       primaryClass = classes.find(
         (c) =>
-          c.id.toLowerCase() === primaryClassId.toLowerCase() ||
-          c.name.toLowerCase() === primaryClassId.toLowerCase()
+          c.id.toLowerCase() === character.class.toLowerCase() ||
+          c.name.toLowerCase() === character.class.toLowerCase()
       );
     }
 
@@ -56,9 +55,8 @@ export default function LevelUpModal({
   const requiredXP = primaryClass?.experienceTable[nextLevel];
 
   // For custom classes, always allow level up since we have no way of knowing when they "should" level up
-  const primaryClassId = character.class[0];
   const isCustomClassCharacter = Boolean(
-    primaryClassId && isCustomClass(primaryClassId)
+    character.class && isCustomClass(character.class)
   );
   const hasRequiredXP: boolean =
     isCustomClassCharacter ||
