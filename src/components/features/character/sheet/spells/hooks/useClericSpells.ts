@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { logger } from "@/utils";
+import { logger, getClassById } from "@/utils";
 import { loadSpellsForClass } from "@/services/dataLoader";
 import type { Character, Spell } from "@/types";
+import { CHARACTER_CLASSES } from "@/constants";
 
 interface UseClericSpellsResult {
   availableSpells: Record<number, Spell[]>;
@@ -33,9 +34,11 @@ export function useClericSpells(
       setLoadingSpells(true);
       try {
         const spellsByLevel: Record<number, Spell[]> = {};
-        const clericClassId = character.class.find((classId) =>
-          ["cleric", "druid", "paladin"].includes(classId)
-        );
+
+        // Check if character has a cleric-type class (including combination classes)
+        const classData = getClassById(character.class);
+        const isClericType = classData?.classType === CHARACTER_CLASSES.CLERIC;
+        const clericClassId = isClericType ? character.class : null;
 
         if (clericClassId) {
           // Load spells for each spell level the character has slots for

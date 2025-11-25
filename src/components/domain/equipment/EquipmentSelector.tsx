@@ -4,7 +4,7 @@ import { Button } from "@/components/ui";
 import { Icon, type IconName } from "@/components/ui/core/display/Icon";
 import { LoadingState } from "@/components/ui/core/feedback";
 import { logger } from "@/utils";
-import type { Character, Equipment, Class } from "@/types";
+import type { Character, Equipment } from "@/types";
 import { loadAllEquipment } from "@/services/dataLoader";
 import { findById } from "@/utils";
 import { convertToGoldFromAbbreviation } from "@/utils/currency";
@@ -85,13 +85,11 @@ function EquipmentSelector({
   // Memoize character restriction data to avoid recalculating on every render
   const characterRestrictionData = useMemo(() => {
     const characterRace = findById(character.race, allRaces);
-    const characterClasses = character.class
-      .map((classId) => findById(classId, allClasses))
-      .filter((cls): cls is Class => cls !== undefined);
+    const characterClass = findById(character.class, allClasses);
 
     return {
       race: characterRace,
-      classes: characterClasses,
+      classes: characterClass ? [characterClass] : [],
       currency: character.currency.gold,
     };
   }, [character.race, character.class, character.currency.gold]);

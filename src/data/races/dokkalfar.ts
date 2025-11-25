@@ -15,6 +15,8 @@ export const dokkalfar: Race = {
     "illusionist",
     "necromancer",
     "spellcrafter",
+    "fighter-magic-user",
+    "magic-user-thief",
   ],
   abilityRequirements: [
     {

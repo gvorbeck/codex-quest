@@ -25,19 +25,15 @@ export const useSkillDataByClass = (
       {} as Record<SkillClassKey, CharacterListItem[]>;
 
     playerCharacters.forEach((character) => {
-      const characterClasses = Array.isArray(character.class)
-        ? character.class
-        : [character.class].filter(Boolean);
+      const className = character.class;
 
-      characterClasses.forEach((className) => {
-        if (className && className in CLASSES_WITH_SKILLS) {
-          const skillClassName = className as SkillClassKey;
-          if (!classGroups[skillClassName]) {
-            classGroups[skillClassName] = [];
-          }
-          classGroups[skillClassName].push(character);
+      if (className && className in CLASSES_WITH_SKILLS) {
+        const skillClassName = className as SkillClassKey;
+        if (!classGroups[skillClassName]) {
+          classGroups[skillClassName] = [];
         }
-      });
+        classGroups[skillClassName].push(character);
+      }
     });
 
     // Build skill data for each class

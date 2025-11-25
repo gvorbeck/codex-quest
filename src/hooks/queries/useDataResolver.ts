@@ -14,7 +14,7 @@ interface ResolvedData {
   characterName?: string | undefined;
   avatar?: string | undefined;
   race?: string | undefined;
-  class?: string[] | undefined;
+  class?: string | undefined;
   level?: number | undefined;
 }
 

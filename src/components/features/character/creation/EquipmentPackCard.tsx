@@ -11,7 +11,7 @@ interface EquipmentPackCardProps {
   isSelected: boolean;
   isRecommended: boolean;
   isAffordable: boolean;
-  characterClasses: string[];
+  characterClasses: string;
   onSelect: (pack: EquipmentPack) => void;
   onConfirm?: (pack: EquipmentPack) => void;
   isLoading?: boolean;
@@ -65,7 +65,7 @@ function EquipmentPackCard({
           <div className="flex gap-2 mb-2">
             {isRecommended && (
               <Badge variant="success" size="sm">
-                Recommended for {characterClasses.join(", ")}
+                Recommended for {characterClasses}
               </Badge>
             )}
             {!isAffordable && (

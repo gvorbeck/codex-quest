@@ -50,8 +50,7 @@ export default function CharacterDefense({
 
     // Handle levels above 9 - cap at 9 dice and add flat bonus
     // For custom classes, default to +1 HP per level after 9th
-    const primaryClassId = character.class[0];
-    const characterClass = primaryClassId ? getClassById(primaryClassId) : null;
+    const characterClass = character.class ? getClassById(character.class) : null;
 
     let hpPerLevel = 1; // Default +1 HP per level for custom classes
 

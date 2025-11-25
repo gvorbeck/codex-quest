@@ -92,7 +92,8 @@ export const createMockUserEvent = () => {
 export const expectCharacterToBeValid = (character: Character) => {
   expect(character.name).toBeTruthy();
   expect(character.race).toBeTruthy();
-  expect(character.class.length).toBeGreaterThan(0);
+  expect(character.class).toBeTruthy();
+  expect(typeof character.class).toBe("string");
   expect(character.abilities.strength.value).toBeGreaterThan(0);
   expect(character.level).toBeGreaterThan(0);
 };

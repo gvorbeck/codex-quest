@@ -185,7 +185,7 @@ export function createEmptyCharacter(): Character {
       charisma: { value: 0, modifier: 0 },
     },
     race: "",
-    class: [],
+    class: "",
     equipment: [],
     currency: { gold: 0 },
     hp: { current: 0, max: 0 },
@@ -268,7 +268,7 @@ export function isCustomRace(raceId: string): boolean {
 }
 
 export function hasCustomClasses(character: Character): boolean {
-  return character.class.some((classId) => isCustomClass(classId));
+  return isCustomClass(character.class);
 }
 
 export function hasCustomRace(character: Character): boolean {
@@ -278,70 +278,55 @@ export function hasCustomRace(character: Character): boolean {
 export function getCharacterSpellSystemType(
   character: Character
 ): SpellSystemType {
-  if (!character.class.length) return "none";
+  if (!character.class) return "none";
   if (hasCustomClasses(character)) return "custom";
 
-  const spellcastingClass = character.class.find((classId) => {
-    const classData = getClassById(classId);
-    return isSpellcastingClassType(classData?.classType);
-  });
+  const classData = getClassById(character.class);
+  if (!classData || !isSpellcastingClassType(classData.classType)) {
+    return "none";
+  }
 
-  if (!spellcastingClass) return "none";
-
-  const classData = getClassById(spellcastingClass);
-  return classData?.classType
+  return classData.classType
     ? CLASS_TYPE_TO_SPELL_SYSTEM[classData.classType] || "none"
     : "none";
 }
 
 export function canCastSpells(character: Character): boolean {
-  return character.class.some((classId) => {
-    if (isCustomClass(classId)) {
-      return hasSpells(character);
-    }
+  if (isCustomClass(character.class)) {
+    return hasSpells(character);
+  }
 
-    const standardClass = getClassById(classId);
-    return standardClass?.spellcasting !== undefined;
-  });
+  const standardClass = getClassById(character.class);
+  return standardClass?.spellcasting !== undefined;
 }
 
 export function getFirstSpellcastingClass(character: Character): string | null {
-  for (const classId of character.class) {
-    if (isCustomClass(classId)) {
-      if (hasSpells(character)) {
-        return classId;
-      }
-      continue;
-    }
+  if (!character.class) return null;
 
-    const standardClass = getClassById(classId);
-    if (standardClass?.spellcasting) {
-      return classId;
-    }
+  if (isCustomClass(character.class)) {
+    return hasSpells(character) ? character.class : null;
   }
-  return null;
+
+  const standardClass = getClassById(character.class);
+  return standardClass?.spellcasting ? character.class : null;
 }
 
 export function hasClassType(character: Character, classType: string): boolean {
-  return character.class.some((classId) => {
-    if (isCustomClass(classId)) {
-      return false;
-    }
+  if (isCustomClass(character.class)) {
+    return false;
+  }
 
-    const classData = getClassById(classId);
-    return classData?.classType === classType;
-  });
+  const classData = getClassById(character.class);
+  return classData?.classType === classType;
 }
 
 export function hasTurnUndeadAbility(character: Character): boolean {
-  return character.class.some((classId) => {
-    const classData = getClassById(classId);
-    if (!classData?.specialAbilities) return false;
+  const classData = getClassById(character.class);
+  if (!classData?.specialAbilities) return false;
 
-    return classData.specialAbilities.some(
-      (ability: { name: string }) => ability.name === "Turn Undead"
-    );
-  });
+  return classData.specialAbilities.some(
+    (ability: { name: string }) => ability.name === "Turn Undead"
+  );
 }
 
 // ============================================================================
@@ -349,17 +334,13 @@ export function hasTurnUndeadAbility(character: Character): boolean {
 // ============================================================================
 
 export function calculateHitDie(character: Character): string | null {
-  if (character.class.length === 0) return null;
+  if (!character.class) return null;
 
-  const primaryClassId = character.class[0];
-
-  if (hasCustomClasses(character) && primaryClassId) {
+  if (hasCustomClasses(character)) {
     return character.hp.die || "1d6";
   }
 
-  const primaryClass = primaryClassId
-    ? findById(primaryClassId, allClasses)
-    : undefined;
+  const primaryClass = findById(character.class, allClasses);
   if (!primaryClass?.hitDie) return null;
 
   return applyRacialHitDiceModifications(character.race, primaryClass.hitDie);
@@ -473,15 +454,11 @@ function applyHitDiceIncrease(currentHitDie: string): string {
 export function getRacialModificationInfo(
   character: Character
 ): RacialModificationInfo | null {
-  const primaryClassId = character.class[0];
-
-  if (hasCustomClasses(character) && primaryClassId) {
+  if (hasCustomClasses(character)) {
     return null;
   }
 
-  const primaryClass = primaryClassId
-    ? findById(primaryClassId, allClasses)
-    : undefined;
+  const primaryClass = findById(character.class, allClasses);
   const raceData = findById(character.race, allRaces);
 
   if (!primaryClass?.hitDie || !raceData?.specialAbilities) return null;
@@ -572,19 +549,13 @@ export function isCurrentClassStillValid(
   selectedRace: Race,
   availableClasses: Class[]
 ): boolean {
-  if (!character.class || character.class.length === 0) return true;
+  if (!character.class) return true;
 
-  const allClassesAllowed = character.class.every((classId) => {
-    const custom = isCustomClass(classId);
-    return custom || selectedRace.allowedClasses.includes(classId);
-  });
+  const custom = isCustomClass(character.class);
+  const classAllowed = custom || selectedRace.allowedClasses.includes(character.class);
+  const classExists = custom || availableClasses.some((cls) => cls.id === character.class);
 
-  const allClassesExist = character.class.every((classId) => {
-    const custom = isCustomClass(classId);
-    return custom || availableClasses.some((cls) => cls.id === classId);
-  });
-
-  return allClassesAllowed && allClassesExist;
+  return classAllowed && classExists;
 }
 
 export function areCurrentSpellsStillValid(
@@ -595,30 +566,29 @@ export function areCurrentSpellsStillValid(
     return true;
   }
 
-  const spellcastingClassIds = character.class.filter((classId) => {
-    const custom = isCustomClass(classId);
-    if (custom) {
-      return hasSpells(character);
-    }
+  if (!character.class) return false;
 
-    const classData = getClassFromAvailable(classId, availableClasses);
-    return classData?.spellcasting;
-  });
+  const custom = isCustomClass(character.class);
+  if (custom) {
+    return hasSpells(character);
+  }
 
-  if (spellcastingClassIds.length === 0) {
+  const classData = getClassFromAvailable(character.class, availableClasses);
+  if (!classData?.spellcasting) {
     return false;
   }
 
-  return character.spells.every((spell) => {
-    return spellcastingClassIds.some((classId) => {
-      const custom = isCustomClass(classId);
-      if (custom) {
-        return true;
-      }
+  // Map combination classes to their base spellcasting class for spell level lookups
+  let spellKeyToCheck = character.class;
+  if (character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
+      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
+    spellKeyToCheck = CHARACTER_CLASSES.MAGIC_USER;
+  }
 
-      const spellLevel = spell.level[classId as keyof typeof spell.level];
-      return spellLevel === 1;
-    });
+  // Check if all spells are valid for this class
+  return character.spells.every((spell) => {
+    const spellLevel = spell.level[spellKeyToCheck as keyof typeof spell.level];
+    return spellLevel === 1;
   });
 }
 
@@ -626,67 +596,38 @@ export function hasRequiredStartingSpells(
   character: Character,
   availableClasses: Class[]
 ): boolean {
-  if (character.class.length === 0) return true;
+  if (!character.class) return true;
 
-  for (const classId of character.class) {
-    if (isCustomClass(classId)) {
-      if (!hasSpells(character)) continue;
+  if (isCustomClass(character.class)) {
+    if (!hasSpells(character)) return true;
 
-      const spells = character.spells || [];
-      if (spells.length < 1) {
-        return false;
-      }
-      continue;
-    }
+    const spells = character.spells || [];
+    return spells.length >= 1;
+  }
 
-    const charClass = getClassFromAvailable(classId, availableClasses);
-    if (!charClass || !charClass.spellcasting) continue;
+  const classData = getClassFromAvailable(character.class, availableClasses);
+  if (!classData || !classData.spellcasting) return true;
 
-    const classData = getClassFromAvailable(classId, availableClasses);
-    if (classData?.classType === CHARACTER_CLASSES.MAGIC_USER) {
-      const spells = character.spells || [];
-      const firstLevelSpells = spells.filter(
-        (spell) => spell.level[classId as keyof typeof spell.level] === 1
-      );
+  // Magic-user types require at least one starting spell (including combination classes)
+  if (classData.classType === CHARACTER_CLASSES.MAGIC_USER ||
+      character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
+      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
+    const spells = character.spells || [];
 
-      if (firstLevelSpells.length < 1) {
-        return false;
-      }
-    }
+    // For combination classes, use the base magic-user class to check spell levels
+    const spellKeyToCheck = (character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
+                              character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF)
+      ? CHARACTER_CLASSES.MAGIC_USER
+      : character.class;
+
+    const firstLevelSpells = spells.filter(
+      (spell) => spell.level[spellKeyToCheck as keyof typeof spell.level] === 1
+    );
+
+    return firstLevelSpells.length >= 1;
   }
 
   return true;
-}
-
-export function isValidClassCombination(
-  classArray: string[],
-  selectedRace: Race
-): boolean {
-  if (classArray.length <= 1) {
-    return true;
-  }
-
-  if (classArray.length === 2) {
-    const sortedClasses = [...classArray].sort();
-    const validCombinations = [
-      ["fighter", "magic-user"],
-      ["magic-user", "thief"],
-    ];
-
-    const isValidCombination = validCombinations.some(
-      (combo) =>
-        combo.every((cls) => sortedClasses.includes(cls)) &&
-        combo.length === sortedClasses.length
-    );
-
-    const raceAllowsCombinations = ["elf", "dokkalfar", "half-elf"].includes(
-      selectedRace.id
-    );
-
-    return isValidCombination && raceAllowsCombinations;
-  }
-
-  return false;
 }
 
 export function cascadeValidateCharacter(
@@ -700,7 +641,7 @@ export function cascadeValidateCharacter(
     updatedCharacter = {
       ...updatedCharacter,
       race: "",
-      class: [],
+      class: "",
       spells: [],
     };
     return updatedCharacter;
@@ -713,15 +654,10 @@ export function cascadeValidateCharacter(
       availableClasses
     );
 
-    const combinationValid = isValidClassCombination(
-      updatedCharacter.class,
-      selectedRace
-    );
-
-    if (!classStillValid || !combinationValid) {
+    if (!classStillValid) {
       updatedCharacter = {
         ...updatedCharacter,
-        class: [],
+        class: "",
         spells: [],
       };
     }
@@ -754,16 +690,17 @@ export function getEffectiveSpellcastingClass(
   character: Character,
   availableClasses: Class[]
 ): { type: "standard" | "custom"; classId: string } | null {
-  for (const classId of character.class) {
-    if (isCustomClass(classId)) {
-      return { type: "custom", classId };
-    } else {
-      const classData = getClassFromAvailable(classId, availableClasses);
-      if (classData?.spellcasting) {
-        return { type: "standard", classId };
-      }
-    }
+  if (!character.class) return null;
+
+  if (isCustomClass(character.class)) {
+    return { type: "custom", classId: character.class };
   }
+
+  const classData = getClassFromAvailable(character.class, availableClasses);
+  if (classData?.spellcasting) {
+    return { type: "standard", classId: character.class };
+  }
+
   return null;
 }
 
@@ -793,7 +730,7 @@ export function getCustomClass(character: Character, classId: string) {
   if (!isCustomClass(classId)) {
     return null;
   }
-  return character.class[0] || null;
+  return character.class || null;
 }
 
 export function getCustomRace(raceId: string) {
@@ -862,10 +799,9 @@ export function getPrimaryClassInfo(
   character: Character,
   availableClasses: Class[]
 ) {
-  const primaryClassId = character.class[0];
-  if (!primaryClassId) return null;
+  if (!character.class) return null;
 
-  const standardClass = getClassFromAvailable(primaryClassId, availableClasses);
+  const standardClass = getClassFromAvailable(character.class, availableClasses);
 
   if (standardClass) {
     return {
@@ -874,10 +810,10 @@ export function getPrimaryClassInfo(
     };
   }
 
-  return isCustomClass(primaryClassId || "")
+  return isCustomClass(character.class)
     ? {
-        id: primaryClassId,
-        name: primaryClassId,
+        id: character.class,
+        name: character.class,
         hitDie: character.hp.die || "1d6",
         usesSpells: hasSpells(character),
         isCustom: true,
@@ -920,48 +856,43 @@ export function getXPToNextLevel(
   character: Character,
   availableClasses: Class[]
 ): number | null {
-  if (character.class.length === 0 || hasCustomClasses(character)) return null;
+  if (!character.class || hasCustomClasses(character)) return null;
 
   const nextLevel = character.level + 1;
+  const classData = getClassFromAvailable(character.class, availableClasses);
+  const xpRequired = classData?.experienceTable?.[nextLevel];
 
-  // BFRPG Rule: "Combination class characters must gain experience equal to the
-  // combined requirements of both base classes to advance in levels."
-  const totalXPRequired = character.class.reduce((totalXP, classId) => {
-    const classData = getClassFromAvailable(classId, availableClasses);
-    const xpRequired = classData?.experienceTable?.[nextLevel];
-    // For multi-class characters, sum the XP requirements (BFRPG official rule)
-    return totalXP + (xpRequired ?? 0);
-  }, 0);
+  if (!xpRequired) return null;
 
-  if (totalXPRequired === 0) return null;
-
-  return Math.max(0, totalXPRequired - (character.xp ?? 0));
+  return Math.max(0, xpRequired - (character.xp ?? 0));
 }
 
 export function getSpellLevel(
   spell: { level: Record<string, number | null> },
-  characterClasses: string[]
+  characterClass: string
 ): number {
-  for (const classId of characterClasses) {
-    if (isCustomClass(classId)) {
-      const validLevels = Object.values(spell.level).filter(
-        (level) => level !== null && level !== undefined
-      );
-      if (validLevels.length > 0) {
-        return Math.min(...(validLevels as number[]));
-      }
-      return 1;
+  if (isCustomClass(characterClass)) {
+    const validLevels = Object.values(spell.level).filter(
+      (level) => level !== null && level !== undefined
+    );
+    if (validLevels.length > 0) {
+      return Math.min(...(validLevels as number[]));
     }
-
-    const mappedClassId =
-      classId === "magic-user"
-        ? "magic-user"
-        : (classId as keyof typeof spell.level);
-    const level = spell.level?.[mappedClassId];
-    if (level != null) {
-      return level;
-    }
+    return 1;
   }
+
+  // Map combination classes to their base spellcasting class for spell level lookup
+  let mappedClassId = characterClass;
+  if (characterClass === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
+      characterClass === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
+    mappedClassId = CHARACTER_CLASSES.MAGIC_USER;
+  }
+
+  const level = spell.level?.[mappedClassId as keyof typeof spell.level];
+  if (level != null) {
+    return level;
+  }
+
   return 0;
 }
 
@@ -1011,12 +942,12 @@ export function getSpellSlots(
 ): Record<number, number> {
   const spellSlots: Record<number, number> = {};
 
-  for (const classId of character.class) {
-    if (isCustomClass(classId)) {
-      calculateCustomClassSpellSlots(character, availableClasses, spellSlots);
-      continue;
-    }
+  // Handle single class (character.class is now a string, not an array)
+  const classId = character.class;
 
+  if (isCustomClass(classId)) {
+    calculateCustomClassSpellSlots(character, availableClasses, spellSlots);
+  } else {
     const classData = getClassFromAvailable(classId, availableClasses);
     if (classData) {
       calculateStandardClassSpellSlots(classData, character.level, spellSlots);
@@ -1111,8 +1042,8 @@ export const characterSchema: ValidationSchema<Partial<Character>> = {
     {
       name: "hasClass",
       validate: (char: Partial<Character>) =>
-        Array.isArray(char.class) && char.class.length > 0,
-      message: "Character must have at least one selected class",
+        typeof char.class === "string" && char.class.length > 0,
+      message: "Character must have a selected class",
     },
   ],
 };

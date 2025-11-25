@@ -35,7 +35,7 @@ function StandardClassSelectorComponent({
     label: "Custom Class",
   });
 
-  const currentClassId = character.class.length > 0 ? character.class[0] : "";
+  const currentClassId = character.class || "";
   const isCustomClass = hasCustomClasses(character);
 
   // Determine what should be selected in the dropdown
@@ -91,7 +91,7 @@ function StandardClassSelectorComponent({
             placeholder="Choose a class"
             required
             aria-describedby={
-              character.class.length > 0 ? "class-details" : undefined
+              character.class ? "class-details" : undefined
             }
           />
 
@@ -100,7 +100,7 @@ function StandardClassSelectorComponent({
             <div className="space-y-4 border-t border-zinc-600 pt-4">
               <FormField label="Custom Class Name" required>
                 <TextInput
-                  value={character.class[0] || ""}
+                  value={character.class || ""}
                   onChange={handleCustomClassNameChange}
                   placeholder="Enter your custom class name..."
                   required
@@ -141,13 +141,13 @@ function StandardClassSelectorComponent({
       </Card>
 
       {/* Class Details */}
-      {character.class.length > 0 && (
+      {character.class && (
         <Card variant="info" id="class-details">
           {showCustomClassUI ? (
             <div aria-labelledby="custom-class-info-heading">
               <InfoCardHeader
                 icon={<Icon name="edit" />}
-                title={character.class[0] || "Custom Class"}
+                title={character.class || "Custom Class"}
                 iconSize="lg"
                 badge={{ text: "Custom" }}
                 className="mb-6"

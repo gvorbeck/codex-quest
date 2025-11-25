@@ -123,51 +123,40 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
     return !!(char.spells && char.spells.length > 0);
   };
 
-  const mappedClasses = character.class.map((classId) => {
-    // For custom spellcasting classes, default to magic-user cantrips
-    if (isCustomClass(classId) && hasSpells(character)) {
-      return "magic-user";
-    }
-
-    // Standard classes (and non-spellcasting custom classes) keep their original names
-    return classId;
-  });
+  // For custom spellcasting classes, default to magic-user cantrips
+  const mappedClass = isCustomClass(character.class) && hasSpells(character)
+    ? "magic-user"
+    : character.class;
 
   return cantripData.filter((cantrip) =>
-    cantrip.classes.some((cantripClass) => mappedClasses.includes(cantripClass))
+    cantrip.classes.includes(mappedClass)
   );
 }
 
 export function getSpellTypeInfo(character: Character): SpellTypeInfo {
   // Note: Minimal duplicate functions to avoid circular dependency
-  const hasCustomClasses = (char: Character): boolean => {
-    return char.class.some(
-      (classId) => !allClasses.find((cls: { id: string }) => cls.id === classId)
-    );
+  const isCustomClass = (classId: string): boolean => {
+    return !allClasses.find((cls: { id: string }) => cls.id === classId);
   };
 
   const hasSpells = (char: Character): boolean => {
     return !!(char.spells && char.spells.length > 0);
   };
 
-  const hasClassType = (char: Character, classType: string): boolean => {
-    return char.class.some((classId) => {
-      const classData = allClasses.find(
-        (cls: { id: string; classType?: string }) => cls.id === classId
-      );
-      return classData?.classType === classType;
-    });
+  const getClassType = (classId: string): string | undefined => {
+    const classData = allClasses.find(
+      (cls: { id: string; classType?: string }) => cls.id === classId
+    );
+    return classData?.classType;
   };
 
   // Check for custom classes first - default to arcane (Intelligence)
-  const hasCustomSpellcaster =
-    hasCustomClasses(character) && hasSpells(character);
+  const hasCustomSpellcaster = isCustomClass(character.class) && hasSpells(character);
 
-  // Use consolidated class type checking
-  const hasDivineClasses = hasClassType(character, CHARACTER_CLASSES.CLERIC);
-  const hasArcaneClasses =
-    hasCustomSpellcaster ||
-    hasClassType(character, CHARACTER_CLASSES.MAGIC_USER);
+  // Get the class type
+  const classType = getClassType(character.class);
+  const hasDivineClasses = classType === CHARACTER_CLASSES.CLERIC;
+  const hasArcaneClasses = hasCustomSpellcaster || classType === CHARACTER_CLASSES.MAGIC_USER;
 
   const isOrisons = hasDivineClasses && !hasArcaneClasses;
 

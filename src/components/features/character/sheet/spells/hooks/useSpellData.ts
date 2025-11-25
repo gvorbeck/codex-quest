@@ -8,6 +8,7 @@ import {
   getClassById,
 } from "@/utils";
 import { allClasses } from "@/data";
+import { CHARACTER_CLASSES } from "@/constants";
 
 interface SpellWithLevel extends Spell {
   spellLevel: number;
@@ -54,25 +55,21 @@ const READ_MAGIC_SPELL: Spell = {
 
 // Helper functions
 function hasReadMagicAbility(character: Character): boolean {
-  return character.class.some((classId) => {
-    const classData = getClassById(classId);
-    if (!classData?.specialAbilities) return false;
+  const classData = getClassById(character.class);
+  if (!classData?.specialAbilities) return false;
 
-    return classData.specialAbilities.some(
-      (ability: { name: string }) => ability.name === "Read Magic"
-    );
-  });
+  return classData.specialAbilities.some(
+    (ability: { name: string }) => ability.name === "Read Magic"
+  );
 }
 
 function getSpellSystemInfo(character: Character) {
-  const hasDivineClasses = character.class.some((classId) =>
-    ["cleric", "druid"].includes(classId)
-  );
-  const hasArcaneClasses = character.class.some((classId) =>
-    ["magic-user", "illusionist", "necromancer", "spellcrafter"].includes(
-      classId
-    )
-  );
+  // Use classType to properly detect spell system type for combination classes
+  const classData = getClassById(character.class);
+  const classType = classData?.classType;
+
+  const hasDivineClasses = classType === CHARACTER_CLASSES.CLERIC;
+  const hasArcaneClasses = classType === CHARACTER_CLASSES.MAGIC_USER;
 
   const spellType =
     hasDivineClasses && !hasArcaneClasses ? "Orisons" : "Cantrips";

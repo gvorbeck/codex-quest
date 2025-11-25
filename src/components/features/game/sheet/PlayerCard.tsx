@@ -18,7 +18,7 @@ interface PlayerCardProps {
         characterName?: string | undefined;
         avatar?: string | undefined;
         race?: string | undefined;
-        class?: string[] | undefined;
+        class?: string | undefined;
         level?: number | undefined;
       }
     | undefined;
@@ -57,7 +57,7 @@ export const PlayerCard = memo(
         effects?: SpecialAbility["effects"];
       }> = [];
 
-      const currentClasses = resolved?.class || [];
+      const currentClass = resolved?.class || "";
 
       // Add race abilities
       if (characterRace) {
@@ -74,8 +74,8 @@ export const PlayerCard = memo(
       }
 
       // Add class abilities
-      currentClasses.forEach((classId) => {
-        const characterClass = getClassById(classId);
+      if (currentClass) {
+        const characterClass = getClassById(currentClass);
         if (characterClass) {
           characterClass.specialAbilities.forEach((ability) => {
             abilities.push({
@@ -85,7 +85,7 @@ export const PlayerCard = memo(
             });
           });
         }
-      });
+      }
 
       return abilities;
     }, [characterRace, resolved?.class]);
@@ -132,16 +132,16 @@ export const PlayerCard = memo(
               </Typography>
 
               {/* Character Level and Race/Class info */}
-              {(characterLevel || characterRace || resolved?.class?.length) && (
+              {(characterLevel || characterRace || resolved?.class) && (
                 <div className="text-xs text-zinc-400 mb-2">
                   {characterLevel && `Level ${characterLevel} `}
                   {characterRace && (
                     <span className="capitalize">{characterRace}</span>
                   )}
-                  {resolved?.class && resolved.class.length > 0 && (
+                  {resolved?.class && (
                     <span className="capitalize">
                       {characterRace ? " " : ""}
-                      {resolved.class.join("/")}
+                      {resolved.class}
                     </span>
                   )}
                 </div>

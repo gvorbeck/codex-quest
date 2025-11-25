@@ -299,8 +299,8 @@ export default function SavingThrows({
       return bonuses;
     };
 
-    // Get the primary class (first in array for multi-class characters)
-    const primaryClass = character.class?.[0] || "";
+    // Get the character's class
+    const primaryClass = character.class || "";
 
     // Calculate base saving throws
     const baseSavingThrows = getBaseSavingThrows(

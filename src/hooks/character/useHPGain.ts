@@ -44,9 +44,8 @@ export function useHPGain({
     }
 
     // Check if this is a custom class
-    const primaryClassId = character.class[0];
-    const isCustomClassCharacter = primaryClassId
-      ? isCustomClass(primaryClassId)
+    const isCustomClassCharacter = character.class
+      ? isCustomClass(character.class)
       : false;
 
     if (!isCustomClassCharacter && !primaryClass) {

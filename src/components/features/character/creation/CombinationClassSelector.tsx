@@ -2,34 +2,44 @@ import { Select } from "@/components/ui/core/primitives";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { Icon } from "@/components/ui";
 import type { Character } from "@/types";
-import { LAYOUT_STYLES } from "@/constants";
+import { LAYOUT_STYLES, CHARACTER_CLASSES } from "@/constants";
 import { memo } from "react";
+import { getClassById } from "@/utils";
 
 interface CombinationClassSelectorProps {
   character: Character;
-  validCombinations: Array<{ ids: string[]; name: string }>;
-  onCombinationChange: (combinationName: string) => void;
+  onCombinationChange: (combinationClassId: string) => void;
 }
+
+const COMBINATION_CLASSES = [
+  {
+    id: CHARACTER_CLASSES.FIGHTER_MAGIC_USER,
+    name: "Fighter/Magic-User",
+    description: "Combines martial prowess with arcane magic. Can cast spells while wearing armor.",
+    baseClasses: ["Fighter", "Magic-User"],
+  },
+  {
+    id: CHARACTER_CLASSES.MAGIC_USER_THIEF,
+    name: "Magic-User/Thief",
+    description: "Blends arcane mastery with stealth and cunning. Can cast spells while wearing leather armor.",
+    baseClasses: ["Magic-User", "Thief"],
+  },
+];
 
 function CombinationClassSelectorComponent({
   character,
-  validCombinations,
   onCombinationChange,
 }: CombinationClassSelectorProps) {
-  const combinationClassOptions = validCombinations.map((combo) => ({
-    value: combo.name,
+  const combinationClassOptions = COMBINATION_CLASSES.map((combo) => ({
+    value: combo.id,
     label: combo.name,
   }));
 
-  const getCurrentCombination = () => {
-    return validCombinations.find(
-      (combo) =>
-        combo.ids.length === character.class.length &&
-        combo.ids.every((id) => character.class.includes(id))
-    );
-  };
+  const selectedCombination = COMBINATION_CLASSES.find(
+    (combo) => combo.id === character.class
+  );
 
-  const currentCombination = getCurrentCombination();
+  const selectedClassData = character.class ? getClassById(character.class) : null;
 
   return (
     <section aria-labelledby="combination-classes-heading" className="mb-8">
@@ -40,18 +50,18 @@ function CombinationClassSelectorComponent({
       <Card variant="standard" className="mb-6">
         <Select
           label="Select Combination Class"
-          value={currentCombination ? currentCombination.name : ""}
+          value={character.class || ""}
           onValueChange={onCombinationChange}
           options={combinationClassOptions}
           placeholder="Choose a combination class"
           required
           aria-describedby={
-            character.class.length > 1 ? "combination-class-details" : undefined
+            selectedCombination ? "combination-class-details" : undefined
           }
         />
       </Card>
 
-      {character.class.length > 1 && currentCombination && (
+      {selectedCombination && selectedClassData && (
         <Card variant="info" id="combination-class-details">
           <div aria-labelledby="combination-class-info-heading">
             <Typography
@@ -65,31 +75,56 @@ function CombinationClassSelectorComponent({
                 className="flex-shrink-0 text-amber-400"
                 aria-hidden={true}
               />
-              {currentCombination.name}
+              {selectedCombination.name}
               <Badge variant="combination">Combination</Badge>
             </Typography>
 
             <div className="mb-6">
               <Typography variant="description">
-                This combination class combines the abilities of{" "}
-                {character.class.join(" and ")}, allowing you to gain benefits
-                from both classes as you advance.
+                {selectedCombination.description}
               </Typography>
             </div>
 
-            <Card variant="nested">
+            <div className="mb-6">
+              <Typography variant="description">
+                {selectedClassData.description}
+              </Typography>
+            </div>
+
+            <Card variant="nested" className="mb-4">
               <Typography variant="subHeading">
                 <Icon name="briefcase" size="sm" />
-                Combined Classes
+                Base Classes Combined
               </Typography>
               <div className={LAYOUT_STYLES.tagContainer}>
-                {character.class.map((classId, index) => (
+                {selectedCombination.baseClasses.map((className, index) => (
                   <Badge key={index} variant="status" className="capitalize">
-                    {classId}
+                    {className}
                   </Badge>
                 ))}
               </div>
             </Card>
+
+            {selectedClassData.specialAbilities && selectedClassData.specialAbilities.length > 0 && (
+              <Card variant="nested">
+                <Typography variant="subHeading">
+                  <Icon name="star" size="sm" />
+                  Special Abilities
+                </Typography>
+                <ul className="space-y-2">
+                  {selectedClassData.specialAbilities.map((ability, index) => (
+                    <li key={index}>
+                      <Typography variant="body" className="font-semibold">
+                        {ability.name}
+                      </Typography>
+                      <Typography variant="description" color="secondary">
+                        {ability.description}
+                      </Typography>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            )}
           </div>
         </Card>
       )}

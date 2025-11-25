@@ -13,6 +13,8 @@ import { ranger } from "./ranger";
 import { paladin } from "./paladin";
 import { scout } from "./scout";
 import { spellcrafter } from "./spellcrafter";
+import { fighterMagicUser } from "./fighter-magic-user";
+import { magicUserThief } from "./magic-user-thief";
 
 export const allClasses = [
   cleric,
@@ -28,4 +30,6 @@ export const allClasses = [
   paladin,
   scout,
   spellcrafter,
+  fighterMagicUser,
+  magicUserThief,
 ];

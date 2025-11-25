@@ -34,7 +34,9 @@
       "WebFetch(domain:github.com)",
       "Bash(npm run test:ci:*)",
       "Bash(gh api:*)",
-      "Bash(/dev/null)"
+      "Bash(/dev/null)",
+      "Bash(npm run test:*)",
+      "Bash(done)"
     ],
     "deny": [
       "Bash(npm run dev)"

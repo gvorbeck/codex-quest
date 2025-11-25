@@ -39,9 +39,8 @@ export default function SpecialsRestrictions({
   }, [character.race]);
 
   const classes = useMemo(() => {
-    return character.class
-      .map((classId) => getClassById(classId?.toLowerCase() || ""))
-      .filter(Boolean);
+    const classData = getClassById(character.class?.toLowerCase() || "");
+    return classData ? [classData] : [];
   }, [character.class]);
 
   const raceItems = useMemo((): DescriptionItem[] => {

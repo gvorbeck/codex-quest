@@ -173,6 +173,13 @@ export async function loadSpellsForClass(
     logger.warn(`Unknown class ID: ${classId}`);
   }
 
+  // Map combination classes to their base spellcasting class for spell lookups
+  let spellKeyToCheck = classId;
+  if (classId === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
+      classId === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
+    spellKeyToCheck = CHARACTER_CLASSES.MAGIC_USER;
+  }
+
   const cacheKey = level ? `spells-${classId}-${level}` : `spells-${classId}`;
 
   const cached = getCachedData<Spell[]>(cacheKey);
@@ -184,19 +191,20 @@ export async function loadSpellsForClass(
     const { default: allSpells } = await import("@/data/magic/spells.json");
 
     let filteredSpells = (allSpells as Spell[]).filter((spell) => {
-      const spellLevel = spell.level[classId as keyof typeof spell.level];
+      const spellLevel = spell.level[spellKeyToCheck as keyof typeof spell.level];
       return spellLevel !== null && spellLevel !== undefined;
     });
 
     if (level !== undefined) {
       filteredSpells = filteredSpells.filter((spell) => {
-        const spellLevel = spell.level[classId as keyof typeof spell.level];
+        const spellLevel = spell.level[spellKeyToCheck as keyof typeof spell.level];
         return spellLevel === level;
       });
     }
 
     // For magic-users at level 1, exclude Read Magic since they automatically know it
-    if (classId === CHARACTER_CLASSES.MAGIC_USER && level === 1) {
+    // This applies to magic-user and combination classes with magic-user type
+    if (spellKeyToCheck === CHARACTER_CLASSES.MAGIC_USER && level === 1) {
       filteredSpells = filteredSpells.filter(
         (spell) => spell.name !== EXCLUDED_SPELLS.READ_MAGIC
       );

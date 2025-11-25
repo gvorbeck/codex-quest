@@ -65,13 +65,13 @@ export const mockBasicCharacter: Character = {
   name: "Test Fighter",
   abilities: mockAbilityScores,
   race: "human",
-  class: ["fighter"],
+  class: "fighter",
   level: 1,
   xp: 0,
   hp: { current: 8, max: 8, die: "1d8" },
   equipment: mockEquipment,
   currency: { gold: 30, silver: 0, copper: 0 },
-  settings: { version: 2.5 },
+  settings: { version: 2.6 },
 };
 
 export const mockMagicUserCharacter: Character = {
@@ -82,7 +82,7 @@ export const mockMagicUserCharacter: Character = {
     constitution: { value: 10, modifier: 0 },
   },
   race: "human",
-  class: ["magic-user"],
+  class: "magic-user",
   level: 1,
   xp: 0,
   hp: { current: 4, max: 4, die: "1d4" },
@@ -100,7 +100,7 @@ export const mockMagicUserCharacter: Character = {
   ],
   spells: mockSpells,
   currency: { gold: 25, silver: 0, copper: 0 },
-  settings: { version: 2.5 },
+  settings: { version: 2.6 },
 };
 
 export const mockMultiClassCharacter: Character = {
@@ -110,14 +110,14 @@ export const mockMultiClassCharacter: Character = {
     intelligence: { value: 14, modifier: 1 },
   },
   race: "elf",
-  class: ["fighter", "magic-user"],
+  class: "fighter-magic-user",
   level: 1,
   xp: 0,
   hp: { current: 6, max: 6, die: "1d6" },
   equipment: mockEquipment,
   spells: mockSpells,
   currency: { gold: 50, silver: 0, copper: 0 },
-  settings: { version: 2.5 },
+  settings: { version: 2.6 },
 };
 
 export const mockEmptyCharacter: Character = {
@@ -131,11 +131,11 @@ export const mockEmptyCharacter: Character = {
     charisma: { value: 0, modifier: 0 },
   },
   race: "",
-  class: [],
+  class: "",
   level: 1,
   xp: 0,
   hp: { current: 0, max: 0 },
   equipment: [],
   currency: { gold: 0 },
-  settings: { version: 2.5 },
+  settings: { version: 2.6 },
 };

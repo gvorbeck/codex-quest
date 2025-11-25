@@ -5,11 +5,12 @@ import { normalizeCurrency } from "@/utils/currency";
 import type { Character } from "@/types";
 
 // Define schema versions for migration steps
-export const CURRENT_VERSION = 2.5;
+export const CURRENT_VERSION = 2.6;
 
 // Migration step versions - keep these for historical migration logic
 const VERSION_CUSTOM_CLASSES = 2.4; // Version when custom classes were refactored
-const VERSION_CUSTOM_RACES = 2.5; // Version when custom races were refactored (current)
+const VERSION_CUSTOM_RACES = 2.5; // Version when custom races were refactored
+const VERSION_COMBINATION_CLASSES = 2.6; // Version when combination classes became single class entities (current)
 
 // Types for legacy character data
 interface LegacyAbilities {
@@ -263,14 +264,16 @@ function migrateLegacyCharacter(
   }
 
   // Migrate class names to proper IDs
+  // Note: Old characters may have class as array, but we'll convert them in migrateCombinationClasses
   const originalClasses = migrated["class"];
   if (Array.isArray(migrated["class"])) {
+    // Keep as array for now, will be converted in migrateCombinationClasses
     migrated["class"] = migrated["class"].map((className: string) =>
       convertClassToId(className)
     );
   } else {
     const singleClass = migrated["class"] || "";
-    migrated["class"] = singleClass ? [convertClassToId(singleClass)] : [""];
+    migrated["class"] = singleClass ? convertClassToId(singleClass) : "";
   }
 
   // Log class migration if it changed
@@ -389,11 +392,11 @@ function migrateCustomClasses(data: LegacyCharacterData): LegacyCharacterData {
         return migrated;
       }
 
-      // Move the class name to the character.class array
+      // Move the class name to the character.class field
       if (customClass.name) {
-        migrated["class"] = [customClass.name];
+        migrated["class"] = customClass.name;
         logger.info(
-          `Migrated custom class name from customClasses.${firstCustomClassId}.name to class array: ${customClass.name}`
+          `Migrated custom class name from customClasses.${firstCustomClassId}.name to class field: ${customClass.name}`
         );
       }
 
@@ -415,6 +418,70 @@ function migrateCustomClasses(data: LegacyCharacterData): LegacyCharacterData {
     // Remove the customClasses property
     delete migrated["customClasses"];
     logger.info("Removed customClasses property after migration to 2.4 format");
+  }
+
+  return migrated;
+}
+
+/**
+ * Migrate character from version 2.5 to 2.6 (combination classes refactor)
+ * Convert class arrays to single combination class strings
+ */
+function migrateCombinationClasses(
+  data: LegacyCharacterData
+): LegacyCharacterData {
+  const migrated = { ...data };
+
+  // If class is an array, convert to single string
+  if (Array.isArray(migrated["class"])) {
+    const classArray = migrated["class"] as string[];
+
+    if (classArray.length === 2) {
+      // Check for valid combination classes
+      const sorted = [...classArray].sort();
+
+      // Fighter + Magic-User = fighter-magic-user
+      if (
+        (sorted[0] === "fighter" && sorted[1] === "magic-user") ||
+        (sorted[0] === "magic-user" && sorted[1] === "fighter")
+      ) {
+        migrated["class"] = "fighter-magic-user";
+        logger.info(
+          `Migrated combination class ${JSON.stringify(classArray)} to fighter-magic-user`
+        );
+      }
+      // Magic-User + Thief = magic-user-thief
+      else if (
+        (sorted[0] === "magic-user" && sorted[1] === "thief") ||
+        (sorted[0] === "thief" && sorted[1] === "magic-user")
+      ) {
+        migrated["class"] = "magic-user-thief";
+        logger.info(
+          `Migrated combination class ${JSON.stringify(classArray)} to magic-user-thief`
+        );
+      }
+      // Invalid combination - keep first class
+      else {
+        migrated["class"] = classArray[0] || "";
+        logger.warn(
+          `Invalid combination class ${JSON.stringify(classArray)}, using first class: ${classArray[0]}`
+        );
+      }
+    } else if (classArray.length === 1) {
+      // Single class in array, convert to string
+      migrated["class"] = classArray[0] || "";
+      logger.info(`Converted single-item class array to string: ${classArray[0]}`);
+    } else if (classArray.length === 0) {
+      // Empty array - set to empty string
+      migrated["class"] = "";
+      logger.warn("Empty class array found, set to empty string");
+    } else {
+      // More than 2 classes - keep first class
+      migrated["class"] = classArray[0] || "";
+      logger.warn(
+        `Invalid class array with ${classArray.length} items, using first class: ${classArray[0]}`
+      );
+    }
   }
 
   return migrated;
@@ -461,6 +528,23 @@ export function processCharacterData(
       }`
     );
     migratedData = migrateCustomRaces(migratedData);
+
+    // Update version to 2.5
+    migratedData["settings"] = {
+      ...migratedData["settings"],
+      version: VERSION_CUSTOM_RACES,
+    };
+    currentVersion = VERSION_CUSTOM_RACES;
+  }
+
+  // Handle version 2.5 to 2.6 migration (combination classes refactor)
+  if (currentVersion < VERSION_COMBINATION_CLASSES) {
+    logger.debug(
+      `Migrating character from version ${currentVersion} to ${VERSION_COMBINATION_CLASSES}: ${
+        migratedData["name"] || "Unknown"
+      }`
+    );
+    migratedData = migrateCombinationClasses(migratedData);
 
     // Update version to current
     migratedData["settings"] = {

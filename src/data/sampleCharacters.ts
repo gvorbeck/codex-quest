@@ -21,7 +21,7 @@ const createSampleCharacter = (
     ...baseCharacter,
     name,
     race: raceName,
-    class: [className],
+    class: className,
     abilities: {
       strength: { value: 14, modifier: 1 },
       intelligence: { value: 12, modifier: 0 },
@@ -380,8 +380,8 @@ export const SAMPLE_CHARACTERS: Character[] = [
       }
     );
 
-    // Add second class for multi-class demonstration (only elves can do this)
-    character.class.push("thief");
+    // Set to magic-user-thief combination class (only elves can do this)
+    character.class = "magic-user-thief";
 
     character.hp = { current: 10, max: 10 };
 

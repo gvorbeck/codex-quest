@@ -8,7 +8,7 @@ import SpellDetails from "@/components/domain/spells/SpellDetails";
 import { allClasses } from "@/data";
 import { loadAllSpells } from "@/services/dataLoader";
 import type { Character, Spell } from "@/types";
-import { getSpellSlots } from "@/utils";
+import { getSpellSlots, getSpellLevel } from "@/utils";
 
 interface MUAddSpellModalProps {
   isOpen: boolean;
@@ -94,28 +94,12 @@ export default function MUAddSpellModal({
         spell.level.spellcrafter !== null
     );
 
-    // Group by spell level based on character's classes
+    // Group by spell level based on character's class
     magicUserSpells.forEach((spell) => {
-      let spellLevel = 0;
+      // Use getSpellLevel utility to get the spell level for the character's class
+      const spellLevel = getSpellLevel(spell, character.class);
 
-      // Determine the spell level for this character's classes
-      for (const classId of character.class) {
-        if (classId === "magic-user" && spell.level["magic-user"]) {
-          spellLevel = spell.level["magic-user"];
-          break;
-        } else if (classId === "illusionist" && spell.level.illusionist) {
-          spellLevel = spell.level.illusionist;
-          break;
-        } else if (classId === "necromancer" && spell.level.necromancer) {
-          spellLevel = spell.level.necromancer;
-          break;
-        } else if (classId === "spellcrafter" && spell.level.spellcrafter) {
-          spellLevel = spell.level.spellcrafter;
-          break;
-        }
-      }
-
-      if (spellLevel > 0 && spellSlots[spellLevel]) {
+      if (spellLevel && spellLevel > 0 && spellSlots[spellLevel]) {
         if (!spellsByLevel[spellLevel]) {
           spellsByLevel[spellLevel] = [];
         }

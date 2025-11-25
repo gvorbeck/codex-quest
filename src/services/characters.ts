@@ -23,7 +23,7 @@ export interface CharacterListItem {
   id: string;
   name: string;
   race?: string;
-  class?: string | string[];
+  class?: string;
   level?: number;
   hp?: { current?: number; max?: number } | number;
   xp?: number;

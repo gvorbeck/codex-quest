@@ -399,15 +399,9 @@ export function getEquipmentPacksByClass(
   const getClassById = (classId: string): Class | undefined =>
     allClasses.find((cls) => cls.id === classId);
 
-  // Get the character's class types
-  const characterClassTypes = new Set<string>();
-
-  for (const classId of character.class) {
-    const classData = getClassById(classId);
-    if (classData?.classType) {
-      characterClassTypes.add(classData.classType);
-    }
-  }
+  // Get the character's class type
+  const classData = getClassById(character.class);
+  const classType = classData?.classType;
 
   // Filter packs based on suitableFor property
   return equipmentPacks.filter((pack) => {
@@ -416,10 +410,8 @@ export function getEquipmentPacksByClass(
       return true;
     }
 
-    // Check if any of the character's class types match the pack's suitableFor
-    return pack.suitableFor.some((classType) =>
-      characterClassTypes.has(classType)
-    );
+    // Check if the character's class type matches the pack's suitableFor
+    return classType && pack.suitableFor.includes(classType);
   });
 }
 
