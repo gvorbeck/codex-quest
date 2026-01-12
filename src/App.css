@@ -137,3 +137,17 @@ h6 {
     transform: translateX(100%);
   }
 }
+
+/* Print styles */
+@media print {
+  /* Hide header and footer */
+  header[role="banner"],
+  footer[role="contentinfo"] {
+    display: none !important;
+  }
+
+  /* Hide skip link */
+  .skip-link {
+    display: none !important;
+  }
+}
