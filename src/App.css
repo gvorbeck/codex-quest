@@ -150,4 +150,20 @@ h6 {
   .skip-link {
     display: none !important;
   }
+
+  /* Hide breadcrumb navigation */
+  nav[aria-label="Breadcrumb"] {
+    display: none !important;
+  }
+
+  /* Hide alert banners */
+  [role="alert"] {
+    display: none !important;
+  }
+
+  /* Hide React Query DevTools */
+  .tsqd-open-btn-container,
+  .tsqd-parent-container {
+    display: none !important;
+  }
 }
