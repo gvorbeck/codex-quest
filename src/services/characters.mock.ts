@@ -12,6 +12,7 @@ import type { Character } from "@/types";
 import type { AuthUser } from "./auth";
 import type { CharacterListItem } from "./characters";
 import { getAllSampleCharacters } from "@/data/sampleCharacters";
+import { processCharacterData } from "./characterMigration";
 import { logger } from "@/utils";
 // Mock service constants
 const MOCK_NETWORK_DELAY_MS = 100;
@@ -110,7 +111,9 @@ export const getCharacterById = async (
     throw new Error(`Character with ID ${characterId} not found`);
   }
 
-  return character;
+  // Run migration to match Firebase service behavior
+  // Cast to unknown first since processCharacterData accepts legacy format
+  return processCharacterData(character as unknown as Parameters<typeof processCharacterData>[0]);
 };
 
 /**
