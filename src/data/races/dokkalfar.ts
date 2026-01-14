@@ -15,6 +15,7 @@ export const dokkalfar: Race = {
     "illusionist",
     "necromancer",
     "spellcrafter",
+    "paladin",
     "fighter-magic-user",
     "magic-user-thief",
   ],
