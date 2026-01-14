@@ -36,7 +36,8 @@
       "Bash(gh api:*)",
       "Bash(/dev/null)",
       "Bash(npm run test:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(gh issue view:*)"
     ],
     "deny": [
       "Bash(npm run dev)"

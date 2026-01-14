@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import { Details } from "@/components/ui/composite";
 import { SectionWrapper } from "@/components/ui/core/layout";
-import { SIZE_STYLES } from "@/constants";
+import { SIZE_STYLES, LEVEL_UP_CONSTANTS } from "@/constants";
 import {
   calculateArmorClass,
   calculateMovementRate,
   calculateHitDie,
   getClassById,
 } from "@/utils";
-import type { Character } from "@/types";
+import type { Character, TwoHPClass } from "@/types";
 
 interface CharacterDefenseProps {
   character: Character;
@@ -56,19 +56,9 @@ export default function CharacterDefense({
 
     if (characterClass) {
       // Standard class - check if it gets +2 HP per level after 9th level
-      // Use class ID instead of name to properly handle combination classes
+      // Use centralized constant for all classes that get +2 HP per level
       const classId = characterClass.id;
-      const twoHpClasses = [
-        "fighter",
-        "thief",
-        "assassin",
-        "barbarian",
-        "ranger",
-        "paladin",
-        "scout",
-        "fighter-magic-user", // Combination class gets +2 (Fighter component)
-      ];
-      if (twoHpClasses.includes(classId)) {
+      if (LEVEL_UP_CONSTANTS.TWO_HP_CLASSES.includes(classId as TwoHPClass)) {
         hpPerLevel = 2;
       }
     }
