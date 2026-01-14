@@ -72,6 +72,8 @@ export const LEVEL_UP_CONSTANTS = {
   TWO_HP_CLASSES: [
     "fighter",
     "thief",
+    "magic-user-thief",
+    "fighter-magic-user",
     "assassin",
     "barbarian",
     "ranger",
@@ -114,6 +116,10 @@ export const SKILL_DESCRIPTIONS = {
 
 export const CLASSES_WITH_SKILLS = {
   thief: {
+    displayName: "Thief Skills",
+    abilityType: "Skill" as const,
+  },
+  "magic-user-thief": {
     displayName: "Thief Skills",
     abilityType: "Skill" as const,
   },

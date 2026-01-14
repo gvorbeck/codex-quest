@@ -233,6 +233,8 @@ export type SkillClassKey = "thief" | "assassin" | "ranger" | "scout";
 export type TwoHPClass =
   | "fighter"
   | "thief"
+  | "magic-user-thief"
+  | "fighter-magic-user"
   | "assassin"
   | "barbarian"
   | "ranger"

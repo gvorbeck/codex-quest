@@ -142,9 +142,9 @@ function calculateHPGain(
 
   // After level 9, characters get fixed HP
   if (character.level >= LEVEL_UP_CONSTANTS.FIXED_HP_LEVEL_THRESHOLD) {
-    const className = primaryClass.name.toLowerCase();
+    const classId = primaryClass.id;
     const fixedHpGain = LEVEL_UP_CONSTANTS.TWO_HP_CLASSES.includes(
-      className as TwoHPClass
+      classId as TwoHPClass
     )
       ? 2
       : 1;

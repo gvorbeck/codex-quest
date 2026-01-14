@@ -1,19 +1,19 @@
 import { useMemo } from "react";
 import { Details } from "@/components/ui/composite";
 import { SectionWrapper } from "@/components/ui/core/layout";
-import { SIZE_STYLES } from "@/constants";
+import { SIZE_STYLES, LEVEL_UP_CONSTANTS } from "@/constants";
 import {
   calculateArmorClass,
   calculateMovementRate,
   calculateHitDie,
   getClassById,
 } from "@/utils";
-import type { Character } from "@/types";
+import type { Character, TwoHPClass } from "@/types";
 
 interface CharacterDefenseProps {
-  character: Character;
-  className?: string;
-  size?: "sm" | "md" | "lg";
+  readonly character: Character;
+  readonly className?: string;
+  readonly size?: "sm" | "md" | "lg";
 }
 
 export default function CharacterDefense({
@@ -50,25 +50,17 @@ export default function CharacterDefense({
 
     // Handle levels above 9 - cap at 9 dice and add flat bonus
     // For custom classes, default to +1 HP per level after 9th
-    const characterClass = character.class ? getClassById(character.class) : null;
+    const characterClass = character.class
+      ? getClassById(character.class)
+      : null;
 
     let hpPerLevel = 1; // Default +1 HP per level for custom classes
 
     if (characterClass) {
       // Standard class - check if it gets +2 HP per level after 9th level
-      // Use class ID instead of name to properly handle combination classes
+      // Use centralized constant for all classes that get +2 HP per level
       const classId = characterClass.id;
-      const twoHpClasses = [
-        "fighter",
-        "thief",
-        "assassin",
-        "barbarian",
-        "ranger",
-        "paladin",
-        "scout",
-        "fighter-magic-user", // Combination class gets +2 (Fighter component)
-      ];
-      if (twoHpClasses.includes(classId)) {
+      if (LEVEL_UP_CONSTANTS.TWO_HP_CLASSES.includes(classId as TwoHPClass)) {
         hpPerLevel = 2;
       }
     }
