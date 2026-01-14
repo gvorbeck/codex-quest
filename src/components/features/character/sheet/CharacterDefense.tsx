@@ -11,9 +11,9 @@ import {
 import type { Character, TwoHPClass } from "@/types";
 
 interface CharacterDefenseProps {
-  character: Character;
-  className?: string;
-  size?: "sm" | "md" | "lg";
+  readonly character: Character;
+  readonly className?: string;
+  readonly size?: "sm" | "md" | "lg";
 }
 
 export default function CharacterDefense({
@@ -50,7 +50,9 @@ export default function CharacterDefense({
 
     // Handle levels above 9 - cap at 9 dice and add flat bonus
     // For custom classes, default to +1 HP per level after 9th
-    const characterClass = character.class ? getClassById(character.class) : null;
+    const characterClass = character.class
+      ? getClassById(character.class)
+      : null;
 
     let hpPerLevel = 1; // Default +1 HP per level for custom classes
 
