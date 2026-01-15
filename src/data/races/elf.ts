@@ -14,6 +14,7 @@ export const elf: Race = {
     "thief",
     "ranger",
     "scout",
+    "paladin",
     "fighter-magic-user",
     "magic-user-thief",
   ],

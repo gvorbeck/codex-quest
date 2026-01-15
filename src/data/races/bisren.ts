@@ -7,7 +7,7 @@ export const bisren: Race = {
     "The Bisren are a race descended from the great Minotaurs of legend. Normally peaceful, Bisren enjoy nature and keep a semi-nomadic lifestyle in regions that other races call wild. When threatened, Bisren can become quite dangerous, much like their warrior ancestors.",
   physicalDescription:
     "Bisren are impressively muscled and generally average 7' tall, with some individuals reaching almost 8' in height. They have horned heads and cloven-hoof feet.",
-  allowedClasses: ["fighter", "cleric", "thief", "ranger", "druid"], // Prefer nature-oriented professions
+  allowedClasses: ["fighter", "cleric", "thief", "ranger", "druid", "paladin"], // Prefer nature-oriented professions
   abilityRequirements: [
     {
       ability: "strength",

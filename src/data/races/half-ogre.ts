@@ -7,7 +7,7 @@ export const halfOgre: Race = {
     "Half-ogres are the result of crossbreeding between humans and ogres. Such creatures tend to be outcasts within both human and ogrish communities, but they may often be found as leaders in communities of orcs or goblins.",
   physicalDescription:
     "Half-ogres are big, averaging around 7 feet in height, broad-shouldered, and rangy. Their features tend to favor the ogrish parent, with dark coarse hair, tan or brown skin, and dark eyes.",
-  allowedClasses: ["cleric", "fighter"],
+  allowedClasses: ["cleric", "fighter", "paladin"],
   abilityRequirements: [
     {
       ability: "strength",

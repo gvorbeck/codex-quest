@@ -7,7 +7,7 @@ export const halfling: Race = {
     "Halflings are typically outgoing, unassuming and good-natured. They are dexterous and nimble, capable of moving quietly and remaining very still. They usually go barefoot.",
   physicalDescription:
     "Halflings are small, slightly stocky folk who stand around three feet tall and weigh about 60 pounds. They have curly brown hair on their heads and feet, but rarely have facial hair. They are usually fair skinned, often with ruddy cheeks. Halflings are remarkably rugged for their small size. They are dexterous and nimble, capable of moving quietly and remaining very still. They usually go barefoot.",
-  allowedClasses: ["cleric", "fighter", "thief", "ranger", "scout"],
+  allowedClasses: ["cleric", "fighter", "thief", "ranger", "scout", "paladin"],
   abilityRequirements: [
     {
       ability: "dexterity",
