@@ -9,6 +9,7 @@ export const elf: Race = {
     "Elves are a slender race, with both males and females standing around five feet tall and weighing around 130 pounds. Most have dark hair, with little or no body or facial hair. Their skin is pale, and they have pointed ears and delicate features. Elves are lithe and graceful. They have keen eyesight and hearing.",
   allowedClasses: [
     "cleric",
+    "druid",
     "fighter",
     "magic-user",
     "thief",

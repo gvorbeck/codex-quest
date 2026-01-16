@@ -9,6 +9,7 @@ export const dokkalfar: Race = {
     "Dokkalfar are a subspecies of Elves, but they believe themselves far superior to any and all other types. Both males and females stand around five feet tall and weight around 130 pounds. Most have hair of monochromatic coloration ranging from jet black to pure white, and lack almost all body and facial hair. Their skin is a very pale white, and they have pointed ears and delicate features in common with other elven types. Their eyes are perhaps their most striking feature, being some very pale shade of blue, green, or grey, with the latter being the most common coloration.",
   allowedClasses: [
     "cleric",
+    "druid",
     "fighter",
     "magic-user",
     "thief",
