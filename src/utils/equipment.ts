@@ -5,7 +5,6 @@
 import type {
   Character,
   Equipment,
-  Class,
   EquipmentPack,
   PackApplicationResult,
   RestrictionData,
@@ -129,8 +128,8 @@ function initializeEquipmentMaps() {
       typeof item["id"] === "string"
     ) {
       const itemRecord = item as Record<string, unknown>;
-      equipmentLookupMapByName!.set(item["name"] as string, itemRecord);
-      equipmentLookupMapById!.set(item["id"] as string, itemRecord);
+      equipmentLookupMapByName!.set(item["name"], itemRecord);
+      equipmentLookupMapById!.set(item["id"], itemRecord);
     }
   });
 
@@ -155,38 +154,22 @@ function isValidRawEquipment(item: Record<string, unknown>): boolean {
 }
 
 /**
- * Convert raw equipment data to Equipment type with proper type safety
+ * Copy weapon-related optional properties from raw data to equipment
  */
-function convertRawToEquipment(
+function copyWeaponProperties(
+  equipment: Equipment,
   rawEquipment: Record<string, unknown>
-): Equipment {
-  const equipment: Equipment = {
-    name: rawEquipment["name"] as string,
-    costValue: rawEquipment["costValue"] as number,
-    costCurrency: rawEquipment["costCurrency"] as "gp" | "sp" | "cp",
-    weight: rawEquipment["weight"] as number,
-    category: rawEquipment["category"] as string,
-    subCategory:
-      typeof rawEquipment["subCategory"] === "string"
-        ? rawEquipment["subCategory"]
-        : "",
-    amount: 1, // Default amount, will be overridden by pack quantity
-  };
-
-  // Copy optional properties with type safety
-  if (rawEquipment["size"] && typeof rawEquipment["size"] === "string") {
+): void {
+  if (typeof rawEquipment["size"] === "string") {
     equipment.size = rawEquipment["size"] as "S" | "M" | "L";
   }
-  if (rawEquipment["damage"] && typeof rawEquipment["damage"] === "string") {
+  if (typeof rawEquipment["damage"] === "string") {
     equipment.damage = rawEquipment["damage"];
   }
-  if (
-    rawEquipment["twoHandedDamage"] &&
-    typeof rawEquipment["twoHandedDamage"] === "string"
-  ) {
+  if (typeof rawEquipment["twoHandedDamage"] === "string") {
     equipment.twoHandedDamage = rawEquipment["twoHandedDamage"];
   }
-  if (rawEquipment["type"] && typeof rawEquipment["type"] === "string") {
+  if (typeof rawEquipment["type"] === "string") {
     equipment.type = rawEquipment["type"] as "melee" | "missile" | "both";
   }
   if (
@@ -198,6 +181,15 @@ function convertRawToEquipment(
   if (Array.isArray(rawEquipment["ammo"])) {
     equipment.ammo = rawEquipment["ammo"] as string[];
   }
+}
+
+/**
+ * Copy armor and misc optional properties from raw data to equipment
+ */
+function copyArmorAndMiscProperties(
+  equipment: Equipment,
+  rawEquipment: Record<string, unknown>
+): void {
   if (
     typeof rawEquipment["AC"] === "number" ||
     typeof rawEquipment["AC"] === "string"
@@ -216,6 +208,29 @@ function convertRawToEquipment(
   if (typeof rawEquipment["animalWeight"] === "number") {
     equipment.animalWeight = rawEquipment["animalWeight"];
   }
+}
+
+/**
+ * Convert raw equipment data to Equipment type with proper type safety
+ */
+function convertRawToEquipment(
+  rawEquipment: Record<string, unknown>
+): Equipment {
+  const equipment: Equipment = {
+    name: rawEquipment["name"] as string,
+    costValue: rawEquipment["costValue"] as number,
+    costCurrency: rawEquipment["costCurrency"] as "gp" | "sp" | "cp",
+    weight: rawEquipment["weight"] as number,
+    category: rawEquipment["category"] as string,
+    subCategory:
+      typeof rawEquipment["subCategory"] === "string"
+        ? rawEquipment["subCategory"]
+        : "",
+    amount: 1, // Default amount, will be overridden by pack quantity
+  };
+
+  copyWeaponProperties(equipment, rawEquipment);
+  copyArmorAndMiscProperties(equipment, rawEquipment);
 
   return equipment;
 }
@@ -296,7 +311,7 @@ function processPackItems(packItems: EquipmentPack["items"]): {
 }
 
 /**
- * Apply an equipment pack to a character
+ * Apply an equipment pack to a character (validation only)
  */
 export function applyEquipmentPack(
   character: Character,
@@ -339,13 +354,36 @@ export function applyEquipmentPackToCharacter(
   character: Character,
   pack: EquipmentPack
 ): { character: Character; result: PackApplicationResult } {
-  const result = applyEquipmentPack(character, pack);
-
-  if (!result.success) {
-    return { character, result };
+  // Check if character has enough gold
+  if (character.currency.gold < pack.cost) {
+    return {
+      character,
+      result: {
+        success: false,
+        error: `Not enough gold. Need ${
+          pack.cost
+        } gp but only have ${formatCurrency(character.currency)}.`,
+      },
+    };
   }
 
-  const { validEquipment } = processPackItems(pack.items);
+  // Process pack items once
+  const { missingItems, totalCost, totalWeight, validEquipment } =
+    processPackItems(pack.items);
+
+  // If there are missing items, return error
+  if (missingItems.length > 0) {
+    return {
+      character,
+      result: {
+        success: false,
+        error: `Could not find equipment items: ${missingItems.join(
+          ", "
+        )}. Please check that these items exist in the equipment database.`,
+        missingItems,
+      },
+    };
+  }
 
   // Build new equipment list by merging with existing equipment
   const newEquipment = [...character.equipment];
@@ -364,11 +402,7 @@ export function applyEquipmentPackToCharacter(
       };
     } else {
       // Add new equipment with the specified quantity
-      const equipmentWithQuantity: Equipment = {
-        ...equipment,
-        amount: quantity,
-      };
-      newEquipment.push(equipmentWithQuantity);
+      newEquipment.push({ ...equipment, amount: quantity });
     }
   }
 
@@ -384,7 +418,11 @@ export function applyEquipmentPackToCharacter(
 
   return {
     character: updatedCharacter,
-    result,
+    result: {
+      success: true,
+      totalCost,
+      totalWeight,
+    },
   };
 }
 
@@ -395,13 +433,9 @@ export function applyEquipmentPackToCharacter(
 export function getEquipmentPacksByClass(
   character: Character
 ): EquipmentPack[] {
-  // Helper function to get class by ID
-  const getClassById = (classId: string): Class | undefined =>
-    allClasses.find((cls) => cls.id === classId);
-
   // Get the character's class type
-  const classData = getClassById(character.class);
-  const classType = classData?.classType;
+  const classType = allClasses.find((cls) => cls.id === character.class)
+    ?.classType;
 
   // Filter packs based on suitableFor property
   return equipmentPacks.filter((pack) => {
@@ -435,7 +469,7 @@ export function calculatePackTotals(pack: EquipmentPack): {
  * Creates an equipment ID from the equipment name by converting to lowercase and replacing spaces with hyphens
  */
 export function createEquipmentId(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, "-");
+  return name.toLowerCase().replaceAll(/\s+/g, "-");
 }
 
 /**
@@ -482,15 +516,135 @@ export function isEquipmentInAllowedList(
       if (mappedNames.includes(equipmentId)) {
         return true;
       }
-    } else {
+    } else if (equipmentId === allowedItem) {
       // Fallback to direct ID comparison
-      if (equipmentId === allowedItem) {
-        return true;
-      }
+      return true;
     }
   }
 
   return false;
+}
+
+/**
+ * Checks weapon restrictions based on race prohibitions
+ */
+function checkRaceWeaponRestriction(
+  equipment: Equipment,
+  restrictionData: RestrictionData
+): RestrictionResult | null {
+  const prohibitedWeapons = restrictionData.race?.prohibitedWeapons;
+  if (!prohibitedWeapons) {
+    return null;
+  }
+
+  // Check specific prohibited weapons
+  for (const prohibitedWeapon of prohibitedWeapons) {
+    if (isEquipmentMatchingRestriction(equipment.name, prohibitedWeapon)) {
+      return createRestriction(restrictionData.race!.name);
+    }
+  }
+
+  // Check for size-based restrictions (Large weapons for small races)
+  if (equipment.size === "L" && prohibitedWeapons.includes("large")) {
+    return createRestriction(restrictionData.race!.name);
+  }
+
+  return null;
+}
+
+/**
+ * Checks weapon restrictions based on class allowedWeapons lists
+ * Uses UNION logic: if ANY class allows the weapon, it's usable
+ */
+function checkClassWeaponRestriction(
+  equipment: Equipment,
+  classes: RestrictionData["classes"]
+): RestrictionResult | null {
+  // Empty allowedWeapons array means NO restrictions (can use all weapons)
+  const hasUnrestrictedClass = classes.some(
+    (cls) => cls?.allowedWeapons?.length === 0
+  );
+
+  if (hasUnrestrictedClass) {
+    return { restricted: false };
+  }
+
+  // Get classes that DO have weapon restrictions (non-empty allowedWeapons)
+  const classesWithRestrictions = classes.filter(
+    (cls) => cls?.allowedWeapons && cls.allowedWeapons.length > 0
+  );
+
+  if (classesWithRestrictions.length === 0) {
+    return { restricted: false };
+  }
+
+  // Check if ANY class allows this weapon
+  const isAllowedByAnyClass = classesWithRestrictions.some((characterClass) =>
+    isEquipmentInAllowedList(
+      equipment.name,
+      characterClass.allowedWeapons,
+      WEAPON_ID_MAPPING
+    )
+  );
+
+  if (!isAllowedByAnyClass) {
+    return createRestriction(classesWithRestrictions[0]!.name);
+  }
+
+  return null;
+}
+
+/**
+ * Checks armor restrictions based on class allowedArmor lists
+ * Uses UNION logic: if ANY class allows the armor, it's usable
+ */
+function checkClassArmorRestriction(
+  equipment: Equipment,
+  classes: RestrictionData["classes"]
+): RestrictionResult | null {
+  // Empty allowedArmor array means NO restrictions (can use all armor)
+  const hasUnrestrictedClass = classes.some(
+    (cls) => cls?.allowedArmor?.length === 0
+  );
+
+  if (hasUnrestrictedClass) {
+    return { restricted: false };
+  }
+
+  // Get classes that DO have armor restrictions (non-empty allowedArmor)
+  const classesWithRestrictions = classes.filter(
+    (cls) => cls?.allowedArmor && cls.allowedArmor.length > 0
+  );
+
+  if (classesWithRestrictions.length === 0) {
+    return { restricted: false };
+  }
+
+  // Check for "none" restriction (absolute prohibition on armor)
+  const allClassesProhibitArmor = classesWithRestrictions.every(
+    (characterClass) => characterClass.allowedArmor.includes("none")
+  );
+
+  if (allClassesProhibitArmor) {
+    return createRestriction(classesWithRestrictions[0]!.name);
+  }
+
+  // Check if ANY class allows this armor
+  const isAllowedByAnyClass = classesWithRestrictions.some(
+    (characterClass) =>
+      !characterClass.allowedArmor.includes("none") &&
+      isEquipmentInAllowedList(
+        equipment.name,
+        characterClass.allowedArmor,
+        ARMOR_ID_MAPPING
+      )
+  );
+
+  if (!isAllowedByAnyClass) {
+    return createRestriction(classesWithRestrictions[0]!.name);
+  }
+
+  return null;
 }
 
 /**
@@ -512,122 +666,39 @@ export function isEquipmentRestricted(
   equipment: Equipment,
   restrictionData: RestrictionData
 ): RestrictionResult {
-  const isWeapon = !!equipment.damage;
+  // Ammunition is not restricted - only the weapon that fires it is restricted
+  // (e.g., clerics can use stones because they can use slings)
+  const isAmmunition = equipment.category === "ammunition";
+  const isWeapon = !!equipment.damage && !isAmmunition;
   const isArmor = equipment.category === "armor";
 
-  // Check weapon restrictions for items with damage (weapons)
+  // Check weapon restrictions
   if (isWeapon) {
-    // Check race prohibitions (these apply regardless of class)
-    if (restrictionData.race?.prohibitedWeapons) {
-      for (const prohibitedWeapon of restrictionData.race.prohibitedWeapons) {
-        if (isEquipmentMatchingRestriction(equipment.name, prohibitedWeapon)) {
-          return createRestriction(restrictionData.race.name);
-        }
-      }
-
-      // Check for size-based restrictions (Large weapons for small races)
-      if (
-        equipment.size === "L" &&
-        restrictionData.race.prohibitedWeapons.includes("large")
-      ) {
-        return createRestriction(restrictionData.race.name);
-      }
+    const raceRestriction = checkRaceWeaponRestriction(
+      equipment,
+      restrictionData
+    );
+    if (raceRestriction) {
+      return raceRestriction;
     }
 
-    // Check class weapon restrictions using UNION logic for multi-class
-    // Empty allowedWeapons array means NO restrictions (can use all weapons)
-    const hasUnrestrictedClass = restrictionData.classes.some(
-      (cls) => cls?.allowedWeapons && cls.allowedWeapons.length === 0
+    const classRestriction = checkClassWeaponRestriction(
+      equipment,
+      restrictionData.classes
     );
-
-    // If ANY class has no weapon restrictions, all weapons are allowed
-    if (hasUnrestrictedClass) {
-      return { restricted: false };
-    }
-
-    // Get classes that DO have weapon restrictions (non-empty allowedWeapons)
-    const classesWithWeaponRestrictions = restrictionData.classes.filter(
-      (cls) => cls?.allowedWeapons && cls.allowedWeapons.length > 0
-    );
-
-    // If no classes have restrictions, all weapons allowed
-    if (classesWithWeaponRestrictions.length === 0) {
-      return { restricted: false };
-    }
-
-    // For multi-class with restrictions: check if ANY class allows this weapon
-    const isAllowedByAnyClass = classesWithWeaponRestrictions.some(
-      (characterClass) =>
-        isEquipmentInAllowedList(
-          equipment.name,
-          characterClass.allowedWeapons,
-          WEAPON_ID_MAPPING
-        )
-    );
-
-    // If at least one class allows it, the weapon is usable
-    if (!isAllowedByAnyClass) {
-      // All classes with restrictions prohibit this weapon
-      const restrictingClass = classesWithWeaponRestrictions[0];
-      return createRestriction(restrictingClass!.name);
+    if (classRestriction) {
+      return classRestriction;
     }
   }
 
-  // Check armor restrictions for armor items
+  // Check armor restrictions
   if (isArmor) {
-    // Empty allowedArmor array means NO restrictions (can use all armor)
-    const hasUnrestrictedClass = restrictionData.classes.some(
-      (cls) => cls?.allowedArmor && cls.allowedArmor.length === 0
+    const armorRestriction = checkClassArmorRestriction(
+      equipment,
+      restrictionData.classes
     );
-
-    // If ANY class has no armor restrictions, all armor is allowed
-    if (hasUnrestrictedClass) {
-      return { restricted: false };
-    }
-
-    // Get classes that DO have armor restrictions (non-empty allowedArmor)
-    const classesWithArmorRestrictions = restrictionData.classes.filter(
-      (cls) => cls?.allowedArmor && cls.allowedArmor.length > 0
-    );
-
-    // If no classes have restrictions, all armor allowed
-    if (classesWithArmorRestrictions.length === 0) {
-      return { restricted: false };
-    }
-
-    // Check for "none" restriction (absolute prohibition on armor)
-    const hasNoArmorClass = classesWithArmorRestrictions.some(
-      (characterClass) => characterClass.allowedArmor.includes("none")
-    );
-
-    // If ANY class prohibits all armor, check if ALL classes prohibit it
-    if (hasNoArmorClass) {
-      // Only restrict if ALL classes with armor restrictions say "none"
-      const allClassesProhibitArmor = classesWithArmorRestrictions.every(
-        (characterClass) => characterClass.allowedArmor.includes("none")
-      );
-
-      if (allClassesProhibitArmor) {
-        const restrictingClass = classesWithArmorRestrictions[0];
-        return createRestriction(restrictingClass!.name);
-      }
-    }
-
-    // For multi-class: check if ANY class allows this armor
-    const isAllowedByAnyClass = classesWithArmorRestrictions.some(
-      (characterClass) =>
-        !characterClass.allowedArmor.includes("none") &&
-        isEquipmentInAllowedList(
-          equipment.name,
-          characterClass.allowedArmor,
-          ARMOR_ID_MAPPING
-        )
-    );
-
-    if (!isAllowedByAnyClass) {
-      // No class allows this armor
-      const restrictingClass = classesWithArmorRestrictions[0];
-      return createRestriction(restrictingClass!.name);
+    if (armorRestriction) {
+      return armorRestriction;
     }
   }
 
