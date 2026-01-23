@@ -29,6 +29,8 @@ interface EditableValueProps {
   showEditIcon?: boolean;
   /** Additional props for the display element */
   displayProps?: React.HTMLAttributes<HTMLDivElement>;
+  /** Debounce delay in milliseconds (0 = no debounce) */
+  debounceMs?: number;
 }
 
 const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
@@ -46,11 +48,32 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       ariaLabel,
       showEditIcon = true,
       displayProps = {},
+      debounceMs = 0,
     },
     ref
   ) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [localValue, setLocalValue] = useState(value);
     const inputRef = useRef<HTMLInputElement>(null);
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const lastCommittedValueRef = useRef(value);
+
+    // Sync local value when external value changes (but not during active editing)
+    useEffect(() => {
+      if (!isEditing && value !== lastCommittedValueRef.current) {
+        setLocalValue(value);
+        lastCommittedValueRef.current = value;
+      }
+    }, [value, isEditing]);
+
+    // Cleanup debounce timer on unmount
+    useEffect(() => {
+      return () => {
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+        }
+      };
+    }, []);
 
     // Auto-focus and select when entering edit mode
     useEffect(() => {
@@ -74,12 +97,45 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
     };
 
     const handleValueChange = (newValue: number | undefined) => {
-      if (newValue !== undefined && onChange) {
-        onChange(newValue);
+      if (newValue === undefined) return;
+
+      setLocalValue(newValue);
+
+      // Clear any existing debounce timer
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      if (debounceMs > 0) {
+        // Debounced: schedule the onChange call
+        debounceTimerRef.current = setTimeout(() => {
+          if (onChange && newValue !== lastCommittedValueRef.current) {
+            lastCommittedValueRef.current = newValue;
+            onChange(newValue);
+          }
+          debounceTimerRef.current = null;
+        }, debounceMs);
+      } else {
+        // No debounce: call onChange immediately
+        if (onChange) {
+          lastCommittedValueRef.current = newValue;
+          onChange(newValue);
+        }
       }
     };
 
     const handleBlur = () => {
+      // On blur, immediately commit any pending debounced value
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
+      }
+
+      if (onChange && localValue !== lastCommittedValueRef.current) {
+        lastCommittedValueRef.current = localValue;
+        onChange(localValue);
+      }
+
       setIsEditing(false);
     };
 
@@ -118,7 +174,7 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       return (
         <NumberInput
           ref={inputRef}
-          value={value}
+          value={localValue}
           onChange={handleValueChange}
           onBlur={handleBlur}
           onKeyDown={handleInputKeyDown}

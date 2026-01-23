@@ -104,6 +104,7 @@ export default function CoinPurse({
                     displayProps={{
                       "aria-describedby": `currency-${key}-description`,
                     }}
+                    debounceMs={500}
                   />
 
                   {/* Screen reader description */}
