@@ -123,10 +123,25 @@ export function getAvailableCantrips(character: Character): Cantrip[] {
     return !!(char.spells && char.spells.length > 0);
   };
 
-  // For custom spellcasting classes, default to magic-user cantrips
-  const mappedClass = isCustomClass(character.class) && hasSpells(character)
-    ? "magic-user"
-    : character.class;
+  const getClassType = (classId: string): string | undefined => {
+    const classData = allClasses.find(
+      (cls: { id: string; classType?: string }) => cls.id === classId
+    );
+    return classData?.classType;
+  };
+
+  // Map the character's class to the appropriate cantrip class
+  // 1. Custom classes with spells get magic-user cantrips
+  // 2. Standard classes use their classType (e.g., fighter-magic-user -> magic-user)
+  // 3. Fall back to the class id itself
+  let mappedClass: string;
+  if (isCustomClass(character.class) && hasSpells(character)) {
+    mappedClass = "magic-user";
+  } else {
+    // Use classType for combination classes (e.g., fighter-magic-user has classType "magic-user")
+    const classType = getClassType(character.class);
+    mappedClass = classType || character.class;
+  }
 
   return cantripData.filter((cantrip) =>
     cantrip.classes.includes(mappedClass)
