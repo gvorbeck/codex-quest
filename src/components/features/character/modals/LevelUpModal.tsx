@@ -67,6 +67,8 @@ export default function LevelUpModal({
     hpGainResult,
     error: hpError,
     clearError: clearHPError,
+    rerollHP,
+    setCustomHP,
   } = useHPGain({
     character,
     primaryClass: primaryClass || null,
@@ -154,6 +156,8 @@ export default function LevelUpModal({
             hpGainResult={hpGainResult}
             nextLevel={nextLevel}
             availableClasses={classes}
+            onReroll={rerollHP}
+            onSetCustomHP={setCustomHP}
           />
         ) : (
           <LevelUpRequirements
