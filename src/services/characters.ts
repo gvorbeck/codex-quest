@@ -27,8 +27,7 @@ export interface CharacterListItem {
   level?: number;
   hp?: { current?: number; max?: number } | number;
   xp?: number;
-  // Allow for additional properties that might exist
-  [key: string]: unknown;
+  hasTurnUndead?: boolean;
 }
 
 /**
@@ -63,16 +62,18 @@ export const getUserCharacters = async (
         );
         const processedData = processCharacterData(data);
 
-        // Ensure name is always present
-        const characterData = {
-          ...processedData,
+        // Extract only the properties needed for CharacterListItem
+        const listItem: CharacterListItem = {
+          id: docSnapshot.id,
           name: processedData.name || "Unnamed Character",
         };
+        if (processedData.race) listItem.race = processedData.race;
+        if (processedData.class) listItem.class = processedData.class;
+        if (processedData.level) listItem.level = processedData.level;
+        if (processedData.hp) listItem.hp = processedData.hp;
+        if (processedData.xp) listItem.xp = processedData.xp;
 
-        characters.push({
-          id: docSnapshot.id,
-          ...characterData,
-        });
+        characters.push(listItem);
 
         // Save the migrated data back to Firebase asynchronously
         const docRef = doc(
@@ -92,12 +93,21 @@ export const getUserCharacters = async (
         );
         migrationPromises.push(migrationPromise);
       } else {
-        // For current characters, use data as-is (much faster)
-        characters.push({
+        // For current characters, extract only the properties needed for CharacterListItem
+        const listItem: CharacterListItem = {
           id: docSnapshot.id,
-          name: data["name"] || "Unnamed Character",
-          ...data,
-        });
+          name: (data["name"] as string) || "Unnamed Character",
+        };
+        if (data["race"]) listItem.race = data["race"] as string;
+        if (data["class"]) listItem.class = data["class"] as string;
+        if (data["level"]) listItem.level = data["level"] as number;
+        if (data["hp"])
+          listItem.hp = data["hp"] as
+            | { current?: number; max?: number }
+            | number;
+        if (data["xp"]) listItem.xp = data["xp"] as number;
+
+        characters.push(listItem);
       }
     });
 

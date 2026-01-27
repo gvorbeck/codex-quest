@@ -1,8 +1,11 @@
 import { useQueries } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { queryKeys } from "@/lib/queryKeys";
-import { logger } from "@/utils";
+import { logger, hasTurnUndeadAbility } from "@/utils";
+import { isMockMode } from "@/lib/mockMode";
+import { getCharacterById } from "@/services";
 import type { Character } from "@/types";
 
 interface DataRequest {
@@ -16,27 +19,41 @@ interface ResolvedData {
   race?: string | undefined;
   class?: string | undefined;
   level?: number | undefined;
+  hasTurnUndead?: boolean | undefined;
 }
 
 /**
  * Get character summary data for display purposes
+ * Supports both Firebase and mock mode
  */
 async function getCharacterSummary(
   userId: string,
   characterId: string
 ): Promise<ResolvedData> {
   try {
-    const characterRef = doc(db, "users", userId, "characters", characterId);
-    const characterDoc = await getDoc(characterRef);
+    let characterData: Character | null = null;
 
-    if (characterDoc.exists()) {
-      const characterData = characterDoc.data() as Character;
+    if (isMockMode()) {
+      // Use mock service in mock mode
+      characterData = await getCharacterById(userId, characterId);
+    } else {
+      // Use Firebase in production mode
+      const characterRef = doc(db, "users", userId, "characters", characterId);
+      const characterDoc = await getDoc(characterRef);
+
+      if (characterDoc.exists()) {
+        characterData = characterDoc.data() as Character;
+      }
+    }
+
+    if (characterData) {
       return {
         characterName: characterData.name || characterId,
         avatar: characterData.avatar,
         race: characterData.race,
         class: characterData.class,
         level: characterData.level,
+        hasTurnUndead: hasTurnUndeadAbility(characterData),
       };
     } else {
       // Fallback for missing characters
@@ -77,15 +94,23 @@ export function useDataResolver(requests: DataRequest[] = []) {
     })),
   });
 
+  // Create lookup map for O(1) access instead of O(n) linear search
+  const dataMap = useMemo(() => {
+    const map = new Map<string, ResolvedData | undefined>();
+    requests.forEach((req, index) => {
+      const key = `${req.userId}:${req.characterId}`;
+      map.set(key, queries[index]?.data);
+    });
+    return map;
+  }, [requests, queries]);
+
   // Helper to get resolved data by userId/characterId
   const getResolvedData = (
     userId: string,
     characterId: string
   ): ResolvedData | undefined => {
-    const index = requests.findIndex(
-      (req) => req.userId === userId && req.characterId === characterId
-    );
-    return index >= 0 ? queries[index]?.data : undefined;
+    const key = `${userId}:${characterId}`;
+    return dataMap.get(key);
   };
 
   // Check if any queries are loading

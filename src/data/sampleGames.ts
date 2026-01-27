@@ -15,21 +15,21 @@ export const SAMPLE_GAMES: Game[] = [
     notes: "A classic murder mystery set in the Silver Goblet tavern. The party must investigate the death of a wealthy merchant while dealing with suspicious patrons and hidden motives.",
     players: [
       {
-        character: "mock-character-1", // Thorin Ironforge
+        character: "thorin-ironforge",
         characterName: "Thorin Ironforge",
         user: "mock-user",
         userName: "Game Master",
         avatar: "🛡️",
       },
       {
-        character: "mock-character-2", // Elara Moonwhisper
+        character: "elara-moonwhisper",
         characterName: "Elara Moonwhisper",
         user: "mock-user",
         userName: "Game Master",
         avatar: "🔮",
       },
       {
-        character: "mock-character-3", // Pip Lightfinger
+        character: "pip-lightfinger",
         characterName: "Pip Lightfinger",
         user: "mock-user",
         userName: "Game Master",
@@ -64,15 +64,15 @@ export const SAMPLE_GAMES: Game[] = [
     notes: "A classic dungeon crawl through the abandoned Temple of the Sun God. Features traps, puzzles, undead guardians, and a powerful lich in the final chamber.",
     players: [
       {
-        character: "mock-character-4", // Brother Marcus
+        character: "brother-marcus",
         characterName: "Brother Marcus",
         user: "mock-user",
         userName: "Game Master",
         avatar: "⚡",
       },
       {
-        character: "mock-character-5", // Gareth the Versatile
-        characterName: "Gareth the Versatile",
+        character: "silvyr-dualwield",
+        characterName: "Silvyr Dualwield",
         user: "mock-user",
         userName: "Game Master",
         avatar: "🎯",
@@ -118,14 +118,14 @@ export const SAMPLE_GAMES: Game[] = [
     notes: "An overland adventure through the dangerous Reaching Woods. The party must escort a merchant caravan while dealing with bandits, wild animals, and rumors of dragon sightings.",
     players: [
       {
-        character: "mock-character-1", // Thorin Ironforge
+        character: "thorin-ironforge",
         characterName: "Thorin Ironforge",
         user: "mock-user",
         userName: "Game Master",
         avatar: "🛡️",
       },
       {
-        character: "mock-character-3", // Pip Lightfinger
+        character: "pip-lightfinger",
         characterName: "Pip Lightfinger",
         user: "mock-user",
         userName: "Game Master",
@@ -178,15 +178,15 @@ export const SAMPLE_GAMES: Game[] = [
     notes: "A political intrigue adventure in the great city of Waterdeep. The party must navigate noble houses, guild politics, and secret societies to uncover a plot against the city's rulers.",
     players: [
       {
-        character: "mock-character-2", // Elara Moonwhisper
+        character: "elara-moonwhisper",
         characterName: "Elara Moonwhisper",
         user: "mock-user",
         userName: "Game Master",
         avatar: "🔮",
       },
       {
-        character: "mock-character-5", // Gareth the Versatile
-        characterName: "Gareth the Versatile",
+        character: "silvyr-dualwield",
+        characterName: "Silvyr Dualwield",
         user: "mock-user",
         userName: "Game Master",
         avatar: "🎯",

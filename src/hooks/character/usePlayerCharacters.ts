@@ -36,27 +36,13 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
       const character: CharacterListItem = {
         id: player.character,
         name: resolved?.characterName || player.character,
+        ...(resolved?.race && { race: resolved.race }),
+        ...(resolved?.class && { class: resolved.class }),
+        ...(resolved?.level && { level: resolved.level }),
+        ...(resolved?.hasTurnUndead !== undefined && {
+          hasTurnUndead: resolved.hasTurnUndead,
+        }),
       };
-
-      // Only add properties if they exist to avoid undefined values
-      if (resolved?.race) {
-        character.race = resolved.race;
-      }
-      if (resolved?.class) {
-        character.class = resolved.class;
-      }
-      if (resolved?.level) {
-        character.level = resolved.level;
-      }
-
-      // Add any additional properties that might exist in resolved data
-      if (resolved) {
-        Object.keys(resolved).forEach((key) => {
-          if (!["characterName", "race", "class", "level"].includes(key)) {
-            character[key] = resolved[key as keyof typeof resolved];
-          }
-        });
-      }
 
       return character;
     });

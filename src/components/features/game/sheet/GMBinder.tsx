@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useEffect } from "react";
+import { memo, useState, useCallback, useMemo } from "react";
 import {
   Tabs,
   TabList,
@@ -10,6 +10,7 @@ import {
 import { SpellsTab } from "./SpellsTab";
 import { BestiaryTab } from "./BestiaryTab";
 import { SkillsTab } from "./SkillsTab";
+import { TurnUndeadTab } from "./TurnUndeadTab";
 import { useDataResolver } from "@/hooks";
 import { CLASSES_WITH_SKILLS } from "@/constants";
 import type { Game, GameCombatant } from "@/types";
@@ -23,7 +24,6 @@ interface GMBinderProps {
 export const GMBinder = memo(
   ({ className, game, onAddToCombat }: GMBinderProps) => {
     const [selectedTab, setSelectedTab] = useState("spells");
-    const [hasSkillClasses, setHasSkillClasses] = useState(false);
 
     // Prepare data requests for all players
     const playerRequests =
@@ -35,24 +35,27 @@ export const GMBinder = memo(
     // Use TanStack Query to resolve player data
     const { getResolvedData } = useDataResolver(playerRequests);
 
-    // TanStack Query handles data resolution automatically
-
     // Check if any players have skill classes using resolved data
-    useEffect(() => {
-      if (!game?.players?.length) {
-        setHasSkillClasses(false);
-        return;
-      }
+    const hasSkillClasses = useMemo(() => {
+      if (!game?.players?.length) return false;
 
-      const hasSkills = game.players.some((player) => {
+      return game.players.some((player) => {
         const resolved = getResolvedData(player.user, player.character);
         if (!resolved?.class) return false;
 
         // Check if the character's class has skills
         return resolved.class in CLASSES_WITH_SKILLS;
       });
+    }, [game?.players, getResolvedData]);
 
-      setHasSkillClasses(hasSkills);
+    // Check if any players have Turn Undead ability using resolved data
+    const hasTurnUndead = useMemo(() => {
+      if (!game?.players?.length) return false;
+
+      return game.players.some((player) => {
+        const resolved = getResolvedData(player.user, player.character);
+        return resolved?.hasTurnUndead === true;
+      });
     }, [game?.players, getResolvedData]);
 
     const handleTabChange = useCallback((value: string) => {
@@ -77,6 +80,7 @@ export const GMBinder = memo(
               <Tab value="spells">Spells</Tab>
               <Tab value="bestiary">Bestiary</Tab>
               {hasSkillClasses && <Tab value="skills">Skills</Tab>}
+              {hasTurnUndead && <Tab value="turnUndead">Turn Undead</Tab>}
             </TabList>
 
             <TabPanels>
@@ -91,6 +95,12 @@ export const GMBinder = memo(
               {hasSkillClasses && game && (
                 <TabPanel value="skills">
                   <SkillsTab game={game} />
+                </TabPanel>
+              )}
+
+              {hasTurnUndead && game && (
+                <TabPanel value="turnUndead">
+                  <TurnUndeadTab game={game} />
                 </TabPanel>
               )}
             </TabPanels>
