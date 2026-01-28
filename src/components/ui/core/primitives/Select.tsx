@@ -90,11 +90,11 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       error ? "shadow-[0_3px_0_0_#b91c1c]" : "", // red-700 shadow for errors
     ];
 
-    // Size styles
+    // Size styles - extra right padding to make room for chevron icon
     const sizeStyles = {
-      sm: "px-3 py-2 text-sm min-h-[36px]",
-      md: "px-4 py-3 text-base min-h-[44px]",
-      lg: "px-5 py-4 text-lg min-h-[52px]",
+      sm: "pl-3 pr-10 py-2 text-sm min-h-[36px]",
+      md: "pl-4 pr-12 py-3 text-base min-h-[44px]",
+      lg: "pl-5 pr-14 py-4 text-lg min-h-[52px]",
     };
 
     // Label styles
