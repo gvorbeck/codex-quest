@@ -1,11 +1,13 @@
 import { ItemGrid } from "@/components/ui/composite";
 import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { CharacterCard } from "./CharacterCard";
+import ImportCharacterModal from "./ImportCharacterModal";
+import ExportCharacterModal from "./ExportCharacterModal";
 import { useAuth } from "@/hooks";
 import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
 import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useState, useMemo } from "react";
-import { Select } from "@/components/ui";
+import { Select, Button } from "@/components/ui";
 import type { CharacterListItem } from "@/services";
 
 type SortOption = "name" | "level" | "class" | "race";
@@ -53,6 +55,8 @@ export function CharactersList() {
     isOpen: boolean;
     character: { id: string; name: string } | null;
   }>({ isOpen: false, character: null });
+  const [importModalOpen, setImportModalOpen] = useState(false);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
 
   const sortedCharacters = useMemo(
     () => sortCharacters(characters, sortBy),
@@ -88,15 +92,38 @@ export function CharactersList() {
 
   return (
     <>
-      {!loading && characters.length > 1 && (
-        <div className="mb-4 max-w-48">
-          <Select
-            label="Sort by"
-            options={sortOptions}
-            value={sortBy}
-            onValueChange={(value) => setSortBy(value as SortOption)}
-            size="sm"
-          />
+      {!loading && (
+        <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:items-end sm:justify-between">
+          {characters.length > 1 && (
+            <div className="max-w-48">
+              <Select
+                label="Sort by"
+                options={sortOptions}
+                value={sortBy}
+                onValueChange={(value) => setSortBy(value as SortOption)}
+                size="sm"
+              />
+            </div>
+          )}
+          <div className="flex gap-2 sm:ml-auto">
+            <Button
+              variant="secondary"
+              size="sm"
+              icon="upload"
+              onClick={() => setImportModalOpen(true)}
+            >
+              Import
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              icon="clipboard"
+              onClick={() => setExportModalOpen(true)}
+              disabled={characters.length === 0}
+            >
+              Export
+            </Button>
+          </div>
         </div>
       )}
       <ItemGrid
@@ -139,6 +166,21 @@ export function CharactersList() {
         entityType="character"
         entityName={deleteState.character?.name || ""}
         isDeleting={isDeleting}
+      />
+
+      {/* Import Character Modal */}
+      <ImportCharacterModal
+        isOpen={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        userId={user?.uid || ""}
+      />
+
+      {/* Export Character Modal */}
+      <ExportCharacterModal
+        isOpen={exportModalOpen}
+        onClose={() => setExportModalOpen(false)}
+        characters={sortedCharacters}
+        userId={user?.uid || ""}
       />
     </>
   );

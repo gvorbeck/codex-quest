@@ -339,3 +339,65 @@ export function validateCharacter(
 
   return result;
 }
+
+/**
+ * Validate that imported data has the basic structure of a Character
+ * Used for import validation before migration
+ */
+export function isValidCharacterStructure(data: unknown): data is Character {
+  if (typeof data !== "object" || data === null) {
+    return false;
+  }
+
+  const obj = data as Record<string, unknown>;
+
+  // Check for required fields
+  return (
+    typeof obj["name"] === "string" &&
+    "abilities" in obj &&
+    typeof obj["abilities"] === "object" &&
+    obj["abilities"] !== null &&
+    typeof obj["race"] === "string" &&
+    typeof obj["class"] === "string" &&
+    "hp" in obj &&
+    typeof obj["hp"] === "object" &&
+    obj["hp"] !== null &&
+    typeof obj["level"] === "number"
+  );
+}
+
+/**
+ * Validate character data integrity after import
+ * Returns detailed validation errors for user feedback
+ */
+export function validateImportedCharacter(character: Character): {
+  isValid: boolean;
+  errors: string[];
+} {
+  const errors: string[] = [];
+
+  // Validate ability scores
+  if (!hasValidAbilityScores(character)) {
+    errors.push("Invalid ability scores (must be between 3-18)");
+  }
+
+  // Validate HP
+  if (!hasValidHitPoints(character)) {
+    errors.push("Invalid hit points (must be greater than 0)");
+  }
+
+  // Validate name
+  if (!character.name || character.name.trim() === "") {
+    errors.push("Character name is required");
+  }
+
+  // Validate level
+  if (character.level < 1 || character.level > 20) {
+    errors.push("Character level must be between 1 and 20");
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}

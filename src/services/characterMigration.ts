@@ -483,17 +483,24 @@ function migrateCombinationClasses(
 
 /**
  * Process character data and migrate if necessary
+ * @param data - Raw character data from import or storage (can be unknown type)
+ * @throws Error if data is not a valid character structure
  */
 export function processCharacterData(
-  data: LegacyCharacterData
+  data: unknown
 ): Character {
-  let migratedData = data;
+  // Type guard - ensure we have at least a character-like object
+  if (typeof data !== "object" || data === null) {
+    throw new Error("Invalid character data: must be an object");
+  }
 
-  if (isLegacyCharacter(data)) {
-    logger.debug(`Migrating legacy character: ${data["name"] || "Unknown"}`);
+  let migratedData = data as LegacyCharacterData;
+
+  if (isLegacyCharacter(migratedData)) {
+    logger.debug(`Migrating legacy character: ${migratedData["name"] || "Unknown"}`);
 
     // First handle the main legacy migration (pre-2.3)
-    migratedData = migrateLegacyCharacter(data);
+    migratedData = migrateLegacyCharacter(migratedData);
   }
 
   // Handle version 2.3 to 2.4 migration (custom classes refactor)
