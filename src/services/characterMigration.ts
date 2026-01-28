@@ -105,6 +105,8 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
     (typeof data["settings"]?.version === "number" &&
       data["settings"].version < CURRENT_VERSION);
 
+  const hasArrayClass = Array.isArray(data["class"]);
+
   return (
     hasLegacyAbilities ||
     hasLegacyCurrency ||
@@ -113,7 +115,8 @@ export function isLegacyCharacter(data: LegacyCharacterData): boolean {
     hasReadMagicSpell ||
     hasCustomClassesProperty ||
     hasCustomRaceProperty ||
-    needsVersionUpdate
+    needsVersionUpdate ||
+    hasArrayClass
   );
 }
 
