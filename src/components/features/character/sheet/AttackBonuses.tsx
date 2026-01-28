@@ -2,8 +2,9 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/core/feedback";
 import { SectionWrapper } from "@/components/ui/core/layout";
 import RollableButton from "@/components/domain/dice/RollableButton";
-import { formatModifier, getRaceById, getClassById } from "@/utils";
-import { SIZE_STYLES, CHARACTER_CLASSES } from "@/constants";
+import { formatModifier, getRaceById } from "@/utils";
+import { getBaseAttackBonus } from "@/utils/combatCalculations";
+import { SIZE_STYLES } from "@/constants";
 import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
 import type { Character, SpecialAbility } from "@/types";
 
@@ -22,89 +23,6 @@ export default function AttackBonuses({
   const { rollAttack } = useDiceRoll();
 
   const attackBonuses = useMemo(() => {
-    // Base Attack Bonus calculation from BFRPG table
-    const getBaseAttackBonus = (
-      level: number,
-      characterClass: string
-    ): number => {
-      const classLower = characterClass.toLowerCase();
-
-      // Combination classes - use best attack progression per BFRPG rules
-      // Fighter/Magic-User uses Fighter progression (best of the two)
-      if (classLower === "fighter-magic-user") {
-        if (level >= 18) return 10; // 18-20
-        if (level >= 16) return 9; // 16-17
-        if (level >= 13) return 8; // 13-15
-        if (level >= 11) return 7; // 11-12
-        if (level >= 8) return 6; // 8-10
-        if (level >= 7) return 5; // 7
-        if (level >= 5) return 4; // 5-6
-        if (level >= 4) return 3; // 4
-        if (level >= 2) return 2; // 2-3
-        if (level >= 1) return 1; // 1
-        return 0; // NM (Normal Men)
-      }
-
-      // Magic-User/Thief uses Thief progression (best of the two)
-      if (classLower === "magic-user-thief") {
-        if (level >= 18) return 8; // 18-20
-        if (level >= 15) return 7; // 15-17
-        if (level >= 12) return 6; // 12-14
-        if (level >= 9) return 5; // 9-11
-        if (level >= 7) return 4; // 7-8
-        if (level >= 5) return 3; // 5-6
-        if (level >= 3) return 2; // 3-4
-        if (level >= 1) return 1; // 1-2
-        return 0; // NM (Normal Men)
-      }
-
-      // Get class type for standard classes
-      const classData = getClassById(characterClass);
-      const classType = classData?.classType;
-
-      // Fighter-type classes (Fighter, Barbarian, Ranger, Paladin)
-      if (classType === CHARACTER_CLASSES.FIGHTER) {
-        if (level >= 18) return 10; // 18-20
-        if (level >= 16) return 9; // 16-17
-        if (level >= 13) return 8; // 13-15
-        if (level >= 11) return 7; // 11-12
-        if (level >= 8) return 6; // 8-10
-        if (level >= 7) return 5; // 7
-        if (level >= 5) return 4; // 5-6
-        if (level >= 4) return 3; // 4
-        if (level >= 2) return 2; // 2-3
-        if (level >= 1) return 1; // 1
-        return 0; // NM (Normal Men)
-      }
-
-      // Cleric-type and Thief-type classes (Cleric, Druid, Thief, Assassin, Scout)
-      if (classType === CHARACTER_CLASSES.CLERIC || classType === CHARACTER_CLASSES.THIEF) {
-        if (level >= 18) return 8; // 18-20
-        if (level >= 15) return 7; // 15-17
-        if (level >= 12) return 6; // 12-14
-        if (level >= 9) return 5; // 9-11
-        if (level >= 7) return 4; // 7-8
-        if (level >= 5) return 3; // 5-6
-        if (level >= 3) return 2; // 3-4
-        if (level >= 1) return 1; // 1-2
-        return 0; // NM (Normal Men)
-      }
-
-      // Magic-User-type classes (Magic-User, Illusionist, Necromancer, Spellcrafter)
-      if (classType === CHARACTER_CLASSES.MAGIC_USER) {
-        if (level >= 19) return 7; // 19-20
-        if (level >= 16) return 6; // 16-18
-        if (level >= 13) return 5; // 13-15
-        if (level >= 9) return 4; // 9-12
-        if (level >= 6) return 3; // 6-8
-        if (level >= 4) return 2; // 4-5
-        if (level >= 1) return 1; // 1-3
-        return 0; // NM (Normal Men)
-      }
-
-      // Default for unknown classes
-      return 0;
-    };
 
     // Extract racial attack bonuses from special abilities
     const getRacialAttackBonuses = () => {
