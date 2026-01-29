@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { LEVEL_UP_CONSTANTS } from "@/constants";
 import type { Character, Class, TwoHPClass, HPGainResult } from "@/types";
 import {
@@ -28,30 +28,41 @@ export function useHPGain({
     null
   );
   const [error, setError] = useState<string | null>(null);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  const [prevHasRequiredXP, setPrevHasRequiredXP] = useState(hasRequiredXP);
+  const [hasGeneratedForSession, setHasGeneratedForSession] = useState(false);
 
   // Check if this is a custom class
   const isCustomClassCharacter = character.class
     ? isCustomClass(character.class)
     : false;
 
-  // Clear generated HP when modal closes or character becomes ineligible
-  useEffect(() => {
+  // Handle state transitions during render (React docs recommended pattern)
+  if (isOpen !== prevIsOpen || hasRequiredXP !== prevHasRequiredXP) {
+    setPrevIsOpen(isOpen);
+    setPrevHasRequiredXP(hasRequiredXP);
+
     if (!isOpen || !hasRequiredXP) {
-      setGeneratedHPGain(null);
-      setError(null);
+      // Reset when modal closes or requirements not met
+      if (generatedHPGain !== null || error !== null) {
+        setGeneratedHPGain(null);
+        setError(null);
+      }
+      if (hasGeneratedForSession) {
+        setHasGeneratedForSession(false);
+      }
     }
-  }, [isOpen, hasRequiredXP]);
+  }
 
-  // Generate HP gain once when eligible
-  useEffect(() => {
-    if (!hasRequiredXP || !isOpen || generatedHPGain) {
-      return;
-    }
-
-    if (!isCustomClassCharacter && !primaryClass) {
-      return;
-    }
-
+  // Generate HP gain when modal opens and conditions are right (one-time per session)
+  if (
+    isOpen &&
+    hasRequiredXP &&
+    !generatedHPGain &&
+    !hasGeneratedForSession &&
+    (isCustomClassCharacter || primaryClass)
+  ) {
+    setHasGeneratedForSession(true);
     try {
       const result = isCustomClassCharacter
         ? calculateHPGainForCustomClass(character, nextLevel)
@@ -63,15 +74,7 @@ export function useHPGain({
       setError(errorMessage);
       logger.error("HP gain calculation error:", err);
     }
-  }, [
-    character,
-    primaryClass,
-    hasRequiredXP,
-    isOpen,
-    nextLevel,
-    generatedHPGain,
-    isCustomClassCharacter,
-  ]);
+  }
 
   // Re-roll HP gain
   const rerollHP = useCallback(() => {

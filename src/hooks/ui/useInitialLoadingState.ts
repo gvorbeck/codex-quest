@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 
 /**
  * Custom hook to manage loading state for list components during initial mount and data fetching
@@ -19,20 +19,18 @@ export function useInitialLoadingState(
   hasData: boolean
 ): boolean {
   const [isInitialMount, setIsInitialMount] = useState(true);
+  const [prevIsLoading, setPrevIsLoading] = useState(isLoading);
+  const [prevIsFetching, setPrevIsFetching] = useState(isFetching);
 
-  // Track initial mount to show skeleton during tab switch
-  // Remove isInitialMount from dependencies to prevent unnecessary re-runs
-  useEffect(() => {
-    if (!isLoading && !isFetching) {
+  // Adjust state during render when loading state changes
+  // This is the React-recommended pattern for derived state
+  if (isLoading !== prevIsLoading || isFetching !== prevIsFetching) {
+    setPrevIsLoading(isLoading);
+    setPrevIsFetching(isFetching);
+    if (!isLoading && !isFetching && isInitialMount) {
       setIsInitialMount(false);
     }
-  }, [isLoading, isFetching]);
+  }
 
-  // Memoize the loading condition to prevent unnecessary re-computations
-  const loading = useMemo(
-    () => isInitialMount || isLoading || (isFetching && !hasData),
-    [isInitialMount, isLoading, isFetching, hasData]
-  );
-
-  return loading;
+  return isInitialMount || isLoading || (isFetching && !hasData);
 }
