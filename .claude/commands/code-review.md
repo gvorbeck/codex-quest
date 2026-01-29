@@ -2,30 +2,31 @@
 
 World-class React expert code review focusing on UI component usage, accessibility, performance, and BFRPG-specific patterns.
 
-## Example
+## Automatic File Detection
 
-```bash
-/code-review src/components/character/creation/SpellChecklistSelector.tsx
-```
+This command automatically reviews all untracked and modified files in the repository. No arguments needed.
 
-The files to review: $ARGUMENTS
+## Important
+
+This command ONLY provides analysis and identifies issues. It does NOT make any code edits or modifications.
 
 ## Review Process
 
+First, run `git status --short` to identify all untracked (marked with ??) and modified (marked with M) files to review.
+
 **Priority Order:**
 
-1. 🔥 UI Component Usage (Critical)
-2. 🔴 Code Duplication
-3. 🔵 Data Management & Caching
-4. 🟡 Performance & Best Practices
-5. 🟢 Architecture & Maintainability
+1. UI Component Usage (Critical)
+2. Code Duplication
+3. Data Management & Caching
+4. Performance & Best Practices
+5. Architecture & Maintainability
 
 ### 1. UI Component Audit (HIGHEST PRIORITY)
 
 - Cross-reference ALL UI elements with `/src/components/ui/` inventory
 - Flag custom implementations that should use existing components
 - Calculate potential LOC reduction from UI component adoption
-- Rate usage: ✨ Excellent → 🔴 Critical
 
 **Available UI Components:**
 
@@ -71,40 +72,24 @@ The files to review: $ARGUMENTS
 
 ## Output Format
 
-**🔥 UI Component Usage**: [Rating] - [Specific missing components]
+Provide a numbered list of issues ranked by priority from highest to lowest. Each issue should include:
 
-**🔴 Critical Issues**:
+**Format per issue:**
+[Number]. [File path]:[line number if applicable] - [Brief description]
+   - **Category**: [UI Component Usage | Code Duplication | Data Management | Performance | Architecture | Security | Accessibility]
+   - **Fix**: [Specific solution with code example]
+   - **Impact**: [Why it matters]
 
-- **Issue**: [Brief description]
-- **Fix**: [Specific solution with code example]
-- **Impact**: [Why it matters]
+**Example:**
+1. src/components/MyComponent.tsx:45 - Custom button implementation duplicates existing UI component
+   - **Category**: UI Component Usage
+   - **Fix**: Replace `<button className="...">` with `<Button variant="primary">`
+   - **Impact**: Reduces 15 LOC, ensures design system consistency
 
-**🟡 Improvements**:
-
-- **Issue**: [Description]
-- **Fix**: [Solution]
-- **Impact**: [Benefit]
-
-**🔵 Data Management**:
-
-- **Query Strategy**: [TanStack Query usage, caching, invalidation]
-- **State Management**: [Zustand store patterns, persistence]
-- **Mutations**: [Error handling, optimistic updates, rollback]
-
-**🟢 Strengths**:
-
-- [What works well]
-
-**📊 Metrics**:
-
-- LOC reduction potential: [number]
-- UI components missing: [count]
-- Duplication instances: [count]
-- Query/mutation optimization opportunities: [count]
-- Store usage consistency: [rating]
-
-**⚡ Quick Wins** (implement first):
-
-1. [Highest impact, lowest effort changes]
-
-Keep total output under 400 words. Focus on actionable items with code examples.
+**Requirements:**
+- NO emojis anywhere in the output
+- Issues ordered strictly by priority (most critical first)
+- Include specific file paths and line numbers
+- Provide concrete code examples for fixes
+- Focus on actionable items only
+- Keep descriptions clear and concise
