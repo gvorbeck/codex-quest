@@ -3,10 +3,10 @@ import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { CharacterCard } from "./CharacterCard";
 import ImportCharacterModal from "./ImportCharacterModal";
 import ExportCharacterModal from "./ExportCharacterModal";
-import { useAuth } from "@/hooks";
+import { useAuth, useInitialLoadingState } from "@/hooks";
 import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
 import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Select, Button } from "@/components/ui";
 import type { CharacterListItem } from "@/services";
 
@@ -59,17 +59,13 @@ export function CharactersList() {
   }>({ isOpen: false, character: null });
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [exportModalOpen, setExportModalOpen] = useState(false);
-  const [isInitialMount, setIsInitialMount] = useState(true);
 
-  // Track initial mount to show skeleton during tab switch
-  useEffect(() => {
-    if (isInitialMount && !isLoading && !isFetching) {
-      setIsInitialMount(false);
-    }
-  }, [isInitialMount, isLoading, isFetching]);
-
-  // Show loading skeleton on initial mount or when fetching with no data
-  const loading = isInitialMount || isLoading || (isFetching && characters.length === 0);
+  // Use custom hook for loading state management
+  const loading = useInitialLoadingState(
+    isLoading,
+    isFetching,
+    characters.length > 0
+  );
 
   const sortedCharacters = useMemo(
     () => sortCharacters(characters, sortBy),

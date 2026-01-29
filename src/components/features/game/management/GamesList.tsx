@@ -3,8 +3,8 @@ import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { GameCard } from "./GameCard";
 import { useEnhancedGames } from "@/hooks/queries/useEnhancedQueries";
 import { useGameMutations } from "@/hooks/mutations/useEnhancedMutations";
-import { useAuth } from "@/hooks";
-import { useState, useEffect } from "react";
+import { useAuth, useInitialLoadingState } from "@/hooks";
+import { useState } from "react";
 
 export function GamesList() {
   const {
@@ -21,17 +21,13 @@ export function GamesList() {
     isOpen: boolean;
     game: { id: string; name: string } | null;
   }>({ isOpen: false, game: null });
-  const [isInitialMount, setIsInitialMount] = useState(true);
 
-  // Track initial mount to show skeleton during tab switch
-  useEffect(() => {
-    if (isInitialMount && !isLoading && !isFetching) {
-      setIsInitialMount(false);
-    }
-  }, [isInitialMount, isLoading, isFetching]);
-
-  // Show loading skeleton on initial mount or when fetching with no data
-  const loading = isInitialMount || isLoading || (isFetching && games.length === 0);
+  // Use custom hook for loading state management
+  const loading = useInitialLoadingState(
+    isLoading,
+    isFetching,
+    games.length > 0
+  );
 
   const handleDeleteGame = (gameId: string, gameName: string) => {
     if (!user) return;
