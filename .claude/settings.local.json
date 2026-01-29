@@ -37,7 +37,8 @@
       "Bash(/dev/null)",
       "Bash(npm run test:*)",
       "Bash(done)",
-      "Bash(gh issue view:*)"
+      "Bash(gh issue view:*)",
+      "Bash(npm update:*)"
     ],
     "deny": [
       "Bash(npm run dev)"
