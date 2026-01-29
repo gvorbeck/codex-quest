@@ -330,7 +330,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                   </div>
                 </div>
               ) : (
-                <div className="group relative flex items-center justify-center gap-2">
+                <div className="group relative flex items-center justify-center gap-2 max-w-full sm:max-w-[calc(100%-40px)]">
                   <Typography
                     as="h1"
                     variant="h1"

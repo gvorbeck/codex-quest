@@ -20,6 +20,7 @@ import {
 } from "@/validation";
 import { allRaces, allClasses } from "@/data";
 import { logger, createEmptyCharacter, getRaceById } from "@/utils";
+import { COMBINATION_CLASS_IDS } from "@/constants";
 
 function CharGen() {
   const { user } = useAuth();
@@ -121,8 +122,9 @@ function CharGen() {
   useEffect(() => {
     if (useCombinationClass && character.race) {
       const selectedRace = getRaceById(character.race);
-      const canUseCombinationClasses =
-        selectedRace && ["elf", "dokkalfar"].includes(selectedRace.id);
+      const canUseCombinationClasses = selectedRace?.allowedClasses.some((cls) =>
+        COMBINATION_CLASS_IDS.includes(cls)
+      );
 
       if (!canUseCombinationClasses) {
         updatePreferences({ useCombinationClass: false });

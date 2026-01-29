@@ -22,6 +22,25 @@ export const CHARACTER_CLASSES = {
   MAGIC_USER_THIEF: "magic-user-thief",
 } as const;
 
+// Combination class definitions
+export const COMBINATION_CLASSES = [
+  {
+    id: CHARACTER_CLASSES.FIGHTER_MAGIC_USER,
+    name: "Fighter/Magic-User",
+    description: "Combines martial prowess with arcane magic. Can cast spells while wearing armor.",
+    baseClasses: ["Fighter", "Magic-User"],
+  },
+  {
+    id: CHARACTER_CLASSES.MAGIC_USER_THIEF,
+    name: "Magic-User/Thief",
+    description: "Blends arcane mastery with stealth and cunning. Can cast spells while wearing leather armor.",
+    baseClasses: ["Magic-User", "Thief"],
+  },
+] as const;
+
+// Combination class IDs for programmatic checks (derived from COMBINATION_CLASSES)
+export const COMBINATION_CLASS_IDS = COMBINATION_CLASSES.map((c) => c.id) as readonly string[];
+
 // Equipment Categories
 export const EQUIPMENT_CATEGORIES = {
   GENERAL: "general-equipment",

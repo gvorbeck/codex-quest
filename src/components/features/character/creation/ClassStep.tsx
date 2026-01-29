@@ -24,6 +24,7 @@ import {
 } from "@/utils";
 import type { Spell, Cantrip, BaseStepProps, Character } from "@/types";
 import { useCharacterStore } from "@/stores";
+import { COMBINATION_CLASS_IDS } from "@/constants";
 import { memo, useState, useEffect, useMemo } from "react";
 
 interface ClassStepProps extends BaseStepProps {
@@ -63,29 +64,36 @@ function ClassStepComponent({
   );
 
   // Filter classes based on race restrictions and supplemental content setting
+  // Excludes combination classes - those are shown separately via CombinationClassSelector
   const availableClasses = useMemo(() => {
     // Custom races have no class restrictions
     if (hasCustomRace(character)) {
       return allClasses.filter(
-        (cls) => includeSupplementalClass || !cls.supplementalContent
+        (cls) =>
+          (includeSupplementalClass || !cls.supplementalContent) &&
+          !COMBINATION_CLASS_IDS.includes(cls.id)
       );
     }
 
     return allClasses.filter(
       (cls) =>
         selectedRace?.allowedClasses.includes(cls.id) &&
-        (includeSupplementalClass || !cls.supplementalContent)
+        (includeSupplementalClass || !cls.supplementalContent) &&
+        !COMBINATION_CLASS_IDS.includes(cls.id)
     );
   }, [selectedRace, includeSupplementalClass, character]);
 
   // Check if the character's race can use combination classes
+  // A race can use combination classes if their allowedClasses includes any combination class ID
   const canUseCombinationClasses = useMemo(() => {
     // Custom races can use combination classes
     if (hasCustomRace(character)) {
       return true;
     }
     return (
-      selectedRace && ["elf", "dokkalfar", "half-elf"].includes(selectedRace.id)
+      selectedRace?.allowedClasses.some((cls) =>
+        COMBINATION_CLASS_IDS.includes(cls)
+      ) ?? false
     );
   }, [selectedRace, character]);
 
@@ -226,7 +234,30 @@ function ClassStepComponent({
     });
   };
 
-  // Get current class display name
+  // Get spell-related data for current class configuration
+  // Only magic-user types get starting spells at level 1 (they have Read Magic)
+  // Cleric types start getting spells at level 2
+  const characterSpellSystemType = getCharacterSpellSystemType(character);
+  const shouldShowStartingSpells =
+    characterSpellSystemType === "magic-user" ||
+    characterSpellSystemType === "custom";
+
+  const showStandardSpellSelection =
+    availableSpells.length > 0 && shouldShowStartingSpells;
+
+  // Memoized cantrip selector props to avoid duplication
+  const showCantrips = character.settings?.showCantrips !== false;
+  const cantripSelectorProps = useMemo(() => {
+    const spellTypeInfo = getSpellTypeInfo(character);
+    return {
+      title: `Starting ${spellTypeInfo.capitalized}`,
+      description: `You automatically know **${
+        character.cantrips?.length || 0
+      }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
+        spellTypeInfo.abilityScore
+      } bonus). You may change your selection below.`,
+    };
+  }, [character]);
 
   // Check if we have a race selected (either standard or custom)
   const hasRaceSelected = character.race && character.race.length > 0;
@@ -246,17 +277,6 @@ function ClassStepComponent({
       </StepWrapper>
     );
   }
-
-  // Get spell-related data for current class configuration
-  // Only magic-user types get starting spells at level 1 (they have Read Magic)
-  // Cleric types start getting spells at level 2
-  const characterSpellSystemType = getCharacterSpellSystemType(character);
-  const shouldShowStartingSpells =
-    characterSpellSystemType === "magic-user" ||
-    characterSpellSystemType === "custom";
-
-  const showStandardSpellSelection =
-    availableSpells.length > 0 && shouldShowStartingSpells;
 
   return (
     <StepWrapper
@@ -342,23 +362,13 @@ function ClassStepComponent({
                 isLoading={isLoadingSpells}
               />
 
-              {character.settings?.showCantrips !== false && (
+              {showCantrips && (
                 <CantripSelector
                   character={character}
                   onCantripChange={handleCantripChange}
                   mode="creation"
-                  title={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `Starting ${spellTypeInfo.capitalized}`;
-                  })()}
-                  description={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know **${
-                      character.cantrips?.length || 0
-                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                      spellTypeInfo.abilityScore
-                    } bonus). You may change your selection below.`;
-                  })()}
+                  title={cantripSelectorProps.title}
+                  description={cantripSelectorProps.description}
                 />
               )}
             </>
@@ -376,23 +386,13 @@ function ClassStepComponent({
                 isLoading={isLoadingAllSpells}
               />
 
-              {character.settings?.showCantrips !== false && (
+              {showCantrips && (
                 <CantripSelector
                   character={character}
                   onCantripChange={handleCantripChange}
                   mode="creation"
-                  title={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `Starting ${spellTypeInfo.capitalized}`;
-                  })()}
-                  description={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know **${
-                      character.cantrips?.length || 0
-                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                      spellTypeInfo.abilityScore
-                    } bonus). You may change your selection below.`;
-                  })()}
+                  title={cantripSelectorProps.title}
+                  description={cantripSelectorProps.description}
                 />
               )}
             </>
@@ -403,6 +403,7 @@ function ClassStepComponent({
           <CombinationClassSelector
             character={character}
             onCombinationChange={handleCombinationClassChange}
+            raceAllowedClasses={selectedRace?.allowedClasses}
           />
 
           {/* Standard spell selection for built-in combination classes */}
@@ -418,23 +419,13 @@ function ClassStepComponent({
                 isLoading={isLoadingSpells}
               />
 
-              {character.settings?.showCantrips !== false && (
+              {showCantrips && (
                 <CantripSelector
                   character={character}
                   onCantripChange={handleCantripChange}
                   mode="creation"
-                  title={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `Starting ${spellTypeInfo.capitalized}`;
-                  })()}
-                  description={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know **${
-                      character.cantrips?.length || 0
-                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                      spellTypeInfo.abilityScore
-                    } bonus). You may change your selection below.`;
-                  })()}
+                  title={cantripSelectorProps.title}
+                  description={cantripSelectorProps.description}
                 />
               )}
             </>
@@ -452,23 +443,13 @@ function ClassStepComponent({
                 isLoading={isLoadingAllSpells}
               />
 
-              {character.settings?.showCantrips !== false && (
+              {showCantrips && (
                 <CantripSelector
                   character={character}
                   onCantripChange={handleCantripChange}
                   mode="creation"
-                  title={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `Starting ${spellTypeInfo.capitalized}`;
-                  })()}
-                  description={(() => {
-                    const spellTypeInfo = getSpellTypeInfo(character);
-                    return `You automatically know **${
-                      character.cantrips?.length || 0
-                    }** starting ${spellTypeInfo.type} (rolled 1d4 + ${
-                      spellTypeInfo.abilityScore
-                    } bonus). You may change your selection below.`;
-                  })()}
+                  title={cantripSelectorProps.title}
+                  description={cantripSelectorProps.description}
                 />
               )}
             </>
