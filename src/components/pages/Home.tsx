@@ -36,10 +36,10 @@ function Home() {
                 <Tab value="games">Games</Tab>
               </TabList>
               <TabPanels>
-                <TabPanel value="characters" forceMount>
+                <TabPanel value="characters">
                   <CharactersList />
                 </TabPanel>
-                <TabPanel value="games" forceMount>
+                <TabPanel value="games">
                   <GamesList />
                 </TabPanel>
               </TabPanels>

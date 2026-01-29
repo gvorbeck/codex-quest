@@ -4,16 +4,34 @@ import { GameCard } from "./GameCard";
 import { useEnhancedGames } from "@/hooks/queries/useEnhancedQueries";
 import { useGameMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useAuth } from "@/hooks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function GamesList() {
-  const { data: games = [], isLoading: loading, error, refetch } = useEnhancedGames();
+  const {
+    data: games = [],
+    isLoading,
+    isFetching,
+    error,
+    refetch
+  } = useEnhancedGames();
+
   const { user } = useAuth();
   const { deleteGame, isDeleting } = useGameMutations();
   const [deleteState, setDeleteState] = useState<{
     isOpen: boolean;
     game: { id: string; name: string } | null;
   }>({ isOpen: false, game: null });
+  const [isInitialMount, setIsInitialMount] = useState(true);
+
+  // Track initial mount to show skeleton during tab switch
+  useEffect(() => {
+    if (isInitialMount && !isLoading && !isFetching) {
+      setIsInitialMount(false);
+    }
+  }, [isInitialMount, isLoading, isFetching]);
+
+  // Show loading skeleton on initial mount or when fetching with no data
+  const loading = isInitialMount || isLoading || (isFetching && games.length === 0);
 
   const handleDeleteGame = (gameId: string, gameName: string) => {
     if (!user) return;

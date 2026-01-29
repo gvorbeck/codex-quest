@@ -6,7 +6,7 @@ import ExportCharacterModal from "./ExportCharacterModal";
 import { useAuth } from "@/hooks";
 import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
 import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Select, Button } from "@/components/ui";
 import type { CharacterListItem } from "@/services";
 
@@ -44,10 +44,12 @@ function sortCharacters(
 export function CharactersList() {
   const {
     data: characters = [],
-    isLoading: loading,
+    isLoading,
+    isFetching,
     error,
     refetch,
   } = useEnhancedCharacters();
+
   const { user } = useAuth();
   const { deleteCharacter, isDeleting } = useCharacterMutations();
   const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
@@ -57,6 +59,17 @@ export function CharactersList() {
   }>({ isOpen: false, character: null });
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [isInitialMount, setIsInitialMount] = useState(true);
+
+  // Track initial mount to show skeleton during tab switch
+  useEffect(() => {
+    if (isInitialMount && !isLoading && !isFetching) {
+      setIsInitialMount(false);
+    }
+  }, [isInitialMount, isLoading, isFetching]);
+
+  // Show loading skeleton on initial mount or when fetching with no data
+  const loading = isInitialMount || isLoading || (isFetching && characters.length === 0);
 
   const sortedCharacters = useMemo(
     () => sortCharacters(characters, sortBy),
