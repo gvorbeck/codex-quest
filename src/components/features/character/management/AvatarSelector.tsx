@@ -102,11 +102,11 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
     setUploadError("");
   }, [character, onCharacterChange]);
 
-  const getAvatarDisplayName = (filename: string): string => {
+  const getAvatarDisplayName = useCallback((filename: string): string => {
     // Simply return the index position + 1 for a neutral numbering system
     const index = STOCK_AVATARS.indexOf(filename);
     return `Avatar ${index + 1}`;
-  };
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -176,14 +176,13 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             const isSelected = selectedStockAvatar === avatarPath;
 
             return (
-              <button
+              <Button
                 key={avatar}
-                type="button"
+                variant="ghost"
                 onClick={() => handleStockAvatarSelect(avatar)}
                 aria-label={`Select ${getAvatarDisplayName(avatar)} avatar`}
                 className={`
-                  relative w-16 h-16 rounded-lg border-2 transition-all duration-200
-                  focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-zinc-900
+                  relative w-16 h-16 rounded-lg border-2 transition-all duration-200 p-0
                   ${
                     isSelected
                       ? "border-lime-400 bg-lime-400/10 shadow-[0_2px_0_0_#65a30d]"
@@ -207,7 +206,7 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                     <Icon name="check" size="xs" className="text-zinc-900" />
                   </div>
                 )}
-              </button>
+              </Button>
             );
           })}
         </div>

@@ -10,9 +10,28 @@ interface ImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "size"> {
   alt: string;
   variant?: ImageVariant;
   size?: ImageSize;
-  fallback?: string | React.ReactNode;
+  fallback?: string | React.ReactElement;
   onError?: (error: React.SyntheticEvent<HTMLImageElement>) => void;
 }
+
+// Size styles constant - extracted to module level for performance
+const SIZE_STYLES: Record<ImageSize, string> = {
+  xs: "w-6 h-6",
+  sm: "w-12 h-12",
+  md: "w-16 h-16",
+  lg: "w-24 h-24",
+  xl: "w-32 h-32",
+};
+
+// Helper to get variant styles
+const getVariantStyles = (size?: ImageSize): Record<ImageVariant, string> => ({
+  logo: "",
+  avatar: cn(
+    "rounded-full object-cover border-2 border-zinc-600",
+    size ? SIZE_STYLES[size] : ""
+  ),
+  standard: "object-cover",
+});
 
 /**
  * Image component with consistent loading, error handling, and styling patterns.
@@ -56,25 +75,8 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     const defaultLoading = variant === "logo" ? "eager" : "lazy";
     const imageLoading = loading ?? defaultLoading;
 
-    // Size styles for avatars and logos
-    const sizeStyles: Record<ImageSize, string> = {
-      xs: "w-6 h-6",
-      sm: "w-12 h-12",
-      md: "w-16 h-16",
-      lg: "w-24 h-24",
-      xl: "w-32 h-32",
-    };
-
-    // Variant styles
-    const variantStyles: Record<ImageVariant, string> = {
-      logo: "",
-      avatar: cn(
-        "rounded-full object-cover border-2 border-zinc-600",
-        size ? sizeStyles[size] : ""
-      ),
-      standard: "object-cover",
-    };
-
+    // Get variant styles
+    const variantStyles = getVariantStyles(size);
     const imageClasses = cn(variantStyles[variant], className);
 
     // Show fallback if error occurred and fallback is provided
@@ -84,7 +86,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
         const fallbackClasses = cn(
           "flex items-center justify-center bg-zinc-700 border-2 border-zinc-600 flex-shrink-0",
           variant === "avatar" && "rounded-full",
-          size ? sizeStyles[size] : "",
+          size ? SIZE_STYLES[size] : "",
           className
         );
 
