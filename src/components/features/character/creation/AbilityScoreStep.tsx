@@ -11,7 +11,7 @@ import {
   ABILITY_NAMES,
 } from "@/utils";
 import type { Character, AbilityScore, BaseStepProps } from "@/types";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useValidation } from "@/validation";
 import type { AbilityName } from "@/validation";
 
@@ -33,6 +33,11 @@ function AbilityScoreStep({
   character,
   onCharacterChange,
 }: AbilityScoreStepProps) {
+  // Track which ability is selected for swapping
+  const [selectedAbility, setSelectedAbility] = useState<AbilityName | null>(
+    null
+  );
+
   // Enhanced validation for individual ability scores
   const validationResults = {
     strength: useValidation(
@@ -100,6 +105,51 @@ function AbilityScoreStep({
     onCharacterChange(newCharacter);
   };
 
+  // Swap two ability scores
+  const swapAbilityScores = (ability1: AbilityName, ability2: AbilityName) => {
+    const value1 = character.abilities[ability1].value;
+    const value2 = character.abilities[ability2].value;
+
+    const updatedCharacter: Character = {
+      ...character,
+      abilities: {
+        ...character.abilities,
+        [ability1]: {
+          value: value2,
+          modifier: calculateModifier(value2),
+        },
+        [ability2]: {
+          value: value1,
+          modifier: calculateModifier(value1),
+        },
+      },
+    };
+    onCharacterChange(updatedCharacter);
+  };
+
+  // Check if any ability scores have been rolled
+  const hasRolledScores = (
+    Object.values(character.abilities) as AbilityScore[]
+  ).some((ability) => ability.value > 0);
+
+  // Handle clicking an ability card for swapping
+  const handleAbilityClick = (abilityName: AbilityName) => {
+    // Only allow swapping if scores have been rolled
+    if (!hasRolledScores) return;
+
+    if (selectedAbility === null) {
+      // Nothing selected, select this ability
+      setSelectedAbility(abilityName);
+    } else if (selectedAbility === abilityName) {
+      // Same ability clicked, deselect
+      setSelectedAbility(null);
+    } else {
+      // Different ability clicked, swap and clear selection
+      swapAbilityScores(selectedAbility, abilityName);
+      setSelectedAbility(null);
+    }
+  };
+
   // Flip all ability scores (subtract from 21)
   const flipAbilityScores = () => {
     const newCharacter = { ...character };
@@ -119,11 +169,6 @@ function AbilityScoreStep({
 
     onCharacterChange(newCharacter);
   };
-
-  // Check if any ability scores have been rolled
-  const hasRolledScores = (
-    Object.values(character.abilities) as AbilityScore[]
-  ).some((ability) => ability.value > 0);
 
   // Get the status message for screen readers with validation feedback
   const getStatusMessage = () => {
@@ -195,38 +240,72 @@ function AbilityScoreStep({
           Ability Scores
         </Typography>
 
+        {/* Swap hint message */}
+        {hasRolledScores && (
+          <Typography variant="body" color="zinc" className="mb-4">
+            {selectedAbility
+              ? `Click another ability to swap with ${selectedAbility}, or click ${selectedAbility} again to cancel.`
+              : "Click any ability name to select it, then click another to swap their scores."}
+          </Typography>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {(
             Object.entries(character.abilities) as [
               keyof Character["abilities"],
               AbilityScore
             ][]
-          ).map(([abilityName, ability]) => (
-            <Card key={abilityName} variant="standard" hover={true}>
-              {/* Ability Name */}
-              <div className="flex items-center justify-between mb-3">
-                <label
-                  className="text-base font-semibold text-zinc-100 capitalize"
-                  htmlFor={`ability-${abilityName}`}
+          ).map(([abilityName, ability]) => {
+            const isSelected = selectedAbility === abilityName;
+            return (
+              <Card
+                key={abilityName}
+                variant="standard"
+                hover={true}
+                className={
+                  isSelected
+                    ? "ring-2 ring-amber-500 border-amber-500"
+                    : undefined
+                }
+              >
+                {/* Ability Name - clickable for swapping */}
+                <button
+                  type="button"
+                  onClick={() => handleAbilityClick(abilityName as AbilityName)}
+                  disabled={!hasRolledScores}
+                  aria-pressed={isSelected}
+                  aria-label={
+                    hasRolledScores
+                      ? isSelected
+                        ? `${abilityName} selected for swap. Click another ability to swap, or click again to deselect.`
+                        : `Select ${abilityName} to swap with another ability`
+                      : abilityName
+                  }
+                  className={`flex items-center justify-between mb-3 w-full text-left rounded p-1 -m-1 transition-colors ${
+                    hasRolledScores
+                      ? "cursor-pointer hover:bg-zinc-700/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-800"
+                      : "cursor-default"
+                  }`}
                 >
-                  {abilityName}
-                </label>
-                {ability.value > 0 && (
-                  <div
-                    className="text-sm text-zinc-300 bg-zinc-700 px-2 py-1 rounded border border-zinc-600"
-                    aria-label={`${abilityName} modifier: ${
-                      ability.modifier >= 0 ? "plus " : "minus "
-                    }${Math.abs(ability.modifier)}. ${getModifierDescription(
-                      ability.modifier
-                    )}`}
-                  >
-                    <span className="font-medium">
-                      Modifier: {ability.modifier >= 0 ? "+" : ""}
-                      {ability.modifier}
-                    </span>
-                  </div>
-                )}
-              </div>
+                  <span className="text-base font-semibold text-zinc-100 capitalize">
+                    {abilityName}
+                  </span>
+                  {ability.value > 0 && (
+                    <div
+                      className="text-sm text-zinc-300 bg-zinc-700 px-2 py-1 rounded border border-zinc-600"
+                      aria-label={`${abilityName} modifier: ${
+                        ability.modifier >= 0 ? "plus " : "minus "
+                      }${Math.abs(ability.modifier)}. ${getModifierDescription(
+                        ability.modifier
+                      )}`}
+                    >
+                      <span className="font-medium">
+                        Modifier: {ability.modifier >= 0 ? "+" : ""}
+                        {ability.modifier}
+                      </span>
+                    </div>
+                  )}
+                </button>
 
               {/* Dice Roller */}
               <SimpleRoller
@@ -254,7 +333,8 @@ function AbilityScoreStep({
                 </div>
               )}
             </Card>
-          ))}
+            );
+          })}
         </div>
       </section>
 
