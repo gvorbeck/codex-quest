@@ -7,7 +7,7 @@ export const gnome: Race = {
     "Gnomes are small and stocky, more so than halflings but not as much as dwarves. They are renowned for their rapidly-changing moods, sometimes gruff and contrary, sometimes whimsical and humorous.",
   physicalDescription:
     "Both male and female gnomes stand around three and a half feet tall and typically weigh around 90 pounds. Their hair and beards may be blond, brown, black, or sometimes red. They have a fair to ruddy complexion. The most noticeable features about a gnome from the standpoint of other races is their pointed ears and noses.",
-  allowedClasses: ["cleric", "druid", "fighter", "magic-user", "illusionist", "thief", "paladin"],
+  allowedClasses: ["cleric", "druid", "fighter", "magic-user", "illusionist", "thief", "paladin", "magic-user-thief"],
   abilityRequirements: [
     {
       ability: "constitution",

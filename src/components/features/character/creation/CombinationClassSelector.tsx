@@ -2,40 +2,32 @@ import { Select } from "@/components/ui/core/primitives";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { Icon } from "@/components/ui";
 import type { Character } from "@/types";
-import { LAYOUT_STYLES, CHARACTER_CLASSES } from "@/constants";
+import { LAYOUT_STYLES, COMBINATION_CLASSES } from "@/constants";
 import { memo } from "react";
 import { getClassById } from "@/utils";
 
 interface CombinationClassSelectorProps {
   character: Character;
   onCombinationChange: (combinationClassId: string) => void;
+  raceAllowedClasses?: string[] | undefined;
 }
-
-const COMBINATION_CLASSES = [
-  {
-    id: CHARACTER_CLASSES.FIGHTER_MAGIC_USER,
-    name: "Fighter/Magic-User",
-    description: "Combines martial prowess with arcane magic. Can cast spells while wearing armor.",
-    baseClasses: ["Fighter", "Magic-User"],
-  },
-  {
-    id: CHARACTER_CLASSES.MAGIC_USER_THIEF,
-    name: "Magic-User/Thief",
-    description: "Blends arcane mastery with stealth and cunning. Can cast spells while wearing leather armor.",
-    baseClasses: ["Magic-User", "Thief"],
-  },
-];
 
 function CombinationClassSelectorComponent({
   character,
   onCombinationChange,
+  raceAllowedClasses,
 }: CombinationClassSelectorProps) {
-  const combinationClassOptions = COMBINATION_CLASSES.map((combo) => ({
+  // Filter combination classes based on race restrictions
+  const availableCombinationClasses = raceAllowedClasses
+    ? COMBINATION_CLASSES.filter((combo) => raceAllowedClasses.includes(combo.id))
+    : COMBINATION_CLASSES;
+
+  const combinationClassOptions = availableCombinationClasses.map((combo) => ({
     value: combo.id,
     label: combo.name,
   }));
 
-  const selectedCombination = COMBINATION_CLASSES.find(
+  const selectedCombination = availableCombinationClasses.find(
     (combo) => combo.id === character.class
   );
 
