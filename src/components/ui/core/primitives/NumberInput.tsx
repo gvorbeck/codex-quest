@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useId, useEffect } from "react";
+import React, { forwardRef, useState, useId } from "react";
 import { cn } from "@/utils";
 import { DESIGN_TOKENS } from "@/constants";
 
@@ -55,6 +55,17 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const [inputValue, setInputValue] = useState(
       value !== undefined ? value.toString() : ""
     );
+    const [prevValue, setPrevValue] = useState(value);
+
+    // Sync inputValue with value prop during render
+    if (value !== prevValue) {
+      setPrevValue(value);
+      if (value !== undefined) {
+        setInputValue(value.toString());
+      } else {
+        setInputValue("");
+      }
+    }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const inputVal = event.target.value;
@@ -142,14 +153,6 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       }
     };
 
-    // Update local state when value prop changes
-    useEffect(() => {
-      if (value !== undefined) {
-        setInputValue(value.toString());
-      } else {
-        setInputValue("");
-      }
-    }, [value]);
 
     // Base styles consistent with Button component
     const baseStyles = [

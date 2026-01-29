@@ -110,15 +110,17 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(character.name);
+    const [prevCharacterName, setPrevCharacterName] = useState(character.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
     const currentSize = getSizeStyles(size);
 
     const isEditable = editable && onCharacterChange;
 
-    // Update local name value when character prop changes
-    useEffect(() => {
+    // Sync local name value when character prop changes during render
+    if (character.name !== prevCharacterName) {
+      setPrevCharacterName(character.name);
       setNameValue(character.name);
-    }, [character.name]);
+    }
 
     // Focus input when entering edit mode
     useEffect(() => {

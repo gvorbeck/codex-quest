@@ -1,4 +1,4 @@
-import React, { useState, useId, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useId, useMemo, useCallback } from "react";
 import { TextInput } from "@/components/ui/core/primitives";
 import { Card, Typography } from "@/components/ui/core/display";
 import { useDebounce } from "@/hooks";
@@ -167,12 +167,17 @@ function Accordion<T extends AccordionItem>({
     setSearchTerm(value);
   }, []);
 
-  // Auto-expand sections when search is applied (using debounced search term)
-  useEffect(() => {
+  // Track previous debounced search term for auto-expand logic
+  const [prevDebouncedSearchTerm, setPrevDebouncedSearchTerm] =
+    useState(debouncedSearchTerm);
+
+  // Auto-expand sections when search is applied during render
+  if (debouncedSearchTerm !== prevDebouncedSearchTerm) {
+    setPrevDebouncedSearchTerm(debouncedSearchTerm);
     if (debouncedSearchTerm.trim()) {
       setExpandedSections(new Set(Object.keys(groupedItems)));
     }
-  }, [debouncedSearchTerm, groupedItems]);
+  }
 
   const handleSearchClear = useCallback(() => {
     setSearchTerm("");

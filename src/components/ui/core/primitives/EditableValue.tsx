@@ -54,17 +54,19 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
   ) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
+    const [prevValue, setPrevValue] = useState(value);
     const inputRef = useRef<HTMLInputElement>(null);
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
     const lastCommittedValueRef = useRef(value);
 
     // Sync local value when external value changes (but not during active editing)
-    useEffect(() => {
+    if (value !== prevValue) {
+      setPrevValue(value);
       if (!isEditing && value !== lastCommittedValueRef.current) {
         setLocalValue(value);
         lastCommittedValueRef.current = value;
       }
-    }, [value, isEditing]);
+    }
 
     // Cleanup debounce timer on unmount
     useEffect(() => {
