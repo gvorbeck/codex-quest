@@ -304,10 +304,9 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
               ) : (
                 <div className="group relative flex items-center justify-center gap-2 max-w-full sm:max-w-[calc(100%-40px)]">
                   {isEditable ? (
-                    <Button
-                      variant="ghost"
+                    <button
                       onClick={handleNameClick}
-                      className={cn(nameTypographyClasses, "p-0 h-auto")}
+                      className={nameTypographyClasses}
                       aria-label="Click to edit character name"
                     >
                       <Typography
@@ -319,7 +318,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                       >
                         {character.name}
                       </Typography>
-                    </Button>
+                    </button>
                   ) : (
                     <Typography
                       as="h1"
