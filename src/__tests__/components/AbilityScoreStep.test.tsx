@@ -59,12 +59,13 @@ describe("AbilityScoreStep Component", () => {
     it("renders all six ability score sections", () => {
       render(<AbilityScoreStep {...defaultProps} />);
 
-      expect(screen.getByLabelText(/strength/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/dexterity/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/constitution/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/intelligence/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/wisdom/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/charisma/i)).toBeInTheDocument();
+      // Each ability has multiple labeled elements (swap button + dice roller)
+      expect(screen.getAllByLabelText(/strength/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/dexterity/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/constitution/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/intelligence/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/wisdom/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/charisma/i).length).toBeGreaterThan(0);
     });
   });
 

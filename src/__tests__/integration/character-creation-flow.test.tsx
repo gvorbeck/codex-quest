@@ -170,12 +170,13 @@ describe("Character Creation Integration Tests", () => {
       ).toBeInTheDocument();
 
       // Check that all ability score inputs have proper labels
-      expect(screen.getByLabelText(/strength/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/dexterity/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/constitution/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/intelligence/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/wisdom/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/charisma/i)).toBeInTheDocument();
+      // Each ability has multiple labeled elements (swap button + dice roller)
+      expect(screen.getAllByLabelText(/strength/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/dexterity/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/constitution/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/intelligence/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/wisdom/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByLabelText(/charisma/i).length).toBeGreaterThan(0);
     });
   });
 
