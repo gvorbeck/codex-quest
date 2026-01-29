@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import type { GamePlayer } from "@/types";
 import { GAME_SHEET_STYLES } from "@/constants";
-import { Typography, Card, Badge } from "@/components/ui/core/display";
+import { Typography, Card, Badge, Image } from "@/components/ui/core/display";
 import { Button } from "@/components/ui/core/primitives";
 import { getClassById, getRaceById, getImportantAbilities } from "@/utils";
 import { ABILITY_BADGE_VARIANTS } from "@/constants";
@@ -103,23 +103,14 @@ export const PlayerCard = memo(
       >
         <div className="flex-1">
           <div className="flex items-start gap-3 mb-3">
-            {avatar ? (
-              <img
-                src={avatar}
-                alt=""
-                className="w-12 h-12 rounded-full object-cover border-2 border-zinc-600 flex-shrink-0"
-                loading="lazy"
-              />
-            ) : (
-              <div
-                className="w-12 h-12 rounded-full bg-zinc-700 border-2 border-zinc-600 flex items-center justify-center flex-shrink-0"
-                aria-hidden="true"
-              >
-                <span className="text-zinc-300 font-bold text-sm">
-                  {getInitials(characterName)}
-                </span>
-              </div>
-            )}
+            <Image
+              variant="avatar"
+              size="sm"
+              src={avatar || ""}
+              alt=""
+              className="border-2 border-zinc-600 flex-shrink-0"
+              fallback={getInitials(characterName)}
+            />
 
             <div className="flex-1 min-w-0">
               <Typography

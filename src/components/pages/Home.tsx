@@ -1,9 +1,10 @@
 import { useLocation } from "wouter";
-import { Card } from "@/components/ui";
+import { Card, Image } from "@/components/ui";
 import { FABGroup } from "@/components/ui/core/primitives/FloatingActionButton";
 import { Icon, HeroSection, FeatureCard } from "@/components/ui/composite";
 import { TextHeader } from "@/components/ui/composite/TextHeader";
 import { PageWrapper } from "@/components/ui/core/layout";
+import { LoadingState } from "@/components/ui/core/feedback";
 import {
   Tabs,
   TabList,
@@ -17,20 +18,30 @@ import { useAuth } from "@/hooks";
 import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
 
 function Home() {
-  const { user } = useAuth();
-  const { data: characters = [], isLoading: loading } = useEnhancedCharacters();
+  const { user, loading: authLoading } = useAuth();
+  const { data: characters = [], isLoading: charactersLoading } = useEnhancedCharacters();
   const [, setLocation] = useLocation();
 
   const hasCharacters = characters.length > 0;
-  const showWelcomeContent = !user || (!hasCharacters && !loading);
+  const showWelcomeContent = !authLoading && (!user || (!hasCharacters && !charactersLoading));
 
   return (
     <PageWrapper>
       <section className="space-y-6 sm:space-y-8">
-        {/* Show character list for authenticated users */}
-        {user && (
+        {/* Show loading state while checking authentication */}
+        {authLoading && (
           <Card variant="standard" size="compact" className="sm:p-6">
-            <Tabs defaultValue="characters" variant="underline" size="sm">
+            <LoadingState
+              variant="inline"
+              message="Loading your adventure..."
+            />
+          </Card>
+        )}
+
+        {/* Show character list for authenticated users */}
+        {!authLoading && user && (
+          <Card variant="standard" size="compact" className="sm:p-6">
+            <Tabs defaultValue="characters" variant="underline" size="md">
               <TabList aria-label="Main navigation">
                 <Tab value="characters">Characters</Tab>
                 <Tab value="games">Games</Tab>
@@ -48,13 +59,14 @@ function Home() {
         )}
 
         {/* Welcome content - only show if user has no characters or not authenticated */}
-        {showWelcomeContent && (
+        {!authLoading && showWelcomeContent && (
           <>
             <HeroSection
               title="Welcome to Codex.Quest"
               subtitle="Forge your legendary hero with our comprehensive character generator for Basic Fantasy RPG. Roll ability scores, choose from diverse races and classes, and equip your adventurer for epic quests ahead."
               logo={
-                <img
+                <Image
+                  variant="logo"
                   src="/images/logo.webp"
                   alt="Codex.Quest Logo"
                   className="mb-8 max-w-64 mx-auto"
@@ -108,7 +120,7 @@ function Home() {
       </section>
 
       {/* Floating Action Button Group for authenticated users */}
-      {user && (
+      {!authLoading && user && (
         <FABGroup
           position="bottom-right"
           actions={[

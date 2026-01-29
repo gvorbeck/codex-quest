@@ -495,7 +495,7 @@ const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
     const panelClasses = cn(
       "tabs-panel",
       "focus:outline-none",
-      !isSelected && !forceMount && "hidden",
+      !isSelected && "hidden",
       className
     );
 
@@ -505,8 +505,8 @@ const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
         role="tabpanel"
         id={panelId}
         aria-labelledby={tabId}
-        tabIndex={0}
-        hidden={!isSelected && !forceMount}
+        aria-hidden={!isSelected}
+        tabIndex={isSelected ? 0 : -1}
         className={panelClasses}
         {...props}
       >

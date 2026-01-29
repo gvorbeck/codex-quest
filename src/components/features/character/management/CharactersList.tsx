@@ -3,7 +3,7 @@ import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { CharacterCard } from "./CharacterCard";
 import ImportCharacterModal from "./ImportCharacterModal";
 import ExportCharacterModal from "./ExportCharacterModal";
-import { useAuth } from "@/hooks";
+import { useAuth, useInitialLoadingState } from "@/hooks";
 import { useEnhancedCharacters } from "@/hooks/queries/useEnhancedQueries";
 import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
 import { useState, useMemo } from "react";
@@ -44,10 +44,12 @@ function sortCharacters(
 export function CharactersList() {
   const {
     data: characters = [],
-    isLoading: loading,
+    isLoading,
+    isFetching,
     error,
     refetch,
   } = useEnhancedCharacters();
+
   const { user } = useAuth();
   const { deleteCharacter, isDeleting } = useCharacterMutations();
   const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
@@ -57,6 +59,13 @@ export function CharactersList() {
   }>({ isOpen: false, character: null });
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [exportModalOpen, setExportModalOpen] = useState(false);
+
+  // Use custom hook for loading state management
+  const loading = useInitialLoadingState(
+    isLoading,
+    isFetching,
+    characters.length > 0
+  );
 
   const sortedCharacters = useMemo(
     () => sortCharacters(characters, sortBy),

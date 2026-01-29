@@ -3,17 +3,31 @@ import { DeletionModal } from "@/components/modals/base/ConfirmationModal";
 import { GameCard } from "./GameCard";
 import { useEnhancedGames } from "@/hooks/queries/useEnhancedQueries";
 import { useGameMutations } from "@/hooks/mutations/useEnhancedMutations";
-import { useAuth } from "@/hooks";
+import { useAuth, useInitialLoadingState } from "@/hooks";
 import { useState } from "react";
 
 export function GamesList() {
-  const { data: games = [], isLoading: loading, error, refetch } = useEnhancedGames();
+  const {
+    data: games = [],
+    isLoading,
+    isFetching,
+    error,
+    refetch
+  } = useEnhancedGames();
+
   const { user } = useAuth();
   const { deleteGame, isDeleting } = useGameMutations();
   const [deleteState, setDeleteState] = useState<{
     isOpen: boolean;
     game: { id: string; name: string } | null;
   }>({ isOpen: false, game: null });
+
+  // Use custom hook for loading state management
+  const loading = useInitialLoadingState(
+    isLoading,
+    isFetching,
+    games.length > 0
+  );
 
   const handleDeleteGame = (gameId: string, gameName: string) => {
     if (!user) return;

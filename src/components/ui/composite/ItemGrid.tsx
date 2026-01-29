@@ -36,7 +36,8 @@ export function ItemGrid<T extends { id: string }>({
   renderItem,
   onRetry,
 }: ItemGridProps<T>) {
-  if (loading) {
+  // Show loading skeleton when loading AND no items yet
+  if (loading && items.length === 0) {
     return (
       <div className="space-y-4 sm:space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">

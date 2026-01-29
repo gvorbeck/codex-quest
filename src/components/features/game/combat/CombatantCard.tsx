@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/core/primitives";
-import { Typography, Card, Badge } from "@/components/ui/core/display";
+import { Typography, Card, Badge, Image } from "@/components/ui/core/display";
 import type { CombatantWithInitiative } from "@/types";
 
 interface CombatantCardProps {
@@ -30,10 +30,12 @@ export default function CombatantCard({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {combatant.avatar && typeof combatant.avatar === "string" && (
-            <img
+            <Image
+              variant="avatar"
+              size="xs"
               src={combatant.avatar}
               alt={`${combatant.name} avatar`}
-              className="w-6 h-6 rounded-full flex-shrink-0"
+              className="flex-shrink-0"
             />
           )}
           <div className="flex-1">

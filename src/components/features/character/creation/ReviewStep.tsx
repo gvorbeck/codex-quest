@@ -2,8 +2,7 @@ import { useCallback, useMemo, memo } from "react";
 import { TextInput } from "@/components/ui/core/primitives";
 import { StepWrapper } from "@/components/ui/core/layout";
 import { HorizontalRule } from "@/components/ui/composite";
-import { Icon } from "@/components/ui/core/display";
-import { Card, Typography, Badge } from "@/components/ui/core/display";
+import { Icon, Image, Card, Typography, Badge } from "@/components/ui/core/display";
 import { StatGrid } from "@/components/ui/composite";
 import { LanguageSelector } from "@/components/features/character/creation";
 import { AvatarSelector } from "@/components/features/character/management";
@@ -120,14 +119,12 @@ function ReviewStepComponent({
             {/* Avatar */}
             {character.avatar && (
               <div className="flex-shrink-0 self-center sm:self-start">
-                <img
+                <Image
+                  variant="avatar"
+                  size="lg"
                   src={character.avatar}
                   alt={`${character.name || "Character"} avatar`}
-                  className="w-24 h-24 rounded-full border-3 border-lime-400 object-cover shadow-lg"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = "none";
-                  }}
+                  className="border-3 border-lime-400 shadow-lg"
                 />
               </div>
             )}
