@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { Card } from "@/components/ui";
+import { Card, Image } from "@/components/ui";
 import { FABGroup } from "@/components/ui/core/primitives/FloatingActionButton";
 import { Icon, HeroSection, FeatureCard } from "@/components/ui/composite";
 import { TextHeader } from "@/components/ui/composite/TextHeader";
@@ -65,7 +65,8 @@ function Home() {
               title="Welcome to Codex.Quest"
               subtitle="Forge your legendary hero with our comprehensive character generator for Basic Fantasy RPG. Roll ability scores, choose from diverse races and classes, and equip your adventurer for epic quests ahead."
               logo={
-                <img
+                <Image
+                  variant="logo"
                   src="/images/logo.webp"
                   alt="Codex.Quest Logo"
                   className="mb-8 max-w-64 mx-auto"

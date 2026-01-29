@@ -2,7 +2,7 @@ import { memo } from "react";
 import type { GameCombatant } from "@/types";
 import { GAME_SHEET_STYLES } from "@/constants";
 import { HorizontalRule } from "@/components/ui/composite";
-import { Typography } from "@/components/ui/core/display";
+import { Typography, Image } from "@/components/ui/core/display";
 
 interface CombatantCardProps {
   combatant: GameCombatant;
@@ -22,23 +22,14 @@ const CombatantCard = memo(({ combatant }: CombatantCardProps) => {
   return (
     <div className={`${GAME_SHEET_STYLES.colors.card} p-4`}>
       <div className="flex items-start gap-3">
-        {combatant.avatar ? (
-          <img
-            src={combatant.avatar}
-            alt=""
-            className="w-12 h-12 rounded-full object-cover border-2 border-zinc-600 flex-shrink-0"
-            loading="lazy"
-          />
-        ) : (
-          <div
-            className="w-12 h-12 rounded-full bg-zinc-700 border-2 border-zinc-600 flex items-center justify-center flex-shrink-0"
-            aria-hidden="true"
-          >
-            <span className="text-zinc-300 font-bold text-sm">
-              {getInitials(combatant.name)}
-            </span>
-          </div>
-        )}
+        <Image
+          variant="avatar"
+          size="sm"
+          src={combatant.avatar || ""}
+          alt=""
+          className="border-2 border-zinc-600 flex-shrink-0"
+          fallback={getInitials(combatant.name)}
+        />
 
         <div className="flex-1 min-w-0">
           <Typography

@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useState } from "react";
-import { Button } from "@/components/ui";
+import { Button, Image } from "@/components/ui";
 import { Typography } from "@/components/ui/core/display";
 import { useAuth } from "@/hooks";
 import { signOut, isMockMode, devUtils } from "@/services";
@@ -82,11 +82,11 @@ export function Header({
                 className="flex items-center gap-3 hover:opacity-90 transition-opacity duration-200 group"
               >
                 <div className="relative">
-                  <img
+                  <Image
+                    variant="logo"
                     src="/images/logo.webp"
                     alt={`${isMockMode() ? "Codex.Mock" : "Codex.Quest"} logo`}
                     className="w-10 h-10 sm:w-12 sm:h-12 transition-transform duration-200 group-hover:scale-105"
-                    loading="eager"
                   />
                   <div className="absolute inset-0 bg-amber-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 blur-sm -z-10"></div>
                 </div>

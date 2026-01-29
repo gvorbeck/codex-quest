@@ -4,7 +4,7 @@ import type { Character } from "@/types";
 import { AvatarChangeModal, SettingsModal } from "@/components/modals";
 import { TextInput } from "@/components/ui/core/primitives";
 import { Details } from "@/components/ui/composite";
-import { Icon } from "@/components/ui/core/display";
+import { Icon, Image } from "@/components/ui/core/display";
 import { Typography } from "@/components/ui/core/display";
 import { cn } from "@/utils";
 import { getClassName, isCustomRace, getRaceById } from "@/utils";
@@ -219,11 +219,6 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
       "flex items-center justify-center"
     );
 
-    const avatarFallbackDynamicClasses = cn(
-      "avatar-fallback flex items-center justify-center w-full h-full text-zinc-300 font-bold",
-      currentSize.avatarText
-    );
-
     return (
       <>
         <div
@@ -261,24 +256,12 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
             <div className="relative group flex-shrink-0 self-center sm:self-start">
               <div className={avatarContainerClasses} aria-hidden="true">
                 {character.avatar ? (
-                  <img
+                  <Image
+                    variant="standard"
                     src={character.avatar}
                     alt=""
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Fallback to initials if image fails to load
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      const parent = target.parentElement;
-                      if (parent && !parent.querySelector(".avatar-fallback")) {
-                        const fallback = document.createElement("div");
-                        fallback.className = avatarFallbackDynamicClasses;
-                        fallback.textContent = getAvatarFallback(
-                          character.name
-                        );
-                        parent.appendChild(fallback);
-                      }
-                    }}
+                    className="w-full h-full rounded-full object-cover"
+                    fallback={getAvatarFallback(character.name)}
                   />
                 ) : (
                   <div className={avatarFallbackClasses} aria-hidden="true">

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { FileUpload } from "@/components/ui/core/primitives";
-import { Button, Icon } from "@/components/ui";
+import { Button, Icon, Image } from "@/components/ui";
 import { Card, Typography } from "@/components/ui/core/display";
 import { LAYOUT_STYLES } from "@/constants";
 import type { Character } from "@/types";
@@ -134,14 +134,12 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
             Current Avatar
           </Typography>
           <div className="flex items-center gap-4">
-            <img
+            <Image
+              variant="avatar"
+              size="lg"
               src={character.avatar}
               alt={`${character.name || "Character"} avatar`}
-              className="w-20 h-20 rounded-full border-3 border-lime-400 object-cover shadow-lg"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = "none";
-              }}
+              className="border-3 border-lime-400 shadow-lg"
             />
             <div className="flex-1">
               <div className="text-lime-100 font-medium mb-3">
@@ -193,15 +191,16 @@ function AvatarSelector({ character, onCharacterChange }: AvatarSelectorProps) {
                   }
                 `}
               >
-                <img
+                <Image
+                  variant="standard"
                   src={avatarPath}
                   alt={getAvatarDisplayName(avatar)}
-                  className="w-full h-full rounded-md object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.alt = "Avatar unavailable";
-                    target.className += " bg-zinc-700";
-                  }}
+                  className="w-full h-full rounded-md"
+                  fallback={
+                    <div className="w-full h-full rounded-md bg-zinc-700 flex items-center justify-center">
+                      <span className="text-xs text-zinc-400">N/A</span>
+                    </div>
+                  }
                 />
                 {isSelected && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-lime-400 rounded-full flex items-center justify-center">
