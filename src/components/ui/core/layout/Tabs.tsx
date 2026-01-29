@@ -495,7 +495,7 @@ const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(
     const panelClasses = cn(
       "tabs-panel",
       "focus:outline-none",
-      !isSelected && !forceMount && "hidden",
+      !isSelected && "hidden",
       className
     );
 
