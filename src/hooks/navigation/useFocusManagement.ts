@@ -146,9 +146,23 @@ export const useFocusManagement = ({
     handleKeyDown,
   ]);
 
+  /**
+   * Returns the cached list of focusable elements from the last focus trap update.
+   * Note: This returns cached results, not a fresh DOM query. The cache is updated
+   * when Tab key is pressed during focus trapping. For fresh results, the internal
+   * getFocusableElements callback queries the DOM directly.
+   *
+   * This getter pattern is required by React Compiler rules (eslint-plugin-react-hooks v7.x)
+   * to avoid reading refs during render.
+   */
+  const getCachedFocusableElements = useCallback(() => {
+    return focusableElementsRef.current;
+  }, []);
+
   return {
     containerRef,
-    focusableElements: focusableElementsRef.current,
+    /** Returns cached focusable elements from the last focus trap update */
+    getFocusableElements: getCachedFocusableElements,
     focusFirstElement,
     restoreFocusToTrigger,
   };

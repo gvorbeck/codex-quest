@@ -4,7 +4,6 @@ import {
   useState,
   useCallback,
   forwardRef,
-  useRef,
   useImperativeHandle,
   useEffect,
 } from "react";
@@ -87,6 +86,32 @@ interface TabPanelProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // ============================================================================
+// Helpers
+// ============================================================================
+
+/**
+ * Creates an immutable Set state updater that adds an item if not present.
+ * Returns the same reference if no change is needed to avoid unnecessary re-renders.
+ */
+const addToSet = <T,>(item: T) => (prev: Set<T>): Set<T> => {
+  if (prev.has(item)) return prev;
+  const next = new Set(prev);
+  next.add(item);
+  return next;
+};
+
+/**
+ * Creates an immutable Set state updater that removes an item if present.
+ * Returns the same reference if no change is needed to avoid unnecessary re-renders.
+ */
+const removeFromSet = <T,>(item: T) => (prev: Set<T>): Set<T> => {
+  if (!prev.has(item)) return prev;
+  const next = new Set(prev);
+  next.delete(item);
+  return next;
+};
+
+// ============================================================================
 // Context
 // ============================================================================
 
@@ -126,8 +151,8 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     const [selectedTab, setSelectedTab] = useState(defaultValue || "");
     const currentSelectedTab = isControlled ? value : selectedTab;
 
-    const tabIds = useRef(new Set<string>());
-    const panelIds = useRef(new Set<string>());
+    const [tabIds, setTabIds] = useState<Set<string>>(() => new Set());
+    const [panelIds, setPanelIds] = useState<Set<string>>(() => new Set());
 
     const handleTabSelect = useCallback(
       (tabId: string) => {
@@ -143,19 +168,19 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     );
 
     const registerTab = useCallback((tabId: string) => {
-      tabIds.current.add(tabId);
+      setTabIds(addToSet(tabId));
     }, []);
 
     const unregisterTab = useCallback((tabId: string) => {
-      tabIds.current.delete(tabId);
+      setTabIds(removeFromSet(tabId));
     }, []);
 
     const registerPanel = useCallback((panelId: string) => {
-      panelIds.current.add(panelId);
+      setPanelIds(addToSet(panelId));
     }, []);
 
     const unregisterPanel = useCallback((panelId: string) => {
-      panelIds.current.delete(panelId);
+      setPanelIds(removeFromSet(panelId));
     }, []);
 
     const focusTab = useCallback((tabId: string) => {
@@ -178,8 +203,8 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
       variant,
       size,
       disabled,
-      tabIds: tabIds.current,
-      panelIds: panelIds.current,
+      tabIds,
+      panelIds,
       registerTab,
       unregisterTab,
       registerPanel,

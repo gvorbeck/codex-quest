@@ -33,7 +33,14 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
   ) => {
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(game.name);
+    const [prevGameName, setPrevGameName] = useState(game.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
+
+    // Sync local name value when game prop changes during render
+    if (game.name !== prevGameName) {
+      setPrevGameName(game.name);
+      setNameValue(game.name);
+    }
 
     const sizeStyles = {
       sm: {
@@ -63,11 +70,6 @@ const GameHero = forwardRef<HTMLDivElement, GameHeroProps>(
     };
 
     const currentSize = sizeStyles[size];
-
-    // Update local name value when game prop changes
-    useEffect(() => {
-      setNameValue(game.name);
-    }, [game.name]);
 
     // Focus input when entering edit mode
     useEffect(() => {

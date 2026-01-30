@@ -11,7 +11,7 @@ import { InfoCardHeader, DetailSection } from "@/components/ui/composite";
 import { allRaces } from "@/data";
 import { isCustomRace, getRaceById, getClassById } from "@/utils";
 import type { BaseStepProps } from "@/types";
-import { memo, useMemo, useState, useEffect } from "react";
+import { memo, useMemo, useState } from "react";
 
 interface RaceStepProps extends BaseStepProps {
   includeSupplemental: boolean;
@@ -68,17 +68,23 @@ function RaceStep({
     return options;
   }, [availableRaces]);
 
-  const [customRaceName, setCustomRaceName] = useState("");
-  const [isInCustomMode, setIsInCustomMode] = useState(false);
+  const [customRaceName, setCustomRaceName] = useState(
+    character.race && isCustomRace(character.race) ? character.race : ""
+  );
+  const [isInCustomMode, setIsInCustomMode] = useState(
+    character.race ? isCustomRace(character.race) : false
+  );
+  const [prevCharacterRace, setPrevCharacterRace] = useState(character.race);
 
-  // Initialize custom mode based on current character race
-  useEffect(() => {
+  // Sync custom mode with character.race during render
+  if (character.race !== prevCharacterRace) {
+    setPrevCharacterRace(character.race);
     const isCurrentRaceCustom = character.race && isCustomRace(character.race);
     if (isCurrentRaceCustom) {
       setIsInCustomMode(true);
       setCustomRaceName(character.race);
     }
-  }, [character.race]); // Include character.race dependency
+  }
 
   const handleRaceChange = (raceId: string) => {
     if (raceId === "custom") {

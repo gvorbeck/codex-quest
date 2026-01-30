@@ -110,15 +110,17 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameValue, setNameValue] = useState(character.name);
+    const [prevCharacterName, setPrevCharacterName] = useState(character.name);
     const nameInputRef = useRef<HTMLInputElement>(null);
     const currentSize = getSizeStyles(size);
 
     const isEditable = editable && onCharacterChange;
 
-    // Update local name value when character prop changes
-    useEffect(() => {
+    // Sync local name value when character prop changes during render
+    if (character.name !== prevCharacterName) {
+      setPrevCharacterName(character.name);
       setNameValue(character.name);
-    }, [character.name]);
+    }
 
     // Focus input when entering edit mode
     useEffect(() => {
@@ -304,10 +306,9 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
               ) : (
                 <div className="group relative flex items-center justify-center gap-2 max-w-full sm:max-w-[calc(100%-40px)]">
                   {isEditable ? (
-                    <Button
-                      variant="ghost"
+                    <button
                       onClick={handleNameClick}
-                      className={cn(nameTypographyClasses, "p-0 h-auto")}
+                      className={nameTypographyClasses}
                       aria-label="Click to edit character name"
                     >
                       <Typography
@@ -319,7 +320,7 @@ const Hero = forwardRef<HTMLDivElement, HeroProps>(
                       >
                         {character.name}
                       </Typography>
-                    </Button>
+                    </button>
                   ) : (
                     <Typography
                       as="h1"

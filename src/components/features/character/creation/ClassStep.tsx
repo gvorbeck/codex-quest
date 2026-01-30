@@ -52,8 +52,8 @@ function ClassStepComponent({
   const [allSpellsForCustomClass, setAllSpellsForCustomClass] = useState<
     Spell[]
   >([]);
-  const [isLoadingSpells, setIsLoadingSpells] = useState(false);
-  const [isLoadingAllSpells, setIsLoadingAllSpells] = useState(false);
+  // Track what we've loaded to derive loading state
+  const [loadedForClass, setLoadedForClass] = useState<string | null>(null);
 
   // Use Zustand store for custom class magic toggle
   const customClassMagicToggle = useCharacterStore(
@@ -131,59 +131,81 @@ function ClassStepComponent({
     });
   };
 
-  // Load available spells when spellcasting class changes
-  useEffect(() => {
-    const spellcastingClass = getEffectiveSpellcastingClass(
-      character,
-      availableClasses
-    );
+  // Calculate what class needs spells loaded (fetch target)
+  const spellcastingClass = useMemo(
+    () => getEffectiveSpellcastingClass(character, availableClasses),
+    [character, availableClasses]
+  );
 
-    if (spellcastingClass) {
-      if (spellcastingClass.type === "custom") {
-        // Load all spells for custom classes
-        setIsLoadingAllSpells(true);
-        getAllSpellsForCustomClass()
-          .then((spells) => {
-            setAllSpellsForCustomClass(spells);
-          })
-          .catch((error) => {
-            logger.error("Failed to load all spells for custom class:", error);
-            setAllSpellsForCustomClass([]);
-          })
-          .finally(() => {
-            setIsLoadingAllSpells(false);
-          });
+  const fetchTarget = useMemo(() => {
+    if (!spellcastingClass) return null;
+    return spellcastingClass.type === "custom"
+      ? "custom"
+      : spellcastingClass.classId;
+  }, [spellcastingClass]);
 
-        // Clear standard spell loading
-        setAvailableSpells([]);
-        setIsLoadingSpells(false);
-      } else {
-        // Load level 1 spells for standard classes
-        setIsLoadingSpells(true);
-        getFirstLevelSpellsForClass(spellcastingClass.classId)
-          .then((spells) => {
-            setAvailableSpells(spells);
-          })
-          .catch((error) => {
-            logger.error("Failed to load spells:", error);
-            setAvailableSpells([]);
-          })
-          .finally(() => {
-            setIsLoadingSpells(false);
-          });
+  // Track previous fetch target to clear data during render when it changes
+  const [prevFetchTarget, setPrevFetchTarget] = useState(fetchTarget);
 
-        // Clear custom spell loading
-        setAllSpellsForCustomClass([]);
-        setIsLoadingAllSpells(false);
-      }
-    } else {
-      // No spellcasting classes
+  // Clear data during render when fetch target changes (adjust state pattern)
+  if (fetchTarget !== prevFetchTarget) {
+    setPrevFetchTarget(fetchTarget);
+    // Clear data when switching between targets
+    if (fetchTarget === null) {
       setAvailableSpells([]);
       setAllSpellsForCustomClass([]);
-      setIsLoadingSpells(false);
-      setIsLoadingAllSpells(false);
+      setLoadedForClass(null);
+    } else if (fetchTarget === "custom") {
+      setAvailableSpells([]);
+    } else {
+      setAllSpellsForCustomClass([]);
     }
-  }, [character, availableClasses]);
+  }
+
+  // Derive loading states from comparing fetch target to what's loaded
+  const isLoadingSpells =
+    fetchTarget !== null &&
+    fetchTarget !== "custom" &&
+    loadedForClass !== fetchTarget;
+  const isLoadingAllSpells =
+    fetchTarget === "custom" && loadedForClass !== "custom";
+
+  // Load available spells when spellcasting class changes
+  useEffect(() => {
+    if (!spellcastingClass) return;
+
+    const target =
+      spellcastingClass.type === "custom" ? "custom" : spellcastingClass.classId;
+
+    // Skip if already loaded for this target
+    if (loadedForClass === target) return;
+
+    if (spellcastingClass.type === "custom") {
+      // Load all spells for custom classes
+      getAllSpellsForCustomClass()
+        .then((spells) => {
+          setAllSpellsForCustomClass(spells);
+          setLoadedForClass("custom");
+        })
+        .catch((error) => {
+          logger.error("Failed to load all spells for custom class:", error);
+          setAllSpellsForCustomClass([]);
+          setLoadedForClass("custom");
+        });
+    } else {
+      // Load level 1 spells for standard classes
+      getFirstLevelSpellsForClass(spellcastingClass.classId)
+        .then((spells) => {
+          setAvailableSpells(spells);
+          setLoadedForClass(spellcastingClass.classId);
+        })
+        .catch((error) => {
+          logger.error("Failed to load spells:", error);
+          setAvailableSpells([]);
+          setLoadedForClass(spellcastingClass.classId);
+        });
+    }
+  }, [spellcastingClass, loadedForClass]);
 
   const handleSpellChange = (spellName: string) => {
     const selectedSpell = availableSpells.find(

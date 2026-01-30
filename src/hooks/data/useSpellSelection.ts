@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useLoadingState } from "@/hooks";
 import { loadSpellsForClass } from "@/services";
 import type { Class, Spell, Character, SpellGainInfo } from "@/types";
@@ -23,10 +23,15 @@ export function useSpellSelection({
   const [selectedSpells, setSelectedSpells] = useState<Record<string, string>>(
     {}
   );
-  const [selectedSpellCount, setSelectedSpellCount] = useState(0);
   const { loading: isLoadingSpells, withLoading: withSpellLoading } =
     useLoadingState();
   const [error, setError] = useState<string | null>(null);
+
+  // Derive selectedSpellCount from selectedSpells (not synced via effect)
+  const selectedSpellCount = useMemo(
+    () => Object.values(selectedSpells).filter((name) => name !== "").length,
+    [selectedSpells]
+  );
 
   // Calculate spell gains for leveling up
   const spellGainInfo: SpellGainInfo | null = useMemo(() => {
@@ -121,7 +126,6 @@ export function useSpellSelection({
             const allSpells = await loadSpellsForClass(classId);
             setAvailableSpells(allSpells);
             setSelectedSpells({});
-            setSelectedSpellCount(0);
           }
         });
       } catch (err) {
@@ -180,32 +184,13 @@ export function useSpellSelection({
     character,
   ]);
 
-  // Handle spell selection with count tracking
+  // Handle spell selection (count is derived automatically)
   const handleSpellSelection = useCallback(
     (selectionKey: string, spellName: string) => {
-      setSelectedSpells((prev) => {
-        const wasEmpty = !prev[selectionKey] || prev[selectionKey] === "";
-        const isEmpty = !spellName || spellName === "";
-
-        if (wasEmpty && !isEmpty) {
-          setSelectedSpellCount((count) => count + 1);
-        } else if (!wasEmpty && isEmpty) {
-          setSelectedSpellCount((count) => count - 1);
-        }
-
-        return { ...prev, [selectionKey]: spellName };
-      });
+      setSelectedSpells((prev) => ({ ...prev, [selectionKey]: spellName }));
     },
     []
   );
-
-  // Sync selectedSpellCount with actual selected spells to prevent state drift
-  useEffect(() => {
-    const actualCount = Object.values(selectedSpells).filter(
-      (name) => name !== ""
-    ).length;
-    setSelectedSpellCount(actualCount);
-  }, [selectedSpells]);
 
   // Check if all required spells are selected
   const allSpellsSelected = useMemo(() => {

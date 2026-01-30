@@ -9,7 +9,8 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
-import { createTooltipPositioner, logger } from "@/utils";
+import { createTooltipPositioner, logger, cn } from "@/utils";
+import { DESIGN_TOKENS } from "@/constants";
 import type { TooltipPosition, PositioningOptions } from "@/types";
 
 // Constants
@@ -160,15 +161,12 @@ const Tooltip: React.FC<TooltipProps> = ({
     []
   );
 
-  // Memoized throttled resize handler for better performance
-  const throttledUpdatePosition = useMemo(
-    () => throttle(updatePosition, THROTTLE_DELAY),
-    [updatePosition]
-  );
-
   // Combined effect for positioning and viewport changes
   useLayoutEffect(() => {
     if (!isVisible || disabled) return undefined;
+
+    // Create throttled handler inside effect to avoid ref access during render
+    const throttledUpdatePosition = throttle(updatePosition, THROTTLE_DELAY);
 
     // Initial positioning with delay to ensure DOM is ready
     const initialPositionTimeout = setTimeout(
@@ -187,7 +185,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       window.removeEventListener("resize", throttledUpdatePosition);
       window.removeEventListener("scroll", throttledUpdatePosition);
     };
-  }, [isVisible, disabled, updatePosition, throttledUpdatePosition]);
+  }, [isVisible, disabled, updatePosition]);
 
   // Handle escape key for better keyboard navigation
   useEffect(() => {
@@ -213,13 +211,36 @@ const Tooltip: React.FC<TooltipProps> = ({
     return <>{children}</>;
   }
 
+  // Hoist class computation outside of JSX
+  const tooltipClasses = cn(
+    "fixed px-3 py-2 text-sm pointer-events-none transform -translate-x-1/2",
+    DESIGN_TOKENS.colors.text.primary,
+    DESIGN_TOKENS.colors.bg.input, // bg-zinc-700
+    DESIGN_TOKENS.colors.border.primary, // border-zinc-600
+    DESIGN_TOKENS.effects.roundedSm,
+    DESIGN_TOKENS.effects.shadowSm,
+    DESIGN_TOKENS.effects.transition,
+    "border",
+    className
+  );
+
+  const arrowUpClasses = cn(
+    "absolute bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent",
+    "border-b-zinc-600"
+  );
+
+  const arrowDownClasses = cn(
+    "absolute top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent",
+    "border-t-zinc-600"
+  );
+
   const tooltipPortal = isVisible
     ? createPortal(
         <div
           ref={tooltipRef}
           id={tooltipId}
           role="tooltip"
-          className={`fixed px-3 py-2 text-sm text-zinc-100 bg-zinc-700 border border-zinc-600 rounded-lg shadow-lg pointer-events-none transform -translate-x-1/2 transition-opacity duration-200 ${className}`}
+          className={tooltipClasses}
           style={{
             top: position.top,
             left: position.left,
@@ -232,7 +253,7 @@ const Tooltip: React.FC<TooltipProps> = ({
           {isBelow ? (
             // Arrow pointing up (tooltip is below trigger)
             <div
-              className="absolute bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-zinc-600"
+              className={arrowUpClasses}
               style={{
                 left: `calc(50% + ${arrowOffset}px)`,
                 transform: "translateX(-50%)",
@@ -242,7 +263,7 @@ const Tooltip: React.FC<TooltipProps> = ({
           ) : (
             // Arrow pointing down (tooltip is above trigger)
             <div
-              className="absolute top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-600"
+              className={arrowDownClasses}
               style={{
                 left: `calc(50% + ${arrowOffset}px)`,
                 transform: "translateX(-50%)",

@@ -27,10 +27,13 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
     useDataResolver(playerRequests);
 
   // Transform resolved data to match CharacterListItem interface
-  const playerCharacters = useMemo(() => {
-    if (!game?.players?.length) return [];
+  const gamePlayers = game?.players;
+  const gameName = game?.name;
 
-    const characters: CharacterListItem[] = game.players.map((player) => {
+  const playerCharacters = useMemo(() => {
+    if (!gamePlayers?.length) return [];
+
+    const characters: CharacterListItem[] = gamePlayers.map((player) => {
       const resolved = getResolvedData(player.user, player.character);
 
       const character: CharacterListItem = {
@@ -48,13 +51,13 @@ export const usePlayerCharacters = (game: Game): UsePlayerCharactersReturn => {
     });
 
     logger.debug("Generated player characters from resolved data", {
-      gameId: game.name || "unnamed-game",
-      playerCount: game.players.length,
+      gameId: gameName || "unnamed-game",
+      playerCount: gamePlayers.length,
       resolvedCharacterCount: characters.length,
     });
 
     return characters;
-  }, [game?.players, game?.name, getResolvedData]);
+  }, [gamePlayers, gameName, getResolvedData]);
 
   return {
     playerCharacters,

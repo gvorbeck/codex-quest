@@ -64,18 +64,21 @@ export default function GameSheet() {
     [game?.name]
   );
 
+  // Extract gameId to match compiler's inferred dependencies
+  const gameId = params?.gameId;
+
   // Handle game changes using enhanced mutations
   const handleGameChange = useCallback(
     (updatedGame: Game) => {
-      if (!user || !params?.gameId) return;
+      if (!user || !gameId) return;
 
       saveGame({
         userId: user.uid,
         game: updatedGame,
-        gameId: params.gameId,
+        gameId,
       });
     },
-    [user, params?.gameId, saveGame]
+    [user, gameId, saveGame]
   );
 
   // Handle notes changes

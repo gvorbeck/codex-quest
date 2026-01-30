@@ -59,48 +59,52 @@ export default function CharacterSheet() {
   );
 
   // Check if character has any classes with skills
+  const characterClass = character?.class;
   const hasSkills = useMemo(() => {
-    if (!character?.class) return false;
+    if (!characterClass) return false;
 
-    const classData = getClassById(character.class);
+    const classData = getClassById(characterClass);
     return classData?.skills !== undefined;
-  }, [character?.class]);
+  }, [characterClass]);
+
+  // Extract params to match compiler's inferred dependencies
+  const userId = params?.userId;
+  const characterId = params?.characterId;
+
+  // Base handler for saving character changes
+  const handleCharacterChange = useCallback(
+    (updatedCharacter: Character) => {
+      if (userId && characterId) {
+        saveCharacter({
+          userId,
+          character: updatedCharacter,
+          characterId,
+        });
+      }
+    },
+    [saveCharacter, userId, characterId]
+  );
+
+  // Generic field update helper - reduces boilerplate for simple field updates
+  const updateCharacterField = useCallback(
+    <K extends keyof Character>(field: K, value: Character[K]) => {
+      if (!character) return;
+      handleCharacterChange({ ...character, [field]: value });
+    },
+    [character, handleCharacterChange]
+  );
 
   // Handle XP changes
   const handleXPChange = useCallback(
-    (newXP: number) => {
-      if (character && params?.userId && params?.characterId) {
-        const updatedCharacter = { ...character, xp: newXP };
-        saveCharacter({
-          userId: params.userId,
-          character: updatedCharacter,
-          characterId: params.characterId,
-        });
-      }
-    },
-    [character, saveCharacter, params?.userId, params?.characterId]
-  );
-
-  // Handle character changes (for avatar, etc.)
-  const handleCharacterChange = useCallback(
-    (updatedCharacter: Character) => {
-      if (params?.userId && params?.characterId) {
-        saveCharacter({
-          userId: params.userId,
-          character: updatedCharacter,
-          characterId: params.characterId,
-        });
-      }
-    },
-    [saveCharacter, params?.userId, params?.characterId]
+    (newXP: number) => updateCharacterField("xp", newXP),
+    [updateCharacterField]
   );
 
   // Handle ability score changes
   const handleAbilityChange = useCallback(
     (abilityKey: string, value: number) => {
       if (!character) return;
-
-      const updatedCharacter = {
+      handleCharacterChange({
         ...character,
         abilities: {
           ...character.abilities,
@@ -109,9 +113,7 @@ export default function CharacterSheet() {
             modifier: calculateModifier(value),
           },
         },
-      };
-
-      handleCharacterChange(updatedCharacter);
+      });
     },
     [character, handleCharacterChange]
   );
@@ -120,16 +122,10 @@ export default function CharacterSheet() {
   const handleCurrentHPChange = useCallback(
     (value: number) => {
       if (!character) return;
-
-      const updatedCharacter = {
+      handleCharacterChange({
         ...character,
-        hp: {
-          ...character.hp,
-          current: value,
-        },
-      };
-
-      handleCharacterChange(updatedCharacter);
+        hp: { ...character.hp, current: value },
+      });
     },
     [character, handleCharacterChange]
   );
@@ -138,66 +134,36 @@ export default function CharacterSheet() {
   const handleCurrencyChange = useCallback(
     (updates: Partial<Character["currency"]>) => {
       if (!character) return;
-
-      const updatedCharacter = {
+      handleCharacterChange({
         ...character,
-        currency: {
-          ...character.currency,
-          ...updates,
-        },
-      };
-
-      handleCharacterChange(updatedCharacter);
+        currency: { ...character.currency, ...updates },
+      });
     },
     [character, handleCharacterChange]
   );
 
   // Handle equipment updates
   const handleEquipmentChange = useCallback(
-    (newEquipment: EquipmentItem[]) => {
-      if (!character) return;
-
-      const updatedCharacter = {
-        ...character,
-        equipment: newEquipment,
-      };
-
-      handleCharacterChange(updatedCharacter);
-    },
-    [character, handleCharacterChange]
+    (newEquipment: EquipmentItem[]) => updateCharacterField("equipment", newEquipment),
+    [updateCharacterField]
   );
 
   // Handle HP notes change
   const handleHPNotesChange = useCallback(
     (desc: string) => {
       if (!character) return;
-
-      const updatedCharacter = {
+      handleCharacterChange({
         ...character,
-        hp: {
-          ...character.hp,
-          desc,
-        },
-      };
-
-      handleCharacterChange(updatedCharacter);
+        hp: { ...character.hp, desc },
+      });
     },
     [character, handleCharacterChange]
   );
 
   // Handle character description change
   const handleDescriptionChange = useCallback(
-    (desc: string) => {
-      if (!character) return;
-
-      const updatedCharacter = {
-        ...character,
-        desc,
-      };
-
-      handleCharacterChange(updatedCharacter);
-    },
-    [character, handleCharacterChange]
+    (desc: string) => updateCharacterField("desc", desc),
+    [updateCharacterField]
   );
 
   // Data loading is now handled by useFirebaseSheet hook
