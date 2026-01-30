@@ -27,6 +27,13 @@ const hashString = (str: string): number => {
   return Math.abs(hash);
 };
 
+/**
+ * Generate a stable sort ID for a combatant.
+ * Uses name + index to ensure unique IDs even for combatants with the same name.
+ */
+const getCombatantSortId = (name: string, index: number): number =>
+  hashString(`${name}-${index}`);
+
 // Combat logic hook using Zustand combat store
 
 export function useCombatLogic(
@@ -99,7 +106,7 @@ export function useCombatLogic(
           ac: calculateArmorClass(combatChar),
           initiative: 0,
           isPlayer: true,
-          _sortId: hashString(`${char.name}-${index}`),
+          _sortId: getCombatantSortId(char.name, index),
           dexModifier: combatChar.abilities?.dexterity?.modifier ?? 0,
           hp: normalizeCombatantHP(combatChar),
           avatar: combatChar.avatar,
@@ -125,7 +132,7 @@ export function useCombatLogic(
             ac: calculateArmorClass(combatChar),
             initiative: 0,
             isPlayer: true,
-            _sortId: hashString(`${combatant.name}-${index}`),
+            _sortId: getCombatantSortId(combatant.name, index),
             dexModifier: combatChar.abilities?.dexterity?.modifier ?? 0,
             hp: normalizeCombatantHP(combatChar),
             avatar: combatChar.avatar,
@@ -138,7 +145,7 @@ export function useCombatLogic(
         ac: combatant.ac || 11,
         initiative: 0,
         isPlayer: Boolean(combatant["isPlayer"]),
-        _sortId: hashString(`${combatant.name}-${index}`),
+        _sortId: getCombatantSortId(combatant.name, index),
         dexModifier: 0, // Default for monsters unless specified
         hp: { current: 10, max: 10 }, // Default HP for monsters
         avatar: combatant.avatar,
@@ -152,7 +159,7 @@ export function useCombatLogic(
       .map((combatant, index) => ({
         ...combatant,
         initiative: preCombatInitiatives[combatant.name] || 0,
-        _sortId: hashString(`${combatant.name}-${index}`),
+        _sortId: getCombatantSortId(combatant.name, index),
       }))
       .sort((a, b) => {
         if (b.initiative === a.initiative) {
@@ -259,15 +266,17 @@ export function useCombatLogic(
     }
 
     // Use pre-combat initiative values if available, otherwise roll initiative
-    const combatantsWithInitiative = currentCombatants.map((combatant) => {
-      const preCombatInitiative = preCombatInitiatives[combatant.name] || 0;
-      return {
-        ...combatant,
-        initiative:
-          preCombatInitiative > 0 ? preCombatInitiative : rollInitiative(),
-        _sortId: hashString(combatant.name), // Stable sort identifier
-      };
-    });
+    const combatantsWithInitiative = currentCombatants.map(
+      (combatant, index) => {
+        const preCombatInitiative = preCombatInitiatives[combatant.name] || 0;
+        return {
+          ...combatant,
+          initiative:
+            preCombatInitiative > 0 ? preCombatInitiative : rollInitiative(),
+          _sortId: getCombatantSortId(combatant.name, index),
+        };
+      }
+    );
 
     // Sort by initiative (descending)
     const sortedCombatants = sortCombatantsByInitiative(
@@ -307,7 +316,7 @@ export function useCombatLogic(
       updatedCombatants[combatantIndex] = {
         ...combatant,
         initiative: newInitiative,
-        _sortId: hashString(combatant.name), // New sort ID for stable sorting
+        _sortId: getCombatantSortId(combatant.name, combatantIndex),
       };
 
       // Re-sort by initiative with stable sorting
@@ -376,7 +385,7 @@ export function useCombatLogic(
         ...foundCombatant,
         initiative: newInitiative,
         // Give new _sortId like the working monsters button does
-        _sortId: hashString(foundCombatant.name),
+        _sortId: getCombatantSortId(foundCombatant.name, targetIndex),
       };
 
       const updatedCombatants = [...combatants];
@@ -409,12 +418,12 @@ export function useCombatLogic(
     const monsters = combatants.filter((c) => !c.isPlayer);
     if (monsters.length === 0) return;
 
-    const updatedCombatants = combatants.map((combatant) => {
+    const updatedCombatants = combatants.map((combatant, index) => {
       if (!combatant.isPlayer) {
         return {
           ...combatant,
           initiative: rollInitiative(),
-          _sortId: hashString(combatant.name),
+          _sortId: getCombatantSortId(combatant.name, index),
         };
       }
       return combatant;
@@ -474,11 +483,13 @@ export function useCombatLogic(
     const newTurn = currentTurn + 1;
     if (newTurn >= combatants.length) {
       // Clear all initiative values for the new round
-      const combatantsWithClearedInitiative = combatants.map((combatant) => ({
-        ...combatant,
-        initiative: 0,
-        _sortId: hashString(combatant.name), // New sort ID for re-sorting
-      }));
+      const combatantsWithClearedInitiative = combatants.map(
+        (combatant, index) => ({
+          ...combatant,
+          initiative: 0,
+          _sortId: getCombatantSortId(combatant.name, index),
+        })
+      );
 
       updateCombatState({
         ...combatState,

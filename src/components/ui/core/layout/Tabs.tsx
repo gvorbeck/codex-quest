@@ -86,6 +86,32 @@ interface TabPanelProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // ============================================================================
+// Helpers
+// ============================================================================
+
+/**
+ * Creates an immutable Set state updater that adds an item if not present.
+ * Returns the same reference if no change is needed to avoid unnecessary re-renders.
+ */
+const addToSet = <T,>(item: T) => (prev: Set<T>): Set<T> => {
+  if (prev.has(item)) return prev;
+  const next = new Set(prev);
+  next.add(item);
+  return next;
+};
+
+/**
+ * Creates an immutable Set state updater that removes an item if present.
+ * Returns the same reference if no change is needed to avoid unnecessary re-renders.
+ */
+const removeFromSet = <T,>(item: T) => (prev: Set<T>): Set<T> => {
+  if (!prev.has(item)) return prev;
+  const next = new Set(prev);
+  next.delete(item);
+  return next;
+};
+
+// ============================================================================
 // Context
 // ============================================================================
 
@@ -142,39 +168,19 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     );
 
     const registerTab = useCallback((tabId: string) => {
-      setTabIds((prev) => {
-        if (prev.has(tabId)) return prev;
-        const next = new Set(prev);
-        next.add(tabId);
-        return next;
-      });
+      setTabIds(addToSet(tabId));
     }, []);
 
     const unregisterTab = useCallback((tabId: string) => {
-      setTabIds((prev) => {
-        if (!prev.has(tabId)) return prev;
-        const next = new Set(prev);
-        next.delete(tabId);
-        return next;
-      });
+      setTabIds(removeFromSet(tabId));
     }, []);
 
     const registerPanel = useCallback((panelId: string) => {
-      setPanelIds((prev) => {
-        if (prev.has(panelId)) return prev;
-        const next = new Set(prev);
-        next.add(panelId);
-        return next;
-      });
+      setPanelIds(addToSet(panelId));
     }, []);
 
     const unregisterPanel = useCallback((panelId: string) => {
-      setPanelIds((prev) => {
-        if (!prev.has(panelId)) return prev;
-        const next = new Set(prev);
-        next.delete(panelId);
-        return next;
-      });
+      setPanelIds(removeFromSet(panelId));
     }, []);
 
     const focusTab = useCallback((tabId: string) => {
