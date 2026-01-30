@@ -35,28 +35,31 @@ export const GMBinder = memo(
     // Use TanStack Query to resolve player data
     const { getResolvedData } = useDataResolver(playerRequests);
 
+    // Extract players to match compiler's inferred dependencies
+    const gamePlayers = game?.players;
+
     // Check if any players have skill classes using resolved data
     const hasSkillClasses = useMemo(() => {
-      if (!game?.players?.length) return false;
+      if (!gamePlayers?.length) return false;
 
-      return game.players.some((player) => {
+      return gamePlayers.some((player) => {
         const resolved = getResolvedData(player.user, player.character);
         if (!resolved?.class) return false;
 
         // Check if the character's class has skills
         return resolved.class in CLASSES_WITH_SKILLS;
       });
-    }, [game?.players, getResolvedData]);
+    }, [gamePlayers, getResolvedData]);
 
     // Check if any players have Turn Undead ability using resolved data
     const hasTurnUndead = useMemo(() => {
-      if (!game?.players?.length) return false;
+      if (!gamePlayers?.length) return false;
 
-      return game.players.some((player) => {
+      return gamePlayers.some((player) => {
         const resolved = getResolvedData(player.user, player.character);
         return resolved?.hasTurnUndead === true;
       });
-    }, [game?.players, getResolvedData]);
+    }, [gamePlayers, getResolvedData]);
 
     const handleTabChange = useCallback((value: string) => {
       setSelectedTab(value);

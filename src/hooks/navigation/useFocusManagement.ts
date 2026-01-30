@@ -146,9 +146,14 @@ export const useFocusManagement = ({
     handleKeyDown,
   ]);
 
+  // Provide a getter function instead of directly accessing ref during render
+  const getCachedFocusableElements = useCallback(() => {
+    return focusableElementsRef.current;
+  }, []);
+
   return {
     containerRef,
-    focusableElements: focusableElementsRef.current,
+    getFocusableElements: getCachedFocusableElements,
     focusFirstElement,
     restoreFocusToTrigger,
   };

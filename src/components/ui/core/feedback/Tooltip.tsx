@@ -160,15 +160,12 @@ const Tooltip: React.FC<TooltipProps> = ({
     []
   );
 
-  // Memoized throttled resize handler for better performance
-  const throttledUpdatePosition = useMemo(
-    () => throttle(updatePosition, THROTTLE_DELAY),
-    [updatePosition]
-  );
-
   // Combined effect for positioning and viewport changes
   useLayoutEffect(() => {
     if (!isVisible || disabled) return undefined;
+
+    // Create throttled handler inside effect to avoid ref access during render
+    const throttledUpdatePosition = throttle(updatePosition, THROTTLE_DELAY);
 
     // Initial positioning with delay to ensure DOM is ready
     const initialPositionTimeout = setTimeout(
@@ -187,7 +184,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       window.removeEventListener("resize", throttledUpdatePosition);
       window.removeEventListener("scroll", throttledUpdatePosition);
     };
-  }, [isVisible, disabled, updatePosition, throttledUpdatePosition]);
+  }, [isVisible, disabled, updatePosition]);
 
   // Handle escape key for better keyboard navigation
   useEffect(() => {

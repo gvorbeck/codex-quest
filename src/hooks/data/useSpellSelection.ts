@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useLoadingState } from "@/hooks";
 import { loadSpellsForClass } from "@/services";
 import type { Class, Spell, Character, SpellGainInfo } from "@/types";
@@ -126,7 +126,6 @@ export function useSpellSelection({
             const allSpells = await loadSpellsForClass(classId);
             setAvailableSpells(allSpells);
             setSelectedSpells({});
-            setSelectedSpellCount(0);
           }
         });
       } catch (err) {

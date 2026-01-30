@@ -16,6 +16,17 @@ import {
   sortCombatantsByInitiative,
 } from "@/utils";
 
+// Stable hash function for generating consistent sort IDs from names
+const hashString = (str: string): number => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+};
+
 // Combat logic hook using Zustand combat store
 
 export function useCombatLogic(
@@ -80,7 +91,7 @@ export function useCombatLogic(
 
     return playerCharacters
       .filter((char) => !playersInCombat.has(char.name))
-      .map((char) => {
+      .map((char, index) => {
         const combatChar = char as CombatCharacterData;
 
         return {
@@ -88,7 +99,7 @@ export function useCombatLogic(
           ac: calculateArmorClass(combatChar),
           initiative: 0,
           isPlayer: true,
-          _sortId: Date.now() + Math.random(),
+          _sortId: hashString(`${char.name}-${index}`),
           dexModifier: combatChar.abilities?.dexterity?.modifier ?? 0,
           hp: normalizeCombatantHP(combatChar),
           avatar: combatChar.avatar,
@@ -100,7 +111,7 @@ export function useCombatLogic(
   const currentCombatants = useMemo(() => {
     if (!game) return [];
 
-    return (game.combatants || []).map((combatant) => {
+    return (game.combatants || []).map((combatant, index) => {
       // If this is a player, try to get their actual data from character data
       if (combatant["isPlayer"]) {
         const playerChar = playerCharacters.find(
@@ -114,7 +125,7 @@ export function useCombatLogic(
             ac: calculateArmorClass(combatChar),
             initiative: 0,
             isPlayer: true,
-            _sortId: Date.now() + Math.random(),
+            _sortId: hashString(`${combatant.name}-${index}`),
             dexModifier: combatChar.abilities?.dexterity?.modifier ?? 0,
             hp: normalizeCombatantHP(combatChar),
             avatar: combatChar.avatar,
@@ -127,7 +138,7 @@ export function useCombatLogic(
         ac: combatant.ac || 11,
         initiative: 0,
         isPlayer: Boolean(combatant["isPlayer"]),
-        _sortId: Date.now() + Math.random(),
+        _sortId: hashString(`${combatant.name}-${index}`),
         dexModifier: 0, // Default for monsters unless specified
         hp: { current: 10, max: 10 }, // Default HP for monsters
         avatar: combatant.avatar,
@@ -138,10 +149,10 @@ export function useCombatLogic(
   // Current combatants with stored pre-combat initiative values
   const currentCombatantsWithInitiative = useMemo(() => {
     return currentCombatants
-      .map((combatant) => ({
+      .map((combatant, index) => ({
         ...combatant,
         initiative: preCombatInitiatives[combatant.name] || 0,
-        _sortId: Date.now() + Math.random(),
+        _sortId: hashString(`${combatant.name}-${index}`),
       }))
       .sort((a, b) => {
         if (b.initiative === a.initiative) {
@@ -254,7 +265,7 @@ export function useCombatLogic(
         ...combatant,
         initiative:
           preCombatInitiative > 0 ? preCombatInitiative : rollInitiative(),
-        _sortId: Date.now() + Math.random(), // Stable sort identifier
+        _sortId: hashString(combatant.name), // Stable sort identifier
       };
     });
 
@@ -296,7 +307,7 @@ export function useCombatLogic(
       updatedCombatants[combatantIndex] = {
         ...combatant,
         initiative: newInitiative,
-        _sortId: Date.now() + Math.random(), // New sort ID for stable sorting
+        _sortId: hashString(combatant.name), // New sort ID for stable sorting
       };
 
       // Re-sort by initiative with stable sorting
@@ -365,7 +376,7 @@ export function useCombatLogic(
         ...foundCombatant,
         initiative: newInitiative,
         // Give new _sortId like the working monsters button does
-        _sortId: Date.now() + Math.random(),
+        _sortId: hashString(foundCombatant.name),
       };
 
       const updatedCombatants = [...combatants];
@@ -403,7 +414,7 @@ export function useCombatLogic(
         return {
           ...combatant,
           initiative: rollInitiative(),
-          _sortId: Date.now() + Math.random(),
+          _sortId: hashString(combatant.name),
         };
       }
       return combatant;
@@ -466,7 +477,7 @@ export function useCombatLogic(
       const combatantsWithClearedInitiative = combatants.map((combatant) => ({
         ...combatant,
         initiative: 0,
-        _sortId: Date.now() + Math.random(), // New sort ID for re-sorting
+        _sortId: hashString(combatant.name), // New sort ID for re-sorting
       }));
 
       updateCombatState({

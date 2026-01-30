@@ -26,11 +26,14 @@ export function useSpellPreparation({
   onCharacterChange,
   availableSpells,
 }: UseSpellPreparationProps): UseSpellPreparationResult {
+  // Extract spells to match compiler's inferred dependencies
+  const characterSpells = character?.spells;
+
   // Get prepared spells (those with preparation metadata)
   const preparedSpells = useMemo(() => {
-    if (!character?.spells) return [];
-    return character.spells.filter((spell) => spell.preparation);
-  }, [character?.spells]);
+    if (!characterSpells) return [];
+    return characterSpells.filter((spell) => spell.preparation);
+  }, [characterSpells]);
 
   const handleSpellPreparation = useCallback(
     (slotLevel: number, slotIndex: number, spellName: string) => {

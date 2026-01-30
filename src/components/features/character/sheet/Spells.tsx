@@ -51,7 +51,89 @@ interface SpellSectionProps {
   onEditClick?: (() => void) | undefined;
   canEdit: boolean;
   showSearch?: boolean;
+  renderItem: (spell: DisplayableSpell) => React.ReactNode;
 }
+
+// Moved outside component to avoid re-creation during render
+const SpellSection = ({
+  title,
+  items,
+  dotColor,
+  usageDescription,
+  emptyStateMessage,
+  editButtonText,
+  onEditClick,
+  canEdit,
+  showSearch = false,
+  renderItem,
+}: SpellSectionProps) => (
+  <section
+    aria-labelledby={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
+  >
+    <SectionHeader
+      title={
+        <span
+          className="flex items-center gap-2"
+          id={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
+        >
+          {title}
+          {items.length > 0 && (
+            <span
+              className="text-sm font-normal text-zinc-400"
+              aria-label={`${items.length} ${title.toLowerCase()}`}
+            >
+              ({items.length})
+            </span>
+          )}
+        </span>
+      }
+      {...(dotColor && { dotColor })}
+      extra={
+        canEdit && editButtonText && onEditClick ? (
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={onEditClick}
+            icon={editButtonText.includes("Add") ? "plus" : "edit"}
+          >
+            {editButtonText}
+          </Button>
+        ) : undefined
+      }
+      className="mb-4"
+    />
+
+    {usageDescription && (
+      <Typography
+        variant="caption"
+        className="text-zinc-500 text-xs block mb-4"
+      >
+        {usageDescription}
+      </Typography>
+    )}
+
+    {items.length > 0 ? (
+      <Accordion
+        items={items}
+        sortBy="name"
+        labelProperty="name"
+        showSearch={showSearch}
+        renderItem={renderItem}
+        showCounts={false}
+        {...(editButtonText?.includes("Add") && { className: "mb-6" })}
+      />
+    ) : (
+      <Card
+        variant="standard"
+        className={`p-4 ${editButtonText?.includes("Add") ? "mb-6" : ""}`}
+      >
+        <Typography variant="body" className="text-zinc-400 text-center">
+          {emptyStateMessage}
+        </Typography>
+      </Card>
+    )}
+  </section>
+);
 
 export default function Spells({
   character,
@@ -124,85 +206,6 @@ export default function Spells({
     <SpellDetails spell={spell} />
   );
 
-  const SpellSection = ({
-    title,
-    items,
-    dotColor,
-    usageDescription,
-    emptyStateMessage,
-    editButtonText,
-    onEditClick,
-    canEdit,
-    showSearch = false,
-  }: SpellSectionProps) => (
-    <section
-      aria-labelledby={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
-    >
-      <SectionHeader
-        title={
-          <span
-            className="flex items-center gap-2"
-            id={`${title.toLowerCase().replace(/\s+/g, "-")}-heading`}
-          >
-            {title}
-            {items.length > 0 && (
-              <span
-                className="text-sm font-normal text-zinc-400"
-                aria-label={`${items.length} ${title.toLowerCase()}`}
-              >
-                ({items.length})
-              </span>
-            )}
-          </span>
-        }
-        {...(dotColor && { dotColor })}
-        extra={
-          canEdit && editButtonText && onEditClick ? (
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={onEditClick}
-              icon={editButtonText.includes("Add") ? "plus" : "edit"}
-            >
-              {editButtonText}
-            </Button>
-          ) : undefined
-        }
-        className="mb-4"
-      />
-
-      {usageDescription && (
-        <Typography
-          variant="caption"
-          className="text-zinc-500 text-xs block mb-4"
-        >
-          {usageDescription}
-        </Typography>
-      )}
-
-      {items.length > 0 ? (
-        <Accordion
-          items={items}
-          sortBy="name"
-          labelProperty="name"
-          showSearch={showSearch}
-          renderItem={renderSpell}
-          showCounts={false}
-          {...(editButtonText?.includes("Add") && { className: "mb-6" })}
-        />
-      ) : (
-        <Card
-          variant="standard"
-          className={`p-4 ${editButtonText?.includes("Add") ? "mb-6" : ""}`}
-        >
-          <Typography variant="body" className="text-zinc-400 text-center">
-            {emptyStateMessage}
-          </Typography>
-        </Card>
-      )}
-    </section>
-  );
-
   return (
     <SectionWrapper
       title={
@@ -242,6 +245,7 @@ export default function Spells({
                 onEditClick={canEdit ? addSpellModal.open : undefined}
                 canEdit={!!canEdit}
                 showSearch={false}
+                renderItem={renderSpell}
               />
             )}
 
@@ -280,6 +284,7 @@ export default function Spells({
                 onEditClick={canEdit ? cantripModal.open : undefined}
                 canEdit={canEdit}
                 showSearch={false}
+                renderItem={renderSpell}
               />
             )}
 

@@ -4,7 +4,6 @@ import {
   useState,
   useCallback,
   forwardRef,
-  useRef,
   useImperativeHandle,
   useEffect,
 } from "react";
@@ -126,8 +125,8 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     const [selectedTab, setSelectedTab] = useState(defaultValue || "");
     const currentSelectedTab = isControlled ? value : selectedTab;
 
-    const tabIds = useRef(new Set<string>());
-    const panelIds = useRef(new Set<string>());
+    const [tabIds, setTabIds] = useState<Set<string>>(() => new Set());
+    const [panelIds, setPanelIds] = useState<Set<string>>(() => new Set());
 
     const handleTabSelect = useCallback(
       (tabId: string) => {
@@ -143,19 +142,39 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     );
 
     const registerTab = useCallback((tabId: string) => {
-      tabIds.current.add(tabId);
+      setTabIds((prev) => {
+        if (prev.has(tabId)) return prev;
+        const next = new Set(prev);
+        next.add(tabId);
+        return next;
+      });
     }, []);
 
     const unregisterTab = useCallback((tabId: string) => {
-      tabIds.current.delete(tabId);
+      setTabIds((prev) => {
+        if (!prev.has(tabId)) return prev;
+        const next = new Set(prev);
+        next.delete(tabId);
+        return next;
+      });
     }, []);
 
     const registerPanel = useCallback((panelId: string) => {
-      panelIds.current.add(panelId);
+      setPanelIds((prev) => {
+        if (prev.has(panelId)) return prev;
+        const next = new Set(prev);
+        next.add(panelId);
+        return next;
+      });
     }, []);
 
     const unregisterPanel = useCallback((panelId: string) => {
-      panelIds.current.delete(panelId);
+      setPanelIds((prev) => {
+        if (!prev.has(panelId)) return prev;
+        const next = new Set(prev);
+        next.delete(panelId);
+        return next;
+      });
     }, []);
 
     const focusTab = useCallback((tabId: string) => {
@@ -178,8 +197,8 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
       variant,
       size,
       disabled,
-      tabIds: tabIds.current,
-      panelIds: panelIds.current,
+      tabIds,
+      panelIds,
       registerTab,
       unregisterTab,
       registerPanel,

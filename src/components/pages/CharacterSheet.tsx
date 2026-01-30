@@ -59,40 +59,45 @@ export default function CharacterSheet() {
   );
 
   // Check if character has any classes with skills
+  const characterClass = character?.class;
   const hasSkills = useMemo(() => {
-    if (!character?.class) return false;
+    if (!characterClass) return false;
 
-    const classData = getClassById(character.class);
+    const classData = getClassById(characterClass);
     return classData?.skills !== undefined;
-  }, [character?.class]);
+  }, [characterClass]);
+
+  // Extract params to match compiler's inferred dependencies
+  const userId = params?.userId;
+  const characterId = params?.characterId;
 
   // Handle XP changes
   const handleXPChange = useCallback(
     (newXP: number) => {
-      if (character && params?.userId && params?.characterId) {
+      if (character && userId && characterId) {
         const updatedCharacter = { ...character, xp: newXP };
         saveCharacter({
-          userId: params.userId,
+          userId,
           character: updatedCharacter,
-          characterId: params.characterId,
+          characterId,
         });
       }
     },
-    [character, saveCharacter, params?.userId, params?.characterId]
+    [character, saveCharacter, userId, characterId]
   );
 
   // Handle character changes (for avatar, etc.)
   const handleCharacterChange = useCallback(
     (updatedCharacter: Character) => {
-      if (params?.userId && params?.characterId) {
+      if (userId && characterId) {
         saveCharacter({
-          userId: params.userId,
+          userId,
           character: updatedCharacter,
-          characterId: params.characterId,
+          characterId,
         });
       }
     },
-    [saveCharacter, params?.userId, params?.characterId]
+    [saveCharacter, userId, characterId]
   );
 
   // Handle ability score changes

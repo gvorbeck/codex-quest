@@ -55,16 +55,16 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
     const [prevValue, setPrevValue] = useState(value);
+    const [lastCommittedValue, setLastCommittedValue] = useState(value);
     const inputRef = useRef<HTMLInputElement>(null);
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const lastCommittedValueRef = useRef(value);
 
     // Sync local value when external value changes (but not during active editing)
     if (value !== prevValue) {
       setPrevValue(value);
-      if (!isEditing && value !== lastCommittedValueRef.current) {
+      if (!isEditing && value !== lastCommittedValue) {
         setLocalValue(value);
-        lastCommittedValueRef.current = value;
+        setLastCommittedValue(value);
       }
     }
 
@@ -111,8 +111,8 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       if (debounceMs > 0) {
         // Debounced: schedule the onChange call
         debounceTimerRef.current = setTimeout(() => {
-          if (onChange && newValue !== lastCommittedValueRef.current) {
-            lastCommittedValueRef.current = newValue;
+          if (onChange && newValue !== lastCommittedValue) {
+            setLastCommittedValue(newValue);
             onChange(newValue);
           }
           debounceTimerRef.current = null;
@@ -120,7 +120,7 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
       } else {
         // No debounce: call onChange immediately
         if (onChange) {
-          lastCommittedValueRef.current = newValue;
+          setLastCommittedValue(newValue);
           onChange(newValue);
         }
       }
@@ -133,8 +133,8 @@ const EditableValue = forwardRef<HTMLDivElement, EditableValueProps>(
         debounceTimerRef.current = null;
       }
 
-      if (onChange && localValue !== lastCommittedValueRef.current) {
-        lastCommittedValueRef.current = localValue;
+      if (onChange && localValue !== lastCommittedValue) {
+        setLastCommittedValue(localValue);
         onChange(localValue);
       }
 
