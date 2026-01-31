@@ -101,40 +101,38 @@ export function CharactersList() {
 
   return (
     <>
-      {!loading && (
-        <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:items-end sm:justify-between">
-          {characters.length > 1 && (
-            <div className="max-w-48">
-              <Select
-                label="Sort by"
-                options={sortOptions}
-                value={sortBy}
-                onValueChange={(value) => setSortBy(value as SortOption)}
-                size="sm"
-              />
-            </div>
-          )}
-          <div className="flex gap-2 sm:ml-auto">
-            <Button
-              variant="secondary"
+      <div className="mb-4 flex flex-col sm:flex-row gap-3 sm:items-end sm:justify-between">
+        {characters.length > 1 && (
+          <div className="max-w-48">
+            <Select
+              label="Sort by"
+              options={sortOptions}
+              value={sortBy}
+              onValueChange={(value) => setSortBy(value as SortOption)}
               size="sm"
-              icon="upload"
-              onClick={() => setImportModalOpen(true)}
-            >
-              Import
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              icon="clipboard"
-              onClick={() => setExportModalOpen(true)}
-              disabled={characters.length === 0}
-            >
-              Export
-            </Button>
+            />
           </div>
+        )}
+        <div className="flex gap-2 sm:ml-auto">
+          <Button
+            variant="secondary"
+            size="sm"
+            icon="upload"
+            onClick={() => setImportModalOpen(true)}
+          >
+            Import
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon="clipboard"
+            onClick={() => setExportModalOpen(true)}
+            disabled={characters.length === 0}
+          >
+            Export
+          </Button>
         </div>
-      )}
+      </div>
       <ItemGrid
         items={sortedCharacters}
         loading={loading}
