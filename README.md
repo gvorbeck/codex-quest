@@ -12,7 +12,7 @@
   [![TanStack Query](https://img.shields.io/badge/TanStack%20Query-5.x-ff6b6b?style=flat&logo=react-query)](https://tanstack.com/query)
   [![Zustand](https://img.shields.io/badge/Zustand-5.x-000000?style=flat&logo=zustand)](https://zustand-demo.pmnd.rs/)
   [![Firebase](https://img.shields.io/badge/Firebase-12.2-ffca28?style=flat&logo=firebase)](https://firebase.google.com/)
-  [![Vitest](https://img.shields.io/badge/Vitest-3.2-729b1b?style=flat&logo=vitest)](https://vitest.dev/)
+  [![Vitest](https://img.shields.io/badge/Vitest-4.0-729b1b?style=flat&logo=vitest)](https://vitest.dev/)
   [![Playwright](https://img.shields.io/badge/Playwright-1.55-45ba4b?style=flat&logo=playwright)](https://playwright.dev/)
   
 </div>
