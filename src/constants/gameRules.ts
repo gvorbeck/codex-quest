@@ -20,6 +20,7 @@ export const CHARACTER_CLASSES = {
   SPELLCRAFTER: "spellcrafter",
   FIGHTER_MAGIC_USER: "fighter-magic-user",
   MAGIC_USER_THIEF: "magic-user-thief",
+  ILLUSIONIST_THIEF: "illusionist-thief",
 } as const;
 
 // Combination class definitions
@@ -35,6 +36,12 @@ export const COMBINATION_CLASSES = [
     name: "Magic-User/Thief",
     description: "Blends arcane mastery with stealth and cunning. Can cast spells while wearing leather armor.",
     baseClasses: ["Magic-User", "Thief"],
+  },
+  {
+    id: CHARACTER_CLASSES.ILLUSIONIST_THIEF,
+    name: "Illusionist/Thief",
+    description: "Combines illusion magic with stealth and cunning. Can cast spells while wearing leather armor.",
+    baseClasses: ["Illusionist", "Thief"],
   },
 ] as const;
 
@@ -92,6 +99,7 @@ export const LEVEL_UP_CONSTANTS = {
     "fighter",
     "thief",
     "magic-user-thief",
+    "illusionist-thief",
     "fighter-magic-user",
     "assassin",
     "barbarian",
@@ -139,6 +147,10 @@ export const CLASSES_WITH_SKILLS = {
     abilityType: "Skill" as const,
   },
   "magic-user-thief": {
+    displayName: "Thief Skills",
+    abilityType: "Skill" as const,
+  },
+  "illusionist-thief": {
     displayName: "Thief Skills",
     abilityType: "Skill" as const,
   },

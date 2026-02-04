@@ -15,6 +15,7 @@ import { scout } from "./scout";
 import { spellcrafter } from "./spellcrafter";
 import { fighterMagicUser } from "./fighter-magic-user";
 import { magicUserThief } from "./magic-user-thief";
+import { illusionistThief } from "./illusionist-thief";
 
 export const allClasses = [
   cleric,
@@ -32,4 +33,5 @@ export const allClasses = [
   spellcrafter,
   fighterMagicUser,
   magicUserThief,
+  illusionistThief,
 ];
