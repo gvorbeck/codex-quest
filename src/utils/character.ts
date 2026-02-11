@@ -573,17 +573,20 @@ export function areCurrentSpellsStillValid(
     return hasSpells(character);
   }
 
-  const classData = getClassFromAvailable(character.class, availableClasses);
+  // First try to find in availableClasses (standard classes)
+  let classData = getClassFromAvailable(character.class, availableClasses);
+
+  // If not found in availableClasses, check allClasses (handles combination classes)
+  if (!classData) {
+    classData = getClassById(character.class);
+  }
+
   if (!classData?.spellcasting) {
     return false;
   }
 
   // Map combination classes to their base spellcasting class for spell level lookups
-  let spellKeyToCheck = character.class;
-  if (character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
-    spellKeyToCheck = CHARACTER_CLASSES.MAGIC_USER;
-  }
+  const spellKeyToCheck = getSpellcastingBaseClass(character.class);
 
   // Check if all spells are valid for this class
   return character.spells.every((spell) => {
@@ -605,20 +608,22 @@ export function hasRequiredStartingSpells(
     return spells.length >= 1;
   }
 
-  const classData = getClassFromAvailable(character.class, availableClasses);
+  // First try to find in availableClasses (standard classes)
+  let classData = getClassFromAvailable(character.class, availableClasses);
+
+  // If not found in availableClasses, check allClasses (handles combination classes)
+  if (!classData) {
+    classData = getClassById(character.class);
+  }
+
   if (!classData || !classData.spellcasting) return true;
 
   // Magic-user types require at least one starting spell (including combination classes)
-  if (classData.classType === CHARACTER_CLASSES.MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
+  if (classData.classType === CHARACTER_CLASSES.MAGIC_USER) {
     const spells = character.spells || [];
 
-    // For combination classes, use the base magic-user class to check spell levels
-    const spellKeyToCheck = (character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-                              character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF)
-      ? CHARACTER_CLASSES.MAGIC_USER
-      : character.class;
+    // For combination classes, use the base spellcasting class to check spell levels
+    const spellKeyToCheck = getSpellcastingBaseClass(character.class);
 
     const firstLevelSpells = spells.filter(
       (spell) => spell.level[spellKeyToCheck as keyof typeof spell.level] === 1
@@ -709,6 +714,20 @@ export function getEffectiveSpellcastingClass(
   }
 
   return null;
+}
+
+/**
+ * Maps combination classes to their base spellcasting class for spell level lookups.
+ * @param characterClass The class ID to map
+ * @returns The base spellcasting class ID (returns input if not a combination class)
+ */
+export function getSpellcastingBaseClass(characterClass: string): string {
+  const COMBINATION_TO_BASE_MAP: Record<string, string> = {
+    [CHARACTER_CLASSES.FIGHTER_MAGIC_USER]: CHARACTER_CLASSES.MAGIC_USER,
+    [CHARACTER_CLASSES.MAGIC_USER_THIEF]: CHARACTER_CLASSES.MAGIC_USER,
+    [CHARACTER_CLASSES.ILLUSIONIST_THIEF]: CHARACTER_CLASSES.ILLUSIONIST,
+  };
+  return COMBINATION_TO_BASE_MAP[characterClass] || characterClass;
 }
 
 export function getSpellcastingAbilityModifier(character: Character): number {
@@ -889,11 +908,7 @@ export function getSpellLevel(
   }
 
   // Map combination classes to their base spellcasting class for spell level lookup
-  let mappedClassId = characterClass;
-  if (characterClass === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      characterClass === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
-    mappedClassId = CHARACTER_CLASSES.MAGIC_USER;
-  }
+  const mappedClassId = getSpellcastingBaseClass(characterClass);
 
   const level = spell.level?.[mappedClassId as keyof typeof spell.level];
   if (level != null) {
