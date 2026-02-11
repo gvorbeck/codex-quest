@@ -33,8 +33,8 @@ const parseShieldBonus = (
   itemName: string
 ): number => {
   if (typeof shieldAC === "string" && shieldAC.startsWith("+")) {
-    const bonusValue = parseInt(shieldAC.substring(1), 10);
-    if (isNaN(bonusValue)) {
+    const bonusValue = Number.parseInt(shieldAC.substring(1), 10);
+    if (Number.isNaN(bonusValue)) {
       logger.warn(`Invalid shield AC value for ${itemName}: ${shieldAC}`);
       return 0;
     }
@@ -379,12 +379,14 @@ function applyHitDiceRestriction(
   currentHitDie: string,
   maxSizeRestriction: string
 ): string {
-  const classMatch = currentHitDie.match(/\d*d(\d+)/);
-  const restrictedMatch = maxSizeRestriction.match(/d(\d+)/);
+  const classRegex = /\d*d(\d+)/;
+  const restrictedRegex = /d(\d+)/;
+  const classMatch = classRegex.exec(currentHitDie);
+  const restrictedMatch = restrictedRegex.exec(maxSizeRestriction);
 
   if (classMatch?.[1] && restrictedMatch?.[1]) {
-    const classDieSize = parseInt(classMatch[1], 10);
-    const restrictedDieSize = parseInt(restrictedMatch[1], 10);
+    const classDieSize = Number.parseInt(classMatch[1], 10);
+    const restrictedDieSize = Number.parseInt(restrictedMatch[1], 10);
 
     if (restrictedDieSize < classDieSize) {
       return `1${maxSizeRestriction}`;
@@ -395,10 +397,11 @@ function applyHitDiceRestriction(
 }
 
 function applyHitDiceDecrease(currentHitDie: string): string {
-  const match = currentHitDie.match(/\d*d(\d+)/);
+  const regex = /\d*d(\d+)/;
+  const match = regex.exec(currentHitDie);
   if (!match?.[1]) return currentHitDie;
 
-  const currentSize = parseInt(match[1], 10);
+  const currentSize = Number.parseInt(match[1], 10);
   let newSize: number;
 
   switch (currentSize) {
@@ -425,10 +428,11 @@ function applyHitDiceDecrease(currentHitDie: string): string {
 }
 
 function applyHitDiceIncrease(currentHitDie: string): string {
-  const match = currentHitDie.match(/\d*d(\d+)/);
+  const regex = /\d*d(\d+)/;
+  const match = regex.exec(currentHitDie);
   if (!match?.[1]) return currentHitDie;
 
-  const currentSize = parseInt(match[1], 10);
+  const currentSize = Number.parseInt(match[1], 10);
   let newSize: number;
 
   switch (currentSize) {
@@ -449,6 +453,38 @@ function applyHitDiceIncrease(currentHitDie: string): string {
   }
 
   return `1d${newSize}`;
+}
+
+function createModificationInfo(
+  abilityName: string,
+  originalHitDie: string,
+  modifiedHitDie: string | null,
+  modificationType: "restriction" | "decrease" | "increase"
+): RacialModificationInfo {
+  return {
+    abilityName,
+    originalHitDie,
+    modifiedHitDie: modifiedHitDie || originalHitDie,
+    modificationType,
+  };
+}
+
+function checkHitDiceRestriction(
+  originalHitDie: string,
+  maxSize: string
+): boolean {
+  const classRegex = /\d*d(\d+)/;
+  const restrictedRegex = /d(\d+)/;
+  const classMatch = classRegex.exec(originalHitDie);
+  const restrictedMatch = restrictedRegex.exec(maxSize);
+
+  if (classMatch?.[1] && restrictedMatch?.[1]) {
+    const classDieSize = Number.parseInt(classMatch[1], 10);
+    const restrictedDieSize = Number.parseInt(restrictedMatch[1], 10);
+    return restrictedDieSize < classDieSize;
+  }
+
+  return false;
 }
 
 export function getRacialModificationInfo(
@@ -472,37 +508,16 @@ export function getRacialModificationInfo(
     const hitDiceRestriction = ability.effects?.hitDiceRestriction;
     const hitDiceBonus = ability.effects?.hitDiceBonus;
 
-    if (hitDiceRestriction?.maxSize) {
-      const classMatch = originalHitDie.match(/\d*d(\d+)/);
-      const restrictedMatch = hitDiceRestriction.maxSize.match(/d(\d+)/);
+    if (hitDiceRestriction?.maxSize && checkHitDiceRestriction(originalHitDie, hitDiceRestriction.maxSize)) {
+      return createModificationInfo(ability.name, originalHitDie, modifiedHitDie, "restriction");
+    }
 
-      if (classMatch?.[1] && restrictedMatch?.[1]) {
-        const classDieSize = parseInt(classMatch[1], 10);
-        const restrictedDieSize = parseInt(restrictedMatch[1], 10);
+    if (hitDiceRestriction?.sizeDecrease) {
+      return createModificationInfo(ability.name, originalHitDie, modifiedHitDie, "decrease");
+    }
 
-        if (restrictedDieSize < classDieSize) {
-          return {
-            abilityName: ability.name,
-            originalHitDie,
-            modifiedHitDie: modifiedHitDie || originalHitDie,
-            modificationType: "restriction",
-          };
-        }
-      }
-    } else if (hitDiceRestriction?.sizeDecrease) {
-      return {
-        abilityName: ability.name,
-        originalHitDie,
-        modifiedHitDie: modifiedHitDie || originalHitDie,
-        modificationType: "decrease",
-      };
-    } else if (hitDiceBonus?.sizeIncrease) {
-      return {
-        abilityName: ability.name,
-        originalHitDie,
-        modifiedHitDie: modifiedHitDie || originalHitDie,
-        modificationType: "increase",
-      };
+    if (hitDiceBonus?.sizeIncrease) {
+      return createModificationInfo(ability.name, originalHitDie, modifiedHitDie, "increase");
     }
   }
 
@@ -573,13 +588,8 @@ export function areCurrentSpellsStillValid(
     return hasSpells(character);
   }
 
-  // First try to find in availableClasses (standard classes)
-  let classData = getClassFromAvailable(character.class, availableClasses);
-
-  // If not found in availableClasses, check allClasses (handles combination classes)
-  if (!classData) {
-    classData = getClassById(character.class);
-  }
+  // First try to find in availableClasses (standard classes), fallback to allClasses (combination classes)
+  const classData = getClassFromAvailable(character.class, availableClasses) ?? getClassById(character.class);
 
   if (!classData?.spellcasting) {
     return false;
@@ -608,15 +618,10 @@ export function hasRequiredStartingSpells(
     return spells.length >= 1;
   }
 
-  // First try to find in availableClasses (standard classes)
-  let classData = getClassFromAvailable(character.class, availableClasses);
+  // First try to find in availableClasses (standard classes), fallback to allClasses (combination classes)
+  const classData = getClassFromAvailable(character.class, availableClasses) ?? getClassById(character.class);
 
-  // If not found in availableClasses, check allClasses (handles combination classes)
-  if (!classData) {
-    classData = getClassById(character.class);
-  }
-
-  if (!classData || !classData.spellcasting) return true;
+  if (!classData?.spellcasting) return true;
 
   // Magic-user types require at least one starting spell (including combination classes)
   if (classData.classType === CHARACTER_CLASSES.MAGIC_USER) {
@@ -701,13 +706,8 @@ export function getEffectiveSpellcastingClass(
     return { type: "custom", classId: character.class };
   }
 
-  // First try to find in availableClasses (standard classes)
-  let classData = getClassFromAvailable(character.class, availableClasses);
-
-  // If not found in availableClasses, check allClasses (handles combination classes)
-  if (!classData) {
-    classData = getClassById(character.class);
-  }
+  // First try to find in availableClasses (standard classes), fallback to allClasses (combination classes)
+  const classData = getClassFromAvailable(character.class, availableClasses) ?? getClassById(character.class);
 
   if (classData?.spellcasting) {
     return { type: "standard", classId: character.class };
@@ -899,10 +899,10 @@ export function getSpellLevel(
 ): number {
   if (isCustomClass(characterClass)) {
     const validLevels = Object.values(spell.level).filter(
-      (level) => level !== null && level !== undefined
+      (level): level is number => level !== null && level !== undefined
     );
     if (validLevels.length > 0) {
-      return Math.min(...(validLevels as number[]));
+      return Math.min(...validLevels);
     }
     return 1;
   }
@@ -910,7 +910,7 @@ export function getSpellLevel(
   // Map combination classes to their base spellcasting class for spell level lookup
   const mappedClassId = getSpellcastingBaseClass(characterClass);
 
-  const level = spell.level?.[mappedClassId as keyof typeof spell.level];
+  const level = spell.level?.[mappedClassId];
   if (level != null) {
     return level;
   }
