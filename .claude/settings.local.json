@@ -39,7 +39,8 @@
       "Bash(done)",
       "Bash(gh issue view:*)",
       "Bash(npm update:*)",
-      "WebFetch(domain:eslint.org)"
+      "WebFetch(domain:eslint.org)",
+      "Bash(npm test:*)"
     ],
     "deny": [
       "Bash(npm run dev)"

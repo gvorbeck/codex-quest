@@ -52,6 +52,14 @@ interface EquipmentLike {
   category?: string;
 }
 
+interface AbilitiesLike {
+  dexterity?: {
+    modifier: number;
+    value?: number;
+  };
+  [key: string]: unknown;
+}
+
 const isEquipmentArray = (equipment: unknown[]): equipment is Equipment[] => {
   return equipment.every((item): item is Equipment =>
     typeof item === 'object' &&
@@ -61,8 +69,26 @@ const isEquipmentArray = (equipment: unknown[]): equipment is Equipment[] => {
   );
 };
 
+/**
+ * Calculates the total Armor Class for a character
+ *
+ * Formula: Base AC (from armor or default 11) + Shield Bonus + Dexterity Modifier
+ *
+ * Per BFRPG rules (page 3): "Don't forget to add your Dexterity bonus or penalty to the figure."
+ *
+ * @param character - Character object or minimal combat data with equipment and abilities
+ * @returns The calculated Armor Class as a number
+ *
+ * @example
+ * // Leather armor (AC 13) with Dex +2
+ * calculateArmorClass(character) // Returns 15
+ *
+ * @example
+ * // Unarmored (AC 11) with Dex +2
+ * calculateArmorClass(character) // Returns 13
+ */
 export function calculateArmorClass(
-  character: Character | { equipment?: EquipmentLike[] }
+  character: Character | { equipment?: EquipmentLike[]; abilities?: AbilitiesLike }
 ): number {
   const equipment = character.equipment;
   if (!Array.isArray(equipment)) {
@@ -90,7 +116,12 @@ export function calculateArmorClass(
     );
   });
 
-  return baseAC + shieldBonus;
+  // Add Dexterity modifier to AC (BFRPG rules, page 3)
+  const dexModifier = 'abilities' in character
+    ? (character.abilities?.dexterity?.modifier ?? 0)
+    : 0;
+
+  return baseAC + shieldBonus + dexModifier;
 }
 
 export function calculateMovementRate(character: Character): string {
