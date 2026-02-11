@@ -696,7 +696,14 @@ export function getEffectiveSpellcastingClass(
     return { type: "custom", classId: character.class };
   }
 
-  const classData = getClassFromAvailable(character.class, availableClasses);
+  // First try to find in availableClasses (standard classes)
+  let classData = getClassFromAvailable(character.class, availableClasses);
+
+  // If not found in availableClasses, check allClasses (handles combination classes)
+  if (!classData) {
+    classData = getClassById(character.class);
+  }
+
   if (classData?.spellcasting) {
     return { type: "standard", classId: character.class };
   }
