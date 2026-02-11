@@ -12,8 +12,7 @@ import { Button, Icon } from "@/components/ui";
 import { Card, Typography, Badge } from "@/components/ui/core/display";
 import { InfoCardHeader, StatGrid } from "@/components/ui/composite";
 import { ErrorDisplay } from "@/components/ui/core/feedback";
-import type { BaseStepProps } from "@/types";
-import type { EquipmentPack } from "@/types";
+import type { BaseStepProps, EquipmentPack } from "@/types";
 import { EquipmentSelector } from "@/components/domain/equipment";
 import { useEquipmentManagement } from "@/hooks";
 import { useCharacterMutations } from "@/hooks/mutations/useEnhancedMutations";
@@ -33,6 +32,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
     totalValue,
     cleanedEquipment,
     getStatusMessage,
+    setStartingGold,
   } = useEquipmentManagement(character, onCharacterChange);
 
   // Equipment pack state
@@ -55,6 +55,7 @@ function EquipmentStep({ character, onCharacterChange }: EquipmentStepProps) {
         pack,
       });
       onCharacterChange(updatedCharacter);
+      setStartingGold(updatedCharacter.currency.gold);
       setSelectedPack(pack);
     } catch {
       // Error is handled by the mutation hook

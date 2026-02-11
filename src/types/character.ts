@@ -211,8 +211,8 @@ export interface Class {
 
 // Base interface for character creation step props
 export interface BaseStepProps {
-  character: Character;
-  onCharacterChange: (character: Character) => void;
+  readonly character: Character;
+  readonly onCharacterChange: (character: Character) => void;
 }
 
 // Game rules type exports - derived from gameRules constants

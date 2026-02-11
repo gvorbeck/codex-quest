@@ -185,6 +185,7 @@ export function useEquipmentManagement(
 
   return {
     startingGold,
+    setStartingGold,
     handleGoldRoll,
     handleEquipmentAdd,
     handleEquipmentRemove,

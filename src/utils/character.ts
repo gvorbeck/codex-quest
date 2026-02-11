@@ -33,8 +33,8 @@ const parseShieldBonus = (
   itemName: string
 ): number => {
   if (typeof shieldAC === "string" && shieldAC.startsWith("+")) {
-    const bonusValue = parseInt(shieldAC.substring(1), 10);
-    if (isNaN(bonusValue)) {
+    const bonusValue = Number.parseInt(shieldAC.substring(1), 10);
+    if (Number.isNaN(bonusValue)) {
       logger.warn(`Invalid shield AC value for ${itemName}: ${shieldAC}`);
       return 0;
     }
@@ -52,6 +52,14 @@ interface EquipmentLike {
   category?: string;
 }
 
+interface AbilitiesLike {
+  dexterity?: {
+    modifier: number;
+    value?: number;
+  };
+  [key: string]: unknown;
+}
+
 const isEquipmentArray = (equipment: unknown[]): equipment is Equipment[] => {
   return equipment.every((item): item is Equipment =>
     typeof item === 'object' &&
@@ -61,8 +69,26 @@ const isEquipmentArray = (equipment: unknown[]): equipment is Equipment[] => {
   );
 };
 
+/**
+ * Calculates the total Armor Class for a character
+ *
+ * Formula: Base AC (from armor or default 11) + Shield Bonus + Dexterity Modifier
+ *
+ * Per BFRPG rules (page 3): "Don't forget to add your Dexterity bonus or penalty to the figure."
+ *
+ * @param character - Character object or minimal combat data with equipment and abilities
+ * @returns The calculated Armor Class as a number
+ *
+ * @example
+ * // Leather armor (AC 13) with Dex +2
+ * calculateArmorClass(character) // Returns 15
+ *
+ * @example
+ * // Unarmored (AC 11) with Dex +2
+ * calculateArmorClass(character) // Returns 13
+ */
 export function calculateArmorClass(
-  character: Character | { equipment?: EquipmentLike[] }
+  character: Character | { equipment?: EquipmentLike[]; abilities?: AbilitiesLike }
 ): number {
   const equipment = character.equipment;
   if (!Array.isArray(equipment)) {
@@ -90,7 +116,12 @@ export function calculateArmorClass(
     );
   });
 
-  return baseAC + shieldBonus;
+  // Add Dexterity modifier to AC (BFRPG rules, page 3)
+  const dexModifier = 'abilities' in character
+    ? (character.abilities?.dexterity?.modifier ?? 0)
+    : 0;
+
+  return baseAC + shieldBonus + dexModifier;
 }
 
 export function calculateMovementRate(character: Character): string {
@@ -379,12 +410,14 @@ function applyHitDiceRestriction(
   currentHitDie: string,
   maxSizeRestriction: string
 ): string {
-  const classMatch = currentHitDie.match(/\d*d(\d+)/);
-  const restrictedMatch = maxSizeRestriction.match(/d(\d+)/);
+  const classRegex = /\d*d(\d+)/;
+  const restrictedRegex = /d(\d+)/;
+  const classMatch = classRegex.exec(currentHitDie);
+  const restrictedMatch = restrictedRegex.exec(maxSizeRestriction);
 
   if (classMatch?.[1] && restrictedMatch?.[1]) {
-    const classDieSize = parseInt(classMatch[1], 10);
-    const restrictedDieSize = parseInt(restrictedMatch[1], 10);
+    const classDieSize = Number.parseInt(classMatch[1], 10);
+    const restrictedDieSize = Number.parseInt(restrictedMatch[1], 10);
 
     if (restrictedDieSize < classDieSize) {
       return `1${maxSizeRestriction}`;
@@ -395,10 +428,11 @@ function applyHitDiceRestriction(
 }
 
 function applyHitDiceDecrease(currentHitDie: string): string {
-  const match = currentHitDie.match(/\d*d(\d+)/);
+  const regex = /\d*d(\d+)/;
+  const match = regex.exec(currentHitDie);
   if (!match?.[1]) return currentHitDie;
 
-  const currentSize = parseInt(match[1], 10);
+  const currentSize = Number.parseInt(match[1], 10);
   let newSize: number;
 
   switch (currentSize) {
@@ -425,10 +459,11 @@ function applyHitDiceDecrease(currentHitDie: string): string {
 }
 
 function applyHitDiceIncrease(currentHitDie: string): string {
-  const match = currentHitDie.match(/\d*d(\d+)/);
+  const regex = /\d*d(\d+)/;
+  const match = regex.exec(currentHitDie);
   if (!match?.[1]) return currentHitDie;
 
-  const currentSize = parseInt(match[1], 10);
+  const currentSize = Number.parseInt(match[1], 10);
   let newSize: number;
 
   switch (currentSize) {
@@ -449,6 +484,38 @@ function applyHitDiceIncrease(currentHitDie: string): string {
   }
 
   return `1d${newSize}`;
+}
+
+function createModificationInfo(
+  abilityName: string,
+  originalHitDie: string,
+  modifiedHitDie: string | null,
+  modificationType: "restriction" | "decrease" | "increase"
+): RacialModificationInfo {
+  return {
+    abilityName,
+    originalHitDie,
+    modifiedHitDie: modifiedHitDie || originalHitDie,
+    modificationType,
+  };
+}
+
+function checkHitDiceRestriction(
+  originalHitDie: string,
+  maxSize: string
+): boolean {
+  const classRegex = /\d*d(\d+)/;
+  const restrictedRegex = /d(\d+)/;
+  const classMatch = classRegex.exec(originalHitDie);
+  const restrictedMatch = restrictedRegex.exec(maxSize);
+
+  if (classMatch?.[1] && restrictedMatch?.[1]) {
+    const classDieSize = Number.parseInt(classMatch[1], 10);
+    const restrictedDieSize = Number.parseInt(restrictedMatch[1], 10);
+    return restrictedDieSize < classDieSize;
+  }
+
+  return false;
 }
 
 export function getRacialModificationInfo(
@@ -472,37 +539,16 @@ export function getRacialModificationInfo(
     const hitDiceRestriction = ability.effects?.hitDiceRestriction;
     const hitDiceBonus = ability.effects?.hitDiceBonus;
 
-    if (hitDiceRestriction?.maxSize) {
-      const classMatch = originalHitDie.match(/\d*d(\d+)/);
-      const restrictedMatch = hitDiceRestriction.maxSize.match(/d(\d+)/);
+    if (hitDiceRestriction?.maxSize && checkHitDiceRestriction(originalHitDie, hitDiceRestriction.maxSize)) {
+      return createModificationInfo(ability.name, originalHitDie, modifiedHitDie, "restriction");
+    }
 
-      if (classMatch?.[1] && restrictedMatch?.[1]) {
-        const classDieSize = parseInt(classMatch[1], 10);
-        const restrictedDieSize = parseInt(restrictedMatch[1], 10);
+    if (hitDiceRestriction?.sizeDecrease) {
+      return createModificationInfo(ability.name, originalHitDie, modifiedHitDie, "decrease");
+    }
 
-        if (restrictedDieSize < classDieSize) {
-          return {
-            abilityName: ability.name,
-            originalHitDie,
-            modifiedHitDie: modifiedHitDie || originalHitDie,
-            modificationType: "restriction",
-          };
-        }
-      }
-    } else if (hitDiceRestriction?.sizeDecrease) {
-      return {
-        abilityName: ability.name,
-        originalHitDie,
-        modifiedHitDie: modifiedHitDie || originalHitDie,
-        modificationType: "decrease",
-      };
-    } else if (hitDiceBonus?.sizeIncrease) {
-      return {
-        abilityName: ability.name,
-        originalHitDie,
-        modifiedHitDie: modifiedHitDie || originalHitDie,
-        modificationType: "increase",
-      };
+    if (hitDiceBonus?.sizeIncrease) {
+      return createModificationInfo(ability.name, originalHitDie, modifiedHitDie, "increase");
     }
   }
 
@@ -573,17 +619,15 @@ export function areCurrentSpellsStillValid(
     return hasSpells(character);
   }
 
-  const classData = getClassFromAvailable(character.class, availableClasses);
+  // First try to find in availableClasses (standard classes), fallback to allClasses (combination classes)
+  const classData = getClassFromAvailable(character.class, availableClasses) ?? getClassById(character.class);
+
   if (!classData?.spellcasting) {
     return false;
   }
 
   // Map combination classes to their base spellcasting class for spell level lookups
-  let spellKeyToCheck = character.class;
-  if (character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
-    spellKeyToCheck = CHARACTER_CLASSES.MAGIC_USER;
-  }
+  const spellKeyToCheck = getSpellcastingBaseClass(character.class);
 
   // Check if all spells are valid for this class
   return character.spells.every((spell) => {
@@ -605,20 +649,17 @@ export function hasRequiredStartingSpells(
     return spells.length >= 1;
   }
 
-  const classData = getClassFromAvailable(character.class, availableClasses);
-  if (!classData || !classData.spellcasting) return true;
+  // First try to find in availableClasses (standard classes), fallback to allClasses (combination classes)
+  const classData = getClassFromAvailable(character.class, availableClasses) ?? getClassById(character.class);
+
+  if (!classData?.spellcasting) return true;
 
   // Magic-user types require at least one starting spell (including combination classes)
-  if (classData.classType === CHARACTER_CLASSES.MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
+  if (classData.classType === CHARACTER_CLASSES.MAGIC_USER) {
     const spells = character.spells || [];
 
-    // For combination classes, use the base magic-user class to check spell levels
-    const spellKeyToCheck = (character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-                              character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF)
-      ? CHARACTER_CLASSES.MAGIC_USER
-      : character.class;
+    // For combination classes, use the base spellcasting class to check spell levels
+    const spellKeyToCheck = getSpellcastingBaseClass(character.class);
 
     const firstLevelSpells = spells.filter(
       (spell) => spell.level[spellKeyToCheck as keyof typeof spell.level] === 1
@@ -696,12 +737,28 @@ export function getEffectiveSpellcastingClass(
     return { type: "custom", classId: character.class };
   }
 
-  const classData = getClassFromAvailable(character.class, availableClasses);
+  // First try to find in availableClasses (standard classes), fallback to allClasses (combination classes)
+  const classData = getClassFromAvailable(character.class, availableClasses) ?? getClassById(character.class);
+
   if (classData?.spellcasting) {
     return { type: "standard", classId: character.class };
   }
 
   return null;
+}
+
+/**
+ * Maps combination classes to their base spellcasting class for spell level lookups.
+ * @param characterClass The class ID to map
+ * @returns The base spellcasting class ID (returns input if not a combination class)
+ */
+export function getSpellcastingBaseClass(characterClass: string): string {
+  const COMBINATION_TO_BASE_MAP: Record<string, string> = {
+    [CHARACTER_CLASSES.FIGHTER_MAGIC_USER]: CHARACTER_CLASSES.MAGIC_USER,
+    [CHARACTER_CLASSES.MAGIC_USER_THIEF]: CHARACTER_CLASSES.MAGIC_USER,
+    [CHARACTER_CLASSES.ILLUSIONIST_THIEF]: CHARACTER_CLASSES.ILLUSIONIST,
+  };
+  return COMBINATION_TO_BASE_MAP[characterClass] || characterClass;
 }
 
 export function getSpellcastingAbilityModifier(character: Character): number {
@@ -873,22 +930,18 @@ export function getSpellLevel(
 ): number {
   if (isCustomClass(characterClass)) {
     const validLevels = Object.values(spell.level).filter(
-      (level) => level !== null && level !== undefined
+      (level): level is number => level !== null && level !== undefined
     );
     if (validLevels.length > 0) {
-      return Math.min(...(validLevels as number[]));
+      return Math.min(...validLevels);
     }
     return 1;
   }
 
   // Map combination classes to their base spellcasting class for spell level lookup
-  let mappedClassId = characterClass;
-  if (characterClass === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      characterClass === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
-    mappedClassId = CHARACTER_CLASSES.MAGIC_USER;
-  }
+  const mappedClassId = getSpellcastingBaseClass(characterClass);
 
-  const level = spell.level?.[mappedClassId as keyof typeof spell.level];
+  const level = spell.level?.[mappedClassId];
   if (level != null) {
     return level;
   }

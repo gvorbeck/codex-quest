@@ -45,7 +45,7 @@ describe("Character Utilities", () => {
       );
     });
 
-    it("calculates AC with worn armor", () => {
+    it("calculates AC with worn armor (no dex modifier)", () => {
       const character = {
         equipment: [
           {
@@ -55,6 +55,14 @@ describe("Character Utilities", () => {
             category: "armor",
           } as Equipment,
         ],
+        abilities: {
+          strength: { value: 10, modifier: 0 },
+          dexterity: { value: 10, modifier: 0 },
+          constitution: { value: 10, modifier: 0 },
+          intelligence: { value: 10, modifier: 0 },
+          wisdom: { value: 10, modifier: 0 },
+          charisma: { value: 10, modifier: 0 },
+        },
       };
       expect(calculateArmorClass(character)).toBe(15);
     });
@@ -75,6 +83,14 @@ describe("Character Utilities", () => {
             category: "shield",
           } as Equipment,
         ],
+        abilities: {
+          strength: { value: 10, modifier: 0 },
+          dexterity: { value: 10, modifier: 0 },
+          constitution: { value: 10, modifier: 0 },
+          intelligence: { value: 10, modifier: 0 },
+          wisdom: { value: 10, modifier: 0 },
+          charisma: { value: 10, modifier: 0 },
+        },
       };
       expect(calculateArmorClass(character)).toBe(13);
     });
@@ -93,6 +109,112 @@ describe("Character Utilities", () => {
       expect(calculateArmorClass(character)).toBe(
         GAME_MECHANICS.DEFAULT_UNARMORED_AC
       );
+    });
+
+    it("applies Dexterity modifier to AC", () => {
+      const character = {
+        equipment: [
+          {
+            name: "Leather Armor",
+            AC: 13,
+            wearing: true,
+            category: "armor",
+          } as Equipment,
+        ],
+        abilities: {
+          strength: { value: 10, modifier: 0 },
+          dexterity: { value: 16, modifier: 2 },
+          constitution: { value: 10, modifier: 0 },
+          intelligence: { value: 10, modifier: 0 },
+          wisdom: { value: 10, modifier: 0 },
+          charisma: { value: 10, modifier: 0 },
+        },
+      };
+      // Leather armor (13) + Dex modifier (+2) = 15
+      expect(calculateArmorClass(character)).toBe(15);
+    });
+
+    it("applies negative Dexterity modifier to AC", () => {
+      const character = {
+        equipment: [
+          {
+            name: "Chain Mail",
+            AC: 15,
+            wearing: true,
+            category: "armor",
+          } as Equipment,
+        ],
+        abilities: {
+          strength: { value: 10, modifier: 0 },
+          dexterity: { value: 8, modifier: -1 },
+          constitution: { value: 10, modifier: 0 },
+          intelligence: { value: 10, modifier: 0 },
+          wisdom: { value: 10, modifier: 0 },
+          charisma: { value: 10, modifier: 0 },
+        },
+      };
+      // Chain mail (15) + Dex modifier (-1) = 14
+      expect(calculateArmorClass(character)).toBe(14);
+    });
+
+    it("applies Dexterity modifier to unarmored AC", () => {
+      const character = {
+        equipment: [],
+        abilities: {
+          strength: { value: 10, modifier: 0 },
+          dexterity: { value: 16, modifier: 2 },
+          constitution: { value: 10, modifier: 0 },
+          intelligence: { value: 10, modifier: 0 },
+          wisdom: { value: 10, modifier: 0 },
+          charisma: { value: 10, modifier: 0 },
+        },
+      };
+      // Default AC (11) + Dex modifier (+2) = 13
+      expect(calculateArmorClass(character)).toBe(13);
+    });
+
+    it("applies Dexterity modifier with armor and shield", () => {
+      const character = {
+        equipment: [
+          {
+            name: "Leather Armor",
+            AC: 13,
+            wearing: true,
+            category: "armor",
+          } as Equipment,
+          {
+            name: "Shield",
+            AC: "+1",
+            wearing: true,
+            category: "shield",
+          } as Equipment,
+        ],
+        abilities: {
+          strength: { value: 10, modifier: 0 },
+          dexterity: { value: 16, modifier: 2 },
+          constitution: { value: 10, modifier: 0 },
+          intelligence: { value: 10, modifier: 0 },
+          wisdom: { value: 10, modifier: 0 },
+          charisma: { value: 10, modifier: 0 },
+        },
+      };
+      // Leather armor (13) + Shield (+1) + Dex modifier (+2) = 16
+      expect(calculateArmorClass(character)).toBe(16);
+    });
+
+    it("handles characters without abilities property gracefully", () => {
+      const character = {
+        equipment: [
+          {
+            name: "Chain Mail",
+            AC: 15,
+            wearing: true,
+            category: "armor",
+          } as Equipment,
+        ],
+      };
+      // Chain mail (15) + no abilities = 15 (defaults to 0 modifier)
+      expect(calculateArmorClass(character)).toBe(15);
     });
   });
 
