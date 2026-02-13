@@ -165,8 +165,9 @@ function validateClassForRace(
   errors: string[]
 ): boolean {
   if (hasCustomRace(character)) {
-    if (isCustomClass(character.class) && character.class.trim().length === 0) {
+    if (isCustomClass(character.class) && character.class.trim() === "") {
       errors.push("Please enter a name for your custom class");
+      return false;
     }
     return true;
   }
@@ -237,20 +238,11 @@ function validateClassStep(
     };
   }
 
-  const isValidClass = validateClassForRace(
-    character,
-    availableRaces,
-    availableClasses,
-    errors
-  );
-  const hasRequiredSpells = validateStartingSpells(
-    character,
-    availableClasses,
-    errors
-  );
+  validateClassForRace(character, availableRaces, availableClasses, errors);
+  validateStartingSpells(character, availableClasses, errors);
 
   return {
-    isValid: errors.length === 0 && isValidClass && hasRequiredSpells,
+    isValid: errors.length === 0,
     errors,
     warnings,
   };
@@ -273,11 +265,10 @@ function validateEquipmentStep(): ValidationResult {
 }
 
 function validateReviewStep(character: Character): ValidationResult {
-  if (!character.name || character.name.trim().length === 0) {
-    return validate("", createSchema([Rules.characterName], true));
-  }
-
-  return validate(character.name, createSchema([Rules.characterName], true));
+  return validate(
+    character.name ?? "",
+    createSchema([Rules.characterName], true)
+  );
 }
 
 /**
@@ -288,12 +279,6 @@ export function validateCharacter(
   availableRaces: Race[],
   availableClasses: Class[]
 ): ValidationResult {
-  const result: ValidationResult = {
-    isValid: true,
-    errors: [],
-    warnings: [],
-  };
-
   // Basic structure validation
   if (typeof character !== "object" || character === null) {
     return {
@@ -348,7 +333,7 @@ export function validateCharacter(
     }
   }
 
-  return result;
+  return { isValid: true, errors: [], warnings: [] };
 }
 
 /**
