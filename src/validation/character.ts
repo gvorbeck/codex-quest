@@ -12,6 +12,7 @@ import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
 import { CHARACTER_CLASSES } from "@/constants";
 import {
+  getClassById,
   hasCustomRace,
   hasRequiredStartingSpells,
   hasValidAbilityScores,
@@ -215,12 +216,11 @@ function validateClassStep(
     availableClasses
   );
   if (!hasRequiredSpells) {
-    const isMagicUser = character.class === CHARACTER_CLASSES.MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF;
-    if (isMagicUser) {
+    const classData = getClassById(character.class);
+    if (classData?.classType === CHARACTER_CLASSES.MAGIC_USER) {
+      const label = classData.id.includes("illusionist") ? "Illusionists" : "Magic-Users";
       errors.push(
-        "Magic-Users must select one first level spell (Read Magic is automatically known)."
+        `${label} must select one first level spell (Read Magic is automatically known).`
       );
     } else {
       errors.push("Please select required starting spells for your class.");

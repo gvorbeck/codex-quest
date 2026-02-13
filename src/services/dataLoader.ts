@@ -4,9 +4,8 @@
  */
 
 import type { Equipment, Spell } from "@/types";
-import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES } from "@/constants";
-import { CACHE_KEYS } from "@/constants";
-import { logger } from "@/utils";
+import { EQUIPMENT_CATEGORIES, CHARACTER_CLASSES, CACHE_KEYS } from "@/constants";
+import { logger, getSpellcastingBaseClass } from "@/utils";
 
 // Constants for excluded spells
 const EXCLUDED_SPELLS = {
@@ -174,11 +173,7 @@ export async function loadSpellsForClass(
   }
 
   // Map combination classes to their base spellcasting class for spell lookups
-  let spellKeyToCheck = classId;
-  if (classId === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      classId === CHARACTER_CLASSES.MAGIC_USER_THIEF) {
-    spellKeyToCheck = CHARACTER_CLASSES.MAGIC_USER;
-  }
+  const spellKeyToCheck = getSpellcastingBaseClass(classId);
 
   const cacheKey = level ? `spells-${classId}-${level}` : `spells-${classId}`;
 
