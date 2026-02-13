@@ -12,6 +12,7 @@ import { validate, createSchema } from "./core";
 import { Rules, TypeGuards } from "./rules";
 import { CHARACTER_CLASSES } from "@/constants";
 import {
+  getClassById,
   hasCustomRace,
   hasRequiredStartingSpells,
   hasValidAbilityScores,
@@ -157,6 +158,62 @@ function validateRaceStep(
   return { isValid: true, errors: [], warnings: [] };
 }
 
+function validateClassForRace(
+  character: Character,
+  availableRaces: Race[],
+  availableClasses: Class[],
+  errors: string[]
+): boolean {
+  if (hasCustomRace(character)) {
+    if (isCustomClass(character.class) && character.class.trim() === "") {
+      errors.push("Please enter a name for your custom class");
+      return false;
+    }
+    return true;
+  }
+
+  const selectedRace = availableRaces.find((r) => r.id === character.race);
+  if (!selectedRace) {
+    errors.push("Selected race is not available");
+    return false;
+  }
+
+  const classesStillValid = isCurrentClassStillValid(
+    character,
+    selectedRace,
+    availableClasses
+  );
+  if (!classesStillValid) {
+    errors.push(`Selected class is not allowed for ${selectedRace.name}`);
+  }
+  return classesStillValid;
+}
+
+function validateStartingSpells(
+  character: Character,
+  availableClasses: Class[],
+  errors: string[]
+): boolean {
+  const hasRequiredSpells = hasRequiredStartingSpells(
+    character,
+    availableClasses
+  );
+  if (hasRequiredSpells) return true;
+
+  const classData = getClassById(character.class);
+  if (classData?.classType === CHARACTER_CLASSES.MAGIC_USER) {
+    const label = classData.id.includes("illusionist")
+      ? "Illusionists"
+      : "Magic-Users";
+    errors.push(
+      `${label} must select one first level spell (Read Magic is automatically known).`
+    );
+  } else {
+    errors.push("Please select required starting spells for your class.");
+  }
+  return false;
+}
+
 function validateClassStep(
   character: Character,
   availableRaces: Race[],
@@ -181,65 +238,11 @@ function validateClassStep(
     };
   }
 
-  // Handle custom races - they have no class restrictions
-  if (hasCustomRace(character)) {
-    // Custom races can use any class, no validation needed for race restrictions
-    // Still need to validate that custom classes have names if they exist
-    if (isCustomClass(character.class)) {
-      if (!character.class || character.class.trim().length === 0) {
-        errors.push("Please enter a name for your custom class");
-      }
-    }
-  } else {
-    const selectedRace = availableRaces.find((r) => r.id === character.race);
-    if (!selectedRace) {
-      return {
-        isValid: false,
-        errors: ["Selected race is not available"],
-        warnings,
-      };
-    }
-
-    const classesStillValid = isCurrentClassStillValid(
-      character,
-      selectedRace,
-      availableClasses
-    );
-    if (!classesStillValid) {
-      errors.push(`Selected class is not allowed for ${selectedRace.name}`);
-    }
-  }
-
-  const hasRequiredSpells = hasRequiredStartingSpells(
-    character,
-    availableClasses
-  );
-  if (!hasRequiredSpells) {
-    const isMagicUser = character.class === CHARACTER_CLASSES.MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.FIGHTER_MAGIC_USER ||
-      character.class === CHARACTER_CLASSES.MAGIC_USER_THIEF;
-    if (isMagicUser) {
-      errors.push(
-        "Magic-Users must select one first level spell (Read Magic is automatically known)."
-      );
-    } else {
-      errors.push("Please select required starting spells for your class.");
-    }
-  }
-
-  // For custom races, we don't use classesStillValid check
-  const isValidClass = hasCustomRace(character)
-    ? true
-    : availableRaces.find((r) => r.id === character.race)
-    ? isCurrentClassStillValid(
-        character,
-        availableRaces.find((r) => r.id === character.race)!,
-        availableClasses
-      )
-    : false;
+  validateClassForRace(character, availableRaces, availableClasses, errors);
+  validateStartingSpells(character, availableClasses, errors);
 
   return {
-    isValid: errors.length === 0 && isValidClass && hasRequiredSpells,
+    isValid: errors.length === 0,
     errors,
     warnings,
   };
@@ -262,11 +265,10 @@ function validateEquipmentStep(): ValidationResult {
 }
 
 function validateReviewStep(character: Character): ValidationResult {
-  if (!character.name || character.name.trim().length === 0) {
-    return validate("", createSchema([Rules.characterName], true));
-  }
-
-  return validate(character.name, createSchema([Rules.characterName], true));
+  return validate(
+    character.name ?? "",
+    createSchema([Rules.characterName], true)
+  );
 }
 
 /**
@@ -277,12 +279,6 @@ export function validateCharacter(
   availableRaces: Race[],
   availableClasses: Class[]
 ): ValidationResult {
-  const result: ValidationResult = {
-    isValid: true,
-    errors: [],
-    warnings: [],
-  };
-
   // Basic structure validation
   if (typeof character !== "object" || character === null) {
     return {
@@ -337,7 +333,7 @@ export function validateCharacter(
     }
   }
 
-  return result;
+  return { isValid: true, errors: [], warnings: [] };
 }
 
 /**

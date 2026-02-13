@@ -16,7 +16,7 @@ import type {
 import type { ValidationSchema } from "@/validation";
 import { Rules } from "@/validation";
 import { allClasses, allRaces } from "@/data";
-import { CHARACTER_CLASSES } from "@/constants";
+import { CHARACTER_CLASSES, COMBINATION_CLASS_IDS } from "@/constants";
 import { CURRENT_VERSION } from "@/services/characterMigration";
 // Note: Using direct imports here to avoid circular dependency with barrel file
 import { GAME_MECHANICS } from "./mechanics";
@@ -599,7 +599,14 @@ export function isCurrentClassStillValid(
 
   const custom = isCustomClass(character.class);
   const classAllowed = custom || selectedRace.allowedClasses.includes(character.class);
-  const classExists = custom || availableClasses.some((cls) => cls.id === character.class);
+
+  // Combination classes are gated by their own toggle and race restrictions,
+  // not by the supplemental classes filter, so check allClasses for them.
+  const isCombination = COMBINATION_CLASS_IDS.includes(character.class);
+  const classExists = custom ||
+    (isCombination
+      ? allClasses.some((cls) => cls.id === character.class)
+      : availableClasses.some((cls) => cls.id === character.class));
 
   return classAllowed && classExists;
 }
