@@ -40,7 +40,10 @@
       "Bash(gh issue view:*)",
       "Bash(npm update:*)",
       "WebFetch(domain:eslint.org)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "WebFetch(domain:foundryvtt.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:foundryvtt.wiki)"
     ],
     "deny": [
       "Bash(npm run dev)"

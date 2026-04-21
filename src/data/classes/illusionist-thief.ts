@@ -31,7 +31,7 @@ export const illusionistThief: Class = {
       min: 9,
     },
   ],
-  allowedWeapons: ["dagger", "walking-staff"], // Illusionist restrictions
+  allowedWeapons: [], // Thief can use any weapon (BFRPG 4e r142 p8)
   allowedArmor: ["leather"], // Can wear leather armor (special ability)
   spellcasting: {
     spellsPerLevel: {
