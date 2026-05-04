@@ -90,7 +90,7 @@
         }
       ]
     ],
-    "description": "Carnivorous apes appear much like ordinary gorillas, but are bad-tempered and aggressive. They are actually omnivores, but have a marked preference for meat. Adult females are 4½ to 5 feet tall and weigh up to 300 pounds, while males are larger, being 5½ to 6 feet tall and weighing up to 400 pounds."
+    "description": "Carnivorous apes appear much like ordinary gorillas, but are bad-tempered and aggressive. They are actually omnivores, but have a marked preference for meat. Adult females are 4\u00bd to 5 feet tall and weigh up to 300 pounds, while males are larger, being 5\u00bd to 6 feet tall and weighing up to 400 pounds."
   },
   {
     "name": "Barkling",
@@ -111,7 +111,7 @@
         }
       ]
     ],
-    "description": "Barklings are diminutive furry humanoids with very dog-like faces. They stand between 2½ and 3½ feet tall and typically weigh around 45 pounds. They are pack hunters by nature, but when encountered singly or in small groups pose shyly when their numbers are overwhelming. Use the higher morale figure when a barkling group outnumbers their enemies by 3 combatants to 1 or more.\n\nBarklings can deliver a nasty bite but prefer to fight with weapons, favoring small weapons made for their stature and relative lack of strength; all such weapons do 1d4 points of damage on a hit.\n\nBarklings see well in the dark, having Darkvision with a range of 30 feet, but their sense of smell is where they excel; a barkling can track almost any living or corporeal undead creature by scent, even if it has been as much as a day since it passed.\n\nIn combat barklings usually wear chainmail armor which they craft themselves (as shown in the Armor Class given above).\n\nOne out of every ten barklings will be a warrior with 1 hit die (25 XP). In barkling encampments, one out of every twenty will be a chieftain of 2 hit dice (75 XP) having a +1 bonus to damage due to strength. In villages of 50 or more there will be a barkling lord of 3 hit dice (145 XP) who has +1 bonus to damage. Barklings gain a +1 bonus to their morale as long as they are led by any of their leaders.\n\nIn addition, a lair has a chance equal to 1-2 on 1d6 of a wizard being present (or 1-3 on 1d6 if a chieftain is present). A wizard is equivalent to a 1 hit die warrior barkling statistically, but has Magic-User abilities at level 1d4+1. For XP purposes, treat the wizard barkling as if it has a number of hit dice equal to its magic-user level -1, and assign one special ability bonus asterisk.\n\nBarklings are sometimes confused with kobolds, for whom they have a particular hatred; calling a barkling a kobold or suggesting that the two species are related is considered a terrible insult."
+    "description": "Barklings are diminutive furry humanoids with very dog-like faces. They stand between 2\u00bd and 3\u00bd feet tall and typically weigh around 45 pounds. They are pack hunters by nature, but when encountered singly or in small groups pose shyly when their numbers are overwhelming. Use the higher morale figure when a barkling group outnumbers their enemies by 3 combatants to 1 or more.\n\nBarklings can deliver a nasty bite but prefer to fight with weapons, favoring small weapons made for their stature and relative lack of strength; all such weapons do 1d4 points of damage on a hit.\n\nBarklings see well in the dark, having Darkvision with a range of 30 feet, but their sense of smell is where they excel; a barkling can track almost any living or corporeal undead creature by scent, even if it has been as much as a day since it passed.\n\nIn combat barklings usually wear chainmail armor which they craft themselves (as shown in the Armor Class given above).\n\nOne out of every ten barklings will be a warrior with 1 hit die (25 XP). In barkling encampments, one out of every twenty will be a chieftain of 2 hit dice (75 XP) having a +1 bonus to damage due to strength. In villages of 50 or more there will be a barkling lord of 3 hit dice (145 XP) who has +1 bonus to damage. Barklings gain a +1 bonus to their morale as long as they are led by any of their leaders.\n\nIn addition, a lair has a chance equal to 1-2 on 1d6 of a wizard being present (or 1-3 on 1d6 if a chieftain is present). A wizard is equivalent to a 1 hit die warrior barkling statistically, but has Magic-User abilities at level 1d4+1. For XP purposes, treat the wizard barkling as if it has a number of hit dice equal to its magic-user level -1, and assign one special ability bonus asterisk.\n\nBarklings are sometimes confused with kobolds, for whom they have a particular hatred; calling a barkling a kobold or suggesting that the two species are related is considered a terrible insult."
   },
   {
     "name": "Basilisk",
@@ -276,7 +276,7 @@
         "",
         {
           "ac": "13",
-          "hitDice": "½ (1d4 hit points)",
+          "hitDice": "\u00bd (1d4 hit points)",
           "numAttacks": "1 sting",
           "damage": "1d4+ poison sting",
           "movement": "10' Fly 50'",
@@ -960,7 +960,7 @@
         }
       ]
     ],
-    "description": "Doppelgangers are weird humanoid creatures who are able to take on the appearance of nearly any other humanoid ranging from 3 feet up to 7 feet in height. They can also read minds (as the spell, mind reading, but with unlimited duration), an ability that can even be used to speak any language known to the creature whose mind is being read. In their natural form (which few creatures ever see) they are pale and pasty looking, slim, around 5½ feet tall and weighing about 150 pounds. Their features look unformed and incomplete.\n\nDoppelgangers wish to live a life of ease, and in pursuit of that goal they will seek to take the place of any character they meet who they believe can help them get that kind of life. This usually means separating the victim from any allies and quietly killing them. While a doppelganger can duplicate the appearance of the clothing and equipment worn by a creature, such items are part of the creature and cannot, for example, be laid down or handed to someone. Taking the clothing and equipment of a victim is thus the preferred tactic.\n\nA doppelganger can mimic the sound of the voice of any living creature as well as the appearance of any humanoid. Their mind reading ability will be used to help them behave like the person they have replaced."
+    "description": "Doppelgangers are weird humanoid creatures who are able to take on the appearance of nearly any other humanoid ranging from 3 feet up to 7 feet in height. They can also read minds (as the spell, mind reading, but with unlimited duration), an ability that can even be used to speak any language known to the creature whose mind is being read. In their natural form (which few creatures ever see) they are pale and pasty looking, slim, around 5\u00bd feet tall and weighing about 150 pounds. Their features look unformed and incomplete.\n\nDoppelgangers wish to live a life of ease, and in pursuit of that goal they will seek to take the place of any character they meet who they believe can help them get that kind of life. This usually means separating the victim from any allies and quietly killing them. While a doppelganger can duplicate the appearance of the clothing and equipment worn by a creature, such items are part of the creature and cannot, for example, be laid down or handed to someone. Taking the clothing and equipment of a victim is thus the preferred tactic.\n\nA doppelganger can mimic the sound of the voice of any living creature as well as the appearance of any humanoid. Their mind reading ability will be used to help them behave like the person they have replaced."
   },
   {
     "name": "Dragon",
@@ -1195,7 +1195,7 @@
         }
       ]
     ],
-    "description": "Eagles are large birds with wingspans 6½ to 7½ feet in width. They stand about 2½ to 3 feet tall and weigh about 13 lbs. These birds have heavy talons and large beaks with a sharp hooked end. Eagles are known to carry prey up to 15 lbs. An eagle will also kill and start to eat animals that are 5 times the eagle's size, up to 80 lbs. Fish-eating eagles are usually the largest varieties, while other types hunt small animals such as rodents or snakes. Coloring is dependent on the species of eagle, and should be chosen by the GM; various brown, gray, black, or white markings are most common, though solid darker colors are sometimes seen. The beaks may range from bright yellowish orange to black. Eagles will dive at a prey and attack with both sets of talons, then attack with the beak."
+    "description": "Eagles are large birds with wingspans 6\u00bd to 7\u00bd feet in width. They stand about 2\u00bd to 3 feet tall and weigh about 13 lbs. These birds have heavy talons and large beaks with a sharp hooked end. Eagles are known to carry prey up to 15 lbs. An eagle will also kill and start to eat animals that are 5 times the eagle's size, up to 80 lbs. Fish-eating eagles are usually the largest varieties, while other types hunt small animals such as rodents or snakes. Coloring is dependent on the species of eagle, and should be chosen by the GM; various brown, gray, black, or white markings are most common, though solid darker colors are sometimes seen. The beaks may range from bright yellowish orange to black. Eagles will dive at a prey and attack with both sets of talons, then attack with the beak."
   },
   {
     "name": "Eagle, Giant",
@@ -1694,7 +1694,7 @@
         "Standard",
         {
           "ac": "11",
-          "hitDice": "½ (1d4 hit points)",
+          "hitDice": "\u00bd (1d4 hit points)",
           "numAttacks": "2 talons, 1 beak",
           "damage": "1d4 talon, 1d4 beak",
           "movement": "10' Fly 160'(10')",
@@ -2114,7 +2114,7 @@
         }
       ]
     ],
-    "description": "Gnolls are large fur-covered humanoids, averaging 7½ feet in height and weighing about 300 pounds. They are best recognized by their heads, which resemble those of hyenas (or perhaps wolves) but with shorter muzzles than either.\n\nGnolls are nocturnal and have Darkvision with a 30' range. They are cruel carnivores, preferring intelligent creatures for food because they scream more. They show little discipline when fighting unless they have a strong leader.\n\nOne out of every six gnolls will be a hardened warrior of 4 Hit Dice (240 XP) having a +1 bonus to damage due to strength. Gnolls gain a +1 bonus to their morale if they are led by such a warrior. In lairs of 12 or greater, there will be a pack leader of 6 Hit Dice (500 XP) having a +2 bonus to damage. In the lair, gnolls never fail a morale check as long as the pack leader is alive. In addition, a lair has a chance equal to 1-2 on 1d6 of a shaman being present, and 1 on 1d6 of a witch or warlock. A shaman is equivalent to a hardened warrior statistically, and in addition has Clerical abilities at level 1d4+1. A witch or warlock is equivalent to a regular gnoll, and has Magic-User abilities of level 1d4."
+    "description": "Gnolls are large fur-covered humanoids, averaging 7\u00bd feet in height and weighing about 300 pounds. They are best recognized by their heads, which resemble those of hyenas (or perhaps wolves) but with shorter muzzles than either.\n\nGnolls are nocturnal and have Darkvision with a 30' range. They are cruel carnivores, preferring intelligent creatures for food because they scream more. They show little discipline when fighting unless they have a strong leader.\n\nOne out of every six gnolls will be a hardened warrior of 4 Hit Dice (240 XP) having a +1 bonus to damage due to strength. Gnolls gain a +1 bonus to their morale if they are led by such a warrior. In lairs of 12 or greater, there will be a pack leader of 6 Hit Dice (500 XP) having a +2 bonus to damage. In the lair, gnolls never fail a morale check as long as the pack leader is alive. In addition, a lair has a chance equal to 1-2 on 1d6 of a shaman being present, and 1 on 1d6 of a witch or warlock. A shaman is equivalent to a hardened warrior statistically, and in addition has Clerical abilities at level 1d4+1. A witch or warlock is equivalent to a regular gnoll, and has Magic-User abilities of level 1d4."
   },
   {
     "name": "Gnome",
@@ -2135,7 +2135,7 @@
         }
       ]
     ],
-    "description": "Gnomes are humanoids distantly related to dwarves; they have a similar appearance, but are smaller (averaging 3 to 3½ feet tall and weighing 40 to 45 pounds) and less stocky. Their ears are pointed, not in as pronounced a fashion as elves but certainly noticeable, and their noses likewise are pointed a bit more than those of most other kinds of humanoids. Their preferred habitat is the forest, preferably in a hilly temperate region.\n\nThey have Darkvision with a 30' range. When attacked in melee by creatures larger than man-sized, gnomes gain a +1 bonus to their Armor Class. Outdoors in their preferred forest terrain they are able to hide very effectively; so long as they remain still there is only a 20% chance they will be detected. If one or more gnomes who are successfully hiding attack from ambush, they surprise their foes on 1-4 on 1d6.\n\nGnomes have their own language, and many also know the language of the dwarves. Some gnomes make their living as traders, often acting as go-betweens for dwarves and humans, and those gnomes naturally tend to learn Common. Those who are engaged in defending their forest settlements from humanoid incursions often choose to learn Goblin or Orc.\n\nGnomes encountered in the wilderness (who are not traders or merchants) are likely to be unfriendly, but not hostile. They tolerate dwarves but dislike most other humanoid races. When forced to interact with other races, a gnome will generally be recalcitrant, unless offered a significant amount of treasure.\n\nThe statistics given above are for warriors. In a settlement or lair, for every warrior there will be an average of three civilians having 1-1 Hit Dice and Armor Class 11; such gnomes have Morale of 7. One out of every eight gnome warriors will be a sergeant having 3 Hit Dice (145 XP). Gnomes gain a +1 bonus to their morale if they are led by a sergeant. Both warriors and sergeants commonly wear chainmail. In gnomish communities, one out of every sixteen warriors will be a captain of 5 Hit Dice (360 XP) with an Armor Class of 16 (11), adding a shield. In addition, in communities of 35 or greater, there will be a king of 7 Hit Dice (670 XP), with an Armor Class of 18 (11), in plate mail and carrying a shield, having a +1 bonus damage due to strength. In their community, gnomes never fail a morale check as long as the king is alive.\n\nThere is a chance equal to 1-4 on 1d6 that a community will have a Cleric of level 1d6+1, and 1-2 on 1d6 of a Magic-User of level 1d6. Gnomish Clerics use 1d6 hit dice and Magic-Users use 1d4 hit dice, and in all other ways behave as if they were normal characters."
+    "description": "Gnomes are humanoids distantly related to dwarves; they have a similar appearance, but are smaller (averaging 3 to 3\u00bd feet tall and weighing 40 to 45 pounds) and less stocky. Their ears are pointed, not in as pronounced a fashion as elves but certainly noticeable, and their noses likewise are pointed a bit more than those of most other kinds of humanoids. Their preferred habitat is the forest, preferably in a hilly temperate region.\n\nThey have Darkvision with a 30' range. When attacked in melee by creatures larger than man-sized, gnomes gain a +1 bonus to their Armor Class. Outdoors in their preferred forest terrain they are able to hide very effectively; so long as they remain still there is only a 20% chance they will be detected. If one or more gnomes who are successfully hiding attack from ambush, they surprise their foes on 1-4 on 1d6.\n\nGnomes have their own language, and many also know the language of the dwarves. Some gnomes make their living as traders, often acting as go-betweens for dwarves and humans, and those gnomes naturally tend to learn Common. Those who are engaged in defending their forest settlements from humanoid incursions often choose to learn Goblin or Orc.\n\nGnomes encountered in the wilderness (who are not traders or merchants) are likely to be unfriendly, but not hostile. They tolerate dwarves but dislike most other humanoid races. When forced to interact with other races, a gnome will generally be recalcitrant, unless offered a significant amount of treasure.\n\nThe statistics given above are for warriors. In a settlement or lair, for every warrior there will be an average of three civilians having 1-1 Hit Dice and Armor Class 11; such gnomes have Morale of 7. One out of every eight gnome warriors will be a sergeant having 3 Hit Dice (145 XP). Gnomes gain a +1 bonus to their morale if they are led by a sergeant. Both warriors and sergeants commonly wear chainmail. In gnomish communities, one out of every sixteen warriors will be a captain of 5 Hit Dice (360 XP) with an Armor Class of 16 (11), adding a shield. In addition, in communities of 35 or greater, there will be a king of 7 Hit Dice (670 XP), with an Armor Class of 18 (11), in plate mail and carrying a shield, having a +1 bonus damage due to strength. In their community, gnomes never fail a morale check as long as the king is alive.\n\nThere is a chance equal to 1-4 on 1d6 that a community will have a Cleric of level 1d6+1, and 1-2 on 1d6 of a Magic-User of level 1d6. Gnomish Clerics use 1d6 hit dice and Magic-Users use 1d4 hit dice, and in all other ways behave as if they were normal characters."
   },
   {
     "name": "Goblin",
@@ -2156,11 +2156,11 @@
         }
       ]
     ],
-    "description": "Goblins are small, reputedly wicked humanoids. They are cunning and vicious, and very sneaky. Adult goblins are 3 to 3½ feet tall and weigh 40 to 45 pounds, with very little difference between males and females. Their skin color ranges from gray to green, and their eyes are usually bright and crafty-looking, varying in color from red to yellow.\n\nAll goblins have Darkvision with a 30' range.\n\nThe statistics given above are for a standard Goblin in leather armor with a shield; they have a natural Movement rate of 30' and a natural Armor Class of 11. Some goblins ride dire wolves into combat, and large groups of goblins will often employ them to track and attack their foes.\n\nOne out of every eight goblins will be a warrior of 3-3 Hit Dice (145 XP). Goblins gain a +1 bonus to their morale if they are led by a warrior. In a lair or other settlement, one out of every fifteen will be a chieftain of 5-5 Hit Dice (360 XP) in chainmail with an Armor Class of 15 (11) and movement of 10' that gains a +1 bonus to damage due to strength. In lairs or settlements of 30 or more goblins, there will be a goblin king of 7-7 Hit Dice (670 XP), with an Armor Class of 16 (11), wearing chainmail and carrying a shield, with a movement of 10', and having a +1 bonus to damage. Goblins have a +2 bonus to morale while their king is present (this is not cumulative with the bonus given by a warrior leader). In addition, a lair has a chance equal to 1 on 1d6 of a shaman being present (or 1-2 on 1d6 if a goblin king is present). A shaman is equivalent to a regular goblin statistically, but has Clerical abilities at level 1d4+1."
+    "description": "Goblins are small, reputedly wicked humanoids. They are cunning and vicious, and very sneaky. Adult goblins are 3 to 3\u00bd feet tall and weigh 40 to 45 pounds, with very little difference between males and females. Their skin color ranges from gray to green, and their eyes are usually bright and crafty-looking, varying in color from red to yellow.\n\nAll goblins have Darkvision with a 30' range.\n\nThe statistics given above are for a standard Goblin in leather armor with a shield; they have a natural Movement rate of 30' and a natural Armor Class of 11. Some goblins ride dire wolves into combat, and large groups of goblins will often employ them to track and attack their foes.\n\nOne out of every eight goblins will be a warrior of 3-3 Hit Dice (145 XP). Goblins gain a +1 bonus to their morale if they are led by a warrior. In a lair or other settlement, one out of every fifteen will be a chieftain of 5-5 Hit Dice (360 XP) in chainmail with an Armor Class of 15 (11) and movement of 10' that gains a +1 bonus to damage due to strength. In lairs or settlements of 30 or more goblins, there will be a goblin king of 7-7 Hit Dice (670 XP), with an Armor Class of 16 (11), wearing chainmail and carrying a shield, with a movement of 10', and having a +1 bonus to damage. Goblins have a +2 bonus to morale while their king is present (this is not cumulative with the bonus given by a warrior leader). In addition, a lair has a chance equal to 1 on 1d6 of a shaman being present (or 1-2 on 1d6 if a goblin king is present). A shaman is equivalent to a regular goblin statistically, but has Clerical abilities at level 1d4+1."
   },
   {
     "name": "Golem*",
-    "description": "Golems are a kind of construct, a creature created from non-living matter and animated by application of magic. The powers required to animate a golem are prodigious, and involve summoning, capturing, and binding an elemental spirit to the constructed body. This process also binds the golem to the will of its creator.\n\n They are mindless, and thus immune to magics affecting the mind such as sleep, charm, hold, and any form of mind reading or telepathy. They must be given explicit, detailed instructions verbally, and the controller must be within 60 feet of the golem to do so. If not actively being commanded, a golem will follow the last instructions given to it until the controller returns. If such a golem is attacked, it will fight in its own defense but will usually not pursue the attackers if they flee. The controller can order the golem to follow the commands of another, but can always resume control if desired (i.e. the controller's commands always take precedence).\n\n Employing a golem in combat is tricky, for once one attacks an opponent there is a cumulative 1% chance each round (so 1% the first round, 2% the second, 3% the third, and so on) that the golem will stop following commands and become berserk. Once this happens the golem will attack any creature in range, choosing targets randomly when there are more than one. If all targets are killed or driven away the golem will move on, looking for more creatures to kill and breaking down any barrier that stands in its way if it is at all possible.\n\n The berserk chance for a golem that is still under control is reset to 0% only when the golem is inactive, neither attacking nor being attacked, for one full round.\n\n The creator of the golem (but not any other person who might have been delegated control) may try to calm the golem, speaking firmly to it to convince it to stop. The creator needs to succeed at a saving throw vs. Spells to do this, after spending a round talking to the golem. If this roll fails the golem turns its attention to the creator and pursues them with single-minded hatred.\n\n If a berserk golem is unable to attack anyone for 5 rounds it resumes its inactive state, and the controller can again give it commands. If it begins to pursue its creator, though, it will never stop no matter how long it takes, and must normally be trapped or destroyed to stop it. It has no special way to find the creator, however, and will become inactive if it loses sight of the creator for a minimum of 1 day. If the golem is successfully calmed, it can be given commands again on the very next round of combat.\n\n As their bodies are made of non-living matter, golems can only be hit by magical weapons. Conversely, they are less resistant to various effects due to the fact that they are not living creatures; in general, golems save as if they were Fighters of ½ their hit dice in levels. For example, a Bone Golem has 8 hit dice, but saves as a Fighter of 4th level."
+    "description": "Golems are a kind of construct, a creature created from non-living matter and animated by application of magic. The powers required to animate a golem are prodigious, and involve summoning, capturing, and binding an elemental spirit to the constructed body. This process also binds the golem to the will of its creator.\n\n They are mindless, and thus immune to magics affecting the mind such as sleep, charm, hold, and any form of mind reading or telepathy. They must be given explicit, detailed instructions verbally, and the controller must be within 60 feet of the golem to do so. If not actively being commanded, a golem will follow the last instructions given to it until the controller returns. If such a golem is attacked, it will fight in its own defense but will usually not pursue the attackers if they flee. The controller can order the golem to follow the commands of another, but can always resume control if desired (i.e. the controller's commands always take precedence).\n\n Employing a golem in combat is tricky, for once one attacks an opponent there is a cumulative 1% chance each round (so 1% the first round, 2% the second, 3% the third, and so on) that the golem will stop following commands and become berserk. Once this happens the golem will attack any creature in range, choosing targets randomly when there are more than one. If all targets are killed or driven away the golem will move on, looking for more creatures to kill and breaking down any barrier that stands in its way if it is at all possible.\n\n The berserk chance for a golem that is still under control is reset to 0% only when the golem is inactive, neither attacking nor being attacked, for one full round.\n\n The creator of the golem (but not any other person who might have been delegated control) may try to calm the golem, speaking firmly to it to convince it to stop. The creator needs to succeed at a saving throw vs. Spells to do this, after spending a round talking to the golem. If this roll fails the golem turns its attention to the creator and pursues them with single-minded hatred.\n\n If a berserk golem is unable to attack anyone for 5 rounds it resumes its inactive state, and the controller can again give it commands. If it begins to pursue its creator, though, it will never stop no matter how long it takes, and must normally be trapped or destroyed to stop it. It has no special way to find the creator, however, and will become inactive if it loses sight of the creator for a minimum of 1 day. If the golem is successfully calmed, it can be given commands again on the very next round of combat.\n\n As their bodies are made of non-living matter, golems can only be hit by magical weapons. Conversely, they are less resistant to various effects due to the fact that they are not living creatures; in general, golems save as if they were Fighters of \u00bd their hit dice in levels. For example, a Bone Golem has 8 hit dice, but saves as a Fighter of 4th level."
   },
   {
     "name": "Golem,  Amber*",
@@ -2421,7 +2421,7 @@
         "",
         {
           "ac": "12",
-          "hitDice": "½ (1d4 hit points)",
+          "hitDice": "\u00bd (1d4 hit points)",
           "numAttacks": "1 claw or bite",
           "damage": "1d2 claw or bite",
           "movement": "Fly 160'",
@@ -2454,7 +2454,7 @@
         }
       ]
     ],
-    "description": "Hellhounds are large canine creatures sheathed in hellish flame; they range in size from 3 to 5 feet at the shoulder (3 feet for a 3 hit die monster, plus ½ foot for each additional hit die) with a weight ranging from 100 to 200 pounds (100 pounds at 3 hit dice plus 25 pounds per additional hit die). These monsters are native to another plane where they hunt in packs; sometimes powerful wizards or evil priests summon them for use as watchdogs. In addition to biting, each hellhound may breathe fire a number of times per day equal to its hit dice. In combat, one-third of the time (1-2 on 1d6) a hellhound will choose to breathe fire; otherwise it will attempt to bite. Roll each round to determine which attack form will be used.\n\nA hellhound's breath weapon is a cone of flame 10' wide at the far end which is 10' long for those with 3 or 4 hit dice, 20' long for those with 5 or 6 hit dice, and 30' long for the largest hellhounds. This breath weapon does 1d6 points of damage per each hit die of the hellhound to all within the area of effect; a successful saving throw vs. Dragon Breath reduces damage to half normal.\n\nNote that hellhounds vary with regard to the number of hit dice each has. If generating a group randomly, roll 1d6+1 for the hit dice of each, reading a total of 2 as 3.\n\nA hellhound has an Armor Class equal to 11 plus its hit dice."
+    "description": "Hellhounds are large canine creatures sheathed in hellish flame; they range in size from 3 to 5 feet at the shoulder (3 feet for a 3 hit die monster, plus \u00bd foot for each additional hit die) with a weight ranging from 100 to 200 pounds (100 pounds at 3 hit dice plus 25 pounds per additional hit die). These monsters are native to another plane where they hunt in packs; sometimes powerful wizards or evil priests summon them for use as watchdogs. In addition to biting, each hellhound may breathe fire a number of times per day equal to its hit dice. In combat, one-third of the time (1-2 on 1d6) a hellhound will choose to breathe fire; otherwise it will attempt to bite. Roll each round to determine which attack form will be used.\n\nA hellhound's breath weapon is a cone of flame 10' wide at the far end which is 10' long for those with 3 or 4 hit dice, 20' long for those with 5 or 6 hit dice, and 30' long for the largest hellhounds. This breath weapon does 1d6 points of damage per each hit die of the hellhound to all within the area of effect; a successful saving throw vs. Dragon Breath reduces damage to half normal.\n\nNote that hellhounds vary with regard to the number of hit dice each has. If generating a group randomly, roll 1d6+1 for the hit dice of each, reading a total of 2 as 3.\n\nA hellhound has an Armor Class equal to 11 plus its hit dice."
   },
   {
     "name": "Hippogriff",
@@ -2755,7 +2755,7 @@
         "",
         {
           "ac": "13 (11)",
-          "hitDice": "½ (1d4 hit points)",
+          "hitDice": "\u00bd (1d4 hit points)",
           "numAttacks": "1 weapon",
           "damage": "1d4 or by weapon",
           "movement": "20' Unarmored 30'",
@@ -2767,7 +2767,7 @@
         }
       ]
     ],
-    "description": "Kobolds are diminutive, dog-faced humanoids with reptilian skin. They stand between 2½ and 3½ feet tall and typically weigh around 40 pounds. They are cowardly by nature, and in combat they prefer ambushing their foes and constructing traps both clever and deadly; to simply stand and fight is considered the worst possible strategy, and kobolds may fake withdrawing in fear in order to draw enemies into a trap.\n\nKobolds prefer to rely on ranged combat whenever possible. They tend to favor daggers and short spears since both can be used in close quarters or thrown at foes at range. Some may be armed with diminutive bows or crossbows which inflict 1d4 points of damage on a hit.\n\nKobolds normally dwell underground, while those who choose to dwell above ground may adopt a nocturnal lifestyle. All possess Darkvision with a range of 60 feet, and generally avoid exposure to daylight. When they are exposed to sunlight or the effect of continual light they suffer a penalty of -1 to all attack rolls. Most kobolds wear leather armor in combat.\n\nOne out of every six kobolds in any group is a warrior with 1 hit die (25 XP). Kobolds gain a +1 bonus to their morale if they are led by a warrior. In kobold lairs, one out of every twelve is a chieftain of 2 hit dice (75 XP) with an armor class of 14 (11) and having a +1 bonus to damage due to strength. In lairs of 30 or greater, there will be a kobold king of 3 hit dice (145 XP) who wears chain mail with an armor class of 15 (11) and has a movement rate of 10' and a +1 bonus to damage. In the lair, kobolds never fail a morale check as long as the kobold king is alive. In addition, a lair has a chance equal to 1 on 1d6 of a shaman being present (or 1-2 on 1d6 if a kobold king is present). A shaman is equivalent to a 1 hit die warrior kobold statistically, but has Clerical abilities at level 1d4+1. For XP purposes, treat the shaman as if it has a number of hit dice equal to its clerical level -1, and assign one special ability bonus asterisk.\n\nKobolds are sometimes confused with barklings, for whom they have a particular hatred; calling a kobold a barkling or suggesting that the two species are related is considered a terrible insult."
+    "description": "Kobolds are diminutive, dog-faced humanoids with reptilian skin. They stand between 2\u00bd and 3\u00bd feet tall and typically weigh around 40 pounds. They are cowardly by nature, and in combat they prefer ambushing their foes and constructing traps both clever and deadly; to simply stand and fight is considered the worst possible strategy, and kobolds may fake withdrawing in fear in order to draw enemies into a trap.\n\nKobolds prefer to rely on ranged combat whenever possible. They tend to favor daggers and short spears since both can be used in close quarters or thrown at foes at range. Some may be armed with diminutive bows or crossbows which inflict 1d4 points of damage on a hit.\n\nKobolds normally dwell underground, while those who choose to dwell above ground may adopt a nocturnal lifestyle. All possess Darkvision with a range of 60 feet, and generally avoid exposure to daylight. When they are exposed to sunlight or the effect of continual light they suffer a penalty of -1 to all attack rolls. Most kobolds wear leather armor in combat.\n\nOne out of every six kobolds in any group is a warrior with 1 hit die (25 XP). Kobolds gain a +1 bonus to their morale if they are led by a warrior. In kobold lairs, one out of every twelve is a chieftain of 2 hit dice (75 XP) with an armor class of 14 (11) and having a +1 bonus to damage due to strength. In lairs of 30 or greater, there will be a kobold king of 3 hit dice (145 XP) who wears chain mail with an armor class of 15 (11) and has a movement rate of 10' and a +1 bonus to damage. In the lair, kobolds never fail a morale check as long as the kobold king is alive. In addition, a lair has a chance equal to 1 on 1d6 of a shaman being present (or 1-2 on 1d6 if a kobold king is present). A shaman is equivalent to a 1 hit die warrior kobold statistically, but has Clerical abilities at level 1d4+1. For XP purposes, treat the shaman as if it has a number of hit dice equal to its clerical level -1, and assign one special ability bonus asterisk.\n\nKobolds are sometimes confused with barklings, for whom they have a particular hatred; calling a kobold a barkling or suggesting that the two species are related is considered a terrible insult."
   },
   {
     "name": "Leech, Giant",
@@ -3480,7 +3480,7 @@
         }
       ]
     ],
-    "description": "Owls are birds of prey with large eyes and the ability to fly without making a sound. They are nocturnal, and have superior Darkvision of 120' range. An owl will stand about 6 to 18 inches tall with a wingspan of 20 inches. An owl’s vision is very sharp and comparable to that of a falcon. It can also hear very well, even to the point that a rodent creeping through grass will draw attention. The owl will fly over a field and listen and watch for movement and then dive for a kill with its talons."
+    "description": "Owls are birds of prey with large eyes and the ability to fly without making a sound. They are nocturnal, and have superior Darkvision of 120' range. An owl will stand about 6 to 18 inches tall with a wingspan of 20 inches. An owl\u2019s vision is very sharp and comparable to that of a falcon. It can also hear very well, even to the point that a rodent creeping through grass will draw attention. The owl will fly over a field and listen and watch for movement and then dive for a kill with its talons."
   },
   {
     "name": "Owlbear",
@@ -3510,7 +3510,7 @@
         "",
         {
           "ac": "11",
-          "hitDice": "½ (1d4 hit points)",
+          "hitDice": "\u00bd (1d4 hit points)",
           "numAttacks": "1 talon or 1 beak",
           "damage": "1d4 talon or 1d4 beak",
           "movement": "10' Fly 100' (10')",
@@ -3564,7 +3564,7 @@
         }
       ]
     ],
-    "description": "Pixies are winged fairies often found in forested areas. Like sprites, pixies love beauty. They dress in bright colors and favor clothing with flourishes like feathered caps, curly-tipped shoes, scarves, and so on. They are quite small, just 2½ feet in height and weighing no more than 30 pounds. Pixies can only fly for 3 turns maximum before requiring rest of at least one turn, during which time the pixie may walk at normal speed but may not fly.\n\nA pixie can become **invisible** at will, as many times per day as it wishes, and can attack while remaining invisible. Anyone attacking an invisible pixie does so with an attack penalty of -4 unless the attacker can somehow detect invisible creatures. Pixies may ambush their foes while invisible; if they do so, they surprise on 1-5 on 1d6.\n\nPixies are whimsical, enjoying nothing so much as a good joke or prank, especially at the expense of a \"big person.\""
+    "description": "Pixies are winged fairies often found in forested areas. Like sprites, pixies love beauty. They dress in bright colors and favor clothing with flourishes like feathered caps, curly-tipped shoes, scarves, and so on. They are quite small, just 2\u00bd feet in height and weighing no more than 30 pounds. Pixies can only fly for 3 turns maximum before requiring rest of at least one turn, during which time the pixie may walk at normal speed but may not fly.\n\nA pixie can become **invisible** at will, as many times per day as it wishes, and can attack while remaining invisible. Anyone attacking an invisible pixie does so with an attack penalty of -4 unless the attacker can somehow detect invisible creatures. Pixies may ambush their foes while invisible; if they do so, they surprise on 1-5 on 1d6.\n\nPixies are whimsical, enjoying nothing so much as a good joke or prank, especially at the expense of a \"big person.\""
   },
   {
     "name": "Purple Worm",
@@ -3578,7 +3578,7 @@
           "damage": "2d8 bite, 1d8+poison sting",
           "movement": "-",
           "numAppear": "1d2, Wild 1d4",
-          "saveAs": "Fighter: 6 to 10 (½ of Hit Dice)",
+          "saveAs": "Fighter: 6 to 10 (\u00bd of Hit Dice)",
           "morale": "10",
           "treasure": "None",
           "xp": "11 HD 1,670,\n12 HD 1,975,\n13 HD 2,285,\n14 HD 2,615,\n15 HD 2,975"
@@ -3593,7 +3593,7 @@
           "damage": "3d8 bite, 1d10+poison sting",
           "movement": "-",
           "numAppear": "1d4",
-          "saveAs": "Fighter: 6 to 10 (½ of Hit Dice)",
+          "saveAs": "Fighter: 6 to 10 (\u00bd of Hit Dice)",
           "morale": "10",
           "treasure": "None",
           "xp": "\n16 HD 3,385,\n17 HD 3,745,\n18 HD 4,160,\n19 HD 4,675,\n20 HD 5,450"
@@ -3609,7 +3609,7 @@
         "Normal",
         {
           "ac": "11",
-          "hitDice": "1 Hit Point ½ (1d4 hit points)",
+          "hitDice": "1 Hit Point \u00bd (1d4 hit points)",
           "numAttacks": "1 bite per pack",
           "damage": "1d6 + disease",
           "movement": "20' Swim 10'",
@@ -3744,7 +3744,7 @@
         }
       ]
     ],
-    "description": "Rocs are birds similar to eagles, but even a \"normal\" roc is huge, being about 9 feet long and having a wingspan of 24 feet. Large rocs are about 18 feet long and have wingspans of around 48 feet; giant rocs average 30 feet long and have massive wingspans of around 80 feet. A roc’s plumage is either dark brown or golden from head to tail. Like most birds, the males have the brighter plumage, with females being duller in color and thus more easily hidden (if anything so large can even be hidden, that is).\n\nA light load for a normal roc is 150 pounds, while a heavy load is 300 pounds. Obviously only the smallest characters can hope to ride upon a normal roc. For a large roc, a light load is up to 600 pounds and a heavy load up to 1,200. Giant rocs can easily lift up to 3,000 pounds, and are heavily loaded when carrying up to 6,000 pounds. Tales of giant rocs carrying off full-grown elephants are somewhat exaggerated, but note that a young elephant would be reasonable prey for these monstrous birds.\n\nA roc attacks from the air, swooping earthward to snatch prey in its powerful talons and carry it off for itself and its young to devour. Any successful hit with both claw (talon) attacks against a single creature results in that creature being carried off, unless of course the creature is too large for the roc to carry. While being carried, the victim will not be further attacked, so as to be as \"fresh\" as possible when given to the hatchlings (or consumed by the roc itself if it is solitary).\n\nWhen rocs are encountered they are almost certainly hunting, and will generally attack creatures of horse size or less. If facing a large group the rocs may make passes close overhead to scatter them first before each chooses a single target to prey upon. Mated pairs found in their nests will fight to the death to protect their eggs or offspring (morale of 12 in this case)."
+    "description": "Rocs are birds similar to eagles, but even a \"normal\" roc is huge, being about 9 feet long and having a wingspan of 24 feet. Large rocs are about 18 feet long and have wingspans of around 48 feet; giant rocs average 30 feet long and have massive wingspans of around 80 feet. A roc\u2019s plumage is either dark brown or golden from head to tail. Like most birds, the males have the brighter plumage, with females being duller in color and thus more easily hidden (if anything so large can even be hidden, that is).\n\nA light load for a normal roc is 150 pounds, while a heavy load is 300 pounds. Obviously only the smallest characters can hope to ride upon a normal roc. For a large roc, a light load is up to 600 pounds and a heavy load up to 1,200. Giant rocs can easily lift up to 3,000 pounds, and are heavily loaded when carrying up to 6,000 pounds. Tales of giant rocs carrying off full-grown elephants are somewhat exaggerated, but note that a young elephant would be reasonable prey for these monstrous birds.\n\nA roc attacks from the air, swooping earthward to snatch prey in its powerful talons and carry it off for itself and its young to devour. Any successful hit with both claw (talon) attacks against a single creature results in that creature being carried off, unless of course the creature is too large for the roc to carry. While being carried, the victim will not be further attacked, so as to be as \"fresh\" as possible when given to the hatchlings (or consumed by the roc itself if it is solitary).\n\nWhen rocs are encountered they are almost certainly hunting, and will generally attack creatures of horse size or less. If facing a large group the rocs may make passes close overhead to scatter them first before each chooses a single target to prey upon. Mated pairs found in their nests will fight to the death to protect their eggs or offspring (morale of 12 in this case)."
   },
   {
     "name": "Rock Baboon",
@@ -3786,12 +3786,13 @@
         }
       ]
     ],
-    "description": "Rot grubs are 1-inch long vermin found in carrion, dung, and other such garbage and organic material. Their skin color is white or brown. When a living creature contacts an area (dung heap, offal, etc) infested with rot grubs, the grubs will attack if they can come in contact with the victim’s skin. A rot grub secretes an anesthetic when it bites and will burrow into the flesh. A burrowing grub can be noticed if the victim makes a successful save vs. Death Ray with Wisdom bonus applied in order to notice a strange rippling beneath their skin. Otherwise, the victim does not notice the grubs. During the first two rounds, a burrowing rot grub can be killed by applying fire to the infested skin or by cutting open the infested skin with any slashing weapon. Either method deals 1d8 points of damage to the victim, but kills the grubs. After the second round, only cure disease can kill the grubs before they burrow to the victim’s heart and devour it in 1d3 turns."
+    "description": "Rot grubs are 1-inch long vermin found in carrion, dung, and other such garbage and organic material. Their skin color is white or brown. When a living creature contacts an area (dung heap, offal, etc) infested with rot grubs, the grubs will attack if they can come in contact with the victim\u2019s skin. A rot grub secretes an anesthetic when it bites and will burrow into the flesh. A burrowing grub can be noticed if the victim makes a successful save vs. Death Ray with Wisdom bonus applied in order to notice a strange rippling beneath their skin. Otherwise, the victim does not notice the grubs. During the first two rounds, a burrowing rot grub can be killed by applying fire to the infested skin or by cutting open the infested skin with any slashing weapon. Either method deals 1d8 points of damage to the victim, but kills the grubs. After the second round, only cure disease can kill the grubs before they burrow to the victim\u2019s heart and devour it in 1d3 turns."
   },
   {
     "name": "Rust Monster*",
     "variants": [
       [
+        "",
         {
           "ac": "18",
           "hitDice": "5*",
@@ -4054,7 +4055,7 @@
           "numAttacks": "2 bites",
           "damage": "1d6 bite",
           "movement": "60'",
-          "numAppear": "–",
+          "numAppear": "\u2013",
           "saveAs": "Fighter: 2",
           "morale": "10",
           "treasure": "None",
@@ -4069,7 +4070,7 @@
           "numAttacks": "2 bites",
           "damage": "1d6 bite + poison",
           "movement": "60'",
-          "numAppear": "–",
+          "numAppear": "\u2013",
           "saveAs": "Fighter: 2",
           "morale": "10",
           "treasure": "None",
@@ -4119,7 +4120,7 @@
         }
       ]
     ],
-    "description": "Skeletons are mindless undead created by an evil Magic-User or Cleric, generally to guard a tomb or treasure hoard, or to act as guards for their creator. They take only ½ damage from edged weapons, and only a single point from arrows, bolts or sling stones (plus any magical bonus). As with all undead, they can be Turned by a Cleric, and are immune to sleep, charm or hold magic. As they are mindless, no form of mind reading is of any use against them. Skeletons never fail morale, and thus always fight until destroyed."
+    "description": "Skeletons are mindless undead created by an evil Magic-User or Cleric, generally to guard a tomb or treasure hoard, or to act as guards for their creator. They take only \u00bd damage from edged weapons, and only a single point from arrows, bolts or sling stones (plus any magical bonus). As with all undead, they can be Turned by a Cleric, and are immune to sleep, charm or hold magic. As they are mindless, no form of mind reading is of any use against them. Skeletons never fail morale, and thus always fight until destroyed."
   },
   {
     "name": "Snake, Pit Viper (and Rattlesnake)",
@@ -4311,7 +4312,7 @@
         "",
         {
           "ac": "15",
-          "hitDice": "½ (1d4 hit points) *",
+          "hitDice": "\u00bd (1d4 hit points) *",
           "numAttacks": "1 dagger or 1 spell",
           "damage": "1d4 dagger or by spell",
           "movement": "20' Fly 60'",
@@ -4333,7 +4334,7 @@
         {
           "ac": "16",
           "hitDice": "6",
-          "numAttacks": "–",
+          "numAttacks": "\u2013",
           "damage": "8 tentacles, 1 bite",
           "movement": "Swim 40'",
           "numAppear": "Wild 1d4 (see below)",
@@ -4348,7 +4349,7 @@
         {
           "ac": "17",
           "hitDice": "7",
-          "numAttacks": "–",
+          "numAttacks": "\u2013",
           "damage": "8 tentacles, 1 bite",
           "movement": "Swim 40'",
           "numAppear": "Wild 1d4 (see below)",
@@ -4359,7 +4360,7 @@
         }
       ]
     ],
-    "description": "The giant squid dwells in the deep ocean. One can grow to a tremendous size, to a maximum of around 40 feet for females and 33 feet for males. The mantle of the giant squid is about 6½ feet long (more for females, less for males). Their tentacles are studded with barbs and sharp-edged suckers.\n\nMembers of any group of these creatures encountered are equally likely to be male or female. The GM may roll for this or may assign them as they see fit.\n\nIn order to bite a creature, the giant squid must hit with at least two tentacles first. Further, any time a giant squid hits with at least one tentacle per each 75 pounds of weight of its prey, it has grabbed it; unless the victim can find a way to resist (using whatever method the player might think of and whatever rolls the GM may choose), they will be pulled into the water and thus be in danger of drowning. Don't forget to account for the weight of armor worn!\n\nIf a giant squid fails a morale check, it will squirt out a cloud of black \"ink\" 30' in diameter and then jet away at twice normal speed for 3d8 rounds. If a group fails a morale check they will move away in random directions in hopes that at least one will escape any pursuit."
+    "description": "The giant squid dwells in the deep ocean. One can grow to a tremendous size, to a maximum of around 40 feet for females and 33 feet for males. The mantle of the giant squid is about 6\u00bd feet long (more for females, less for males). Their tentacles are studded with barbs and sharp-edged suckers.\n\nMembers of any group of these creatures encountered are equally likely to be male or female. The GM may roll for this or may assign them as they see fit.\n\nIn order to bite a creature, the giant squid must hit with at least two tentacles first. Further, any time a giant squid hits with at least one tentacle per each 75 pounds of weight of its prey, it has grabbed it; unless the victim can find a way to resist (using whatever method the player might think of and whatever rolls the GM may choose), they will be pulled into the water and thus be in danger of drowning. Don't forget to account for the weight of armor worn!\n\nIf a giant squid fails a morale check, it will squirt out a cloud of black \"ink\" 30' in diameter and then jet away at twice normal speed for 3d8 rounds. If a group fails a morale check they will move away in random directions in hopes that at least one will escape any pursuit."
   },
   {
     "name": "Stirge",
@@ -4443,7 +4444,7 @@
         }
       ]
     ],
-    "description": "The tiger is among the largest great cat species, with male specimens averaging 10 feet in length (including about 2½ feet of tail) and weighing over 400 pounds. Females are smaller, averaging about 8 feet long and an average of about 275 pounds. Tigers are most recognizable for their dark vertical stripes on orange fur with a white underside.\n\nTigers are apex predators and prefer prey such as deer and wild boar. They are territorial and generally solitary but social predators, requiring large contiguous areas of habitat to support their requirements for prey."
+    "description": "The tiger is among the largest great cat species, with male specimens averaging 10 feet in length (including about 2\u00bd feet of tail) and weighing over 400 pounds. Females are smaller, averaging about 8 feet long and an average of about 275 pounds. Tigers are most recognizable for their dark vertical stripes on orange fur with a white underside.\n\nTigers are apex predators and prefer prey such as deer and wild boar. They are territorial and generally solitary but social predators, requiring large contiguous areas of habitat to support their requirements for prey."
   },
   {
     "name": "Titanothere",
@@ -4495,7 +4496,7 @@
         {
           "ac": "16",
           "hitDice": "6*",
-          "numAttacks": "–",
+          "numAttacks": "\u2013",
           "damage": "1d6 claw, 1d10 bite",
           "movement": "40'",
           "numAppear": "1d8, Wild 1d8, Lair 1d8",
@@ -4531,12 +4532,12 @@
         {
           "ac": "14",
           "hitDice": "1*-2*",
-          "numAttacks": "–",
+          "numAttacks": "\u2013",
           "damage": "1d4 claw, 1d4 bite",
           "movement": "30'",
           "numAppear": "special, see below",
           "saveAs": "Fighter: 1-2",
-          "morale": "–",
+          "morale": "\u2013",
           "treasure": "None",
           "xp": "37"
         }
@@ -4566,7 +4567,7 @@
           "movement": "40'",
           "numAppear": "special, see below",
           "saveAs": "Fighter: 5-6",
-          "morale": "–",
+          "morale": "\u2013",
           "treasure": "None",
           "xp": "175"
         }
@@ -4581,7 +4582,7 @@
         "Box Turtle",
         {
           "ac": "15",
-          "hitDice": "½ (1d4 hit points)",
+          "hitDice": "\u00bd (1d4 hit points)",
           "numAttacks": "1 bite",
           "damage": "1d2",
           "movement": "5' Swim 20'",
@@ -4644,7 +4645,7 @@
         }
       ]
     ],
-    "description": "Unicorns are horse-like creatures having a single spirally-twisted horn in the middle of the forehead. This horn is in fact a magic weapon with an added attack and damage bonus of +3; if removed from the unicorn or the unicorn dies the horn loses this effect. A unicorn may perform a charging attack with its horn, but it cannot also attack with its hooves in the same round. Most unicorns are white, sometimes with the faintest tinge of lavender, pink, or gold visible in sunlight. Adult male unicorns have beards similar to those of goats. The eyes of a unicorn are almost always a bright, often unlikely color such as gold, sea-blue, deep green, violet, or even a luminous-looking magenta. Adult male unicorns stand an average of 5 feet at the shoulder and weigh 1,100 to 1,300 pounds. Females are slightly smaller, generally 4¾ feet at the shoulder with a weight from 950 to 1,200 pounds.\n\nThree times per day a unicorn can cast **cure light wounds** by a touch of its horn. Once per day a unicorn can transport itself 360' (as the spell **dimension door**), and can carry a full load (possibly including a rider) while doing so. A light load for a unicorn is up to 300 pounds; a heavy load, up to 550 pounds.\n\nAn alicorn resembles a unicorn in all details, save that they always have yellow, orange or red eyes, and (if one gets close enough to see) pronounced, sharp canine teeth. Alicorns are as evil as unicorns are good, using their razor-sharp horns and clawlike hooves as weapons. They attack weaker creatures for the sheer pleasure of killing, but will try to avoid stronger parties. They may make charging attacks just as unicorns do.\n\nAlicorns cannot heal or transport themselves by magic as unicorns do. However, alicorns may become invisible at will, exactly as if wearing a **Ring of Invisibility**."
+    "description": "Unicorns are horse-like creatures having a single spirally-twisted horn in the middle of the forehead. This horn is in fact a magic weapon with an added attack and damage bonus of +3; if removed from the unicorn or the unicorn dies the horn loses this effect. A unicorn may perform a charging attack with its horn, but it cannot also attack with its hooves in the same round. Most unicorns are white, sometimes with the faintest tinge of lavender, pink, or gold visible in sunlight. Adult male unicorns have beards similar to those of goats. The eyes of a unicorn are almost always a bright, often unlikely color such as gold, sea-blue, deep green, violet, or even a luminous-looking magenta. Adult male unicorns stand an average of 5 feet at the shoulder and weigh 1,100 to 1,300 pounds. Females are slightly smaller, generally 4\u00be feet at the shoulder with a weight from 950 to 1,200 pounds.\n\nThree times per day a unicorn can cast **cure light wounds** by a touch of its horn. Once per day a unicorn can transport itself 360' (as the spell **dimension door**), and can carry a full load (possibly including a rider) while doing so. A light load for a unicorn is up to 300 pounds; a heavy load, up to 550 pounds.\n\nAn alicorn resembles a unicorn in all details, save that they always have yellow, orange or red eyes, and (if one gets close enough to see) pronounced, sharp canine teeth. Alicorns are as evil as unicorns are good, using their razor-sharp horns and clawlike hooves as weapons. They attack weaker creatures for the sheer pleasure of killing, but will try to avoid stronger parties. They may make charging attacks just as unicorns do.\n\nAlicorns cannot heal or transport themselves by magic as unicorns do. However, alicorns may become invisible at will, exactly as if wearing a **Ring of Invisibility**."
   },
   {
     "name": "Urgoblin",
