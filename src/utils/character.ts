@@ -106,6 +106,7 @@ export function calculateArmorClass(
   const wornArmor = equipment.find(isWornArmor);
   if (wornArmor && typeof wornArmor.AC === "number") {
     baseAC = wornArmor.AC;
+    if (wornArmor.bonus != null) baseAC += wornArmor.bonus;
   }
 
   const wornShields = equipment.filter(isWornShield);
@@ -114,6 +115,7 @@ export function calculateArmorClass(
       shield.AC ?? 0,
       shield.name ?? "Unknown Shield"
     );
+    if (shield.bonus != null) shieldBonus += shield.bonus;
   });
 
   // Add Dexterity modifier to AC (BFRPG rules, page 3)

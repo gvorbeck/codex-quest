@@ -27,6 +27,10 @@ export interface Equipment {
   // Armor properties
   AC?: number | string;
   missileAC?: string;
+  // Magic item bonus: positive = magic, negative = cursed
+  // Weapons: applies to attack and damage rolls
+  // Armor/shields: applies to AC
+  bonus?: number;
   // Beast of burden properties
   lowCapacity?: number;
   capacity?: number;

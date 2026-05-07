@@ -43,7 +43,9 @@
       "Bash(npm test:*)",
       "WebFetch(domain:foundryvtt.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:foundryvtt.wiki)"
+      "WebFetch(domain:foundryvtt.wiki)",
+      "Read(//Users/garrett.vorbeck/Sources/**)",
+      "Bash(sed -n '1870,1910p' /Users/garrett.vorbeck/Sites/torchlight/sources/BFRPG-rulebook.txt)"
     ],
     "deny": [
       "Bash(npm run dev)"

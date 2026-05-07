@@ -58,6 +58,8 @@ const createSampleCharacter = (
               costValue: 10,
               costCurrency: "gp" as const,
               weight: 3,
+              damage: "1d6",
+              type: "melee" as const,
             },
             {
               name: "Shield",
@@ -77,7 +79,7 @@ const createSampleCharacter = (
               costValue: 75,
               costCurrency: "gp" as const,
               weight: 40,
-              AC: 5,
+              AC: 15,
             },
           ]
         : []),
@@ -91,6 +93,8 @@ const createSampleCharacter = (
               costValue: 2,
               costCurrency: "gp" as const,
               weight: 1,
+              damage: "1d4",
+              type: "melee" as const,
             },
             {
               name: "Spellbook",
@@ -113,6 +117,8 @@ const createSampleCharacter = (
               costValue: 8,
               costCurrency: "gp" as const,
               weight: 3,
+              damage: "1d6",
+              type: "melee" as const,
             },
             {
               name: "Leather Armor",
@@ -122,7 +128,7 @@ const createSampleCharacter = (
               costValue: 20,
               costCurrency: "gp" as const,
               weight: 15,
-              AC: 7,
+              AC: 13,
             },
             {
               name: "Thieves' Tools",
@@ -154,7 +160,7 @@ const createSampleCharacter = (
               costValue: 75,
               costCurrency: "gp" as const,
               weight: 40,
-              AC: 5,
+              AC: 15,
             },
             {
               name: "Holy Symbol",

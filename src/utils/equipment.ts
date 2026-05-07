@@ -52,6 +52,18 @@ export const isShieldItem = (item: Equipment): boolean =>
 export const isWearableItem = (item: Equipment): boolean =>
   isArmorItem(item) || isShieldItem(item);
 
+const WEAPON_CATEGORIES = new Set([
+  "swords", "axes", "bows", "daggers", "hammers-and-maces",
+  "chain-and-flail", "spears-and-polearms", "slings-and-hurled-weapons",
+  "other-weapons", "improvised-weapons", "weapons",
+]);
+
+export const isWeaponCategory = (category?: string): boolean =>
+  !!category && WEAPON_CATEGORIES.has(category.toLowerCase());
+
+export const isArmorCategory = (category?: string): boolean =>
+  !!category && (category.toLowerCase() === "armor" || category.toLowerCase() === "shields");
+
 export const isWornArmor = (
   item: Equipment
 ): item is Equipment & { AC: number } =>

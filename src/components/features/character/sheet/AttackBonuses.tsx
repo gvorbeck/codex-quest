@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { InfoTooltip } from "@/components/ui/core/feedback";
 import { SectionWrapper } from "@/components/ui/core/layout";
 import RollableButton from "@/components/domain/dice/RollableButton";
-import { formatModifier, getRaceById } from "@/utils";
+import { formatModifier, getRaceById, isWeaponCategory } from "@/utils";
 import { getBaseAttackBonus } from "@/utils/combatCalculations";
 import { SIZE_STYLES } from "@/constants";
 import { useDiceRoll } from "@/hooks/dice/useDiceRoll";
@@ -96,6 +96,16 @@ export default function AttackBonuses({
     character.race,
   ]);
 
+  const magicWeapons = useMemo(
+    () =>
+      (character.equipment ?? []).filter(
+        (item) =>
+          item.bonus !== undefined &&
+          (item.damage !== undefined || isWeaponCategory(item.category))
+      ),
+    [character.equipment]
+  );
+
   const getTooltipContent = () => {
     let content = "Base: from level and class • Melee: base + STR modifier";
     if (attackBonuses.racial.melee !== 0) {
@@ -104,6 +114,12 @@ export default function AttackBonuses({
     content += " • Missile: base + DEX modifier";
     if (attackBonuses.racial.missile !== 0) {
       content += ` + racial (${formatModifier(attackBonuses.racial.missile)})`;
+    }
+    if (magicWeapons.length > 0) {
+      const weaponList = magicWeapons
+        .map((w) => `${w.name} ${formatModifier(w.bonus ?? 0)}`)
+        .join(", ");
+      content += ` • Magic weapons may modify this roll when used: ${weaponList}`;
     }
     return content;
   };
