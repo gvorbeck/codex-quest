@@ -19,7 +19,7 @@ import { CustomEquipmentModal } from "@/components/modals/LazyModals";
 import { Icon } from "@/components/ui/core/display/Icon";
 import { SkeletonList } from "@/components/ui/core/feedback";
 import { SIZE_STYLES } from "@/constants";
-import { cleanEquipmentArray } from "@/utils";
+import { cleanEquipmentArray, isWeaponCategory, isArmorCategory } from "@/utils";
 import type { Character, Equipment as EquipmentItem } from "@/types";
 
 interface EquipmentProps {
@@ -33,7 +33,7 @@ interface EquipmentProps {
 
 interface WeaponPropertiesProps {
   editForm: EquipmentItem;
-  updateEditForm: (field: keyof EquipmentItem, value: string | number) => void;
+  updateEditForm: (field: keyof EquipmentItem, value: string | number | undefined) => void;
 }
 
 function WeaponProperties({ editForm, updateEditForm }: WeaponPropertiesProps) {
@@ -63,6 +63,7 @@ function WeaponProperties({ editForm, updateEditForm }: WeaponPropertiesProps) {
             />
           </FormField>
         )}
+
       </div>
     </div>
   );
@@ -70,7 +71,7 @@ function WeaponProperties({ editForm, updateEditForm }: WeaponPropertiesProps) {
 
 interface ArmorPropertiesProps {
   editForm: EquipmentItem;
-  updateEditForm: (field: keyof EquipmentItem, value: string | number) => void;
+  updateEditForm: (field: keyof EquipmentItem, value: string | number | undefined) => void;
 }
 
 function ArmorProperties({ editForm, updateEditForm }: ArmorPropertiesProps) {
@@ -100,6 +101,7 @@ function ArmorProperties({ editForm, updateEditForm }: ArmorPropertiesProps) {
             />
           </FormField>
         )}
+
       </div>
     </div>
   );
@@ -181,7 +183,7 @@ export default function Equipment({
   }, []);
 
   const updateEditForm = useCallback(
-    (field: keyof EquipmentItem, value: string | number) => {
+    (field: keyof EquipmentItem, value: string | number | undefined) => {
       if (!editForm) return;
       setEditForm({ ...editForm, [field]: value });
     },
@@ -268,6 +270,11 @@ export default function Equipment({
                   <Icon name="shield" size="xs" aria-hidden={true} />
                   AC {item.AC}
                 </span>
+              )}
+              {item.bonus !== undefined && (
+                <Badge variant={item.bonus >= 0 ? "success" : "danger"} size="sm">
+                  {item.bonus >= 0 ? `+${item.bonus}` : item.bonus}
+                </Badge>
               )}
             </div>
           </div>
@@ -498,7 +505,7 @@ export default function Equipment({
               </FormField>
 
               {/* Weapon properties */}
-              {(editForm.damage || editForm.twoHandedDamage) && (
+              {(editForm.damage || editForm.twoHandedDamage || isWeaponCategory(editForm.category)) && (
                 <WeaponProperties
                   editForm={editForm}
                   updateEditForm={updateEditForm}
@@ -506,11 +513,23 @@ export default function Equipment({
               )}
 
               {/* Armor properties */}
-              {(editForm.AC || editForm.missileAC) && (
+              {(editForm.AC || editForm.missileAC || isArmorCategory(editForm.category)) && (
                 <ArmorProperties
                   editForm={editForm}
                   updateEditForm={updateEditForm}
                 />
+              )}
+
+              {/* Magic bonus — shown for any weapon or armor/shield item */}
+              {(editForm.damage || editForm.twoHandedDamage || isWeaponCategory(editForm.category) || editForm.AC || editForm.missileAC || isArmorCategory(editForm.category)) && (
+                <FormField label="Magic Bonus">
+                  <NumberInput
+                    value={editForm.bonus ?? 0}
+                    onChange={(value) => updateEditForm("bonus", value === 0 ? undefined : value)}
+                    step={1}
+                    className="w-full"
+                  />
+                </FormField>
               )}
 
               {/* Modal actions */}
