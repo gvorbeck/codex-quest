@@ -49,9 +49,6 @@ export const isArmorItem = (item: Equipment): boolean =>
 export const isShieldItem = (item: Equipment): boolean =>
   item.category?.toLowerCase().includes("shield");
 
-export const isWearableItem = (item: Equipment): boolean =>
-  isArmorItem(item) || isShieldItem(item);
-
 const WEAPON_CATEGORIES = new Set([
   "swords", "axes", "bows", "daggers", "hammers-and-maces",
   "chain-and-flail", "spears-and-polearms", "slings-and-hurled-weapons",
@@ -63,6 +60,16 @@ export const isWeaponCategory = (category?: string): boolean =>
 
 export const isArmorCategory = (category?: string): boolean =>
   !!category && (category.toLowerCase() === "armor" || category.toLowerCase() === "shields");
+
+// Worn non-armor items that grant an AC bonus (rings, cloaks, etc.)
+export const isProtectionItem = (item: Equipment): boolean =>
+  item.bonus != null &&
+  !isArmorItem(item) &&
+  !isShieldItem(item) &&
+  !isWeaponCategory(item.category);
+
+export const isWearableItem = (item: Equipment): boolean =>
+  isArmorItem(item) || isShieldItem(item) || isProtectionItem(item);
 
 export const isWornArmor = (
   item: Equipment
