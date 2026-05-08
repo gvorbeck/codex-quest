@@ -21,7 +21,7 @@ import { CURRENT_VERSION } from "@/services/characterMigration";
 // Note: Using direct imports here to avoid circular dependency with barrel file
 import { GAME_MECHANICS } from "./mechanics";
 import { logger } from "./data";
-import { isWornArmor, isWornShield } from "@/utils/equipment";
+import { isWornArmor, isWornShield, isProtectionItem } from "@/utils/equipment";
 
 // ============================================================================
 // EQUIPMENT TYPE GUARDS & CALCULATIONS
@@ -120,10 +120,21 @@ export function calculateArmorClass(
   });
 
   // Protection bonus from worn non-armor items (rings, cloaks, etc.)
-  // Per BFRPG rules: only the highest protection bonus applies (p. 218)
-  const protectionBonus = equipment
-    .filter((item) => item.wearing && item.bonus != null && !isWornArmor(item) && !isWornShield(item))
-    .reduce((max, item) => Math.max(max, item.bonus ?? 0), 0);
+  // Per BFRPG rules: if multiple items grant protection, only the highest
+  // positive bonus applies. Cursed items (negative bonus) are summed separately
+  // since they stack as penalties regardless of the stacking rule (p. 218).
+  const wornProtectionItems = equipment.filter(
+    (item): item is Equipment => item.wearing === true && isProtectionItem(item as Equipment)
+  );
+  const bestPositive = wornProtectionItems
+    .map((item) => item.bonus ?? 0)
+    .filter((b) => b > 0)
+    .reduce((max, b) => Math.max(max, b), 0);
+  const cursedPenalty = wornProtectionItems
+    .map((item) => item.bonus ?? 0)
+    .filter((b) => b < 0)
+    .reduce((sum, b) => sum + b, 0);
+  const protectionBonus = bestPositive + cursedPenalty;
 
   // Add Dexterity modifier to AC (BFRPG rules, page 3)
   const dexModifier = 'abilities' in character

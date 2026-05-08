@@ -524,7 +524,7 @@ export default function Equipment({
               <FormField label="Magic Bonus">
                 <NumberInput
                   value={editForm.bonus ?? 0}
-                  onChange={(value) => updateEditForm("bonus", value ?? undefined)}
+                  onChange={(value) => updateEditForm("bonus", typeof value === "number" ? value : undefined)}
                   step={1}
                   className="w-full"
                 />
