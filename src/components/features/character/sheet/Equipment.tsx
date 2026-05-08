@@ -520,17 +520,15 @@ export default function Equipment({
                 />
               )}
 
-              {/* Magic bonus — shown for any weapon or armor/shield item */}
-              {(editForm.damage || editForm.twoHandedDamage || isWeaponCategory(editForm.category) || editForm.AC || editForm.missileAC || isArmorCategory(editForm.category)) && (
-                <FormField label="Magic Bonus">
-                  <NumberInput
-                    value={editForm.bonus ?? 0}
-                    onChange={(value) => updateEditForm("bonus", value === 0 ? undefined : value)}
-                    step={1}
-                    className="w-full"
-                  />
-                </FormField>
-              )}
+              {/* Magic bonus — shown for all items (rings, cloaks, etc. can grant AC bonuses) */}
+              <FormField label="Magic Bonus">
+                <NumberInput
+                  value={editForm.bonus ?? 0}
+                  onChange={(value) => updateEditForm("bonus", value ?? undefined)}
+                  step={1}
+                  className="w-full"
+                />
+              </FormField>
 
               {/* Modal actions */}
               <div className="flex justify-end gap-3 pt-6 border-t border-zinc-600">

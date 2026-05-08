@@ -50,7 +50,7 @@ export const isShieldItem = (item: Equipment): boolean =>
   item.category?.toLowerCase().includes("shield");
 
 export const isWearableItem = (item: Equipment): boolean =>
-  isArmorItem(item) || isShieldItem(item);
+  isArmorItem(item) || isShieldItem(item) || item.bonus != null;
 
 const WEAPON_CATEGORIES = new Set([
   "swords", "axes", "bows", "daggers", "hammers-and-maces",

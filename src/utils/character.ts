@@ -50,6 +50,7 @@ interface EquipmentLike {
   wearing?: boolean;
   AC?: number | string;
   category?: string;
+  bonus?: number;
 }
 
 interface AbilitiesLike {
@@ -118,12 +119,18 @@ export function calculateArmorClass(
     if (shield.bonus != null) shieldBonus += shield.bonus;
   });
 
+  // Protection bonus from worn non-armor items (rings, cloaks, etc.)
+  // Per BFRPG rules: only the highest protection bonus applies (p. 218)
+  const protectionBonus = equipment
+    .filter((item) => item.wearing && item.bonus != null && !isWornArmor(item) && !isWornShield(item))
+    .reduce((max, item) => Math.max(max, item.bonus ?? 0), 0);
+
   // Add Dexterity modifier to AC (BFRPG rules, page 3)
   const dexModifier = 'abilities' in character
     ? (character.abilities?.dexterity?.modifier ?? 0)
     : 0;
 
-  return baseAC + shieldBonus + dexModifier;
+  return baseAC + shieldBonus + protectionBonus + dexModifier;
 }
 
 export function calculateMovementRate(character: Character): string {
