@@ -10,12 +10,16 @@
  * Used to properly match weapon restrictions with actual equipment items
  */
 export const WEAPON_ID_MAPPING: Record<string, string[]> = {
-  dagger: ["dagger"],
-  "walking-staff": ["quarterstaff"],
+  dagger: ["dagger", "silver†-dagger", "defending-dagger"],
+  "walking-staff": [
+    "quarterstaff",
+    "club/cudgel/walking-staff",
+    "silver-walking-stick/staff†",
+  ],
   warhammer: ["warhammer"],
-  mace: ["mace"],
-  maul: ["maul"],
-  club: ["club"],
+  mace: ["mace", "light-mace"],
+  maul: ["maul", "maul/great-mace"],
+  club: ["club", "club/cudgel/walking-staff"],
   quarterstaff: ["quarterstaff"],
   sling: ["sling"],
   shortbow: ["shortbow"],
